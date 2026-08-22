@@ -6137,11 +6137,12 @@ window.TVE.home = (function () {
       { name: 'Belmond Mount Nelson Hotel', url: 'https://www.booking.com/hotel/za/mount-nelson.html', note: 'Belmond — Gardens district, iconic pink hotel, 9 acres of gardens, spa, six restaurants and bars, direct Garden Route access · 9.2 Booking.com', tier: 'luxury' }
     ], price: { budget: 'ZAR 1,500–2,500', mid: 'ZAR 2,500–5,000', expensive: 'ZAR 5,000–10,000', luxury: 'ZAR 10,000+' } },
     'capri': { h: [
-      { name: 'J.K. Place Capri', note: 'Independent boutique — Marina Grande, 22 rooms, infinity sea-view pool, Forbes Five-Star-rated sun terraces · 9.6 Booking.com', url: 'https://www.booking.com/hotel/it/j-k-place-capri.html' },
-      { name: 'Hotel Punta Tragara', note: 'Manfredi Collection — southern cliff above the Faraglioni, two outdoor pools, sea-view suites, Ristorante Punta Tragara · 9.0 Booking.com', url: 'https://www.booking.com/hotel/it/punta-tragara.html' },
-      { name: 'Capri Palace Jumeirah', note: 'Jumeirah brand — Anacapri hilltop, two Michelin-star L\'Olivo, Olympic pool · 9.3 Booking.com', url: 'https://www.booking.com/hotel/it/capri-palace.html' },
-      { name: 'Villa Brunella', note: 'Independent — Via Tragara south slope, terrace pool, restaurant with Faraglioni views · 9.3 Booking.com', url: 'https://www.booking.com/hotel/it/villa-brunella.html' }
-    ] },
+      { name: 'Hotel La Tosca', note: 'Independent — Via Croce above Capri town, 12 rooms, terrace with sea and Monte Solaro views, 5 min walk to the Piazzetta, AC · 8.8 Booking.com', url: 'https://www.booking.com/hotel/it/la-tosca-capri.html', tier: 'budget' },
+      { name: 'Villa Brunella', note: 'Independent — Via Tragara south slope, terrace pool, restaurant with Faraglioni views · 9.3 Booking.com', url: 'https://www.booking.com/hotel/it/villa-brunella.html', tier: 'mid' },
+      { name: 'Hotel Punta Tragara', note: 'Manfredi Collection — southern cliff above the Faraglioni, two outdoor pools, sea-view suites, Ristorante Punta Tragara · 9.0 Booking.com', url: 'https://www.booking.com/hotel/it/punta-tragara.html', tier: 'expensive' },
+      { name: 'J.K. Place Capri', note: 'Independent boutique — Marina Grande, 22 rooms, infinity sea-view pool, Forbes Five-Star-rated sun terraces · 9.6 Booking.com', url: 'https://www.booking.com/hotel/it/j-k-place-capri.html', tier: 'luxury' },
+      { name: 'Capri Palace Jumeirah', note: 'Jumeirah brand — Anacapri hilltop, two Michelin-star L\'Olivo, Olympic pool · 9.3 Booking.com', url: 'https://www.booking.com/hotel/it/capri-palace.html', tier: 'luxury' }
+    ], price: { budget: '€150–300', mid: '€300–600', expensive: '€600–1,200', luxury: '€1,200+' } },
     'carmel-by-the-sea': { h: [
       { name: 'L\'Auberge Carmel, Relais & Châteaux', note: 'Auberge Resorts/Relais & Châteaux — downtown Carmel, 20 rooms, Aubergine restaurant, wine cellar, garden courtyard · 8.5 Booking.com', url: 'https://www.booking.com/hotel/us/auberge-carmel-relais-chateaux.html' },
       { name: 'La Playa Hotel', note: 'Independent — Camino Real at Eighth Avenue in Carmel village, 1905 mansion, ocean-view terraces, outdoor pool and garden courtyard · 9.0 Booking.com', url: 'https://www.booking.com/hotel/us/la-playa-carmel.html' },
@@ -11267,7 +11268,7 @@ window.TVE.home = (function () {
       'MAN','MCT','MEL','MIA','MLE','MRS','MSP','MUC','MVD','MXP','NAP','NCE','OGG','OPO','ORD','ORY',
       'OSL','PDL','PDX','PEK','PHL','PHX','PMI','PNS','POA','PPS','PRG','PSA','PSP','PUS','PVG','RAK',
       'RSW','SAN','SCL','SEA','SFO','SIN','SJC','SJO','SJU','SKG','SLC','SPU','STR','SXB','SYD','TBS',
-      'TFS','TIV','TLL','TOS','TPE','VCE','VIE','VLC','WLG','YUL','YVR','YYZ','ZAG','ZRH'
+      'TFS','TIV','TLL','TOS','TPE','VCE','VIE','VLC','WLG','YUL','YVR','YYC','YYZ','ZAG','ZRH'
     ];
 
     function _inject() {

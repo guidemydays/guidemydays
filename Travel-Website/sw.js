@@ -1,3 +1,4 @@
+/* 2026-08-23: prague HOTEL_ALT_DATA four tiers + EUR price ranges, PRG added to LOUNGE_IATAS, Czech Republic lounge card added. toolbar.js -> v953. CACHE to v1343. */
 /* 2026-08-23: porto-alegre hotel HOTEL_ALT_DATA four tiers + BRL price ranges, POA added to LOUNGE_IATAS. toolbar.js -> v952. CACHE to v1341. */
 /* 2026-08-22: the two circles in a Best-Of card's top-right corner are ROUND again on a phone. They are 30x30 with border-radius:50%, but mobile.css section 7 puts a 40px min-height on every <button> for the tap target, and min-height beats height - so on a phone they rendered 30 wide by 40 tall, an oval. Both go to 40x40 inside the existing phone block rather than opting out of the floor: still a circle, and now the tap target the floor was asking for. Same failure the compare bar hit a few lines below. web-travel-style.css -> v94. CACHE to v1336. */
 /* 2026-08-22: the landing finder's Show my matches is a PILL again. It carries id="hc-go" AND class="fnd-go", and index.html loads guides-index-style.css for the mosaic — so that file's unscoped #hc-go (the guides-index chooser button: 6px corners, 38px, 13px, a ::after '›') beat .fnd-go on specificity and repainted it, next to a Clear everything pill it no longer matched. The four #hc-go rules are scoped to #hc-inner, which exists only on the guides index. guides-index-style.css -> 25. CACHE to v1328. */
@@ -1892,7 +1893,7 @@
 /* 2026-08-23: climate date refresh 2026-08-23 toolbar.js -> v951. CACHE to v1339. */
 /* 2026-08-23: climate date refresh — weather.js baked CLIMATE block regenerated (date stamp only, no data change). weather.js -> v12. CACHE to v1340. */
 /* 2026-08-23: cape-town HOTEL_ALT_DATA — 4-tier setup (budget Protea/Southern Sun, mid Hilton/Radisson, expensive Twelve Apostles, luxury One&Only/Silo/Belmond) with ZAR price ranges. toolbar.js -> v952. CACHE to v1342. */
-var CACHE = 'travel-cache-v1342';
+var CACHE = 'travel-cache-v1343';
 
 /* The guide-calendar hand-off cache. Written by toolbar.js, read and emptied
    once by the fetch handler below, and EXEMPT from the activate sweep — it is
@@ -1905,7 +1906,7 @@ var ICS_OUTBOX = 'gmd-ics-outbox';
    THIS IS THE ONLY PLACE to bump toolbar.js / guide-style.css versions.
    NEVER bump ?v= inside guide HTML — it breaks HMAC stamps and forces re-validation
    of 230+ guides. Instead, bump MIN_VERSIONS here + increment the CACHE version. */
-var MIN_VERSIONS = { 'guide-style.css': 262,'toolbar.js': 952, 'mobile.css': 88, 'web-travel-style.css': 94, 'guides-index-style.css': 25, 'read-about.css': 6, 'best-of-features.js': 4, 'best-of-cross-data.js': 24, 'weather.js': 12, 'trains.css': 11, 'trains.js': 2, 'airlines.css': 2, 'airlines.js': 2, 'passport.js': 4 };
+var MIN_VERSIONS = { 'guide-style.css': 262,'toolbar.js': 953, 'mobile.css': 88, 'web-travel-style.css': 94, 'guides-index-style.css': 25, 'read-about.css': 6, 'best-of-features.js': 4, 'best-of-cross-data.js': 24, 'weather.js': 12, 'trains.css': 11, 'trains.js': 2, 'airlines.css': 2, 'airlines.js': 2, 'passport.js': 4 };
 
 function rewriteAssetUrl(urlStr) {
   var u;

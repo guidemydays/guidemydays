@@ -1,3 +1,4 @@
+/* 2026-08-23: capri HOTEL_ALT_DATA — 4-tier setup (budget Hotel La Tosca, mid Villa Brunella, expensive Hotel Punta Tragara, luxury JK Place/Capri Palace) with EUR price ranges; 35 motion-route links added; train icon, GA-FD, position-2c fixed. toolbar.js -> v954. CACHE to v1344. */
 /* 2026-08-23: prague HOTEL_ALT_DATA four tiers + EUR price ranges, PRG added to LOUNGE_IATAS, Czech Republic lounge card added. toolbar.js -> v953. CACHE to v1343. */
 /* 2026-08-23: porto-alegre hotel HOTEL_ALT_DATA four tiers + BRL price ranges, POA added to LOUNGE_IATAS. toolbar.js -> v952. CACHE to v1341. */
 /* 2026-08-22: the two circles in a Best-Of card's top-right corner are ROUND again on a phone. They are 30x30 with border-radius:50%, but mobile.css section 7 puts a 40px min-height on every <button> for the tap target, and min-height beats height - so on a phone they rendered 30 wide by 40 tall, an oval. Both go to 40x40 inside the existing phone block rather than opting out of the floor: still a circle, and now the tap target the floor was asking for. Same failure the compare bar hit a few lines below. web-travel-style.css -> v94. CACHE to v1336. */
@@ -1893,8 +1894,7 @@
 /* 2026-08-23: climate date refresh 2026-08-23 toolbar.js -> v951. CACHE to v1339. */
 /* 2026-08-23: climate date refresh — weather.js baked CLIMATE block regenerated (date stamp only, no data change). weather.js -> v12. CACHE to v1340. */
 /* 2026-08-23: cape-town HOTEL_ALT_DATA — 4-tier setup (budget Protea/Southern Sun, mid Hilton/Radisson, expensive Twelve Apostles, luxury One&Only/Silo/Belmond) with ZAR price ranges. toolbar.js -> v952. CACHE to v1342. */
-/* 2026-08-23: ABQ lounge card + santa-fe hotel tiers toolbar.js -> v954. CACHE to v1344. */
-/* 2026-08-23: tromso: TOS lounge chip live toolbar.js -> v955. CACHE to v1345. */
+/* 2026-08-23: banff: YYC added to LOUNGE_IATAS; HOTEL_ALT_DATA price ranges for banff–bordeaux. toolbar.js -> v955. CACHE to v1345. */
 var CACHE = 'travel-cache-v1345';
 
 /* The guide-calendar hand-off cache. Written by toolbar.js, read and emptied

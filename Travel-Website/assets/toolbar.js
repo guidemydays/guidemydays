@@ -7129,7 +7129,7 @@ window.TVE.home = (function () {
       { name: 'Bugan Recife Boa Viagem Hotel - by Atlantica', note: 'Atlantica Hotels — Avenida Engenheiro Domingos Ferreira in Boa Viagem, rooftop pool, sauna, 24h reception · 9.0 Booking.com', url: 'https://www.booking.com/hotel/br/bugan-recife-hotel-by-atlantica.html', tier: 'expensive' },
       { name: 'Mar Hotel Conventions', note: 'Independent — Rua Barão de Souza Leão in Boa Viagem, outdoor pool, kids club, 24h reception · 9.0 Booking.com', url: 'https://www.booking.com/hotel/br/marhotel-recife.html', tier: 'expensive' },
       { name: 'Hotel Atlante Plaza', note: 'Independent 5-star — Avenida Boa Viagem beachfront, rooftop pool, full-service spa, 24h reception · 9.2 Booking.com', url: 'https://www.booking.com/hotel/br/atlanta-plaza.html', tier: 'luxury' }
-    ] },
+    ], price: { budget: 'BRL 250–420', mid: 'BRL 420–700', expensive: 'BRL 700–1100', luxury: 'BRL 1100+' } },
     'reykjavik': { h: [
       { name: 'Reykjavik Lights Hotel by Keahotels', note: 'Keahotels — Suðurlandsbraut 12 east of the centre, free parking, 24h reception · 8.7 Booking.com', url: 'https://www.booking.com/hotel/is/reykjavik-lights.html', tier: 'budget' },
       { name: 'Storm Hotel by Keahotels', note: 'Keahotels — Þórunnartún 4 a short walk from Laugavegur, soundproof rooms, 24h reception · 8.7 Booking.com', url: 'https://www.booking.com/hotel/is/reykjavik-styles.html', tier: 'budget' },
@@ -11276,7 +11276,7 @@ window.TVE.home = (function () {
       'ICN','IGU','IST','JFK','JMK','JPA','KRK','KTM','LAS','LAX','LGA','LGW','LHR','LIH','LIS','LUX',
       'LYS','MAD','MAN','MCT','MEL','MIA','MLE','MRS','MSP','MUC','MVD','MXP','NAP','NAS','NCE','OGG',
       'OPO','ORD','ORY','OSL','PDL','PDX','PEK','PHL','PHX','PMI','PNS','POA','PPS','PRG','PSA','PSP',
-      'PUS','PVG','PVR','RAK','RNO','RSW','SAN','SCL','SEA','SFO','SIN','SJC','SJO','SJU','SKG','SLC',
+      'PUS','PVG','PVR','RAK','REC','RNO','RSW','SAN','SCL','SEA','SFO','SIN','SJC','SJO','SJU','SKG','SLC',
       'SPU','STR','SXB','SYD','TBS','TFS','TIV','TLL','TOS','TPE','VCE','VIE','VLC','WLG','YQB','YUL',
       'YVR','YYC','YYZ','ZAG','ZQN','ZRH'
     ];

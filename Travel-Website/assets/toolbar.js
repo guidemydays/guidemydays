@@ -7077,12 +7077,12 @@ window.TVE.home = (function () {
       { name: 'Hilton Porto Alegre', note: 'Hilton brand — Rua Olavo Barreto Viana 18 in Moinhos de Vento, indoor pool, spa, 24h reception · 8.5 Booking.com', url: 'https://www.booking.com/hotel/br/hilton-porto-alegre.html', tier: 'luxury' }
     ], price: { budget: 'BRL 300–500', mid: 'BRL 500–800', expensive: 'BRL 800–1,300', luxury: 'BRL 1,300+' } },
     'prague': { h: [
-      { name: 'Four Seasons Hotel Prague', note: 'Four Seasons brand — Staré Město with Vltava views, spa with outdoor pool, CottoCrudo restaurant · 9.4 Booking.com' , url: 'https://www.booking.com/hotel/cz/four-seasons-prague.html' },
-      { name: 'Hotel Aria', note: 'Independent boutique — music-themed, private Vrtba Garden access, Coda Rooftop with castle and city views · 9.5 Booking.com' , url: 'https://www.booking.com/hotel/cz/aria.html' },
-    
-      { name: 'Mandarin Oriental Prague', note: 'Mandarin Oriental brand — Malá Strana, Spices Restaurant, spa with indoor pool, 13th-century chapel setting · 9.2 Booking.com', url: 'https://www.booking.com/hotel/cz/mandarin-oriental-prague.html' },
-      { name: 'Hotel Paris Prague', note: 'Independent — 1907 Art Nouveau landmark near Old Town, Sarah Bernhardt restaurant, belle époque décor · 9.0 Booking.com', url: 'https://www.booking.com/hotel/cz/hotel-paris-prague.html' }
-    ] },
+      { name: 'Mosaic House Design Hotel', note: 'Independent — Smíchov, five minutes from the National Theatre, rooftop bar, 24h reception · 8.9 Booking.com', url: 'https://www.booking.com/hotel/cz/mosaic-house.html', tier: 'budget' },
+      { name: 'Hotel Josef', note: 'Independent design hotel — Josefov, minimalist interiors, terrace, 24h reception · 9.0 Booking.com', url: 'https://www.booking.com/hotel/cz/hotel-josef-prague.html', tier: 'mid' },
+      { name: 'Hotel Paris Prague', note: 'Independent — 1907 Art Nouveau landmark near Old Town, Sarah Bernhardt restaurant, belle époque décor · 9.0 Booking.com', url: 'https://www.booking.com/hotel/cz/hotel-paris-prague.html', tier: 'expensive' },
+      { name: 'Four Seasons Hotel Prague', note: 'Four Seasons brand — Staré Město with Vltava views, spa with outdoor pool, CottoCrudo restaurant · 9.4 Booking.com', url: 'https://www.booking.com/hotel/cz/four-seasons-prague.html', tier: 'luxury' },
+      { name: 'Mandarin Oriental Prague', note: 'Mandarin Oriental brand — Malá Strana, Spices Restaurant, spa with indoor pool, 13th-century chapel setting · 9.2 Booking.com', url: 'https://www.booking.com/hotel/cz/mandarin-oriental-prague.html', tier: 'luxury' }
+    ], price: { budget: '€60–100', mid: '€100–170', expensive: '€170–280', luxury: '€280+' } },
     'puerto-rico': { h: [
       { name: 'Dorado Beach, a Ritz-Carlton Reserve', note: 'Ritz-Carlton Reserve — 1,400-acre beachfront estate, six pools, two golf courses · 9.4 Booking.com', url: 'https://www.booking.com/hotel/pr/dorado-beach-a-ritz-carlton-reserve.html' },
       { name: 'La Concha Resort, Puerto Rico, Autograph Collection', note: 'Marriott Autograph Collection — Condado Beach, 1950s concha-shell architecture, two pools, spa · 8.9 Booking.com', url: 'https://www.booking.com/hotel/pr/la-concha-renaissance-san-juan-resort.html' },
@@ -11258,7 +11258,7 @@ window.TVE.home = (function () {
       'DUB','DUS','DXB','EDI','EYW','EZE','FAO','FCO','FHR','FLN','FLR','FOR', 'FRA','GIG','GOT','GRU','GVA','HAM',
       'HAN','HEL','HER','HKG','HKT','HND','IAD','IAH','ICN','IGU', 'IST','JFK','JPA','KRK','KTM','LAS','LAX','LGA','LGW',
       'LHR','LIH','LIS','LUX','LYS','MAD','MAN','MCT','MEL','MIA','MLE','MRS','MSP','MUC','MXP','NAP',
-      'NCE', 'OGG','OPO','ORD','ORY','PDL','PDX','OSL','PEK','PHL','PHX','PMI','PNS','POA','PPS','PSA','PSP','PUS','PVG','RAK','RSW','SAN','SCL',
+      'NCE', 'OGG','OPO','ORD','ORY','PDL','PDX','OSL','PEK','PHL','PHX','PMI','PNS','POA','PPS','PRG','PSA','PSP','PUS','PVG','RAK','RSW','SAN','SCL',
       'SEA','SFO','SIN','SJC','SJO','SKG','SLC','SPU','STR','SXB','SYD','TBS','TFS','TIV','TLL','TPE','VCE','VIE','VLC',
       'WLG','YUL','YVR','YYZ','ZAG','ZRH'
     ];

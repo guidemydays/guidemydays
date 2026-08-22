@@ -5850,7 +5850,7 @@ window.TVE.home = (function () {
       { name: 'Courtyard by Marriott Bangkok', note: 'Marriott Courtyard brand — Ratchadamri Road between BTS Ratchadamri and Chidlom, 24h reception, outdoor pool, spa and fitness centre · 8.8 Booking.com', url: 'https://www.booking.com/hotel/th/courtyard-by-marriott-bangkok.html', tier: 'mid' },
       { name: 'Renaissance Bangkok Ratchaprasong Hotel', note: 'Marriott Renaissance brand — Ploenchit Road at the Ratchaprasong crossing, 24h reception, heated indoor pool, Quan Spa, sauna and steam room · 8.7 Booking.com', url: 'https://www.booking.com/hotel/th/renaissance-bangkok-ratchaprasong.html', tier: 'expensive' },
       { name: 'The Westin Grande Sukhumvit, Bangkok', note: 'Marriott Westin brand — Sukhumvit 19 linked to BTS Asoke by skybridge, 24h reception, saltwater outdoor pool, full-service spa and salon · 8.6 Booking.com', url: 'https://www.booking.com/hotel/th/the-westin-grande-sukhumvit-bangkok.html', tier: 'expensive' }
-    ] },
+    ], price: { budget: '$50–120', mid: '$100–200', expensive: '$200–380', luxury: '$400–1,500' } },
     'barbados': { h: [
       { name: 'The Legend Garden Condos', note: 'Independent — Mullins Bay in Saint Peter, garden condos with year-round outdoor pool, 3 km north of Holetown · 9.6 Booking.com', url: 'https://www.booking.com/hotel/bb/the-legend-garden-condos.html', tier: 'budget' },
       { name: 'The House, An Autograph Collection All-Inclusive Resort', note: 'Marriott Autograph — adults-only on Paynes Bay, 24h reception, beachfront pool, spa and jacuzzi · 8.6 Booking.com', url: 'https://www.booking.com/hotel/bb/the-house-by-elegant-hotels.html', tier: 'luxury' },
@@ -5861,7 +5861,7 @@ window.TVE.home = (function () {
       { name: 'Courtyard by Marriott Bridgetown, Barbados', note: 'Marriott Courtyard brand — the Garrison Historic Area at Hastings, 24h reception, AC, rooftop pool over Carlisle Bay, shuttle to the beach · 7.9 Booking.com', url: 'https://www.booking.com/hotel/bb/courtyard-bridgetown.html', tier: 'mid' },
       { name: 'Southern Palms Beach Club', note: 'Independent — beachfront on Dover Beach at St Lawrence Gap, 24h reception, AC, two pools, tennis court and water sports · 8.7 Booking.com', url: 'https://www.booking.com/hotel/bb/southern-palms-beach-club.html', tier: 'mid' },
       { name: 'Hilton Barbados Resort', note: 'Hilton brand — Needham\'s Point peninsula with beach on two sides, 24h reception, infinity pool, full-service spa and steam room · 7.7 Booking.com', url: 'https://www.booking.com/hotel/bb/barbados-needhamspoint.html', tier: 'expensive' }
-    ] },
+    ], price: { budget: '$120–250', mid: '$200–380', expensive: '$350–700', luxury: '$600–1,800' } },
     'barcelona': { h: [
       { name: 'Hotel Arts Barcelona', note: 'Ritz-Carlton brand — 44-floor beachfront tower at Port Olímpic, indoor and outdoor pools, sea-view rooms · 9.0 Booking.com', url: 'https://www.booking.com/hotel/es/arts-barcelona.html', tier: 'luxury' },
       { name: 'Mandarin Oriental, Barcelona', note: 'Mandarin Oriental brand — Passeig de Gràcia design hotel, rooftop pool and spa terrace, acclaimed Blanc restaurant · 9.3 Booking.com', url: 'https://www.booking.com/hotel/es/mandarin-oriental-barcelona.html', tier: 'luxury' },
@@ -5872,7 +5872,7 @@ window.TVE.home = (function () {
       { name: 'Meliá Barcelona Sarrià', note: 'Meliá first-tier brand — Avinguda Sarrià in Les Corts, 24h reception, AC, spa with sauna, fitness centre, airport shuttle · 8.2 Booking.com', url: 'https://www.booking.com/hotel/es/melia-barcelona-sarria.html', tier: 'mid' },
       { name: 'NH Collection Barcelona Gran Hotel Calderón', note: 'NH Collection first-tier brand — Rambla de Catalunya in the Eixample, 24h reception, AC, rooftop pool and sun deck over the city · 8.2 Booking.com', url: 'https://www.booking.com/hotel/es/nhcalderon.html', tier: 'mid' },
       { name: 'Hotel Barcelona Catedral 4 Sup', note: 'Independent — Carrer dels Capellans behind the cathedral in the Gothic Quarter, 24h reception, AC, rooftop pool and solarium · 9.3 Booking.com', url: 'https://www.booking.com/hotel/es/barcelona-catedral.html', tier: 'expensive' }
-    ] },
+    ], price: { budget: '€90–160', mid: '€150–280', expensive: '€250–500', luxury: '€500–1,200' } },
     'beijing': { h: [
       { name: 'Rosewood Beijing', note: 'Rosewood brand — 57-floor Chaoyang CBD tower, rooftop infinity pool, spa, Michelin-recognized Sui Tang Li Chinese dining · 9.0 Booking.com' , url: 'https://www.booking.com/hotel/cn/rosewood-beijing.html', tier: 'luxury' },
       { name: 'Aman at Summer Palace', note: 'Aman brand — sole hotel at the Summer Palace gates, 51 courtyard-style suites, private moon-gate garden access · 9.5 Booking.com' , url: 'https://www.booking.com/hotel/cn/aman-at-summer-palace.html', tier: 'luxury' },
@@ -5884,7 +5884,7 @@ window.TVE.home = (function () {
       { name: 'Swissotel Beijing Hong Kong Macau Center', note: 'Swissôtel brand — Chaoyangmen Beidajie by the subway, 24h reception, AC, year-round indoor pool, fitness centre · 9.0 Booking.com', url: 'https://www.booking.com/hotel/cn/swissotelbeijing.html', tier: 'mid' },
       { name: 'Renaissance Beijing Wangfujing Hotel', note: 'Marriott Renaissance brand — Wangfujing Street, 24h reception, AC, year-round indoor pool, fitness centre, airport shuttle · 8.6 Booking.com', url: 'https://www.booking.com/hotel/cn/renaissance-beijing-wangfujing.html', tier: 'expensive' },
       { name: 'Hilton Beijing Wangfujing', note: 'Hilton brand — Wangfujing East Street in Dongcheng, 24h reception, AC, year-round indoor pool, spa and fitness centre · 8.6 Booking.com', url: 'https://www.booking.com/hotel/cn/hilton-beijing-wangfujing.html', tier: 'expensive' }
-    ] },
+    ], price: { budget: '$60–130', mid: '$130–250', expensive: '$250–450', luxury: '$500–2,500' } },
     'bend': { h: [
       { name: 'Oxford Hotel Bend', note: 'Curio Collection by Hilton — boutique downtown Bend, rooftop terrace, walking distance to Old Mill District and Drake Park · 9.0 Booking.com', url: 'https://www.booking.com/hotel/us/oxford-bend.html', tier: 'luxury' },
       { name: 'Waypoint Hotel', note: 'Independent — Deschutes River corridor, downtown Bend, craft cocktail bar, bicycle lending, 8.8 Booking.com', url: 'https://www.booking.com/hotel/us/red-lion-bend.html', tier: 'budget' },
@@ -5895,7 +5895,7 @@ window.TVE.home = (function () {
       { name: 'Wall Street Suites', note: 'Independent — NW Wall Street on the edge of downtown, AC, all-suite cottages with fire pits and a picnic area, free parking · 9.5 Booking.com', url: 'https://www.booking.com/hotel/us/wall-street-suites.html', tier: 'expensive' },
       { name: 'Tetherow Hotel', note: 'Independent resort — Skyline Ranch Road on the Tetherow golf course southwest of town, 24h reception, AC, heated outdoor pool, steam room and sauna · 9.0 Booking.com', url: 'https://www.booking.com/hotel/us/tetherow-bend.html', tier: 'luxury' },
       { name: 'Sunriver Resort', note: 'Independent resort — Sunriver 25 min south of Bend, 24h reception, AC, indoor and outdoor pools, Sage Springs spa, golf and stables · 9.2 Booking.com', url: 'https://www.booking.com/hotel/us/sun-river-resort.html', tier: 'luxury' }
-    ] },
+    ], price: { budget: '$100–180', mid: '$180–280', expensive: '$280–450', luxury: '$450–900' } },
     'bergen': { h: [
       { name: 'Hotel Norge by Scandic', note: 'Scandic brand — grand property on Ole Bulls plass, central Bergen, indoor pool and spa, celebrated Matbørsen restaurant · 8.8 Booking.com', url: 'https://www.booking.com/hotel/no/scandic-hotel-norge.html', tier: 'expensive' },
       { name: 'Clarion Hotel Admiral', note: 'Nordic Choice Hotels — harbourfront position opposite Bryggen, Wharf-view rooms, rooftop bar with Puddefjorden panorama · 8.5 Booking.com', url: 'https://www.booking.com/hotel/no/clarion-admiral.html', tier: 'mid' },
@@ -5905,7 +5905,7 @@ window.TVE.home = (function () {
       { name: 'Scandic Ørnen', note: 'Scandic brand — Lars Hillesgate between the station and the centre, 24h reception, fitness centre, top-floor breakfast room over the city, no AC · 8.3 Booking.com', url: 'https://www.booking.com/hotel/no/scandic-arnen.html', tier: 'budget' },
       { name: 'Det Hanseatiske Hotel', note: 'Independent — Finnegaardsgaten inside the Bryggen wharf itself, 18th-century Hanseatic trading houses, 24h reception, no AC · 8.5 Booking.com', url: 'https://www.booking.com/hotel/no/det-hanseatiske.html', tier: 'mid' },
       { name: 'Grand Hotel Terminus', note: 'Independent — Zander Kaaes Gate beside the railway station, 1928 interiors and a celebrated whisky bar, 24h reception, fitness centre, no AC · 8.3 Booking.com', url: 'https://www.booking.com/hotel/no/grand-terminus.html', tier: 'expensive' }
-    ] },
+    ], price: { budget: 'NOK 1,100–2,000', mid: 'NOK 1,800–3,000', expensive: 'NOK 2,800–5,000', luxury: 'NOK 4,500–9,000' } },
     'berlin': { h: [
       { name: 'Regent Berlin', note: 'IHG Regent brand — Gendarmenmarkt address, neoclassical interiors, Fischers Fritz Michelin-starred dining, spa with pool · 9.0 Booking.com' , url: 'https://www.booking.com/hotel/de/regent.html', tier: 'luxury' },
       { name: 'Waldorf Astoria Berlin', note: 'Hilton brand — landmark Kurfürstendamm tower, Guerlain Spa, rooftop infinity pool with city panorama · 9.1 Booking.com' , url: 'https://www.booking.com/hotel/de/waldorf-astoria-berlin.html', tier: 'luxury' },
@@ -5917,7 +5917,7 @@ window.TVE.home = (function () {
       { name: 'TITANIC Chaussee Berlin', note: 'Independent — Chausseestraße in north Mitte, 24h reception, AC, year-round heated indoor pool, hammam and spa · 9.0 Booking.com', url: 'https://www.booking.com/hotel/de/titanic-chaussee-berlin.html', tier: 'mid' },
       { name: 'Grand Hyatt Berlin', note: 'Hyatt brand — Marlene-Dietrich-Platz on Potsdamer Platz, 24h reception, AC, rooftop indoor pool and Club Olympus spa · 9.0 Booking.com', url: 'https://www.booking.com/hotel/de/grand-hyatt-berlin.html', tier: 'expensive' },
       { name: 'Hilton Berlin', note: 'Hilton brand — facing Gendarmenmarkt in Mitte, 24h reception, AC, year-round indoor pool, spa with steam room and sauna · 8.2 Booking.com', url: 'https://www.booking.com/hotel/de/hilton-berlin.html', tier: 'expensive' }
-    ] },
+    ], price: { budget: '€70–130', mid: '€130–230', expensive: '€230–450', luxury: '€450–1,200' } },
     'bhutan': { h: [
       { name: 'Zhiwaling Heritage', note: 'Independent Bhutanese-owned heritage hotel — Paro-Thimphu highway, hand-carved timber interiors, indoor heated pool, spa · 9.0 Booking.com', url: 'https://www.booking.com/hotel/bt/zhiwaling-heritage.html', tier: 'expensive' },
       { name: 'Rema Resort', note: 'Independent Paro valley resort — garden setting, spa and wellness centre, airport shuttle, 24h reception · 9.1 Booking.com', url: 'https://www.booking.com/hotel/bt/rema-resort-paro1.html', tier: 'mid' },
@@ -5927,7 +5927,7 @@ window.TVE.home = (function () {
       { name: 'Green valley boutique', note: 'Independent — Paro-Thimphu highway, 24h reception, AC, fitness centre, airport shuttle and on-site restaurant · 9.0 Booking.com', url: 'https://www.booking.com/hotel/bt/greenvalleyboutique.html', tier: 'budget' },
       { name: 'Silver Cloud Hotel', note: 'Independent — Satsam Chorten in Lamgong on the road to Taktsang, 24h reception, sauna and hot-spring bath, garden and fire pit · 8.4 Booking.com', url: 'https://www.booking.com/hotel/bt/silver-cloud-paro1.html', tier: 'mid' },
       { name: 'Pemako', note: 'Independent — Samten Lam in Chubachu, central Thimphu, 5-star, 24h reception, AC, year-round heated indoor pool, spa and sauna · 9.7 Booking.com', url: 'https://www.booking.com/hotel/bt/pemako.html', tier: 'luxury' }
-    ] },
+    ], price: { budget: '$60–130', mid: '$130–280', expensive: '$300–700', luxury: '$700–3,000' } },
     'big-island': { h: [
       { name: 'Mauna Kea Beach Hotel, Autograph Collection', note: 'Marriott Autograph Collection — iconic 1965 Kohala Coast resort by Laurance Rockefeller, private beach, 2 championship golf courses · 9.1 Booking.com', url: 'https://www.booking.com/hotel/us/mauna-kea-beach.html', tier: 'luxury' },
       { name: 'Mauna Lani, Auberge Resorts Collection', note: 'Auberge brand — Kohala Coast, private snorkel beach, adults-only infinity pool, Naupaka Spa in lava fields · 9.2 Booking.com', url: 'https://www.booking.com/hotel/us/mauna-lani-auberge-resorts-collection.html', tier: 'luxury' },
@@ -5938,7 +5938,7 @@ window.TVE.home = (function () {
       { name: 'Grand Naniloa Hotel, a Doubletree by Hilton', note: 'Hilton DoubleTree brand — Banyan Drive on Hilo Bay, 24h reception, AC, year-round outdoor pool, beachfront and a 9-hole golf course · 7.2 Booking.com', url: 'https://www.booking.com/hotel/us/naniloa-volcanoes-resort.html', tier: 'mid' },
       { name: 'OUTRIGGER Kona Resort and Spa', note: 'Independent — Ehukai Street at Keauhou Bay, 24h reception, AC, year-round indoor pool with waterslide, spa and kids club · 7.9 Booking.com', url: 'https://www.booking.com/hotel/us/outrigger-kona-resort-and-spa.html', tier: 'mid' },
       { name: 'Courtyard by Marriott King Kamehameha\'s Kona Beach Hotel', note: 'Marriott Courtyard brand — Palani Road on Kamakahonu Beach in Kailua-Kona village, 24h reception, AC, beachfront pool, spa and tennis · 7.7 Booking.com', url: 'https://www.booking.com/hotel/us/king-kamehameha-s-kona-beach.html', tier: 'expensive' }
-    ] },
+    ], price: { budget: '$130–230', mid: '$200–350', expensive: '$350–600', luxury: '$600–1,800' } },
     'bilbao': { h: [
       { name: 'Hotel Carlton Bilbao', note: 'Leading Hotels of the World — 1920s grand hotel near the old town, historic rooms where Hemingway and royalty stayed · 8.8 Booking.com', url: 'https://www.booking.com/hotel/es/carlton-bilbao.html', tier: 'luxury' },
       { name: 'Meliá Bilbao', note: 'Meliá brand — contemporary tower beside the Guggenheim, spa, outdoor pool, city-view rooms · 8.7 Booking.com', url: 'https://www.booking.com/hotel/es/melia-bilbao.html', tier: 'expensive' },
@@ -5949,7 +5949,7 @@ window.TVE.home = (function () {
       { name: 'NH Collection Villa de Bilbao', note: 'NH Collection first-tier brand — Gran Vía at the west end of the Ensanche, 24h reception, AC, fitness centre and on-site restaurant · 8.5 Booking.com', url: 'https://www.booking.com/hotel/es/nh-collection-villa-de-bilbao.html', tier: 'mid' },
       { name: 'Hotel Tayko Bilbao', note: 'Independent boutique — Erribera Kalea in the Casco Viejo above the Ribera market, 24h reception, AC, rooftop restaurant, fitness centre · 9.2 Booking.com', url: 'https://www.booking.com/hotel/es/tayko-bilbao.html', tier: 'expensive' },
       { name: 'Radisson Collection Bilbao', note: 'Radisson Collection brand — Gran Vía at Plaza Circular, 5-star, 24h reception, AC, spa with sauna and fitness centre · 8.4 Booking.com', url: 'https://www.booking.com/hotel/es/radisson-collection-bilbao.html', tier: 'luxury' }
-    ] },
+    ], price: { budget: '€80–150', mid: '€140–230', expensive: '€230–420', luxury: '€420–800' } },
     'bologna': { h: [
       { name: 'I Portici Hotel Bologna', note: 'Preferred Hotels & Resorts — historic palazzo beneath the famous porticoes, Michelin-starred I Portici restaurant, spa · 9.2 Booking.com', url: 'https://www.booking.com/hotel/it/i-portici.html', tier: 'luxury' },
       { name: 'Hotel Corona d\'Oro', note: 'Independent — 14th-century palazzo steps from Piazza Maggiore, frescoed ceilings, courtyard garden, tasteful historic interiors · 9.0 Booking.com', url: 'https://www.booking.com/hotel/it/hotel-corona-d-oro.html', tier: 'expensive' },
@@ -5959,7 +5959,7 @@ window.TVE.home = (function () {
       { name: 'Hotel Internazionale', note: 'Independent — Via dell\'Indipendenza between the station and Piazza Maggiore, 24h reception, AC, on-site restaurant and garden · 8.5 Booking.com', url: 'https://www.booking.com/hotel/it/internazionale.html', tier: 'budget' },
       { name: 'Royal Hotel Carlton', note: 'Independent — Via Montebello a few minutes from Piazza Maggiore, 24h reception, AC, spa with sauna and hammam, fitness centre · 8.9 Booking.com', url: 'https://www.booking.com/hotel/it/royalcarlton.html', tier: 'mid' },
       { name: 'Hotel Touring', note: 'Independent — Via de\' Mattuiani south of Piazza Maggiore, 24h reception, AC, roof terrace with hot tub over the old-town rooftops · 8.9 Booking.com', url: 'https://www.booking.com/hotel/it/hoteltouringbologna.html', tier: 'expensive' }
-    ] },
+    ], price: { budget: '€70–130', mid: '€130–230', expensive: '€230–420', luxury: '€420–900' } },
     'bora-bora': { h: [
       { name: 'Four Seasons Resort Bora Bora', note: 'Four Seasons brand — overwater bungalows on private Motu Tehotu islet, lagoon snorkel beach, coral-garden reef access · 9.5 Booking.com', url: 'https://www.booking.com/hotel/pf/four-seasons-resort-bora-bora.html', tier: 'luxury' },
       { name: 'The St. Regis Bora Bora Resort', note: 'Marriott Luxury Collection — private islet on the Bora Bora lagoon, overwater villas, Deep Ocean Spa, Butler service · 9.4 Booking.com', url: 'https://www.booking.com/hotel/pf/the-st-regis-bora-bora-resort.html', tier: 'luxury' },
@@ -5967,7 +5967,7 @@ window.TVE.home = (function () {
       { name: 'InterContinental Bora Bora Le Moana Resort by IHG', note: 'IHG brand — Matira Point on the main island, overwater bungalows, private beach area, pool bar, diving and snorkelling · 9.2 Booking.com', url: 'https://www.booking.com/hotel/pf/intercontinental-bora-bora-le-moana-resort.html', tier: 'mid' },
       { name: 'Maitai Bora Bora', note: 'Independent — Matira on the main island, the only property on Bora Bora at this price with a 24h reception, AC, private beach area and lagoon-side rooms · 8.5 Booking.com', url: 'https://www.booking.com/hotel/pf/maitai-polynesia.html', tier: 'budget' },
       { name: 'Westin Bora Bora Resort & Spa', note: 'Marriott Westin brand — Motu Tape with overwater villas, 24h reception, AC, infinity pool over the lagoon, full-service spa · 9.3 Booking.com', url: 'https://www.booking.com/hotel/pf/le-meridien-bora-bora.html', tier: 'expensive' }
-    ] },
+    ], price: { budget: '$250–500', mid: '$450–900', expensive: '$800–1,500', luxury: '$1,200–4,000' } },
     'bordeaux': { h: [
       { name: 'InterContinental Bordeaux – Le Grand Hotel', note: "IHG brand — 1780 neoclassical palazzo on Place de la Comédie, rooftop pool with Grand Théâtre views, Le Pressoir d'Argent Gordon Ramsay restaurant · 9.0 Booking.com", url: 'https://www.booking.com/hotel/fr/grand-hotel-bordeaux-spa.html', tier: 'luxury' },
       { name: 'Burdigala Hotel by HappyCulture', note: 'HappyCulture — design hotel in the Golden Triangle quarter, Vinothèque wine bar, central to Saint-Pierre and Chartrons · 8.9 Booking.com', url: 'https://www.booking.com/hotel/fr/burdigalabord.html', tier: 'expensive' },
@@ -5978,7 +5978,7 @@ window.TVE.home = (function () {
       { name: 'Hilton Garden Inn Bordeaux Centre', note: 'Hilton Garden Inn brand — Allée de Rio in the Saint-Jean station district, 24h reception, AC, fitness centre, terrace and on-site restaurant · 8.6 Booking.com', url: 'https://www.booking.com/hotel/fr/hilton-garden-inn-bordeaux-centre.html', tier: 'mid' },
       { name: 'Marty Hotel Bordeaux - Tapestry Collection by Hilton', note: 'Hilton Tapestry Collection brand — Rue Georges Bonnac in the city centre near Mériadeck, 24h reception, AC, bar and soundproof rooms · 8.6 Booking.com', url: 'https://www.booking.com/hotel/fr/marty-hotel-bordeaux-tapestry-collection-by-hilton.html', tier: 'mid' },
       { name: 'Renaissance Bordeaux Hotel', note: 'Marriott Renaissance brand — Rue de Gironde in the Bassins à Flot, 24h reception, AC, year-round heated rooftop pool with city views, fitness centre · 8.9 Booking.com', url: 'https://www.booking.com/hotel/fr/renaissance-bordeaux.html', tier: 'expensive' }
-    ] },
+    ], price: { budget: '€90–160', mid: '€160–280', expensive: '€280–600', luxury: '€550–1,500' } },
     'boston': { h: [
       { name: 'Four Seasons Hotel Boston', note: 'Four Seasons brand — 200 Boylston Street, indoor pool overlooking the Public Garden, Bristol Lounge, steps from Boston Common · 9.2 Booking.com', url: 'https://www.booking.com/hotel/us/four-seasons-boston.html', tier: 'luxury' },
       { name: 'Mandarin Oriental, Boston', note: 'Mandarin Oriental brand — Back Bay on Boylston Street, spa with hot tub, sauna, connected to Copley Place shops · 8.6 Booking.com', url: 'https://www.booking.com/hotel/us/mandarin-oriental-boston.html', tier: 'luxury' },
@@ -7088,11 +7088,12 @@ window.TVE.home = (function () {
       { name: 'Mandarin Oriental Prague', note: 'Mandarin Oriental brand — Malá Strana, Spices Restaurant, spa with indoor pool, 13th-century chapel setting · 9.2 Booking.com', url: 'https://www.booking.com/hotel/cz/mandarin-oriental-prague.html', tier: 'luxury' }
     ], price: { budget: '€60–100', mid: '€100–170', expensive: '€170–280', luxury: '€280+' } },
     'puerto-rico': { h: [
-      { name: 'Dorado Beach, a Ritz-Carlton Reserve', note: 'Ritz-Carlton Reserve — 1,400-acre beachfront estate, six pools, two golf courses · 9.4 Booking.com', url: 'https://www.booking.com/hotel/pr/dorado-beach-a-ritz-carlton-reserve.html' },
-      { name: 'La Concha Resort, Puerto Rico, Autograph Collection', note: 'Marriott Autograph Collection — Condado Beach, 1950s concha-shell architecture, two pools, spa · 8.9 Booking.com', url: 'https://www.booking.com/hotel/pr/la-concha-renaissance-san-juan-resort.html' },
-      { name: 'Fairmont El San Juan Hotel', note: 'Fairmont brand — Isla Verde beachfront, historic 1958 mahogany lobby, three pools; rebranded from the Curio Collection · 7.6 Booking.com', url: 'https://www.booking.com/hotel/pr/el-san-juan-casino.html' },
-      { name: 'Caribe Hilton', note: 'Hilton brand — San Geronimo Grounds, site of the original Piña Colada, private beach · 8.0 Booking.com', url: 'https://www.booking.com/hotel/pr/caribe-hilton.html' }
-    ] },
+      { name: 'Hampton Inn & Suites San Juan', note: 'Hilton brand — Isla Verde, 10 min from Condado, outdoor pool, breakfast included · 8.5 Booking.com', url: 'https://www.booking.com/hotel/pr/hampton-inn-suites-san-juan.html', tier: 'budget' },
+      { name: 'Caribe Hilton', note: 'Hilton brand — San Geronimo Grounds, site of the original Piña Colada, private beach · 8.0 Booking.com', url: 'https://www.booking.com/hotel/pr/caribe-hilton.html', tier: 'mid' },
+      { name: 'La Concha Resort, Puerto Rico, Autograph Collection', note: 'Marriott Autograph Collection — Condado Beach, 1950s concha-shell architecture, two pools, spa · 8.9 Booking.com', url: 'https://www.booking.com/hotel/pr/la-concha-renaissance-san-juan-resort.html', tier: 'expensive' },
+      { name: 'Fairmont El San Juan Hotel', note: 'Fairmont brand — Isla Verde beachfront, historic 1958 mahogany lobby, three pools · 7.6 Booking.com', url: 'https://www.booking.com/hotel/pr/el-san-juan-casino.html', tier: 'expensive' },
+      { name: 'Dorado Beach, a Ritz-Carlton Reserve', note: 'Ritz-Carlton Reserve — 1,400-acre beachfront estate, six pools, two golf courses · 9.4 Booking.com', url: 'https://www.booking.com/hotel/pr/dorado-beach-a-ritz-carlton-reserve.html', tier: 'luxury' }
+    ], price: { budget: '$120–200', mid: '$200–320', expensive: '$320–520', luxury: '$520+' } },
     'puerto-vallarta': { h: [
       { name: 'Garza Blanca Preserve Resort & Spa', note: 'Independent luxury — hillside jungle preserve with private white-sand beach, infinity pools, adults-only towers · 9.3 Booking.com', url: 'https://www.booking.com/hotel/mx/garza-blanca-preserve-resort-spa.html' },
       { name: 'Casa Velas Hotel Boutique', note: 'Independent boutique — adults-only, marina suite design, beach club, oceanfront pool · 9.2 Booking.com', url: 'https://www.booking.com/hotel/mx/casa-vellas-boutique.html' },
@@ -11266,7 +11267,7 @@ window.TVE.home = (function () {
       'MAN','MCT','MEL','MIA','MLE','MRS','MSP','MUC','MVD','MXP','NAP','NCE','OGG','OPO','ORD','ORY',
       'OSL','PDL','PDX','PEK','PHL','PHX','PMI','PNS','POA','PPS','PRG','PSA','PSP','PUS','PVG','RAK',
       'RSW','SAN','SCL','SEA','SFO','SIN','SJC','SJO','SJU','SKG','SLC','SPU','STR','SXB','SYD','TBS',
-      'TFS','TIV','TLL','TPE','VCE','VIE','VLC','WLG','YUL','YVR','YYZ','ZAG','ZRH'
+      'TFS','TIV','TLL','TOS','TPE','VCE','VIE','VLC','WLG','YUL','YVR','YYZ','ZAG','ZRH'
     ];
 
     function _inject() {

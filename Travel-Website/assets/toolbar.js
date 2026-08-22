@@ -6604,11 +6604,12 @@ window.TVE.home = (function () {
       { name: 'Hilton Garden Inn Lecce', note: 'Hilton brand — Via Cosimo de Giorgi 62, modern 4-star at the edge of the centro storico, outdoor pool, restaurant, 24h reception · 8.3 Booking.com', url: 'https://www.booking.com/hotel/it/hilton-garden-inn-lecce.html', tier: 'budget' }
     ], price: { budget: '€60–100', mid: '€100–170', expensive: '€160–270', luxury: '€270+' } },
     'lille': { h: [
-      { name: 'galerie jacqueline storme', note: 'Independent — 37 Avenue du Peuple Belge in Vieux-Lille, soundproof rooms, in-house art gallery, EV charging and garage parking · 9.4 Booking.com', url: 'https://www.booking.com/hotel/fr/galerie-jacqueline-storme.html' },
-      { name: 'Au Cœur De Lille', note: 'Independent — 1 Rue Boileux a few minutes off the Grand Place, family rooms, private on-site parking · 9.3 Booking.com', url: 'https://www.booking.com/hotel/fr/au-coeur-de-lille.html' },
-      { name: 'Barrière Lille', note: 'Barrière group — L\'Alliance hotel connected to Grand Casino Barrière, spa with pool and hammam, rooftop terrace, central Lille location · 8.7 Booking.com', url: 'https://www.booking.com/hotel/fr/barriere-lille.html' },
-      { name: 'Crowne Plaza Lille', note: 'IHG Crowne Plaza — Euralille district, indoor pool, spa, close to Lille-Europe Eurostar · 8.6 Booking.com', url: 'https://www.booking.com/hotel/fr/crowne-plaza-lille.html' }
-    ] },
+      { name: 'L\'Hermitage Gantois · Autograph Collection', note: 'Marriott Autograph Collection — 15th-century Flemish hospital converted to a luxury hotel on Rue Pierre Mauroy, spa, indoor pool, chapel bar, central Lille · 9.0 Booking.com', url: 'https://www.booking.com/hotel/fr/l-hermitage-gantois-autograph-collection.html', tier: 'luxury' },
+      { name: 'Barrière Lille', note: 'Barrière group — L\'Alliance hotel connected to Grand Casino Barrière, spa with pool and hammam, rooftop terrace, central Lille location · 8.7 Booking.com', url: 'https://www.booking.com/hotel/fr/barriere-lille.html', tier: 'expensive' },
+      { name: 'Crowne Plaza Lille', note: 'IHG Crowne Plaza — Euralille district, indoor pool, spa, close to Lille-Europe Eurostar · 8.6 Booking.com', url: 'https://www.booking.com/hotel/fr/crowne-plaza-lille.html', tier: 'mid' },
+      { name: 'galerie jacqueline storme', note: 'Independent — 37 Avenue du Peuple Belge in Vieux-Lille, soundproof rooms, in-house art gallery, EV charging and garage parking · 9.4 Booking.com', url: 'https://www.booking.com/hotel/fr/galerie-jacqueline-storme.html', tier: 'budget' },
+      { name: 'Au Cœur De Lille', note: 'Independent — 1 Rue Boileux a few minutes off the Grand Place, family rooms, private on-site parking · 9.3 Booking.com', url: 'https://www.booking.com/hotel/fr/au-coeur-de-lille.html', tier: 'budget' }
+    ], price: { budget: '€80–120', mid: '€120–200', expensive: '€190–310', luxury: '€300+' } },
     'lima': { h: [
       { name: 'Best Western Plus Urban Larco Hotel', note: 'Independent — Avenida Larco in the heart of Miraflores, 24h reception, AC, airport shuttle, walkable to Parque Kennedy · 9.0 Booking.com', url: 'https://www.booking.com/hotel/pe/best-western-plus-urban-lar.html', tier: 'budget' },
       { name: 'Tierra Viva Miraflores Centro', note: 'Independent — Calle Alcanfores a block off Avenida Larco, 24h reception, AC, quiet side street, compact modern rooms · 9.0 Booking.com', url: 'https://www.booking.com/hotel/pe/tierra-viva-miraflores-centro.html', tier: 'budget' },

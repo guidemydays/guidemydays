@@ -6150,11 +6150,11 @@ window.TVE.home = (function () {
       { name: 'L\'Auberge Carmel, Relais & Châteaux', note: 'Auberge Resorts/Relais & Châteaux — downtown Carmel, 20 rooms, Aubergine restaurant, wine cellar, garden courtyard · 8.5 Booking.com', url: 'https://www.booking.com/hotel/us/auberge-carmel-relais-chateaux.html', tier: 'luxury' }
     ], price: { budget: '$200–350', mid: '$350–600', expensive: '$600–900', luxury: '$900+' } },
     'cascais': { h: [
-      { name: 'Palácio Estoril Hotel, Golf & Wellness', note: 'Leading Hotels of the World — Estoril seafront, 1930s palace with WWII spy-era heritage, golf course, casino adjacent · 8.9 Booking.com', url: 'https://www.booking.com/hotel/pt/palacio-estoril-golf.html' },
-      { name: 'Grande Real Villa Itália Hotel & Spa', note: 'Real Hotels Group/Leading Hotels of the World — western Cascais clifftop, former Italian royal residence, sea-view gardens, spa · 9.0 Booking.com', url: 'https://www.booking.com/hotel/pt/grande-real-villa-italia.html' },
-      { name: 'Farol Hotel Cascais', note: 'Independent — 19th-century clifftop mansion, infinity pool facing the Atlantic, Aroma restaurant · 9.0 Booking.com', url: 'https://www.booking.com/hotel/pt/farol-hotel.html' },
-      { name: 'Pestana Cidadela Cascais Hotel', note: 'Pestana brand — inside a 16th-century citadel, pool with ocean views, marina location · 8.8 Booking.com', url: 'https://www.booking.com/hotel/pt/pestana-cidadela-cascais.html' }
-    ] },
+      { name: 'Pestana Cidadela Cascais Hotel', note: 'Pestana brand — inside a 16th-century citadel, pool with ocean views, marina location · 8.8 Booking.com', url: 'https://www.booking.com/hotel/pt/pestana-cidadela-cascais.html', tier: 'budget' },
+      { name: 'Farol Hotel Cascais', note: 'Independent — 19th-century clifftop mansion, infinity pool facing the Atlantic, Aroma restaurant · 9.0 Booking.com', url: 'https://www.booking.com/hotel/pt/farol-hotel.html', tier: 'mid' },
+      { name: 'Grande Real Villa Itália Hotel & Spa', note: 'Real Hotels Group/Leading Hotels of the World — western Cascais clifftop, former Italian royal residence, sea-view gardens, spa · 9.0 Booking.com', url: 'https://www.booking.com/hotel/pt/grande-real-villa-italia.html', tier: 'expensive' },
+      { name: 'Palácio Estoril Hotel, Golf & Wellness', note: 'Leading Hotels of the World — Estoril seafront, 1930s palace with WWII spy-era heritage, golf course, casino adjacent · 8.9 Booking.com', url: 'https://www.booking.com/hotel/pt/palacio-estoril-golf.html', tier: 'luxury' }
+    ], price: { budget: '€180–320', mid: '€320–550', expensive: '€550–900', luxury: '€900+' } },
     'cayman-islands': { h: [
       { name: 'Kimpton Seafire Resort + Spa', note: 'IHG/Kimpton — Seven Mile Beach, full-service spa, rooftop bar, three pools, beachfront dining · 9.4 Booking.com', url: 'https://www.booking.com/hotel/ky/kimpton-seafire-resort-and-spa.html' },
       { name: 'Palm Heights', note: 'Independent boutique — Seven Mile Beach, design-forward rooms, spa, tropical gardens, curated wellness programming · 9.6 Booking.com', url: 'https://www.booking.com/hotel/ky/beach-suites.html' },

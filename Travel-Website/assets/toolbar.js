@@ -7113,11 +7113,13 @@ window.TVE.home = (function () {
       { name: 'Fairmont Le Château Frontenac', note: 'Fairmont brand — 1893 castle above the St. Lawrence, terrace pool, Champlain restaurant · 9.0 Booking.com', url: 'https://www.booking.com/hotel/ca/chateau-frontenac.html', tier: 'luxury' }
     ], price: { budget: 'CAD 120–200', mid: 'CAD 200–320', expensive: 'CAD 320–500', luxury: 'CAD 500+' } },
     'queenstown': { h: [
-      { name: 'Eichardt\'s Private Hotel', note: 'Independent boutique — lakefront, 5-suite private hotel, celebrated Eichardt\'s Bar, Queenstown historic building · 9.5 Booking.com', url: 'https://www.booking.com/hotel/nz/eichardt-private.html' },
-      { name: 'Rees Hotel & Luxury Apartments', note: 'Independent — lakefront panoramas, spa and pool, fine dining, private jetty · 9.2 Booking.com', url: 'https://www.booking.com/hotel/nz/the-rees-luxury-apartments.html' },
-      { name: 'Azur Lodge', note: 'Independent — nine luxury cottages on Queenstown Hill, private lake views, infinity pool · 9.6 Booking.com', url: 'https://www.booking.com/hotel/nz/azur-lodge.html' },
-      { name: 'Hilton Queenstown Resort & Spa', note: 'Hilton brand — Peninsula Road lakefront, outdoor hot pool, spa, panoramic Lake Wakatipu views · 9.1 Booking.com', url: 'https://www.booking.com/hotel/nz/hilton-queenstown.html' }
-    ] },
+      { name: 'Heartland Hotel Queenstown', note: 'Independent — town centre, walking distance to the waterfront and restaurants · 8.4 Booking.com', url: 'https://www.booking.com/hotel/nz/heartland-queenstown.html', tier: 'budget' },
+      { name: 'Novotel Queenstown Lakeside', note: 'Accor brand — lakefront, walking distance to the town centre, outdoor pool · 8.8 Booking.com', url: 'https://www.booking.com/hotel/nz/novotel-queenstown-lakeside.html', tier: 'mid' },
+      { name: 'Hilton Queenstown Resort & Spa', note: 'Hilton brand — Peninsula Road lakefront, outdoor hot pool, spa, panoramic Lake Wakatipu views · 9.1 Booking.com', url: 'https://www.booking.com/hotel/nz/hilton-queenstown.html', tier: 'expensive' },
+      { name: 'Rees Hotel & Luxury Apartments', note: 'Independent — lakefront panoramas, spa and pool, fine dining, private jetty · 9.2 Booking.com', url: 'https://www.booking.com/hotel/nz/the-rees-luxury-apartments.html', tier: 'expensive' },
+      { name: 'Eichardt\'s Private Hotel', note: 'Independent boutique — lakefront, 5-suite private hotel, celebrated Eichardt\'s Bar, Queenstown historic building · 9.5 Booking.com', url: 'https://www.booking.com/hotel/nz/eichardt-private.html', tier: 'luxury' },
+      { name: 'Azur Lodge', note: 'Independent — nine luxury cottages on Queenstown Hill, private lake views, infinity pool · 9.6 Booking.com', url: 'https://www.booking.com/hotel/nz/azur-lodge.html', tier: 'luxury' }
+    ], price: { budget: 'NZD 130–230', mid: 'NZD 230–380', expensive: 'NZD 380–620', luxury: 'NZD 620+' } },
     'recife': { h: [
       { name: 'El Aram Beach Boa Viagem', note: 'Independent — Rua dos Navegantes in Boa Viagem, outdoor pool, restaurant, 24h reception · 8.0 Booking.com', url: 'https://www.booking.com/hotel/br/canarius-palace.html', tier: 'budget' },
       { name: 'Fity Hotel', note: 'Independent — Rua Dhalia two blocks off Boa Viagem beach, business hotel, valet parking, 24h reception · 8.6 Booking.com', url: 'https://www.booking.com/hotel/br/fity.html', tier: 'mid' },
@@ -11273,7 +11275,7 @@ window.TVE.home = (function () {
       'MAN','MCT','MEL','MIA','MLE','MRS','MSP','MUC','MVD','MXP','NAP','NCE','OGG','OPO','ORD','ORY',
       'OSL','PDL','PDX','PEK','PHL','PHX','PMI','PNS','POA','PPS','PRG','PSA','PSP','PUS','PVG','PVR','RAK',
       'RSW','SAN','SCL','SEA','SFO','SIN','SJC','SJO','SJU','SKG','SLC','SPU','STR','SXB','SYD','TBS',
-      'TFS','TIV','TLL','TOS','TPE','VCE','VIE','VLC','WLG','YQB','YUL','YVR','YYC','YYZ','ZAG','ZRH'
+      'TFS','TIV','TLL','TOS','TPE','VCE','VIE','VLC','WLG','YQB','YUL','YVR','YYC','YYZ','ZAG','ZQN','ZRH'
     ];
 
     function _inject() {

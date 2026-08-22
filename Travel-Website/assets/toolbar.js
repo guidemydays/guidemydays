@@ -6597,11 +6597,12 @@ window.TVE.home = (function () {
       { name: 'The LINQ Hotel + Experience', note: 'Caesars Entertainment — mid-Strip at the LINQ Promenade, outdoor pool, 24h reception, walking distance to the High Roller observation wheel · 8.2 Booking.com', url: 'https://www.booking.com/hotel/us/the-linq-hotel-casino.html', tier: 'budget' }
     ], price: { budget: '$70–150', mid: '$160–320', expensive: '$300–600', luxury: '$600+' } },
     'lecce': { h: [
-      { name: 'Palazzo Rollo', note: 'Independent — 17th-century palazzo on Via Vittorio Emanuele II in the Old Town, roof garden over the centro storico, 24h security · 9.5 Booking.com', url: 'https://www.booking.com/hotel/it/palazzo-rollo.html' },
-      { name: 'Dimora Storica Muratore', note: 'Independent historic residence — Via Luigi Scarambone in the Old Town, rooftop infinity pool, steam room, garden terrace · 9.6 Booking.com', url: 'https://www.booking.com/hotel/it/dimora-storica-muratore.html' },
-      { name: 'Patria Palace Hotel Lecce', note: 'Independent — 18th-century palazzo facing the Basilica di Santa Croce, rooftop pool · 8.9 Booking.com', url: 'https://www.booking.com/hotel/it/patria-palace.html' },
-      { name: 'Togo Suites Lecce', note: 'Independent boutique — historic centro, 14 rooms in a restored 17th-century palazzo, stone vaults · 9.3 Booking.com', url: 'https://www.booking.com/hotel/it/togo-suites.html' }
-    ] },
+      { name: 'Dimora Storica Muratore', note: 'Independent historic residence — Via Luigi Scarambone in the Old Town, rooftop infinity pool, steam room, garden terrace · 9.6 Booking.com', url: 'https://www.booking.com/hotel/it/dimora-storica-muratore.html', tier: 'luxury' },
+      { name: 'Palazzo Rollo', note: 'Independent — 17th-century palazzo on Via Vittorio Emanuele II in the Old Town, roof garden over the centro storico, 24h security · 9.5 Booking.com', url: 'https://www.booking.com/hotel/it/palazzo-rollo.html', tier: 'luxury' },
+      { name: 'Patria Palace Hotel Lecce', note: 'Independent — 18th-century palazzo facing the Basilica di Santa Croce, rooftop pool · 8.9 Booking.com', url: 'https://www.booking.com/hotel/it/patria-palace.html', tier: 'expensive' },
+      { name: 'Togo Suites Lecce', note: 'Independent boutique — historic centro, 14 rooms in a restored 17th-century palazzo, stone vaults · 9.3 Booking.com', url: 'https://www.booking.com/hotel/it/togo-suites.html', tier: 'mid' },
+      { name: 'Hilton Garden Inn Lecce', note: 'Hilton brand — Via Cosimo de Giorgi 62, modern 4-star at the edge of the centro storico, outdoor pool, restaurant, 24h reception · 8.3 Booking.com', url: 'https://www.booking.com/hotel/it/hilton-garden-inn-lecce.html', tier: 'budget' }
+    ], price: { budget: '€60–100', mid: '€100–170', expensive: '€160–270', luxury: '€270+' } },
     'lille': { h: [
       { name: 'galerie jacqueline storme', note: 'Independent — 37 Avenue du Peuple Belge in Vieux-Lille, soundproof rooms, in-house art gallery, EV charging and garage parking · 9.4 Booking.com', url: 'https://www.booking.com/hotel/fr/galerie-jacqueline-storme.html' },
       { name: 'Au Cœur De Lille', note: 'Independent — 1 Rue Boileux a few minutes off the Grand Place, family rooms, private on-site parking · 9.3 Booking.com', url: 'https://www.booking.com/hotel/fr/au-coeur-de-lille.html' },
@@ -6833,11 +6834,11 @@ window.TVE.home = (function () {
       { name: 'Bardessono Hotel and Spa', note: 'Independent — LEED Platinum cedar-and-stone lodge on Yount Street in Yountville, rooftop pool, in-room spa treatments · 9.8 Booking.com', url: 'https://www.booking.com/hotel/us/bardessono.html', tier: 'luxury' }
     ], price: { budget: 'USD 180–320', mid: 'USD 320–500', expensive: 'USD 500–700', luxury: 'USD 700+' } },
     'naples': { h: [
-      { name: 'Grand Hotel Vesuvio', note: 'Independent luxury — Santa Lucia seafront, rooftop pool with Vesuvius views, 1882 heritage hotel · 9.2 Booking.com', url: 'https://www.booking.com/hotel/it/grand-vesuvio-napoli.html' },
-      { name: 'Relais Della Porta', note: 'Independent — Via Toledo above the Quartieri Spagnoli, soundproofed rooms, breakfast served in the room · 9.1 Booking.com', url: 'https://www.booking.com/hotel/it/relais-della-porta.html' },
-      { name: 'Hotel Romeo Napoli', note: 'Independent — Via Cristoforo Colombo on the waterfront, rooftop Il Comandante restaurant, spa · 9.2 Booking.com', url: 'https://www.booking.com/hotel/it/hotel-romeo.html' },
-      { name: 'Grand Hotel Parker\'s Napoli', note: 'Independent — Corso Vittorio Emanuele, panoramic views over the Gulf of Naples, George\'s restaurant · 9.1 Booking.com', url: 'https://www.booking.com/hotel/it/grand-hotel-parker-s.html' }
-    ] },
+      { name: 'Relais Della Porta', note: 'Independent — Via Toledo above the Quartieri Spagnoli, soundproofed rooms, breakfast served in the room · 9.1 Booking.com', url: 'https://www.booking.com/hotel/it/relais-della-porta.html', tier: 'budget' },
+      { name: 'Renaissance Naples Hotel Mediterraneo', note: 'Marriott brand — Via Ponte di Tappia in the historic centre, rooftop terrace with bay views, 24h front desk · 8.8 Booking.com', url: 'https://www.booking.com/hotel/it/renaissance-naples-hotel-mediterraneo.html', tier: 'mid' },
+      { name: 'Grand Hotel Parker\'s Napoli', note: 'Independent — Corso Vittorio Emanuele, panoramic views over the Gulf of Naples, George\'s restaurant · 9.1 Booking.com', url: 'https://www.booking.com/hotel/it/grand-hotel-parker-s.html', tier: 'expensive' },
+      { name: 'Grand Hotel Vesuvio', note: 'Independent — Santa Lucia seafront, rooftop pool with Vesuvius views, 1882 heritage hotel · 9.2 Booking.com', url: 'https://www.booking.com/hotel/it/grand-vesuvio-napoli.html', tier: 'luxury' }
+    ], price: { budget: 'EUR 80–130', mid: 'EUR 130–220', expensive: 'EUR 220–380', luxury: 'EUR 380+' } },
     'naples-florida': { h: [
       { name: 'Bellasera Resort', note: 'Independent — Tuscan-style suites on Ninth Street South, walkable to Fifth Avenue, courtyard pool and free beach shuttle · 9.4 Booking.com', url: 'https://www.booking.com/hotel/us/bellasera.html' },
       { name: 'Inn at Pelican Bay', note: 'Independent — Vanderbilt Beach Road in Pelican Bay, 24h reception, heated pool, tennis, spa · 9.1 Booking.com', url: 'https://www.booking.com/hotel/us/inn-at-pelican-bay.html' },
@@ -11278,7 +11279,7 @@ window.TVE.home = (function () {
        list) while every European guide jumped to its country rather than to
        its airport. */
     var LOUNGE_IATAS = [
-      'ABQ','AES','AGP','AJU','AMM','AMS','ANC','ARN','ATH','ATL','AUA','AUH','AUS','BCN','BER','BGI',
+      'ABQ','AES','AGP','AJU','AMM','AMS','ANC','ARN','ATH','ATL','AUA','AUH','AUS','BCN','BDS','BER','BGI',
       'BGO','BIO','BKK','BOS','BRU','BUD','CAI','CDG','CMB','CPH','CPT','CUN','CUR','CUZ','CWB','DBV',
       'DEN','DFW','DOH','DPS','DTW','DUB','DUS','DXB','EDI','EYW','EZE','FAO','FCO','FHR','FLN','FLR',
       'FOR','FRA','GIG','GOT','GPS','GRU','GVA','HAM','HAN','HEL','HER','HKG','HKT','HND','IAD','IAH',

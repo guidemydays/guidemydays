@@ -11211,6 +11211,7 @@ window.TVE.home = (function () {
       'recife':            {iata:'REC', name:'Recife Guararapes–Gilberto Freyre'},
       'reykjavik':         {iata:'KEF', name:'Keflavík International'},
       'rhodes':            {iata:'RHO', name:'Rhodes Diagoras'},
+      'riga':              {iata:'RIX', name:'Riga International'},
       'rio-de-janeiro':    {iata:'GIG', name:'Rio de Janeiro Galeão International'},
       'rome':              {iata:'FCO', name:'Rome Fiumicino (Leonardo da Vinci)'},
       'rotterdam':         {iata:'AMS', name:'Amsterdam Schiphol'},

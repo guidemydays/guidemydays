@@ -1,3 +1,4 @@
+/* 2026-08-23: lecce train icons, station entry format, Free Now clause, position-2c, HOTEL_ALT_DATA 4 tiers + EUR prices; BDS added to LOUNGE_IATAS, Brindisi lounge card added. toolbar.js -> v970. CACHE to v1360. */
 /* 2026-08-23: capri HOTEL_ALT_DATA — 4-tier setup (budget Hotel La Tosca, mid Villa Brunella, expensive Hotel Punta Tragara, luxury JK Place/Capri Palace) with EUR price ranges; 35 motion-route links added; train icon, GA-FD, position-2c fixed. toolbar.js -> v954. CACHE to v1344. */
 /* 2026-08-23: capri HOTEL_ALT_DATA 4-tier (budget Hotel La Tosca, mid Villa Brunella, expensive Punta Tragara, luxury JK Place/Capri Palace) + EUR prices; 35 motion-route links; train icon/GA-FD/position-2c fixes. toolbar.js -> v956. CACHE to v1346. */
 /* 2026-08-23: prague HOTEL_ALT_DATA four tiers + EUR price ranges, PRG added to LOUNGE_IATAS, Czech Republic lounge card added. toolbar.js -> v953. CACHE to v1343. */
@@ -1909,7 +1910,6 @@
 /* 2026-08-23: cascais: HOTEL_ALT_DATA 4 tiers + prices toolbar.js -> v967. CACHE to v1357. */
 /* 2026-08-23: cascais: HOTEL_ALT_DATA 4 tiers + prices toolbar.js -> v968. CACHE to v1358. */
 /* 2026-08-23: rhodes toolbar.js commit toolbar.js -> v969. CACHE to v1359. */
-/* 2026-08-23: bend: add RDM lounge card, regenerate LOUNGE_IATAS, fix long-walk times toolbar.js -> v970. CACHE to v1360. */
 var CACHE = 'travel-cache-v1360';
 
 /* The guide-calendar hand-off cache. Written by toolbar.js, read and emptied

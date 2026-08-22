@@ -6409,11 +6409,11 @@ window.TVE.home = (function () {
       { name: 'Jumeirah Frankfurt', note: 'Jumeirah brand — Westend tower with panoramic city views, spa, pool, rooftop terrace, 10-minute walk to Alte Oper', url: 'https://www.expedia.com/Frankfurt-Hotels-Jumeirah-Frankfurt.h4312943.Hotel-Information', tier: 'luxury' }
     ], price: { budget: '€170–210', mid: '€210–300', expensive: '€300–450', luxury: '€450+' } },
     'galapagos-islands': { h: [
-      { name: 'Finch Bay Ecolodge', note: 'Relais & Châteaux eco-resort at Finch Bay — naturalist-guided excursions, pool, pier with direct water-taxi access to Las Grietas, most prestigious address on Santa Cruz · 9.2 Booking.com', url: 'https://www.booking.com/hotel/ec/finch-bay.html' },
-      { name: 'Hotel Ikala Galapagos', note: 'Boutique hotel with pool and garden on Av. Charles Darwin — central Puerto Ayora location, 5-min walk to Charles Darwin Research Station · 8.8 Booking.com', url: 'https://www.booking.com/hotel/ec/ikala-galapagos.html' },
-      { name: 'Galapagos Safari Camp', note: 'Luxury tented camp in the Santa Cruz highlands — highland setting near El Chato tortoise reserve and Los Gemelos craters, butler service, 4x4 transfers · 9.0 Booking.com', url: 'https://www.booking.com/hotel/ec/galapagos-safari-camp-cumbaya.html' },
-      { name: 'Sol y Mar B&B', note: 'Waterfront guesthouse with harbor views on Av. Darwin — steps from the main dock and water-taxi pier, closest budget option to the boat terminal · 8.4 Booking.com', url: 'https://www.booking.com/hotel/ec/solymar.html' }
-    ] },
+      { name: 'Sol y Mar B&B', note: 'Waterfront guesthouse with harbor views on Av. Darwin — steps from the main dock and water-taxi pier, 24h reception · 8.4 Booking.com', url: 'https://www.booking.com/hotel/ec/solymar.html', tier: 'budget' },
+      { name: 'Hotel Ikala Galapagos', note: 'Boutique hotel with pool and garden on Av. Charles Darwin — central Puerto Ayora location, 5-min walk to Charles Darwin Research Station, 24h reception · 8.8 Booking.com', url: 'https://www.booking.com/hotel/ec/ikala-galapagos.html', tier: 'mid' },
+      { name: 'Galapagos Safari Camp', note: 'Luxury tented camp in the Santa Cruz highlands — El Chato tortoise reserve nearby, Los Gemelos craters, butler service, 4x4 transfers, outdoor terrace · 9.0 Booking.com', url: 'https://www.booking.com/hotel/ec/galapagos-safari-camp-cumbaya.html', tier: 'expensive' },
+      { name: 'Finch Bay Ecolodge', note: 'Relais & Châteaux eco-resort at Finch Bay — naturalist-guided excursions, pool, pier with direct water-taxi access to Las Grietas, most prestigious address on Santa Cruz · 9.2 Booking.com', url: 'https://www.booking.com/hotel/ec/finch-bay.html', tier: 'luxury' }
+    ], price: { budget: '$70–120', mid: '$140–220', expensive: '$280–480', luxury: '$480+' } },
     'geneva': { h: [
       { name: 'Beau-Rivage Geneva', note: 'Independent grand hotel — 1865 Quai du Mont-Blanc lakefront, indoor pool, Michelin-starred Chat Botté restaurant, panoramic lake views · 9.1 Booking.com', url: 'https://www.booking.com/hotel/ch/beaurivagegeneva.html' },
       { name: 'Four Seasons Hotel des Bergues Geneva', note: 'Four Seasons brand — 1834 lakeside founding address on the Rhône, private lake pier, spa, Mont Blanc views from upper floors · 9.3 Booking.com', url: 'https://www.booking.com/hotel/ch/four-seasons-geneva.html' },
@@ -6589,11 +6589,13 @@ window.TVE.home = (function () {
       { name: 'Inn by the Lake', note: 'Independent — Park Avenue in South Lake Tahoe, 3-star, outdoor heated pool, lakefront setting, AC, 24h reception, short walk to the beach · 8.2 Booking.com', url: 'https://www.booking.com/hotel/us/inn-by-the-lake.html', tier: 'budget' }
     ], price: { budget: '$120–200', mid: '$220–380', expensive: '$380–650', luxury: '$650+' } },
     'las-vegas': { h: [
-      { name: 'Wynn Las Vegas', note: 'Forbes Five Star independent — single-tower luxury resort, 3 pools, Wynn Spa, Michelin-starred Restaurant Guy Savoy and SW Steakhouse · 9.2 Booking.com', url: 'https://www.booking.com/hotel/us/wynn-las-vegas-boulevard.html' },
-      { name: 'The Venetian Resort Las Vegas', note: 'Independent mega-resort — all-suite tower, Canyon Ranch Spa Club with indoor pool, 5 outdoor pools, 36 restaurants, Lagoon Pool complex · 8.8 Booking.com', url: 'https://www.booking.com/hotel/us/the-venetian-resort-casino.html' },
-      { name: 'Bellagio Las Vegas', note: 'MGM Resorts — Strip icon, Bellagio Fountains, Spago and Le Cirque dining, spa · 9.0 Booking.com', url: 'https://www.booking.com/hotel/us/bellagio.html' },
-      { name: 'The Cosmopolitan of Las Vegas', note: 'Independent — Strip, Marquee Nightclub, all rooms with terraces, Rose. Rabbit. Lie. dining · 9.1 Booking.com', url: 'https://www.booking.com/hotel/us/the-cosmopolitan-las-vegas.html' }
-    ] },
+      { name: 'Wynn Las Vegas', note: 'Forbes Five Star independent — single-tower luxury resort, 3 pools, Wynn Spa, Michelin-starred Restaurant Guy Savoy and SW Steakhouse · 9.2 Booking.com', url: 'https://www.booking.com/hotel/us/wynn-las-vegas-boulevard.html', tier: 'luxury' },
+      { name: 'Bellagio Las Vegas', note: 'MGM Resorts — Strip icon, Bellagio Fountains, Spago and Le Cirque dining, spa · 9.0 Booking.com', url: 'https://www.booking.com/hotel/us/bellagio.html', tier: 'luxury' },
+      { name: 'The Venetian Resort Las Vegas', note: 'Independent mega-resort — all-suite tower, Canyon Ranch Spa Club with indoor pool, 5 outdoor pools, 36 restaurants, Lagoon Pool complex · 8.8 Booking.com', url: 'https://www.booking.com/hotel/us/the-venetian-resort-casino.html', tier: 'expensive' },
+      { name: 'The Cosmopolitan of Las Vegas', note: 'Independent — Strip, Marquee Nightclub, all rooms with terraces, Rose. Rabbit. Lie. dining · 9.1 Booking.com', url: 'https://www.booking.com/hotel/us/the-cosmopolitan-las-vegas.html', tier: 'expensive' },
+      { name: 'Vdara Hotel & Spa at ARIA Las Vegas', note: 'Autograph Collection by Marriott — non-gaming all-suite tower at CityCenter, rooftop pool deck, 24h reception, no casino noise, steps to the Aria · 9.0 Booking.com', url: 'https://www.booking.com/hotel/us/vdara-hotel-spa.html', tier: 'mid' },
+      { name: 'The LINQ Hotel + Experience', note: 'Caesars Entertainment — mid-Strip at the LINQ Promenade, outdoor pool, 24h reception, walking distance to the High Roller observation wheel · 8.2 Booking.com', url: 'https://www.booking.com/hotel/us/the-linq-hotel-casino.html', tier: 'budget' }
+    ], price: { budget: '$70–150', mid: '$160–320', expensive: '$300–600', luxury: '$600+' } },
     'lecce': { h: [
       { name: 'Palazzo Rollo', note: 'Independent — 17th-century palazzo on Via Vittorio Emanuele II in the Old Town, roof garden over the centro storico, 24h security · 9.5 Booking.com', url: 'https://www.booking.com/hotel/it/palazzo-rollo.html' },
       { name: 'Dimora Storica Muratore', note: 'Independent historic residence — Via Luigi Scarambone in the Old Town, rooftop infinity pool, steam room, garden terrace · 9.6 Booking.com', url: 'https://www.booking.com/hotel/it/dimora-storica-muratore.html' },
@@ -6825,11 +6827,11 @@ window.TVE.home = (function () {
       { name: 'Santa Marina, A Luxury Collection Resort', note: 'Marriott Luxury Collection — private beach on Ornos Bay, infinity pools, Caprice beach bar · 9.1 Booking.com', url: 'https://www.booking.com/hotel/gr/santamarinarestvillas.html', tier: 'luxury' }
     ], price: { budget: 'EUR 120–220', mid: 'EUR 220–380', expensive: 'EUR 380–650', luxury: 'EUR 650+' } },
     'napa': { h: [
-      { name: 'Bardessono Hotel and Spa', note: 'Independent — LEED Platinum cedar-and-stone lodge on Yount Street in Yountville, rooftop pool, in-room spa treatments · 9.8 Booking.com', url: 'https://www.booking.com/hotel/us/bardessono.html' },
-      { name: 'Archer Hotel Napa', note: 'Independent boutique — First Street in downtown Napa, rooftop pool and bar over the valley, 24h reception · 9.1 Booking.com', url: 'https://www.booking.com/hotel/us/archer-napa.html' },
-      { name: 'Carneros Resort and Spa', note: 'Independent — 28-acre farm-like resort in Carneros wine region, four pools, full-service spa, FARM restaurant · 9.3 Booking.com', url: 'https://www.booking.com/hotel/us/carneros-inn.html' },
-      { name: 'Meritage Resort and Spa', note: 'Independent — wine caves and spa, four pools, Estate Cave restaurant · 9.1 Booking.com', url: 'https://www.booking.com/hotel/us/the-meritage-resort-and-spa.html' }
-    ] },
+      { name: 'Napa Valley Marriott Hotel & Spa', note: 'Marriott brand — Solano Avenue, outdoor pool and fitness centre, 24h front desk, central Napa location · Booking.com', url: 'https://www.booking.com/hotel/us/napa-valley-marriott.html', tier: 'budget' },
+      { name: 'Meritage Resort and Spa', note: 'Independent — wine caves and spa, four pools, Estate Cave restaurant · 9.1 Booking.com', url: 'https://www.booking.com/hotel/us/the-meritage-resort-and-spa.html', tier: 'mid' },
+      { name: 'Carneros Resort and Spa', note: 'Independent — 28-acre farm-like resort in Carneros wine region, four pools, full-service spa, FARM restaurant · 9.3 Booking.com', url: 'https://www.booking.com/hotel/us/carneros-inn.html', tier: 'expensive' },
+      { name: 'Bardessono Hotel and Spa', note: 'Independent — LEED Platinum cedar-and-stone lodge on Yount Street in Yountville, rooftop pool, in-room spa treatments · 9.8 Booking.com', url: 'https://www.booking.com/hotel/us/bardessono.html', tier: 'luxury' }
+    ], price: { budget: 'USD 180–320', mid: 'USD 320–500', expensive: 'USD 500–700', luxury: 'USD 700+' } },
     'naples': { h: [
       { name: 'Grand Hotel Vesuvio', note: 'Independent luxury — Santa Lucia seafront, rooftop pool with Vesuvius views, 1882 heritage hotel · 9.2 Booking.com', url: 'https://www.booking.com/hotel/it/grand-vesuvio-napoli.html' },
       { name: 'Relais Della Porta', note: 'Independent — Via Toledo above the Quartieri Spagnoli, soundproofed rooms, breakfast served in the room · 9.1 Booking.com', url: 'https://www.booking.com/hotel/it/relais-della-porta.html' },
@@ -7294,11 +7296,15 @@ window.TVE.home = (function () {
       { name: 'Four Seasons Resort Rancho Encantado Santa Fe', note: 'Four Seasons brand — Tesuque foothills 15 min from Plaza, casitas with kiva fireplaces, outdoor pool with Sangre de Cristo views · 9.2 Booking.com', url: 'https://www.booking.com/hotel/us/four-seasons-resort-rancho-encantado.html', tier: 'luxury' }
     ], price: { budget: '$130–200', mid: '$200–350', expensive: '$350–550', luxury: '$550+' } },
     'santa-monica': { h: [
-      { name: 'Hotel Shutters on the Beach', note: 'Independent luxury — directly on Santa Monica Beach, pool, 1 Pico restaurant, ocean-view rooms · 9.2 Booking.com', url: 'https://www.booking.com/hotel/us/shutters-on-the-beach.html' },
-      { name: 'Casa del Mar', note: 'InterContinental brand — Craftsman-style 1926 beachfront mansion, spa, oceanfront dining · 9.1 Booking.com', url: 'https://www.booking.com/hotel/us/casa-del-mar.html' },
-      { name: 'Fairmont Miramar Hotel & Bungalows', note: 'Fairmont brand — Ocean Avenue clifftop, fig tree gardens, FIG Restaurant, ocean-view pool · 9.0 Booking.com', url: 'https://www.booking.com/hotel/us/fairmont-miramar-hotel-bungalows.html' },
-      { name: 'Viceroy Santa Monica', note: 'Viceroy Hotels — Ocean Avenue, rooftop pool, Cameo Bar & Lounge, close to the Pier · 9.0 Booking.com', url: 'https://www.booking.com/hotel/us/viceroy-santa-monica.html' }
-    ] },
+      { name: 'HI USA Los Angeles — Santa Monica', note: 'HI USA hostel — 1436 Second Street, private rooms and dorms, steps from Third Street Promenade and the beach', url: 'https://www.booking.com/hotel/us/hi-usa-los-angeles-santa-monica.html', tier: 'budget' },
+      { name: 'Bayside Hotel', note: 'Independent motel — 2001 Ocean Ave, beachside location, short walk to the Pier and Palisades Park · 8.3 Booking.com', url: 'https://www.booking.com/hotel/us/bayside-hotel-santa-monica.html', tier: 'budget' },
+      { name: 'Le Méridien Delfina Santa Monica', note: 'Marriott brand — 530 Pico Blvd, outdoor rooftop pool, Terrazza restaurant, easy walk to Main Street · 8.6 Booking.com', url: 'https://www.booking.com/hotel/us/le-meridien-delfina-santa-monica.html', tier: 'mid' },
+      { name: 'Hilton Santa Monica Hotel & Suites', note: 'Hilton brand — 120 Colorado Avenue, outdoor pool, suites with kitchenettes, two blocks from the Pier · 8.8 Booking.com', url: 'https://www.booking.com/hotel/us/hilton-santa-monica-hotel-suites.html', tier: 'mid' },
+      { name: 'Fairmont Miramar Hotel & Bungalows', note: 'Fairmont brand — Ocean Avenue clifftop, fig tree gardens, FIG Restaurant, ocean-view pool · 9.0 Booking.com', url: 'https://www.booking.com/hotel/us/fairmont-miramar-hotel-bungalows.html', tier: 'expensive' },
+      { name: 'Viceroy Santa Monica', note: 'Viceroy Hotels — Ocean Avenue, rooftop pool, Cameo Bar & Lounge, close to the Pier · 9.0 Booking.com', url: 'https://www.booking.com/hotel/us/viceroy-santa-monica.html', tier: 'expensive' },
+      { name: 'Hotel Shutters on the Beach', note: 'Independent luxury — directly on Santa Monica Beach, pool, 1 Pico restaurant, ocean-view rooms · 9.2 Booking.com', url: 'https://www.booking.com/hotel/us/shutters-on-the-beach.html', tier: 'luxury' },
+      { name: 'Casa del Mar', note: 'InterContinental brand — Craftsman-style 1926 beachfront mansion, spa, oceanfront dining · 9.1 Booking.com', url: 'https://www.booking.com/hotel/us/casa-del-mar.html', tier: 'luxury' }
+    ], price: { budget: '$150–260', mid: '$260–450', expensive: '$450–700', luxury: '$700+' } },
     'santiago': { h: [
       { name: 'Mandarin Oriental, Santiago', note: 'Mandarin Oriental — Las Condes, lagoon pool and Andes views, Matsuri Nikkei restaurant · 9.1 Booking.com', url: 'https://www.booking.com/hotel/cl/hotel-santiago.html' },
       { name: 'Hotel Eco Boutique Bidasoa', note: 'Independent boutique — Vitacura residential neighborhood, lagoon pool and gardens, curated personal service · 9.5 Booking.com', url: 'https://www.booking.com/hotel/cl/bidasoa.html' },

@@ -1,4 +1,5 @@
 /* 2026-08-23: capri HOTEL_ALT_DATA — 4-tier setup (budget Hotel La Tosca, mid Villa Brunella, expensive Hotel Punta Tragara, luxury JK Place/Capri Palace) with EUR price ranges; 35 motion-route links added; train icon, GA-FD, position-2c fixed. toolbar.js -> v954. CACHE to v1344. */
+/* 2026-08-23: capri HOTEL_ALT_DATA 4-tier (budget Hotel La Tosca, mid Villa Brunella, expensive Punta Tragara, luxury JK Place/Capri Palace) + EUR prices; 35 motion-route links; train icon/GA-FD/position-2c fixes. toolbar.js -> v956. CACHE to v1346. */
 /* 2026-08-23: prague HOTEL_ALT_DATA four tiers + EUR price ranges, PRG added to LOUNGE_IATAS, Czech Republic lounge card added. toolbar.js -> v953. CACHE to v1343. */
 /* 2026-08-23: porto-alegre hotel HOTEL_ALT_DATA four tiers + BRL price ranges, POA added to LOUNGE_IATAS. toolbar.js -> v952. CACHE to v1341. */
 /* 2026-08-22: the two circles in a Best-Of card's top-right corner are ROUND again on a phone. They are 30x30 with border-radius:50%, but mobile.css section 7 puts a 40px min-height on every <button> for the tap target, and min-height beats height - so on a phone they rendered 30 wide by 40 tall, an oval. Both go to 40x40 inside the existing phone block rather than opting out of the floor: still a circle, and now the tap target the floor was asking for. Same failure the compare bar hit a few lines below. web-travel-style.css -> v94. CACHE to v1336. */
@@ -1895,7 +1896,7 @@
 /* 2026-08-23: climate date refresh — weather.js baked CLIMATE block regenerated (date stamp only, no data change). weather.js -> v12. CACHE to v1340. */
 /* 2026-08-23: cape-town HOTEL_ALT_DATA — 4-tier setup (budget Protea/Southern Sun, mid Hilton/Radisson, expensive Twelve Apostles, luxury One&Only/Silo/Belmond) with ZAR price ranges. toolbar.js -> v952. CACHE to v1342. */
 /* 2026-08-23: banff: YYC added to LOUNGE_IATAS; HOTEL_ALT_DATA price ranges for banff–bordeaux. toolbar.js -> v955. CACHE to v1345. */
-var CACHE = 'travel-cache-v1345';
+var CACHE = 'travel-cache-v1346';
 
 /* The guide-calendar hand-off cache. Written by toolbar.js, read and emptied
    once by the fetch handler below, and EXEMPT from the activate sweep — it is
@@ -1908,7 +1909,7 @@ var ICS_OUTBOX = 'gmd-ics-outbox';
    THIS IS THE ONLY PLACE to bump toolbar.js / guide-style.css versions.
    NEVER bump ?v= inside guide HTML — it breaks HMAC stamps and forces re-validation
    of 230+ guides. Instead, bump MIN_VERSIONS here + increment the CACHE version. */
-var MIN_VERSIONS = { 'guide-style.css': 262,'toolbar.js': 955, 'mobile.css': 88, 'web-travel-style.css': 94, 'guides-index-style.css': 25, 'read-about.css': 6, 'best-of-features.js': 4, 'best-of-cross-data.js': 24, 'weather.js': 12, 'trains.css': 11, 'trains.js': 2, 'airlines.css': 2, 'airlines.js': 2, 'passport.js': 4 };
+var MIN_VERSIONS = { 'guide-style.css': 262,'toolbar.js': 956, 'mobile.css': 88, 'web-travel-style.css': 94, 'guides-index-style.css': 25, 'read-about.css': 6, 'best-of-features.js': 4, 'best-of-cross-data.js': 24, 'weather.js': 12, 'trains.css': 11, 'trains.js': 2, 'airlines.css': 2, 'airlines.js': 2, 'passport.js': 4 };
 
 function rewriteAssetUrl(urlStr) {
   var u;

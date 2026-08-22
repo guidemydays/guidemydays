@@ -7553,11 +7553,11 @@ window.TVE.home = (function () {
       { name: 'Radisson Blu Hotel, Tromsø', note: 'Radisson Blu — Sentrum waterfront with fjord views, Nordic Grill, spa with sauna, 24h reception · 8.6 Booking.com', url: 'https://www.booking.com/hotel/no/radisson-sas-tromso.html', tier: 'luxury' }
     ], price: { budget: 'NOK 1,100–1,800', mid: 'NOK 1,600–2,500', expensive: 'NOK 2,200–3,400', luxury: 'NOK 3,000–5,500' } },
     'turin': { h: [
-      { name: 'Golden Palace Hotel', note: 'Independent — Via dell\'Arcivescovado, jazz bar, spa, walkable to Porta Palazzo market · 9.1 Booking.com' , url: 'https://www.booking.com/hotel/it/golden-palace-torino.html' },
-      { name: 'Starhotels Majestic Torino', note: 'Starhotels — Corso Vittorio Emanuele II, classic grandeur, restaurant, central Turin location · 8.9 Booking.com' , url: 'https://www.booking.com/hotel/it/starhotels-majestic.html' },
-      { name: 'NH Collection Piazza Carlina', note: 'NH Collection — elegant Piazza Carlina address in the Quadrilatero Romano, 66 rooms, central historic quarter · 8.8 Booking.com' , url: 'https://www.booking.com/hotel/it/nh-collection-torino-piazza-carlina.html' },
-      { name: 'Le Méridien Turin Art + Tech', note: 'Marriott Le Méridien — Lingotto complex (converted FIAT factory), rooftop test track views, indoor pool, spa, design-forward interiors · 8.5 Booking.com' , url: 'https://www.booking.com/hotel/it/le-meridien-art-tech.html' }
-    ] },
+      { name: 'Golden Palace Hotel', note: 'Independent — Via dell\'Arcivescovado, jazz bar, spa, walkable to Porta Palazzo market · 9.1 Booking.com', url: 'https://www.booking.com/hotel/it/golden-palace-torino.html', tier: 'budget' },
+      { name: 'Starhotels Majestic Torino', note: 'Starhotels — Corso Vittorio Emanuele II, classic grandeur, restaurant, central Turin location · 8.9 Booking.com', url: 'https://www.booking.com/hotel/it/starhotels-majestic.html', tier: 'mid' },
+      { name: 'NH Collection Piazza Carlina', note: 'NH Collection — elegant Piazza Carlina address in the Quadrilatero Romano, 66 rooms, central historic quarter · 8.8 Booking.com', url: 'https://www.booking.com/hotel/it/nh-collection-torino-piazza-carlina.html', tier: 'expensive' },
+      { name: 'Le Méridien Turin Art + Tech', note: 'Marriott Le Méridien — Lingotto complex (converted FIAT factory), rooftop test track views, indoor pool, spa, design-forward interiors · 8.5 Booking.com', url: 'https://www.booking.com/hotel/it/le-meridien-art-tech.html', tier: 'luxury' }
+    ], price: { budget: 'EUR 90–150', mid: 'EUR 150–250', expensive: 'EUR 250–400', luxury: 'EUR 380–600' } },
     'turks-and-caicos': { h: [
       { name: 'Grace Bay Club', note: 'Independent — Grace Bay beachfront on Providenciales, three properties, pool, Infiniti Bar & Grill · 9.6 Booking.com', url: 'https://www.booking.com/hotel/tc/grace-bay-club.html' },
       { name: 'COMO Parrot Cay', note: 'COMO brand — private island 30 min by boat, COMO Shambhala spa, pool villas, dive centre · 9.5 Booking.com', url: 'https://www.booking.com/hotel/tc/como-parrot-cay.html' },
@@ -11287,7 +11287,7 @@ window.TVE.home = (function () {
       'LIS','LUX','LYS','MAD','MAN','MCT','MEL','MIA','MLE','MRS','MSP','MUC','MVD','MXP','NAP','NAS',
       'NCE','OGG','OPO','ORD','ORY','OSL','PDL','PDX','PEK','PHL','PHX','PMI','PNS','POA','PPS','PRG',
       'PSA','PSP','PUS','PVG','PVR','RAK','RDM','REC','RHO','RNO','RSW','SAN','SCL','SEA','SFO','SIN',
-      'SJC','SJO','SJU','SKG','SLC','SPU','STR','SXB','SYD','TBS','TFS','TIV','TLL','TOS','TPE','VCE',
+      'SJC','SJO','SJU','SKG','SLC','SPU','STR','SXB','SYD','TBS','TFS','TIV','TLL','TOS','TPE','TRN','VCE',
       'VIE','VLC','WLG','YQB','YUL','YVR','YYC','YYZ','ZAG','ZQN','ZRH'
     ];
 

@@ -6156,11 +6156,11 @@ window.TVE.home = (function () {
       { name: 'Palácio Estoril Hotel, Golf & Wellness', note: 'Leading Hotels of the World — Estoril seafront, 1930s palace with WWII spy-era heritage, golf course, casino adjacent · 8.9 Booking.com', url: 'https://www.booking.com/hotel/pt/palacio-estoril-golf.html', tier: 'luxury' }
     ], price: { budget: '€180–320', mid: '€320–550', expensive: '€550–900', luxury: '€900+' } },
     'cayman-islands': { h: [
-      { name: 'Kimpton Seafire Resort + Spa', note: 'IHG/Kimpton — Seven Mile Beach, full-service spa, rooftop bar, three pools, beachfront dining · 9.4 Booking.com', url: 'https://www.booking.com/hotel/ky/kimpton-seafire-resort-and-spa.html' },
-      { name: 'Palm Heights', note: 'Independent boutique — Seven Mile Beach, design-forward rooms, spa, tropical gardens, curated wellness programming · 9.6 Booking.com', url: 'https://www.booking.com/hotel/ky/beach-suites.html' },
-      { name: 'The Ritz-Carlton Grand Cayman', note: 'Ritz-Carlton — Seven Mile Beach, La Mer by Jean-Georges, four pools, Blue Tip golf · 9.3 Booking.com', url: 'https://www.booking.com/hotel/ky/the-ritz-carlton.html' },
-      { name: 'Grand Cayman Marriott Beach Resort', note: 'Marriott brand — Seven Mile Beach, two pools, Panorama Bar & Grille, water sports · 8.9 Booking.com', url: 'https://www.booking.com/hotel/ky/grand-cayman-marriott-beach-resort.html' }
-    ] },
+      { name: 'Grand Cayman Marriott Beach Resort', note: 'Marriott brand — Seven Mile Beach, two pools, Panorama Bar & Grille, water sports · 8.9 Booking.com', url: 'https://www.booking.com/hotel/ky/grand-cayman-marriott-beach-resort.html', tier: 'budget' },
+      { name: 'Kimpton Seafire Resort + Spa', note: 'IHG/Kimpton — Seven Mile Beach, full-service spa, rooftop bar, three pools, beachfront dining · 9.4 Booking.com', url: 'https://www.booking.com/hotel/ky/kimpton-seafire-resort-and-spa.html', tier: 'mid' },
+      { name: 'Palm Heights', note: 'Independent boutique — Seven Mile Beach, design-forward rooms, spa, tropical gardens, curated wellness programming · 9.6 Booking.com', url: 'https://www.booking.com/hotel/ky/beach-suites.html', tier: 'expensive' },
+      { name: 'The Ritz-Carlton Grand Cayman', note: 'Ritz-Carlton — Seven Mile Beach, La Mer by Jean-Georges, four pools, Blue Tip golf · 9.3 Booking.com', url: 'https://www.booking.com/hotel/ky/the-ritz-carlton.html', tier: 'luxury' }
+    ], price: { budget: '$350–650', mid: '$650–1100', expensive: '$1100–1800', luxury: '$1800+' } },
     'charlotte': { h: [
       { name: 'The Ritz-Carlton, Charlotte', note: 'Ritz-Carlton — Uptown Charlotte, two-level spa, rooftop garden, signature dining, skyline views · 9.0 Booking.com', url: 'https://www.booking.com/hotel/us/ritz-carlton-charlotte.html' },
       { name: 'JW Marriott Charlotte', note: 'JW Marriott — 600 South College Street in Uptown near the Convention Center, rooftop lounge, spa, outdoor pool, panoramic city views · 8.8 Booking.com', url: 'https://www.booking.com/hotel/us/jw-marriott-charlotte.html' },
@@ -11279,16 +11279,16 @@ window.TVE.home = (function () {
        list) while every European guide jumped to its country rather than to
        its airport. */
     var LOUNGE_IATAS = [
-      'ABQ','AES','AGP','AJU','AMM','AMS','ANC','ARN','ATH','ATL','AUA','AUH','AUS','BCN','BDS','BER','BGI',
-      'BGO','BIO','BKK','BOS','BRU','BUD','CAI','CDG','CMB','CPH','CPT','CUN','CUR','CUZ','CWB','DBV',
-      'DEN','DFW','DOH','DPS','DTW','DUB','DUS','DXB','EDI','EYW','EZE','FAO','FCO','FHR','FLN','FLR',
-      'FOR','FRA','GIG','GOT','GPS','GRU','GVA','HAM','HAN','HEL','HER','HKG','HKT','HND','IAD','IAH',
-      'ICN','IGU','IST','JFK','JMK','JPA','KEF','KRK','KTM','LAS','LAX','LGA','LGW','LHR','LIH','LIS','LUX',
-      'LYS','MAD','MAN','MCT','MEL','MIA','MLE','MRS','MSP','MUC','MVD','MXP','NAP','NAS','NCE','OGG',
-      'OPO','ORD','ORY','OSL','PDL','PDX','PEK','PHL','PHX','PMI','PNS','POA','PPS','PRG','PSA','PSP',
-      'PUS','PVG','PVR','RAK','REC','RHO','RNO','RSW','SAN','SCL','SEA','SFO','SIN','SJC','SJO','SJU','SKG','SLC',
-      'SPU','STR','SXB','SYD','TBS','TFS','TIV','TLL','TOS','TPE','VCE','VIE','VLC','WLG','YQB','YUL',
-      'YVR','YYC','YYZ','ZAG','ZQN','ZRH'
+      'ABQ','AES','AGP','AJU','AMM','AMS','ANC','ARN','ATH','ATL','AUA','AUH','AUS','BCN','BDS','BER',
+      'BGI','BGO','BIO','BKK','BOS','BRU','BUD','CAI','CDG','CMB','CPH','CPT','CUN','CUR','CUZ','CWB',
+      'DBV','DEN','DFW','DOH','DPS','DTW','DUB','DUS','DXB','EDI','EYW','EZE','FAO','FCO','FHR','FLN',
+      'FLR','FOR','FRA','GCM','GIG','GOT','GPS','GRU','GVA','HAM','HAN','HEL','HER','HKG','HKT','HND','IAD',
+      'IAH','ICN','IGU','IST','JFK','JMK','JPA','KEF','KRK','KTM','LAS','LAX','LGA','LGW','LHR','LIH',
+      'LIS','LUX','LYS','MAD','MAN','MCT','MEL','MIA','MLE','MRS','MSP','MUC','MVD','MXP','NAP','NAS',
+      'NCE','OGG','OPO','ORD','ORY','OSL','PDL','PDX','PEK','PHL','PHX','PMI','PNS','POA','PPS','PRG',
+      'PSA','PSP','PUS','PVG','PVR','RAK','RDM','REC','RHO','RNO','RSW','SAN','SCL','SEA','SFO','SIN',
+      'SJC','SJO','SJU','SKG','SLC','SPU','STR','SXB','SYD','TBS','TFS','TIV','TLL','TOS','TPE','VCE',
+      'VIE','VLC','WLG','YQB','YUL','YVR','YYC','YYZ','ZAG','ZQN','ZRH'
     ];
 
     function _inject() {

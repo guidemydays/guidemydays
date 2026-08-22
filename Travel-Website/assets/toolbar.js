@@ -6415,11 +6415,11 @@ window.TVE.home = (function () {
       { name: 'Finch Bay Ecolodge', note: 'Relais & Châteaux eco-resort at Finch Bay — naturalist-guided excursions, pool, pier with direct water-taxi access to Las Grietas, most prestigious address on Santa Cruz · 9.2 Booking.com', url: 'https://www.booking.com/hotel/ec/finch-bay.html', tier: 'luxury' }
     ], price: { budget: '$70–120', mid: '$140–220', expensive: '$280–480', luxury: '$480+' } },
     'geneva': { h: [
-      { name: 'Beau-Rivage Geneva', note: 'Independent grand hotel — 1865 Quai du Mont-Blanc lakefront, indoor pool, Michelin-starred Chat Botté restaurant, panoramic lake views · 9.1 Booking.com', url: 'https://www.booking.com/hotel/ch/beaurivagegeneva.html' },
-      { name: 'Four Seasons Hotel des Bergues Geneva', note: 'Four Seasons brand — 1834 lakeside founding address on the Rhône, private lake pier, spa, Mont Blanc views from upper floors · 9.3 Booking.com', url: 'https://www.booking.com/hotel/ch/four-seasons-geneva.html' },
-      { name: 'Hotel President Wilson, a Luxury Collection Hotel', note: 'Marriott Luxury Collection — 1962 Quai Wilson lakefront, largest standard suite in Europe, outdoor pool, panoramic lake and Alps views · 8.7 Booking.com', url: 'https://www.booking.com/hotel/ch/president-wilson.html' },
-      { name: 'Mandarin Oriental Geneva', note: 'Mandarin Oriental brand — Quai Turrettini on the Rhône, spa, two restaurants, five-minute walk to the Old Town and Cathédrale Saint-Pierre · 9.1 Booking.com', url: 'https://www.booking.com/hotel/ch/mandarin-oriental-geneva.html' }
-    ] },
+      { name: 'ibis Styles Geneva Carouge', note: 'AccorHotels ibis Styles — modern budget hotel in Carouge, 15 min by tram to city centre, breakfast included, 24h reception · 7.9 Booking.com', url: 'https://www.booking.com/hotel/ch/ibis-styles-geneve-carouge.html', tier: 'budget' },
+      { name: "Hotel N'vY Geneva", note: 'Independent boutique 4-star — Rue de Rive in the city centre, Nordic-inspired design, restaurant and bar, 10-min walk to the Old Town, 24h reception · 8.3 Booking.com', url: 'https://www.booking.com/hotel/ch/nvy-geneva.html', tier: 'mid' },
+      { name: 'Beau-Rivage Geneva', note: 'Independent grand hotel — 1865 Quai du Mont-Blanc lakefront, indoor pool, Michelin-starred Chat Botté restaurant, panoramic lake views, 24h reception · 9.1 Booking.com', url: 'https://www.booking.com/hotel/ch/beaurivagegeneva.html', tier: 'expensive' },
+      { name: 'Four Seasons Hotel des Bergues Geneva', note: 'Four Seasons brand — 1834 lakeside founding address on the Rhône, private lake pier, spa, Mont Blanc views from upper floors, 24h reception · 9.3 Booking.com', url: 'https://www.booking.com/hotel/ch/four-seasons-geneva.html', tier: 'luxury' }
+    ], price: { budget: 'CHF 110–190', mid: 'CHF 200–380', expensive: 'CHF 400–650', luxury: 'CHF 700+' } },
     'glacier-national-park': { h: [
       { name: 'Great Northern Resort', note: 'Independent — West Glacier, at the park entrance on US-2, log cabins and lodge rooms modeled after the Glacier Park Chalets, complimentary breakfast, 1 mile from the west gate', url: 'https://www.booking.com/hotel/us/great-northern-resort-lodge.html' },
       { name: 'Firebrand Hotel', note: 'Independent boutique — downtown Whitefish, 26 miles north of the park entrance, rooftop hot tub and terrace, walkable to restaurants and Amtrak station · 8.3 Booking.com', url: 'https://www.booking.com/hotel/us/firebrand.html' },
@@ -6620,7 +6620,7 @@ window.TVE.home = (function () {
       { name: 'Belmond Miraflores Park', note: 'Belmond brand — Miraflores clifftop overlooking the Pacific, rooftop heated pool with ocean views, full-service spa, 81 rooms · 9.0 Booking.com', url: 'https://www.booking.com/hotel/pe/miraflores-park.html', tier: 'luxury' },
       { name: 'Hotel B', note: 'Small Luxury Hotels of the World — 1914 Republican mansion in Barranco arts district, 17 rooms, curated contemporary art collection, rooftop terrace · 9.5 Booking.com', url: 'https://www.booking.com/hotel/pe/arts-boutique-b.html', tier: 'luxury' },
       { name: 'JW Marriott Hotel Lima', note: 'Marriott JW brand — Miraflores oceanfront tower, Pacific-view rooms, outdoor pool, Fishmar seafood restaurant, steps from Larcomar · 9.0 Booking.com', url: 'https://www.booking.com/hotel/pe/jw-marriott-lima.html', tier: 'luxury' }
-    ] },
+    ], price: { budget: '$60–100', mid: '$100–180', expensive: '$180–300', luxury: '$300+' } },
     'london': { h: [
       { name: 'The Savoy', note: 'Fairmont brand — 1889 Thames Embankment landmark, Art Deco interior, Kaspar\'s Seafood Bar, indoor pool · 9.1 Booking.com' , url: 'https://www.booking.com/hotel/gb/the-savoy-london.html' },
       { name: 'Claridge\'s', note: 'Independent luxury — Mayfair Art Deco landmark, legendary afternoon tea, indoor pool, Nobu at Claridge\'s · 9.4 Booking.com' , url: 'https://www.booking.com/hotel/gb/claridges.html' },
@@ -6841,11 +6841,11 @@ window.TVE.home = (function () {
       { name: 'Grand Hotel Vesuvio', note: 'Independent — Santa Lucia seafront, rooftop pool with Vesuvius views, 1882 heritage hotel · 9.2 Booking.com', url: 'https://www.booking.com/hotel/it/grand-vesuvio-napoli.html', tier: 'luxury' }
     ], price: { budget: 'EUR 80–130', mid: 'EUR 130–220', expensive: 'EUR 220–380', luxury: 'EUR 380+' } },
     'naples-florida': { h: [
-      { name: 'Bellasera Resort', note: 'Independent — Tuscan-style suites on Ninth Street South, walkable to Fifth Avenue, courtyard pool and free beach shuttle · 9.4 Booking.com', url: 'https://www.booking.com/hotel/us/bellasera.html' },
-      { name: 'Inn at Pelican Bay', note: 'Independent — Vanderbilt Beach Road in Pelican Bay, 24h reception, heated pool, tennis, spa · 9.1 Booking.com', url: 'https://www.booking.com/hotel/us/inn-at-pelican-bay.html' },
-      { name: 'LaPlaya Beach & Golf Resort', note: 'Noble House Hotels — Vanderbilt Beach, private beach, three pools, Baleen restaurant · 9.1 Booking.com', url: 'https://www.booking.com/hotel/us/laplaya-beach-golf-resort.html' },
-      { name: 'The Ritz-Carlton Naples', note: 'Ritz-Carlton brand — Naples Beach, Artisan restaurant, beachfront terrace pools · 9.3 Booking.com', url: 'https://www.booking.com/hotel/us/ritz-carlton-naples.html' }
-    ] },
+      { name: 'Inn at Pelican Bay', note: 'Independent — Vanderbilt Beach Road in Pelican Bay, 24h reception, heated pool, tennis, spa · 9.1 Booking.com', url: 'https://www.booking.com/hotel/us/inn-at-pelican-bay.html', tier: 'budget' },
+      { name: 'Bellasera Resort', note: 'Independent — Tuscan-style suites on Ninth Street South, walkable to Fifth Avenue, courtyard pool and free beach shuttle · 9.4 Booking.com', url: 'https://www.booking.com/hotel/us/bellasera.html', tier: 'mid' },
+      { name: 'LaPlaya Beach & Golf Resort', note: 'Noble House Hotels — Vanderbilt Beach, private beach, three pools, Baleen restaurant · 9.1 Booking.com', url: 'https://www.booking.com/hotel/us/laplaya-beach-golf-resort.html', tier: 'expensive' },
+      { name: 'The Ritz-Carlton Naples', note: 'Ritz-Carlton brand — Naples Beach, Artisan restaurant, beachfront terrace pools · 9.3 Booking.com', url: 'https://www.booking.com/hotel/us/ritz-carlton-naples.html', tier: 'luxury' }
+    ], price: { budget: 'USD 150–280', mid: 'USD 280–450', expensive: 'USD 450–700', luxury: 'USD 700+' } },
     'nashville': { h: [
       { name: 'Holiday Inn Nashville Downtown - Stadium', note: 'IHG Holiday Inn — 211 N. First Street across the river from Lower Broadway, 24h reception, year-round indoor pool, free stadium shuttle · 8.5 Booking.com', url: 'https://www.booking.com/hotel/us/days-inn-nashville-downtown-at-the-stadium.html', tier: 'budget' },
       { name: 'La Quinta Inn & Suites by Wyndham Nashville Downtown Stadium', note: 'Wyndham La Quinta — 315 Interstate Drive on the East Bank, 24h reception, indoor saltwater pool, walkable to the pedestrian bridge · 8.6 Booking.com', url: 'https://www.booking.com/hotel/us/la-quinta-inn-suites-by-wyndham-nashville-downtown-stadium.html', tier: 'budget' },
@@ -7153,6 +7153,12 @@ window.TVE.home = (function () {
       { name: 'Lindos Blu Luxury Hotel - Adults only', note: 'Independent boutique — adults-only clifftop above Lindos Bay, infinity pool, cave-style architecture · 9.7 Booking.com', url: 'https://www.booking.com/hotel/gr/lindos-blu.html', tier: 'luxury' },
       { name: 'Melenos Art Boutique Hotel', note: 'Independent boutique — above Lindos village, sea-view terraces, ceramics-accented Aegean design · 9.7 Booking.com', url: 'https://www.booking.com/hotel/gr/melenos-lindos-exclusive-suites.html', tier: 'luxury' }
     ], price: { budget: '€80–150', mid: '€150–280', expensive: '€280–480', luxury: '€480+' } },
+    'riga': { h: [
+      { name: 'Wellton Old Riga Palace Hotel', note: 'Wellton — Aspazijas bulvāris in the Old Town, steps from the main squares, 24h reception, AC · 8.4 Booking.com', url: 'https://www.booking.com/hotel/lv/wellton-old-riga-palace.html', tier: 'budget' },
+      { name: 'AC Hotel by Marriott Riga', note: 'Marriott family — Elizabetes street in the Art Nouveau district, 10-minute walk to Old Town, rooftop bar, 24h reception, AC · 8.7 Booking.com', url: 'https://www.booking.com/hotel/lv/ac-hotel-by-marriott-riga.html', tier: 'mid' },
+      { name: 'Hotel Bergs', note: 'Independent boutique — Elizabetes street in the quiet Bergs Bazaar courtyard, 12 rooms and suites, 24h reception, AC · 9.4 Booking.com', url: 'https://www.booking.com/hotel/lv/bergs.html', tier: 'expensive' },
+      { name: 'Grand Palace Hotel Riga', note: 'Preferred Hotels — Pils street on the Old Town edge opposite Riga Castle, classical interiors, spa, 24h reception, AC · 9.4 Booking.com', url: 'https://www.booking.com/hotel/lv/grand-palace-riga.html', tier: 'luxury' }
+    ], price: { budget: '€70–120', mid: '€120–220', expensive: '€220–380', luxury: '€380+' } },
     'rio-de-janeiro': { h: [
       { name: 'JW Marriott Rio de Janeiro', note: 'Marriott family — Avenida Atlântica 2600 on Copacabana beach, rooftop pool, 24h reception, AC · 8.0 Booking.com', url: 'https://www.booking.com/hotel/br/jw-marriott-rio-de-janeiro.html' },
       { name: 'Novotel Rio de Janeiro Leme', note: 'Novotel — Rua Gustavo Sampaio in Leme one block off the beach, rooftop pool, 24h reception, AC · 8.0 Booking.com', url: 'https://www.booking.com/hotel/br/novotel-rio-de-janeiro-leme.html' },
@@ -11284,12 +11290,13 @@ window.TVE.home = (function () {
       'BGI','BGO','BIO','BKK','BOS','BRU','BUD','CAI','CDG','CMB','CPH','CPT','CUN','CUR','CUZ','CWB',
       'DBV','DEN','DFW','DOH','DPS','DTW','DUB','DUS','DXB','EDI','EYW','EZE','FAO','FCO','FHR','FLN',
       'FLR','FOR','FRA','GCM','GIG','GOT','GPS','GRU','GVA','HAM','HAN','HEL','HER','HKG','HKT','HND',
-      'IAD','IAH','ICN','IGU','IST','JFK','JMK','JPA','KEF','KRK','KTM','LAS','LAX','LGA','LGW','LHR',
-      'LIH','LIS','LUX','LYS','MAD','MAN','MCT','MEL','MIA','MLE','MRS','MSP','MUC','MVD','MXP','NAP',
-      'NAS','NCE','OGG','OPO','ORD','ORY','OSL','PBH','PDL','PDX','PEK','PHL','PHX','PMI','PNS','POA',
-      'PPS','PRG','PSA','PSP','PUS','PVG','PVR','RAK','RDM','REC','RHO','RIX','RNO','RSW','SAN','SCL',
-      'SEA','SFO','SIN','SJC','SJO','SJU','SKG','SLC','SPU','STR','SXB','SYD','TBS','TFS','TIV','TLL',
-      'TOS','TPE','TRN','VCE','VIE','VLC','WLG','YQB','YUL','YVR','YYC','YYZ','ZAG','ZQN','ZRH'
+      'IAD','IAH','ICN','IGU','IST','JFK','JMK','JPA','KEF','KOA','KRK','KTM','LAS','LAX','LGA','LGW',
+      'LHR','LIH','LIM','LIS','LUX','LYS','MAD','MAN','MCT','MEL','MIA','MLE','MRS','MSP','MUC','MVD','MXP',
+      'NAP','NAS','NCE','OGG','OPO','ORD','ORY','OSL','PBH','PDL','PDX','PEK','PHL','PHX','PLS','PMI',
+      'PNS','POA','PPS','PRG','PSA','PSP','PUS','PVG','PVR','RAK','RDM','REC','RHO','RIX','RNO','RSW',
+      'SAN','SCL','SEA','SFO','SIN','SJC','SJO','SJU','SKG','SLC','SPU','STR','SXB','SYD','TBS','TFS',
+      'TIV','TLL','TOS','TPE','TRN','VCE','VIE','VLC','WLG','YQB','YUL','YVR','YYC','YYZ','ZAG','ZQN',
+      'ZRH'
     ];
 
     function _inject() {

@@ -6809,11 +6809,11 @@ window.TVE.home = (function () {
       { name: 'Bayerischer Hof Munich', note: 'Independent grand hotel — Promenadeplatz 2 in the city centre, Blue Spa with rooftop pool, six restaurants, 24-hour butler · 9.0 Booking.com' , url: 'https://www.booking.com/hotel/de/bayerischer-hof.html' }
     ] },
     'muscat': { h: [
-      { name: 'The Chedi Muscat', note: 'GHM brand — 21 acres on the Sea of Oman, three pools including The Long Pool, award-winning spa · 9.1 Booking.com', url: 'https://www.booking.com/hotel/om/the-chedi-muscat.html' },
-      { name: 'Al Bustan Palace, A Ritz-Carlton Hotel', note: 'Ritz-Carlton brand — private crescent-cove beach, outdoor amphitheater, palace-scale architecture · 9.0 Booking.com', url: 'https://www.booking.com/hotel/om/al-bustan-palace-ritz-carlton.html' },
-      { name: 'Shangri-La Barr Al Jissah, Muscat', note: 'Shangri-La brand — clifftop resort in Bandar Jissah, two outdoor pools, private beach, marina · 8.5 Booking.com', url: 'https://www.booking.com/hotel/om/shangri-la-s-barr-al-jissah-resort-spa-muscat.html' },
-      { name: 'InterContinental Muscat by IHG', note: 'IHG brand — Shati Al Qurum, direct beach access, palm gardens, five restaurants, spa · 8.9 Booking.com', url: 'https://www.booking.com/hotel/om/intercontinental-muscat.html' }
-    ] },
+      { name: 'Al Falaj Hotel', note: 'Independent — Ruwi business district, outdoor pool, 24h front desk, short drive to Mutrah Souq · 7.8 Booking.com', url: 'https://www.booking.com/hotel/om/al-falaj.html', tier: 'budget' },
+      { name: 'Sheraton Oman Hotel', note: 'Marriott brand — Al Khuwair, outdoor pool and fitness centre, 24h front desk, central location · 8.2 Booking.com', url: 'https://www.booking.com/hotel/om/sheraton-oman.html', tier: 'mid' },
+      { name: 'InterContinental Muscat by IHG', note: 'IHG brand — Shati Al Qurum, direct beach access, palm gardens, five restaurants, spa · 8.9 Booking.com', url: 'https://www.booking.com/hotel/om/intercontinental-muscat.html', tier: 'expensive' },
+      { name: 'The Chedi Muscat', note: 'GHM brand — 21 acres on the Sea of Oman, three pools including The Long Pool, award-winning spa · 9.1 Booking.com', url: 'https://www.booking.com/hotel/om/the-chedi-muscat.html', tier: 'luxury' }
+    ], price: { budget: 'OMR 35–60', mid: 'OMR 70–110', expensive: 'OMR 110–170', luxury: 'OMR 200+' } },
     'mykonos': { h: [
       { name: 'Santa Marina, A Luxury Collection Resort', note: 'Marriott Luxury Collection — private beach on Ornos Bay, infinity pools, Caprice beach bar · 9.1 Booking.com', url: 'https://www.booking.com/hotel/gr/santamarinarestvillas.html' },
       { name: 'Kivotos Mykonos', note: 'Independent boutique — Ornos Bay, two seawater pools, private beach, on-site cinema · 9.3 Booking.com', url: 'https://www.booking.com/hotel/gr/kivotos.html' },
@@ -7096,11 +7096,13 @@ window.TVE.home = (function () {
       { name: 'Dorado Beach, a Ritz-Carlton Reserve', note: 'Ritz-Carlton Reserve — 1,400-acre beachfront estate, six pools, two golf courses · 9.4 Booking.com', url: 'https://www.booking.com/hotel/pr/dorado-beach-a-ritz-carlton-reserve.html', tier: 'luxury' }
     ], price: { budget: '$120–200', mid: '$200–320', expensive: '$320–520', luxury: '$520+' } },
     'puerto-vallarta': { h: [
-      { name: 'Garza Blanca Preserve Resort & Spa', note: 'Independent luxury — hillside jungle preserve with private white-sand beach, infinity pools, adults-only towers · 9.3 Booking.com', url: 'https://www.booking.com/hotel/mx/garza-blanca-preserve-resort-spa.html' },
-      { name: 'Casa Velas Hotel Boutique', note: 'Independent boutique — adults-only, marina suite design, beach club, oceanfront pool · 9.2 Booking.com', url: 'https://www.booking.com/hotel/mx/casa-vellas-boutique.html' },
-      { name: 'Four Seasons Resort Punta Mita', note: 'Four Seasons — Punta Mita peninsula, two golf courses, Apuane Spa, private beach · 9.5 Booking.com', url: 'https://www.booking.com/hotel/mx/four-seasons-resort-punta-mita.html' },
-      { name: 'Grand Velas Riviera Nayarit', note: 'Velas Resorts — Nuevo Vallarta beachfront all-inclusive, nine restaurants, Se Spa, three pools · 9.3 Booking.com', url: 'https://www.booking.com/hotel/mx/grand-velas-riviera-nayarit.html' }
-    ] },
+      { name: 'Playa Los Arcos Hotel', note: 'Independent — Olas Altas beachfront, Romantic Zone, rooftop pool · 8.8 Booking.com', url: 'https://www.booking.com/hotel/mx/playa-los-arcos.html', tier: 'budget' },
+      { name: 'Marriott Puerto Vallarta Resort & Spa', note: 'Marriott brand — hotel zone, beach access, multiple pools, marina views · 8.6 Booking.com', url: 'https://www.booking.com/hotel/mx/puertovallarta.html', tier: 'mid' },
+      { name: 'Garza Blanca Preserve Resort & Spa', note: 'Independent luxury — hillside jungle preserve with private white-sand beach, infinity pools, adults-only towers · 9.3 Booking.com', url: 'https://www.booking.com/hotel/mx/garza-blanca-preserve-resort-spa.html', tier: 'expensive' },
+      { name: 'Casa Velas Hotel Boutique', note: 'Independent boutique — adults-only, marina suite design, beach club, oceanfront pool · 9.2 Booking.com', url: 'https://www.booking.com/hotel/mx/casa-vellas-boutique.html', tier: 'expensive' },
+      { name: 'Four Seasons Resort Punta Mita', note: 'Four Seasons — Punta Mita peninsula, two golf courses, Apuane Spa, private beach · 9.5 Booking.com', url: 'https://www.booking.com/hotel/mx/four-seasons-resort-punta-mita.html', tier: 'luxury' },
+      { name: 'Grand Velas Riviera Nayarit', note: 'Velas Resorts — Nuevo Vallarta beachfront all-inclusive, nine restaurants, Se Spa, three pools · 9.3 Booking.com', url: 'https://www.booking.com/hotel/mx/grand-velas-riviera-nayarit.html', tier: 'luxury' }
+    ], price: { budget: '$60–120', mid: '$120–220', expensive: '$220–380', luxury: '$380+' } },
     'quebec-city': { h: [
       { name: 'Auberge Saint-Antoine', note: 'Independent luxury — Old Port waterfront, archaeological artifacts displayed throughout, rooftop terrace views · 9.4 Booking.com', url: 'https://www.booking.com/hotel/ca/auberge-saint-antoine.html' },
       { name: 'Hotel-Musée Premières Nations', note: 'Independent — Wendake First Nations reserve, 55 rooms designed around indigenous culture, traditional cuisine · 9.3 Booking.com', url: 'https://www.booking.com/hotel/ca/h-musee-premieres-nations-wendake-quebec.html' },
@@ -11266,7 +11268,7 @@ window.TVE.home = (function () {
       'FRA','GIG','GOT','GPS','GRU','GVA','HAM','HAN','HEL','HER','HKG','HKT','HND','IAD','IAH','ICN',
       'IGU','IST','JFK','JPA','KRK','KTM','LAS','LAX','LGA','LGW','LHR','LIH','LIS','LUX','LYS','MAD',
       'MAN','MCT','MEL','MIA','MLE','MRS','MSP','MUC','MVD','MXP','NAP','NCE','OGG','OPO','ORD','ORY',
-      'OSL','PDL','PDX','PEK','PHL','PHX','PMI','PNS','POA','PPS','PRG','PSA','PSP','PUS','PVG','RAK',
+      'OSL','PDL','PDX','PEK','PHL','PHX','PMI','PNS','POA','PPS','PRG','PSA','PSP','PUS','PVG','PVR','RAK',
       'RSW','SAN','SCL','SEA','SFO','SIN','SJC','SJO','SJU','SKG','SLC','SPU','STR','SXB','SYD','TBS',
       'TFS','TIV','TLL','TOS','TPE','VCE','VIE','VLC','WLG','YUL','YVR','YYC','YYZ','ZAG','ZRH'
     ];

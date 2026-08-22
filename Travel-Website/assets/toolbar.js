@@ -7143,11 +7143,14 @@ window.TVE.home = (function () {
       { name: 'Ion Adventure Hotel', note: 'Design Hotels — geothermal area 45 min east, aurora-viewing rooms, infinity hot tub · 9.1 Booking.com', url: 'https://www.booking.com/hotel/is/ion-adventure-hotel.html', tier: 'luxury' }
     ], price: { budget: 'ISK 18,000–30,000', mid: 'ISK 30,000–50,000', expensive: 'ISK 50,000–80,000', luxury: 'ISK 80,000+' } },
     'rhodes': { h: [
-      { name: 'Naillac Boutique Hotel', note: 'Independent boutique — adults-only in Rhodes Town a short walk north of the walls, infinity pool, 24h reception, AC · 9.5 Booking.com', url: 'https://www.booking.com/hotel/gr/naillac-boutique-rodos.html' },
-      { name: 'Lindos Blu Luxury Hotel - Adults only', note: 'Independent boutique — adults-only clifftop above Lindos Bay, infinity pool, cave-style architecture · 9.7 Booking.com', url: 'https://www.booking.com/hotel/gr/lindos-blu.html' },
-      { name: 'Melenos Art Boutique Hotel', note: 'Independent boutique — above Lindos village, sea-view terraces, ceramics-accented Aegean design · 9.7 Booking.com', url: 'https://www.booking.com/hotel/gr/melenos-lindos-exclusive-suites.html' },
-      { name: 'Atrium Prestige Thalasso Spa Resort & Villas', note: 'Independent — Lachania village, thalassotherapy centre, three pools, sea views · 9.7 Booking.com', url: 'https://www.booking.com/hotel/gr/atrium-prestige-thalasso-spa-resort-villas.html' }
-    ] },
+      { name: 'Hotel Anastasia', note: 'Independent — Kritis street in Rhodes New Town, 5-minute walk to Mandraki port, clean rooms, 24h reception, AC · 8.3 Booking.com', url: 'https://www.booking.com/hotel/gr/anastasia-rodos.html', tier: 'budget' },
+      { name: 'Aquamare Beach Hotel & Spa', note: 'Independent — Ialyssos beachfront, spa, outdoor pool, 24h reception, AC · 8.6 Booking.com', url: 'https://www.booking.com/hotel/gr/aquamare-beach.html', tier: 'mid' },
+      { name: 'Elysian Luxury Hotel & World Spa', note: 'Independent — Kiotari beachfront, thalassotherapy spa, outdoor pool, 24h reception, AC · 9.1 Booking.com', url: 'https://www.booking.com/hotel/gr/elysian-luxury-hotel-world-spa.html', tier: 'mid' },
+      { name: 'Naillac Boutique Hotel', note: 'Independent boutique — adults-only in Rhodes Town a short walk north of the walls, infinity pool, 24h reception, AC · 9.5 Booking.com', url: 'https://www.booking.com/hotel/gr/naillac-boutique-rodos.html', tier: 'expensive' },
+      { name: 'Atrium Prestige Thalasso Spa Resort & Villas', note: 'Independent — Lachania village, thalassotherapy centre, three pools, sea views · 9.7 Booking.com', url: 'https://www.booking.com/hotel/gr/atrium-prestige-thalasso-spa-resort-villas.html', tier: 'expensive' },
+      { name: 'Lindos Blu Luxury Hotel - Adults only', note: 'Independent boutique — adults-only clifftop above Lindos Bay, infinity pool, cave-style architecture · 9.7 Booking.com', url: 'https://www.booking.com/hotel/gr/lindos-blu.html', tier: 'luxury' },
+      { name: 'Melenos Art Boutique Hotel', note: 'Independent boutique — above Lindos village, sea-view terraces, ceramics-accented Aegean design · 9.7 Booking.com', url: 'https://www.booking.com/hotel/gr/melenos-lindos-exclusive-suites.html', tier: 'luxury' }
+    ], price: { budget: '€80–150', mid: '€150–280', expensive: '€280–480', luxury: '€480+' } },
     'rio-de-janeiro': { h: [
       { name: 'JW Marriott Rio de Janeiro', note: 'Marriott family — Avenida Atlântica 2600 on Copacabana beach, rooftop pool, 24h reception, AC · 8.0 Booking.com', url: 'https://www.booking.com/hotel/br/jw-marriott-rio-de-janeiro.html' },
       { name: 'Novotel Rio de Janeiro Leme', note: 'Novotel — Rua Gustavo Sampaio in Leme one block off the beach, rooftop pool, 24h reception, AC · 8.0 Booking.com', url: 'https://www.booking.com/hotel/br/novotel-rio-de-janeiro-leme.html' },
@@ -11282,7 +11285,7 @@ window.TVE.home = (function () {
       'ICN','IGU','IST','JFK','JMK','JPA','KEF','KRK','KTM','LAS','LAX','LGA','LGW','LHR','LIH','LIS','LUX',
       'LYS','MAD','MAN','MCT','MEL','MIA','MLE','MRS','MSP','MUC','MVD','MXP','NAP','NAS','NCE','OGG',
       'OPO','ORD','ORY','OSL','PDL','PDX','PEK','PHL','PHX','PMI','PNS','POA','PPS','PRG','PSA','PSP',
-      'PUS','PVG','PVR','RAK','REC','RNO','RSW','SAN','SCL','SEA','SFO','SIN','SJC','SJO','SJU','SKG','SLC',
+      'PUS','PVG','PVR','RAK','REC','RHO','RNO','RSW','SAN','SCL','SEA','SFO','SIN','SJC','SJO','SJU','SKG','SLC',
       'SPU','STR','SXB','SYD','TBS','TFS','TIV','TLL','TOS','TPE','VCE','VIE','VLC','WLG','YQB','YUL',
       'YVR','YYC','YYZ','ZAG','ZQN','ZRH'
     ];

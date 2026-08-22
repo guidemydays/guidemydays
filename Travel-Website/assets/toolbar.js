@@ -7104,11 +7104,12 @@ window.TVE.home = (function () {
       { name: 'Grand Velas Riviera Nayarit', note: 'Velas Resorts — Nuevo Vallarta beachfront all-inclusive, nine restaurants, Se Spa, three pools · 9.3 Booking.com', url: 'https://www.booking.com/hotel/mx/grand-velas-riviera-nayarit.html', tier: 'luxury' }
     ], price: { budget: '$60–120', mid: '$120–220', expensive: '$220–380', luxury: '$380+' } },
     'quebec-city': { h: [
-      { name: 'Auberge Saint-Antoine', note: 'Independent luxury — Old Port waterfront, archaeological artifacts displayed throughout, rooftop terrace views · 9.4 Booking.com', url: 'https://www.booking.com/hotel/ca/auberge-saint-antoine.html' },
-      { name: 'Hotel-Musée Premières Nations', note: 'Independent — Wendake First Nations reserve, 55 rooms designed around indigenous culture, traditional cuisine · 9.3 Booking.com', url: 'https://www.booking.com/hotel/ca/h-musee-premieres-nations-wendake-quebec.html' },
-      { name: 'Fairmont Le Château Frontenac', note: 'Fairmont brand — 1893 castle above the St. Lawrence, terrace pool, Champlain restaurant · 9.0 Booking.com', url: 'https://www.booking.com/hotel/ca/chateau-frontenac.html' },
-      { name: 'Le Saint-Pierre Hotel', note: 'Independent boutique — Old Quebec Petit-Champlain district, 18th-century heritage, courtyard garden · 9.2 Booking.com', url: 'https://www.booking.com/hotel/ca/saint-pierre.html' }
-    ] },
+      { name: 'Hôtel PUR, Trademark Collection by Wyndham', note: 'Wyndham brand — Saint-Roch district, modern design, rooftop terrace, steps from Old Quebec · 8.7 Booking.com', url: 'https://www.booking.com/hotel/ca/hotel-pur.html', tier: 'budget' },
+      { name: 'Le Saint-Pierre Hotel', note: 'Independent boutique — Old Quebec Petit-Champlain district, 18th-century heritage, courtyard garden · 9.2 Booking.com', url: 'https://www.booking.com/hotel/ca/saint-pierre.html', tier: 'mid' },
+      { name: 'Auberge Saint-Antoine', note: 'Independent luxury — Old Port waterfront, archaeological artifacts displayed throughout, rooftop terrace views · 9.4 Booking.com', url: 'https://www.booking.com/hotel/ca/auberge-saint-antoine.html', tier: 'expensive' },
+      { name: 'Hotel-Musée Premières Nations', note: 'Independent — Wendake First Nations reserve, 55 rooms designed around indigenous culture, traditional cuisine · 9.3 Booking.com', url: 'https://www.booking.com/hotel/ca/h-musee-premieres-nations-wendake-quebec.html', tier: 'expensive' },
+      { name: 'Fairmont Le Château Frontenac', note: 'Fairmont brand — 1893 castle above the St. Lawrence, terrace pool, Champlain restaurant · 9.0 Booking.com', url: 'https://www.booking.com/hotel/ca/chateau-frontenac.html', tier: 'luxury' }
+    ], price: { budget: 'CAD 120–200', mid: 'CAD 200–320', expensive: 'CAD 320–500', luxury: 'CAD 500+' } },
     'queenstown': { h: [
       { name: 'Eichardt\'s Private Hotel', note: 'Independent boutique — lakefront, 5-suite private hotel, celebrated Eichardt\'s Bar, Queenstown historic building · 9.5 Booking.com', url: 'https://www.booking.com/hotel/nz/eichardt-private.html' },
       { name: 'Rees Hotel & Luxury Apartments', note: 'Independent — lakefront panoramas, spa and pool, fine dining, private jetty · 9.2 Booking.com', url: 'https://www.booking.com/hotel/nz/the-rees-luxury-apartments.html' },
@@ -11270,7 +11271,7 @@ window.TVE.home = (function () {
       'MAN','MCT','MEL','MIA','MLE','MRS','MSP','MUC','MVD','MXP','NAP','NCE','OGG','OPO','ORD','ORY',
       'OSL','PDL','PDX','PEK','PHL','PHX','PMI','PNS','POA','PPS','PRG','PSA','PSP','PUS','PVG','PVR','RAK',
       'RSW','SAN','SCL','SEA','SFO','SIN','SJC','SJO','SJU','SKG','SLC','SPU','STR','SXB','SYD','TBS',
-      'TFS','TIV','TLL','TOS','TPE','VCE','VIE','VLC','WLG','YUL','YVR','YYC','YYZ','ZAG','ZRH'
+      'TFS','TIV','TLL','TOS','TPE','VCE','VIE','VLC','WLG','YQB','YUL','YVR','YYC','YYZ','ZAG','ZRH'
     ];
 
     function _inject() {

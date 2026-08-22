@@ -5808,7 +5808,7 @@ window.TVE.home = (function () {
       { name: 'Mercure Ponta Delgada Azores', note: 'Accor brand — central Ponta Delgada, modern amenities, highly rated WiFi and location · 9.1 Booking.com', url: 'https://www.booking.com/hotel/pt/mercure-ponta-delgada-azores.html', tier: 'mid' },
       { name: 'Grand Hotel Açores Atlântico', note: 'Independent — 5-star marina-facing landmark, heated indoor pool, 8 conference rooms · 9.3 Booking.com', url: 'https://www.booking.com/hotel/pt/acores-atlantico.html', tier: 'expensive' },
       { name: 'Octant Ponta Delgada', note: 'Independent — Av. João Bosco Mota Amaral by the marina, 5-star, 24h reception, rooftop pool, spa with steam room · 9.3 Booking.com', url: 'https://www.booking.com/hotel/pt/octant-ponta-delgada.html', tier: 'luxury' }
-    ] },
+    ], price: { budget: '€80–130', mid: '€130–200', expensive: '€200–350', luxury: '€350–700' } },
     'bahamas': { h: [
       { name: 'Courtyard by Marriott Nassau Downtown/Junkanoo Beach', note: 'Marriott family — Junkanoo Beach access, outdoor pool, downtown Nassau · 7.2 Booking.com', url: 'https://www.booking.com/hotel/bs/sunset-resort-bahamas-nassau.html', tier: 'budget' },
       { name: 'Ocean West Boutique Hotel', note: 'Independent boutique — Cable Beach west of Baha Mar, private beach area, year-round pool, 24h reception · 8.4 Booking.com', url: 'https://www.booking.com/hotel/bs/ocean-west-boutique.html', tier: 'budget' },
@@ -5817,7 +5817,7 @@ window.TVE.home = (function () {
       { name: 'SLS Baha Mar', note: 'SLS brand — Cable Beach, swim-up suites, Hyde Beach club, Sora rooftop restaurant · 9.0 Booking.com', url: 'https://www.booking.com/hotel/bs/sls-baha-mar.html', tier: 'expensive' },
       { name: 'Rosewood Baha Mar', note: 'Rosewood brand — Cable Beach, private beach, Sense spa, five pools, butlered bungalows · 9.1 Booking.com', url: 'https://www.booking.com/hotel/bs/rosewood-baha-mar.html', tier: 'luxury' },
       { name: 'The Ocean Club, A Four Seasons Resort', note: 'Four Seasons brand — Paradise Island at the east end, Versailles terrace gardens, private beach, Dune by Jean-Georges', url: 'https://www.fourseasons.com/oceanclub/', tier: 'luxury' }
-    ] },
+    ], price: { budget: '$150–280', mid: '$250–500', expensive: '$450–800', luxury: '$800–2,500' } },
     'bali': { h: [
       { name: 'Kastara Resort', note: 'Independent — Jalan Bangkiang Sidem in Keliki north of Ubud, 5-star, 24h reception, infinity pool over the rice terraces · 9.5 Booking.com', url: 'https://www.booking.com/hotel/id/kastara-resort.html', tier: 'luxury' },
       { name: 'InterContinental Bali Resort by IHG', note: 'IHG first-tier — 6 pools, beachfront Jimbaran Bay, spa · 9.0 Booking.com', url: 'https://www.booking.com/hotel/id/intercontinental-bali-resort.html', tier: 'expensive' },
@@ -5828,7 +5828,7 @@ window.TVE.home = (function () {
       { name: 'Aloft by Marriott Bali Kuta at Beachwalk', note: 'Marriott Aloft brand — above the Beachwalk centre on Jalan Pantai Kuta, 24h reception, rooftop pool over Kuta Beach, fitness centre · 8.8 Booking.com', url: 'https://www.booking.com/hotel/id/aloft-bali-kuta.html', tier: 'mid' },
       { name: 'Dewangga Ubud', note: 'Independent — Jalan Dewi Sita in downtown Ubud, walkable to the Monkey Forest and the palace, 24h reception, AC, outdoor pool and spa · 9.0 Booking.com', url: 'https://www.booking.com/hotel/id/dewangga-bungalow.html', tier: 'mid' },
       { name: 'Courtyard by Marriott Bali Nusa Dua Resort', note: 'Marriott Courtyard brand — Nusa Dua resort strip, 24h reception, water park and kids club, spa, shuttle to the private beach club · 8.9 Booking.com', url: 'https://www.booking.com/hotel/id/courtyard-bali-nusa-dua.html', tier: 'expensive' }
-    ] },
+    ], price: { budget: '$40–100', mid: '$100–200', expensive: '$200–450', luxury: '$450–1,800' } },
     'banff': { h: [
       { name: 'Fairmont Banff Springs', note: 'Fairmont brand — 1888 sandstone castle at the confluence of the Bow and Spray Rivers, 2 outdoor pools, full spa, fine-dining 1888 Chop House · 9.2 Booking.com', url: 'https://www.booking.com/hotel/ca/fairmont-banff-springs.html', tier: 'luxury' },
       { name: 'The Rimrock Resort Hotel', note: 'Independent luxury — clifftop perch 6 km from downtown on Sulphur Mountain Road, panoramic six-range mountain views, Primrose dining room, full-service spa · 9.1 Booking.com', url: 'https://www.booking.com/hotel/ca/rimrock-resort-hotel.html', tier: 'luxury' },
@@ -5838,7 +5838,7 @@ window.TVE.home = (function () {
       { name: 'Peaks Hotel and Suites', note: 'Independent — 218 Lynx Street a block off Banff Avenue, 24h reception, AC, soundproof rooms, family suites · 9.1 Booking.com', url: 'https://www.booking.com/hotel/ca/peaks-and-suites-banff.html', tier: 'mid' },
       { name: 'Hotel Canoe and Suites', note: 'Independent — 600 Banff Avenue, 4-star, 24h reception, AC, sauna and hot tub, on-site restaurant and bar · 9.1 Booking.com', url: 'https://www.booking.com/hotel/ca/canoe-and-suites.html', tier: 'expensive' },
       { name: 'The Juniper Hotel & Bistro', note: 'Independent — Mount Norquay Road above the town with Bow Valley views, 24h reception, AC, hot tub, free town shuttle, on-site bistro · 8.6 Booking.com', url: 'https://www.booking.com/hotel/ca/the-juniper-bistro.html', tier: 'expensive' }
-    ] },
+    ], price: { budget: 'CAD 180–280', mid: 'CAD 280–450', expensive: 'CAD 450–700', luxury: 'CAD 700–1,500' } },
     'bangkok': { h: [
       { name: 'Mandarin Oriental Bangkok', note: 'Mandarin Oriental brand — 1876 Chao Phraya River landmark, celebrated Authors\' Wing, riverfront dining, Sala Rim Naam Thai restaurant · 9.4 Booking.com' , url: 'https://www.booking.com/hotel/th/mandarin-oriental.html', tier: 'luxury' },
       { name: 'The Peninsula Bangkok', note: 'Peninsula brand — all-suite riverside tower, rooftop infinity pool over the Chao Phraya, complimentary river ferry · 9.4 Booking.com' , url: 'https://www.booking.com/hotel/th/peninsula-bangkok.html', tier: 'luxury' },
@@ -7274,13 +7274,14 @@ window.TVE.home = (function () {
       { name: 'La Bahia Hotel & Spa', note: 'Independent — 215 Beach Street beside the Boardwalk, 1926 Spanish Colonial landmark reborn with a rooftop pool and spa, 24h reception, AC · 9.2 Booking.com', url: 'https://www.booking.com/hotel/us/la-bahia-amp-spa.html', tier: 'luxury' }
     ], price: { budget: '$120–170', mid: '$170–250', expensive: '$250–400', luxury: '$400+' } },
     'santa-fe': { h: [
-      { name: 'Rosewood Inn of the Anasazi', note: 'Rosewood brand — kiva fireplaces, hand-woven rugs, steps from the historic Plaza · 9.3 Booking.com', url: 'https://www.booking.com/hotel/us/rosewood-inn-of-the-anasazi.html' },
-      { name: 'La Fonda on the Plaza', note: 'Independent — 1922 Pueblo Revival landmark "Inn at the end of the Santa Fe Trail," rooftop cantina · 9.0 Booking.com', url: 'https://www.booking.com/hotel/us/la-fonda-on-the-plaza.html' },
-      { name: "Bishop\'s Lodge, Auberge Resorts Collection", note: 'Auberge Resorts — 4 miles north in the foothills, heated outdoor pool with Sangre de Cristo Mountain views, full-service spa · 9.0 Booking.com', url: 'https://www.booking.com/hotel/us/bishop-39-s-lodge.html' },
-      { name: 'The Inn and Spa at Loretto', note: 'Marriott Tribute Portfolio — adjacent to the Loretto Chapel downtown, outdoor pool, Luminaria restaurant, desert garden · 8.9 Booking.com', url: 'https://www.booking.com/hotel/us/inn-of-the-loretto.html' },
-      { name: 'Four Seasons Resort Rancho Encantado Santa Fe', note: 'Four Seasons brand — Tesuque foothills 15 min from Plaza, casitas with kiva fireplaces, outdoor pool with Sangre de Cristo views · 9.2 Booking.com', url: 'https://www.booking.com/hotel/us/four-seasons-resort-rancho-encantado.html' },
-      { name: 'Inn on the Alameda', note: 'Independent boutique — 50-room adobe inn beside Canyon Road gallery district · 8.9 Booking.com', url: 'https://www.booking.com/hotel/us/inn-on-the-alameda.html' }
-    ] },
+      { name: 'El Rey Court', note: 'Independent boutique — renovated 1936 Pueblo Revival motor court on Cerrillos Road, outdoor pool, original New Mexican art throughout · 8.7 Booking.com', url: 'https://www.booking.com/hotel/us/el-rey-court.html', tier: 'budget' },
+      { name: 'La Fonda on the Plaza', note: 'Independent — 1922 Pueblo Revival landmark "Inn at the end of the Santa Fe Trail," rooftop cantina · 9.0 Booking.com', url: 'https://www.booking.com/hotel/us/la-fonda-on-the-plaza.html', tier: 'mid' },
+      { name: 'Inn on the Alameda', note: 'Independent boutique — 50-room adobe inn beside Canyon Road gallery district · 8.9 Booking.com', url: 'https://www.booking.com/hotel/us/inn-on-the-alameda.html', tier: 'mid' },
+      { name: 'The Inn and Spa at Loretto', note: 'Marriott Tribute Portfolio — adjacent to the Loretto Chapel downtown, outdoor pool, Luminaria restaurant, desert garden · 8.9 Booking.com', url: 'https://www.booking.com/hotel/us/inn-of-the-loretto.html', tier: 'expensive' },
+      { name: "Bishop\'s Lodge, Auberge Resorts Collection", note: 'Auberge Resorts — 4 miles north in the foothills, heated outdoor pool with Sangre de Cristo Mountain views, full-service spa · 9.0 Booking.com', url: 'https://www.booking.com/hotel/us/bishop-39-s-lodge.html', tier: 'luxury' },
+      { name: 'Rosewood Inn of the Anasazi', note: 'Rosewood brand — kiva fireplaces, hand-woven rugs, steps from the historic Plaza · 9.3 Booking.com', url: 'https://www.booking.com/hotel/us/rosewood-inn-of-the-anasazi.html', tier: 'luxury' },
+      { name: 'Four Seasons Resort Rancho Encantado Santa Fe', note: 'Four Seasons brand — Tesuque foothills 15 min from Plaza, casitas with kiva fireplaces, outdoor pool with Sangre de Cristo views · 9.2 Booking.com', url: 'https://www.booking.com/hotel/us/four-seasons-resort-rancho-encantado.html', tier: 'luxury' }
+    ], price: { budget: '$130–200', mid: '$200–350', expensive: '$350–550', luxury: '$550+' } },
     'santa-monica': { h: [
       { name: 'Hotel Shutters on the Beach', note: 'Independent luxury — directly on Santa Monica Beach, pool, 1 Pico restaurant, ocean-view rooms · 9.2 Booking.com', url: 'https://www.booking.com/hotel/us/shutters-on-the-beach.html' },
       { name: 'Casa del Mar', note: 'InterContinental brand — Craftsman-style 1926 beachfront mansion, spa, oceanfront dining · 9.1 Booking.com', url: 'https://www.booking.com/hotel/us/casa-del-mar.html' },
@@ -7525,11 +7526,11 @@ window.TVE.home = (function () {
       { name: 'Fairmont Royal York', note: 'Fairmont brand — 1929 Front Street landmark opposite Union Station, indoor pool, spa, Library Bar, city-centre heritage · 8.6 Booking.com' , url: 'https://www.booking.com/hotel/ca/fairmont-royal-york.html' }
     ] },
     'tromso': { h: [
-      { name: 'Scandic Ishavshotel', note: 'Scandic brand — Arctic Ocean waterfront, panoramic views of the fjord and Tromsø Cathedral', url: 'https://www.expedia.com/Tromso-Hotels-Scandic-Ishavshotel.h54318.Hotel-Information' },
-      { name: 'Clarion Hotel The Edge', note: 'Nordic Choice Hotels — waterfront, restaurants and bar overlooking the harbor and mountains', url: 'https://www.strawberry.no/hotell/norge/tromso/clarion-hotel-the-edge/' },
-      { name: 'Thon Hotel Tromsø', note: 'Thon Hotels — city centre, harbor views, rooftop Tromsø Bar with panorama · 8.7 Booking.com', url: 'https://www.booking.com/hotel/no/thon-hotel-tromso.html' },
-      { name: 'Radisson Blu Hotel, Tromsø', note: 'Radisson Blu — Sentrum waterfront with fjord views, Nordic Grill, spa with sauna · 8.6 Booking.com', url: 'https://www.booking.com/hotel/no/radisson-sas-tromso.html' }
-    ] },
+      { name: 'Scandic Ishavshotel', note: 'Scandic brand — Arctic Ocean waterfront, panoramic views of the fjord and Tromsø Cathedral, 24h reception · 8.4 Booking.com', url: 'https://www.booking.com/hotel/no/scandic-ishavshotel.html', tier: 'budget' },
+      { name: 'Thon Hotel Tromsø', note: 'Thon Hotels — city centre, harbor views, rooftop Tromsø Bar with panorama, 24h reception · 8.7 Booking.com', url: 'https://www.booking.com/hotel/no/thon-hotel-tromso.html', tier: 'mid' },
+      { name: 'Clarion Hotel The Edge', note: 'Nordic Choice Hotels — waterfront, restaurants and bar overlooking the harbor and mountains, 24h reception · 8.5 Booking.com', url: 'https://www.booking.com/hotel/no/clarion-hotel-the-edge-tromso.html', tier: 'expensive' },
+      { name: 'Radisson Blu Hotel, Tromsø', note: 'Radisson Blu — Sentrum waterfront with fjord views, Nordic Grill, spa with sauna, 24h reception · 8.6 Booking.com', url: 'https://www.booking.com/hotel/no/radisson-sas-tromso.html', tier: 'luxury' }
+    ], price: { budget: 'NOK 1,100–1,800', mid: 'NOK 1,600–2,500', expensive: 'NOK 2,200–3,400', luxury: 'NOK 3,000–5,500' } },
     'turin': { h: [
       { name: 'Golden Palace Hotel', note: 'Independent — Via dell\'Arcivescovado, jazz bar, spa, walkable to Porta Palazzo market · 9.1 Booking.com' , url: 'https://www.booking.com/hotel/it/golden-palace-torino.html' },
       { name: 'Starhotels Majestic Torino', note: 'Starhotels — Corso Vittorio Emanuele II, classic grandeur, restaurant, central Turin location · 8.9 Booking.com' , url: 'https://www.booking.com/hotel/it/starhotels-majestic.html' },
@@ -11257,14 +11258,15 @@ window.TVE.home = (function () {
        list) while every European guide jumped to its country rather than to
        its airport. */
     var LOUNGE_IATAS = [
-      'AES','AGP','AJU','AMM','AMS','ANC','ARN','ATH','ATL','AUA','AUH','AUS','BCN','BER','BGI','BGO','BIO','BKK','BOS',
-      'BRU','BUD','CAI','CDG','CMB','CPH','CPT','CUN','CUR','CUZ','CWB','DBV','DEN','DFW','DOH','DTW',
-      'DUB','DUS','DXB','EDI','EYW','EZE','FAO','FCO','FHR','FLN','FLR','FOR', 'FRA','GIG','GOT','GRU','GVA','HAM',
-      'HAN','HEL','HER','HKG','HKT','HND','IAD','IAH','ICN','IGU', 'IST','JFK','JPA','KRK','KTM','LAS','LAX','LGA','LGW',
-      'LHR','LIH','LIS','LUX','LYS','MAD','MAN','MCT','MEL','MIA','MLE','MRS','MSP','MUC','MXP','NAP',
-      'NCE', 'OGG','OPO','ORD','ORY','PDL','PDX','OSL','PEK','PHL','PHX','PMI','PNS','POA','PPS','PRG','PSA','PSP','PUS','PVG','RAK','RSW','SAN','SCL',
-      'SEA','SFO','SIN','SJC','SJO','SKG','SLC','SPU','STR','SXB','SYD','TBS','TFS','TIV','TLL','TPE','VCE','VIE','VLC',
-      'WLG','YUL','YVR','YYZ','ZAG','ZRH'
+      'ABQ','AES','AGP','AJU','AMM','AMS','ANC','ARN','ATH','ATL','AUA','AUH','AUS','BCN','BER','BGI',
+      'BGO','BIO','BKK','BOS','BRU','BUD','CAI','CDG','CMB','CPH','CPT','CUN','CUR','CUZ','CWB','DBV',
+      'DEN','DFW','DOH','DTW','DUB','DUS','DXB','EDI','EYW','EZE','FAO','FCO','FHR','FLN','FLR','FOR',
+      'FRA','GIG','GOT','GPS','GRU','GVA','HAM','HAN','HEL','HER','HKG','HKT','HND','IAD','IAH','ICN',
+      'IGU','IST','JFK','JPA','KRK','KTM','LAS','LAX','LGA','LGW','LHR','LIH','LIS','LUX','LYS','MAD',
+      'MAN','MCT','MEL','MIA','MLE','MRS','MSP','MUC','MVD','MXP','NAP','NCE','OGG','OPO','ORD','ORY',
+      'OSL','PDL','PDX','PEK','PHL','PHX','PMI','PNS','POA','PPS','PRG','PSA','PSP','PUS','PVG','RAK',
+      'RSW','SAN','SCL','SEA','SFO','SIN','SJC','SJO','SJU','SKG','SLC','SPU','STR','SXB','SYD','TBS',
+      'TFS','TIV','TLL','TPE','VCE','VIE','VLC','WLG','YUL','YVR','YYZ','ZAG','ZRH'
     ];
 
     function _inject() {

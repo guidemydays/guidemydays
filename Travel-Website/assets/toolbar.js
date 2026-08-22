@@ -7141,7 +7141,7 @@ window.TVE.home = (function () {
       { name: 'Hotel Borg', note: 'Independent luxury — 1930 Art Deco landmark on Austurvöllur Square, Michelin Guide listed restaurant, timeless elegance · 9.1 Booking.com', url: 'https://www.booking.com/hotel/is/borg.html', tier: 'luxury' },
       { name: 'The Reykjavik EDITION', note: 'Marriott Edition brand — harbour panoramas, outdoor heated infinity pool, Tides restaurant · 9.2 Booking.com', url: 'https://www.booking.com/hotel/is/the-reykjavik-edition.html', tier: 'luxury' },
       { name: 'Ion Adventure Hotel', note: 'Design Hotels — geothermal area 45 min east, aurora-viewing rooms, infinity hot tub · 9.1 Booking.com', url: 'https://www.booking.com/hotel/is/ion-adventure-hotel.html', tier: 'luxury' }
-    ] },
+    ], price: { budget: 'ISK 18,000–30,000', mid: 'ISK 30,000–50,000', expensive: 'ISK 50,000–80,000', luxury: 'ISK 80,000+' } },
     'rhodes': { h: [
       { name: 'Naillac Boutique Hotel', note: 'Independent boutique — adults-only in Rhodes Town a short walk north of the walls, infinity pool, 24h reception, AC · 9.5 Booking.com', url: 'https://www.booking.com/hotel/gr/naillac-boutique-rodos.html' },
       { name: 'Lindos Blu Luxury Hotel - Adults only', note: 'Independent boutique — adults-only clifftop above Lindos Bay, infinity pool, cave-style architecture · 9.7 Booking.com', url: 'https://www.booking.com/hotel/gr/lindos-blu.html' },
@@ -11279,7 +11279,7 @@ window.TVE.home = (function () {
       'BGO','BIO','BKK','BOS','BRU','BUD','CAI','CDG','CMB','CPH','CPT','CUN','CUR','CUZ','CWB','DBV',
       'DEN','DFW','DOH','DPS','DTW','DUB','DUS','DXB','EDI','EYW','EZE','FAO','FCO','FHR','FLN','FLR',
       'FOR','FRA','GIG','GOT','GPS','GRU','GVA','HAM','HAN','HEL','HER','HKG','HKT','HND','IAD','IAH',
-      'ICN','IGU','IST','JFK','JMK','JPA','KRK','KTM','LAS','LAX','LGA','LGW','LHR','LIH','LIS','LUX',
+      'ICN','IGU','IST','JFK','JMK','JPA','KEF','KRK','KTM','LAS','LAX','LGA','LGW','LHR','LIH','LIS','LUX',
       'LYS','MAD','MAN','MCT','MEL','MIA','MLE','MRS','MSP','MUC','MVD','MXP','NAP','NAS','NCE','OGG',
       'OPO','ORD','ORY','OSL','PDL','PDX','PEK','PHL','PHX','PMI','PNS','POA','PPS','PRG','PSA','PSP',
       'PUS','PVG','PVR','RAK','REC','RNO','RSW','SAN','SCL','SEA','SFO','SIN','SJC','SJO','SJU','SKG','SLC',

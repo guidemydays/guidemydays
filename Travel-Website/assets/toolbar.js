@@ -6144,11 +6144,11 @@ window.TVE.home = (function () {
       { name: 'Capri Palace Jumeirah', note: 'Jumeirah brand — Anacapri hilltop, two Michelin-star L\'Olivo, Olympic pool · 9.3 Booking.com', url: 'https://www.booking.com/hotel/it/capri-palace.html', tier: 'luxury' }
     ], price: { budget: '€150–300', mid: '€300–600', expensive: '€600–1,200', luxury: '€1,200+' } },
     'carmel-by-the-sea': { h: [
-      { name: 'L\'Auberge Carmel, Relais & Châteaux', note: 'Auberge Resorts/Relais & Châteaux — downtown Carmel, 20 rooms, Aubergine restaurant, wine cellar, garden courtyard · 8.5 Booking.com', url: 'https://www.booking.com/hotel/us/auberge-carmel-relais-chateaux.html' },
-      { name: 'La Playa Hotel', note: 'Independent — Camino Real at Eighth Avenue in Carmel village, 1905 mansion, ocean-view terraces, outdoor pool and garden courtyard · 9.0 Booking.com', url: 'https://www.booking.com/hotel/us/la-playa-carmel.html' },
-      { name: 'Quail Lodge & Golf Club', note: 'Independent — Carmel Valley, 18-hole golf, Edgar\'s Restaurant, pool and hot tub · 8.7 Booking.com', url: 'https://www.booking.com/hotel/us/quail-lodge-golf-club.html' },
-      { name: 'Tradewinds Carmel', note: 'Independent — Asian garden retreat in the village, koi pond, two outdoor hot tubs · 9.6 Booking.com', url: 'https://www.booking.com/hotel/us/tradewinds.html' }
-    ] },
+      { name: 'Tradewinds Carmel', note: 'Independent — Asian garden retreat in the village, koi pond, two outdoor hot tubs · 9.6 Booking.com', url: 'https://www.booking.com/hotel/us/tradewinds.html', tier: 'budget' },
+      { name: 'Quail Lodge & Golf Club', note: 'Independent — Carmel Valley, 18-hole golf, Edgar\'s Restaurant, pool and hot tub · 8.7 Booking.com', url: 'https://www.booking.com/hotel/us/quail-lodge-golf-club.html', tier: 'mid' },
+      { name: 'La Playa Hotel', note: 'Independent — Camino Real at Eighth Avenue in Carmel village, 1905 mansion, ocean-view terraces, outdoor pool and garden courtyard · 9.0 Booking.com', url: 'https://www.booking.com/hotel/us/la-playa-carmel.html', tier: 'expensive' },
+      { name: 'L\'Auberge Carmel, Relais & Châteaux', note: 'Auberge Resorts/Relais & Châteaux — downtown Carmel, 20 rooms, Aubergine restaurant, wine cellar, garden courtyard · 8.5 Booking.com', url: 'https://www.booking.com/hotel/us/auberge-carmel-relais-chateaux.html', tier: 'luxury' }
+    ], price: { budget: '$200–350', mid: '$350–600', expensive: '$600–900', luxury: '$900+' } },
     'cascais': { h: [
       { name: 'Palácio Estoril Hotel, Golf & Wellness', note: 'Leading Hotels of the World — Estoril seafront, 1930s palace with WWII spy-era heritage, golf course, casino adjacent · 8.9 Booking.com', url: 'https://www.booking.com/hotel/pt/palacio-estoril-golf.html' },
       { name: 'Grande Real Villa Itália Hotel & Spa', note: 'Real Hotels Group/Leading Hotels of the World — western Cascais clifftop, former Italian royal residence, sea-view gardens, spa · 9.0 Booking.com', url: 'https://www.booking.com/hotel/pt/grande-real-villa-italia.html' },
@@ -6573,11 +6573,13 @@ window.TVE.home = (function () {
       { name: 'Hotel Riomar Lagos', note: 'Independent — Rua Cândido dos Reis in the old town, 3-star, AC, 24h reception, steps from Praça Gil Eanes · 8.0 Booking.com', url: 'https://www.booking.com/hotel/pt/riomar-lagos.html', tier: 'budget' }
     ], price: { budget: '€70–110', mid: '€130–200', expensive: '€200–370', luxury: '€370+' } },
     'lake-como': { h: [
-      { name: 'Palazzo San Gottardo Lake Como, a Radisson Collection Hotel', note: 'Radisson Collection — Via Cairoli in Como city centre, 5-star, indoor pool, spa and wellness centre, 24h reception · 9.2 Booking.com', url: 'https://www.booking.com/hotel/it/palazzo-san-gottardo-lake-como-a-radisson-collection.html' },
-      { name: 'Mandarin Oriental, Lago di Como', note: 'Mandarin Oriental brand — 19th-century lakeside estate in Blevio, indoor and outdoor pools, The Spa at Mandarin Oriental, 24h reception · 9.5 Booking.com', url: 'https://www.booking.com/hotel/it/mandarin-oriental-lago-di-como.html' },
-      { name: 'Il Sereno Lago di Como', note: 'Independent — Patricia Urquiola-designed lakefront in Torno, infinity pool over the water, private beach area, 24h reception · 9.7 Booking.com', url: 'https://www.booking.com/hotel/it/il-sereno-lago-di-como.html' },
-      { name: 'Palazzo Venezia', note: 'Independent — Piazza Cavour on the Como waterfront, 5-star, restaurant and bar, 24h reception · 9.2 Booking.com', url: 'https://www.booking.com/hotel/it/vista-lago-di-como.html' }
-    ] },
+      { name: 'Il Sereno Lago di Como', note: 'Independent — Patricia Urquiola-designed lakefront in Torno, infinity pool over the water, private beach area, 24h reception · 9.7 Booking.com', url: 'https://www.booking.com/hotel/it/il-sereno-lago-di-como.html', tier: 'luxury' },
+      { name: 'Mandarin Oriental, Lago di Como', note: 'Mandarin Oriental brand — 19th-century lakeside estate in Blevio, indoor and outdoor pools, The Spa at Mandarin Oriental, 24h reception · 9.5 Booking.com', url: 'https://www.booking.com/hotel/it/mandarin-oriental-lago-di-como.html', tier: 'luxury' },
+      { name: 'Palazzo San Gottardo Lake Como, a Radisson Collection Hotel', note: 'Radisson Collection — Via Cairoli in Como city centre, 5-star, indoor pool, spa and wellness centre, 24h reception · 9.2 Booking.com', url: 'https://www.booking.com/hotel/it/palazzo-san-gottardo-lake-como-a-radisson-collection.html', tier: 'expensive' },
+      { name: 'Palazzo Venezia', note: 'Independent — Piazza Cavour on the Como waterfront, 5-star, restaurant and bar, 24h reception · 9.2 Booking.com', url: 'https://www.booking.com/hotel/it/vista-lago-di-como.html', tier: 'expensive' },
+      { name: 'Hilton Lake Como', note: 'Hilton brand — Via Borgo Vico 241 on the Como lakefront, 4-star, outdoor pool, restaurant, 24h reception · 8.5 Booking.com', url: 'https://www.booking.com/hotel/it/hilton-lake-como.html', tier: 'mid' },
+      { name: 'Hotel Firenze Como', note: 'Independent — Via Vitani 16 in the historic centre, 3-star, AC throughout, 24h reception, steps from the Duomo and the lakefront · 8.1 Booking.com', url: 'https://www.booking.com/hotel/it/firenze-como.html', tier: 'budget' }
+    ], price: { budget: '€80–140', mid: '€170–300', expensive: '€290–500', luxury: '€500+' } },
     'lake-tahoe': { h: [
       { name: 'Edgewood Tahoe Resort', note: 'Forbes Five Star independent — Lake Parkway on the Stateline lakefront, championship golf, heated year-round outdoor pool, spa, private beach, 24h reception · 9.2 Booking.com', url: 'https://www.booking.com/hotel/us/the-lodge-at-edgewood-tahoe.html' },
       { name: 'Hyatt Regency Lake Tahoe Resort, Spa and Casino', note: 'Hyatt brand — Incline Village private beach, Stillwater Spa, casino, Lone Eagle Grille, 24h reception · 8.7 Booking.com', url: 'https://www.booking.com/hotel/us/hyatt-regency-lake-tahoe-resort-spa-and-casino.html' },
@@ -6791,23 +6793,23 @@ window.TVE.home = (function () {
       { name: 'Monte-Carlo Bay Hotel & Resort', note: 'SBM — Larvotto beachfront, lagoon pool on the sea, Le Blue Bay restaurant, The Bay spa · 9.0 Booking.com', url: 'https://www.booking.com/hotel/mc/monte-carlo-bay.html', tier: 'luxury' }
     ], price: { budget: '€100–200', mid: '€200–300', expensive: '€300–450', luxury: '€450+' } },
     'montevideo': { h: [
-      { name: 'Radisson Montevideo Victoria Plaza Hotel', note: 'Radisson brand — Plaza Independencia landmark tower, outdoor pool, panoramic city views · 8.3 Booking.com', url: 'https://www.booking.com/hotel/uy/radisson-montevideo-victoria-plaza.html' },
-      { name: 'Cottage Hotel Montevideo', note: 'Independent boutique — Pocitos neighborhood, curated art, quiet residential atmosphere · 9.1 Booking.com', url: 'https://www.booking.com/hotel/uy/cottage-puerto-buceo.html' },
-      { name: 'Alma Histórica Boutique Hotel', note: 'Independent boutique — restored 1920s townhouse on Plaza Zabala in Ciudad Vieja, 24h reception, rooftop terrace, room-per-writer theming · 9.4 Booking.com', url: 'https://www.booking.com/hotel/uy/alma-historica-boutique.html' },
-      { name: 'Esplendor by Wyndham Montevideo Cervantes', note: 'Wyndham brand — Art Deco landmark, rooftop terrace with city views, indoor pool · 8.1 Booking.com', url: 'https://www.booking.com/hotel/uy/esplendor-cervantes-montevideo.html' }
-    ] },
+      { name: 'Cottage Hotel Montevideo', note: 'Independent boutique — Pocitos neighborhood, curated art collection, quiet residential atmosphere · 9.1 Booking.com', url: 'https://www.booking.com/hotel/uy/cottage-puerto-buceo.html', tier: 'budget' },
+      { name: 'Alma Histórica Boutique Hotel', note: 'Independent boutique — restored 1920s townhouse on Plaza Zabala in Ciudad Vieja, 24h reception, rooftop terrace, room-per-writer theming · 9.4 Booking.com', url: 'https://www.booking.com/hotel/uy/alma-historica-boutique.html', tier: 'mid' },
+      { name: 'Hyatt Centric Montevideo', note: 'Hyatt brand — downtown on Rincón, panoramic city views, fitness centre, 24h front desk · 8.9 Booking.com', url: 'https://www.booking.com/hotel/uy/hyatt-centric-montevideo.html', tier: 'expensive' },
+      { name: 'Sofitel Montevideo Casino Carrasco & Spa', note: 'Sofitel brand — 1921 Casino Carrasco landmark on the Rambla, indoor pool and spa, 24h front desk · 9.0 Booking.com', url: 'https://www.booking.com/hotel/uy/sofitel-montevideo-casino-carrasco.html', tier: 'luxury' }
+    ], price: { budget: 'USD 60–100', mid: 'USD 100–170', expensive: 'USD 170–280', luxury: 'USD 280+' } },
     'montreal': { h: [
-      { name: 'Ritz-Carlton, Montréal', note: 'Ritz-Carlton brand — 1912 Sherbrooke Street landmark, spa with indoor pool, Maison Boulud gastronomic dining · 9.3 Booking.com', url: 'https://www.booking.com/hotel/ca/montreal-1228-sherbrooke.html' },
-      { name: 'Le Mount Stephen', note: 'Independent luxury — 1883 Golden Square Mile mansion, intimate 90 rooms, Bar George restaurant · 9.4 Booking.com', url: 'https://www.booking.com/hotel/ca/le-mount-stephen.html' },
-      { name: 'Four Seasons Hotel Montréal', note: 'Four Seasons — Ogilvy Maison in Golden Square Mile, rooftop pool, Marcus restaurant · 9.4 Booking.com', url: 'https://www.booking.com/hotel/ca/four-seasons-montreal.html' },
-      { name: 'Hotel William Gray', note: 'Independent — Old Montreal, rooftop terrace with Old Port views, STINT restaurant · 9.2 Booking.com', url: 'https://www.booking.com/hotel/ca/william-gray.html' }
-    ] },
+      { name: 'Marriott Château Champlain', note: 'Marriott brand — distinctive half-moon windows on rue de la Gauchetière, indoor pool, steps from Windsor Station and the Bell Centre · 8.5 Booking.com', url: 'https://www.booking.com/hotel/ca/chateau-champlain-montreal.html', tier: 'budget' },
+      { name: 'Delta Hotels by Marriott Montreal', note: 'Marriott brand — central on rue de la Montagne, outdoor terrace, 24h front desk · 8.6 Booking.com', url: 'https://www.booking.com/hotel/ca/delta-montreal.html', tier: 'mid' },
+      { name: 'Hotel William Gray', note: 'Independent — Old Montreal, rooftop terrace with Old Port views, STINT restaurant · 9.2 Booking.com', url: 'https://www.booking.com/hotel/ca/william-gray.html', tier: 'expensive' },
+      { name: 'Ritz-Carlton, Montréal', note: 'Ritz-Carlton brand — 1912 Sherbrooke Street landmark, spa with indoor pool, Maison Boulud gastronomic dining · 9.3 Booking.com', url: 'https://www.booking.com/hotel/ca/montreal-1228-sherbrooke.html', tier: 'luxury' }
+    ], price: { budget: 'CAD 100–160', mid: 'CAD 160–260', expensive: 'CAD 260–420', luxury: 'CAD 420+' } },
     'munich': { h: [
-      { name: 'Hotel Vier Jahreszeiten Kempinski', note: 'Kempinski brand — 1858 Maximilianstrasse landmark, spa with indoor pool, Michelin-starred Schwarzreiter · 9.2 Booking.com' , url: 'https://www.booking.com/hotel/de/hotel-vier-jahreszeiten-munich.html' },
-      { name: 'The Charles Hotel Munich', note: 'Rocco Forte brand — Schwabing neighborhood, outdoor pool and garden, Sophia\'s Restaurant · 9.3 Booking.com' , url: 'https://www.booking.com/hotel/de/the-charles-hotel.html' },
-      { name: 'Mandarin Oriental, Munich', note: 'Mandarin Oriental brand — Neuturmstraße in the Old Town, indoor pool and spa, Mark\'s Restaurant, close to the Hofbräuhaus · 9.2 Booking.com' , url: 'https://www.booking.com/hotel/de/mandarin-oriental-munich.html' },
-      { name: 'Bayerischer Hof Munich', note: 'Independent grand hotel — Promenadeplatz 2 in the city centre, Blue Spa with rooftop pool, six restaurants, 24-hour butler · 9.0 Booking.com' , url: 'https://www.booking.com/hotel/de/bayerischer-hof.html' }
-    ] },
+      { name: 'Motel One München-Sendlinger Tor', note: 'Motel One brand — Sendlinger Tor, design-led budget hotel, 24h reception, steps from the Old Town · 8.5 Booking.com', url: 'https://www.booking.com/hotel/de/motel-one-muenchen-sendlinger-tor.html', tier: 'budget' },
+      { name: 'Sofitel Munich Bayerpost', note: 'Accor Sofitel brand — Bayerstrasse 12 beside the Hauptbahnhof, indoor pool and spa, Délice La Brasserie · 8.9 Booking.com', url: 'https://www.booking.com/hotel/de/sofitel-munich-bayerpost.html', tier: 'mid' },
+      { name: 'Bayerischer Hof Munich', note: 'Independent grand hotel — Promenadeplatz 2 in the city centre, Blue Spa with rooftop pool, six restaurants, 24-hour butler · 9.0 Booking.com', url: 'https://www.booking.com/hotel/de/bayerischer-hof.html', tier: 'expensive' },
+      { name: 'Mandarin Oriental, Munich', note: 'Mandarin Oriental brand — Neuturmstraße in the Old Town, indoor pool and spa, Mark\'s Restaurant, close to the Hofbräuhaus · 9.2 Booking.com', url: 'https://www.booking.com/hotel/de/mandarin-oriental-munich.html', tier: 'luxury' }
+    ], price: { budget: 'EUR 80–130', mid: 'EUR 130–220', expensive: 'EUR 220–360', luxury: 'EUR 360+' } },
     'muscat': { h: [
       { name: 'Al Falaj Hotel', note: 'Independent — Ruwi business district, outdoor pool, 24h front desk, short drive to Mutrah Souq · 7.8 Booking.com', url: 'https://www.booking.com/hotel/om/al-falaj.html', tier: 'budget' },
       { name: 'Sheraton Oman Hotel', note: 'Marriott brand — Al Khuwair, outdoor pool and fitness centre, 24h front desk, central location · 8.2 Booking.com', url: 'https://www.booking.com/hotel/om/sheraton-oman.html', tier: 'mid' },
@@ -6815,11 +6817,11 @@ window.TVE.home = (function () {
       { name: 'The Chedi Muscat', note: 'GHM brand — 21 acres on the Sea of Oman, three pools including The Long Pool, award-winning spa · 9.1 Booking.com', url: 'https://www.booking.com/hotel/om/the-chedi-muscat.html', tier: 'luxury' }
     ], price: { budget: 'OMR 35–60', mid: 'OMR 70–110', expensive: 'OMR 110–170', luxury: 'OMR 200+' } },
     'mykonos': { h: [
-      { name: 'Santa Marina, A Luxury Collection Resort', note: 'Marriott Luxury Collection — private beach on Ornos Bay, infinity pools, Caprice beach bar · 9.1 Booking.com', url: 'https://www.booking.com/hotel/gr/santamarinarestvillas.html' },
-      { name: 'Kivotos Mykonos', note: 'Independent boutique — Ornos Bay, two seawater pools, private beach, on-site cinema · 9.3 Booking.com', url: 'https://www.booking.com/hotel/gr/kivotos.html' },
-      { name: 'Myconian Imperial Hotel', note: 'Myconian Collection — Elia Beach, adults-only, three sea-view pools, Notos restaurant, Elixir Spa · 9.3 Booking.com', url: 'https://www.booking.com/hotel/gr/myconian-imperial-thalasso-resort-and-spa.html' },
-      { name: 'Cavo Tagoo Mykonos', note: 'Independent — Tagoo hillside, infinity pool with floating bar, Cave restaurant · 9.2 Booking.com', url: 'https://www.booking.com/hotel/gr/cavo-tagoo.html' }
-    ] },
+      { name: 'Pelican Bay Art Hotel', note: 'Independent boutique — Museum Square in Little Venice, Mykonos Town, sea-facing rooms, 24h front desk · 8.9 Booking.com', url: 'https://www.booking.com/hotel/gr/pelican-bay.html', tier: 'budget' },
+      { name: 'Boheme Hotel', note: 'Independent boutique — Mykonos Town, rooftop terrace with windmill views, 24h reception · 9.0 Booking.com', url: 'https://www.booking.com/hotel/gr/boheme.html', tier: 'mid' },
+      { name: 'Kivotos Mykonos', note: 'Independent boutique — Ornos Bay, two seawater pools, private beach, on-site cinema · 9.3 Booking.com', url: 'https://www.booking.com/hotel/gr/kivotos.html', tier: 'expensive' },
+      { name: 'Santa Marina, A Luxury Collection Resort', note: 'Marriott Luxury Collection — private beach on Ornos Bay, infinity pools, Caprice beach bar · 9.1 Booking.com', url: 'https://www.booking.com/hotel/gr/santamarinarestvillas.html', tier: 'luxury' }
+    ], price: { budget: 'EUR 120–220', mid: 'EUR 220–380', expensive: 'EUR 380–650', luxury: 'EUR 650+' } },
     'napa': { h: [
       { name: 'Bardessono Hotel and Spa', note: 'Independent — LEED Platinum cedar-and-stone lodge on Yount Street in Yountville, rooftop pool, in-room spa treatments · 9.8 Booking.com', url: 'https://www.booking.com/hotel/us/bardessono.html' },
       { name: 'Archer Hotel Napa', note: 'Independent boutique — First Street in downtown Napa, rooftop pool and bar over the valley, 24h reception · 9.1 Booking.com', url: 'https://www.booking.com/hotel/us/archer-napa.html' },
@@ -11267,7 +11269,7 @@ window.TVE.home = (function () {
       'BGO','BIO','BKK','BOS','BRU','BUD','CAI','CDG','CMB','CPH','CPT','CUN','CUR','CUZ','CWB','DBV',
       'DEN','DFW','DOH','DTW','DUB','DUS','DXB','EDI','EYW','EZE','FAO','FCO','FHR','FLN','FLR','FOR',
       'FRA','GIG','GOT','GPS','GRU','GVA','HAM','HAN','HEL','HER','HKG','HKT','HND','IAD','IAH','ICN',
-      'IGU','IST','JFK','JPA','KRK','KTM','LAS','LAX','LGA','LGW','LHR','LIH','LIS','LUX','LYS','MAD',
+      'IGU','IST','JFK','JMK','JPA','KRK','KTM','LAS','LAX','LGA','LGW','LHR','LIH','LIS','LUX','LYS','MAD',
       'MAN','MCT','MEL','MIA','MLE','MRS','MSP','MUC','MVD','MXP','NAP','NCE','OGG','OPO','ORD','ORY',
       'OSL','PDL','PDX','PEK','PHL','PHX','PMI','PNS','POA','PPS','PRG','PSA','PSP','PUS','PVG','PVR','RAK',
       'RSW','SAN','SCL','SEA','SFO','SIN','SJC','SJO','SJU','SKG','SLC','SPU','STR','SXB','SYD','TBS',

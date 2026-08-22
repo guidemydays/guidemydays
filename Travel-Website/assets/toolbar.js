@@ -6581,11 +6581,13 @@ window.TVE.home = (function () {
       { name: 'Hotel Firenze Como', note: 'Independent — Via Vitani 16 in the historic centre, 3-star, AC throughout, 24h reception, steps from the Duomo and the lakefront · 8.1 Booking.com', url: 'https://www.booking.com/hotel/it/firenze-como.html', tier: 'budget' }
     ], price: { budget: '€80–140', mid: '€170–300', expensive: '€290–500', luxury: '€500+' } },
     'lake-tahoe': { h: [
-      { name: 'Edgewood Tahoe Resort', note: 'Forbes Five Star independent — Lake Parkway on the Stateline lakefront, championship golf, heated year-round outdoor pool, spa, private beach, 24h reception · 9.2 Booking.com', url: 'https://www.booking.com/hotel/us/the-lodge-at-edgewood-tahoe.html' },
-      { name: 'Hyatt Regency Lake Tahoe Resort, Spa and Casino', note: 'Hyatt brand — Incline Village private beach, Stillwater Spa, casino, Lone Eagle Grille, 24h reception · 8.7 Booking.com', url: 'https://www.booking.com/hotel/us/hyatt-regency-lake-tahoe-resort-spa-and-casino.html' },
-      { name: 'The Landing Resort and Spa', note: 'Independent — Lakeshore Boulevard beachfront in South Lake Tahoe, 5-star, heated year-round pool, spa, 24h reception · 8.4 Booking.com', url: 'https://www.booking.com/hotel/us/the-landing-resort-and-spa.html' },
-      { name: 'The Ritz-Carlton, Lake Tahoe', note: 'Ritz-Carlton brand — Northstar California ski-in/ski-out above Truckee, heated outdoor pool, full-service spa, 24h reception · 8.0 Booking.com', url: 'https://www.booking.com/hotel/us/the-ritz-carlton-highlands-lake-tahoe.html' }
-    ] },
+      { name: 'Edgewood Tahoe Resort', note: 'Forbes Five Star independent — Lake Parkway on the Stateline lakefront, championship golf, heated year-round outdoor pool, spa, private beach, 24h reception · 9.2 Booking.com', url: 'https://www.booking.com/hotel/us/the-lodge-at-edgewood-tahoe.html', tier: 'luxury' },
+      { name: 'The Ritz-Carlton, Lake Tahoe', note: 'Ritz-Carlton brand — Northstar California ski-in/ski-out above Truckee, heated outdoor pool, full-service spa, 24h reception · 8.0 Booking.com', url: 'https://www.booking.com/hotel/us/the-ritz-carlton-highlands-lake-tahoe.html', tier: 'luxury' },
+      { name: 'Hyatt Regency Lake Tahoe Resort, Spa and Casino', note: 'Hyatt brand — Incline Village private beach, Stillwater Spa, casino, Lone Eagle Grille, 24h reception · 8.7 Booking.com', url: 'https://www.booking.com/hotel/us/hyatt-regency-lake-tahoe-resort-spa-and-casino.html', tier: 'expensive' },
+      { name: 'The Landing Resort and Spa', note: 'Independent — Lakeshore Boulevard beachfront in South Lake Tahoe, 5-star, heated year-round pool, spa, 24h reception · 8.4 Booking.com', url: 'https://www.booking.com/hotel/us/the-landing-resort-and-spa.html', tier: 'expensive' },
+      { name: 'Basecamp Hotel South Lake Tahoe', note: 'Independent — Emerald Bay Road in South Lake Tahoe, boutique 4-star, mountain-lodge aesthetic, outdoor fire pits, 24h reception, walking distance to Heavenly gondola · 8.6 Booking.com', url: 'https://www.booking.com/hotel/us/basecamp-south-lake-tahoe.html', tier: 'mid' },
+      { name: 'Inn by the Lake', note: 'Independent — Park Avenue in South Lake Tahoe, 3-star, outdoor heated pool, lakefront setting, AC, 24h reception, short walk to the beach · 8.2 Booking.com', url: 'https://www.booking.com/hotel/us/inn-by-the-lake.html', tier: 'budget' }
+    ], price: { budget: '$120–200', mid: '$220–380', expensive: '$380–650', luxury: '$650+' } },
     'las-vegas': { h: [
       { name: 'Wynn Las Vegas', note: 'Forbes Five Star independent — single-tower luxury resort, 3 pools, Wynn Spa, Michelin-starred Restaurant Guy Savoy and SW Steakhouse · 9.2 Booking.com', url: 'https://www.booking.com/hotel/us/wynn-las-vegas-boulevard.html' },
       { name: 'The Venetian Resort Las Vegas', note: 'Independent mega-resort — all-suite tower, Canyon Ranch Spa Club with indoor pool, 5 outdoor pools, 36 restaurants, Lagoon Pool complex · 8.8 Booking.com', url: 'https://www.booking.com/hotel/us/the-venetian-resort-casino.html' },
@@ -11274,7 +11276,7 @@ window.TVE.home = (function () {
       'IGU','IST','JFK','JMK','JPA','KRK','KTM','LAS','LAX','LGA','LGW','LHR','LIH','LIS','LUX','LYS','MAD',
       'MAN','MCT','MEL','MIA','MLE','MRS','MSP','MUC','MVD','MXP','NAP','NCE','OGG','OPO','ORD','ORY',
       'OSL','PDL','PDX','PEK','PHL','PHX','PMI','PNS','POA','PPS','PRG','PSA','PSP','PUS','PVG','PVR','RAK',
-      'RSW','SAN','SCL','SEA','SFO','SIN','SJC','SJO','SJU','SKG','SLC','SPU','STR','SXB','SYD','TBS',
+      'RNO','RSW','SAN','SCL','SEA','SFO','SIN','SJC','SJO','SJU','SKG','SLC','SPU','STR','SXB','SYD','TBS',
       'TFS','TIV','TLL','TOS','TPE','VCE','VIE','VLC','WLG','YQB','YUL','YVR','YYC','YYZ','ZAG','ZQN','ZRH'
     ];
 

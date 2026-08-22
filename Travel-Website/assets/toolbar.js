@@ -11271,13 +11271,14 @@ window.TVE.home = (function () {
     var LOUNGE_IATAS = [
       'ABQ','AES','AGP','AJU','AMM','AMS','ANC','ARN','ATH','ATL','AUA','AUH','AUS','BCN','BER','BGI',
       'BGO','BIO','BKK','BOS','BRU','BUD','CAI','CDG','CMB','CPH','CPT','CUN','CUR','CUZ','CWB','DBV',
-      'DEN','DFW','DOH','DTW','DUB','DUS','DXB','EDI','EYW','EZE','FAO','FCO','FHR','FLN','FLR','FOR',
-      'FRA','GIG','GOT','GPS','GRU','GVA','HAM','HAN','HEL','HER','HKG','HKT','HND','IAD','IAH','ICN',
-      'IGU','IST','JFK','JMK','JPA','KRK','KTM','LAS','LAX','LGA','LGW','LHR','LIH','LIS','LUX','LYS','MAD',
-      'MAN','MCT','MEL','MIA','MLE','MRS','MSP','MUC','MVD','MXP','NAP','NCE','OGG','OPO','ORD','ORY',
-      'OSL','PDL','PDX','PEK','PHL','PHX','PMI','PNS','POA','PPS','PRG','PSA','PSP','PUS','PVG','PVR','RAK',
-      'RNO','RSW','SAN','SCL','SEA','SFO','SIN','SJC','SJO','SJU','SKG','SLC','SPU','STR','SXB','SYD','TBS',
-      'TFS','TIV','TLL','TOS','TPE','VCE','VIE','VLC','WLG','YQB','YUL','YVR','YYC','YYZ','ZAG','ZQN','ZRH'
+      'DEN','DFW','DOH','DPS','DTW','DUB','DUS','DXB','EDI','EYW','EZE','FAO','FCO','FHR','FLN','FLR',
+      'FOR','FRA','GIG','GOT','GPS','GRU','GVA','HAM','HAN','HEL','HER','HKG','HKT','HND','IAD','IAH',
+      'ICN','IGU','IST','JFK','JMK','JPA','KRK','KTM','LAS','LAX','LGA','LGW','LHR','LIH','LIS','LUX',
+      'LYS','MAD','MAN','MCT','MEL','MIA','MLE','MRS','MSP','MUC','MVD','MXP','NAP','NAS','NCE','OGG',
+      'OPO','ORD','ORY','OSL','PDL','PDX','PEK','PHL','PHX','PMI','PNS','POA','PPS','PRG','PSA','PSP',
+      'PUS','PVG','PVR','RAK','RNO','RSW','SAN','SCL','SEA','SFO','SIN','SJC','SJO','SJU','SKG','SLC',
+      'SPU','STR','SXB','SYD','TBS','TFS','TIV','TLL','TOS','TPE','VCE','VIE','VLC','WLG','YQB','YUL',
+      'YVR','YYC','YYZ','ZAG','ZQN','ZRH'
     ];
 
     function _inject() {

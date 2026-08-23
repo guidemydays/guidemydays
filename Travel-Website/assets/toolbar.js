@@ -6910,11 +6910,11 @@ window.TVE.home = (function () {
       { name: 'Orcas Hotel', tier: 'budget', note: 'Independent — 1904 Victorian at the Orcas ferry landing, wraparound porch, farm-to-table bistro · 9.2 Booking.com', url: 'https://www.booking.com/hotel/us/orcas-hotel.html' }
     ], price: { budget: 'USD 120–220', mid: 'USD 200–350', expensive: 'USD 300–480', luxury: 'USD 400+' } },
     'orlando': { h: [
-      { name: 'Loews Portofino Bay Hotel at Universal Orlando', note: 'Loews brand — Italian Riviera theming, three pools, on-site Universal Express Pass access · 8.9 Booking.com', url: 'https://www.booking.com/hotel/us/loews-portofino-bay-at-universal-orlando.html' },
-      { name: 'Walt Disney World Swan Reserve', note: 'Autograph Collection (Marriott) — on Disney property, multilevel pool, three restaurants, complimentary MagicBand · 9.1 Booking.com', url: 'https://www.booking.com/hotel/us/walt-disney-world-swan-reserve.html' },
-      { name: 'Four Seasons Resort Orlando at Walt Disney World Resort', note: 'Four Seasons — on Disney property, Explorer Pool with lazy river, Capa steakhouse · 9.4 Booking.com', url: 'https://www.booking.com/hotel/us/four-seasons-resort-orlando.html' },
-      { name: 'JW Marriott Orlando Grande Lakes', note: 'Marriott JW brand — Grande Lakes, lazy river, Greg Norman golf, Whisper Creek Farm-inspired dining · 9.2 Booking.com', url: 'https://www.booking.com/hotel/us/jw-marriott-grande-lakes.html' }
-    ] },
+      { name: 'Loews Portofino Bay Hotel at Universal Orlando', tier: 'expensive', note: 'Loews brand — Italian Riviera theming, three pools, on-site Universal Express Pass access · 8.9 Booking.com', url: 'https://www.booking.com/hotel/us/loews-portofino-bay-at-universal-orlando.html' },
+      { name: 'Walt Disney World Swan Reserve', tier: 'mid', note: 'Autograph Collection (Marriott) — on Disney property, multilevel pool, three restaurants, complimentary MagicBand · 9.1 Booking.com', url: 'https://www.booking.com/hotel/us/walt-disney-world-swan-reserve.html' },
+      { name: 'Four Seasons Resort Orlando at Walt Disney World Resort', tier: 'luxury', note: 'Four Seasons — on Disney property, Explorer Pool with lazy river, Capa steakhouse · 9.4 Booking.com', url: 'https://www.booking.com/hotel/us/four-seasons-resort-orlando.html' },
+      { name: 'JW Marriott Orlando Grande Lakes', tier: 'budget', note: 'Marriott JW brand — Grande Lakes, lazy river, Greg Norman golf, Whisper Creek Farm-inspired dining · 9.2 Booking.com', url: 'https://www.booking.com/hotel/us/jw-marriott-grande-lakes.html' }
+    ], price: { budget: 'USD 200–400', mid: 'USD 350–600', expensive: 'USD 500–900', luxury: 'USD 800+' } },
     'osaka': { h: [
       { name: 'InterContinental Osaka', note: 'IHG brand — Grand Front Osaka, 57th-floor Pierre restaurant panorama, spa and indoor pool · 9.0 Booking.com', url: 'https://www.booking.com/hotel/jp/intercontinental-osaka.html' },
       { name: 'Conrad Osaka', note: 'Hilton family — Nakanoshima Festival City, sky infinity pool on 40th floor, harbor views · 9.2 Booking.com', url: 'https://www.booking.com/hotel/jp/conrad-osaka.html' },
@@ -11303,7 +11303,7 @@ window.TVE.home = (function () {
       'EYW','EZE','FAO','FCA','FCO','FHR','FLN','FLR','FOR','FRA','GCM','GIG','GOT','GPS','GRU','GVA','HAM',
       'HAN','HEL','HER','HKG','HKT','HND','IAD','IAH','ICN','IGU','IST','JFK','JMK','JPA','JTR','KEF','KOA',
       'KRK','KTM','LAS','LAX','LGA','LGW','LHR','LIH','LIM','LIS','LJU','LUX','LYS','MAD','MAN','MCT','MEL',
-      'MIA','MLA','MLE','MRS','MSP','MSY','MUC','MVD','MXP','NAP','NAS','NAT','NCE','OGG','OPO','ORD','ORS','ORY',
+      'MIA','MCO','MLA','MLE','MRS','MSP','MSY','MUC','MVD','MXP','NAP','NAS','NAT','NCE','OGG','OPO','ORD','ORS','ORY',
       'OSL','PBH','PDL','PDX','PEK','PHL','PHX','PLS','PMI','PNS','POA','PPS','PRG','PSA','PSP','PUS',
       'PVG','PVR','RAK','RDM','REC','RHO','RIX','RNO','RSW','SAN','SCL','SEA','SFO','SIN','SJC','SJO',
       'SJU','SKG','SLC','SLZ','SPU','SSA','STR','SXB','SYD','TBS','TFS','TIV','TLL','TOS','TPE','TRN','VCE','VIE',

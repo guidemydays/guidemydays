@@ -519,6 +519,16 @@ function bandOf(n) {
   return n < 35 ? 'Cheap' : n < 50 ? 'Moderate' : n < 70 ? 'Expensive' : 'Very expensive';
 }
 
+/* Percentile against the whole fleet — a statistic, never a named city
+   (owner rule 2026-08-22 / 2026-08-23). Runs on the full dataset, not the
+   current filter, so the number means the same thing regardless of what
+   the reader has searched or filtered to. */
+function percentileCheaperThan(idx) {
+  var below = 0, i;
+  for (i = 0; i < CI.length; i++) { if (CI[i][N_IDX] < idx) below++; }
+  return Math.round(below / (CI.length - 1) * 100);
+}
+
 var state = { band:'all', sort:'asc', q:'' };
 var MAX = 100;
 
@@ -600,13 +610,15 @@ function detailHTML(r) {
               derived:  'Not in the published tables, so this one is worked out from ' +
                         r[N_RESOLVED] + '&#39;s own prices.' }[r[N_VIA]]
             || '';
-  /* Plain-English reading of the index itself — New York is the 100 baseline
-     in the data (r[N_IDX]=100 on its own row), so this is arithmetic on what
-     is already shown, never a fabricated dollar figure. The page's own intro
-     says it prices the PLACE, not a trip — a $-estimate would contradict
-     that; a relative-to-NYC sentence does not. */
-  var idxNote = 'Overall, ' + r[N_NAME] + ' runs about ' + Math.round(r[N_IDX]) +
-    '% of what New York costs on this index.';
+  /* Plain-English reading of the index — a percentile against the whole
+     fleet, never a named city. Owner rule 2026-08-22: "lets not base in a
+     place specific … use cheap, expensive etc like hotels" — a first draft
+     of this line read "X% of what New York costs" and got called out for
+     exactly that (owner, 2026-08-23: "should never be based in a comparison
+     with any city"). Statistics against the dataset are fine; a benchmark
+     city is not. */
+  var idxNote = r[N_NAME] + ' is cheaper than ' + percentileCheaperThan(r[N_IDX]) +
+    '% of the places on this page.';
   out += '<p class="ci-detail-note">' + idxNote + ' ' + src +
     ' <a class="chevron-link-pill" href="' + guideURL(r) + '">Open the ' + r[N_NAME] + ' guide</a></p>';
   return out + '</td>';

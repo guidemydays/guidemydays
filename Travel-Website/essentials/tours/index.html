@@ -5,7 +5,57 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link rel="stylesheet" href="/assets/web-travel-style.css">
 <title>Tours &amp; Tickets | Guide My Days</title>
-<style>.tt-grid {
+<style>
+.gm-i { width: 1.2em; height: 1.2em; vertical-align: -.25em; display: inline-block; }
+
+/* ── Four-things tip panel (replaces the old wall-of-bold-text alert-banner) ── */
+.tt-tips {
+  background: var(--warm);
+  border: 1px solid var(--border2);
+  border-radius: 12px;
+  padding: 18px 20px 20px;
+  margin-bottom: 28px;
+}
+.tt-tips-head {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  font-size: 12px;
+  font-weight: 800;
+  color: var(--rust);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  padding-bottom: 12px;
+  margin-bottom: 14px;
+  border-bottom: 1px solid var(--border2);
+}
+.tt-tips-head .gm-i { width: 17px; height: 17px; }
+.tt-tips-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px 24px;
+}
+.tt-tip { display: flex; align-items: flex-start; gap: 12px; }
+.tt-tip-num {
+  flex-shrink: 0;
+  width: 24px; height: 24px;
+  border-radius: 50%;
+  background: var(--rust);
+  color: #fff;
+  font-size: 12px;
+  font-weight: 800;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 1px;
+}
+.tt-tip-body { font-size: 13px; line-height: 1.55; color: var(--text); }
+.tt-tip-body strong { color: var(--text); }
+@media (max-width: 700px) {
+  .tt-tips-grid { grid-template-columns: 1fr; }
+}
+
+.tt-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
   gap: 16px;
@@ -13,16 +63,30 @@
 }
 .tt-section-label {
   grid-column: 1 / -1;
-  font-size: 11.5px;
-  font-weight: 700;
-  color: var(--muted);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 12px;
+  font-weight: 800;
+  color: var(--text);
   text-transform: uppercase;
-  letter-spacing: 0.06em;
-  padding-bottom: 6px;
-  border-bottom: 1px solid var(--border2);
-  margin-top: 8px;
+  letter-spacing: 0.05em;
+  padding-bottom: 9px;
+  border-bottom: 2px solid var(--rust);
+  margin-top: 40px;
 }
 .tt-section-label:first-child { margin-top: 0; }
+.tt-section-icon-wrap {
+  width: 28px; height: 28px;
+  border-radius: 8px;
+  background: var(--surface);
+  border: 1px solid var(--border2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+.tt-section-icon-wrap .gm-i { width: 17px; height: 17px; }
 .tt-section-note {
   grid-column: 1 / -1;
   font-size: 12.5px;
@@ -36,6 +100,12 @@
   border: 1px solid var(--border2);
   border-radius: 10px;
   padding: 18px 18px 20px;
+  transition: transform .14s ease, box-shadow .14s ease, border-color .14s ease;
+}
+.tt-card:hover {
+  transform: translateY(-2px);
+  border-color: var(--rust);
+  box-shadow: 0 8px 20px -12px rgba(0,0,0,.28);
 }
 .tt-card-head {
   display: flex;
@@ -106,13 +176,36 @@
 
 <div class="wrap">
 
-  <div class="alert-banner">
-    <strong>Four things that are true of every platform on this page.</strong> <strong>1 — You are not buying from them.</strong> The operator running the tour is a separate company; the platform handles payment and the voucher. When something goes wrong on the day, the operator's own phone number is the one that helps, so save it from the booking confirmation before you travel. <strong>2 — Ratings belong to the product, not the site.</strong> A 4.9 on one listing says nothing about the 4.1 tour next to it. Read the number of reviews as well as the score: 4.6 from 3,000 people is a safer bet than 5.0 from nine. <strong>3 — Free cancellation is set per listing.</strong> Two tours on the same platform can have completely different terms, and the 24-hour window is measured in the local time zone of the tour, not yours. <strong>4 — The venue's own website is worth one check.</strong> For major museums and monuments it is often cheaper and sometimes the only place to get a specific time slot — but it may have no English-language checkout, no mobile ticket, and no cancellation at all, which is exactly what the marketplaces are selling you.
+  <style>:root{--c-tire:#3a332e;--c-stone:#a89c8e;--c-paper:#fff;--c-cream:#f6ecdb;--c-tan:#fca240;--c-cocoa:#8a3d0c;--c-rust:#e25100;--c-clay:#ff661d;--c-red:#ff200c;--c-rose:#ff3d7a;--c-plum:#ad29e5;--c-sun:#ffc110;--c-amber:#ff7c08;--c-green:#4ad017;--c-leaf:#2f9106;--c-teal:#01d5bc;--c-blue:#0982ec;--c-navy:#0d4a86;--c-sky:#3dbaff;--c-grape:#6b2fa0;--c-wine:#8c1a10;--c-pine:#14663c;--c-slate:#566b7a;--c-paper-shade:#dad4cb;--c-cream-shade:#e0d7c7;--c-rim-warm:#c25a20;--c-rim-cool:#93a4b2;--c-tire-shade:#171412;--c-tire-rim:#26221e;--c-stone-shade:#80776c;--c-stone-rim:#6f675e;--c-tan-shade:#c57e32;--c-tan-rim:#a66b2a;--c-cocoa-shade:#572608;--c-cocoa-rim:#5b2808;--c-rust-shade:#a73c00;--c-rust-rim:#953500;--c-clay-shade:#c24e16;--c-clay-rim:#a84313;--c-red-shade:#bf1809;--c-red-rim:#a81508;--c-rose-shade:#bf2e5b;--c-rose-rim:#a82851;--c-plum-shade:#7d1ea5;--c-plum-rim:#721b97;--c-sun-shade:#c7970c;--c-sun-rim:#a87f0b;--c-amber-shade:#c45f06;--c-amber-rim:#a85205;--c-green-shade:#3aa212;--c-green-rim:#31890f;--c-leaf-shade:#236b04;--c-leaf-rim:#1f6004;--c-teal-shade:#01a693;--c-teal-rim:#018d7c;--c-blue-shade:#0760af;--c-blue-rim:#06569c;--c-navy-shade:#072a4c;--c-navy-rim:#093158;--c-sky-shade:#2f8fc4;--c-sky-rim:#287ba8;--c-grape-shade:#401c60;--c-grape-rim:#471f6a;--c-wine-shade:#4e0f09;--c-wine-rim:#5c110a;--c-pine-shade:#0d4227;--c-pine-rim:#0d4327;--c-slate-shade:#3c4b55;--c-slate-rim:#394751}</style>
+  <svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs><linearGradient id="gm-gloss" x1="0" y1="0" x2="0.55" y2="1"><stop offset="0" stop-color="#fff" stop-opacity="0.46"/><stop offset="0.42" stop-color="#fff" stop-opacity="0.14"/><stop offset="1" stop-color="#fff" stop-opacity="0"/></linearGradient><radialGradient id="sph-black" cx="40%" cy="34%" r="82%"><stop offset="0%" stop-color="#7a7a7a"/><stop offset="46%" stop-color="#2c2c2c"/><stop offset="100%" stop-color="#040404"/></radialGradient><radialGradient id="sph-black-b" cx="50%" cy="90%" r="42%"><stop offset="0%" stop-color="#7a7a7a" stop-opacity="0.34"/><stop offset="100%" stop-color="#7a7a7a" stop-opacity="0"/></radialGradient><radialGradient id="sph-blue" cx="40%" cy="34%" r="82%"><stop offset="0%" stop-color="#95cbf2"/><stop offset="46%" stop-color="#2c80c9"/><stop offset="100%" stop-color="#123f68"/></radialGradient><radialGradient id="sph-blue-b" cx="50%" cy="90%" r="42%"><stop offset="0%" stop-color="#95cbf2" stop-opacity="0.34"/><stop offset="100%" stop-color="#95cbf2" stop-opacity="0"/></radialGradient><radialGradient id="sph-brown" cx="40%" cy="34%" r="82%"><stop offset="0%" stop-color="#d5a677"/><stop offset="46%" stop-color="#95603a"/><stop offset="100%" stop-color="#4a2d1d"/></radialGradient><radialGradient id="sph-brown-b" cx="50%" cy="90%" r="42%"><stop offset="0%" stop-color="#d5a677" stop-opacity="0.34"/><stop offset="100%" stop-color="#d5a677" stop-opacity="0"/></radialGradient><radialGradient id="sph-green" cx="40%" cy="34%" r="82%"><stop offset="0%" stop-color="#a6e473"/><stop offset="46%" stop-color="#57b334"/><stop offset="100%" stop-color="#2a6a17"/></radialGradient><radialGradient id="sph-green-b" cx="50%" cy="90%" r="42%"><stop offset="0%" stop-color="#a6e473" stop-opacity="0.34"/><stop offset="100%" stop-color="#a6e473" stop-opacity="0"/></radialGradient><radialGradient id="sph-grey" cx="40%" cy="34%" r="82%"><stop offset="0%" stop-color="#dedbd6"/><stop offset="46%" stop-color="#98928a"/><stop offset="100%" stop-color="#4a4641"/></radialGradient><radialGradient id="sph-grey-b" cx="50%" cy="90%" r="42%"><stop offset="0%" stop-color="#dedbd6" stop-opacity="0.34"/><stop offset="100%" stop-color="#dedbd6" stop-opacity="0"/></radialGradient><radialGradient id="sph-orange" cx="40%" cy="34%" r="82%"><stop offset="0%" stop-color="#ffb75f"/><stop offset="46%" stop-color="#ef7d18"/><stop offset="100%" stop-color="#8f4408"/></radialGradient><radialGradient id="sph-orange-b" cx="50%" cy="90%" r="42%"><stop offset="0%" stop-color="#ffb75f" stop-opacity="0.34"/><stop offset="100%" stop-color="#ffb75f" stop-opacity="0"/></radialGradient><radialGradient id="sph-pink" cx="40%" cy="34%" r="82%"><stop offset="0%" stop-color="#ffadc7"/><stop offset="46%" stop-color="#e76890"/><stop offset="100%" stop-color="#88304e"/></radialGradient><radialGradient id="sph-pink-b" cx="50%" cy="90%" r="42%"><stop offset="0%" stop-color="#ffadc7" stop-opacity="0.34"/><stop offset="100%" stop-color="#ffadc7" stop-opacity="0"/></radialGradient><radialGradient id="sph-plum" cx="40%" cy="34%" r="82%"><stop offset="0%" stop-color="#d8abe4"/><stop offset="46%" stop-color="#9a58b6"/><stop offset="100%" stop-color="#523067"/></radialGradient><radialGradient id="sph-plum-b" cx="50%" cy="90%" r="42%"><stop offset="0%" stop-color="#d8abe4" stop-opacity="0.34"/><stop offset="100%" stop-color="#d8abe4" stop-opacity="0"/></radialGradient><radialGradient id="sph-teal" cx="40%" cy="34%" r="82%"><stop offset="0%" stop-color="#84e4d8"/><stop offset="46%" stop-color="#26a596"/><stop offset="100%" stop-color="#0f5f58"/></radialGradient><radialGradient id="sph-teal-b" cx="50%" cy="90%" r="42%"><stop offset="0%" stop-color="#84e4d8" stop-opacity="0.34"/><stop offset="100%" stop-color="#84e4d8" stop-opacity="0"/></radialGradient><radialGradient id="sph-white" cx="40%" cy="34%" r="82%"><stop offset="0%" stop-color="#ffffff"/><stop offset="46%" stop-color="#efebe5"/><stop offset="100%" stop-color="#aea79e"/></radialGradient><radialGradient id="sph-white-b" cx="50%" cy="90%" r="42%"><stop offset="0%" stop-color="#ffffff" stop-opacity="0.34"/><stop offset="100%" stop-color="#ffffff" stop-opacity="0"/></radialGradient><radialGradient id="sph-yellow" cx="40%" cy="34%" r="82%"><stop offset="0%" stop-color="#ffe886"/><stop offset="46%" stop-color="#f3c02e"/><stop offset="100%" stop-color="#a2740a"/></radialGradient><radialGradient id="sph-yellow-b" cx="50%" cy="90%" r="42%"><stop offset="0%" stop-color="#ffe886" stop-opacity="0.34"/><stop offset="100%" stop-color="#ffe886" stop-opacity="0"/></radialGradient><radialGradient id="sph-red" cx="40%" cy="34%" r="82%"><stop offset="0%" stop-color="#ff8878"/><stop offset="46%" stop-color="#e03a2b"/><stop offset="100%" stop-color="#8a1a11"/></radialGradient><radialGradient id="sph-red-b" cx="50%" cy="90%" r="42%"><stop offset="0%" stop-color="#ff8878" stop-opacity="0.34"/><stop offset="100%" stop-color="#ff8878" stop-opacity="0"/></radialGradient><linearGradient id="gm-sheen" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#fff" stop-opacity="0.30"/><stop offset="0.55" stop-color="#fff" stop-opacity="0.06"/><stop offset="1" stop-color="#fff" stop-opacity="0"/></linearGradient><linearGradient id="gm-amber" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="var(--c-amber)"/><stop offset="1" stop-color="var(--c-amber-shade)"/></linearGradient><linearGradient id="gm-blue" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="var(--c-blue)"/><stop offset="1" stop-color="var(--c-blue-shade)"/></linearGradient><linearGradient id="gm-clay" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="var(--c-clay)"/><stop offset="1" stop-color="var(--c-clay-shade)"/></linearGradient><linearGradient id="gm-cocoa" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="var(--c-cocoa)"/><stop offset="1" stop-color="var(--c-cocoa-shade)"/></linearGradient><linearGradient id="gm-grape" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="var(--c-grape)"/><stop offset="1" stop-color="var(--c-grape-shade)"/></linearGradient><linearGradient id="gm-wine" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="var(--c-wine)"/><stop offset="1" stop-color="var(--c-wine-shade)"/></linearGradient><linearGradient id="gm-pine" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="var(--c-pine)"/><stop offset="1" stop-color="var(--c-pine-shade)"/></linearGradient><linearGradient id="gm-slate" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="var(--c-slate)"/><stop offset="1" stop-color="var(--c-slate-shade)"/></linearGradient><linearGradient id="gm-green" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="var(--c-green)"/><stop offset="1" stop-color="var(--c-green-shade)"/></linearGradient><linearGradient id="gm-leaf" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="var(--c-leaf)"/><stop offset="1" stop-color="var(--c-leaf-shade)"/></linearGradient><linearGradient id="gm-navy" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="var(--c-navy)"/><stop offset="1" stop-color="var(--c-navy-shade)"/></linearGradient><linearGradient id="gm-plum" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="var(--c-plum)"/><stop offset="1" stop-color="var(--c-plum-shade)"/></linearGradient><linearGradient id="gm-red" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="var(--c-red)"/><stop offset="1" stop-color="var(--c-red-shade)"/></linearGradient><linearGradient id="gm-rose" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="var(--c-rose)"/><stop offset="1" stop-color="var(--c-rose-shade)"/></linearGradient><linearGradient id="gm-rust" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="var(--c-rust)"/><stop offset="1" stop-color="var(--c-rust-shade)"/></linearGradient><linearGradient id="gm-sky" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="var(--c-sky)"/><stop offset="1" stop-color="var(--c-sky-shade)"/></linearGradient><linearGradient id="gm-stone" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="var(--c-stone)"/><stop offset="1" stop-color="var(--c-stone-shade)"/></linearGradient><linearGradient id="gm-sun" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="var(--c-sun)"/><stop offset="1" stop-color="var(--c-sun-shade)"/></linearGradient><linearGradient id="gm-tan" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="var(--c-tan)"/><stop offset="1" stop-color="var(--c-tan-shade)"/></linearGradient><linearGradient id="gm-teal" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="var(--c-teal)"/><stop offset="1" stop-color="var(--c-teal-shade)"/></linearGradient><linearGradient id="gm-tire" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="var(--c-tire)"/><stop offset="1" stop-color="var(--c-tire-shade)"/></linearGradient><linearGradient id="gm-paper" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="var(--c-paper)"/><stop offset="1" stop-color="var(--c-paper-shade)"/></linearGradient><linearGradient id="gm-cream" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="var(--c-cream)"/><stop offset="1" stop-color="var(--c-cream-shade)"/></linearGradient><symbol id="gm-i-946" viewBox="0 0 24 24"><rect x="3.4" y="3.2" width="17.2" height="19" rx="2" fill="url(#gm-cocoa)" stroke="var(--c-cocoa-rim)" stroke-width="0.5"/>
+              <rect x="4.9" y="4.7" width="14.2" height="16" rx="1.2" fill="url(#gm-paper)" stroke="var(--c-rim-warm)" stroke-width="0.6" stroke-linejoin="round" />
+              <rect x="8.4" y="1.6" width="7.2" height="3.6" rx="1.2" fill="url(#gm-stone)" stroke="var(--c-stone-rim)" stroke-width="0.5"/>
+              <g stroke="var(--c-stone)" stroke-width="1.1" stroke-linecap="round" opacity="0.7">
+                <path d="M10.6 9h6.2M10.6 13h6.2M10.6 17h4"/>
+              </g>
+              <g fill="none" stroke="var(--c-green)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M6.9 8.9 7.9 9.9 9.7 8"/><path d="M6.9 12.9 7.9 13.9 9.7 12"/>
+              </g>
+              <path d="M6.9 16.9 7.9 17.9 9.7 16" fill="none" stroke="var(--c-stone)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" opacity="0.55"/></symbol><symbol id="gm-i-10" viewBox="0.10 0.10 23.81 23.81"><path d="M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20zm6.9 6h-2.9a15.7 15.7 0 0 0-1.4-3.6A8 8 0 0 1 18.9 8zM12 4c.8 1.2 1.4 2.5 1.8 4h-3.6c.4-1.5 1-2.8 1.8-4zM4.3 14A8 8 0 0 1 4 12c0-.7.1-1.4.3-2h3.4a16.5 16.5 0 0 0 0 4H4.3zm.8 2h2.9c.3 1.3.8 2.5 1.4 3.6A8 8 0 0 1 5.1 16zm2.9-8H5.1a8 8 0 0 1 4.3-3.6A15.7 15.7 0 0 0 8 8zM12 20c-.8-1.2-1.4-2.5-1.8-4h3.6c-.4 1.5-1 2.8-1.8 4zm2.2-6H9.8a14.7 14.7 0 0 1 0-4h4.4a14.7 14.7 0 0 1 0 4zm.3 5.6c.6-1.1 1.1-2.3 1.4-3.6h2.9a8 8 0 0 1-4.3 3.6zm1.8-5.6a16.5 16.5 0 0 0 0-4h3.4c.2.6.3 1.3.3 2s-.1 1.4-.3 2h-3.4z" fill="url(#gm-teal)" stroke="var(--c-teal-rim)" stroke-width="0.5"/><path d="M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20zm6.9 6h-2.9a15.7 15.7 0 0 0-1.4-3.6A8 8 0 0 1 18.9 8zM12 4c.8 1.2 1.4 2.5 1.8 4h-3.6c.4-1.5 1-2.8 1.8-4zM4.3 14A8 8 0 0 1 4 12c0-.7.1-1.4.3-2h3.4a16.5 16.5 0 0 0 0 4H4.3zm.8 2h2.9c.3 1.3.8 2.5 1.4 3.6A8 8 0 0 1 5.1 16zm2.9-8H5.1a8 8 0 0 1 4.3-3.6A15.7 15.7 0 0 0 8 8zM12 20c-.8-1.2-1.4-2.5-1.8-4h3.6c-.4 1.5-1 2.8-1.8 4zm2.2-6H9.8a14.7 14.7 0 0 1 0-4h4.4a14.7 14.7 0 0 1 0 4zm.3 5.6c.6-1.1 1.1-2.3 1.4-3.6h2.9a8 8 0 0 1-4.3 3.6zm1.8-5.6a16.5 16.5 0 0 0 0-4h3.4c.2.6.3 1.3.3 2s-.1 1.4-.3 2h-3.4z" fill="url(#gm-gloss)"/></symbol><symbol id="gm-i-4" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10.4" fill="url(#gm-clay)" stroke="var(--c-clay-rim)" stroke-width="0.5"/><circle cx="12" cy="12" r="10.4" fill="url(#gm-gloss)"/><circle cx="12" cy="12" r="7.2" fill="url(#gm-navy)" stroke="var(--c-navy-rim)" stroke-width="0.5"/><path d="M12 5.4 14 12 12 12.8 10 12z" fill="url(#gm-paper)" stroke="var(--c-rim-cool)" stroke-width="0.6"/><path d="M12 18.6 10 12 12 11.2 14 12z" fill="url(#gm-clay)" stroke="var(--c-clay-rim)" stroke-width="0.5"/><circle cx="12" cy="12" r="1.2" fill="url(#gm-paper)" stroke="var(--c-rim-cool)" stroke-width="0.6"/><g fill="url(#gm-paper)" stroke="var(--c-rim-cool)" stroke-width="0.4"><circle cx="12" cy="2.8" r="0.8"/><circle cx="21.2" cy="12" r="0.8"/><circle cx="12" cy="21.2" r="0.8"/><circle cx="2.8" cy="12" r="0.8"/></g></symbol><symbol id="gm-i-954" viewBox="0 0 24 24"><circle cx="4.6" cy="9.6" r="2.4" fill="url(#gm-tan)" stroke="var(--c-tan-rim)" stroke-width="0.5"/>
+              <path d="M4.6 13c2.3 0 4.2 1.6 4.2 3.8V19H0.4v-2.2C0.4 14.6 2.3 13 4.6 13z" fill="url(#gm-green)" stroke="var(--c-green-rim)" stroke-width="0.5"/>
+              <circle cx="19.4" cy="9.6" r="2.4" fill="url(#gm-tan)" stroke="var(--c-tan-rim)" stroke-width="0.5"/>
+              <path d="M19.4 13c2.3 0 4.2 1.6 4.2 3.8V19h-8.4v-2.2c0-2.2 1.9-3.8 4.2-3.8z" fill="url(#gm-plum)" stroke="var(--c-plum-rim)" stroke-width="0.5"/>
+              <circle cx="12" cy="7.6" r="3.2" fill="url(#gm-tan)" stroke="var(--c-tan-rim)" stroke-width="0.5"/>
+              <path d="M12 11.6c3 0 5.4 1.9 5.4 4.3V19H6.6v-3.1c0-2.4 2.4-4.3 5.4-4.3z" fill="url(#gm-rust)" stroke="var(--c-rust-rim)" stroke-width="0.5"/></symbol><symbol id="gm-i-576" viewBox="0 0 24 24"><rect x="2.4" y="6.6" width="11" height="13.4" rx="1.6" fill="url(#gm-sky)" stroke="var(--c-sky-rim)" stroke-width="0.5" transform="rotate(-11 7.9 13.3)"/><rect x="10.6" y="4" width="11" height="13.4" rx="1.6" fill="url(#gm-clay)" stroke="var(--c-clay-rim)" stroke-width="0.5" transform="rotate(11 16.1 10.7)"/><circle cx="16.1" cy="10.7" r="2.4" fill="url(#gm-paper)" stroke="var(--c-rim-cool)" stroke-width="0.6"/><circle cx="7.9" cy="13.3" r="2.4" fill="url(#gm-paper)" stroke="var(--c-rim-cool)" stroke-width="0.6"/></symbol><symbol id="gm-i-527" viewBox="0 0 24 24"><path d="M1.6 5.4h20.8v4a2 2 0 0 0 0 4v4H1.6v-4a2 2 0 0 0 0-4z" fill="url(#gm-plum)" stroke="var(--c-plum-rim)" stroke-width="0.5"/><path d="M1.6 5.4h20.8v4a2 2 0 0 0 0 4v4H1.6v-4a2 2 0 0 0 0-4z" fill="url(#gm-gloss)"/><path d="M4 7.6h9.4v8.8H4z" fill="url(#gm-paper)" stroke="var(--c-rim-cool)" stroke-width="0.6"/><path d="M8.7 9.2 9.8 11.6l2.6.2-2 1.7.6 2.5-2.3-1.4-2.3 1.4.6-2.5-2-1.7 2.6-.2z" fill="url(#gm-plum)" stroke="var(--c-plum-rim)" stroke-width="0.5"/><g fill="url(#gm-paper)" stroke="var(--c-rim-cool)" stroke-width="0.4" opacity="0.9"><rect x="15.6" y="9" width="5" height="1.3" rx="0.65"/><rect x="15.6" y="11.4" width="5" height="1.3" rx="0.65"/><rect x="15.6" y="13.8" width="3.4" height="1.3" rx="0.65"/></g></symbol><symbol id="gm-i-407" viewBox="0 0 24 24"><circle cx="6.8" cy="8.6" r="5.4" fill="url(#gm-sun)" stroke="var(--c-sun-rim)" stroke-width="0.5"/><circle cx="6.8" cy="8.6" r="5.4" fill="url(#gm-gloss)"/><circle cx="6.8" cy="8.6" r="3.9" fill="url(#gm-amber)" stroke="var(--c-amber-rim)" stroke-width="0.5"/><text x="6.8" y="10.8" font-family="ui-sans-serif, system-ui, sans-serif" font-size="5.4" font-weight="700" text-anchor="middle" fill="url(#gm-cocoa)" stroke="var(--c-cocoa-rim)" stroke-width="0.35">$</text><circle cx="17.2" cy="15.4" r="5.4" fill="url(#gm-sun)" stroke="var(--c-sun-rim)" stroke-width="0.5"/><circle cx="17.2" cy="15.4" r="3.9" fill="url(#gm-amber)" stroke="var(--c-amber-rim)" stroke-width="0.5"/><text x="17.2" y="17.6" font-family="ui-sans-serif, system-ui, sans-serif" font-size="5.4" font-weight="700" text-anchor="middle" fill="url(#gm-cocoa)" stroke="var(--c-cocoa-rim)" stroke-width="0.35">€</text><path d="M13.6 5.4c3 .6 5.2 2.2 6.6 4.6" fill="none" stroke="var(--c-navy)" stroke-width="1.6" stroke-linecap="round"/><path d="M22 11.4 19 9.2l3.4-1z" fill="url(#gm-navy)" stroke="var(--c-navy-rim)" stroke-width="0.5"/><path d="M10.4 18.6c-3-.6-5.2-2.2-6.6-4.6" fill="none" stroke="var(--c-navy)" stroke-width="1.6" stroke-linecap="round"/><path d="M2 12.6 5 14.8l-3.4 1z" fill="url(#gm-navy)" stroke="var(--c-navy-rim)" stroke-width="0.5"/></symbol><symbol id="gm-i-46" viewBox="0.10 -0.90 23.81 23.81"><path d="M19 3h-1V1h-2v2H8V1H6v2H5c-1.11 0-1.99.9-1.99 2L3 19c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 16H5V8h14v11zM7 10h5v5H7z" fill="url(#gm-cream)" stroke="var(--c-rim-warm)" stroke-width="0.6"/></symbol></defs></svg>
+
+  <div class="tt-tips">
+    <div class="tt-tips-head"><svg class="gm-i" viewBox="0 0 24 24" aria-hidden="true"><use href="#gm-i-946"/></svg>True of every platform on this page</div>
+    <div class="tt-tips-grid">
+      <div class="tt-tip"><span class="tt-tip-num">1</span><div class="tt-tip-body"><strong>You are not buying from them.</strong> The operator running the tour is a separate company; the platform handles payment and the voucher. When something goes wrong on the day, the operator's own phone number is the one that helps, so save it from the booking confirmation before you travel.</div></div>
+      <div class="tt-tip"><span class="tt-tip-num">2</span><div class="tt-tip-body"><strong>Ratings belong to the product, not the site.</strong> A 4.9 on one listing says nothing about the 4.1 tour next to it. Read the number of reviews as well as the score: 4.6 from 3,000 people is a safer bet than 5.0 from nine.</div></div>
+      <div class="tt-tip"><span class="tt-tip-num">3</span><div class="tt-tip-body"><strong>Free cancellation is set per listing.</strong> Two tours on the same platform can have completely different terms, and the 24-hour window is measured in the local time zone of the tour, not yours.</div></div>
+      <div class="tt-tip"><span class="tt-tip-num">4</span><div class="tt-tip-body"><strong>The venue's own website is worth one check.</strong> For major museums and monuments it is often cheaper and sometimes the only place to get a specific time slot — but it may have no English-language checkout, no mobile ticket, and no cancellation at all, which is exactly what the marketplaces are selling you.</div></div>
+    </div>
   </div>
 
   <div class="tt-grid">
 
-    <div class="tt-section-label">Tours &amp; Attractions — Worldwide</div>
+    <div class="tt-section-label"><span class="tt-section-icon-wrap"><svg class="gm-i" viewBox="0 0 24 24" aria-hidden="true"><use href="#gm-i-10"/></svg></span>Tours &amp; Attractions — Worldwide</div>
     <div class="tt-section-note">These four cover most of the planet and compete on the same inventory, so the practical difference is price, cancellation terms and how the voucher works on the day. Two of them share a warehouse: TripAdvisor owns Viator, and the experiences you book on TripAdvisor are Viator's listings.</div>
 
     <div class="tt-card">
@@ -245,7 +338,7 @@
       <div class="tt-desc">Meals cooked and hosted in someone's home, plus market walks and cooking classes, in around 130 countries. It solves the problem restaurants can't — eating the food people actually cook at home — and works best in cities where the home cooking and the restaurant scene diverge sharply.</div>
     </div>
 
-    <div class="tt-section-label">Tours &amp; Attractions — Regional Specialists</div>
+    <div class="tt-section-label"><span class="tt-section-icon-wrap"><svg class="gm-i" viewBox="0 0 24 24" aria-hidden="true"><use href="#gm-i-4"/></svg></span>Tours &amp; Attractions — Regional Specialists</div>
     <div class="tt-section-note">Outside Western Europe and North America, a regional platform usually has inventory the global ones simply do not carry — local operators list where their customers already are. These are also where you find the things that are not tours at all: transport passes, SIM cards, airport transfers and theme-park tickets bundled into the same checkout.</div>
 
     <div class="tt-card">
@@ -358,7 +451,7 @@
       <div class="tt-desc">A Korea specialist aimed at foreign visitors — salon and clinic appointments, hanbok rental, restaurant reservations, studio photo shoots and discount coupons, all bookable in English when the Korean-language originals need a local phone number. Fills the gap that Klook and KKday leave in everyday, non-touristic bookings.</div>
     </div>
 
-    <div class="tt-section-label">Multi-Day &amp; Small-Group Tours</div>
+    <div class="tt-section-label"><span class="tt-section-icon-wrap"><svg class="gm-i" viewBox="0 0 24 24" aria-hidden="true"><use href="#gm-i-954"/></svg></span>Multi-Day &amp; Small-Group Tours</div>
     <div class="tt-section-note">Different product, different companies. These sell an entire trip — transport, accommodation, guide, most meals — over days or weeks, and most of them operate what they sell rather than reselling it. The decision here is style, not price: group size, average age, how much of each day is scheduled, and whether accommodation is a hostel, a three-star or a converted monastery. Read the day-by-day itinerary and the single-supplement charge before comparing headline prices.</div>
 
     <div class="tt-card">
@@ -441,7 +534,7 @@
       <div class="tt-desc">Premium active travel — cycling, walking and multi-sport — with support vehicles, high-end bikes provided and hotels at the top of the local range. Expensive, and priced against the logistics: route options each day, luggage moved ahead, and no equipment to carry through an airport.</div>
     </div>
 
-    <div class="tt-section-label">Attraction Passes</div>
+    <div class="tt-section-label"><span class="tt-section-icon-wrap"><svg class="gm-i" viewBox="0 0 24 24" aria-hidden="true"><use href="#gm-i-576"/></svg></span>Attraction Passes</div>
     <div class="tt-section-note">A pass is a bet: you pay once and it pays off only above a certain number of paid attractions per day. Two things decide whether it works — whether the sights you actually want are on the list, and whether the pass still requires a separate timed reservation at the busiest ones. Do the arithmetic against the individual ticket prices before buying; for a two-sight-a-day trip it usually loses.</div>
 
     <div class="tt-card">
@@ -504,7 +597,7 @@
       <div class="tt-desc">An authorised reseller of Disney, Universal and other United States theme-park tickets at a modest discount on gate prices — small percentages, but on a family's multi-day tickets the absolute number is meaningful. It also publishes crowd-level forecasts by date, which is the more useful half of the site.</div>
     </div>
 
-    <div class="tt-section-label">Shows, Concerts &amp; Sport — Primary Tickets</div>
+    <div class="tt-section-label"><span class="tt-section-icon-wrap"><svg class="gm-i" viewBox="0 0 24 24" aria-hidden="true"><use href="#gm-i-527"/></svg></span>Shows, Concerts &amp; Sport — Primary Tickets</div>
     <div class="tt-section-note">Primary means the ticket is issued by the event, at face value plus fees, and which company holds a given event is decided by the venue's contract — not by you. So the practical approach is the reverse of shopping around: find the event, see which platform the venue uses, and create the account before tickets go on sale. Popular events sell out in minutes and a queue is no place to be typing card details for the first time.</div>
 
     <div class="tt-card">
@@ -667,7 +760,7 @@
       <div class="tt-desc">The reference for electronic music worldwide — club nights, warehouse events and festivals, listed by city with tickets sold directly. In cities where nightlife is a reason to visit, its calendar is more complete than anything else, and it is often the only place a specific party is advertised at all.</div>
     </div>
 
-    <div class="tt-section-label">Resale</div>
+    <div class="tt-section-label"><span class="tt-section-icon-wrap"><svg class="gm-i" viewBox="0 0 24 24" aria-hidden="true"><use href="#gm-i-407"/></svg></span>Resale</div>
     <div class="tt-section-note">Resale is where sold-out events go, and where the money is lost. Prices float with demand and can sit far above or below face value — the same seat is often cheaper an hour before doors than it was a week earlier. Check the resale rules where you are going before paying a markup: several countries cap resale prices or ban above-face resale outright, and in the United Kingdom and much of the European Union a capped, face-value platform usually has the same ticket for less.</div>
 
     <div class="tt-card">
@@ -750,7 +843,7 @@
       <div class="tt-desc">European football is the category where travellers most often lose money. Most big clubs sell to members first and forbid resale, so tickets on third-party sites can be cancelled at the turnstile and the "guarantee" only refunds the price, not the trip. The safe routes are the club's own website, an official hospitality package, or a membership bought in advance. Treat any site promising sold-out derby tickets at a premium as the risk it is.</div>
     </div>
 
-    <div class="tt-section-label">Finding Out What's On</div>
+    <div class="tt-section-label"><span class="tt-section-icon-wrap"><svg class="gm-i" viewBox="0 0 24 24" aria-hidden="true"><use href="#gm-i-46"/></svg></span>Finding Out What's On</div>
     <div class="tt-section-note">Half the problem is not buying a ticket but knowing an event exists. These are the tools for pointing at a city and a set of dates and seeing what is actually happening while you are there — often the difference between a good trip and a memorable one, and they cost nothing to check.</div>
 
     <div class="tt-card">

@@ -47,6 +47,19 @@
 .ci-summary a:hover { color: var(--accent,#8a6c1a); border-bottom-color: currentColor; }
 
 .index-table { width: 100%; border-collapse: collapse; border: 1px solid var(--border,#d8d4cc); border-radius: 8px; overflow: hidden; }
+/* THE WIDTHS ARE ON CLASSES BECAUSE THE PHONE HIDES THE MIDDLE COLUMN, and a
+   <col> does not follow. `display:none` on a th/td removes the COLUMN but
+   leaves the <colgroup> three entries long, so on a phone the entries stop
+   lining up with the columns they were written for: the bar cell inherited the
+   band's width and the detail row's colspan="3" still asked for a third column,
+   which took the difference — every two-cell row stopped 58px short of the
+   panel underneath it. So the phone drops the declared widths entirely and lets
+   the table size itself (.ci-bar-cell already claims width:100%, which is the
+   whole remainder). `table-layout: fixed` is NOT the fix here — it makes the
+   mis-mapping worse, collapsing the bar column to nothing. */
+.index-table .cw-place { width: 34%; }
+.index-table .cw-band  { width: 20%; }
+.index-table .cw-bar   { width: 46%; }
 .index-table thead th {
   background: var(--surface2, #f0ede8); border-bottom: 2px solid var(--border, #d8d4cc);
   padding: 10px 14px; text-align: left;
@@ -137,7 +150,15 @@ html { scroll-behavior: smooth; }
   .hero-title { font-size: 32px; }
   /* No phone override on the search gap: one token at every viewport. */
   .index-table td, .index-table th { font-size: var(--fs-sub,12px) !important; padding: 6px 8px !important; }
-  .ci-row-label { min-width: 0; width: 100%; }
+  /* Label on its own line, centred over the pills it names — left-aligned
+     under a centred row read like a layout accident. */
+  .ci-row-label { min-width: 0; width: 100%; text-align: center; }
+  /* Only the FIRST <col> still maps to the column it was written for once the
+     middle one is hidden, so it is the only one that keeps a width — 87px of
+     auto-sized name column broke "Zhangjiajie" across two lines. */
+  .index-table .cw-place { width: 40%; }
+  .index-table .cw-band,
+  .index-table .cw-bar { width: auto; }
   .ci-row { justify-content: center; gap: 6px; }
   .index-section .ci-controls { margin: var(--search-gap,32px) 0 0 !important; }
   /* The badge repeats what the bar's colour already says; the bar and the
@@ -217,7 +238,7 @@ html { scroll-behavior: smooth; }
   <div id="cost-noresult">No place matches that search.</div>
 
   <table class="index-table">
-    <colgroup><col style="width:34%"><col style="width:20%"><col style="width:46%"></colgroup>
+    <colgroup><col class="cw-place"><col class="cw-band"><col class="cw-bar"></colgroup>
     <thead><tr>
       <th>Place</th>
       <th class="col-band">Cost of living</th>

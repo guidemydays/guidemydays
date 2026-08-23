@@ -11085,7 +11085,7 @@ window.TVE.home = (function () {
       'bergen':            {iata:'BGO', name:'Bergen Flesland'},
       'berlin':            {iata:'BER', name:'Berlin Brandenburg'},
       'bhutan':            {iata:'PBH', name:'Paro Airport'},
-      'big-island':        {iata:'KIX','KOA', name:'Ellison Onizuka Kona International'},
+      'big-island':        {iata:'KOA', name:'Ellison Onizuka Kona International'},
       'bilbao':            {iata:'BIO', name:'Bilbao Airport'},
       'bologna':           {iata:'BLQ', name:'Bologna Guglielmo Marconi'},
       'bora-bora':         {iata:'BOB', name:'Bora Bora Airport (Motu Mute)'},

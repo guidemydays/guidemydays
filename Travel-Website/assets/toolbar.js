@@ -5643,11 +5643,11 @@ window.TVE.home = (function () {
   var HOTEL_ALT_DATA = {
     /* entries added per guide during build — see Separation Map.md § Hotels & Rentals */
     'granada': { h: [
-      { name: 'Vincci Albayzín Hotel', note: '4-star, free cancellation, Albayzín — eco-friendly, regional cuisine', url: 'https://www.booking.com/hotel/es/vincci-albayzin.html' },
-      { name: 'Shine Albayzín Hotel', note: 'Free cancellation, near Mirador de San Nicolás', url: 'https://www.booking.com/hotel/es/shine-darro.html' },
-      { name: 'Hotel Palacio de Mariana Pineda', note: '17th-century palace facing the Alhambra, spa treatments', url: 'https://www.booking.com/hotel/es/museo-palacio-de-mariana-pineda.html' },
-      { name: 'Palacio Gran Vía, a Royal Hideaway Hotel', note: 'Independent luxury — restored palace on Gran Vía de Colón, spa with hammam, rooftop terrace over the cathedral quarter · 9.5 Booking.com', url: 'https://www.booking.com/hotel/es/palacio-de-gran-via-a-royal-hideaway.html' }
-    ] },
+      { name: 'Shine Albayzín Hotel', note: 'Boutique hotel in Albaicín near Río Darro, traditional Andalusian courtyard, free cancellation, 24h reception · 8.4 Booking.com', url: 'https://www.booking.com/hotel/es/shine-darro.html', tier: 'budget' },
+      { name: 'Vincci Albayzín Hotel', note: 'Vincci Hotels — 4-star in Albaicín, eco-certified, regional cuisine restaurant, free cancellation · 8.7 Booking.com', url: 'https://www.booking.com/hotel/es/vincci-albayzin.html', tier: 'mid' },
+      { name: 'Hotel Palacio de Mariana Pineda', note: 'Independent — 17th-century palace converted to a boutique hotel, Alhambra-facing terrace, spa and hammam treatments · 9.0 Booking.com', url: 'https://www.booking.com/hotel/es/museo-palacio-de-mariana-pineda.html', tier: 'expensive' },
+      { name: 'Palacio Gran Vía, a Royal Hideaway Hotel', note: 'Independent luxury — restored palace on Gran Vía de Colón, spa with hammam, rooftop terrace over the cathedral quarter · 9.5 Booking.com', url: 'https://www.booking.com/hotel/es/palacio-de-gran-via-a-royal-hideaway.html', tier: 'luxury' }
+    ], price: { budget: 'EUR 60–100', mid: 'EUR 100–160', expensive: 'EUR 160–260', luxury: 'EUR 260+' } },
     'lisbon': { h: [
       { name: 'Bairro Alto Hotel', note: 'Independent — 18th-century Pombaline building in Chiado, rooftop bar with river and city views, Flores da Primavera restaurant, curated art · 9.4 Booking.com', url: 'https://www.booking.com/hotel/pt/bairro-alto.html', tier: 'luxury' },
       { name: 'Four Seasons Hotel Ritz Lisbon', note: 'Four Seasons brand — Eduardo VII Park, outdoor heated pool, Varanda restaurant with panoramic city views, full-service spa · 9.2 Booking.com', url: 'https://www.booking.com/hotel/pt/four-seasons-hotel-ritz.html', tier: 'luxury' },
@@ -11312,7 +11312,7 @@ window.TVE.home = (function () {
       'ABQ','AES','AGP','AJU','AMM','AMS','ANC','ARN','ATH','ATL','AUA','AUH','AUS','BCN','BDS','BER',
       'BGI','BGO','BIO','BKK','BLQ','BNA','BOB','BOD','BOS','BRU','BUD','CAI','CDG','CKG','CLT','CMB',
       'CNX','CPH','CPT','CUN','CUR','CUZ','CWB','DBV','DEN','DFW','DOH','DPS','DTW','DUB','DUS','DXB',
-      'EDI','EYW','EZE','FAO','FCA','FCO','FHR','FLN','FLR','FNC','FOR','FRA','GCM','GEG','GIG','GOT',
+      'EDI','EYW','EZE','FAO','FCA','FCO','FHR','FLN','FLR','FNC','FOR','FRA','GCM','GEG','GIG','GOT','GRX',
       'GPS','GRU','GVA','HAM','HAN','HEL','HER','HKG','HKT','HND','HNL','IAD','IAH','ICN','IGU','IST',
       'JFK','JMK','JPA','JTR','KEF','KIX','KOA','KRK','KTM','LAS','LAX','LGA','LGW','LHR','LIH','LIM',
       'LIS','LJU','LPQ','LUX','LYS','MAD','MAN','MCO','MCT','MCZ','MEL','MIA','MLA','MLE','MRS','MSP',

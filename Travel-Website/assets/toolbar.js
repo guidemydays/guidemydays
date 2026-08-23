@@ -6176,11 +6176,11 @@ window.TVE.home = (function () {
       { name: 'Dhara Dhevi Chiang Mai', note: 'Independent — 60-acre Lanna-inspired estate, three pools, Le Grand Lanna restaurant in a century-old teak pavilion, spa village · 9.3 Booking.com', url: 'https://www.booking.com/hotel/th/dhara-dhevi-chiang-mai.html', tier: 'luxury' }
     ], price: { budget: '฿1,500–3,000', mid: '฿3,500–7,000', expensive: '฿7,000–15,000', luxury: '฿15,000+' } },
     'chicago': { h: [
-      { name: 'The Langham, Chicago', note: 'Langham Hotels — 330 North Wabash Avenue in the IBM Building, Chuan Body & Soul Spa, indoor pool, kids club · 9.4 Booking.com', url: 'https://www.booking.com/hotel/us/the-langham-chicago.html' },
-      { name: 'Waldorf Astoria Chicago', note: 'Waldorf Astoria/Hilton — Gold Coast (11 E Walton St), European-style spa, sauna, Art Deco interiors · 9.4 Booking.com', url: 'https://www.booking.com/hotel/us/chicago-11-walton.html' },
-      { name: 'Four Seasons Hotel Chicago', note: 'Four Seasons brand — 120 East Delaware Place off Michigan Avenue, 50-foot indoor pool, Adorn Bar & Restaurant, full-service spa · 9.0 Booking.com', url: 'https://www.booking.com/hotel/us/four-seasons-chicago.html' },
-      { name: 'Loews Chicago Hotel', note: 'Loews brand — 455 North Park Drive in Streeterville, indoor pool, close to Navy Pier and Magnificent Mile · 8.9 Booking.com', url: 'https://www.booking.com/hotel/us/loews-chicago.html' }
-    ] },
+      { name: 'Hotel Blake Chicago', note: 'Tapestry Collection by Hilton — 500 S Dearborn St in South Loop, boutique-style hotel · 8.6 Booking.com', url: 'https://www.booking.com/hotel/us/blake-chicago.html', tier: 'budget' },
+      { name: 'Loews Chicago Hotel', note: 'Loews brand — 455 North Park Drive in Streeterville, indoor pool, close to Navy Pier and Magnificent Mile · 8.9 Booking.com', url: 'https://www.booking.com/hotel/us/loews-chicago.html', tier: 'mid' },
+      { name: 'Four Seasons Hotel Chicago', note: 'Four Seasons brand — 120 East Delaware Place off Michigan Avenue, 50-foot indoor pool, Adorn Bar & Restaurant, full-service spa · 9.0 Booking.com', url: 'https://www.booking.com/hotel/us/four-seasons-chicago.html', tier: 'expensive' },
+      { name: 'The Langham, Chicago', note: 'Langham Hotels — 330 North Wabash Avenue in the IBM Building, Chuan Body & Soul Spa, indoor pool, kids club · 9.4 Booking.com', url: 'https://www.booking.com/hotel/us/the-langham-chicago.html', tier: 'luxury' }
+    ], price: { budget: '$140–250', mid: '$280–450', expensive: '$500–750', luxury: '$750+' } },
     'chongqing': { h: [
       { name: 'Regent Chongqing', note: 'IHG/Regent — Jiefangbei CBD, Yangtze River views, spa, signature restaurants, complimentary minibar · 9.6 Booking.com' , url: 'https://www.booking.com/hotel/cn/regent-chongqing.html' },
       { name: 'JW Marriott Hotel Chongqing', note: 'JW Marriott — Jiefangbei CBD, indoor pool, full-service spa, Yangtze River views, multiple dining venues · 8.6 Booking.com' , url: 'https://www.booking.com/hotel/cn/jw-marriott-hotel-chongqing.html' },

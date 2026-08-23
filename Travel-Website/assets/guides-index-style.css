@@ -181,10 +181,18 @@
 .days-jump-item { display:block; width:100%; text-align:left; background:none; border:0; border-bottom:1px solid var(--border2, #e6e2da); padding:9px 14px; font-size:13px; color:#3d3a32; cursor:pointer; font-family:inherit; white-space:nowrap; text-decoration:none; }
 .days-jump-item:last-child { border-bottom:none; }
 a.days-jump-item, a.days-jump-item:visited, a.days-jump-item:hover { text-decoration:none; color:#3d3a32; }
-a.days-jump-header, a.days-jump-header:visited, a.days-jump-header:hover, .days-jump-header { color:#C04E1A; font-weight:600; background:rgba(184,134,11,.1); }
+a.days-jump-header, a.days-jump-header:visited, a.days-jump-header:hover, .days-jump-header { color:var(--fam-yellow-ink, #7a5800); font-weight:600; background:rgba(184,134,11,.1); }
 .days-jump-item:hover { background:rgba(184,134,11,.06); border-color:#C04E1A; color:var(--accent); }
 .days-jump-item:active { background:rgba(138,108,26,.08); }
 .days-jump-item.on { background:var(--surface, #ffffff); border-color:#C04E1A; color:#C04E1A; font-weight:600; }
+/* The selected day must KEEP its terracotta after the reader has clicked it.
+   `a.days-jump-item:visited` above scores (0,2,1) and beats `.days-jump-item.on`
+   at (0,2,0), so a visited-and-selected day silently dropped to body grey —
+   the same specificity trap that made the Where to Stay sibling pills go
+   terracotta, found by the same pass (owner rule 2026-07-28: no font-colour
+   change after visit). Caught by check_universal_visited_color_match once it
+   learned to read compound selectors. */
+a.days-jump-item.on, a.days-jump-item.on:visited { color:#C04E1A; }
 /* ── Trip-type (theme) filter ── */
 .tchip { display:inline-flex; align-items:center; justify-content:center; font-family: inherit; font-size:13px; font-weight: 400; line-height:1; padding:6px 12px; border:1px solid var(--border2,#e6e2da); border-radius:6px; background:#fff; color: #8a6c1a; cursor:pointer; white-space:nowrap; transition:all .12s; }
 @media (hover:hover){ .tchip:not(.on):hover { border-color:#C04E1A; } }
@@ -199,7 +207,11 @@ a.days-jump-header, a.days-jump-header:visited, a.days-jump-header:hover, .days-
 #theme-badge:hover { color:var(--accent); }
 .theme-divider { width:1px; height:22px; background:var(--border2,#e6e2da); margin:0 2px; flex-shrink:0; }
 .tdiv { width:1px; height:22px; background:var(--border2,#e6e2da); margin:0 2px; align-self:center; }
-#season-badge { display:none; font-size:11px; color:#C04E1A; background:rgba(184,134,11,.1); border:1px solid rgba(184,134,11,.25); border-radius:10px; padding:2px 8px; cursor:pointer; }
+/* GOLD GROUND -> GOLD INK (owner rule 2026-08-23: terracotta type is legal only
+   on the toolbar combination — paper ground, terracotta rim, terracotta label).
+   These carry a gold wash and a gold rim, so the label is gold too.
+   Hard-failed by brain_check.check_terracotta_font_only_on_paper. */
+#season-badge { display:none; font-size:11px; color:var(--fam-yellow-ink, #7a5800); background:rgba(184,134,11,.1); border:1px solid rgba(184,134,11,.25); border-radius:10px; padding:2px 8px; cursor:pointer; }
 #season-badge.visible { display:inline-block; }
 /* temp range sliders */
 #temp-range { display:flex; align-items:center; gap:10px; margin:14px 0 0; padding-top:14px; border-top:1px solid var(--border2, #e6e2da); flex-wrap:wrap; }
@@ -540,7 +552,7 @@ a.days-jump-header, a.days-jump-header:visited, a.days-jump-header:hover, .days-
 #filter-active-bar { display: none; justify-content: flex-start; align-items: center; gap: 10px; margin: 0 0 8px; }
 #filter-active-bar.visible { display: flex; }
 #filter-active-label { font-size: 12px; color: var(--muted, #6a6660); }
-#clear-all-filters { font: inherit; font-size: 11px; color: #C04E1A; background: rgba(184,134,11,.1); border: 1px solid rgba(184,134,11,.25); border-radius: 10px; padding: 2px 10px; cursor: pointer; white-space: nowrap; }
+#clear-all-filters { font: inherit; font-size: 11px; color: var(--fam-yellow-ink, #7a5800); background: rgba(184,134,11,.1); border: 1px solid rgba(184,134,11,.25); border-radius: 10px; padding: 2px 10px; cursor: pointer; white-space: nowrap; }
 #clear-all-filters:hover { background: rgba(184,134,11,.18); }
 /* Browse-by view pills sit directly in the pill-row as standard disc-btn pills;
    the wrapper only carries the group semantics (role/aria-label). */
@@ -640,7 +652,7 @@ body.mode-flights .fnote { display: block; }
 .ll-foot:has(#lang-badge:not(.visible)) { display:none; }
 .ll-count { font-size:12px; color:var(--muted); }
 .ll-count strong { color:#C04E1A; font-weight:700; }
-#lang-badge { display:none; font-size:11px; color:#C04E1A; background:rgba(184,134,11,.1); border:1px solid rgba(184,134,11,.25); border-radius:10px; padding:3px 10px; cursor:pointer; font-family:inherit; }
+#lang-badge { display:none; font-size:11px; color:var(--fam-yellow-ink, #7a5800); background:rgba(184,134,11,.1); border:1px solid rgba(184,134,11,.25); border-radius:10px; padding:3px 10px; cursor:pointer; font-family:inherit; }
 #lang-badge.visible { display:inline-block; }
 /* ── Language view menu (By Language / By Guide) ── */
 .lang-menu { display:block; min-width:170px; background:var(--warm); border:1px solid var(--border); border-radius:8px; overflow:hidden; box-shadow:0 6px 18px rgba(0,0,0,.14); }
@@ -1109,7 +1121,7 @@ a.pt-open:visited { color: #3d3a32; }
 #tt-suggest-list { position:absolute; top:calc(100% + 4px); left:0; z-index:60; min-width:200px; background:var(--warm); border:1px solid var(--border); border-radius:8px; overflow:hidden; box-shadow:0 6px 18px rgba(0,0,0,.12); }
 .tt-sug-item { display:block; width:100%; text-align:left; background:none; border:0; border-bottom:1px solid var(--border2,#e6e2da); padding:9px 14px; font-size:13px; color:var(--text,#1a1917); cursor:pointer; font-family:inherit; white-space:nowrap; }
 .tt-sug-item:last-child { border-bottom:0; }
-.tt-sug-item:hover { background:rgba(184,134,11,.06); color:#C04E1A; }
+.tt-sug-item:hover { background:rgba(184,134,11,.06); color:var(--fam-yellow-ink, #7a5800); }
 #tt-city-badge { display:inline-block; margin-left:10px; font-size:12px; color:#C04E1A; font-weight:500; vertical-align:middle; }
 .tt-safe-row { margin:14px 0 16px; display:flex; align-items:center; }
 .tt-check-lbl { display:inline-flex; align-items:center; gap:7px; font-size:13px; color:var(--text,#1a1917); cursor:pointer; }

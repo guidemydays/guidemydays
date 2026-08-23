@@ -3809,9 +3809,7 @@ window.lpGuideCard = function (href, flag, name, extra) {
     <!-- "flight time" without an origin, because the origin is now the
          reader's own and is named in the table's row header. Naming Seattle
          here would contradict the column it introduces. -->
-    <p class="cmpx-lede">Pick <strong>2 to 5 cities</strong> and see them side by
-    side &mdash; flight time, visa, climate month by month, best season,
-    languages, what a day costs and how safe it is.</p>
+    <p class="cmpx-lede">Pick <strong>2 to 5 cities</strong> &mdash; flight time, visa, climate, cost, safety.</p>
 
     <div class="cmpx-pick">
       <label for="cmpx-search">Search for a city or a country</label>
@@ -7587,12 +7585,16 @@ function render() {
       if (clrBtn) clrBtn.hidden = !anyFilter();
 
       if (countEl) {
-        countEl.innerHTML = rows.length
-          ? '<b>' + rows.length + '</b> ' + (rows.length === 1 ? 'city' : 'cities') +
-            ' to choose from &mdash; ' +
-            (picked ? '<b>' + picked + '</b> of ' + MAX_PICK + ' picked.'
-                    : 'pick 2 to 5.')
-          : 'Nothing by that name.';
+        /* NO FLEET COUNT AT REST (Fifty-second non-negotiable). The panel opens
+           with nothing narrowed, so rows.length there IS the fleet size — a
+           claim about how many guides the site has, not a result count. The
+           number returns the instant the reader narrows something, which is
+           exactly where it is useful and exactly what the rule allows. */
+        var lead = anyFilter() ? '<b>' + rows.length + '</b> ' +
+                                 (rows.length === 1 ? 'city' : 'cities') + ' &mdash; ' : '';
+        countEl.innerHTML = !rows.length ? 'Nothing by that name.'
+          : lead + (picked ? '<b>' + picked + '</b> of ' + MAX_PICK + ' picked.'
+                           : (lead ? 'pick 2 to 5.' : 'Pick 2 to 5.'));
       }
 
       if (!rows.length) {
@@ -7709,6 +7711,13 @@ function render() {
         .forEach(function (c) { c.click(); });          /* a second click deselects */
       pool.slice(0, Math.min(MAX_PICK, pool.length)).forEach(function (g) { g.el.click(); });
       render();
+      /* AND SHOW THE TABLE (owner, 2026-08-23: "i did and what? did not show me
+         the results"). Surprising the reader with five cities and then waiting
+         for them to find a second button is not an answer — it looks like the
+         button did nothing. The engine's own go button is what draws the table
+         and scrolls to it, so this presses it rather than duplicating it. */
+      var go = document.getElementById('cmp-go');
+      if (go && !go.disabled) go.click();
     });
 
     if (clrBtn) clrBtn.addEventListener('click', function () {

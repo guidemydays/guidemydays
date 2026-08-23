@@ -1167,15 +1167,26 @@ window.TVE.home = (function () {
        directly: <svg class="gm-icon" data-icon="steps" data-role="steps"
        viewBox="0 0 24 24" aria-hidden="true"><use href="#gm-i-steps"/></svg>. */
     'steps': ['0 0 24 24', '<path d="M22.0 21.75 L22.0 16.875 L17.0 16.875 L17.0 12.0 L12.0 12.0 L12.0 7.125 L7.0 7.125 L7.0 2.25 L2.0 2.25 L2.0 21.75 Z" fill="url(#gm-rust)" stroke="var(--c-rust-rim)" stroke-width="0.5" stroke-linejoin="round"/><path d="M22.0 21.75 L22.0 16.875 L17.0 16.875 L17.0 12.0 L12.0 12.0 L12.0 7.125 L7.0 7.125 L7.0 2.25 L2.0 2.25 L2.0 21.75 Z" fill="url(#gm-gloss)"/>'],
-    /* Site-Icons.html #169 (uphill, pine) and #153 (long stride, navy) — the
-       two walking-motion figures the owner approved on 2026-08-18 for the
-       'Steep uphill' and 'Long walk' notes. Treated in the catalogue that day
-       and then left out of GM_SPRITE, so nine guides shipped 'Steep uphill' as
-       bare words for three days. Both carry data-norm="h19.5": the family
-       renders at walk's own height in a row, and untransformed they were 22.45
-       and 21.85. THE KEYS ARE NOT MOTION MARKS — a motion row draws walk /
-       delivery-car / van / ship and nothing else (Sixty-seventh non-negotiable);
-       these two only ever lead a Position-2c note. */
+    /* 'uphill' is Site-Icons.html #1452, the RAMP — not a walking figure, and
+       not #169 (owner rules 2026-08-23: "The uphill we cant do the same it would
+       be confusing any way to change the icon so it would be diffrent and we
+       could keep the same color" · "yes do the ramp A"). #169 and #153 are one
+       drawing in two poses, so once every Position-2c mark went rust the two
+       collided: a reader could not tell the climb row from the walk row, because
+       colour had been doing the work the shape should have done. The fix was the
+       SHAPE. #1420 is a stepped block, #1452 is that block with the steps
+       smoothed out, and both lean the same way — they are read as a pair.
+       #169's artwork stays in the catalogue with no sprite entry, like the
+       cancelled #1421/#1422; NEVER re-point 'uphill' at it.
+       'long-walk' is still #153 (long stride), recoloured rust the same day, and
+       it keeps data-norm="h19.5" — untransformed it stands 21.85 against walk's
+       19.75, so in a row it would out-size the walking figure two lines above it;
+       the wrapper divides every stroke-width back out, and re-wrapping an already
+       wrapped drawing is the mistake to avoid. #1452 needs no wrapper: it is
+       authored at 20x19.5 in the 24 box.
+       THE KEYS ARE NOT MOTION MARKS — a motion row draws walk / delivery-car /
+       van / ship and nothing else (Sixty-seventh non-negotiable); these two only
+       ever lead a Position-2c note. */
     'uphill': ['0 0 24 24', '<path d="M2.0 2.25 C2.0 2.25 8.0 14.0 12.0 17.6 C15.5 20.7 22.0 21.75 22.0 21.75 L2.0 21.75 Z" fill="url(#gm-rust)" stroke="var(--c-rust-rim)" stroke-width="0.5" stroke-linejoin="round"/><path d="M2.0 2.25 C2.0 2.25 8.0 14.0 12.0 17.6 C15.5 20.7 22.0 21.75 22.0 21.75 L2.0 21.75 Z" fill="url(#gm-gloss)"/>'],
     'long-walk': ['0 0 24 24', '<g data-norm="h19.5" transform="translate(2.272 1.642) scale(0.8686)"><path d="M12.6 5.6 11.8 12.0" fill="none" stroke="var(--c-rust-rim)" stroke-width="6.332" stroke-linecap="round" stroke-linejoin="round"/><path d="M11.8 12.0 15.6 16.2 16.7 20.8" fill="none" stroke="var(--c-rust-rim)" stroke-width="5.411" stroke-linecap="round" stroke-linejoin="round"/><path d="M11.8 12.0 7.5 16.4 5.7 20.6" fill="none" stroke="var(--c-rust-rim)" stroke-width="5.411" stroke-linecap="round" stroke-linejoin="round"/><path d="M12.4 7.0 16.8 12.0" fill="none" stroke="var(--c-rust-rim)" stroke-width="4.950" stroke-linecap="round" stroke-linejoin="round"/><path d="M12.2 6.9 8.0 12.0" fill="none" stroke="var(--c-rust-rim)" stroke-width="4.950" stroke-linecap="round" stroke-linejoin="round"/><path d="M12.6 5.6 11.8 12.0" fill="none" stroke="url(#gm-rust)" stroke-width="5.181" stroke-linecap="round" stroke-linejoin="round"/><path d="M11.8 12.0 15.6 16.2 16.7 20.8" fill="none" stroke="url(#gm-rust)" stroke-width="4.260" stroke-linecap="round" stroke-linejoin="round"/><path d="M11.8 12.0 7.5 16.4 5.7 20.6" fill="none" stroke="url(#gm-rust)" stroke-width="4.260" stroke-linecap="round" stroke-linejoin="round"/><path d="M12.4 7.0 16.8 12.0" fill="none" stroke="url(#gm-rust)" stroke-width="3.799" stroke-linecap="round" stroke-linejoin="round"/><path d="M12.2 6.9 8.0 12.0" fill="none" stroke="url(#gm-rust)" stroke-width="3.799" stroke-linecap="round" stroke-linejoin="round"/><circle cx="12.8" cy="3.6" r="2.65" fill="url(#gm-rust)" stroke="var(--c-rust-rim)" stroke-width="0.576"/><circle cx="12.8" cy="3.6" r="2.65" fill="url(#gm-gloss)"/></g>'],
     /* Site-Icons.html #1423 — the viaduct, for exposed heights. Straight

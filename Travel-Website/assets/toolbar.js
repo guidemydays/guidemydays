@@ -6926,11 +6926,11 @@ window.TVE.home = (function () {
       { name: 'The Ritz-Carlton Osaka', tier: 'luxury', note: 'Ritz-Carlton brand — Umeda, indoor pool, Splendor spa, La Baie French restaurant · 9.3 Booking.com', url: 'https://www.booking.com/hotel/jp/the-ritz-carlton-osaka.html' }
     ], price: { budget: 'JPY 20,000–40,000', mid: 'JPY 35,000–60,000', expensive: 'JPY 50,000–80,000', luxury: 'JPY 80,000+' } },
     'oslo': { h: [
-      { name: 'The Thief', note: 'Independent boutique — Tjuvholmen Sculpture Park waterfront, spa, contemporary art throughout · 9.3 Booking.com', url: 'https://www.booking.com/hotel/no/the-thief.html' },
-      { name: 'Amerikalinjen', note: 'Independent — 1919 Norwegian America Line headquarters, 122 rooms, three restaurants, rooftop bar · 9.2 Booking.com', url: 'https://www.booking.com/hotel/no/amerikalinjen.html' },
-      { name: 'Grand Hotel Oslo by Scandic', note: 'Scandic brand — Karl Johans Gate landmark since 1874, Palmen restaurant, indoor pool, central Royal Palace proximity · 8.8 Booking.com', url: 'https://www.booking.com/hotel/no/grand.html' },
-      { name: 'Hotel Continental Oslo', note: 'Independent — Stortingsgaten near the National Theatre, Theatercaféen brasserie, acclaimed art collection, 155 rooms · 9.0 Booking.com', url: 'https://www.booking.com/hotel/no/continental.html' }
-    ] },
+      { name: 'Grand Hotel Oslo by Scandic', tier: 'budget', note: 'Scandic brand — Karl Johans Gate landmark since 1874, Palmen restaurant, indoor pool, central Royal Palace proximity · 8.8 Booking.com', url: 'https://www.booking.com/hotel/no/grand.html' },
+      { name: 'Hotel Continental Oslo', tier: 'mid', note: 'Independent — Stortingsgaten near the National Theatre, Theatercaféen brasserie, acclaimed art collection, 155 rooms · 9.0 Booking.com', url: 'https://www.booking.com/hotel/no/continental.html' },
+      { name: 'Amerikalinjen', tier: 'expensive', note: 'Independent — 1919 Norwegian America Line headquarters, 122 rooms, three restaurants, rooftop bar · 9.2 Booking.com', url: 'https://www.booking.com/hotel/no/amerikalinjen.html' },
+      { name: 'The Thief', tier: 'luxury', note: 'Independent boutique — Tjuvholmen Sculpture Park waterfront, spa, contemporary art throughout · 9.3 Booking.com', url: 'https://www.booking.com/hotel/no/the-thief.html' }
+    ], price: { budget: 'NOK 1,500–2,500', mid: 'NOK 2,500–4,000', expensive: 'NOK 4,000–7,000', luxury: 'NOK 7,000+' } },
     'oxford': { h: [
       { name: 'Le Manoir aux Quat\'Saisons, A Belmond Hotel', note: 'Belmond brand — Raymond Blanc\'s two-Michelin-star retreat in Great Milton, 32 rooms, kitchen garden · 9.7 Booking.com', url: 'https://www.booking.com/hotel/gb/belmond-le-manoir-aux-quat-39-saisons.html', tier: 'luxury' },
       { name: 'Old Bank Hotel', note: 'Independent boutique 5-star — Oxford High Street, views of university spires, Quod restaurant and terrace, 43 rooms · 9.3 Booking.com', url: 'https://www.booking.com/hotel/gb/the-old-bank.html', tier: 'expensive' },

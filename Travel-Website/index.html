@@ -1904,7 +1904,11 @@ a.land-cta:hover:visited {
   color: var(--muted,#6a6660); font: inherit; font-size: 0.85rem;
   border-radius: 999px; padding: 0.45em 1.1em; cursor: pointer;
 }
-.cmpx-mini:hover, .cmpx-mini:focus-visible { background: var(--bg,#f0ede8); border-color: var(--rust, #C04E1A); }
+.cmpx-mini:not(:disabled):hover, .cmpx-mini:focus-visible { background: var(--bg,#f0ede8); border-color: var(--rust, #C04E1A); }
+/* Surprise me needs two cities to shuffle between; below that it is disabled,
+   and it dims the same .45 as a row the five-city cap has locked out, so one
+   "you cannot press this" reading serves the whole card. */
+.cmpx-mini:disabled { opacity: .45; cursor: default; }
 .cmpx-mini svg { width: 16px; height: 16px; display: block; flex: 0 0 auto; }
 .cmpx-mini[hidden] { display: none !important; }
 #cmpx-list:not(:empty) {
@@ -6842,7 +6846,16 @@ function render() {
       out += '<tr><td class="cmp-row-label">Flight<br>from ' + esc(homeCode) + '</td>';
       sel.forEach(function(c) {
         var key = c.href.split('/').pop().replace(/\.html$/, '');
-        var code = AIRBY ? (AIRBY[key + '.html'] || '') : '';   /* _by_slug is keyed 'athens.html' */
+        /* _by_slug IS KEYED BY THE BARE SLUG — 'athens', not 'athens.html'. The
+           '.html' this line used to append matched nothing, for every city, so
+           the row rendered with an em-dash in all five columns: present,
+           useless, and reading as missing data about the cities rather than a
+           lookup that failed (which is precisely what the note above says must
+           never happen). Same shape as the finder's dead routing filter, which
+           looked FMAP up by g.rel while FMAP is keyed by slug — Thirty-seventh
+           non-negotiable. Both keys are accepted so the row cannot go dark
+           again if the map is ever re-keyed. */
+        var code = AIRBY ? (AIRBY[key] || AIRBY[key + '.html'] || '') : '';
         var pos = (code && AIRXY) ? AIRXY[code] : null;
         var mins = (pos && code !== homeCode) ? HOME.estimate(pos[0], pos[1]) : null;
         if (mins !== null) {
@@ -7602,6 +7615,11 @@ function render() {
       var picked = document.querySelectorAll('.mosaic-wrap .dest-card.cmp-sel').length;
       var full   = picked >= MAX_PICK;
       if (clrBtn) clrBtn.hidden = !anyFilter();
+      /* A BUTTON THAT CANNOT WORK SAYS SO. Surprise me needs two cities to
+         shuffle between; below that its handler returned silently, so on a
+         one-result search it looked broken in exactly the way a dead control
+         does. Disabled instead, which the pill styling already dims. */
+      if (shufBtn) shufBtn.disabled = !rows || rows.length < 2;
 
       if (countEl) {
         /* NO FLEET COUNT AT REST (Fifty-second non-negotiable). The panel opens

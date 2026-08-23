@@ -7377,11 +7377,11 @@ window.TVE.home = (function () {
       { name: 'Four Seasons Hotel Seattle', note: 'Four Seasons brand — Elliott Bay waterfront, Goldfinch Tavern, outdoor pool with bay views, spa, steps from Pike Place · 9.4 Booking.com', url: 'https://www.booking.com/hotel/us/four-seasons-seattle.html', tier: 'luxury' }
     ], price: { budget: 'USD 180–320', mid: 'USD 320–480', expensive: 'USD 480–750', luxury: 'USD 750+' } },
     'sedona': { h: [
-      { name: 'Enchantment Resort', note: 'Independent luxury — canyon-floor 70-acre resort in Boynton Canyon, mii amo destination spa, red-rock surrounds · 9.3 Booking.com', url: 'https://www.booking.com/hotel/us/enchantment-resort.html' },
-      { name: 'L\'Auberge de Sedona', note: 'Independent luxury — Oak Creek canyon setting, cottage suites, farm-to-table Cress restaurant · 9.2 Booking.com', url: 'https://www.booking.com/hotel/us/l-auberge-de-sedona.html' },
-      { name: 'Amara Resort and Spa', note: 'Independent — Uptown Sedona on Oak Creek, adults-only pool, HARVEST restaurant, red-rock views · 9.0 Booking.com', url: 'https://www.booking.com/hotel/us/amara-resort-spa.html' },
-      { name: 'Mii amo, A Destination Spa Resort', note: 'Enchantment Resort spa property — Boynton Canyon, all-inclusive spa retreat, crystal garden, yoga · 9.4 Booking.com', url: 'https://www.booking.com/hotel/us/mii-amo.html' }
-    ] },
+      { name: 'Sedona Rouge Hotel & Spa', note: 'Independent — Uptown Sedona, adults-only pool and full-service Atma Spa, ETCH Kitchen + Bar, close to trailheads · 8.7 Booking.com', url: 'https://www.booking.com/hotel/us/sedona-rouge-hotel-spa.html', tier: 'budget' },
+      { name: 'Amara Resort and Spa', note: 'Independent — Uptown Sedona on Oak Creek, adults-only pool, HARVEST restaurant, red-rock views · 9.0 Booking.com', url: 'https://www.booking.com/hotel/us/amara-resort-spa.html', tier: 'mid' },
+      { name: 'L\'Auberge de Sedona', note: 'Independent luxury — Oak Creek canyon setting, cottage suites, farm-to-table Cress restaurant · 9.2 Booking.com', url: 'https://www.booking.com/hotel/us/l-auberge-de-sedona.html', tier: 'expensive' },
+      { name: 'Enchantment Resort', note: 'Independent luxury — canyon-floor 70-acre resort in Boynton Canyon, mii amo destination spa, red-rock surrounds · 9.3 Booking.com', url: 'https://www.booking.com/hotel/us/enchantment-resort.html', tier: 'luxury' }
+    ], price: { budget: 'USD 200–350', mid: 'USD 350–550', expensive: 'USD 550–850', luxury: 'USD 850+' } },
     'seoul': { h: [
       { name: 'The Shilla Seoul', note: 'Independent luxury — 23 acres of gardens on Namsan Hill, indoor pool, Korean contemporary luxury, flagship spa · 9.2 Booking.com', url: 'https://www.booking.com/hotel/kr/the-shilla.html' },
       { name: 'Park Hyatt Seoul', note: 'Hyatt brand — Gangnam CBD, 24th-floor heated indoor infinity pool, Lounge on the Park panoramic bar · 9.1 Booking.com', url: 'https://www.booking.com/hotel/kr/park-hyatt-seoul.html' },

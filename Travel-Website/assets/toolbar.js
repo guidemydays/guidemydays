@@ -124,8 +124,13 @@ window.TVE.home = (function () {
 
   function set(h) {
     if (!h || !h.code) return get();
+    /* `tz` rides with the choice from 2026-08-23 — the finder's jet-lag filter
+       is measured from THIS airport's clock, not the reader's device. Optional:
+       an older cached row, or a caller that builds `h` by hand, leaves it '' and
+       every consumer falls back to the device clock. */
     var next = { code: String(h.code).toUpperCase(), city: h.city || h.code,
-                 country: h.country || '', lat: +h.lat, lon: +h.lon };
+                 country: h.country || '', lat: +h.lat, lon: +h.lon,
+                 tz: h.tz || '' };
     picked = next;
     subs.forEach(function (fn) { try { fn(next); } catch (e) {} });
     return next;
@@ -284,9 +289,16 @@ window.TVE.home = (function () {
   /* A picker row -> a home. The row carries its own position (build_airports.py
      appends lat/lon), so the choice is resolved once and stored complete: no
      later surface ever has to fetch 204 KB to learn where the reader lives. */
+  /* `tz` is the airport's own IANA zone, column 8 since 2026-08-23 (owner
+     decision): the finder measures jet lag from the airport the reader named,
+     not from their device clock, so the clock has to travel with the choice.
+     `r.length >= 7` still admits an older row — the zone comes back '' and
+     every consumer falls back to the device clock, which is what it did
+     before. Never tighten this to >= 8 without a cache-busting story: a reader
+     mid-session can be holding a sessionStorage row from the previous asset. */
   function fromRow(r) {
     return r && r.length >= 7
-      ? { code: r[0], city: r[1], country: r[2], lat: r[5], lon: r[6] }
+      ? { code: r[0], city: r[1], country: r[2], lat: r[5], lon: r[6], tz: r[7] || '' }
       : null;
   }
 

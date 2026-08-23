@@ -8643,18 +8643,58 @@ function render() {
      fired SIX times in twenty-five seconds. The offsets cannot change while
      the page is open (the only mover is a DST boundary crossed mid-session),
      so they are computed once per city and read from the map after that. */
-  var _TZ_MIN = {};
-  function tzDiffMinutes(name) {
-    if (Object.prototype.hasOwnProperty.call(_TZ_MIN, name)) return _TZ_MIN[name];
-    var v = null, tz = tzOf(name);
-    if (tz) {
-      try {
-        var now = new Date();
-        var there = new Date(now.toLocaleString('en-US', { timeZone: tz }));
-        var utc = new Date(now.toLocaleString('en-US', { timeZone: 'UTC' }));
-        v = Math.round((there - utc) / 60000) + now.getTimezoneOffset();
-      } catch (e) { v = null; }
+  /* A zone's CURRENT offset from UTC, in minutes. One helper, used for the
+     destination and for the origin, so the two can never be computed by two
+     slightly different routes. */
+  function zoneOffset(tz) {
+    if (!tz) return null;
+    try {
+      var now = new Date();
+      var there = new Date(now.toLocaleString('en-US', { timeZone: tz }));
+      var utc = new Date(now.toLocaleString('en-US', { timeZone: 'UTC' }));
+      return Math.round((there - utc) / 60000);
+    } catch (e) { return null; }
+  }
+
+  /* ── JET LAG IS MEASURED FROM THE AIRPORT THE READER NAMED ────────────────
+     Owner decision 2026-08-23, choosing this over labelling the two numbers:
+     the card was stating two facts about one trip from two different places.
+     "How far are you willing to fly?" and the "~6h 30m" on the card measure
+     from the airport; "How much jet lag?" and the "+2h vs your clock" measured
+     from the BROWSER's zone. A reader on a Berlin laptop who names LHR was told
+     Abu Dhabi is 6h 30m from London and +2h from Berlin — from London it is +3h.
+
+     That trade only became winnable when the airport became the finder's first
+     and REQUIRED question the same day. Before it, most readers named no
+     airport at all and there was nothing to measure from, which is why the
+     device clock was the right answer until then and is still the fallback.
+
+     This does NOT breach the Forty-seventh non-negotiable. The reference is the
+     reader's own answer to a question on the form — not a city this site
+     chose, not a default, and not Seattle. With no airport named there is no
+     reference and the device clock stands in, exactly as before.
+
+     THE CACHE IS KEYED ON THE REFERENCE, not just the city. An offset is now a
+     difference between two clocks, so the whole map is wrong the moment the
+     reader changes airport — measured as a stale "+2h" surviving a switch from
+     LHR to SEA during development. `_TZ_REF` is what makes that impossible. */
+  var _TZ_MIN = {}, _TZ_REF = null;
+  function refOffset() {
+    var h = HOME && HOME.get();
+    /* The airport's own clock when it has one; the device otherwise. An older
+       cached row has no `tz`, so this must not assume one is there. */
+    if (h && h.tz) {
+      var o = zoneOffset(h.tz);
+      if (o !== null) return { key: h.tz, mins: o };
     }
+    return { key: '@device', mins: -(new Date().getTimezoneOffset()) };
+  }
+  function tzDiffMinutes(name) {
+    var ref = refOffset();
+    if (_TZ_REF !== ref.key) { _TZ_MIN = {}; _TZ_REF = ref.key; }
+    if (Object.prototype.hasOwnProperty.call(_TZ_MIN, name)) return _TZ_MIN[name];
+    var dest = zoneOffset(tzOf(name));
+    var v = dest === null ? null : dest - ref.mins;
     _TZ_MIN[name] = v;
     return v;
   }
@@ -9239,7 +9279,13 @@ function render() {
           farNote.textContent = '* Total time in the air. ' +
             'Time waiting between connections is not counted.';
         }
-        homeNote.textContent = '';
+        /* ONE PLACE, SAID ONCE (owner decision 2026-08-23). Both numbers on a
+           result card are now measured from this airport — the flying time and
+           the jet lag — and the card itself says neither, because "6h 30m" and
+           "+3h vs your clock" read as plain facts and only stop being plain if
+           they disagree. They cannot disagree any more; this line is what says
+           so, in the one place a reader is looking when they wonder. */
+        homeNote.textContent = 'Flying time and jet lag are both measured from here.';
         return;
       }
       /* No origin yet. Silent until a band is actually picked — a permanent

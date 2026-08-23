@@ -1144,6 +1144,11 @@ a.land-cta:hover:visited {
    chip: this row has to darken in dark mode, and a hardcoded cream band under
    light text is unreadable there. Same token .sa-row:hover uses. */
 .fnd-home-opt-on, .fnd-home-opt:hover { background: var(--bg,#f0ede8); }
+/* The IATA code leads every row and is the only part of it the reader is
+   expected to recognise, so it carries the weight. Same size and same ink as
+   the rest of the row — weight alone separates it; a second colour here would
+   put type on a ground that is not the paper/terracotta-rim pair. */
+.fnd-home-code { font-weight: 700; letter-spacing: 0.02em; }
 .fnd-home-note { margin: 0.45rem 0 0; font-size: 0.74rem; font-weight: 400; color: var(--muted,#6a6660); }
 #fnd-home-list {
   position: absolute; z-index: 40; left: 0; right: 0; top: calc(100% + 4px);
@@ -1221,12 +1226,17 @@ a.land-cta:hover:visited {
    painted --text #e8e5e0 on white at 1.15:1 — the value was invisible. And
    `font: inherit` stands alone with no font-size after it, so the chip reads at
    the size of the select whose value it echoes (mobile.css already forces both
-   to 16px on a phone; this is what makes desktop agree). */
+   to 16px on a phone; this is what makes desktop agree).
+
+   2026-08-23: the rule above was already correct and the code disagreed with
+   it — `color` was `var(--accent, #8a6c1a)`, the gold the comment says a
+   chip must NOT be. Selection Pills audit (owner: "sometimes the hove is
+   wrong sometimes is the font"). Now var(--rust, #C04E1A), matching the rim. */
 .fnd-chips { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 7px; }
 .fnd-chip {
   background: var(--surface, #fff); border: 1px solid rgba(192, 78, 26, .30);
   border-radius: 999px; padding: 0.3em 0.85em; font: inherit;
-  color: var(--accent, #8a6c1a); cursor: pointer;
+  color: var(--rust, #C04E1A); cursor: pointer;
 }
 /* OWNER-DIRECTED 2026-08-22: "change this button to terracota move to the
    middle of the filter above and move up a bit."
@@ -7180,6 +7190,15 @@ function render() {
       if (fv) fv.style.display = '';
       if (btnCompare) { btnCompare.classList.remove('on'); btnCompare.style.background = ''; btnCompare.style.borderColor = ''; btnCompare.style.color = ''; btnCompare.innerHTML = '<svg viewBox="0 0 24 24" width="14" height="14" aria-hidden="true" style="vertical-align:middle;flex-shrink:0"><use href="#gm-i-compare"/></svg> <span class="pl">Compare cities</span>'; } // icon: Site-Icons #548 (sprite `compare`) — never an emoji
       if (cmpHint) cmpHint.style.display = 'none';
+      /* AND REDRAW THE BAR. It clears the selection but the bar is DOM the
+         engine only rewrites in updateBar(), so "Clear everything" left five
+         city chips, "5 of 5" and a live "Compare 5 cities" button sitting under
+         an empty selection — and pressing that button did nothing, because sel
+         is empty. Invisible on the guides index, where the bar is hidden with
+         .cmp-visible the moment compare mode ends; on this page the bar lives
+         inside the panel and stays on screen, so the stale state is the first
+         thing the reader sees after clearing. */
+      updateBar();
     }
 
     /* Expose so the facet panels and view pills can exit compare mode */
@@ -9261,7 +9280,29 @@ function render() {
 
     var rows = [], active = -1;
 
-    /* THE ROW NAMES THE AIRPORT, NOT THE PARISH IT SITS IN (2026-08-23).
+    /* THE CODE LEADS THE ROW, AND THE NAME COMES AFTER IT (owner rule
+       2026-08-23: "no one knows the entire name of the airport — more of the
+       times the first thing needs to be the LAS, SEA, whatever it is that the
+       airports use, the name comes after").
+
+       It read "Harry Reid International (LAS) · Las Vegas · US", which puts the
+       three letters the reader actually knows in brackets, in the middle, after
+       a proper name most people have never heard. Typing "la" returned six rows
+       opening on "Harry Reid", "El Alto", "Casa De Campo", "Nadzab Tomodachi",
+       "Murtala Muhammed", "Laguindingan" — not one of which tells a reader
+       which row is Las Vegas, Lagos or La Paz. The code is the one string a
+       ticket, a bag tag, a booking site and the reader's own memory all agree
+       on, so it goes FIRST and in bold; the name follows as the confirmation,
+       and the municipality and country stay where they were:
+
+           LAS · Harry Reid International · Las Vegas · US
+
+       Do not put the code back in brackets after the name. The label under the
+       box (`pickedLabel`, and the `h.city` fallback beside it) echoes the same
+       order for the same reason — the field must read back the way the row the
+       reader clicked read.
+
+       THE ROW NAMES THE AIRPORT, NOT THE PARISH IT SITS IN (2026-08-23).
 
        It read `r[1]`, the OurAirports `municipality`, which for a good number
        of the world's busiest airports is a suburb nobody outside the country
@@ -9297,9 +9338,11 @@ function render() {
       return String(s || '').normalize('NFD').replace(/[̀-ͯ]/g, '')
         .toLowerCase().replace(/[^a-z0-9]/g, '');
     }
-    function label(r) {
-      var city = r[1] || '', name = r[3] || '', code = r[0], cc = r[2];
-      var out = (name || city) + ' (' + code + ')';
+    /* Everything AFTER the code. The code itself is drawn by paint() as its own
+       bold span, so it cannot be lost in the middle of a long name. */
+    function tail(r) {
+      var city = r[1] || '', name = r[3] || '', cc = r[2];
+      var out = ' · ' + (name || city);
       var q = _fold(homeIn.value);
       if (city && name && q &&
           _fold(city).indexOf(q) > -1 && _fold(name).indexOf(q) === -1) {
@@ -9399,7 +9442,7 @@ function render() {
          label is remembered here, keyed on the code so a home set anywhere else
          still falls back to the city it does carry. */
       homeIn.value = h ? ((pickedLabel && pickedLabel.code === h.code && pickedLabel.text)
-                          || (h.city + ' (' + h.code + ')')) : '';
+                          || (h.code + ' · ' + h.city)) : '';
       lockForm();
       /* The Routing/Stops sync that stood here went with its control — owner
          rule 2026-08-17: nothing on this form is Seattle-anchored any more. */
@@ -9413,7 +9456,11 @@ function render() {
         var li = document.createElement('li');
         li.className = 'fnd-home-opt' + (i === active ? ' fnd-home-opt-on' : '');
         li.setAttribute('role', 'option');
-        li.textContent = label(r);
+        var code = document.createElement('span');
+        code.className = 'fnd-home-code';
+        code.textContent = r[0];
+        li.appendChild(code);
+        li.appendChild(document.createTextNode(tail(r)));
         li.addEventListener('mousedown', function (e) { e.preventDefault(); choose(r); });
         homeList.appendChild(li);
       });
@@ -9426,7 +9473,7 @@ function render() {
     function choose(r) {
       var h = HOME.fromRow(r);
       if (!h) return;
-      pickedLabel = { code: h.code, text: (r[3] || r[1] || '') + ' (' + h.code + ')' };
+      pickedLabel = { code: h.code, text: h.code + ' · ' + (r[3] || r[1] || '') };
       /* Every pick is STORED, including the airport FMAP was measured from.
          That airport used to be the default, so picking it cleared the
          override instead — with no default left there is nothing to fall back

@@ -6162,11 +6162,11 @@ window.TVE.home = (function () {
       { name: 'The Ritz-Carlton Grand Cayman', note: 'Ritz-Carlton — Seven Mile Beach, La Mer by Jean-Georges, four pools, Blue Tip golf · 9.3 Booking.com', url: 'https://www.booking.com/hotel/ky/the-ritz-carlton.html', tier: 'luxury' }
     ], price: { budget: '$350–650', mid: '$650–1100', expensive: '$1100–1800', luxury: '$1800+' } },
     'charlotte': { h: [
-      { name: 'The Ritz-Carlton, Charlotte', note: 'Ritz-Carlton — Uptown Charlotte, two-level spa, rooftop garden, signature dining, skyline views · 9.0 Booking.com', url: 'https://www.booking.com/hotel/us/ritz-carlton-charlotte.html' },
-      { name: 'JW Marriott Charlotte', note: 'JW Marriott — 600 South College Street in Uptown near the Convention Center, rooftop lounge, spa, outdoor pool, panoramic city views · 8.8 Booking.com', url: 'https://www.booking.com/hotel/us/jw-marriott-charlotte.html' },
-      { name: 'Omni Charlotte Hotel', note: 'Omni brand — Tryon Street in Uptown, indoor lap pool, Aria Italian restaurant · 8.7 Booking.com', url: 'https://www.booking.com/hotel/us/omni-charlotte.html' },
-      { name: 'The Dunhill Hotel', note: 'Independent — 1929 Tryon Street landmark, boutique Asbury restaurant, old-world décor · 9.1 Booking.com', url: 'https://www.booking.com/hotel/us/dunhill.html' }
-    ] },
+      { name: 'The Dunhill Hotel', note: 'Independent — 1929 Tryon Street landmark, boutique Asbury restaurant, old-world décor · 9.1 Booking.com', url: 'https://www.booking.com/hotel/us/dunhill.html', tier: 'budget' },
+      { name: 'Omni Charlotte Hotel', note: 'Omni brand — Tryon Street in Uptown, indoor lap pool, Aria Italian restaurant · 8.7 Booking.com', url: 'https://www.booking.com/hotel/us/omni-charlotte.html', tier: 'mid' },
+      { name: 'JW Marriott Charlotte', note: 'JW Marriott — 600 South College Street in Uptown near the Convention Center, rooftop lounge, spa, outdoor pool, panoramic city views · 8.8 Booking.com', url: 'https://www.booking.com/hotel/us/jw-marriott-charlotte.html', tier: 'expensive' },
+      { name: 'The Ritz-Carlton, Charlotte', note: 'Ritz-Carlton — Uptown Charlotte, two-level spa, rooftop garden, signature dining, skyline views · 9.0 Booking.com', url: 'https://www.booking.com/hotel/us/ritz-carlton-charlotte.html', tier: 'luxury' }
+    ], price: { budget: '$200–350', mid: '$300–500', expensive: '$450–700', luxury: '$650+' } },
     'chiang-mai': { h: [
       { name: 'Four Seasons Resort Chiang Mai', note: 'Four Seasons — Mae Rim Valley (15 km northwest of Old City), rice-terrace views, two infinity pools, spa, cooking classes · 9.7 Booking.com' , url: 'https://www.booking.com/hotel/th/four-seasons-resort-chiang-mai.html' },
       { name: 'Shangri-La Chiang Mai', note: 'Shangri-La — Ping River/Night Bazaar district, river-view pool, full-service spa, multiple restaurants · 8.9 Booking.com' , url: 'https://www.booking.com/hotel/th/shangri-la-chiang-mai.html' },
@@ -6858,7 +6858,7 @@ window.TVE.home = (function () {
       { name: 'Loews Vanderbilt Hotel Nashville', note: 'Loews Hotels — West End near Vanderbilt University, outdoor pool, Prime 108 restaurant · 8.7 Booking.com', url: 'https://www.booking.com/hotel/us/loews-vanderbilt-plaza.html', tier: 'expensive' },
       { name: 'Conrad Nashville', note: 'Hilton family — Midtown luxury tower, outdoor pool, Mimo Restaurant, walkable to Music Row · 9.1 Booking.com', url: 'https://www.booking.com/hotel/us/conrad-nashville.html', tier: 'luxury' },
       { name: 'The Joseph, a Luxury Collection Hotel Nashville', note: 'Marriott Luxury Collection — SoBro arts district, Yolan Italian restaurant, curated art · 9.3 Booking.com', url: 'https://www.booking.com/hotel/us/the-joseph.html', tier: 'luxury' }
-    ] },
+    ], price: { budget: 'USD 120–200', mid: 'USD 200–320', expensive: 'USD 320–500', luxury: 'USD 500+' } },
     'natal': { h: [
       { name: 'Coral Plaza Apart Hotel', note: 'Independent — Rua Francisco Gurgel on the Ponta Negra beachfront, 24h reception, pool with a shallow kids section, apartment-style rooms · 9.3 Booking.com', url: 'https://www.booking.com/hotel/br/coral-plaza-apart.html', tier: 'budget' },
       { name: 'Rifóles Beach Hotel & Resort', note: 'Independent — beachfront on Ponta Negra, three pools, ocean views, close to Natal nightlife · 8.9 Booking.com', url: 'https://www.booking.com/hotel/br/rifoles-praia.html', tier: 'mid' },
@@ -7166,11 +7166,11 @@ window.TVE.home = (function () {
       { name: 'Hotel Fasano Rio de Janeiro', note: 'Fasano brand — Vieira Souto on Ipanema beachfront, rooftop pool, Fasano Al Mare restaurant · 9.0 Booking.com', url: 'https://www.booking.com/hotel/br/fasano-rio-de-janeiro.html' }
     ] },
     'rome': { h: [
-      { name: 'Villa Spalletti Trivelli - Small Luxury Hotels of the World', note: 'Independent boutique — 12 rooms in a private noble villa by the Quirinale, garden, spa, 24h reception · 9.6 Booking.com' , url: 'https://www.booking.com/hotel/it/villa-spalletti-trivelli.html' },
-      { name: 'J.K. Place Roma', note: 'Independent boutique — 30 rooms on Via Monte d\'Oro near the Pantheon, private palazzo feel, rooftop deck, 24h reception · 9.6 Booking.com' , url: 'https://www.booking.com/hotel/it/j-k-place-roma.html' },
-      { name: 'Singer Palace Hotel Roma', note: 'Independent boutique — Via Alessandro Specchi by the Pantheon, rooftop bar over the centro storico, 24h reception, AC · 9.5 Booking.com' , url: 'https://www.booking.com/hotel/it/singer-palace.html' },
-      { name: 'Rocco Forte Hotel De Russie', note: 'Rocco Forte brand — Via del Babuino by Piazza del Popolo, Secret Garden terrace, spa with pool, 24h reception · 9.0 Booking.com' , url: 'https://www.booking.com/hotel/it/de-russie.html' }
-    ] },
+      { name: 'Singer Palace Hotel Roma', note: 'Independent boutique — Via Alessandro Specchi by the Pantheon, rooftop bar over the centro storico, 24h reception, AC · 9.5 Booking.com', url: 'https://www.booking.com/hotel/it/singer-palace.html', tier: 'budget' },
+      { name: 'J.K. Place Roma', note: 'Independent boutique — 30 rooms on Via Monte d\'Oro near the Pantheon, private palazzo feel, rooftop deck, 24h reception · 9.6 Booking.com', url: 'https://www.booking.com/hotel/it/j-k-place-roma.html', tier: 'mid' },
+      { name: 'Rocco Forte Hotel De Russie', note: 'Rocco Forte brand — Via del Babuino by Piazza del Popolo, Secret Garden terrace, spa with pool, 24h reception · 9.0 Booking.com', url: 'https://www.booking.com/hotel/it/de-russie.html', tier: 'expensive' },
+      { name: 'Villa Spalletti Trivelli - Small Luxury Hotels of the World', note: 'Independent boutique — 12 rooms in a private noble villa by the Quirinale, garden, spa, 24h reception · 9.6 Booking.com', url: 'https://www.booking.com/hotel/it/villa-spalletti-trivelli.html', tier: 'luxury' }
+    ], price: { budget: '€180–280', mid: '€280–450', expensive: '€450–700', luxury: '€700+' } },
     'rotterdam': { h: [
       { name: 'Haven Hotel Rotterdam, Curio Collection by Hilton', note: 'Hilton Curio Collection — Leuvehaven 77, waterfront location near ss Rotterdam, 8.6 Booking.com · 1,544 reviews', url: 'https://www.booking.com/hotel/nl/mainport-hotel.html' },
       { name: 'Morgan & Mees Rotterdam', note: 'Independent boutique — Mathenesserlaan 145, West Coolhaven neighbourhood, 8.9 Booking.com · 1,042 reviews', url: 'https://www.booking.com/hotel/nl/morgan-amp-mees-rotterdam.html' },

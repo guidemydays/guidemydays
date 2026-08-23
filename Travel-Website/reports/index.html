@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Reports — Guide My Days Hub</title>
-<!-- built: 2026-08-23 06:43 UTC | backlog: 148 | scouting-open: 46 -->
+<!-- built: 2026-08-23 07:08 UTC | backlog: 148 | scouting-open: 46 -->
 <style>
   :root{ --bg:#f6f2ec; --surface:#fffdf9; --surface2:#f1ece3; --ink:#2f2a22; --muted:#736c60; --faint:#a49b8c; --line:#e4ddd0;
     --rust:#b0501f; --open:#b23a22; --partial:#a86f16; --unsure:#7a7368; --pending:#1a4d8c;
@@ -262,14 +262,14 @@
     <div class="stat s-open"><b>144</b><span>Open</span></div>
     <div class="stat s-partial"><b>4</b><span>Partial</span></div>
     <div class="stat s-unsure"><b>0</b><span>Unsure</span></div>
-    <div class="stat s-pending"><b>14</b><span>Pending approval</span></div>
+    <div class="stat s-pending"><b>17</b><span>Pending approval</span></div>
   </div>
   <div class="controls">
     <button onclick="document.querySelectorAll('.tile').forEach(t=>t.open=true)">Expand all tiles</button>
     <button onclick="document.querySelectorAll('.tile').forEach(t=>t.open=false)">Collapse all tiles</button>
   </div>
 </header>
-<nav class="nav"><a href="#mobile-ux" class="navchip">📱 Mobile UX <span class="navcount">13</span></a><a href="#ux-desktop" class="navchip">🖥️ UX/Desktop <span class="navcount">3</span></a><a href="#layout" class="navchip">📐 Layout <span class="navcount">8</span></a><a href="#new-features" class="navchip">🆕 New Features <span class="navcount">56</span></a><a href="#new-pages" class="navchip">📄 New Pages <span class="navcount">68</span></a><a href="#rules-change-approval" class="navchip">⚖️ Rules Change Approval <span class="navcount">14</span></a><a href="#new-guides" class="navchip">🗺️ New Guides <span class="navcount">46</span></a><a href="#guide-drift-log" class="navchip">🔍 Guide Drift Log</a><a href="#photo-audit-log" class="navchip">📸 Photo Audit Log</a><a href="#ux-research-log" class="navchip">🎨 UX Research Log</a><a href="#validator-audit" class="navchip">✅ Validator Audit</a><a href="#section-coverage" class="navchip">📊 Section Coverage</a></nav>
+<nav class="nav"><a href="#mobile-ux" class="navchip">📱 Mobile UX <span class="navcount">13</span></a><a href="#ux-desktop" class="navchip">🖥️ UX/Desktop <span class="navcount">3</span></a><a href="#layout" class="navchip">📐 Layout <span class="navcount">8</span></a><a href="#new-features" class="navchip">🆕 New Features <span class="navcount">56</span></a><a href="#new-pages" class="navchip">📄 New Pages <span class="navcount">68</span></a><a href="#rules-change-approval" class="navchip">⚖️ Rules Change Approval <span class="navcount">17</span></a><a href="#new-guides" class="navchip">🗺️ New Guides <span class="navcount">46</span></a><a href="#guide-drift-log" class="navchip">🔍 Guide Drift Log</a><a href="#photo-audit-log" class="navchip">📸 Photo Audit Log</a><a href="#ux-research-log" class="navchip">🎨 UX Research Log</a><a href="#validator-audit" class="navchip">✅ Validator Audit</a><a href="#section-coverage" class="navchip">📊 Section Coverage</a></nav>
 
   <section class="cat" id="mobile-ux">
     <button class="cathead" onclick="this.parentElement.classList.toggle('collapsed')">
@@ -2238,7 +2238,7 @@
   <section class="cat" id="rules-change-approval">
     <button class="cathead" onclick="this.parentElement.classList.toggle('collapsed')">
       <span class="catname">⚖️ Rules Change Approval</span>
-      <span class="catcount">14</span>
+      <span class="catcount">17</span>
       <span class="catchev">&rsaquo;</span>
     </button>
     <div class="catbody">
@@ -2465,6 +2465,55 @@ THE GUIDES-INDEX COPY DID NOT MOVE. It already carries the four cost brackets (i
 
 The reason it was left alone is shape, not oversight: on the guides index Trip Escape is a narrow toolbar dropdown, and a 3-column grid of six selects does not fit one. Three ways out, all owner decisions: (a) leave them different — the landing card is the considered surface and the dropdown is the quick one; (b) give the dropdown the same six rows stacked one per line, which makes it a tall panel; (c) retire the dropdown and send the toolbar entry to the landing card. NN 37 records the divergence as it stands.</p>
           <div class="tmeta"><span class="badge tgt">Travel-Website/guides/index.html (#trip-twin-panel) + Travel-Website/index.html (#tp-trip-escape)</span><span class="badge src">Trip Escape rebuild, 2026-08-23</span></div>
+        </div>
+      </details>
+      <details class="tile">
+        <summary>
+          <span class="tstatus st-pending">PENDING</span>
+          <span class="ttitle">Riga and Bora Bora have no price on /essentials/budget/, so the finder&#x27;s Average costs filter silently drops them</span>
+          <span class="chev">&rsaquo;</span>
+        </summary>
+        <div class="tbody">
+          <p class="tdetail">cost_index.json carries 237 of the 239 shipped guides. Riga and Bora Bora are absent, and the finder&#x27;s rule for a guide it cannot price is to DROP it (the same rule it applies to a guide with no climate row or no mapped airport — padding a priced answer with unpriced cities is worse than a shorter list). So picking any of Cheap / Moderate / Expensive / Very expensive removes those two guides from the answer, on every combination, and nothing on screen says so.
+
+This is not the finder&#x27;s to fix — the index is Numbeo&#x27;s published city ranking, captured whole by fetch_cost_index.py on 2026-08-22, and the page and the guides-index filter are both written from it by build_cost_page.py. TWO DIFFERENT CASES, and only the owner can decide the second: Riga is a European capital and is almost certainly in Numbeo under a spelling the capture missed, so a re-run or a name alias should recover it. Bora Bora is a small island and may genuinely not be in Numbeo at all — the question is whether an absent city should fall back to its COUNTRY row (French Polynesia, which Numbeo does publish, and which fetch_cost_index.py already knows how to read since cost_index.json entries carry a &#x27;via&#x27; field that is either &#x27;city&#x27; or &#x27;country&#x27;), or stay unpriced and keep being dropped.
+
+Why it is logged rather than fixed: re-running fetch_cost_index.py needs the network and build_cost_page.py rewrites BOTH /essentials/budget/index.html and guides/index.html wholesale between cost:data markers — two of the most contended files in the tree — for a two-row gap. Verified 2026-08-23 by parsing the budget page exactly the way the finder does (name fold, then slug fold) against all 239 cards: 237 priced, these two not.</p>
+          <div class="tmeta"><span class="badge tgt">Brain/scripts/build/fetch_cost_index.py + Brain/scripts/build/cost_index.json + Travel-Website/essentials/budget/index.html + Travel-Website/guides/index.html</span><span class="badge src">Help Me Choose filter audit, 2026-08-23</span></div>
+        </div>
+      </details>
+      <details class="tile">
+        <summary>
+          <span class="tstatus st-pending">PENDING</span>
+          <span class="ttitle">Help Me Choose measures jet lag from the DEVICE clock but flight time from the airport the reader named — the two disagree</span>
+          <span class="chev">&rsaquo;</span>
+        </summary>
+        <div class="tbody">
+          <p class="tdetail">Both behaviours are individually correct and they contradict each other on the same card.
+
+&#x27;How much jet lag?&#x27; and the &#x27;+2h vs your clock&#x27; fact are computed from the BROWSER&#x27;s time zone — which is right, and is the Forty-seventh non-negotiable: nothing on this site is anchored to one person&#x27;s city, and the device clock is the only reference that is the reader&#x27;s own without asking. &#x27;How far are you willing to fly?&#x27; and the &#x27;~3h 42m&#x27; on the card are computed from the AIRPORT the reader typed into the field two rows above.
+
+So a reader on a Berlin machine who names LHR is told Abu Dhabi is a 6h 30m flight FROM LONDON and &#x27;+2h vs your clock&#x27; FROM BERLIN. From London it is +3h. The card states two facts about the same trip measured from two different places, and nothing on it says which is which. Measured 2026-08-23 with a Berlin device and LHR picked.
+
+THE DECISION IS YOURS BECAUSE EITHER ANSWER GIVES SOMETHING UP. Keeping the device clock means the jet-lag number is about the reader&#x27;s body and stays honest for someone reading on holiday or on a work laptop in another country — but it can disagree with the flight time beside it. Switching to the picked airport&#x27;s zone once one is named makes the whole card speak from one place — but it re-introduces a chosen origin into a dimension that deliberately has none, it is silent for the majority of readers who never name an airport (there is no default and must not be), and it would mean the same guide reports different jet lag before and after the airport is filled in. A third option is to leave the numbers alone and LABEL them, which costs nothing and fixes only the confusion, not the disagreement.</p>
+          <div class="tmeta"><span class="badge tgt">Travel-Website/index.html (#fnd-tz, tzDiffMinutes / tzDiff) — and the same question on /essentials/time-zones/ and Compare</span><span class="badge src">Help Me Choose filter audit, 2026-08-23</span></div>
+        </div>
+      </details>
+      <details class="tile">
+        <summary>
+          <span class="tstatus st-pending">PENDING</span>
+          <span class="ttitle">The airport picker offers LGW above LHR for &#x27;london&#x27; — nothing in the data says which airport a city&#x27;s name should mean</span>
+          <span class="chev">&rsaquo;</span>
+        </summary>
+        <div class="tbody">
+          <p class="tdetail">Typing &#x27;london&#x27; into &#x27;Which airport are you flying from?&#x27; lists London (LGW), London (LHR), London Essex (STN), London (LCY), then two Londons that are not in England. Someone naming their city means the airport they actually fly from, and for London that is Heathrow.
+
+IT IS NOT A BUG IN THE SORT. lookup() already tie-breaks rank, then major-hub membership, then the large/medium tier byte, then the city string — and LHR and LGW are identical on all four: same rank (city prefix match), both major, both large_airport, same city name. The comparator then falls through to an arbitrary order. The same tie exists for New York (JFK/EWR/LGA), Paris (CDG/ORY), Milan (MXP/LIN), Tokyo (HND/NRT) and every other multi-airport city.
+
+BREAKING THE TIE NEEDS A SIGNAL THE SITE DOES NOT HAVE. OurAirports, which build_airports.py reads, publishes type and scheduled_service and nothing about size beyond large/medium — it cannot say Heathrow outranks Gatwick. Two ways to get one, and the choice is a data-policy call: (a) add annual passenger volume from a second public source and sort on it, which is a new dependency and a number that ages; or (b) hand-curate a short PRIMARY list of one airport per multi-airport city — perhaps thirty rows, the same kind of judgement the FMAP destination codes already are (Aix-en-Provence to MRS, Cinque Terre to the mainland field) and therefore consistent with how the site already handles this question in the other direction.
+
+Low severity: every option shown is correct, and the reader picks from a list of six. Logged rather than fixed because toolbar.js is a shared asset and either fix authors new data.</p>
+          <div class="tmeta"><span class="badge tgt">Travel-Website/assets/toolbar.js (TVE.home.lookup) + Brain/scripts/build/build_airports.py (airport-names.json)</span><span class="badge src">Help Me Choose filter audit, 2026-08-23</span></div>
         </div>
       </details><p class="rules-hint">Scope: CORE RULES edits &middot; toolbar structural changes &middot; new design decisions &middot; stray-file delete approvals. Everything else goes to the To&nbsp;Do&nbsp;List for cribs to resolve. To propose: add an entry to <code>Brain/scripts/open_recs/rules_changes.json</code> and rebuild.</p></div>
   </section>

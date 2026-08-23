@@ -7365,11 +7365,11 @@ window.TVE.home = (function () {
       { name: 'Romazzino, A Belmond Hotel', note: 'Belmond brand — Costa Smeralda private beach, parasol-shaded white sand, boat excursions · 9.1 Booking.com', url: 'https://www.booking.com/hotel/it/romazzino.html', tier: 'luxury' }
     ], price: { budget: 'EUR 90–180', mid: 'EUR 180–350', expensive: 'EUR 350–700', luxury: 'EUR 700+' } },
     'scottsdale': { h: [
-      { name: 'Hotel Valley Ho', note: 'Independent — retro-modern midcentury landmark in Old Town Scottsdale, pool, Café ZuZu, walk to Waterfront · 8.9 Booking.com', url: 'https://www.booking.com/hotel/us/hotel-valley-ho-scottsdale-arizona.html' },
-      { name: 'Andaz Scottsdale Resort & Bungalows', note: 'Hyatt brand — desert rock-formation setting, Weft & Warp restaurant, desert-botanical spa treatments · 9.2 Booking.com', url: 'https://www.booking.com/hotel/us/andaz-scottsdale-resort-bungalows.html' },
-      { name: 'Four Seasons Resort Scottsdale at Troon North', note: 'Four Seasons — Pinnacle Peak Desert, two pools, Talavera restaurant, Sonwai Spa · 9.4 Booking.com', url: 'https://www.booking.com/hotel/us/four-seasons-resort-scottsdale.html' },
-      { name: 'Sanctuary Camelback Mountain Resort & Spa', note: 'Independent — Paradise Valley hillside, infinity pool and Mountain Spa, elements restaurant · 9.3 Booking.com', url: 'https://www.booking.com/hotel/us/sanctuary-camelback-mountain.html' }
-    ] },
+      { name: 'Hotel Valley Ho', note: 'Independent — retro-modern midcentury landmark in Old Town Scottsdale, pool, Café ZuZu, walk to Waterfront · 8.9 Booking.com', url: 'https://www.booking.com/hotel/us/hotel-valley-ho-scottsdale-arizona.html', tier: 'budget' },
+      { name: 'Andaz Scottsdale Resort & Bungalows', note: 'Hyatt brand — desert rock-formation setting, Weft & Warp restaurant, desert-botanical spa treatments · 9.2 Booking.com', url: 'https://www.booking.com/hotel/us/andaz-scottsdale-resort-bungalows.html', tier: 'mid' },
+      { name: 'Sanctuary Camelback Mountain Resort & Spa', note: 'Independent — Paradise Valley hillside, infinity pool and Mountain Spa, elements restaurant · 9.3 Booking.com', url: 'https://www.booking.com/hotel/us/sanctuary-camelback-mountain.html', tier: 'expensive' },
+      { name: 'Four Seasons Resort Scottsdale at Troon North', note: 'Four Seasons — Pinnacle Peak Desert, two pools, Talavera restaurant, Sonwai Spa · 9.4 Booking.com', url: 'https://www.booking.com/hotel/us/four-seasons-resort-scottsdale.html', tier: 'luxury' }
+    ], price: { budget: 'USD 200–350', mid: 'USD 350–550', expensive: 'USD 550–900', luxury: 'USD 900+' } },
     'seattle': { h: [
       { name: 'The Edgewater Hotel', note: 'Independent — Elliott Bay waterfront, mountain and water views, Eddie Vedder memorabilia, Six Seven restaurant · 9.1 Booking.com' , url: 'https://www.booking.com/hotel/us/the-edgewater.html' },
       { name: 'Fairmont Olympic Hotel', note: 'Fairmont brand — 1924 Italian Renaissance downtown landmark, indoor pool, The Georgian Room · 9.0 Booking.com' , url: 'https://www.booking.com/hotel/us/fairmont-olympic.html' },

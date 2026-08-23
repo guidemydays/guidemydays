@@ -47,9 +47,9 @@
    token swap, so this badge was stuck light-grey under dark mode. */
 .app-anchor {
   align-self: flex-start;
-  font-size: 10px; font-weight: 700; letter-spacing: 0.04em; line-height: 1.5;
+  font-size: 11px; font-weight: 700; letter-spacing: 0.04em; line-height: 1.5;
   text-transform: uppercase; white-space: normal;
-  padding: 2px 8px; border-radius: 4px 4px 0 0;
+  padding: 3px 8px; border-radius: 4px 4px 0 0;
   border-bottom: none;
   margin-bottom: -1px;
   position: relative; z-index: 1;
@@ -137,13 +137,13 @@
   <div class="controls">
     <div class="pills">
       <button class="pill is-on pill-badge fam-yellow" data-filter="all" aria-pressed="true">All</button>
-      <button class="pill pill-badge fam-green" data-filter="maps" aria-pressed="false">Maps &amp; Navigation</button>
+      <button class="pill pill-badge fam-green" data-filter="maps" aria-pressed="false">Maps &amp; navigation</button>
       <button class="pill pill-badge fam-red" data-filter="flights" aria-pressed="false">Flights</button>
       <button class="pill pill-badge fam-blue" data-filter="translation" aria-pressed="false">Translation</button>
-      <button class="pill pill-badge fam-purple" data-filter="money" aria-pressed="false">Money &amp; Currency</button>
-      <button class="pill pill-badge fam-orange" data-filter="safety" aria-pressed="false">Safety &amp; Alerts</button>
-      <button class="pill pill-badge fam-pink" data-filter="esim" aria-pressed="false">eSIM &amp; Connectivity</button>
-      <button class="pill pill-badge fam-grey" data-filter="planning" aria-pressed="false">Planning &amp; Packing</button>
+      <button class="pill pill-badge fam-purple" data-filter="money" aria-pressed="false">Money &amp; currency</button>
+      <button class="pill pill-badge fam-orange" data-filter="safety" aria-pressed="false">Safety &amp; alerts</button>
+      <button class="pill pill-badge fam-pink" data-filter="esim" aria-pressed="false">eSIM &amp; connectivity</button>
+      <button class="pill pill-badge fam-grey" data-filter="planning" aria-pressed="false">Planning &amp; packing</button>
     </div>
     <div id="no-results" class="empty-state">Nothing matches your search.</div>
   </div><!-- /.controls -->
@@ -433,6 +433,23 @@
   applyFilter();
 })();
 </script>
+<script src="/assets/search-autocomplete.js?v=8"></script>
+<script>(function(){
+  if(!window.TVESearch) return;
+  var input=document.getElementById('apps-search'); if(!input) return;
+  var items=[];
+  document.querySelectorAll('.app-card-wrap').forEach(function(card){
+    var n=card.querySelector('.app-name');
+    if(!n) return;
+    var name=n.textContent.trim();
+    var anchor=card.querySelector('.app-anchor');
+    var sub=anchor?anchor.textContent.trim():'';
+    var sec=card.closest('.section');
+    var tags=sec?(sec.getAttribute('data-section')||''):'';
+    if(name) items.push({name:name, sub:sub, text:tags});
+  });
+  TVESearch.attach(input,{items:items});
+}());</script>
 
 </body>
 </html>

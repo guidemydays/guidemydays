@@ -6879,11 +6879,11 @@ window.TVE.home = (function () {
       { name: 'Four Seasons Hotel New York Downtown', note: 'Four Seasons brand — Tribeca, private plunge pools in suites, CUT by Wolfgang Puck restaurant, spa, Hudson River proximity · 9.2 Booking.com' , url: 'https://www.booking.com/hotel/us/four-seasons-hotel-new-york-downtown.html', tier: 'budget' }
     ], price: { budget: 'USD 450–700', mid: 'USD 650–950', expensive: 'USD 850–1300', luxury: 'USD 1200+' } },
     'nice': { h: [
-      { name: 'Hôtel Le Negresco', note: 'Independent luxury — 1913 Promenade des Anglais landmark, Royal Suite, Michelin-starred Chantecler restaurant · 9.3 Booking.com', url: 'https://www.booking.com/hotel/fr/negresco.html' },
-      { name: 'Maison Albar - Le Victoria', note: 'Independent 5-star — Avenue de Suède off Place Masséna, rooftop infinity pool, spa, 24h reception · 9.1 Booking.com', url: 'https://www.booking.com/hotel/fr/maison-albar-le-victoria.html' },
-      { name: 'NH Collection Nice', note: 'NH Collection — Place Masséna, rooftop pool with Baie des Anges views, Elixir Rooftop Bar · 9.0 Booking.com', url: 'https://www.booking.com/hotel/fr/nh-collection-nice.html' },
-      { name: 'Hotel Palais de la Mediterranee, in the Unbound Collection by Hyatt', note: 'Hyatt Unbound Collection — 1929 Art Deco façade at 13 Promenade des Anglais, beachfront, indoor and outdoor pools · 8.5 Booking.com', url: 'https://www.booking.com/hotel/fr/palais-de-la-mediterrannee.html' }
-    ] },
+      { name: 'Hôtel Le Negresco', tier: 'luxury', note: 'Independent luxury — 1913 Promenade des Anglais landmark, Royal Suite, Michelin-starred Chantecler restaurant · 9.3 Booking.com', url: 'https://www.booking.com/hotel/fr/negresco.html' },
+      { name: 'Maison Albar - Le Victoria', tier: 'expensive', note: 'Independent 5-star — Avenue de Suède off Place Masséna, rooftop infinity pool, spa, 24h reception · 9.1 Booking.com', url: 'https://www.booking.com/hotel/fr/maison-albar-le-victoria.html' },
+      { name: 'NH Collection Nice', tier: 'mid', note: 'NH Collection — Place Masséna, rooftop pool with Baie des Anges views, Elixir Rooftop Bar · 9.0 Booking.com', url: 'https://www.booking.com/hotel/fr/nh-collection-nice.html' },
+      { name: 'Hotel Palais de la Mediterranee, in the Unbound Collection by Hyatt', tier: 'budget', note: 'Hyatt Unbound Collection — 1929 Art Deco façade at 13 Promenade des Anglais, beachfront, indoor and outdoor pools · 8.5 Booking.com', url: 'https://www.booking.com/hotel/fr/palais-de-la-mediterrannee.html' }
+    ], price: { budget: 'EUR 150–280', mid: 'EUR 250–400', expensive: 'EUR 380–600', luxury: 'EUR 550+' } },
     'oahu': { h: [
       { name: 'Royal Hawaiian, a Luxury Collection Resort', note: 'Marriott Luxury Collection — 1927 "Pink Palace of the Pacific," oceanfront on central Waikiki Beach, four pools · 9.1 Booking.com', url: 'https://www.booking.com/hotel/us/royal-hawaiian-a-luxury-collection-resort-honolulu.html' },
       { name: 'Four Seasons Resort Oahu at Ko Olina', note: 'Four Seasons brand — West Oahu lagoon beach, adults-focused pools, spa, away from Waikiki crowds · 9.3 Booking.com', url: 'https://www.booking.com/hotel/us/four-seasons-resort-oahu-at-ko-olina.html' },
@@ -7161,11 +7161,11 @@ window.TVE.home = (function () {
       { name: 'Grand Palace Hotel Riga', note: 'Preferred Hotels — Pils street on the Old Town edge opposite Riga Castle, classical interiors, spa, 24h reception, AC · 9.4 Booking.com', url: 'https://www.booking.com/hotel/lv/grand-palace-riga.html', tier: 'luxury' }
     ], price: { budget: '€70–120', mid: '€120–220', expensive: '€220–380', luxury: '€380+' } },
     'rio-de-janeiro': { h: [
-      { name: 'JW Marriott Rio de Janeiro', note: 'Marriott family — Avenida Atlântica 2600 on Copacabana beach, rooftop pool, 24h reception, AC · 8.0 Booking.com', url: 'https://www.booking.com/hotel/br/jw-marriott-rio-de-janeiro.html' },
-      { name: 'Novotel Rio de Janeiro Leme', note: 'Novotel — Rua Gustavo Sampaio in Leme one block off the beach, rooftop pool, 24h reception, AC · 8.0 Booking.com', url: 'https://www.booking.com/hotel/br/novotel-rio-de-janeiro-leme.html' },
-      { name: 'Copacabana Palace - A Belmond Hotel', note: 'Belmond — Copacabana beachfront since 1923, outdoor pool, Michelin-starred Cipriani · 9.5 Booking.com', url: 'https://www.booking.com/hotel/br/copacabana-palace.html' },
-      { name: 'Hotel Fasano Rio de Janeiro', note: 'Fasano brand — Vieira Souto on Ipanema beachfront, rooftop pool, Fasano Al Mare restaurant · 9.0 Booking.com', url: 'https://www.booking.com/hotel/br/fasano-rio-de-janeiro.html' }
-    ] },
+      { name: 'Novotel Rio de Janeiro Leme', note: 'Novotel — Rua Gustavo Sampaio in Leme one block off the beach, rooftop pool, 24h reception, AC · 8.0 Booking.com', url: 'https://www.booking.com/hotel/br/novotel-rio-de-janeiro-leme.html', tier: 'budget' },
+      { name: 'JW Marriott Rio de Janeiro', note: 'Marriott family — Avenida Atlântica 2600 on Copacabana beach, rooftop pool, 24h reception, AC · 8.0 Booking.com', url: 'https://www.booking.com/hotel/br/jw-marriott-rio-de-janeiro.html', tier: 'mid' },
+      { name: 'Hotel Fasano Rio de Janeiro', note: 'Fasano brand — Vieira Souto on Ipanema beachfront, rooftop pool, Fasano Al Mare restaurant · 9.0 Booking.com', url: 'https://www.booking.com/hotel/br/fasano-rio-de-janeiro.html', tier: 'expensive' },
+      { name: 'Copacabana Palace - A Belmond Hotel', note: 'Belmond — Copacabana beachfront since 1923, outdoor pool, Michelin-starred Cipriani · 9.5 Booking.com', url: 'https://www.booking.com/hotel/br/copacabana-palace.html', tier: 'luxury' }
+    ], price: { budget: 'R$700–1,200', mid: 'R$1,200–2,500', expensive: 'R$2,500–5,000', luxury: 'R$5,000+' } },
     'rome': { h: [
       { name: 'Singer Palace Hotel Roma', note: 'Independent boutique — Via Alessandro Specchi by the Pantheon, rooftop bar over the centro storico, 24h reception, AC · 9.5 Booking.com', url: 'https://www.booking.com/hotel/it/singer-palace.html', tier: 'budget' },
       { name: 'J.K. Place Roma', note: 'Independent boutique — 30 rooms on Via Monte d\'Oro near the Pantheon, private palazzo feel, rooftop deck, 24h reception · 9.6 Booking.com', url: 'https://www.booking.com/hotel/it/j-k-place-roma.html', tier: 'mid' },
@@ -7173,11 +7173,11 @@ window.TVE.home = (function () {
       { name: 'Villa Spalletti Trivelli - Small Luxury Hotels of the World', note: 'Independent boutique — 12 rooms in a private noble villa by the Quirinale, garden, spa, 24h reception · 9.6 Booking.com', url: 'https://www.booking.com/hotel/it/villa-spalletti-trivelli.html', tier: 'luxury' }
     ], price: { budget: '€180–280', mid: '€280–450', expensive: '€450–700', luxury: '€700+' } },
     'rotterdam': { h: [
-      { name: 'Haven Hotel Rotterdam, Curio Collection by Hilton', note: 'Hilton Curio Collection — Leuvehaven 77, waterfront location near ss Rotterdam, 8.6 Booking.com · 1,544 reviews', url: 'https://www.booking.com/hotel/nl/mainport-hotel.html' },
-      { name: 'Morgan & Mees Rotterdam', note: 'Independent boutique — Mathenesserlaan 145, West Coolhaven neighbourhood, 8.9 Booking.com · 1,042 reviews', url: 'https://www.booking.com/hotel/nl/morgan-amp-mees-rotterdam.html' },
-      { name: 'Room Mate Bruno, Rotterdam', note: 'Room Mate brand — Wilhelminakade 52, Kop van Zuid waterfront, 8.5 Booking.com · 10,690 reviews', url: 'https://www.booking.com/hotel/nl/room-mate-bruno.html' },
-      { name: 'Hilton Rotterdam', note: 'Hilton brand — Weena 10, central near Centraal, in-house Joelia Michelin-starred restaurant, 8.1 Booking.com · 2,403 reviews', url: 'https://www.booking.com/hotel/nl/hiltonrotterdam.html' }
-    ] },
+      { name: 'Room Mate Bruno, Rotterdam', note: 'Room Mate brand — Wilhelminakade 52, Kop van Zuid waterfront, 8.5 Booking.com · 10,690 reviews', url: 'https://www.booking.com/hotel/nl/room-mate-bruno.html', tier: 'budget' },
+      { name: 'Morgan & Mees Rotterdam', note: 'Independent boutique — Mathenesserlaan 145, West Coolhaven neighbourhood, 8.9 Booking.com · 1,042 reviews', url: 'https://www.booking.com/hotel/nl/morgan-amp-mees-rotterdam.html', tier: 'mid' },
+      { name: 'Hilton Rotterdam', note: 'Hilton brand — Weena 10, central near Centraal, in-house Joelia Michelin-starred restaurant, 8.1 Booking.com · 2,403 reviews', url: 'https://www.booking.com/hotel/nl/hiltonrotterdam.html', tier: 'expensive' },
+      { name: 'Haven Hotel Rotterdam, Curio Collection by Hilton', note: 'Hilton Curio Collection — Leuvehaven 77, waterfront location near ss Rotterdam, 8.6 Booking.com · 1,544 reviews', url: 'https://www.booking.com/hotel/nl/mainport-hotel.html', tier: 'luxury' }
+    ], price: { budget: '€80–140', mid: '€140–220', expensive: '€220–350', luxury: '€350+' } },
     'salvador': { h: [
       { name: 'Novotel Salvador Rio Vermelho', note: 'Novotel — Rua Monte Conselho in Rio Vermelho, outdoor pool, 24h reception, AC · 8.1 Booking.com', url: 'https://www.booking.com/hotel/br/novotel-salvador-rio-vermelho.html', tier: 'budget' },
       { name: 'Aram Yamí Boutique Hotel', note: 'Independent boutique — Direita de Santo Antônio above the historic centre, pool with bay panorama, 24h reception, AC · 9.2 Booking.com', url: 'https://www.booking.com/hotel/br/aram-yami.html', tier: 'mid' },
@@ -7577,11 +7577,11 @@ window.TVE.home = (function () {
       { name: 'COMO Parrot Cay', note: 'COMO brand — private island 30 min by boat, COMO Shambhala spa, pool villas, dive centre · 9.5 Booking.com', url: 'https://www.booking.com/hotel/tc/como-parrot-cay.html', tier: 'luxury' }
     ], price: { budget: '$350–650', mid: '$650–1,100', expensive: '$1,100–1,800', luxury: '$1,800+' } },
     'valletta': { h: [
-      { name: 'The Phoenicia Malta', note: 'Small Luxury Hotels — 1947 landmark at city gate, outdoor pool in formal gardens, Malta\'s most storied hotel · 9.1 Booking.com', url: 'https://www.booking.com/hotel/mt/the-phoenicia-malta.html' },
-      { name: 'Ursulino Malta', note: 'Independent boutique — within the historic city walls, curated rooms, intimate boutique atmosphere · 9.3 Booking.com', url: 'https://www.booking.com/hotel/mt/ursulino-valletta.html' },
-      { name: 'Rosselli AX Privilege', note: 'AX Hotels — 17th-century Baroque palazzo in old Valletta, Michelin-starred Under Grain restaurant, personal butler service · 9.3 Booking.com', url: 'https://www.booking.com/hotel/mt/rosselli-valletta.html' },
-      { name: 'Grand Hotel Excelsior', note: 'Preferred Hotels & Resorts — outside Valletta city gate, views of Marsamxett Harbour, outdoor pool, full-service spa · 8.8 Booking.com', url: 'https://www.booking.com/hotel/mt/excelsior-grand-malta.html' }
-    ] },
+      { name: 'Ursulino Malta', note: 'Independent boutique — within the historic city walls, curated rooms, intimate boutique atmosphere · 9.3 Booking.com', url: 'https://www.booking.com/hotel/mt/ursulino-valletta.html', tier: 'budget' },
+      { name: 'The Phoenicia Malta', note: 'Small Luxury Hotels — 1947 landmark at city gate, outdoor pool in formal gardens, Malta\'s most storied hotel · 9.1 Booking.com', url: 'https://www.booking.com/hotel/mt/the-phoenicia-malta.html', tier: 'mid' },
+      { name: 'Grand Hotel Excelsior', note: 'Preferred Hotels & Resorts — outside Valletta city gate, views of Marsamxett Harbour, outdoor pool, full-service spa · 8.8 Booking.com', url: 'https://www.booking.com/hotel/mt/excelsior-grand-malta.html', tier: 'expensive' },
+      { name: 'Rosselli AX Privilege', note: 'AX Hotels — 17th-century Baroque palazzo in old Valletta, Michelin-starred Under Grain restaurant, personal butler service · 9.3 Booking.com', url: 'https://www.booking.com/hotel/mt/rosselli-valletta.html', tier: 'luxury' }
+    ], price: { budget: '€120–220', mid: '€220–380', expensive: '€380–550', luxury: '€550+' } },
     'vancouver': { h: [
       { name: 'Fairmont Hotel Vancouver', note: 'Fairmont brand — 1939 "Castle in the City," spa, Notch8 Restaurant & Bar, iconic copper roof · 8.9 Booking.com', url: 'https://www.booking.com/hotel/ca/fairmont-vancouver.html' },
       { name: 'Rosewood Hotel Georgia', note: 'Rosewood brand — 1927 Georgian Revival downtown landmark, outdoor pool, Hawksworth Restaurant · 9.3 Booking.com', url: 'https://www.booking.com/hotel/ca/rosewood-hotel-georgia.html' },
@@ -11298,7 +11298,7 @@ window.TVE.home = (function () {
       'EYW','EZE','FAO','FCO','FHR','FLN','FLR','FOR','FRA','GCM','GIG','GOT','GPS','GRU','GVA','HAM',
       'HAN','HEL','HER','HKG','HKT','HND','IAD','IAH','ICN','IGU','IST','JFK','JMK','JPA','KEF','KOA',
       'KRK','KTM','LAS','LAX','LGA','LGW','LHR','LIH','LIM','LIS','LUX','LYS','MAD','MAN','MCT','MEL',
-      'MIA','MLE','MRS','MSP','MSY','MUC','MVD','MXP','NAP','NAS','NAT','NCE','OGG','OPO','ORD','ORY',
+      'MIA','MLA','MLE','MRS','MSP','MSY','MUC','MVD','MXP','NAP','NAS','NAT','NCE','OGG','OPO','ORD','ORY',
       'OSL','PBH','PDL','PDX','PEK','PHL','PHX','PLS','PMI','PNS','POA','PPS','PRG','PSA','PSP','PUS',
       'PVG','PVR','RAK','RDM','REC','RHO','RIX','RNO','RSW','SAN','SCL','SEA','SFO','SIN','SJC','SJO',
       'SJU','SKG','SLC','SPU','STR','SXB','SYD','TBS','TFS','TIV','TLL','TOS','TPE','TRN','VCE','VIE',

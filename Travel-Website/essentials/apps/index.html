@@ -21,6 +21,17 @@
 .pill { font-family: inherit; }
 #no-results { display: none; }
 
+/* Jump-strip — category chips linking to each section below */
+.jump-strip { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 20px; }
+.jchip {
+  display: inline-flex; align-items: center; gap: 6px;
+  font-size: 12px; font-weight: 600; line-height: 1.3;
+  background: var(--surface); border: 1px solid var(--border2); border-radius: 20px;
+  padding: 5px 12px; color: var(--text); text-decoration: none;
+}
+.jchip:hover { border-color: var(--rust,#C04E1A); color: var(--rust,#C04E1A); }
+.jchip .gm-icon { width: 14px; height: 14px; flex: none; }
+
 /* Section headers */
 .section-head {
   font-size: 12px; font-weight: 700; color: var(--muted);
@@ -57,7 +68,15 @@
 
 .app-card {
   background: var(--surface); border: 1px solid var(--border2); border-radius: 0 10px 10px 10px;
-  padding: 14px 16px;
+  padding: 14px 16px; position: relative;
+}
+/* Top pick — one app per category, marked with a ribbon in the card's
+   top-right corner (the top-left is already occupied by .app-anchor). */
+.app-card-wrap.top .app-card { border-color: var(--rust,#C04E1A); }
+.app-card-wrap.top .app-card::before {
+  content: 'Top pick'; position: absolute; top: -9px; right: 13px;
+  font-size: 9.5px; font-weight: 700; letter-spacing: .04em; text-transform: uppercase;
+  background: var(--rust,#C04E1A); color: #fff; padding: 2px 8px; border-radius: 20px;
 }
 .app-head { display: flex; align-items: flex-start; justify-content: space-between; gap: 8px; margin-bottom: 7px; }
 .app-name { font-size: 13px; font-weight: 700; color: var(--text); line-height: 1.2; }
@@ -136,7 +155,7 @@
 
   <div class="controls">
     <div class="pills">
-      <button class="pill is-on pill-badge fam-yellow" data-filter="all" aria-pressed="true">All</button>
+      <button class="pill is-on pill-badge fam-grey" data-filter="all" aria-pressed="true">All</button>
       <button class="pill pill-badge fam-green" data-filter="maps" aria-pressed="false">Maps &amp; navigation</button>
       <button class="pill pill-badge fam-red" data-filter="flights" aria-pressed="false">Flights</button>
       <button class="pill pill-badge fam-blue" data-filter="translation" aria-pressed="false">Translation</button>
@@ -148,15 +167,25 @@
     <div id="no-results" class="empty-state">Nothing matches your search.</div>
   </div><!-- /.controls -->
 
+  <div class="jump-strip">
+    <a class="jchip" href="#sec-maps"><svg class="gm-icon" data-icon="dot-green" data-role="dot" viewBox="0 0 24 24" aria-hidden="true"><use href="#gm-i-dot-green"/></svg>Maps &amp; navigation</a>
+    <a class="jchip" href="#sec-flights"><svg class="gm-icon" data-icon="dot-red" data-role="dot" viewBox="0 0 24 24" aria-hidden="true"><use href="#gm-i-dot-red"/></svg>Flights</a>
+    <a class="jchip" href="#sec-translation"><svg class="gm-icon" data-icon="dot-blue" data-role="dot" viewBox="0 0 24 24" aria-hidden="true"><use href="#gm-i-dot-blue"/></svg>Translation</a>
+    <a class="jchip" href="#sec-money"><svg class="gm-icon" data-icon="dot-purple" data-role="dot" viewBox="0 0 24 24" aria-hidden="true"><use href="#gm-i-dot-purple"/></svg>Money &amp; currency</a>
+    <a class="jchip" href="#sec-safety"><svg class="gm-icon" data-icon="dot-orange" data-role="dot" viewBox="0 0 24 24" aria-hidden="true"><use href="#gm-i-dot-orange"/></svg>Safety &amp; alerts</a>
+    <a class="jchip" href="#sec-esim"><svg class="gm-icon" data-icon="dot-pink" data-role="dot" viewBox="0 0 24 24" aria-hidden="true"><use href="#gm-i-dot-pink"/></svg>eSIM &amp; connectivity</a>
+    <a class="jchip" href="#sec-planning"><svg class="gm-icon" data-icon="dot-black" data-role="dot" viewBox="0 0 24 24" aria-hidden="true"><use href="#gm-i-dot-black"/></svg>Planning &amp; packing</a>
+  </div>
+
   <div class="dl-note">
     <strong>Download offline content before you leave home.</strong> Google Maps areas, Google Translate language packs, and XE Currency rates all work without a data connection once downloaded. Do this on Wi-Fi — not in the airport lounge at departure.
   </div>
 
   <!-- ── Maps & Navigation ─────────────────────────────────── -->
-  <div class="section" data-section="maps">
+  <div class="section" data-section="maps" id="sec-maps">
   <div class="section-head">Maps &amp; Navigation</div>
   <div class="app-grid">
-    <div class="app-card-wrap">
+    <div class="app-card-wrap top">
       <span class="app-anchor fam-grey">The standard — works everywhere</span>
       <div class="app-card">
         <div class="app-head">
@@ -204,10 +233,10 @@
   </div><!-- /section maps -->
 
   <!-- ── Flights ───────────────────────────────────────────── -->
-  <div class="section" data-section="flights">
+  <div class="section" data-section="flights" id="sec-flights">
   <div class="section-head">Flights</div>
   <div class="app-grid">
-    <div class="app-card-wrap">
+    <div class="app-card-wrap top">
       <span class="app-anchor fam-grey">Fastest flight alerts available</span>
       <div class="app-card">
         <div class="app-head">
@@ -233,10 +262,10 @@
   </div><!-- /section flights -->
 
   <!-- ── Translation ───────────────────────────────────────── -->
-  <div class="section" data-section="translation">
+  <div class="section" data-section="translation" id="sec-translation">
   <div class="section-head">Translation</div>
   <div class="app-grid">
-    <div class="app-card-wrap">
+    <div class="app-card-wrap top">
       <span class="app-anchor fam-grey">Point your camera at signs and menus</span>
       <div class="app-card">
         <div class="app-head">
@@ -262,7 +291,7 @@
   </div><!-- /section translation -->
 
   <!-- ── Money ─────────────────────────────────────────────── -->
-  <div class="section" data-section="money">
+  <div class="section" data-section="money" id="sec-money">
   <div class="section-head">Money &amp; Currency</div>
   <div class="app-grid">
     <div class="app-card-wrap">
@@ -276,7 +305,7 @@
         <div class="app-pills"><span class="badge fam-green">Free</span><span class="badge fam-blue">Offline rates</span><span class="badge fam-blue">Multi-currency</span></div>
       </div>
     </div>
-    <div class="app-card-wrap">
+    <div class="app-card-wrap top">
       <span class="app-anchor fam-grey">Spend and send at the real exchange rate</span>
       <div class="app-card">
         <div class="app-head">
@@ -291,10 +320,10 @@
   </div><!-- /section money -->
 
   <!-- ── Safety & Alerts ──────────────────────────────────── -->
-  <div class="section" data-section="safety">
+  <div class="section" data-section="safety" id="sec-safety">
   <div class="section-head">Safety &amp; Alerts</div>
   <div class="app-grid">
-    <div class="app-card-wrap">
+    <div class="app-card-wrap top">
       <span class="app-anchor fam-grey">US State Department enrollment + alerts</span>
       <div class="app-card">
         <div class="app-head">
@@ -320,10 +349,10 @@
   </div><!-- /section safety -->
 
   <!-- ── eSIM & Connectivity ───────────────────────────────── -->
-  <div class="section" data-section="esim">
+  <div class="section" data-section="esim" id="sec-esim">
   <div class="section-head">eSIM &amp; Connectivity</div>
   <div class="app-grid">
-    <div class="app-card-wrap">
+    <div class="app-card-wrap top">
       <span class="app-anchor fam-grey">eSIM marketplace — buy before you land</span>
       <div class="app-card">
         <div class="app-head">
@@ -349,10 +378,10 @@
   </div><!-- /section esim -->
 
   <!-- ── Planning & Packing ────────────────────────────────── -->
-  <div class="section" data-section="planning">
+  <div class="section" data-section="planning" id="sec-planning">
   <div class="section-head">Planning &amp; Packing</div>
   <div class="app-grid">
-    <div class="app-card-wrap">
+    <div class="app-card-wrap top">
       <span class="app-anchor fam-grey">Smart packing list generator</span>
       <div class="app-card">
         <div class="app-head">

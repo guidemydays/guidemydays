@@ -293,17 +293,31 @@
    with no placement at all. Fixed rows here would put the mosaic and the nav on
    TOP of the copy on a phone. Scoped as a min-width block rather than by adding
    `grid-row: auto` resets to the phone block above, so the whole mechanism is
-   one place to read and one place to delete. */
+   one place to read and one place to delete.
+
+   TOP-ALIGNED, not centred (owner, 2026-08-23: "the hero images need to move
+   up — the bottom of it needs to finish level with the top of the browse
+   button"). The pair used to sit on two flexible spacer rows (`1fr auto auto
+   1fr`) that split the leftover height evenly above and below, centring the
+   mosaic+arrows against the WHOLE copy column — headline, paragraph, button
+   AND the guide-picker search box below it. Once the search box shipped
+   (2026-08-18) that column got taller below the button than above it, so the
+   centred mosaic crept down past the button and the arrows ended up level
+   with the picker text, nowhere near the photographs. Dropping the leading
+   `1fr` puts the mosaic at the top of the row set instead — level with the
+   headline, same as the copy column's own first line — and only the trailing
+   `1fr` absorbs the leftover height, so the mosaic's bottom edge now lands
+   level with the Browse button's top rather than drifting under it. */
 @media (min-width: 62.0625rem) {
   /* `row-gap: 0` is not tidying — it is half the fix. .lp-hero's `gap` was
      written for the COLUMN gutter and never had a second row to apply to; the
      moment there are four rows it also opens 56px between every one of them,
      which lands 56px between the last photograph and the arrows on top of the
      9.6px this rule already asks for. The columns keep their gutter. */
-  .lp-hero { grid-template-rows: 1fr auto auto 1fr; row-gap: 0; }
+  .lp-hero { grid-template-rows: auto auto 1fr; row-gap: 0; }
   .lp-hero-copy { grid-column: 1; grid-row: 1 / -1; align-self: center; }
-  .lp-hero-art  { grid-column: 2; grid-row: 2; }
-  .lp-hero-nav  { grid-column: 2; grid-row: 3; }
+  .lp-hero-art  { grid-column: 2; grid-row: 1; }
+  .lp-hero-nav  { grid-column: 2; grid-row: 2; }
 }
 /* A finger needs a bigger target than a cursor: 40px, matching the stop controls
    inside a guide (Thirty-third non-negotiable) rather than the 32px desktop dot. */

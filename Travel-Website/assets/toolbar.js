@@ -7318,11 +7318,15 @@ window.TVE.home = (function () {
       { name: 'Casa del Mar', note: 'InterContinental brand — Craftsman-style 1926 beachfront mansion, spa, oceanfront dining · 9.1 Booking.com', url: 'https://www.booking.com/hotel/us/casa-del-mar.html', tier: 'luxury' }
     ], price: { budget: '$150–260', mid: '$260–450', expensive: '$450–700', luxury: '$700+' } },
     'santiago': { h: [
-      { name: 'Mandarin Oriental, Santiago', note: 'Mandarin Oriental — Las Condes, lagoon pool and Andes views, Matsuri Nikkei restaurant · 9.1 Booking.com', url: 'https://www.booking.com/hotel/cl/hotel-santiago.html' },
-      { name: 'Hotel Eco Boutique Bidasoa', note: 'Independent boutique — Vitacura residential neighborhood, lagoon pool and gardens, curated personal service · 9.5 Booking.com', url: 'https://www.booking.com/hotel/cl/bidasoa.html' },
-      { name: 'The Singular Santiago, Lastarria Hotel', note: 'Independent — Barrio Lastarria, rooftop pool overlooking Santa Lucía Hill, El Singular restaurant · 9.3 Booking.com', url: 'https://www.booking.com/hotel/cl/the-singular-santiago-lastarria.html' },
-      { name: 'Hotel Cumbres Lastarria', note: 'Independent — Lastarria bohemian quarter, rooftop terrace, contemporary Chilean design · 9.2 Booking.com', url: 'https://www.booking.com/hotel/cl/cumbres-lastarria.html' }
-    ] },
+      { name: 'Hotel Loreto', note: 'Independent boutique — Lastarria, 15 rooms, terrace overlooking Cerro Santa Lucía, quiet pedestrian-alley setting · 9.0 Booking.com', url: 'https://www.booking.com/hotel/cl/hotel-loreto-santiago.html', tier: 'budget' },
+      { name: 'Ibis Styles Santiago Miraflores', note: 'Accor brand — Miraflores, colourful compact rooms, 24h bar, easy Metro access · 8.5 Booking.com', url: 'https://www.booking.com/hotel/cl/ibis-styles-santiago-miraflores.html', tier: 'budget' },
+      { name: 'Hotel Cumbres Lastarria', note: 'Independent — Lastarria bohemian quarter, rooftop terrace, contemporary Chilean design · 9.2 Booking.com', url: 'https://www.booking.com/hotel/cl/cumbres-lastarria.html', tier: 'mid' },
+      { name: 'NH Collection Plaza Santiago', note: 'NH Hotels brand — Plaza de Armas, refurbished heritage building, rooftop pool and Andes views · 8.8 Booking.com', url: 'https://www.booking.com/hotel/cl/nh-collection-plaza-santiago.html', tier: 'mid' },
+      { name: 'Hotel Eco Boutique Bidasoa', note: 'Independent boutique — Vitacura residential neighborhood, lagoon pool and gardens, curated personal service · 9.5 Booking.com', url: 'https://www.booking.com/hotel/cl/bidasoa.html', tier: 'expensive' },
+      { name: 'The Singular Santiago, Lastarria Hotel', note: 'Independent — Barrio Lastarria, rooftop pool overlooking Santa Lucía Hill, El Singular restaurant · 9.3 Booking.com', url: 'https://www.booking.com/hotel/cl/the-singular-santiago-lastarria.html', tier: 'expensive' },
+      { name: 'Mandarin Oriental, Santiago', note: 'Mandarin Oriental — Las Condes, lagoon pool and Andes views, Matsuri Nikkei restaurant · 9.1 Booking.com', url: 'https://www.booking.com/hotel/cl/hotel-santiago.html', tier: 'luxury' },
+      { name: 'Grand Hyatt Santiago', note: 'Hyatt brand — Las Condes high-rise, outdoor pool, spa, and five restaurants with Andes panoramas · 9.0 Booking.com', url: 'https://www.booking.com/hotel/cl/grand-hyatt-santiago.html', tier: 'luxury' }
+    ], price: { budget: 'CLP 65,000–90,000', mid: 'CLP 130,000–200,000', expensive: 'CLP 250,000–450,000', luxury: 'CLP 500,000+' } },
     'santorini': { h: [
       { name: 'Canaves Oia Suites', note: 'Independent luxury — Oia clifftop, infinity pools, Michelin Guide-listed restaurant, sunset-facing caldera view · 9.6 Booking.com', url: 'https://www.booking.com/hotel/gr/canaves-oia-suites.html' },
       { name: 'Grace Hotel Santorini, Auberge Resorts Collection', note: 'Auberge Resorts — Imerovigli caldera cliff, adults-only, infinity pool with champagne service · 9.5 Booking.com', url: 'https://www.booking.com/hotel/gr/grace-hotel-santorini.html' },

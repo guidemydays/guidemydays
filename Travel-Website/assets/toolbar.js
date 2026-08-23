@@ -10141,6 +10141,12 @@ window.TVE.home = (function () {
 
     [].forEach.call(pills, function (a) {
       if (a.querySelector('svg')) return;                 /* already drawn */
+      /* An individual pill can opt out with data-no-icon (owner 2026-08-23,
+         Where to Stay's per-city "{City} guide" pill: "leave the link to the
+         guides remove icons only") — the pill and its shared box/hover stay,
+         only the leading mark is skipped. Page-scoped by whichever markup
+         sets the attribute; nothing else on the site does. */
+      if (a.hasAttribute('data-no-icon')) return;
       var key = _iconKey(a);
       var mute = a.parentNode && a.parentNode._gmMutedIcons;
       if (key && mute && mute[key]) return;               /* repeated down the strip */

@@ -20,87 +20,6 @@
 /* ── Sibling pills (shape comes from shared .sibling-pill) ── */
 .an-siblings { display: flex; flex-wrap: wrap; gap: 7px; margin: 0 0 18px; justify-content: center; }
 
-/* ── Filter card — two dropdowns on ONE row, then the glued square grid for
-      the long city list (Page-Format § 5, two-pill-forms).
-
-      Region and character used to be two rows of counted chips in two
-      different visual languages, stacked above the 93-cell city grid, with
-      nothing saying the three tiers were peers. Measured at 1280px that card
-      was 493px tall on its own and 2,002px on a 393px phone — the first
-      sentence of content sat at 1,272px / 2,829px. Owner approved the
-      rebuild 2026-08-18 ("proposal is better for sure").
-
-      The two selects reuse the landing finder's documented control shape
-      (.fnd-ctl in index.html): a 999px pill carrying the border, with a bare
-      select inside that draws none of its own. Select text is
-      color:var(--accent) — every picker select on the site is gold, and
-      brain_check.check_picker_select_gold_color hard-fails anything else. ── */
-.an-controls {
-  background: var(--surface); border: 1px solid var(--border2); border-radius: 12px;
-  padding: 16px 18px; box-shadow: 0 2px 12px rgba(92,61,17,.07); margin-bottom: 18px;
-}
-.an-ctrl-block + .an-ctrl-block { margin-top: 15px; padding-top: 15px; border-top: 1px solid #efece6; }
-
-.an-filter-row { display: flex; flex-wrap: wrap; gap: 10px; }
-.an-ctl {
-  display: flex; align-items: center; gap: .5rem; min-width: 0; flex: 1 1 220px;
-  border: 1px solid var(--border,#e3ddd2); border-radius: 999px;
-  background: var(--surface,#ffffff); padding: 0 .9rem;
-  height: 2.55rem; box-sizing: border-box;
-}
-.an-ctl:focus-within { border-color: var(--rust,#C04E1A); }
-/* The pill carries the border, so the field inside must not draw a second one
-   and must not paint a background over the rounded corners. */
-.an-ctl select {
-  flex: 1 1 auto; min-width: 0; border: 0; outline: none; background: transparent;
-  font: inherit; font-size: 13px; color: var(--accent); padding: 0; cursor: pointer; height: 100%;
-}
-
-/* ── City fold ─────────────────────────────────────────────────────────────
-   The 93-cell grid is the tallest thing on the page by an order of magnitude
-   — 1,600px of it on a phone, above the first sentence of content — so it
-   folds behind its own summary, closed on arrival. The known trade, accepted
-   by the owner: an open grid answers "which cities are covered" at a glance,
-   and folding it sends that reader to the search box six pixels above, which
-   already answers the same question by name.
-
-   The summary NAMES the active city, so the filter state is legible with the
-   grid shut; syncCityFold() keeps it in step with every path that can set a
-   city — a grid click, the region reset, the search box, and the #City deep
-   link guides arrive on. Closed is the resting state, so picking a city
-   closes it again: leaving it open puts the 1,600px straight back. */
-.an-cityfold { min-width: 0; }
-.an-fold-sum {
-  display: flex; align-items: center; gap: .5rem; cursor: pointer;
-  border: 1px solid var(--border,#e3ddd2); border-radius: 999px;
-  background: var(--surface,#ffffff); padding: 0 .9rem;
-  height: 2.55rem; box-sizing: border-box;
-  font-size: 13px; color: var(--accent); list-style: none;
-}
-/* Both spellings — WebKit still uses the pseudo-element, everyone else the
-   list-style above. Without this the native triangle sits inside the pill. */
-.an-fold-sum::-webkit-details-marker { display: none; }
-.an-fold-sum:hover { border-color: var(--rust,#C04E1A); }
-.an-fold-sum:focus-visible { outline: 2px solid var(--rust,#C04E1A); outline-offset: 2px; }
-.an-fold-sum::after { content: '+'; margin-left: auto; font-size: 15px; line-height: 1; opacity: .7; }
-.an-cityfold[open] .an-fold-sum::after { content: '\2212'; }
-.an-cityfold[open] .an-city-grid { margin-top: 11px; }
-
-/* minmax(0,1fr): a bare 1fr floors at min-content, so long city names
-   ("Copenhagen", "Luxembourg") pushed the third column past the card edge
-   at ≤375px. */
-.an-city-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 5px; }
-/* City filter buttons */
-.an-cbtn { font-family: inherit; cursor: pointer; text-align: center; line-height: 1; padding: 9px 20px !important; border-radius: 999px !important; }
-.an-cbtn.on { background: var(--surface,#fff) !important; border-width: 1.5px !important; border-color: rgba(192,78,26,.85) !important; color: var(--rust,#C04E1A) !important; box-shadow: 0 0 0 2px rgba(192,78,26,.20); }
-@media (min-width: 601px), (pointer: fine) {
-  .an-city-grid { display: flex !important; flex-wrap: wrap !important; gap: 8px !important; justify-content: center !important; }
-}
-@media (max-width: 600px) and (pointer: coarse) {
-  .an-city-grid { gap: 8px !important; }
-  .an-cbtn { padding: 10px 18px !important; border-radius: 999px !important; }
-}
-
 /* ── Result count line ── */
 .an-count { font-size: 12px; color: var(--muted); margin: 0 0 4px; }
 .an-count strong { color: var(--text); font-weight: 700; }
@@ -147,16 +66,7 @@
 
 @media (prefers-color-scheme: dark) {
   .an-days { color: var(--text); }
-  /* The SELECTED city button paints --rust ink on --surface, and in dark mode
-     that is #D4663A on #2a2825 = 4.03:1 — under AA for an 11px label. Same
-     arithmetic, same fix as the guides-index icon key (Forty-sixth
-     non-negotiable): the approved terracotta pair has no lighter member, so the
-     GROUND moves and the ink stays. #201e1c takes it to 4.56:1.
-     Carried over from essentials/neighborhoods/, where it had shipped failing
-     since the button was built. */
-  .an-cbtn.on { background: #201e1c !important; }
 }
-/* an-cbtn dark mode handled by .fam-* tokens */
 
 /* ── The two halves of the page ────────────────────────────────────────────
    Merged 2026-08-22 (owner: "combine this page ... with this page ... make it
@@ -325,17 +235,6 @@ a.an-jump:visited { color: var(--accent); }
     <a href="/essentials/day-trips/" class="sibling-pill fam-purple">Day trips by train</a>
     <a href="/essentials/connections/" class="sibling-pill fam-yellow">Airport connections</a>
     <a href="/essentials/safety/" class="sibling-pill fam-red">Safety by city</a>
-  </div>
-
-  <div class="an-controls">
-    <div class="an-ctrl-block an-filter-row">
-      <div class="an-ctl"><select id="an-region-sel" aria-label="Filter by region"></select></div>
-      <div class="an-ctl"><select id="an-tag-sel" aria-label="Filter by character"></select></div>
-    </div>
-    <details class="an-ctrl-block an-cityfold" id="an-cityfold">
-      <summary class="an-fold-sum" id="an-fold-sum">Filter by city</summary>
-      <div class="an-city-grid" id="an-city-grid"></div>
-    </details>
   </div>
 
   <div class="an-count-row">
@@ -4244,17 +4143,10 @@ const AN_DISTRICTS = [
 ];
 
 /* ── Render ───────────────────────────────────────────────────────────── */
-let activeCity   = 'All';
-let activeRegion = 'All';
-let activeTag    = 'All';
+let activeCity = 'All';
 
 /* Only cities that actually have districts below are offered anywhere. */
 const AN_LIVE_CITIES = AN_CITIES.filter(c => AN_DISTRICTS.some(d => d.city === c.city));
-
-function cityRegion(name) {
-  const c = AN_CITIES.find(x => x.city === name);
-  return c ? c.region : '';
-}
 
 function badgeHTML(key) {
   const t = AN_TAGS[key];
@@ -4285,7 +4177,7 @@ function cityBlockHTML(c, districts) {
   return `<div class="an-city-head">
       <span class="an-city-title">${c.flag} ${c.city}</span>
       <span class="an-city-meta">${c.country} · ${c.days}-day guide · ${districts.length} neighborhoods</span>
-      <a class="also-on-this-site-pill" href="${c.guide}">${c.city} guide</a>
+      <a class="also-on-this-site-pill" data-no-icon href="${c.guide}">${c.city} guide</a>
     </div>
     <div class="an-grid">${districts.map(cardHTML).join('')}</div>`;
 }
@@ -4317,42 +4209,15 @@ function render(filterFn, emptyMsg) {
   res.innerHTML = html;
 }
 
-/* The three filter rows apply together; the search box runs its own query. */
+/* Only the city ever narrows the result now — region/character filtering
+   was removed with the picker UI (owner: "crazy drift"). activeCity is still
+   set by the #City deep link guides arrive on (AN_NEIGHBORHOOD_CITIES in
+   toolbar.js) and by a search pick. */
 function applyFilters() {
   render(
-    d => (activeCity === 'All' || d.city === activeCity)
-      && (activeRegion === 'All' || cityRegion(d.city) === activeRegion)
-      && (activeTag === 'All' || d.tags.indexOf(activeTag) !== -1),
-    'No neighborhood matches these filters together. Clear one to widen the result.'
+    d => activeCity === 'All' || d.city === activeCity,
+    'No neighborhood matches this search.'
   );
-}
-
-/* The summary is the only thing on screen saying which city is filtered once
-   the grid is shut, so every path that can change activeCity or activeRegion
-   has to come through here — including the search box, which resets the
-   filters without going through syncChips(). */
-function syncCityFold() {
-  const sum = document.getElementById('an-fold-sum');
-  if (!sum) return;
-  if (activeCity !== 'All') { sum.textContent = activeCity; return; }
-  const n = activeRegion === 'All'
-    ? AN_LIVE_CITIES.length
-    : AN_LIVE_CITIES.filter(c => c.region === activeRegion).length;
-  sum.textContent = 'All cities (' + n + ')';
-}
-
-function syncChips() {
-  const rs = document.getElementById('an-region-sel');
-  const ts = document.getElementById('an-tag-sel');
-  if (rs) rs.value = activeRegion;
-  if (ts) ts.value = activeTag;
-  syncCityFold();
-  document.querySelectorAll('.an-cbtn').forEach(b => {
-    b.classList.toggle('on', b.dataset.city === activeCity);
-    /* The region filter narrows the city grid so it stays scannable */
-    const show = b.dataset.city === 'All' || activeRegion === 'All' || cityRegion(b.dataset.city) === activeRegion;
-    b.style.display = show ? '' : 'none';
-  });
 }
 
 function clearSearchBox() {
@@ -4360,72 +4225,11 @@ function clearSearchBox() {
   if (inp) inp.value = '';
 }
 
-function initFilters() {
-  /* The counts stay — they were the one thing the chip rows said that a bare
-     dropdown does not, and they are what tells a reader a region is worth
-     opening. They ride in the option text because option contents cannot be
-     styled. */
-  const rs = document.getElementById('an-region-sel');
-  ['All'].concat(AN_REGIONS).forEach(name => {
-    const n = name === 'All' ? AN_LIVE_CITIES.length : AN_LIVE_CITIES.filter(c => c.region === name).length;
-    if (!n) return;
-    const o = document.createElement('option');
-    o.value = name;
-    o.textContent = (name === 'All' ? 'All regions' : name) + ' (' + n + ')';
-    rs.appendChild(o);
-  });
-  rs.addEventListener('change', () => {
-    const name = rs.value;
-    activeRegion = name;
-    if (name !== 'All' && activeCity !== 'All' && cityRegion(activeCity) !== name) activeCity = 'All';
-    clearSearchBox(); syncChips(); applyFilters();
-  });
-
-  const ts = document.getElementById('an-tag-sel');
-  ['All'].concat(Object.keys(AN_TAGS)).forEach(key => {
-    const n = key === 'All' ? AN_DISTRICTS.length : AN_DISTRICTS.filter(d => d.tags.indexOf(key) !== -1).length;
-    const label = key === 'All'
-      ? 'Any character'
-      : AN_TAGS[key].label.charAt(0) + AN_TAGS[key].label.slice(1).toLowerCase();
-    const o = document.createElement('option');
-    o.value = key;
-    o.textContent = label + ' (' + n + ')';
-    ts.appendChild(o);
-  });
-  ts.addEventListener('change', () => {
-    activeTag = ts.value; clearSearchBox(); syncChips(); applyFilters();
-  });
-
-  const grid = document.getElementById('an-city-grid');
-  ['All'].concat(AN_LIVE_CITIES.map(c => c.city)).forEach(name => {
-    const b = document.createElement('button');
-    b.type = 'button';
-    b.className = 'an-cbtn pill-badge fam-grey' + (name === 'All' ? ' on' : '');
-    b.dataset.city = name;
-    b.textContent = name === 'All' ? 'All cities' : name;
-    b.addEventListener('click', () => {
-      activeCity = name;
-      if (name !== 'All') activeRegion = 'All';
-      /* Closed is the resting state — a pick that leaves the grid open puts
-         1,600px of buttons back above the results the pick just produced. */
-      const fold = document.getElementById('an-cityfold');
-      if (fold) fold.open = false;
-      clearSearchBox(); syncChips(); applyFilters();
-    });
-    grid.appendChild(b);
-  });
-}
-
 function renderCity(cityName) {
   activeCity = cityName;
-  activeRegion = 'All';
-  activeTag = 'All';
-  syncChips();
   applyFilters();
 }
 
-initFilters();
-syncChips();
 applyFilters();
 
 /* ── Search — scoped to this page's own cities and neighborhoods ── */
@@ -4438,18 +4242,8 @@ applyFilters();
 
   function runQuery(q) {
     const lower = fold(q.trim());
-    if (!lower) { syncChips(); applyFilters(); return; }
-    activeCity = 'All'; activeRegion = 'All'; activeTag = 'All';
-    /* The two selects go back to their All entries — a select has no
-       "nothing chosen" state, and All regions / Any character IS the state a
-       search leaves the filters in. The city buttons lose their mark and all
-       come back into view, as before. */
-    const rs = document.getElementById('an-region-sel');
-    const ts = document.getElementById('an-tag-sel');
-    if (rs) rs.value = 'All';
-    if (ts) ts.value = 'All';
-    document.querySelectorAll('.an-cbtn').forEach(b => { b.classList.remove('on'); b.style.display = ''; });
-    syncCityFold();
+    if (!lower) { applyFilters(); return; }
+    activeCity = 'All';
     render(
       d => fold(d.name).indexOf(lower) !== -1
         || fold(d.city).indexOf(lower) !== -1

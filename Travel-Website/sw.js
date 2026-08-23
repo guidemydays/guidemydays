@@ -1995,7 +1995,8 @@
 /* 2026-08-23: toolbar.js + web-travel-style.css: dot-emoji comments swapped for icon-dot references (rule 951) toolbar.js -> v1047. CACHE to v1441. */
 /* 2026-08-23: the prior entry bumped toolbar.js for its web-travel-style.css comment edit but left the CSS's own MIN_VERSIONS floor at 95 — a cold fetch would return the new bytes but no returning browser or installed PWA would ever ask for them. web-travel-style.css -> v96. CACHE to v1442. */
 /* 2026-08-23: saved packing list drops the emptied action row and the 'quantities update automatically' note, which a file with no script cannot honour toolbar.js -> v1048. CACHE to v1443. */
-var CACHE = 'travel-cache-v1443';
+/* 2026-08-23: car rental family dissolved to one page; toolbar.js Getting Around nav group dropped five retired continent rows toolbar.js -> v1049. CACHE to v1444. */
+var CACHE = 'travel-cache-v1444';
 
 /* The guide-calendar hand-off cache. Written by toolbar.js, read and emptied
    once by the fetch handler below, and EXEMPT from the activate sweep — it is
@@ -2008,7 +2009,7 @@ var ICS_OUTBOX = 'gmd-ics-outbox';
    THIS IS THE ONLY PLACE to bump toolbar.js / guide-style.css versions.
    NEVER bump ?v= inside guide HTML — it breaks HMAC stamps and forces re-validation
    of 230+ guides. Instead, bump MIN_VERSIONS here + increment the CACHE version. */
-var MIN_VERSIONS = { 'guide-style.css': 264,'toolbar.js': 1048, 'mobile.css': 88, 'web-travel-style.css': 96, 'guides-index-style.css': 25, 'read-about.css': 6, 'best-of-features.js': 4, 'best-of-cross-data.js': 24, 'weather.js': 12, 'trains.css': 11, 'trains.js': 2, 'airlines.css': 2, 'airlines.js': 2, 'passport.js': 4 };
+var MIN_VERSIONS = { 'guide-style.css': 264,'toolbar.js': 1049, 'mobile.css': 88, 'web-travel-style.css': 96, 'guides-index-style.css': 25, 'read-about.css': 6, 'best-of-features.js': 4, 'best-of-cross-data.js': 24, 'weather.js': 12, 'trains.css': 11, 'trains.js': 2, 'airlines.css': 2, 'airlines.js': 2, 'passport.js': 4 };
 
 function rewriteAssetUrl(urlStr) {
   var u;

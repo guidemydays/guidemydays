@@ -5649,11 +5649,12 @@ window.TVE.home = (function () {
       { name: 'Palacio Gran Vía, a Royal Hideaway Hotel', note: 'Independent luxury — restored palace on Gran Vía de Colón, spa with hammam, rooftop terrace over the cathedral quarter · 9.5 Booking.com', url: 'https://www.booking.com/hotel/es/palacio-de-gran-via-a-royal-hideaway.html' }
     ] },
     'lisbon': { h: [
-      { name: 'Sheraton Lisboa Hotel & Spa', note: 'Marriott family — pool, spa, central location near Marquês de Pombal · 8.6 Booking.com' , url: 'https://www.booking.com/hotel/pt/sheraton-lisboa-hotel-spa.html' },
-      { name: 'InterContinental Lisbon by IHG', note: 'First-tier brand — 8.9 Booking.com, scenic views, Avenida da Liberdade area' , url: 'https://www.booking.com/hotel/pt/intercontinental-lisbon.html' },
-      { name: 'Bairro Alto Hotel', note: 'Independent — 18th-century Pombaline building in Chiado, rooftop bar with river and city views, Flores da Primavera restaurant, curated art · 9.4 Booking.com' , url: 'https://www.booking.com/hotel/pt/bairro-alto.html' },
-      { name: 'Four Seasons Hotel Ritz Lisbon', note: 'Four Seasons brand — Eduardo VII Park, outdoor heated pool, Varanda restaurant with panoramic city views, full-service spa · 9.2 Booking.com' , url: 'https://www.booking.com/hotel/pt/four-seasons-hotel-ritz.html' }
-    ] },
+      { name: 'Bairro Alto Hotel', note: 'Independent — 18th-century Pombaline building in Chiado, rooftop bar with river and city views, Flores da Primavera restaurant, curated art · 9.4 Booking.com', url: 'https://www.booking.com/hotel/pt/bairro-alto.html', tier: 'luxury' },
+      { name: 'Four Seasons Hotel Ritz Lisbon', note: 'Four Seasons brand — Eduardo VII Park, outdoor heated pool, Varanda restaurant with panoramic city views, full-service spa · 9.2 Booking.com', url: 'https://www.booking.com/hotel/pt/four-seasons-hotel-ritz.html', tier: 'luxury' },
+      { name: 'InterContinental Lisbon by IHG', note: 'IHG InterContinental — Rua Castilho off Avenida da Liberdade, panoramic rooftop views, outdoor pool, spa · 8.9 Booking.com', url: 'https://www.booking.com/hotel/pt/intercontinental-lisbon.html', tier: 'expensive' },
+      { name: 'Sheraton Lisboa Hotel & Spa', note: 'Marriott Sheraton — Rua Latino Coelho near Marquês de Pombal, indoor heated pool, spa with hammam, 24h reception · 8.6 Booking.com', url: 'https://www.booking.com/hotel/pt/sheraton-lisboa-hotel-spa.html', tier: 'mid' },
+      { name: 'Lisbon Marriott Hotel', note: 'Marriott full brand — Avenida dos Combatentes 45, outdoor pool, health club, 24h reception, walking distance to Sete Rios station · 8.2 Booking.com', url: 'https://www.booking.com/hotel/pt/lisbon-marriott.html', tier: 'budget' }
+    ], price: { budget: '€100–160', mid: '€160–260', expensive: '€250–400', luxury: '€400+' } },
     'ljubljana': { h: [
       { name: 'Hotel Cubo', note: 'Independent boutique — design hotel in Old Town pedestrian zone, terrace bar · 9.3 Booking.com' , url: 'https://www.booking.com/hotel/si/cubo.html' },
       { name: 'Zlata Ladjica Boutique Hotel', note: 'Independent boutique — Jurčičev trg on the river in the Old Town, spa, restaurant and bar, 24h reception · 9.7 Booking.com' , url: 'https://www.booking.com/hotel/si/zlata-ladjica-boutique-ljubljana.html' },

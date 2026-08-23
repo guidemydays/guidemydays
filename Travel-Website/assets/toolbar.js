@@ -7624,7 +7624,7 @@ window.TVE.home = (function () {
       { name: 'Hotel Grand Pacific Victoria', note: 'Independent — Inner Harbour, indoor pool, harbour views, Active Club fitness centre · 8.9 Booking.com', url: 'https://www.booking.com/hotel/ca/hotel-grand-pacific.html', tier: 'mid' },
       { name: 'Magnolia Hotel & Spa', note: 'Independent — Courtney Street heritage district, rooftop hot tub, Opus Restaurant, full spa · 9.3 Booking.com', url: 'https://www.booking.com/hotel/ca/magnolia.html', tier: 'expensive' },
       { name: 'The Fairmont Empress', note: 'Fairmont brand — 1908 Inner Harbour landmark, spa, Bengal Lounge, afternoon tea tradition · 9.0 Booking.com', url: 'https://www.booking.com/hotel/ca/fairmont-empress.html', tier: 'luxury' }
-    ], price: { budget: 'C$150–250', mid: 'C$250–400', expensive: 'C$400–600', luxury: 'C$600+' } },
+    ], price: { budget: 'CAD 150–250', mid: 'CAD 250–400', expensive: 'CAD 400–600', luxury: 'CAD 600+' } },
     'vienna': { h: [
       { name: 'Hotel Imperial, a Luxury Collection Hotel, Vienna', note: 'Marriott Luxury Collection — 1863 Crown Prince Rudolf\'s palace on Ringstrasse, Café Imperial tradition · 9.2 Booking.com' , url: 'https://www.booking.com/hotel/at/imperial.html' },
       { name: 'Park Hyatt Vienna', note: 'Hyatt brand — 1913 Austro-Hungarian bank vault converted to spa and indoor pool, Das Loft restaurant · 9.4 Booking.com' , url: 'https://www.booking.com/hotel/at/park-hyatt-vienna.html' },

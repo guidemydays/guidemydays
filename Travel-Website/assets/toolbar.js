@@ -7179,11 +7179,11 @@ window.TVE.home = (function () {
       { name: 'Hilton Rotterdam', note: 'Hilton brand — Weena 10, central near Centraal, in-house Joelia Michelin-starred restaurant, 8.1 Booking.com · 2,403 reviews', url: 'https://www.booking.com/hotel/nl/hiltonrotterdam.html' }
     ] },
     'salvador': { h: [
-      { name: 'Hotel Casa do Amarelindo', note: 'Independent boutique — Rua das Portas do Carmo in the Pelourinho, rooftop pool over the bay, 24h reception, AC · 9.4 Booking.com', url: 'https://www.booking.com/hotel/br/casa-do-amarelindo.html' },
-      { name: 'Aram Yamí Boutique Hotel', note: 'Independent boutique — Direita de Santo Antônio above the historic centre, pool with bay panorama, 24h reception, AC · 9.2 Booking.com', url: 'https://www.booking.com/hotel/br/aram-yami.html' },
-      { name: 'Hotel Fasano Salvador', note: 'Fasano brand — Praça Castro Alves in the historic centre, rooftop pool, spa, 24h reception, AC · 9.1 Booking.com', url: 'https://www.booking.com/hotel/br/fasano-salvador.html' },
-      { name: 'Novotel Salvador Rio Vermelho', note: 'Novotel — Rua Monte Conselho in Rio Vermelho, the only ladder-brand hotel in the city, outdoor pool, 24h reception, AC · 8.1 Booking.com', url: 'https://www.booking.com/hotel/br/novotel-salvador-rio-vermelho.html' }
-    ] },
+      { name: 'Novotel Salvador Rio Vermelho', note: 'Novotel — Rua Monte Conselho in Rio Vermelho, outdoor pool, 24h reception, AC · 8.1 Booking.com', url: 'https://www.booking.com/hotel/br/novotel-salvador-rio-vermelho.html', tier: 'budget' },
+      { name: 'Aram Yamí Boutique Hotel', note: 'Independent boutique — Direita de Santo Antônio above the historic centre, pool with bay panorama, 24h reception, AC · 9.2 Booking.com', url: 'https://www.booking.com/hotel/br/aram-yami.html', tier: 'mid' },
+      { name: 'Hotel Casa do Amarelindo', note: 'Independent boutique — Rua das Portas do Carmo in the Pelourinho, rooftop pool over the bay, 24h reception, AC · 9.4 Booking.com', url: 'https://www.booking.com/hotel/br/casa-do-amarelindo.html', tier: 'expensive' },
+      { name: 'Hotel Fasano Salvador', note: 'Fasano brand — Praça Castro Alves in the historic centre, rooftop pool, spa, 24h reception, AC · 9.1 Booking.com', url: 'https://www.booking.com/hotel/br/fasano-salvador.html', tier: 'luxury' }
+    ], price: { budget: 'R$400–700', mid: 'R$700–1,200', expensive: 'R$1,200–2,500', luxury: 'R$2,500+' } },
     'salzburg': { h: [
       { name: 'Schloss Mönchstein', note: 'Independent luxury — 14th-century castle above the Old Town, spa, panoramic garden with city views · 9.2 Booking.com' , url: 'https://www.booking.com/hotel/at/schloss-monchstein.html' },
       { name: 'Hotel Bristol Salzburg', note: 'Small Luxury Hotels — Makartplatz, spa with indoor pool, facing Landestheater, classic elegance · 9.3 Booking.com' , url: 'https://www.booking.com/hotel/at/hotel-bristol-salzburg.html' },

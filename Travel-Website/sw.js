@@ -1953,7 +1953,8 @@
 /* 2026-08-23: verona: VRN added to LOUNGE_IATAS + VRN lounge card. toolbar.js -> v1009. CACHE to v1400. */
 /* 2026-08-23: big-island carried {iata:'KIX','KOA', ...} — a bare string inside an object literal, so toolbar.js was a SyntaxError and EVERY page on the site ran with no toolbar JS at all. KIX is Osaka Kansai; Kona is KOA. Live on origin/main since 2050e65b5. toolbar.js -> v1010. CACHE to v1401. */
 /* 2026-08-23: sarasota hotel tiers + SRQ lounge toolbar.js -> v1011. CACHE to v1402. */
-var CACHE = 'travel-cache-v1402';
+/* 2026-08-23: victoria: HOTEL_ALT_DATA 4 tiers + CAD prices. toolbar.js -> v1012. CACHE to v1403. */
+var CACHE = 'travel-cache-v1403';
 
 /* The guide-calendar hand-off cache. Written by toolbar.js, read and emptied
    once by the fetch handler below, and EXEMPT from the activate sweep — it is
@@ -1966,7 +1967,7 @@ var ICS_OUTBOX = 'gmd-ics-outbox';
    THIS IS THE ONLY PLACE to bump toolbar.js / guide-style.css versions.
    NEVER bump ?v= inside guide HTML — it breaks HMAC stamps and forces re-validation
    of 230+ guides. Instead, bump MIN_VERSIONS here + increment the CACHE version. */
-var MIN_VERSIONS = { 'guide-style.css': 263,'toolbar.js': 1011, 'mobile.css': 88, 'web-travel-style.css': 94, 'guides-index-style.css': 25, 'read-about.css': 6, 'best-of-features.js': 4, 'best-of-cross-data.js': 24, 'weather.js': 12, 'trains.css': 11, 'trains.js': 2, 'airlines.css': 2, 'airlines.js': 2, 'passport.js': 4 };
+var MIN_VERSIONS = { 'guide-style.css': 263,'toolbar.js': 1012, 'mobile.css': 88, 'web-travel-style.css': 94, 'guides-index-style.css': 25, 'read-about.css': 6, 'best-of-features.js': 4, 'best-of-cross-data.js': 24, 'weather.js': 12, 'trains.css': 11, 'trains.js': 2, 'airlines.css': 2, 'airlines.js': 2, 'passport.js': 4 };
 
 function rewriteAssetUrl(urlStr) {
   var u;

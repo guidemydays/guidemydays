@@ -604,6 +604,57 @@ a.also-on-this-site-pill:active {
 }
 :root[data-theme="dark"] .sibling-pill:not([class*="fam-"]) { color: var(--text); }
 
+/* ════════════════════════════════════════════════════════════════════════════════════
+   SELECTION PILLS — a THIRD pill family, alongside .badge/.pill-badge
+   (family-coloured, "what something IS") and .sibling-pill (a plain nav
+   link, never selected — 2026-08-23: "a sibling-pill is a plain nav link,
+   not a badge"). A SELECTION PILL is neither of those: it is ONE choice
+   picked from a row of otherwise-equal options — a filter, a tab, a region
+   — with no family colour carrying meaning, just a mark for "this one is
+   chosen." Owner rule 2026-08-23: "create another shared category called
+   selection pills and categorize the toolbar one as one of them."
+
+   THE TOOLBAR TAB (toolbar.js .tb-links>a / .tb-active) IS THE CATEGORY'S
+   CANONICAL DEFINITION — every value below is copied from it byte-for-byte.
+   The toolbar keeps its own inline-generated CSS rather than switching to
+   this class (it is the one surface a crib never restructures on its own —
+   Nineteenth non-negotiable), but its own comment block points here, and
+   nothing may re-derive these six declarations independently again. Before
+   this rule existed the site had AT LEAST THREE silently-drifting hand
+   copies of this exact look: the toolbar's own inline CSS, .sibling-pill
+   (a second, deliberate, already-shared copy for links), and
+   essentials/vaccines' .rpill (a third, accidental one, now retired) — each
+   one a fresh chance for the terracotta shade, the radius, or the hover to
+   drift a pixel or a shade from the others. A future in-page filter that
+   wants "the toolbar look, one choice marked selected" uses THIS class —
+   never re-declares border-radius:999px + rgba(192,78,26,…) locally.
+   check_no_hand_rolled_selection_pill (brain_check.py) hard-fails any page
+   that does. */
+.selection-pill {
+  font-family: inherit; box-sizing: border-box; display: inline-flex; align-items: center;
+  line-height: 1.2; font-size: 14px; font-weight: 600; padding: 8px 18px;
+  border: 1px solid rgba(192,78,26,.30); border-radius: 999px; background: #fff;
+  color: var(--rust, #C04E1A); cursor: pointer; text-decoration: none; user-select: none;
+}
+@media (hover: hover) {
+  .selection-pill:hover { background: #fdf4ed; border-color: rgba(192,78,26,.55); }
+}
+/* SELECTED — the toolbar's .tb-active values exactly. Either class or
+   aria-pressed drives it, so a plain toggle button (aria-pressed, no JS
+   class bookkeeping) and a class-driven one (.is-on, matching every
+   .pill-badge filter on the site) both work without a page picking one
+   convention over the other. */
+.selection-pill.is-on,
+.selection-pill[aria-pressed="true"] {
+  background: #fdf4ed; border-color: rgba(192,78,26,.85); font-weight: 600;
+}
+/* Same dark-mode contrast fix as .sibling-pill above: #D4663A on #2a2825
+   measures 4.03:1, under WCAG AA — body text colour instead. */
+@media (prefers-color-scheme: dark) {
+  .selection-pill { color: var(--text); }
+}
+:root[data-theme="dark"] .selection-pill { color: var(--text); }
+
 /* ── Form B glued grid — `.tve-glue` ────────────────────────────────────────
    THE one way to collapse adjacent cell borders into a single seam. Put
    `.tve-glue` on the grid container; the cells need nothing. Never hand-roll
@@ -1586,12 +1637,30 @@ select {
   background-size: 10px 6px;
 }
 
-/* ── Keyboard focus indicators ── */
+/* ── Keyboard focus indicators ──
+   a:focus-visible / button:focus-visible only match REAL <a>/<button>
+   elements. Several pill/badge components on the site are a clickable
+   <span role="button"> instead (scams' .sc-badge, pickleball's .pkl-chip) —
+   those get NEITHER this rule NOR any native browser default worth keeping,
+   so without an explicit rule they either fall back to the browser's own
+   default outline (often a stark black ring — "it changes to black", owner
+   2026-08-23, after this shape of bug kept recurring page after page) or,
+   worse, a page adds its own local `:focus-visible{outline:none}` to make
+   the black ring go away and ships with NO focus indicator at all (scams
+   did exactly this — a real accessibility regression, not a fix). Both
+   symptoms are the same root cause: the rule was scoped to two element
+   TYPES instead of the .pill-badge/.badge FAMILY. .pill-badge and .badge
+   below close that gap for every current and future instance, tag
+   notwithstanding — a page should never need its own focus-visible rule
+   for a pill/badge again. */
 a:focus-visible,
 button:focus-visible,
 select:focus-visible,
 .pill:focus-visible,
-.filter-btn:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; border-radius: 4px; }
+.filter-btn:focus-visible,
+.pill-badge:focus-visible,
+.badge:focus-visible,
+.sibling-pill:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; border-radius: 4px; }
 
 /* ── Filter-pill count badge ──────────────────────────────────────────────
    The small tally inside a filter pill (dot-green icon, "Safe 12"). Byte-identical inline

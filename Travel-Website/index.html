@@ -3105,6 +3105,33 @@ window.lpGuideCard = function (href, flag, name, extra) {
            engine, same ids, same multi-pick chips; the list updates on every pick
            and Show my matches confirms. -->
       <div class="fnd-row fnd-all">
+      <!-- THE ORDER IS THE ORDER A TRIP IS DECIDED IN (owner, 2026-08-23: "is the
+           order of the filter show up the best the most logical when someone thinks
+           about a trip what are the first things people choose? we should follow
+           this rules"). The big questions first, the long tail below them, so the
+           card gets less important as you scroll rather than more.
+
+             1-3  WHEN, WHAT and WHAT WEATHER — the three a traveller can answer
+                  before they have thought about a destination at all, and the
+                  three that narrow hardest.
+             4-5  HOW FAR, then FROM WHICH AIRPORT. This pair is fixed and its
+                  order is an owner rule of its own (2026-08-22): willingness is
+                  a thing a reader knows about themselves; the airport is the
+                  follow-up that answer creates, never the question before it.
+             6-8  COST, SAFETY, COUNTRY — the constraints, once a shape of trip
+                  exists to apply them to.
+             9    NEARBY TRAIN TRIPS, which reveals itself off the country
+                  (owner rule 2026-08-19) and therefore has to sit after it.
+            10-13 JET LAG, DAYLIGHT, LANGUAGE, CURRENCY — real filters, all four,
+                  but nobody opens this card to pick a currency. They are last
+                  because they are the ones a reader scrolls to on purpose.
+
+           It shipped as when / weather / activity / language / cost / safety /
+           country / trains / jet lag / currency / daylight / how far / airport,
+           which put LANGUAGE fourth and the AIRPORT dead last — the field that
+           has to be filled for the distance question above it to mean anything.
+           Moving a field here is the whole change: the engine reads ids, and
+           PRUNE_PAIRS, the chip row and Clear everything all follow the markup. -->
         <div class="fnd-field">
                     <label for="fnd-when">When are you going?</label>
                     <div class="fnd-ctl"><span class="fnd-ic" aria-hidden="true"><svg viewBox="0 0 24 24"><use href="#gm-i-wall-calendar"/></svg></span><select id="fnd-when">
@@ -3115,17 +3142,6 @@ window.lpGuideCard = function (href, flag, name, extra) {
                       <option value="6">July</option><option value="7">August</option>
                       <option value="8">September</option><option value="9">October</option>
                       <option value="10">November</option><option value="11">December</option>
-                    </select></div>
-                  </div>
-        <div class="fnd-field">
-                    <label for="fnd-weather">What weather do you want?</label>
-                    <div class="fnd-ctl"><span class="fnd-ic" aria-hidden="true"><svg viewBox="0 0 24 24"><use href="#gm-i-sun-cloud-colour"/></svg></span><select id="fnd-weather">
-                      <option value="">Flexible</option>
-                      <option value="hot">Hot &mdash; 28&deg;C and up</option>
-                      <option value="warm">Warm &mdash; 22 to 28&deg;C</option>
-                      <option value="mild">Mild &mdash; 15 to 22&deg;C</option>
-                      <option value="cool">Cool &mdash; 8 to 15&deg;C</option>
-                      <option value="cold">Cold &mdash; under 8&deg;C</option>
                     </select></div>
                   </div>
         <div class="fnd-field">
@@ -3142,146 +3158,16 @@ window.lpGuideCard = function (href, flag, name, extra) {
                   </select></div>
                 </div>
         <div class="fnd-field">
-                  <label for="fnd-lang">Which language?</label>
-                  <!-- THE OPTIONS ARE BUILT FROM THE DATA (buildLangOpts), never listed
-                       here. The hand-written list that stood in this spot had drifted
-                       from the tags it filters: Greek was missing with SEVEN guides
-                       behind it — as many as Dutch, Chinese and Arabic, all of which
-                       were offered — while Danish, Finnish and Turkish were offered
-                       with one guide each. Vietnamese, Croatian, Tamil and Papiamento
-                       were missing too. A language that exists in the data and not in
-                       this list is unreachable, and nothing anywhere said so. Same
-                       reasoning as the Day Trips by Train field directly below. -->
-                  <div class="fnd-ctl"><span class="fnd-ic" aria-hidden="true"><svg viewBox="0 0 24 24"><use href="#gm-i-language-roundel"/></svg></span><select id="fnd-lang">
-                    <option value="">No preference</option>
-                  </select></div>
-                </div>
-        <div class="fnd-field">
-                  <label for="fnd-budget">Average costs</label>
-                  <!-- The PRICE LEVEL, from /essentials/budget/ — that page IS the
-                       site's cost data and this reads it rather than keeping a second
-                       copy. It used to ask "What is your budget?" over dollar-a-day
-                       bands, which is the wrong question twice over: owner rule
-                       2026-08-22, "people can travel to the same places and spend 500 a
-                       day or 50 at least in most places" — what a reader spends is a
-                       choice and says nothing about where they are going. What a place
-                       COSTS is not a choice, so that is what is asked. The four tags are
-                       the ones the cost page and the guides-index filter print, and they
-                       name NO benchmark city — owner rule 2026-08-22: "lets not base in a
-                       place specific … use cheap, expensive etc like hotels". -->
-                  <div class="fnd-ctl"><span class="fnd-ic" aria-hidden="true"><svg viewBox="0 0 24 24"><use href="#gm-i-budget"/></svg></span><select id="fnd-budget">
-                    <option value="">Flexible</option>
-                    <option value="cheap">Cheap</option>
-                    <option value="moderate">Moderate</option>
-                    <option value="expensive">Expensive</option>
-                    <option value="very">Very expensive</option>
-                  </select></div>
-                </div>
-        <div class="fnd-field">
-                  <label for="fnd-safety">How safe does it need to be?</label>
-                  <!-- The State Department levels, from /essentials/safety/ — the page
-                       that already sorts all 237 guides into L1/L2/L3/L4 against the
-                       advisories. The invented four-word scale that stood here ("Very
-                       safe", "Moderate") was a second opinion about the same guides,
-                       and the two disagreed: Abu Dhabi read "Very Safe" here and sits
-                       in Level 3 there. One source, and it is the published one.
-
-                       A floor, not an exact match — "Level 1 or 2" means at least as
-                       safe as Level 2, which is what an advisory level is for. -->
-                  <div class="fnd-ctl"><span class="fnd-ic" aria-hidden="true"><svg viewBox="0 0 24 24"><use href="#gm-i-safety-guide"/></svg></span><select id="fnd-safety">
-                    <option value="">No preference</option>
-                    <option value="1">Level 1 only &mdash; normal precautions</option>
-                    <option value="2">Level 1 or 2 &mdash; increased caution</option>
-                    <option value="3">Level 1, 2 or 3 &mdash; reconsider travel</option>
-                  </select></div>
-                </div>
-        <div class="fnd-field">
-                  <label for="fnd-country">Which country?</label>
-                  <div class="fnd-ctl"><span class="fnd-ic" aria-hidden="true"><svg viewBox="0 0 24 24"><use href="#gm-i-country-map"/></svg></span><select id="fnd-country">
-                    <!-- THE OPTIONS ARE BUILT FROM THE DATA (buildCountryOpts), never listed
-                         here — the same rule as Language directly above. The hand-written
-                         list that stood in this spot carried a count per country and had
-                         drifted from the guides it filters: Latvia and Lithuania were missing
-                         outright (Riga and Vilnius shipped after the list was typed), so two
-                         guides could not be reached from this field at all, and every count
-                         went stale the day a guide shipped. The guide is the source
-                         (Seventy-sixth non-negotiable). The count is spelled "(N guides)"
-                         (owner, 2026-08-22: a bare "(1)" reads as a ranking or a code). -->
-                    <option value="">No preference</option>
-                  </select></div>
-                </div>
-        <div class="fnd-field" id="fnd-train-field" hidden>
-                  <label for="fnd-train">Nearby Train Trips</label>
-                  <div class="fnd-ctl"><span class="fnd-ic" aria-hidden="true"><svg viewBox="0 0 24 24"><use href="#gm-i-train"/></svg></span><select id="fnd-train">
-                    <option value="">Flexible</option>
-                  </select></div>
-                </div>
-        <div class="fnd-field">
-                  <label for="fnd-tz">How much jet lag?</label>
-                  <div class="fnd-ctl"><span class="fnd-ic" aria-hidden="true"><svg viewBox="0 0 24 24"><use href="#gm-i-wall-clock"/></svg></span><select id="fnd-tz">
-                    <!-- NINE BANDS, cut at 3 / 6 / 9 / 12 IN BOTH DIRECTIONS (owner,
-                         2026-08-23: "the filter needs to have at least - and + 6 - and + 9
-                         - and +12"). Three options could only say near / east / west: past
-                         +3h held Paris and Tokyo together, and past &minus;3h held Mexico City
-                         with Honolulu, so the two ends of the control answered a third of
-                         the fleet each and narrowed almost nothing.
-
-                         Every option still says WHICH WAY (owner, 2026-08-22: "2 hours
-                         ahead and back is the same? … too many options and does not say
-                         forward or backward"). The six "Up to Nh from your clock" lines
-                         that stood here before that were all |offset|, so Tokyo and
-                         Honolulu answered the same pick — east and west are the whole
-                         question and the label hid it. The sign IS the direction and needs
-                         no gloss (owner, 2026-08-22: "we can just say -3 and +3 everyone
-                         will understand that") &mdash; + is the destination clock ahead of
-                         the reader's, &minus; is behind it.
-
-                         Still a clean partition, no gap and no overlap: &plusmn;3h owns both
-                         its ends, each band above it owns its upper bound, and the two
-                         open bands take everything past &plusmn;12h. 3h is where the half-hour
-                         zones (India +5:30, Nepal, Adelaide) sit safely on one side, and
-                         where a trip stops being the same working day. fTz is in
-                         PRUNE_PAIRS, so once any other field is set a band that would
-                         come back empty greys itself out rather than offering the
-                         reader an option that returns nothing. -->
-                    <option value="">No preference</option>
-                    <option value="near">Within &plusmn;3h of your clock</option>
-                    <option value="a6">+3 to +6h</option>
-                    <option value="a9">+6 to +9h</option>
-                    <option value="a12">+9 to +12h</option>
-                    <option value="ao12">More than +12h</option>
-                    <option value="b6">&minus;3 to &minus;6h</option>
-                    <option value="b9">&minus;6 to &minus;9h</option>
-                    <option value="b12">&minus;9 to &minus;12h</option>
-                    <option value="bo12">More than &minus;12h</option>
-                  </select></div>
-                </div>
-        <div class="fnd-field">
-                  <label for="fnd-cur">Which currency?</label>
-                  <!-- Options are BUILT FROM THE DATA (buildCurOpts, currency-rates.json)
-                       the first time the rates load: one line per currency a guide
-                       actually uses, never a hand list. -->
-                  <div class="fnd-ctl"><span class="fnd-ic" aria-hidden="true"><svg viewBox="0 0 24 24"><use href="#gm-i-exchange"/></svg></span><select id="fnd-cur">
-                    <option value="">No preference</option>
-                  </select></div>
-                </div>
-        <div class="fnd-field">
-                  <label for="fnd-day">Hours of Daylight per day</label>
-                  <div class="fnd-ctl"><span class="fnd-ic" aria-hidden="true"><svg viewBox="0 0 24 24"><use href="#gm-i-horizon-sun"/></svg></span><select id="fnd-day">
-                    <!-- Five bands, 2h wide, symmetric about the 12h equinox, and
-                         contiguous — two options (14h+ / under 10h) left the whole middle
-                         of the year unaskable, which is where most of the fleet sits most
-                         of the time (owner, 2026-08-22: "can we have more range options
-                         here?"). Pruning greys whatever the picked month cannot reach, so
-                         "15h and up" is live in June and dead in December. -->
-                    <option value="">Flexible</option>
-                    <option value="vlong">Very long &mdash; 15h and up</option>
-                    <option value="long">Long &mdash; 13 to 15h</option>
-                    <option value="avg">Average &mdash; 11 to 13h</option>
-                    <option value="short">Short &mdash; 9 to 11h</option>
-                    <option value="vshort">Very short &mdash; under 9h</option>
-                  </select></div>
-                </div>
+                    <label for="fnd-weather">What weather do you want?</label>
+                    <div class="fnd-ctl"><span class="fnd-ic" aria-hidden="true"><svg viewBox="0 0 24 24"><use href="#gm-i-sun-cloud-colour"/></svg></span><select id="fnd-weather">
+                      <option value="">Flexible</option>
+                      <option value="hot">Hot &mdash; 28&deg;C and up</option>
+                      <option value="warm">Warm &mdash; 22 to 28&deg;C</option>
+                      <option value="mild">Mild &mdash; 15 to 22&deg;C</option>
+                      <option value="cool">Cool &mdash; 8 to 15&deg;C</option>
+                      <option value="cold">Cold &mdash; under 8&deg;C</option>
+                    </select></div>
+                  </div>
         <div class="fnd-field">
                   <label for="fnd-far">How far are you willing to fly?</label>
                   <!-- ASKED BEFORE THE AIRPORT, not after (owner, 2026-08-22: "the filter
@@ -3340,6 +3226,155 @@ window.lpGuideCard = function (href, flag, name, extra) {
                   </div>
                   <ul id="fnd-home-list" class="fnd-home-list" role="listbox" hidden></ul>
                   <p id="fnd-home-note" class="fnd-home-note"></p>
+                </div>
+        <div class="fnd-field">
+                  <label for="fnd-budget">Average costs</label>
+                  <!-- The PRICE LEVEL, from /essentials/budget/ — that page IS the
+                       site's cost data and this reads it rather than keeping a second
+                       copy. It used to ask "What is your budget?" over dollar-a-day
+                       bands, which is the wrong question twice over: owner rule
+                       2026-08-22, "people can travel to the same places and spend 500 a
+                       day or 50 at least in most places" — what a reader spends is a
+                       choice and says nothing about where they are going. What a place
+                       COSTS is not a choice, so that is what is asked. The four tags are
+                       the ones the cost page and the guides-index filter print, and they
+                       name NO benchmark city — owner rule 2026-08-22: "lets not base in a
+                       place specific … use cheap, expensive etc like hotels". -->
+                  <div class="fnd-ctl"><span class="fnd-ic" aria-hidden="true"><svg viewBox="0 0 24 24"><use href="#gm-i-budget"/></svg></span><select id="fnd-budget">
+                    <option value="">Flexible</option>
+                    <option value="cheap">Cheap</option>
+                    <option value="moderate">Moderate</option>
+                    <option value="expensive">Expensive</option>
+                    <option value="very">Very expensive</option>
+                  </select></div>
+                </div>
+        <div class="fnd-field">
+                  <label for="fnd-safety">How safe does it need to be?</label>
+                  <!-- The State Department levels, from /essentials/safety/ — the page
+                       that already sorts all 237 guides into L1/L2/L3/L4 against the
+                       advisories. The invented four-word scale that stood here ("Very
+                       safe", "Moderate") was a second opinion about the same guides,
+                       and the two disagreed: Abu Dhabi read "Very Safe" here and sits
+                       in Level 3 there. One source, and it is the published one.
+
+                       A floor, not an exact match — "Level 1 or 2" means at least as
+                       safe as Level 2, which is what an advisory level is for. -->
+                  <div class="fnd-ctl"><span class="fnd-ic" aria-hidden="true"><svg viewBox="0 0 24 24"><use href="#gm-i-safety-guide"/></svg></span><select id="fnd-safety">
+                    <option value="">No preference</option>
+                    <option value="1">Level 1 only &mdash; normal precautions</option>
+                    <option value="2">Level 1 or 2 &mdash; increased caution</option>
+                    <option value="3">Level 1, 2 or 3 &mdash; reconsider travel</option>
+                  </select></div>
+                </div>
+        <div class="fnd-field">
+                  <label for="fnd-country">Which country?</label>
+                  <div class="fnd-ctl"><span class="fnd-ic" aria-hidden="true"><svg viewBox="0 0 24 24"><use href="#gm-i-country-map"/></svg></span><select id="fnd-country">
+                    <!-- THE OPTIONS ARE BUILT FROM THE DATA (buildCountryOpts), never listed
+                         here — the same rule as Language further down. The hand-written
+                         list that stood in this spot carried a count per country and had
+                         drifted from the guides it filters: Latvia and Lithuania were missing
+                         outright (Riga and Vilnius shipped after the list was typed), so two
+                         guides could not be reached from this field at all, and every count
+                         went stale the day a guide shipped. The guide is the source
+                         (Seventy-sixth non-negotiable).
+
+                         THE OPTION IS THE COUNTRY NAME AND NOTHING ELSE (owner,
+                         2026-08-23: "remove the parentheses number of guides from under
+                         drop box country"). It printed "Argentina (1 guide)" down all 75
+                         lines. Do not put the count back on THIS field; the pruning still
+                         greys any country that would return nothing, which is the part
+                         the number was there to convey. Language keeps its count — that
+                         list is ordered by how many guides carry each tongue, so the
+                         number is what explains the order. -->
+                    <option value="">No preference</option>
+                  </select></div>
+                </div>
+        <div class="fnd-field" id="fnd-train-field" hidden>
+                  <label for="fnd-train">Nearby Train Trips</label>
+                  <div class="fnd-ctl"><span class="fnd-ic" aria-hidden="true"><svg viewBox="0 0 24 24"><use href="#gm-i-train"/></svg></span><select id="fnd-train">
+                    <option value="">Flexible</option>
+                  </select></div>
+                </div>
+        <div class="fnd-field">
+                  <label for="fnd-tz">How much jet lag?</label>
+                  <div class="fnd-ctl"><span class="fnd-ic" aria-hidden="true"><svg viewBox="0 0 24 24"><use href="#gm-i-wall-clock"/></svg></span><select id="fnd-tz">
+                    <!-- NINE BANDS, cut at 3 / 6 / 9 / 12 IN BOTH DIRECTIONS (owner,
+                         2026-08-23: "the filter needs to have at least - and + 6 - and + 9
+                         - and +12"). Three options could only say near / east / west: past
+                         +3h held Paris and Tokyo together, and past &minus;3h held Mexico City
+                         with Honolulu, so the two ends of the control answered a third of
+                         the fleet each and narrowed almost nothing.
+
+                         Every option still says WHICH WAY (owner, 2026-08-22: "2 hours
+                         ahead and back is the same? … too many options and does not say
+                         forward or backward"). The six "Up to Nh from your clock" lines
+                         that stood here before that were all |offset|, so Tokyo and
+                         Honolulu answered the same pick — east and west are the whole
+                         question and the label hid it. The sign IS the direction and needs
+                         no gloss (owner, 2026-08-22: "we can just say -3 and +3 everyone
+                         will understand that") &mdash; + is the destination clock ahead of
+                         the reader's, &minus; is behind it.
+
+                         Still a clean partition, no gap and no overlap: &plusmn;3h owns both
+                         its ends, each band above it owns its upper bound, and the two
+                         open bands take everything past &plusmn;12h. 3h is where the half-hour
+                         zones (India +5:30, Nepal, Adelaide) sit safely on one side, and
+                         where a trip stops being the same working day. fTz is in
+                         PRUNE_PAIRS, so once any other field is set a band that would
+                         come back empty greys itself out rather than offering the
+                         reader an option that returns nothing. -->
+                    <option value="">No preference</option>
+                    <option value="near">Within &plusmn;3h of your clock</option>
+                    <option value="a6">+3 to +6h</option>
+                    <option value="a9">+6 to +9h</option>
+                    <option value="a12">+9 to +12h</option>
+                    <option value="ao12">More than +12h</option>
+                    <option value="b6">&minus;3 to &minus;6h</option>
+                    <option value="b9">&minus;6 to &minus;9h</option>
+                    <option value="b12">&minus;9 to &minus;12h</option>
+                    <option value="bo12">More than &minus;12h</option>
+                  </select></div>
+                </div>
+        <div class="fnd-field">
+                  <label for="fnd-day">Hours of Daylight per day</label>
+                  <div class="fnd-ctl"><span class="fnd-ic" aria-hidden="true"><svg viewBox="0 0 24 24"><use href="#gm-i-horizon-sun"/></svg></span><select id="fnd-day">
+                    <!-- Five bands, 2h wide, symmetric about the 12h equinox, and
+                         contiguous — two options (14h+ / under 10h) left the whole middle
+                         of the year unaskable, which is where most of the fleet sits most
+                         of the time (owner, 2026-08-22: "can we have more range options
+                         here?"). Pruning greys whatever the picked month cannot reach, so
+                         "15h and up" is live in June and dead in December. -->
+                    <option value="">Flexible</option>
+                    <option value="vlong">Very long &mdash; 15h and up</option>
+                    <option value="long">Long &mdash; 13 to 15h</option>
+                    <option value="avg">Average &mdash; 11 to 13h</option>
+                    <option value="short">Short &mdash; 9 to 11h</option>
+                    <option value="vshort">Very short &mdash; under 9h</option>
+                  </select></div>
+                </div>
+        <div class="fnd-field">
+                  <label for="fnd-lang">Which language?</label>
+                  <!-- THE OPTIONS ARE BUILT FROM THE DATA (buildLangOpts), never listed
+                       here. The hand-written list that stood in this spot had drifted
+                       from the tags it filters: Greek was missing with SEVEN guides
+                       behind it — as many as Dutch, Chinese and Arabic, all of which
+                       were offered — while Danish, Finnish and Turkish were offered
+                       with one guide each. Vietnamese, Croatian, Tamil and Papiamento
+                       were missing too. A language that exists in the data and not in
+                       this list is unreachable, and nothing anywhere said so. Same
+                       reasoning as the Day Trips by Train field further up. -->
+                  <div class="fnd-ctl"><span class="fnd-ic" aria-hidden="true"><svg viewBox="0 0 24 24"><use href="#gm-i-language-roundel"/></svg></span><select id="fnd-lang">
+                    <option value="">No preference</option>
+                  </select></div>
+                </div>
+        <div class="fnd-field">
+                  <label for="fnd-cur">Which currency?</label>
+                  <!-- Options are BUILT FROM THE DATA (buildCurOpts, currency-rates.json)
+                       the first time the rates load: one line per currency a guide
+                       actually uses, never a hand list. -->
+                  <div class="fnd-ctl"><span class="fnd-ic" aria-hidden="true"><svg viewBox="0 0 24 24"><use href="#gm-i-exchange"/></svg></span><select id="fnd-cur">
+                    <option value="">No preference</option>
+                  </select></div>
                 </div>
       </div>
       <div class="hc-nav">
@@ -7292,9 +7327,28 @@ function render() {
 
   /* The guide's own destination airport, from the same _by_slug map the
      in-guide Flights pill uses — keyed by filename, e.g. "athens.html". */
+  /* THE KEY IS THE BARE SLUG, and reading it as a FILENAME killed the whole
+     distance dimension (2026-08-23). build_airports.py keys _by_slug off the
+     FMAP key, and FMAP went flat in the 2026-08-16 URL migration — "athens",
+     not "athens.html". This function still appended the extension, so every
+     lookup missed, destPos() returned null for all 239 guides, and farOf()
+     returned null for all 239. Measured from LHR: every one of the six
+     "How far are you willing to fly?" bands answered "No guide matches all of
+     those at once", all six then greyed themselves out, and NO card on the
+     page ever printed a flying time — the one number the airport field exists
+     to produce. Nothing errored; the filter simply answered nothing.
+
+     Both spellings are accepted so a future re-key cannot break it silently
+     again, and FMAP is the third fallback: it carries a curated destination
+     IATA for all 239 guides where _by_slug is a derived asset that can lag a
+     guide that shipped this morning. */
   function destCode(g) {
-    var by = AIR && AIR._by_slug;
-    return by ? (by[g.rel.split('/').pop()] || '') : '';
+    var by = (AIR && AIR._by_slug) || null;
+    var s = slugOf(g);
+    var c = by ? (by[s] || by[s + '.html'] || '') : '';
+    if (c) return c;
+    var f = DATA && DATA.fmap && DATA.fmap[s];
+    return (f && f.i) || '';
   }
   function destPos(g) {
     var c = destCode(g);
@@ -7308,6 +7362,11 @@ function render() {
      always false; it stays on the object so nothing downstream can render
      the number without the "~" and the word "flying" that go with it.
      Owner rule 2026-08-22: nothing on the site starts from any place. */
+  /* Memoised per ORIGIN, cleared when the reader names a different airport —
+     the same reason tzDiffMinutes and bkey are: pruneSelects re-measures every
+     guide once per option on the card, and a great-circle estimate plus a
+     format is not free 105,000 times over. */
+  var _FAR = {}, _FAR_HOME = null;
   function farOf(d, g) {
     var h = HOME && HOME.get();
     /* No airport picked, no distance. Returning a number here would be
@@ -7315,12 +7374,23 @@ function render() {
        owner rule 2026-08-20. The caller drops the guide, exactly as it does
        for a guide with no mapped airport. */
     if (!h) return null;
+    /* Never cache before the position table lands, or the whole fleet is
+       remembered as unmeasurable and never re-asked. */
+    if (!AIR) return null;
+    if (_FAR_HOME !== h.code) { _FAR = {}; _FAR_HOME = h.code; }
+    var key = slugOf(g);
+    if (Object.prototype.hasOwnProperty.call(_FAR, key)) return _FAR[key];
+    var out = null;
     var p = destPos(g);
-    if (!p) return null;
-    if (destCode(g) === h.code) return { mins: 0, exact: false, home: h.code, text: '', atHome: true };
-    var mins = HOME.estimate(p[0], p[1]);
-    return mins === null ? null
-      : { mins: mins, exact: false, home: h.code, text: '~' + HOME.fmt(mins), atHome: false };
+    if (p) {
+      if (destCode(g) === h.code) out = { mins: 0, exact: false, home: h.code, text: '', atHome: true };
+      else {
+        var mins = HOME.estimate(p[0], p[1]);
+        if (mins !== null) out = { mins: mins, exact: false, home: h.code, text: '~' + HOME.fmt(mins), atHome: false };
+      }
+    }
+    _FAR[key] = out;
+    return out;
   }
   /* ── Budget and advisory level, read from the pages that publish them ─────
      /essentials/budget/ is the site's budget data and /essentials/safety/ is
@@ -7338,10 +7408,23 @@ function render() {
      page, "big-island.html" as the guide's filename, "Big Island" on the card.
      Accents are folded — the budget page writes "Sao Paulo" and the card writes
      "São Paulo", and without the fold nine cities miss silently. */
+  /* Memoised for the same reason tzDiffMinutes is: the budget test folds the
+     card name AND the slug of every guide, and pruneSelects re-runs that over
+     the whole fleet once per option on the card — a Unicode NFD normalise plus
+     two regex passes, ~105,000 times per pick. The fold of a given string is
+     the same every time it is asked for. */
+  /* Object.create(null), never {} — the keys are arbitrary strings off a card,
+     and a plain object answers _BKEY['constructor'] with a function. */
+  var _BKEY = Object.create ? Object.create(null) : {};
   function bkey(s) {
-    return String(s).normalize ? String(s).normalize('NFD').replace(/[̀-ͯ]/g, '')
-                                   .toLowerCase().replace(/[^a-z0-9]/g, '')
-                               : String(s).toLowerCase().replace(/[^a-z0-9]/g, '');
+    var k = String(s);
+    var v = _BKEY[k];
+    if (v !== undefined) return v;
+    v = k.normalize ? k.normalize('NFD').replace(/[̀-ͯ]/g, '')
+                       .toLowerCase().replace(/[^a-z0-9]/g, '')
+                    : k.toLowerCase().replace(/[^a-z0-9]/g, '');
+    _BKEY[k] = v;
+    return v;
   }
   /* The guide's own slug, e.g. "sao-paulo". NOT g.folder — guides are flat
      files since the 2026-08-16 URL migration, so g.folder is "sao-paulo.html"
@@ -7498,14 +7581,30 @@ function render() {
     var slugs = Object.keys(n);
     if (!slugs.length) return;
     countryOptsBuilt = true;
+    /* A COUNTRY NAME IS NOT TITLE CASE WORD BY WORD. "turks-and-caicos" came
+       out "Turks And Caicos" — the joiner stays lowercase in an English place
+       name, and it is the only one in the fleet today, so the list is one word
+       from reading right. Kept as a rule rather than a special case because
+       the next country with "and", "of" or "the" in its slug would repeat it. */
+    var SMALL = { and: 1, of: 1, the: 1, da: 1, de: 1 };
     function nameOf(slug) {
-      return slug.split('-').map(function (w) { return w.charAt(0).toUpperCase() + w.slice(1); }).join(' ');
+      return slug.split('-').map(function (w, i) {
+        return (i && SMALL[w]) ? w : w.charAt(0).toUpperCase() + w.slice(1);
+      }).join(' ');
     }
     slugs.sort(function (a, b) { return nameOf(a).localeCompare(nameOf(b)); });
     slugs.forEach(function (c) {
       var o = document.createElement('option');
       o.value = c;
-      o.textContent = nameOf(c) + countSuffix(n[c]);
+      /* NO COUNT (owner, 2026-08-23: "remove the parentheses number of guides
+         from under drop box country"). It read "Argentina (1 guide)" down all
+         75 lines, which is a second column of numbers to read past on the
+         longest select on the card and says nothing a reader picking a country
+         is asking. The count is still what the option DOES — the pruning above
+         greys any country that would come back empty — it is simply no longer
+         printed. data-name was already the name alone, so the chip is
+         unchanged. */
+      o.textContent = nameOf(c);
       o.setAttribute('data-name', nameOf(c));
       sel.appendChild(o);
     });
@@ -7527,6 +7626,37 @@ function render() {
       o.textContent = n + (n === 1 ? ' day trip planned' : ' day trips planned');
       fTrain.appendChild(o);
     });
+  }
+
+  /* ONE ANSWER TO "does this scope carry day trips by train", and both callers
+     read it: syncTrain, which reveals or hides the field and drops the pick
+     with it, and pruneSelects, which has to predict exactly that in order to
+     judge a Country or Continent option honestly. They were two copies with
+     two different rules until 2026-08-23 — see the carve-out note in
+     pruneSelects for what that cost. `cos` / `cts` are arrays of picked
+     country slugs / continent names; empty means the whole fleet. */
+  function trainsInScope(d, cos, cts) {
+    if (!d || !d.guides) return false;
+    return d.guides.some(function (g) {
+      if (!(g.train > 0)) return false;
+      if (cos && cos.length && cos.indexOf(g.country) === -1) return false;
+      if (cts && cts.length && cts.indexOf(d.cont[g.country]) === -1) return false;
+      return true;
+    });
+  }
+  /* The single-value form pruneSelects needs: one candidate country OR one
+     candidate continent, against whatever else is already picked in the other
+     of the two — the same scope the reader would land in by choosing it. */
+  function scopeHasTrains(d, country, continent) {
+    /* The candidate JOINS its group rather than replacing it — picking a second
+       country widens the country group (OR within a dimension), so the scope
+       syncTrain would then see is the union, not the candidate alone. */
+    function join(list, v) {
+      var out = list.map(function (p) { return p.value; });
+      if (v !== null && v !== undefined && out.indexOf(v) === -1) out.push(v);
+      return out;
+    }
+    return trainsInScope(d, join(picks.co, country), join(picks.ct, continent));
   }
 
   function syncTrain() {
@@ -7571,12 +7701,7 @@ function render() {
        narrowed to a country first. */
     var cts = picks.ct.map(function (p) { return p.value; });
     var cos = picks.co.map(function (p) { return p.value; });
-    var hasTrains = !DATA ? false : DATA.guides.some(function (g) {
-      if (!(g.train > 0)) return false;
-      if (cos.length && cos.indexOf(g.country) === -1) return false;
-      if (cts.length && cts.indexOf(DATA.cont[g.country]) === -1) return false;
-      return true;
-    });
+    var hasTrains = trainsInScope(DATA, cos, cts);
     field.hidden = !hasTrains;
     if (!hasTrains) { picks.tr = []; if (fTrain) fTrain.value = ''; }
   }
@@ -7810,11 +7935,30 @@ function render() {
            pick of a dimension and on cross-dimension dead ends. */
         var test = {};
         for (var k2 in s) test[k2] = Array.isArray(s[k2]) ? s[k2].slice() : s[k2];
-        /* Trains only exists inside Europe. Testing a non-European option with
-           it still set would disable every one of them and leave the reader
-           stuck in Europe with no way out but Clear everything. */
-        if (pair.field === 'co' && d.cont[opt.value] !== 'Europe') test.tr = [];
-        if (pair.field === 'ct' && opt.value !== 'Europe') test.tr = [];
+        /* THE TRAINS CARVE-OUT ASKS THE DATA, NOT THE CONTINENT (fixed
+           2026-08-23). It read `d.cont[opt.value] !== 'Europe'`, which was
+           right only while data-train meant the itinerary's own train days.
+           syncTrain stopped gating on Europe on 2026-08-19 — Day Trips by Train
+           run to 130 guides, Bangkok to Chiang Mai included — and this line did
+           not follow, so the two disagreed in both directions:
+
+             · Thailand, Japan, Canada, Brazil and ten more countries carry
+               train guides, so the test dropped `tr` and left them ENABLED —
+               but syncTrain KEEPS the pick there, and "5 day trips planned" +
+               Thailand answered "No guide matches all of those at once". A
+               dead end offered as live is precisely what this function exists
+               to prevent (owner rule 2026-08-17).
+             · The mirror case is why the drop has to stay for the rest: a
+               country with no train guide at all makes syncTrain hide the field
+               and clear the pick, so the honest test there is the one WITHOUT
+               `tr`, and keeping it would grey out 29 countries the reader can
+               in fact still choose.
+
+           So the question is exactly syncTrain's question — does anything in
+           this scope carry a train day trip — and the two now answer it the
+           same way, which is the only way this stays fixed. */
+        if (pair.field === 'co' && !scopeHasTrains(d, opt.value, null)) test.tr = [];
+        if (pair.field === 'ct' && !scopeHasTrains(d, null, opt.value)) test.tr = [];
         var v = pair.field === 'mo' ? parseInt(opt.value, 10) : opt.value;
         if (test[pair.field].indexOf(v) === -1) test[pair.field] = test[pair.field].concat([v]);
         opt.disabled = matches(d, test).length === 0;
@@ -7919,19 +8063,44 @@ function render() {
     }
     return _TZ_FOLD[_tzFold(name)] || null;
   }
+  /* MEMOISED, and that is not a micro-optimisation — it is the difference
+     between a control that answers and one that hangs the tab (2026-08-23).
+
+     Two Date.toLocaleString calls cost ~0.06 ms each, and pruneSelects asks
+     matches() to re-judge all 239 guides once per option across every select
+     on the card — about 220 options — so a single pick with "How much jet lag?"
+     set was 105,000 of them. Measured: 6.3 SECONDS of frozen main thread for
+     one change of one select, and with cost picked as well a 16 ms interval
+     fired SIX times in twenty-five seconds. The offsets cannot change while
+     the page is open (the only mover is a DST boundary crossed mid-session),
+     so they are computed once per city and read from the map after that. */
+  var _TZ_MIN = {};
   function tzDiffMinutes(name) {
-    var tz = tzOf(name);
-    if (!tz) return null;
-    try {
-      var now = new Date();
-      var there = new Date(now.toLocaleString('en-US', { timeZone: tz }));
-      var utc = new Date(now.toLocaleString('en-US', { timeZone: 'UTC' }));
-      return Math.round((there - utc) / 60000) + now.getTimezoneOffset();
-    } catch (e) { return null; }
+    if (Object.prototype.hasOwnProperty.call(_TZ_MIN, name)) return _TZ_MIN[name];
+    var v = null, tz = tzOf(name);
+    if (tz) {
+      try {
+        var now = new Date();
+        var there = new Date(now.toLocaleString('en-US', { timeZone: tz }));
+        var utc = new Date(now.toLocaleString('en-US', { timeZone: 'UTC' }));
+        v = Math.round((there - utc) / 60000) + now.getTimezoneOffset();
+      } catch (e) { v = null; }
+    }
+    _TZ_MIN[name] = v;
+    return v;
   }
   /* Daylight hours for each month the reader picked (today's month if none). */
+  /* climRow, NEVER d.climate[g.name] (fixed 2026-08-23). The exact-name read is
+     the trap climRow was written to close, and only hiFor had been moved onto
+     it: climate.json predates the accent-true card names, so "Montréal",
+     "Québec City", "Málaga", "San Sebastián", "Tromsø", "Ålesund", "Paro",
+     "San José", "Machu Picchu", "Galápagos Islands", "Coeur d'Alene" and
+     "Naples, FL" — TWELVE guides — read as having no climate row here. They
+     were dropped from every Daylight-filtered answer (measured: "Long — 13 to
+     15h" returned 151 where the folded lookup returns 156) and their cards
+     printed no daylight fact at all while every neighbour did. */
   function daylightFor(d, g, s) {
-    var row = d.climate && d.climate[g.name];
+    var row = climRow(d, g);
     var lat = row && parseFloat(row.lat);
     if (!row || isNaN(lat)) return null;
     var mos = s.mo.length ? s.mo : [new Date().getMonth()];
@@ -7975,17 +8144,33 @@ function render() {
        control (owner, 2026-08-22 — "+3" and "-3" are understood as they are). */
     return (off > 0 ? '+' : '−') + h + (m ? ':' + (m < 10 ? '0' : '') + m : '') + 'h vs your clock';
   }
+  /* THE FACTS READ IN THE ORDER THE FIELDS ASK (owner, 2026-08-23: results
+     "should also show results in the same order that the filters are"). The
+     flying time is printed by card() immediately above this line, which is
+     where "How far are you willing to fly?" sits in the form; then jet lag,
+     then daylight, then currency, each in the order of the field that asks for
+     it. It used to run currency → daylight → jet lag, which is the reverse of
+     three of them.
+
+     "N days planned" leads because it is not a filter at all — there is no
+     trip-length control and there is not meant to be (see the note above the
+     go button) — so it is the guide's own headline fact rather than an answer
+     to anything on the form.
+
+     climRow, not d.climate[g.name]: the same twelve-guide exact-name miss
+     daylightFor carried, which is why "Naples, FL" and "Montréal" printed a
+     facts line with no daylight in it. */
   function facts(d, g, s) {
     var parts = [];
     var n = Number(d.days && d.days[g.name]); if (n) parts.push(n + ' day' + (n === 1 ? '' : 's') + ' planned');
-    var cur = currencyOf(g); if (cur) parts.push(cur);
-    var row = d.climate && d.climate[g.name];
+    var tz = tzDiff(g.name); if (tz) parts.push(tz);
+    var row = climRow(d, g);
     var lat = row && parseFloat(row.lat);
-    if (!isNaN(lat) && lat !== null && row) {
+    if (row && !isNaN(lat)) {
       var mi = s.mo.length ? s.mo[0] : new Date().getMonth();
       parts.push(fmtHours(daylightHours(lat, mi)) + ' daylight in ' + MON[mi]);
     }
-    var tz = tzDiff(g.name); if (tz) parts.push(tz);
+    var cur = currencyOf(g); if (cur) parts.push(cur);
     return parts.length ? '<span class="fnd-facts">' + parts.map(esc).join(' · ') + '</span>' : '';
   }
 
@@ -8043,7 +8228,25 @@ function render() {
     var s = state();
     /* The guard still holds for a plain change event: clearing your last filter
        should put the page back, not dump 237 cards you did not ask for. */
-    if (!anySet(s) && !forced) { unprune(); out.hidden = true; out.innerHTML = ''; syncChrome(s); return; }
+    if (!anySet(s) && !forced) {
+      /* THE EMPTY FORM IS PRUNED TOO (2026-08-23). unprune() alone was the
+         whole of this branch, which meant an untouched card offered every
+         option on it — including the ones that answer nothing from where the
+         reader is sitting. Measured from a European clock: "More than +12h"
+         and "More than −12h" hold zero of the 239 guides, and picking either
+         as a FIRST move went straight to "No guide matches all of those at
+         once" — the one outcome the pruning exists to make unreachable (owner
+         rule 2026-08-17: every option offered leads to at least one guide).
+         Within-dimension pruning cannot catch it later either, because once a
+         band is picked every other band in that select can only widen.
+
+         DATA, not a fetch: this branch runs on a plain change event and must
+         stay synchronous. Before the listing has been parsed there is nothing
+         to judge against, so the options go back to fully enabled, and the
+         first real run re-prunes. */
+      if (DATA) pruneSelects(DATA, s); else unprune();
+      out.hidden = true; out.innerHTML = ''; syncChrome(s); return;
+    }
 
     var pending = needData(s);
     if (pending) {
@@ -8342,12 +8545,18 @@ function render() {
       }
       /* No origin yet. Silent until a band is actually picked — a permanent
          instruction under an untouched control is noise. */
+      /* NO DIRECTION IN EITHER SENTENCE (2026-08-23). They read "name your
+         airport below" and "measure the flight length above", which was true
+         only while the two fields were stacked. They are side by side on the
+         three-column grid and stacked only on a phone, so a fixed direction is
+         wrong on most screens and cannot be made right on all of them —
+         each note names the OTHER FIELD instead, which is true at every width. */
       if (farNote) {
         farNote.textContent = picks.fr.length
-          ? 'Not applied yet — name your airport below.' : '';
+          ? 'Not applied yet — name the airport you are flying from.' : '';
       }
       homeNote.textContent = picks.fr.length
-        ? 'Needed to measure the flight length above.' : '';
+        ? 'Needed to measure the flight length you picked.' : '';
     }
 
     function syncHome() {

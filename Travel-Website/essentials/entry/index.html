@@ -74,6 +74,40 @@ a.pill:visited { color: inherit; }
   border-top: 1px solid var(--border2); padding-top: 12px; margin-bottom: 12px;
 }
 .system-countries strong { color: var(--text); font-weight: 600; }
+
+/* Country chip grid — only used where the guide list runs long (ETIAS's 23
+   countries used to render as one unbroken paragraph, six lines deep). Short
+   lists (UK ETA, Australia ETA, NZeTA) stay plain text in .system-countries;
+   this is a second, opt-in shape for the same "Applies to these guides" row,
+   not a replacement for it. Owner-approved mockup, 2026-08-23. */
+.guide-chips { border-top: 1px solid var(--border2); padding-top: 12px; margin-bottom: 12px; }
+.guide-chips-label { font-size: 12px; font-weight: 700; color: var(--text); margin-bottom: 9px; }
+.guide-chips-label span { font-weight: 400; color: var(--muted); }
+.chip-row { display: flex; flex-wrap: wrap; gap: 6px; }
+details.ctry-chip { flex: 0 0 auto; }
+details.ctry-chip > summary {
+  list-style: none; cursor: pointer; display: inline-flex; align-items: baseline; gap: 5px;
+  font-size: 12.5px; font-weight: 600; color: var(--text);
+  background: var(--bg, #f5f4f0); border: 1px solid var(--border2); border-radius: 6px;
+  padding: 5px 10px 5px 8px;
+}
+details.ctry-chip > summary::-webkit-details-marker { display: none; }
+details.ctry-chip > summary:hover { border-color: var(--rust); }
+details.ctry-chip[open] > summary { border-color: var(--rust); background: var(--surface); }
+.ctry-chip .n { font-size: 10.5px; font-weight: 400; color: var(--muted); font-variant-numeric: tabular-nums; }
+.ctry-chip-cities {
+  font-size: 11.5px; color: var(--muted); line-height: 1.5;
+  border: 1px solid var(--border2); border-top: none; border-radius: 0 0 6px 6px;
+  padding: 6px 10px 7px; margin-top: -1px;
+}
+.chip-more {
+  flex: 0 0 auto; font-family: inherit; font-size: 12.5px; font-weight: 600; color: var(--rust);
+  background: none; border: 1px dashed rgba(184,134,90,.5); border-radius: 6px;
+  padding: 5px 10px; cursor: pointer;
+}
+.chip-more:hover { border-style: solid; }
+.chip-more-wrap { display: none; flex-wrap: wrap; gap: 6px; flex-basis: 100%; }
+.chip-more-wrap.chip-shown { display: flex; }
 .apply-btn {
   display: inline-flex; align-items: center; justify-content: center; gap: 5px;
   padding: 6px 14px; border-radius: 999px; font-family: inherit; font-size: 12px; font-weight: 400;
@@ -204,31 +238,36 @@ a.apply-btn:visited { color: #6a6660; }
       <div><div class="meta-label">Fee exemption</div><div class="meta-val">Under 18 and over 70</div></div>
       <div><div class="meta-label">Enforcement</div><div class="meta-val">TBD — no confirmed date</div></div>
     </div>
-    <div class="system-countries">
-      <strong>Applies to these guides —</strong>
-      Austria (Vienna · Salzburg) ·
-      Belgium (Brussels · Bruges) ·
-      Croatia (Dubrovnik · Split) ·
-      Czech Republic (Prague) ·
-      Denmark (Copenhagen) ·
-      Estonia (Tallinn) ·
-      Finland (Helsinki) ·
-      France (Paris · Nice · Cannes · Bordeaux · Strasbourg · Colmar · Annecy · Aix-en-Provence · Lille · Lyon · Marseille) ·
-      Germany (Berlin · Cologne · Frankfurt · Hamburg · Marktoberdorf · Munich · Stuttgart) ·
-      Greece (Athens · Corfu · Crete · Mykonos · Rhodes · Santorini · Zakynthos) ·
-      Hungary (Budapest) ·
-      Iceland (Reykjavik) ·
-      Italy (Rome · Florence · Venice · Naples · Amalfi · Bologna · Capri · Cinque Terre · Lake Como · Pisa · Sardinia · Sicily · Siena · Sorrento · Turin · Verona · Lecce · Milan) ·
-      Luxembourg (Luxembourg) ·
-      Malta (Valletta) ·
-      Netherlands (Amsterdam) ·
-      Norway (Oslo · Bergen · Tromsø · Ålesund) ·
-      Poland (Kraków) ·
-      Portugal (Azores · Cascais · Lagos · Lisbon · Madeira · Porto · Sintra) ·
-      Slovenia (Ljubljana) ·
-      Spain (Barcelona · Bilbao · Granada · Madrid · Málaga · San Sebastián · Seville · Tenerife · Toledo) ·
-      Sweden (Stockholm · Gothenburg) ·
-      Switzerland (Zurich · Geneva · Lucerne)
+    <div class="guide-chips">
+      <div class="guide-chips-label">Applies to guides in 23 countries <span>· tap a country to see its cities</span></div>
+      <div class="chip-row">
+        <details class="ctry-chip"><summary>Austria <span class="n">2</span></summary><div class="ctry-chip-cities">Vienna · Salzburg</div></details>
+        <details class="ctry-chip"><summary>Belgium <span class="n">2</span></summary><div class="ctry-chip-cities">Brussels · Bruges</div></details>
+        <details class="ctry-chip"><summary>Croatia <span class="n">2</span></summary><div class="ctry-chip-cities">Dubrovnik · Split</div></details>
+        <details class="ctry-chip"><summary>Czech Republic <span class="n">1</span></summary><div class="ctry-chip-cities">Prague</div></details>
+        <details class="ctry-chip"><summary>Denmark <span class="n">1</span></summary><div class="ctry-chip-cities">Copenhagen</div></details>
+        <details class="ctry-chip"><summary>Estonia <span class="n">1</span></summary><div class="ctry-chip-cities">Tallinn</div></details>
+        <details class="ctry-chip"><summary>Finland <span class="n">1</span></summary><div class="ctry-chip-cities">Helsinki</div></details>
+        <details class="ctry-chip"><summary>France <span class="n">11</span></summary><div class="ctry-chip-cities">Paris · Nice · Cannes · Bordeaux · Strasbourg · Colmar · Annecy · Aix-en-Provence · Lille · Lyon · Marseille</div></details>
+        <details class="ctry-chip"><summary>Germany <span class="n">7</span></summary><div class="ctry-chip-cities">Berlin · Cologne · Frankfurt · Hamburg · Marktoberdorf · Munich · Stuttgart</div></details>
+        <details class="ctry-chip"><summary>Greece <span class="n">7</span></summary><div class="ctry-chip-cities">Athens · Corfu · Crete · Mykonos · Rhodes · Santorini · Zakynthos</div></details>
+        <details class="ctry-chip"><summary>Hungary <span class="n">1</span></summary><div class="ctry-chip-cities">Budapest</div></details>
+        <details class="ctry-chip"><summary>Iceland <span class="n">1</span></summary><div class="ctry-chip-cities">Reykjavik</div></details>
+        <details class="ctry-chip"><summary>Italy <span class="n">18</span></summary><div class="ctry-chip-cities">Rome · Florence · Venice · Naples · Amalfi · Bologna · Capri · Cinque Terre · Lake Como · Pisa · Sardinia · Sicily · Siena · Sorrento · Turin · Verona · Lecce · Milan</div></details>
+        <details class="ctry-chip"><summary>Luxembourg <span class="n">1</span></summary><div class="ctry-chip-cities">Luxembourg</div></details>
+        <details class="ctry-chip"><summary>Malta <span class="n">1</span></summary><div class="ctry-chip-cities">Valletta</div></details>
+        <details class="ctry-chip"><summary>Netherlands <span class="n">1</span></summary><div class="ctry-chip-cities">Amsterdam</div></details>
+        <button class="chip-more" type="button" aria-expanded="false">+ 7 more countries</button>
+        <div class="chip-more-wrap">
+          <details class="ctry-chip"><summary>Norway <span class="n">4</span></summary><div class="ctry-chip-cities">Oslo · Bergen · Tromsø · Ålesund</div></details>
+          <details class="ctry-chip"><summary>Poland <span class="n">1</span></summary><div class="ctry-chip-cities">Kraków</div></details>
+          <details class="ctry-chip"><summary>Portugal <span class="n">7</span></summary><div class="ctry-chip-cities">Azores · Cascais · Lagos · Lisbon · Madeira · Porto · Sintra</div></details>
+          <details class="ctry-chip"><summary>Slovenia <span class="n">1</span></summary><div class="ctry-chip-cities">Ljubljana</div></details>
+          <details class="ctry-chip"><summary>Spain <span class="n">9</span></summary><div class="ctry-chip-cities">Barcelona · Bilbao · Granada · Madrid · Málaga · San Sebastián · Seville · Tenerife · Toledo</div></details>
+          <details class="ctry-chip"><summary>Sweden <span class="n">2</span></summary><div class="ctry-chip-cities">Stockholm · Gothenburg</div></details>
+          <details class="ctry-chip"><summary>Switzerland <span class="n">3</span></summary><div class="ctry-chip-cities">Zurich · Geneva · Lucerne</div></details>
+        </div>
+      </div>
     </div>
     <a class="apply-btn" href="https://travel.ec.europa.eu/etias_en" target="_blank" rel="noopener">Official ETIAS info</a>
   </div>
@@ -346,7 +385,7 @@ a.apply-btn:visited { color: #6a6660; }
             <a class="evisa-link evisa-mobile-link" href="https://evisa.rop.gov.om/" target="_blank" rel="noopener">Apply</a>
           </td>
           <td>~$52</td>
-          <td>30 days</td>
+          <td>Up to 30 days</td>
           <td><a class="evisa-link" href="https://evisa.rop.gov.om/" target="_blank" rel="noopener">evisa.rop.gov.om</a></td>
         </tr>
         <tr>
@@ -433,6 +472,20 @@ a.apply-btn:visited { color: #6a6660; }
 
 <script>
 (function () {
+  [].slice.call(document.querySelectorAll('.chip-more')).forEach(function (btn) {
+    var wrap = btn.nextElementSibling;
+    if (!wrap || !wrap.classList.contains('chip-more-wrap')) return;
+    var hiddenCount = wrap.querySelectorAll('.ctry-chip').length;
+    btn.addEventListener('click', function () {
+      var shown = wrap.classList.toggle('chip-shown');
+      btn.setAttribute('aria-expanded', shown ? 'true' : 'false');
+      btn.textContent = shown ? 'Show fewer countries' : '+ ' + hiddenCount + ' more countries';
+    });
+  });
+})();
+</script>
+<script>
+(function () {
   var inp = document.getElementById('er-search');
   var noRes = document.getElementById('er-noresult');
   if (!inp) return;
@@ -470,7 +523,7 @@ a.apply-btn:visited { color: #6a6660; }
   function add(o){ var k=o.name.toLowerCase(); if(!o.name||seen[k]) return; seen[k]=1; items.push(o); }
   document.querySelectorAll('.system-card').forEach(function(card){
     var nm=card.querySelector('.system-name'); if(!nm) return;
-    var cs=card.querySelector('.system-countries');
+    var cs=card.querySelector('.system-countries, .guide-chips');
     add({name:nm.textContent.trim(), sub:'Pre-entry system', text:cs?cs.textContent:'', el:card});
   });
   document.querySelectorAll('.evisa-table tbody tr').forEach(function(tr){

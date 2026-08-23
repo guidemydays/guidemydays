@@ -1763,7 +1763,15 @@ window.TVE.home = (function () {
        in this pass: never end a selector with that class above its own rule, and
        never write the class-plus-brace pair in a COMMENT above it either — the
        check does not strip comments, so this very note took the match until it
-       was reworded. */
+       was reworded.
+
+       THIS BOX IS THE CANONICAL DEFINITION OF "SELECTION PILL" (owner rule
+       2026-08-23) — web-travel-style.css's .selection-pill class is these
+       same six declarations, reusable by any page that needs "one choice
+       marked selected, no family colour." This block stays inline (the
+       toolbar restructures for no one but the owner — Nineteenth
+       non-negotiable) but is the values' one source; never let it drift
+       from .selection-pill without updating both. */
     '.tb-links>a,.tb-links>a:visited{' +
       'box-sizing:border-box;display:inline-flex;align-items:center;line-height:1.2;' +
       'padding:8px 18px;border:1px solid rgba(192,78,26,.30);border-radius:999px;background:#fff}' +

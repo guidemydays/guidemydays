@@ -6866,11 +6866,11 @@ window.TVE.home = (function () {
       { name: 'Pestana Natal Beach Resort', note: 'Pestana brand — Via Costeira beachfront, outdoor pool, Atlantic views, all-inclusive option · 8.5 Booking.com', url: 'https://www.booking.com/hotel/br/pestana-natal.html', tier: 'luxury' }
     ], price: { budget: 'BRL 300–500', mid: 'BRL 500–900', expensive: 'BRL 900–1500', luxury: 'BRL 1500+' } },
     'new-orleans': { h: [
-      { name: 'The Ritz-Carlton, New Orleans', note: 'Ritz-Carlton brand — Canal Street landmark in 1907 Beaux-Arts building, spa, Club Lounge · 8.7 Booking.com', url: 'https://www.booking.com/hotel/us/nine-twenty-one-canal-street-new-orleans.html' },
-      { name: 'Hotel Monteleone', note: 'Independent — 1886 Royal Street icon, rotating Carousel Bar, rooftop pool, Hunt Room Grill · 9.1 Booking.com', url: 'https://www.booking.com/hotel/us/monteleone.html' },
-      { name: 'French Market Inn', note: 'Independent — 509 Decatur Street in the French Quarter, courtyard saltwater pool, 24h reception · 9.2 Booking.com', url: 'https://www.booking.com/hotel/us/french-market-inn.html' },
-      { name: "Place D'Armes Hotel", note: 'Independent — 625 St Ann Street beside Jackson Square, courtyard saltwater pool, 24h reception · 9.0 Booking.com', url: 'https://www.booking.com/hotel/us/place-d-armes.html' }
-    ] },
+      { name: 'French Market Inn', note: 'Independent — 509 Decatur Street in the French Quarter, courtyard saltwater pool, 24h reception · 9.2 Booking.com', url: 'https://www.booking.com/hotel/us/french-market-inn.html', tier: 'budget' },
+      { name: "Place D'Armes Hotel", note: 'Independent — 625 St Ann Street beside Jackson Square, courtyard saltwater pool, 24h reception · 9.0 Booking.com', url: 'https://www.booking.com/hotel/us/place-d-armes.html', tier: 'mid' },
+      { name: 'Hotel Monteleone', note: 'Independent — 1886 Royal Street icon, rotating Carousel Bar, rooftop pool, Hunt Room Grill · 9.1 Booking.com', url: 'https://www.booking.com/hotel/us/monteleone.html', tier: 'expensive' },
+      { name: 'The Ritz-Carlton, New Orleans', note: 'Ritz-Carlton brand — Canal Street landmark in 1907 Beaux-Arts building, spa, Club Lounge · 8.7 Booking.com', url: 'https://www.booking.com/hotel/us/nine-twenty-one-canal-street-new-orleans.html', tier: 'luxury' }
+    ], price: { budget: 'USD 100–180', mid: 'USD 180–280', expensive: 'USD 280–450', luxury: 'USD 450+' } },
     'new-york': { h: [
       { name: 'The Mark Hotel', note: 'Independent luxury — 25 East 77th Street Upper East Side, largest suite in NYC, Jean-Georges Vongerichten restaurant · 9.4 Booking.com' , url: 'https://www.booking.com/hotel/us/the-mark-new-york.html' },
       { name: 'The Carlyle, A Rosewood Hotel', note: 'Rosewood brand — 1930 Upper East Side landmark, Bemelmans Bar murals, Café Carlyle cabaret · 9.5 Booking.com' , url: 'https://www.booking.com/hotel/us/the-carlyle.html' },
@@ -11288,16 +11288,16 @@ window.TVE.home = (function () {
        its airport. */
     var LOUNGE_IATAS = [
       'ABQ','AES','AGP','AJU','AMM','AMS','ANC','ARN','ATH','ATL','AUA','AUH','AUS','BCN','BDS','BER',
-      'BGI','BGO','BIO','BKK','BLQ','BNA','BOS','BRU','BUD','CAI','CDG','CLT','CMB','CPH','CPT','CUN',
-      'CUR','CUZ','CWB','DBV','DEN','DFW','DOH','DPS','DTW','DUB','DUS','DXB','EDI','EYW','EZE','FAO',
-      'FCO','FHR','FLN','FLR','FOR','FRA','GCM','GIG','GOT','GPS','GRU','GVA','HAM','HAN','HEL','HER',
-      'HKG','HKT','HND','IAD','IAH','ICN','IGU','IST','JFK','JMK','JPA','KEF','KOA','KRK','KTM','LAS',
-      'LAX','LGA','LGW','LHR','LIH','LIM','LIS','LUX','LYS','MAD','MAN','MCT','MEL','MIA','MLE','MRS',
-      'MSP','MUC','MVD','MXP','NAP','NAS','NAT','NCE','OGG','OPO','ORD','ORY','OSL','PBH','PDL','PDX','PEK',
-      'PHL','PHX','PLS','PMI','PNS','POA','PPS','PRG','PSA','PSP','PUS','PVG','PVR','RAK','RDM','REC',
-      'RHO','RIX','RNO','RSW','SAN','SCL','SEA','SFO','SIN','SJC','SJO','SJU','SKG','SLC','SPU','STR',
-      'SXB','SYD','TBS','TFS','TIV','TLL','TOS','TPE','TRN','VCE','VIE','VLC','WLG','YQB','YUL','YVR',
-      'YYC','YYZ','ZAG','ZQN','ZRH'
+      'BGI','BGO','BIO','BKK','BLQ','BNA','BOB','BOS','BRU','BUD','CAI','CDG','CLT','CMB','CPH','CPT',
+      'CUN','CUR','CUZ','CWB','DBV','DEN','DFW','DOH','DPS','DTW','DUB','DUS','DXB','EDI','EYW','EZE',
+      'FAO','FCO','FHR','FLN','FLR','FOR','FRA','GCM','GIG','GOT','GPS','GRU','GVA','HAM','HAN','HEL',
+      'HER','HKG','HKT','HND','IAD','IAH','ICN','IGU','IST','JFK','JMK','JPA','KEF','KOA','KRK','KTM',
+      'LAS','LAX','LGA','LGW','LHR','LIH','LIM','LIS','LUX','LYS','MAD','MAN','MCT','MEL','MIA','MLE',
+      'MRS','MSP','MSY','MUC','MVD','MXP','NAP','NAS','NAT','NCE','OGG','OPO','ORD','ORY','OSL','PBH','PDL',
+      'PDX','PEK','PHL','PHX','PLS','PMI','PNS','POA','PPS','PRG','PSA','PSP','PUS','PVG','PVR','RAK',
+      'RDM','REC','RHO','RIX','RNO','RSW','SAN','SCL','SEA','SFO','SIN','SJC','SJO','SJU','SKG','SLC',
+      'SPU','STR','SXB','SYD','TBS','TFS','TIV','TLL','TOS','TPE','TRN','VCE','VIE','VLC','WLG','YQB',
+      'YUL','YVR','YYC','YYZ','ZAG','ZQN','ZRH'
     ];
 
     function _inject() {

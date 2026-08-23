@@ -14,21 +14,37 @@
    strips — box, colour, case and the selected state all come from the shared
    .pill-badge + .fam-* classes. A page carries NO colour of its own; never
    re-add a box or a border here. */
-.ci-controls { margin: var(--search-gap,32px) 0 0; display: flex; flex-direction: column; gap: 10px; }
-.ci-row { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; }
+/* CENTRED UNDER THE BAR, AND A FULL GAP CLEAR OF IT. Both were owner calls
+   (2026-08-23): the rows were flush left while the search bar above them was
+   centred — "why there are all packed on the left" — and they sat directly on
+   the band's own 32px, close enough that the typeahead card landed on top of
+   them. `align-items: center` shrink-wraps each row to its pills and centres
+   it, which is the same shape every other pill strip on the site has (scams,
+   tap-water, tipping). The `!important` overrides the shared
+   `.hero-band + .hero-ground + *` reset, which zeroes this margin so the band's
+   padding is the only distance — here the owner asked for the pills to sit
+   "way lower", so it is the band's gap AGAIN, the same token twice rather than
+   a new number. */
+.index-section .ci-controls {
+  margin: var(--search-gap,32px) 0 0 !important;
+  display: flex; flex-direction: column; align-items: center; gap: 10px;
+}
+.ci-row { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; justify-content: center; }
 .ci-row-label {
   font-size: var(--fs-label,11px); font-weight: 700; color: var(--muted,#6a6660);
-  letter-spacing: .1em; text-transform: uppercase; margin-right: 2px; min-width: 84px;
+  letter-spacing: .1em; text-transform: uppercase; margin-right: 2px;
 }
 .ci-btn { font-family: inherit; }
 
 /* The count line sits under the controls that produced it — CLAUDE.md
    Sixty-second non-negotiable. */
 .ci-summary {
-  margin: 16px 0 12px; font-size: var(--fs-sub,12px); color: var(--muted,#6a6660);
-  font-variant-numeric: tabular-nums;
+  margin: 14px 0 var(--search-gap,32px); text-align: center;
+  font-size: var(--fs-sub,12px); color: var(--muted,#6a6660);
 }
 .ci-summary strong { color: var(--text); font-weight: 700; }
+.ci-summary a { color: var(--text); font-weight: 700; text-decoration: none; border-bottom: 1px solid var(--border,#d8d4cc); }
+.ci-summary a:hover { color: var(--accent,#8a6c1a); border-bottom-color: currentColor; }
 
 .index-table { width: 100%; border-collapse: collapse; border: 1px solid var(--border,#d8d4cc); border-radius: 8px; overflow: hidden; }
 .index-table thead th {
@@ -65,8 +81,26 @@
    the dearest place in the fleet, so the scale never shifts with the filter. */
 .ci-bar-cell { width: 100%; }
 .ci-bar-wrap { display: flex; align-items: center; gap: 10px; }
-.ci-bar { flex: 1 1 auto; height: 8px; border-radius: 4px; background: var(--surface2,#f0ede8); overflow: hidden; min-width: 60px; }
-.ci-bar i { display: block; height: 100%; border-radius: 4px; background: currentColor; }
+/* THE TRACK IS THE SCALE. A bar with a plain grey track said only "longer than
+   that one" — you could not see whether a place sat at the top of Moderate or
+   the bottom of it, which is the whole question once two places carry the same
+   tag. The track is now painted in the four band tints at the very cut points
+   the tags are decided on, so where the fill STOPS is the reading. It names no
+   benchmark city, so the owner's 2026-08-22 rule stands. The stops are written
+   from JS because they depend on the dearest place on the page. */
+.ci-bar {
+  flex: 1 1 auto; height: 9px; border-radius: 5px; min-width: 60px;
+  background: var(--surface2,#f0ede8); overflow: hidden;
+}
+.ci-bar i { display: block; height: 100%; border-radius: 5px; background: currentColor; }
+/* A row opens. Nothing said so before — the pointer cursor was the only hint,
+   and it reads as "this is a link to the guide", which the name beside it
+   already is. */
+.ci-open {
+  flex: none; width: 16px; height: 16px; color: var(--muted,#6a6660);
+  transition: transform .15s ease;
+}
+tr.ci-city[aria-expanded="true"] .ci-open { transform: rotate(90deg); color: var(--accent,#8a6c1a); }
 .ci-c-cheap          { color: var(--fam-green-ink,#1a5a1a); }
 .ci-c-moderate       { color: var(--fam-blue-ink,#1a3a8b); }
 .ci-c-expensive      { color: var(--fam-orange-ink,#8a4a10); }
@@ -80,7 +114,13 @@
   text-align: left; font-size: var(--fs-label,11px); font-weight: 700; letter-spacing: .08em;
   text-transform: uppercase; color: var(--muted,#6a6660); padding: 0 10px 4px 0;
 }
-.ci-basket td { font-size: var(--fs-sub,12px); padding: 3px 10px 3px 0; color: var(--text); }
+.ci-basket td { font-size: var(--fs-sub,12px); padding: 4px 10px 4px 0; color: var(--text); vertical-align: middle; }
+/* Each driver on the same scale as the headline bar, so you can see WHICH of
+   the three is carrying the tag — a place whose rent is cheap and whose
+   restaurants are dear is a different trip from one where both are dear, and
+   the three tags alone never said that. */
+.ci-basket .ci-bar { display: block; min-width: 90px; width: 140px; height: 7px; }
+.ci-basket td.ci-basket-bar { width: 150px; }
 .ci-detail-note { font-size: var(--fs-sub,12px); color: var(--muted,#6a6660); margin: 0; }
 .ci-detail-note a { color: var(--accent,#8a6c1a); }
 
@@ -99,7 +139,7 @@ html { scroll-behavior: smooth; }
   .index-table td, .index-table th { font-size: var(--fs-sub,12px) !important; padding: 6px 8px !important; }
   .ci-row-label { min-width: 0; width: 100%; }
   .ci-row { justify-content: center; gap: 6px; }
-  .ci-controls { margin: var(--search-gap,32px) 0 0 !important; }
+  .index-section .ci-controls { margin: var(--search-gap,32px) 0 0 !important; }
   /* The badge repeats what the bar's colour already says; the bar and the
      number are what a phone keeps. */
   .index-table th.col-band, .index-table td.col-band { display: none; }
@@ -181,7 +221,7 @@ html { scroll-behavior: smooth; }
     <thead><tr>
       <th>Place</th>
       <th class="col-band">Cost of living</th>
-      <th>How it compares</th>
+      <th>Cheap to very expensive</th>
     </tr></thead>
     <tbody id="cost-tbody"></tbody>
   </table>
@@ -217,6 +257,7 @@ var CI=[
 ['Big Island','big-island','United States','🇺🇸',54.8,'Expensive','country','United States',[['Rent',37.1],['Eating out',71.7],['Groceries',76.4]]],
 ['Bilbao','bilbao','Spain','🇪🇸',45.1,'Moderate','city','Bilbao, Spain',[['Rent',31.4],['Eating out',64.3],['Groceries',54.6]]],
 ['Bologna','bologna','Italy','🇮🇹',50.4,'Expensive','city','Bologna, Italy',[['Rent',27.7],['Eating out',75.8],['Groceries',73.3]]],
+['Bora Bora','bora-bora','French Polynesia','🇵🇫',87.3,'Very expensive','nearby','Honolulu, HI, United States',[['Rent',63.3],['Eating out',114.2],['Groceries',134.5]]],
 ['Bordeaux','bordeaux','France','🇫🇷',49.2,'Moderate','city','Bordeaux, France',[['Rent',23.1],['Eating out',74.4],['Groceries',79]]],
 ['Boston','boston','United States','🇺🇸',83.4,'Very expensive','city','Boston, MA, United States',[['Rent',73.7],['Eating out',95.9],['Groceries',98.6]]],
 ['Boulder','boulder','United States','🇺🇸',54.8,'Expensive','country','United States',[['Rent',37.1],['Eating out',71.7],['Groceries',76.4]]],
@@ -363,6 +404,7 @@ var CI=[
 ['Recife','recife','Brazil','🇧🇷',22.5,'Cheap','city','Recife, Brazil',[['Rent',10.4],['Eating out',31.9],['Groceries',30.6]]],
 ['Reykjavik','reykjavik','Iceland','🇮🇸',80.3,'Very expensive','city','Reykjavik, Iceland',[['Rent',50.3],['Eating out',118.7],['Groceries',116.5]]],
 ['Rhodes','rhodes','Greece','🇬🇷',34.8,'Cheap','country','Greece',[['Rent',12.9],['Eating out',57.2],['Groceries',51.7]]],
+['Riga','riga','Latvia','🇱🇻',37.3,'Moderate','city','Riga, Latvia',[['Rent',14.1],['Eating out',59.1],['Groceries',52.9]]],
 ['Rio de Janeiro','rio-de-janeiro','Brazil','🇧🇷',27,'Cheap','city','Rio de Janeiro, Brazil',[['Rent',14.8],['Eating out',34.1],['Groceries',38.2]]],
 ['Rome','rome','Italy','🇮🇹',47.5,'Moderate','city','Rome, Italy',[['Rent',30.7],['Eating out',60.2],['Groceries',63.3]]],
 ['Rotterdam','rotterdam','Netherlands','🇳🇱',62.2,'Expensive','city','Rotterdam, Netherlands',[['Rent',42.5],['Eating out',85.7],['Groceries',74.3]]],
@@ -477,16 +519,33 @@ function sorted(list) {
 
 function guideURL(r) { return '/guides/' + r[N_SLUG] + '.html'; }
 
-function barCell(idx, band) {
+/* The four band tints, laid on the track at the cut points bandOf() splits on,
+   so the track itself is the scale and where the fill stops is the reading. */
+function trackStyle() {
+  var a = 35 / MAX * 100, b = 50 / MAX * 100, c = 70 / MAX * 100;
+  return 'background:linear-gradient(to right,' +
+    'var(--fam-green-bg) 0 '  + a.toFixed(1) + '%,' +
+    'var(--fam-blue-bg) '     + a.toFixed(1) + '% ' + b.toFixed(1) + '%,' +
+    'var(--fam-orange-bg) '   + b.toFixed(1) + '% ' + c.toFixed(1) + '%,' +
+    'var(--fam-purple-bg) '   + c.toFixed(1) + '% 100%)';
+}
+
+function bar(idx, band, label) {
   var pct = Math.max(2, Math.round(idx / MAX * 100));
   /* No number and no benchmark city — owner rule 2026-08-22: "lets not base in
      a place specific … use cheap, expensive etc like hotels". The bar is a
      relative shape against the dearest place on the page, which needs no name;
      the tag is the answer. A bare index with nothing to measure it against
      would have meant nothing anyway. */
-  return '<td class="ci-bar-cell ' + bandClass(band) + '"><span class="ci-bar-wrap">' +
-         '<span class="ci-bar" role="img" aria-label="' + band + '">' +
-         '<i style="width:' + pct + '%"></i></span></span></td>';
+  return '<span class="ci-bar ' + bandClass(band) + '" style="' + trackStyle() +
+         '" role="img" aria-label="' + label + '"><i style="width:' + pct + '%"></i></span>';
+}
+
+function barCell(idx, band) {
+  return '<td class="ci-bar-cell"><span class="ci-bar-wrap">' + bar(idx, band, band) +
+         '<svg class="ci-open" viewBox="0 0 24 24" fill="none" stroke="currentColor" ' +
+         'stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">' +
+         '<polyline points="9 6 15 12 9 18"></polyline></svg></span></td>';
 }
 
 function rowHTML(r) {
@@ -500,9 +559,11 @@ function detailHTML(r) {
   var out = '<td colspan="3">';
   if (r[N_EV] && r[N_EV].length) {
     out += '<table class="ci-basket"><thead><tr><th>What drives it</th>' +
-           '<th>Here</th></tr></thead><tbody>';
+           '<th>Here</th><th></th></tr></thead><tbody>';
     r[N_EV].forEach(function (e) {
-      out += '<tr><td>' + e[0] + '</td><td>' + tag(bandOf(e[1])) + '</td></tr>';
+      var b = bandOf(e[1]);
+      out += '<tr><td>' + e[0] + '</td><td>' + tag(b) + '</td>' +
+             '<td class="ci-basket-bar">' + bar(e[1], b, e[0] + ': ' + b) + '</td></tr>';
     });
     out += '</tbody></table>';
   }
@@ -530,6 +591,7 @@ function render() {
   list.forEach(function (r) {
     var tr = document.createElement('tr');
     tr.className = 'ci-city';
+    tr.setAttribute('aria-expanded', 'false');
     tr.innerHTML = rowHTML(r);
     var dt = document.createElement('tr');
     dt.className = 'ci-detail';
@@ -538,6 +600,7 @@ function render() {
     tr.addEventListener('click', function (e) {
       if (e.target.closest('a')) return;   /* the name is the guide link */
       dt.hidden = !dt.hidden;
+      tr.setAttribute('aria-expanded', dt.hidden ? 'false' : 'true');
     });
     tb.appendChild(tr);
     tb.appendChild(dt);
@@ -545,14 +608,19 @@ function render() {
 
   document.getElementById('cost-noresult').style.display = list.length ? 'none' : 'block';
 
+  /* NO COUNT. The line opened on "237 places", which is the size of the fleet
+     stated to a reader — Fifty-second non-negotiable, owner 2026-08-23: "i
+     already said to stop showing a number of guides in the site". What it says
+     instead is the only thing on it a traveller could act on: the two ends of
+     whatever is on screen, each one a link into its own guide. */
   var sum = document.getElementById('ci-summary');
   if (!list.length) { sum.textContent = ''; return; }
   var vals = list.map(function (r) { return r[N_IDX]; });
   var lo = Math.min.apply(null, vals), hi = Math.max.apply(null, vals);
   var cheapest = list[vals.indexOf(lo)], dearest = list[vals.indexOf(hi)];
-  sum.innerHTML = '<strong>' + list.length + '</strong> ' + (list.length === 1 ? 'place' : 'places') +
-    ' · cheapest <strong>' + cheapest[N_NAME] + '</strong>' +
-    ' · dearest <strong>' + dearest[N_NAME] + '</strong>';
+  if (list.length === 1) { sum.innerHTML = 'One match.'; return; }
+  sum.innerHTML = 'Cheapest of these: <a href="' + guideURL(cheapest) + '">' + cheapest[N_NAME] + '</a>' +
+    ' · dearest: <a href="' + guideURL(dearest) + '">' + dearest[N_NAME] + '</a>';
 }
 
 function bindGroup(sel, apply) {
@@ -571,15 +639,18 @@ function bindGroup(sel, apply) {
 }
 
 function writeNote() {
-  var own = CI.filter(function (r) { return r[N_VIA] === 'city'; }).length;
+  /* The note used to end "127 of the 237 are measured in their own right" —
+     the fleet size again, in a second place on the same page. The fact worth
+     keeping is that SOME readings are stand-ins, and an opened row already
+     names which one it is using, so the sentence points there instead. */
   document.getElementById('ci-note').textContent =
     'These are cost-of-living tags, not trip budgets. What you spend somewhere is your ' +
-    'choice — the same place takes a cheap week or an expensive one. What the place ' +
+    'choice \u2014 the same place takes a cheap week or an expensive one. What the place ' +
     'itself costs is not, and that is what is tagged here: the price of the everyday ' +
-    'things, weighted towards a roof over your head and eating out. ' + own + ' of the ' +
-    CI.length + ' are measured in their own right; the rest are too small and take their ' +
-    'country\u2019s reading or a named neighbour\u2019s \u2014 open a row and it says ' +
-    'which, and what is driving the tag. Figures from Numbeo.';
+    'things, weighted towards a roof over your head and eating out. Most places are ' +
+    'measured in their own right; the smaller ones take their country\u2019s reading or a ' +
+    'named neighbour\u2019s \u2014 open a row and it says which, and what is driving the ' +
+    'tag. Figures from Numbeo.';
 }
 
 document.addEventListener('DOMContentLoaded', function () {

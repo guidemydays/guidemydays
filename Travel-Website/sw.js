@@ -1959,7 +1959,8 @@
 /* 2026-08-23: long-walk (#153) joins the rust Position-2c family (owner: "the walk one change to this same color" / "the 14 mins walk i meant"). The [N] min walk figure moves off url(#gm-navy)/var(--c-navy-rim) onto url(#gm-rust)/var(--c-rust-rim), so steps, Heights, Enclosed space and walk now all read as one family in the stop row under the rust clock. Site-Icons.html #153 carries the identical change. uphill (#169) is deliberately still pine: recoloured rust it would be the walk figure in a different pose, and a replacement shape is with the owner. No guide HTML changed. toolbar.js -> v1014. CACHE to v1405. */
 /* 2026-08-23: the uphill mark becomes the ramp, catalogue #1452 (owner: "The uphill we cant do the same it would be confusing any way to change the icon so it would be diffrent and we could keep the same color" then "yes do the ramp A"). GM_SPRITE key 'uphill' keeps its name and swaps its artwork: the #169 pine walking figure is replaced by a rust ramp — the steps mark with the steps smoothed out — so steps and uphill are one glance apart and the walking figure is unique to the walk row. All five Position-2c marks are now rust. No guide HTML changed: 61 guides author data-icon=uphill and pick the new drawing up from the sprite. toolbar.js -> v1016. CACHE to v1407. */
 /* 2026-08-23: sardinia hotel tiers, OLB lounge card toolbar.js -> v1017. CACHE to v1408. */
-var CACHE = 'travel-cache-v1408';
+/* 2026-08-23: vilnius HOTEL_ALT_DATA 4 tiers + VNO lounge chip toolbar.js -> v1018. CACHE to v1409. */
+var CACHE = 'travel-cache-v1409';
 
 /* The guide-calendar hand-off cache. Written by toolbar.js, read and emptied
    once by the fetch handler below, and EXEMPT from the activate sweep — it is
@@ -1972,7 +1973,7 @@ var ICS_OUTBOX = 'gmd-ics-outbox';
    THIS IS THE ONLY PLACE to bump toolbar.js / guide-style.css versions.
    NEVER bump ?v= inside guide HTML — it breaks HMAC stamps and forces re-validation
    of 230+ guides. Instead, bump MIN_VERSIONS here + increment the CACHE version. */
-var MIN_VERSIONS = { 'guide-style.css': 263,'toolbar.js': 1017, 'mobile.css': 88, 'web-travel-style.css': 94, 'guides-index-style.css': 25, 'read-about.css': 6, 'best-of-features.js': 4, 'best-of-cross-data.js': 24, 'weather.js': 12, 'trains.css': 11, 'trains.js': 2, 'airlines.css': 2, 'airlines.js': 2, 'passport.js': 4 };
+var MIN_VERSIONS = { 'guide-style.css': 263,'toolbar.js': 1018, 'mobile.css': 88, 'web-travel-style.css': 94, 'guides-index-style.css': 25, 'read-about.css': 6, 'best-of-features.js': 4, 'best-of-cross-data.js': 24, 'weather.js': 12, 'trains.css': 11, 'trains.js': 2, 'airlines.css': 2, 'airlines.js': 2, 'passport.js': 4 };
 
 function rewriteAssetUrl(urlStr) {
   var u;

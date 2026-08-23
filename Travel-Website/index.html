@@ -1437,11 +1437,28 @@ a.land-cta:hover:visited {
    would be a second, unasked change. */
 .lp-ask { max-width: var(--lp-max, 1180px); margin: clamp(2.4rem, 5vw, 4rem) auto 0; }
 .ask-row { display: grid; grid-template-columns: 1fr 1fr; gap: clamp(0.6rem, 1.4vw, 1rem); }
-/* FOUR cards in two equal rows, not three with a full-width straggler (owner
-   rule 2026-08-23: Ask Your Guide "move to share half of the width with compare
-   cities. Which is very fitting!"). Compare cities put its `.ask-card--wide`
-   down to make room; the class stays defined for whatever lands fifth and odd. */
-.ask-card--wide { grid-column: 1 / -1; }
+/* FOUR CARDS, ONE SIZE, AND THE SIZE IS SET BY THE COPY (owner rule 2026-08-23:
+   "make sure these are all the same size should be the top banners size").
+
+   A grid equalises the cards in ONE row and nothing equalises them ACROSS rows,
+   so the four were three different heights at once: 108 / 108 / 129 / 129 at
+   1400px, and 88 / 109 / 109 / 130 stacked on a 393px phone. The cause was not
+   the CSS — every card has identical padding and one icon — it was that three
+   descriptions were long enough to wrap and one was not.
+
+   THE FIX IS THE COPY, NOT A min-height. A min-height would hold the box while
+   the text inside it still ran to two lines at some in-between width, which is
+   the same misalignment moved somewhere harder to see; and clamping the line
+   count truncates a sentence rather than shortening it. Every description is
+   now short enough to sit on ONE line down to 329px of card, which is what a
+   393px phone leaves — so all four cards are the same height at every width,
+   with no rule to keep them there. Keep any new description under ~38
+   characters or the row it is in grows and its sibling row does not.
+
+   `.ask-card--wide` (grid-column: 1 / -1) is DELETED with this pass — it was
+   kept "for whatever lands fifth and odd" after Ask Your Guide took the fourth
+   slot, and a rule held for a hypothetical is the stale code the same owner
+   message asked to clear out. A fifth card can re-add one line. */
 /* Three of the four cards are <button>s that open a panel below; Ask Your Guide
    is an <a> that leaves for its own page, so it needs the link defaults undone
    to sit level with its siblings. */
@@ -2300,7 +2317,10 @@ summary.res-head:focus-visible { outline: 2px solid var(--rust, #C04E1A); outlin
 
 /* ── Trip Twin ──────────────────────────────────────────────────────── */
 #trip-twin-panel { margin:8px 0 20px; padding:20px 22px 22px; background:var(--warm); border:1px solid var(--border); border-radius:12px; box-shadow:0 4px 16px rgba(122,59,30,.08); }
-#trip-twin-panel[hidden],#tt-inner[hidden],#tt-results[hidden],#tt-home-read[hidden],#tt-err[hidden] { display:none !important; }
+/* #tt-err dropped from this list 2026-08-23: the element is retired — the card
+   never shows an error now, it sets a filter aside and says which (see the note
+   by #tt-results) — so the selector was guarding an id no page emits. */
+#trip-twin-panel[hidden],#tt-inner[hidden],#tt-results[hidden],#tt-home-read[hidden] { display:none !important; }
 .tt-tagline { font-size:13px; color:var(--muted); margin:0 0 18px; line-height:1.5; }
 .tt-label { font-size:10px; font-weight:700; letter-spacing:.1em; text-transform:uppercase; color:var(--muted); margin:0 0 7px; }
 .tt-or { font-size:10px; font-weight:700; letter-spacing:.1em; text-transform:uppercase; color:var(--muted); margin:16px 0 12px; display:flex; align-items:center; gap:10px; }
@@ -3655,7 +3675,7 @@ window.lpGuideCard = function (href, flag, name, extra) {
             aria-expanded="false" aria-controls="tp-trip-escape">
       <span class="ask-ic" aria-hidden="true"><svg viewBox="0 0 24 24"><use href="#gm-i-compass"/></svg></span>
       <span class="ask-name">Trip Escape</span>
-      <span class="ask-desc">Show me destinations that feel completely different from home.</span>
+      <span class="ask-desc">Somewhere nothing like home.</span>
     </button>
   <div class="tl-panel" id="tp-trip-escape" hidden>
       <!-- Not decoration and not removable. The Trip Escape script binds every handler to this button and bails out entirely (`if (!btn) return`) when it is absent, so deleting it kills the widget with no error anywhere. The card above clicks it once to build the panel. -->
@@ -3798,7 +3818,7 @@ window.lpGuideCard = function (href, flag, name, extra) {
     <button type="button" class="ask-card" data-tool="compare" aria-expanded="false" aria-controls="tp-compare">
       <span class="ask-ic" aria-hidden="true"><svg viewBox="0 0 24 24"><use href="#gm-i-compare"/></svg></span>
       <span class="ask-name">Compare cities</span>
-      <span class="ask-desc">Up to five cities side by side &mdash; days, weather, flight time.</span>
+      <span class="ask-desc">Up to five cities, side by side.</span>
     </button>
     <!-- ASK YOUR GUIDE — the fourth card, sharing Compare's row (owner rule
          2026-08-23: "move to share half of the width with compare cities. Which
@@ -3815,7 +3835,7 @@ window.lpGuideCard = function (href, flag, name, extra) {
     <a class="ask-card" href="/ask-your-guide/">
       <span class="ask-ic" aria-hidden="true"><svg viewBox="0 0 24 24"><use href="#gm-i-person-question"/></svg></span>
       <span class="ask-name">Ask Your Guide</span>
-      <span class="ask-desc">What people earn, what they own, how long they live &mdash; one place, every number.</span>
+      <span class="ask-desc">What people earn, own and live.</span>
     </a>
   <!-- ═══ COMPARE ══════════════════════════════════════════════════════════════
        The comparison itself, on this page. It used to be a link to
@@ -6261,38 +6281,14 @@ function render() {
     return { avg: avg };
   }
 
-  /* THE COST BRACKET, 1 to 4, NEVER A PRICE (owner rule 2026-08-23). This was
-     costMid(), which returned dollars per night — $60 / $150 / $300 / $550 —
-     invented here and agreeing with nothing else on the site. COST_DATA holds a
-     TIER and only a tier (Budget x44, Moderate x111, Expensive x58, Premium
-     x24), so the ordinal IS the data and the dollar figures were a translation
-     with no source. Contrast now measures how many brackets apart two places
-     are, which is a number both ends of this card can actually mean.
-
-     The numeric `mid` branch is kept because a card MAY carry one, but it is
-     banded rather than compared: a stray price still lands in the same four
-     brackets as everything else instead of scoring on a different axis. */
-  function costLevel(card) {
-    var raw = card.getAttribute('data-cost');
-    if (!raw) return null;
-    var d; try { d = JSON.parse(raw); } catch (e) { return null; }
-    /* THE PRICE INDEX FIRST when the row carries one — /essentials/budget/'s own
-       New-York-is-100 number — banded at 35 / 50 / 70, the four cut points
-       Brain/scripts/build/build_cost_page.py BANDS defines and the guides-index
-       Budget filter reads. Two COST_DATA tables can reach this card: the landing
-       page's own (tier only) and the guides index's (tier AND idx), and the
-       bootstrap takes whichever loaded first. Banding the index instead of
-       scoring it raw is what makes the two answer the same question — the
-       guides index's own copy of this widget scores idx directly, which is finer
-       inside a bracket and identical across them. */
-    if (typeof d.idx === 'number') return d.idx < 35 ? 1 : d.idx < 50 ? 2 : d.idx < 70 ? 3 : 4;
-    var t = (d.tier || d.band || '').toLowerCase();
-    if (t === 'budget' || t === 'cheap') return 1;
-    if (t === 'mid' || t === 'mid-range' || t === 'moderate') return 2;
-    if (t === 'expensive') return 3;
-    if (t === 'premium' || t === 'luxury' || t === 'upscale' || t === 'very') return 4;
-    return null;
-  }
+  /* costLevel() stood here — this card's reader of a guide's data-cost, banded
+     1 to 4. DELETED 2026-08-23 with the cost question that gave it a reference
+     (owner: "delete any stale code"). Its only two callers were contrastOf()
+     and whyReasons(), and both stopped being able to use it the moment there
+     was no cost-of-home to compare a destination against. The bands are not
+     lost: /essentials/budget/'s 35/50/70 cut points live in build_cost_page.py
+     and in the guides index's Budget filter, which is where a cost question is
+     still answerable. */
 
   function safety(card) {
     var raw = card.getAttribute('data-safety');
@@ -6369,9 +6365,12 @@ function render() {
        but it capped the contrast at 0.875 and the "How different?" dial aims at
        1.00, so the most extreme flip on earth could never reach the target the
        reader had asked for. Climate carries the whole contrast now. */
-    var co = costLevel(card);
-    if (ref.costLvl === null || co === null) return cContrast;
-    return 0.75 * cContrast + 0.25 * (Math.abs(ref.costLvl - co) / 3);
+    /* CLIMATE IS THE WHOLE CONTRAST. With no cost-of-home to measure against,
+       the cost term fell back to a flat 0.5 and added a constant 0.125 to every
+       card: the ORDER was untouched, but the score capped at 0.875 while "As
+       different as possible" aims at 1.00 — the dial could not reach its own top
+       setting. */
+    return cContrast;
   }
 
   /* Ranked HIGH IS BEST, so the aim is inverted into a fit: 1 at the target,
@@ -6391,13 +6390,10 @@ function render() {
       else if (d > 22) list.push('Strong climate contrast');
       else if (d > 10) list.push('Different climate');
     }
-    var co = costLevel(card);
-    if (co !== null && ref.costLvl !== null) {
-      var cd = Math.abs(ref.costLvl - co);
-      if (cd >= 3) list.push('Opposite cost bracket');
-      else if (cd === 2) list.push('Two brackets cheaper or dearer');
-      else if (cd === 1) list.push('A different cost bracket');
-    }
+    /* The cost reasons went with the cost question: ref.costLvl is structurally
+       null now, so the branch could never fire, and a guarded block guaranteed
+       false is not a safety net — it is the next reader believing this card
+       still says something about money. */
     var sa = safety(card);
     if (sa === 1) { list.push('Very safe'); }
     if (!list.length) list.push('Strong contrast');
@@ -6834,8 +6830,9 @@ function render() {
     window._cmpKeyFor = _tableKeyFor;
 
     /* Stamp the three data attributes onto every card.
-       Trip Escape does NOT read the globals above — hiData(), costLevel() and
-       safety() read data-climate / data-cost / data-safety off each CARD, and
+       Trip Escape does NOT read the globals above — hiData() and safety() read
+       data-climate / data-safety off each CARD (costLevel() read data-cost and
+       was deleted with the cost question on 2026-08-23), and
        scoreCard() returns -1 the moment data-climate is absent. Only 31 of the
        286 cards carry them in the source HTML, so without this it scored 31
        guides out of 237 and returned a ranked list from 13% of the fleet — no

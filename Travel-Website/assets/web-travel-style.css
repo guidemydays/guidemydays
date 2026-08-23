@@ -2642,6 +2642,15 @@ body > .hero-ground {
 .fam-pink.is-on   { border-color: rgba(var(--fam-pink-rgb),.85); }
 .fam-grey.is-on   { border-color: rgba(var(--fam-grey-rgb),.85); }
 
+/* Grey alone: the shared 1px outline-offset (see .pill-badge.is-on above) reads
+   as a double ring here instead of one thick frame — a saturated family's hue
+   fuses the border and the offset ring together, but grey has no hue to do
+   that with, so the eye parses two separate strokes with a visible gap between
+   them. Closing the gap (flush against the border) removes the seam. Reported
+   live on essentials/apps.html's "All" pill; every colored family keeps its
+   owner-tuned 1px offset untouched (2026-08-23, owner: "looks too big now"). */
+.fam-grey.is-on { outline-offset: 0; }
+
 /* a strip of them breathes */
 .badge-strip,
 .pill-badge-strip {
@@ -2712,55 +2721,6 @@ body > .hero-ground {
 }
 .pp-btn:hover,
 .pp-btn:focus-visible { background: var(--bg, #f5f4f0); border-color: var(--accent, #8a6c1a); }
-
-/* THE AIRPORT PICKER IS ONE FIELD (owner rule 2026-08-23: "this should be one
-   field no drop down to then type"). It takes the .pp-btn box exactly — same
-   height, radius, rim, gold ink and weight — because in the Compare strip it
-   stands beside the passport button and the two must read as one pair of
-   controls. What changes is what it IS: an input you type in, not a button that
-   opens a box that holds an input.
-
-   It is WIDER than the button it replaces. A button is as wide as its label; a
-   field has to hold "SEA · Seattle–Tacoma International" and still look like
-   somewhere you can type. */
-/* `input.pp-input`, not `.pp-input` — line 846 gives EVERY input[type=text] on
-   the site the search-bar standard (440×56, 17px, ink-black), which is right for
-   a search bar and wrong for a form field inside a card: it made this control
-   440px wide and 56px tall beside a 40px passport button. An element+class
-   selector matches that rule's specificity and wins on order. The ONE SEARCH BAR
-   rule is untouched — this is not a search bar, and `.search-input` (the class
-   that rule exists for, and that brain_check measures) is not on it. */
-input.pp-input {
-  font: inherit;
-  font-size: 13px;
-  font-weight: 700;
-  line-height: 1;
-  width: 15.5rem;
-  max-width: 100%;
-  box-sizing: border-box;
-  padding: 9px 14px;
-  /* `height: auto` is load-bearing: the site-wide input rule sets an explicit
-     56px, and min-height cannot undo a height. Without it this field stood 16px
-     taller than the passport button beside it in the Compare strip. */
-  height: auto;
-  min-height: 40px;
-  border: 1px solid rgba(138,108,26,.30);
-  border-radius: 8px;
-  background: var(--surface, #fff);
-  color: var(--accent, #8a6c1a);
-  cursor: text;
-  transition: background .12s ease, border-color .12s ease;
-}
-input.pp-input:hover { background: var(--bg, #f5f4f0); }
-input.pp-input:focus { outline: none; border-color: var(--accent, #8a6c1a); background: var(--bg, #f5f4f0); }
-/* The placeholder is the question when nothing is set, so it carries the same
-   gold as a real value rather than the browser's grey — the control reads as
-   asking rather than as empty. */
-input.pp-input::placeholder { color: var(--accent, #8a6c1a); opacity: .62; font-weight: 700; }
-/* The list hangs off the FIELD now, not off a button, so it starts under the
-   field's own bottom edge and matches its width rather than the popover's fixed
-   280px. */
-.pp-pop-under { top: calc(100% + 6px); width: 15.5rem; max-width: min(15.5rem, calc(100vw - 32px)); padding: 6px; }
 
 /* THE AIRPORT PICKER IS ONE FIELD (owner rule 2026-08-23: "this should be one
    field no drop down to then type"). It takes the .pp-btn box exactly — same

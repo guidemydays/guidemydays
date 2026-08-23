@@ -6429,11 +6429,11 @@ window.TVE.home = (function () {
       { name: 'The Lodge at Whitefish Lake', note: 'Independent, Averill Hospitality — Whitefish, 26 miles north of the park, marina resort, outdoor pool, lakefront spa, year-round mountain access · 9.0 Booking.com', url: 'https://www.booking.com/hotel/us/lodge-at-whitefish-lake.html', tier: 'luxury' }
     ], price: { budget: 'USD 120–190', mid: 'USD 190–280', expensive: 'USD 280–400', luxury: 'USD 400+' } },
     'glasgow': { h: [
-      { name: 'Kimpton Blythswood Square Hotel', note: 'IHG Kimpton brand — 1820 Georgian townhouse on Blythswood Square, indoor pool, Tempus spa, afternoon tea · 9.0 Booking.com', url: 'https://www.booking.com/hotel/gb/blythswood-square.html' },
-      { name: 'Hotel Indigo Glasgow', note: 'IHG brand — converted 1901 central fire station on Waterloo Street, design-led interiors, steps from Central Station · 8.7 Booking.com', url: 'https://www.booking.com/hotel/gb/indigo-glasgow.html' },
-      { name: 'Radisson Blu Hotel Glasgow', note: 'Radisson brand — Argyle Street in the city centre, indoor pool, Metro Bar & Grill, walking distance to Central Station · 8.4 Booking.com', url: 'https://www.booking.com/hotel/gb/radissonsashotelglasgow.html' },
-      { name: 'Malmaison Glasgow', note: 'Malmaison brand — Merchant City in a converted church building, brasserie and bar, design rooms with character · 8.6 Booking.com', url: 'https://www.booking.com/hotel/gb/malmaison-glasgow.html' }
-    ] },
+      { name: 'Kimpton Blythswood Square Hotel', note: 'IHG Kimpton brand — 1820 Georgian townhouse on Blythswood Square, indoor pool, Tempus spa, afternoon tea · 9.0 Booking.com', url: 'https://www.booking.com/hotel/gb/blythswood-square.html', tier: 'luxury' },
+      { name: 'Hotel Indigo Glasgow', note: 'IHG brand — converted 1901 central fire station on Waterloo Street, design-led interiors, steps from Central Station · 8.7 Booking.com', url: 'https://www.booking.com/hotel/gb/indigo-glasgow.html', tier: 'mid' },
+      { name: 'Radisson Blu Hotel Glasgow', note: 'Radisson brand — Argyle Street in the city centre, indoor pool, Metro Bar & Grill, walking distance to Central Station · 8.4 Booking.com', url: 'https://www.booking.com/hotel/gb/radissonsashotelglasgow.html', tier: 'expensive' },
+      { name: 'Malmaison Glasgow', note: 'Malmaison brand — Merchant City in a converted church building, brasserie and bar, design rooms with character · 8.6 Booking.com', url: 'https://www.booking.com/hotel/gb/malmaison-glasgow.html', tier: 'budget' }
+    ], price: { budget: 'GBP 120–160', mid: 'GBP 160–220', expensive: 'GBP 220–320', luxury: 'GBP 320+' } },
     'gothenburg': { h: [
       { name: 'Clarion Hotel Post', note: 'Nordic Choice Hotels — 1925 former Central Post Office on Drottningtorget, panoramic rooftop pool and bar, spa, largest hotel in Gothenburg · 8.7 Booking.com', url: 'https://www.booking.com/hotel/se/clarion-post.html' },
       { name: 'Elite Plaza Hotel Gothenburg', note: 'Elite Hotels brand — 1889 grand Victorian building in Inom Vallgraven, Råkulten restaurant, classic Scandinavian interiors · 8.8 Booking.com', url: 'https://www.booking.com/hotel/se/elite-plaza.html' },
@@ -6624,11 +6624,11 @@ window.TVE.home = (function () {
       { name: 'JW Marriott Hotel Lima', note: 'Marriott JW brand — Miraflores oceanfront tower, Pacific-view rooms, outdoor pool, Fishmar seafood restaurant, steps from Larcomar · 9.0 Booking.com', url: 'https://www.booking.com/hotel/pe/jw-marriott-lima.html', tier: 'luxury' }
     ], price: { budget: '$60–100', mid: '$100–180', expensive: '$180–300', luxury: '$300+' } },
     'london': { h: [
-      { name: 'The Savoy', note: 'Fairmont brand — 1889 Thames Embankment landmark, Art Deco interior, Kaspar\'s Seafood Bar, indoor pool · 9.1 Booking.com' , url: 'https://www.booking.com/hotel/gb/the-savoy-london.html' },
-      { name: 'Claridge\'s', note: 'Independent luxury — Mayfair Art Deco landmark, legendary afternoon tea, indoor pool, Nobu at Claridge\'s · 9.4 Booking.com' , url: 'https://www.booking.com/hotel/gb/claridges.html' },
-      { name: 'The Berkeley', note: 'Independent — Wilton Place Knightsbridge, rooftop heated pool, Collins Room, The Blue Bar, 5-min to Harvey Nichols and Harrods · 9.2 Booking.com' , url: 'https://www.booking.com/hotel/gb/the-berkeley.html' },
-      { name: 'Mandarin Oriental Hyde Park, London', note: 'Mandarin Oriental brand — 66 Knightsbridge, Dinner by Heston Blumenthal, The Spa at Mandarin Oriental, Hyde Park views · 9.0 Booking.com' , url: 'https://www.booking.com/hotel/gb/mandarin-oriental-hyde-park.html' }
-    ] },
+      { name: 'Premier Inn London County Hall', note: 'Premier Inn brand — Southbank beside Westminster Bridge, Thames and London Eye views, 24h reception · 8.6 Booking.com', url: 'https://www.booking.com/hotel/gb/premier-inn-london-county-hall.html', tier: 'budget' },
+      { name: 'Hilton London Bankside', note: 'Hilton brand — Bankside SE1, rooftop bar, indoor heated pool, 24h reception, steps from Tate Modern · 8.7 Booking.com', url: 'https://www.booking.com/hotel/gb/hilton-london-bankside.html', tier: 'mid' },
+      { name: 'The Savoy', note: 'Fairmont brand — 1889 Thames Embankment landmark, Art Deco interior, Kaspar\'s Seafood Bar, indoor pool, 24h reception · 9.1 Booking.com', url: 'https://www.booking.com/hotel/gb/the-savoy-london.html', tier: 'expensive' },
+      { name: 'Claridge\'s', note: 'Independent luxury — Mayfair Art Deco landmark, legendary afternoon tea, Nobu at Claridge\'s, 24h reception · 9.4 Booking.com', url: 'https://www.booking.com/hotel/gb/claridges.html', tier: 'luxury' }
+    ], price: { budget: '£120–190', mid: '£190–300', expensive: '£300–500', luxury: '£500+' } },
     'los-angeles': { h: [
       { name: 'Freehand Los Angeles', note: 'Independent — 416 West 8th Street in Downtown LA, design hotel with private rooms and poolside lounge, 10 min walk from LA LIVE · 8.3 Booking.com', url: 'https://www.booking.com/hotel/us/freehand-los-angeles.html', tier: 'budget' },
       { name: 'Omni Los Angeles Hotel', note: 'Omni Hotels — 251 South Olive Street on Bunker Hill, rooftop pool, spa and 24h reception, walking distance to The Broad · 9.0 Booking.com', url: 'https://www.booking.com/hotel/us/omni-los-angeles.html', tier: 'mid' },
@@ -11309,7 +11309,7 @@ window.TVE.home = (function () {
       'ABQ','AES','AGP','AJU','AMM','AMS','ANC','ARN','ATH','ATL','AUA','AUH','AUS','BCN','BDS','BER',
       'BGI','BGO','BIO','BKK','BLQ','BNA','BOB','BOD','BOS','BRU','BUD','CAI','CDG','CLT','CMB','CNX',
       'CPH','CPT','CUN','CUR','CUZ','CWB','DBV','DEN','DFW','DOH','DPS','DTW','DUB','DUS','DXB','EDI',
-      'EYW','EZE','FAO','FCA','FCO','FHR','FLN','FLR','FOR','FRA','GCM','GIG','GOT','GPS','GRU','GVA','HAM',
+      'EYW','EZE','FAO','FCA','FCO','FHR','FLN','FLR','FOR','FRA','GCM','GIG','GLA','GOT','GPS','GRU','GVA','HAM',
       'HAN','HEL','HER','HKG','HKT','HND','IAD','IAH','ICN','IGU','IST','JFK','JMK','JPA','JTR','KEF','KIX','KOA',
       'KRK','KTM','LAS','LAX','LGA','LGW','LHR','LIH','LIM','LIS','LJU','LPQ','LUX','LYS','MAD','MAN','MCT','MEL',
       'MIA','MCO','MCZ','MLA','MLE','MRS','MSP','MSY','MUC','MVD','MXP','NAP','NAS','NAT','NCE','OGG','OPO','ORD','ORS','ORY',

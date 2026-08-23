@@ -174,7 +174,7 @@ function render() {
    on first paint survives every later filter click; only `.is-on` toggles. */
 function buildAllChips() {
   var mount = document.getElementById('al-alliance-filters');
-  var opts = [{ key: 'All', label: 'All alliances', cls: 'fam-grey', test: function() { return true; } }].concat(
+  var opts = [{ key: 'All', label: 'All alliances', cls: 'fam-yellow', test: function() { return true; } }].concat(
     Object.keys(ALLIANCES).map(function(k) {
       return { key: k, label: ALLIANCES[k].label, cls: ALLIANCES[k].cls, test: function(a) { return a.al === k; } };
     }));

@@ -6188,11 +6188,11 @@ window.TVE.home = (function () {
       { name: 'Regent Chongqing', note: 'IHG/Regent — Jiefangbei CBD, Yangtze River views, spa, signature restaurants, complimentary minibar · 9.6 Booking.com', url: 'https://www.booking.com/hotel/cn/regent-chongqing.html', tier: 'luxury' }
     ], price: { budget: '¥400–700', mid: '¥700–1,200', expensive: '¥1,200–2,000', luxury: '¥2,000+' } },
     'cinque-terre': { h: [
-      { name: 'Hotel Il colle di Monterosso', note: 'Independent — Colle di Gritta above Monterosso, garden terraces, free parking and a free shuttle down to the village · 9.3 Booking.com', url: 'https://www.booking.com/hotel/it/il-colle-di-monterosso.html' },
-      { name: 'Hotel Margherita', note: 'Independent — Via Roma in the Monterosso old town, AC, elevator, a few minutes from the station and the beach · 9.2 Booking.com', url: 'https://www.booking.com/hotel/it/margherita-monterosso.html' },
-      { name: 'Hotel La Spiaggia', note: 'Independent — Via Fegina, beachfront on the Monterosso seafront, AC, sea-facing rooms · 9.1 Booking.com', url: 'https://www.booking.com/hotel/it/la-spiaggia.html' },
-      { name: 'Hotel Villa Adriana', note: 'Independent — Via IV Novembre, seasonal outdoor pool, garden and free parking, a level walk to Fegina beach · 9.0 Booking.com', url: 'https://www.booking.com/hotel/it/villa-adriana-monterosso-al-mare.html' }
-    ] },
+      { name: 'Hotel Margherita', note: 'Independent — Via Roma in the Monterosso old town, AC, elevator, a few minutes from the station and the beach · 9.2 Booking.com', url: 'https://www.booking.com/hotel/it/margherita-monterosso.html', tier: 'budget' },
+      { name: 'Hotel La Spiaggia', note: 'Independent — Via Fegina, beachfront on the Monterosso seafront, AC, sea-facing rooms · 9.1 Booking.com', url: 'https://www.booking.com/hotel/it/la-spiaggia.html', tier: 'mid' },
+      { name: 'Hotel Villa Adriana', note: 'Independent — Via IV Novembre, seasonal outdoor pool, garden and free parking, a level walk to Fegina beach · 9.0 Booking.com', url: 'https://www.booking.com/hotel/it/villa-adriana-monterosso-al-mare.html', tier: 'expensive' },
+      { name: 'Hotel Il Colle di Monterosso', note: 'Independent — Colle di Gritta hilltop above Monterosso, garden terraces with Ligurian Sea panorama, free shuttle to the village · 9.3 Booking.com', url: 'https://www.booking.com/hotel/it/il-colle-di-monterosso.html', tier: 'luxury' }
+    ], price: { budget: '€100–200', mid: '€200–350', expensive: '€350–500', luxury: '€500+' } },
     'coeur-dalene': { h: [
       { name: 'SpringHill Suites Coeur d\'Alene', note: 'Marriott SpringHill brand — 2250 West Seltice Way beside the Riverstone district, indoor pool, all-suite rooms, 24h reception · 9.0 Booking.com', url: 'https://www.booking.com/hotel/us/springhill-suites-coeur-d-alene.html' },
       { name: 'Best Western Plus Coeur d\'Alene Inn', note: 'Best Western Plus — indoor pool and hot tub, on-site dining, minutes from downtown and the lake · 8.4 Booking.com', url: 'https://www.booking.com/hotel/us/coeur-d-alene-inn.html' },
@@ -6685,11 +6685,11 @@ window.TVE.home = (function () {
       { name: 'Belmond Sanctuary Lodge', note: 'Belmond brand — only hotel at the ruins gate, exclusive early private access before site opens, 31 rooms, Mapi restaurant · 9.2 Booking.com', url: 'https://www.booking.com/hotel/pe/belmond-sanctuary-lodge.html', tier: 'luxury' }
     ], price: { budget: '$60–120', mid: '$120–300', expensive: '$300–600', luxury: '$600+' } },
     'madeira': { h: [
-      { name: 'Reid\'s Palace, A Belmond Hotel', note: 'Belmond brand — 1891 clifftop landmark, seawater pools, afternoon tea tradition, lush subtropical gardens · 9.2 Booking.com', url: 'https://www.booking.com/hotel/pt/reids-palace.html' },
-      { name: 'Choupana Hills Boutique Hotel', note: 'Small Luxury Hotels — adults-only, thatched eco-bungalows above Funchal in eucalyptus forest, pool · 9.1 Booking.com', url: 'https://www.booking.com/hotel/pt/choupana-hills-resort-spa.html' },
-      { name: 'Belmond Reid\'s Palace Madeira', note: 'Belmond brand — clifftop pioneer since 1891, three pools, William restaurant, tennis courts · 9.4 Booking.com', url: 'https://www.booking.com/hotel/pt/reids-palace.html' },
-      { name: 'Bettencourt Boutique Hotel', note: 'Independent — 19th-century Funchal mansion, outdoor pool, garden with Monte Palace views, 12 rooms · 9.5 Booking.com', url: 'https://www.booking.com/hotel/pt/bettencourt-boutique-hotel.html' }
-    ] },
+      { name: 'Bettencourt Boutique Hotel', note: 'Independent — 19th-century Funchal mansion, outdoor pool, garden with Monte Palace views, 12 rooms · 9.5 Booking.com', url: 'https://www.booking.com/hotel/pt/bettencourt-boutique-hotel.html', tier: 'budget' },
+      { name: 'Castanheiro Boutique Hotel', note: 'Independent — São Pedro, 250 m from downtown, air conditioning, sustainability certified · 9.3 Booking.com', url: 'https://www.booking.com/hotel/pt/castanheiro-boutique-hotel.html', tier: 'mid' },
+      { name: 'Choupana Hills Boutique Hotel', note: 'Small Luxury Hotels — adults-only, thatched eco-bungalows above Funchal in eucalyptus forest, pool · 9.1 Booking.com', url: 'https://www.booking.com/hotel/pt/choupana-hills-resort-spa.html', tier: 'expensive' },
+      { name: 'Reid\'s Palace, A Belmond Hotel', note: 'Belmond brand — 1891 clifftop landmark, seawater pools, afternoon tea tradition, lush subtropical gardens · 9.2 Booking.com', url: 'https://www.booking.com/hotel/pt/reids-palace.html', tier: 'luxury' }
+    ], price: { budget: '€60–120', mid: '€120–220', expensive: '€220–380', luxury: '€380+' } },
     'madrid': { h: [
       { name: 'ibis Madrid Centro', note: 'Accor ibis brand — Calle de la Salud near Gran Vía and Sol metro, 24h reception, air conditioning · 7.8 Booking.com', url: 'https://www.booking.com/hotel/es/ibis-madrid-centro.html', tier: 'budget' },
       { name: 'Room Mate Oscar', note: 'Room Mate Hotels — Chueca neighbourhood on Plaza Vázquez de Mella, rooftop pool and bar, 24h reception · 8.7 Booking.com', url: 'https://www.booking.com/hotel/es/room-mate-oscar-madrid.html', tier: 'budget' },
@@ -11312,7 +11312,7 @@ window.TVE.home = (function () {
       'ABQ','AES','AGP','AJU','AMM','AMS','ANC','ARN','ATH','ATL','AUA','AUH','AUS','BCN','BDS','BER',
       'BGI','BGO','BIO','BKK','BLQ','BNA','BOB','BOD','BOS','BRU','BUD','CAI','CDG','CKG','CLT','CMB','CNX',
       'CPH','CPT','CUN','CUR','CUZ','CWB','DBV','DEN','DFW','DOH','DPS','DTW','DUB','DUS','DXB','EDI',
-      'EYW','EZE','FAO','FCA','FCO','FHR','FLN','FLR','FOR','FRA','GCM','GIG','GLA','GOT','GPS','GRU','GVA','HAM',
+      'EYW','EZE','FAO','FCA','FCO','FHR','FLN','FLR','FNC','FOR','FRA','GCM','GIG','GLA','GOT','GPS','GRU','GVA','HAM',
       'HAN','HEL','HER','HKG','HKT','HND','IAD','IAH','ICN','IGU','IST','JFK','JMK','JPA','JTR','KEF','KIX','KOA',
       'KRK','KTM','LAS','LAX','LGA','LGW','LHR','LIH','LIM','LIS','LJU','LPQ','LUX','LYS','MAD','MAN','MCT','MEL',
       'MIA','MCO','MCZ','MLA','MLE','MRS','MSP','MSY','MUC','MVD','MXP','NAP','NAS','NAT','NCE','OGG','OPO','ORD','ORS','ORY',

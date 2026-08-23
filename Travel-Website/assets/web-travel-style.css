@@ -59,6 +59,17 @@ html { overflow-x: clip; }
      rule 2026-08-20, measured off the lounges-us legend row). Closer than
      this and the two borders start reading as one merged hairline. */
   --fam-gap:    10px;
+  /* ONE SIZE FOR THE WHOLE FAMILY — the settle, owner rule 2026-08-23. The
+     site had drifted to two extremes: the shared 11px/3px 8px box (cards-atm,
+     scams, tipping) read as fine print, and /essentials/budget/ carried a
+     page-scoped .ci-btn upsize to 15px/7px 14px that read as a row of
+     buttons. Neither is the size — this token is, and it is the ONLY place
+     the number lives. A page NEVER restates a font-size or a padding on a
+     .badge / .pill-badge; if one reads wrong, the token moves and every page
+     moves with it (badge and pill-badge are one element — see the block at
+     "ONE BOX, ONE CASE"). */
+  --fam-fs:     13px;
+  --fam-pad:    5px 11px;
   /* Border RGB triplets — one source for BOTH alphas of the ladder:
      rest rgba(...,.4), selected rgba(...,.85). Owner's own pattern. */
   --fam-yellow-rgb:122,88,0;   --fam-green-rgb:26,90,26;    --fam-red-rgb:122,58,26;
@@ -492,14 +503,40 @@ a.apply-btn, a.apply-btn:hover, .apply-btn, .apply-btn:hover,
    Supersedes the 2026-08-19 "no hover animation, 4px rect" decision below. */
 .sibling-pill { font-family: inherit;
   box-sizing: border-box; display: inline-flex; align-items: center; line-height: 1.2;
-  font-size: 14px; font-weight: 600; color: var(--rust, #C04E1A); padding: 8px 18px;
+  font-size: 14px; font-weight: 600; padding: 8px 18px;
   border: 1px solid rgba(192,78,26,.30); border-radius: 999px; background: #fff;
   text-decoration: none;
 }
+.sibling-pill:not([class*="fam-"]) { color: var(--rust, #C04E1A); }
 @media (hover:hover) {
-  .sibling-pill:hover { background: #fdf4ed; border-color: rgba(192,78,26,.55); }
+  .sibling-pill:not([class*="fam-"]):hover { background: #fdf4ed; border-color: rgba(192,78,26,.55); }
+  .sibling-pill[class*="fam-"]:hover { filter: brightness(.97); }
 }
-a.sibling-pill:visited { color: #C04E1A; }  /* literal hex — Chrome doesn't resolve var() in :visited */
+a.sibling-pill:not([class*="fam-"]):visited { color: #C04E1A; }  /* literal hex — Chrome doesn't resolve var() in :visited */
+
+/* ── A COLOURED PILL NEVER CARRIES A TERRACOTTA LABEL (owner rule 2026-08-23) ──
+   Owner, on the Where to Stay sibling row: "the color pills with terracota fonts
+   looks terrible … the only one it is okay is the toolbar combination" — the
+   toolbar combination being white fill + terracotta rim + terracotta label.
+   On any coloured fill the label takes that family's own --fam-*-ink, which
+   was ALREADY the correct value in .fam-* at the foot of this file. The bug
+   was purely specificity: a.sibling-pill:visited scores (0,2,1) and beat
+   .fam-green (0,1,0), so all six pills on Where to Stay rendered terracotta
+   the moment the reader had visited them — which, on a cross-link row, is
+   almost immediately. Unvisited they were correct, which is why this survived
+   review: the defect is invisible in a fresh profile.
+   Both the base colour and the :visited colour are now scoped away from any
+   pill carrying a fam-* class. Never drop the :not() and never re-add a
+   terracotta colour here without one. Hard-failed by
+   brain_check.check_terracotta_font_only_on_paper. */
+a.sibling-pill.fam-yellow, a.sibling-pill.fam-yellow:visited { color: var(--fam-yellow-ink); border-color: var(--fam-yellow-bd); background: var(--fam-yellow-bg); }
+a.sibling-pill.fam-green, a.sibling-pill.fam-green:visited { color: var(--fam-green-ink); border-color: var(--fam-green-bd); background: var(--fam-green-bg); }
+a.sibling-pill.fam-red, a.sibling-pill.fam-red:visited { color: var(--fam-red-ink); border-color: var(--fam-red-bd); background: var(--fam-red-bg); }
+a.sibling-pill.fam-blue, a.sibling-pill.fam-blue:visited { color: var(--fam-blue-ink); border-color: var(--fam-blue-bd); background: var(--fam-blue-bg); }
+a.sibling-pill.fam-purple, a.sibling-pill.fam-purple:visited { color: var(--fam-purple-ink); border-color: var(--fam-purple-bd); background: var(--fam-purple-bg); }
+a.sibling-pill.fam-orange, a.sibling-pill.fam-orange:visited { color: var(--fam-orange-ink); border-color: var(--fam-orange-bd); background: var(--fam-orange-bg); }
+a.sibling-pill.fam-pink, a.sibling-pill.fam-pink:visited { color: var(--fam-pink-ink); border-color: var(--fam-pink-bd); background: var(--fam-pink-bg); }
+a.sibling-pill.fam-grey, a.sibling-pill.fam-grey:visited { color: var(--fam-grey-ink); border-color: var(--fam-grey-bd); background: var(--fam-grey-bg); }
 
 /* ── RETIRED 2026-08-17 — the "Also on this site" strip (owner rule) ─────────
    .also-strip / .also-strip-head / .also-links are DELETED. The end-of-page
@@ -563,9 +600,9 @@ a.also-on-this-site-pill:active {
 /* sibling-pill dark-mode contrast fix: #D4663A on #2a2825 measures 4.03:1, under WCAG AA.
    Same fix as .an-cbtn in neighborhoods/index.html — use body text colour instead. */
 @media (prefers-color-scheme: dark) {
-  .sibling-pill { color: var(--text); }
+  .sibling-pill:not([class*="fam-"]) { color: var(--text); }
 }
-:root[data-theme="dark"] .sibling-pill { color: var(--text); }
+:root[data-theme="dark"] .sibling-pill:not([class*="fam-"]) { color: var(--text); }
 
 /* ── Form B glued grid — `.tve-glue` ────────────────────────────────────────
    THE one way to collapse adjacent cell borders into a single seam. Put
@@ -1471,7 +1508,11 @@ a.bo-x-hit-cat:hover { border-color: var(--rust, #C04E1A); text-decoration: none
 }
 .days-jump-item:last-child { border-bottom: none; }
 .days-jump-item:hover { background: rgba(184,134,11,.06); }
-.days-jump-item.on { background: rgba(184,134,11,.1); color: #C04E1A; font-weight: 600; }
+/* GOLD GROUND -> GOLD INK (owner rule 2026-08-23: terracotta type is legal only
+   on the toolbar combination — paper ground, terracotta rim, terracotta label).
+   These carry a gold wash and a gold rim, so the label is gold too.
+   Hard-failed by brain_check.check_terracotta_font_only_on_paper. */
+.days-jump-item.on { background: rgba(184,134,11,.1); color: var(--fam-yellow-ink, #7a5800); font-weight: 600; }
 .disc-btn {
   display: inline-flex;
   align-items: center;
@@ -2409,10 +2450,10 @@ body > .hero-ground {
   border-radius: var(--fam-radius, 4px);
   white-space: nowrap;
   line-height: 1.5;
-  font-size: 11px;
+  font-size: var(--fam-fs, 13px);
   font-weight: 700;
   letter-spacing: 0.04em;
-  padding: 3px 8px;
+  padding: var(--fam-pad, 5px 11px);
   text-transform: uppercase;
 }
 

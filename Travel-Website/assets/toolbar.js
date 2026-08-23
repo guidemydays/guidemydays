@@ -7395,11 +7395,11 @@ window.TVE.home = (function () {
       { name: 'Hotel Tayko Sevilla', note: 'Independent — converted 16th-century building in Triana barrio, rooftop pool and bar with Guadalquivir views · 8.8 Booking.com', url: 'https://www.booking.com/hotel/es/tayko-sevilla.html', tier: 'luxury' }
     ], price: { budget: 'EUR 90–150', mid: 'EUR 150–250', expensive: 'EUR 250–400', luxury: 'EUR 400+' } },
     'seychelles': { h: [
-      { name: 'North Island Lodge', note: 'Independent ultra-luxury — private island, 11 villas, barefoot luxury philosophy, exclusive conservation reserve · 9.7 Booking.com', url: 'https://www.booking.com/hotel/sc/north-island.html' },
-      { name: 'Six Senses Zil Pasyon', note: 'Six Senses brand — private island Félicité, overwater spa, hilltop villas, coral reef · 9.6 Booking.com', url: 'https://www.booking.com/hotel/sc/six-senses-zil-pasyon.html' },
-      { name: 'Four Seasons Resort Seychelles', note: 'Four Seasons — Petite Anse on Mahé, 30 private-plunge-pool villas, Kannel restaurant · 9.5 Booking.com', url: 'https://www.booking.com/hotel/sc/four-seasons-seychelles.html' },
-      { name: 'Maia Luxury Resort & Spa', note: 'Small Luxury Hotels — private cove on Mahé, 30 all-pool villas, butler service, sunset cliff bar · 9.5 Booking.com', url: 'https://www.booking.com/hotel/sc/maia.html' }
-    ] },
+      { name: 'Maia Luxury Resort & Spa', note: 'Small Luxury Hotels — private cove on Mahé, 30 all-pool villas, butler service, sunset cliff bar · 9.5 Booking.com', url: 'https://www.booking.com/hotel/sc/maia.html', tier: 'budget' },
+      { name: 'Four Seasons Resort Seychelles', note: 'Four Seasons — Petite Anse on Mahé, 30 private-plunge-pool villas, Kannel restaurant · 9.5 Booking.com', url: 'https://www.booking.com/hotel/sc/four-seasons-seychelles.html', tier: 'mid' },
+      { name: 'Six Senses Zil Pasyon', note: 'Six Senses brand — private island Félicité, overwater spa, hilltop villas, coral reef · 9.6 Booking.com', url: 'https://www.booking.com/hotel/sc/six-senses-zil-pasyon.html', tier: 'expensive' },
+      { name: 'North Island Lodge', note: 'Independent ultra-luxury — private island, 11 villas, barefoot luxury philosophy, exclusive conservation reserve · 9.7 Booking.com', url: 'https://www.booking.com/hotel/sc/north-island.html', tier: 'luxury' }
+    ], price: { budget: 'SCR 3,000–6,000', mid: 'SCR 6,000–12,000', expensive: 'SCR 12,000–22,000', luxury: 'SCR 22,000+' } },
     'shanghai': { h: [
       { name: 'The Peninsula Shanghai', note: 'Peninsula brand — 1929 Bund landmark, rooftop Peter Café & Bar, helicopter landing, Bund-view rooms · 9.4 Booking.com' , url: 'https://www.booking.com/hotel/cn/the-peninsula-shanghai.html' },
       { name: 'Waldorf Astoria Shanghai on the Bund', note: 'Hilton family — 1911 Shanghai Club, Bund-facing, indoor pool, Long Bar history · 9.3 Booking.com' , url: 'https://www.booking.com/hotel/cn/waldorf-astoria-shanghai-on-the-bund.html' },
@@ -7574,11 +7574,12 @@ window.TVE.home = (function () {
       { name: 'Eurostars Palacio Buenavista', note: 'Eurostars Hotels — Buenavista Palace 3 km west of the walls, outdoor pool, spa, city panoramas · 9.0 Booking.com', url: 'https://www.booking.com/hotel/es/eurostars-buenavista.html', tier: 'luxury' }
     ], price: { budget: '€90–140', mid: '€140–190', expensive: '€190–250', luxury: '€250+' } },
     'toronto': { h: [
-      { name: 'The Hazelton Hotel', note: 'Independent luxury — Yorkville, private cinema, ONE Restaurant by Mark McEwan, spa · 9.3 Booking.com' , url: 'https://www.booking.com/hotel/ca/the-hazelton.html' },
-      { name: 'Four Seasons Hotel Toronto', note: 'Four Seasons brand — Yorkville, outdoor pool, Café Boulud, spa, gallery-level art collection · 9.1 Booking.com' , url: 'https://www.booking.com/hotel/ca/four-seasons-hotel-toronto.html' },
-      { name: 'Shangri-La Hotel Toronto', note: 'Shangri-La brand — University Avenue, indoor pool, CHI Spa, Bosk restaurant, close to the Financial District and Eaton Centre · 9.1 Booking.com' , url: 'https://www.booking.com/hotel/ca/shangri-la-toronto.html' },
-      { name: 'Fairmont Royal York', note: 'Fairmont brand — 1929 Front Street landmark opposite Union Station, indoor pool, spa, Library Bar, city-centre heritage · 8.6 Booking.com' , url: 'https://www.booking.com/hotel/ca/fairmont-royal-york.html' }
-    ] },
+      { name: 'Chelsea Hotel Toronto', note: 'Independent — 33 Gerrard Street W, downtown, indoor and outdoor pools, close to Yonge-Dundas Square · 8.0 Booking.com', url: 'https://www.booking.com/hotel/ca/toronto-chelsea.html', tier: 'budget' },
+      { name: 'Fairmont Royal York', note: 'Fairmont brand — 1929 Front Street landmark opposite Union Station, indoor pool, spa, Library Bar, city-centre heritage · 8.6 Booking.com', url: 'https://www.booking.com/hotel/ca/fairmont-royal-york.html', tier: 'mid' },
+      { name: 'Shangri-La Hotel Toronto', note: 'Shangri-La brand — University Avenue, indoor pool, CHI Spa, Bosk restaurant, close to the Financial District and Eaton Centre · 9.1 Booking.com', url: 'https://www.booking.com/hotel/ca/shangri-la-toronto.html', tier: 'expensive' },
+      { name: 'The Hazelton Hotel', note: 'Independent luxury — Yorkville, private cinema, ONE Restaurant by Mark McEwan, spa · 9.3 Booking.com', url: 'https://www.booking.com/hotel/ca/the-hazelton.html', tier: 'luxury' },
+      { name: 'Four Seasons Hotel Toronto', note: 'Four Seasons brand — Yorkville, outdoor pool, Café Boulud, spa, gallery-level art collection · 9.1 Booking.com', url: 'https://www.booking.com/hotel/ca/four-seasons-hotel-toronto.html', tier: 'luxury' }
+    ], price: { budget: 'CAD 160–280', mid: 'CAD 280–430', expensive: 'CAD 430–680', luxury: 'CAD 680–1,300' } },
     'tromso': { h: [
       { name: 'Scandic Ishavshotel', note: 'Scandic brand — Arctic Ocean waterfront, panoramic views of the fjord and Tromsø Cathedral, 24h reception · 8.4 Booking.com', url: 'https://www.booking.com/hotel/no/scandic-ishavshotel.html', tier: 'budget' },
       { name: 'Thon Hotel Tromsø', note: 'Thon Hotels — city centre, harbor views, rooftop Tromsø Bar with panorama, 24h reception · 8.7 Booking.com', url: 'https://www.booking.com/hotel/no/thon-hotel-tromso.html', tier: 'mid' },
@@ -11327,7 +11328,7 @@ window.TVE.home = (function () {
       'LHR','LIH','LIM','LIS','LJU','LPQ','LUX','LYS','MAD','MAN','MCO','MCT','MCZ','MEL','MIA','MLA',
       'MLE','MRS','MSP','MSY','MUC','MVD','MXP','NAP','NAS','NAT','NCE','OAX','OGG','OLB','OPO','ORD',
       'ORS','ORY','OSL','PBH','PDL','PDX','PEK','PHL','PHX','PLS','PMI','PNS','POA','PPS','PRG','PSA',
-      'PSP','PUS','PVG','PVR','RAK','RDM','REC','RHO','RIX','RNO','RSW','SAN','SCL','SEA','SFO','SIN',
+      'PSP','PUS','PVG','PVR','RAK','RDM','REC','RHO','RIX','RNO','RSW','SAN','SCL','SEA','SEZ','SFO','SIN',
       'SJC','SJD','SJO','SJU','SKG','SLC','SLZ','SPU','SRQ','SSA','STR','STT','SVQ','SXB','SYD','SZG','TBS',
       'TFS','TIV','TLL','TOS','TPE','TRN','VCE','VIE','VLC','VNO','VRN','WLG','YQB','YUL','YVR','YYC',
       'DYG','YYZ','ZAG','ZQN','ZRH','ZTH'

@@ -1917,8 +1917,8 @@
 /* 2026-08-23: turin: TRN lounge card, LOUNGE_IATAS, HOTEL_ALT_DATA toolbar.js -> v971. CACHE to v1361. */
 /* 2026-08-23: bhutan: add PBH lounge card, regenerate LOUNGE_IATAS, fix long-walk/uphill times, FN clause toolbar.js -> v973. CACHE to v1363. */
 /* 2026-08-23: big-island: add KOA lounge card, regenerate LOUNGE_IATAS, fix long-walk time toolbar.js -> v974. CACHE to v1364. */
+/* 2026-08-23: chiang-mai: 4-tier HOTEL_ALT_DATA + THB price ranges, CNX LOUNGE_IATAS + lounge card. toolbar.js -> v979. CACHE to v1369. */
 /* 2026-08-23: charlotte, rome, rio-de-janeiro HOTEL_ALT_DATA — 4 tiers + price ranges in each. toolbar.js -> v977. CACHE to v1367. */
-/* 2026-08-23: turks-and-caicos HOTEL_ALT_DATA tier+price fields toolbar.js -> v979. CACHE to v1369. */
 var CACHE = 'travel-cache-v1369';
 
 /* The guide-calendar hand-off cache. Written by toolbar.js, read and emptied

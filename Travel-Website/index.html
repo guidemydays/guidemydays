@@ -8608,7 +8608,9 @@ function render() {
     var iso = g.cur;
     if (!iso) return null;
     var r = RATES && rateByIso(iso);
-    return r && r.sym ? r.sym + ' ' + iso : iso;
+    /* Not every currency has a symbol distinct from its code — XPF and SCR
+       are filed with sym == iso, which printed "XPF XPF" on the card. */
+    return (r && r.sym && r.sym !== iso) ? r.sym + ' ' + iso : iso;
   }
   function rateByIso(iso) {
     for (var k in RATES) if (RATES[k] && RATES[k].iso === iso) return RATES[k];

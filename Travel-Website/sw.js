@@ -1991,7 +1991,8 @@
 /* 2026-08-23: toolbar.js comment-only: the 'uphill' sprite comment named the retired #169 pine walking figure after the artwork behind the key became the ramp #1452 in a64fcab8b. Retargeted, with the reason the SHAPE changed rather than the colour, and an explicit never-re-point-uphill-at-#169. No behaviour change, but the file's bytes moved, so the floor moves with it. toolbar.js -> v1043. CACHE to v1437. */
 /* 2026-08-23: the finder measures jet lag from the airport the reader named, not their device clock — airport rows carry an IANA zone and TVE.home carries it with the choice. toolbar.js -> v1044. CACHE to v1438. */
 /* 2026-08-23: packing list gains Save for Offline — the guide feature generalised: ticked state and the typed trip length survive into the file, .open collapsibles are opened, and every linked stylesheet is inlined rather than guide-style.css alone toolbar.js -> v1045. CACHE to v1439. */
-var CACHE = 'travel-cache-v1439';
+/* 2026-08-23: index.html — a currency with no distinct symbol no longer prints its code twice on the facts line (XPF, SCR). toolbar.js -> v1046. CACHE to v1440. */
+var CACHE = 'travel-cache-v1440';
 
 /* The guide-calendar hand-off cache. Written by toolbar.js, read and emptied
    once by the fetch handler below, and EXEMPT from the activate sweep — it is
@@ -2004,7 +2005,7 @@ var ICS_OUTBOX = 'gmd-ics-outbox';
    THIS IS THE ONLY PLACE to bump toolbar.js / guide-style.css versions.
    NEVER bump ?v= inside guide HTML — it breaks HMAC stamps and forces re-validation
    of 230+ guides. Instead, bump MIN_VERSIONS here + increment the CACHE version. */
-var MIN_VERSIONS = { 'guide-style.css': 264,'toolbar.js': 1045, 'mobile.css': 88, 'web-travel-style.css': 95, 'guides-index-style.css': 25, 'read-about.css': 6, 'best-of-features.js': 4, 'best-of-cross-data.js': 24, 'weather.js': 12, 'trains.css': 11, 'trains.js': 2, 'airlines.css': 2, 'airlines.js': 2, 'passport.js': 4 };
+var MIN_VERSIONS = { 'guide-style.css': 264,'toolbar.js': 1046, 'mobile.css': 88, 'web-travel-style.css': 95, 'guides-index-style.css': 25, 'read-about.css': 6, 'best-of-features.js': 4, 'best-of-cross-data.js': 24, 'weather.js': 12, 'trains.css': 11, 'trains.js': 2, 'airlines.css': 2, 'airlines.js': 2, 'passport.js': 4 };
 
 function rewriteAssetUrl(urlStr) {
   var u;

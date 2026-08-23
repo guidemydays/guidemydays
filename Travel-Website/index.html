@@ -2219,9 +2219,6 @@ summary.res-head:focus-visible { outline: 2px solid var(--rust, #C04E1A); outlin
 .tt-or { font-size:10px; font-weight:700; letter-spacing:.1em; text-transform:uppercase; color:var(--muted); margin:16px 0 12px; display:flex; align-items:center; gap:10px; }
 .tt-or::before,.tt-or::after { content:''; flex:1; height:1px; background:var(--border2,#e6e2da); }
 .tt-section { margin-bottom:14px; }
-.tt-sug-item { display:block; width:100%; text-align:left; background:none; border:0; border-bottom:1px solid var(--border2,#e6e2da); padding:9px 14px; font-size:13px; color:var(--text,#1a1917); cursor:pointer; font-family:inherit; white-space:nowrap; }
-.tt-sug-item:last-child { border-bottom:0; }
-.tt-sug-item:hover { background:rgba(184,134,11,.06); color:#8a6c1a; }
 .tt-res-head { font-size:10px; font-weight:700; letter-spacing:.12em; text-transform:uppercase; color:var(--muted); margin:0 0 14px; }
 .hc-pill-result { display:flex; align-items:center; gap:10px; padding:13px 16px; width:fit-content; min-width:180px; background:var(--surface,#fff); border:1px solid var(--border,#e3ddd2); border-left:3px solid #C04E1A; border-radius:8px; text-decoration:none; color:var(--text,#1a1917); font-size:14px; font-weight:600; margin-bottom:8px; }
 .hc-pill-result:hover { background:var(--surface2,#faf7f2); border-color:var(--rust, #C04E1A); color:var(--accent, #8a6c1a); }
@@ -2303,21 +2300,29 @@ summary.res-head:focus-visible { outline: 2px solid var(--rust, #C04E1A); outlin
 
 /* ── Trip Twin ──────────────────────────────────────────────────────── */
 #trip-twin-panel { margin:8px 0 20px; padding:20px 22px 22px; background:var(--warm); border:1px solid var(--border); border-radius:12px; box-shadow:0 4px 16px rgba(122,59,30,.08); }
-#trip-twin-panel[hidden],#tt-inner[hidden],#tt-results[hidden],#tt-suggest-list[hidden],#tt-city-badge[hidden],#tt-err[hidden] { display:none !important; }
+#trip-twin-panel[hidden],#tt-inner[hidden],#tt-results[hidden],#tt-home-read[hidden],#tt-err[hidden] { display:none !important; }
 .tt-tagline { font-size:13px; color:var(--muted); margin:0 0 18px; line-height:1.5; }
 .tt-label { font-size:10px; font-weight:700; letter-spacing:.1em; text-transform:uppercase; color:var(--muted); margin:0 0 7px; }
 .tt-or { font-size:10px; font-weight:700; letter-spacing:.1em; text-transform:uppercase; color:var(--muted); margin:16px 0 12px; display:flex; align-items:center; gap:10px; }
 .tt-or::before,.tt-or::after { content:''; flex:1; height:1px; background:var(--border2,#e6e2da); }
 .tt-section { margin-bottom:14px; }
-#tt-city-row { margin-bottom:4px; }
-#tt-city { width:280px; height:36px; box-sizing:border-box; padding:0 12px; font-size:13px; font-family:inherit; border:1.5px solid var(--border2,#e6e2da); border-radius:6px; background:var(--surface,#fff); color:var(--text,#1a1917); outline:none; transition:border-color .15s; }
-#tt-city:focus { border-color:#C04E1A; }
-#tt-city-wrap { position:relative; display:inline-block; }
-#tt-suggest-list { position:absolute; top:calc(100% + 4px); left:0; z-index:60; min-width:200px; background:var(--warm); border:1px solid var(--border); border-radius:8px; overflow:hidden; box-shadow:0 6px 18px rgba(0,0,0,.12); }
-.tt-sug-item { display:block; width:100%; text-align:left; background:none; border:0; border-bottom:1px solid var(--border2,#e6e2da); padding:9px 14px; font-size:13px; color:var(--text,#1a1917); cursor:pointer; font-family:inherit; white-space:nowrap; }
-.tt-sug-item:last-child { border-bottom:0; }
-.tt-sug-item:hover { background:rgba(184,134,11,.06); color:#8a6c1a; }
-#tt-city-badge { display:inline-block; margin-left:10px; font-size:12px; color:#8a6c1a; font-weight:500; vertical-align:middle; }
+/* WHERE YOU ARE — one row, one control (2026-08-23). The hand-rolled text box
+   and its own suggest list are DELETED: #tt-city, #tt-city-wrap,
+   #tt-suggest-list, .tt-sug-item and #tt-city-badge were a second airport/city
+   search on a page that already had the site's one implementation, and they
+   could only find the fleet's own guide cities. The picker mounted here is
+   TVE.home's, so the box, the popover, the ranked list and the tick all come
+   from the same place Compare's does. */
+#tt-city-row { margin-bottom:18px; }
+/* THE DERIVED FACT. The reader answered one question; this is the card showing
+   what it worked out from it, in the same muted voice a .fnd-note uses, so the
+   ranking below is checkable rather than magic. */
+#tt-home-read {
+  margin: 9px 0 0;
+  font-size: 12px;
+  line-height: 1.45;
+  color: var(--muted, #6a6660);
+}
 /* #tt-go WEARS .fnd-go, BUT AN ID BEATS A CLASS — so the geometry has to be
    restated at id strength. guides-index-style.css styles `#tt-go` for the
    guides index's copy of this widget (38px tall, 6px corners, 13px type, a `›`
@@ -2351,9 +2356,11 @@ summary.res-head:focus-visible { outline: 2px solid var(--rust, #C04E1A); outlin
 #tt-go:disabled { background:var(--border2,#e6e2da); border-color:var(--border2,#e6e2da); color:var(--muted); cursor:default; }
 #tt-go:disabled:hover { background:var(--border2,#e6e2da); border-color:var(--border2,#e6e2da); color:var(--muted); }
 .tt-res-head { font-size:10px; font-weight:700; letter-spacing:.12em; text-transform:uppercase; color:var(--muted); margin:0 0 14px; }
-#tt-city { width:100%; }
+/* The old #tt-city / #tt-city-wrap phone widths went with the box they sized.
+   The picker mounted in their place is inline-block, and its popover is capped
+   at min(280px, 100vw - 32px) by .pp-pop — the width rule Compare's copy of the
+   same control already proved on a 393px screen. */
 #tt-city-row { width:100%; }
-#tt-city-wrap { display:block; width:100%; }
 
 /* Plug strip — the socket photos that ship with the plug guide, at a size where
    you can actually tell a Type G from a Type F. */
@@ -3655,67 +3662,48 @@ window.lpGuideCard = function (href, flag, name, extra) {
       <button id="btn-trip-twin" hidden aria-hidden="true"></button>
     <div id="trip-twin-panel" hidden>
       <div id="tt-inner">
-        <p class="tt-tagline">Find guides that are nothing like home — the opposite climate, opposite budget, total change of scene.</p>
+        <p class="tt-tagline">Tell us where you are and we work out the rest — the guides with the least in common with home.</p>
+        <!-- ONE QUESTION, BECAUSE WE ALREADY HOLD THE ANSWER TO THE REST
+             (owner, 2026-08-23: "i think we should ask where the person is and we
+             know the rest already?" &middot; "dont we have all this date already?").
+
+             What stood here asked the SAME question twice: a city box, then an
+             "or describe your home" divider over two rows of chips for climate
+             and cost. The chips were not a shortcut &mdash; they were the fallback,
+             because the city box only searched the fleet's own guide cities and
+             told a reader in Milwaukee "Not in our guides &mdash; use the options
+             below". So the tool asked the reader to hand-classify their own
+             weather, and the answer it gave was measured against a chip.
+
+             Now the card asks where you are, once, with the site's own airport
+             picker &mdash; 3,268 airports, every inhabited part of the world, the same
+             control and the same ranked search Compare and the Flights picker
+             use (TVE.home.mount) &mdash; and reads the climate off
+             assets/home-climate.json, a monthly normal baked for every one of
+             those airports from the SAME Open-Meteo source the guide cities are
+             measured with (build_home_climate.py). A reader's home and a guide
+             city are now the same measurement, so the contrast between them is
+             a real number rather than a bracket the reader guessed at.
+
+             THE COST QUESTION IS GONE, DELIBERATELY, and it is not coming back as
+             a guess. There is no cost-of-living dataset for the world's cities on
+             this site &mdash; COST_DATA covers the fleet and nothing else &mdash; so the
+             only honest ways to fill that row were to ask the reader (which is
+             the hand-classifying this pass removes) or to invent it. The owner's
+             own rule of 2026-08-22 already says the money answer is not a
+             property of where someone lives: "people can travel to the same
+             places and spend 500 a day or 50". Cost survives where it is real:
+             as a filter on the DESTINATION, in the guides index and in Help Me
+             Choose. -->
         <div id="tt-city-row">
-          <div class="tt-label">Where you are <span style="font-weight:400;font-size:9px;letter-spacing:.04em;text-transform:none;color:var(--muted)">(optional — any fleet city as a proxy)</span></div>
-          <div id="tt-city-wrap">
-            <input type="text" id="tt-city" placeholder="City (Miami, Tokyo…)" autocomplete="off" spellcheck="false" aria-label="Your current city">
-            <div id="tt-suggest-list" hidden></div>
-          </div>
-          <span id="tt-city-badge" hidden></span>
-        </div>
-        <div class="tt-or">or describe your home</div>
-        <div class="tt-section">
-          <div class="tt-label">Climate</div>
-          <div class="ttchip-row" id="tt-climate-chips">
-            <button type="button" class="ttchip" data-v="hot"><svg viewBox="0 0 24 24" width="14" height="14" aria-hidden="true" style="vertical-align:middle;flex-shrink:0"><use href="#gm-i-wx-hot"/></svg> Hot &amp; humid</button>
-            <button type="button" class="ttchip" data-v="warm"><svg viewBox="0 0 24 24" width="14" height="14" aria-hidden="true" style="vertical-align:middle;flex-shrink:0"><use href="#gm-i-wx-clear"/></svg> Warm &amp; sunny</button>
-            <button type="button" class="ttchip" data-v="mild"><svg viewBox="0 0 24 24" width="14" height="14" aria-hidden="true" style="vertical-align:middle;flex-shrink:0"><use href="#gm-i-wx-partly"/></svg> Mild</button>
-            <button type="button" class="ttchip" data-v="cool"><svg viewBox="0 0 24 24" width="14" height="14" aria-hidden="true" style="vertical-align:middle;flex-shrink:0"><use href="#gm-i-wx-overcast"/></svg> Cool</button>
-            <button type="button" class="ttchip" data-v="cold"><svg viewBox="0 0 24 24" width="14" height="14" aria-hidden="true" style="vertical-align:middle;flex-shrink:0"><use href="#gm-i-wx-snow"/></svg> Cold</button>
-          </div>
-        </div>
-        <div class="tt-section">
-          <!-- FOUR BRACKETS, NO DOLLAR FIGURE (owner rule 2026-08-23: "change money
-               part remove valor and add like either the hotel way or the filter
-               above" &middot; "we should have 4 ranges in the money part").
-
-               The three chips that stood here named a price per night &mdash; "Budget
-               (under $100)", "Mid-range ($100&ndash;$250)", "Premium ($250+)" &mdash; and every
-               one of those numbers was wrong twice over. A figure in dollars is
-               what a READER CHOOSES to spend, which says nothing about where they
-               live (owner rule 2026-08-22, the same reason Help Me Choose stopped
-               asking it: "people can travel to the same places and spend 500 a day
-               or 50"); and the numbers were a fourth opinion about cost, against
-               /essentials/budget/, COST_DATA and the guides-index filter, which all
-               use FOUR named brackets and no money at all.
-
-               The guides index's own copy of this widget made exactly this change on
-               2026-08-22 and the landing page was the stale lift; the label and the
-               four chips below are ITS wording and ITS icons, character for
-               character, so the two copies of one tool ask one question.
-
-               So this is now the vocabulary of the filter above, word for word &mdash;
-               Cheap &middot; Moderate &middot; Expensive &middot; Very expensive &mdash; and four of them, one per
-               COST_DATA tier (Budget x44, Moderate x111, Expensive x58, Premium
-               x24). It reads as an ORDINAL 1&ndash;4 in costLevel() below, so the escape
-               contrast is a distance in brackets, not in dollars.
-
-               ICONS updated 2026-08-23 (owner: "use all coins this looks ugly, copy
-               the coins used in the hotels recommendation") &mdash; the coin/bills/card/
-               money-bag family read as four unrelated objects rather than one
-               escalating scale. Now every chip draws the SAME catalogue coin
-               (#gm-i-coin, Twenty-eighth non-negotiable), stacked 1&ndash;4 with -4px
-               overlap via .tt-coins, byte-identical in spirit to the hotel tier
-               badges' .hr-coins (guide-style.css) and the Cost-of-Living page's
-               .ci-coins (essentials/budget/index.html). -->
-          <div class="tt-label">How expensive it is where you are</div>
-          <div class="ttchip-row" id="tt-budget-chips">
-            <button type="button" class="ttchip" data-v="cheap"><span class="tt-coins"><svg viewBox="0.10 0.10 23.81 23.81" aria-hidden="true"><use href="#gm-i-coin"/></svg></span> Cheap</button>
-            <button type="button" class="ttchip" data-v="moderate"><span class="tt-coins"><svg viewBox="0.10 0.10 23.81 23.81" aria-hidden="true"><use href="#gm-i-coin"/></svg><svg viewBox="0.10 0.10 23.81 23.81" aria-hidden="true"><use href="#gm-i-coin"/></svg></span> Moderate</button>
-            <button type="button" class="ttchip" data-v="expensive"><span class="tt-coins"><svg viewBox="0.10 0.10 23.81 23.81" aria-hidden="true"><use href="#gm-i-coin"/></svg><svg viewBox="0.10 0.10 23.81 23.81" aria-hidden="true"><use href="#gm-i-coin"/></svg><svg viewBox="0.10 0.10 23.81 23.81" aria-hidden="true"><use href="#gm-i-coin"/></svg></span> Expensive</button>
-            <button type="button" class="ttchip" data-v="very"><span class="tt-coins"><svg viewBox="0.10 0.10 23.81 23.81" aria-hidden="true"><use href="#gm-i-coin"/></svg><svg viewBox="0.10 0.10 23.81 23.81" aria-hidden="true"><use href="#gm-i-coin"/></svg><svg viewBox="0.10 0.10 23.81 23.81" aria-hidden="true"><use href="#gm-i-coin"/></svg><svg viewBox="0.10 0.10 23.81 23.81" aria-hidden="true"><use href="#gm-i-coin"/></svg></span> Very expensive</button>
-          </div>
+          <div class="tt-label">Where are you?</div>
+          <span id="tt-home-mount"></span>
+          <!-- WHAT WE WORKED OUT, SAID OUT LOUD. The reader answered one question
+               and the card is about to rank 239 cities against an answer they
+               never gave; this line is where that answer becomes visible and
+               checkable. Same rule as the passport strip in Compare: a fact the
+               tool derives is never silent. -->
+          <p id="tt-home-read" hidden></p>
         </div>
         <!-- NARROW THE ESCAPE (owner 2026-08-22: Trip Escape "gains the rows the finder
              already has the data for"; extended 2026-08-23: "work on the trip escape
@@ -5966,9 +5954,8 @@ function render() {
   var btnTT   = document.getElementById('btn-trip-twin');
   var panel   = document.getElementById('trip-twin-panel');
   var results = document.getElementById('tt-results');
-  var cityIn  = document.getElementById('tt-city');
-  var sugList = document.getElementById('tt-suggest-list');
-  var badge   = document.getElementById('tt-city-badge');
+  var homeMt  = document.getElementById('tt-home-mount');
+  var homeRd  = document.getElementById('tt-home-read');
   var goBtn   = document.getElementById('tt-go');
   var resHead = document.getElementById('tt-res-head');
   var cards   = document.getElementById('tt-res-cards');
@@ -6024,12 +6011,14 @@ function render() {
      no neutral option, because "as different as possible" IS this card's
      default question. */
   clearBtn.addEventListener('click', function () {
-    cityIn.value = '';
+    /* The airport goes too. It is one setting for the whole site (TVE.home), so
+       clearing it here clears it for Compare as well — which is right: this
+       button says "Clear", the reader is looking at one page, and a home that
+       survived a clear would come back to haunt the next card they open. */
+    if (window.TVE && window.TVE.home) window.TVE.home.clear();
+    homeRef = null;
     matchedCard = null;
-    badge.hidden = true;
-    sugList.hidden = true;
-    document.querySelectorAll('#tt-climate-chips .ttchip.on, #tt-budget-chips .ttchip.on')
-      .forEach(function (b) { b.classList.remove('on'); });
+    if (homeRd) { homeRd.hidden = true; homeRd.textContent = ''; }
     SELECTS.forEach(function (id) {
       var el = document.getElementById(id);
       if (el) el.value = (id === 'tt-degree') ? 'max' : '';
@@ -6045,41 +6034,149 @@ function render() {
      because nothing else on this card fires. */
   SELECTS.forEach(function (id) {
     var el = document.getElementById(id);
-    if (el) el.addEventListener('change', updateGo);
-  });
-
-  // Exclusive chip groups
-  ['tt-climate-chips','tt-budget-chips'].forEach(function (id) {
-    var group = document.querySelectorAll('#' + id + ' .ttchip');
-    Array.from(group).forEach(function (btn) {
-      btn.addEventListener('click', function () {
-        Array.from(group).forEach(function (b) { b.classList.remove('on'); });
-        btn.classList.add('on');
-        updateGo();
-      });
+    if (!el) return;
+    el.addEventListener('change', function () {
+      updateGo();
+      /* The month changes what "where you are" MEANS — Seattle in January and
+         Seattle in July are 15°C apart — so the derived line has to follow it,
+         or the card shows an annual average while ranking on a month. */
+      if (id === 'tt-month') paintHomeRead();
     });
   });
 
-  function selVal(id) {
-    var on = document.querySelector('#' + id + ' .ttchip.on');
-    return on ? on.getAttribute('data-v') : null;
+  /* ══ WHERE YOU ARE — one control, one dataset, no self-classifying ═══════
+     assets/home-climate.json is a monthly mean daily high for every airport the
+     picker can offer, baked by build_home_climate.py from the same Open-Meteo
+     source the guide cities use. It is 130 KB and it is fetched ONLY when this
+     card is opened and an airport is picked — a reader who never opens Trip
+     Escape never pays for it. */
+  var HC = null, hcPending = null;
+  function homeClimate(cb) {
+    if (HC) { cb(HC); return; }
+    if (hcPending) { hcPending.push(cb); return; }
+    hcPending = [cb];
+    function done(d) {
+      HC = d || {};
+      var waiting = hcPending; hcPending = null;
+      waiting.forEach(function (fn) { try { fn(HC); } catch (e) {} });
+    }
+    fetch('/assets/home-climate.json')
+      .then(function (r) { return r.ok ? r.json() : null; })
+      .then(function (j) { done((j && j.c) || {}); })
+      .catch(function () { done({}); });
+  }
+
+  /* THE NEAREST AIRPORT WE HAVE MEASURED, when the reader's own is not in the
+     file — and it is named, never silently substituted. Two things put an
+     airport outside the data: Open-Meteo's hourly quota cutting a build short,
+     and a coordinate the reanalysis has no land cell for. Neither is a reason to
+     hand a reader the same six cities everyone else gets, which is what a null
+     reference does: with no temperature to contrast against, every guide scores
+     identically and the list collapses to alphabetical order.
+
+     A real measurement 60 km away is a better answer than no answer, and the
+     line under the picker says which one it used and how far off it is, so the
+     reader can judge it. It searches the picker's own rows — the ones TVE.home
+     already loaded to search — so no second position table exists. */
+  var homeRef = null;                    /* {code, city, km, row} for the pick */
+  function resolveHome(cb) {
+    var h = window.TVE && window.TVE.home && window.TVE.home.get();
+    homeRef = null;
+    if (!h) { cb(null); return; }
+    homeClimate(function () {
+      if (HC[h.code]) {
+        homeRef = { code: h.code, city: h.city, km: 0, row: HC[h.code] };
+        cb(homeRef);
+        return;
+      }
+      window.TVE.home.names(function (rows) {
+        var best = null, bestKm = Infinity;
+        for (var i = 0; i < rows.length; i++) {
+          var r = rows[i];
+          if (!HC[r[0]] || typeof r[5] !== 'number' || typeof r[6] !== 'number') continue;
+          var d = window.TVE.home.km(h.lat, h.lon, r[5], r[6]);
+          if (d < bestKm) { bestKm = d; best = r; }
+        }
+        if (best) homeRef = { code: best[0], city: best[1], km: Math.round(bestKm), row: HC[best[0]] };
+        cb(homeRef);
+      });
+    });
+  }
+
+  /* °F, because that is the scale the whole scorer already works in — the chip
+     values it replaced (92/82/65/55/42) and hiData()'s own conversion both.
+     home-climate.json is stored in °C, so the conversion happens here, once, at
+     the boundary. */
+  function homeAvgHi(mi) {
+    if (!homeRef || !homeRef.row) return null;
+    var row = homeRef.row, c;
+    if (typeof mi === 'number' && typeof row[mi] === 'number') {
+      c = row[mi];
+    } else {
+      var vals = row.filter(function (v) { return typeof v === 'number'; });
+      if (!vals.length) return null;
+      c = vals.reduce(function (a, b) { return a + b; }, 0) / vals.length;
+    }
+    return c * 9 / 5 + 32;
+  }
+
+  var MONTH_NAME = ['January','February','March','April','May','June','July',
+                    'August','September','October','November','December'];
+
+  /* THE DERIVED FACT, SAID OUT LOUD. The card is about to rank 239 cities
+     against a temperature the reader never typed, so it shows the temperature.
+     An airport with no row in the file says so plainly rather than ranking on a
+     number it does not have — the contrast then falls back to the flat 0.5 term
+     contrastOf() already applies to a card with no climate. */
+  function paintHomeRead() {
+    if (!homeRd) return;
+    var h = window.TVE && window.TVE.home && window.TVE.home.get();
+    if (!h) { homeRd.hidden = true; return; }
+    var mi = ttMonth();
+    var f = homeAvgHi(mi);
+    if (f === null) {
+      homeRd.textContent = h.city + ' — we hold no climate reading near ' + h.code +
+        ', so the ranking leans on your other answers.';
+    } else {
+      var c = Math.round((f - 32) * 5 / 9);
+      /* The borrowed reading is named and its distance given. "Measured at X,
+         40 km away" is a fact the reader can accept or overrule by picking a
+         different airport; a silent substitution is one they cannot see. */
+      var src = (homeRef && homeRef.km > 0)
+        ? ' Measured at ' + homeRef.city + ' (' + homeRef.code + '), ' +
+          homeRef.km + ' km away.'
+        : '';
+      homeRd.textContent = h.city + ': ' +
+        (typeof mi === 'number' ? MONTH_NAME[mi] + ' averages ' : 'a typical day is ') +
+        c + '°C / ' + Math.round(f) + '°F.' + src +
+        ' Every guide below is ranked against that.';
+    }
+    homeRd.hidden = false;
+  }
+
+  /* The picker is mounted once, on this card's own row. Picking loads the
+     climate file, repaints the derived line and re-enables the button — and
+     because TVE.home is one setting for the site, a reader who already named
+     their airport in Compare finds this question answered. */
+  if (homeMt && window.TVE && window.TVE.home && window.TVE.home.mount) {
+    window.TVE.home.mount(homeMt, {
+      prompt: 'Choose your airport',
+      onPick: function () { resolveHome(function () { paintHomeRead(); updateGo(); }); }
+    });
+    if (window.TVE.home.get()) resolveHome(function () { paintHomeRead(); updateGo(); });
   }
 
   function updateGo() {
-    var hasCity    = matchedCard !== null;
-    var hasClimate = selVal('tt-climate-chips') !== null;
-    /* A CLIMATE ALONE IS ENOUGH. The gate used to demand climate AND cost
-       together, so a reader who knew their weather and not their cost bracket
-       sat on a dead button with nothing saying why. Cost is one term of three in
-       scoreCard() and falls back to a flat 0.5 when it is unknown, exactly as it
-       already does for a card with no data-cost — an unset bracket is a missing
-       term, never an invalid form. */
-    goBtn.disabled = !(hasCity || hasClimate);
+    /* ONE REQUIRED ANSWER. It used to be "a city OR a climate chip", because the
+       chips were the fallback for a home city the fleet had never heard of.
+       There is no fallback to keep now: the picker answers for anywhere. */
+    var hasHome = !!(window.TVE && window.TVE.home && window.TVE.home.get());
+    goBtn.disabled = !hasHome;
     /* Clear appears the moment ANYTHING is set — a chip, a city, or one of the
        six selects — and not only when the form is answerable. Same rule as
        #fnd-reset: it is the way out of whatever state the card is in, so a card
        holding one pick that returns nothing still offers it. */
-    var touched = hasCity || hasClimate || selVal('tt-budget-chips') !== null ||
+    var touched = hasHome ||
       SELECTS.some(function (id) {
         var el = document.getElementById(id);
         if (!el) return false;
@@ -6219,57 +6316,12 @@ function render() {
   function flagOf(card)   { var s = card.querySelector('.dest-flag');  return s ? s.textContent.trim() : ''; }
 
   // City search
-  cityIn.addEventListener('input', function () {
-    var q = cityIn.value.trim().toLowerCase();
-    matchedCard = null;
-    badge.hidden = true;
-    sugList.innerHTML = '';
-    if (q.length < 2) { sugList.hidden = true; updateGo(); return; }
-
-    var hits = allCards.filter(function (c) {
-      return cityName(c).toLowerCase().indexOf(q) !== -1;
-    }).slice(0, 6);
-
-    if (!hits.length) {
-      var msg = document.createElement('div');
-      msg.style.cssText = 'padding:10px 14px;font-size:12px;color:var(--muted,#888);';
-      msg.textContent = 'Not in our guides — use the options below';
-      sugList.innerHTML = '';
-      sugList.appendChild(msg);
-      sugList.hidden = false;
-      updateGo();
-      return;
-    }
-
-    hits.forEach(function (c) {
-      var btn = document.createElement('button');
-      btn.className = 'tt-sug-item';
-      btn.type = 'button';
-      btn.textContent = flagOf(c) + ' ' + cityName(c);
-      btn.addEventListener('click', function () {
-        cityIn.value = cityName(c);
-        matchedCard = c;
-        sugList.hidden = true;
-        badge.textContent = '✓ Escaping from ' + cityName(c);
-        badge.hidden = false;
-        updateGo();
-      });
-      sugList.appendChild(btn);
-    });
-    sugList.hidden = false;
-    updateGo();
-  });
-
-  document.addEventListener('click', function (e) {
-    if (!sugList.contains(e.target) && e.target !== cityIn) sugList.hidden = true;
-  });
-  cityIn.addEventListener('keydown', function (e) { if (e.key === 'Escape') sugList.hidden = true; });
-
-  // Scoring
-  var CLIM = { hot: 92, warm: 82, mild: 65, cool: 55, cold: 42 };
-  /* The four brackets as the ordinal the chips now carry. Was a dollar figure
-     per chip; see costLevel() for why there is no money in this card any more. */
-  var BUDG = { cheap: 1, moderate: 2, expensive: 3, very: 4 };
+  /* ── Scoring ──────────────────────────────────────────────────────────────
+     CLIM and BUDG lived here — the five climate chips as °F (92/82/65/55/42) and
+     the four cost brackets as an ordinal. Both are DELETED with the chips they
+     translated: the reference is a measured temperature now, and there is no
+     cost-of-home question left to translate. The °F scale itself survives in
+     hiData() and is what homeAvgHi() converts into. */
 
   /* HOW DIFFERENT — the target the ranking aims at, not a filter. 1.0 is the
      furthest this data can go; 0.62 and 0.35 are a real change and a change of
@@ -6279,16 +6331,26 @@ function render() {
      picked, which is how a dial that changes nothing gets shipped. */
   var DEGREE = { max: 1.00, strong: 0.62, mild: 0.35 };
 
+  /* THE REFERENCE IS THE READER'S OWN AIRPORT, measured, not a bracket they
+     picked off a chip. costLvl is null on purpose and always will be: nothing on
+     this site knows what a non-fleet city costs, and contrastOf() already reads
+     a null cost as a flat 0.5 — a missing term, never an invalid form. If the
+     reader's own city has a guide, that guide is dropped from the answer below
+     rather than offered as an escape from itself. */
   function buildRef() {
-    if (matchedCard) {
-      var cl = hiData(matchedCard, ttMonth());
-      return { avgHi: cl ? cl.avg : null, costLvl: costLevel(matchedCard), safetyLvl: safety(matchedCard) };
+    return { avgHi: homeAvgHi(ttMonth()), costLvl: null, safetyLvl: null };
+  }
+
+  /* The guide for the city the reader is IN, if the fleet has one. Matched on
+     the airport's own city name, which is the only name we hold for a home. */
+  function homeCard() {
+    var h = window.TVE && window.TVE.home && window.TVE.home.get();
+    if (!h || !h.city) return null;
+    var want = String(h.city).toLowerCase();
+    for (var i = 0; i < allCards.length; i++) {
+      if (cityName(allCards[i]).toLowerCase() === want) return allCards[i];
     }
-    return {
-      avgHi: CLIM[selVal('tt-climate-chips')] || null,
-      costLvl: BUDG[selVal('tt-budget-chips')] || null,
-      safetyLvl: null
-    };
+    return null;
   }
 
   /* The contrast itself, 0 to 1: climate is three quarters of it and cost the
@@ -6300,9 +6362,16 @@ function render() {
     var cl = hiData(card, ttMonth());
     if (!cl) return -1;
     var cContrast = ref.avgHi !== null ? Math.min(1, Math.abs(ref.avgHi - cl.avg) / 50) : 0.5;
+    /* NO COST TERM WHEN THERE IS NO COST REFERENCE, rather than a flat 0.5 one.
+       The reader is no longer asked what their own city costs (there is no
+       dataset for it — see the markup note), so ref.costLvl is null and the old
+       expression added a constant 0.125 to every card: harmless to the ORDER,
+       but it capped the contrast at 0.875 and the "How different?" dial aims at
+       1.00, so the most extreme flip on earth could never reach the target the
+       reader had asked for. Climate carries the whole contrast now. */
     var co = costLevel(card);
-    var coContrast = (ref.costLvl !== null && co !== null) ? Math.abs(ref.costLvl - co) / 3 : 0.5;
-    return 0.75 * cContrast + 0.25 * coContrast;
+    if (ref.costLvl === null || co === null) return cContrast;
+    return 0.75 * cContrast + 0.25 * (Math.abs(ref.costLvl - co) / 3);
   }
 
   /* Ranked HIGH IS BEST, so the aim is inverted into a fit: 1 at the target,
@@ -6461,6 +6530,10 @@ function render() {
        weaker answer, never an empty one. All 239 stamped cards carry climate
        today, so this is a guard against a future gap, not a live path. */
     var ref = buildRef();
+    /* passesTT() drops this one card: a reader in Lisbon is not offered Lisbon
+       as an escape from Lisbon. It is set here rather than on the pick because
+       the fleet is what it is at answer time. */
+    matchedCard = homeCard();
     var st = ttState();
     var top = rankTT(ref, st), dropped = [];
     if (!top.length) {

@@ -6207,11 +6207,11 @@ window.TVE.home = (function () {
       { name: 'Relais & Châteaux La Maison des Têtes', note: 'Independent — 19 Rue des Têtes, the 1609 Renaissance mansion with the 111 sculpted heads, 5-star, Michelin dining · 9.1 Booking.com', url: 'https://www.booking.com/hotel/fr/la-maison-des-tetes.html', tier: 'luxury' }
     ], price: { budget: '€90–140', mid: '€150–230', expensive: '€250–380', luxury: '€380+' } },
     'cologne': { h: [
-      { name: 'Hyatt Regency Cologne', note: 'Hyatt brand — Rhine riverbank, 306 rooms and suites, Regency Executive Suite with Rhine and Cologne Cathedral panorama, Glashaus Restaurant & Bar · 8.5 Booking.com', url: 'https://www.booking.com/hotel/de/hyatt-regency-koln.html' },
-      { name: 'Cologne Marriott Hotel', note: 'Marriott brand — central Cologne, 3-min walk to Cologne Cathedral and Hauptbahnhof, contemporary rooms, modern fitness center · 8.3 Booking.com', url: 'https://www.booking.com/hotel/de/cologne-marriott.html' },
-      { name: 'DOM Hotel Cologne', note: 'Independent — directly opposite the Cathedral, rooftop terrace with Dom views, Restaurant Pinocchio · 9.0 Booking.com', url: 'https://www.booking.com/hotel/de/dom-koeln.html' },
-      { name: 'Excelsior Hotel Ernst Cologne', note: 'Independent — 1863 grande dame facing the Cathedral, Hanse Stube restaurant, spa with indoor pool · 9.2 Booking.com', url: 'https://www.booking.com/hotel/de/excelsior-ernst.html' }
-    ] },
+      { name: 'DOM Hotel Cologne', note: 'Independent — directly opposite the Cathedral, rooftop terrace with Dom views, Restaurant Pinocchio · 9.0 Booking.com', url: 'https://www.booking.com/hotel/de/dom-koeln.html', tier: 'budget' },
+      { name: 'Cologne Marriott Hotel', note: 'Marriott brand — central Cologne, 3-min walk to Cologne Cathedral and Hauptbahnhof, contemporary rooms, modern fitness center · 8.3 Booking.com', url: 'https://www.booking.com/hotel/de/cologne-marriott.html', tier: 'mid' },
+      { name: 'Hyatt Regency Cologne', note: 'Hyatt brand — Rhine riverbank, 306 rooms and suites, Regency Executive Suite with Rhine and Cologne Cathedral panorama, Glashaus Restaurant & Bar · 8.5 Booking.com', url: 'https://www.booking.com/hotel/de/hyatt-regency-koln.html', tier: 'expensive' },
+      { name: 'Excelsior Hotel Ernst Cologne', note: 'Independent — 1863 grande dame facing the Cathedral, Hanse Stube restaurant, spa with indoor pool · 9.2 Booking.com', url: 'https://www.booking.com/hotel/de/excelsior-ernst.html', tier: 'luxury' }
+    ], price: { budget: '€100–160', mid: '€170–260', expensive: '€270–400', luxury: '€400+' } },
     'colombo': { h: [
       { name: 'Shangri-La Colombo', note: 'Shangri-La brand — between Galle Face Green and Beira Lake, Indian Ocean views, Chi Spa, multiple dining venues including Graze Kitchen · 8.5 Booking.com', url: 'https://www.booking.com/hotel/lk/shangri-la-colombo.html' },
       { name: 'Cinnamon Grand Colombo', note: 'Cinnamon Hotels & Resorts — 501-room city landmark near World Trade Center and Independence Square, multiple dining venues, outdoor pool, spa · 8.6 Booking.com', url: 'https://www.booking.com/hotel/lk/cinnamon-grand-colombo.html' },
@@ -11320,7 +11320,7 @@ window.TVE.home = (function () {
        its airport. */
     var LOUNGE_IATAS = [
       'ABQ','AES','AGP','AJU','AMM','AMS','ANC','ARN','ATH','ATL','AUA','AUH','AUS','BCN','BDS','BER',
-      'BGI','BGO','BIO','BKK','BLQ','BNA','BOB','BOD','BOS','BRU','BSL','BUD','CAI','CDG','CKG','CLT','CMB',
+      'BGI','BGO','BIO','BKK','BLQ','BNA','BOB','BOD','BOS','BRU','BSL','BUD','CAI','CDG','CGN','CKG','CLT','CMB',
       'CNX','CPH','CPT','CUN','CUR','CUZ','CWB','DBV','DEN','DFW','DOH','DPS','DTW','DUB','DUS','DXB',
       'EDI','EYW','EZE','FAO','FCA','FCO','FHR','FLN','FLR','FNC','FOR','FRA','GCM','GEG','GIG','GOT',
       'GPS','GRU','GRX','GVA','HAM','HAN','HEL','HER','HKG','HKT','HND','HNL','IAD','IAH','ICN','IGU',

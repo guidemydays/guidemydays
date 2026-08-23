@@ -855,9 +855,12 @@ window.TVE.home = (function () {
     'wx-moon': ['0 0 24 24', '<path d="M16.4 2.6a9.6 9.6 0 1 0 5 12.8A7.6 7.6 0 0 1 16.4 2.6z" fill="url(#gm-navy)" stroke="var(--c-navy-rim)" stroke-width="0.5"/><path d="M16.4 2.6a9.6 9.6 0 1 0 5 12.8A7.6 7.6 0 0 1 16.4 2.6z" fill="url(#gm-gloss)"/><g fill="url(#gm-sun)" stroke="var(--c-sun-rim)" stroke-width="0.5"><circle cx="8.6" cy="6.4" r="1.1"/><circle cx="5.4" cy="10.6" r="0.8"/><circle cx="11" cy="4.2" r="0.7"/></g>'],
 
     /* ── The dots ────────────────────────────────────────────────────────
-       Site-Icons.html § Dots, specimens 856-867. These replace the 🟡🟢🔴🔵🟣🟠⚫
-       emoji the badge families used to print (owner 2026-08-20: "use our dots
-       not emojis"). Each carries its own gradients - the ids are unique per
+       Site-Icons.html § Dots, specimens 856-867. These replace the color-circle
+       emoji (red/orange/yellow/green/blue/purple/grey) the badge families used
+       to print (owner 2026-08-20: "use our dots not emojis"). No dot emoji
+       character may appear anywhere in shipped HTML — check_no_css_dots and
+       check_no_decorative_emoji_in_pages/guides both hard-fail on one now
+       (brain_check.py, updated 2026-08-23). Each carries its own gradients - the ids are unique per
        colour, so they cannot collide - plus the two specular ellipses that
        give the sphere its sheen. Never redraw one: an emoji dot is a fixed
        platform colour that cannot re-tint, which is the whole reason they go. */

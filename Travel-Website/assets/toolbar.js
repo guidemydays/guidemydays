@@ -6637,11 +6637,14 @@ window.TVE.home = (function () {
       { name: 'Shutters On The Beach', note: 'Independent — beachfront at 1 Pico Boulevard in Santa Monica, 5-star, spa, outdoor pool and direct sand access · 9.2 Booking.com', url: 'https://www.booking.com/hotel/us/shutters-on-the-beach.html', tier: 'luxury' }
     ], price: { budget: '$130–190', mid: '$220–320', expensive: '$350–500', luxury: '$600+' } },
     'los-cabos': { h: [
-      { name: 'Las Ventanas al Paraíso, A Rosewood Resort', note: 'Rosewood brand — beachfront estate, telescope observatory, three pools, Tequila & Ceviche Bar', url: 'https://www.rosewoodhotels.com/en/las-ventanas-los-cabos' },
-      { name: 'One&Only Palmilla', note: 'One&Only brand — 27-acre oceanfront estate, Nobu on-site, infinity pools, private diving · 9.4 Booking.com', url: 'https://www.booking.com/hotel/mx/one-only-palmilla.html' },
-      { name: 'Esperanza, Auberge Resorts Collection', note: 'Auberge Resorts — Punta Ballena, two ocean-view pools, Espacio spa, Cocina del Mar restaurant · 9.4 Booking.com', url: 'https://www.booking.com/hotel/mx/esperanza.html' },
-      { name: 'Grand Velas Los Cabos', note: 'Velas Resorts — beachfront all-inclusive, six restaurants, Se Spa, infinity pool · 9.3 Booking.com', url: 'https://www.booking.com/hotel/mx/grand-velas-los-cabos.html' }
-    ] },
+      { name: 'Hotel Mar de Cortez', note: 'Independent budget — Cabo San Lucas marina area, outdoor pool, steps from the malecon · 8.2 Booking.com', url: 'https://www.booking.com/hotel/mx/hotel-mar-de-cortez.html', tier: 'budget' },
+      { name: 'Hyatt Ziva Los Cabos', note: 'Hyatt brand — beachfront all-inclusive on the Tourist Corridor, six restaurants, five pools, lazy river · 9.1 Booking.com', url: 'https://www.booking.com/hotel/mx/hyatt-ziva-los-cabos.html', tier: 'mid' },
+      { name: 'Grand Velas Los Cabos', note: 'Velas Resorts — beachfront all-inclusive, six restaurants, Se Spa, infinity pool · 9.3 Booking.com', url: 'https://www.booking.com/hotel/mx/grand-velas-los-cabos.html', tier: 'expensive' },
+      { name: 'Nobu Hotel Los Cabos', note: 'Nobu Hospitality — beachfront resort on the Tourist Corridor, Nobu restaurant, two pools, spa · 9.4 Booking.com', url: 'https://www.booking.com/hotel/mx/nobu-hotel-los-cabos.html', tier: 'expensive' },
+      { name: 'Las Ventanas al Paraíso, A Rosewood Resort', note: 'Rosewood brand — beachfront estate, telescope observatory, three pools, Tequila & Ceviche Bar · 9.5 Booking.com', url: 'https://www.booking.com/hotel/mx/las-ventanas-al-paraiso.html', tier: 'luxury' },
+      { name: 'One&Only Palmilla', note: 'One&Only brand — 27-acre oceanfront estate, Nobu on-site, infinity pools, private diving · 9.4 Booking.com', url: 'https://www.booking.com/hotel/mx/one-only-palmilla.html', tier: 'luxury' },
+      { name: 'Esperanza, Auberge Resorts Collection', note: 'Auberge Resorts — Punta Ballena, two ocean-view pools, Espacio spa, Cocina del Mar restaurant · 9.4 Booking.com', url: 'https://www.booking.com/hotel/mx/esperanza.html', tier: 'luxury' }
+    ], price: { budget: '$80–150', mid: '$150–300', expensive: '$300–600', luxury: '$600+' } },
     'luang-prabang': { h: [
       { name: 'Mekong Riverview Hotel', note: 'Independent — Khem Khong Road on the Mekong waterfront, river-view rooms with balconies, 24h reception · 8.5 Booking.com', url: 'https://www.booking.com/hotel/la/mekong-riverview.html', tier: 'budget' },
       { name: 'Le Sen Boutique Hotel', note: 'Independent — Manomai Road in Ban Mano, outdoor pool, spa and gym, 24h reception, airport shuttle · 9.7 Booking.com', url: 'https://www.booking.com/hotel/la/le-sen-boutique.html', tier: 'mid' },
@@ -6704,11 +6707,11 @@ window.TVE.home = (function () {
       { name: 'Velaa Private Island', note: 'Independent — Noonu Atoll, 45 residences with private pools, Aragu restaurant · 9.6 Booking.com', url: 'https://www.booking.com/hotel/mv/velaa-private-island.html' }
     ] },
     'malibu': { h: [
-      { name: 'The Surfrider Malibu', note: 'Independent boutique — 23033 Pacific Coast Highway opposite Malibu Pier, rooftop deck and restaurant, ocean-view rooms, AC · 9.0 Booking.com', url: 'https://www.booking.com/hotel/us/the-surfrider-malibu.html' },
-      { name: 'Malibu Beach Inn', note: 'Independent boutique — Carbon Beach ("Billionaire\'s Beach"), 47 rooms each with ocean-view private balcony · 9.0 Booking.com', url: 'https://www.booking.com/hotel/us/malibu-beach-inn.html' },
-      { name: 'Calamigos Guest Ranch and Beach Club', note: 'Independent — Malibu Canyon 5 acres, pool, horseback riding, farm-to-table dining · 9.3 Booking.com', url: 'https://www.booking.com/hotel/us/calamigos-guest-ranch.html' },
-      { name: 'Malibu Country Inn', note: 'Independent — Point Dume area, ocean view from pool deck, fire pits, romantic 16-room inn · 9.0 Booking.com', url: 'https://www.booking.com/hotel/us/malibu-country-inn.html' }
-    ] },
+      { name: 'Malibu Country Inn', note: 'Independent — Point Dume area, ocean view from pool deck, fire pits, romantic 16-room inn · 9.0 Booking.com', url: 'https://www.booking.com/hotel/us/malibu-country-inn.html', tier: 'budget' },
+      { name: 'Calamigos Guest Ranch and Beach Club', note: 'Independent — Malibu Canyon 5 acres, pool, horseback riding, farm-to-table dining · 9.3 Booking.com', url: 'https://www.booking.com/hotel/us/calamigos-guest-ranch.html', tier: 'mid' },
+      { name: 'The Surfrider Malibu', note: 'Independent boutique — 23033 Pacific Coast Highway opposite Malibu Pier, rooftop deck and restaurant, ocean-view rooms, AC · 9.0 Booking.com', url: 'https://www.booking.com/hotel/us/the-surfrider-malibu.html', tier: 'expensive' },
+      { name: 'Malibu Beach Inn', note: 'Independent boutique — Carbon Beach ("Billionaire\'s Beach"), 47 rooms each with ocean-view private balcony · 9.0 Booking.com', url: 'https://www.booking.com/hotel/us/malibu-beach-inn.html', tier: 'luxury' }
+    ], price: { budget: '$150–280', mid: '$250–450', expensive: '$350–600', luxury: '$600–1,200' } },
     'manuel-antonio': { h: [
       { name: 'Layan Hotel & Spa', note: 'Independent — 24-room boutique on the hill above Playa Espadilla, infinity pool, spa, restaurant, 24h front desk · 4.5 TripAdvisor', url: 'https://www.expedia.com/Quepos-Hotels-Layan-Hotel-Spa.h100447436.Hotel-Information', tier: 'budget' },
       { name: 'Shana by the Beach', note: 'Independent — hillside resort 800 m from Playa Espadilla, pool with Pacific view, spa, 24h front desk · 8.4 Booking.com', url: 'https://www.booking.com/hotel/cr/pacific-souss.html', tier: 'mid' },
@@ -11306,7 +11309,7 @@ window.TVE.home = (function () {
       'KRK','KTM','LAS','LAX','LGA','LGW','LHR','LIH','LIM','LIS','LJU','LPQ','LUX','LYS','MAD','MAN','MCT','MEL',
       'MIA','MCO','MCZ','MLA','MLE','MRS','MSP','MSY','MUC','MVD','MXP','NAP','NAS','NAT','NCE','OGG','OPO','ORD','ORS','ORY',
       'OSL','PBH','PDL','PDX','PEK','PHL','PHX','PLS','PMI','PNS','POA','PPS','PRG','PSA','PSP','PUS',
-      'PVG','PVR','RAK','RDM','REC','RHO','RIX','RNO','RSW','SAN','SCL','SEA','SFO','SIN','SJC','SJO',
+      'PVG','PVR','RAK','RDM','REC','RHO','RIX','RNO','RSW','SAN','SCL','SEA','SFO','SJD','SIN','SJC','SJO',
       'SJU','SKG','SLC','SLZ','SPU','SSA','STR','SXB','SYD','SZG','TBS','TFS','TIV','TLL','TOS','TPE','TRN','VCE','VIE',
       'VLC','WLG','YQB','YUL','YVR','YYC','YYZ','ZAG','ZQN','ZRH'
     ];

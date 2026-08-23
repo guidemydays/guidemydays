@@ -6448,12 +6448,11 @@ window.TVE.home = (function () {
       { name: 'Fraser Suites Hamburg', note: 'Independent — serviced-apartment suites on Rödingsmarkt in the Altstadt, sauna and steam room, kitchens in every unit · 9.1 Booking.com', url: 'https://www.booking.com/hotel/de/fraser-suites-hamburg.html' }
     ] },
     'hanoi': { h: [
-      { name: 'The Oriental Jade Hotel', note: 'Independent — 92-94 Hang Trong in Hoan Kiem, rooftop infinity pool over the Old Quarter, spa and steam room, 24h reception · 9.6 Booking.com' , url: 'https://www.booking.com/hotel/vn/the-oriental-jade-amp-spa.html' },
-      { name: 'JW Marriott Hotel Hanoi', note: 'Marriott brand — award-winning curved tower by Carlos Zapata Studio, outdoor pool, full-service spa, largest luxury hotel in Hanoi · 8.8 Booking.com' , url: 'https://www.booking.com/hotel/vn/jw-marriott-hotel-hanoi.html' },
-    
-      { name: 'Lotte Hotel Hanoi', note: 'Lotte brand — Ba Dinh District, Top of Hanoi observation deck on 65th floor, indoor pool, La Seine French restaurant · 8.8 Booking.com', url: 'https://www.booking.com/hotel/vn/lotte-hotel-hanoi.html' },
-      { name: 'Pan Pacific Hanoi', note: 'Pan Pacific brand — West Lake area, indoor pool, Pacific Restaurant, Bamboo Lounge, city skyline views · 8.7 Booking.com', url: 'https://www.booking.com/hotel/vn/pan-pacific-hanoi.html' }
-    ] },
+      { name: 'Hanoi La Siesta Classic', note: 'Independent — boutique hotel on Hang Be in the Old Quarter, Indochine-style decor, spa, rooftop terrace, 24h reception · 9.2 Booking.com', url: 'https://www.booking.com/hotel/vn/la-siesta-classic.html', tier: 'budget' },
+      { name: 'The Oriental Jade Hotel', note: 'Independent — 92-94 Hang Trong in Hoan Kiem, rooftop infinity pool over the Old Quarter, spa and steam room, 24h reception · 9.6 Booking.com', url: 'https://www.booking.com/hotel/vn/the-oriental-jade-amp-spa.html', tier: 'mid' },
+      { name: 'Lotte Hotel Hanoi', note: 'Lotte brand — Ba Dinh District, Top of Hanoi observation deck on 65th floor, indoor pool, La Seine French restaurant · 8.8 Booking.com', url: 'https://www.booking.com/hotel/vn/lotte-hotel-hanoi.html', tier: 'expensive' },
+      { name: 'JW Marriott Hotel Hanoi', note: 'Marriott brand — award-winning curved tower by Carlos Zapata Studio on Do Duc Dan Lake, outdoor pool, full-service spa · 8.8 Booking.com', url: 'https://www.booking.com/hotel/vn/jw-marriott-hotel-hanoi.html', tier: 'luxury' }
+    ], price: { budget: 'VND 700,000–1,500,000', mid: 'VND 1,500,000–3,000,000', expensive: 'VND 3,000,000–6,000,000', luxury: 'VND 6,000,000+' } },
     'helsinki': { h: [
       { name: 'Hotel St. George Helsinki', note: 'Design Hotels member — 1894 neo-Renaissance building in the city center, curated art collection, spa with pool, Aino restaurant · 9.1 Booking.com' , url: 'https://www.booking.com/hotel/fi/hotel-st-george-helsinki.html' },
       { name: 'Marski by Scandic', note: 'Scandic brand — prime Mannerheimintie address opposite Esplanade Park, 365 rooms, extensively renovated 2019, rooftop sauna · 8.5 Booking.com' , url: 'https://www.booking.com/hotel/fi/marski-by-scandic.html' },

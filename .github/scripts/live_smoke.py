@@ -47,11 +47,19 @@ it converts a real outage into "oh, that thing is always red."
   • Every failure names the page, the assertion and the actual value, so the
     person reading the alarm at 2am does not have to reproduce it first.
 
+WHERE THIS LIVES, AND WHY IT IS NOT IN Brain/scripts/
+----------------------------------------------------
+`.github/scripts/`, which is otherwise gitignored — this one file is re-included
+by name. CI runs it, and the Actions checkout only ever sees the PUBLIC repo:
+`Brain/` is tracked in the private Travel-Brain repo and does not exist there.
+Move this into `Brain/scripts/` to tidy it and the workflow step stops finding
+it — the alarm goes quiet without anything going red.
+
 USAGE
 -----
-    python3 Brain/scripts/live_smoke.py                      # live site
-    python3 Brain/scripts/live_smoke.py --expect-sha <sha>   # wait for a deploy
-    python3 Brain/scripts/live_smoke.py --base http://localhost:8000
+    python3 .github/scripts/live_smoke.py                      # live site
+    python3 .github/scripts/live_smoke.py --expect-sha <sha>   # wait for a deploy
+    python3 .github/scripts/live_smoke.py --base http://localhost:8000
 
 Exit 0 = the site is up. Exit 1 = it is not, and the output says how.
 """

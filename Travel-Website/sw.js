@@ -1,3 +1,4 @@
+/* 2026-08-23: toronto: hotel 4-tier HOTEL_ALT_DATA (budget Chelsea/mid Fairmont/expensive Shangri-La/luxury Four Seasons+Hazelton) + CAD price ranges; ferry icon fix. toolbar.js -> v1041. CACHE to v1434. */
 /* 2026-08-23: zakynthos: train icon fix, position-2c uphill, ZTH lounge card + LOUNGE_IATAS. toolbar.js -> v1034. CACHE to v1426. */
 /* 2026-08-23: coeur-dalene: 14 motion-route links, FD review rows, verification clauses, HOTEL_ALT_DATA 4 tiers (budget BW+/mid HIE/exp SpringHill/lux Hampton) USD prices, GEG lounge card + LOUNGE_IATAS, position-2c. toolbar.js -> v1008. CACHE to v1399. */
 /* 2026-08-23: gothenburg: HOTEL_ALT_DATA 4 tiers + SEK price ranges, motion-route links x47, train icons, station format, position-2c, GAFD fix. toolbar.js→v1007 CACHE→v1398. */
@@ -1985,7 +1986,8 @@
 /* 2026-08-23: zurich: train icons x3, station format+walk+route link, motion-route links x62, position-2c uphill Lindenhof toolbar.js -> v1039. CACHE to v1431. */
 /* 2026-08-23: index.html — Help Me Choose: the airport is the first question and greys out the rest until it is answered, and the dead-end message is gone (relax() sets the smallest number of answers aside and still shows guides). toolbar.js -> v1040. CACHE to v1432. */
 /* 2026-08-23: the search typeahead card is anchored to the SEARCH BAR, not to the hero-ground band it sits in. search-autocomplete.js positions the card against the input's wrapper, and on the 14 pages that mount the bar straight inside .hero-ground that wrapper is the band — bled to the window edges and 32px taller than the input on each side — so the card rendered 1386px wide instead of 440 and opened 36px low, covering whatever sat below the band (on /essentials/budget/, both rows of filter pills). One scoped .hero-ground .sa-suggest rule. web-travel-style.css -> v95. CACHE to v1433. */
-var CACHE = 'travel-cache-v1433';
+/* 2026-08-23: seychelles: guide-style.css revert malaga fleet-wide mobile chip centering regression (display:flex broke Food Delivery centering at 118px); guide-style.css -> v264. CACHE to v1435. */
+var CACHE = 'travel-cache-v1435';
 
 /* The guide-calendar hand-off cache. Written by toolbar.js, read and emptied
    once by the fetch handler below, and EXEMPT from the activate sweep — it is
@@ -1998,7 +2000,7 @@ var ICS_OUTBOX = 'gmd-ics-outbox';
    THIS IS THE ONLY PLACE to bump toolbar.js / guide-style.css versions.
    NEVER bump ?v= inside guide HTML — it breaks HMAC stamps and forces re-validation
    of 230+ guides. Instead, bump MIN_VERSIONS here + increment the CACHE version. */
-var MIN_VERSIONS = { 'guide-style.css': 263,'toolbar.js': 1040, 'mobile.css': 88, 'web-travel-style.css': 95, 'guides-index-style.css': 25, 'read-about.css': 6, 'best-of-features.js': 4, 'best-of-cross-data.js': 24, 'weather.js': 12, 'trains.css': 11, 'trains.js': 2, 'airlines.css': 2, 'airlines.js': 2, 'passport.js': 4 };
+var MIN_VERSIONS = { 'guide-style.css': 264,'toolbar.js': 1041, 'mobile.css': 88, 'web-travel-style.css': 95, 'guides-index-style.css': 25, 'read-about.css': 6, 'best-of-features.js': 4, 'best-of-cross-data.js': 24, 'weather.js': 12, 'trains.css': 11, 'trains.js': 2, 'airlines.css': 2, 'airlines.js': 2, 'passport.js': 4 };
 
 function rewriteAssetUrl(urlStr) {
   var u;

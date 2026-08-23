@@ -6213,11 +6213,11 @@ window.TVE.home = (function () {
       { name: 'Excelsior Hotel Ernst Cologne', note: 'Independent — 1863 grande dame facing the Cathedral, Hanse Stube restaurant, spa with indoor pool · 9.2 Booking.com', url: 'https://www.booking.com/hotel/de/excelsior-ernst.html', tier: 'luxury' }
     ], price: { budget: '€100–160', mid: '€170–260', expensive: '€270–400', luxury: '€400+' } },
     'colombo': { h: [
-      { name: 'Shangri-La Colombo', note: 'Shangri-La brand — between Galle Face Green and Beira Lake, Indian Ocean views, Chi Spa, multiple dining venues including Graze Kitchen · 8.5 Booking.com', url: 'https://www.booking.com/hotel/lk/shangri-la-colombo.html' },
-      { name: 'Cinnamon Grand Colombo', note: 'Cinnamon Hotels & Resorts — 501-room city landmark near World Trade Center and Independence Square, multiple dining venues, outdoor pool, spa · 8.6 Booking.com', url: 'https://www.booking.com/hotel/lk/cinnamon-grand-colombo.html' },
-      { name: 'Galle Face Hotel', note: 'Independent — 1864 colonial landmark on the Galle Face seafront, ocean views, historic bar · 8.5 Booking.com', url: 'https://www.booking.com/hotel/lk/galle-face.html' },
-      { name: 'Taj Samudra Colombo', note: 'Taj Hotels brand — Galle Face beachfront, four restaurants, outdoor pool, full-service spa · 8.6 Booking.com', url: 'https://www.booking.com/hotel/lk/taj-samudra-colombo.html' }
-    ] },
+      { name: 'Galle Face Hotel', note: 'Independent — 1864 colonial landmark on the Galle Face seafront, ocean views, historic bar · 8.5 Booking.com', url: 'https://www.booking.com/hotel/lk/galle-face.html', tier: 'budget' },
+      { name: 'Cinnamon Grand Colombo', note: 'Cinnamon Hotels & Resorts — 501-room city landmark near World Trade Center and Independence Square, multiple dining venues, outdoor pool, spa · 8.6 Booking.com', url: 'https://www.booking.com/hotel/lk/cinnamon-grand-colombo.html', tier: 'mid' },
+      { name: 'Taj Samudra Colombo', note: 'Taj Hotels brand — Galle Face beachfront, four restaurants, outdoor pool, full-service spa · 8.6 Booking.com', url: 'https://www.booking.com/hotel/lk/taj-samudra-colombo.html', tier: 'expensive' },
+      { name: 'Shangri-La Colombo', note: 'Shangri-La brand — between Galle Face Green and Beira Lake, Indian Ocean views, Chi Spa, multiple dining venues including Graze Kitchen · 8.5 Booking.com', url: 'https://www.booking.com/hotel/lk/shangri-la-colombo.html', tier: 'luxury' }
+    ], price: { budget: 'LKR 30,000–45,000', mid: 'LKR 45,000–65,000', expensive: 'LKR 65,000–90,000', luxury: 'LKR 90,000+' } },
     'columbia': { h: [
       { name: 'Hotel Trundle', note: 'Independent boutique — Main Street District, art deco-inspired interiors celebrating Columbia\'s arts scene, rooftop bar with city views · 9.1 Booking.com', url: 'https://www.booking.com/hotel/us/trundle.html' },
       { name: 'Hilton Columbia Center', note: 'Hilton brand — downtown Columbia, Whiskey Bar rooftop with skyline views, close to the Vista arts and dining district · 8.3 Booking.com', url: 'https://www.booking.com/hotel/us/hilton-columbia-center.html' },

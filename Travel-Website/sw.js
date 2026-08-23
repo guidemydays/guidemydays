@@ -1,3 +1,4 @@
+/* 2026-08-23: lima price ranges to HOTEL_ALT_DATA, LIM lounge card + LOUNGE_IATAS. toolbar.js -> v975. CACHE to v1365. */
 /* 2026-08-23: lille train icons, station entry format, Uber/Bolt verification clauses, position-2c, HOTEL_ALT_DATA 4 tiers + EUR prices. toolbar.js -> v972. CACHE to v1362. */
 /* 2026-08-23: lecce train icons, station entry format, Free Now clause, position-2c, HOTEL_ALT_DATA 4 tiers + EUR prices; BDS added to LOUNGE_IATAS, Brindisi lounge card added. toolbar.js -> v970. CACHE to v1360. */
 /* 2026-08-23: capri HOTEL_ALT_DATA — 4-tier setup (budget Hotel La Tosca, mid Villa Brunella, expensive Hotel Punta Tragara, luxury JK Place/Capri Palace) with EUR price ranges; 35 motion-route links added; train icon, GA-FD, position-2c fixed. toolbar.js -> v954. CACHE to v1344. */
@@ -1914,7 +1915,7 @@
 /* 2026-08-23: turin: TRN lounge card, LOUNGE_IATAS, HOTEL_ALT_DATA toolbar.js -> v971. CACHE to v1361. */
 /* 2026-08-23: bhutan: add PBH lounge card, regenerate LOUNGE_IATAS, fix long-walk/uphill times, FN clause toolbar.js -> v973. CACHE to v1363. */
 /* 2026-08-23: big-island: add KOA lounge card, regenerate LOUNGE_IATAS, fix long-walk time toolbar.js -> v974. CACHE to v1364. */
-var CACHE = 'travel-cache-v1364';
+var CACHE = 'travel-cache-v1365';
 
 /* The guide-calendar hand-off cache. Written by toolbar.js, read and emptied
    once by the fetch handler below, and EXEMPT from the activate sweep — it is
@@ -1927,7 +1928,7 @@ var ICS_OUTBOX = 'gmd-ics-outbox';
    THIS IS THE ONLY PLACE to bump toolbar.js / guide-style.css versions.
    NEVER bump ?v= inside guide HTML — it breaks HMAC stamps and forces re-validation
    of 230+ guides. Instead, bump MIN_VERSIONS here + increment the CACHE version. */
-var MIN_VERSIONS = { 'guide-style.css': 262,'toolbar.js': 974, 'mobile.css': 88, 'web-travel-style.css': 94, 'guides-index-style.css': 25, 'read-about.css': 6, 'best-of-features.js': 4, 'best-of-cross-data.js': 24, 'weather.js': 12, 'trains.css': 11, 'trains.js': 2, 'airlines.css': 2, 'airlines.js': 2, 'passport.js': 4 };
+var MIN_VERSIONS = { 'guide-style.css': 262,'toolbar.js': 975, 'mobile.css': 88, 'web-travel-style.css': 94, 'guides-index-style.css': 25, 'read-about.css': 6, 'best-of-features.js': 4, 'best-of-cross-data.js': 24, 'weather.js': 12, 'trains.css': 11, 'trains.js': 2, 'airlines.css': 2, 'airlines.js': 2, 'passport.js': 4 };
 
 function rewriteAssetUrl(urlStr) {
   var u;

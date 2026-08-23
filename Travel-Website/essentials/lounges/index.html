@@ -131,7 +131,74 @@ html { scroll-behavior: smooth; }
  .country-block:hover, .airport-card:hover { box-shadow: none !important; transform: none !important; }
  .hub-jump{display:block;background:var(--bg);padding:8px 14px 10px;}
 }
+/* ============================================================
+   2026-08-23 legibility + findability pass (owner rule — "hard
+   to read and find stuff" on the redesign mockup).  Page-local
+   overrides only; nothing in web-travel-style.css touched, and
+   every class below is used by no other page (lounges-us/-europe
+   were retired into this one on 2026-08-22).
+   ============================================================ */
+
+/* IATA code — solid terracotta chip, not the pale muted-grey text
+   the mockup review flagged as hard to find in a scan. */
+.airport-code{
+  display:inline-flex;align-items:center;
+  font-weight:700;font-size:14px;letter-spacing:.02em;
+  background:var(--rust,#C04E1A);color:#fff;
+  border-radius:6px;padding:3px 9px;
+}
+
+/* Meta rows — bigger text and a repeating icon so "hours" or "access"
+   can be found two ways (shape and word), not just a 12px label. */
+.meta-row{gap:9px;align-items:center;}
+.meta-row .meta-icon-mark{width:15px;height:15px;flex-shrink:0;opacity:.8;}
+.meta-label{font-size:11px;min-width:64px;}
+.meta-value{font-size:13.5px;line-height:1.5;}
+.airport-note{font-size:13px;line-height:1.6;}
+
+/* Country header — a heavier rule so a fast-scrolling eye catches the
+   break between countries instead of a hairline the same weight as
+   every other divider on the page. */
+.country-header{padding-bottom:10px;border-bottom:2px solid var(--text,#1a1917);margin-bottom:4px;}
+.country-name{font-size:17px;}
+
+/* Search — thicker, higher-contrast border so it reads as the primary
+   way in rather than a pale box that blends into the page background. */
+#lounge-search{border-width:2px;height:50px;font-size:15px;}
+
+/* How to Access — four cards instead of one dense paragraph, using the
+   same family-ink colors as the Lounge Type legend right below it. */
+.access-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;}
+.access-card{background:var(--surface,#fff);border:1px solid var(--border);border-top:4px solid var(--card-c,var(--rust));border-radius:8px;padding:13px 14px 14px;}
+.access-card .access-lbl{font-size:13px;font-weight:700;color:var(--text,#1a1917);}
+.access-card p{margin:6px 0 0;font-size:12.5px;line-height:1.55;color:var(--muted);}
+.access-card.airline{--card-c:var(--fam-blue-ink);}
+.access-card.pay{--card-c:var(--fam-purple-ink);}
+.access-card.pp{--card-c:var(--fam-green-ink);}
+.access-card.card{--card-c:var(--fam-orange-ink);}
+@media (max-width:600px) and (pointer:coarse){
+  .access-grid{grid-template-columns:1fr 1fr;}
+}
+
+/* Sticky country rail — a persistent way to find a country among 60+
+   on desktop, instead of relying on scroll, search, or the mobile-only
+   hub-jump dropdown below.  Built by JS from the .country-block list
+   already on the page; see the script near the end of </body>. */
+.lounge-grid{display:grid;grid-template-columns:184px 1fr;gap:32px;align-items:start;}
+.side-rail{position:sticky;top:110px;background:var(--surface,#fff);border:1px solid var(--border);border-radius:8px;padding:12px;max-height:calc(100vh - 140px);overflow-y:auto;}
+.side-rail-title{font-size:10.5px;font-weight:700;text-transform:uppercase;letter-spacing:.09em;color:var(--muted);margin:0 0 6px 6px;}
+.side-rail a{display:block;padding:6px 8px;border-radius:6px;font-size:13px;font-weight:600;color:var(--text,#1a1917);text-decoration:none;line-height:1.3;}
+.side-rail a small{display:block;font-weight:400;color:var(--muted);opacity:.8;font-size:10.5px;}
+.side-rail a:hover{background:#fdf4ed;color:var(--rust);}
+.side-rail a.current{background:var(--rust,#C04E1A);color:#fff;}
+.side-rail a.current small{color:rgba(255,255,255,.82);opacity:1;}
+@media (max-width:860px){
+  .lounge-grid{display:block;}
+  .side-rail{display:none;}
+}
+
 @media (prefers-color-scheme: dark) {
+  .side-rail a:hover{background:#201e1c;color:var(--rust,#D4663A);}
   .nav-link { color: var(--text); }
   /* The hover and active grounds are the light cream #fdf4ed above, which never
      flips — in dark mode that paints a bright chip in a dark row, and the
@@ -223,11 +290,19 @@ html { scroll-behavior: smooth; }
  <div class="legend" style="margin-bottom:10px;">
  <div class="legend-group" style="flex-basis:100%;">
  <div class="legend-group-label">How to Access</div>
- <div style="font-size:var(--fs-sub,12px);color:var(--muted);line-height:1.7;">
- <strong style="color:var(--navy);">Airline &amp; alliance</strong> — your cabin on the day, or your status with that airline&#39;s alliance. A business-class ticket admits you to that alliance&#39;s lounges; oneworld Sapphire, Star Alliance Gold and SkyTeam Elite Plus admit you in economy. Membership cards never open these doors<br>
- <strong style="color:var(--fam-purple-ink, #7c3aed);">Pay at the door</strong> — anyone can buy in, no ticket class and no card needed. Rates run from about $25 to $100 for two to three hours and are usually cheaper booked online than at the desk<br>
- <strong style="color:var(--green);">Membership</strong> — Priority Pass is the widest network, with LoungeKey and DragonPass covering many of the same rooms; which of the three your card carries depends on the bank that issued it. Most lounges cap a membership visit at two or three hours, and busy lounges turn members away at the door before they turn away ticketed passengers<br>
- <strong style="color:var(--gold, #8a6c1a);">Credit card</strong> — a lounge network the card issuer owns outright, separate from Priority Pass. American Express Centurion is the largest; entry needs the card and a same-day flight, guests are charged, and annual visit caps apply on the lower card tiers
+ <div class="access-grid">
+ <div class="access-card airline"><div class="access-lbl">Airline &amp; alliance</div>
+ <p>Your cabin on the day, or your status with that airline's alliance. A business-class ticket admits you to that alliance's lounges; oneworld Sapphire, Star Alliance Gold and SkyTeam Elite Plus admit you in economy. Membership cards never open these doors.</p>
+ </div>
+ <div class="access-card pay"><div class="access-lbl">Pay at the door</div>
+ <p>Anyone can buy in, no ticket class and no card needed. Rates run from about $25 to $100 for two to three hours and are usually cheaper booked online than at the desk.</p>
+ </div>
+ <div class="access-card pp"><div class="access-lbl">Membership</div>
+ <p>Priority Pass is the widest network, with LoungeKey and DragonPass covering many of the same rooms; which of the three your card carries depends on the bank that issued it. Busy lounges turn members away before ticketed passengers.</p>
+ </div>
+ <div class="access-card card"><div class="access-lbl">Credit card</div>
+ <p>A lounge network the card issuer owns outright, separate from Priority Pass. American Express Centurion is the largest; entry needs the card and a same-day flight, and annual visit caps apply on lower card tiers.</p>
+ </div>
  </div>
  </div>
  </div>
@@ -6018,6 +6093,72 @@ html { scroll-behavior: smooth; }
   function close(){jump.classList.remove('open');toggle.setAttribute('aria-expanded','false');}
   toggle.addEventListener('click',function(){jump.classList.contains('open')?close():open();});
   document.addEventListener('click',function(e){if(!jump.contains(e.target))close();},true);
+})();
+</script>
+
+<script>
+/* Meta-row icons — repeats each label as a shape (pin / clock / ticket) so
+   "where" and "when" and "how" can be found by scanning shape, not just
+   12px text.  Icons come from the same GM_SPRITE toolbar.js already loads
+   for the dot icons above; 'location'/'terminal' both draw the pin. */
+(function(){
+  var ICON_FOR={location:'pin',terminal:'pin',hours:'clock',access:'ticket'};
+  [].forEach.call(document.querySelectorAll('.meta-row'),function(row){
+    var lbl=row.querySelector('.meta-label');
+    if(!lbl)return;
+    var icon=ICON_FOR[lbl.textContent.trim().toLowerCase()];
+    if(!icon)return;
+    var svg=document.createElementNS('http://www.w3.org/2000/svg','svg');
+    svg.setAttribute('class','gm-icon meta-icon-mark');
+    svg.setAttribute('data-icon',icon);
+    svg.setAttribute('viewBox','0 0 24 24');
+    svg.setAttribute('aria-hidden','true');
+    var use=document.createElementNS('http://www.w3.org/2000/svg','use');
+    use.setAttribute('href','#gm-i-'+icon);
+    svg.appendChild(use);
+    row.insertBefore(svg,lbl);
+  });
+})();
+</script>
+
+<script>
+/* Sticky country rail (desktop) — a persistent way to find a country
+   among 60+ without relying on scroll, search, or the mobile-only
+   hub-jump dropdown above.  Built from the same .country-block list that
+   already feeds hub-jump, so there is one source of truth for the country
+   order and nothing here can drift out of sync with it. */
+(function(){
+  var wrap=document.querySelector('.wrap:has(.country-block)');
+  var blocks=[].slice.call(document.querySelectorAll('.country-block'));
+  if(!wrap||!blocks.length)return;
+  var rail=document.createElement('nav');
+  rail.className='side-rail';
+  rail.setAttribute('aria-label','Jump to country');
+  var title=document.createElement('div');
+  title.className='side-rail-title';
+  title.textContent='Jump to';
+  rail.appendChild(title);
+  var links=[];
+  blocks.forEach(function(b){
+    var nm=b.querySelector('.country-name'), fl=b.querySelector('.country-flag'), ap=b.querySelector('.country-airports');
+    if(!nm||!b.id)return;
+    var a=document.createElement('a');
+    a.href='#'+b.id;
+    a.innerHTML=(fl?fl.outerHTML+' ':'')+nm.textContent.trim()+(ap?'<small>'+ap.textContent.trim()+'</small>':'');
+    rail.appendChild(a);
+    links.push(a);
+  });
+  var grid=document.createElement('div');
+  grid.className='lounge-grid';
+  wrap.parentNode.insertBefore(grid,wrap);
+  grid.appendChild(rail);
+  grid.appendChild(wrap);
+  window.addEventListener('scroll',function(){
+    var idx=0;
+    blocks.forEach(function(b,i){if(b.getBoundingClientRect().top<160)idx=i;});
+    links.forEach(function(a){a.classList.remove('current');});
+    if(links[idx])links[idx].classList.add('current');
+  },{passive:true});
 })();
 </script>
 

@@ -28,9 +28,10 @@
 #no-results { display: none; }
 /* ── Section header ── */
 .section-head {
-  font-size: 13px; font-weight: 700; color: #5C3D11;
-  border-bottom: 2px solid #B8860B; padding-bottom: 8px;
-  margin: 26px 0 12px; display: flex; align-items: center; gap: 8px;
+  font-size: 12px; font-weight: 700; color: var(--muted);
+  text-transform: uppercase; letter-spacing: 0.14em;
+  border-bottom: 2px solid var(--accent); padding-bottom: 7px;
+  margin: 30px 0 14px; display: flex; align-items: center; gap: 8px;
 }
 .section-head .sh-emoji { font-size: 16px; line-height: 1; }
 /* ── Decision table ── */
@@ -44,10 +45,20 @@
 /* Canonical family trios per Badge spec 2026-07-29. */
 .dt-cost-mobile { display: none; }
 /* ── Country SIM cards ── */
-.sim-country-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 12px; }
-.sim-country-card { background: var(--surface); border: 1px solid var(--border2); border-radius: 8px; padding: 14px 16px; }
+.sim-country-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 12px; }
+.sim-country-card {
+  background: var(--surface); border: 1px solid var(--border2); border-left: 3px solid var(--region-ink, var(--border2));
+  border-radius: 8px; padding: 14px 16px;
+  transition: box-shadow .15s, border-color .15s, transform .15s;
+}
+.sim-country-card:hover { box-shadow: 0 3px 10px rgba(92,61,17,.10); transform: translateY(-1px); }
 .sim-country-card.hidden { display: none; }
-.sccard-header { font-size: 13px; font-weight: 700; color: var(--text); margin-bottom: 10px; }
+.sim-country-card[data-region="asia"]     { --region-ink: var(--fam-blue-ink); }
+.sim-country-card[data-region="europe"]   { --region-ink: var(--fam-purple-ink); }
+.sim-country-card[data-region="oceania"]  { --region-ink: var(--fam-green-ink); }
+.sim-country-card[data-region="americas"] { --region-ink: var(--fam-orange-ink); }
+.sccard-header { font-size: 13px; font-weight: 700; color: var(--text); margin-bottom: 10px; display: flex; align-items: center; gap: 7px; }
+.sccard-region { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: var(--region-ink, var(--muted)); margin-left: auto; }
 .sccard-rows { display: flex; flex-direction: column; gap: 5px; }
 .sccard-row { font-size: 12px; display: flex; gap: 8px; line-height: 1.45; }
 .sccard-label { color: var(--muted); min-width: 52px; flex-shrink: 0; font-weight: 600; }
@@ -110,7 +121,6 @@
 }
 /* Colored filter pills — fam-* token families. No hover. fam-* handles dark mode. */
 @media (prefers-color-scheme: dark) {
-  .section-head { color: var(--accent); border-bottom-color: var(--accent); }
   .sim-badge-esim    { background: #0a1e3a; border-color: rgba(90,154,238,.35); color: #5a9aee; }
   .sim-badge-best    { background: #0a1e0a; border-color: rgba(74,170,74,.35); color: #4aaa4a; }
   .sim-badge-carrier { background: #2d1b5e; border-color: rgba(192,132,252,.35); color: #c084fc; }
@@ -336,8 +346,8 @@
     <div class="section-head">Local SIM by Destination</div>
     <div class="sim-country-grid">
 
-      <div class="sim-country-card" data-tags="region local">
-        <div class="sccard-header">Japan</div>
+      <div class="sim-country-card" data-tags="region local" data-region="asia">
+        <div class="sccard-header"><svg class="gm-icon" data-icon="dot-blue" data-role="dot" viewBox="0 0 24 24" aria-hidden="true"><use href="#gm-i-dot-blue"/></svg><span class="sccard-name">Japan</span><span class="sccard-region">Asia</span></div>
         <div class="sccard-rows">
           <div class="sccard-row"><span class="sccard-label">Buy</span> IIJmio data SIM — vending machines at Narita/Haneda arrivals, or convenience stores (7-Eleven, FamilyMart)</div>
           <div class="sccard-row"><span class="sccard-label">Gets you</span> 15 GB, 30 days, ~$14</div>
@@ -346,8 +356,8 @@
         <div class="sccard-note">Guides: <a href="/guides/tokyo.html">Tokyo</a> · <a href="/guides/kyoto.html">Kyoto</a></div>
       </div>
 
-      <div class="sim-country-card" data-tags="region local">
-        <div class="sccard-header">Thailand</div>
+      <div class="sim-country-card" data-tags="region local" data-region="asia">
+        <div class="sccard-header"><svg class="gm-icon" data-icon="dot-blue" data-role="dot" viewBox="0 0 24 24" aria-hidden="true"><use href="#gm-i-dot-blue"/></svg><span class="sccard-name">Thailand</span><span class="sccard-region">Asia</span></div>
         <div class="sccard-rows">
           <div class="sccard-row"><span class="sccard-label">Buy</span> AIS Tourist SIM — yellow AIS booth in Suvarnabhumi arrivals hall, or any 7-Eleven</div>
           <div class="sccard-row"><span class="sccard-label">Gets you</span> 30 GB + unlimited social media, 30 days, ~$8 (฿299)</div>
@@ -356,8 +366,8 @@
         <div class="sccard-note">Guides: <a href="/guides/bangkok.html">Bangkok</a> · <a href="/guides/phuket.html">Phuket</a></div>
       </div>
 
-      <div class="sim-country-card" data-tags="region local">
-        <div class="sccard-header">Singapore</div>
+      <div class="sim-country-card" data-tags="region local" data-region="asia">
+        <div class="sccard-header"><svg class="gm-icon" data-icon="dot-blue" data-role="dot" viewBox="0 0 24 24" aria-hidden="true"><use href="#gm-i-dot-blue"/></svg><span class="sccard-name">Singapore</span><span class="sccard-region">Asia</span></div>
         <div class="sccard-rows">
           <div class="sccard-row"><span class="sccard-label">Buy</span> Singtel Tourist SIM — Changi Airport Terminal 1/2/3 arrivals counters, or any 7-Eleven in the city</div>
           <div class="sccard-row"><span class="sccard-label">Gets you</span> 100 GB, 30 days, ~S$18 (~$13)</div>
@@ -366,8 +376,8 @@
         <div class="sccard-note">Guides: <a href="/guides/singapore.html">Singapore</a></div>
       </div>
 
-      <div class="sim-country-card" data-tags="region local">
-        <div class="sccard-header">Indonesia / Bali</div>
+      <div class="sim-country-card" data-tags="region local" data-region="asia">
+        <div class="sccard-header"><svg class="gm-icon" data-icon="dot-blue" data-role="dot" viewBox="0 0 24 24" aria-hidden="true"><use href="#gm-i-dot-blue"/></svg><span class="sccard-name">Indonesia / Bali</span><span class="sccard-region">Asia</span></div>
         <div class="sccard-rows">
           <div class="sccard-row"><span class="sccard-label">Buy</span> Telkomsel — counters at Ngurah Rai Airport arrivals, or Indomaret/Alfamart convenience stores</div>
           <div class="sccard-row"><span class="sccard-label">Gets you</span> 30 GB, 30 days, ~$6 (Rp 100,000)</div>
@@ -376,8 +386,8 @@
         <div class="sccard-note">Guides: <a href="/guides/bali.html">Bali</a></div>
       </div>
 
-      <div class="sim-country-card" data-tags="region local">
-        <div class="sccard-header">United Kingdom</div>
+      <div class="sim-country-card" data-tags="region local" data-region="europe">
+        <div class="sccard-header"><svg class="gm-icon" data-icon="dot-purple" data-role="dot" viewBox="0 0 24 24" aria-hidden="true"><use href="#gm-i-dot-purple"/></svg><span class="sccard-name">United Kingdom</span><span class="sccard-region">Europe</span></div>
         <div class="sccard-rows">
           <div class="sccard-row"><span class="sccard-label">Buy</span> giffgaff SIM — order free online before you leave (delivered to your home); or Three UK at WHSmith in any major airport</div>
           <div class="sccard-row"><span class="sccard-label">Gets you</span> 80 GB, 30 days, ~£10 (~$13) via giffgaff; or 100 GB, 30 days, ~£15 via Three</div>
@@ -386,8 +396,8 @@
         <div class="sccard-note">Guides: <a href="/guides/london.html">London</a> · <a href="/guides/edinburgh.html">Edinburgh</a> · <a href="/guides/glasgow.html">Glasgow</a> · <a href="/guides/oxford.html">Oxford</a> · <a href="/guides/cambridge.html">Cambridge</a></div>
       </div>
 
-      <div class="sim-country-card" data-tags="region local">
-        <div class="sccard-header">Europe (multi-country)</div>
+      <div class="sim-country-card" data-tags="region local" data-region="europe">
+        <div class="sccard-header"><svg class="gm-icon" data-icon="dot-purple" data-role="dot" viewBox="0 0 24 24" aria-hidden="true"><use href="#gm-i-dot-purple"/></svg><span class="sccard-name">Europe (multi-country)</span><span class="sccard-region">Europe</span></div>
         <div class="sccard-rows">
           <div class="sccard-row"><span class="sccard-label">Buy</span> Any EU carrier SIM in your first country — roams free across all EU member states. Orange Holiday (France) is widely recommended: sold at airports and Orange stores.</div>
           <div class="sccard-row"><span class="sccard-label">Gets you</span> Orange Holiday: 20 GB EU-wide, 14 days, ~€25 (~$27). Renew for another 14 days if needed.</div>
@@ -396,8 +406,8 @@
         <div class="sccard-note">Guides: <a href="/guides/paris.html">Paris</a> · <a href="/guides/amsterdam.html">Amsterdam</a> · <a href="/guides/berlin.html">Berlin</a> · <a href="/guides/rome.html">Rome</a> · <a href="/guides/barcelona.html">Barcelona</a></div>
       </div>
 
-      <div class="sim-country-card" data-tags="region local">
-        <div class="sccard-header">Switzerland</div>
+      <div class="sim-country-card" data-tags="region local" data-region="europe">
+        <div class="sccard-header"><svg class="gm-icon" data-icon="dot-purple" data-role="dot" viewBox="0 0 24 24" aria-hidden="true"><use href="#gm-i-dot-purple"/></svg><span class="sccard-name">Switzerland</span><span class="sccard-region">Europe</span></div>
         <div class="sccard-rows">
           <div class="sccard-row"><span class="sccard-label">Buy</span> Salt, Swisscom, or Sunrise — kiosks at Zurich, Geneva, or Basel airport arrivals, or any carrier store downtown</div>
           <div class="sccard-row"><span class="sccard-label">Gets you</span> Salt: free SIM + 10 CHF credit, ~1.99 CHF/day unlimited data (~$2); Swisscom/Sunrise: ~20 CHF SIM w/ credit (~$22), ~2–2.5 CHF/day</div>
@@ -406,8 +416,8 @@
         <div class="sccard-note">Guides: <a href="/guides/geneva.html">Geneva</a> · <a href="/guides/lucerne.html">Lucerne</a> · <a href="/guides/zurich.html">Zurich</a></div>
       </div>
 
-      <div class="sim-country-card" data-tags="region local">
-        <div class="sccard-header">Australia</div>
+      <div class="sim-country-card" data-tags="region local" data-region="oceania">
+        <div class="sccard-header"><svg class="gm-icon" data-icon="dot-green" data-role="dot" viewBox="0 0 24 24" aria-hidden="true"><use href="#gm-i-dot-green"/></svg><span class="sccard-name">Australia</span><span class="sccard-region">Oceania</span></div>
         <div class="sccard-rows">
           <div class="sccard-row"><span class="sccard-label">Buy</span> Telstra Prepaid — airport kiosks (Sydney, Melbourne), Woolworths, post offices, or Telstra stores in the city</div>
           <div class="sccard-row"><span class="sccard-label">Gets you</span> 40 GB, 28 days, ~A$30 (~$20)</div>
@@ -416,8 +426,8 @@
         <div class="sccard-note">Guides: <a href="/guides/sydney.html">Sydney</a> · <a href="/guides/melbourne.html">Melbourne</a></div>
       </div>
 
-      <div class="sim-country-card" data-tags="region local">
-        <div class="sccard-header">New Zealand</div>
+      <div class="sim-country-card" data-tags="region local" data-region="oceania">
+        <div class="sccard-header"><svg class="gm-icon" data-icon="dot-green" data-role="dot" viewBox="0 0 24 24" aria-hidden="true"><use href="#gm-i-dot-green"/></svg><span class="sccard-name">New Zealand</span><span class="sccard-region">Oceania</span></div>
         <div class="sccard-rows">
           <div class="sccard-row"><span class="sccard-label">Buy</span> Spark NZ — Auckland or Queenstown Airport kiosks, Countdown supermarkets, or Spark stores downtown</div>
           <div class="sccard-row"><span class="sccard-label">Gets you</span> 7 GB, 28 days, ~NZ$19 (~$11); or 30 GB for ~NZ$29</div>
@@ -426,8 +436,8 @@
         <div class="sccard-note">Guides: <a href="/guides/wellington.html">Wellington</a> · <a href="/guides/queenstown.html">Queenstown</a></div>
       </div>
 
-      <div class="sim-country-card" data-tags="region local">
-        <div class="sccard-header">Mexico</div>
+      <div class="sim-country-card" data-tags="region local" data-region="americas">
+        <div class="sccard-header"><svg class="gm-icon" data-icon="dot-orange" data-role="dot" viewBox="0 0 24 24" aria-hidden="true"><use href="#gm-i-dot-orange"/></svg><span class="sccard-name">Mexico</span><span class="sccard-region">Americas</span></div>
         <div class="sccard-rows">
           <div class="sccard-row"><span class="sccard-label">Buy</span> Telcel — official counter at Mexico City (MEX) airport, Terminal 1, Puerta 5 second floor, or any OXXO convenience store</div>
           <div class="sccard-row"><span class="sccard-label">Gets you</span> ~5–10 GB, 30 days, ~$5–10 (100–200 MXN) at OXXO; airport counter runs 150–300 MXN for the same plans</div>
@@ -436,8 +446,8 @@
         <div class="sccard-note">Guides: <a href="/guides/cancun.html">Cancún</a> · <a href="/guides/los-cabos.html">Los Cabos</a> · <a href="/guides/oaxaca.html">Oaxaca</a> · <a href="/guides/puerto-vallarta.html">Puerto Vallarta</a></div>
       </div>
 
-      <div class="sim-country-card" data-tags="region local">
-        <div class="sccard-header">Costa Rica</div>
+      <div class="sim-country-card" data-tags="region local" data-region="americas">
+        <div class="sccard-header"><svg class="gm-icon" data-icon="dot-orange" data-role="dot" viewBox="0 0 24 24" aria-hidden="true"><use href="#gm-i-dot-orange"/></svg><span class="sccard-name">Costa Rica</span><span class="sccard-region">Americas</span></div>
         <div class="sccard-rows">
           <div class="sccard-row"><span class="sccard-label">Buy</span> Kolbi or Claro — SIM vending machines at San José (SJO) Terminal A arrivals and the ConRac rental-car lobby, or carrier kiosks at Liberia (LIR) arrivals</div>
           <div class="sccard-row"><span class="sccard-label">Gets you</span> Kolbi: 3–10 GB, 7–30 days, ~$10–25; Claro: plans from ~$0.70 (300 MB, 8 hrs) up to ~$19 unlimited/30 days</div>
@@ -446,8 +456,8 @@
         <div class="sccard-note">Guides: <a href="/guides/arenal.html">Arenal</a> · <a href="/guides/manuel-antonio.html">Manuel Antonio</a> · <a href="/guides/san-jose-costa-rica.html">San José</a></div>
       </div>
 
-      <div class="sim-country-card" data-tags="region local">
-        <div class="sccard-header">Peru</div>
+      <div class="sim-country-card" data-tags="region local" data-region="americas">
+        <div class="sccard-header"><svg class="gm-icon" data-icon="dot-orange" data-role="dot" viewBox="0 0 24 24" aria-hidden="true"><use href="#gm-i-dot-orange"/></svg><span class="sccard-name">Peru</span><span class="sccard-region">Americas</span></div>
         <div class="sccard-rows">
           <div class="sccard-row"><span class="sccard-label">Buy</span> Bitel — airport kiosks at Jorge Chávez (Lima) arrivals, or Bitel stores throughout Cusco and Lima</div>
           <div class="sccard-row"><span class="sccard-label">Gets you</span> 10 GB, 30 days, ~$5</div>
@@ -456,8 +466,8 @@
         <div class="sccard-note">Guides: <a href="/guides/lima.html">Lima</a> · <a href="/guides/cusco.html">Cusco</a></div>
       </div>
 
-      <div class="sim-country-card" data-tags="region local">
-        <div class="sccard-header">Chile</div>
+      <div class="sim-country-card" data-tags="region local" data-region="americas">
+        <div class="sccard-header"><svg class="gm-icon" data-icon="dot-orange" data-role="dot" viewBox="0 0 24 24" aria-hidden="true"><use href="#gm-i-dot-orange"/></svg><span class="sccard-name">Chile</span><span class="sccard-region">Americas</span></div>
         <div class="sccard-rows">
           <div class="sccard-row"><span class="sccard-label">Buy</span> Entel — Arturo Merino Benítez Airport (Santiago) arrivals kiosk, or Entel stores in the city center</div>
           <div class="sccard-row"><span class="sccard-label">Gets you</span> 30 GB, 30 days, ~CLP 15,000 (~$15)</div>
@@ -466,8 +476,8 @@
         <div class="sccard-note">Guides: <a href="/guides/santiago.html">Santiago</a></div>
       </div>
 
-      <div class="sim-country-card" data-tags="region local">
-        <div class="sccard-header">Argentina</div>
+      <div class="sim-country-card" data-tags="region local" data-region="americas">
+        <div class="sccard-header"><svg class="gm-icon" data-icon="dot-orange" data-role="dot" viewBox="0 0 24 24" aria-hidden="true"><use href="#gm-i-dot-orange"/></svg><span class="sccard-name">Argentina</span><span class="sccard-region">Americas</span></div>
         <div class="sccard-rows">
           <div class="sccard-row"><span class="sccard-label">Buy</span> Claro or Personal — kiosks at Ezeiza Airport arrivals, or any electronics shop (Garbarino, Frávega) in Buenos Aires</div>
           <div class="sccard-row"><span class="sccard-label">Gets you</span> ~10–15 GB, 30 days, ~$5–10 (pricing fluctuates with peso rate)</div>
@@ -476,8 +486,8 @@
         <div class="sccard-note">Guides: <a href="/guides/buenos-aires.html">Buenos Aires</a></div>
       </div>
 
-      <div class="sim-country-card" data-tags="region local">
-        <div class="sccard-header">Brazil</div>
+      <div class="sim-country-card" data-tags="region local" data-region="americas">
+        <div class="sccard-header"><svg class="gm-icon" data-icon="dot-orange" data-role="dot" viewBox="0 0 24 24" aria-hidden="true"><use href="#gm-i-dot-orange"/></svg><span class="sccard-name">Brazil</span><span class="sccard-region">Americas</span></div>
         <div class="sccard-rows">
           <div class="sccard-row"><span class="sccard-label">Buy</span> Vivo — Galeão Airport (Rio) or Guarulhos (São Paulo) arrivals counters, or Vivo stores downtown</div>
           <div class="sccard-row"><span class="sccard-label">Gets you</span> 20 GB, 30 days, ~R$30 (~$6)</div>
@@ -553,9 +563,8 @@
     if(name) items.push({name:name, sub:sub, text:sub});
   });
   document.querySelectorAll('.sim-country-card').forEach(function(card){
-    var h=card.querySelector('.sccard-header');
-    if(!h) return;
-    var country=h.textContent.replace(/^[^A-Za-z0-9]+/,'').trim();
+    var n=card.querySelector('.sccard-name');
+    var country=n?n.textContent.trim():'';
     if(country) items.push({name:country, sub:'Local SIM'});
   });
   TVESearch.attach(input,{items:items});

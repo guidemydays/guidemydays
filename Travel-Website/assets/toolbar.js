@@ -7329,11 +7329,15 @@ window.TVE.home = (function () {
       { name: 'Grand Hyatt Santiago', note: 'Hyatt brand — Las Condes high-rise, outdoor pool, spa, and five restaurants with Andes panoramas · 9.0 Booking.com', url: 'https://www.booking.com/hotel/cl/grand-hyatt-santiago.html', tier: 'luxury' }
     ], price: { budget: 'CLP 65,000–90,000', mid: 'CLP 130,000–200,000', expensive: 'CLP 250,000–450,000', luxury: 'CLP 500,000+' } },
     'santorini': { h: [
-      { name: 'Canaves Oia Suites', note: 'Independent luxury — Oia clifftop, infinity pools, Michelin Guide-listed restaurant, sunset-facing caldera view · 9.6 Booking.com', url: 'https://www.booking.com/hotel/gr/canaves-oia-suites.html' },
-      { name: 'Grace Hotel Santorini, Auberge Resorts Collection', note: 'Auberge Resorts — Imerovigli caldera cliff, adults-only, infinity pool with champagne service · 9.5 Booking.com', url: 'https://www.booking.com/hotel/gr/grace-hotel-santorini.html' },
-      { name: 'Katikies Santorini', note: 'Small Luxury Hotels — Oia caldera edge, three infinity pools, Zeus restaurant, adults-only · 9.5 Booking.com', url: 'https://www.booking.com/hotel/gr/katikies.html' },
-      { name: 'Olympic Villas', note: 'Independent boutique — Oia caldera-view villas with private pools, quiet location steps from main street · 9.3 Booking.com', url: 'https://www.booking.com/hotel/gr/olympic-villas-oia-santorini.html' }
-    ] },
+      { name: 'Lava Suites & Lounge', note: 'Independent boutique — Oia caldera edge, 9 suites, communal terrace with direct caldera view at a fraction of the luxury-tier rate · 9.1 Booking.com', url: 'https://www.booking.com/hotel/gr/lava-suites-and-lounge.html', tier: 'budget' },
+      { name: 'Aethrio Hotel Santorini', note: 'Independent — Fira central, rooftop pool with caldera view, 24h reception, easy access to all transport · 9.0 Booking.com', url: 'https://www.booking.com/hotel/gr/aethrio-hotel-santorini.html', tier: 'budget' },
+      { name: 'Canaves Oia Suites', note: 'Independent luxury — Oia clifftop, infinity pools, Michelin Guide-listed restaurant, sunset-facing caldera view · 9.6 Booking.com', url: 'https://www.booking.com/hotel/gr/canaves-oia-suites.html', tier: 'mid' },
+      { name: 'Cori Rigas Suites', note: 'Independent — Fira caldera cliff, cave-cut suites with private plunge pools, adult-focused · 9.4 Booking.com', url: 'https://www.booking.com/hotel/gr/cori-rigas-suites.html', tier: 'mid' },
+      { name: 'Grace Hotel Santorini, Auberge Resorts Collection', note: 'Auberge Resorts — Imerovigli caldera cliff, adults-only, infinity pool with champagne service · 9.5 Booking.com', url: 'https://www.booking.com/hotel/gr/grace-hotel-santorini.html', tier: 'expensive' },
+      { name: 'Olympic Villas', note: 'Independent boutique — Oia caldera-view villas with private pools, quiet location steps from main street · 9.3 Booking.com', url: 'https://www.booking.com/hotel/gr/olympic-villas-oia-santorini.html', tier: 'expensive' },
+      { name: 'Katikies Santorini', note: 'Small Luxury Hotels — Oia caldera edge, three infinity pools, Zeus restaurant, adults-only · 9.5 Booking.com', url: 'https://www.booking.com/hotel/gr/katikies.html', tier: 'luxury' },
+      { name: 'Mystique, a Luxury Collection Hotel', note: 'Marriott Luxury Collection — Oia main street clifftop, adults-only, Asea restaurant, private plunge pools · 9.3 Booking.com', url: 'https://www.booking.com/hotel/gr/mystique-a-luxury-collection-hotel-santorini.html', tier: 'luxury' }
+    ], price: { budget: '€90–160', mid: '€200–380', expensive: '€380–700', luxury: '€700+' } },
     'sarasota': { h: [
       { name: 'The Westin Sarasota', note: 'Marriott family — downtown bayfront tower, outdoor rooftop pool, marina and Sarasota Bay views', url: 'https://www.expedia.com/Sarasota-Hotels-The-Westin-Sarasota.h16818933.Hotel-Information' },
       { name: 'Hotel Ranola', note: 'Independent boutique — downtown historic district, 10 rooms, chef-driven breakfast, walkable arts scene', url: 'https://www.expedia.com/Sarasota-Hotels-Hotel-Ranola.h12348410.Hotel-Information' },
@@ -11297,7 +11301,7 @@ window.TVE.home = (function () {
       'BGI','BGO','BIO','BKK','BLQ','BNA','BOB','BOD','BOS','BRU','BUD','CAI','CDG','CLT','CMB','CNX',
       'CPH','CPT','CUN','CUR','CUZ','CWB','DBV','DEN','DFW','DOH','DPS','DTW','DUB','DUS','DXB','EDI',
       'EYW','EZE','FAO','FCO','FHR','FLN','FLR','FOR','FRA','GCM','GIG','GOT','GPS','GRU','GVA','HAM',
-      'HAN','HEL','HER','HKG','HKT','HND','IAD','IAH','ICN','IGU','IST','JFK','JMK','JPA','KEF','KOA',
+      'HAN','HEL','HER','HKG','HKT','HND','IAD','IAH','ICN','IGU','IST','JFK','JMK','JPA','JTR','KEF','KOA',
       'KRK','KTM','LAS','LAX','LGA','LGW','LHR','LIH','LIM','LIS','LJU','LUX','LYS','MAD','MAN','MCT','MEL',
       'MIA','MLA','MLE','MRS','MSP','MSY','MUC','MVD','MXP','NAP','NAS','NAT','NCE','OGG','OPO','ORD','ORY',
       'OSL','PBH','PDL','PDX','PEK','PHL','PHX','PLS','PMI','PNS','POA','PPS','PRG','PSA','PSP','PUS',

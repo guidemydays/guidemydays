@@ -6225,11 +6225,11 @@ window.TVE.home = (function () {
       { name: 'Hotel Trundle', note: 'Independent boutique — Main Street District, art deco-inspired interiors celebrating Columbia\'s arts scene, rooftop bar with city views · 9.1 Booking.com', url: 'https://www.booking.com/hotel/us/trundle.html', tier: 'luxury' }
     ], price: { budget: '$100–150', mid: '$150–200', expensive: '$200–260', luxury: '$280+' } },
     'copenhagen': { h: [
-      { name: 'Hotel d\'Angleterre', note: 'Leading Hotels of the World — 1755 landmark on Kongens Nytorv, Michelin-starred Restaurant Marchal, spa with indoor pool, direct access to Strøget shopping · 9.3 Booking.com' , url: 'https://www.booking.com/hotel/dk/dangleterre.html' },
-      { name: 'Nimb Hotel', note: 'Independent boutique — 17 rooms inside Tivoli Gardens, Nimb Terrasse brasserie, members-only Nimb Bar, private garden access year-round · 9.4 Booking.com' , url: 'https://www.booking.com/hotel/dk/nimb.html' },
-      { name: 'Nobis Hotel Copenhagen', note: 'Nobis Hospitality — converted 1896 Royal Danish Music Conservatory, Brasserie Nobis, rooftop terrace, design interiors · 9.0 Booking.com' , url: 'https://www.booking.com/hotel/dk/nobis-copenhagen.html' },
-      { name: 'Villa Copenhagen', note: 'Design Hotels — converted 1909 Post & Telegraph headquarters opposite Tivoli, outdoor heated pool, BRASSERIE CENTRAL, spa · 9.1 Booking.com' , url: 'https://www.booking.com/hotel/dk/villa-copenhagen.html' }
-    ] },
+      { name: 'Nobis Hotel Copenhagen', note: 'Nobis Hospitality — converted 1896 Royal Danish Music Conservatory, Brasserie Nobis, rooftop terrace, design interiors · 9.0 Booking.com', url: 'https://www.booking.com/hotel/dk/nobis-copenhagen.html', tier: 'budget' },
+      { name: 'Villa Copenhagen', note: 'Design Hotels — converted 1909 Post & Telegraph headquarters opposite Tivoli, outdoor heated pool, BRASSERIE CENTRAL, spa · 9.1 Booking.com', url: 'https://www.booking.com/hotel/dk/villa-copenhagen.html', tier: 'mid' },
+      { name: 'Nimb Hotel', note: 'Independent boutique — 17 rooms inside Tivoli Gardens, Nimb Terrasse brasserie, members-only Nimb Bar, private garden access year-round · 9.4 Booking.com', url: 'https://www.booking.com/hotel/dk/nimb.html', tier: 'expensive' },
+      { name: 'Hotel d\'Angleterre', note: 'Leading Hotels of the World — 1755 landmark on Kongens Nytorv, Michelin-starred Restaurant Marchal, spa with indoor pool, direct access to Strøget shopping · 9.3 Booking.com', url: 'https://www.booking.com/hotel/dk/dangleterre.html', tier: 'luxury' }
+    ], price: { budget: 'EUR 200–280', mid: 'EUR 280–380', expensive: 'EUR 380–550', luxury: 'EUR 550+' } },
     'corfu': { h: [
       { name: 'Albergo Botti', note: 'Independent — Irinis Dendrinou in the Old Town, a restored Venetian townhouse, AC, soundproofed rooms · 9.6 Booking.com', url: 'https://www.booking.com/hotel/gr/albergo-botti.html' },
       { name: 'The Calliston', note: 'Independent — Arseniou by the sea wall at the north edge of the Old Town, AC, airport transfers · 9.5 Booking.com', url: 'https://www.booking.com/hotel/gr/the-calliston.html' },
@@ -6466,11 +6466,11 @@ window.TVE.home = (function () {
       { name: 'The Sea Pines Resort', note: 'Independent — 5,200-acre plantation, four golf courses, beach club, Harbour Town lighthouse · 9.2 Booking.com', url: 'https://www.booking.com/hotel/us/sea-pines-resort.html', tier: 'luxury' }
     ], price: { budget: 'USD 200–350', mid: 'USD 350–550', expensive: 'USD 550–850', luxury: 'USD 850+' } },
     'hiroshima': { h: [
-      { name: 'Grand Prince Hotel Hiroshima', note: 'Prince Hotels brand — waterfront hotel on the Motoyasu River, panoramic city views, spa, pool, closest major hotel to Peace Memorial Park · 8.9 Booking.com', url: 'https://www.booking.com/hotel/jp/grand-prince-hiroshima.html' },
-      { name: 'Sheraton Grand Hiroshima Hotel', note: 'Marriott brand — directly connected to JR Hiroshima Station, Shinkansen-accessible, Club Lounge, contemporary rooms above the transit hub · 8.7 Booking.com', url: 'https://www.booking.com/hotel/jp/sheraton-hiroshima.html' },
-      { name: 'Hilton Hiroshima', note: 'Hilton brand — modern 5-star in city centre, indoor pool, spa, fitness center, 1.6km from Peace Memorial Park · 9.2 Booking.com', url: 'https://www.booking.com/hotel/jp/hilton-hiroshima.html' },
-      { name: 'ANA Crowne Plaza Hiroshima', note: 'IHG brand — 5-minute walk from Peace Memorial Park, city-centre location, fitness center, panoramic views · 8.3 Booking.com', url: 'https://www.booking.com/hotel/jp/ana-crowne-plaza-hiroshima.html' }
-    ] },
+      { name: 'Dormy Inn Premium Hiroshima Ekimae', note: 'Dormy Inn brand — business hotel a short walk from Hiroshima Station, rooftop natural hot spring bath, free late-night ramen service, breakfast option · 8.5 Booking.com', url: 'https://www.booking.com/hotel/jp/dormy-inn-premium-hiroshima.html', tier: 'budget' },
+      { name: 'ANA Crowne Plaza Hiroshima', note: 'IHG brand — 5-minute walk from Peace Memorial Park, city-centre location, fitness center, panoramic views · 8.3 Booking.com', url: 'https://www.booking.com/hotel/jp/ana-crowne-plaza-hiroshima.html', tier: 'mid' },
+      { name: 'Hilton Hiroshima', note: 'Hilton brand — modern 5-star in city centre, indoor pool, spa, fitness center, 1.6km from Peace Memorial Park · 9.2 Booking.com', url: 'https://www.booking.com/hotel/jp/hilton-hiroshima.html', tier: 'expensive' },
+      { name: 'Grand Prince Hotel Hiroshima', note: 'Prince Hotels brand — waterfront hotel on the Motoyasu River, panoramic city views, spa, pool, closest major hotel to Peace Memorial Park · 8.9 Booking.com', url: 'https://www.booking.com/hotel/jp/grand-prince-hiroshima.html', tier: 'luxury' }
+    ], price: { budget: 'JPY 10,000–18,000', mid: 'JPY 20,000–35,000', expensive: 'JPY 35,000–60,000', luxury: 'JPY 60,000+' } },
     'hoi-an': { h: [
       { name: 'Anantara Hội An Resort', note: 'Anantara brand — Thu Bon River frontage in the Ancient Town, colonial-style architecture, riverside pool, spa · 9.2 Booking.com', url: 'https://www.booking.com/hotel/vn/anantara-hoi-an-resort.html' },
       { name: 'Victoria Hội An Beach Resort & Spa', note: 'Victoria Hotels brand — beachfront between Old Town and Cua Dai Beach, pool, spa, traditional Vietnamese architecture · 8.8 Booking.com', url: 'https://www.booking.com/hotel/vn/victoria-hoi-an-beach-resort-and-spa.html' },
@@ -11322,7 +11322,7 @@ window.TVE.home = (function () {
       'BGI','BGO','BIO','BKK','BLQ','BNA','BOB','BOD','BOS','BRU','BSL','BUD','CAE','CAI','CDG','CGN','CKG',
       'CLT','CMB','CNX','CPH','CPT','CUN','CUR','CUZ','CWB','DBV','DCA','DEN','DFW','DOH','DPS','DTW','DUB',
       'DUS','DXB','EDI','EYW','EZE','FAO','FCA','FCO','FHR','FLN','FLR','FNC','FOR','FRA','GCM','GEG',
-      'GIG','GOT','GPS','GRU','GRX','GVA','HAM','HAN','HEL','HER','HHH','HKG','HKT','HND','HNL','IAD','IAH',
+      'GIG','GOT','GPS','GRU','GRX','GVA','HAM','HAN','HEL','HER','HHH','HIJ','HKG','HKT','HND','HNL','IAD','IAH',
       'ICN','IGU','IST','JFK','JMK','JPA','JTR','KEF','KIX','KOA','KRK','KTM','LAS','LAX','LGA','LGW',
       'LHR','LIH','LIM','LIS','LJU','LPQ','LUX','LYS','MAD','MAN','MCO','MCT','MCZ','MEL','MIA','MLA',
       'MLE','MRS','MSP','MSY','MUC','MVD','MXP','NAP','NAS','NAT','NCE','OAX','OGG','OLB','OPO','ORD',

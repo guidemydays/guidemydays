@@ -8,6 +8,19 @@
 <style>
 /* All colors via CSS variables — no hardcoded hex */
 
+/* ── Search + filter controls (same pattern as transit-cards) ── */
+.controls {
+  display: flex; flex-direction: column;
+  gap: 10px; align-items: center; margin-bottom: 20px;
+}
+.pills { display: flex; gap: var(--fam-gap,10px); flex-wrap: wrap; justify-content: center; }
+/* .pill is a layout hook — box, colour, case and the selected state come from
+   the shared .pill-badge + .fam-* classes (markup writes pill pill-badge fam-*;
+   selection is .is-on). Never re-add a box or a colour here.
+   Spec: Brain/Reference/Formatting/Badge-Pill-System/. */
+.pill { font-family: inherit; }
+#no-results { display: none; }
+
 /* Section headers */
 .section-head {
   font-size: 12px; font-weight: 700; color: var(--muted);
@@ -15,6 +28,8 @@
   margin: 28px 0 12px; padding-bottom: 7px;
   border-bottom: 2px solid var(--border2);
 }
+.section.hidden { display: none; }
+.app-card-wrap.hidden { display: none; }
 
 /* App cards */
 .app-grid {
@@ -25,16 +40,17 @@
 
 /* Anchor label — badge (GREY family) attached to the top of the card, per
    Formatting.html#sec-badges card-wrapper pattern (label sits directly
-   above/touching its card, same treatment as "Hubby | Venue" on Trips.html). */
+   above/touching its card, same treatment as "Hubby | Venue" on Trips.html).
+   Colour comes from the shared .fam-grey class (markup carries "app-anchor
+   fam-grey") — this class is layout-only. 2026-08-23: dropped a hardcoded
+   copy of --fam-grey's light-mode values that never picked up the dark-mode
+   token swap, so this badge was stuck light-grey under dark mode. */
 .app-anchor {
   align-self: flex-start;
   font-size: 10px; font-weight: 700; letter-spacing: 0.04em; line-height: 1.5;
   text-transform: uppercase; white-space: normal;
   padding: 2px 8px; border-radius: 4px 4px 0 0;
-  background: rgba(138,108,26,0.07);
-  border: 1px solid rgba(106,102,96,0.4);
   border-bottom: none;
-  color: var(--muted);
   margin-bottom: -1px;
   position: relative; z-index: 1;
 }
@@ -68,6 +84,7 @@
 /* Mobile */
 @media (max-width: 600px) and (pointer: coarse) {
   .app-grid { grid-template-columns: 1fr; }
+  .pills { display: flex !important; flex-wrap: wrap !important; gap: var(--fam-gap,10px) !important; justify-content: center !important; }
 }
 
 /* The html/:root[data-theme] twins that stood here are deleted. The manual
@@ -111,18 +128,36 @@
     <h1 class="hero-title">Travel Apps</h1>
     <p class="hero-sub">The apps worth having on your phone before you leave, grouped by what they do — maps and navigation, translation, currency, transit and the rest. The most useful advice on the page is the part people skip: download the offline content while you are still on home Wi-Fi, because Google Maps areas, Google Translate language packs and XE Currency rates all work without a data connection once saved, and none of them download well in an airport.</p>
   </div>
+  <div class="hero-ground">
+    <input type="search" class="search-input" id="apps-search" placeholder="App name or category" aria-label="Search apps by name or category" autocomplete="off">
+  </div>
 
 <div class="wrap">
+
+  <div class="controls">
+    <div class="pills">
+      <button class="pill is-on pill-badge fam-yellow" data-filter="all" aria-pressed="true">All</button>
+      <button class="pill pill-badge fam-green" data-filter="maps" aria-pressed="false">Maps &amp; Navigation</button>
+      <button class="pill pill-badge fam-red" data-filter="flights" aria-pressed="false">Flights</button>
+      <button class="pill pill-badge fam-blue" data-filter="translation" aria-pressed="false">Translation</button>
+      <button class="pill pill-badge fam-purple" data-filter="money" aria-pressed="false">Money &amp; Currency</button>
+      <button class="pill pill-badge fam-orange" data-filter="safety" aria-pressed="false">Safety &amp; Alerts</button>
+      <button class="pill pill-badge fam-pink" data-filter="esim" aria-pressed="false">eSIM &amp; Connectivity</button>
+      <button class="pill pill-badge fam-grey" data-filter="planning" aria-pressed="false">Planning &amp; Packing</button>
+    </div>
+    <div id="no-results" class="empty-state">Nothing matches your search.</div>
+  </div><!-- /.controls -->
 
   <div class="dl-note">
     <strong>Download offline content before you leave home.</strong> Google Maps areas, Google Translate language packs, and XE Currency rates all work without a data connection once downloaded. Do this on Wi-Fi — not in the airport lounge at departure.
   </div>
 
   <!-- ── Maps & Navigation ─────────────────────────────────── -->
+  <div class="section" data-section="maps">
   <div class="section-head">Maps &amp; Navigation</div>
   <div class="app-grid">
     <div class="app-card-wrap">
-      <span class="app-anchor">The standard — works everywhere</span>
+      <span class="app-anchor fam-grey">The standard — works everywhere</span>
       <div class="app-card">
         <div class="app-head">
           <div class="app-name"><a href="https://maps.google.com" target="_blank" rel="noopener" class="ext-arrow">Google Maps</a></div>
@@ -133,7 +168,7 @@
       </div>
     </div>
     <div class="app-card-wrap">
-      <span class="app-anchor">Fully offline, built on OpenStreetMap</span>
+      <span class="app-anchor fam-grey">Fully offline, built on OpenStreetMap</span>
       <div class="app-card">
         <div class="app-head">
           <div class="app-name"><a href="https://maps.me" target="_blank" rel="noopener" class="ext-arrow">Maps.me</a></div>
@@ -144,7 +179,7 @@
       </div>
     </div>
     <div class="app-card-wrap">
-      <span class="app-anchor">Multi-modal route planner</span>
+      <span class="app-anchor fam-grey">Multi-modal route planner</span>
       <div class="app-card">
         <div class="app-head">
           <div class="app-name"><a href="https://www.rome2rio.com" target="_blank" rel="noopener" class="ext-arrow">Rome2rio</a></div>
@@ -155,7 +190,7 @@
       </div>
     </div>
     <div class="app-card-wrap">
-      <span class="app-anchor">Best for urban transit in major cities</span>
+      <span class="app-anchor fam-grey">Best for urban transit in major cities</span>
       <div class="app-card">
         <div class="app-head">
           <div class="app-name"><a href="https://citymapper.com" target="_blank" rel="noopener" class="ext-arrow">Citymapper</a></div>
@@ -166,12 +201,14 @@
       </div>
     </div>
   </div>
+  </div><!-- /section maps -->
 
   <!-- ── Flights ───────────────────────────────────────────── -->
+  <div class="section" data-section="flights">
   <div class="section-head">Flights</div>
   <div class="app-grid">
     <div class="app-card-wrap">
-      <span class="app-anchor">Fastest flight alerts available</span>
+      <span class="app-anchor fam-grey">Fastest flight alerts available</span>
       <div class="app-card">
         <div class="app-head">
           <div class="app-name"><a href="https://www.flightyapp.com" target="_blank" rel="noopener" class="ext-arrow">Flighty</a></div>
@@ -182,7 +219,7 @@
       </div>
     </div>
     <div class="app-card-wrap">
-      <span class="app-anchor">Itinerary organizer from email confirmations</span>
+      <span class="app-anchor fam-grey">Itinerary organizer from email confirmations</span>
       <div class="app-card">
         <div class="app-head">
           <div class="app-name"><a href="https://www.tripit.com" target="_blank" rel="noopener" class="ext-arrow">TripIt</a></div>
@@ -193,12 +230,14 @@
       </div>
     </div>
   </div>
+  </div><!-- /section flights -->
 
   <!-- ── Translation ───────────────────────────────────────── -->
+  <div class="section" data-section="translation">
   <div class="section-head">Translation</div>
   <div class="app-grid">
     <div class="app-card-wrap">
-      <span class="app-anchor">Point your camera at signs and menus</span>
+      <span class="app-anchor fam-grey">Point your camera at signs and menus</span>
       <div class="app-card">
         <div class="app-head">
           <div class="app-name"><a href="https://translate.google.com" target="_blank" rel="noopener" class="ext-arrow">Google Translate</a></div>
@@ -209,7 +248,7 @@
       </div>
     </div>
     <div class="app-card-wrap">
-      <span class="app-anchor">More natural for European languages</span>
+      <span class="app-anchor fam-grey">More natural for European languages</span>
       <div class="app-card">
         <div class="app-head">
           <div class="app-name"><a href="https://www.deepl.com" target="_blank" rel="noopener" class="ext-arrow">DeepL</a></div>
@@ -220,12 +259,14 @@
       </div>
     </div>
   </div>
+  </div><!-- /section translation -->
 
   <!-- ── Money ─────────────────────────────────────────────── -->
+  <div class="section" data-section="money">
   <div class="section-head">Money &amp; Currency</div>
   <div class="app-grid">
     <div class="app-card-wrap">
-      <span class="app-anchor">Offline currency converter</span>
+      <span class="app-anchor fam-grey">Offline currency converter</span>
       <div class="app-card">
         <div class="app-head">
           <div class="app-name"><a href="https://www.xe.com/apps" target="_blank" rel="noopener" class="ext-arrow">XE Currency</a></div>
@@ -236,7 +277,7 @@
       </div>
     </div>
     <div class="app-card-wrap">
-      <span class="app-anchor">Spend and send at the real exchange rate</span>
+      <span class="app-anchor fam-grey">Spend and send at the real exchange rate</span>
       <div class="app-card">
         <div class="app-head">
           <div class="app-name"><a href="https://wise.com" target="_blank" rel="noopener" class="ext-arrow">Wise</a></div>
@@ -247,12 +288,14 @@
       </div>
     </div>
   </div>
+  </div><!-- /section money -->
 
   <!-- ── Safety & Alerts ──────────────────────────────────── -->
+  <div class="section" data-section="safety">
   <div class="section-head">Safety &amp; Alerts</div>
   <div class="app-grid">
     <div class="app-card-wrap">
-      <span class="app-anchor">US State Department enrollment + alerts</span>
+      <span class="app-anchor fam-grey">US State Department enrollment + alerts</span>
       <div class="app-card">
         <div class="app-head">
           <div class="app-name"><a href="https://step.state.gov" target="_blank" rel="noopener" class="ext-arrow">Smart Traveler (STEP)</a></div>
@@ -263,7 +306,7 @@
       </div>
     </div>
     <div class="app-card-wrap">
-      <span class="app-anchor">Boarding passes + same-day rebooking</span>
+      <span class="app-anchor fam-grey">Boarding passes + same-day rebooking</span>
       <div class="app-card">
         <div class="app-head">
           <div class="app-name"><a href="https://www.delta.com" target="_blank" rel="noopener" class="ext-arrow">Delta / Airline App</a></div>
@@ -274,12 +317,14 @@
       </div>
     </div>
   </div>
+  </div><!-- /section safety -->
 
   <!-- ── eSIM & Connectivity ───────────────────────────────── -->
+  <div class="section" data-section="esim">
   <div class="section-head">eSIM &amp; Connectivity</div>
   <div class="app-grid">
     <div class="app-card-wrap">
-      <span class="app-anchor">eSIM marketplace — buy before you land</span>
+      <span class="app-anchor fam-grey">eSIM marketplace — buy before you land</span>
       <div class="app-card">
         <div class="app-head">
           <div class="app-name"><a href="https://www.airalo.com" target="_blank" rel="noopener" class="ext-arrow">Airalo</a></div>
@@ -290,7 +335,7 @@
       </div>
     </div>
     <div class="app-card-wrap">
-      <span class="app-anchor">International messaging and calls over Wi-Fi</span>
+      <span class="app-anchor fam-grey">International messaging and calls over Wi-Fi</span>
       <div class="app-card">
         <div class="app-head">
           <div class="app-name"><a href="https://www.whatsapp.com" target="_blank" rel="noopener" class="ext-arrow">WhatsApp</a></div>
@@ -301,12 +346,14 @@
       </div>
     </div>
   </div>
+  </div><!-- /section esim -->
 
   <!-- ── Planning & Packing ────────────────────────────────── -->
+  <div class="section" data-section="planning">
   <div class="section-head">Planning &amp; Packing</div>
   <div class="app-grid">
     <div class="app-card-wrap">
-      <span class="app-anchor">Smart packing list generator</span>
+      <span class="app-anchor fam-grey">Smart packing list generator</span>
       <div class="app-card">
         <div class="app-head">
           <div class="app-name"><a href="https://packpnt.com" target="_blank" rel="noopener" class="ext-arrow">PackPoint</a></div>
@@ -317,7 +364,7 @@
       </div>
     </div>
     <div class="app-card-wrap">
-      <span class="app-anchor">Point-and-search for menus, signs, and places</span>
+      <span class="app-anchor fam-grey">Point-and-search for menus, signs, and places</span>
       <div class="app-card">
         <div class="app-head">
           <div class="app-name"><a href="https://lens.google.com" target="_blank" rel="noopener" class="ext-arrow">Google Lens</a></div>
@@ -328,8 +375,64 @@
       </div>
     </div>
   </div>
+  </div><!-- /section planning -->
 
 </div><!-- /.wrap -->
+
+<script>
+(function () {
+  var search   = document.getElementById('apps-search');
+  var pills    = document.querySelectorAll('.pill');
+  var noRes    = document.getElementById('no-results');
+  var allCards = document.querySelectorAll('.app-card-wrap');
+  var sections = document.querySelectorAll('.section');
+  var activeFilter = 'all';
+  var _debounceTimer;
+
+  function matchFilter(section) {
+    if (activeFilter === 'all') return true;
+    return section === activeFilter;
+  }
+
+  function applyFilter() {
+    var q = search.value.trim().toLowerCase();
+    var shown = 0;
+
+    sections.forEach(function (sec) {
+      var secName = sec.getAttribute('data-section');
+      var secShown = 0;
+      sec.querySelectorAll('.app-card-wrap').forEach(function (card) {
+        var text = card.textContent.toLowerCase();
+        var filterOk = matchFilter(secName);
+        var searchOk = !q || text.indexOf(q) !== -1;
+        var show = filterOk && searchOk;
+        card.classList.toggle('hidden', !show);
+        if (show) { secShown++; shown++; }
+      });
+      sec.classList.toggle('hidden', secShown === 0);
+    });
+
+    noRes.style.display = shown ? 'none' : 'block';
+  }
+
+  pills.forEach(function (pill) {
+    pill.addEventListener('click', function () {
+      pills.forEach(function (p) { p.classList.remove('is-on'); p.setAttribute('aria-pressed', 'false'); });
+      pill.classList.add('is-on');
+      pill.setAttribute('aria-pressed', 'true');
+      activeFilter = pill.getAttribute('data-filter');
+      applyFilter();
+    });
+  });
+
+  search.addEventListener('input', function () {
+    clearTimeout(_debounceTimer);
+    _debounceTimer = setTimeout(applyFilter, 180);
+  });
+
+  applyFilter();
+})();
+</script>
 
 </body>
 </html>

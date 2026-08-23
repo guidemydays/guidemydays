@@ -482,12 +482,22 @@ a.apply-btn, a.apply-btn:hover, .apply-btn, .apply-btn:hover,
 .dnv-jump a, .dnv-jump a:hover,
 .cty-guides a, .cty-guides a:hover { font-family: inherit; text-decoration: none; }
 
-/* ── Sibling pills (cross-links between Climate Finder / Weather / When to Go) ── */
+/* ── Sibling pills (cross-links between Climate Finder / Weather / When to Go) ──
+   2026-08-23 owner rule: a sibling-pill is a plain nav link, not a badge, so it
+   takes the SAME box and hover the toolbar tabs use (toolbar.js .tb-links>a) —
+   not a bespoke shape. Never re-diverge this from the toolbar's box-sizing:
+   border-box; padding:8px 18px; border:1px solid rgba(192,78,26,.30);
+   border-radius:999px; background:#fff; font-size:14px; font-weight:600;
+   color:#C04E1A; hover background:#fdf4ed + border-color rgba(192,78,26,.55).
+   Supersedes the 2026-08-19 "no hover animation, 4px rect" decision below. */
 .sibling-pill { font-family: inherit;
-  display: inline-flex; align-items: center; gap: 4px;
-  font-size: 13px; font-weight: 500; color: var(--rust, #C04E1A); padding: 6px 14px;
-  border: 1px solid rgba(192,78,26,.65); border-radius: var(--fam-radius, 4px); background: var(--surface);
+  box-sizing: border-box; display: inline-flex; align-items: center; line-height: 1.2;
+  font-size: 14px; font-weight: 600; color: var(--rust, #C04E1A); padding: 8px 18px;
+  border: 1px solid rgba(192,78,26,.30); border-radius: 999px; background: #fff;
   text-decoration: none;
+}
+@media (hover:hover) {
+  .sibling-pill:hover { background: #fdf4ed; border-color: rgba(192,78,26,.55); }
 }
 a.sibling-pill:visited { color: #C04E1A; }  /* literal hex — Chrome doesn't resolve var() in :visited */
 
@@ -499,9 +509,12 @@ a.sibling-pill:visited { color: #C04E1A; }  /* literal hex — Chrome doesn't re
    still describes the strip is how a crib talks itself into re-adding it.
 
    The .also-on-this-site-pill rules below STAY, and are not an exception to
-   that: they share every hover / :visited / dark-mode selector below with
-   .sibling-pill, which is still live (When to Go, Sports Calendar, Festival
-   Finder), and they are the pinned reference shape for check_pill_hover_option_b
+   that: they still share the text-decoration:none/:visited/dark-mode selector
+   grouping with .sibling-pill, which is still live (When to Go, Sports Calendar,
+   Festival Finder) — though as of 2026-08-23 .sibling-pill's own box/hover
+   moved to the toolbar-tab treatment above and no longer matches
+   .also-on-this-site-pill's outlined-lift hover. .also-on-this-site-pill is
+   still the pinned reference shape for check_pill_hover_option_b
    and check_pills_to_badge_hover. The class itself is guide-only now — a guide
    draws its own copy from guide-style.css, since guides load neither this file
    nor mobile.css. */
@@ -689,7 +702,9 @@ a.pill-eta:visited  { color: #7a5800; }  /* amber — ETA */
 a.pill-evisa:visited { color: #7c3aed; } /* purple — eVisa */
 a.pill-visa:visited { color: #7a3a1a; }  /* red-brown — visa required */
 a.pill-voa:visited  { color: #8a4a10; }  /* orange — visa on arrival */
-/* sibling-pill: no hover animation (owner 2026-08-19) — shape 4px rect, static */
+/* sibling-pill shape/hover — 2026-08-19 "no hover animation, 4px rect" decision
+   RETIRED 2026-08-23: sibling-pill now follows the toolbar tab box/hover exactly.
+   See the rule and comment above it, near .sibling-pill's declaration. */
 
 /* ── Best-Of-Index inline-style extraction (moved out of Best-Of-Index.html to
    comply with brain_check.check_best_of_css_standard 2026-07-29) ── */

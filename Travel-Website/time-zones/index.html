@@ -68,12 +68,35 @@ input.search:focus { border-color: var(--c-search-focus-border); box-shadow: non
   display: flex; align-items: center; justify-content: center;
   gap: 14px; flex-wrap: wrap; margin: 12px 0 0;
 }
-.reference-clear {
-  background: none; border: none; padding: 0; font-family: inherit; font-size: 12.5px;
-  color: var(--muted, #6a6660); text-decoration: underline; text-underline-offset: 3px;
-  cursor: pointer;
+/* ONE RULE FOR THE BOX, so the two controls cannot drift apart — the same device
+   `.fnd-go, .fnd-reset` uses on the landing page. Clear was a bare underlined word
+   standing beside a 34px pill (owner 2026-08-23: "clear should be a button same
+   size").
+   AND THE PAIR SITS A TIER DOWN FROM THE REGION FILTERS BELOW IT — 32px/12.5px
+   against their 34px/13px — because at identical size an outlined "Closest first"
+   was indistinguishable from a seventh region pill (owner, same line: "it looks
+   too similar to the pills below"). These act on the answer; those filter the
+   grid, and the size step is what says so before either is read. */
+.reference-bar .pill, .reference-clear {
+  box-sizing: border-box; display: inline-flex; align-items: center; justify-content: center;
+  height: 32px; padding: 0 16px; border-radius: 999px;
+  font-family: inherit; font-size: 12.5px; font-weight: 600; line-height: 1;
+  cursor: pointer; white-space: nowrap;
 }
-.reference-clear:hover { color: var(--rust, #C04E1A); }
+/* CLEAR IS FILLED, and that is the other half of the same answer: filled is a
+   button, outlined is selected (unnumbered non-negotiable x05). Closest first is a
+   TOGGLE and keeps the outlined selected form; Clear is an ACTION, so it takes the
+   site's filled CTA — `.fnd-go`'s rule field for field, inversion hover included
+   (a filled CTA empties on hover, it never tints). One filled control beside one
+   outlined one cannot be read as two more of the six identical outlined filters
+   underneath, which is what the size step alone would not have settled. */
+.reference-clear {
+  background: var(--rust, #C04E1A); border: 1px solid var(--rust, #C04E1A);
+  color: #fff; transition: background .15s, color .15s;
+}
+.reference-clear:hover, .reference-clear:focus-visible {
+  background: transparent; color: var(--rust, #C04E1A);
+}
 /* THE SORT PILL CARRIES ITS OWN FORM AT EVERY WIDTH, and deliberately does not
    inherit either neighbour's. On desktop the region pills are rounded 999px chips
    and it matches them; on a phone they collapse into a glued squared 3-across grid
@@ -91,8 +114,6 @@ input.search:focus { border-color: var(--c-search-focus-border); box-shadow: non
    and hover included; only the fill/border darken. Rest/hover were #3d3a32
    (body text). Fixed here and in the dark-mode override below. */
 .reference-bar .pill {
-  box-sizing: border-box; height: auto; min-height: 34px; padding: 0 18px;
-  border-radius: 999px; font-size: 13px; font-weight: 500; line-height: 1;
   background: var(--surface, #ffffff); border: 1px solid rgba(192,78,26,.30);
   color: var(--rust, #C04E1A);
 }
@@ -112,6 +133,13 @@ input.search:focus { border-color: var(--c-search-focus-border); box-shadow: non
     background: rgba(212,102,58,.16); border: 1px solid rgba(212,102,58,.85);
     color: var(--rust, #D4663A);
   }
+  /* A FILLED CTA TAKES #C04E1A IN DARK, NOT --rust — the landing page's own
+     dark filled-CTA rule (#fnd-go / #fnd-more), for the reason written there:
+     cream on #D4663A measures 3.45:1, under AA, and on #C04E1A it is 4.57:1. */
+  .reference-clear { background: #C04E1A; border-color: #C04E1A; color: #fdf8f0; }
+  .reference-clear:hover, .reference-clear:focus-visible {
+    background: #8A3F18; border-color: #8A3F18; color: #fdf8f0;
+  }
 }
 /* ON A PHONE THE PILL IS LEFT ALONE — do not try to carry the 999px form down.
    `mobile.css` normalises every `.pill` to the shared Form A chip (13px / 6px
@@ -126,7 +154,24 @@ input.search:focus { border-color: var(--c-search-focus-border); box-shadow: non
    Clear is the one control that does need a box: it is a bare text button, and
    without this it is a 16px strip of underline. */
 @media (pointer: coarse) {
-  .reference-clear { min-height: 40px; display: inline-flex; align-items: center; }
+  /* "SAME SIZE" HAS TO HOLD ON A PHONE TOO, and on a phone neither control is
+     free to set its own: mobile.css normalises every `.pill` to the shared Form A
+     chip (13px / 6px radius / 12px 14px) with `!important`, and separately guards
+     every button at 16px / 40px. Clear is a button and NOT a `.pill`, so it took
+     the second rule while the sort pill took the first — 42px/16px beside
+     32px/13px, the two drifting apart at exactly the width where they are hardest
+     to line up again.
+     Both are pinned to Form A's OWN values here, which is why the `!important` is
+     legitimate: it is not a third form invented for this page (the trap the desktop
+     comment above names), it is mobile.css's shared chip, applied to the one
+     control its selector could not reach. The desktop 32px is released with it —
+     `height: auto` — so the pair sizes from that padding rather than from a number
+     written for a different viewport. */
+  .reference-bar .pill, .reference-clear {
+    height: auto !important; min-height: 39px !important;
+    font-size: 13px !important; padding: 12px 14px !important;
+    border-radius: 6px !important;
+  }
 }
 .pills { font-family: inherit; display: flex; gap: 4px; flex-wrap: wrap; }
 .pill {
@@ -203,13 +248,35 @@ a.pill:visited { color: #6a6660; }
 .card-clock  { display: flex; align-items: baseline; gap: 5px; }
 .card-time   { font-size: 22px; font-weight: 600; color: var(--rust-ink, #C04E1A); font-variant-numeric: tabular-nums; letter-spacing: -.01em; line-height: 1; cursor: copy; }
 .card-day    { font-size: 11px; color: var(--muted); font-weight: 400; }
-.card-meta   { display: flex; align-items: center; justify-content: space-between; }
+/* THE META ROW IS THE CARD'S LAST ROW, at the card's own foot — `margin-top: auto`
+   inside the column, not simply "written last" (owner 2026-08-23: "these should be
+   all in the last row of the card"). Grid tracks stretch every card in a row to the
+   tallest of them, so a card whose name wraps to two lines ("Carmel-by-the-Sea")
+   pushed its UTC / label / mark down while its single-line neighbours left theirs
+   floating mid-card: the same three things sat at three heights across one row.
+   The auto margin absorbs the leftover height instead, so the row lines up. */
+.card-meta   {
+  display: flex; align-items: center; justify-content: space-between;
+  /* `flex: 0 0 auto` FIRST, and it is the load-bearing half. web-travel-style.css
+     line 2350 sets `.card-meta { flex: 1 }` for its own card shape, so here the row
+     GREW to swallow every spare pixel in the card and then centred its contents in
+     the void — which is why `margin-top: auto` alone changed nothing: an item that
+     grows leaves no free space for an auto margin to take. Content-sized again, the
+     auto margin has something to absorb. */
+  flex: 0 0 auto; margin-top: auto;
+}
 .utc-offset  { font-size: 11px; color: var(--muted); }
 .vs-sea      { font-size: 11px; font-weight: 500; padding: 1px 6px; border-radius: 6px; }
 /* Canonical family colors per Badge spec 2026-07-29. */
 .vs-sea.ahead  { color: #1a5a1a; background: #e8f5e8; }   /* GREEN */
 .vs-sea.behind { color: #7a3a1a; background: #fdf0e8; }   /* RED */
-.vs-sea.same   { color: var(--muted); background: transparent; }
+/* "SAME" IS A LABEL LIKE THE OTHER TWO (owner 2026-08-23: "same should be a label
+   too and look the same"). It was bare text on the card's own ground — the one
+   reading in the set that did not look like a reading, so a zero offset read as an
+   annotation rather than as the answer the other cards were giving. It takes the
+   canonical GREY family (Formatting.html#sec-badges) because zero is neither ahead
+   nor behind: borrowing GREEN would claim a direction it does not have. */
+.vs-sea.same   { color: #6a6660; background: rgba(138,108,26,.07); }
 /* base .empty-state lives in web-travel-style.css — page keeps only the grid span */
 .empty-state { grid-column: 1 / -1; }
 /* ── Day / night mark — EVERY card carries one, in the BOTTOM-RIGHT corner, last in
@@ -236,8 +303,13 @@ a.pill:visited { color: #6a6660; }
    are day and night at a glance, doing their job without being read. Both are
    catalogue palette tokens taken from the icons' OWN fills — the sun's
    `--c-sun-shade`, the moon's `--c-slate` — never two new hexes. */
+/* GOLD, not the yellow above it (owner 2026-08-23: "sun should be a gold outline").
+   `--c-sun-shade` is the sun's mid amber and at 13px it read as a highlighter
+   stroke; `--c-sun-rim` is the same icon's own deepest tone, the brass the
+   catalogue already draws its rim in — still the icon's own palette, still not a
+   new hex invented for this page. */
 #gm-i-wx-clear path,
-#gm-i-wx-clear circle { stroke: var(--c-sun-shade, #c7970c); }
+#gm-i-wx-clear circle { stroke: var(--c-sun-rim, #a87f0b); }
 #gm-i-wx-moon path,
 #gm-i-wx-moon circle  { stroke: var(--c-slate, #566b7a); }
 #gm-i-wx-moon path,
@@ -290,6 +362,7 @@ a.pill:visited { color: #6a6660; }
   #search.search-input { background: var(--surface, #2a2825) var(--search-icon, none) no-repeat 16px center; color: var(--text, #e8e2d9); }
   .vs-sea.ahead  { background: #0a1e0a; color: #4aaa4a; }
   .vs-sea.behind { background: #240e00; color: #c8840a; }
+  .vs-sea.same   { background: #24221c; color: #a09a90; }
 }
 /* The desktop three-step ladder, redrawn in the dark terracotta. The light
    #fdf4ed fill is a cream card on a dark page, so hover and active become

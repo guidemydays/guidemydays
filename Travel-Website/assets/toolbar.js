@@ -10032,7 +10032,7 @@ window.TVE.home = (function () {
       'stats': 'chart', 'africa': 'chart', 'asia': 'chart', 'canada': 'chart',
       'caribbean': 'chart', 'europe': 'chart', 'oceania': 'chart',
       'south-america': 'chart', 'us': 'chart', 'travel-stats': 'chart',
-      'records': 'trophy',
+      'records': 'trophy', 'ask-your-guide': 'person-question',
       /* Bags — `before-you-go` also draws `luggage`, but its icon comes from
          ITEMS (the nav owns it), so the checked-bag page takes the variant. */
       'baggage': 'luggage-hardcase', 'storage': 'luggage', 'packing': 'packing',

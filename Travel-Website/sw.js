@@ -2030,7 +2030,8 @@
 /* 2026-08-23: airlines.js MIN_VERSION 3 -> 4 — the All-alliances chip-color bump only touched toolbar.js last commit and missed its own MIN_VERSION floor. CACHE to v1476. */
 /* 2026-08-23: trains.css :visited color fix (var() does not resolve inside :visited) — .book-link.primary/.secondary. trains.css -> v13. CACHE to v1477. */
 /* 2026-08-23: web-travel-style.css fam-grey.is-on outline-offset gap fix (double-border on the All pill) + duplicate .pp-input block removed. web-travel-style.css -> v109. CACHE to v1478. */
-var CACHE = 'travel-cache-v1478';
+/* 2026-08-23: toolbar.js: add 'ask-your-guide' to PAGE_ICON (person-question) — the pill sat bare on all ~239 shipped guides since the /stats/ retirement replaced their Stats pill with Ask Your Guide, which had no PAGE_ICON entry. toolbar.js -> v1064. CACHE to v1479. */
+var CACHE = 'travel-cache-v1479';
 
 /* The guide-calendar hand-off cache. Written by toolbar.js, read and emptied
    once by the fetch handler below, and EXEMPT from the activate sweep — it is
@@ -2043,7 +2044,7 @@ var ICS_OUTBOX = 'gmd-ics-outbox';
    THIS IS THE ONLY PLACE to bump toolbar.js / guide-style.css versions.
    NEVER bump ?v= inside guide HTML — it breaks HMAC stamps and forces re-validation
    of 230+ guides. Instead, bump MIN_VERSIONS here + increment the CACHE version. */
-var MIN_VERSIONS = { 'guide-style.css': 264,'toolbar.js': 1063, 'mobile.css': 88, 'web-travel-style.css': 109, 'guides-index-style.css': 27, 'read-about.css': 6, 'best-of-features.js': 4, 'best-of-cross-data.js': 24, 'weather.js': 12, 'trains.css': 13, 'trains.js': 3, 'airlines.css': 3, 'airlines.js': 4, 'passport.js': 4 };
+var MIN_VERSIONS = { 'guide-style.css': 264,'toolbar.js': 1064, 'mobile.css': 88, 'web-travel-style.css': 109, 'guides-index-style.css': 27, 'read-about.css': 6, 'best-of-features.js': 4, 'best-of-cross-data.js': 24, 'weather.js': 12, 'trains.css': 13, 'trains.js': 3, 'airlines.css': 3, 'airlines.js': 4, 'passport.js': 4 };
 
 function rewriteAssetUrl(urlStr) {
   var u;

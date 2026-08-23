@@ -1185,6 +1185,24 @@ a.land-cta:hover:visited {
   height: 2.55rem; box-sizing: border-box;
 }
 .fnd-ctl.is-set { background: var(--bg, #f5f4f0); border-color: var(--rust, #C04E1A); }
+/* THE WAY OUT OF A LONG MENU (owner rule 2026-08-23: "all these longs one i need
+   to be able to scroll back to no preference and not be trapped there").
+
+   Currency is 60 options and Language is 70. A native select opens scrolled to
+   the CURRENT value, so a reader who picked Vietnamese had to scroll up past
+   sixty languages to reach "No preference" — on a phone, inside an OS picker
+   that covers the screen. Clearing is not a menu choice any more: a set control
+   carries its own ×, one tap, no list. The neutral option stays in the menu for
+   anyone who finds it first.
+
+   It is the muted ink, not terracotta: this is the way out, and the site's rule
+   is that a way out does not compete with the value beside it. */
+.fnd-clear {
+  flex: 0 0 auto; margin-left: 2px; padding: 0 2px; border: 0; background: none;
+  font: inherit; font-size: 1.05em; line-height: 1; color: var(--muted,#6a6660);
+  cursor: pointer; opacity: .75;
+}
+.fnd-clear:hover, .fnd-clear:focus-visible { opacity: 1; color: var(--rust, #C04E1A); }
 /* A SET-ASIDE ANSWER — a value the reader chose that the finder could not apply
    (see relax()). It inherits from `.fnd-chip.is-off`, which it replaces now that
    there is no chip to mark: the rim goes dashed and loses its terracotta, so the
@@ -1337,9 +1355,14 @@ a.land-cta:hover:visited {
    inherited weight and muted ink (Thirty-fifth non-negotiable — filled is a
    button; and see the hover comment below on why that muted ink must not
    repaint on hover). Size was never carrying that difference. */
+/* A NOTCH SMALLER (owner rule 2026-08-23). The pair was sized to lead a card;
+   .fnd-reset is now the only one of them left on the finder and it is a way out,
+   not a call to action — 0.9–1rem against 0.95–1.05, and 0.68em/1.45em of
+   padding against 0.8/1.7. .fnd-go keeps the rule because Trip Escape's own
+   "Find My Escape" still uses it. */
 .fnd-go, .fnd-reset {
-  font-size: clamp(0.95rem, 1.2vw, 1.05rem);
-  border-radius: 999px; padding: 0.8em 1.7em;
+  font-size: clamp(0.9rem, 1.1vw, 1rem);
+  border-radius: 999px; padding: 0.68em 1.45em;
 }
 .fnd-reset[hidden] { display: none !important; }
 /* ── ONE hover for every control in this card ────────────────────────────────
@@ -2320,8 +2343,13 @@ summary.res-head:focus-visible { outline: 2px solid var(--rust, #C04E1A); outlin
    second control is a plain underlined "← Back" — padding that out to the width
    of a filled CTA would turn a text link into a phantom button. This page's
    <style> is page-local, so this reaches only the finder's own row. */
+/* SMALLER, AND FURTHER DOWN (owner rule 2026-08-23: "reduce the size of these
+   buttons by a bit and push them down a bit too"). 18px was the gap under a row
+   of pills; 28px separates a row of ANSWERS from the one control that throws
+   them away, which is the distance the card was missing. The size drop is on
+   .fnd-reset below — this row only positions. */
 .hc-nav {
-  margin-top:18px; display:grid; width:max-content;
+  margin-top:28px; display:grid; width:max-content;
   grid-auto-flow:column; grid-auto-columns:1fr;
   align-items:center; gap:14px;
 }
@@ -2335,8 +2363,8 @@ summary.res-head:focus-visible { outline: 2px solid var(--rust, #C04E1A); outlin
    cream card, under the 4.5:1 small-text floor; --muted #6a6660 is 4.9:1 and is
    the colour every other secondary line on the site already uses. The hover rule
    below still flips it to white on the terracotta card. */
-.fnd-facts { flex-basis: 100%; font-size: 13px; line-height: 1.55; color: var(--muted,#6a6660); margin-top: 5px; font-variant-numeric: tabular-nums; }
-@media (hover:hover) { .flt-grid .dest-card:hover .fnd-facts { color: #fff !important; } }
+/* `.fnd-facts` and its hover override are DELETED with the line they styled
+   (2026-08-23) — see the note where facts() used to be built. */
 #hc-back { font-family:inherit; font-size:12px; background:none; border:none; color:var(--accent, #8a6c1a); cursor:pointer; padding:0; text-decoration:underline; }
 #hc-back:hover { color:#8a6c1a; }
 
@@ -3523,12 +3551,20 @@ window.lpGuideCard = function (href, flag, name, extra) {
                        holds 83% of the fleet from Sydney and narrows nothing. -->
                   <div class="fnd-ctl"><span class="fnd-ic" aria-hidden="true"><svg viewBox="0 0 24 24"><use href="#gm-i-hourglass"/></svg></span><select id="fnd-far">
                     <option value="">Flexible</option>
-                    <option value="u3">Short hop &mdash; under 3h</option>
-                    <option value="u6">Half a day &mdash; 3 to 6h</option>
-                    <option value="u9">Long haul &mdash; 6 to 9h</option>
-                    <option value="u12">Very long &mdash; 9 to 12h</option>
-                    <option value="u16">Ultra long &mdash; 12 to 16h</option>
-                    <option value="o16">The far side &mdash; 16h and up</option>
+                    <!-- THE RANGE IS THE LABEL (owner, 2026-08-23: "the far side?").
+                         Each option used to lead with a nickname — "Short hop", "Long
+                         haul", "Ultra long", "The far side" — and the last one is what
+                         the owner stopped on: it is the only one that names nothing a
+                         reader can check, and by the site's own writing rule the
+                         nicknames are editorial where every other option on this card
+                         is factual. Six ranges, one grammar, no adjectives: the reader
+                         is choosing hours, so the hours are what the line says. -->
+                    <option value="u3">Under 3h</option>
+                    <option value="u6">3 to 6h</option>
+                    <option value="u9">6 to 9h</option>
+                    <option value="u12">9 to 12h</option>
+                    <option value="u16">12 to 16h</option>
+                    <option value="o16">16h and up</option>
                   </select></div>
                   <p id="fnd-far-note" class="fnd-home-note"></p>
                   <!-- The Connections/Routing control that used to hang below (and later
@@ -3689,7 +3725,14 @@ window.lpGuideCard = function (href, flag, name, extra) {
                 </div>
       </div>
       <div class="hc-nav">
-        <button id="hc-go" type="button" class="fnd-go"><svg class="fnd-go-ic" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><circle cx="10.5" cy="10.5" r="6.5"/><path d="M15.4 15.4 21 21"/></svg>Show my matches</button>
+        <!-- "Show my matches" is DELETED (owner rule 2026-08-23: "why do we need
+             a button if results shows as we chose stuff we need the clear
+             button"). Every control on this card runs on `change`, so the list
+             below has already been rebuilt by the time a hand reaches the
+             button — it confirmed something that had happened, which is the
+             definition of a control with nothing to do. `Clear everything` is
+             the one button left because it is the only thing on the card that
+             cannot happen by itself. -->
         <button type="button" id="fnd-reset" class="fnd-reset" hidden>Clear everything</button>
       </div>
       <!-- THE ANSWER SITS UNDER THE CONTROL THAT ASKED FOR IT (Sixty-second non-negotiable). -->
@@ -3750,57 +3793,31 @@ window.lpGuideCard = function (href, flag, name, extra) {
                tool derives is never silent. -->
           <p id="tt-home-read" hidden></p>
         </div>
-        <!-- NARROW THE ESCAPE (owner 2026-08-22: Trip Escape "gains the rows the finder
-             already has the data for"; extended 2026-08-23: "work on the trip escape
-             based in all filters we already on help me choose, make it more
-             interesting"). The month makes the climate contrast the contrast of THAT
-             month rather than the annual mean; the rest are Help Me Choose's own
-             fields, reading Help Me Choose's own data — activity is THEME_DATA, trip
-             length is DAYS_DATA, language is each card's data-lang, safety is the
-             State Department level from SAFETY_DATA. Nothing new was invented and no
-             second copy of any dataset exists.
+        <!-- THERE IS ONE QUESTION ON THIS CARD AND IT IS "WHERE ARE YOU?"
+             (owner rules 2026-08-23: "The idea is to grab the opposite of where the
+             person is living at that moment. That's it. what kid of question is that
+             for a trip escape?" · "we need to give the opposite! the choice is only
+             that not a bunch of filters!" · "we can ask to describe where they live
+             and then give reults. we are doing neither here!").
 
-             Weather and cost are deliberately NOT here — this card picks the OPPOSITE
-             of those itself, which is the whole tool. What is here instead is "How
-             different?", the one dimension only this card has: it aims the ranking at
-             a level of contrast rather than always returning the single most extreme
-             flip, so a reader who wants a change of scene and a reader who wants the
-             far side of the planet do not get the same three cities. -->
-        <div class="tt-section tt-narrow">
-          <div class="tt-label">Narrow the escape</div>
-          <div class="fnd-row">
-            <div class="fnd-field"><label for="tt-degree">How different?</label>
-              <div class="fnd-ctl"><span class="fnd-ic" aria-hidden="true"><svg viewBox="0 0 24 24"><use href="#gm-i-compass"/></svg></span><select id="tt-degree"><option value="max">As different as possible</option><option value="strong">A real change</option><option value="mild">Just a change of scene</option></select></div></div>
-            <div class="fnd-field"><label for="tt-month">When are you going?</label>
-              <div class="fnd-ctl"><span class="fnd-ic" aria-hidden="true"><svg viewBox="0 0 24 24"><use href="#gm-i-wall-calendar"/></svg></span><select id="tt-month"><option value="">Any month</option><option value="0">January</option><option value="1">February</option><option value="2">March</option><option value="3">April</option><option value="4">May</option><option value="5">June</option><option value="6">July</option><option value="7">August</option><option value="8">September</option><option value="9">October</option><option value="10">November</option><option value="11">December</option></select></div></div>
-            <div class="fnd-field"><label for="tt-act">What do you want to do?</label>
-              <div class="fnd-ctl"><span class="fnd-ic" aria-hidden="true"><svg viewBox="0 0 24 24"><use href="#gm-i-backpack-strapped"/></svg></span><select id="tt-act"><option value="">Anything</option><option value="beach">Beaches</option><option value="islands">Islands</option><option value="nature">Greenery</option><option value="snow">Snow &amp; ski</option><option value="history">History</option><option value="amusement">Theme parks</option><option value="hiking">Hiking</option></select></div></div>
-            <!-- "How long is the escape?" is DELETED (owner rule 2026-08-23: "this
-                 is even worse than it was length of day remove it" · "number of the
-                 days in a guide should never be showing we change that all the
-                 time"). A guide's day count is not a fact about the city — it is a
-                 fact about the guide we happen to have written, and it changes
-                 whenever that guide is rebuilt or gains a day. A filter whose every
-                 option is that number cannot be kept honest, and it filtered the
-                 fleet by the one attribute the fleet keeps changing. -->
-            <div class="fnd-field"><label for="tt-lang">Which language?</label>
-              <!-- BUILT FROM THE DATA (ttBuildLang), never a hand list — the same rule
-                   and the same failure the finder's copy of this field documents: a
-                   language that exists in a data-lang attribute and not in the list is
-                   unreachable and nothing says so. The names come from the finder's own
-                   LANG_NAMES via window._LANG_NAMES rather than a second copy of the
-                   table; a code with no name still gets an option under its own code. -->
-              <div class="fnd-ctl"><span class="fnd-ic" aria-hidden="true"><svg viewBox="0 0 24 24"><use href="#gm-i-language-roundel"/></svg></span><select id="tt-lang"><option value="">No preference</option></select></div></div>
-            <div class="fnd-field"><label for="tt-safety">How safe does it need to be?</label>
-              <!-- The State Department levels from /essentials/safety/, exactly as Help
-                   Me Choose asks them, and a FLOOR rather than an exact match. This
-                   replaces a "Safe destinations only" checkbox, which was a second
-                   vocabulary for the same data and could only say Level 1 or nothing —
-                   there was no way to say "Level 1 or 2", which is where 118 of the
-                   fleet's cities sit. -->
-              <div class="fnd-ctl"><span class="fnd-ic" aria-hidden="true"><svg viewBox="0 0 24 24"><use href="#gm-i-safety-guide"/></svg></span><select id="tt-safety"><option value="">No preference</option><option value="1">Level 1 only &mdash; normal precautions</option><option value="2">Level 1 or 2 &mdash; increased caution</option><option value="3">Level 1, 2 or 3 &mdash; reconsider travel</option></select></div></div>
-          </div>
-        </div>
+             A "Narrow the escape" grid stood here — How different?, When are you
+             going?, What do you want to do?, Which language?, How safe does it need
+             to be? — five fields that asked the reader to describe the TRIP after
+             the card had just asked them to describe HOME. That is the two-question
+             shape this card was rebuilt to end, wearing different clothes: the
+             opposite of where you live is one answer, and a form that then asks you
+             to narrow it is asking you to do the choosing it exists to do for you.
+
+             Safety was the one that made it plainest: an escape is a contrast with
+             home, and "how safe does it need to be" is not a fact about home or its
+             opposite — it is a different tool's question, sitting on this one.
+
+             What each deleted field did, so nothing is lost by accident: `How
+             different?` aimed the ranking at a level of contrast (it now always aims
+             at the maximum, which is what "the opposite" means); `When are you
+             going?` made the climate contrast that month's rather than the annual
+             mean; the other three were plain filters over the fleet. Everything they
+             filtered on is still on the guides index, where filtering is the job. -->
         <!-- HELP ME CHOOSE'S OWN NAV ROW, CLASS FOR CLASS (owner rule 2026-08-23:
              it should be "a button like help me choose saying clear &hellip; show the
              results and copy from there so we are using a standard look").
@@ -3817,7 +3834,11 @@ window.lpGuideCard = function (href, flag, name, extra) {
              (Thirty-fifth non-negotiable). The label stays this card's own verb;
              only the shape is shared. -->
         <div class="hc-nav">
-          <button id="tt-go" type="button" class="fnd-go" disabled><svg class="fnd-go-ic" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><circle cx="10.5" cy="10.5" r="6.5"/><path d="M15.4 15.4 21 21"/></svg>Find My Escape</button>
+          <!-- "Find My Escape" is DELETED with the filters. There is one question
+               now, so there is nothing to submit: naming the airport IS the whole
+               form, and the answer appears under it the moment it is named — the
+               same rule Help Me Choose took the same day ("why do we need a button
+               if results shows as we chose stuff"). -->
           <button type="button" id="tt-clear" class="fnd-reset" hidden>Clear</button>
         </div>
       </div>
@@ -3882,10 +3903,15 @@ window.lpGuideCard = function (href, flag, name, extra) {
     <!-- "flight time" without an origin, because the origin is now the
          reader's own and is named in the table's row header. Naming Seattle
          here would contradict the column it introduces. -->
-    <p class="cmpx-lede">Pick <strong>2 to 5 cities</strong> &mdash; flight time, visa, climate, cost, safety.</p>
+    <p class="cmpx-lede">Pick <strong>2 to 5 cities</strong> to compare.</p>
 
     <div class="cmpx-pick">
-      <label for="cmpx-search">Search for a city or a country</label>
+      <!-- No label above this field (owner rule 2026-08-23: "you cant have a label
+           for another feature in the middle"). It read "Search for a city or a
+           country" and sat between the card's lede and its first control, where
+           the eye reads it as a heading for the whole card rather than as the
+           name of one box. The placeholder inside the field says the same six
+           words to the one person who needs them, at the moment they need them. -->
       <input type="search" id="cmpx-search" class="search-input" placeholder="City or country" aria-label="City to compare" autocomplete="off" spellcheck="false">
     </div>
 
@@ -5995,12 +6021,14 @@ function render() {
   var results = document.getElementById('tt-results');
   var homeMt  = document.getElementById('tt-home-mount');
   var homeRd  = document.getElementById('tt-home-read');
-  var goBtn   = document.getElementById('tt-go');
   var resHead = document.getElementById('tt-res-head');
   var cards   = document.getElementById('tt-res-cards');
   var clearBtn = document.getElementById('tt-clear');
   var safetySel = document.getElementById('tt-safety');
-  var SELECTS = ['tt-degree','tt-month','tt-act','tt-lang','tt-safety'];
+  /* SELECTS is empty: the five narrowing fields are gone (see the markup note).
+     The array stays so the loops below keep their shape for whatever this card
+     is asked to hold next — they run zero times today. */
+  var SELECTS = [];
   if (!btnTT) return;
 
   var allCards = Array.from(document.querySelectorAll('a.dest-card')).filter(function(c) { return !c.hasAttribute('data-special'); });
@@ -6200,36 +6228,36 @@ function render() {
   if (homeMt && window.TVE && window.TVE.home && window.TVE.home.mount) {
     window.TVE.home.mount(homeMt, {
       prompt: 'Choose your airport',
-      onPick: function () { resolveHome(function () { paintHomeRead(); updateGo(); }); }
+      onPick: function () {
+        resolveHome(function () { paintHomeRead(); updateGo(); runEscape(); });
+      }
     });
-    if (window.TVE.home.get()) resolveHome(function () { paintHomeRead(); updateGo(); });
+    /* Already answered — in Compare, or here before a reload — so the card opens
+       on its answer rather than on an empty space under a filled-in question. */
+    if (window.TVE.home.get()) {
+      resolveHome(function () { paintHomeRead(); updateGo(); runEscape(); });
+    }
   }
 
+  /* There is no button to enable any more — the only state this has to keep is
+     whether "Clear" has anything to clear. */
   function updateGo() {
-    /* ONE REQUIRED ANSWER. It used to be "a city OR a climate chip", because the
-       chips were the fallback for a home city the fleet had never heard of.
-       There is no fallback to keep now: the picker answers for anywhere. */
     var hasHome = !!(window.TVE && window.TVE.home && window.TVE.home.get());
-    goBtn.disabled = !hasHome;
-    /* Clear appears the moment ANYTHING is set — a chip, a city, or one of the
-       six selects — and not only when the form is answerable. Same rule as
-       #fnd-reset: it is the way out of whatever state the card is in, so a card
-       holding one pick that returns nothing still offers it. */
-    var touched = hasHome ||
-      SELECTS.some(function (id) {
-        var el = document.getElementById(id);
-        if (!el) return false;
-        return id === 'tt-degree' ? el.value !== 'max' : el.value !== '';
-      });
-    if (clearBtn) clearBtn.hidden = !touched;
+    if (clearBtn) clearBtn.hidden = !hasHome;
   }
 
   // Data extractors
-  function ttMonth() { var el = document.getElementById('tt-month'); var v = el ? el.value : ''; return v === '' ? null : parseInt(v, 10); }
-  function ttAct() { var el = document.getElementById('tt-act'); return el && el.value ? el.value : null; }
-  function ttLang() { var el = document.getElementById('tt-lang'); return el && el.value ? el.value : null; }
-  function ttSafetyMax() { var v = safetySel && safetySel.value; return v ? parseInt(v, 10) : null; }
-  function ttDegree() { var el = document.getElementById('tt-degree'); return (el && el.value) || 'max'; }
+  /* THE FIVE READERS ARE CONSTANTS NOW. Each one read a field this card no
+     longer has (see the markup note), and each is answered the way "the
+     opposite of home" answers it: no month, so the climate contrast is the
+     annual mean; no activity, language or safety filter, so the whole fleet is
+     ranked; and the degree is always `max`, because "as different as possible"
+     IS the card. */
+  function ttMonth() { return null; }
+  function ttAct() { return null; }
+  function ttLang() { return null; }
+  function ttSafetyMax() { return null; }
+  function ttDegree() { return 'max'; }
 
   /* DAY_BAND, daysOf() and ttDays() stood here and are DELETED with the length
      field (owner rule 2026-08-23). Nothing in this card reads a guide's day
@@ -6527,41 +6555,30 @@ function render() {
     return list.slice(0, -1).join(', ') + ' and ' + list[list.length - 1];
   }
 
-  goBtn.addEventListener('click', function () {
-    /* buildRef() can hand back a null avgHi — a matched city whose card carries
-       no data-climate — and that used to be an error message on an otherwise
-       working form. It is not one: contrastOf() already reads a null reference
-       as a flat 0.5 on the climate term and ranks on cost alone, which is a
-       weaker answer, never an empty one. All 239 stamped cards carry climate
-       today, so this is a guard against a future gap, not a live path. */
+  /* THE ANSWER FOLLOWS THE QUESTION, with nothing to press (owner rule
+     2026-08-23: "the choice is only that not a bunch of filters"). One answer
+     produces one answer: naming the airport ranks the fleet against it and
+     draws the list underneath.
+
+     buildRef() can hand back a null avgHi — an airport with no climate normal
+     anywhere near it — and that is not an error either: contrastOf() reads a
+     null reference as a flat term and the list is weaker, never empty. */
+  function runEscape() {
+    if (!(window.TVE && window.TVE.home && window.TVE.home.get())) return;
     var ref = buildRef();
     /* passesTT() drops this one card: a reader in Lisbon is not offered Lisbon
-       as an escape from Lisbon. It is set here rather than on the pick because
-       the fleet is what it is at answer time. */
+       as an escape from Lisbon. */
     matchedCard = homeCard();
-    var st = ttState();
-    var top = rankTT(ref, st), dropped = [];
-    if (!top.length) {
-      var r = relaxTT(ref, st);
-      top = r.hits;
-      dropped = r.dropped;
-    }
+    var top = rankTT(ref, ttState());
 
     function escTE(t) { return String(t).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
-    /* The head is a sentence and it CHANGES when something was set aside — the
-       reader has to be told, in their own words, which of their answers is not
-       in force, or the list silently disagrees with the form above it. */
-    resHead.innerHTML = dropped.length
-      ? 'Nothing matches all of those at once, so we set aside <b>' +
-        escTE(andListTT(dropped.map(filterLabel))) + '</b>.' +
-        '<span class="tt-res-sub">Here is what the rest of your answers give you &mdash; ' +
-        (dropped.length === 1 ? 'that answer is' : 'those answers are') +
-        ' still on the form, just not applied.</span>'
-      : 'Your escape destinations';
+    /* No set-aside sentence any more: there are no filters left to intersect to
+       nothing, so the list cannot come back empty and the reader can never be
+       told an answer of theirs was dropped. relaxTT and its whole apparatus went
+       with the fields it existed to rescue. */
+    resHead.innerHTML = 'The opposite of home';
 
-    /* SIX, not three. Three was the answer when the card asked two questions;
-       with six controls a reader who has narrowed the fleet to a handful wants
-       to see the handful, and the pills wrap. */
+    /* SIX. The card names an opposite, not a shortlist to work through. */
     cards.className = '';
     cards.innerHTML = top.slice(0, 6).map(function (item) {
       var href = item.card.getAttribute('href') || '';
@@ -6574,7 +6591,7 @@ function render() {
     /* The form STAYS. It used to hide itself here, which is what a "← Try
        again" link existed to undo — see the markup note by #tt-results. */
     results.hidden = false;
-  });
+  }
 }());
     } catch (e) { /* ditto */ }
 
@@ -7613,7 +7630,28 @@ function render() {
         var sel = F[k];
         if (!sel) return;
         var ctl = sel.closest('.fnd-ctl');
-        if (ctl) ctl.classList.toggle('is-set', picks[k].length > 0);
+        if (!ctl) return;
+        var set = picks[k].length > 0;
+        ctl.classList.toggle('is-set', set);
+        var x = ctl.querySelector('.fnd-clear');
+        if (set && !x) {
+          x = document.createElement('button');
+          x.type = 'button';
+          x.className = 'fnd-clear';
+          x.setAttribute('aria-label', 'Clear this filter');
+          x.textContent = '×';
+          x.addEventListener('click', function (ev) {
+            ev.preventDefault();
+            ev.stopPropagation();
+            sel.value = '';
+            picks[k] = [];
+            drawChips();
+            render();
+          });
+          ctl.appendChild(x);
+        } else if (!set && x) {
+          x.remove();
+        }
       });
     }
 
@@ -8468,7 +8506,17 @@ function render() {
     for (var k in picks) s[k] = picks[k].map(function (p) { return p.value; });
     return s;
   }
+  /* THE AIRPORT COUNTS AS AN ANSWER (2026-08-23, with the go button's removal —
+     owner: "why do we need a button if results shows as we chose stuff").
+
+     While there was a button, a reader who named their airport and pressed it
+     got the whole fleet ranked; `forced` is what let that through. With the
+     button gone, nothing forced anything, so naming the airport — the one field
+     the form REQUIRES before it unlocks the rest — produced an empty card and no
+     way to make it speak. The airport is an answer like any other: it is what
+     every flight time on every card is measured from. */
   function anySet(s) {
+    if (HOME && HOME.get()) return true;
     return !!(s.mo.length || s.wx.length || s.fr.length ||
               s.ty.length || s.lg.length || s.ct.length || s.bd.length ||
               s.sf.length || s.co.length || s.tr.length ||
@@ -8789,7 +8837,20 @@ function render() {
       flt = '<span class="flt"><span class="ftime">' + esc(far.text) + '</span>' +
             (iata ? '<span class="fiata">' + esc(iata) + '</span>' : '') + '</span>';
     }
-    return lpGuideCard(g.url, g.flag, g.name, flt + facts(d, g, s));
+    /* THE CARD IS THE RECOMMENDATION (owner rules 2026-08-23: "i am not sure we
+       need to write all that either. looks ulgy. why not just give the guide
+       link. we recommended already?" · "this is just a big track to get us if we
+       made a mistake").
+
+       It carried a second line of jet lag, daylight hours and currency — three
+       facts justifying a recommendation the card had already made, in small muted
+       type that wrapped mid-fact. The owner's second note is the sharper one:
+       that line was most useful to US, as a way to see whether the filters had
+       matched correctly. That is a debugging trail, and a reader is not the place
+       to keep one. The place is the answer; its facts live in the guide the card
+       links to. Flying time stays: the reader set "How far are you willing to
+       fly?" and it is the answer to that control (Sixty-second non-negotiable). */
+    return lpGuideCard(g.url, g.flag, g.name, flt);
   }
 
   /* ── The go button and the facts line ─────────────────────────────────── */
@@ -8802,12 +8863,10 @@ function render() {
      dropped every guide of 5 days or more. The day count STAYS on the card, in
      the facts line — it is worth knowing before you click, it is not worth
      being filtered on. Do not re-add the select. */
-  var hcGo = document.getElementById('hc-go');
-  if (hcGo) hcGo.addEventListener('click', function () {
-    forced = true;
-    run();
-    if (!out.hidden) out.scrollIntoView({ block: 'nearest', behavior: 'smooth' });
-  });
+  /* The go button's handler stood here. `forced` survives it: the flag also
+     marks a run the reader asked for rather than one a stray change event
+     produced, and the Clear button's visibility reads it. With no button to
+     press, the first run that has any answer set is the one that counts. */
   /* Every filter is on screen the moment the door opens, so the datasets the
      pruning needs (budget, advisory, rates) and the Trains reveal are fetched
      on that first open — nobody who never opens the door pays for them. */
@@ -8986,36 +9045,10 @@ function render() {
        control (owner, 2026-08-22 — "+3" and "-3" are understood as they are). */
     return (off > 0 ? '+' : '−') + h + (m ? ':' + (m < 10 ? '0' : '') + m : '') + 'h vs your clock';
   }
-  /* THE FACTS READ IN THE ORDER THE FIELDS ASK (owner, 2026-08-23: results
-     "should also show results in the same order that the filters are"). The
-     flying time is printed by card() immediately above this line, which is
-     where "How far are you willing to fly?" sits in the form; then jet lag,
-     then daylight, then currency, each in the order of the field that asks for
-     it. It used to run currency → daylight → jet lag, which is the reverse of
-     three of them.
-
-     "N days planned" USED TO LEAD THIS LINE and is deleted (owner rule
-     2026-08-23: "number of the days in a guide should never be showing we
-     change that all the time"). It was the one fact here that is not about the
-     destination at all — it describes the guide we happen to have written, and
-     it moves whenever that guide is rebuilt or gains a day. Trip Escape's and
-     Compare's length filters went in the same pass, for the same reason.
-
-     climRow, not d.climate[g.name]: the same twelve-guide exact-name miss
-     daylightFor carried, which is why "Naples, FL" and "Montréal" printed a
-     facts line with no daylight in it. */
-  function facts(d, g, s) {
-    var parts = [];
-    var tz = tzDiff(g.name); if (tz) parts.push(tz);
-    var row = climRow(d, g);
-    var lat = row && parseFloat(row.lat);
-    if (row && !isNaN(lat)) {
-      var mi = s.mo.length ? s.mo[0] : new Date().getMonth();
-      parts.push(fmtHours(daylightHours(lat, mi)) + ' daylight in ' + MON[mi]);
-    }
-    var cur = currencyOf(g); if (cur) parts.push(cur);
-    return parts.length ? '<span class="fnd-facts">' + parts.map(esc).join(' · ') + '</span>' : '';
-  }
+  /* facts() stood here — "N days planned · +1h vs your clock · 13h 37m daylight
+     in August · € EUR" — and is DELETED with the line it built (owner rule
+     2026-08-23). The day count had already gone the same day, for its own
+     reason; the rest went with the card that no longer explains itself. */
 
   /* The two on-demand datasets. A filter is not applied against an empty map —
      that would silently return nothing and read as "no guide matches" — so the
@@ -9162,7 +9195,7 @@ function render() {
         /* THE HEAD IS A SENTENCE, NOT A TALLY (owner, 2026-08-23). */
         head = '<p class="fnd-res-head">' +
                (hits.length === 1 ? 'This is the place recommended for you.'
-                                  : 'These are the places recommended for you.') +
+                                  : 'We recommend these places for your next trip.') +
                (monthOnly ? ' <span class="fnd-res-sub">Every guide is open in ' + moNames +
                             ' &mdash; add a temperature and this narrows.</span>' : '') + '</p>';
       }
@@ -9264,10 +9297,9 @@ function render() {
     PRUNE_PAIRS().forEach(function (pair) {
       if (pair.el) pair.el.disabled = locked;
     });
-    var go = document.getElementById('hc-go');
-    if (go) go.disabled = locked;
     /* Clear everything stays live: it is the way out, and on a locked form it
-       is what puts a half-typed airport back. */
+       is what puts a half-typed airport back. There is no go button to disable
+       any more — the fields themselves are the gate. */
     var panel = document.getElementById('help-choose-panel');
     if (panel) panel.classList.toggle('is-locked', locked);
   }
@@ -9313,7 +9345,29 @@ function render() {
     PRUNE_PAIRS().forEach(function (pair) {
       if (!pair.el) return;
       var ctl = pair.el.closest('.fnd-ctl');
-      if (ctl) ctl.classList.toggle('is-set', (picks[pair.field] || []).length > 0);
+      if (!ctl) return;
+      var set = (picks[pair.field] || []).length > 0;
+      ctl.classList.toggle('is-set', set);
+      /* The × lives only while there is something to clear, and it is built
+         once per control rather than re-created on every run — a button rebuilt
+         under a pointer swallows the click that was already on its way. */
+      var x = ctl.querySelector('.fnd-clear');
+      if (set && !x) {
+        x = document.createElement('button');
+        x.type = 'button';
+        x.className = 'fnd-clear';
+        x.setAttribute('aria-label', 'Clear this filter');
+        x.textContent = '×';
+        x.addEventListener('click', function (ev) {
+          ev.preventDefault();
+          ev.stopPropagation();
+          pair.el.value = '';
+          addPick(pair.field, pair.el);
+        });
+        ctl.appendChild(x);
+      } else if (!set && x) {
+        x.remove();
+      }
     });
   }
 

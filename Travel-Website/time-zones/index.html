@@ -38,7 +38,9 @@ input.search:focus { border-color: var(--c-search-focus-border); box-shadow: non
    controls away in the filter row. */
 .search-hint {
   margin: 10px auto 0; font-size: 13px; line-height: 1.45; color: var(--muted, #6a6660);
-  text-align: center; max-width: 560px;
+  /* Never wider than the search it explains — a caption that outruns its own
+     control reads as page copy rather than as the box's own note. */
+  text-align: center; max-width: 480px;
 }
 .search-hint[hidden] { display: none; }
 /* The reference bar is the search's answer: it names the city everything is now
@@ -46,11 +48,14 @@ input.search:focus { border-color: var(--c-search-focus-border); box-shadow: non
    way back out. It sits directly under the box that produced it (Sixty-second
    non-negotiable). */
 .reference-bar {
-  display: flex; align-items: center; justify-content: center; gap: 10px;
-  flex-wrap: wrap; margin: 12px 0 0;
+  display: flex; align-items: center; justify-content: center;
+  gap: 8px 14px; flex-wrap: wrap; margin: 14px 0 0;
 }
 .reference-bar[hidden] { display: none; }
-.reference-label { font-size: 13px; color: var(--muted, #6a6660); }
+/* The statement + its undo, kept together so the bar can only ever break in one
+   place — between what it says and the sort it offers. */
+.reference-said { display: inline-flex; align-items: baseline; gap: 14px; }
+.reference-label { font-size: 13px; color: var(--muted, #6a6660); white-space: nowrap; }
 .reference-label strong { color: var(--text, #3d3a32); font-weight: 600; }
 /* The flag is its own element because a plain space between an emoji flag and the
    name collapses to almost nothing at 13px — they render as one word. */
@@ -61,6 +66,54 @@ input.search:focus { border-color: var(--c-search-focus-border); box-shadow: non
   cursor: pointer;
 }
 .reference-clear:hover { color: var(--rust, #C04E1A); }
+/* THE SORT PILL CARRIES ITS OWN FORM AT EVERY WIDTH, and deliberately does not
+   inherit either neighbour's. On desktop the region pills are rounded 999px chips
+   and it matches them; on a phone they collapse into a glued squared 3-across grid
+   and it must NOT follow, because it is not a region filter and does not belong to
+   that block — it keeps the rounded form so the two read as different kinds of
+   control. Written unconditionally rather than inside the desktop media query,
+   which is the trap that leaves it a 6px white box on a phone.
+   Same three-state ladder as the toolbar tab (Thirty-fifth non-negotiable): white
+   ground, .30 rim at rest, .85 rim + #fdf4ed fill + terracotta ink when selected,
+   and THE BOX IS IDENTICAL IN BOTH STATES so the row cannot shift under a tap. */
+.reference-bar .pill {
+  box-sizing: border-box; height: auto; min-height: 34px; padding: 0 18px;
+  border-radius: 999px; font-size: 13px; font-weight: 500; line-height: 1;
+  background: var(--surface, #ffffff); border: 1px solid rgba(192,78,26,.30);
+  color: #3d3a32;
+}
+.reference-bar .pill:hover { background: #fdf4ed; border-color: rgba(192,78,26,.55); color: #3d3a32; }
+.reference-bar .pill.active,
+.reference-bar .pill.active:hover,
+.reference-bar .pill.active:focus {
+  background: #fdf4ed; border: 1px solid rgba(192,78,26,.85);
+  color: var(--rust, #C04E1A); font-weight: 600;
+}
+@media (prefers-color-scheme: dark) {
+  .reference-bar .pill { background: transparent; border-color: rgba(212,102,58,.34); color: var(--text); }
+  .reference-bar .pill:hover { background: rgba(212,102,58,.12); border-color: rgba(212,102,58,.58); color: var(--text); }
+  .reference-bar .pill.active,
+  .reference-bar .pill.active:hover,
+  .reference-bar .pill.active:focus {
+    background: rgba(212,102,58,.16); border: 1px solid rgba(212,102,58,.85);
+    color: var(--rust, #D4663A);
+  }
+}
+/* ON A PHONE THE PILL IS LEFT ALONE — do not try to carry the 999px form down.
+   `mobile.css` normalises every `.pill` to the shared Form A chip (13px / 6px
+   radius / 12px 14px) with `!important`, on purpose: pills do not trigger the iOS
+   zoom guard, so they are reset to one size rather than inheriting the 40px
+   button target and coming out a different size on every page. That rule wins
+   here and SHOULD — it lands the pill at 39px, a legitimate tap target, in the
+   form every other mobile pill on the site takes. The glued squared region grid
+   is the documented Form B exception, set per page; this pill is not part of it
+   and does not join it. Adding `!important` here to force 999px back would be a
+   third form on one screen, and drift from a shared standard.
+   Clear is the one control that does need a box: it is a bare text button, and
+   without this it is a 16px strip of underline. */
+@media (pointer: coarse) {
+  .reference-clear { min-height: 40px; display: inline-flex; align-items: center; }
+}
 .pills { font-family: inherit; display: flex; gap: 4px; flex-wrap: wrap; }
 .pill {
   display: inline-flex; align-items: center; justify-content: center;
@@ -233,14 +286,14 @@ a.pill:visited { color: #6a6660; }
 </style>
 <link rel="stylesheet" href="/assets/mobile.css?v=53">
 <!-- seo:start — generated by Brain/scripts/build/build_seo.py · do not hand-edit -->
-<meta name="description" content="Live local time in every destination on the site. Search a city or a country and every card is re-measured from there, so you can see at a glance whether it…">
+<meta name="description" content="Live local time in every destination on the site, so you can see at a glance whether it is a reasonable hour to call a hotel, whether a shop is still open.">
 <link rel="canonical" href="https://guidemydays.com/time-zones/">
 <meta name="robots" content="index,follow,max-image-preview:large">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="Guide My Days">
 <meta property="og:locale" content="en_US">
 <meta property="og:title" content="World Time Zones by City">
-<meta property="og:description" content="Live local time in every destination on the site. Search a city or a country and every card is re-measured from there, so you can see at a glance whether it…">
+<meta property="og:description" content="Live local time in every destination on the site, so you can see at a glance whether it is a reasonable hour to call a hotel, whether a shop is still open.">
 <meta property="og:url" content="https://guidemydays.com/time-zones/">
 <meta property="og:image" content="https://guidemydays.com/assets/og/default.png">
 <meta property="og:image:width" content="1200">
@@ -248,14 +301,14 @@ a.pill:visited { color: #6a6660; }
 <meta property="og:image:alt" content="Guide My Days — Travel guides, planned day by day">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="World Time Zones by City">
-<meta name="twitter:description" content="Live local time in every destination on the site. Search a city or a country and every card is re-measured from there, so you can see at a glance whether it…">
+<meta name="twitter:description" content="Live local time in every destination on the site, so you can see at a glance whether it is a reasonable hour to call a hotel, whether a shop is still open.">
 <meta name="twitter:image" content="https://guidemydays.com/assets/og/default.png">
 <link rel="icon" href="/assets/icons/favicon-32.png" sizes="32x32" type="image/png">
 <link rel="apple-touch-icon" href="/assets/icons/apple-touch-icon.png">
 <link rel="manifest" href="/manifest.webmanifest">
 <meta name="theme-color" content="#f5f4f0" media="(prefers-color-scheme: light)">
 <meta name="theme-color" content="#1a1917" media="(prefers-color-scheme: dark)">
-<script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"WebPage","@id":"https://guidemydays.com/time-zones/#page","name":"World Time Zones by City","description":"Live local time in every destination on the site. Search a city or a country and every card is re-measured from there, so you can see at a glance whether it…","url":"https://guidemydays.com/time-zones/","inLanguage":"en","isPartOf":{"@id":"https://guidemydays.com/#website"}},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://guidemydays.com/"},{"@type":"ListItem","position":2,"name":"World Time Zones by City","item":"https://guidemydays.com/time-zones/"}]}]}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"WebPage","@id":"https://guidemydays.com/time-zones/#page","name":"World Time Zones by City","description":"Live local time in every destination on the site, so you can see at a glance whether it is a reasonable hour to call a hotel, whether a shop is still open.","url":"https://guidemydays.com/time-zones/","inLanguage":"en","isPartOf":{"@id":"https://guidemydays.com/#website"}},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://guidemydays.com/"},{"@type":"ListItem","position":2,"name":"World Time Zones by City","item":"https://guidemydays.com/time-zones/"}]}]}</script>
 <!-- seo:end -->
 </head>
 <body>
@@ -266,7 +319,7 @@ a.pill:visited { color: #6a6660; }
 
   <div class="hero-band">
     <h1 class="hero-title">Time Zones</h1>
-    <p class="hero-sub">Live local time in every destination on the site. Search a city or a country and every card is re-measured from there, so you can see at a glance whether it is a reasonable hour to call a hotel, whether a shop is still open, or what time you actually land. The grid re-sorts to put the clocks closest to your searched city first, and the region pills narrow it.</p>
+    <p class="hero-sub">Live local time in every destination on the site, so you can see at a glance whether it is a reasonable hour to call a hotel, whether a shop is still open, or what time you actually land.</p>
   </div>
   <div class="hero-ground">
     <input class="search search-input" id="search" type="search" placeholder="City or country" aria-label="Search by city or country" autocomplete="off">
@@ -274,14 +327,20 @@ a.pill:visited { color: #6a6660; }
          a card can be relative — no ± chip, no closest-first order — so instead of
          showing dead controls the page says, in one line, what naming a city
          gives you. Replaced by the reference bar the moment one is picked. -->
-    <p class="search-hint" id="search-hint">Every card shows its own local time already. Search a city and each one also shows how many hours ahead or behind that city it is, closest first.</p>
+    <p class="search-hint" id="search-hint">Every card already shows its local time. Search a city to also see how far ahead or behind each one is &mdash; closest first.</p>
     <!-- The search's answer, under the search that produced it (Sixty-second
          non-negotiable): the reference city, the sort it just unlocked, and the
          way back to plain local times. -->
     <div class="reference-bar" id="reference-bar" hidden>
-      <span class="reference-label">Hours shown are against <span class="reference-flag" id="reference-flag"></span><strong id="reference-city"></strong></span>
+      <!-- The statement and its undo are ONE group, so that when the bar wraps on a
+           narrow phone it breaks between the statement and the sort — two lines that
+           each read as a whole thing — instead of stranding "Clear" alone and
+           centred on a line of its own, which looked like a mistake. -->
+      <span class="reference-said">
+        <span class="reference-label">Measured from <span class="reference-flag" id="reference-flag"></span><strong id="reference-city"></strong></span>
+        <button type="button" class="reference-clear" id="reference-clear">Clear</button>
+      </span>
       <button type="button" class="pill sort-pill active" id="sort-time" data-sort="time">Closest first</button>
-      <button type="button" class="reference-clear" id="reference-clear">Clear</button>
     </div>
   </div>
 

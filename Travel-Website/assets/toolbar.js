@@ -6460,11 +6460,11 @@ window.TVE.home = (function () {
       { name: 'Hotel Kämp', note: 'Leading Hotels of the World — 1887 grand hotel on Pohjoisesplanadi, Kämp Brasserie, spa with indoor pool, iconic Esplanade Park address · 9.1 Booking.com', url: 'https://www.booking.com/hotel/fi/hotel-kamp.html', tier: 'luxury' }
     ], price: { budget: 'EUR 100–200', mid: 'EUR 200–320', expensive: 'EUR 320–500', luxury: 'EUR 500+' } },
     'hilton-head-island': { h: [
-      { name: 'Sonesta Resort Hilton Head Island', note: 'Sonesta brand — North Forest Beach Drive oceanfront, two pools, beach access, on-site dining, family-friendly full-service resort · 8.6 Booking.com', url: 'https://www.booking.com/hotel/us/sonesta-resort-hilton-head-island.html' },
-      { name: 'The Inn at Harbour Town', note: 'Independent boutique — inside Sea Pines plantation, overlooking Heritage Golf Links, butler service, Sea Pines resort amenity access', url: 'https://www.expedia.com/Hilton-Head-Hotels-The-Inn-Club-At-Harbour-Town.h29064820.Hotel-Information' },
-      { name: 'The Sea Pines Resort', note: 'Independent — 5,200-acre plantation, four golf courses, beach club, Harbour Town lighthouse · 9.2 Booking.com', url: 'https://www.booking.com/hotel/us/sea-pines-resort.html' },
-      { name: 'Westin Hilton Head Island Resort & Spa', note: 'Marriott Westin — Palmetto Dunes Oceanfront, three pools, Heavenly Spa, direct beach access · 8.7 Booking.com', url: 'https://www.booking.com/hotel/us/the-westin-hilton-head-island-resort-spa.html' }
-    ] },
+      { name: 'Sonesta Resort Hilton Head Island', note: 'Sonesta brand — North Forest Beach Drive oceanfront, two pools, beach access, on-site dining, family-friendly full-service resort · 8.6 Booking.com', url: 'https://www.booking.com/hotel/us/sonesta-resort-hilton-head-island.html', tier: 'budget' },
+      { name: 'Westin Hilton Head Island Resort & Spa', note: 'Marriott Westin — Palmetto Dunes Oceanfront, three pools, Heavenly Spa, direct beach access · 8.7 Booking.com', url: 'https://www.booking.com/hotel/us/the-westin-hilton-head-island-resort-spa.html', tier: 'mid' },
+      { name: 'The Inn at Harbour Town', note: 'Independent boutique — inside Sea Pines plantation, overlooking Heritage Golf Links, butler service, Sea Pines resort amenity access', url: 'https://www.expedia.com/Hilton-Head-Hotels-The-Inn-Club-At-Harbour-Town.h29064820.Hotel-Information', tier: 'expensive' },
+      { name: 'The Sea Pines Resort', note: 'Independent — 5,200-acre plantation, four golf courses, beach club, Harbour Town lighthouse · 9.2 Booking.com', url: 'https://www.booking.com/hotel/us/sea-pines-resort.html', tier: 'luxury' }
+    ], price: { budget: 'USD 200–350', mid: 'USD 350–550', expensive: 'USD 550–850', luxury: 'USD 850+' } },
     'hiroshima': { h: [
       { name: 'Grand Prince Hotel Hiroshima', note: 'Prince Hotels brand — waterfront hotel on the Motoyasu River, panoramic city views, spa, pool, closest major hotel to Peace Memorial Park · 8.9 Booking.com', url: 'https://www.booking.com/hotel/jp/grand-prince-hiroshima.html' },
       { name: 'Sheraton Grand Hiroshima Hotel', note: 'Marriott brand — directly connected to JR Hiroshima Station, Shinkansen-accessible, Club Lounge, contemporary rooms above the transit hub · 8.7 Booking.com', url: 'https://www.booking.com/hotel/jp/sheraton-hiroshima.html' },
@@ -7646,11 +7646,11 @@ window.TVE.home = (function () {
       { name: 'Caneel Bay, A Rosewood Resort', note: 'Rosewood brand — seven beaches in the Virgin Islands National Park on St. John, no motors, pristine bay access · 9.4 Booking.com', url: 'https://www.booking.com/hotel/vi/caneel-bay-resort.html', tier: 'luxury' }
     ], price: { budget: '$150–250', mid: '$250–450', expensive: '$450–700', luxury: '$700+' } },
     'washington-dc': { h: [
-      { name: 'Rosewood Washington D.C.', note: 'Rosewood brand — Georgetown neighborhood, outdoor pool, acclaimed Wyld restaurant, townhouse suites · 9.4 Booking.com' , url: 'https://www.booking.com/hotel/us/rosewood-washington-dc.html' },
-      { name: 'Four Seasons Hotel Washington DC', note: 'Four Seasons brand — Georgetown, outdoor pool, M Restaurant, spa, Embassy Row adjacent · 9.2 Booking.com' , url: 'https://www.booking.com/hotel/us/four-seasons-hotel-washington-dc.html' },
-      { name: 'The Hay-Adams', note: 'Independent — 16th Street NW with direct White House views, Off the Record bar, Lafayette dining, intimate historic character · 9.2 Booking.com' , url: 'https://www.booking.com/hotel/us/hay-adams.html' },
-      { name: 'Waldorf Astoria Washington DC', note: 'Hilton brand — converted Old Post Office Building on Pennsylvania Avenue NW, indoor pool, Peacock Alley, central DC landmark · 9.0 Booking.com' , url: 'https://www.booking.com/hotel/us/waldorf-astoria-washington-dc.html' }
-    ] },
+      { name: 'Hyatt Place Washington DC/US Capitol', note: 'Hyatt Place brand — 33 New York Ave NE, Capitol Hill, rooftop terrace, walkable to Union Station · 8.5 Booking.com', url: 'https://www.booking.com/hotel/us/hyatt-place-washington-dc-us-capitol.html', tier: 'budget' },
+      { name: 'The Line DC', note: 'Marriott Autograph Collection — Adams Morgan, converted historic church, rooftop pool, Spoken English restaurant · 8.8 Booking.com', url: 'https://www.booking.com/hotel/us/the-line-dc.html', tier: 'mid' },
+      { name: 'The Hay-Adams', note: 'Independent — 16th Street NW with direct White House views, Off the Record bar, Lafayette dining, intimate historic character · 9.2 Booking.com', url: 'https://www.booking.com/hotel/us/hay-adams.html', tier: 'expensive' },
+      { name: 'Rosewood Washington D.C.', note: 'Rosewood brand — Georgetown neighborhood, outdoor pool, acclaimed Wyld restaurant, townhouse suites · 9.4 Booking.com', url: 'https://www.booking.com/hotel/us/rosewood-washington-dc.html', tier: 'luxury' }
+    ], price: { budget: '$200–320', mid: '$320–500', expensive: '$500–700', luxury: '$700+' } },
     'wellington': { h: [
       { name: 'Sofitel Wellington', note: 'Sofitel brand — 11 Bolton Street at the Parliament end of the CBD, valet parking and concierge, walk to the Botanic Garden · 8.8 Booking.com', url: 'https://www.booking.com/hotel/nz/sofitel-wellington.html' },
       { name: 'DoubleTree by Hilton Wellington', note: 'Hilton family — 28 Grey Street on the corner of Lambton Quay, in the middle of the shopping strip and two blocks off the waterfront · 8.8 Booking.com', url: 'https://www.booking.com/hotel/nz/doubletree-by-hilton-wellington.html' },
@@ -11320,9 +11320,9 @@ window.TVE.home = (function () {
     var LOUNGE_IATAS = [
       'ABQ','AES','AGP','AJU','AMM','AMS','ANC','ARN','ATH','ATL','AUA','AUH','AUS','BCN','BDS','BER',
       'BGI','BGO','BIO','BKK','BLQ','BNA','BOB','BOD','BOS','BRU','BSL','BUD','CAE','CAI','CDG','CGN','CKG',
-      'CLT','CMB','CNX','CPH','CPT','CUN','CUR','CUZ','CWB','DBV','DEN','DFW','DOH','DPS','DTW','DUB',
+      'CLT','CMB','CNX','CPH','CPT','CUN','CUR','CUZ','CWB','DBV','DCA','DEN','DFW','DOH','DPS','DTW','DUB',
       'DUS','DXB','EDI','EYW','EZE','FAO','FCA','FCO','FHR','FLN','FLR','FNC','FOR','FRA','GCM','GEG',
-      'GIG','GOT','GPS','GRU','GRX','GVA','HAM','HAN','HEL','HER','HKG','HKT','HND','HNL','IAD','IAH',
+      'GIG','GOT','GPS','GRU','GRX','GVA','HAM','HAN','HEL','HER','HHH','HKG','HKT','HND','HNL','IAD','IAH',
       'ICN','IGU','IST','JFK','JMK','JPA','JTR','KEF','KIX','KOA','KRK','KTM','LAS','LAX','LGA','LGW',
       'LHR','LIH','LIM','LIS','LJU','LPQ','LUX','LYS','MAD','MAN','MCO','MCT','MCZ','MEL','MIA','MLA',
       'MLE','MRS','MSP','MSY','MUC','MVD','MXP','NAP','NAS','NAT','NCE','OAX','OGG','OLB','OPO','ORD',

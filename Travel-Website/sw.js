@@ -2022,7 +2022,8 @@
 /* 2026-08-23: the airport picker is one typed field (owner: "this should be one field no drop down to then type"). input.pp-input overrides the site-wide input[type=text] search-bar standard for a control that is a form field, not a search bar. web-travel-style.css -> v108. CACHE to v1467. */
 /* 2026-08-23: toolbar.js GM_SPRITE gains '423' (backpack) for Getting Around's Luggage Storage sub-block toolbar.js -> v1060. CACHE to v1468. */
 /* 2026-08-23: packing reverted to its pre-2026-08-23 shape (owner request) — the toggle-button/qty-column styling and Hide/Show label change all ship inline in essentials/packing/index.html, no shared asset moved, but the PAGE is precached and several hard refreshes still showed the old content on the reader's device, so the fetch handler's cached copy needed a fresh cache name to force it. CACHE to v1469. */
-var CACHE = 'travel-cache-v1470';
+/* 2026-08-23: packing corrected to 3-days-ago state (2026-08-20, bb7ba33e2) — the first revert landed on 2026-08-21 by mistake; this rolls back the icon stroke-width normalization too. CACHE to v1471. */
+var CACHE = 'travel-cache-v1471';
 
 /* The guide-calendar hand-off cache. Written by toolbar.js, read and emptied
    once by the fetch handler below, and EXEMPT from the activate sweep — it is

@@ -7371,12 +7371,11 @@ window.TVE.home = (function () {
       { name: 'Four Seasons Resort Scottsdale at Troon North', note: 'Four Seasons — Pinnacle Peak Desert, two pools, Talavera restaurant, Sonwai Spa · 9.4 Booking.com', url: 'https://www.booking.com/hotel/us/four-seasons-resort-scottsdale.html', tier: 'luxury' }
     ], price: { budget: 'USD 200–350', mid: 'USD 350–550', expensive: 'USD 550–900', luxury: 'USD 900+' } },
     'seattle': { h: [
-      { name: 'The Edgewater Hotel', note: 'Independent — Elliott Bay waterfront, mountain and water views, Eddie Vedder memorabilia, Six Seven restaurant · 9.1 Booking.com' , url: 'https://www.booking.com/hotel/us/the-edgewater.html' },
-      { name: 'Fairmont Olympic Hotel', note: 'Fairmont brand — 1924 Italian Renaissance downtown landmark, indoor pool, The Georgian Room · 9.0 Booking.com' , url: 'https://www.booking.com/hotel/us/fairmont-olympic.html' },
-    
-      { name: 'Four Seasons Hotel Seattle', note: 'Four Seasons brand — Elliott Bay waterfront, Goldfinch Tavern, outdoor pool with bay views, spa, steps from Pike Place · 9.4 Booking.com', url: 'https://www.booking.com/hotel/us/four-seasons-seattle.html' },
-      { name: 'Hotel 1000', note: 'Independent boutique — downtown First Avenue, BOKA Kitchen + Bar, spa with indoor pool, virtual golf · 8.7 Booking.com', url: 'https://www.booking.com/hotel/us/hotel-1000.html' }
-    ] },
+      { name: 'Hotel 1000', note: 'Independent boutique — downtown First Avenue, BOKA Kitchen + Bar, spa with indoor pool, virtual golf · 8.7 Booking.com', url: 'https://www.booking.com/hotel/us/hotel-1000.html', tier: 'budget' },
+      { name: 'The Edgewater Hotel', note: 'Independent — Elliott Bay waterfront, mountain and water views, Eddie Vedder memorabilia, Six Seven restaurant · 9.1 Booking.com', url: 'https://www.booking.com/hotel/us/the-edgewater.html', tier: 'mid' },
+      { name: 'Fairmont Olympic Hotel', note: 'Fairmont brand — 1924 Italian Renaissance downtown landmark, indoor pool, The Georgian Room · 9.0 Booking.com', url: 'https://www.booking.com/hotel/us/fairmont-olympic.html', tier: 'expensive' },
+      { name: 'Four Seasons Hotel Seattle', note: 'Four Seasons brand — Elliott Bay waterfront, Goldfinch Tavern, outdoor pool with bay views, spa, steps from Pike Place · 9.4 Booking.com', url: 'https://www.booking.com/hotel/us/four-seasons-seattle.html', tier: 'luxury' }
+    ], price: { budget: 'USD 180–320', mid: 'USD 320–480', expensive: 'USD 480–750', luxury: 'USD 750+' } },
     'sedona': { h: [
       { name: 'Enchantment Resort', note: 'Independent luxury — canyon-floor 70-acre resort in Boynton Canyon, mii amo destination spa, red-rock surrounds · 9.3 Booking.com', url: 'https://www.booking.com/hotel/us/enchantment-resort.html' },
       { name: 'L\'Auberge de Sedona', note: 'Independent luxury — Oak Creek canyon setting, cottage suites, farm-to-table Cress restaurant · 9.2 Booking.com', url: 'https://www.booking.com/hotel/us/l-auberge-de-sedona.html' },
@@ -11320,17 +11319,18 @@ window.TVE.home = (function () {
        its airport. */
     var LOUNGE_IATAS = [
       'ABQ','AES','AGP','AJU','AMM','AMS','ANC','ARN','ATH','ATL','AUA','AUH','AUS','BCN','BDS','BER',
-      'BGI','BGO','BIO','BKK','BLQ','BNA','BOB','BOD','BOS','BRU','BSL','BUD','CAI','CDG','CGN','CKG','CLT','CMB',
-      'CNX','CPH','CPT','CUN','CUR','CUZ','CWB','DBV','DEN','DFW','DOH','DPS','DTW','DUB','DUS','DXB',
-      'EDI','EYW','EZE','FAO','FCA','FCO','FHR','FLN','FLR','FNC','FOR','FRA','GCM','GEG','GIG','GOT',
-      'GPS','GRU','GRX','GVA','HAM','HAN','HEL','HER','HKG','HKT','HND','HNL','IAD','IAH','ICN','IGU',
-      'IST','JFK','JMK','JPA','JTR','KEF','KIX','KOA','KRK','KTM','LAS','LAX','LGA','LGW','LHR','LIH',
-      'LIM','LIS','LJU','LPQ','LUX','LYS','MAD','MAN','MCO','MCT','MCZ','MEL','MIA','MLA','MLE','MRS',
-      'MSP','MSY','MUC','MVD','MXP','NAP','NAS','NAT','NCE','OAX','OGG','OLB','OPO','ORD','ORS','ORY',
-      'OSL','PBH','PDL','PDX','PEK','PHL','PHX','PLS','PMI','PNS','POA','PPS','PRG','PSA','PSP','PUS',
-      'PVG','PVR','RAK','RDM','REC','RHO','RIX','RNO','RSW','SAN','SCL','SEA','SFO','SIN','SJC','SJD',
-      'SJO','SJU','SKG','SLC','SLZ','SPU','SRQ','SSA','STR','SXB','SYD','SZG','TBS','TFS','TIV','TLL',
-      'TOS','TPE','TRN','VCE','VIE','VLC','VNO','VRN','WLG','YQB','YUL','YVR','YYC','YYZ','ZAG','ZQN','ZRH'
+      'BGI','BGO','BIO','BKK','BLQ','BNA','BOB','BOD','BOS','BRU','BSL','BUD','CAI','CDG','CGN','CKG',
+      'CLT','CMB','CNX','CPH','CPT','CUN','CUR','CUZ','CWB','DBV','DEN','DFW','DOH','DPS','DTW','DUB',
+      'DUS','DXB','EDI','EYW','EZE','FAO','FCA','FCO','FHR','FLN','FLR','FNC','FOR','FRA','GCM','GEG',
+      'GIG','GOT','GPS','GRU','GRX','GVA','HAM','HAN','HEL','HER','HKG','HKT','HND','HNL','IAD','IAH',
+      'ICN','IGU','IST','JFK','JMK','JPA','JTR','KEF','KIX','KOA','KRK','KTM','LAS','LAX','LGA','LGW',
+      'LHR','LIH','LIM','LIS','LJU','LPQ','LUX','LYS','MAD','MAN','MCO','MCT','MCZ','MEL','MIA','MLA',
+      'MLE','MRS','MSP','MSY','MUC','MVD','MXP','NAP','NAS','NAT','NCE','OAX','OGG','OLB','OPO','ORD',
+      'ORS','ORY','OSL','PBH','PDL','PDX','PEK','PHL','PHX','PLS','PMI','PNS','POA','PPS','PRG','PSA',
+      'PSP','PUS','PVG','PVR','RAK','RDM','REC','RHO','RIX','RNO','RSW','SAN','SCL','SEA','SFO','SIN',
+      'SJC','SJD','SJO','SJU','SKG','SLC','SLZ','SPU','SRQ','SSA','STR','STT','SXB','SYD','SZG','TBS',
+      'TFS','TIV','TLL','TOS','TPE','TRN','VCE','VIE','VLC','VNO','VRN','WLG','YQB','YUL','YVR','YYC',
+      'YYZ','ZAG','ZQN','ZRH'
     ];
 
     function _inject() {

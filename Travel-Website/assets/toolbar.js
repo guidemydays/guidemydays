@@ -6194,11 +6194,11 @@ window.TVE.home = (function () {
       { name: 'Hotel Il Colle di Monterosso', note: 'Independent — Colle di Gritta hilltop above Monterosso, garden terraces with Ligurian Sea panorama, free shuttle to the village · 9.3 Booking.com', url: 'https://www.booking.com/hotel/it/il-colle-di-monterosso.html', tier: 'luxury' }
     ], price: { budget: '€100–200', mid: '€200–350', expensive: '€350–500', luxury: '€500+' } },
     'coeur-dalene': { h: [
-      { name: 'SpringHill Suites Coeur d\'Alene', note: 'Marriott SpringHill brand — 2250 West Seltice Way beside the Riverstone district, indoor pool, all-suite rooms, 24h reception · 9.0 Booking.com', url: 'https://www.booking.com/hotel/us/springhill-suites-coeur-d-alene.html' },
-      { name: 'Best Western Plus Coeur d\'Alene Inn', note: 'Best Western Plus — indoor pool and hot tub, on-site dining, minutes from downtown and the lake · 8.4 Booking.com', url: 'https://www.booking.com/hotel/us/coeur-d-alene-inn.html' },
-      { name: 'Hampton Inn & Suites Coeur d\'Alene', note: 'Hilton Hampton brand — 1500 Riverstone Drive, indoor pool, free hot breakfast, 24h reception · 9.4 Booking.com', url: 'https://www.booking.com/hotel/us/riverstone-drive-coeur-d-alene.html' },
-      { name: 'Holiday Inn Express Coeur d\'Alene', note: 'IHG brand — central location, indoor pool, free breakfast bar, mountain-and-lake views · 8.5 Booking.com', url: 'https://www.booking.com/hotel/us/holiday-inn-express-suites-coeur-d-alene-i-90-exit-11.html' }
-    ] },
+      { name: 'Best Western Plus Coeur d\'Alene Inn', note: 'Best Western Plus — indoor pool and hot tub, on-site dining, minutes from downtown and the lake · 8.4 Booking.com', url: 'https://www.booking.com/hotel/us/coeur-d-alene-inn.html', tier: 'budget' },
+      { name: 'Holiday Inn Express Coeur d\'Alene', note: 'IHG brand — central location, indoor pool, free breakfast bar, mountain-and-lake views · 8.5 Booking.com', url: 'https://www.booking.com/hotel/us/holiday-inn-express-suites-coeur-d-alene-i-90-exit-11.html', tier: 'mid' },
+      { name: 'SpringHill Suites Coeur d\'Alene', note: 'Marriott SpringHill brand — 2250 West Seltice Way beside the Riverstone district, indoor pool, all-suite rooms, 24h reception · 9.0 Booking.com', url: 'https://www.booking.com/hotel/us/springhill-suites-coeur-d-alene.html', tier: 'expensive' },
+      { name: 'Hampton Inn & Suites Coeur d\'Alene', note: 'Hilton Hampton brand — 1500 Riverstone Drive, indoor pool, free hot breakfast, 24h reception · 9.4 Booking.com', url: 'https://www.booking.com/hotel/us/riverstone-drive-coeur-d-alene.html', tier: 'luxury' }
+    ], price: { budget: '$110–180', mid: '$140–220', expensive: '$160–260', luxury: '$200–320' } },
     'colmar': { h: [
       { name: 'Au Grenier à Sel Colmar', note: 'Independent — 54 Grand Rue in the Old Town, 4-star suites in a converted salt loft a few doors from the Koïfhus · 9.3 Booking.com', url: 'https://www.booking.com/hotel/fr/au-grenier-a-sel-colmar.html' },
       { name: "L'Esquisse Hotel & Spa Colmar · MGallery Collection", note: 'MGallery (Accor, off the § 3 ladder) — 2 Avenue de la Marne, 5-star with indoor pool, spa and 24h reception; the guide\'s previous title-card hotel · 9.2 Booking.com', url: 'https://www.booking.com/hotel/fr/colmar-champ-de-mars.html' },
@@ -11310,16 +11310,17 @@ window.TVE.home = (function () {
        its airport. */
     var LOUNGE_IATAS = [
       'ABQ','AES','AGP','AJU','AMM','AMS','ANC','ARN','ATH','ATL','AUA','AUH','AUS','BCN','BDS','BER',
-      'BGI','BGO','BIO','BKK','BLQ','BNA','BOB','BOD','BOS','BRU','BUD','CAI','CDG','CKG','CLT','CMB','CNX',
-      'CPH','CPT','CUN','CUR','CUZ','CWB','DBV','DEN','DFW','DOH','DPS','DTW','DUB','DUS','DXB','EDI',
-      'EYW','EZE','FAO','FCA','FCO','FHR','FLN','FLR','FNC','FOR','FRA','GCM','GIG','GLA','GOT','GPS','GRU','GVA','HAM',
-      'HAN','HEL','HER','HKG','HKT','HND','IAD','IAH','ICN','IGU','IST','JFK','JMK','JPA','JTR','KEF','KIX','KOA',
-      'KRK','KTM','LAS','LAX','LGA','LGW','LHR','LIH','LIM','LIS','LJU','LPQ','LUX','LYS','MAD','MAN','MCT','MEL',
-      'MIA','MCO','MCZ','MLA','MLE','MRS','MSP','MSY','MUC','MVD','MXP','NAP','NAS','NAT','NCE','OGG','OPO','ORD','ORS','ORY',
-      'OSL','PBH','PDL','PDX','PEK','PHL','PHX','PLS','PMI','PNS','POA','PPS','PRG','PSA','PSP','PUS',
-      'PVG','PVR','RAK','RDM','REC','RHO','RIX','RNO','RSW','SAN','SCL','SEA','SFO','SJD','SIN','SJC','SJO',
-      'SJU','SKG','SLC','SLZ','SPU','SSA','STR','SXB','SYD','SZG','TBS','TFS','TIV','TLL','TOS','TPE','TRN','VCE','VIE',
-      'VLC','VRN','WLG','YQB','YUL','YVR','YYC','YYZ','ZAG','ZQN','ZRH'
+      'BGI','BGO','BIO','BKK','BLQ','BNA','BOB','BOD','BOS','BRU','BUD','CAI','CDG','CKG','CLT','CMB',
+      'CNX','CPH','CPT','CUN','CUR','CUZ','CWB','DBV','DEN','DFW','DOH','DPS','DTW','DUB','DUS','DXB',
+      'EDI','EYW','EZE','FAO','FCA','FCO','FHR','FLN','FLR','FNC','FOR','FRA','GCM','GEG','GIG','GOT',
+      'GPS','GRU','GVA','HAM','HAN','HEL','HER','HKG','HKT','HND','HNL','IAD','IAH','ICN','IGU','IST',
+      'JFK','JMK','JPA','JTR','KEF','KIX','KOA','KRK','KTM','LAS','LAX','LGA','LGW','LHR','LIH','LIM',
+      'LIS','LJU','LPQ','LUX','LYS','MAD','MAN','MCO','MCT','MCZ','MEL','MIA','MLA','MLE','MRS','MSP',
+      'MSY','MUC','MVD','MXP','NAP','NAS','NAT','NCE','OAX','OGG','OPO','ORD','ORS','ORY','OSL','PBH',
+      'PDL','PDX','PEK','PHL','PHX','PLS','PMI','PNS','POA','PPS','PRG','PSA','PSP','PUS','PVG','PVR',
+      'RAK','RDM','REC','RHO','RIX','RNO','RSW','SAN','SCL','SEA','SFO','SIN','SJC','SJD','SJO','SJU',
+      'SKG','SLC','SLZ','SPU','SSA','STR','SXB','SYD','SZG','TBS','TFS','TIV','TLL','TOS','TPE','TRN',
+      'VCE','VIE','VLC','WLG','YQB','YUL','YVR','YYC','YYZ','ZAG','ZQN','ZRH'
     ];
 
     function _inject() {

@@ -6658,11 +6658,12 @@ window.TVE.home = (function () {
       { name: 'Hotel des Balances', note: 'Independent — 13th-century guildhall on the Reuss in the Old Town, river-view rooms · 9.1 Booking.com', url: 'https://www.booking.com/hotel/ch/desbalances.html' }
     ] },
     'luxembourg': { h: [
-      { name: 'Grand Hotel Cravat', note: 'Independent — listed building on Boulevard Roosevelt, Michelin-listed Frantz Mosa restaurant, Old Town views · 8.9 Booking.com', url: 'https://www.booking.com/hotel/lu/grandhotelcravat.html' },
-      { name: 'Sofitel Luxembourg Europe', note: 'Sofitel brand — Kirchberg European Quarter, spa, contemporary design, close to EU institutions · 8.8 Booking.com', url: 'https://www.booking.com/hotel/lu/sofitel.html' },
-      { name: 'Meliá Luxembourg', note: 'Meliá Hotels — Kirchberg district, rooftop bar with city views, spa, near Philharmonie · 8.6 Booking.com', url: 'https://www.booking.com/hotel/lu/melia-luxembourg.html' },
-      { name: 'Le Place d\'Armes', note: 'Independent — Place d\'Armes historic core, 28 rooms in 1880s townhouses, Plëss restaurant · 9.0 Booking.com', url: 'https://www.booking.com/hotel/lu/le-place-d-armes.html' }
-    ] },
+      { name: 'ibis Luxembourg Centre', note: 'Accor ibis brand — Gare quarter, 5-minute walk to Gare Centrale and city-centre tram, clean air-conditioned rooms, 24h reception · 7.8 Booking.com', url: 'https://www.booking.com/hotel/lu/ibisluxembourg.html', tier: 'budget' },
+      { name: 'Meliá Luxembourg', note: 'Meliá Hotels — Kirchberg district, rooftop bar with city views, spa, near Philharmonie · 8.6 Booking.com', url: 'https://www.booking.com/hotel/lu/melia-luxembourg.html', tier: 'mid' },
+      { name: 'Grand Hotel Cravat', note: 'Independent — listed building on Boulevard Roosevelt, Michelin-listed Frantz Mosa restaurant, Old Town views · 8.9 Booking.com', url: 'https://www.booking.com/hotel/lu/grandhotelcravat.html', tier: 'expensive' },
+      { name: 'Le Place d\'Armes', note: 'Independent — Place d\'Armes historic core, 28 rooms in 1880s townhouses, Plëss restaurant · 9.0 Booking.com', url: 'https://www.booking.com/hotel/lu/le-place-d-armes.html', tier: 'expensive' },
+      { name: 'Sofitel Luxembourg Europe', note: 'Sofitel brand — Kirchberg European Quarter, spa, contemporary design, close to EU institutions · 8.8 Booking.com', url: 'https://www.booking.com/hotel/lu/sofitel.html', tier: 'luxury' }
+    ], price: { budget: '€80–140', mid: '€140–230', expensive: '€230–380', luxury: '€380+' } },
     'lyon': { h: [
       { name: 'Villa Florentine', note: 'Small Luxury Hotels — Renaissance mansion on Fourvière Hill, panoramic city and Rhône views, Michelin-starred dining · 9.4 Booking.com', url: 'https://www.booking.com/hotel/fr/villaflorentine.html' },
       { name: 'Sofitel Lyon Bellecour', note: 'Sofitel brand — Presqu\'île heart, spa with pool, Les Trois Dômes gastronomic restaurant with panorama · 8.9 Booking.com', url: 'https://www.booking.com/hotel/fr/sofitel-lyon.html' },
@@ -6701,11 +6702,11 @@ window.TVE.home = (function () {
       { name: 'Vincci Posada del Patio', note: 'Vincci Hotels — historic centre, Arabo-Nasrid 16th-century building, rooftop pool with city views · 9.0 Booking.com', url: 'https://www.booking.com/hotel/es/vincci-posada-del-patio.html' }
     ] },
     'maldives': { h: [
-      { name: 'Gili Lankanfushi', note: 'Independent luxury — adults-only overwater villas, direct lagoon access, no news no shoes philosophy, butler service · 9.6 Booking.com', url: 'https://www.booking.com/hotel/mv/gili-lankanfushi-maldives.html' },
-      { name: 'Four Seasons Resort Maldives at Landaa Giraavaru', note: 'Four Seasons brand — UNESCO Biosphere Reserve, overwater villas, dive school, spa island · 9.5 Booking.com', url: 'https://www.booking.com/hotel/mv/four-seasons-resort-maldives-at-landaa-giraavaru.html' },
-      { name: 'Soneva Fushi', note: 'Soneva brand — Baa Atoll UNESCO Biosphere Reserve, no-shoes luxury private island, Six Senses Spa · 9.6 Booking.com', url: 'https://www.booking.com/hotel/mv/soneva-fushi.html' },
-      { name: 'Velaa Private Island', note: 'Independent — Noonu Atoll, 45 residences with private pools, Aragu restaurant · 9.6 Booking.com', url: 'https://www.booking.com/hotel/mv/velaa-private-island.html' }
-    ] },
+      { name: 'Arena Beach Hotel', note: 'Independent guesthouse — Maafushi local island, pool, beach access, daily snorkeling package, 24h front desk · 8.5 Booking.com', url: 'https://www.booking.com/hotel/mv/arena-beach.html', tier: 'budget' },
+      { name: 'Bandos Maldives', note: 'Independent resort — North Malé Atoll, beach and lagoon bungalows, dive school, water sports centre, multiple restaurants · 8.7 Booking.com', url: 'https://www.booking.com/hotel/mv/bandos-island.html', tier: 'mid' },
+      { name: 'Baros Maldives', note: 'Independent boutique — North Malé Atoll, 75 overwater and beach villas, coral garden reef, Lighthouse fine-dining restaurant · 9.4 Booking.com', url: 'https://www.booking.com/hotel/mv/baros.html', tier: 'expensive' },
+      { name: 'Gili Lankanfushi', note: 'Independent luxury — adults-only overwater villas, direct lagoon access, no news no shoes philosophy, butler service · 9.6 Booking.com', url: 'https://www.booking.com/hotel/mv/gili-lankanfushi-maldives.html', tier: 'luxury' }
+    ], price: { budget: 'USD 80–160', mid: 'USD 200–400', expensive: 'USD 500–900', luxury: 'USD 1,200+' } },
     'malibu': { h: [
       { name: 'Malibu Country Inn', note: 'Independent — Point Dume area, ocean view from pool deck, fire pits, romantic 16-room inn · 9.0 Booking.com', url: 'https://www.booking.com/hotel/us/malibu-country-inn.html', tier: 'budget' },
       { name: 'Calamigos Guest Ranch and Beach Club', note: 'Independent — Malibu Canyon 5 acres, pool, horseback riding, farm-to-table dining · 9.3 Booking.com', url: 'https://www.booking.com/hotel/us/calamigos-guest-ranch.html', tier: 'mid' },

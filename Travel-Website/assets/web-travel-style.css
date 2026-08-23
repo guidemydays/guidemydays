@@ -2513,6 +2513,37 @@ body > .hero-ground {
      · a 4px rounded rectangle (NOT OVAL 999px/50%, NOT SQUARE 0)
      · the fill is the family background — never white
    A page carries NO colour. It writes the family class and nothing else.
+
+   ── TOP-PILL SIZE RULE (owner rule 2026-08-23) ──────────────────────────
+   The site had drifted to two sizing extremes for the SAME control — the
+   shared 11px/3px-8px box most pages used, and /essentials/budget/'s
+   page-scoped 15px/7px-14px .ci-btn upsize — which is what triggered this.
+   The settled rule, in three parts:
+     1. HEIGHT — every pill-shaped element, badge OR pill-badge, is the
+        SAME height everywhere: --fam-fs + --fam-pad below. One token pair,
+        read here and nowhere restated. A page NEVER sets its own
+        font-size/padding on a .badge or .pill-badge.
+     2. WIDTH — a TOP PILL (a *clickable* .pill-badge — a <button>, or a
+        role="button" element like scams' <span> filter chips) is NOT sized
+        to its own label. Every pill in the SAME control row shares ONE
+        width: the width the row's LONGEST label needs. "All" and "Tips"
+        stretch to match "Carrier plan" sitting next to them, because a
+        short pill at its own natural width reads as a smaller, different
+        control next to a long one, even with an identical box (owner:
+        "the biggest pill sets the size for the rest, period"). A CONTENT
+        BADGE (a non-interactive .badge — card tags, info chips) is exempt
+        from this: it keeps its own natural width, never equalized against
+        siblings — badges label what something IS and are not a control
+        row. CSS cannot compute "the widest sibling in this row" on its
+        own; this half of the rule is enforced by _equalizePillRows() in
+        toolbar.js, which groups by parentElement and only touches
+        button/role=button pill-badges — never a .badge, never a static
+        legend of non-interactive pill-badge <div>s (airline-networks'
+        .tier-legend), and never a card-tag.
+     3. CASE — already covered above: every pill and badge label renders
+        ALL CAPS via the shared text-transform. Nothing in this rule
+        changes that; restated here only so the three points travel
+        together.
    ══════════════════════════════════════════════════════════════════════════ */
 
 /* ONE BOX, ONE CASE. Badge and pill-badge are the SAME element — size,

@@ -186,10 +186,42 @@ window.TVE.home = (function () {
      Destination Records, and the guides-index Flight time view. Note it is not
      TVESearch, which searches GUIDES; an origin picker wired to that one finds
      cities with guides rather than airports to fly from. */
-  function lookup(q, rows, majorSet, limit) {
+  /* THE CITY A READER TYPES IS NOT ALWAYS IN ANY FIELD OF THE AIRPORT'S ROW.
+     Matching is against the code, OurAirports' `municipality` and the airport's
+     own name, and for a good number of the world's busiest airports the city
+     appears in NONE of the three. Measured 2026-08-23: "tokyo" returned Haneda
+     and NOT Narita (municipality "Narita", name "Narita International");
+     "bergamo" returned NOTHING (BGY is "Orio al Serio (BG)" / "Il Caravaggio
+     International"). That was survivable while the airport was an optional
+     field; it stopped being survivable when it became the FIRST and REQUIRED
+     question on the landing finder, with the rest of the form greyed out behind
+     it — a reader who cannot find their airport cannot use the tool at all.
+
+     `aliasSet` is airport-names.json's `x` map, curated in build_airports.py
+     and validated there against the row list, so it can never name a code the
+     picker cannot draw. A matched alias ranks its codes at 1, level with a city
+     match, and NEVER overrides a better rank the row already earned — typing
+     "lhr" still puts LHR first. Owner approval 2026-08-23. */
+  function lookup(q, rows, majorSet, limit, aliasSet) {
     q = fold(q).trim();
     if (!q || !rows || !rows.length) return [];
     majorSet = majorSet || {};
+    /* Defaulted from the loader's own copy rather than required as an argument.
+       Two pages call this (the landing finder and the guides-index picker) and
+       a fifth positional argument is exactly the kind of thing one of them gets
+       and the other does not. `aliases` is a hoisted var in this closure and is
+       filled by the same fetch that fills `rows`. */
+    if (aliasSet === undefined) aliasSet = aliases;
+    /* Prefix, not equality: a reader is judged on what they have typed so far,
+       which is the same courtesy the city test gets one line down. */
+    var boost = {};
+    if (aliasSet) {
+      for (var k in aliasSet) {
+        if (fold(k).indexOf(q) === 0) {
+          for (var j = 0; j < aliasSet[k].length; j++) boost[aliasSet[k][j]] = 1;
+        }
+      }
+    }
     var out = [];
     for (var i = 0; i < rows.length && out.length < 400; i++) {
       var r = rows[i], code = fold(r[0]), city = fold(r[1]), name = fold(r[3]);
@@ -199,6 +231,7 @@ window.TVE.home = (function () {
       else if (code.indexOf(q) === 0) rank = 2;
       else if (city.indexOf(q) > 0) rank = 3;
       else if (name.indexOf(q) >= 0) rank = 4;
+      if (boost[r[0]] && (rank === -1 || rank > 1)) rank = 1;
       if (rank >= 0) out.push([rank, r]);
     }
     out.sort(function (a, b) {
@@ -214,7 +247,9 @@ window.TVE.home = (function () {
      origin picker, never on page load — most readers never open one. The
      sessionStorage key 'tveapn' is shared by every picker, so a reader who has
      used one has already paid for the rest. */
-  var rows = null, pending = null;
+  /* The city -> airports map that rides in the same file as the rows. Held
+     beside them so every picker on the site gets it from one fetch. */
+  var rows = null, pending = null, aliases = null;
   function names(cb) {
     if (rows) { setTimeout(function () { cb(rows); }, 0); return; }
     if (pending) { pending.push(cb); return; }
@@ -226,7 +261,7 @@ window.TVE.home = (function () {
     }
     try {
       var hit = sessionStorage.getItem('tveapn');
-      if (hit) { done((JSON.parse(hit) || {}).a); return; }
+      if (hit) { var j = JSON.parse(hit) || {}; aliases = j.x || null; done(j.a); return; }
     } catch (e) {}
     var mount = document.getElementById('toolbar-mount');
     var dep = mount ? parseInt(mount.getAttribute('data-depth') || '1', 10) : 0;
@@ -237,7 +272,9 @@ window.TVE.home = (function () {
       if (xhr.status < 200 || xhr.status >= 300) { done([]); return; }
       try {
         try { sessionStorage.setItem('tveapn', xhr.responseText); } catch (e) {}
-        done((JSON.parse(xhr.responseText) || {}).a);
+        var j = JSON.parse(xhr.responseText) || {};
+        aliases = j.x || null;
+        done(j.a);
       } catch (e) { done([]); }
     };
     xhr.onerror = xhr.ontimeout = function () { done([]); };

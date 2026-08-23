@@ -6454,11 +6454,11 @@ window.TVE.home = (function () {
       { name: 'JW Marriott Hotel Hanoi', note: 'Marriott brand — award-winning curved tower by Carlos Zapata Studio on Do Duc Dan Lake, outdoor pool, full-service spa · 8.8 Booking.com', url: 'https://www.booking.com/hotel/vn/jw-marriott-hotel-hanoi.html', tier: 'luxury' }
     ], price: { budget: 'VND 700,000–1,500,000', mid: 'VND 1,500,000–3,000,000', expensive: 'VND 3,000,000–6,000,000', luxury: 'VND 6,000,000+' } },
     'helsinki': { h: [
-      { name: 'Hotel St. George Helsinki', note: 'Design Hotels member — 1894 neo-Renaissance building in the city center, curated art collection, spa with pool, Aino restaurant · 9.1 Booking.com' , url: 'https://www.booking.com/hotel/fi/hotel-st-george-helsinki.html' },
-      { name: 'Marski by Scandic', note: 'Scandic brand — prime Mannerheimintie address opposite Esplanade Park, 365 rooms, extensively renovated 2019, rooftop sauna · 8.5 Booking.com' , url: 'https://www.booking.com/hotel/fi/marski-by-scandic.html' },
-      { name: 'Klaus K Hotel', note: 'Design Hotels — 1908 Art Nouveau building on Bulevardi, Finnish mythology-themed interiors, wine bar, central Market Square location · 9.0 Booking.com' , url: 'https://www.booking.com/hotel/fi/klausku.html' },
-      { name: 'Kämp Hotel Helsinki', note: 'Leading Hotels of the World — 1887 Senate Square landmark, Kämp Brasserie, spa with indoor pool, central Esplanade Park address · 9.1 Booking.com' , url: 'https://www.booking.com/hotel/fi/hotel-kamp.html' }
-    ] },
+      { name: 'Marski by Scandic', note: 'Scandic brand — prime Mannerheimintie address opposite Esplanade Park, 365 rooms, renovated 2019, rooftop sauna, 24h reception · 8.5 Booking.com', url: 'https://www.booking.com/hotel/fi/marski-by-scandic.html', tier: 'budget' },
+      { name: 'Klaus K Hotel', note: 'Design Hotels member — 1908 Art Nouveau building on Bulevardi, Finnish mythology-themed interiors, wine bar, 24h reception · 9.0 Booking.com', url: 'https://www.booking.com/hotel/fi/klausku.html', tier: 'mid' },
+      { name: 'Hotel St. George Helsinki', note: 'Design Hotels member — 1894 neo-Renaissance building in the city center, curated art collection, spa with pool, Aino restaurant · 9.1 Booking.com', url: 'https://www.booking.com/hotel/fi/hotel-st-george-helsinki.html', tier: 'expensive' },
+      { name: 'Hotel Kämp', note: 'Leading Hotels of the World — 1887 grand hotel on Pohjoisesplanadi, Kämp Brasserie, spa with indoor pool, iconic Esplanade Park address · 9.1 Booking.com', url: 'https://www.booking.com/hotel/fi/hotel-kamp.html', tier: 'luxury' }
+    ], price: { budget: 'EUR 100–200', mid: 'EUR 200–320', expensive: 'EUR 320–500', luxury: 'EUR 500+' } },
     'hilton-head-island': { h: [
       { name: 'Sonesta Resort Hilton Head Island', note: 'Sonesta brand — North Forest Beach Drive oceanfront, two pools, beach access, on-site dining, family-friendly full-service resort · 8.6 Booking.com', url: 'https://www.booking.com/hotel/us/sonesta-resort-hilton-head-island.html' },
       { name: 'The Inn at Harbour Town', note: 'Independent boutique — inside Sea Pines plantation, overlooking Heritage Golf Links, butler service, Sea Pines resort amenity access', url: 'https://www.expedia.com/Hilton-Head-Hotels-The-Inn-Club-At-Harbour-Town.h29064820.Hotel-Information' },
@@ -7640,11 +7640,11 @@ window.TVE.home = (function () {
       { name: 'Park Hyatt Vienna', note: 'Hyatt brand — 1913 Austro-Hungarian bank vault converted to spa and indoor pool, Das Loft restaurant · 9.4 Booking.com', url: 'https://www.booking.com/hotel/at/park-hyatt-vienna.html', tier: 'luxury' }
     ], price: { budget: '€80–150', mid: '€150–280', expensive: '€280–450', luxury: '€450+' } },
     'virgin-islands': { h: [
-      { name: 'Sugar Bay Resort & Spa', note: 'IHG brand — Sugar Bay Beach, hillside pools and water slides, full-service spa, St. Thomas East End', url: 'https://www.sugarbayresortandspa.com/' },
-      { name: 'Point Pleasant Resort', note: 'Independent boutique — Estate Smith Bay hilltop, studio apartments and suites with bay views, snorkel beach', url: 'https://www.pointpleasantresort.com/' },
-      { name: 'Buoy Haus Beach Resort St Thomas, Autograph Collection', note: 'Marriott Autograph Collection — Frenchman\'s Bay beachfront, St. Thomas, infinity pool, snorkel beach, 24h reception · 9.1 Booking.com', url: 'https://www.booking.com/hotel/vi/morningstar-buoy-haus-beach-resort-at-frenchmans-reef-autograph-collection.html' },
-      { name: 'Caneel Bay, A Rosewood Resort', note: 'Rosewood brand — St. John National Park, seven beaches, adults-only pool, tropical garden', url: 'https://caneelbay.com/' }
-    ] },
+      { name: 'Sugar Bay Resort & Spa', note: 'IHG Holiday Inn Resort brand — Smith Bay hillside on St. Thomas\'s East End, tiered pools and water slides, beach access, full-service spa · 7.8 Booking.com', url: 'https://www.booking.com/hotel/vi/sugar-bay-resort-and-spa.html', tier: 'budget' },
+      { name: 'Buoy Haus Beach Resort St. Thomas, Autograph Collection', note: 'Marriott Autograph Collection — Frenchman\'s Bay beachfront at Morningstar Beach, infinity pool, snorkel beach, 24h reception · 9.1 Booking.com', url: 'https://www.booking.com/hotel/vi/morningstar-buoy-haus-beach-resort-at-frenchmans-reef-autograph-collection.html', tier: 'mid' },
+      { name: 'The Ritz-Carlton, St. Thomas', note: 'Ritz-Carlton brand — Estate St. John on St. Thomas\'s East End, private beach, outdoor pool, full spa, Great Bay views · 9.0 Booking.com', url: 'https://www.booking.com/hotel/vi/the-ritz-carlton-st-thomas.html', tier: 'expensive' },
+      { name: 'Caneel Bay, A Rosewood Resort', note: 'Rosewood brand — seven beaches in the Virgin Islands National Park on St. John, no motors, pristine bay access · 9.4 Booking.com', url: 'https://www.booking.com/hotel/vi/caneel-bay-resort.html', tier: 'luxury' }
+    ], price: { budget: '$150–250', mid: '$250–450', expensive: '$450–700', luxury: '$700+' } },
     'washington-dc': { h: [
       { name: 'Rosewood Washington D.C.', note: 'Rosewood brand — Georgetown neighborhood, outdoor pool, acclaimed Wyld restaurant, townhouse suites · 9.4 Booking.com' , url: 'https://www.booking.com/hotel/us/rosewood-washington-dc.html' },
       { name: 'Four Seasons Hotel Washington DC', note: 'Four Seasons brand — Georgetown, outdoor pool, M Restaurant, spa, Embassy Row adjacent · 9.2 Booking.com' , url: 'https://www.booking.com/hotel/us/four-seasons-hotel-washington-dc.html' },

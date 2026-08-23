@@ -1,3 +1,4 @@
+/* 2026-08-23: gothenburg: HOTEL_ALT_DATA 4 tiers + SEK price ranges, motion-route links x47, train icons, station format, position-2c, GAFD fix. toolbar.js→v1007 CACHE→v1398. */
 /* 2026-08-23: cinque-terre: train icons x3, ferry transit fix, station pin+motion rows, direction links x14, position-2c, HOTEL_ALT_DATA 4 tiers EUR. toolbar.js→v1006 CACHE→v1397. */
 
 /* 2026-08-23: chicago: HOTEL_ALT_DATA 4 tiers + USD prices (budget Hotel Blake, mid Loews, expensive Four Seasons, luxury The Langham); 66 motion-route links; train icons, GA-FD clauses fixed. toolbar.js -> v989. CACHE to v1379. */
@@ -1948,7 +1949,7 @@
 /* 2026-08-23: malaga: guide-style.css mobile section chip centering changed block+align-content to flex+align-items — fleet-wide fix for Weekly Closures chip vertical offset. guide-style.css -> 263. CACHE to v1394. */
 /* 2026-08-23: los-angeles: HOTEL_ALT_DATA 4 tiers + USD prices, motion-route links, train icons, position-2c, GA/FD fix toolbar.js -> v1004. CACHE to v1395. */
 /* 2026-08-23: sao-paulo hotel tiers toolbar.js -> v1005. CACHE to v1396. */
-var CACHE = 'travel-cache-v1397';
+var CACHE = 'travel-cache-v1398';
 
 /* The guide-calendar hand-off cache. Written by toolbar.js, read and emptied
    once by the fetch handler below, and EXEMPT from the activate sweep — it is
@@ -1961,7 +1962,7 @@ var ICS_OUTBOX = 'gmd-ics-outbox';
    THIS IS THE ONLY PLACE to bump toolbar.js / guide-style.css versions.
    NEVER bump ?v= inside guide HTML — it breaks HMAC stamps and forces re-validation
    of 230+ guides. Instead, bump MIN_VERSIONS here + increment the CACHE version. */
-var MIN_VERSIONS = { 'guide-style.css': 263,'toolbar.js': 1006, 'mobile.css': 88, 'web-travel-style.css': 94, 'guides-index-style.css': 25, 'read-about.css': 6, 'best-of-features.js': 4, 'best-of-cross-data.js': 24, 'weather.js': 12, 'trains.css': 11, 'trains.js': 2, 'airlines.css': 2, 'airlines.js': 2, 'passport.js': 4 };
+var MIN_VERSIONS = { 'guide-style.css': 263,'toolbar.js': 1007, 'mobile.css': 88, 'web-travel-style.css': 94, 'guides-index-style.css': 25, 'read-about.css': 6, 'best-of-features.js': 4, 'best-of-cross-data.js': 24, 'weather.js': 12, 'trains.css': 11, 'trains.js': 2, 'airlines.css': 2, 'airlines.js': 2, 'passport.js': 4 };
 
 function rewriteAssetUrl(urlStr) {
   var u;

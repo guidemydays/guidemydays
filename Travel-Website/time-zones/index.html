@@ -24,6 +24,43 @@ input.search {
 input.search::placeholder { color: var(--c-search-placeholder); }
 #search.search-input::placeholder { color: #A8895A; }
 input.search:focus { border-color: var(--c-search-focus-border); box-shadow: none; }
+/* ── The search's own explanation, and the reference bar that replaces it ──
+   Owner 2026-08-23: "the page is not clear at all" · "it also needs to be clear
+   somehow that if the user enters a city what they will get" · "does this need
+   to move closer to the search".
+
+   Before a city is named, the page can measure nothing: no ± chip on any card,
+   no distance sort. That used to be expressed as a greyed-out pill parked at the
+   end of the region row — a control the reader could see, could not use, and was
+   given no reason for. It is gone. In its place, ONE sentence under the search
+   saying what a search buys you. The pill itself only exists once it works, and
+   it appears where the thing that turned it on is — under the search, not five
+   controls away in the filter row. */
+.search-hint {
+  margin: 10px auto 0; font-size: 13px; line-height: 1.45; color: var(--muted, #6a6660);
+  text-align: center; max-width: 560px;
+}
+.search-hint[hidden] { display: none; }
+/* The reference bar is the search's answer: it names the city everything is now
+   measured from, carries the sort that only exists because of it, and offers the
+   way back out. It sits directly under the box that produced it (Sixty-second
+   non-negotiable). */
+.reference-bar {
+  display: flex; align-items: center; justify-content: center; gap: 10px;
+  flex-wrap: wrap; margin: 12px 0 0;
+}
+.reference-bar[hidden] { display: none; }
+.reference-label { font-size: 13px; color: var(--muted, #6a6660); }
+.reference-label strong { color: var(--text, #3d3a32); font-weight: 600; }
+/* The flag is its own element because a plain space between an emoji flag and the
+   name collapses to almost nothing at 13px — they render as one word. */
+.reference-flag { margin-right: 5px; }
+.reference-clear {
+  background: none; border: none; padding: 0; font-family: inherit; font-size: 12.5px;
+  color: var(--muted, #6a6660); text-decoration: underline; text-underline-offset: 3px;
+  cursor: pointer;
+}
+.reference-clear:hover { color: var(--rust, #C04E1A); }
 .pills { font-family: inherit; display: flex; gap: 4px; flex-wrap: wrap; }
 .pill {
   display: inline-flex; align-items: center; justify-content: center;
@@ -32,25 +69,13 @@ input.search:focus { border-color: var(--c-search-focus-border); box-shadow: non
   cursor: pointer; transition: all .15s; white-space: nowrap;
 }
 .pill:hover, .pill.active { font-family: inherit; background: var(--bg, #f5f4f0); border-color: var(--rust, #C04E1A); color: var(--text, #3d3a32); }
-/* The distance sort is dead until the reader has searched a city — it stays
-   visible so they can see what a search unlocks, but it does not respond. */
-/* pointer-events:none is load-bearing, not decoration: a disabled button
-   swallows its own click entirely — the event is never dispatched, not even to
-   the row — so without this the dead pill is a hole in the page. With it the
-   click lands on #region-pills, which focuses the search. */
-.pill:disabled { opacity: .45; cursor: default; pointer-events: none; }
-.pill:disabled:hover { background: var(--surface, #fff); border-color: var(--border2, #e6e2da); color: #6a6660; }
-/* WAITING, not disabled. Same faded read as :disabled so it never looks like a
-   live filter, but it keeps its pointer events and its pointer cursor — it has
-   something to say when pressed, and a control with an answer is not dead. */
-.pill.is-waiting { opacity: .45; cursor: pointer; }
-.pill.is-waiting:hover { opacity: .7; }
-.sort-note { margin: 8px 0 0; font-size: 12.5px; color: var(--muted, #6a6660); text-align: center; }
-.sort-note[hidden] { display: none; }
+/* THERE IS NO DISABLED PILL ON THIS PAGE. The distance sort cannot work before a
+   city is named, so before then it is not drawn at all — the page says what a
+   search does in words instead. A greyed control that answers nothing reads as a
+   broken button, which is exactly how it was read (owner 2026-08-23: "why closest
+   is grey out and not working?"). Never re-add a `:disabled` or `is-waiting`
+   state here: the fix is to show the control only once it has something to sort. */
 a.pill:visited { color: #6a6660; }
-/* The sort pill shares the row with the region filters but is not one of them —
-   a gap says so without a divider or a second row. */
-.sort-pill { margin-left: 14px; }
 
 /* Desktop — ROUNDED PILLS, spaced, in the toolbar's own grammar (owner 2026-08-17:
    "this is ugly the all is a big square try to make these pill look better").
@@ -80,14 +105,8 @@ a.pill:visited { color: #6a6660; }
     background: #fdf4ed; border: 1px solid rgba(192,78,26,.85);
     color: var(--rust, #C04E1A); font-weight: 600;
   }
-  /* The dead distance sort keeps the pill shape at a faint rim so it reads as a
-     control waiting on a search, not as a second selected chip. Same terracotta
-     text as its neighbours — only the rim is faint to signal "search first". */
-  .pills .pill:disabled,
-  .pills .pill:disabled:hover {
-    background: var(--surface, #ffffff); border-color: rgba(192,78,26,.20);
-    color: var(--rust, #C04E1A); font-weight: 500; opacity: 1;
-  }
+  /* The sort pill lives under the search, not in this row, but it is the same
+     component — it inherits the ladder above by carrying .pill. */
 }
 /* ── Grid ── */
 .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(196px, 1fr)); gap: 10px; min-height: 300px; }
@@ -126,13 +145,38 @@ a.pill:visited { color: #6a6660; }
 .vs-sea.same   { color: var(--muted); background: transparent; }
 /* base .empty-state lives in web-travel-style.css — page keeps only the grid span */
 .empty-state { grid-column: 1 / -1; }
-/* ── Night mark — local hour 22:00–06:59 draws catalogue #306 (crescent moon, sprite
-   `wx-moon`) in the card's BOTTOM-RIGHT corner, last in the meta row (owner
-   2026-08-22). It sat beside the time until then. The card itself is NEVER dimmed:
-   the old `.sleeping` opacity drop read as "filtered out" with All selected
-   (owner 2026-08-21). ── */
+/* ── Day / night mark — EVERY card carries one, in the BOTTOM-RIGHT corner, last in
+   the meta row (owner 2026-08-22). Local hour 22:00–06:59 draws catalogue #306
+   (crescent moon, sprite `wx-moon`); every other hour draws catalogue #299 (sun,
+   sprite `wx-clear`) — owner 2026-08-23: "we should also add a sun outline too when
+   is day". The pair is the point: a lone moon says "some cards are special", a moon
+   or a sun on every card says "this is what o'clock it is there". The card itself is
+   NEVER dimmed: the old `.sleeping` opacity drop read as "filtered out" with All
+   selected (owner 2026-08-21). ── */
 .card-meta-right { display: flex; align-items: center; gap: 6px; }
 .card-night { width: 13px; height: 13px; flex-shrink: 0; }
+.card-day-mark { width: 13px; height: 13px; flex-shrink: 0; }
+/* OUTLINE, not a filled shape (owner 2026-08-23: "make the moon to not be filled
+   just the outline"). Still catalogue #306 and #299 — the same crescent, the same
+   sun, the same paths — drawn as a line rather than a solid: at 13px in a card
+   corner the navy and amber fills read as heavy blobs next to hairline text. The
+   rules target the SYMBOLS in the toolbar sprite, because CSS cannot reach inside a
+   <use> shadow tree, and they live in this page's own stylesheet so no other
+   surface's weather icons change. */
+#gm-i-wx-moon path,
+#gm-i-wx-moon circle,
+#gm-i-wx-clear path,
+#gm-i-wx-clear circle {
+  fill: none;
+  stroke: var(--muted, #6a6660);
+  stroke-width: 1.6;
+  stroke-linejoin: round;
+  stroke-linecap: round;
+  opacity: 1;
+}
+/* The sun's rays are already strokes at 2.1 — thinning them to match the two
+   circles keeps the whole glyph one weight. */
+#gm-i-wx-clear g path { stroke-width: 1.6; }
 /* ── Mobile overrides ── */
 @media (max-width: 600px) and (pointer: coarse) {
   /* Controls: search full-width on top, pills below */
@@ -146,10 +190,9 @@ a.pill:visited { color: #6a6660; }
     height: 46px; border-radius: 0; font-size: 12px; line-height: 1.12;
     white-space: normal; text-align: center;
   }
-  /* Seventh item in a 3-across grid would sit alone in the left third. The sort
-     pill is a different kind of control anyway, so it takes the full width and
-     reads as its own line — and drops the desktop gap that separates it. */
-  #region-pills .sort-pill { grid-column: 1 / -1; margin-left: 0; }
+  /* The region row is exactly six items — two clean rows of three. The sort pill
+     that used to make it seven and sit alone across the bottom now lives under
+     the search instead. */
   /* Grid: 2 columns on phones ≥ 360px, 1 column on very small */
   .grid { grid-template-columns: repeat(2, 1fr); gap: 8px; }
   /* Cards: tighten up */
@@ -184,8 +227,6 @@ a.pill:visited { color: #6a6660; }
   .pills .pill.active,
   .pills .pill.active:hover,
   .pills .pill.active:focus { background: rgba(212,102,58,.16); border: 1px solid rgba(212,102,58,.85); color: var(--rust, #D4663A); }
-  .pills .pill:disabled,
-  .pills .pill:disabled:hover { background: transparent; border-color: rgba(212,102,58,.20); color: var(--rust, #D4663A); }
 }
 @media (min-width: 601px), (pointer: fine) {
 }
@@ -229,6 +270,19 @@ a.pill:visited { color: #6a6660; }
   </div>
   <div class="hero-ground">
     <input class="search search-input" id="search" type="search" placeholder="City or country" aria-label="Search by city or country" autocomplete="off">
+    <!-- The page's empty state explains itself. Until a city is named nothing on
+         a card can be relative — no ± chip, no closest-first order — so instead of
+         showing dead controls the page says, in one line, what naming a city
+         gives you. Replaced by the reference bar the moment one is picked. -->
+    <p class="search-hint" id="search-hint">Every card shows its own local time already. Search a city and each one also shows how many hours ahead or behind that city it is, closest first.</p>
+    <!-- The search's answer, under the search that produced it (Sixty-second
+         non-negotiable): the reference city, the sort it just unlocked, and the
+         way back to plain local times. -->
+    <div class="reference-bar" id="reference-bar" hidden>
+      <span class="reference-label">Hours shown are against <span class="reference-flag" id="reference-flag"></span><strong id="reference-city"></strong></span>
+      <button type="button" class="pill sort-pill active" id="sort-time" data-sort="time">Closest first</button>
+      <button type="button" class="reference-clear" id="reference-clear">Clear</button>
+    </div>
   </div>
 
   <!-- ONE ROW, and A–Z is RETIRED (owner 2026-08-17: "A to Z does not make
@@ -241,11 +295,10 @@ a.pill:visited { color: #6a6660; }
        next to a permanently-dead one and said nothing. Alphabetical is now
        simply what the grid does until a city is searched.
 
-       The distance sort keeps its pill, on the region row, and it TURNS ITSELF
-       ON when a city is picked — the reader searched a place, so the clocks
-       nearest that place come first without a second click. That is what "not
-       working" meant: it did work, but only if you found the dead pill, and it
-       stayed dead-looking until you searched. Clicking it drops back to A–Z. -->
+       The distance sort has LEFT this row (owner 2026-08-23). It belongs to the
+       search, not to the region filters: it only exists once a city is named, so
+       it is drawn under the search box, in the reference bar, at the moment that
+       happens. This row is six region filters and nothing else. -->
   <div class="controls">
     <div class="pills" id="region-pills" role="group" aria-label="Filter by region">
       <button class="pill active" data-region="all">All</button>
@@ -254,18 +307,7 @@ a.pill:visited { color: #6a6660; }
       <button class="pill" data-region="europe">Europe</button>
       <button class="pill" data-region="asiapac">Asia · Pacific</button>
       <button class="pill" data-region="other">M.E. &amp; Africa</button>
-      <!-- NOT `disabled` (owner, 2026-08-23: "the button closest in the time zone is
-           broken! we can['t] click on it it is grey out"). The sort measures distance
-           from a searched city and there is none until the reader names one — but a
-           greyed control that swallows every click reads as a bug, not as a
-           precondition. It stays a real button in a waiting state and, pressed,
-           says the one thing that brings it to life. -->
-      <button class="pill sort-pill is-waiting" data-sort="time" id="sort-time" aria-disabled="true">Closest to your city</button>
     </div>
-    <!-- The answer sits under the control that asked for it (Sixty-second
-         non-negotiable) — this is the sort pill's reply, not a standing caption,
-         so it is hidden until the pill is actually pressed. -->
-    <p id="sort-note" class="sort-note" role="status" hidden></p>
   </div>
 
   <!-- No "Home base" row (owner 2026-08-17: "remove home base it should not be
@@ -548,24 +590,27 @@ function setHome(city) {
   /* Deliberately NOT persisted — a remembered city is a preselected city on the
      next visit, which is the thing this page must never do. */
 
-  /* Sorting by distance is meaningless before a city has been searched — but the
-     moment one IS searched it is the whole point of the page (owner 2026-08-17:
-     "time zone is always in relationship to the city searched"), so the pill
-     turns itself on rather than waiting for a second click on a control the
-     reader had no reason to notice. Picking nothing drops straight back to the
-     grid's resting alphabetical order. */
+  /* Two mutually exclusive states under the search, never both: the sentence that
+     explains what a search does, or the bar that reports what this one did. The
+     sort pill exists only inside the second, so it can never be seen in a state
+     where pressing it does nothing (owner 2026-08-23: "why closest is grey out
+     and not working?"). */
+  var hint    = document.getElementById('search-hint');
+  var refBar  = document.getElementById('reference-bar');
+  var refCity = document.getElementById('reference-city');
+  var refFlag = document.getElementById('reference-flag');
+  if (hint)   hint.hidden   = !!city;
+  if (refBar) refBar.hidden = !city;
+  if (refCity && city) refCity.textContent = city.name;
+  if (refFlag && city) refFlag.textContent = city.flag || '';
+
+  /* Naming a city IS the request to see the world from it, so the sort turns on
+     with it (owner 2026-08-17: "time zone is always in relationship to the city
+     searched") — no second click on a control the reader had no reason to notice.
+     Clearing drops back to the grid's resting alphabetical order. */
   var timePill = document.querySelector('.sort-pill[data-sort="time"]');
-  if (timePill) {
-    /* `is-waiting` + aria-disabled, never the disabled PROPERTY — see the markup.
-       Picking a city clears both; clearing the search puts them back. */
-    timePill.classList.toggle('is-waiting', !city);
-    timePill.setAttribute('aria-disabled', city ? 'false' : 'true');
-    timePill.textContent = city ? 'Closest to ' + city.name : 'Closest to your city';
-    activeSort = city ? 'time' : 'alpha';
-    timePill.classList.toggle('active', !!city);
-  }
-  var sortNote = document.getElementById('sort-note');
-  if (sortNote && city) { sortNote.hidden = true; sortNote.textContent = ''; }
+  activeSort = city ? 'time' : 'alpha';
+  if (timePill) timePill.classList.toggle('active', !!city);
 }
 
 function getOffsetMinutes(tz, date) {
@@ -673,8 +718,10 @@ function render() {
     var utc  = formatUTCOffset(c.tz, now);
     var vs   = vsHome(c.tz, now);   /* null until a home base is set */
     var hour = parseInt(time.split(':')[0], 10);
-    var night = hour >= 22 || hour < 7;   /* 22:00–06:59 local → moon beside the time, never a dim */
-    var nightMark = night ? '<svg class="gm-icon card-night" data-icon="wx-moon" data-role="night" viewBox="0 0 24 24" aria-hidden="true"><use href="#gm-i-wx-moon"/></svg>' : '';
+    var night = hour >= 22 || hour < 7;   /* 22:00–06:59 local → moon; every other hour → sun */
+    var nightMark = night
+      ? '<svg class="gm-icon card-night" data-icon="wx-moon" data-role="night" viewBox="0 0 24 24" role="img" aria-label="Night there"><use href="#gm-i-wx-moon"/></svg>'
+      : '<svg class="gm-icon card-day-mark" data-icon="wx-clear" data-role="day" viewBox="0 0 24 24" role="img" aria-label="Daytime there"><use href="#gm-i-wx-clear"/></svg>';
     var cardCls = 'card';
     var inner =
       '<div class="card-top">' +
@@ -710,14 +757,7 @@ function render() {
    undefined and empty the grid. */
 document.getElementById('region-pills').addEventListener('click', function(e) {
   var btn = e.target.closest('.pill[data-region]');
-  if (!btn) {
-    /* The sort pill is not a region pill, so it lands here first — and it has
-       its own handler further down that answers a press properly. Leave it
-       alone; anything else in the row is dead space. (This block used to catch
-       the sort pill because it was `disabled` and `pointer-events:none` sent
-       its click to the row. It is a live button now.) */
-    return;
-  }
+  if (!btn) return;
   activeRegion = btn.dataset.region;
   document.querySelectorAll('#region-pills .pill[data-region]').forEach(function(p) { p.classList.remove('active'); });
   btn.classList.add('active');
@@ -728,28 +768,21 @@ document.getElementById('region-pills').addEventListener('click', function(e) {
    thing the search does is name the reference city, on pick (see the
    TVESearch.attach onPick at the foot of the page). */
 
-/* One sort control and it TOGGLES: on when a city is picked, off back to the
-   grid's alphabetical resting order. There is no A–Z pill to turn on instead —
-   it was the state you were already in. */
-document.getElementById('region-pills').addEventListener('click', function(e) {
-  var btn = e.target.closest('.sort-pill');
-  if (!btn) return;
-  var note = document.getElementById('sort-note');
-  /* No city named yet: the pill cannot sort, so it says what it needs and puts
-     the caret where the reader supplies it. It used to be `disabled`, which
-     answered a press with nothing at all (owner, 2026-08-23: "broken"). */
-  if (!HOME_TZ) {
-    if (note) {
-      note.textContent = 'Search a city first — this sorts every clock by how far it is from that one.';
-      note.hidden = false;
-    }
-    var s = document.getElementById('search');
-    if (s) { s.focus(); if (s.scrollIntoView) s.scrollIntoView({block: 'center', behavior: 'smooth'}); }
-    return;
-  }
-  if (note) { note.hidden = true; note.textContent = ''; }
+/* One sort control and it TOGGLES: closest-first, or back to the grid's
+   alphabetical resting order. There is no A–Z pill to turn on instead — it was
+   the state you were already in. The pill is only in the DOM while a reference
+   city exists, so it never needs a can't-sort branch. */
+document.getElementById('sort-time').addEventListener('click', function() {
   activeSort = (activeSort === 'time') ? 'alpha' : 'time';
-  btn.classList.toggle('active', activeSort === 'time');
+  this.classList.toggle('active', activeSort === 'time');
+  render();
+});
+
+/* Clearing drops the reference and every relative reading with it: the ± chips
+   leave the cards, the sort goes back to A–Z, and the sentence explaining what a
+   search does comes back. */
+document.getElementById('reference-clear').addEventListener('click', function() {
+  setHome(null);
   render();
 });
 

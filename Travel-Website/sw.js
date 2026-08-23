@@ -1,3 +1,4 @@
+/* 2026-08-23: Getting Around icon-key correction — Private Transfers moves off 'app-car' (Food Delivery's dedicated drawing, 479 existing occurrences) onto the unused 'ride' GM_SPRITE key (teal shuttle/van, distinct from 'ride-app'); Luggage Storage moves off the just-added numeric '423' backpack key onto the existing 'luggage' key (orange suitcase, #1208), and the now-unused GM_SPRITE['423'] entry + its comment are deleted from toolbar.js (dead code, added only for this reverted choice). No new sprite content — only glyph-key reassignment — but sprite table changed, so toolbar.js -> v1061. CACHE to v1470. */
 /* 2026-08-23: toronto: hotel 4-tier HOTEL_ALT_DATA (budget Chelsea/mid Fairmont/expensive Shangri-La/luxury Four Seasons+Hazelton) + CAD price ranges; ferry icon fix. toolbar.js -> v1041. CACHE to v1434. */
 /* 2026-08-23: zakynthos: train icon fix, position-2c uphill, ZTH lounge card + LOUNGE_IATAS. toolbar.js -> v1034. CACHE to v1426. */
 /* 2026-08-23: coeur-dalene: 14 motion-route links, FD review rows, verification clauses, HOTEL_ALT_DATA 4 tiers (budget BW+/mid HIE/exp SpringHill/lux Hampton) USD prices, GEG lounge card + LOUNGE_IATAS, position-2c. toolbar.js -> v1008. CACHE to v1399. */
@@ -2021,7 +2022,7 @@
 /* 2026-08-23: the airport picker is one typed field (owner: "this should be one field no drop down to then type"). input.pp-input overrides the site-wide input[type=text] search-bar standard for a control that is a form field, not a search bar. web-travel-style.css -> v108. CACHE to v1467. */
 /* 2026-08-23: toolbar.js GM_SPRITE gains '423' (backpack) for Getting Around's Luggage Storage sub-block toolbar.js -> v1060. CACHE to v1468. */
 /* 2026-08-23: packing reverted to its pre-2026-08-23 shape (owner request) — the toggle-button/qty-column styling and Hide/Show label change all ship inline in essentials/packing/index.html, no shared asset moved, but the PAGE is precached and several hard refreshes still showed the old content on the reader's device, so the fetch handler's cached copy needed a fresh cache name to force it. CACHE to v1469. */
-var CACHE = 'travel-cache-v1469';
+var CACHE = 'travel-cache-v1470';
 
 /* The guide-calendar hand-off cache. Written by toolbar.js, read and emptied
    once by the fetch handler below, and EXEMPT from the activate sweep — it is
@@ -2034,7 +2035,7 @@ var ICS_OUTBOX = 'gmd-ics-outbox';
    THIS IS THE ONLY PLACE to bump toolbar.js / guide-style.css versions.
    NEVER bump ?v= inside guide HTML — it breaks HMAC stamps and forces re-validation
    of 230+ guides. Instead, bump MIN_VERSIONS here + increment the CACHE version. */
-var MIN_VERSIONS = { 'guide-style.css': 264,'toolbar.js': 1060, 'mobile.css': 88, 'web-travel-style.css': 108, 'guides-index-style.css': 27, 'read-about.css': 6, 'best-of-features.js': 4, 'best-of-cross-data.js': 24, 'weather.js': 12, 'trains.css': 11, 'trains.js': 2, 'airlines.css': 2, 'airlines.js': 2, 'passport.js': 4 };
+var MIN_VERSIONS = { 'guide-style.css': 264,'toolbar.js': 1061, 'mobile.css': 88, 'web-travel-style.css': 108, 'guides-index-style.css': 27, 'read-about.css': 6, 'best-of-features.js': 4, 'best-of-cross-data.js': 24, 'weather.js': 12, 'trains.css': 11, 'trains.js': 2, 'airlines.css': 2, 'airlines.js': 2, 'passport.js': 4 };
 
 function rewriteAssetUrl(urlStr) {
   var u;

@@ -2027,7 +2027,8 @@
 /* 2026-08-23: European Train Guide card redesign (owner-approved mockup), shared across all five continent train-guide pages — a 4px left spine on every card, coloured by its own type-badge family (applyCardSpines() in trains.js reads the badge class already on the card, no markup change needed on any of the five pages); a network reaching 10+ countries used to print every flag pill in a row, so anything past the 6th .ctag in a row collapses behind a "+N more" toggle (collapseCountryTags()); operator name moves to a Georgia serif; booking buttons become quiet chevron text links, matching the pattern shipped on the airline pages the same day. The 7-chip type filter row also moves from "all seven family-colored at rest" to "neutral rest, family colour only on the selected chip" (owner: "looks confusing" on the all-colored version) — fixed a real specificity bug in the process where a catch-all active-state selector was overriding every type-specific one. trains.css -> v12, trains.js -> v3. CACHE to v1473. */
 /* 2026-08-23: toolbar.js: deepen yellow dot gradient contrast toolbar.js -> v1062. CACHE to v1474. */
 /* 2026-08-23: airlines.js: fix All-alliances filter chip color collision with Independent toolbar.js -> v1063. CACHE to v1475. */
-var CACHE = 'travel-cache-v1475';
+/* 2026-08-23: airlines.js MIN_VERSION 3 -> 4 — the All-alliances chip-color bump only touched toolbar.js last commit and missed its own MIN_VERSION floor. CACHE to v1476. */
+var CACHE = 'travel-cache-v1476';
 
 /* The guide-calendar hand-off cache. Written by toolbar.js, read and emptied
    once by the fetch handler below, and EXEMPT from the activate sweep — it is
@@ -2040,7 +2041,7 @@ var ICS_OUTBOX = 'gmd-ics-outbox';
    THIS IS THE ONLY PLACE to bump toolbar.js / guide-style.css versions.
    NEVER bump ?v= inside guide HTML — it breaks HMAC stamps and forces re-validation
    of 230+ guides. Instead, bump MIN_VERSIONS here + increment the CACHE version. */
-var MIN_VERSIONS = { 'guide-style.css': 264,'toolbar.js': 1063, 'mobile.css': 88, 'web-travel-style.css': 108, 'guides-index-style.css': 27, 'read-about.css': 6, 'best-of-features.js': 4, 'best-of-cross-data.js': 24, 'weather.js': 12, 'trains.css': 12, 'trains.js': 3, 'airlines.css': 3, 'airlines.js': 3, 'passport.js': 4 };
+var MIN_VERSIONS = { 'guide-style.css': 264,'toolbar.js': 1063, 'mobile.css': 88, 'web-travel-style.css': 108, 'guides-index-style.css': 27, 'read-about.css': 6, 'best-of-features.js': 4, 'best-of-cross-data.js': 24, 'weather.js': 12, 'trains.css': 12, 'trains.js': 3, 'airlines.css': 3, 'airlines.js': 4, 'passport.js': 4 };
 
 function rewriteAssetUrl(urlStr) {
   var u;

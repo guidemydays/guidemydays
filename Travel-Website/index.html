@@ -9036,7 +9036,52 @@ function render() {
 
     var rows = [], active = -1;
 
-    function label(r) { return r[1] + ' (' + r[0] + ')' + (r[2] ? ' · ' + r[2] : ''); }
+    /* THE ROW NAMES THE AIRPORT, NOT THE PARISH IT SITS IN (2026-08-23).
+
+       It read `r[1]`, the OurAirports `municipality`, which for a good number
+       of the world's busiest airports is a suburb nobody outside the country
+       recognises. Measured: Milan Malpensa offered itself as "Ferno (VA)
+       (MXP)", Linate as "Segrate (MI) (LIN)", Athens as "Spata-Artemida
+       (ATH)", Venice as "Venezia (VE)", Washington Dulles as "Dulles (IAD)".
+       That was survivable while the field was optional and last. It is not
+       survivable now that it is the FIRST field and the rest of the form is
+       greyed out behind it: a reader who types "milan", does not recognise
+       either row, and gives up has been stopped on question one.
+
+       The airport's own name almost always carries the city — "Milan Malpensa
+       International", "Athens Eleftherios Venizelos International", "London
+       Heathrow" — so that is what leads. It also settles the pair that share a
+       city outright: "London Heathrow (LHR)" and "London Gatwick (LGW)" are
+       two obviously different answers where "London (LHR)" and "London (LGW)"
+       were a coin toss.
+
+       THE MUNICIPALITY IS KEPT ONLY WHEN IT EXPLAINS THE MATCH — that is, when
+       what the reader typed is in the city and NOT in the airport's name. Type
+       "east london" and the row says "King Phalo (ELS) · East London", because
+       without it the row answers a question you did not ask; type "seattle" and
+       Boeing Field says "· Seattle" for the same reason. Type "milan" and
+       Malpensa does NOT append "Ferno (VA)", because the name already carried
+       the word you typed and the parish is then pure noise. A rule that keeps
+       the municipality whenever the name does not contain it looks equivalent
+       and is not: it prints "Milan Malpensa International (MXP) · Ferno (VA)".
+       What this does NOT fix
+       is the SEARCH: Narita is filed under the municipality "Narita", so
+       typing "tokyo" still finds Haneda and not Narita. That needs a city
+       alias table, which is new data and is with the owner. */
+    function _fold(s) {
+      return String(s || '').normalize('NFD').replace(/[̀-ͯ]/g, '')
+        .toLowerCase().replace(/[^a-z0-9]/g, '');
+    }
+    function label(r) {
+      var city = r[1] || '', name = r[3] || '', code = r[0], cc = r[2];
+      var out = (name || city) + ' (' + code + ')';
+      var q = _fold(homeIn.value);
+      if (city && name && q &&
+          _fold(city).indexOf(q) > -1 && _fold(name).indexOf(q) === -1) {
+        out += ' · ' + city;
+      }
+      return out + (cc ? ' · ' + cc : '');
+    }
 
     /* THE FLIGHT-LENGTH FIELD IS NEVER DISABLED. It was, for one iteration,
        until an airport existed — and that is precisely the order the owner
@@ -9115,7 +9160,16 @@ function render() {
       syncFar();
       /* Empty until the reader picks. There is no city to show them, because
          there is no default any more — owner rule 2026-08-20. */
-      homeIn.value = h ? (h.city + ' (' + h.code + ')') : '';
+      /* THE BOX ECHOES THE ROW THE READER CLICKED, not the municipality. It
+         read `h.city + ' (' + h.code + ')'`, so picking "Milan Malpensa
+         International (MXP)" left "Ferno (VA) (MXP)" sitting in the field —
+         a different place name from the one just chosen, on the one field the
+         rest of the form is waiting for. `TVE.home` stores no airport name and
+         must not start to (it is read by every surface on the site), so the
+         label is remembered here, keyed on the code so a home set anywhere else
+         still falls back to the city it does carry. */
+      homeIn.value = h ? ((pickedLabel && pickedLabel.code === h.code && pickedLabel.text)
+                          || (h.city + ' (' + h.code + ')')) : '';
       lockForm();
       /* The Routing/Stops sync that stood here went with its control — owner
          rule 2026-08-17: nothing on this form is Seattle-anchored any more. */
@@ -9135,9 +9189,14 @@ function render() {
       });
     }
 
+    /* The row the reader actually clicked, so the box can echo it back. Set
+       here and read in syncHome; the country suffix is dropped because the box
+       is an answer, not a search result. */
+    var pickedLabel = null;
     function choose(r) {
       var h = HOME.fromRow(r);
       if (!h) return;
+      pickedLabel = { code: h.code, text: (r[3] || r[1] || '') + ' (' + h.code + ')' };
       /* Every pick is STORED, including the airport FMAP was measured from.
          That airport used to be the default, so picking it cleared the
          override instead — with no default left there is nothing to fall back

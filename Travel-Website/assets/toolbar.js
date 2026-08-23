@@ -6423,11 +6423,11 @@ window.TVE.home = (function () {
       { name: 'Four Seasons Hotel des Bergues Geneva', note: 'Four Seasons brand — 1834 lakeside founding address on the Rhône, private lake pier, spa, Mont Blanc views from upper floors, 24h reception · 9.3 Booking.com', url: 'https://www.booking.com/hotel/ch/four-seasons-geneva.html', tier: 'luxury' }
     ], price: { budget: 'CHF 110–190', mid: 'CHF 200–380', expensive: 'CHF 400–650', luxury: 'CHF 700+' } },
     'glacier-national-park': { h: [
-      { name: 'Great Northern Resort', note: 'Independent — West Glacier, at the park entrance on US-2, log cabins and lodge rooms modeled after the Glacier Park Chalets, complimentary breakfast, 1 mile from the west gate', url: 'https://www.booking.com/hotel/us/great-northern-resort-lodge.html' },
-      { name: 'Firebrand Hotel', note: 'Independent boutique — downtown Whitefish, 26 miles north of the park entrance, rooftop hot tub and terrace, walkable to restaurants and Amtrak station · 8.3 Booking.com', url: 'https://www.booking.com/hotel/us/firebrand.html' },
-      { name: 'Grouse Mountain Lodge', note: 'Glacier Park Collection — Whitefish, 26 miles north of the park entrance, mountain lodge on the golf course, indoor pool, hot tub and sauna · 8.4 Booking.com', url: 'https://www.booking.com/hotel/us/grouse-mountain-lodge.html' },
-      { name: 'The Lodge at Whitefish Lake', note: 'Independent, Averill Hospitality — Whitefish, 26 miles north of the park, marina resort, outdoor pool, lakefront spa, year-round mountain access · 9.0 Booking.com', url: 'https://www.booking.com/hotel/us/lodge-at-whitefish-lake.html' }
-    ] },
+      { name: 'Great Northern Resort', note: 'Independent — West Glacier, at the park entrance on US-2, log cabins and lodge rooms modeled after the Glacier Park Chalets, complimentary breakfast, 1 mile from the west gate', url: 'https://www.booking.com/hotel/us/great-northern-resort-lodge.html', tier: 'budget' },
+      { name: 'Firebrand Hotel', note: 'Independent boutique — downtown Whitefish, 26 miles north of the park entrance, rooftop hot tub and terrace, walkable to restaurants and Amtrak station · 8.3 Booking.com', url: 'https://www.booking.com/hotel/us/firebrand.html', tier: 'mid' },
+      { name: 'Grouse Mountain Lodge', note: 'Glacier Park Collection — Whitefish, 26 miles north of the park entrance, mountain lodge on the golf course, indoor pool, hot tub and sauna · 8.4 Booking.com', url: 'https://www.booking.com/hotel/us/grouse-mountain-lodge.html', tier: 'expensive' },
+      { name: 'The Lodge at Whitefish Lake', note: 'Independent, Averill Hospitality — Whitefish, 26 miles north of the park, marina resort, outdoor pool, lakefront spa, year-round mountain access · 9.0 Booking.com', url: 'https://www.booking.com/hotel/us/lodge-at-whitefish-lake.html', tier: 'luxury' }
+    ], price: { budget: 'USD 120–190', mid: 'USD 190–280', expensive: 'USD 280–400', luxury: 'USD 400+' } },
     'glasgow': { h: [
       { name: 'Kimpton Blythswood Square Hotel', note: 'IHG Kimpton brand — 1820 Georgian townhouse on Blythswood Square, indoor pool, Tempus spa, afternoon tea · 9.0 Booking.com', url: 'https://www.booking.com/hotel/gb/blythswood-square.html' },
       { name: 'Hotel Indigo Glasgow', note: 'IHG brand — converted 1901 central fire station on Waterloo Street, design-led interiors, steps from Central Station · 8.7 Booking.com', url: 'https://www.booking.com/hotel/gb/indigo-glasgow.html' },
@@ -11300,7 +11300,7 @@ window.TVE.home = (function () {
       'ABQ','AES','AGP','AJU','AMM','AMS','ANC','ARN','ATH','ATL','AUA','AUH','AUS','BCN','BDS','BER',
       'BGI','BGO','BIO','BKK','BLQ','BNA','BOB','BOD','BOS','BRU','BUD','CAI','CDG','CLT','CMB','CNX',
       'CPH','CPT','CUN','CUR','CUZ','CWB','DBV','DEN','DFW','DOH','DPS','DTW','DUB','DUS','DXB','EDI',
-      'EYW','EZE','FAO','FCO','FHR','FLN','FLR','FOR','FRA','GCM','GIG','GOT','GPS','GRU','GVA','HAM',
+      'EYW','EZE','FAO','FCA','FCO','FHR','FLN','FLR','FOR','FRA','GCM','GIG','GOT','GPS','GRU','GVA','HAM',
       'HAN','HEL','HER','HKG','HKT','HND','IAD','IAH','ICN','IGU','IST','JFK','JMK','JPA','JTR','KEF','KOA',
       'KRK','KTM','LAS','LAX','LGA','LGW','LHR','LIH','LIM','LIS','LJU','LUX','LYS','MAD','MAN','MCT','MEL',
       'MIA','MLA','MLE','MRS','MSP','MSY','MUC','MVD','MXP','NAP','NAS','NAT','NCE','OGG','OPO','ORD','ORS','ORY',

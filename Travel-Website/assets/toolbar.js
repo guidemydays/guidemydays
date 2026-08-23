@@ -6690,11 +6690,15 @@ window.TVE.home = (function () {
       { name: 'Bettencourt Boutique Hotel', note: 'Independent — 19th-century Funchal mansion, outdoor pool, garden with Monte Palace views, 12 rooms · 9.5 Booking.com', url: 'https://www.booking.com/hotel/pt/bettencourt-boutique-hotel.html' }
     ] },
     'madrid': { h: [
-      { name: 'The Westin Palace Madrid', note: 'Marriott family — 1912 Belle Époque landmark on Plaza de las Cortes, stained-glass domed rotunda, spa · 9.1 Booking.com' , url: 'https://www.booking.com/hotel/es/westin-palace-madrid.html' },
-      { name: 'Hotel Bless Madrid', note: 'Bless Collection — Salamanca neighborhood, rooftop pool and bar, vibrant social-scene terrace · 9.1 Booking.com' , url: 'https://www.booking.com/hotel/es/bless-madrid.html' },
-      { name: 'Villa Magna Hotel', note: 'Rosewood brand — Paseo de la Castellana, full-service spa, rooftop pool, Amós Madrid restaurant, Salamanca quarter · 9.3 Booking.com' , url: 'https://www.booking.com/hotel/es/villa-magna.html' },
-      { name: 'Mandarin Oriental Ritz, Madrid', note: 'Mandarin Oriental brand — Paseo del Prado, meticulously restored 1910 palace, The Spa at Mandarin Oriental, Champagne Bar terrace · 9.3 Booking.com' , url: 'https://www.booking.com/hotel/es/mandarin-oriental-ritz-madrid.html' }
-    ] },
+      { name: 'ibis Madrid Centro', note: 'Accor ibis brand — Calle de la Salud near Gran Vía and Sol metro, 24h reception, air conditioning · 7.8 Booking.com', url: 'https://www.booking.com/hotel/es/ibis-madrid-centro.html', tier: 'budget' },
+      { name: 'Room Mate Oscar', note: 'Room Mate Hotels — Chueca neighbourhood on Plaza Vázquez de Mella, rooftop pool and bar, 24h reception · 8.7 Booking.com', url: 'https://www.booking.com/hotel/es/room-mate-oscar-madrid.html', tier: 'budget' },
+      { name: 'Catalonia Gran Via', note: 'Catalonia Hotels — Gran Vía in the heart of the city, rooftop terrace with pool, 24h reception · 8.5 Booking.com', url: 'https://www.booking.com/hotel/es/catalonia-gran-via.html', tier: 'mid' },
+      { name: 'NH Collection Madrid Gran Vía', note: 'NH Collection first-tier brand — Gran Vía 21, fitness centre, 24h reception, steps from Sol and Callao metro · 8.6 Booking.com', url: 'https://www.booking.com/hotel/es/nhcollection-madrid-gran-via.html', tier: 'mid' },
+      { name: 'Rosewood Villa Magna', note: 'Rosewood brand — Paseo de la Castellana 22, full-service spa, rooftop pool, Amós Madrid restaurant, Salamanca quarter · 9.3 Booking.com', url: 'https://www.booking.com/hotel/es/villa-magna.html', tier: 'expensive' },
+      { name: 'Hyatt Regency Hesperia Madrid', note: 'Hyatt Regency brand — Paseo de la Castellana 57, outdoor pool, full-service spa, fitness centre, 24h reception · 8.7 Booking.com', url: 'https://www.booking.com/hotel/es/hesperia-madrid.html', tier: 'expensive' },
+      { name: 'Four Seasons Hotel Madrid', note: 'Four Seasons brand — Calle de Sevilla 3 in the Centro, rooftop pool and terrace, full-service spa, 24h reception · 9.5 Booking.com', url: 'https://www.booking.com/hotel/es/four-seasons-hotel-madrid.html', tier: 'luxury' },
+      { name: 'Bless Hotel Madrid', note: 'Bless Collection — Velázquez 62 in Salamanca, rooftop pool and bar, vibrant social-scene terrace, 24h reception · 9.1 Booking.com', url: 'https://www.booking.com/hotel/es/bless-madrid.html', tier: 'luxury' }
+    ], price: { budget: '€80–140', mid: '€140–250', expensive: '€250–450', luxury: '€450+' } },
     'malaga': { h: [
       { name: 'Parador de Málaga Gibralfaro', note: 'Paradores — inside Gibralfaro Castle walls, panoramic views of city and bay, seasonal pool, 24h reception · 8.7 Booking.com', url: 'https://www.booking.com/hotel/es/parador-de-malaga-gibralfaro.html' },
       { name: 'AC Hotel Málaga Palacio by Marriott', note: 'Marriott family — rooftop pool with Alcazaba and port panorama, heart of historic center · 8.7 Booking.com', url: 'https://www.booking.com/hotel/es/acmalagapalacio.html' },

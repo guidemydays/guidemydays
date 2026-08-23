@@ -7588,12 +7588,11 @@ window.TVE.home = (function () {
       { name: 'Rosselli AX Privilege', note: 'AX Hotels — 17th-century Baroque palazzo in old Valletta, Michelin-starred Under Grain restaurant, personal butler service · 9.3 Booking.com', url: 'https://www.booking.com/hotel/mt/rosselli-valletta.html', tier: 'luxury' }
     ], price: { budget: '€120–220', mid: '€220–380', expensive: '€380–550', luxury: '€550+' } },
     'vancouver': { h: [
-      { name: 'Fairmont Hotel Vancouver', note: 'Fairmont brand — 1939 "Castle in the City," spa, Notch8 Restaurant & Bar, iconic copper roof · 8.9 Booking.com', url: 'https://www.booking.com/hotel/ca/fairmont-vancouver.html' },
-      { name: 'Rosewood Hotel Georgia', note: 'Rosewood brand — 1927 Georgian Revival downtown landmark, outdoor pool, Hawksworth Restaurant · 9.3 Booking.com', url: 'https://www.booking.com/hotel/ca/rosewood-hotel-georgia.html' },
-      { name: 'Wedgewood Hotel & Spa', note: 'Independent — Robson Square, intimate boutique, spa, Bacchus restaurant · 9.3 Booking.com', url: 'https://www.booking.com/hotel/ca/wedgewood.html' },
-      { name: 'Four Seasons Hotel Vancouver', note: 'Four Seasons — Georgia Street connected to Pacific Centre, outdoor heated pool, Yew seafood + bar · 9.3 Booking.com', url: 'https://www.booking.com/hotel/ca/four-seasons-vancouver.html' },
-      { name: 'JW Marriott Parq Vancouver', note: 'Marriott JW brand — 39 Smithe Street in downtown Yaletown, rooftop pool, Pacific Rim views, connected to Parq casino · 8.8 Booking.com', url: 'https://www.booking.com/hotel/ca/jw-marriott-parq-vancouver.html' }
-    ] },
+      { name: 'JW Marriott Parq Vancouver', note: 'Marriott JW brand — 39 Smithe Street in downtown Yaletown, rooftop pool, Pacific Rim views · 8.8 Booking.com', url: 'https://www.booking.com/hotel/ca/jw-marriott-parq-vancouver.html', tier: 'budget' },
+      { name: 'Fairmont Hotel Vancouver', note: 'Fairmont brand — 1939 "Castle in the City," spa, Notch8 Restaurant & Bar, iconic copper roof · 8.9 Booking.com', url: 'https://www.booking.com/hotel/ca/fairmont-vancouver.html', tier: 'mid' },
+      { name: 'Wedgewood Hotel & Spa', note: 'Independent — Robson Square, intimate boutique, spa, Bacchus restaurant · 9.3 Booking.com', url: 'https://www.booking.com/hotel/ca/wedgewood.html', tier: 'expensive' },
+      { name: 'Rosewood Hotel Georgia', note: 'Rosewood brand — 1927 Georgian Revival downtown landmark, outdoor pool, Hawksworth Restaurant · 9.3 Booking.com', url: 'https://www.booking.com/hotel/ca/rosewood-hotel-georgia.html', tier: 'luxury' }
+    ], price: { budget: 'CAD 300–500', mid: 'CAD 500–750', expensive: 'CAD 750–1,200', luxury: 'CAD 1,200+' } },
     'venice': { h: [
       { name: 'Belmond Hotel Cipriani', note: 'Belmond brand — Giudecca island, 7-minute private launch, Olympic-size pool, award-winning Oro Restaurant · 9.5 Booking.com', url: 'https://www.booking.com/hotel/it/cipriani-venezia.html' },
       { name: 'Aman Venice', note: 'Aman brand — 16th-century Palazzo Papadopoli on the Grand Canal, two private gardens, private dock', url: 'https://www.aman.com/hotels/aman-venice' },

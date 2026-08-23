@@ -89,26 +89,41 @@
 .tag-ok     { background: var(--c-tag-ok-bg); color: var(--c-tag-ok-text); border: 1px solid var(--c-tag-ok-border); }  /* canonical YELLOW */
 .tag-weak   { background: rgba(138,108,26,0.07); color: var(--muted); border: 1px solid rgba(106,102,96,0.4); }  /* canonical GREY */
 
-/* Provider list */
-.provider-list { display: flex; flex-direction: column; gap: 10px; margin-bottom: 24px; }
+/* Provider list — card grid. Each card carries a left accent stripe that
+   matches its "Best for" badge family (medical=green, adventure=orange,
+   families=blue, annual=purple, general=yellow) so the grid reads as
+   color-coded at a glance instead of eight identical green rows. */
+.provider-list {
+  display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 14px; margin-bottom: 24px;
+}
 .provider-row {
-  background: var(--surface); border: 1px solid var(--border2); border-radius: 8px;
-  padding: 13px 16px; display: grid; grid-template-columns: 240px 1fr auto;
-  gap: 0 16px; align-items: start;
+  background: var(--surface); border: 1px solid var(--border2);
+  border-left: 3px solid var(--border2); border-radius: 10px;
+  padding: 15px 17px; display: flex; flex-direction: column; gap: 9px;
 }
-.prov-name { font-size: 13px; font-weight: 700; color: var(--text); }
+.provider-row:has(.prov-tag.fam-green)  { border-left-color: var(--fam-green-bd); }
+.provider-row:has(.prov-tag.fam-orange) { border-left-color: var(--fam-orange-bd); }
+.provider-row:has(.prov-tag.fam-blue)   { border-left-color: var(--fam-blue-bd); }
+.provider-row:has(.prov-tag.fam-purple) { border-left-color: var(--fam-purple-bd); }
+.provider-row:has(.prov-tag.fam-yellow) { border-left-color: var(--fam-yellow-bd); }
+.prov-name { font-size: 14px; font-weight: 700; color: var(--text); }
 .prov-tag {
-  /* hook — box and GREEN colour from the shared .badge.fam-green (markup
-     writes prov-tag badge fam-green). Used to be its own 10px / .05em /
-     2px 8px box; never re-add one. */
-  margin-top: 5px;
+  /* hook — box and colour from the shared .badge.fam-* (markup writes
+     prov-tag badge fam-*). The shared .badge rule is white-space:nowrap,
+     which is correct for a short pill but overran a long "Best for…"
+     sentence past its column and printed on top of the next card's text —
+     this override lets it wrap onto a second line like any other sentence.
+     Box/colour still come from .badge.fam-* — never re-add either here. */
+  white-space: normal; text-align: left; max-width: 100%;
 }
-.prov-desc { font-size: 12px; color: var(--muted); line-height: 1.5; }
+.prov-desc { font-size: 12.5px; color: var(--muted); line-height: 1.55; flex: 1; }
 .prov-link {
   display: inline-flex; align-items: center; justify-content: center; gap: 4px;
   padding: 5px 12px; border-radius: 999px; font-family: inherit; font-size: 11px; font-weight: 400;
   background: var(--surface); border: 1.5px solid var(--border2, #e6e2da);
   color: var(--muted); text-decoration: none; white-space: nowrap; flex-shrink: 0;
+  align-self: flex-start; margin-top: 2px;
   transition: border-color .15s, background .15s;
 }
 a.prov-link:visited { color: #6a6660; }
@@ -125,14 +140,18 @@ a.prov-link:visited { color: #6a6660; }
 }
 .tip-text strong { color: var(--text); font-weight: 700; }
 
-/* Section navigation (in-page anchors) — canonical jump-nav, matches Destination-Records.
-   Desktop = glued squared strip; mobile = grid. Deliberately distinct from the rounded
-   provider filter pills below (Trip-Essentials-Page-Format.html § 5). */
+/* Section navigation (in-page anchors) — canonical jump-nav, matches Destination-Records
+   in layout only (desktop = glued squared strip; mobile = grid). These four are
+   family-tinted like the badge system below, so as of 2026-08-23 they take the
+   badge ALL CAPS convention too (owner rule) even though shape/size stay their
+   own — still distinct from the rounded provider filter pills (Trip-Essentials-
+   Page-Format.html § 5), which are the actual .pill-badge + .fam-* elements. */
 .jump-nav { display: flex; gap: 6px; flex-wrap: wrap; margin: 0 0 22px; }
 .jump-pill {
   font-family: inherit; display: inline-flex; align-items: center; justify-content: center;
   height: 34px; padding: 0 14px; border: 1px solid; border-radius: 6px;
-  font-size: 13px; font-weight: 600; white-space: nowrap; cursor: pointer; text-decoration: none;
+  font-size: 13px; font-weight: 700; white-space: nowrap; cursor: pointer; text-decoration: none;
+  text-transform: uppercase; letter-spacing: 0.04em;
 }
 a.jump-pill[href="#ti-cards"]     { background:var(--fam-yellow-bg); border-color:var(--fam-yellow-bd); color:var(--fam-yellow-ink); }
 a.jump-pill[href="#ti-guidance"]  { background:var(--fam-blue-bg);   border-color:var(--fam-blue-bd);   color:var(--fam-blue-ink); }
@@ -161,7 +180,7 @@ a.jump-pill:visited { color: inherit; }
 /* Mobile */
 @media (max-width: 600px) and (pointer: coarse) {
   .coverage-grid { grid-template-columns: 1fr; }
-  .provider-row { grid-template-columns: 1fr; gap: 6px; }
+  .provider-list { grid-template-columns: 1fr; }
   /* Keep the wide comparison table a real table (mobile.css display:block breaks
      its columns → cells squish to one word/line); scroll it in its wrapper.
      Right-edge fade mask + inline scrollbar hint tells the user there is more
@@ -225,7 +244,7 @@ a.jump-pill:visited { color: inherit; }
 <!-- seo:end -->
 </head>
 <body>
-<div id="toolbar-mount" data-depth="2" data-maxwidth="760" data-updated="2026-08-08"></div>
+<div id="toolbar-mount" data-depth="2" data-maxwidth="760" data-updated="2026-08-23"></div>
 <script src="/assets/toolbar.js?v=127"></script>
 
   <div class="hero-band">
@@ -464,7 +483,7 @@ a.jump-pill:visited { color: inherit; }
     <div class="provider-row" data-cat="annual">
       <div>
         <div class="prov-name">Allianz Travel</div>
-        <div class="prov-tag badge fam-green">Best for annual / multi-trip plans</div>
+        <div class="prov-tag badge fam-purple">Best for annual / multi-trip plans</div>
       </div>
       <div class="prov-desc">10 plan tiers from basic cancellation to comprehensive. AllTrips annual plans worth it if you take 3+ trips per year. 24-hr multilingual assistance and TravelSmart app.</div>
       <a class="prov-link" href="https://www.allianztravelinsurance.com/" target="_blank" rel="noopener">allianztravelinsurance.com</a>
@@ -472,7 +491,7 @@ a.jump-pill:visited { color: inherit; }
     <div class="provider-row">
       <div>
         <div class="prov-name">Travel Guard (AIG)</div>
-        <div class="prov-tag badge fam-green">Best CFAR option · generous free-look period</div>
+        <div class="prov-tag badge fam-yellow">Best CFAR option · generous free-look period</div>
       </div>
       <div class="prov-desc">Strong Cancel For Any Reason upgrade. Transparent pricing and a free-look cancellation period if you change your mind after purchase. Good for expensive custom trips.</div>
       <a class="prov-link" href="https://www.travelguard.com/" target="_blank" rel="noopener">travelguard.com</a>
@@ -480,7 +499,7 @@ a.jump-pill:visited { color: inherit; }
     <div class="provider-row" data-cat="adventure">
       <div>
         <div class="prov-name">World Nomads</div>
-        <div class="prov-tag badge fam-green">Best for adventure travel</div>
+        <div class="prov-tag badge fam-orange">Best for adventure travel</div>
       </div>
       <div class="prov-desc">Covers 250+ adventure activities (skiing, scuba, trekking, motorbike) that most plans exclude. Buy or extend while already traveling. Popular with independent travelers.</div>
       <a class="prov-link" href="https://www.worldnomads.com/" target="_blank" rel="noopener">worldnomads.com</a>
@@ -496,7 +515,7 @@ a.jump-pill:visited { color: inherit; }
     <div class="provider-row" data-cat="families">
       <div>
         <div class="prov-name">Travelex</div>
-        <div class="prov-tag badge fam-green">Best for families — kids included free</div>
+        <div class="prov-tag badge fam-blue">Best for families — kids included free</div>
       </div>
       <div class="prov-desc">One child 17 and under covered free per adult traveler on the Ultimate plan (child's trip cost must not exceed the adult's). Simple plan structure. Good baseline comprehensive coverage without complexity.</div>
       <a class="prov-link" href="https://www.travelexinsurance.com/" target="_blank" rel="noopener">travelexinsurance.com</a>
@@ -504,7 +523,7 @@ a.jump-pill:visited { color: inherit; }
     <div class="provider-row">
       <div>
         <div class="prov-name">Seven Corners</div>
-        <div class="prov-tag badge fam-green">Best for groups and mid-trip protection</div>
+        <div class="prov-tag badge fam-yellow">Best for groups and mid-trip protection</div>
       </div>
       <div class="prov-desc">Covers groups of 10+. Strong mid-trip interruption protection. Good medical limits and evacuation coverage. Works well for organized tours and group travel.</div>
       <a class="prov-link" href="https://www.sevencorners.com/" target="_blank" rel="noopener">sevencorners.com</a>
@@ -512,7 +531,7 @@ a.jump-pill:visited { color: inherit; }
     <div class="provider-row">
       <div>
         <div class="prov-name">IMG (International Medical Group)</div>
-        <div class="prov-tag badge fam-green">Best for long-term, expat &amp; extended travel</div>
+        <div class="prov-tag badge fam-yellow">Best for long-term, expat &amp; extended travel</div>
       </div>
       <div class="prov-desc">35+ years in international insurance with 1M+ global providers. Covers vacationers, students, expats, and mission workers. The go-to for extended stays, relocations, and people living abroad long-term who need annual renewable international health coverage.</div>
       <a class="prov-link" href="https://www.imglobal.com/" target="_blank" rel="noopener">imglobal.com</a>

@@ -5189,6 +5189,16 @@ window.TVE.home = (function () {
       '.tb-links', '.tb-ham-menu', '.tb-scroll-wrap',
       '.tb-progress',          /* scroll hairline — driven by a scroll listener */
       '#ics-pill-row',         /* action pills — all JS, now empty anyway */
+      /* Same reasoning, the packing list's own row: Reset all / Print list /
+         Hide packed / Save for Offline are each a <button> or a
+         javascript: <a>, so all four are removed above and the container is
+         left holding nothing but its margin. */
+      '.action-row',
+      /* "Clothing quantities update automatically to match your trip" — they
+         do not, in a file with no script. Every quantity is frozen at the trip
+         length the copy was taken with, which the saved trip-length box states
+         plainly; the note would promise behaviour this document cannot have. */
+      '.setup-note',
       '#tve-lb',               /* photo lightbox overlay */
       '#tve-a2hs-banner'       /* add-to-home-screen prompt */
     ];

@@ -7629,6 +7629,12 @@ window.TVE.home = (function () {
       { name: 'Magnolia Hotel & Spa', note: 'Independent — Courtney Street heritage district, rooftop hot tub, Opus Restaurant, full spa · 9.3 Booking.com', url: 'https://www.booking.com/hotel/ca/magnolia.html', tier: 'expensive' },
       { name: 'The Fairmont Empress', note: 'Fairmont brand — 1908 Inner Harbour landmark, spa, Bengal Lounge, afternoon tea tradition · 9.0 Booking.com', url: 'https://www.booking.com/hotel/ca/fairmont-empress.html', tier: 'luxury' }
     ], price: { budget: 'CAD 150–250', mid: 'CAD 250–400', expensive: 'CAD 400–600', luxury: 'CAD 600+' } },
+    'vilnius': { h: [
+      { name: 'Ibis Styles Vilnius Centre', note: 'Accor brand — Gedimino pr. 12 a block from the parliament, budget design hotel, central location, 24h reception · 8.2 Booking.com', url: 'https://www.booking.com/hotel/lt/ibis-styles-vilnius-centre.html', tier: 'budget' },
+      { name: 'Courtyard by Marriott Vilnius City Center', note: 'Marriott Courtyard — Rinktinių g. 3 in Šnipikės, rooftop bar with city views, indoor pool, 15-min walk to Cathedral Square · 8.7 Booking.com', url: 'https://www.booking.com/hotel/lt/courtyard-by-marriott-vilnius-city-center.html', tier: 'mid' },
+      { name: 'Pacai Vilnius', note: 'Hyatt Unbound Collection — Didžioji g. 7 in the Old Town, 17th-century baroque palace, spa with indoor pool, Avia Restaurant · 9.2 Booking.com', url: 'https://www.booking.com/hotel/lt/pacai-hotel-vilnius.html', tier: 'expensive' },
+      { name: 'Grand Hotel Kempinski Vilnius', note: 'Kempinski brand — Universiteto g. 14 facing Cathedral Square, Spa by Kempinski, rooftop terrace, Le Restaurant · 9.1 Booking.com', url: 'https://www.booking.com/hotel/lt/grand-hotel-kempinski-vilnius.html', tier: 'luxury' }
+    ], price: { budget: '€60–120', mid: '€120–200', expensive: '€200–350', luxury: '€350+' } },
     'vienna': { h: [
       { name: 'Motel One Wien-Staatsoper', note: 'Motel One brand — Elisabethstraße near the Staatsoper and Naschmarkt, design budget, rooftop terrace, central First District · 8.6 Booking.com', url: 'https://www.booking.com/hotel/at/motel-one-wien-staatsoper.html', tier: 'budget' },
       { name: 'Hotel Rathaus Wein & Design', note: 'Independent — Lange Gasse in the 8th district, wine-themed rooms (each paired with an Austrian winery), garden, modern design · 9.3 Booking.com', url: 'https://www.booking.com/hotel/at/rathaus-wein-und-design.html', tier: 'mid' },
@@ -11292,6 +11298,7 @@ window.TVE.home = (function () {
       'venice':            {iata:'VCE', name:'Venice Marco Polo'},
       'verona':            {iata:'VRN', name:'Verona Villafranca'},
       'victoria':          {iata:'YVR', name:'Vancouver International'},
+      'vilnius':           {iata:'VNO', name:'Vilnius International'},
       'vienna':            {iata:'VIE', name:'Vienna International'},
       'virgin-islands':    {iata:'STT', name:'Cyril E. King Airport'},
       'washington-dc':     {iata:'DCA', name:'Ronald Reagan Washington National'},
@@ -11324,7 +11331,7 @@ window.TVE.home = (function () {
       'OSL','PBH','PDL','PDX','PEK','PHL','PHX','PLS','PMI','PNS','POA','PPS','PRG','PSA','PSP','PUS',
       'PVG','PVR','RAK','RDM','REC','RHO','RIX','RNO','RSW','SAN','SCL','SEA','SFO','SIN','SJC','SJD',
       'SJO','SJU','SKG','SLC','SLZ','SPU','SRQ','SSA','STR','SXB','SYD','SZG','TBS','TFS','TIV','TLL',
-      'TOS','TPE','TRN','VCE','VIE','VLC','VRN','WLG','YQB','YUL','YVR','YYC','YYZ','ZAG','ZQN','ZRH'
+      'TOS','TPE','TRN','VCE','VIE','VLC','VNO','VRN','WLG','YQB','YUL','YVR','YYC','YYZ','ZAG','ZQN','ZRH'
     ];
 
     function _inject() {

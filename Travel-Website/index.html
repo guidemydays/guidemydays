@@ -6801,9 +6801,24 @@ function render() {
          the Time Zones sort pill: the label IS the control (Thirty-first
          non-negotiable), so a default could never be silent here — and there is no
          default to be silent about. */
+      /* TWO QUESTIONS, ONE STRIP (owner, 2026-08-23: "fix airport and the
+         rest"). The Entry row and the Flight row are both omitted until the
+         reader answers, so both answers are asked here, in the one place that
+         is drawn whether or not either has been used. The airport had no
+         control at all inside Compare — the site's only airport box lives in
+         the landing page's Help Me Choose card — so the Flight row this panel
+         advertises was unreachable for a reader who opened Compare and nothing
+         else. Same picker shape as the passport beside it; TVE.home.mount
+         draws it, so there is one airport search on the site, not two. */
       var out = '<div class="cmp-passport-strip">'
-        + '<span class="cmp-passport-lead">Entry rules for</span>'
-        + '<span class="cmp-passport-mount"></span>'
+        + '<span class="cmp-strip-q">'
+        +   '<span class="cmp-passport-lead">Entry rules for</span>'
+        +   '<span class="cmp-passport-mount"></span>'
+        + '</span>'
+        + '<span class="cmp-strip-q">'
+        +   '<span class="cmp-passport-lead">Flight time from</span>'
+        +   '<span class="cmp-home-mount"></span>'
+        + '</span>'
         + '</div>';
       out += '<div class="cmp-table-wrap"><table class="cmp-table"><tbody>';
 
@@ -7137,6 +7152,13 @@ function render() {
         var _ppm = compareView.querySelector('.cmp-passport-mount');
         if (_ppm && window.TVE && window.TVE.passport) {
           window.TVE.passport.mount(_ppm, { onPick: function () { showPanel(); } });
+        }
+        /* Same contract for the airport: mounted after innerHTML, and picking
+           re-renders the table through the same path that drew it, so the
+           Flight row appears under the control that asked for it. */
+        var _hm = compareView.querySelector('.cmp-home-mount');
+        if (_hm && window.TVE && window.TVE.home && window.TVE.home.mount) {
+          window.TVE.home.mount(_hm, { onPick: function () { showPanel(); } });
         }
         document.querySelector('.mosaic-wrap').style.display = 'none';
         var fv = document.getElementById('flight-view');

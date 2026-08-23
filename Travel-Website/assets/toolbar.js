@@ -302,9 +302,158 @@ window.TVE.home = (function () {
       : null;
   }
 
+  /* ── The picker, mounted the same way on every surface ────────────────────
+     Owner, 2026-08-23, on the finding that Compare promises a flight time no
+     reader could turn on from inside Compare: "fix airport and the rest."
+
+     ONE IMPLEMENTATION, MOUNTED, exactly like TVE.passport.mount — because the
+     two controls now sit side by side in the Compare strip and a second
+     hand-rolled airport box would drift from this one the first time either
+     changed. It borrows the passport picker's own .pp-* classes on purpose:
+     they are the same control doing the same job one row apart, and a reader
+     should not be able to tell which script drew which.
+
+     THE STRIP IS THE ONLY PLACE A CONDITIONAL ROW CAN BE TURNED ON. Both the
+     Entry row and the Flight row are omitted entirely until the reader answers
+     — a rule this file states at length above — so both answers have to be
+     askable from a control that is drawn whether or not it has been used. The
+     Flight row had no such control: the only airport box on the site lived
+     inside the landing page's Help Me Choose card, a different disclosure, so
+     a reader who opened Compare alone never saw a flight time at all.
+
+     NOTHING IS SAVED HERE EITHER. This is a way to SET the page-load pick, not
+     a way to keep it: the owner rule against persisting a reader's filters
+     (2026-08-20) is untouched, and a reader who reloads is asked again. */
+  function mount(host, opts) {
+    if (!host) return null;
+    opts = opts || {};
+    host.innerHTML = '';
+    host.className = (host.className ? host.className + ' ' : '') + 'pp-mount';
+
+    var btn = document.createElement('button');
+    btn.type = 'button';
+    btn.className = 'pp-btn';
+    btn.setAttribute('aria-haspopup', 'listbox');
+    btn.setAttribute('aria-expanded', 'false');
+
+    var pop = document.createElement('div');
+    pop.className = 'pp-pop';
+    pop.hidden = true;
+
+    var field = document.createElement('input');
+    field.type = 'search';
+    field.className = 'pp-search';
+    field.placeholder = 'City or airport';
+    field.setAttribute('aria-label', 'Search for the airport you fly from');
+
+    var list = document.createElement('ul');
+    list.className = 'pp-list';
+    list.setAttribute('role', 'listbox');
+
+    pop.appendChild(field);
+    pop.appendChild(list);
+    host.appendChild(btn);
+    host.appendChild(pop);
+
+    function paintBtn() {
+      var h = get();
+      btn.innerHTML = '';
+      var t = document.createElement('span');
+      t.className = 'pp-btn-text';
+      if (h) {
+        var c = document.createElement('span');
+        c.className = 'pp-code';
+        c.textContent = h.code;
+        t.appendChild(c);
+        t.appendChild(document.createTextNode(h.city || h.code));
+      } else {
+        t.appendChild(document.createTextNode(opts.prompt || 'Choose your airport'));
+      }
+      btn.appendChild(t);
+      var ch = document.createElement('span');
+      ch.className = 'pp-chev';
+      ch.textContent = '▾';
+      btn.appendChild(ch);
+      btn.classList.toggle('pp-unset', !h);
+    }
+
+    /* NO BROWSE LIST, and that is the one place this differs from the passport
+       picker. 199 passports are a list a reader can scroll; 3,268 airports are
+       not, and the finder's own box has always been search-first for the same
+       reason. The panel opens on the question instead. */
+    function paintList(q) {
+      if (!String(q || '').trim()) {
+        list.innerHTML = '<li class="pp-empty">Type a city or an airport code.</li>';
+        return;
+      }
+      names(function (all) {
+        var majors = (window._lpAirports && window._lpAirports.major) || {};
+        var show = lookup(q, all, majors, 8);
+        list.innerHTML = '';
+        show.forEach(function (r) {
+          var h = fromRow(r);
+          if (!h) return;
+          var li = document.createElement('li');
+          li.className = 'pp-opt';
+          li.setAttribute('role', 'option');
+          li.tabIndex = 0;
+          var c = document.createElement('span');
+          c.className = 'pp-code';
+          c.textContent = r[0];
+          li.appendChild(c);
+          li.appendChild(document.createTextNode(
+            r[1] + (r[3] && r[3] !== r[1] ? ' · ' + r[3] : '') + (r[2] ? ' · ' + r[2] : '')));
+          var cur = get();
+          if (cur && cur.code === r[0]) li.classList.add('pp-on');
+          function choose() {
+            set(h);
+            close();
+            paintBtn();
+            if (opts.onPick) opts.onPick(get());
+          }
+          li.addEventListener('click', choose);
+          li.addEventListener('keydown', function (e) {
+            if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); choose(); }
+          });
+          list.appendChild(li);
+        });
+        if (!show.length) {
+          list.innerHTML = '<li class="pp-empty">No airport matches that.</li>';
+        }
+      });
+    }
+
+    function open() {
+      pop.hidden = false;
+      btn.setAttribute('aria-expanded', 'true');
+      field.value = '';
+      paintList('');
+      /* Focus after paint — on iOS focusing a hidden field is a no-op, and the
+         keyboard then never appears for the one control the panel exists for. */
+      setTimeout(function () { field.focus(); }, 0);
+    }
+    function close() {
+      pop.hidden = true;
+      btn.setAttribute('aria-expanded', 'false');
+    }
+
+    btn.addEventListener('click', function () { pop.hidden ? open() : close(); });
+    field.addEventListener('input', function () { paintList(field.value); });
+    field.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape') { close(); btn.focus(); }
+    });
+    document.addEventListener('click', function (e) {
+      if (!host.contains(e.target)) close();
+    });
+
+    paintBtn();
+    subs.push(paintBtn);
+    return { repaint: paintBtn, open: open, close: close };
+  }
+
   return {
     /* No KEY export: there is nothing stored to key. */
-    get: get, set: set, clear: clear,
+    get: get, set: set, clear: clear, mount: mount,
     /* isDefault() is now literally "nothing is set" — kept under its old
        name because every consumer already branches on it, but the branch it
        guards changed meaning: it used to mean "use SEA", it now means

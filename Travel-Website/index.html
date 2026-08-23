@@ -2169,6 +2169,14 @@ summary.res-head:focus-visible { outline: 2px solid var(--rust, #C04E1A); outlin
 /* The gap Help Me Choose's own results carry (`#help-choose-panel .fnd-results`,
    20px) — the answer sits under the control, not against it. */
 #trip-twin-panel #tt-results { margin-top:20px; }
+/* The second line of the set-aside sentence — what the finder's `.fnd-res-sub`
+   says under its own. Sentence case and not uppercase, because it is prose: the
+   uppercase `.tt-res-head` above it is a label, this is the explanation. */
+.tt-res-sub { display:block; margin-top:5px; font-size:12px; font-weight:400;
+              letter-spacing:0; text-transform:none; color:var(--muted,#6a6660); }
+/* The head stops being a label the moment it carries that sentence. */
+#trip-twin-panel #tt-res-head:has(.tt-res-sub) { font-size:13px; font-weight:600;
+              letter-spacing:0; text-transform:none; color:var(--text,#1a1917); }
 /* ── Help Me Choose wizard ── */
 #help-choose-panel { margin:8px 0 20px; padding:20px 22px 22px; background:var(--warm); border:1px solid var(--border); border-radius:12px; box-shadow:0 4px 16px rgba(122,59,30,.08); }
 #help-choose-panel[hidden],#hc-inner[hidden],#hc-results[hidden] { display:none !important; }
@@ -2270,7 +2278,6 @@ summary.res-head:focus-visible { outline: 2px solid var(--rust, #C04E1A); outlin
    up under a pointer that can do nothing with it. */
 #tt-go:disabled { background:var(--border2,#e6e2da); border-color:var(--border2,#e6e2da); color:var(--muted); cursor:default; }
 #tt-go:disabled:hover { background:var(--border2,#e6e2da); border-color:var(--border2,#e6e2da); color:var(--muted); }
-#tt-err { font-size:12px; color:#C04E1A; margin:8px 0 0; }
 .tt-res-head { font-size:10px; font-weight:700; letter-spacing:.12em; text-transform:uppercase; color:var(--muted); margin:0 0 14px; }
 #tt-city { width:100%; }
 #tt-city-row { width:100%; }
@@ -3684,7 +3691,6 @@ window.lpGuideCard = function (href, flag, name, extra) {
           <button id="tt-go" type="button" class="fnd-go" disabled><svg class="fnd-go-ic" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><circle cx="10.5" cy="10.5" r="6.5"/><path d="M15.4 15.4 21 21"/></svg>Find My Escape</button>
           <button type="button" id="tt-clear" class="fnd-reset" hidden>Clear</button>
         </div>
-        <p id="tt-err" hidden></p>
       </div>
       <!-- THE ANSWER SITS UNDER THE CONTROL THAT ASKED FOR IT (Sixty-second
            non-negotiable), and the control STAYS ON SCREEN under it — the form no
@@ -3692,7 +3698,12 @@ window.lpGuideCard = function (href, flag, name, extra) {
            again" link necessary in the first place. Help Me Choose has always
            worked this way: pick, see the answer, change a pick, see it again. -->
       <div id="tt-results" hidden>
-        <p class="tt-res-head">Your escape destinations</p>
+        <!-- The head is written by the go handler: "Your escape destinations"
+             normally, and a sentence naming what was SET ASIDE when the four
+             narrowing filters intersected to nothing. #tt-err is retired with
+             the two messages it used to carry — this card no longer has a way
+             to answer a reader with nothing (owner rule 2026-08-23). -->
+        <p class="tt-res-head" id="tt-res-head">Your escape destinations</p>
         <div id="tt-res-cards"></div>
       </div>
     </div>
@@ -5859,7 +5870,7 @@ function render() {
   var sugList = document.getElementById('tt-suggest-list');
   var badge   = document.getElementById('tt-city-badge');
   var goBtn   = document.getElementById('tt-go');
-  var errP    = document.getElementById('tt-err');
+  var resHead = document.getElementById('tt-res-head');
   var cards   = document.getElementById('tt-res-cards');
   var clearBtn = document.getElementById('tt-clear');
   var safetySel = document.getElementById('tt-safety');
@@ -5924,8 +5935,8 @@ function render() {
       if (el) el.value = (id === 'tt-degree') ? 'max' : '';
     });
     results.hidden = true;
-    errP.hidden = true;
     cards.innerHTML = '';
+    resHead.textContent = 'Your escape destinations';
     updateGo();
   });
 
@@ -6232,47 +6243,149 @@ function render() {
      precondition it has. */
   ttBuildLang();
 
-  goBtn.addEventListener('click', function () {
-    errP.hidden = true;
-    var ref = buildRef();
-    if (ref.avgHi === null) {
-      errP.textContent = 'Please enter your current city or select a climate type to continue.';
-      errP.hidden = false;
-      return;
-    }
-    var act = ttAct(), dayBand = ttDays(), lang = ttLang(), safeMax = ttSafetyMax();
+  /* ══ THE READER NEVER GETS AN EMPTY SCREEN ═══════════════════════════════════
+     Owner rule 2026-08-23: "make sure the logic is right and that we never get
+     to the results of no matches in the end." Same rule the finder got the same
+     day, and the same shape of answer: when the four narrowing filters intersect
+     to nothing, the SMALLEST set of them is SET ASIDE, the list is shown, and
+     the card says in the reader's own words what it could not apply. The message
+     it replaces — "No escape destinations found. Try adjusting your
+     preferences." — is DELETED, not reworded: a reader who has just answered six
+     questions is owed somewhere to go, not homework.
+
+     WHY THIS CAN HAPPEN AT ALL, with nothing broken. These four are hard
+     filters over a 239-guide fleet and they cut across each other: Japanese
+     ∩ 2–3 days ∩ snow is empty and no amount of correct data makes it otherwise.
+     Trip Escape has no pruning to lean on either — the finder greys options that
+     would dead-end, this card does not, because its selects are single-pick and
+     re-pruning six of them on every change is a heavier promise than the card
+     makes.
+
+     WHAT IS *NOT* IN THE RELAX SET, deliberately: the climate chips, the cost
+     chips and How different?. Those are not filters — they are the REFERENCE the
+     contrast is measured from and the target it aims at. Every guide scores
+     against them, so they can never empty the list, and setting one aside would
+     change what the answer means rather than how much of it there is.
+
+     THE ORDER IS THE ORDER OF LEAST HARM. Language first: it is the sharpest cut
+     (Japanese is 4 guides of 239) and the one most readers can live without.
+     Then trip length, then activity. SAFETY IS LAST, always — a reader who asked
+     for Level 1 gets everything else set aside before that is, and if it ever is
+     the card says so by name rather than quietly handing back a Level 3 city. */
+  var RELAX_ORDER = ['lang', 'days', 'act', 'safety'];
+
+  /* The chosen option's own words — "Japanese (4 guides)", "A short break — 2 to
+     3 days" — never the field's label. The chip is the thing the reader is
+     looking at (same rule as the finder's droppedLabels). */
+  var FILTER_EL = { act: 'tt-act', days: 'tt-days', lang: 'tt-lang', safety: 'tt-safety' };
+  function filterLabel(key) {
+    var el = document.getElementById(FILTER_EL[key]);
+    if (!el || !el.selectedIndex) return key;
+    return (el.options[el.selectedIndex].textContent || '').replace(/\s*\(\d+ guides?\)$/, '').trim();
+  }
+
+  function ttState() {
+    return { act: ttAct(), days: ttDays(), lang: ttLang(), safety: ttSafetyMax() };
+  }
+  function without(st, keys) {
+    var out = {};
+    for (var k in st) out[k] = keys.indexOf(k) === -1 ? st[k] : null;
+    return out;
+  }
+  function combos(list, k) {
+    if (k === 0) return [[]];
+    var out = [];
+    for (var i = 0; i <= list.length - k; i++)
+      combos(list.slice(i + 1), k - 1).forEach(function (rest) { out.push([list[i]].concat(rest)); });
+    return out;
+  }
+
+  function passesTT(c, st) {
+    if (c === matchedCard) return false;
+    if (st.act && ((window._THEME_DATA || {})[cityName(c)] || []).indexOf(st.act) === -1) return false;
+    if (st.days) { var dn = daysOf(c); if (dn === null || !DAY_BAND[st.days](dn)) return false; }
+    if (st.lang && langsOf(c).indexOf(st.lang) === -1) return false;
+    /* A FLOOR, like the finder's: "Level 1 or 2" keeps 1 and 2. A card whose
+       level is unknown is kept — the same reading the old checkbox had, and the
+       alternative silently drops a guide for a fact nobody stated. */
+    if (st.safety !== null) { var sa = safety(c); if (sa !== null && sa > st.safety) return false; }
+    return true;
+  }
+
+  /* Ranked, de-duplicated by city name, best first. Nothing is truncated here —
+     the caller takes its six — because relax() has to know whether a state
+     returns ANY guide, not whether it returns six. */
+  function rankTT(ref, st) {
     var scored = allCards.map(function (c) {
-      if (c === matchedCard) return null;
-      if (act && ((window._THEME_DATA || {})[cityName(c)] || []).indexOf(act) === -1) return null;
-      if (dayBand) { var dn = daysOf(c); if (dn === null || !DAY_BAND[dayBand](dn)) return null; }
-      if (lang && langsOf(c).indexOf(lang) === -1) return null;
-      /* A FLOOR, like the finder's: "Level 1 or 2" keeps 1 and 2. A card whose
-         level is unknown is kept — the same reading the old checkbox had, and
-         the alternative silently drops a guide for a fact nobody stated. */
-      if (safeMax !== null) { var sa = safety(c); if (sa !== null && sa > safeMax) return null; }
-      var s = scoreCard(ref, c);
-      return s >= 0 ? { card: c, score: s } : null;
+      if (!passesTT(c, st)) return null;
+      var v = scoreCard(ref, c);
+      return v >= 0 ? { card: c, score: v } : null;
     }).filter(Boolean);
     scored.sort(function (a, b) { return b.score - a.score; });
-    var seenNames = {};
-    scored = scored.filter(function (item) {
-      var n = cityName(item.card);
-      if (seenNames[n]) return false;
-      seenNames[n] = true;
+    var seen = {};
+    return scored.filter(function (item) {
+      var nm = cityName(item.card);
+      if (seen[nm]) return false;
+      seen[nm] = true;
       return true;
     });
+  }
+
+  /* Smallest set aside first, and within a size, the order above. The last step
+     is the empty state — every filter dropped — which is the whole fleet ranked
+     by contrast, so this ALWAYS returns a non-empty list and the "no matches"
+     branch has nowhere left to exist. */
+  function relaxTT(ref, st) {
+    var set = RELAX_ORDER.filter(function (f) { return st[f] !== null && st[f] !== undefined; });
+    for (var k = 1; k <= set.length; k++) {
+      var cs = combos(set, k);
+      for (var i = 0; i < cs.length; i++) {
+        var t = without(st, cs[i]);
+        var hits = rankTT(ref, t);
+        if (hits.length) return { hits: hits, dropped: cs[i] };
+      }
+    }
+    return { hits: rankTT(ref, without(st, set)), dropped: set };
+  }
+
+  function andListTT(list) {
+    if (list.length <= 1) return list[0] || '';
+    return list.slice(0, -1).join(', ') + ' and ' + list[list.length - 1];
+  }
+
+  goBtn.addEventListener('click', function () {
+    /* buildRef() can hand back a null avgHi — a matched city whose card carries
+       no data-climate — and that used to be an error message on an otherwise
+       working form. It is not one: contrastOf() already reads a null reference
+       as a flat 0.5 on the climate term and ranks on cost alone, which is a
+       weaker answer, never an empty one. All 239 stamped cards carry climate
+       today, so this is a guard against a future gap, not a live path. */
+    var ref = buildRef();
+    var st = ttState();
+    var top = rankTT(ref, st), dropped = [];
+    if (!top.length) {
+      var r = relaxTT(ref, st);
+      top = r.hits;
+      dropped = r.dropped;
+    }
+
+    function escTE(t) { return String(t).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
+    /* The head is a sentence and it CHANGES when something was set aside — the
+       reader has to be told, in their own words, which of their answers is not
+       in force, or the list silently disagrees with the form above it. */
+    resHead.innerHTML = dropped.length
+      ? 'Nothing matches all of those at once, so we set aside <b>' +
+        escTE(andListTT(dropped.map(filterLabel))) + '</b>.' +
+        '<span class="tt-res-sub">Here is what the rest of your answers give you &mdash; ' +
+        (dropped.length === 1 ? 'that answer is' : 'those answers are') +
+        ' still on the form, just not applied.</span>'
+      : 'Your escape destinations';
+
     /* SIX, not three. Three was the answer when the card asked two questions;
        with six controls a reader who has narrowed the fleet to a handful wants
        to see the handful, and the pills wrap. */
-    var top = scored.slice(0, 6);
-    if (!top.length) {
-      errP.textContent = 'No escape destinations found. Try adjusting your preferences.';
-      errP.hidden = false;
-      return;
-    }
-    function escTE(t) { return String(t).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
     cards.className = '';
-    cards.innerHTML = top.map(function (item) {
+    cards.innerHTML = top.slice(0, 6).map(function (item) {
       var href = item.card.getAttribute('href') || '';
       var flag = flagOf(item.card);
       var name = cityName(item.card);

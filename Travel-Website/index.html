@@ -1324,7 +1324,38 @@ a.land-cta:hover:visited {
    back to `color:` or `border-color:` here: against a filled rest state the
    first says nothing and the second is invisible. */
 .fnd-more.on { box-shadow: 0 0 0 3px rgba(192, 78, 26, .25); }
-.fnd-res-empty { font-size: 0.92rem; color: var(--muted,#6a6660); margin: 0; }
+/* `.fnd-res-empty` is DELETED with the sentence it styled (owner rule
+   2026-08-23: the finder never hands a reader an empty screen — it sets the
+   smallest number of answers aside and shows the list; see relax()). The class
+   is gone rather than left unused so nothing can render into it again. */
+/* A SET-ASIDE CHIP — a value the reader chose that the finder could not apply.
+   Same box, same ×, same size as `.fnd-chip`: it is still a chosen value. What
+   changes is that it is not in FORCE, so the terracotta ink that means "picked
+   and applied" steps back to the muted ink every secondary line on the site
+   uses, and the rim goes dashed — the one border treatment on the card that
+   reads as provisional without inventing a colour. It keeps the ONE hover
+   (ground to var(--bg), rim to terracotta, the font does not move), because a
+   set-aside chip is still a control you can click to remove. */
+.fnd-chip.is-off {
+  color: var(--muted,#6a6660);
+  border-style: dashed;
+  border-color: var(--border,#e3ddd2);
+}
+/* THE LINE THAT SAYS WHY THE FORM IS SHUT. It sits between the airport's label
+   and its control, which is the one place on this card anything sits between a
+   question and its answer — deliberate, because it is not an answer to the
+   question above it, it is the instruction that makes the field make sense
+   (Fifty-seventh / Sixty-second non-negotiables are about ANSWERS). */
+.fnd-home-lede { margin: 0 0 0.4rem; font-size: 0.78rem; font-weight: 400; color: var(--muted,#6a6660); }
+/* The locked form. `.fnd-ctl:has(select:disabled)` already drops the pill to
+   opacity .55 and the shared hover rule already refuses it, so a locked field
+   is drawn exactly like a pruned one and nothing new is invented. All this adds
+   is the same treatment for the filled CTA, which has no select inside it. */
+.fnd-go:disabled {
+  opacity: 0.55; cursor: not-allowed;
+  background: var(--rust, #C04E1A); border-color: var(--rust, #C04E1A); color: #fff;
+}
+.fnd-go:disabled:hover { background: var(--rust, #C04E1A); color: #fff; }
 
 /* Result cards are the site's guide card (.dest-card in .flt-grid, from
    guides-index-style.css) — see lpGuideCard further down. The bespoke .rescard
@@ -2490,7 +2521,18 @@ summary.res-head:focus-visible { outline: 2px solid var(--rust, #C04E1A); outlin
   border-color: var(--brand, #a94e1c);
   color: #fff;
 }
+/* `.lp-res-empty` still styles the "Loading…" line, which is the only thing
+   left that renders into it: the dead-end sentence it also carried is deleted
+   (owner rule 2026-08-23 — the pill rows relax and answer, they never hand back
+   an empty list). */
 .lp-res-empty { font-size: 0.86rem; color: var(--muted,#6a6660); }
+/* What was set aside, said once in the head row. Lower-case and muted: it is a
+   footnote to the count beside it, not a warning. */
+.lp-res-note { font-size: 0.78rem; color: var(--muted,#6a6660); }
+/* A set-aside pill chip — still a chosen value, still removable, simply not in
+   force. Muted rather than brand ink, and the underline goes dotted, which is
+   this component's equivalent of the finder chip's dashed rim. */
+.lp-res-clear.is-off { color: var(--muted,#6a6660); text-decoration-style: dotted; }
 
 /* ── DARK MODE ─────────────────────────────────────────────────────────────
    The landing page shipped with NO dark handling at all: 312 colour literals
@@ -2646,13 +2688,13 @@ window.lpGuideCard = function (href, flag, name, extra) {
   <div class="lp-hero-copy">
   <h1>Every trip, planned <em>day by day</em>.</h1>
   <p>
-    Over 230 cities, each written the same way — what to see and in what order, how long every
+    Over 200 cities, each written the same way — what to see and in what order, how long every
     stop really takes, and how to get between them on foot or by ride. If you already know
     where you're going, go straight to the guide. If you don't, answer as much or as
     little as you like below and the list narrows as you go.
   </p>
   <div class="lp-actions">
-    <a class="lp-btn" href="/guides/">Browse over 230 guides</a>
+    <a class="lp-btn" href="/guides/">Browse over 200 guides</a>
     </div>
 
   <!-- Or skip all of it (owner 2026-08-18): "if you know where you want to go,
@@ -3229,6 +3271,41 @@ window.lpGuideCard = function (href, flag, name, extra) {
            Moving a field here is the whole change: the engine reads ids, and
            PRUNE_PAIRS, the chip row and Clear everything all follow the markup. -->
         <div class="fnd-field">
+                  <label for="fnd-home-in">Which airport are you flying from?</label>
+                  <!-- FIRST, AND IT GATES THE WHOLE FORM (owner rules 2026-08-23:
+                       "it seems airport is a requirement and i can see the results
+                       without it which is fine by me but if it is the case should be
+                       the first and enforced for the user to choose" · then, choosing:
+                       "we can make the rest is grey out until the user added the
+                       airport or city").
+
+                       THIS REVERSES THE 2026-08-22 ORDER RULE ("the filter should ask
+                       How far are you willing to fly? and then ask for the airport
+                       code or city? it does not make sense to ask before"), and it is
+                       an owner reversal, not drift — do not put the pair back the
+                       other way round. What that rule was protecting against was
+                       asking a stranger for an IATA code with no context; the field
+                       now says outright what it unlocks, which is the context.
+
+                       IT IS ALSO WHAT MAKES A CONTRADICTION UNBUILDABLE. pruneSelects
+                       can only grey an OPTION, and the airport is free text over
+                       3,268 entries — so while it was answered last, a reader could
+                       pick Austria and "Long haul — 6 to 9h" (both legal, both live,
+                       the flight filter still held for want of an origin), then name
+                       LHR and find Vienna two hours away. Measured by random walk on
+                       2026-08-23. Answered FIRST, every later pick is pruned against a
+                       known origin and that pair can never both be offered. relax()
+                       still stands behind it, because a reader can CHANGE their
+                       airport under picks that fitted the old one. -->
+                  <p class="fnd-home-lede">Start here &mdash; the rest of the form opens once we know where you are flying from.</p>
+                  <div class="fnd-ctl">
+                    <span class="fnd-ic" aria-hidden="true"><svg viewBox="0 0 24 24"><use href="#gm-i-flight-nav"/></svg></span>
+                    <input type="text" id="fnd-home-in" placeholder="City or airport" autocomplete="off" spellcheck="false">
+                  </div>
+                  <ul id="fnd-home-list" class="fnd-home-list" role="listbox" hidden></ul>
+                  <p id="fnd-home-note" class="fnd-home-note"></p>
+                </div>
+        <div class="fnd-field">
                     <label for="fnd-when">When are you going?</label>
                     <div class="fnd-ctl"><span class="fnd-ic" aria-hidden="true"><svg viewBox="0 0 24 24"><use href="#gm-i-wall-calendar"/></svg></span><select id="fnd-when">
                       <option value="">Flexible</option>
@@ -3266,20 +3343,22 @@ window.lpGuideCard = function (href, flag, name, extra) {
                   </div>
         <div class="fnd-field">
                   <label for="fnd-far">How far are you willing to fly?</label>
-                  <!-- ASKED BEFORE THE AIRPORT, not after (owner, 2026-08-22: "the filter
-                       should ask How far are you willing to fly? and then ask for the
-                       airport code or city? it does not make sense to ask before").
-                       Willingness is a thing a reader knows about themselves and can
-                       answer cold; the airport is the follow-up question the answer
-                       creates. Shipped the other way round for one iteration and the
-                       form asked a stranger for an IATA code before telling them what
-                       it was for.
+                  <!-- ASKED AFTER THE AIRPORT SINCE 2026-08-23, and that is an owner
+                       REVERSAL of the 2026-08-22 rule that put it before — see the
+                       airport field at the top of this grid for the whole story. The
+                       reason the order flipped is that the airport now gates the form,
+                       and a gate cannot sit fifth. What has NOT changed is that these
+                       bands mean nothing without an origin, which is why they were a
+                       pair in the first place; they are simply the second half of it
+                       now rather than the first.
 
-                       So this control is NEVER disabled. The first version greyed it
-                       out until an origin existed, which is exactly the order the owner
-                       rejected. Pick a band with no airport and the band is HELD, not
-                       applied - see holdFar() - and the airport field below asks for
-                       what it needs. Nothing silently returns zero.
+                       IT IS NOW GREYED UNTIL AN ORIGIN EXISTS, like every other
+                       control in the grid — that is the gate, not a regression to the
+                       version the owner rejected in August, which greyed this one
+                       field while asking for the band first. The HOLD in matches()
+                       stays as the safety net: if a reader clears their airport with
+                       a band still chipped, the band is held rather than applied and
+                       relax() names it. Nothing silently returns zero.
 
                        WHAT THE BANDS MEASURE: nonstop FLYING time, gate to gate. No
                        connection, no layover, no waiting (owner, 2026-08-22: "are you
@@ -3311,17 +3390,6 @@ window.lpGuideCard = function (href, flag, name, extra) {
                        answer for a Seattle reader &mdash; "NOTHING should have anything to
                        Seattle &hellip; needs to work for all." Do not bring it back unless it
                        works from any home. -->
-                </div>
-        <div class="fnd-field">
-                  <label for="fnd-home-in">Which airport are you flying from?</label>
-                  <!-- SECOND, because it is the follow-up the question above creates:
-                       "under 6h" is not a filter until the form knows 6h from where. -->
-                  <div class="fnd-ctl">
-                    <span class="fnd-ic" aria-hidden="true"><svg viewBox="0 0 24 24"><use href="#gm-i-flight-nav"/></svg></span>
-                    <input type="text" id="fnd-home-in" placeholder="City or airport" autocomplete="off" spellcheck="false">
-                  </div>
-                  <ul id="fnd-home-list" class="fnd-home-list" role="listbox" hidden></ul>
-                  <p id="fnd-home-note" class="fnd-home-note"></p>
                 </div>
         <div class="fnd-field">
                   <label for="fnd-budget">Average costs</label>
@@ -4184,7 +4252,7 @@ window.lpGuideCard = function (href, flag, name, extra) {
            loading="lazy" width="1101" height="687">
     </span>
     <span class="lp-plan-band">
-      <span class="lp-plan-band-t">Over 230 destinations, one map</span>
+      <span class="lp-plan-band-t">Over 200 destinations, one map</span>
       <span class="lp-plan-band-d">Terracotta for the ones still ahead, gold for the ones you have marked from their own guide, counted as the list grows.</span>
     </span>
   </a>
@@ -4224,7 +4292,7 @@ window.lpGuideCard = function (href, flag, name, extra) {
       ['wx-chart',        1101, 687, 1, 'The shape of the whole year', 'Search a city and every month is there at once &mdash; the high, the low, the rain, and how many days of it.', '/weather/']
     ],
     'lp-plan': [
-      ['map-pins',        1101, 687, 0, 'Over 230 destinations, one map', 'Terracotta for the ones still ahead, gold for the ones you have marked from their own guide, counted as the list grows.', '/maps/world/'],
+      ['map-pins',        1101, 687, 0, 'Over 200 destinations, one map', 'Terracotta for the ones still ahead, gold for the ones you have marked from their own guide, counted as the list grows.', '/maps/world/'],
       ['tz-grid',         1101, 687, 1, 'Search a city. See the world from there.', 'Every destination on the site re-sorted around the place you searched &mdash; local time, UTC offset, closest first.', '/time-zones/'],
       ['wtg-results',     1101, 687, 1, 'Every city that matches', 'Say the month and the weather you want, and each city that fits comes back with its own high, low and rain &mdash; one tap from the guide.', '/when-to-go/'],
       ['essentials-four', 1101, 687, 0, 'The small print, page by page', 'What to tip, how safe it is now, which transit card to load, who runs the line you are booking &mdash; and Before You Go pulls the ones that matter for the city you name.', '/before-you-go/']
@@ -4817,11 +4885,14 @@ window.lpGuideCard = function (href, flag, name, extra) {
        WITHIN a group  -> OR  (beach or islands or history — more pills, MORE results)
        ACROSS groups   -> AND (beach-ish AND 3 days AND Europe — narrower)
      Picking a second trip type has to widen the list, not replace the first. */
-  function matches(d) {
-    var kinds = Object.keys(active);
+  /* `act` defaults to the live selection; relaxPills passes a reduced copy so
+     the same matcher answers both questions. */
+  function matches(d, act) {
+    act = act || active;
+    var kinds = Object.keys(act);
     return d.guides.filter(function (g) {
       for (var i = 0; i < kinds.length; i++) {
-        var k = kinds[i], vals = active[k], hit = false;
+        var k = kinds[i], vals = act[k], hit = false;
         for (var j = 0; j < vals.length; j++) {
           if (one(d, g, k, vals[j].value)) { hit = true; break; }
         }
@@ -4829,6 +4900,44 @@ window.lpGuideCard = function (href, flag, name, extra) {
       }
       return true;
     }).sort(function (a, b) { return a.name.localeCompare(b.name); });
+  }
+
+  /* ── THIS WIDGET NEVER HANDS BACK AN EMPTY LIST EITHER (owner rule
+     2026-08-23) ────────────────────────────────────────────────────────────
+     The pill rows are a second filter engine on the same page, with the same
+     dead-end sentence — "No guide matches all of those. Drop one of the filters
+     above." — and the owner's rule is about the OUTCOME, not about one widget:
+     *"this message should not even exists this is frustrating to the user to
+     spent time choosing thing to have this out come."* Unlike the finder these
+     pills carry no pruning at all (a pill is a link, and clicking one is how the
+     dimension is discovered), so zero is easy to reach here: Snow & ski plus
+     Africa is two clicks.
+
+     Same shape as the finder's relax(): the SMALLEST set of dimensions that
+     brings guides back, and the reader is told which. Least-specific first —
+     language, then trip length, then the activity, and the continent last,
+     because a reader who clicked a continent has said where. Dropping every
+     dimension returns the whole fleet, so it always terminates. */
+  var PILL_RELAX = ['lang', 'days', 'type', 'continent'];
+  function relaxPills(d) {
+    var set = PILL_RELAX.filter(function (k) { return active[k] && active[k].length; });
+    function without(drop) {
+      var t = {};
+      for (var k in active) if (drop.indexOf(k) === -1) t[k] = active[k];
+      return t;
+    }
+    for (var n = 1; n <= set.length; n++) {
+      var combos = [];
+      (function walk(start, acc) {
+        if (acc.length === n) { combos.push(acc.slice()); return; }
+        for (var i = start; i < set.length; i++) { acc.push(set[i]); walk(i + 1, acc); acc.pop(); }
+      }(0, []));
+      for (var c = 0; c < combos.length; c++) {
+        var hits = matches(d, without(combos[c]));
+        if (hits.length) return { hits: hits, dropped: combos[c] };
+      }
+    }
+    return { hits: d.guides.slice(), dropped: set };
   }
 
   function panelFor(nav) {
@@ -4878,9 +4987,31 @@ window.lpGuideCard = function (href, flag, name, extra) {
     load().then(function (d) {
       if (!d) return;
       var hits = matches(d);
+      /* Nothing matched, so the least-specific answers are set aside and the
+         reader still gets a list \u2014 never the dead-end sentence (owner rule
+         2026-08-23; see relaxPills above). */
+      var dropped = [];
+      if (!hits.length) {
+        var rx = relaxPills(d);
+        hits = rx.hits; dropped = rx.dropped;
+      }
+      var offKind = {};
+      dropped.forEach(function (k) { offKind[k] = 1; });
+
       var head = document.createElement('div');
       head.className = 'lp-res-head';
       head.innerHTML = '<b>' + hits.length + ' guide' + (hits.length === 1 ? '' : 's') + '</b>';
+      if (dropped.length) {
+        var setAside = [];
+        dropped.forEach(function (k) {
+          (active[k] || []).forEach(function (x) { setAside.push(x.label); });
+        });
+        var note = document.createElement('span');
+        note.className = 'lp-res-note';
+        note.textContent = 'nothing matched all of those, so ' +
+          setAside.join(', ') + (setAside.length === 1 ? ' is' : ' are') + ' set aside';
+        head.appendChild(note);
+      }
 
       /* Every active dimension is listed and individually removable, so it is
          always visible WHY the list is this short. */
@@ -4888,7 +5019,7 @@ window.lpGuideCard = function (href, flag, name, extra) {
         active[k].forEach(function (sel) {
           var chip = document.createElement('button');
           chip.type = 'button';
-          chip.className = 'lp-res-clear';
+          chip.className = 'lp-res-clear' + (offKind[k] ? ' is-off' : '');
           chip.textContent = sel.label + ' \u00d7';
           chip.addEventListener('click', function () {
             active[k] = active[k].filter(function (x) { return x.value !== sel.value; });
@@ -4909,13 +5040,9 @@ window.lpGuideCard = function (href, flag, name, extra) {
 
       panel.innerHTML = '';
       panel.appendChild(head);
-      if (!hits.length) {
-        var none = document.createElement('p');
-        none.className = 'lp-res-empty';
-        none.textContent = 'No guide matches all of those. Drop one of the filters above.';
-        panel.appendChild(none);
-        return;
-      }
+      /* The empty branch that stood here is DELETED, not softened — relaxPills
+         above cannot return an empty list, so there is nothing left to render
+         into it (owner rule 2026-08-23). */
       var list = document.createElement('div');
       list.className = 'lp-res-list';
       hits.forEach(function (g) {
@@ -8146,6 +8273,99 @@ function render() {
       { el: far,      field: 'fr' }
     ];
   }
+  /* ── THE READER IS NEVER HANDED NOTHING (owner rule 2026-08-23) ───────────
+     Owner, on a screenshot of "No guide matches all of those at once. Drop one
+     and try again.": *"somehow we cant never not have an option to the user …
+     this message should not even exists this is frustrating to the user to
+     spent time choosing thing to have this out come."*
+
+     THE MESSAGE IS DELETED, not softened, and this function is what makes that
+     safe: when a combination genuinely holds nothing, the finder sets the
+     smallest number of answers aside that brings guides back, SAYS which ones,
+     and shows the list. It cannot fail — dropping every dimension returns the
+     whole fleet — so there is no path left that ends in an empty screen.
+
+     WHY IT IS STILL NEEDED WITH THE PRUNING WORKING. pruneSelects guarantees
+     that no OPTION a reader can click leads to zero. It cannot guarantee the
+     same of the AIRPORT, because the airport is a free-text field over 3,268
+     entries and it is answered LAST in a pair that must be asked in that order
+     (owner rule 2026-08-22). So a reader picks Austria and "Long haul — 6 to
+     9h" while the flight filter is still held for want of an origin — both
+     legal, both live — then names LHR, and Vienna is two hours away. Measured
+     exactly that way by random walk on 2026-08-23. The same shape occurs when a
+     reader CHANGES their airport under a set of picks that fitted the old one.
+
+     MINIMAL FIRST, and that is the half that makes the sentence readable: try
+     every single answer, then every pair, then every triple, and take the first
+     that comes back non-empty — so the reader is told one thing was set aside
+     rather than four. Only past three does it fall back to dropping in order,
+     which no realistic form reaches.
+
+     THE ORDER IS PROXY BEFORE CONCRETE. A country, a month, an activity, a
+     temperature are things the reader NAMED. A daylight band, a currency, a jet
+     lag band, a language, a flight length are ways of describing a place
+     INDIRECTLY — so when a proxy contradicts a named thing, the proxy is what
+     goes. In the measured case that is the difference between "we set aside
+     Long haul — 6 to 9h" (right: they asked for Austria) and "we set aside
+     Austria" (wrong, and it is what a drop-whatever-recovers-most rule picks,
+     because dropping the country returns more guides). Never re-sort this list
+     by how many guides each drop recovers. */
+  var RELAX_ORDER = ['dl', 'cu', 'tz', 'lg', 'fr', 'bd', 'tr', 'sf', 'wx', 'ty', 'mo', 'co', 'ct'];
+
+  function _without(s, fields) {
+    var t = {};
+    for (var k in s) t[k] = Array.isArray(s[k]) ? s[k].slice() : s[k];
+    fields.forEach(function (f) { t[f] = []; });
+    return t;
+  }
+  /* Every k-sized subset of `set`, generated in RELAX_ORDER order so the first
+     non-empty answer found is also the one highest up that list. */
+  function _combos(set, k) {
+    var out = [];
+    (function walk(start, acc) {
+      if (acc.length === k) { out.push(acc.slice()); return; }
+      for (var i = start; i < set.length; i++) { acc.push(set[i]); walk(i + 1, acc); acc.pop(); }
+    }(0, []));
+    return out;
+  }
+  function relax(d, s) {
+    var set = RELAX_ORDER.filter(function (f) { return s[f] && s[f].length; });
+    for (var k = 1; k <= Math.min(3, set.length); k++) {
+      var combos = _combos(set, k);
+      for (var i = 0; i < combos.length; i++) {
+        var t = _without(s, combos[i]);
+        var hits = matches(d, t);
+        if (hits.length) return { hits: hits, state: t, dropped: combos[i] };
+      }
+    }
+    /* Past a triple, drop in order until something comes back. The last step of
+       this loop is an empty state, which is the whole fleet — it always ends. */
+    var acc = [], st = s;
+    for (var j = 0; j < set.length; j++) {
+      acc.push(set[j]);
+      st = _without(s, acc);
+      var h = matches(d, st);
+      if (h.length) return { hits: h, state: st, dropped: acc.slice() };
+    }
+    return { hits: d.guides.slice(), state: _without(s, set), dropped: set };
+  }
+
+  /* What was set aside is named in the READER'S OWN WORDS — the chip labels
+     they picked ("Long haul — 6 to 9h"), never the field's label ("flight
+     length"), because the chip is the thing they are looking at. */
+  function droppedLabels(fields) {
+    var out = [];
+    fields.forEach(function (f) {
+      (picks[f] || []).forEach(function (p) { out.push(p.label); });
+    });
+    return out;
+  }
+  /* Reads as a sentence at 1, 2 and 3 — "A", "A and B", "A, B and C". */
+  function andList(list) {
+    if (list.length <= 1) return list[0] || '';
+    return list.slice(0, -1).join(', ') + ' and ' + list[list.length - 1];
+  }
+
   function pruneSelects(d, s) {
     PRUNE_PAIRS().forEach(function (pair) {
       if (!pair.el) return;
@@ -8529,20 +8749,37 @@ function render() {
 
          Singular when one guide comes back, because "These are the places" over
          a single card is not a sentence either. */
-      var head = '<p class="fnd-res-head">' +
-                 (hits.length === 1 ? 'This is the place recommended for you.'
-                                    : 'These are the places recommended for you.') +
-                 (monthOnly ? ' <span class="fnd-res-sub">Every guide is open in ' + moNames +
-                              ' &mdash; add a temperature and this narrows.</span>' : '') + '</p>';
-
+      /* NOTHING MATCHED, SO SOMETHING IS SET ASIDE AND THE READER STILL GETS A
+         LIST (owner rule 2026-08-23 — see relax() above for why this can still
+         happen with the pruning working, and why the message it replaces is
+         deleted rather than reworded). `shown` is what the cards are drawn
+         from and what the facts line is measured against, so a card can never
+         describe itself by a filter that was not applied. */
+      var dropped = [];
       if (!hits.length) {
-        /* No count line above "no guide matches" — "All 0 matches" is not a
-           sentence, and the message below already says the number. */
-        out.innerHTML =
-          '<p class="fnd-res-empty">No guide matches all of those at once. ' +
-          'Drop one and try again.</p>';
-        return;
+        var r = relax(d, s);
+        hits = r.hits;
+        dropped = r.dropped;
+        s = r.state;
       }
+
+      var head;
+      if (dropped.length) {
+        var names = droppedLabels(dropped);
+        head = '<p class="fnd-res-head">Nothing matches all of those at once, so we set aside <b>' +
+               esc(andList(names)) + '</b>.' +
+               '<span class="fnd-res-sub">Here is what the rest of your answers give you &mdash; ' +
+               (names.length === 1 ? 'that answer is' : 'those answers are') +
+               ' still on the form, just not applied.</span></p>';
+      } else {
+        /* THE HEAD IS A SENTENCE, NOT A TALLY (owner, 2026-08-23). */
+        head = '<p class="fnd-res-head">' +
+               (hits.length === 1 ? 'This is the place recommended for you.'
+                                  : 'These are the places recommended for you.') +
+               (monthOnly ? ' <span class="fnd-res-sub">Every guide is open in ' + moNames +
+                            ' &mdash; add a temperature and this narrows.</span>' : '') + '</p>';
+      }
+      markDropped(dropped);
       /* ONE list, ALPHABETICAL (owner rule 2026-08-22: "we wont have this
          concept! we will list all that matches the period in alphabetical order").
          There is no best-fit tier and no ranking behind the order: everything the
@@ -8592,6 +8829,74 @@ function render() {
       el.value = '';
     }
     run();
+  }
+
+  /* ── THE AIRPORT IS THE FIRST QUESTION AND IT OPENS THE REST ──────────────
+     Owner rule 2026-08-23: *"it seems airport is a requirement and i can see the
+     results without it which is fine by me but if it is the case should be the
+     first and enforced for the user to choose"* · *"we can make the rest is
+     grey out until the user added the airport or city"*.
+
+     Every select and both buttons are DISABLED until `TVE.home` holds an
+     airport, and enabled the moment it does. It uses the `select:disabled`
+     treatment the card already has — `.fnd-ctl:has(select:disabled)` sits at
+     opacity .55 and refuses the hover — so a locked field reads exactly like a
+     pruned option and nothing new is invented for it.
+
+     WHY IT IS WORTH THE GATE, beyond the owner asking for it: pruneSelects can
+     only ever grey an OPTION, and the airport is free text over 3,268 entries.
+     While it was answered last, a reader could hold two answers that were each
+     legal on their own and contradictory together — Austria plus "Long haul —
+     6 to 9h", with the flight filter still held for want of an origin — and
+     only discover it when they named the airport. Answered first, every later
+     option is pruned against a known origin, so that pair is never both live.
+
+     `TVE.home` is a page-load variable with no default and nothing persisted
+     (owner rule 2026-08-20), so this locks again on every arrival and on
+     Clear everything, which clears the airport by design.
+
+     IT FAILS OPEN. If `TVE.home` is missing entirely — an old toolbar.js, a
+     failed load — `locked` is false and the form behaves as it did before.
+     A gate that traps the reader when its own dependency is absent is worse
+     than no gate. */
+  function lockForm() {
+    var locked = !!(HOME && !HOME.get());
+    PRUNE_PAIRS().forEach(function (pair) {
+      if (pair.el) pair.el.disabled = locked;
+    });
+    var go = document.getElementById('hc-go');
+    if (go) go.disabled = locked;
+    /* Clear everything stays live: it is the way out, and on a locked form it
+       is what puts a half-typed airport back. */
+    var panel = document.getElementById('help-choose-panel');
+    if (panel) panel.classList.toggle('is-locked', locked);
+  }
+
+  /* THE SET-ASIDE ANSWER IS MARKED WHERE THE READER PICKED IT, not only in the
+     sentence above the results (Sixty-second non-negotiable — the answer sits
+     under the control that asked for it). A `.fnd-chip.is-off` keeps the same
+     box and the same ×, and goes muted with a dashed rim: it is still a chosen
+     value, it is simply not in force, and the reader can see at a glance which
+     control the finder had to let go of. Called from the render, after
+     renderChips has rebuilt the row — a fresh chip carries no class, so a run
+     that drops nothing clears the state by construction. */
+  function markDropped(fields) {
+    var on = {};
+    (fields || []).forEach(function (f) { on[f] = 1; });
+    PRUNE_PAIRS().forEach(function (pair) {
+      if (!pair.el) return;
+      var fieldEl = pair.el.closest('.fnd-field');
+      if (!fieldEl) return;
+      [].forEach.call(fieldEl.querySelectorAll('.fnd-chip'), function (b) {
+        if (on[pair.field]) {
+          b.classList.add('is-off');
+          b.title = 'Set aside — nothing matched with it. Remove it, or change another answer.';
+        } else {
+          b.classList.remove('is-off');
+          b.removeAttribute('title');
+        }
+      });
+    });
   }
 
   function renderChips() {
@@ -8789,10 +9094,17 @@ function render() {
          each note names the OTHER FIELD instead, which is true at every width. */
       if (farNote) {
         farNote.textContent = picks.fr.length
-          ? 'Not applied yet — name the airport you are flying from.' : '';
+          ? '* Not applied yet — this is the only answer on the form that needs an airport.' : '';
       }
+      /* IT SAYS WHAT IT UNLOCKS, NOT WHAT IT DEMANDS (owner, 2026-08-23: *"it
+         seems airport is a requirement and i can see the results without it"*).
+         It read "Needed to measure the flight length you picked", which is a
+         sentence about an obligation and is why the field read as a gate — it
+         is not one. Every other filter on the card answers without an airport,
+         and the flight band is HELD rather than applied until there is one. */
       homeNote.textContent = picks.fr.length
-        ? 'Needed to measure the flight length you picked.' : '';
+        ? 'Optional — it turns the flight length above into a real filter, and puts a flying time on every card.'
+        : '';
     }
 
     function syncHome() {
@@ -8804,6 +9116,7 @@ function render() {
       /* Empty until the reader picks. There is no city to show them, because
          there is no default any more — owner rule 2026-08-20. */
       homeIn.value = h ? (h.city + ' (' + h.code + ')') : '';
+      lockForm();
       /* The Routing/Stops sync that stood here went with its control — owner
          rule 2026-08-17: nothing on this form is Seattle-anchored any more. */
     }
@@ -8877,6 +9190,11 @@ function render() {
   }
 
   syncChrome(state());
+  /* Locked from the first paint, not from the first interaction — the door can
+     be opened and read without touching anything, and a grid that looks live
+     for a second and then greys out is worse than one that was never offered.
+     syncHome() re-runs this the moment an airport lands. */
+  lockForm();
 }());
 </script>
 

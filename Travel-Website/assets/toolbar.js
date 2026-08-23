@@ -5131,6 +5131,43 @@ window.TVE.home = (function () {
      are handled by the .collapsed removal below, which is what makes the copy
      readable end to end. */
   function _offlineStrip(root) {
+    /* A CHECKBOX IS A CONTROL ON A GUIDE AND CONTENT ON A CHECKLIST, and the
+       kill list below removes every <input>. On the packing list that would
+       throw away the answer the reader came for -- which items are packed --
+       and leave a column of bare labels. So before anything is removed, each
+       box is redrawn as a static mark carrying the state it had at save time.
+       The clone's own `checked` is not consulted: cloneNode copies the
+       ATTRIBUTE, and ticking a box sets only the PROPERTY, so the clone
+       believes every box is empty. _offlineBuildDoc stamps the attribute from
+       the live page before cloning; this reads what it stamped. */
+    var boxes = root.querySelectorAll('input[type="checkbox"]');
+    for (var bx = 0; bx < boxes.length; bx++) {
+      var box = boxes[bx];
+      if (!box.parentNode) continue;
+      var mark = document.createElement('span');
+      mark.className = 'tve-off-box' + (box.hasAttribute('checked') ? ' is-on' : '');
+      mark.setAttribute('aria-hidden', 'true');
+      box.parentNode.insertBefore(mark, box);
+    }
+
+    /* AND THE VALUE A READER TYPED IS AN ANSWER TOO. The packing list's trip
+       length is a number input, so the kill list would take it and leave the
+       row reading "TRIP LENGTH  days" -- stripping the one figure every
+       computed quantity on the page is derived from. Rendered static, the saved
+       copy still states what it was sized for. Same attribute-vs-property trap
+       as the checkboxes; _offlineBuildDoc stamps `value` before the clone. */
+    var vals = root.querySelectorAll('input[type="number"],input[type="text"]');
+    for (var vi = 0; vi < vals.length; vi++) {
+      var inp = vals[vi];
+      if (!inp.parentNode) continue;
+      var v = inp.getAttribute('value');
+      if (v === null || v === '') continue;
+      var out = document.createElement('span');
+      out.className = 'tve-off-val';
+      out.textContent = v;
+      inp.parentNode.insertBefore(out, inp);
+    }
+
     var kill = [
       'script',
       'link[rel="stylesheet"]',
@@ -5165,6 +5202,19 @@ window.TVE.home = (function () {
        permanently invisible in the saved copy. */
     var collapsed = root.querySelectorAll('.collapsed');
     for (var c = 0; c < collapsed.length; c++) collapsed[c].classList.remove('collapsed');
+
+    /* The same problem stated the other way round. A guide hides a section by
+       ADDING .collapsed; the packing list's optional cards (Pickleball, Hiking,
+       Skiing) are shut by DEFAULT and opened by adding .open, so removing a
+       class cannot reach them and all three would save permanently closed. */
+    var shut = root.querySelectorAll('.collapsible-card');
+    for (var sc = 0; sc < shut.length; sc++) shut[sc].classList.add('open');
+
+    /* "Hide packed" is a live filter with a button to switch it back off. The
+       button does not survive the strip, so leaving the class on would save a
+       list with items missing and no way to reveal them. */
+    var bodyEl = root.querySelector('body');
+    if (bodyEl) bodyEl.classList.remove('hide-packed');
 
     /* Anything the page had hidden behind a JS-set [hidden] that is really
        content (the no-entries footnote is the live example) stays hidden — only
@@ -5233,6 +5283,23 @@ window.TVE.home = (function () {
 
   /* Build the complete self-contained document as a string. */
   function _offlineBuildDoc(onProgress) {
+    /* MUST run before the clone. Ticking a checkbox sets the `checked` PROPERTY
+       and never touches the attribute, and cloneNode copies attributes -- so a
+       fully packed list clones as an empty one. Writing the property back to
+       the attribute here is what carries the reader's ticks into the file. A
+       guide has no checkboxes, so this is a no-op there. */
+    var liveBoxes = document.querySelectorAll('input[type="checkbox"]');
+    for (var lb = 0; lb < liveBoxes.length; lb++) {
+      if (liveBoxes[lb].checked) liveBoxes[lb].setAttribute('checked', '');
+      else liveBoxes[lb].removeAttribute('checked');
+    }
+    /* Same trap, same fix, for typed values: `value` is a property once the
+       reader edits the field, and the attribute still holds the page default. */
+    var liveVals = document.querySelectorAll('input[type="number"],input[type="text"]');
+    for (var lv = 0; lv < liveVals.length; lv++) {
+      liveVals[lv].setAttribute('value', liveVals[lv].value);
+    }
+
     var clone = document.documentElement.cloneNode(true);
 
     _offlineStrip(clone);
@@ -5254,14 +5321,30 @@ window.TVE.home = (function () {
         'padding:10px 16px', 'text-align:center'
       ].join(';'));
       bar.innerHTML = 'Offline copy · saved ' + new Date().toISOString().slice(0, 10)
-        + ' · <a href="' + live + '" style="color:#C04E1A">view the live guide</a>';
+        + ' · <a href="' + live + '" style="color:#C04E1A">view the live page</a>';
       body.insertBefore(bar, body.firstChild);
     }
 
-    /* The stylesheet, then the font files inside it, then the photographs. */
-    return fetch('/assets/guide-style.css', { credentials: 'same-origin' })
-      .then(function (r) { return r.ok ? r.text() : ''; })
-      ['catch'](function () { return ''; })
+    /* EVERY stylesheet the page actually links, not one hard-coded name. A
+       guide links /assets/guide-style.css and nothing else, so that stays the
+       fallback and the guide path is unchanged; the packing list links
+       web-travel-style AND mobile.css, and naming only the first would save it
+       half-styled -- a failure invisible in testing, because the browser cache
+       still holds the other one. Order is preserved so the cascade survives. */
+    var sheets = [];
+    var sheetLinks = document.querySelectorAll('link[rel="stylesheet"][href]');
+    for (var sl = 0; sl < sheetLinks.length; sl++) {
+      var sh = sheetLinks[sl].getAttribute('href');
+      if (sh && sh.indexOf('fonts.googleapis.com') === -1) sheets.push(sheetLinks[sl].href);
+    }
+    if (!sheets.length) sheets.push('/assets/guide-style.css');
+
+    return Promise.all(sheets.map(function (href) {
+      return fetch(href, { credentials: 'same-origin' })
+        .then(function (r) { return r.ok ? r.text() : ''; })
+        ['catch'](function () { return ''; });
+    }))
+      .then(function (parts) { return parts.join('\n'); })
       .then(function (css) {
         var fontLink = document.querySelector('link[href*="fonts.googleapis.com/css2"]');
         if (!fontLink) return css;
@@ -5282,7 +5365,23 @@ window.TVE.home = (function () {
                + '.extras-section > .extras-title::after,'
                + '.worth-knowing > .extras-title::after,'
                + '#hotel-alternatives > .extras-title::after{display:none!important}\n'
-               + '.day-header,.extras-title{cursor:default!important}\n';
+               + '.day-header,.extras-title{cursor:default!important}\n'
+               /* The static mark that replaced each checkbox, and the static
+                  reading of a typed value. Drawn here rather than in a
+                  stylesheet because both exist only in saved copies: the same
+                  18px box and green tick the live list uses, with no hover, no
+                  cursor and nothing to click. */
+               + '.tve-off-box{display:inline-block;position:relative;flex-shrink:0;'
+               + 'width:18px;height:18px;border:1.5px solid #d5d0c8;border-radius:4px;'
+               + 'background:#fff;vertical-align:-4px}\n'
+               + '.tve-off-box.is-on{background:#2f7d4f;border-color:#2f7d4f}\n'
+               + '.tve-off-box.is-on::after{content:"";position:absolute;left:5px;top:2px;'
+               + 'width:5px;height:9px;border:2px solid #fff;border-top:none;border-left:none;'
+               + 'transform:rotate(45deg)}\n'
+               + '.item,.item label{cursor:default!important}\n'
+               + '.tve-off-val{display:inline-block;min-width:44px;padding:5px 8px;'
+               + 'border:1px solid #e2ded6;border-radius:6px;background:#fff;'
+               + 'font:600 15px/1.2 inherit;color:#3a3530;text-align:center}\n';
           var st = document.createElement('style');
           st.textContent = css;
           head.insertBefore(st, head.firstChild);
@@ -5330,13 +5429,23 @@ window.TVE.home = (function () {
   }
 
   function _injectOfflineBtn() {
-    if (!isRealGuide) return;
+    /* THE PACKING LIST IS THE SECOND SURFACE THIS SHIPS ON, and it wants the
+       feature for the same reason a guide does: it is the page you need in your
+       hand, away from home, with no promise of a connection -- and unlike a
+       guide it also carries state, the ticks, which the file has to preserve.
+       The machinery below is identical; only the filename and where the control
+       sits differ. Anything else that is a document rather than an app can join
+       by adding a test here. */
+    var isPacking = /\/essentials\/packing\//i.test(location.pathname);
+    if (!isRealGuide && !isPacking) return;
 
     var btn = document.createElement('a');
     btn.href = 'javascript:void(0)';
-    btn.className = 'overview-extra-link';
+    btn.className = isPacking ? 'toggle-btn' : 'overview-extra-link';
     btn.id = 'tve-offline-btn';
-    var restLabel = monoSVG('download', 15) + ' Save for Offline';
+    var restLabel = (isPacking
+      ? '<svg viewBox="0 0 24 24" aria-hidden="true"><use href="#gm-i-download"/></svg>&nbsp;Save for Offline'
+      : monoSVG('download', 15) + ' Save for Offline');
     btn.innerHTML = restLabel;
 
     var busy = false;
@@ -5365,7 +5474,9 @@ window.TVE.home = (function () {
     }
 
     var slug = (location.pathname.split('/').pop() || 'guide').replace(/\.html?$/i, '') || 'guide';
-    var fileName = slug + '-guide.html';
+    /* The packing list lives at /essentials/packing/, so the last path segment
+       is empty and the guide rule would name the file "-guide.html". */
+    var fileName = isPacking ? 'packing-list.html' : slug + '-guide.html';
 
     /* Last-resort delivery. Needs no user activation, so it can always run —
        which is what makes it the safe end of the cascade. */
@@ -5442,16 +5553,26 @@ window.TVE.home = (function () {
           if (handle) {
             return handle.createWritable()
               .then(function (w) { return w.write(html).then(function () { return w.close(); }); })
-              .then(function () { rest(); toast('Saved — the guide now opens without a connection'); });
+              .then(function () { rest(); toast('Saved — ' + (isPacking ? 'the list' : 'the guide') + ' now opens without a connection'); });
           }
           rest();
           deliverShare(html);
         });
       })['catch'](function () {
         rest();
-        toast('Could not save the guide — please try again');
+        toast('Could not save the ' + (isPacking ? 'list' : 'guide') + ' — please try again');
       });
     });
+
+    /* The packing list already has a row of actions -- Reset all, Print list,
+       Hide packed -- and saving belongs beside them rather than in a bar of its
+       own. It borrows .toggle-btn so it matches its neighbours exactly. */
+    if (isPacking) {
+      var actionRow = document.querySelector('.action-row');
+      if (!actionRow) return;
+      actionRow.appendChild(btn);
+      return;
+    }
 
     /* Inject into the ICS pill row (_injectICSExport runs first because it is
        registered above; by the time this runs #ics-cal-pill already exists). */

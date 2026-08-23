@@ -1975,7 +1975,8 @@
 /* 2026-08-23: wellington: 45 motion-route links, train icons, station format, position-2c 25 min uphill, ferry icon ship→ferry, HOTEL_ALT_DATA 4 tiers NZD, weta photo (illustration→photograph). toolbar.js -> v1031. CACHE to v1422. */
 /* 2026-08-23: toolbar.js:1032 toolbar.js -> v1032. CACHE to v1423. */
 /* 2026-08-23: whistler: 34 motion-route links, train icons x2, station format, position-2c heights, HOTEL_ALT_DATA 4 tiers CAD. toolbar.js -> v1033. CACHE to v1424. */
-var CACHE = 'travel-cache-v1424';
+/* 2026-08-23: yellowstone: 32 motion-route links, train icons x2, station format+route link, position-2c 20 min uphill, HOTEL_ALT_DATA 4 tiers USD. CACHE to v1425. */
+var CACHE = 'travel-cache-v1425';
 
 /* The guide-calendar hand-off cache. Written by toolbar.js, read and emptied
    once by the fetch handler below, and EXEMPT from the activate sweep — it is

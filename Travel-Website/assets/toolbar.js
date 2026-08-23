@@ -7658,35 +7658,35 @@ window.TVE.home = (function () {
       { name: 'Sofitel Wellington', note: 'Sofitel brand — 11 Bolton Street at the Parliament end of the CBD, valet parking and concierge, walk to the Botanic Garden · 8.8 Booking.com', url: 'https://www.booking.com/hotel/nz/sofitel-wellington.html', tier: 'luxury' }
     ], price: { budget: 'NZD 130–200', mid: 'NZD 200–350', expensive: 'NZD 350–550', luxury: 'NZD 550+' } },
     'whistler': { h: [
-      { name: 'Four Seasons Resort and Residences Whistler', note: 'Four Seasons brand — ski-in/ski-out base of Blackcomb, outdoor heated pool, spa · 9.3 Booking.com', url: 'https://www.booking.com/hotel/ca/four-seasons-whistler.html' },
-      { name: 'Nita Lake Lodge', note: 'Independent boutique — Nita Lake waterfront, cross-country trail access, spa, quiet Creekside enclave · 9.4 Booking.com', url: 'https://www.booking.com/hotel/ca/nita-lake-lodge.html' },
-      { name: 'Fairmont Chateau Whistler', note: 'Fairmont brand — ski-in/ski-out at Blackcomb, heated outdoor pool, Mallard Lounge, spa · 9.1 Booking.com', url: 'https://www.booking.com/hotel/ca/fairmont-chateau-whistler.html' },
-      { name: 'Westin Resort & Spa Whistler', note: 'Marriott Westin — Whistler Village, outdoor heated pool, Aubergine Grille, Heavenly Spa · 9.1 Booking.com', url: 'https://www.booking.com/hotel/ca/westin-resort-and-spa-whistler.html' }
-    ] },
+      { name: 'Aava Whistler Hotel', note: 'Independent — Whistler Village, heated outdoor pool, steps from the gondola base, no frills value-for-location · 8.5 Booking.com', url: 'https://www.booking.com/hotel/ca/aava-whistler.html', tier: 'budget' },
+      { name: 'Westin Resort & Spa Whistler', note: 'Marriott Westin — Whistler Village, outdoor heated pool, Aubergine Grille, Heavenly Spa · 9.1 Booking.com', url: 'https://www.booking.com/hotel/ca/westin-resort-and-spa-whistler.html', tier: 'mid' },
+      { name: 'Fairmont Chateau Whistler', note: 'Fairmont brand — ski-in/ski-out at Blackcomb, heated outdoor pool, Mallard Lounge, spa · 9.1 Booking.com', url: 'https://www.booking.com/hotel/ca/fairmont-chateau-whistler.html', tier: 'expensive' },
+      { name: 'Four Seasons Resort and Residences Whistler', note: 'Four Seasons brand — ski-in/ski-out base of Blackcomb, outdoor heated pool, spa · 9.3 Booking.com', url: 'https://www.booking.com/hotel/ca/four-seasons-whistler.html', tier: 'luxury' }
+    ], price: { budget: 'CAD 180–280', mid: 'CAD 280–450', expensive: 'CAD 450–650', luxury: 'CAD 650+' } },
     'yellowstone': { h: [
-      { name: 'Old Faithful Inn', note: 'Independent — 1904 historic log lodge beside Old Faithful geyser, National Historic Landmark', url: 'https://www.yellowstonenationalparklodges.com/lodging/summer-lodges/old-faithful-inn/' },
-      { name: 'Lake Yellowstone Hotel', note: 'Independent — 1891 lakefront colonial structure, panoramic Yellowstone Lake views, inside the park', url: 'https://www.yellowstonenationalparklodges.com/lodging/summer-lodges/lake-yellowstone-hotel/' },
-      { name: 'Canyon Lodge & Cabins', note: 'Independent — largest lodging complex inside Yellowstone, central location near Grand Canyon of the Yellowstone, cabin and motel room options', url: 'https://www.yellowstonenationalparklodges.com/lodging/summer-lodges/canyon-lodge-and-cabins/' },
-      { name: 'Roosevelt Lodge Cabins', note: 'Independent — rustic frontier cabins in the northeast quadrant near Lamar Valley, Old West cookouts, closest lodge to Tower Fall · 8.5 Expedia', url: 'https://www.yellowstonenationalparklodges.com/lodging/summer-lodges/roosevelt-lodge-cabins/' }
-    ] },
+      { name: 'Roosevelt Lodge Cabins', note: 'Xanterra — rustic frontier cabins in the northeast quadrant near Lamar Valley, Old West cookouts, closest lodge to Tower Fall', url: 'https://www.yellowstonenationalparklodges.com/lodging/summer-lodges/roosevelt-lodge-cabins/', tier: 'budget' },
+      { name: 'Mammoth Hot Springs Hotel', note: 'Xanterra — 1937 Art Deco lodge at the north entrance, year-round access, hot springs terraces across the road, Map Room bar', url: 'https://www.yellowstonenationalparklodges.com/lodging/summer-lodges/mammoth-hot-springs-hotel/', tier: 'mid' },
+      { name: 'Lake Yellowstone Hotel', note: 'Xanterra — 1891 lakefront colonial structure, panoramic Yellowstone Lake views, inside the park, Sun Room dining', url: 'https://www.yellowstonenationalparklodges.com/lodging/summer-lodges/lake-yellowstone-hotel/', tier: 'expensive' },
+      { name: 'Old Faithful Inn', note: 'Xanterra — 1904 National Historic Landmark log lodge beside Old Faithful geyser, lobby fireplace, Obsidian Dining Room', url: 'https://www.yellowstonenationalparklodges.com/lodging/summer-lodges/old-faithful-inn/', tier: 'luxury' }
+    ], price: { budget: '$120–180', mid: '$180–280', expensive: '$280–400', luxury: '$400+' } },
     'zakynthos': { h: [
-      { name: 'Lesante Blu Exclusive Beach Resort', note: 'Leading Hotels of the World — Tragaki beachfront adults-only, heated infinity pool, spa, Ionian Sea views · 9.3 Booking.com', url: 'https://www.booking.com/hotel/gr/lesante-blu-exclusive-beach-resort.html' },
-      { name: 'Contessina Hotel', note: 'Independent — Tsilivi beachfront, three pools, spa, three restaurants, swim-up suites · 9.4 Booking.com', url: 'https://www.booking.com/hotel/gr/contessina.html' },
-      { name: 'Ionian Blue Bungalows & Spa Resort', note: 'Independent — Alykes beachfront, seafront pool, spa, Ionian Grill · 9.0 Booking.com', url: 'https://www.booking.com/hotel/gr/ionian-blue-bungalows-spa-resort.html' },
-      { name: 'Domes Aulus Zante · Autograph Collection', note: 'Marriott Autograph Collection — all-inclusive on Laganas Bay in Kalamaki, private beach, thalassotherapy spa, Ionian Sea views · 8.5 Booking.com', url: 'https://www.booking.com/hotel/gr/domesauluszante.html' }
-    ] },
+      { name: 'Zante Maris Hotel', note: 'Independent — Tsilivi beachfront, three pools, adults and family wings, all-inclusive option available · 8.4 Booking.com', url: 'https://www.booking.com/hotel/gr/zante-maris.html', tier: 'budget' },
+      { name: 'Domes Aulus Zante · Autograph Collection', note: 'Marriott Autograph Collection — all-inclusive on Laganas Bay in Kalamaki, private beach, thalassotherapy spa, Ionian Sea views · 8.5 Booking.com', url: 'https://www.booking.com/hotel/gr/domesauluszante.html', tier: 'mid' },
+      { name: 'Contessina Hotel', note: 'Independent — Tsilivi beachfront, three pools, spa, three restaurants, swim-up suites · 9.4 Booking.com', url: 'https://www.booking.com/hotel/gr/contessina.html', tier: 'expensive' },
+      { name: 'Lesante Blu Exclusive Beach Resort', note: 'Leading Hotels of the World — Tragaki beachfront adults-only, heated infinity pool, spa, Ionian Sea views · 9.3 Booking.com', url: 'https://www.booking.com/hotel/gr/lesante-blu-exclusive-beach-resort.html', tier: 'luxury' }
+    ], price: { budget: '€80–140', mid: '€140–230', expensive: '€230–370', luxury: '€370+' } },
     'zhangjiajie': { h: [
-      { name: 'Pullman Zhangjiajie', note: 'Accor Pullman brand — modern full-service hotel in Zhangjiajie city, pool, 30 minutes from Wulingyuan park gate', url: 'https://www.expedia.com/Zhangjiajie-Hotels-Pullman-Zhangjiajie.h3633242.Hotel-Information' },
-      { name: 'Wyndham Zhangjiajie', note: 'Wyndham brand — city center near the national park, outdoor pool, international restaurant · 8.3 Booking.com', url: 'https://www.booking.com/hotel/cn/wyndham-zhangjiajie.html' },
-      { name: 'InterContinental Zhangjiajie', note: 'IHG brand — city center, outdoor pool, all-day dining, views of Tianmen Mountain · 8.8 Booking.com', url: 'https://www.booking.com/hotel/cn/intercontinental-zhangjiajie.html' },
-      { name: 'Hilton Garden Inn Zhangjiajie Tianmen Mountain', note: 'Hilton brand — Yongding District at the foot of Tianmen Mountain, free airport shuttle, outdoor pool, 24h reception · 9.3 Booking.com', url: 'https://www.booking.com/hotel/cn/hilton-garden-inn-zhangjiajie-tianmen-mountain.html' }
-    ] },
+      { name: 'Wyndham Zhangjiajie', note: 'Wyndham brand — city center near the national park, outdoor pool, international restaurant · 8.3 Booking.com', url: 'https://www.booking.com/hotel/cn/wyndham-zhangjiajie.html', tier: 'budget' },
+      { name: 'Hilton Garden Inn Zhangjiajie Wulingyuan', note: 'Hilton brand — Wulingyuan District at the park gate, free airport shuttle, outdoor pool, 24h reception · 8.9 Booking.com', url: 'https://www.booking.com/hotel/cn/hilton-garden-inn-zhangjiajie-wulingyuan.html', tier: 'mid' },
+      { name: 'Pullman Zhangjiajie', note: 'Accor Pullman brand — modern full-service hotel in Zhangjiajie city, outdoor pool, 30 minutes from Wulingyuan park gate', url: 'https://www.expedia.com/Zhangjiajie-Hotels-Pullman-Zhangjiajie.h3633242.Hotel-Information', tier: 'expensive' },
+      { name: 'InterContinental Zhangjiajie', note: 'IHG brand — city center, outdoor pool, all-day dining, views of Tianmen Mountain · 8.8 Booking.com', url: 'https://www.booking.com/hotel/cn/intercontinental-zhangjiajie.html', tier: 'luxury' }
+    ], price: { budget: 'CNY 400–700', mid: 'CNY 700–1100', expensive: 'CNY 1100–1700', luxury: 'CNY 1700+' } },
     'zurich': { h: [
-      { name: 'The Dolder Grand', note: 'Independent luxury — 1899 hillside monument, two-Michelin-star The Restaurant, 4,000 sq m spa, ice rink · 9.4 Booking.com', url: 'https://www.booking.com/hotel/ch/the-dolder-grand.html' },
-      { name: 'Baur au Lac', note: 'Independent luxury — 1844 lakefront hotel, private garden terrace, Pavillon and Rive Gauche restaurants · 9.3 Booking.com', url: 'https://www.booking.com/hotel/ch/baur-au-lac.html' },
-      { name: 'Park Hyatt Zurich', note: 'Hyatt brand — Zurich West, outdoor pool, Parkhuus restaurant, spa, contemporary design, steps from Hauptbahnhof · 9.2 Booking.com', url: 'https://www.booking.com/hotel/ch/park-hyatt-zurich.html' },
-      { name: 'Mandarin Oriental Savoy, Zurich', note: 'Mandarin Oriental brand — historic Savoy building on Paradeplatz, Fraumünster and Bahnhofstrasse 2 min walk, garden terrace, restaurant · 8.7 Booking.com', url: 'https://www.booking.com/hotel/ch/mandarin-oriental-savoy-zurich.html' }
-    ] }
+      { name: 'B2 Boutique Hotel + Spa', note: 'Independent — Wipkingen converted brewery, rooftop spa with lake and city views, library bar, 15 min by tram to Old Town · 9.0 Booking.com', url: 'https://www.booking.com/hotel/ch/b2-boutique-hotel-spa.html', tier: 'budget' },
+      { name: 'Park Hyatt Zurich', note: 'Hyatt brand — Zurich West, outdoor pool, Parkhuus restaurant, spa, contemporary design, steps from Hauptbahnhof · 9.2 Booking.com', url: 'https://www.booking.com/hotel/ch/park-hyatt-zurich.html', tier: 'mid' },
+      { name: 'Mandarin Oriental Savoy, Zurich', note: 'Mandarin Oriental brand — historic Savoy building on Paradeplatz, Fraumünster and Bahnhofstrasse 2 min walk, garden terrace, restaurant · 8.7 Booking.com', url: 'https://www.booking.com/hotel/ch/mandarin-oriental-savoy-zurich.html', tier: 'expensive' },
+      { name: 'Baur au Lac', note: 'Independent luxury — 1844 lakefront hotel, private garden terrace, Pavillon and Rive Gauche restaurants · 9.3 Booking.com', url: 'https://www.booking.com/hotel/ch/baur-au-lac.html', tier: 'luxury' }
+    ], price: { budget: 'CHF 170–280', mid: 'CHF 280–450', expensive: 'CHF 450–650', luxury: 'CHF 650+' } }
   };
 
   /* ── Neighborhood cross-link — appended under the Alternative Hotel

@@ -7496,11 +7496,13 @@ window.TVE.home = (function () {
       { name: 'Blue Tree Premium São Luís', note: 'Blue Tree — Avenida Avicênia on the Calhau beachfront, outdoor pool, tennis court, 24h reception, AC · 8.7 Booking.com', url: 'https://www.booking.com/hotel/br/pestana-sao-luis.html', tier: 'luxury' }
     ], price: { budget: 'BRL 180–380', mid: 'BRL 400–700', expensive: 'BRL 700–1200', luxury: 'BRL 1100+' } },
     'sao-paulo': { h: [
-      { name: 'Rosewood São Paulo', note: 'Rosewood brand — Cidade Matarazzo on Rua Itapeva in Bela Vista, rooftop infinity pool, Evvai Michelin-starred dining, 24h reception · 9.4 Booking.com', url: 'https://www.booking.com/hotel/br/rosewood-sao-paulo.html' },
-      { name: 'L\'Hôtel PortoBay São Paulo', note: 'PortoBay brand — Alameda Campinas in Bela Vista off Avenida Paulista, rooftop pool, 24h reception, AC · 9.2 Booking.com', url: 'https://www.booking.com/hotel/br/porto-bay-lhotel.html' },
-      { name: 'Fasano São Paulo', note: 'Fasano brand — Jardins, Fasano Grill Michelin-starred restaurant, rooftop pool · 9.2 Booking.com', url: 'https://www.booking.com/hotel/br/fasano-sao-paulo.html' },
-      { name: 'Tivoli Mofarrej São Paulo', note: 'Tivoli Hotels — Jardim Paulista, Seen Restaurant & Rooftop bar, spa with pool · 9.0 Booking.com', url: 'https://www.booking.com/hotel/br/tivoli-mofarrej-sao-paulo.html' }
-    ] },
+      { name: 'Ibis São Paulo Paulista', note: 'Accor ibis — Avenida Paulista 2355 in Bela Vista, 24h reception, AC · 7.7 Booking.com', url: 'https://www.booking.com/hotel/br/ibis-sao-paulo-paulista.html', tier: 'budget' },
+      { name: 'Renaissance São Paulo Hotel', note: 'Marriott Renaissance — Alameda Santos 2233 in Jardim Paulista, rooftop pool, 24h reception, AC · 8.5 Booking.com', url: 'https://www.booking.com/hotel/br/renaissance-sao-paulo.html', tier: 'mid' },
+      { name: 'Tivoli Mofarrej São Paulo', note: 'Tivoli Hotels — Alameda Santos 1437 in Jardim Paulista, Seen Restaurant & Rooftop bar, spa with pool, 24h reception, AC · 9.0 Booking.com', url: 'https://www.booking.com/hotel/br/tivoli-mofarrej-sao-paulo.html', tier: 'expensive' },
+      { name: "L'Hôtel PortoBay São Paulo", note: 'PortoBay brand — Alameda Campinas 266 in Bela Vista, boutique rooftop pool, 24h reception, AC · 9.2 Booking.com', url: 'https://www.booking.com/hotel/br/porto-bay-lhotel.html', tier: 'expensive' },
+      { name: 'Rosewood São Paulo', note: 'Rosewood brand — Cidade Matarazzo on Rua Itapeva 150 in Bela Vista, rooftop infinity pool, Evvai Michelin-starred dining, 24h reception, AC · 9.4 Booking.com', url: 'https://www.booking.com/hotel/br/rosewood-sao-paulo.html', tier: 'luxury' },
+      { name: 'Fasano São Paulo', note: 'Fasano brand — Rua Vitório Fasano 88 in Jardins, Fasano Grill Michelin-starred restaurant, rooftop pool, 24h reception, AC · 9.2 Booking.com', url: 'https://www.booking.com/hotel/br/fasano-sao-paulo.html', tier: 'luxury' }
+    ], price: { budget: 'BRL 280–520', mid: 'BRL 540–950', expensive: 'BRL 950–2000', luxury: 'BRL 2000+' } },
     'taipei': { h: [
       { name: 'Ambience Hotel Taipei', note: 'Independent — Changan East Road in Zhongshan, design rooms, free parking, 24h reception, AC · 9.1 Booking.com', url: 'https://www.booking.com/hotel/tw/ambience-taipei.html', tier: 'budget' },
       { name: 'Taipei Fullerton Hotel Maison North', note: 'Independent — Fuxing North Road by Songshan Airport MRT, gym, 24h reception, AC · 9.0 Booking.com', url: 'https://www.booking.com/hotel/tw/taipei-fullerton-315.html', tier: 'budget' },

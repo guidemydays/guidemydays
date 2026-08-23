@@ -6182,11 +6182,11 @@ window.TVE.home = (function () {
       { name: 'The Langham, Chicago', note: 'Langham Hotels — 330 North Wabash Avenue in the IBM Building, Chuan Body & Soul Spa, indoor pool, kids club · 9.4 Booking.com', url: 'https://www.booking.com/hotel/us/the-langham-chicago.html', tier: 'luxury' }
     ], price: { budget: '$140–250', mid: '$280–450', expensive: '$500–750', luxury: '$750+' } },
     'chongqing': { h: [
-      { name: 'Regent Chongqing', note: 'IHG/Regent — Jiefangbei CBD, Yangtze River views, spa, signature restaurants, complimentary minibar · 9.6 Booking.com' , url: 'https://www.booking.com/hotel/cn/regent-chongqing.html' },
-      { name: 'JW Marriott Hotel Chongqing', note: 'JW Marriott — Jiefangbei CBD, indoor pool, full-service spa, Yangtze River views, multiple dining venues · 8.6 Booking.com' , url: 'https://www.booking.com/hotel/cn/jw-marriott-hotel-chongqing.html' },
-      { name: 'InterContinental Chongqing Raffles City', note: 'IHG brand — Raffles City supertall, River Walk panoramic sky corridor, indoor pool, multiple outlets · 9.0 Booking.com' , url: 'https://www.booking.com/hotel/cn/intercontinental-chongqing-raffles-city.html' },
-      { name: 'W Chongqing', note: 'Marriott W brand — Jiefangbei nightlife district, WET rooftop pool deck, AWAY Spa, panoramic city-and-river views · 8.8 Booking.com' , url: 'https://www.booking.com/hotel/cn/w-chongqing.html' }
-    ] },
+      { name: 'Ibis Chongqing Jiefangbei', note: 'ibis brand (Accor) — Jiefangbei pedestrian zone near Liberation Monument, compact clean rooms, central location · 8.3 Booking.com', url: 'https://www.booking.com/hotel/cn/ibis-chongqing-jiefangbei.html', tier: 'budget' },
+      { name: 'JW Marriott Hotel Chongqing', note: 'JW Marriott — Jiefangbei CBD, indoor pool, full-service spa, Yangtze River views, multiple dining venues · 8.6 Booking.com', url: 'https://www.booking.com/hotel/cn/jw-marriott-hotel-chongqing.html', tier: 'mid' },
+      { name: 'InterContinental Chongqing Raffles City', note: 'IHG brand — Raffles City supertall, River Walk panoramic sky corridor, indoor pool, multiple outlets · 9.0 Booking.com', url: 'https://www.booking.com/hotel/cn/intercontinental-chongqing-raffles-city.html', tier: 'expensive' },
+      { name: 'Regent Chongqing', note: 'IHG/Regent — Jiefangbei CBD, Yangtze River views, spa, signature restaurants, complimentary minibar · 9.6 Booking.com', url: 'https://www.booking.com/hotel/cn/regent-chongqing.html', tier: 'luxury' }
+    ], price: { budget: '¥400–700', mid: '¥700–1,200', expensive: '¥1,200–2,000', luxury: '¥2,000+' } },
     'cinque-terre': { h: [
       { name: 'Hotel Il colle di Monterosso', note: 'Independent — Colle di Gritta above Monterosso, garden terraces, free parking and a free shuttle down to the village · 9.3 Booking.com', url: 'https://www.booking.com/hotel/it/il-colle-di-monterosso.html' },
       { name: 'Hotel Margherita', note: 'Independent — Via Roma in the Monterosso old town, AC, elevator, a few minutes from the station and the beach · 9.2 Booking.com', url: 'https://www.booking.com/hotel/it/margherita-monterosso.html' },
@@ -11307,7 +11307,7 @@ window.TVE.home = (function () {
        its airport. */
     var LOUNGE_IATAS = [
       'ABQ','AES','AGP','AJU','AMM','AMS','ANC','ARN','ATH','ATL','AUA','AUH','AUS','BCN','BDS','BER',
-      'BGI','BGO','BIO','BKK','BLQ','BNA','BOB','BOD','BOS','BRU','BUD','CAI','CDG','CLT','CMB','CNX',
+      'BGI','BGO','BIO','BKK','BLQ','BNA','BOB','BOD','BOS','BRU','BUD','CAI','CDG','CKG','CLT','CMB','CNX',
       'CPH','CPT','CUN','CUR','CUZ','CWB','DBV','DEN','DFW','DOH','DPS','DTW','DUB','DUS','DXB','EDI',
       'EYW','EZE','FAO','FCA','FCO','FHR','FLN','FLR','FOR','FRA','GCM','GIG','GLA','GOT','GPS','GRU','GVA','HAM',
       'HAN','HEL','HER','HKG','HKT','HND','IAD','IAH','ICN','IGU','IST','JFK','JMK','JPA','JTR','KEF','KIX','KOA',

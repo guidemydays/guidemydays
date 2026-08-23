@@ -1158,12 +1158,47 @@ a.land-cta:hover:visited {
 }
 #fnd-home-list[hidden] { display: none !important; }
 #fnd-home-note { margin: 0.3rem 0 0; }
+/* THE CONTROL HOLDS WHAT YOU PICKED (owner rule 2026-08-23: "can we find a more
+   pretty way to show what was selected? maybe the pill stay with the value
+   exposed frozen?" · "it gets super confusing all the numbers mixed what we
+   chose with the rest").
+
+   The picks used to sit in a `.fnd-chips` row BELOW the control, and the control
+   itself snapped back to "Flexible" / "No preference". So a field that held
+   "Expensive" read "Flexible" on the pill with "Expensive ×" floating under it —
+   the answer and the not-an-answer side by side, in a grid where the row beneath
+   is the next field's chip row, a footnote, or nothing, depending on the column.
+   That is the mixing: at a glance nothing told you which words were yours.
+
+   The chips now live INSIDE the pill, before the select, and the select's own
+   placeholder changes to "Add another…" the moment a field holds one — so the
+   pill always reads as the answer and never contradicts it. Multi-pick is
+   untouched (Thirty-seventh non-negotiable): a second pick is a second chip in
+   the same pill, and the pill grows to hold it.
+
+   height became min-height for that growth; the block padding is what keeps a
+   single chip from touching the rim. */
 .fnd-ctl {
-  display: flex; align-items: center; gap: 0.5rem; min-width: 0;
+  display: flex; align-items: center; flex-wrap: wrap; gap: 0.5rem 0.5rem; min-width: 0;
   border: 1px solid var(--border,#e3ddd2); border-radius: 999px;
-  background: var(--surface, #fff); padding: 0 0.9rem;
-  height: 2.55rem; box-sizing: border-box;
+  background: var(--surface, #fff); padding: 0.26rem 0.9rem;
+  min-height: 2.55rem; box-sizing: border-box;
 }
+/* Inside the pill the chips are a run of tokens, not a row under a field: no
+   top margin, tighter gap, and a smaller box so a chip reads as a value the
+   control is holding rather than a second control. */
+.fnd-ctl > .fnd-chips { margin: 0; gap: 5px; }
+.fnd-ctl > .fnd-chips .fnd-chip { padding: 0.16em 0.62em; font-size: 0.88em; line-height: 1.45; }
+/* `height: 100%` ON THE SELECT IS ONLY SAFE ON A ONE-LINE PILL. It exists so the
+   whole pill is a click target, and it resolves against the CONTROL — so the
+   moment the control wrapped to two lines the select became 57px tall inside a
+   40px line and hung out through the pill's bottom rim. Measured, not guessed:
+   ctl 67.7px / bottom 820.9, select 57.4px / bottom 849.1.
+
+   A control holding tokens sizes its select to its own text instead, and stops
+   flexing to fill the row — "Add another…" belongs immediately after the last
+   chip, not stretched across whatever is left of the line. */
+.fnd-ctl:has(> .fnd-chips) select { height: auto; min-height: 1.9rem; flex: 0 1 auto; }
 .fnd-ctl[hidden] { display: none !important; }
 .fnd-ctl select option:disabled { color: #bbb; }
 .fnd-ctl:focus-within { border-color: var(--rust, #C04E1A); }
@@ -3896,29 +3931,25 @@ window.lpGuideCard = function (href, flag, name, extra) {
         <label for="cmpx-continent">Which continent?</label>
         <div class="fnd-ctl"><span class="fnd-ic" aria-hidden="true"><svg viewBox="0 0 24 24"><use href="#gm-i-blue-marble"/></svg></span><select id="cmpx-continent">
           <option value="">Anywhere</option>
-        </select></div>
-        <div class="fnd-chips" id="cmpx-chips-continent"></div>
+        </select><div class="fnd-chips" id="cmpx-chips-continent"></div></div>
       </div>
       <div class="fnd-field">
         <label for="cmpx-country">Which country?</label>
         <div class="fnd-ctl"><span class="fnd-ic" aria-hidden="true"><svg viewBox="0 0 24 24"><use href="#gm-i-country-map"/></svg></span><select id="cmpx-country">
           <option value="">Any country</option>
-        </select></div>
-        <div class="fnd-chips" id="cmpx-chips-country"></div>
+        </select><div class="fnd-chips" id="cmpx-chips-country"></div></div>
       </div>
       <div class="fnd-field">
         <label for="cmpx-type">What kind of trip?</label>
         <div class="fnd-ctl"><span class="fnd-ic" aria-hidden="true"><svg viewBox="0 0 24 24"><use href="#gm-i-backpack-strapped"/></svg></span><select id="cmpx-type">
           <option value="">Any kind</option>
-        </select></div>
-        <div class="fnd-chips" id="cmpx-chips-type"></div>
+        </select><div class="fnd-chips" id="cmpx-chips-type"></div></div>
       </div>
       <div class="fnd-field">
         <label for="cmpx-days">How long a trip?</label>
         <div class="fnd-ctl"><span class="fnd-ic" aria-hidden="true"><svg viewBox="0 0 24 24"><use href="#gm-i-day-dots"/></svg></span><select id="cmpx-days">
           <option value="">Any length</option>
-        </select></div>
-        <div class="fnd-chips" id="cmpx-chips-days"></div>
+        </select><div class="fnd-chips" id="cmpx-chips-days"></div></div>
       </div>
       <div class="fnd-field">
         <label for="cmpx-cost">Average costs</label>
@@ -3929,8 +3960,7 @@ window.lpGuideCard = function (href, flag, name, extra) {
              row it filters says another is two vocabularies for one fact. -->
         <div class="fnd-ctl"><span class="fnd-ic" aria-hidden="true"><svg viewBox="0 0 24 24"><use href="#gm-i-budget"/></svg></span><select id="cmpx-cost">
           <option value="">Any cost</option>
-        </select></div>
-        <div class="fnd-chips" id="cmpx-chips-cost"></div>
+        </select><div class="fnd-chips" id="cmpx-chips-cost"></div></div>
       </div>
       <div class="fnd-field">
         <label for="cmpx-safety">How safe?</label>
@@ -3940,8 +3970,7 @@ window.lpGuideCard = function (href, flag, name, extra) {
              is what the table's Safety row prints. -->
         <div class="fnd-ctl"><span class="fnd-ic" aria-hidden="true"><svg viewBox="0 0 24 24"><use href="#gm-i-safety-guide"/></svg></span><select id="cmpx-safety">
           <option value="">Any level</option>
-        </select></div>
-        <div class="fnd-chips" id="cmpx-chips-safety"></div>
+        </select><div class="fnd-chips" id="cmpx-chips-safety"></div></div>
       </div>
     </div>
 
@@ -7601,6 +7630,9 @@ function render() {
 
     function chipBox(k) { return document.getElementById('cmpx-chips-' + k); }
 
+    /* Same two rules as the finder's renderChips, and for the same reason: the
+       chip box is inside the control now (see the markup), and a field holding a
+       value must not still read "Any cost". */
     function drawChips() {
       FIELDS.forEach(function (k) {
         var box = chipBox(k);
@@ -7609,6 +7641,12 @@ function render() {
           return '<button type="button" class="fnd-chip" data-k="' + k + '" data-v="' +
                  esc(p.value) + '">' + p.label + ' &times;</button>';
         }).join('');
+        var sel = F[k];
+        if (sel && sel.options.length && sel.options[0].value === '') {
+          var o = sel.options[0];
+          if (!o.dataset.neutral) o.dataset.neutral = o.textContent;
+          o.textContent = picks[k].length ? 'Add another…' : o.dataset.neutral;
+        }
       });
     }
 
@@ -9278,6 +9316,22 @@ function render() {
     });
   }
 
+  /* "Flexible" AND "Expensive" CANNOT BOTH BE ON ONE FIELD. The select's first
+     option is its neutral label — "Flexible", "No preference", "Any country" —
+     and it stayed selected while a chip beside it named a real pick, which is
+     half of what the owner called "all the numbers mixed what we chose with the
+     rest". A field that holds a value now offers to ADD to it instead of
+     announcing it has none. The original label is stashed on the option itself,
+     so removing the last chip puts back that field's own word, not a generic
+     one. */
+  function syncPlaceholder(sel, hasPicks) {
+    if (!sel || !sel.options.length) return;
+    var o = sel.options[0];
+    if (o.value !== '') return;
+    if (!o.dataset.neutral) o.dataset.neutral = o.textContent;
+    o.textContent = hasPicks ? 'Add another…' : o.dataset.neutral;
+  }
+
   function renderChips() {
     PRUNE_PAIRS().forEach(function (pair) {
       if (!pair.el) return;
@@ -9285,20 +9339,21 @@ function render() {
       if (!fieldEl) return;
       var row = fieldEl.querySelector('.fnd-chips');
       var list = picks[pair.field];
+      syncPlaceholder(pair.el, list.length > 0);
       if (!list.length) { if (row) row.remove(); return; }
       if (!row) {
         row = document.createElement('div');
         row.className = 'fnd-chips';
-        /* Straight under the control, NEVER appended to the end of the field
-           (owner, 2026-08-23: "put the answer first and then the text below
-           with * … in the middle looks really odd"). Appending put the picked
-           band below the explanatory note on the one field that carries one,
-           so the note sat between the question and its answer — and the
-           Sixty-second non-negotiable is that the answer sits under the
-           control that asked for it. Every other field has nothing after its
-           control, so inserting rather than appending changes only this one. */
+        /* INSIDE THE CONTROL, before the select (owner rule 2026-08-23: "maybe
+           the pill stay with the value exposed frozen"). It used to go straight
+           under the control — itself a fix for an earlier version that appended
+           it after the field's footnote, so the note sat between a question and
+           its answer. Inside the pill there is no ordering question left to get
+           wrong: the answer is not near the control, it IS the control. */
         var ctl = fieldEl.querySelector('.fnd-ctl');
-        if (ctl && ctl.nextSibling) fieldEl.insertBefore(row, ctl.nextSibling);
+        var sel = ctl && ctl.querySelector('select');
+        if (sel) ctl.insertBefore(row, sel);
+        else if (ctl) ctl.appendChild(row);
         else fieldEl.appendChild(row);
       }
       row.textContent = '';

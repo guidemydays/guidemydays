@@ -6,147 +6,6 @@
 <link rel="stylesheet" href="/assets/web-travel-style.css">
 <title>Day Trips by Train — Guide My Days</title>
 <style>
-/* ── Stats bar ────────────────────────────────────── */
-.dt-stats {
-  font-size: 13px;
-  color: var(--muted, #6a6660);
-  margin-bottom: 22px;
-  display: flex;
-  gap: 18px;
-  flex-wrap: wrap;
-  justify-content: center;
-}
-.dt-stats b { color: var(--text, #3d3a32); font-weight: 650; }
-
-/* ── City group ───────────────────────────────────── */
-.dt-city {
-  border: 1px solid var(--border2, #e6e2da);
-  border-radius: 10px;
-  margin-bottom: 10px;
-  background: var(--surface, #ffffff);
-  overflow: hidden;
-  box-shadow: 0 1px 4px rgba(92,61,17,.05);
-}
-.dt-city-head {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  padding: 14px 20px;
-  cursor: pointer;
-  user-select: none;
-  border-bottom: 1px solid transparent;
-  transition: background .15s;
-}
-.dt-city-head:hover { background: rgba(192,78,26,.04); }
-.dt-city.open .dt-city-head {
-  border-bottom-color: var(--border2, #e6e2da);
-  background: rgba(192,78,26,.04);
-}
-.dt-city-name {
-  font-weight: 700;
-  font-size: 15.5px;
-  color: var(--text, #3d3a32);
-  flex: 1;
-}
-.dt-city-count {
-  font-size: 11px;
-  font-weight: 600;
-  color: var(--muted, #6a6660);
-  background: var(--bg, #f5f3ee);
-  border: 1px solid var(--border2, #e6e2da);
-  border-radius: 99px;
-  padding: 2px 10px;
-  letter-spacing: 0.02em;
-}
-.dt-city-arrow {
-  color: var(--muted, #6a6660);
-  font-size: 12px;
-  transition: transform .2s;
-  opacity: .5;
-}
-.dt-city.open .dt-city-arrow { transform: rotate(90deg); opacity: .8; }
-.dt-guide-link {
-  font-size: 12px;
-  color: var(--muted, #6a6660);
-  text-decoration: none;
-  padding: 3px 10px;
-  border: 1px solid var(--border2, #e6e2da);
-  border-radius: 5px;
-  white-space: nowrap;
-  font-weight: 500;
-  transition: border-color .15s, color .15s, background .15s;
-}
-.dt-guide-link:hover { background: var(--bg,#f5f4f0); border-color: var(--rust,#C04E1A); }
-.dt-guide-link:visited { color: #6a6660; }
-
-/* ── Trip entries ─────────────────────────────────── */
-.dt-trips { padding: 0 20px 16px; display: none; }
-.dt-city.open .dt-trips { display: block; }
-
-.dt-trip {
-  padding: 14px 0;
-  border-bottom: 1px solid var(--border, #eae7e0);
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: 6px;
-}
-.dt-trip:last-child { border-bottom: none; }
-
-.dt-trip-head {
-  display: flex;
-  align-items: baseline;
-  gap: 10px;
-  flex-wrap: wrap;
-}
-.dt-dest {
-  font-weight: 700;
-  font-size: 15px;
-  color: var(--text, #3d3a32);
-}
-.dt-time {
-  font-size: 11px;
-  font-weight: 600;
-  color: var(--rust,#C04E1A);
-  white-space: nowrap;
-  background: rgba(192,78,26,.07);
-  padding: 2px 8px;
-  border-radius: 4px;
-  letter-spacing: 0.02em;
-}
-.dt-desc {
-  font-size: 13.5px;
-  color: var(--text, #3d3a32);
-  line-height: 1.6;
-  margin: 0;
-}
-.dt-book {
-  display: flex;
-  gap: 6px;
-  flex-wrap: wrap;
-  margin-top: 4px;
-  align-items: center;
-}
-.dt-book-link {
-  font-size: 12px;
-  color: var(--muted, #6a6660);
-  text-decoration: none;
-  padding: 3px 10px;
-  border: 1px solid var(--border2, #e6e2da);
-  border-radius: 5px;
-  font-weight: 500;
-  background: var(--surface, #fff);
-  transition: border-color .15s, color .15s, background .15s;
-}
-.dt-book-link:hover { border-color: var(--rust,#C04E1A); background: var(--bg,#f5f4f0); }
-.dt-book-link:visited { color: #6a6660; }
-.dt-book-prefix { font-size: 12px; color: var(--muted, #6a6660); }
-
-/* ── Mobile ───────────────────────────────────────── */
-@media (max-width: 600px) and (pointer: coarse) {
-  .dt-city-head { padding: 12px 14px; }
-  .dt-trips { padding: 0 14px 12px; }
-}
-
 /* ══ REBUILT 2026-08-14 (owner: "this is a really boring page!" · "break format
    · do what you think looks cool") ═══════════════════════════════════════════
    What was here: a banner, an intro card, and 128 identical full-width grey
@@ -199,13 +58,31 @@
 .dt-summary button { font: inherit; font-size: 13px; color: var(--rust, #C04E1A); background: none; border: 0;
   border-bottom: 1px dashed currentColor; padding: 0 0 1px; margin-left: 10px; cursor: pointer; }
 
-/* Browse view: 128 cities as chips, not 128 full-width rows. */
-.dt-cities { display: flex; flex-wrap: wrap; gap: 6px; justify-content: center; max-width: 1000px; margin: 0 auto; }
-.dt-citychip { font: inherit; font-size: 13.5px; font-weight: 500; color: var(--text, #3d3a32);
-  background: var(--surface, #fff); border: 1px solid var(--border2, #e6e2da); border-radius: 999px;
-  padding: .45em 1em; cursor: pointer; transition: border-color .15s, box-shadow .15s, transform .08s; }
-.dt-citychip:hover { border-color: var(--rust, #C04E1A); box-shadow: 0 3px 10px rgba(192,78,26,.12); transform: translateY(-1px); }
-.dt-citychip .c { color: var(--muted, #6a6660); font-size: 11.5px; margin-left: .45em; }
+/* ══ REDESIGNED 2026-08-23 (owner: "this is terrible and needs a redesign!") ═══
+   The 2026-08-14 rebuild fixed the accordion but left the browse view as 150+
+   identical white pills in one undifferentiated wall — same size, same color,
+   alphabetical with no grouping, nothing to look at until you click one. That
+   is the flat-chip pattern the owner separately ruled out on the sibling
+   time-zones page (A–Z as a filter was retired there 2026-08-17: resting
+   alphabetical order is enough, the page needs to say something *with* that
+   order, not just hold it).
+
+   So each city is a small card, not a bare button, and it carries the one
+   fact this whole page is built around — the fastest trip from there — the
+   same way a selected city's own cards lead with journey time. A pick still
+   sets `city` and calls render(); nothing about the interaction changed. */
+.dt-city-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(190px, 1fr)); gap: 10px; max-width: 1120px; margin: 0 auto; }
+.dt-citycard { box-sizing: border-box; display: block; width: 100%; min-width: 0; text-align: left; font: inherit; cursor: pointer;
+  background: var(--surface, #fff); border: 1px solid var(--border2, #e6e2da); border-radius: 10px;
+  padding: 12px 14px; transition: border-color .15s, box-shadow .15s, transform .08s; overflow-wrap: break-word; }
+.dt-citycard:hover { border-color: var(--rust, #C04E1A); box-shadow: 0 3px 10px rgba(192,78,26,.12); transform: translateY(-1px); }
+.dt-citycard-top { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
+.dt-citycard-name { font-weight: 700; font-size: 14.5px; color: var(--text, #3d3a32); }
+.dt-citycard-count { font-size: 11px; font-weight: 600; color: var(--muted, #6a6660);
+  background: var(--bg, #f5f3ee); border: 1px solid var(--border2, #e6e2da); border-radius: 999px;
+  padding: 2px 9px; white-space: nowrap; flex-shrink: 0; }
+.dt-citycard-fast { margin-top: 7px; font-size: 12px; line-height: 1.4; color: var(--muted, #6a6660); }
+.dt-citycard-fast b { color: var(--rust, #C04E1A); font-weight: 700; }
 
 /* Trip cards — the journey time is the biggest thing on the card. */
 .dt-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 14px; align-items: start; }
@@ -232,6 +109,7 @@
      owner rule 2026-08-17). */
   .dt-band { font-size: 13px !important; height: 34px !important; padding: 0 14px !important; border-radius: var(--fam-radius,4px) !important; }
   .dt-grid { grid-template-columns: 1fr; }
+  .dt-city-grid { grid-template-columns: repeat(2, 1fr); gap: 8px; }
 }
 </style>
 <link rel="stylesheet" href="/assets/mobile.css">
@@ -316,12 +194,18 @@ var BANDS = [
 ];
 
 /* Flatten once: the band view needs every trip with its departure city attached,
-   and rebuilding that on each keystroke is 494 objects per press. */
+   and rebuilding that on each keystroke is 494 objects per press. Same pass
+   also finds each city's fastest trip, for the browse-grid cards below. */
 var ALL = [];
+var FASTEST = {};
 DATA.forEach(function (c) {
+  var best = null;
   c.trips.forEach(function (t) {
-    ALL.push({ city: c.city, url: c.url, dest: t.dest, time: t.time, mins: toMinutes(t.time), desc: t.desc, book: t.book });
+    var mins = toMinutes(t.time);
+    ALL.push({ city: c.city, url: c.url, dest: t.dest, time: t.time, mins: mins, desc: t.desc, book: t.book });
+    if (mins !== null && (!best || mins < best.mins)) best = { dest: t.dest, time: t.time, mins: mins };
   });
+  FASTEST[c.city] = best;
 });
 
 var band = 'all';
@@ -353,6 +237,20 @@ function card(t, showFrom) {
       '<p class="dt-card-desc">' + t.desc + '</p>' +
       bookLinks(t.book) +
     '</div>';
+}
+
+/* One builder for both browse-grid states (full list and search-narrowed) so
+   the card markup never drifts between the two call sites. */
+function cityCard(c) {
+  var best = FASTEST[c.city];
+  var fast = best ? fmtTime(best.mins, best.time) : null;
+  return '<button type="button" class="dt-citycard" data-city="' + c.city.replace(/"/g, '&quot;') + '">' +
+      '<div class="dt-citycard-top">' +
+        '<span class="dt-citycard-name">' + c.city + '</span>' +
+        '<span class="dt-citycard-count">' + c.trips.length + ' trip' + (c.trips.length === 1 ? '' : 's') + '</span>' +
+      '</div>' +
+      (fast ? '<div class="dt-citycard-fast">' + best.dest + ' in <b>' + fast.n + (fast.u ? ' ' + fast.u : '') + '</b></div>' : '') +
+    '</button>';
 }
 
 function paintBands() {
@@ -389,15 +287,12 @@ function render() {
   var b = BANDS.filter(function (x) { return x.key === band; })[0] || BANDS[0];
   paintBands();
 
-  /* No city and no band: browse. 128 cities as chips rather than 128 rows —
-     the old page put a full-width bar on each and filled the screen with six. */
+  /* No city and no band: browse. 128 cities as cards, each carrying its own
+     fastest trip, rather than 128 rows or 128 identical bare pills. */
   if (!city && band === 'all') {
     paintHero();
     summary.innerHTML = 'Pick a departure city &middot; <b>' + ALL.length + '</b> day trips';
-    list.innerHTML = '<div class="dt-cities">' + DATA.map(function (c) {
-      return '<button type="button" class="dt-citychip" data-city="' + c.city.replace(/"/g, '&quot;') +
-        '">' + c.city + '<span class="c">' + c.trips.length + '</span></button>';
-    }).join('') + '</div>';
+    list.innerHTML = '<div class="dt-city-grid">' + DATA.map(cityCard).join('') + '</div>';
     return;
   }
 
@@ -425,7 +320,7 @@ bandsEl.addEventListener('click', function (e) {
 });
 
 list.addEventListener('click', function (e) {
-  var chip = e.target.closest('.dt-citychip');
+  var chip = e.target.closest('.dt-citycard');
   if (!chip) return;
   city = chip.dataset.city;
   search.value = city;
@@ -451,9 +346,7 @@ search.addEventListener('input', function () {
   paintHero(); paintBands();
   summary.innerHTML = '<b>' + hits.length + '</b> departure cit' + (hits.length === 1 ? 'y' : 'ies') + ' matching &ldquo;' + search.value + '&rdquo;';
   list.innerHTML = hits.length
-    ? '<div class="dt-cities">' + hits.map(function (c) {
-        return '<button type="button" class="dt-citychip" data-city="' + c.city.replace(/"/g, '&quot;') + '">' + c.city + '<span class="c">' + c.trips.length + '</span></button>';
-      }).join('') + '</div>'
+    ? '<div class="dt-city-grid">' + hits.map(cityCard).join('') + '</div>'
     : '<div class="empty-state"><div class="empty-state-text">No departure city matches that.</div></div>';
 });
 

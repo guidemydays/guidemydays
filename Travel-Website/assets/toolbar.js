@@ -6652,11 +6652,12 @@ window.TVE.home = (function () {
       { name: 'Rosewood Luang Prabang', note: 'Rosewood brand — jungle tented resort, 23 elegant tents and villas, waterfall views · 9.5 Booking.com', url: 'https://www.booking.com/hotel/la/rosewood-luang-prabang.html', tier: 'luxury' }
     ], price: { budget: '$40–80', mid: '$90–180', expensive: '$200–400', luxury: '$400+' } },
     'lucerne': { h: [
-      { name: 'Palace Luzern', note: 'Independent luxury — 1906 Belle Époque lakefront palace, indoor and outdoor pools, spa, Pilatus and Rigi views · 9.4 Booking.com', url: 'https://www.booking.com/hotel/ch/mandarin-oriental-palace-luzern.html' },
-      { name: 'Hotel Schweizerhof Luzern', note: 'Independent — Schweizerhofquai 3a on the lakefront in the Old Town, spa and sauna, gym, 24h reception · 9.4 Booking.com', url: 'https://www.booking.com/hotel/ch/schweizerhof-luzern.html' },
-      { name: 'Art Deco Hotel Montana Luzern', note: 'Independent — hillside above old town, 1910 estate, lake panorama, funicular access · 9.2 Booking.com', url: 'https://www.booking.com/hotel/ch/art-deco-montana.html' },
-      { name: 'Hotel des Balances', note: 'Independent — 13th-century guildhall on the Reuss in the Old Town, river-view rooms · 9.1 Booking.com', url: 'https://www.booking.com/hotel/ch/desbalances.html' }
-    ] },
+      { name: 'ibis Styles Lucerne City', note: 'Accor ibis Styles brand — Bundesplatz, 5-min walk to the old town, air-conditioned rooms, 24h reception · 8.0 Booking.com', url: 'https://www.booking.com/hotel/ch/ibis-styles-lucerne-city.html', tier: 'budget' },
+      { name: 'Hotel des Balances', note: 'Independent — 13th-century guildhall on the Reuss in the Old Town, river-view rooms · 9.1 Booking.com', url: 'https://www.booking.com/hotel/ch/desbalances.html', tier: 'mid' },
+      { name: 'Art Deco Hotel Montana Luzern', note: 'Independent — hillside above old town, 1910 estate, lake panorama, funicular access · 9.2 Booking.com', url: 'https://www.booking.com/hotel/ch/art-deco-montana.html', tier: 'expensive' },
+      { name: 'Hotel Schweizerhof Luzern', note: 'Independent — Schweizerhofquai 3a on the lakefront in the Old Town, spa and sauna, gym, 24h reception · 9.4 Booking.com', url: 'https://www.booking.com/hotel/ch/schweizerhof-luzern.html', tier: 'expensive' },
+      { name: 'Palace Luzern', note: 'Independent luxury — 1906 Belle Époque lakefront palace, indoor and outdoor pools, spa, Pilatus and Rigi views · 9.4 Booking.com', url: 'https://www.booking.com/hotel/ch/mandarin-oriental-palace-luzern.html', tier: 'luxury' }
+    ], price: { budget: 'CHF 90–150', mid: 'CHF 150–270', expensive: 'CHF 270–450', luxury: 'CHF 450+' } },
     'luxembourg': { h: [
       { name: 'ibis Luxembourg Centre', note: 'Accor ibis brand — Gare quarter, 5-minute walk to Gare Centrale and city-centre tram, clean air-conditioned rooms, 24h reception · 7.8 Booking.com', url: 'https://www.booking.com/hotel/lu/ibisluxembourg.html', tier: 'budget' },
       { name: 'Meliá Luxembourg', note: 'Meliá Hotels — Kirchberg district, rooftop bar with city views, spa, near Philharmonie · 8.6 Booking.com', url: 'https://www.booking.com/hotel/lu/melia-luxembourg.html', tier: 'mid' },
@@ -6700,11 +6701,11 @@ window.TVE.home = (function () {
       { name: 'Bless Hotel Madrid', note: 'Bless Collection — Velázquez 62 in Salamanca, rooftop pool and bar, vibrant social-scene terrace, 24h reception · 9.1 Booking.com', url: 'https://www.booking.com/hotel/es/bless-madrid.html', tier: 'luxury' }
     ], price: { budget: '€80–140', mid: '€140–250', expensive: '€250–450', luxury: '€450+' } },
     'malaga': { h: [
-      { name: 'Parador de Málaga Gibralfaro', note: 'Paradores — inside Gibralfaro Castle walls, panoramic views of city and bay, seasonal pool, 24h reception · 8.7 Booking.com', url: 'https://www.booking.com/hotel/es/parador-de-malaga-gibralfaro.html' },
-      { name: 'AC Hotel Málaga Palacio by Marriott', note: 'Marriott family — rooftop pool with Alcazaba and port panorama, heart of historic center · 8.7 Booking.com', url: 'https://www.booking.com/hotel/es/acmalagapalacio.html' },
-      { name: 'Gran Hotel Miramar GL', note: 'Mandarin Oriental managed — Paseo de Reding 1930s palace, Miramar Beach Club, heated pools · 9.0 Booking.com', url: 'https://www.booking.com/hotel/es/gran-hotel-miramar-malaga.html' },
-      { name: 'Vincci Posada del Patio', note: 'Vincci Hotels — historic centre, Arabo-Nasrid 16th-century building, rooftop pool with city views · 9.0 Booking.com', url: 'https://www.booking.com/hotel/es/vincci-posada-del-patio.html' }
-    ] },
+      { name: 'Vincci Posada del Patio', note: 'Vincci Hotels — historic centre, Arabo-Nasrid 16th-century building, rooftop pool with city views · 9.0 Booking.com', url: 'https://www.booking.com/hotel/es/vincci-posada-del-patio.html', tier: 'budget' },
+      { name: 'AC Hotel Málaga Palacio by Marriott', note: 'Marriott family — rooftop pool with Alcazaba and port panorama, heart of historic center · 8.7 Booking.com', url: 'https://www.booking.com/hotel/es/acmalagapalacio.html', tier: 'mid' },
+      { name: 'Parador de Málaga Gibralfaro', note: 'Paradores — inside Gibralfaro Castle walls, panoramic views of city and bay, seasonal pool, 24h reception · 8.7 Booking.com', url: 'https://www.booking.com/hotel/es/parador-de-malaga-gibralfaro.html', tier: 'expensive' },
+      { name: 'Gran Hotel Miramar GL', note: 'Mandarin Oriental managed — Paseo de Reding 1930s palace, Miramar Beach Club, heated pools · 9.0 Booking.com', url: 'https://www.booking.com/hotel/es/gran-hotel-miramar-malaga.html', tier: 'luxury' }
+    ], price: { budget: '€120–200', mid: '€180–290', expensive: '€260–400', luxury: '€380+' } },
     'maldives': { h: [
       { name: 'Arena Beach Hotel', note: 'Independent guesthouse — Maafushi local island, pool, beach access, daily snorkeling package, 24h front desk · 8.5 Booking.com', url: 'https://www.booking.com/hotel/mv/arena-beach.html', tier: 'budget' },
       { name: 'Bandos Maldives', note: 'Independent resort — North Malé Atoll, beach and lagoon bungalows, dive school, water sports centre, multiple restaurants · 8.7 Booking.com', url: 'https://www.booking.com/hotel/mv/bandos-island.html', tier: 'mid' },

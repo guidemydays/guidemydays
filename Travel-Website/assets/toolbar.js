@@ -7604,11 +7604,11 @@ window.TVE.home = (function () {
       { name: 'Rosewood Hotel Georgia', note: 'Rosewood brand — 1927 Georgian Revival downtown landmark, outdoor pool, Hawksworth Restaurant · 9.3 Booking.com', url: 'https://www.booking.com/hotel/ca/rosewood-hotel-georgia.html', tier: 'luxury' }
     ], price: { budget: 'CAD 300–500', mid: 'CAD 500–750', expensive: 'CAD 750–1,200', luxury: 'CAD 1,200+' } },
     'venice': { h: [
-      { name: 'Belmond Hotel Cipriani', note: 'Belmond brand — Giudecca island, 7-minute private launch, Olympic-size pool, award-winning Oro Restaurant · 9.5 Booking.com', url: 'https://www.booking.com/hotel/it/cipriani-venezia.html' },
-      { name: 'Aman Venice', note: 'Aman brand — 16th-century Palazzo Papadopoli on the Grand Canal, two private gardens, private dock', url: 'https://www.aman.com/hotels/aman-venice' },
-      { name: 'The Gritti Palace, a Luxury Collection Resort', note: 'Marriott Luxury Collection — 1475 Doge\'s palace on the Grand Canal, Club del Doge restaurant · 9.5 Booking.com', url: 'https://www.booking.com/hotel/it/the-gritti-palace.html' },
-      { name: 'Hotel Danieli, a Luxury Collection Hotel', note: 'Marriott Luxury Collection — 1350 Gothic palace near the Doge\'s Palace, rooftop Terrazza Danieli · 9.3 Booking.com', url: 'https://www.booking.com/hotel/it/danielivenezia.html' }
-    ] },
+      { name: 'Hotel Danieli, a Luxury Collection Hotel', note: 'Marriott Luxury Collection — 1350 Gothic palace near the Doge\'s Palace, rooftop Terrazza Danieli · 9.3 Booking.com', url: 'https://www.booking.com/hotel/it/danielivenezia.html', tier: 'budget' },
+      { name: 'The Gritti Palace, a Luxury Collection Resort', note: 'Marriott Luxury Collection — 1475 Doge\'s palace on the Grand Canal, Club del Doge restaurant · 9.5 Booking.com', url: 'https://www.booking.com/hotel/it/the-gritti-palace.html', tier: 'mid' },
+      { name: 'Belmond Hotel Cipriani', note: 'Belmond brand — Giudecca island, 7-minute private launch, Olympic-size pool, award-winning Oro Restaurant · 9.5 Booking.com', url: 'https://www.booking.com/hotel/it/cipriani-venezia.html', tier: 'expensive' },
+      { name: 'Aman Venice', note: 'Aman brand — 16th-century Palazzo Papadopoli on the Grand Canal, two private gardens, private dock', url: 'https://www.aman.com/hotels/aman-venice', tier: 'luxury' }
+    ], price: { budget: '€500–900', mid: '€900–1,500', expensive: '€1,500–2,500', luxury: '€2,500+' } },
     'verona': { h: [
       { name: 'Due Torri Hotel', note: 'Autograph Collection (Marriott) — 14th-century palazzo near Piazza Brà, antique-furnished rooms, Arena Opera views · 9.1 Booking.com', url: 'https://www.booking.com/hotel/it/due-torri-hotel.html' },
       { name: 'Hotel Gabbia d\'Oro', note: 'Independent boutique — 17th-century noble palazzo near Piazza delle Erbe, antique beds, garden courtyard · 9.0 Booking.com', url: 'https://www.booking.com/hotel/it/gabbia-d-oro.html' },

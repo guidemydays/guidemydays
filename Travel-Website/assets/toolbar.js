@@ -7194,7 +7194,7 @@ window.TVE.home = (function () {
       { name: 'Hotel Imlauer & Bräu', note: 'Independent — Rainerstraße on the Neustadt waterfront, in-house brewery bar, 10-min walk to the Altstadt, 24h reception, AC · 8.4 Booking.com', url: 'https://www.booking.com/hotel/at/imlauer-braeu.html', tier: 'mid' },
       { name: 'Hotel Stein', note: 'Independent boutique 4-star — Giselakai on the Salzach, rooftop bar with fortress panorama, 24h reception, AC · 9.0 Booking.com', url: 'https://www.booking.com/hotel/at/stein.html', tier: 'expensive' },
       { name: 'Hotel Sacher Salzburg', note: 'Independent — Schwarzstraße on the Salzach River, iconic Sacher Torte heritage, terrace and river views, spa, 24h reception · 8.9 Booking.com', url: 'https://www.booking.com/hotel/at/sacher-salzburg.html', tier: 'luxury' }
-    ], price: { currency: 'EUR', budget: '70-120', mid: '130-220', expensive: '230-380', luxury: '400+' } },
+    ], price: { budget: '€70–120', mid: '€130–220', expensive: '€230–380', luxury: '€400+' } },
     'san-diego': { h: [
       { name: 'Best Western Plus Bayside Inn', note: 'Best Western brand — 555 West Ash Street on the Little Italy edge of downtown, heated outdoor pool and hot tub, free parking, 24h reception, AC · 8.8 Booking.com', url: 'https://www.booking.com/hotel/us/bayside-inn.html', tier: 'budget' },
       { name: 'Gaslamp Plaza Suites', note: 'Independent — 520 E Street in a 1913 landmark tower one block from the Gaslamp, rooftop terrace, 24h reception, AC · 8.3 Booking.com', url: 'https://www.booking.com/hotel/us/gaslamp-plaza-suites.html', tier: 'budget' },

@@ -6,6 +6,22 @@
 <link rel="stylesheet" href="/assets/web-travel-style.css">
 <title>World Time Zones by City | Guide My Days</title>
 <style>/* .wrap — fluid width from web-travel-style.css */
+/* ── Card ground tokens — day/twilight/night wash (owner-approved mock-up,
+   2026-08-23). Day and twilight fade into the ordinary --surface card; only
+   night is a fully-tinted ground, so the grid reads as mostly-day with the
+   handful of cities actually asleep standing out. */
+:root {
+  --tz-day-a: #fdf1de; --tz-twi-a: #4a3a52;
+  --tz-night-a: #1c2740; --tz-night-b: #2c3a5c;
+  --tz-night-text: #f2efe6; --tz-night-muted: #9aa4bd;
+  --tz-day-mark: var(--c-sun-rim, #a87f0b); --tz-night-mark: #e8d38a;
+}
+@media (prefers-color-scheme: dark) {
+  :root {
+    --tz-day-a: #3a3222; --tz-twi-a: #3a2f42;
+    --tz-night-a: #10152a; --tz-night-b: #1a2338;
+  }
+}
 /* ── Page header — from web-travel-style.css ── */
 .page-desc { font-size: 12px; color: var(--muted); margin: -8px 0 14px; }
 /* NO "Home base" row (owner 2026-08-17: "remove home base it should not be
@@ -227,6 +243,33 @@ a.pill:visited { color: #6a6660; }
   padding: 12px 14px; display: flex; flex-direction: column; gap: 6px;
   transition: border-color .15s, box-shadow .15s, transform .08s;
 }
+/* ── Day/twilight/night card ground (owner-approved mock-up, 2026-08-23) ── This
+   is the one structural change from web-travel-style.css's shared `.card`: a
+   gradient wash keyed off the SAME local-hour test the sun/moon mark already
+   uses, so a full grid reads "what hour is it there" at a glance instead of
+   needing every card's number read one at a time — the thing a plain white
+   card shares identically with When to Go's temperature cards. Everything
+   else about the card (border, radius, hover ring, meta row) is untouched. */
+.card.is-day      { background: linear-gradient(165deg, var(--tz-day-a) 0%, var(--surface) 62%); }
+.card.is-twilight { background: linear-gradient(165deg, var(--tz-twi-a) 0%, var(--surface) 68%); }
+.card.is-night {
+  background: linear-gradient(165deg, var(--tz-night-a) 0%, var(--tz-night-b) 100%);
+  border-color: var(--tz-night-b);
+}
+.card.is-night .card-city   { color: var(--tz-night-text); }
+.card.is-night .card-country,
+.card.is-night .card-day,
+.card.is-night .utc-offset  { color: var(--tz-night-muted); }
+/* The clock sets in the site's own serif (the hero title's face) rather than
+   the tabular sans a temperature reads in — a second, deliberate difference
+   from the When to Go card, not just a color change. */
+.card-time { font-family: Georgia, "Iowan Old Style", "Times New Roman", serif; }
+/* A thin 24h-progress bar between the clock and the meta row — the one shape a
+   hi/lo temperature reading has no equivalent for. */
+.card-progress { position: relative; height: 3px; border-radius: 3px; background: rgba(0,0,0,.07); }
+.card.is-night .card-progress { background: rgba(255,255,255,.14); }
+.card-progress-fill { position: absolute; top: 0; left: 0; height: 100%; border-radius: 3px; background: var(--tz-day-mark); }
+.card.is-night .card-progress-fill { background: var(--tz-night-mark); }
 .card-link { color: inherit; cursor: pointer; text-decoration: none;
   transition: border-color .15s, box-shadow .15s, transform .08s; }
 .card-link:hover, .card-link:visited, .card-link:focus { text-decoration: none; color: inherit; }
@@ -877,11 +920,18 @@ function render() {
     var utc  = formatUTCOffset(c.tz, now);
     var vs   = vsHome(c.tz, now);   /* null until a home base is set */
     var hour = parseInt(time.split(':')[0], 10);
+    var minute = parseInt(time.split(':')[1], 10);
     var night = hour >= 22 || hour < 7;   /* 22:00–06:59 local → moon; every other hour → sun */
     var nightMark = night
       ? '<svg class="gm-icon card-night" data-icon="wx-moon" data-role="night" viewBox="0 0 24 24" role="img" aria-label="Night there"><use href="#gm-i-wx-moon"/></svg>'
       : '<svg class="gm-icon card-day-mark" data-icon="wx-clear" data-role="day" viewBox="0 0 24 24" role="img" aria-label="Daytime there"><use href="#gm-i-wx-clear"/></svg>';
-    var cardCls = 'card';
+    /* Three-way ground for the card itself (owner-approved mock-up, 2026-08-23) —
+       a coarser band than the moon/sun test above on purpose: night is 22:00–05:59,
+       dawn/dusk is the hour either side of it, day is everything else. The 24h
+       progress fill uses the exact minute. */
+    var dayCls = night ? 'is-night' : (hour < 8 || hour >= 18) ? 'is-twilight' : 'is-day';
+    var pct = Math.round(((hour * 60 + minute) / 1440) * 100);
+    var cardCls = 'card ' + dayCls;
     var inner =
       '<div class="card-top">' +
         '<div class="card-top-left">' +
@@ -894,6 +944,7 @@ function render() {
         '<span class="card-time" title="Tap to copy">' + time + '</span>' +
         '<span class="card-day">'  + day  + '</span>' +
       '</div>' +
+      '<div class="card-progress"><span class="card-progress-fill" style="width:' + pct + '%"></span></div>' +
       /* The night mark rides the BOTTOM-RIGHT corner, not the clock line (owner,
          2026-08-22: "the moon should move all down to the right corner"). The
          difference chip keeps its place, so the two share one right-hand group

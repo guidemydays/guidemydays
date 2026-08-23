@@ -2774,6 +2774,73 @@ window.TVE.home = (function () {
   window.addEventListener('load', _padForFixedBar);
   window.addEventListener('resize', _padForFixedBar);
 
+  /* ── Filter/sort pill rows — every pill in the row is the SAME size, set by
+     the widest one (owner rule 2026-08-23: "the biggest pill sets the size
+     for the rest, period"). The shared .badge/.pill-badge box already gives
+     every pill the same height, font and padding (--fam-fs/--fam-pad) — this
+     only equalizes WIDTH, because "All"/"Tips" next to "Carrier plan" makes
+     the short ones look like a different control even though the box is
+     identical.
+     GROUPED BY BEHAVIOUR, NOT BY CONTAINER CLASS. Every essentials page that
+     ships a filter/sort bar names its own row and pill classes — .pills,
+     .pill-badge-strip, .pill-wrap, .controls, .filter-strip, .pill-row,
+     .sc-legend and more — a page is free to invent one (CLAUDE.md carve-out:
+     a routine may add new pills on the page it owns). A class allowlist goes
+     stale the day the next page picks a new name. What every one of these
+     rows actually shares is that the pills are CLICKABLE — a <button> or a
+     role="button" element — which is exactly the .badge-vs-.pill-badge line
+     the CSS already draws ("A BADGE labels what something IS... A PILL-BADGE
+     links or filters"). Selecting on that instead of a container class also
+     naturally excludes what must NOT be touched: a legend of plain,
+     non-interactive <div class="tier-pill pill-badge …"> (airline-networks'
+     .tier-legend explains a colour, it doesn't filter anything) and every
+     .card-tag (those are .badge, not .pill-badge, and static <span>s to
+     begin with) — both correctly fall through the button/role=button test.
+     Runs after layout so it can measure natural widths, and again on resize
+     because wrapping to a new row changes what "widest in this row" means. */
+  function _equalizePillRows() {
+    var clickable = [].slice.call(document.querySelectorAll('button.pill-badge, [role="button"].pill-badge'));
+    var rows = [];
+    clickable.forEach(function (p) {
+      var row = p.parentElement;
+      if (rows.indexOf(row) === -1) rows.push(row);
+    });
+    rows.forEach(function (row) {
+      var pills = [].slice.call(row.children).filter(function (c) {
+        return clickable.indexOf(c) !== -1;
+      });
+      if (pills.length < 2) return;
+      pills.forEach(function (p) { p.style.minWidth = ''; });
+      row.style.flexWrap = '';
+      var max = 0;
+      pills.forEach(function (p) { max = Math.max(max, p.getBoundingClientRect().width); });
+      pills.forEach(function (p) { p.style.minWidth = max + 'px'; });
+      /* Several of these rows are hard-coded flex-wrap:nowrap on desktop (a
+         page author's "keep it on one line" — it fit before every pill grew
+         to match the widest). A nowrap flex row with a width:auto container
+         doesn't clip when its content can't shrink below the min-widths just
+         set — it grows the ROW past its own container instead, taking the
+         whole page with it, so row.scrollWidth === row.clientWidth even
+         while the page overflows sideways (the row has no internal
+         scrollable slack; it simply became wider than the viewport). The
+         real test is whether the row's right edge now runs past the
+         viewport — the same overflow mobile_shot.py / validate_mobile_render
+         check for. Only step in when it actually no longer fits; a row that
+         still fits keeps the page's own nowrap untouched. */
+      var vw = document.documentElement.clientWidth;
+      if (row.getBoundingClientRect().right > vw + 1 || row.scrollWidth > row.clientWidth + 1) {
+        row.style.flexWrap = 'wrap';
+      }
+    });
+  }
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', _equalizePillRows);
+  } else {
+    _equalizePillRows();
+  }
+  window.addEventListener('load', _equalizePillRows);
+  window.addEventListener('resize', _equalizePillRows);
+
   /* ── Guide-page back-strip — REMOVED (owner rule 2026-08-15) ──────────────
      The mobile-only #tve-back-guides strip ('🖨 Print Guide' · 'Before You Go' ·
      '‹ All Guides', and the '‹ {City}' variant on stops-map) is gone with the

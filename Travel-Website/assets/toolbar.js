@@ -6201,11 +6201,11 @@ window.TVE.home = (function () {
       { name: 'Hampton Inn & Suites Coeur d\'Alene', note: 'Hilton Hampton brand — 1500 Riverstone Drive, indoor pool, free hot breakfast, 24h reception · 9.4 Booking.com', url: 'https://www.booking.com/hotel/us/riverstone-drive-coeur-d-alene.html', tier: 'luxury' }
     ], price: { budget: '$110–180', mid: '$140–220', expensive: '$160–260', luxury: '$200–320' } },
     'colmar': { h: [
-      { name: 'James Boutique Hôtel Colmar centre', note: 'Independent — 15 rue Saint-Eloi, 4-star, AC, private parking, a short walk east of the Old Town · 9.0 Booking.com', url: 'https://www.booking.com/hotel/fr/james-boutique-hotel.html', tier: 'budget' },
-      { name: 'Au Grenier à Sel Colmar', note: 'Independent — 54 Grand Rue in the Old Town, 4-star suites in a converted salt loft a few doors from the Koïfhus · 9.3 Booking.com', url: 'https://www.booking.com/hotel/fr/au-grenier-a-sel-colmar.html', tier: 'mid' },
-      { name: "L'Esquisse Hotel & Spa Colmar · MGallery Collection", note: 'MGallery (Accor, off the § 3 ladder) — 2 Avenue de la Marne, 5-star with indoor pool, spa and 24h reception; the guide\'s previous title-card hotel · 9.2 Booking.com', url: 'https://www.booking.com/hotel/fr/colmar-champ-de-mars.html', tier: 'expensive' },
-      { name: 'Relais & Châteaux La Maison des Têtes', note: 'Independent — 19 Rue des Têtes, the 1609 Renaissance mansion with the 111 sculpted heads, 5-star, Michelin dining · 9.1 Booking.com', url: 'https://www.booking.com/hotel/fr/la-maison-des-tetes.html', tier: 'luxury' }
-    ], price: { budget: '€90–140', mid: '€150–230', expensive: '€250–380', luxury: '€380+' } },
+      { name: 'Au Grenier à Sel Colmar', note: 'Independent — 54 Grand Rue in the Old Town, 4-star suites in a converted salt loft a few doors from the Koïfhus · 9.3 Booking.com', url: 'https://www.booking.com/hotel/fr/au-grenier-a-sel-colmar.html' },
+      { name: "L'Esquisse Hotel & Spa Colmar · MGallery Collection", note: 'MGallery (Accor, off the § 3 ladder) — 2 Avenue de la Marne, 5-star with indoor pool, spa and 24h reception; the guide\'s previous title-card hotel · 9.2 Booking.com', url: 'https://www.booking.com/hotel/fr/colmar-champ-de-mars.html' },
+      { name: 'Relais & Châteaux La Maison des Têtes', note: 'Independent — 19 Rue des Têtes, the 1609 Renaissance mansion with the 111 sculpted heads, 5-star, Michelin dining · 9.1 Booking.com', url: 'https://www.booking.com/hotel/fr/la-maison-des-tetes.html' },
+      { name: 'James Boutique Hôtel Colmar centre', note: 'Independent — 15 rue Saint-Eloi, 4-star, AC, private parking, a short walk east of the Old Town · 9.0 Booking.com', url: 'https://www.booking.com/hotel/fr/james-boutique-hotel.html' }
+    ] },
     'cologne': { h: [
       { name: 'Hyatt Regency Cologne', note: 'Hyatt brand — Rhine riverbank, 306 rooms and suites, Regency Executive Suite with Rhine and Cologne Cathedral panorama, Glashaus Restaurant & Bar · 8.5 Booking.com', url: 'https://www.booking.com/hotel/de/hyatt-regency-koln.html' },
       { name: 'Cologne Marriott Hotel', note: 'Marriott brand — central Cologne, 3-min walk to Cologne Cathedral and Hauptbahnhof, contemporary rooms, modern fitness center · 8.3 Booking.com', url: 'https://www.booking.com/hotel/de/cologne-marriott.html' },
@@ -6442,11 +6442,11 @@ window.TVE.home = (function () {
       { name: 'Upper House', note: "Independent — Gothenburg's premier luxury address inside Gothia Towers, Atmosphere sky-high fine dining, rooftop pool, panoramic city views · 9.1 Booking.com", url: 'https://www.booking.com/hotel/se/upper-house.html', tier: 'luxury' }
     ], price: { budget: 'SEK 700–1100', mid: 'SEK 1100–1900', expensive: 'SEK 1900–3200', luxury: 'SEK 3200+' } },
     'hamburg': { h: [
-      { name: 'Motel One Hamburg-Alster', note: 'Motel One — design budget hotel on the Alster canal, well-located for the city centre and Hauptbahnhof, 24h reception · 8.8 Booking.com', url: 'https://www.booking.com/hotel/de/motel-one-hamburg-alster.html', tier: 'budget' },
-      { name: 'Fraser Suites Hamburg', note: 'Independent — serviced-apartment suites on Rödingsmarkt in the Altstadt, sauna and steam room, kitchens in every unit · 9.1 Booking.com', url: 'https://www.booking.com/hotel/de/fraser-suites-hamburg.html', tier: 'mid' },
-      { name: 'Hotel Atlantic Hamburg, Autograph Collection', note: 'Marriott Autograph Collection — 1909 Außenalster lakefront landmark, historic grand hotel, waterfront dining, near Hauptbahnhof · 9.2 Booking.com', url: 'https://www.booking.com/hotel/de/hotel-atlantic-hamburg-autograph-collection.html', tier: 'expensive' },
-      { name: 'The Fontenay Hamburg', note: "Independent luxury — 2018 Alster lake-view tower, rooftop pool, Lakeside spa, Mabühle restaurant, Hamburg's premier new-build address · 9.4 Booking.com", url: 'https://www.booking.com/hotel/de/the-fontenay.html', tier: 'luxury' }
-    ], price: { budget: 'EUR 70–120', mid: 'EUR 120–200', expensive: 'EUR 200–350', luxury: 'EUR 350+' } },
+      { name: 'The Fontenay Hamburg', note: "Independent luxury — 2018 Alster lake-view tower, rooftop pool, Lakeside spa, Mabühle restaurant, Hamburg's premier new-build address · 9.4 Booking.com", url: 'https://www.booking.com/hotel/de/the-fontenay.html' },
+      { name: 'Hotel Atlantic Hamburg, Autograph Collection', note: 'Marriott Autograph Collection — 1909 Außenalster lakefront landmark, historic grand hotel, waterfront dining, near Hauptbahnhof · 9.2 Booking.com', url: 'https://www.booking.com/hotel/de/hotel-atlantic-hamburg-autograph-collection.html' },
+      { name: 'Vier Jahreszeiten Hamburg', note: 'Independent — Alster lakefront landmark since 1897, Jahreszeiten Grill, spa with indoor pool · 9.0 Booking.com', url: 'https://www.booking.com/hotel/de/hotel-vier-jahreszeiten.html' },
+      { name: 'Fraser Suites Hamburg', note: 'Independent — serviced-apartment suites on Rödingsmarkt in the Altstadt, sauna and steam room, kitchens in every unit · 9.1 Booking.com', url: 'https://www.booking.com/hotel/de/fraser-suites-hamburg.html' }
+    ] },
     'hanoi': { h: [
       { name: 'The Oriental Jade Hotel', note: 'Independent — 92-94 Hang Trong in Hoan Kiem, rooftop infinity pool over the Old Quarter, spa and steam room, 24h reception · 9.6 Booking.com' , url: 'https://www.booking.com/hotel/vn/the-oriental-jade-amp-spa.html' },
       { name: 'JW Marriott Hotel Hanoi', note: 'Marriott brand — award-winning curved tower by Carlos Zapata Studio, outdoor pool, full-service spa, largest luxury hotel in Hanoi · 8.8 Booking.com' , url: 'https://www.booking.com/hotel/vn/jw-marriott-hotel-hanoi.html' },
@@ -7357,11 +7357,14 @@ window.TVE.home = (function () {
       { name: 'The Ritz-Carlton, Sarasota', note: 'Ritz-Carlton brand — downtown waterfront, The Club beach access, Ristorante Primo, 24h reception, AC · 9.1 Booking.com', url: 'https://www.booking.com/hotel/us/the-ritz-carlton-sarasota.html', tier: 'luxury' }
     ], price: { budget: 'USD 100–190', mid: 'USD 180–320', expensive: 'USD 300–550', luxury: 'USD 550+' } },
     'sardinia': { h: [
-      { name: 'Hotel Pitrizza, a Luxury Collection Resort', note: 'Marriott Luxury Collection — Costa Smeralda private rocky bay, saltwater pool, adults-only enclave · 9.3 Booking.com', url: 'https://www.booking.com/hotel/it/hotel-pitrizza-luxury-collection-resort-costa-smeralda.html' },
-      { name: 'Romazzino, A Belmond Hotel', note: 'Belmond brand — Costa Smeralda private beach, parasol-shaded white sand, boat excursions · 9.1 Booking.com', url: 'https://www.booking.com/hotel/it/romazzino.html' },
-      { name: 'Forte Village Resort', note: 'Independent mega-resort — Pula, 12 pools, spa with hammam, 21 restaurants, sports facilities · 9.1 Booking.com', url: 'https://www.booking.com/hotel/it/forte-village-resort.html' },
-      { name: 'Cervo Hotel · Costa Smeralda Resort', note: 'Independent — Porto Cervo hillside village, Cervo Tennis Club, 3 pools, panoramic sea views · 9.2 Booking.com', url: 'https://www.booking.com/hotel/it/cervo.html' }
-    ] },
+      { name: 'Grand Hotel Olbia', note: 'Independent 4-star — central Olbia, panoramic sea-view terrace, 24h reception, AC · 8.0 Booking.com', url: 'https://www.booking.com/hotel/it/grand-olbia.html', tier: 'budget' },
+      { name: 'Hotel Gallura', note: 'Independent 3-star — Via Garibaldi Olbia city centre, AC, steps from waterfront and ferry terminal · 7.8 Booking.com', url: 'https://www.booking.com/hotel/it/gallura-olbia.html', tier: 'budget' },
+      { name: 'Hotel Hermitage & Park', note: 'Independent resort — Porto Rotondo Bay, private beach, pools, watersports, 24h reception · 8.3 Booking.com', url: 'https://www.booking.com/hotel/it/hermitage-park-porto-rotondo.html', tier: 'mid' },
+      { name: 'Forte Village Resort', note: 'Independent mega-resort — Pula, 12 pools, spa with hammam, 21 restaurants, sports facilities · 9.1 Booking.com', url: 'https://www.booking.com/hotel/it/forte-village-resort.html', tier: 'expensive' },
+      { name: 'Cervo Hotel · Costa Smeralda Resort', note: 'Independent — Porto Cervo hillside village, Cervo Tennis Club, 3 pools, panoramic sea views · 9.2 Booking.com', url: 'https://www.booking.com/hotel/it/cervo.html', tier: 'expensive' },
+      { name: 'Hotel Pitrizza, a Luxury Collection Resort', note: 'Marriott Luxury Collection — Costa Smeralda private rocky bay, saltwater pool, adults-only enclave · 9.3 Booking.com', url: 'https://www.booking.com/hotel/it/hotel-pitrizza-luxury-collection-resort-costa-smeralda.html', tier: 'luxury' },
+      { name: 'Romazzino, A Belmond Hotel', note: 'Belmond brand — Costa Smeralda private beach, parasol-shaded white sand, boat excursions · 9.1 Booking.com', url: 'https://www.booking.com/hotel/it/romazzino.html', tier: 'luxury' }
+    ], price: { budget: 'EUR 90–180', mid: 'EUR 180–350', expensive: 'EUR 350–700', luxury: 'EUR 700+' } },
     'scottsdale': { h: [
       { name: 'Hotel Valley Ho', note: 'Independent — retro-modern midcentury landmark in Old Town Scottsdale, pool, Café ZuZu, walk to Waterfront · 8.9 Booking.com', url: 'https://www.booking.com/hotel/us/hotel-valley-ho-scottsdale-arizona.html' },
       { name: 'Andaz Scottsdale Resort & Bungalows', note: 'Hyatt brand — desert rock-formation setting, Weft & Warp restaurant, desert-botanical spa treatments · 9.2 Booking.com', url: 'https://www.booking.com/hotel/us/andaz-scottsdale-resort-bungalows.html' },
@@ -7627,11 +7630,11 @@ window.TVE.home = (function () {
       { name: 'The Fairmont Empress', note: 'Fairmont brand — 1908 Inner Harbour landmark, spa, Bengal Lounge, afternoon tea tradition · 9.0 Booking.com', url: 'https://www.booking.com/hotel/ca/fairmont-empress.html', tier: 'luxury' }
     ], price: { budget: 'CAD 150–250', mid: 'CAD 250–400', expensive: 'CAD 400–600', luxury: 'CAD 600+' } },
     'vienna': { h: [
-      { name: 'Hotel Imperial, a Luxury Collection Hotel, Vienna', note: 'Marriott Luxury Collection — 1863 Crown Prince Rudolf\'s palace on Ringstrasse, Café Imperial tradition · 9.2 Booking.com' , url: 'https://www.booking.com/hotel/at/imperial.html' },
-      { name: 'Park Hyatt Vienna', note: 'Hyatt brand — 1913 Austro-Hungarian bank vault converted to spa and indoor pool, Das Loft restaurant · 9.4 Booking.com' , url: 'https://www.booking.com/hotel/at/park-hyatt-vienna.html' },
-      { name: 'Hotel Sacher Wien', note: 'Independent — Philharmonikerstraße beside the Opera, iconic Sacher Torte heritage, Rote Bar and Anna Sacher restaurants, spa · 9.0 Booking.com' , url: 'https://www.booking.com/hotel/at/sacher.html' },
-      { name: 'Palais Coburg Residenz', note: 'Independent — 1845 Coburg Palace in the First District, suites only (35), wine cellar with 60,000 bottles, pool and spa · 9.5 Booking.com' , url: 'https://www.booking.com/hotel/at/palais-coburg-residenz.html' }
-    ] },
+      { name: 'Motel One Wien-Staatsoper', note: 'Motel One brand — Elisabethstraße near the Staatsoper and Naschmarkt, design budget, rooftop terrace, central First District · 8.6 Booking.com', url: 'https://www.booking.com/hotel/at/motel-one-wien-staatsoper.html', tier: 'budget' },
+      { name: 'Hotel Rathaus Wein & Design', note: 'Independent — Lange Gasse in the 8th district, wine-themed rooms (each paired with an Austrian winery), garden, modern design · 9.3 Booking.com', url: 'https://www.booking.com/hotel/at/rathaus-wein-und-design.html', tier: 'mid' },
+      { name: 'Hotel Sacher Wien', note: 'Independent — Philharmonikerstraße beside the Opera, iconic Sacher Torte heritage, Rote Bar and Anna Sacher restaurants, spa · 9.0 Booking.com', url: 'https://www.booking.com/hotel/at/sacher.html', tier: 'expensive' },
+      { name: 'Park Hyatt Vienna', note: 'Hyatt brand — 1913 Austro-Hungarian bank vault converted to spa and indoor pool, Das Loft restaurant · 9.4 Booking.com', url: 'https://www.booking.com/hotel/at/park-hyatt-vienna.html', tier: 'luxury' }
+    ], price: { budget: '€80–150', mid: '€150–280', expensive: '€280–450', luxury: '€450+' } },
     'virgin-islands': { h: [
       { name: 'Sugar Bay Resort & Spa', note: 'IHG brand — Sugar Bay Beach, hillside pools and water slides, full-service spa, St. Thomas East End', url: 'https://www.sugarbayresortandspa.com/' },
       { name: 'Point Pleasant Resort', note: 'Independent boutique — Estate Smith Bay hilltop, studio apartments and suites with bay views, snorkel beach', url: 'https://www.pointpleasantresort.com/' },

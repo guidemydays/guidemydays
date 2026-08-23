@@ -6237,11 +6237,11 @@ window.TVE.home = (function () {
       { name: 'New York Luxury Suites', note: 'Independent — Donzelot on the old harbour front, suites with AC and a terrace over the Old Town roofs · 9.5 Booking.com', url: 'https://www.booking.com/hotel/gr/new-york-luxury-suites-kerkura5.html', tier: 'luxury' }
     ], price: { budget: 'EUR 80–130', mid: 'EUR 130–200', expensive: 'EUR 200–300', luxury: 'EUR 300+' } },
     'crete': { h: [
-      { name: 'Galaxy Hotel Iraklio', note: 'Independent 5-star — Heraklion\'s central elegant district, two on-site restaurants, freshwater outdoor pool, wellness and fitness center · 8.6 Booking.com', url: 'https://www.booking.com/hotel/gr/galaxy-heraklion.html' },
-      { name: 'Lato Boutique Hotel', note: 'Independent boutique — Old Town Heraklion near the Venetian harbour, Brilliant Cuisine rooftop restaurant with Koules Fortress and sea panoramas · 8.4 Booking.com', url: 'https://www.booking.com/hotel/gr/lato-boutique-hotel.html' },
-      { name: 'Capsis Astoria City Center Hotel', note: 'Independent 4-star — central Heraklion near Eleftherias Square, contemporary rooms, rooftop pool, walking distance to the Archaeological Museum · 8.1 Booking.com', url: 'https://www.booking.com/hotel/gr/capsis-astoria.html' },
-      { name: 'Olive Green Hotel', note: 'Independent eco-boutique — sustainable 4-star near the city port, bike-friendly, organic breakfast, 8-min walk to the Heraklion waterfront · 8.7 Booking.com', url: 'https://www.booking.com/hotel/gr/olive-green-hotel.html' }
-    ] },
+      { name: 'Capsis Astoria City Center Hotel', note: 'Independent 4-star — central Heraklion near Eleftherias Square, contemporary rooms, rooftop pool, walking distance to the Archaeological Museum · 8.1 Booking.com', url: 'https://www.booking.com/hotel/gr/capsis-astoria.html', tier: 'budget' },
+      { name: 'Lato Boutique Hotel', note: 'Independent boutique — Old Town Heraklion near the Venetian harbour, Brilliant Cuisine rooftop restaurant with Koules Fortress and sea panoramas · 8.4 Booking.com', url: 'https://www.booking.com/hotel/gr/lato-boutique-hotel.html', tier: 'mid' },
+      { name: 'Galaxy Hotel Iraklio', note: 'Independent 5-star — Heraklion\'s central elegant district, two on-site restaurants, freshwater outdoor pool, wellness and fitness center · 8.6 Booking.com', url: 'https://www.booking.com/hotel/gr/galaxy-heraklion.html', tier: 'expensive' },
+      { name: 'Olive Green Hotel', note: 'Independent eco-boutique — sustainable 4-star near the city port, bike-friendly, organic breakfast, 8-min walk to the Heraklion waterfront · 8.7 Booking.com', url: 'https://www.booking.com/hotel/gr/olive-green-hotel.html', tier: 'luxury' }
+    ], price: { budget: 'EUR 80–130', mid: 'EUR 130–200', expensive: 'EUR 200–300', luxury: 'EUR 300+' } },
     'curacao': { h: [
       { name: 'Boutique Hotel \'t Klooster', note: 'Independent boutique — former convent on A. de Veerstraat in Pietermaai, outdoor pool, restaurant and bar, 24h reception · 8.4 Booking.com', url: 'https://www.booking.com/hotel/cw/t-klooster.html', tier: 'budget' },
       { name: 'BOHO Bohemian Boutique Hotel', note: 'Independent boutique — Johan van Walbeeckplein in Pietermaai, restaurant, express check-in, 24h reception · 4.8 TripAdvisor', url: 'https://www.booking.com/hotel/cw/boho-bohemian-boutique.html', tier: 'budget' },
@@ -6484,11 +6484,11 @@ window.TVE.home = (function () {
       { name: 'The Peninsula Hong Kong', note: 'Peninsula Hotels — Tsim Sha Tsui flagship since 1928, rooftop helicopter transfers, ESPA spa · 9.3 Booking.com', url: 'https://www.booking.com/hotel/hk/the-peninsula.html', tier: 'luxury' }
     ], price: { budget: 'HKD 1,500–3,500', mid: 'HKD 3,500–7,000', expensive: 'HKD 7,000–14,000', luxury: 'HKD 14,000+' } },
     'istanbul': { h: [
-      { name: 'Four Seasons Hotel Istanbul at Sultanahmet', note: 'Four Seasons brand — converted 19th-century Ottoman prison, steps from Hagia Sophia, inner courtyard garden, butler service · 9.3 Booking.com', url: 'https://www.booking.com/hotel/tr/four-seasons-istanbul-at-sultanahmet.html' },
-      { name: 'Raffles Istanbul Zorlu', note: 'Raffles brand — European side at Zorlu Center, indoor and outdoor pools, Arola Restaurant, long private driveway approach · 9.1 Booking.com', url: 'https://www.booking.com/hotel/tr/raffles-istanbul.html' },
-      { name: 'Çırağan Palace Kempinski Istanbul', note: 'Kempinski brand — 19th-century Ottoman palace on the Bosphorus, outdoor pool on the water, Tuğra restaurant · 9.4 Booking.com', url: 'https://www.booking.com/hotel/tr/ciragan-palace.html' },
-      { name: 'The Ritz-Carlton Istanbul', note: 'Ritz-Carlton brand — Beşiktaş on the Bosphorus, Laveda restaurant, spa with indoor pool · 9.1 Booking.com', url: 'https://www.booking.com/hotel/tr/the-ritz-carlton-istanbul.html' }
-    ] },
+      { name: 'Sura Hagia Sophia Hotel', note: 'Independent — Küçük Ayasofya Mh. in Sultanahmet, 4-star, rooftop terrace with Bosphorus views, 24h reception · 9.2 Booking.com', url: 'https://www.booking.com/hotel/tr/sura-hagia-sophia-hotel.html', tier: 'budget' },
+      { name: 'Radisson Blu Hotel Istanbul Pera', note: 'Radisson Blu brand — Meşrutiyet Cd. in Beyoğlu, 5-star, rooftop pool with Bosphorus panorama, Pera district walking distance · 9.1 Booking.com', url: 'https://www.booking.com/hotel/tr/radisson-blu-hotel-istanbul-pera.html', tier: 'mid' },
+      { name: 'Orientbank Hotel Istanbul · Autograph Collection', note: 'Autograph Collection (Marriott) — Fındıkçı Remzi Sk. in Sirkeci, Ottoman-era building steps from the Grand Bazaar district, rooftop terrace, 24h reception · 9.0 Booking.com', url: 'https://www.booking.com/hotel/tr/orientbank.html', tier: 'expensive' },
+      { name: 'Four Seasons Hotel Istanbul at Sultanahmet', note: 'Four Seasons brand — converted 19th-century Ottoman prison, steps from Hagia Sophia, inner courtyard garden, butler service · 9.3 Booking.com', url: 'https://www.booking.com/hotel/tr/four-seasons-istanbul-at-sultanahmet.html', tier: 'luxury' }
+    ], price: { budget: 'TRY 3,000–7,000', mid: 'TRY 7,000–15,000', expensive: 'TRY 15,000–30,000', luxury: 'TRY 30,000+' } },
     'joao-pessoa': { h: [
       { name: 'Holanda Gold Hotel Praia de Tambaú', note: 'Independent — Av. Alm. Tamandaré on the Tambaú beachfront, 4-star, rooftop pool with sea view, 24h reception · 9.6 Booking.com', url: 'https://www.booking.com/hotel/br/holanda-gold.html', tier: 'mid' },
       { name: 'HCM · Hotel Corais de Manaíra', note: 'Independent — Av. João Maurício on the Manaíra beachfront, 5-star, indoor and rooftop infinity pools, 24h reception · 9.2 Booking.com', url: 'https://www.booking.com/hotel/br/corais-de-manaira.html', tier: 'luxury' },

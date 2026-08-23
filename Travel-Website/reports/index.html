@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Reports — Guide My Days Hub</title>
-<!-- built: 2026-08-23 07:08 UTC | backlog: 148 | scouting-open: 46 -->
+<!-- built: 2026-08-23 08:29 UTC | backlog: 148 | scouting-open: 46 -->
 <style>
   :root{ --bg:#f6f2ec; --surface:#fffdf9; --surface2:#f1ece3; --ink:#2f2a22; --muted:#736c60; --faint:#a49b8c; --line:#e4ddd0;
     --rust:#b0501f; --open:#b23a22; --partial:#a86f16; --unsure:#7a7368; --pending:#1a4d8c;
@@ -2502,18 +2502,20 @@ THE DECISION IS YOURS BECAUSE EITHER ANSWER GIVES SOMETHING UP. Keeping the devi
       <details class="tile">
         <summary>
           <span class="tstatus st-pending">PENDING</span>
-          <span class="ttitle">The airport picker offers LGW above LHR for &#x27;london&#x27; — nothing in the data says which airport a city&#x27;s name should mean</span>
+          <span class="ttitle">The airport picker cannot find Narita from &quot;tokyo&quot; — and it is now the first, required question</span>
           <span class="chev">&rsaquo;</span>
         </summary>
         <div class="tbody">
-          <p class="tdetail">Typing &#x27;london&#x27; into &#x27;Which airport are you flying from?&#x27; lists London (LGW), London (LHR), London Essex (STN), London (LCY), then two Londons that are not in England. Someone naming their city means the airport they actually fly from, and for London that is Heathrow.
+          <p class="tdetail">UPDATED 2026-08-23, after the airport became the FIRST field and the rest of the form was greyed out behind it (owner rule the same day). That raises this from a ranking nicety to something that can stop a reader on question one.
 
-IT IS NOT A BUG IN THE SORT. lookup() already tie-breaks rank, then major-hub membership, then the large/medium tier byte, then the city string — and LHR and LGW are identical on all four: same rank (city prefix match), both major, both large_airport, same city name. The comparator then falls through to an arbitrary order. The same tie exists for New York (JFK/EWR/LGA), Paris (CDG/ORY), Milan (MXP/LIN), Tokyo (HND/NRT) and every other multi-airport city.
+THE HALF THAT IS FIXED, in the page, needs no decision: the list read the OurAirports `municipality`, so Milan Malpensa offered itself as &quot;Ferno (VA) (MXP)&quot;, Athens as &quot;Spata-Artemida (ATH)&quot;, Venice as &quot;Venezia (VE)&quot; and Washington Dulles as &quot;Dulles (IAD)&quot;. Rows now lead with the airport&#x27;s own NAME, which almost always carries the city, and that also settles Heathrow against Gatwick — both read &quot;London&quot; before.
 
-BREAKING THE TIE NEEDS A SIGNAL THE SITE DOES NOT HAVE. OurAirports, which build_airports.py reads, publishes type and scheduled_service and nothing about size beyond large/medium — it cannot say Heathrow outranks Gatwick. Two ways to get one, and the choice is a data-policy call: (a) add annual passenger volume from a second public source and sort on it, which is a new dependency and a number that ages; or (b) hand-curate a short PRIMARY list of one airport per multi-airport city — perhaps thirty rows, the same kind of judgement the FMAP destination codes already are (Aix-en-Provence to MRS, Cinque Terre to the mainland field) and therefore consistent with how the site already handles this question in the other direction.
+THE HALF THAT NEEDS YOU IS THE SEARCH, because it needs data the site does not have. Matching is against the code, the municipality and the airport name, and some airports carry the city in none of the three. Measured: typing &quot;tokyo&quot; returns Haneda and NOT Narita, whose municipality is &quot;Narita&quot; and whose name is &quot;Narita International&quot;; typing &quot;bergamo&quot; returns NOTHING, because BGY is filed as &quot;Orio al Serio (BG)&quot; / &quot;Il Caravaggio International&quot;. A reader who cannot find their airport now cannot use the finder at all.
 
-Low severity: every option shown is correct, and the reader picks from a list of six. Logged rather than fixed because toolbar.js is a shared asset and either fix authors new data.</p>
-          <div class="tmeta"><span class="badge tgt">Travel-Website/assets/toolbar.js (TVE.home.lookup) + Brain/scripts/build/build_airports.py (airport-names.json)</span><span class="badge src">Help Me Choose filter audit, 2026-08-23</span></div>
+TWO WAYS TO CLOSE IT, and the choice is a data-policy call. (a) A CITY ALIAS TABLE — perhaps thirty to fifty rows mapping a city people type to the airports that serve it (tokyo → HND, NRT; milan → MXP, LIN, BGY; london → LHR, LGW, STN, LCY). Hand-curated, which is the same kind of judgement the FMAP destination codes already are (Aix-en-Provence to MRS, Cinque Terre to the mainland field), so it is consistent with how the site already answers this question in the other direction — and it would carry the primary-airport order too, which is the original point of this entry. (b) ADD PASSENGER VOLUME from a second public source and rank on it — a new dependency, a number that ages, and it fixes the ORDER without fixing the MISSES, so it does not help Bergamo at all.
+
+A third option, if neither appeals: let the reader skip the airport. That reverses today&#x27;s gate and brings back the case it was added to stop, so it is listed for completeness rather than recommended.</p>
+          <div class="tmeta"><span class="badge tgt">Travel-Website/assets/airport-names.json + Brain/scripts/build/build_airports.py + Travel-Website/assets/toolbar.js (TVE.home.lookup)</span><span class="badge src">Help Me Choose filter audit, 2026-08-23</span></div>
         </div>
       </details><p class="rules-hint">Scope: CORE RULES edits &middot; toolbar structural changes &middot; new design decisions &middot; stray-file delete approvals. Everything else goes to the To&nbsp;Do&nbsp;List for cribs to resolve. To propose: add an entry to <code>Brain/scripts/open_recs/rules_changes.json</code> and rebuild.</p></div>
   </section>

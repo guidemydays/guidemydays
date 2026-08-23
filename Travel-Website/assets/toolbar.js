@@ -6860,11 +6860,11 @@ window.TVE.home = (function () {
       { name: 'The Joseph, a Luxury Collection Hotel Nashville', note: 'Marriott Luxury Collection — SoBro arts district, Yolan Italian restaurant, curated art · 9.3 Booking.com', url: 'https://www.booking.com/hotel/us/the-joseph.html', tier: 'luxury' }
     ] },
     'natal': { h: [
-      { name: 'Rifóles Beach Hotel & Resort', note: 'Independent — beachfront on Ponta Negra, three pools, ocean views, close to Natal nightlife · 8.9 Booking.com', url: 'https://www.booking.com/hotel/br/rifoles-praia.html' },
-      { name: 'Coral Plaza Apart Hotel', note: 'Independent — Rua Francisco Gurgel on the Ponta Negra beachfront, 24h reception, pool with a shallow kids section, apartment-style rooms · 9.3 Booking.com', url: 'https://www.booking.com/hotel/br/coral-plaza-apart.html' },
-      { name: 'Serhs Natal Grand Hotel', note: 'Serhs Hotels — Ponta Negra beachfront, outdoor pool, spa, large waterfront hotel · 8.7 Booking.com', url: 'https://www.booking.com/hotel/br/serhs-natal-grand.html' },
-      { name: 'Pestana Natal Beach Resort', note: 'Pestana brand — Via Costeira beachfront, outdoor pool, Atlantic views, all-inclusive option · 8.5 Booking.com', url: 'https://www.booking.com/hotel/br/pestana-natal.html' }
-    ] },
+      { name: 'Coral Plaza Apart Hotel', note: 'Independent — Rua Francisco Gurgel on the Ponta Negra beachfront, 24h reception, pool with a shallow kids section, apartment-style rooms · 9.3 Booking.com', url: 'https://www.booking.com/hotel/br/coral-plaza-apart.html', tier: 'budget' },
+      { name: 'Rifóles Beach Hotel & Resort', note: 'Independent — beachfront on Ponta Negra, three pools, ocean views, close to Natal nightlife · 8.9 Booking.com', url: 'https://www.booking.com/hotel/br/rifoles-praia.html', tier: 'mid' },
+      { name: 'Serhs Natal Grand Hotel', note: 'Serhs Hotels — Ponta Negra beachfront, outdoor pool, spa, large waterfront hotel · 8.7 Booking.com', url: 'https://www.booking.com/hotel/br/serhs-natal-grand.html', tier: 'expensive' },
+      { name: 'Pestana Natal Beach Resort', note: 'Pestana brand — Via Costeira beachfront, outdoor pool, Atlantic views, all-inclusive option · 8.5 Booking.com', url: 'https://www.booking.com/hotel/br/pestana-natal.html', tier: 'luxury' }
+    ], price: { budget: 'BRL 300–500', mid: 'BRL 500–900', expensive: 'BRL 900–1500', luxury: 'BRL 1500+' } },
     'new-orleans': { h: [
       { name: 'The Ritz-Carlton, New Orleans', note: 'Ritz-Carlton brand — Canal Street landmark in 1907 Beaux-Arts building, spa, Club Lounge · 8.7 Booking.com', url: 'https://www.booking.com/hotel/us/nine-twenty-one-canal-street-new-orleans.html' },
       { name: 'Hotel Monteleone', note: 'Independent — 1886 Royal Street icon, rotating Carousel Bar, rooftop pool, Hunt Room Grill · 9.1 Booking.com', url: 'https://www.booking.com/hotel/us/monteleone.html' },
@@ -11288,16 +11288,16 @@ window.TVE.home = (function () {
        its airport. */
     var LOUNGE_IATAS = [
       'ABQ','AES','AGP','AJU','AMM','AMS','ANC','ARN','ATH','ATL','AUA','AUH','AUS','BCN','BDS','BER',
-      'BGI','BGO','BIO','BKK','BOS','BRU','BUD','CAI','CDG','CMB','CPH','CPT','CUN','CUR','CUZ','CWB',
-      'DBV','DEN','DFW','DOH','DPS','DTW','DUB','DUS','DXB','EDI','EYW','EZE','FAO','FCO','FHR','FLN',
-      'FLR','FOR','FRA','GCM','GIG','GOT','GPS','GRU','GVA','HAM','HAN','HEL','HER','HKG','HKT','HND',
-      'IAD','IAH','ICN','IGU','IST','JFK','JMK','JPA','KEF','KOA','KRK','KTM','LAS','LAX','LGA','LGW',
-      'LHR','LIH','LIM','LIS','LUX','LYS','MAD','MAN','MCT','MEL','MIA','MLE','MRS','MSP','MUC','MVD','MXP',
-      'NAP','NAS','NCE','OGG','OPO','ORD','ORY','OSL','PBH','PDL','PDX','PEK','PHL','PHX','PLS','PMI',
-      'PNS','POA','PPS','PRG','PSA','PSP','PUS','PVG','PVR','RAK','RDM','REC','RHO','RIX','RNO','RSW',
-      'SAN','SCL','SEA','SFO','SIN','SJC','SJO','SJU','SKG','SLC','SPU','STR','SXB','SYD','TBS','TFS',
-      'TIV','TLL','TOS','TPE','TRN','VCE','VIE','VLC','WLG','YQB','YUL','YVR','YYC','YYZ','ZAG','ZQN',
-      'ZRH'
+      'BGI','BGO','BIO','BKK','BLQ','BNA','BOS','BRU','BUD','CAI','CDG','CLT','CMB','CPH','CPT','CUN',
+      'CUR','CUZ','CWB','DBV','DEN','DFW','DOH','DPS','DTW','DUB','DUS','DXB','EDI','EYW','EZE','FAO',
+      'FCO','FHR','FLN','FLR','FOR','FRA','GCM','GIG','GOT','GPS','GRU','GVA','HAM','HAN','HEL','HER',
+      'HKG','HKT','HND','IAD','IAH','ICN','IGU','IST','JFK','JMK','JPA','KEF','KOA','KRK','KTM','LAS',
+      'LAX','LGA','LGW','LHR','LIH','LIM','LIS','LUX','LYS','MAD','MAN','MCT','MEL','MIA','MLE','MRS',
+      'MSP','MUC','MVD','MXP','NAP','NAS','NAT','NCE','OGG','OPO','ORD','ORY','OSL','PBH','PDL','PDX','PEK',
+      'PHL','PHX','PLS','PMI','PNS','POA','PPS','PRG','PSA','PSP','PUS','PVG','PVR','RAK','RDM','REC',
+      'RHO','RIX','RNO','RSW','SAN','SCL','SEA','SFO','SIN','SJC','SJO','SJU','SKG','SLC','SPU','STR',
+      'SXB','SYD','TBS','TFS','TIV','TLL','TOS','TPE','TRN','VCE','VIE','VLC','WLG','YQB','YUL','YVR',
+      'YYC','YYZ','ZAG','ZQN','ZRH'
     ];
 
     function _inject() {

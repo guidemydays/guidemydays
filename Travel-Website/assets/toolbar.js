@@ -6219,11 +6219,11 @@ window.TVE.home = (function () {
       { name: 'Shangri-La Colombo', note: 'Shangri-La brand — between Galle Face Green and Beira Lake, Indian Ocean views, Chi Spa, multiple dining venues including Graze Kitchen · 8.5 Booking.com', url: 'https://www.booking.com/hotel/lk/shangri-la-colombo.html', tier: 'luxury' }
     ], price: { budget: 'LKR 30,000–45,000', mid: 'LKR 45,000–65,000', expensive: 'LKR 65,000–90,000', luxury: 'LKR 90,000+' } },
     'columbia': { h: [
-      { name: 'Hotel Trundle', note: 'Independent boutique — Main Street District, art deco-inspired interiors celebrating Columbia\'s arts scene, rooftop bar with city views · 9.1 Booking.com', url: 'https://www.booking.com/hotel/us/trundle.html' },
-      { name: 'Hilton Columbia Center', note: 'Hilton brand — downtown Columbia, Whiskey Bar rooftop with skyline views, close to the Vista arts and dining district · 8.3 Booking.com', url: 'https://www.booking.com/hotel/us/hilton-columbia-center.html' },
-      { name: 'Hyatt Place Columbia/Downtown/The Vista', note: 'Hyatt brand — Vista entertainment district, indoor heated saltwater pool, complimentary breakfast, walking distance to South Carolina State Museum and the arts scene · 8.1 Booking.com', url: 'https://www.booking.com/hotel/us/hyatt-place-columbia-47-downtown-47-the-vista.html' },
-      { name: 'SpringHill Suites Columbia Downtown The Vista', note: 'Marriott brand — all-suite hotel in the Vista, indoor swimming pool, fitness center, bar, adjacent to South Carolina State Museum and Columbia Museum of Art · 8.1 Booking.com', url: 'https://www.booking.com/hotel/us/springhill-suites-columbia-downtown-the-vista.html' }
-    ] },
+      { name: 'SpringHill Suites Columbia Downtown The Vista', note: 'Marriott brand — all-suite hotel in the Vista, indoor swimming pool, fitness center, bar, adjacent to South Carolina State Museum and Columbia Museum of Art · 8.1 Booking.com', url: 'https://www.booking.com/hotel/us/springhill-suites-columbia-downtown-the-vista.html', tier: 'budget' },
+      { name: 'Hyatt Place Columbia/Downtown/The Vista', note: 'Hyatt brand — Vista entertainment district, indoor heated saltwater pool, complimentary breakfast, walking distance to South Carolina State Museum and the arts scene · 8.1 Booking.com', url: 'https://www.booking.com/hotel/us/hyatt-place-columbia-47-downtown-47-the-vista.html', tier: 'mid' },
+      { name: 'Hilton Columbia Center', note: 'Hilton brand — downtown Columbia, Whiskey Bar rooftop with skyline views, close to the Vista arts and dining district · 8.3 Booking.com', url: 'https://www.booking.com/hotel/us/hilton-columbia-center.html', tier: 'expensive' },
+      { name: 'Hotel Trundle', note: 'Independent boutique — Main Street District, art deco-inspired interiors celebrating Columbia\'s arts scene, rooftop bar with city views · 9.1 Booking.com', url: 'https://www.booking.com/hotel/us/trundle.html', tier: 'luxury' }
+    ], price: { budget: '$100–150', mid: '$150–200', expensive: '$200–260', luxury: '$280+' } },
     'copenhagen': { h: [
       { name: 'Hotel d\'Angleterre', note: 'Leading Hotels of the World — 1755 landmark on Kongens Nytorv, Michelin-starred Restaurant Marchal, spa with indoor pool, direct access to Strøget shopping · 9.3 Booking.com' , url: 'https://www.booking.com/hotel/dk/dangleterre.html' },
       { name: 'Nimb Hotel', note: 'Independent boutique — 17 rooms inside Tivoli Gardens, Nimb Terrasse brasserie, members-only Nimb Bar, private garden access year-round · 9.4 Booking.com' , url: 'https://www.booking.com/hotel/dk/nimb.html' },
@@ -11319,7 +11319,7 @@ window.TVE.home = (function () {
        its airport. */
     var LOUNGE_IATAS = [
       'ABQ','AES','AGP','AJU','AMM','AMS','ANC','ARN','ATH','ATL','AUA','AUH','AUS','BCN','BDS','BER',
-      'BGI','BGO','BIO','BKK','BLQ','BNA','BOB','BOD','BOS','BRU','BSL','BUD','CAI','CDG','CGN','CKG',
+      'BGI','BGO','BIO','BKK','BLQ','BNA','BOB','BOD','BOS','BRU','BSL','BUD','CAE','CAI','CDG','CGN','CKG',
       'CLT','CMB','CNX','CPH','CPT','CUN','CUR','CUZ','CWB','DBV','DEN','DFW','DOH','DPS','DTW','DUB',
       'DUS','DXB','EDI','EYW','EZE','FAO','FCA','FCO','FHR','FLN','FLR','FNC','FOR','FRA','GCM','GEG',
       'GIG','GOT','GPS','GRU','GRX','GVA','HAM','HAN','HEL','HER','HKG','HKT','HND','HNL','IAD','IAH',

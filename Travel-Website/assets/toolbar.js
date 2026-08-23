@@ -11452,18 +11452,19 @@ window.TVE.home = (function () {
        its airport. */
     var LOUNGE_IATAS = [
       'ABQ','AES','AGP','AJU','AMM','AMS','ANC','ARN','ATH','ATL','AUA','AUH','AUS','BCN','BDS','BER',
-      'BGI','BGO','BIO','BKK','BLQ','BNA','BOB','BOD','BOS','BRU','BSL','BUD','CAE','CAI','CDG','CFU','CGN','CKG',
-      'CLT','CMB','CNX','CPH','CPT','CTA','CUN','CUR','CUZ','CWB','DAD','DBV','DCA','DEN','DFW','DOH','DPS','DTW','DUB',
-      'DUS','DXB','EDI','EYW','EZE','FAO','FCA','FCO','FHR','FLN','FLR','FNC','FOR','FRA','GCM','GEG',
-      'GIG','GOT','GPS','GRU','GRX','GVA','HAM','HAN','HEL','HER','HHH','HIJ','HKG','HKT','HND','HNL','IAD','IAH',
-      'ICN','IGU','IST','JFK','JMK','JPA','JTR','KEF','KIX','KOA','KRK','KTM','LAS','LAX','LGA','LGW',
-      'LHR','LIH','LIM','LIS','LJU','LPQ','LUX','LYS','MAD','MAN','MCO','MCT','MCZ','MEL','MIA','MLA',
-      'MLE','MRS','MSP','MSY','MUC','MVD','MXP','NAP','NAS','NAT','NCE','OAX','OGG','OLB','OPO','ORD',
-      'ORS','ORY','OSL','PBH','PDL','PDX','PEK','PHL','PHX','PLS','PMI','PNS','POA','PPS','PRG','PSA',
-      'PSP','PUS','PVG','PVR','RAK','RDM','REC','RHO','RIX','RNO','RSW','SAN','SCL','SEA','SEZ','SFO','SIN',
-      'SJC','SJD','SJO','SJU','SKG','SLC','SLZ','SPU','SRQ','SSA','STR','STT','SVQ','SXB','SXM','SYD','SZG','TBS',
-      'TFS','TIV','TLL','TOS','TPE','TRN','VCE','VIE','VLC','VNO','VRN','WLG','YQB','YUL','YVR','YYC',
-      'DYG','YYZ','ZAG','ZQN','ZRH','ZTH'
+      'BGI','BGO','BIO','BKK','BLQ','BNA','BOB','BOD','BOS','BRU','BSL','BUD','CAE','CAI','CDG','CFU',
+      'CGN','CKG','CLT','CMB','CNX','CPH','CPT','CTA','CUN','CUR','CUZ','CWB','DAD','DBV','DCA','DEN',
+      'DFW','DOH','DPS','DTW','DUB','DUS','DXB','DYG','EDI','EYW','EZE','FAO','FCA','FCO','FHR','FLN',
+      'FLR','FNC','FOR','FRA','GCM','GEG','GIG','GLA','GOT','GPS','GRU','GRX','GVA','HAM','HAN','HEL',
+      'HER','HHH','HIJ','HKG','HKT','HND','HNL','IAD','IAH','ICN','IGU','IST','JFK','JMK','JPA','JTR',
+      'KEF','KIX','KOA','KRK','KTM','LAS','LAX','LGA','LGW','LHR','LIH','LIM','LIS','LJU','LPQ','LUX',
+      'LYS','MAD','MAN','MCO','MCT','MCZ','MEL','MIA','MLA','MLE','MRS','MSP','MSY','MUC','MVD','MXP',
+      'NAP','NAS','NAT','NCE','OAX','OGG','OLB','OPO','ORD','ORS','ORY','OSL','PBH','PDL','PDX','PEK',
+      'PHL','PHX','PLS','PMI','PNS','POA','PPS','PRG','PSA','PSP','PUS','PVG','PVR','RAK','RDM','REC',
+      'RHO','RIX','RNO','RSW','SAN','SCL','SEA','SEZ','SFO','SIN','SJC','SJD','SJO','SJU','SKG','SLC',
+      'SLZ','SPU','SRQ','SSA','STR','STT','SVQ','SXB','SXM','SYD','SZG','TBS','TFS','TIV','TLL','TOS',
+      'TPE','TRN','VCE','VIE','VLC','VNO','VRN','WLG','YQB','YUL','YVR','YYC','YYZ','ZAG','ZQN','ZRH',
+      'ZTH'
     ];
 
     function _inject() {

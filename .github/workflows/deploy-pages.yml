@@ -54,6 +54,13 @@ name: Deploy site (publish only — validation is local)
 on:
   push:
     branches: [main]
+  # A site can go down with no commit behind it — an expired cert, a DNS change,
+  # a Pages incident, or a service worker serving a stale bad copy. The
+  # deploy-triggered smoke below never sees those, so the smoke job also runs on
+  # its own every 6 hours. On a schedule run, build/deploy are SKIPPED and only
+  # the smoke job runs: this checks the site, it never republishes it.
+  schedule:
+    - cron: '0 */6 * * *'
   workflow_dispatch:
 
 permissions:
@@ -67,6 +74,7 @@ concurrency:
 
 jobs:
   build:
+    if: github.event_name != 'schedule'
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -110,6 +118,7 @@ jobs:
 
   deploy:
     needs: build
+    if: github.event_name != 'schedule'
     runs-on: ubuntu-latest
     environment:
       name: github-pages
@@ -117,3 +126,69 @@ jobs:
     steps:
       - id: deployment
         uses: actions/deploy-pages@v4
+
+  # ───────────────────────────────────────────────────────────────────────────
+  # POST-DEPLOY HEALTH CHECK — the only layer that runs AFTER the bytes are live.
+  #
+  # It cannot prevent a bad deploy; the parse gate in `build` does that. This
+  # DETECTS, and the detection is the point: the parse gates all ask "does this
+  # file parse", and a runtime error parses perfectly. This kills the page and
+  # is invisible to every gate before it:
+  #
+  #     TVE.home.init(window.__CFG.toolbar)     // __CFG is undefined
+  #
+  # `node --check` is green on that line. So a real browser loads the real
+  # domain and asserts the site actually came up: HTTP 200, zero uncaught JS
+  # errors, window.TVE defined (toolbar.js RAN, not merely downloaded), and the
+  # toolbar rendered nodes into the DOM.
+  #
+  # A failure turns the run red, which is the alarm — GitHub emails the owner.
+  # It runs TWICE before believing it, because an alarm that cries wolf gets
+  # ignored, and an ignored alarm is worse than no alarm at all.
+  # ───────────────────────────────────────────────────────────────────────────
+  smoke:
+    needs: deploy
+    if: always() && (github.event_name == 'schedule' || needs.deploy.result == 'success')
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Install Playwright (chromium only)
+        run: |
+          pip install --quiet playwright
+          playwright install --with-deps chromium
+
+      - name: Live smoke — does the site actually boot for a reader?
+        run: |
+          set -uo pipefail
+          # --expect-sha waits for the edge to serve THIS commit before asserting;
+          # on a schedule run there is no new commit to wait for.
+          if [ "${{ github.event_name }}" = "schedule" ]; then
+            ARGS=""
+          else
+            ARGS="--expect-sha ${{ github.sha }}"
+          fi
+
+          if python3 .github/scripts/live_smoke.py $ARGS; then
+            exit 0
+          fi
+
+          echo ""
+          echo "First pass failed — waiting 60s and retrying once before alarming."
+          echo "(CDN propagation and transient edge faults look identical to an"
+          echo " outage on a single pass; a real outage fails both.)"
+          sleep 60
+
+          if python3 .github/scripts/live_smoke.py $ARGS; then
+            echo "Second pass passed — first was transient. Not alarming."
+            exit 0
+          fi
+
+          echo ""
+          echo "🚨 CONFIRMED: the live site failed the health check TWICE."
+          echo "   This is what a reader is getting right now."
+          exit 1

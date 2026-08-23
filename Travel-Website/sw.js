@@ -1,3 +1,4 @@
+/* 2026-08-23: cinque-terre: train icons x3, ferry transit fix, station pin+motion rows, direction links x14, position-2c, HOTEL_ALT_DATA 4 tiers EUR. toolbar.js→v1006 CACHE→v1397. */
 
 /* 2026-08-23: chicago: HOTEL_ALT_DATA 4 tiers + USD prices (budget Hotel Blake, mid Loews, expensive Four Seasons, luxury The Langham); 66 motion-route links; train icons, GA-FD clauses fixed. toolbar.js -> v989. CACHE to v1379. */
 /* 2026-08-23: lisbon: HOTEL_ALT_DATA 5 hotels across 4 tiers + EUR price ranges; station entry icons, hike-pack pill, stop pins. toolbar.js -> v978. CACHE to v1368. */
@@ -1947,7 +1948,6 @@
 /* 2026-08-23: malaga: guide-style.css mobile section chip centering changed block+align-content to flex+align-items — fleet-wide fix for Weekly Closures chip vertical offset. guide-style.css -> 263. CACHE to v1394. */
 /* 2026-08-23: los-angeles: HOTEL_ALT_DATA 4 tiers + USD prices, motion-route links, train icons, position-2c, GA/FD fix toolbar.js -> v1004. CACHE to v1395. */
 /* 2026-08-23: sao-paulo hotel tiers toolbar.js -> v1005. CACHE to v1396. */
-/* 2026-08-23: madeira: HOTEL_ALT_DATA 4 tiers + EUR prices, FNC lounge card, motion-route links, position-2c toolbar.js -> v1006. CACHE to v1397. */
 var CACHE = 'travel-cache-v1397';
 
 /* The guide-calendar hand-off cache. Written by toolbar.js, read and emptied

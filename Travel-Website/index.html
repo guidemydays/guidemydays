@@ -1048,6 +1048,14 @@ a.land-cta:hover:visited {
 .fnd-field label { font-size: 0.82rem; font-weight: 600; color: var(--muted,#6a6660); }
 .fnd-hint { font-weight: 400; font-size: 0.76rem; opacity: .8; }
 
+/* THE AIRPORT FIELD, ALONE, ABOVE THE GRID (owner 2026-08-23: "put the airport
+   alone on top of all of them to be clear"). Full width rather than the grid's
+   1/3 column — it is the one field every other one is greyed out behind
+   (lockForm), not a pill the same size as "When are you going?". The gap
+   below matches .fnd-row's own gap so the standalone field and the grid read
+   as one card, not two stacked ones. */
+.fnd-home-standalone { margin-bottom: clamp(0.6rem, 1.4vw, 1rem); max-width: 420px; }
+
 /* ── Home-city control (2026-08-15) ────────────────────────────────────────
    The "from Seattle" hint became a button. It sits inside the label because
    that is where the question is qualified — a separate field would read as a
@@ -3249,35 +3257,18 @@ window.lpGuideCard = function (href, flag, name, extra) {
            combinations"). No steps, no "More ways" disclosure, no Continent. Same
            engine, same ids, same multi-pick chips; the list updates on every pick
            and Show my matches confirms. -->
-      <div class="fnd-row fnd-all">
-      <!-- THE ORDER IS THE ORDER A TRIP IS DECIDED IN (owner, 2026-08-23: "is the
-           order of the filter show up the best the most logical when someone thinks
-           about a trip what are the first things people choose? we should follow
-           this rules"). The big questions first, the long tail below them, so the
-           card gets less important as you scroll rather than more.
-
-             1-3  WHEN, WHAT and WHAT WEATHER — the three a traveller can answer
-                  before they have thought about a destination at all, and the
-                  three that narrow hardest.
-             4-5  HOW FAR, then FROM WHICH AIRPORT. This pair is fixed and its
-                  order is an owner rule of its own (2026-08-22): willingness is
-                  a thing a reader knows about themselves; the airport is the
-                  follow-up that answer creates, never the question before it.
-             6-8  COST, SAFETY, COUNTRY — the constraints, once a shape of trip
-                  exists to apply them to.
-             9    NEARBY TRAIN TRIPS, which reveals itself off the country
-                  (owner rule 2026-08-19) and therefore has to sit after it.
-            10-13 JET LAG, DAYLIGHT, LANGUAGE, CURRENCY — real filters, all four,
-                  but nobody opens this card to pick a currency. They are last
-                  because they are the ones a reader scrolls to on purpose.
-
-           It shipped as when / weather / activity / language / cost / safety /
-           country / trains / jet lag / currency / daylight / how far / airport,
-           which put LANGUAGE fourth and the AIRPORT dead last — the field that
-           has to be filled for the distance question above it to mean anything.
-           Moving a field here is the whole change: the engine reads ids, and
-           PRUNE_PAIRS, the chip row and Clear everything all follow the markup. -->
-        <div class="fnd-field">
+      <!-- THE AIRPORT FIELD STANDS ALONE, ABOVE THE GRID (owner, 2026-08-23:
+           "put the airport alone on top of all of them to be clear"). It used
+           to be the first cell of the 3-column .fnd-row grid, sized the same
+           1fr as every select beside it, but its own content — the lede
+           sentence plus the popover list — makes it taller than a select ever
+           is, so that row read as misaligned even though the grid itself was
+           never broken: a select-shaped field and a paragraph-plus-input field
+           cannot share a row and look even. Pulling it into its own full-width
+           row fixes the look and matches what the field already IS: the one
+           question every other field is greyed out behind (lockForm above),
+           so it reads as a gate rather than one pill among thirteen. -->
+      <div class="fnd-field fnd-home-standalone">
                   <label for="fnd-home-in">Which airport are you flying from?</label>
                   <!-- FIRST, AND IT GATES THE WHOLE FORM (owner rules 2026-08-23:
                        "it seems airport is a requirement and i can see the results
@@ -3312,6 +3303,37 @@ window.lpGuideCard = function (href, flag, name, extra) {
                   <ul id="fnd-home-list" class="fnd-home-list" role="listbox" hidden></ul>
                   <p id="fnd-home-note" class="fnd-home-note"></p>
                 </div>
+      <div class="fnd-row fnd-all">
+      <!-- THE ORDER IS THE ORDER A TRIP IS DECIDED IN (owner, 2026-08-23: "is the
+           order of the filter show up the best the most logical when someone thinks
+           about a trip what are the first things people choose? we should follow
+           this rules"). The big questions first, the long tail below them, so the
+           card gets less important as you scroll rather than more.
+
+             1-3  WHEN, WHAT and WHAT WEATHER — the three a traveller can answer
+                  before they have thought about a destination at all, and the
+                  three that narrow hardest.
+             4-5  HOW FAR, then FROM WHICH AIRPORT. This pair is fixed and its
+                  order is an owner rule of its own (2026-08-22): willingness is
+                  a thing a reader knows about themselves; the airport is the
+                  follow-up that answer creates, never the question before it.
+                  The airport field itself now stands alone above this grid
+                  (see the note there); only its ORDER in the deciding sequence
+                  is described by this comment, not its position in the markup.
+             6-8  COST, SAFETY, COUNTRY — the constraints, once a shape of trip
+                  exists to apply them to.
+             9    NEARBY TRAIN TRIPS, which reveals itself off the country
+                  (owner rule 2026-08-19) and therefore has to sit after it.
+            10-13 JET LAG, DAYLIGHT, LANGUAGE, CURRENCY — real filters, all four,
+                  but nobody opens this card to pick a currency. They are last
+                  because they are the ones a reader scrolls to on purpose.
+
+           It shipped as when / weather / activity / language / cost / safety /
+           country / trains / jet lag / currency / daylight / how far / airport,
+           which put LANGUAGE fourth and the AIRPORT dead last — the field that
+           has to be filled for the distance question above it to mean anything.
+           Moving a field here is the whole change: the engine reads ids, and
+           PRUNE_PAIRS, the chip row and Clear everything all follow the markup. -->
         <div class="fnd-field">
                     <label for="fnd-when">When are you going?</label>
                     <div class="fnd-ctl"><span class="fnd-ic" aria-hidden="true"><svg viewBox="0 0 24 24"><use href="#gm-i-wall-calendar"/></svg></span><select id="fnd-when">

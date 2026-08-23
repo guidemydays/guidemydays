@@ -6201,11 +6201,11 @@ window.TVE.home = (function () {
       { name: 'Hampton Inn & Suites Coeur d\'Alene', note: 'Hilton Hampton brand — 1500 Riverstone Drive, indoor pool, free hot breakfast, 24h reception · 9.4 Booking.com', url: 'https://www.booking.com/hotel/us/riverstone-drive-coeur-d-alene.html', tier: 'luxury' }
     ], price: { budget: '$110–180', mid: '$140–220', expensive: '$160–260', luxury: '$200–320' } },
     'colmar': { h: [
-      { name: 'Au Grenier à Sel Colmar', note: 'Independent — 54 Grand Rue in the Old Town, 4-star suites in a converted salt loft a few doors from the Koïfhus · 9.3 Booking.com', url: 'https://www.booking.com/hotel/fr/au-grenier-a-sel-colmar.html' },
-      { name: "L'Esquisse Hotel & Spa Colmar · MGallery Collection", note: 'MGallery (Accor, off the § 3 ladder) — 2 Avenue de la Marne, 5-star with indoor pool, spa and 24h reception; the guide\'s previous title-card hotel · 9.2 Booking.com', url: 'https://www.booking.com/hotel/fr/colmar-champ-de-mars.html' },
-      { name: 'Relais & Châteaux La Maison des Têtes', note: 'Independent — 19 Rue des Têtes, the 1609 Renaissance mansion with the 111 sculpted heads, 5-star, Michelin dining · 9.1 Booking.com', url: 'https://www.booking.com/hotel/fr/la-maison-des-tetes.html' },
-      { name: 'James Boutique Hôtel Colmar centre', note: 'Independent — 15 rue Saint-Eloi, 4-star, AC, private parking, a short walk east of the Old Town · 9.0 Booking.com', url: 'https://www.booking.com/hotel/fr/james-boutique-hotel.html' }
-    ] },
+      { name: 'James Boutique Hôtel Colmar centre', note: 'Independent — 15 rue Saint-Eloi, 4-star, AC, private parking, a short walk east of the Old Town · 9.0 Booking.com', url: 'https://www.booking.com/hotel/fr/james-boutique-hotel.html', tier: 'budget' },
+      { name: 'Au Grenier à Sel Colmar', note: 'Independent — 54 Grand Rue in the Old Town, 4-star suites in a converted salt loft a few doors from the Koïfhus · 9.3 Booking.com', url: 'https://www.booking.com/hotel/fr/au-grenier-a-sel-colmar.html', tier: 'mid' },
+      { name: "L'Esquisse Hotel & Spa Colmar · MGallery Collection", note: 'MGallery (Accor, off the § 3 ladder) — 2 Avenue de la Marne, 5-star with indoor pool, spa and 24h reception; the guide\'s previous title-card hotel · 9.2 Booking.com', url: 'https://www.booking.com/hotel/fr/colmar-champ-de-mars.html', tier: 'expensive' },
+      { name: 'Relais & Châteaux La Maison des Têtes', note: 'Independent — 19 Rue des Têtes, the 1609 Renaissance mansion with the 111 sculpted heads, 5-star, Michelin dining · 9.1 Booking.com', url: 'https://www.booking.com/hotel/fr/la-maison-des-tetes.html', tier: 'luxury' }
+    ], price: { budget: '€90–140', mid: '€150–230', expensive: '€250–380', luxury: '€380+' } },
     'cologne': { h: [
       { name: 'Hyatt Regency Cologne', note: 'Hyatt brand — Rhine riverbank, 306 rooms and suites, Regency Executive Suite with Rhine and Cologne Cathedral panorama, Glashaus Restaurant & Bar · 8.5 Booking.com', url: 'https://www.booking.com/hotel/de/hyatt-regency-koln.html' },
       { name: 'Cologne Marriott Hotel', note: 'Marriott brand — central Cologne, 3-min walk to Cologne Cathedral and Hauptbahnhof, contemporary rooms, modern fitness center · 8.3 Booking.com', url: 'https://www.booking.com/hotel/de/cologne-marriott.html' },
@@ -6442,11 +6442,11 @@ window.TVE.home = (function () {
       { name: 'Upper House', note: "Independent — Gothenburg's premier luxury address inside Gothia Towers, Atmosphere sky-high fine dining, rooftop pool, panoramic city views · 9.1 Booking.com", url: 'https://www.booking.com/hotel/se/upper-house.html', tier: 'luxury' }
     ], price: { budget: 'SEK 700–1100', mid: 'SEK 1100–1900', expensive: 'SEK 1900–3200', luxury: 'SEK 3200+' } },
     'hamburg': { h: [
-      { name: 'The Fontenay Hamburg', note: "Independent luxury — 2018 Alster lake-view tower, rooftop pool, Lakeside spa, Mabühle restaurant, Hamburg's premier new-build address · 9.4 Booking.com", url: 'https://www.booking.com/hotel/de/the-fontenay.html' },
-      { name: 'Hotel Atlantic Hamburg, Autograph Collection', note: 'Marriott Autograph Collection — 1909 Außenalster lakefront landmark, historic grand hotel, waterfront dining, near Hauptbahnhof · 9.2 Booking.com', url: 'https://www.booking.com/hotel/de/hotel-atlantic-hamburg-autograph-collection.html' },
-      { name: 'Vier Jahreszeiten Hamburg', note: 'Independent — Alster lakefront landmark since 1897, Jahreszeiten Grill, spa with indoor pool · 9.0 Booking.com', url: 'https://www.booking.com/hotel/de/hotel-vier-jahreszeiten.html' },
-      { name: 'Fraser Suites Hamburg', note: 'Independent — serviced-apartment suites on Rödingsmarkt in the Altstadt, sauna and steam room, kitchens in every unit · 9.1 Booking.com', url: 'https://www.booking.com/hotel/de/fraser-suites-hamburg.html' }
-    ] },
+      { name: 'Motel One Hamburg-Alster', note: 'Motel One — design budget hotel on the Alster canal, well-located for the city centre and Hauptbahnhof, 24h reception · 8.8 Booking.com', url: 'https://www.booking.com/hotel/de/motel-one-hamburg-alster.html', tier: 'budget' },
+      { name: 'Fraser Suites Hamburg', note: 'Independent — serviced-apartment suites on Rödingsmarkt in the Altstadt, sauna and steam room, kitchens in every unit · 9.1 Booking.com', url: 'https://www.booking.com/hotel/de/fraser-suites-hamburg.html', tier: 'mid' },
+      { name: 'Hotel Atlantic Hamburg, Autograph Collection', note: 'Marriott Autograph Collection — 1909 Außenalster lakefront landmark, historic grand hotel, waterfront dining, near Hauptbahnhof · 9.2 Booking.com', url: 'https://www.booking.com/hotel/de/hotel-atlantic-hamburg-autograph-collection.html', tier: 'expensive' },
+      { name: 'The Fontenay Hamburg', note: "Independent luxury — 2018 Alster lake-view tower, rooftop pool, Lakeside spa, Mabühle restaurant, Hamburg's premier new-build address · 9.4 Booking.com", url: 'https://www.booking.com/hotel/de/the-fontenay.html', tier: 'luxury' }
+    ], price: { budget: 'EUR 70–120', mid: 'EUR 120–200', expensive: 'EUR 200–350', luxury: 'EUR 350+' } },
     'hanoi': { h: [
       { name: 'The Oriental Jade Hotel', note: 'Independent — 92-94 Hang Trong in Hoan Kiem, rooftop infinity pool over the Old Quarter, spa and steam room, 24h reception · 9.6 Booking.com' , url: 'https://www.booking.com/hotel/vn/the-oriental-jade-amp-spa.html' },
       { name: 'JW Marriott Hotel Hanoi', note: 'Marriott brand — award-winning curved tower by Carlos Zapata Studio, outdoor pool, full-service spa, largest luxury hotel in Hanoi · 8.8 Booking.com' , url: 'https://www.booking.com/hotel/vn/jw-marriott-hotel-hanoi.html' },

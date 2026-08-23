@@ -1049,12 +1049,18 @@ a.land-cta:hover:visited {
 .fnd-hint { font-weight: 400; font-size: 0.76rem; opacity: .8; }
 
 /* THE AIRPORT FIELD, ALONE, ABOVE THE GRID (owner 2026-08-23: "put the airport
-   alone on top of all of them to be clear"). Full width rather than the grid's
-   1/3 column — it is the one field every other one is greyed out behind
-   (lockForm), not a pill the same size as "When are you going?". The gap
-   below matches .fnd-row's own gap so the standalone field and the grid read
-   as one card, not two stacked ones. */
-.fnd-home-standalone { margin-bottom: clamp(0.6rem, 1.4vw, 1rem); max-width: 420px; }
+   alone on top of all of them to be clear"). It does NOT get an arbitrary
+   width of its own — .fnd-home-row carries the SAME .fnd-row class as the
+   grid below it, so it shares the exact column tracks, gap and breakpoints,
+   and .fnd-home-standalone sits in column 1 only. That is what actually reads
+   as aligned: the airport input's left AND right edges land on the same
+   vertical lines as "When are you going?" in the row underneath, rather than
+   a hand-picked max-width that lines up with nothing. The two empty tracks
+   beside it are deliberate — the airport is one question, not three, and a
+   full-bleed input would be the one control on the page with no companion
+   the same size anywhere else on the card. */
+.fnd-home-row { margin-bottom: clamp(0.6rem, 1.4vw, 1rem); }
+.fnd-home-standalone { grid-column: 1; }
 
 /* ── Home-city control (2026-08-15) ────────────────────────────────────────
    The "from Seattle" hint became a button. It sits inside the label because
@@ -3268,6 +3274,7 @@ window.lpGuideCard = function (href, flag, name, extra) {
            row fixes the look and matches what the field already IS: the one
            question every other field is greyed out behind (lockForm above),
            so it reads as a gate rather than one pill among thirteen. -->
+      <div class="fnd-row fnd-home-row">
       <div class="fnd-field fnd-home-standalone">
                   <label for="fnd-home-in">Which airport are you flying from?</label>
                   <!-- FIRST, AND IT GATES THE WHOLE FORM (owner rules 2026-08-23:
@@ -3303,6 +3310,7 @@ window.lpGuideCard = function (href, flag, name, extra) {
                   <ul id="fnd-home-list" class="fnd-home-list" role="listbox" hidden></ul>
                   <p id="fnd-home-note" class="fnd-home-note"></p>
                 </div>
+      </div>
       <div class="fnd-row fnd-all">
       <!-- THE ORDER IS THE ORDER A TRIP IS DECIDED IN (owner, 2026-08-23: "is the
            order of the filter show up the best the most logical when someone thinks

@@ -27,14 +27,28 @@
    a new number. */
 .index-section .ci-controls {
   margin: var(--search-gap,32px) 0 0 !important;
-  display: flex; flex-direction: column; align-items: center; gap: 10px;
+  display: flex; flex-direction: column; align-items: center; gap: 18px;
 }
-.ci-row { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; justify-content: center; }
+.ci-row { display: flex; flex-wrap: wrap; gap: 12px; align-items: center; justify-content: center; }
+/* The label sits ABOVE its row, not inline before the first pill — inline put
+   "COST OF LIVING" and the grey "ALL" pill right next to each other at the
+   same muted grey, and at a glance they read as one blurred label instead of
+   a caption over a control (owner: "the top and all lose together"). A block
+   label with its own line clears that; the row below still centres under it. */
 .ci-row-label {
-  font-size: var(--fs-label,11px); font-weight: 700; color: var(--muted,#6a6660);
-  letter-spacing: .1em; text-transform: uppercase; margin-right: 2px;
+  display: block; width: 100%; text-align: center;
+  font-size: var(--fs-sub,12px); font-weight: 700; color: var(--muted,#6a6660);
+  letter-spacing: .1em; text-transform: uppercase; margin: 0 0 8px;
 }
-.ci-btn { font-family: inherit; }
+/* One size bigger than the shared .pill-badge (owner rule 2026-08-23) — scoped
+   to THIS page's buttons only via the .ci-btn class, never the shared
+   .pill-badge/.fam-* rules other pages still use at their locked size. The
+   coin icons are sized in em (.ci-coins svg), so they scale up with the text
+   instead of needing a second override. */
+.ci-btn {
+  font-family: inherit; font-size: var(--fs-body,15px); font-weight: 700;
+  padding: 7px 14px;
+}
 
 /* The count line sits under the controls that produced it — CLAUDE.md
    Sixty-second non-negotiable. */
@@ -150,9 +164,6 @@ html { scroll-behavior: smooth; }
   .hero-title { font-size: 32px; }
   /* No phone override on the search gap: one token at every viewport. */
   .index-table td, .index-table th { font-size: var(--fs-sub,12px) !important; padding: 6px 8px !important; }
-  /* Label on its own line, centred over the pills it names — left-aligned
-     under a centred row read like a layout accident. */
-  .ci-row-label { min-width: 0; width: 100%; text-align: center; }
   /* Only the FIRST <col> still maps to the column it was written for once the
      middle one is hidden, so it is the only one that keeps a width — 87px of
      auto-sized name column broke "Zhangjiajie" across two lines. */

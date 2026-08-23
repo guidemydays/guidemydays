@@ -1853,14 +1853,80 @@ a.land-cta:hover:visited {
    Here the bar closes a card whose buttons are the finder's, so it takes the
    finder's CTA pair: filled terracotta that EMPTIES on hover, outlined muted
    way-out whose ink does not repaint (Thirty-fifth non-negotiable). */
-#tp-compare .cmp-sel-bar { width: auto; max-width: 100%; margin: clamp(0.9rem, 2vw, 1.2rem) 0 0; padding: 14px 16px; border-radius: 12px; gap: 12px; }
-#tp-compare .cmp-chip { border-radius: 999px; font-size: 0.9rem; padding: 0.32em 0.5em 0.32em 0.9em; }
-#tp-compare .cmp-count { font-size: 0.82rem; }
-#tp-compare .cmp-go-btn, #tp-compare .cmp-exit-btn { font-size: clamp(0.95rem, 1.2vw, 1.05rem); border-radius: 999px; padding: 0.8em 1.7em; }
+/* TWO ROWS, NOT ONE (owner, 2026-08-23: "the button is too big and this looks
+   too cramped"). Five chips, a count and two pills on a single line is eight
+   things fighting for one row, and at five cities the row simply ran out — the
+   CTA ended up shoulder to shoulder with the last chip. The chips take a row of
+   their own (`flex: 1 1 100%`), the controls take the row beneath with a
+   hairline between them, and the count leads that row so the buttons keep the
+   right edge. No wrapper element is added to do it: .cmp-sel-bar's markup is
+   the engine's and is shared with the guides index. */
+#tp-compare .cmp-sel-bar {
+  width: auto; max-width: 100%; margin: clamp(1rem, 2.2vw, 1.4rem) 0 0;
+  padding: 16px 18px 18px; border-radius: 14px;
+  display: flex; flex-wrap: wrap; align-items: center; gap: 10px 12px;
+}
+/* The hairline belongs to the CHIPS row, which is the one that spans the bar —
+   hung off the count instead it draws only under the count's own width, and
+   padding the buttons up to meet it is the kind of alignment hack that breaks
+   the moment a label changes length. :not(:empty) so an empty bar (nothing
+   picked yet) is not a rule with nothing above it. */
+#tp-compare .cmp-sel-chips { flex: 1 1 100%; gap: 8px; }
+#tp-compare .cmp-sel-chips:not(:empty) { padding-bottom: 13px; border-bottom: 1px solid var(--border2,#e6e2da); }
+#tp-compare .cmp-chip { border-radius: 999px; font-size: 0.9rem; padding: 0.34em 0.55em 0.34em 0.9em; }
+#tp-compare .cmp-count { order: 1; margin-right: auto; font-size: 0.85rem; font-weight: 400; }
+/* THE SAME PAIR AS THE FINDER, ONE STEP DOWN. Same shapes, same fill/outline
+   split, same hover behaviour — but 0.95rem against the finder's clamp that
+   reaches 1.05rem, and 1.4em of side padding against 1.7em. The finder's CTA
+   sits alone under a card and can carry that weight; this one sits in a bar
+   under five chips, where the full size read as oversized. Both buttons take
+   ONE rule for the box so they cannot drift apart, exactly as .fnd-go and
+   .fnd-reset do. */
+#tp-compare .cmp-go-btn, #tp-compare .cmp-exit-btn {
+  order: 2; font-size: 0.95rem; border-radius: 999px; padding: 0.72em 1.4em;
+}
 #tp-compare .cmp-go-btn { border: 1px solid var(--rust, #C04E1A); font-weight: 700; transition: background .15s, color .15s; }
 #tp-compare .cmp-go-btn:not(:disabled):hover { background: transparent; color: var(--rust, #C04E1A); }
 #tp-compare .cmp-exit-btn { border-color: var(--border,#e3ddd2); }
+/* The site's ONE hover: ground goes var(--bg), rim goes terracotta, the font
+   does not move — this button's muted ink is what says "the way out". */
 #tp-compare .cmp-exit-btn:hover { background: var(--bg,#f0ede8); border-color: var(--rust, #C04E1A); color: var(--muted,#6a6660); }
+
+/* ON A PHONE THE PAIR SHARES A ROW AND THE COUNT TAKES ITS OWN. Left to the
+   desktop rule the count's auto margin shoves the CTA to the right edge and the
+   second button drops to a third line under it, each a different width — three
+   ragged rows where the card has one column to work with (Thirty-third
+   non-negotiable: a phone is not a desktop page at a smaller size). Equal flex
+   basis, so the two read as the pair they are. */
+@media (max-width: 560px) {
+  #tp-compare .cmp-count { flex: 1 1 100%; margin: 0; }
+  /* STACKED, FULL WIDTH, AND SAID OUT LOUD — measured, not guessed. The bar's
+     inner width on a 393px phone is 289px; mobile.css sets every button to 16px,
+     at which "Compare 5 cities" wants 158px and "Clear everything" 152px, so the
+     pair needs 322px and cannot share a row at any padding worth having. Two
+     full-width pills, primary first, is the honest answer — the alternative was
+     an equal-basis row that cut the CTA's own label off past its rounded end.
+     Full width is a PHONE decision only; the desktop rule above keeps them at
+     their own size (Forty-fourth non-negotiable's neighbours — a pill does not
+     go full-width on desktop). */
+  #tp-compare .cmp-go-btn, #tp-compare .cmp-exit-btn { flex: 1 1 100%; }
+}
+
+/* ── Five cities have to FIT, not scroll ────────────────────────────────────
+   (owner, 2026-08-23: "just fix the right 5th city is being cut out".)
+   Measured: 1166px of table inside a 1063px box, so the fifth column lost 103px
+   — and .cmp-table-wrap's overflow is a macOS overlay scrollbar, which draws
+   nothing until you already know to drag it. So the cut reads as a bug, not as
+   more table.
+   Four columns already fit (959px), so only the five-column case is touched,
+   and it is touched in the two places that are spacing rather than content:
+   cell padding 14→9 and the gap between climate bars 3→2. The bars keep their
+   full 12px width — shrinking the chart to fit the chrome would be the wrong
+   thing to give up. 5 × 186 + 121 = 1051 against 1063.
+   Below the rail's own width the wrap still scrolls, which is correct and is
+   the documented behaviour; this only removes the clip at desktop widths. */
+#tp-compare #compare-view[data-n="5"] .cmp-table td { padding-left: 9px; padding-right: 9px; }
+#tp-compare #compare-view[data-n="5"] .cmp-bars { gap: 2px; }
 /* Five columns of comparison do not fit a phone, and at 1180px they only just
    fit a desktop — the fifth city was being clipped by the panel. The table
    scrolls inside its own box; the page never scrolls sideways. */
@@ -6117,7 +6183,12 @@ function render() {
       '<div class="cmp-sel-chips"></div>' +
       '<span class="cmp-count" id="cmp-count"></span>' +
       '<button class="cmp-go-btn" id="cmp-go" disabled>Pick 2–5 cities</button>' +
-      '<button class="cmp-exit-btn" id="cmp-exit">Exit</button>';
+      /* "Clear everything", not "Exit" — the finder's own second control, word
+         for word (owner, 2026-08-23: make it cohesive with Help Me Choose).
+         It is also the truer label: the button drops every picked city and
+         closes the table, which is what clearing is; "Exit" reads like a way
+         out of a mode the reader never knowingly entered. */
+      '<button class="cmp-exit-btn" id="cmp-exit">Clear everything</button>';
     (document.getElementById('compare-mount') || document.body).appendChild(selBar);
 
     var goBtn   = document.getElementById('cmp-go');
@@ -6695,6 +6766,12 @@ function render() {
       loadAirports(function () {
       loadClimate(function() {
         compareView.hidden = false;
+        /* HOW MANY COLUMNS THE TABLE IS DRAWING, on the element, so the CSS can
+           tighten the cells at the one count that does not fit the rail. Five
+           cities at the roomy spacing measured 1166px inside a 1063px box —
+           the fifth city was sliced down its middle, and the scroll that would
+           have reached it is an overlay scrollbar nobody sees. */
+        compareView.setAttribute('data-n', String(sel.length));
         compareView.innerHTML = buildTable();
         /* The picker is mounted after innerHTML, never emitted as markup: TVE.passport
            owns the control so every visa surface on the site shows the same one, and
@@ -7076,30 +7153,74 @@ function render() {
       });
     }
 
-    function anyFilter() {
-      return FIELDS.some(function (k) { return picks[k].length > 0; }) || !!search.value.trim();
+    function anyFilterPicked() {
+      return FIELDS.some(function (k) { return picks[k].length > 0; });
     }
+    function anyFilter() { return anyFilterPicked() || !!search.value.trim(); }
 
-    function anyOf(vals, fn) {
-      for (var i = 0; i < vals.length; i++) if (fn(vals[i])) return true;
-      return false;
-    }
+    /* ONE TEST PER DIMENSION, and every other piece of logic is built from these
+       six. The filter, the pruning and the empty-state message all have to agree
+       about what "Japan" means; three hand-written copies of that answer is how
+       they stop agreeing. */
+    var TEST = {
+      continent: function (g, v) { return g.continent === v; },
+      country:   function (g, v) { return g.slug === v; },
+      type:      function (g, v) { return g.tags.indexOf(v) > -1; },
+      days:      function (g, v) { return String(g.days) === v; },
+      /* A FLOOR, and OR'd across picks — which for a threshold means the loosest
+         pick wins, the only thing OR-within-a-dimension can mean here. A city
+         with no published level fails every safety pick rather than passing by
+         default: an unknown is not a "Safe". */
+      safety:    function (g, v) { var r = SAFE_ORDER.indexOf(g.safe) + 1; return !!r && r <= Number(v); },
+      cost:      function (g, v) { return g.tier === v; }
+    };
 
-    function matches(g, q) {
+    /* Everything except ONE dimension. matches() is this with nothing skipped,
+       and the pruning below is this with the dimension it is about to offer
+       options for skipped — because adding a pick WIDENS its own dimension, so
+       the question "would this option return anything" is asked against the
+       cities that already clear every OTHER dimension. */
+    function matchesExcept(g, q, skip) {
       if (q && g.hay.indexOf(q) === -1) return false;
-      if (picks.continent.length && !anyOf(picks.continent, function (p) { return g.continent === p.value; })) return false;
-      if (picks.country.length   && !anyOf(picks.country,   function (p) { return g.slug === p.value; }))      return false;
-      if (picks.type.length      && !anyOf(picks.type,      function (p) { return g.tags.indexOf(p.value) > -1; })) return false;
-      if (picks.days.length      && !anyOf(picks.days,      function (p) { return String(g.days) === p.value; })) return false;
-      if (picks.cost.length      && !anyOf(picks.cost,      function (p) { return g.tier === p.value; }))      return false;
-      if (picks.safety.length) {
-        var rank = SAFE_ORDER.indexOf(g.safe) + 1;
-        if (!rank) return false;
-        /* A floor, OR'd: two floors picked means the looser one wins, which is
-           what OR-within-a-dimension has to mean for a threshold. */
-        if (!anyOf(picks.safety, function (p) { return rank <= Number(p.value); })) return false;
+      for (var i = 0; i < FIELDS.length; i++) {
+        var k = FIELDS[i];
+        if (k === skip || !picks[k].length) continue;
+        var ok = false;
+        for (var j = 0; j < picks[k].length; j++) {
+          if (TEST[k](g, picks[k][j].value)) { ok = true; break; }
+        }
+        if (!ok) return false;
       }
       return true;
+    }
+
+    function matches(g, q) { return matchesExcept(g, q, null); }
+
+    /* ── EVERY OFFERED OPTION LEADS TO AT LEAST ONE CITY ──────────────────────
+       (Thirty-seventh non-negotiable, owner 2026-08-17: every combination must
+       "always give me at least a guide at the end" — and 2026-08-23, on this
+       card: "make sure the logic is right and that we never get to the results
+       of no matches in the end".)
+
+       An option that would empty the list is DISABLED, not hidden: greying it
+       out says "this exists and does not go with what you have picked", which
+       is information; removing it says the site has no Japanese guides. The
+       select's own CSS already draws a disabled option grey.
+
+       Because this runs on every render, the filters CANNOT reach zero — the
+       pick that would have emptied the list was never selectable. The only way
+       to an empty result is the free-text box, which nothing can prune, and the
+       empty state below says so in those words rather than blaming the filters. */
+    function prune(rows, q) {
+      FIELDS.forEach(function (k) {
+        var sel = F[k];
+        if (!sel) return;
+        var base = rows.filter(function (g) { return matchesExcept(g, q, k); });
+        [].forEach.call(sel.options, function (o) {
+          if (!o.value) { o.disabled = false; return; }   /* the "Any …" line always stands */
+          o.disabled = !base.some(function (g) { return TEST[k](g, o.value); });
+        });
+      });
     }
 
     function hits() {
@@ -7107,8 +7228,23 @@ function render() {
       if (!rows) return null;
       buildOpts(rows);
       var q = (search.value || '').trim().toLowerCase();
-      return rows.filter(function (g) { return matches(g, q); })
-                 .sort(function (a, b) { return a.name.localeCompare(b.name); });
+      var out = rows.filter(function (g) { return matches(g, q); });
+      /* Prune against the query too, so typing "kyo" also greys out every
+         country but Japan — EXCEPT when the query matches nothing, where it
+         would grey out every option in every field at once and make the whole
+         form read as broken. The reader's next move there is the search box,
+         not a filter, so the filters stay live and the empty state says so. */
+      prune(rows, out.length ? q : '');
+      return out.sort(function (a, b) { return a.name.localeCompare(b.name); });
+    }
+
+    /* How many cities the FILTERS alone leave — the number the empty state needs
+       to tell the reader which of the two controls emptied the list. Pruning
+       makes this unable to reach zero, so a zero result is always the search
+       box, and saying "widen a filter" there would be advice that cannot work. */
+    function filteredCount() {
+      var rows = model() || [];
+      return rows.filter(function (g) { return matches(g, ''); }).length;
     }
 
     /* The four facts the table's own rows carry, on one line, so a row is worth
@@ -7144,12 +7280,20 @@ function render() {
             ' to choose from &mdash; ' +
             (picked ? '<b>' + picked + '</b> of ' + MAX_PICK + ' picked.'
                     : 'pick 2 to 5.')
-          : 'Nothing matches all of those.';
+          : 'Nothing by that name.';
       }
 
       if (!rows.length) {
-        list.innerHTML = '<p class="cmpx-empty">No guide fits every filter &mdash; ' +
-          'widen one of them, or clear them all.</p>';
+        /* Only the search box can get here — see prune(). So the message names
+           the search box, and it names what clearing it would bring back. */
+        var n = filteredCount();
+        list.innerHTML = '<p class="cmpx-empty">No guide called &ldquo;' +
+          esc(search.value.trim()) + '&rdquo;' +
+          (anyFilterPicked()
+             ? ' among the ' + n + ' ' + (n === 1 ? 'city' : 'cities') +
+               ' your filters leave. Clear the search to see them.'
+             : '. Try a country, or browse with the filters above.') +
+          '</p>';
         return;
       }
 

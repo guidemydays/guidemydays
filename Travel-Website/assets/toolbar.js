@@ -330,126 +330,130 @@ window.TVE.home = (function () {
     host.innerHTML = '';
     host.className = (host.className ? host.className + ' ' : '') + 'pp-mount';
 
-    var btn = document.createElement('button');
-    btn.type = 'button';
-    btn.className = 'pp-btn';
-    btn.setAttribute('aria-haspopup', 'listbox');
-    btn.setAttribute('aria-expanded', 'false');
+    /* ONE FIELD YOU TYPE IN (owner rule 2026-08-23: "this should be one field no
+       drop down to then type").
+
+       It was a button that opened a popover that held a search box, and the
+       popover opened on the words "Type a city or an airport code." — a click of
+       pure ceremony in front of the only thing the control can do. There is no
+       browse list to justify a menu: 199 passports are a list a reader can
+       scroll, 3,268 airports are not, so this control was always going to be a
+       search box wearing a dropdown.
+
+       The field IS the control now. It carries the picked airport as its value
+       ("SEA · Seattle"), focusing selects that text so the next keystroke
+       replaces it, and the matches appear underneath as you type. */
+    var field = document.createElement('input');
+    field.type = 'text';                       /* not "search": no browser ✕ inside our own box */
+    field.className = 'pp-input';
+    field.autocomplete = 'off';
+    field.spellcheck = false;
+    field.placeholder = opts.prompt || 'City or airport';
+    field.setAttribute('aria-label', 'The airport you fly from');
+    field.setAttribute('role', 'combobox');
+    field.setAttribute('aria-expanded', 'false');
+    field.setAttribute('aria-autocomplete', 'list');
 
     var pop = document.createElement('div');
-    pop.className = 'pp-pop';
+    pop.className = 'pp-pop pp-pop-under';
     pop.hidden = true;
-
-    var field = document.createElement('input');
-    field.type = 'search';
-    field.className = 'pp-search';
-    field.placeholder = 'City or airport';
-    field.setAttribute('aria-label', 'Search for the airport you fly from');
 
     var list = document.createElement('ul');
     list.className = 'pp-list';
     list.setAttribute('role', 'listbox');
 
-    pop.appendChild(field);
     pop.appendChild(list);
-    host.appendChild(btn);
+    host.appendChild(field);
     host.appendChild(pop);
 
-    function paintBtn() {
+    /* The set value, written into the field itself. `data-set` remembers what we
+       put there, so a blur can tell an abandoned half-typed query from the
+       reader's actual choice and put the choice back. */
+    function paintField() {
       var h = get();
-      btn.innerHTML = '';
-      var t = document.createElement('span');
-      t.className = 'pp-btn-text';
-      if (h) {
-        var c = document.createElement('span');
-        c.className = 'pp-code';
-        c.textContent = h.code;
-        t.appendChild(c);
-        t.appendChild(document.createTextNode(h.city || h.code));
-      } else {
-        t.appendChild(document.createTextNode(opts.prompt || 'Choose your airport'));
-      }
-      btn.appendChild(t);
-      var ch = document.createElement('span');
-      ch.className = 'pp-chev';
-      ch.textContent = '▾';
-      btn.appendChild(ch);
-      btn.classList.toggle('pp-unset', !h);
+      field.value = h ? (h.code + ' · ' + (h.city || h.code)) : '';
+      field.dataset.set = field.value;
+      field.classList.toggle('pp-unset', !h);
     }
 
-    /* NO BROWSE LIST, and that is the one place this differs from the passport
-       picker. 199 passports are a list a reader can scroll; 3,268 airports are
-       not, and the finder's own box has always been search-first for the same
-       reason. The panel opens on the question instead. */
+    function close() {
+      pop.hidden = true;
+      field.setAttribute('aria-expanded', 'false');
+    }
+
+    var rows = [];
     function paintList(q) {
-      if (!String(q || '').trim()) {
-        list.innerHTML = '<li class="pp-empty">Type a city or an airport code.</li>';
-        return;
-      }
+      q = String(q || '').trim();
+      if (!q) { close(); return; }
       names(function (all) {
         var majors = (window._lpAirports && window._lpAirports.major) || {};
-        var show = lookup(q, all, majors, 8);
+        rows = lookup(q, all, majors, 8);
         list.innerHTML = '';
-        show.forEach(function (r) {
-          var h = fromRow(r);
-          if (!h) return;
-          var li = document.createElement('li');
-          li.className = 'pp-opt';
-          li.setAttribute('role', 'option');
-          li.tabIndex = 0;
-          var c = document.createElement('span');
-          c.className = 'pp-code';
-          c.textContent = r[0];
-          li.appendChild(c);
-          li.appendChild(document.createTextNode(
-            r[1] + (r[3] && r[3] !== r[1] ? ' · ' + r[3] : '') + (r[2] ? ' · ' + r[2] : '')));
-          var cur = get();
-          if (cur && cur.code === r[0]) li.classList.add('pp-on');
-          function choose() {
-            set(h);
-            close();
-            paintBtn();
-            if (opts.onPick) opts.onPick(get());
-          }
-          li.addEventListener('click', choose);
-          li.addEventListener('keydown', function (e) {
-            if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); choose(); }
-          });
-          list.appendChild(li);
-        });
-        if (!show.length) {
+        if (!rows.length) {
           list.innerHTML = '<li class="pp-empty">No airport matches that.</li>';
+        } else {
+          rows.forEach(function (r) {
+            var h = fromRow(r);
+            if (!h) return;
+            var li = document.createElement('li');
+            li.className = 'pp-opt';
+            li.setAttribute('role', 'option');
+            li.tabIndex = -1;
+            var c = document.createElement('span');
+            c.className = 'pp-code';
+            c.textContent = r[0];
+            li.appendChild(c);
+            li.appendChild(document.createTextNode(
+              r[1] + (r[3] && r[3] !== r[1] ? ' · ' + r[3] : '') + (r[2] ? ' · ' + r[2] : '')));
+            var cur = get();
+            if (cur && cur.code === r[0]) li.classList.add('pp-on');
+            /* mousedown, not click: a click fires after blur, and blur is what
+               puts the previous value back — the pick would be undone by its own
+               handler. */
+            li.addEventListener('mousedown', function (ev) {
+              ev.preventDefault();
+              choose(h);
+            });
+            list.appendChild(li);
+          });
         }
+        pop.hidden = false;
+        field.setAttribute('aria-expanded', 'true');
       });
     }
 
-    function open() {
-      pop.hidden = false;
-      btn.setAttribute('aria-expanded', 'true');
-      field.value = '';
-      paintList('');
-      /* Focus after paint — on iOS focusing a hidden field is a no-op, and the
-         keyboard then never appears for the one control the panel exists for. */
-      setTimeout(function () { field.focus(); }, 0);
-    }
-    function close() {
-      pop.hidden = true;
-      btn.setAttribute('aria-expanded', 'false');
+    function choose(h) {
+      set(h);
+      close();
+      paintField();
+      if (opts.onPick) opts.onPick(get());
     }
 
-    btn.addEventListener('click', function () { pop.hidden ? open() : close(); });
     field.addEventListener('input', function () { paintList(field.value); });
+    field.addEventListener('focus', function () { field.select(); });
     field.addEventListener('keydown', function (e) {
-      if (e.key === 'Escape') { close(); btn.focus(); }
+      if (e.key === 'Escape') { close(); paintField(); field.blur(); return; }
+      /* Enter takes the first match — the ranked list's own answer, which is the
+         one the reader is looking at. */
+      if (e.key === 'Enter' && !pop.hidden && rows.length) {
+        e.preventDefault();
+        var h = fromRow(rows[0]);
+        if (h) choose(h);
+      }
+    });
+    /* An abandoned query is not a choice: whatever was set comes back. */
+    field.addEventListener('blur', function () {
+      setTimeout(function () { close(); paintField(); }, 120);
     });
     document.addEventListener('click', function (e) {
       if (!host.contains(e.target)) close();
     });
 
-    paintBtn();
-    subs.push(paintBtn);
-    return { repaint: paintBtn, open: open, close: close };
+    paintField();
+    subs.push(paintField);
+    return { repaint: paintField, open: function () { field.focus(); }, close: close };
   }
+
 
   return {
     /* No KEY export: there is nothing stored to key. */

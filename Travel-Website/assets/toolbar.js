@@ -6666,11 +6666,11 @@ window.TVE.home = (function () {
       { name: 'Sofitel Luxembourg Europe', note: 'Sofitel brand — Kirchberg European Quarter, spa, contemporary design, close to EU institutions · 8.8 Booking.com', url: 'https://www.booking.com/hotel/lu/sofitel.html', tier: 'luxury' }
     ], price: { budget: '€80–140', mid: '€140–230', expensive: '€230–380', luxury: '€380+' } },
     'lyon': { h: [
-      { name: 'Villa Florentine', note: 'Small Luxury Hotels — Renaissance mansion on Fourvière Hill, panoramic city and Rhône views, Michelin-starred dining · 9.4 Booking.com', url: 'https://www.booking.com/hotel/fr/villaflorentine.html' },
-      { name: 'Sofitel Lyon Bellecour', note: 'Sofitel brand — Presqu\'île heart, spa with pool, Les Trois Dômes gastronomic restaurant with panorama · 8.9 Booking.com', url: 'https://www.booking.com/hotel/fr/sofitel-lyon.html' },
-      { name: 'Cour des Loges', note: 'Independent — Renaissance mansion in the Vieux-Lyon UNESCO quarter, heated pool, Les Loges restaurant · 9.2 Booking.com', url: 'https://www.booking.com/hotel/fr/cour-des-loges.html' },
-      { name: 'InterContinental Lyon - Hotel Dieu', note: 'IHG brand — converted 12th-century Grand Hôtel-Dieu on the Rhône, spa with pool · 9.1 Booking.com', url: 'https://www.booking.com/hotel/fr/intercontinental-lyon-hotel-dieu.html' }
-    ] },
+      { name: 'ibis Lyon Centre Gare Part-Dieu', note: 'Accor ibis brand — central Part-Dieu near TGV station and metro, 24h reception, air-conditioned rooms · 8.3 Booking.com', url: 'https://www.booking.com/hotel/fr/ibis-lyon-centre-part-dieu.html', tier: 'budget' },
+      { name: 'Hôtel Carlton Lyon', note: 'Independent — Presqu\'île historic heart, Art Deco interiors, 83 rooms, walk to Place des Terreaux and major museums · 8.7 Booking.com', url: 'https://www.booking.com/hotel/fr/carlton-lyon.html', tier: 'mid' },
+      { name: 'Sofitel Lyon Bellecour', note: 'Sofitel brand — Presqu\'île heart, spa with pool, Les Trois Dômes gastronomic restaurant with panoramic city views · 8.9 Booking.com', url: 'https://www.booking.com/hotel/fr/sofitel-lyon.html', tier: 'expensive' },
+      { name: 'Cour des Loges', note: 'Independent — Renaissance mansion in the Vieux-Lyon UNESCO quarter, heated pool, Les Loges restaurant, private courtyards · 9.2 Booking.com', url: 'https://www.booking.com/hotel/fr/cour-des-loges.html', tier: 'luxury' }
+    ], price: { budget: '€75–130', mid: '€130–220', expensive: '€220–380', luxury: '€380+' } },
     'maceio': { h: [
       { name: 'ibis Maceió', note: 'Accor ibis brand — Ponta Verde beachfront, air-conditioned rooms, 24h reception, walk to Pajuçara pier · 8.1 Booking.com', url: 'https://www.booking.com/hotel/br/ibis-maceio.html', tier: 'budget' },
       { name: 'Jatiúca Resort', note: 'Independent — beachfront on Jatiúca Beach, outdoor pool complex, buffet dining, family-friendly · 8.7 Booking.com', url: 'https://www.booking.com/hotel/br/jatiuca-resort.html', tier: 'mid' },

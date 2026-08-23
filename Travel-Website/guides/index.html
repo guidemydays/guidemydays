@@ -3749,7 +3749,14 @@
          c.getAttribute here was a TypeError that killed buildTable mid-render
          and left the whole compare panel EMPTY on this page. */
       var key = (c.href || '').split('/').pop().replace(/\.html$/, '');
-      var code = AIRBY ? (AIRBY[key + '.html'] || '') : '';   /* _by_slug is keyed 'athens.html' */
+      /* _by_slug IS KEYED BY THE BARE SLUG — 'athens', not 'athens.html'. The
+         '.html' this line used to append matched nothing, for every city, so
+         the Flight row rendered as an em-dash in every column: present, useless,
+         and reading as missing data about the cities rather than a lookup that
+         failed. Same defect, same day, in the landing page's copy of this
+         engine. Both keys are accepted so the row cannot go dark again if the
+         map is ever re-keyed. */
+      var code = AIRBY ? (AIRBY[key] || AIRBY[key + '.html'] || '') : '';
       var pos = (code && AIRXY) ? AIRXY[code] : null;
       var mins = (pos && code !== homeCode) ? HOMEcmp.estimate(pos[0], pos[1]) : null;
       if (mins !== null) {

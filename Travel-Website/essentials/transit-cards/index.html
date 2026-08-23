@@ -19,7 +19,14 @@
 }
 #tc-search::placeholder { color: var(--c-search-placeholder); }
 #tc-search:focus { border-color: var(--c-search-focus-border); box-shadow: none; }
-.pills { display: flex; gap: var(--fam-gap,10px); flex-wrap: nowrap; justify-content: center; }
+.pills { display: flex; gap: var(--fam-gap,10px); flex-wrap: nowrap; justify-content: center; position: relative; z-index: 70; }
+/* .sa-suggest (shared TVESearch dropdown, web-travel-style.css) is z-index:60 and
+   sized to a fixed 340px max-height regardless of how many suggestions match —
+   on this page (and any .hero-ground page whose filter row sits directly under
+   the search bar) that height reaches past the search bar into the pill row
+   below, hiding it behind the dropdown while typing. Raising .pills above it
+   keeps the filters visible and clickable instead of being buried under the
+   suggestion list. */
 /* .pill is a layout hook — box, colour, case and the selected state come from
    the shared .pill-badge + .fam-* classes (markup writes pill pill-badge fam-*;
    selection is .is-on). Never re-add a box or a colour here.
@@ -184,7 +191,6 @@
     </div>
 
   <div style="text-align:center;margin:2px 0 0;"><button id="tc-clear" onclick="this.style.display='none'">Clear filters</button></div>
-  <p id="tc-result" class="tc-result"></p>
   <div id="no-results" class="empty-state">Nothing matches your search.</div>
   </div><!-- /.controls -->
 
@@ -3173,9 +3179,7 @@
   var noRes       = document.getElementById('no-results');
   var allRows     = document.querySelectorAll('.transit-row');
   var sections    = document.querySelectorAll('.section');
-  var result      = document.getElementById('tc-result');
   var clearBtn    = document.getElementById('tc-clear');
-  var total       = allRows.length;
   var activeFilter = 'all';
   var _debounceTimer;
 
@@ -3210,12 +3214,6 @@
     var isFiltered = (activeFilter !== 'all' || search.value.trim() !== '');
     if (clearBtn) clearBtn.style.display = isFiltered ? 'inline' : 'none';
     noRes.style.display = shown ? 'none' : 'block';
-    if (result) {
-      var tapCount = document.querySelectorAll('.transit-row[data-tags~="contactless"]').length;
-      result.textContent = (shown === total && !q && activeFilter === 'all')
-        ? 'Fares and cards across ' + document.querySelectorAll('.section').length + ' regions · ' + tapCount + ' tap-to-pay'
-        : 'Showing ' + shown + ' of ' + total;
-    }
   }
 
   if (clearBtn) {

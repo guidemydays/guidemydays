@@ -6566,11 +6566,11 @@ window.TVE.home = (function () {
       { name: 'Upper House', note: "Independent — Gothenburg's premier luxury address inside Gothia Towers, Atmosphere sky-high fine dining, rooftop pool, panoramic city views · 9.1 Booking.com", url: 'https://www.booking.com/hotel/se/upper-house.html', tier: 'luxury' }
     ], price: { budget: 'SEK 700–1100', mid: 'SEK 1100–1900', expensive: 'SEK 1900–3200', luxury: 'SEK 3200+' } },
     'hamburg': { h: [
-      { name: 'The Fontenay Hamburg', note: "Independent luxury — 2018 Alster lake-view tower, rooftop pool, Lakeside spa, Mabühle restaurant, Hamburg's premier new-build address · 9.4 Booking.com", url: 'https://www.booking.com/hotel/de/the-fontenay.html' },
-      { name: 'Hotel Atlantic Hamburg, Autograph Collection', note: 'Marriott Autograph Collection — 1909 Außenalster lakefront landmark, historic grand hotel, waterfront dining, near Hauptbahnhof · 9.2 Booking.com', url: 'https://www.booking.com/hotel/de/hotel-atlantic-hamburg-autograph-collection.html' },
-      { name: 'Vier Jahreszeiten Hamburg', note: 'Independent — Alster lakefront landmark since 1897, Jahreszeiten Grill, spa with indoor pool · 9.0 Booking.com', url: 'https://www.booking.com/hotel/de/hotel-vier-jahreszeiten.html' },
-      { name: 'Fraser Suites Hamburg', note: 'Independent — serviced-apartment suites on Rödingsmarkt in the Altstadt, sauna and steam room, kitchens in every unit · 9.1 Booking.com', url: 'https://www.booking.com/hotel/de/fraser-suites-hamburg.html' }
-    ] },
+      { name: 'Hampton by Hilton Hamburg City Centre', note: 'Hilton family — limited-service budget tier in Hammerbrook, 10-min walk to Hauptbahnhof, gym, standard king or twin rooms · 7.9 Booking.com', url: 'https://www.booking.com/hotel/de/hampton-by-hilton-hamburg-city-centre.html', tier: 'budget' },
+      { name: 'Novotel Hamburg Central Station', note: 'Novotel (Accor) — modern build on Steinstrasse steps from Hauptbahnhof, restaurant, bar, fitness centre, family rooms · 8.6 Booking.com', url: 'https://www.booking.com/hotel/de/novotel-hamburg-central-station.html', tier: 'mid' },
+      { name: 'Hotel Atlantic Hamburg, Autograph Collection', note: 'Marriott Autograph Collection — 1909 Außenalster lakefront landmark, historic grand hotel, waterfront dining, near Hauptbahnhof · 9.2 Booking.com', url: 'https://www.booking.com/hotel/de/hotel-atlantic-hamburg-autograph-collection.html', tier: 'expensive' },
+      { name: 'The Fontenay Hamburg', note: "Independent luxury — 2018 Alster lake-view tower, rooftop pool, Lakeside spa, Mabühle restaurant, Hamburg's premier new-build address · 9.4 Booking.com", url: 'https://www.booking.com/hotel/de/the-fontenay.html', tier: 'luxury' }
+    ], price: { budget: 'EUR 140–190', mid: 'EUR 190–260', expensive: 'EUR 320–420', luxury: 'EUR 480+' } },
     'hanoi': { h: [
       { name: 'Hanoi La Siesta Classic', note: 'Independent — boutique hotel on Hang Be in the Old Quarter, Indochine-style decor, spa, rooftop terrace, 24h reception · 9.2 Booking.com', url: 'https://www.booking.com/hotel/vn/la-siesta-classic.html', tier: 'budget' },
       { name: 'The Oriental Jade Hotel', note: 'Independent — 92-94 Hang Trong in Hoan Kiem, rooftop infinity pool over the Old Quarter, spa and steam room, 24h reception · 9.6 Booking.com', url: 'https://www.booking.com/hotel/vn/the-oriental-jade-amp-spa.html', tier: 'mid' },
@@ -7020,23 +7020,23 @@ window.TVE.home = (function () {
       { name: 'Hotel Palais de la Mediterranee, in the Unbound Collection by Hyatt', tier: 'budget', note: 'Hyatt Unbound Collection — 1929 Art Deco façade at 13 Promenade des Anglais, beachfront, indoor and outdoor pools · 8.5 Booking.com', url: 'https://www.booking.com/hotel/fr/palais-de-la-mediterrannee.html' }
     ], price: { budget: 'EUR 150–280', mid: 'EUR 250–400', expensive: 'EUR 380–600', luxury: 'EUR 550+' } },
     'oahu': { h: [
-      { name: 'Royal Hawaiian, a Luxury Collection Resort', note: 'Marriott Luxury Collection — 1927 "Pink Palace of the Pacific," oceanfront on central Waikiki Beach, four pools · 9.1 Booking.com', url: 'https://www.booking.com/hotel/us/royal-hawaiian-a-luxury-collection-resort-honolulu.html' },
-      { name: 'Four Seasons Resort Oahu at Ko Olina', note: 'Four Seasons brand — West Oahu lagoon beach, adults-focused pools, spa, away from Waikiki crowds · 9.3 Booking.com', url: 'https://www.booking.com/hotel/us/four-seasons-resort-oahu-at-ko-olina.html' },
-      { name: 'Hyatt Regency Waikiki Beach Resort and Spa', note: 'Hyatt brand — twin towers on the beach at Kūhiō Ave, rooftop pool, open-air atrium mall · 9.0 Booking.com', url: 'https://www.booking.com/hotel/us/hyatt-regency-waikiki-beach-resort-and-spa.html' },
-      { name: 'Moana Surfrider, A Westin Resort & Spa, Waikiki Beach', note: 'Marriott Westin — 1901 "First Lady of Waikiki," beachfront, iconic banyan courtyard, historic character · 9.0 Booking.com', url: 'https://www.booking.com/hotel/us/moana-surfrider-a-westin-resort-spa-waikiki-beach.html' }
-    ] },
+      { name: 'Hyatt Place Waikiki Beach', note: 'Hyatt family — 3-min walk to Waikiki Beach, 426 rooms with kitchenette, king or two-queen configurations · 7.6 Booking.com', url: 'https://www.booking.com/hotel/us/hyatt-place-waikiki-beach.html', tier: 'budget' },
+      { name: 'Waikiki Beach Marriott Resort & Spa', note: 'Marriott — twin-tower beachfront resort near Kapiolani Park, 3 pools, full-service spa · 8.0 Booking.com', url: 'https://www.booking.com/hotel/us/marriott-waikiki-beach-resort-and-spa.html', tier: 'mid' },
+      { name: 'Royal Hawaiian, a Luxury Collection Resort', note: 'Marriott Luxury Collection — 1927 "Pink Palace of the Pacific," oceanfront on central Waikiki Beach, four pools · 8.6 Booking.com', url: 'https://www.booking.com/hotel/us/the-royal-hawaiian.html', tier: 'expensive' },
+      { name: 'Four Seasons Resort Oahu at Ko Olina', note: 'Four Seasons brand — West Oahu lagoon beach, adults-focused pools, spa, away from Waikiki crowds · 9.1 Booking.com', url: 'https://www.booking.com/hotel/us/jw-marriott-ihilani-resort-spa.html', tier: 'luxury' }
+    ], price: { budget: 'USD 150–280', mid: 'USD 280–420', expensive: 'USD 420–650', luxury: 'USD 650+' } },
     'oaxaca': { h: [
-      { name: 'Casa Oaxaca Hotel', note: 'Independent boutique — 6 suites around a colonial courtyard, rooftop pool, acclaimed El Restaurante, historic zone · 9.4 Booking.com', url: 'https://www.booking.com/hotel/mx/casa-oaxaca-oaxaca-de-juarez1.html' },
-      { name: 'Hotel Escondido', note: 'Independent boutique — Oaxaca coast, clifftop cabañas, ocean views, farm-to-table restaurant · 9.3 Booking.com', url: 'https://www.booking.com/hotel/mx/escondido-oaxaca.html' },
-      { name: 'Las Bugambilias Bed & Breakfast', note: 'Independent — colonial house in the historic center, Mexican garden courtyard · 9.6 Booking.com', url: 'https://www.booking.com/hotel/mx/las-bugambilias-bed-breakfast.html' },
-      { name: 'Hotel Parador San Agustín', note: 'Independent — 18th-century Augustinian monastery, rooftop pool, spa, terrace with city views · 9.1 Booking.com', url: 'https://www.booking.com/hotel/mx/parador-san-agustin.html' }
-    ] },
+      { name: 'Hotel Ayook', note: '17th-century building turned 12-room hotel, garden terrace, adults-only, 13-min walk to Zócalo · 9.0 Booking.com', url: 'https://www.booking.com/hotel/mx/ayook.html', tier: 'budget' },
+      { name: 'Hotel Boutique Casa Catrina', note: '6-room artist bungalow, original artwork in every room, central patio breakfast, historic centre · 9.1 Booking.com', url: 'https://www.booking.com/hotel/mx/casa-catrina.html', tier: 'mid' },
+      { name: 'Hotel Azul de Oaxaca', note: 'Designed by 5 local architects, rooftop bar with city views, 3 on-site restaurants, steps from Santo Domingo · 9.1 Booking.com', url: 'https://www.booking.com/hotel/mx/azul-de-oaxaca.html', tier: 'expensive' },
+      { name: 'Grand Fiesta Americana Oaxaca', note: 'Grand Fiesta Americana (Grupo Posadas) — full-service resort with spa, indoor pool, fitness center, 2 restaurants, historic centre · 9.4 Booking.com', url: 'https://www.booking.com/hotel/mx/grand-fiesta-americana-oaxaca.html', tier: 'luxury' }
+    ], price: { budget: 'MXN 2,600–3,900', mid: 'MXN 4,000–6,000', expensive: 'MXN 7,000–8,700', luxury: 'MXN 8,500+' } },
     'olinda': { h: [
-      { name: 'Pousada dos Quatro Cantos', note: 'Independent boutique — colonial mansion in historic center, pool, close to Carnaval festivities · 9.2 Booking.com', url: 'https://www.booking.com/hotel/br/pousada-dos-quatro-cantos.html' },
-      { name: 'Pousada do Amparo', note: 'Independent — 16th-century colonial house in UNESCO World Heritage town, art-filled rooms, garden · 9.0 Booking.com', url: 'https://www.booking.com/hotel/br/pousada-do-amparo.html' },
-      { name: 'Sete Colinas Hotel', note: 'Independent — hilltop colonial property in UNESCO historic core, pool with Recife panorama · 9.0 Booking.com', url: 'https://www.booking.com/hotel/br/sete-colinas.html' },
-      { name: 'Pousada Convento da Conceição', note: 'Independent — 17th-century convent in Olinda UNESCO core, WiFi, A/C, traditional breakfast, garden · 9.1 Booking.com', url: 'https://www.booking.com/hotel/br/convento-da-conceicao.html' }
-    ] },
+      { name: 'Pousada Convento da Conceição', note: 'Restored 17th-century convent on Olinda\'s hilltop, 24h front desk, 2-min walk to Alto da Sé · 8.9 Booking.com', url: 'https://www.booking.com/hotel/br/convento-da-conceicao.html', tier: 'budget' },
+      { name: 'Pousada dos Quatro Cantos', note: '19th-century colonial mansion, pool, on-site restaurant, heart of the historic center · 8.9 Booking.com', url: 'https://www.booking.com/hotel/br/pousada-dos-quatro-cantos.html', tier: 'mid' },
+      { name: 'Pousada do Amparo', note: 'Five connected colonial buildings, pool, two on-site restaurants (Flor do Coco, Beijupirá) · 8.9 Booking.com', url: 'https://www.booking.com/hotel/br/pousada-do-amparo.html', tier: 'expensive' },
+      { name: 'Hotel 7 Colinas', note: '4-star sprawling garden estate beside São Francisco Convent, pool, sauna, fitness center, on-site restaurant · 9.2 Booking.com', url: 'https://www.booking.com/hotel/br/7-colinas.html', tier: 'luxury' }
+    ], price: { budget: 'BRL 200–350', mid: 'BRL 400–550', expensive: 'BRL 500–700', luxury: 'BRL 650+' } },
     'orcas-island': { h: [
       { name: 'Outlook Inn', tier: 'expensive', note: 'Independent boutique — Eastsound village center, wraparound deck with water views, farm-fresh breakfast · 9.2 Booking.com', url: 'https://www.booking.com/hotel/us/outlook-inn-eastsound.html' },
       { name: 'Deer Harbor Inn', tier: 'mid', note: 'Independent — Deer Harbor overlook, cottage-style rooms, outdoor hot tub, kayak rentals · 9.1 Booking.com', url: 'https://www.booking.com/hotel/us/deer-harbor-inn.html' },

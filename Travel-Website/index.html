@@ -1934,8 +1934,16 @@ a.ask-card:focus-visible .ask-name { color: var(--rust, #C04E1A); }
    auto margin so the buttons stay right-aligned at every width and wrap under
    it on a phone rather than squeezing the sentence. */
 .cmpx-bar { display: flex; flex-wrap: wrap; align-items: center; gap: 0.6rem; margin: 0 0 0.55rem; }
-.cmpx-count { margin: 0 auto 0 0; font-size: 0.9rem; color: var(--muted,#6a6660); }
-.cmpx-count b { color: var(--text,#3d3a32); }
+/* IT HAS TO SURVIVE THE COMPANY IT KEEPS (owner rule 2026-08-23: "cant barely
+   read that will miss in the middle of so many colorful icons"). This line is
+   the card's only instruction — "Pick 2 to 5." at rest, "3 of 5 picked." once
+   you start — and it sat at 0.9rem in --muted next to a picker full of flags,
+   coloured dots and terracotta controls, where grey small print is the first
+   thing an eye skips. It now reads in the body ink at the body size and in the
+   semibold the rest of the card's own instructions use. --muted stays where it
+   belongs: on secondary lines nobody has to act on. */
+.cmpx-count { margin: 0 auto 0 0; font-size: 0.95rem; font-weight: 600; color: var(--text,#3d3a32); }
+.cmpx-count b { color: var(--text,#3d3a32); font-weight: 700; }
 /* Smaller than .fnd-reset because they sit above the list rather than under the
    card, but the same grammar: outlined, muted ink, and the site's ONE hover —
    ground goes var(--bg), rim goes terracotta, THE FONT DOES NOT MOVE (owner
@@ -3767,13 +3775,14 @@ window.lpGuideCard = function (href, flag, name, extra) {
               <div class="fnd-ctl"><span class="fnd-ic" aria-hidden="true"><svg viewBox="0 0 24 24"><use href="#gm-i-wall-calendar"/></svg></span><select id="tt-month"><option value="">Any month</option><option value="0">January</option><option value="1">February</option><option value="2">March</option><option value="3">April</option><option value="4">May</option><option value="5">June</option><option value="6">July</option><option value="7">August</option><option value="8">September</option><option value="9">October</option><option value="10">November</option><option value="11">December</option></select></div></div>
             <div class="fnd-field"><label for="tt-act">What do you want to do?</label>
               <div class="fnd-ctl"><span class="fnd-ic" aria-hidden="true"><svg viewBox="0 0 24 24"><use href="#gm-i-backpack-strapped"/></svg></span><select id="tt-act"><option value="">Anything</option><option value="beach">Beaches</option><option value="islands">Islands</option><option value="nature">Greenery</option><option value="snow">Snow &amp; ski</option><option value="history">History</option><option value="amusement">Theme parks</option><option value="hiking">Hiking</option></select></div></div>
-            <div class="fnd-field"><label for="tt-days">How long is the escape?</label>
-              <!-- THREE BANDS, cut where the fleet actually sits: DAYS_DATA is 2d x17,
-                   3d x60, 4d x45, 5d x44, 6d x53, 7d+ x20 — so 2–3 / 4–5 / 6+ splits it
-                   77 / 89 / 73 and every band comes back full. Same data the guides
-                   index's Trip Length menu reads (#gm-i-day-dots is that menu's icon),
-                   never a second table. -->
-              <div class="fnd-ctl"><span class="fnd-ic" aria-hidden="true"><svg viewBox="0 0 24 24"><use href="#gm-i-day-dots"/></svg></span><select id="tt-days"><option value="">Any length</option><option value="short">A short break &mdash; 2 to 3 days</option><option value="week">Most of a week &mdash; 4 to 5 days</option><option value="long">A full week &mdash; 6 days and up</option></select></div></div>
+            <!-- "How long is the escape?" is DELETED (owner rule 2026-08-23: "this
+                 is even worse than it was length of day remove it" · "number of the
+                 days in a guide should never be showing we change that all the
+                 time"). A guide's day count is not a fact about the city — it is a
+                 fact about the guide we happen to have written, and it changes
+                 whenever that guide is rebuilt or gains a day. A filter whose every
+                 option is that number cannot be kept honest, and it filtered the
+                 fleet by the one attribute the fleet keeps changing. -->
             <div class="fnd-field"><label for="tt-lang">Which language?</label>
               <!-- BUILT FROM THE DATA (ttBuildLang), never a hand list — the same rule
                    and the same failure the finder's copy of this field documents: a
@@ -3927,12 +3936,11 @@ window.lpGuideCard = function (href, flag, name, extra) {
           <option value="">Any kind</option>
         </select></div>
       </div>
-      <div class="fnd-field">
-        <label for="cmpx-days">How long a trip?</label>
-        <div class="fnd-ctl"><span class="fnd-ic" aria-hidden="true"><svg viewBox="0 0 24 24"><use href="#gm-i-day-dots"/></svg></span><select id="cmpx-days">
-          <option value="">Any length</option>
-        </select></div>
-      </div>
+      <!-- "How long a trip?" is DELETED (owner rule 2026-08-23: "number of the
+           days in a guide should never be showing we change that all the time").
+           Every option in it was a guide's day count, which is a fact about the
+           guide rather than about the city, and it changes on every rebuild.
+           Trip Escape's own length field went in the same pass. -->
       <div class="fnd-field">
         <label for="cmpx-cost">Average costs</label>
         <!-- The COST_DATA tier, in the words the table's own Cost row prints —
@@ -5992,7 +6000,7 @@ function render() {
   var cards   = document.getElementById('tt-res-cards');
   var clearBtn = document.getElementById('tt-clear');
   var safetySel = document.getElementById('tt-safety');
-  var SELECTS = ['tt-degree','tt-month','tt-act','tt-days','tt-lang','tt-safety'];
+  var SELECTS = ['tt-degree','tt-month','tt-act','tt-lang','tt-safety'];
   if (!btnTT) return;
 
   var allCards = Array.from(document.querySelectorAll('a.dest-card')).filter(function(c) { return !c.hasAttribute('data-special'); });
@@ -6219,23 +6227,13 @@ function render() {
   // Data extractors
   function ttMonth() { var el = document.getElementById('tt-month'); var v = el ? el.value : ''; return v === '' ? null : parseInt(v, 10); }
   function ttAct() { var el = document.getElementById('tt-act'); return el && el.value ? el.value : null; }
-  function ttDays() { var el = document.getElementById('tt-days'); return el && el.value ? el.value : null; }
   function ttLang() { var el = document.getElementById('tt-lang'); return el && el.value ? el.value : null; }
   function ttSafetyMax() { var v = safetySel && safetySel.value; return v ? parseInt(v, 10) : null; }
   function ttDegree() { var el = document.getElementById('tt-degree'); return (el && el.value) || 'max'; }
 
-  /* Trip length, from DAYS_DATA — keyed by CITY NAME, which is how that table is
-     keyed and how the guides index reads it. Three bands, documented on the
-     control itself. */
-  var DAY_BAND = {
-    short: function (n) { return n <= 3; },
-    week:  function (n) { return n >= 4 && n <= 5; },
-    long:  function (n) { return n >= 6; }
-  };
-  function daysOf(card) {
-    var n = Number((window._DAYS_DATA || {})[cityName(card)]);
-    return n ? n : null;
-  }
+  /* DAY_BAND, daysOf() and ttDays() stood here and are DELETED with the length
+     field (owner rule 2026-08-23). Nothing in this card reads a guide's day
+     count now — the one number on the site that changes under its own feet. */
   function langsOf(card) {
     var raw = card.getAttribute('data-lang') || '';
     return raw.split(/\s+/).filter(Boolean);
@@ -6264,8 +6262,9 @@ function render() {
     codes.forEach(function (c) {
       var o = document.createElement('option');
       o.value = c;
-      o.textContent = (names[c] || c.toUpperCase()) +
-                      ' (' + count[c] + (count[c] === 1 ? ' guide' : ' guides') + ')';
+      /* The language, not a tally (owner rule 2026-08-23: "remove number of
+         guides" · "we need to stop showing that all the time"). */
+      o.textContent = (names[c] || c.toUpperCase());
       sel.appendChild(o);
     });
   }
@@ -6448,12 +6447,12 @@ function render() {
      Then trip length, then activity. SAFETY IS LAST, always — a reader who asked
      for Level 1 gets everything else set aside before that is, and if it ever is
      the card says so by name rather than quietly handing back a Level 3 city. */
-  var RELAX_ORDER = ['lang', 'days', 'act', 'safety'];
+  var RELAX_ORDER = ['lang', 'act', 'safety'];
 
   /* The chosen option's own words — "Japanese (4 guides)", "A short break — 2 to
      3 days" — never the field's label. The chip is the thing the reader is
      looking at (same rule as the finder's droppedLabels). */
-  var FILTER_EL = { act: 'tt-act', days: 'tt-days', lang: 'tt-lang', safety: 'tt-safety' };
+  var FILTER_EL = { act: 'tt-act', lang: 'tt-lang', safety: 'tt-safety' };
   function filterLabel(key) {
     var el = document.getElementById(FILTER_EL[key]);
     if (!el || !el.selectedIndex) return key;
@@ -6461,7 +6460,7 @@ function render() {
   }
 
   function ttState() {
-    return { act: ttAct(), days: ttDays(), lang: ttLang(), safety: ttSafetyMax() };
+    return { act: ttAct(), lang: ttLang(), safety: ttSafetyMax() };
   }
   function without(st, keys) {
     var out = {};
@@ -6479,7 +6478,6 @@ function render() {
   function passesTT(c, st) {
     if (c === matchedCard) return false;
     if (st.act && ((window._THEME_DATA || {})[cityName(c)] || []).indexOf(st.act) === -1) return false;
-    if (st.days) { var dn = daysOf(c); if (dn === null || !DAY_BAND[st.days](dn)) return false; }
     if (st.lang && langsOf(c).indexOf(st.lang) === -1) return false;
     /* A FLOOR, like the finder's: "Level 1 or 2" keeps 1 and 2. A card whose
        level is unknown is kept — the same reading the old checkbox had, and the
@@ -7448,7 +7446,7 @@ function render() {
     var countEl = document.getElementById('cmpx-count');
     var shufBtn = document.getElementById('cmpx-shuffle');
     var clrBtn  = document.getElementById('cmpx-clear');
-    var FIELDS  = ['continent', 'country', 'type', 'days', 'cost', 'safety'];
+    var FIELDS  = ['continent', 'country', 'type', 'cost', 'safety'];
     var F = {};
     FIELDS.forEach(function (k) { F[k] = document.getElementById('cmpx-' + k); });
 
@@ -7555,32 +7553,27 @@ function render() {
         }).join(''));
       }
 
-      var conts = {}, ctrys = {}, tags = {}, lens = {}, tiers = {}, lvls = {};
+      var conts = {}, ctrys = {}, tags = {}, tiers = {}, lvls = {};
       rows.forEach(function (g) {
         if (g.continent) conts[g.continent] = (conts[g.continent] || 0) + 1;
         if (g.slug && g.country) { ctrys[g.slug] = ctrys[g.slug] || { name: g.country, n: 0 }; ctrys[g.slug].n++; }
         g.tags.forEach(function (t) { tags[t] = (tags[t] || 0) + 1; });
-        if (g.days) lens[g.days] = (lens[g.days] || 0) + 1;
         if (g.tier) tiers[g.tier] = (tiers[g.tier] || 0) + 1;
         if (g.safe) lvls[g.safe] = (lvls[g.safe] || 0) + 1;
       });
 
       fill(F.continent, Object.keys(conts).sort().map(function (k) { return [k, esc(k)]; }));
 
-      /* "(N guides)" spelled out — a bare "(1)" reads as a ranking or a code
-         (owner, 2026-08-22, on the finder's own country field). */
+      /* THE COUNTRY NAME AND NOTHING ELSE (owner rule 2026-08-23: "remove
+         number of guides"). It carried "(N guides)" to match the finder's field,
+         and the finder's field lost it in the same pass. */
       fill(F.country, Object.keys(ctrys)
         .sort(function (a, b) { return ctrys[a].name.localeCompare(ctrys[b].name); })
-        .map(function (k) {
-          var c = ctrys[k];
-          return [k, esc(c.name) + ' (' + c.n + (c.n === 1 ? ' guide)' : ' guides)')];
-        }));
+        .map(function (k) { return [k, esc(ctrys[k].name)]; }));
 
       fill(F.type, TAG_ORDER.filter(function (t) { return tags[t]; })
         .map(function (t) { return [t, esc(TAG_LABEL[t] || t)]; }));
 
-      fill(F.days, Object.keys(lens).map(Number).sort(function (a, b) { return a - b; })
-        .map(function (n) { return [String(n), n + (n === 1 ? ' day' : ' days')]; }));
 
       fill(F.cost, COST_ORDER.filter(function (t) { return tiers[t]; })
         .map(function (t) { return [t, esc(t)]; }));
@@ -7609,7 +7602,7 @@ function render() {
        reader actually wants is usually Kyoto against Rome, and a single-value
        country field cannot even offer them both. Reverting these to single
        selects is a regression, not a simplification. */
-    var picks = { continent: [], country: [], type: [], days: [], cost: [], safety: [] };
+    var picks = { continent: [], country: [], type: [], cost: [], safety: [] };
 
     /* The finder's paintSet, on this card's six filters. Same owner rules, same
        reason they are one thing: this panel is the finder's grammar by
@@ -7637,7 +7630,6 @@ function render() {
       continent: function (g, v) { return g.continent === v; },
       country:   function (g, v) { return g.slug === v; },
       type:      function (g, v) { return g.tags.indexOf(v) > -1; },
-      days:      function (g, v) { return String(g.days) === v; },
       /* A FLOOR, and OR'd across picks — which for a threshold means the loosest
          pick wins, the only thing OR-within-a-dimension can mean here. A city
          with no published level fails every safety pick rather than passing by
@@ -8262,19 +8254,23 @@ function render() {
     codes.forEach(function (c) {
       var o = document.createElement('option');
       o.value = c;
-      /* Counted like the Country field, and for the same reason: the number is
-         what would have made the missing Greek obvious from the page itself. */
-      o.textContent = (LANG_NAMES[c] || c.toUpperCase()) + countSuffix(n[c]);
+      /* NO COUNT (owner rule 2026-08-23: "remove number of guides" · "we need
+         to stop showing that all the time"). It used to read "English (118
+         guides)" — a number that is stale the day the next guide ships, printed
+         nineteen times in one open menu. */
+      o.textContent = (LANG_NAMES[c] || c.toUpperCase());
       o.setAttribute('data-name', LANG_NAMES[c] || c.toUpperCase());
       sel.appendChild(o);
     });
   }
 
-  /* "(15 guides)" / "(1 guide)" — the count says what a pick will return. It is
-     spelled out because a bare "(15)" beside a country name reads as a code or a
-     rank (owner, 2026-08-22). The chip a pick produces carries the NAME only
-     (data-name): the count helps choose, it is not part of the value chosen. */
-  function countSuffix(n) { return ' (' + n + (n === 1 ? ' guide' : ' guides') + ')'; }
+  /* countSuffix() — "(15 guides)" / "(1 guide)" — is DELETED (owner rule
+     2026-08-23: "remove number of guides" · "we need to stop showing that all
+     the time"). It was added on 2026-08-22 so a pick's yield was visible from
+     the menu; the cost is a fleet number printed once per option, nineteen of
+     them in the language field alone, every one of them stale on the next ship.
+     The pruning already answers the same question better and without a number:
+     an option that would return nothing is disabled. */
 
   /* Country options, BUILT FROM THE GUIDES — one line per country that has a
      guide, A–Z, counted. The display name derives from the slug (Title Case,
@@ -8998,17 +8994,18 @@ function render() {
      it. It used to run currency → daylight → jet lag, which is the reverse of
      three of them.
 
-     "N days planned" leads because it is not a filter at all — there is no
-     trip-length control and there is not meant to be (see the note above the
-     go button) — so it is the guide's own headline fact rather than an answer
-     to anything on the form.
+     "N days planned" USED TO LEAD THIS LINE and is deleted (owner rule
+     2026-08-23: "number of the days in a guide should never be showing we
+     change that all the time"). It was the one fact here that is not about the
+     destination at all — it describes the guide we happen to have written, and
+     it moves whenever that guide is rebuilt or gains a day. Trip Escape's and
+     Compare's length filters went in the same pass, for the same reason.
 
      climRow, not d.climate[g.name]: the same twelve-guide exact-name miss
      daylightFor carried, which is why "Naples, FL" and "Montréal" printed a
      facts line with no daylight in it. */
   function facts(d, g, s) {
     var parts = [];
-    var n = Number(d.days && d.days[g.name]); if (n) parts.push(n + ' day' + (n === 1 ? '' : 's') + ' planned');
     var tz = tzDiff(g.name); if (tz) parts.push(tz);
     var row = climRow(d, g);
     var lat = row && parseFloat(row.lat);

@@ -30,6 +30,54 @@
   var noRes = document.getElementById('train-noresult');
   var nav = document.getElementById('jump-nav');
 
+  /* ---- Card spine colour (2026-08-23 redesign) ----
+     Reads each card's own .type-badge fam-* class and writes --spine, which
+     trains.css turns into a 4px inset-shadow bar. Pure presentation, driven
+     entirely off markup every card already carries — no HTML change needed
+     on any of the five continent pages for this to take effect. */
+  var SPINE_FAM = ['orange', 'red', 'green', 'purple', 'pink', 'yellow', 'grey'];
+  function applyCardSpines() {
+    document.querySelectorAll('.train-card').forEach(function (card) {
+      var badge = card.querySelector('.type-badge');
+      if (!badge) return;
+      for (var i = 0; i < SPINE_FAM.length; i++) {
+        if (badge.classList.contains('fam-' + SPINE_FAM[i])) {
+          card.style.setProperty('--spine', 'var(--fam-' + SPINE_FAM[i] + '-ink)');
+          return;
+        }
+      }
+    });
+  }
+  applyCardSpines();
+
+  /* ---- Collapse long country-tag rows (2026-08-23 redesign) ----
+     A network reaching ten countries printed ten flag pills in a row,
+     burying the fact under its own length (owner: the pills up top didn't
+     match what mattered below — same complaint, different page). Anything
+     past the 6th .ctag in an .info-row collapses behind a "+N more" toggle;
+     clicking it reveals the rest in place. Short rows (the common case) are
+     left completely untouched. */
+  function collapseCountryTags() {
+    var CAP = 6;
+    document.querySelectorAll('.country-tags').forEach(function (row) {
+      var tags = [].slice.call(row.querySelectorAll('.ctag'));
+      if (tags.length <= CAP) return;
+      var hidden = tags.slice(CAP);
+      hidden.forEach(function (t) { t.classList.add('ctag-hidden'); });
+      var more = document.createElement('button');
+      more.type = 'button';
+      more.className = 'ctag ctag-more';
+      more.textContent = '+' + hidden.length + ' more';
+      more.addEventListener('click', function () {
+        var expanding = more.classList.toggle('is-open');
+        hidden.forEach(function (t) { t.classList.toggle('ctag-hidden', !expanding); });
+        more.textContent = expanding ? 'show less' : '+' + hidden.length + ' more';
+      });
+      row.appendChild(more);
+    });
+  }
+  collapseCountryTags();
+
   // ---- Assign section ids + build the jump nav ----
   var sections = [];
   var pills = {};

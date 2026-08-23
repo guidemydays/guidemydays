@@ -2054,20 +2054,24 @@ summary.res-head:focus-visible { outline: 2px solid var(--rust, #C04E1A); outlin
 .tt-sug-item:last-child { border-bottom:0; }
 .tt-sug-item:hover { background:rgba(184,134,11,.06); color:#C04E1A; }
 .tt-res-head { font-size:10px; font-weight:700; letter-spacing:.12em; text-transform:uppercase; color:var(--muted); margin:0 0 14px; }
-.tt-back-btn { display:inline-block; margin-top:16px; font-family:inherit; font-size:12px; background:none; border:none; color:var(--accent, #8a6c1a); cursor:pointer; padding:0; text-decoration:underline; }
-.tt-back-btn:hover { color:#C04E1A; }
 .hc-pill-result { display:flex; align-items:center; gap:10px; padding:13px 16px; width:fit-content; min-width:180px; background:var(--surface,#fff); border:1px solid var(--border,#e3ddd2); border-left:3px solid #C04E1A; border-radius:8px; text-decoration:none; color:var(--text,#1a1917); font-size:14px; font-weight:600; margin-bottom:8px; }
 .hc-pill-result:hover { background:var(--surface2,#faf7f2); border-color:var(--rust, #C04E1A); color:var(--rust, #C04E1A); }
 /* SIX ACROSS, NOT SIX DOWN. The pill is fit-content and was stacked one per
    line, so Trip Escape's answer ran the full height of the panel with the right
    two thirds of it empty. Only the container wraps — the pill component itself
    is untouched, and Help Me Choose's copy of it is unaffected. */
-/* Scoped through the panel on purpose: guides-index-style.css — a SHARED asset,
-   and the guides index's own copy of this widget needs it — sets
-   `#tt-res-cards { flex-direction:column }`, and it loads after this block, so a
-   bare #id override here loses on order. */
+/* `flex-direction:row` IS THE OVERRIDE, and it has to be written out.
+   guides-index-style.css — a SHARED asset, and the guides index's own copy of
+   this widget wants the column — sets `#tt-res-cards { flex-direction:column }`.
+   Declaring `display:flex; flex-wrap:wrap` here does not touch that: an
+   undeclared property is not an override, so the column direction carried
+   straight through and the pills still stacked. The `#trip-twin-panel` prefix is
+   belt-and-braces, not the fix; this <style> already loads after that file. */
 #trip-twin-panel #tt-res-cards { display:flex; flex-direction:row; flex-wrap:wrap; gap:8px; }
 #trip-twin-panel #tt-res-cards .hc-pill-result { margin-bottom:0; }
+/* The gap Help Me Choose's own results carry (`#help-choose-panel .fnd-results`,
+   20px) — the answer sits under the control, not against it. */
+#trip-twin-panel #tt-results { margin-top:20px; }
 /* ── Help Me Choose wizard ── */
 #help-choose-panel { margin:8px 0 20px; padding:20px 22px 22px; background:var(--warm); border:1px solid var(--border); border-radius:12px; box-shadow:0 4px 16px rgba(122,59,30,.08); }
 #help-choose-panel[hidden],#hc-inner[hidden],#hc-results[hidden] { display:none !important; }
@@ -2137,14 +2141,31 @@ summary.res-head:focus-visible { outline: 2px solid var(--rust, #C04E1A); outlin
 .tt-sug-item:last-child { border-bottom:0; }
 .tt-sug-item:hover { background:rgba(184,134,11,.06); color:#C04E1A; }
 #tt-city-badge { display:inline-block; margin-left:10px; font-size:12px; color:#C04E1A; font-weight:500; vertical-align:middle; }
-#tt-go { height:38px; padding:0 20px; font-family:inherit; font-size:13px; font-weight:600; background:#C04E1A; border:1.5px solid #C04E1A; border-radius:6px; color:#fff; cursor:pointer; transition:background .15s,border-color .15s; }
-#tt-go::after { content:' ›'; font-size:15px; font-weight:400; }
-#tt-go:hover:not(:disabled) { background:#8A3F18; border-color:#8A3F18; }
+/* #tt-go WEARS .fnd-go, BUT AN ID BEATS A CLASS — so the geometry has to be
+   restated at id strength. guides-index-style.css styles `#tt-go` for the
+   guides index's copy of this widget (38px tall, 6px corners, 13px type, a `›`
+   glued on by ::after), and no amount of load order lets `.fnd-go` win against
+   an id selector. Deleting the page-local block was therefore not enough: the
+   button came back square with the chevron still on it.
+
+   Every value below is `.fnd-go` / `.fnd-go, .fnd-reset`'s own, restated. THEY
+   MOVE TOGETHER — change the finder's pill and change this. The alternative is
+   renaming the button on this page so the shared rule cannot reach it, which
+   would make the two copies of this widget diff dirty for a cosmetic reason.
+
+   `content:none`, not `content:''` — the chevron is not part of this grammar;
+   Help Me Choose's Show-my-matches carries a magnifier and nothing after it. */
+#tt-go { height:auto; padding:0.8em 1.7em; border-radius:999px;
+         font-size:clamp(0.95rem, 1.2vw, 1.05rem); font-weight:700; border-width:1px; }
+#tt-go::after { content:none; }
+#tt-go:hover:not(:disabled) { background:transparent; border-color:var(--rust, #C04E1A); color:var(--rust, #C04E1A); }
+/* The one state .fnd-go has no opinion about: Help Me Choose's button is never
+   disabled, this card's is until a home is given. A dead button must not light
+   up under a pointer that can do nothing with it. */
 #tt-go:disabled { background:var(--border2,#e6e2da); border-color:var(--border2,#e6e2da); color:var(--muted); cursor:default; }
+#tt-go:disabled:hover { background:var(--border2,#e6e2da); border-color:var(--border2,#e6e2da); color:var(--muted); }
 #tt-err { font-size:12px; color:#C04E1A; margin:8px 0 0; }
 .tt-res-head { font-size:10px; font-weight:700; letter-spacing:.12em; text-transform:uppercase; color:var(--muted); margin:0 0 14px; }
-.tt-back-btn { display:inline-block; margin-top:16px; font-family:inherit; font-size:12px; background:none; border:none; color:var(--accent, #8a6c1a); cursor:pointer; padding:0; text-decoration:underline; }
-.tt-back-btn:hover { color:#C04E1A; }
 #tt-city { width:100%; }
 #tt-city-row { width:100%; }
 #tt-city-wrap { display:block; width:100%; }
@@ -3501,13 +3522,35 @@ window.lpGuideCard = function (href, flag, name, extra) {
               <div class="fnd-ctl"><span class="fnd-ic" aria-hidden="true"><svg viewBox="0 0 24 24"><use href="#gm-i-safety-guide"/></svg></span><select id="tt-safety"><option value="">No preference</option><option value="1">Level 1 only &mdash; normal precautions</option><option value="2">Level 1 or 2 &mdash; increased caution</option><option value="3">Level 1, 2 or 3 &mdash; reconsider travel</option></select></div></div>
           </div>
         </div>
-        <button id="tt-go" type="button" class="tt-go-btn" disabled>Find My Escape</button>
+        <!-- HELP ME CHOOSE'S OWN NAV ROW, CLASS FOR CLASS (owner rule 2026-08-23:
+             it should be "a button like help me choose saying clear &hellip; show the
+             results and copy from there so we are using a standard look").
+
+             What stood here was this card's own pair and neither matched anything:
+             `#tt-go.tt-go-btn`, a 38px square-cornered terracotta button with a
+             `›` glued on by `::after`, and `#tt-back.tt-back-btn`, an underlined
+             text link reading "&larr; Try again" that sat UNDER the results. Two
+             doors in the same section, two grammars.
+
+             Now it is `.hc-nav` holding `.fnd-go` and `.fnd-reset` — the pill
+             radius, the clamped type, the same size for both, the filled-CTA
+             inversion on hover and the muted way-out that does not repaint
+             (Thirty-fifth non-negotiable). The label stays this card's own verb;
+             only the shape is shared. -->
+        <div class="hc-nav">
+          <button id="tt-go" type="button" class="fnd-go" disabled><svg class="fnd-go-ic" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><circle cx="10.5" cy="10.5" r="6.5"/><path d="M15.4 15.4 21 21"/></svg>Find My Escape</button>
+          <button type="button" id="tt-clear" class="fnd-reset" hidden>Clear</button>
+        </div>
         <p id="tt-err" hidden></p>
       </div>
+      <!-- THE ANSWER SITS UNDER THE CONTROL THAT ASKED FOR IT (Sixty-second
+           non-negotiable), and the control STAYS ON SCREEN under it — the form no
+           longer hides itself to show the list, which is what made a "&larr; Try
+           again" link necessary in the first place. Help Me Choose has always
+           worked this way: pick, see the answer, change a pick, see it again. -->
       <div id="tt-results" hidden>
         <p class="tt-res-head">Your escape destinations</p>
         <div id="tt-res-cards"></div>
-        <button id="tt-back" type="button" class="tt-back-btn">← Try again</button>
       </div>
     </div>
   </div>
@@ -5609,7 +5652,6 @@ function render() {
 (function () {
   var btnTT   = document.getElementById('btn-trip-twin');
   var panel   = document.getElementById('trip-twin-panel');
-  var inner   = document.getElementById('tt-inner');
   var results = document.getElementById('tt-results');
   var cityIn  = document.getElementById('tt-city');
   var sugList = document.getElementById('tt-suggest-list');
@@ -5617,8 +5659,9 @@ function render() {
   var goBtn   = document.getElementById('tt-go');
   var errP    = document.getElementById('tt-err');
   var cards   = document.getElementById('tt-res-cards');
-  var backBtn = document.getElementById('tt-back');
+  var clearBtn = document.getElementById('tt-clear');
   var safetySel = document.getElementById('tt-safety');
+  var SELECTS = ['tt-degree','tt-month','tt-act','tt-days','tt-lang','tt-safety'];
   if (!btnTT) return;
 
   var allCards = Array.from(document.querySelectorAll('a.dest-card')).filter(function(c) { return !c.hasAttribute('data-special'); });
@@ -5659,9 +5702,37 @@ function render() {
      listener fired on every click anywhere — including the card — leaving the
      card open around an empty box. The card owns the disclosure now. */
 
-  backBtn.addEventListener('click', function () {
+  /* CLEAR, the way Help Me Choose clears (owner rule 2026-08-23). It puts every
+     control back to the state the card opens in — the city, both chip rows, all
+     six selects — hides the answer, and hides itself. It is NOT a "try again"
+     link: the form never went anywhere to come back from.
+
+     `tt-degree` resets to `max`, not to blank: it is the only control here with
+     no neutral option, because "as different as possible" IS this card's
+     default question. */
+  clearBtn.addEventListener('click', function () {
+    cityIn.value = '';
+    matchedCard = null;
+    badge.hidden = true;
+    sugList.hidden = true;
+    document.querySelectorAll('#tt-climate-chips .ttchip.on, #tt-budget-chips .ttchip.on')
+      .forEach(function (b) { b.classList.remove('on'); });
+    SELECTS.forEach(function (id) {
+      var el = document.getElementById(id);
+      if (el) el.value = (id === 'tt-degree') ? 'max' : '';
+    });
     results.hidden = true;
-    inner.hidden = false;
+    errP.hidden = true;
+    cards.innerHTML = '';
+    updateGo();
+  });
+
+  /* The selects have to reach updateGo() too, or Clear stays hidden for a
+     reader who set three of them and no chip — and then never appears at all,
+     because nothing else on this card fires. */
+  SELECTS.forEach(function (id) {
+    var el = document.getElementById(id);
+    if (el) el.addEventListener('change', updateGo);
   });
 
   // Exclusive chip groups
@@ -5691,6 +5762,17 @@ function render() {
        already does for a card with no data-cost — an unset bracket is a missing
        term, never an invalid form. */
     goBtn.disabled = !(hasCity || hasClimate);
+    /* Clear appears the moment ANYTHING is set — a chip, a city, or one of the
+       six selects — and not only when the form is answerable. Same rule as
+       #fnd-reset: it is the way out of whatever state the card is in, so a card
+       holding one pick that returns nothing still offers it. */
+    var touched = hasCity || hasClimate || selVal('tt-budget-chips') !== null ||
+      SELECTS.some(function (id) {
+        var el = document.getElementById(id);
+        if (!el) return false;
+        return id === 'tt-degree' ? el.value !== 'max' : el.value !== '';
+      });
+    if (clearBtn) clearBtn.hidden = !touched;
   }
 
   // Data extractors
@@ -5996,7 +6078,8 @@ function render() {
              (flag ? '<span aria-hidden="true">' + flag + '</span>' : '') +
              escTE(name) + '</a>';
     }).join('');
-    inner.hidden = true;
+    /* The form STAYS. It used to hide itself here, which is what a "← Try
+       again" link existed to undo — see the markup note by #tt-results. */
     results.hidden = false;
   });
 }());

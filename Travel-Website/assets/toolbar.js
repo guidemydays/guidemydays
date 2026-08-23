@@ -6435,11 +6435,11 @@ window.TVE.home = (function () {
       { name: 'Malmaison Glasgow', note: 'Malmaison brand — Merchant City in a converted church building, brasserie and bar, design rooms with character · 8.6 Booking.com', url: 'https://www.booking.com/hotel/gb/malmaison-glasgow.html', tier: 'budget' }
     ], price: { budget: 'GBP 120–160', mid: 'GBP 160–220', expensive: 'GBP 220–320', luxury: 'GBP 320+' } },
     'gothenburg': { h: [
-      { name: 'Clarion Hotel Post', note: 'Nordic Choice Hotels — 1925 former Central Post Office on Drottningtorget, panoramic rooftop pool and bar, spa, largest hotel in Gothenburg · 8.7 Booking.com', url: 'https://www.booking.com/hotel/se/clarion-post.html' },
-      { name: 'Elite Plaza Hotel Gothenburg', note: 'Elite Hotels brand — 1889 grand Victorian building in Inom Vallgraven, Råkulten restaurant, classic Scandinavian interiors · 8.8 Booking.com', url: 'https://www.booking.com/hotel/se/elite-plaza.html' },
-      { name: 'Avalon Hotel', note: 'Independent — Kungsportsavenyn design hotel, rooftop pool and sundeck, Matbaren restaurant · 9.0 Booking.com', url: 'https://www.booking.com/hotel/se/avalonhotel.html' },
-      { name: 'Radisson Blu Scandinavia Hotel Gothenburg', note: 'Radisson Blu — Södra Hamngatan waterfront, panoramic Sky Bar, indoor pool · 8.7 Booking.com', url: 'https://www.booking.com/hotel/se/radisson-sas-scandinavia-gothenburg.html' }
-    ] },
+      { name: 'Comfort Hotel Goteborg', note: 'Nordic Choice — contemporary economy hotel near Centralstation, complimentary evening meal, 24-hour reception · 8.2 Booking.com', url: 'https://www.booking.com/hotel/se/comfort-hotel-goteborg.html', tier: 'budget' },
+      { name: 'Clarion Hotel Post', note: 'Nordic Choice Hotels — 1925 former Central Post Office on Drottningtorget, panoramic rooftop pool and bar, spa, largest hotel in Gothenburg · 8.7 Booking.com', url: 'https://www.booking.com/hotel/se/clarion-post.html', tier: 'mid' },
+      { name: 'Elite Plaza Hotel Gothenburg', note: 'Elite Hotels — 1889 grand Victorian building in Inom Vallgraven, Råkulten restaurant, classic Scandinavian interiors · 8.8 Booking.com', url: 'https://www.booking.com/hotel/se/elite-plaza.html', tier: 'expensive' },
+      { name: 'Upper House', note: "Independent — Gothenburg's premier luxury address inside Gothia Towers, Atmosphere sky-high fine dining, rooftop pool, panoramic city views · 9.1 Booking.com", url: 'https://www.booking.com/hotel/se/upper-house.html', tier: 'luxury' }
+    ], price: { budget: 'SEK 700–1100', mid: 'SEK 1100–1900', expensive: 'SEK 1900–3200', luxury: 'SEK 3200+' } },
     'hamburg': { h: [
       { name: 'The Fontenay Hamburg', note: "Independent luxury — 2018 Alster lake-view tower, rooftop pool, Lakeside spa, Mabühle restaurant, Hamburg's premier new-build address · 9.4 Booking.com", url: 'https://www.booking.com/hotel/de/the-fontenay.html' },
       { name: 'Hotel Atlantic Hamburg, Autograph Collection', note: 'Marriott Autograph Collection — 1909 Außenalster lakefront landmark, historic grand hotel, waterfront dining, near Hauptbahnhof · 9.2 Booking.com', url: 'https://www.booking.com/hotel/de/hotel-atlantic-hamburg-autograph-collection.html' },
@@ -7613,11 +7613,11 @@ window.TVE.home = (function () {
       { name: 'Aman Venice', note: 'Aman brand — 16th-century Palazzo Papadopoli on the Grand Canal, two private gardens, private dock', url: 'https://www.aman.com/hotels/aman-venice', tier: 'luxury' }
     ], price: { budget: '€500–900', mid: '€900–1,500', expensive: '€1,500–2,500', luxury: '€2,500+' } },
     'verona': { h: [
-      { name: 'Due Torri Hotel', note: 'Autograph Collection (Marriott) — 14th-century palazzo near Piazza Brà, antique-furnished rooms, Arena Opera views · 9.1 Booking.com', url: 'https://www.booking.com/hotel/it/due-torri-hotel.html' },
-      { name: 'Hotel Gabbia d\'Oro', note: 'Independent boutique — 17th-century noble palazzo near Piazza delle Erbe, antique beds, garden courtyard · 9.0 Booking.com', url: 'https://www.booking.com/hotel/it/gabbia-d-oro.html' },
-      { name: 'NH Collection Verona Grand Hotel Palazzo di Verona', note: 'NH Collection brand — 18th-century Palazzo on Piazza San Zeno, rooftop terrace, central location · 9.0 Booking.com', url: 'https://www.booking.com/hotel/it/nh-verona-due-torri.html' },
-      { name: 'Hotel Accademia', note: 'Independent — Via Scala near the Arena, garden courtyard, Il Carroarmato restaurant · 8.7 Booking.com', url: 'https://www.booking.com/hotel/it/accademia-verona.html' }
-    ] },
+      { name: 'Hotel Accademia', note: 'Independent — Via Scala near the Arena, garden courtyard, Il Carroarmato restaurant · 8.7 Booking.com', url: 'https://www.booking.com/hotel/it/accademia-verona.html', tier: 'budget' },
+      { name: 'NH Collection Verona Grand Hotel Palazzo di Verona', note: 'NH Collection brand — 18th-century Palazzo on Piazza San Zeno, rooftop terrace, central location · 9.0 Booking.com', url: 'https://www.booking.com/hotel/it/nh-verona-due-torri.html', tier: 'mid' },
+      { name: 'Hotel Gabbia d\'Oro', note: 'Independent boutique — 17th-century noble palazzo near Piazza delle Erbe, antique beds, garden courtyard · 9.0 Booking.com', url: 'https://www.booking.com/hotel/it/gabbia-d-oro.html', tier: 'expensive' },
+      { name: 'Due Torri Hotel', note: 'Autograph Collection (Marriott) — 14th-century palazzo near Piazza Brà, antique-furnished rooms, Arena Opera views · 9.1 Booking.com', url: 'https://www.booking.com/hotel/it/due-torri-hotel.html', tier: 'luxury' }
+    ], price: { budget: '€80–150', mid: '€150–280', expensive: '€280–500', luxury: '€450+' } },
     'victoria': { h: [
       { name: 'The Fairmont Empress', note: 'Fairmont brand — 1908 Inner Harbour landmark, spa, Bengal Lounge, afternoon tea tradition · 9.0 Booking.com', url: 'https://www.booking.com/hotel/ca/fairmont-empress.html' },
       { name: 'Inn at Laurel Point', note: 'Independent boutique — waterfront on the Inner Harbour, adults-preferred, Japanese meditation garden · 9.2 Booking.com', url: 'https://www.booking.com/hotel/ca/inn-at-laurel-point.html' },
@@ -11319,7 +11319,7 @@ window.TVE.home = (function () {
       'OSL','PBH','PDL','PDX','PEK','PHL','PHX','PLS','PMI','PNS','POA','PPS','PRG','PSA','PSP','PUS',
       'PVG','PVR','RAK','RDM','REC','RHO','RIX','RNO','RSW','SAN','SCL','SEA','SFO','SJD','SIN','SJC','SJO',
       'SJU','SKG','SLC','SLZ','SPU','SSA','STR','SXB','SYD','SZG','TBS','TFS','TIV','TLL','TOS','TPE','TRN','VCE','VIE',
-      'VLC','WLG','YQB','YUL','YVR','YYC','YYZ','ZAG','ZQN','ZRH'
+      'VLC','VRN','WLG','YQB','YUL','YVR','YYC','YYZ','ZAG','ZQN','ZRH'
     ];
 
     function _inject() {

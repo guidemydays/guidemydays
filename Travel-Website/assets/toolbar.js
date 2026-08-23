@@ -11301,7 +11301,7 @@ window.TVE.home = (function () {
       'MIA','MLA','MLE','MRS','MSP','MSY','MUC','MVD','MXP','NAP','NAS','NAT','NCE','OGG','OPO','ORD','ORY',
       'OSL','PBH','PDL','PDX','PEK','PHL','PHX','PLS','PMI','PNS','POA','PPS','PRG','PSA','PSP','PUS',
       'PVG','PVR','RAK','RDM','REC','RHO','RIX','RNO','RSW','SAN','SCL','SEA','SFO','SIN','SJC','SJO',
-      'SJU','SKG','SLC','SPU','STR','SXB','SYD','TBS','TFS','TIV','TLL','TOS','TPE','TRN','VCE','VIE',
+      'SJU','SKG','SLC','SPU','SSA','STR','SXB','SYD','TBS','TFS','TIV','TLL','TOS','TPE','TRN','VCE','VIE',
       'VLC','WLG','YQB','YUL','YVR','YYC','YYZ','ZAG','ZQN','ZRH'
     ];
 

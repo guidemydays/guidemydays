@@ -6169,11 +6169,11 @@ window.TVE.home = (function () {
       { name: 'The Ritz-Carlton, Charlotte', note: 'Ritz-Carlton — Uptown Charlotte, two-level spa, rooftop garden, signature dining, skyline views · 9.0 Booking.com', url: 'https://www.booking.com/hotel/us/ritz-carlton-charlotte.html', tier: 'luxury' }
     ], price: { budget: '$200–350', mid: '$300–500', expensive: '$450–700', luxury: '$650+' } },
     'chiang-mai': { h: [
-      { name: 'Four Seasons Resort Chiang Mai', note: 'Four Seasons — Mae Rim Valley (15 km northwest of Old City), rice-terrace views, two infinity pools, spa, cooking classes · 9.7 Booking.com' , url: 'https://www.booking.com/hotel/th/four-seasons-resort-chiang-mai.html' },
-      { name: 'Shangri-La Chiang Mai', note: 'Shangri-La — Ping River/Night Bazaar district, river-view pool, full-service spa, multiple restaurants · 8.9 Booking.com' , url: 'https://www.booking.com/hotel/th/shangri-la-chiang-mai.html' },
-      { name: 'Anantara Chiang Mai Resort', note: 'Anantara brand — banks of the Mae Ping River near Night Bazaar, riverside pool, full-service spa, Sala Mae Rim restaurant · 9.3 Booking.com' , url: 'https://www.booking.com/hotel/th/anantara-chiang-mai.html' },
-      { name: 'Dhara Dhevi Chiang Mai', note: 'Independent — 60-acre Lanna-inspired estate, three pools, Le Grand Lanna restaurant in a century-old teak pavilion, spa village · 9.3 Booking.com' , url: 'https://www.booking.com/hotel/th/dhara-dhevi-chiang-mai.html' }
-    ] },
+      { name: 'U Nimman Chiang Mai', note: 'Independent — 1 Nimmanhaemin Soi 1, boutique design hotel in Nimman district, rooftop pool, adjacent to Maya Mall · 8.8 Booking.com', url: 'https://www.booking.com/hotel/th/u-nimman-chiang-mai.html', tier: 'budget' },
+      { name: 'Anantara Chiang Mai Resort', note: 'Anantara brand — banks of the Mae Ping River near Night Bazaar, riverside pool, full-service spa, Sala Mae Rim restaurant · 9.3 Booking.com', url: 'https://www.booking.com/hotel/th/anantara-chiang-mai.html', tier: 'mid' },
+      { name: 'Shangri-La Chiang Mai', note: 'Shangri-La — Ping River/Night Bazaar district, river-view pool, full-service spa, multiple restaurants · 8.9 Booking.com', url: 'https://www.booking.com/hotel/th/shangri-la-chiang-mai.html', tier: 'expensive' },
+      { name: 'Dhara Dhevi Chiang Mai', note: 'Independent — 60-acre Lanna-inspired estate, three pools, Le Grand Lanna restaurant in a century-old teak pavilion, spa village · 9.3 Booking.com', url: 'https://www.booking.com/hotel/th/dhara-dhevi-chiang-mai.html', tier: 'luxury' }
+    ], price: { budget: '฿1,500–3,000', mid: '฿3,500–7,000', expensive: '฿7,000–15,000', luxury: '฿15,000+' } },
     'chicago': { h: [
       { name: 'The Langham, Chicago', note: 'Langham Hotels — 330 North Wabash Avenue in the IBM Building, Chuan Body & Soul Spa, indoor pool, kids club · 9.4 Booking.com', url: 'https://www.booking.com/hotel/us/the-langham-chicago.html' },
       { name: 'Waldorf Astoria Chicago', note: 'Waldorf Astoria/Hilton — Gold Coast (11 E Walton St), European-style spa, sauna, Art Deco interiors · 9.4 Booking.com', url: 'https://www.booking.com/hotel/us/chicago-11-walton.html' },

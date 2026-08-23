@@ -181,16 +181,25 @@ html { scroll-behavior: smooth; }
 .chip::after { content: "·"; color: var(--border); margin: 0 8px; }
 .chip:last-child::after { content: ""; margin: 0; }
 .chip .lim { font-size: 12px; color: var(--muted); font-variant-numeric: tabular-nums; margin-left: 3px; }
-.rows { display: flex; flex-direction: column; gap: 9px; }
+/* Grid, not a stacked list — 121 visa-free countries used to run one
+   full-width row each (~4,400px of pure scroll before "Visa on arrival" even
+   started). Same rows, same DOM, same search/filter JS (untouched) — just
+   laid out as a flag-forward card grid so the same content fits in roughly
+   a fifth of the height. Owner-approved mockup, 2026-08-23. */
+.rows { display: grid; grid-template-columns: repeat(auto-fill, minmax(210px, 1fr)); gap: 8px; }
 .rows.two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 9px; }
 .rows.three-col { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
-@media (max-width: 600px) and (pointer: coarse) { .rows.two-col { grid-template-columns: 1fr; } .rows.three-col { grid-template-columns: 1fr 1fr; } }
-.row { display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px 10px; padding: 10px 12px;
+@media (max-width: 600px) and (pointer: coarse) {
+  .rows { grid-template-columns: repeat(2, 1fr); }
+  .rows.two-col { grid-template-columns: 1fr; }
+  .rows.three-col { grid-template-columns: 1fr 1fr; }
+}
+.row { display: flex; flex-direction: column; align-items: flex-start; gap: 5px; padding: 11px 12px;
   background: var(--surface); border: 1px solid var(--border2); border-radius: 8px;
   transition: border-color .15s, box-shadow .15s; }
 .row:hover  { border-color: var(--rust); box-shadow: 0 3px 10px rgba(192,78,26,.12); }
 .row:active { border-color: var(--rust); box-shadow: 0 1px 3px rgba(192,78,26,.10); }
-.row .cty { font-size: 14px; font-weight: 600; min-width: 0; }
+.row .cty { font-size: 14px; font-weight: 600; min-width: 0; overflow-wrap: anywhere; }
 /* .row .lim sizing+colour from .badge .fam-* in web-travel-style.css */
 .row .lim { vertical-align: middle; }
 .etype.vf    .row .lim { background: var(--fam-green-bg);  color: var(--fam-green-ink);  border-color: var(--fam-green-bd); }

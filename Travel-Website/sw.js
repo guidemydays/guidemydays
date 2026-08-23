@@ -2019,7 +2019,8 @@
 /* 2026-08-23: Best-Of filter row (continent chips, Sort dropdown, Saved pill) had near-zero contrast against the page — .bo-chip / .bo-favs-pill / #regionJump .disc-btn painted background:var(--surface2,#f2ede7) on a var(--bg,#f5f4f0) page, two shades of the same beige, and color:var(--muted,#6a6660) on top of that (owner: "i cant barely see these pills"). All three now sit on var(--surface,#fff) with a var(--border2) rim and var(--text) ink, matching the readable .disc-btn pattern already used elsewhere on the site. Also widened the gap between the "Filter by country" row and the chip row below it (.bo-feat-toolbar margin-top 8px -> 18px) per the same complaint ("filter by country is too close to the ones below"). web-travel-style.css -> v107. CACHE to v1465. */
 /* 2026-08-23: TVE.home.mount is one typed field; input.pp-input in web-travel-style.css toolbar.js -> v1059. CACHE to v1466. */
 /* 2026-08-23: the airport picker is one typed field (owner: "this should be one field no drop down to then type"). input.pp-input overrides the site-wide input[type=text] search-bar standard for a control that is a form field, not a search bar. web-travel-style.css -> v108. CACHE to v1467. */
-var CACHE = 'travel-cache-v1467';
+/* 2026-08-23: toolbar.js GM_SPRITE gains '423' (backpack) for Getting Around's Luggage Storage sub-block toolbar.js -> v1060. CACHE to v1468. */
+var CACHE = 'travel-cache-v1468';
 
 /* The guide-calendar hand-off cache. Written by toolbar.js, read and emptied
    once by the fetch handler below, and EXEMPT from the activate sweep — it is
@@ -2032,7 +2033,7 @@ var ICS_OUTBOX = 'gmd-ics-outbox';
    THIS IS THE ONLY PLACE to bump toolbar.js / guide-style.css versions.
    NEVER bump ?v= inside guide HTML — it breaks HMAC stamps and forces re-validation
    of 230+ guides. Instead, bump MIN_VERSIONS here + increment the CACHE version. */
-var MIN_VERSIONS = { 'guide-style.css': 264,'toolbar.js': 1059, 'mobile.css': 88, 'web-travel-style.css': 108, 'guides-index-style.css': 27, 'read-about.css': 6, 'best-of-features.js': 4, 'best-of-cross-data.js': 24, 'weather.js': 12, 'trains.css': 11, 'trains.js': 2, 'airlines.css': 2, 'airlines.js': 2, 'passport.js': 4 };
+var MIN_VERSIONS = { 'guide-style.css': 264,'toolbar.js': 1060, 'mobile.css': 88, 'web-travel-style.css': 108, 'guides-index-style.css': 27, 'read-about.css': 6, 'best-of-features.js': 4, 'best-of-cross-data.js': 24, 'weather.js': 12, 'trains.css': 11, 'trains.js': 2, 'airlines.css': 2, 'airlines.js': 2, 'passport.js': 4 };
 
 function rewriteAssetUrl(urlStr) {
   var u;

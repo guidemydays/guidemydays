@@ -6201,11 +6201,11 @@ window.TVE.home = (function () {
       { name: 'Hampton Inn & Suites Coeur d\'Alene', note: 'Hilton Hampton brand — 1500 Riverstone Drive, indoor pool, free hot breakfast, 24h reception · 9.4 Booking.com', url: 'https://www.booking.com/hotel/us/riverstone-drive-coeur-d-alene.html', tier: 'luxury' }
     ], price: { budget: '$110–180', mid: '$140–220', expensive: '$160–260', luxury: '$200–320' } },
     'colmar': { h: [
-      { name: 'Au Grenier à Sel Colmar', note: 'Independent — 54 Grand Rue in the Old Town, 4-star suites in a converted salt loft a few doors from the Koïfhus · 9.3 Booking.com', url: 'https://www.booking.com/hotel/fr/au-grenier-a-sel-colmar.html' },
-      { name: "L'Esquisse Hotel & Spa Colmar · MGallery Collection", note: 'MGallery (Accor, off the § 3 ladder) — 2 Avenue de la Marne, 5-star with indoor pool, spa and 24h reception; the guide\'s previous title-card hotel · 9.2 Booking.com', url: 'https://www.booking.com/hotel/fr/colmar-champ-de-mars.html' },
-      { name: 'Relais & Châteaux La Maison des Têtes', note: 'Independent — 19 Rue des Têtes, the 1609 Renaissance mansion with the 111 sculpted heads, 5-star, Michelin dining · 9.1 Booking.com', url: 'https://www.booking.com/hotel/fr/la-maison-des-tetes.html' },
-      { name: 'James Boutique Hôtel Colmar centre', note: 'Independent — 15 rue Saint-Eloi, 4-star, AC, private parking, a short walk east of the Old Town · 9.0 Booking.com', url: 'https://www.booking.com/hotel/fr/james-boutique-hotel.html' }
-    ] },
+      { name: 'James Boutique Hôtel Colmar centre', note: 'Independent — 15 rue Saint-Eloi, 4-star, AC, private parking, a short walk east of the Old Town · 9.0 Booking.com', url: 'https://www.booking.com/hotel/fr/james-boutique-hotel.html', tier: 'budget' },
+      { name: 'Au Grenier à Sel Colmar', note: 'Independent — 54 Grand Rue in the Old Town, 4-star suites in a converted salt loft a few doors from the Koïfhus · 9.3 Booking.com', url: 'https://www.booking.com/hotel/fr/au-grenier-a-sel-colmar.html', tier: 'mid' },
+      { name: "L'Esquisse Hotel & Spa Colmar · MGallery Collection", note: 'MGallery (Accor, off the § 3 ladder) — 2 Avenue de la Marne, 5-star with indoor pool, spa and 24h reception; the guide\'s previous title-card hotel · 9.2 Booking.com', url: 'https://www.booking.com/hotel/fr/colmar-champ-de-mars.html', tier: 'expensive' },
+      { name: 'Relais & Châteaux La Maison des Têtes', note: 'Independent — 19 Rue des Têtes, the 1609 Renaissance mansion with the 111 sculpted heads, 5-star, Michelin dining · 9.1 Booking.com', url: 'https://www.booking.com/hotel/fr/la-maison-des-tetes.html', tier: 'luxury' }
+    ], price: { budget: '€90–140', mid: '€150–230', expensive: '€250–380', luxury: '€380+' } },
     'cologne': { h: [
       { name: 'Hyatt Regency Cologne', note: 'Hyatt brand — Rhine riverbank, 306 rooms and suites, Regency Executive Suite with Rhine and Cologne Cathedral panorama, Glashaus Restaurant & Bar · 8.5 Booking.com', url: 'https://www.booking.com/hotel/de/hyatt-regency-koln.html' },
       { name: 'Cologne Marriott Hotel', note: 'Marriott brand — central Cologne, 3-min walk to Cologne Cathedral and Hauptbahnhof, contemporary rooms, modern fitness center · 8.3 Booking.com', url: 'https://www.booking.com/hotel/de/cologne-marriott.html' },
@@ -11321,7 +11321,7 @@ window.TVE.home = (function () {
        its airport. */
     var LOUNGE_IATAS = [
       'ABQ','AES','AGP','AJU','AMM','AMS','ANC','ARN','ATH','ATL','AUA','AUH','AUS','BCN','BDS','BER',
-      'BGI','BGO','BIO','BKK','BLQ','BNA','BOB','BOD','BOS','BRU','BUD','CAI','CDG','CKG','CLT','CMB',
+      'BGI','BGO','BIO','BKK','BLQ','BNA','BOB','BOD','BOS','BRU','BSL','BUD','CAI','CDG','CKG','CLT','CMB',
       'CNX','CPH','CPT','CUN','CUR','CUZ','CWB','DBV','DEN','DFW','DOH','DPS','DTW','DUB','DUS','DXB',
       'EDI','EYW','EZE','FAO','FCA','FCO','FHR','FLN','FLR','FNC','FOR','FRA','GCM','GEG','GIG','GOT',
       'GPS','GRU','GRX','GVA','HAM','HAN','HEL','HER','HKG','HKT','HND','HNL','IAD','IAH','ICN','IGU',

@@ -6904,11 +6904,11 @@ window.TVE.home = (function () {
       { name: 'Pousada Convento da Conceição', note: 'Independent — 17th-century convent in Olinda UNESCO core, WiFi, A/C, traditional breakfast, garden · 9.1 Booking.com', url: 'https://www.booking.com/hotel/br/convento-da-conceicao.html' }
     ] },
     'orcas-island': { h: [
-      { name: 'Outlook Inn', note: 'Independent boutique — Eastsound village center, wraparound deck with water views, farm-fresh breakfast · 9.2 Booking.com', url: 'https://www.booking.com/hotel/us/outlook-inn-eastsound.html' },
-      { name: 'Deer Harbor Inn', note: 'Independent — Deer Harbor overlook, cottage-style rooms, outdoor hot tub, kayak rentals · 9.1 Booking.com', url: 'https://www.booking.com/hotel/us/deer-harbor-inn.html' },
-      { name: 'Rosario Resort & Spa', note: 'Independent — 1904 Moran estate on Cascade Bay, spa, pool, 40 acres of grounds · 8.4 Booking.com', url: 'https://www.booking.com/hotel/us/rosario-resort-spa.html' },
-      { name: 'Orcas Hotel', note: 'Independent — 1904 Victorian at the Orcas ferry landing, wraparound porch, farm-to-table bistro · 9.2 Booking.com', url: 'https://www.booking.com/hotel/us/orcas-hotel.html' }
-    ] },
+      { name: 'Outlook Inn', tier: 'expensive', note: 'Independent boutique — Eastsound village center, wraparound deck with water views, farm-fresh breakfast · 9.2 Booking.com', url: 'https://www.booking.com/hotel/us/outlook-inn-eastsound.html' },
+      { name: 'Deer Harbor Inn', tier: 'mid', note: 'Independent — Deer Harbor overlook, cottage-style rooms, outdoor hot tub, kayak rentals · 9.1 Booking.com', url: 'https://www.booking.com/hotel/us/deer-harbor-inn.html' },
+      { name: 'Rosario Resort & Spa', tier: 'luxury', note: 'Independent — 1904 Moran estate on Cascade Bay, spa, pool, 40 acres of grounds · 8.4 Booking.com', url: 'https://www.booking.com/hotel/us/rosario-resort-spa.html' },
+      { name: 'Orcas Hotel', tier: 'budget', note: 'Independent — 1904 Victorian at the Orcas ferry landing, wraparound porch, farm-to-table bistro · 9.2 Booking.com', url: 'https://www.booking.com/hotel/us/orcas-hotel.html' }
+    ], price: { budget: 'USD 120–220', mid: 'USD 200–350', expensive: 'USD 300–480', luxury: 'USD 400+' } },
     'orlando': { h: [
       { name: 'Loews Portofino Bay Hotel at Universal Orlando', note: 'Loews brand — Italian Riviera theming, three pools, on-site Universal Express Pass access · 8.9 Booking.com', url: 'https://www.booking.com/hotel/us/loews-portofino-bay-at-universal-orlando.html' },
       { name: 'Walt Disney World Swan Reserve', note: 'Autograph Collection (Marriott) — on Disney property, multilevel pool, three restaurants, complimentary MagicBand · 9.1 Booking.com', url: 'https://www.booking.com/hotel/us/walt-disney-world-swan-reserve.html' },
@@ -11303,7 +11303,7 @@ window.TVE.home = (function () {
       'EYW','EZE','FAO','FCO','FHR','FLN','FLR','FOR','FRA','GCM','GIG','GOT','GPS','GRU','GVA','HAM',
       'HAN','HEL','HER','HKG','HKT','HND','IAD','IAH','ICN','IGU','IST','JFK','JMK','JPA','JTR','KEF','KOA',
       'KRK','KTM','LAS','LAX','LGA','LGW','LHR','LIH','LIM','LIS','LJU','LUX','LYS','MAD','MAN','MCT','MEL',
-      'MIA','MLA','MLE','MRS','MSP','MSY','MUC','MVD','MXP','NAP','NAS','NAT','NCE','OGG','OPO','ORD','ORY',
+      'MIA','MLA','MLE','MRS','MSP','MSY','MUC','MVD','MXP','NAP','NAS','NAT','NCE','OGG','OPO','ORD','ORS','ORY',
       'OSL','PBH','PDL','PDX','PEK','PHL','PHX','PLS','PMI','PNS','POA','PPS','PRG','PSA','PSP','PUS',
       'PVG','PVR','RAK','RDM','REC','RHO','RIX','RNO','RSW','SAN','SCL','SEA','SFO','SIN','SJC','SJO',
       'SJU','SKG','SLC','SLZ','SPU','SSA','STR','SXB','SYD','TBS','TFS','TIV','TLL','TOS','TPE','TRN','VCE','VIE',

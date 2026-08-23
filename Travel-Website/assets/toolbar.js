@@ -11330,7 +11330,7 @@ window.TVE.home = (function () {
       'PSP','PUS','PVG','PVR','RAK','RDM','REC','RHO','RIX','RNO','RSW','SAN','SCL','SEA','SFO','SIN',
       'SJC','SJD','SJO','SJU','SKG','SLC','SLZ','SPU','SRQ','SSA','STR','STT','SVQ','SXB','SYD','SZG','TBS',
       'TFS','TIV','TLL','TOS','TPE','TRN','VCE','VIE','VLC','VNO','VRN','WLG','YQB','YUL','YVR','YYC',
-      'YYZ','ZAG','ZQN','ZRH'
+      'YYZ','ZAG','ZQN','ZRH','ZTH'
     ];
 
     function _inject() {

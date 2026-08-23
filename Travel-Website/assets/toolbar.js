@@ -6630,11 +6630,12 @@ window.TVE.home = (function () {
       { name: 'Mandarin Oriental Hyde Park, London', note: 'Mandarin Oriental brand — 66 Knightsbridge, Dinner by Heston Blumenthal, The Spa at Mandarin Oriental, Hyde Park views · 9.0 Booking.com' , url: 'https://www.booking.com/hotel/gb/mandarin-oriental-hyde-park.html' }
     ] },
     'los-angeles': { h: [
-      { name: 'Shutters On The Beach', note: 'Independent — beachfront at 1 Pico Boulevard in Santa Monica, 5-star, spa, outdoor pool and direct sand access · 9.2 Booking.com', url: 'https://www.booking.com/hotel/us/shutters-on-the-beach.html' },
-      { name: 'Omni Los Angeles Hotel', note: 'Omni Hotels — 251 South Olive Street on Bunker Hill, rooftop pool, spa and 24h reception, walking distance to The Broad · 9.0 Booking.com', url: 'https://www.booking.com/hotel/us/omni-los-angeles.html' },
-      { name: 'The Beverly Hills Hotel', note: 'Dorchester Collection — 1912 Pink Palace on Sunset Boulevard, Polo Lounge, bungalows, pool · 9.2 Booking.com', url: 'https://www.booking.com/hotel/us/the-beverly-hills-hotel.html' },
-      { name: 'Sunset Tower Hotel', note: 'Independent — 1931 Art Deco landmark on the Sunset Strip, pool and terrace, Tower Bar restaurant · 9.1 Booking.com', url: 'https://www.booking.com/hotel/us/sunset-tower-hotel.html' }
-    ] },
+      { name: 'Freehand Los Angeles', note: 'Independent — 416 West 8th Street in Downtown LA, design hotel with private rooms and poolside lounge, 10 min walk from LA LIVE · 8.3 Booking.com', url: 'https://www.booking.com/hotel/us/freehand-los-angeles.html', tier: 'budget' },
+      { name: 'Omni Los Angeles Hotel', note: 'Omni Hotels — 251 South Olive Street on Bunker Hill, rooftop pool, spa and 24h reception, walking distance to The Broad · 9.0 Booking.com', url: 'https://www.booking.com/hotel/us/omni-los-angeles.html', tier: 'mid' },
+      { name: 'Sunset Tower Hotel', note: 'Independent — 1931 Art Deco landmark on the Sunset Strip, pool and terrace, Tower Bar restaurant · 9.1 Booking.com', url: 'https://www.booking.com/hotel/us/sunset-tower-hotel.html', tier: 'expensive' },
+      { name: 'The Beverly Hills Hotel', note: 'Dorchester Collection — 1912 Pink Palace on Sunset Boulevard, Polo Lounge, bungalows, pool · 9.2 Booking.com', url: 'https://www.booking.com/hotel/us/the-beverly-hills-hotel.html', tier: 'luxury' },
+      { name: 'Shutters On The Beach', note: 'Independent — beachfront at 1 Pico Boulevard in Santa Monica, 5-star, spa, outdoor pool and direct sand access · 9.2 Booking.com', url: 'https://www.booking.com/hotel/us/shutters-on-the-beach.html', tier: 'luxury' }
+    ], price: { budget: '$130–190', mid: '$220–320', expensive: '$350–500', luxury: '$600+' } },
     'los-cabos': { h: [
       { name: 'Las Ventanas al Paraíso, A Rosewood Resort', note: 'Rosewood brand — beachfront estate, telescope observatory, three pools, Tequila & Ceviche Bar', url: 'https://www.rosewoodhotels.com/en/las-ventanas-los-cabos' },
       { name: 'One&Only Palmilla', note: 'One&Only brand — 27-acre oceanfront estate, Nobu on-site, infinity pools, private diving · 9.4 Booking.com', url: 'https://www.booking.com/hotel/mx/one-only-palmilla.html' },
@@ -6642,12 +6643,11 @@ window.TVE.home = (function () {
       { name: 'Grand Velas Los Cabos', note: 'Velas Resorts — beachfront all-inclusive, six restaurants, Se Spa, infinity pool · 9.3 Booking.com', url: 'https://www.booking.com/hotel/mx/grand-velas-los-cabos.html' }
     ] },
     'luang-prabang': { h: [
-      { name: 'Le Sen Boutique Hotel', note: 'Independent — Manomai Road in Ban Mano, outdoor pool, spa and gym, 24h reception, airport shuttle · 9.7 Booking.com', url: 'https://www.booking.com/hotel/la/le-sen-boutique.html' },
-      { name: 'La Résidence Phou Vao', note: 'Belmond — hilltop above the town with Phousi views, infinity pool, spa, 24h reception · 9.6 Booking.com', url: 'https://www.booking.com/hotel/la/la-residence-phou-vao.html' },
-      { name: 'Rosewood Luang Prabang', note: 'Rosewood brand — jungle tented resort, 23 elegant tents and villas, waterfall views · 9.5 Booking.com', url: 'https://www.booking.com/hotel/la/rosewood-luang-prabang.html' },
-      { name: 'Sanctuary Hotel Luang Prabang', note: 'Independent — Kitsalat Road in Ban Aham, outdoor pool, spa and sauna, 24h reception · 9.2 Booking.com', url: 'https://www.booking.com/hotel/la/sanctuary-luang-prabang.html' },
-      { name: 'Villa Maly Boutique Hotel', note: 'Independent — Oupalath Khamboua Road in Ban That Luang, outdoor pool, spa, 24h reception · 9.1 Booking.com', url: 'https://www.booking.com/hotel/la/villa-maly.html' }
-    ] },
+      { name: 'Mekong Riverview Hotel', note: 'Independent — Khem Khong Road on the Mekong waterfront, river-view rooms with balconies, 24h reception · 8.5 Booking.com', url: 'https://www.booking.com/hotel/la/mekong-riverview.html', tier: 'budget' },
+      { name: 'Le Sen Boutique Hotel', note: 'Independent — Manomai Road in Ban Mano, outdoor pool, spa and gym, 24h reception, airport shuttle · 9.7 Booking.com', url: 'https://www.booking.com/hotel/la/le-sen-boutique.html', tier: 'mid' },
+      { name: 'La Résidence Phou Vao', note: 'Belmond — hilltop above the town with Phousi views, infinity pool, spa, 24h reception · 9.6 Booking.com', url: 'https://www.booking.com/hotel/la/la-residence-phou-vao.html', tier: 'expensive' },
+      { name: 'Rosewood Luang Prabang', note: 'Rosewood brand — jungle tented resort, 23 elegant tents and villas, waterfall views · 9.5 Booking.com', url: 'https://www.booking.com/hotel/la/rosewood-luang-prabang.html', tier: 'luxury' }
+    ], price: { budget: '$40–80', mid: '$90–180', expensive: '$200–400', luxury: '$400+' } },
     'lucerne': { h: [
       { name: 'Palace Luzern', note: 'Independent luxury — 1906 Belle Époque lakefront palace, indoor and outdoor pools, spa, Pilatus and Rigi views · 9.4 Booking.com', url: 'https://www.booking.com/hotel/ch/mandarin-oriental-palace-luzern.html' },
       { name: 'Hotel Schweizerhof Luzern', note: 'Independent — Schweizerhofquai 3a on the lakefront in the Old Town, spa and sauna, gym, 24h reception · 9.4 Booking.com', url: 'https://www.booking.com/hotel/ch/schweizerhof-luzern.html' },
@@ -6667,11 +6667,12 @@ window.TVE.home = (function () {
       { name: 'InterContinental Lyon - Hotel Dieu', note: 'IHG brand — converted 12th-century Grand Hôtel-Dieu on the Rhône, spa with pool · 9.1 Booking.com', url: 'https://www.booking.com/hotel/fr/intercontinental-lyon-hotel-dieu.html' }
     ] },
     'maceio': { h: [
-      { name: 'Jatiúca Resort', note: 'Independent — beachfront on Jatiúca Beach, outdoor pool complex, buffet dining, family-friendly · 8.7 Booking.com', url: 'https://www.booking.com/hotel/br/jatiuca-resort.html' },
-      { name: 'Ritz Suítes Hotel', note: 'Independent — Pajuçara beach access, rooftop pool, central Maceió location · 8.6 Booking.com', url: 'https://www.booking.com/hotel/br/ritz-suites-home-service.html' },
-      { name: 'Kenoa – Exclusive Beach Spa & Resort', note: 'Small Luxury Hotels — Barra de São Miguel beach, 6-room adults-only eco-resort, private beach · 9.7 Booking.com', url: 'https://www.booking.com/hotel/br/kenoa-exclusive-beach-spa-resort.html' },
-      { name: 'Hotel Ritz Maceió', note: 'Independent — Pajuçara beachfront, outdoor pool with sea view, rooftop bar, near natural pools · 8.6 Booking.com', url: 'https://www.booking.com/hotel/br/ritz-maceio.html' }
-    ] },
+      { name: 'ibis Maceió', note: 'Accor ibis brand — Ponta Verde beachfront, air-conditioned rooms, 24h reception, walk to Pajuçara pier · 8.1 Booking.com', url: 'https://www.booking.com/hotel/br/ibis-maceio.html', tier: 'budget' },
+      { name: 'Jatiúca Resort', note: 'Independent — beachfront on Jatiúca Beach, outdoor pool complex, buffet dining, family-friendly · 8.7 Booking.com', url: 'https://www.booking.com/hotel/br/jatiuca-resort.html', tier: 'mid' },
+      { name: 'Ritz Suítes Hotel', note: 'Independent — Pajuçara beach access, rooftop pool with sea view, central Maceió location · 8.6 Booking.com', url: 'https://www.booking.com/hotel/br/ritz-suites-home-service.html', tier: 'mid' },
+      { name: 'DoubleTree by Hilton Maceió', note: 'Hilton DoubleTree brand — Ponta Verde beachfront, rooftop pool with Atlantic views, fitness centre, 24h reception · 8.8 Booking.com', url: 'https://www.booking.com/hotel/br/doubletree-by-hilton-maceio.html', tier: 'expensive' },
+      { name: 'Kenoa – Exclusive Beach Spa & Resort', note: 'Small Luxury Hotels — Barra de São Miguel, 6-room adults-only eco-resort, private beach, 9.7 Booking.com', url: 'https://www.booking.com/hotel/br/kenoa-exclusive-beach-spa-resort.html', tier: 'luxury' }
+    ], price: { budget: 'R$250–420', mid: 'R$420–750', expensive: 'R$750–1,300', luxury: 'R$1,500–4,000' } },
     'machupicchu': { h: [
       { name: 'Inkaterra Machu Picchu Pueblo Hotel', note: 'Independent luxury — 83 casitas in cloud forest, 372 orchid species on-site, tea house, nature walks · 9.2 Booking.com' , url: 'https://www.booking.com/hotel/pe/inkaterra-machu-picchu-pueblo.html' },
       { name: 'Sumaq Machu Picchu Hotel', note: 'Independent — 62 rooms with mountain views inside the UNESCO sanctuary, gourmet Qunuq restaurant · 9.0 Booking.com' , url: 'https://www.booking.com/hotel/pe/sumaq-machu-picchu.html' },
@@ -11302,8 +11303,8 @@ window.TVE.home = (function () {
       'CPH','CPT','CUN','CUR','CUZ','CWB','DBV','DEN','DFW','DOH','DPS','DTW','DUB','DUS','DXB','EDI',
       'EYW','EZE','FAO','FCA','FCO','FHR','FLN','FLR','FOR','FRA','GCM','GIG','GOT','GPS','GRU','GVA','HAM',
       'HAN','HEL','HER','HKG','HKT','HND','IAD','IAH','ICN','IGU','IST','JFK','JMK','JPA','JTR','KEF','KOA',
-      'KRK','KTM','LAS','LAX','LGA','LGW','LHR','LIH','LIM','LIS','LJU','LUX','LYS','MAD','MAN','MCT','MEL',
-      'MIA','MCO','MLA','MLE','MRS','MSP','MSY','MUC','MVD','MXP','NAP','NAS','NAT','NCE','OGG','OPO','ORD','ORS','ORY',
+      'KRK','KTM','LAS','LAX','LGA','LGW','LHR','LIH','LIM','LIS','LJU','LPQ','LUX','LYS','MAD','MAN','MCT','MEL',
+      'MIA','MCO','MCZ','MLA','MLE','MRS','MSP','MSY','MUC','MVD','MXP','NAP','NAS','NAT','NCE','OGG','OPO','ORD','ORS','ORY',
       'OSL','PBH','PDL','PDX','PEK','PHL','PHX','PLS','PMI','PNS','POA','PPS','PRG','PSA','PSP','PUS',
       'PVG','PVR','RAK','RDM','REC','RHO','RIX','RNO','RSW','SAN','SCL','SEA','SFO','SIN','SJC','SJO',
       'SJU','SKG','SLC','SLZ','SPU','SSA','STR','SXB','SYD','TBS','TFS','TIV','TLL','TOS','TPE','TRN','VCE','VIE',

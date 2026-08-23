@@ -6231,11 +6231,11 @@ window.TVE.home = (function () {
       { name: 'Hotel d\'Angleterre', note: 'Leading Hotels of the World — 1755 landmark on Kongens Nytorv, Michelin-starred Restaurant Marchal, spa with indoor pool, direct access to Strøget shopping · 9.3 Booking.com', url: 'https://www.booking.com/hotel/dk/dangleterre.html', tier: 'luxury' }
     ], price: { budget: 'EUR 200–280', mid: 'EUR 280–380', expensive: 'EUR 380–550', luxury: 'EUR 550+' } },
     'corfu': { h: [
-      { name: 'Albergo Botti', note: 'Independent — Irinis Dendrinou in the Old Town, a restored Venetian townhouse, AC, soundproofed rooms · 9.6 Booking.com', url: 'https://www.booking.com/hotel/gr/albergo-botti.html' },
-      { name: 'The Calliston', note: 'Independent — Arseniou by the sea wall at the north edge of the Old Town, AC, airport transfers · 9.5 Booking.com', url: 'https://www.booking.com/hotel/gr/the-calliston.html' },
-      { name: 'New York Luxury Suites', note: 'Independent — Donzelot on the old harbour front, suites with AC and a terrace over the Old Town roofs · 9.5 Booking.com', url: 'https://www.booking.com/hotel/gr/new-york-luxury-suites-kerkura5.html' },
-      { name: 'Bella Venezia', note: 'Independent — N. Zampeli a block off the Spianada, 4-star in a 19th-century neoclassical mansion, garden breakfast terrace, 24h reception · 9.3 Booking.com', url: 'https://www.booking.com/hotel/gr/bella-venezia.html' }
-    ] },
+      { name: 'Bella Venezia', note: 'Independent — N. Zampeli a block off the Spianada, 4-star in a 19th-century neoclassical mansion, garden breakfast terrace, 24h reception · 9.3 Booking.com', url: 'https://www.booking.com/hotel/gr/bella-venezia.html', tier: 'budget' },
+      { name: 'Albergo Botti', note: 'Independent — Irinis Dendrinou in the Old Town, a restored Venetian townhouse, AC, soundproofed rooms · 9.6 Booking.com', url: 'https://www.booking.com/hotel/gr/albergo-botti.html', tier: 'mid' },
+      { name: 'The Calliston', note: 'Independent — Arseniou by the sea wall at the north edge of the Old Town, AC, airport transfers · 9.5 Booking.com', url: 'https://www.booking.com/hotel/gr/the-calliston.html', tier: 'expensive' },
+      { name: 'New York Luxury Suites', note: 'Independent — Donzelot on the old harbour front, suites with AC and a terrace over the Old Town roofs · 9.5 Booking.com', url: 'https://www.booking.com/hotel/gr/new-york-luxury-suites-kerkura5.html', tier: 'luxury' }
+    ], price: { budget: 'EUR 80–130', mid: 'EUR 130–200', expensive: 'EUR 200–300', luxury: 'EUR 300+' } },
     'crete': { h: [
       { name: 'Galaxy Hotel Iraklio', note: 'Independent 5-star — Heraklion\'s central elegant district, two on-site restaurants, freshwater outdoor pool, wellness and fitness center · 8.6 Booking.com', url: 'https://www.booking.com/hotel/gr/galaxy-heraklion.html' },
       { name: 'Lato Boutique Hotel', note: 'Independent boutique — Old Town Heraklion near the Venetian harbour, Brilliant Cuisine rooftop restaurant with Koules Fortress and sea panoramas · 8.4 Booking.com', url: 'https://www.booking.com/hotel/gr/lato-boutique-hotel.html' },
@@ -6472,17 +6472,17 @@ window.TVE.home = (function () {
       { name: 'Grand Prince Hotel Hiroshima', note: 'Prince Hotels brand — waterfront hotel on the Motoyasu River, panoramic city views, spa, pool, closest major hotel to Peace Memorial Park · 8.9 Booking.com', url: 'https://www.booking.com/hotel/jp/grand-prince-hiroshima.html', tier: 'luxury' }
     ], price: { budget: 'JPY 10,000–18,000', mid: 'JPY 20,000–35,000', expensive: 'JPY 35,000–60,000', luxury: 'JPY 60,000+' } },
     'hoi-an': { h: [
-      { name: 'Anantara Hội An Resort', note: 'Anantara brand — Thu Bon River frontage in the Ancient Town, colonial-style architecture, riverside pool, spa · 9.2 Booking.com', url: 'https://www.booking.com/hotel/vn/anantara-hoi-an-resort.html' },
-      { name: 'Victoria Hội An Beach Resort & Spa', note: 'Victoria Hotels brand — beachfront between Old Town and Cua Dai Beach, pool, spa, traditional Vietnamese architecture · 8.8 Booking.com', url: 'https://www.booking.com/hotel/vn/victoria-hoi-an-beach-resort-and-spa.html' },
-      { name: 'Four Seasons Resort The Nam Hai, Hội An', note: 'Four Seasons — Ha My Beach, three tiered infinity pools, 40 pool villas, Sea Shell restaurant · 9.4 Booking.com', url: 'https://www.booking.com/hotel/vn/the-nam-hai.html' },
-      { name: 'La Siesta Hoi An Resort & Spa', note: 'Independent — Cam Nam Island, river-view pool, La Plage Spa, shuttle to beach · 9.3 Booking.com', url: 'https://www.booking.com/hotel/vn/la-siesta-hoi-an-resort-spa.html' }
-    ] },
+      { name: 'La Siesta Hoi An Resort & Spa', note: 'Independent — Cam Nam Island, river-view pool, La Plage Spa, shuttle to beach · 9.3 Booking.com', url: 'https://www.booking.com/hotel/vn/la-siesta-hoi-an-resort-spa.html', tier: 'budget' },
+      { name: 'Victoria Hội An Beach Resort & Spa', note: 'Victoria Hotels brand — beachfront between Old Town and Cua Dai Beach, pool, spa, traditional Vietnamese architecture · 8.8 Booking.com', url: 'https://www.booking.com/hotel/vn/victoria-hoi-an-beach-resort-and-spa.html', tier: 'mid' },
+      { name: 'Anantara Hội An Resort', note: 'Anantara brand — Thu Bon River frontage in the Ancient Town, colonial-style architecture, riverside pool, spa · 9.2 Booking.com', url: 'https://www.booking.com/hotel/vn/anantara-hoi-an-resort.html', tier: 'expensive' },
+      { name: 'Four Seasons Resort The Nam Hai, Hội An', note: 'Four Seasons — Ha My Beach, three tiered infinity pools, 40 pool villas, Sea Shell restaurant · 9.4 Booking.com', url: 'https://www.booking.com/hotel/vn/the-nam-hai.html', tier: 'luxury' }
+    ], price: { budget: 'VND 1,500,000–3,000,000', mid: 'VND 3,000,000–6,000,000', expensive: 'VND 6,000,000–12,000,000', luxury: 'VND 12,000,000+' } },
     'hong-kong': { h: [
-      { name: 'Mondrian Hong Kong', note: 'Independent — 8A Hart Avenue in Tsim Sha Tsui, 5-star, 24h reception, fitness centre, walking distance to the harbourfront promenade · 9.1 Booking.com', url: 'https://www.booking.com/hotel/hk/mondrian-hong-kong.html' },
-      { name: 'Four Seasons Hotel Hong Kong', note: 'Four Seasons brand — Central harbourfront, panoramic Victoria Harbour views, two outdoor infinity pools, Michelin-starred Lung King Heen · 9.2 Booking.com', url: 'https://www.booking.com/hotel/hk/four-seasons-hong-kong.html' },
-      { name: 'The Peninsula Hong Kong', note: 'Peninsula Hotels — Tsim Sha Tsui flagship since 1928, rooftop helicopter transfers, ESPA spa · 9.3 Booking.com', url: 'https://www.booking.com/hotel/hk/the-peninsula.html' },
-      { name: 'Mandarin Oriental Hong Kong', note: 'Mandarin Oriental — Central waterfront, Man Wah Cantonese restaurant, iconic harbour views · 9.2 Booking.com', url: 'https://www.booking.com/hotel/hk/mandarin-oriental.html' }
-    ] },
+      { name: 'Mondrian Hong Kong', note: 'Independent — 8A Hart Avenue in Tsim Sha Tsui, 5-star, 24h reception, fitness centre, walking distance to the harbourfront promenade · 9.1 Booking.com', url: 'https://www.booking.com/hotel/hk/mondrian-hong-kong.html', tier: 'budget' },
+      { name: 'Mandarin Oriental Hong Kong', note: 'Mandarin Oriental — Central waterfront, Man Wah Cantonese restaurant, iconic harbour views · 9.2 Booking.com', url: 'https://www.booking.com/hotel/hk/mandarin-oriental.html', tier: 'mid' },
+      { name: 'The Ritz-Carlton Hong Kong', note: 'Ritz-Carlton brand — floors 102–118 of ICC Tower in West Kowloon, panoramic harbour views, Tin Lung Heen Cantonese restaurant, spa on floor 116 · 9.4 Booking.com', url: 'https://www.booking.com/hotel/hk/the-ritz-carlton-hong-kong.html', tier: 'expensive' },
+      { name: 'The Peninsula Hong Kong', note: 'Peninsula Hotels — Tsim Sha Tsui flagship since 1928, rooftop helicopter transfers, ESPA spa · 9.3 Booking.com', url: 'https://www.booking.com/hotel/hk/the-peninsula.html', tier: 'luxury' }
+    ], price: { budget: 'HKD 1,500–3,500', mid: 'HKD 3,500–7,000', expensive: 'HKD 7,000–14,000', luxury: 'HKD 14,000+' } },
     'istanbul': { h: [
       { name: 'Four Seasons Hotel Istanbul at Sultanahmet', note: 'Four Seasons brand — converted 19th-century Ottoman prison, steps from Hagia Sophia, inner courtyard garden, butler service · 9.3 Booking.com', url: 'https://www.booking.com/hotel/tr/four-seasons-istanbul-at-sultanahmet.html' },
       { name: 'Raffles Istanbul Zorlu', note: 'Raffles brand — European side at Zorlu Center, indoor and outdoor pools, Arola Restaurant, long private driveway approach · 9.1 Booking.com', url: 'https://www.booking.com/hotel/tr/raffles-istanbul.html' },
@@ -7389,11 +7389,11 @@ window.TVE.home = (function () {
       { name: 'Four Seasons Hotel Seoul', note: 'Four Seasons brand — Jongno-gu near Gyeongbokgung, indoor and outdoor pools, Boccalino restaurant, full-service spa · 9.3 Booking.com', url: 'https://www.booking.com/hotel/kr/four-seasons-seoul.html', tier: 'luxury' }
     ], price: { budget: 'KRW 200,000–400,000', mid: 'KRW 400,000–700,000', expensive: 'KRW 700,000–1,200,000', luxury: 'KRW 1,200,000+' } },
     'seville': { h: [
-      { name: 'Casa 1800 Sevilla', note: 'Independent boutique — 33 rooms in a 19th-century mansion near the Cathedral, rooftop terrace with tower views · 9.6 Booking.com' , url: 'https://www.booking.com/hotel/es/casa-1800-sevilla.html' },
-      { name: 'Gran Meliá Colón Sevilla', note: 'Meliá Red Level — Canalejas Street in the city centre, rooftop pool, El Burladero restaurant, 1929 Art Deco building · 8.9 Booking.com' , url: 'https://www.booking.com/hotel/es/gran-melia-colon.html' },
-      { name: 'Hotel Mercer Sevilla', note: 'Mercer Hotels — San Lorenzo neighbourhood, restored 18th-century mansion, small outdoor pool, terrace, curated art, 12 rooms · 9.3 Booking.com' , url: 'https://www.booking.com/hotel/es/mercer-sevilla.html' },
-      { name: 'Hotel Tayko Sevilla', note: 'Independent — converted 16th-century building in Triana barrio, rooftop pool and bar with Guadalquivir views · 8.8 Booking.com', url: 'https://www.booking.com/hotel/es/tayko-sevilla.html' }
-    ] },
+      { name: 'Casa 1800 Sevilla', note: 'Independent boutique — 33 rooms in a 19th-century mansion near the Cathedral, rooftop terrace with tower views · 9.6 Booking.com' , url: 'https://www.booking.com/hotel/es/casa-1800-sevilla.html', tier: 'budget' },
+      { name: 'Gran Meliá Colón Sevilla', note: 'Meliá Red Level — Canalejas Street in the city centre, rooftop pool, El Burladero restaurant, 1929 Art Deco building · 8.9 Booking.com' , url: 'https://www.booking.com/hotel/es/gran-melia-colon.html', tier: 'mid' },
+      { name: 'Hotel Mercer Sevilla', note: 'Mercer Hotels — San Lorenzo neighbourhood, restored 18th-century mansion, small outdoor pool, terrace, curated art, 12 rooms · 9.3 Booking.com' , url: 'https://www.booking.com/hotel/es/mercer-sevilla.html', tier: 'expensive' },
+      { name: 'Hotel Tayko Sevilla', note: 'Independent — converted 16th-century building in Triana barrio, rooftop pool and bar with Guadalquivir views · 8.8 Booking.com', url: 'https://www.booking.com/hotel/es/tayko-sevilla.html', tier: 'luxury' }
+    ], price: { budget: 'EUR 90–150', mid: 'EUR 150–250', expensive: 'EUR 250–400', luxury: 'EUR 400+' } },
     'seychelles': { h: [
       { name: 'North Island Lodge', note: 'Independent ultra-luxury — private island, 11 villas, barefoot luxury philosophy, exclusive conservation reserve · 9.7 Booking.com', url: 'https://www.booking.com/hotel/sc/north-island.html' },
       { name: 'Six Senses Zil Pasyon', note: 'Six Senses brand — private island Félicité, overwater spa, hilltop villas, coral reef · 9.6 Booking.com', url: 'https://www.booking.com/hotel/sc/six-senses-zil-pasyon.html' },
@@ -11319,8 +11319,8 @@ window.TVE.home = (function () {
        its airport. */
     var LOUNGE_IATAS = [
       'ABQ','AES','AGP','AJU','AMM','AMS','ANC','ARN','ATH','ATL','AUA','AUH','AUS','BCN','BDS','BER',
-      'BGI','BGO','BIO','BKK','BLQ','BNA','BOB','BOD','BOS','BRU','BSL','BUD','CAE','CAI','CDG','CGN','CKG',
-      'CLT','CMB','CNX','CPH','CPT','CUN','CUR','CUZ','CWB','DBV','DCA','DEN','DFW','DOH','DPS','DTW','DUB',
+      'BGI','BGO','BIO','BKK','BLQ','BNA','BOB','BOD','BOS','BRU','BSL','BUD','CAE','CAI','CDG','CFU','CGN','CKG',
+      'CLT','CMB','CNX','CPH','CPT','CUN','CUR','CUZ','CWB','DAD','DBV','DCA','DEN','DFW','DOH','DPS','DTW','DUB',
       'DUS','DXB','EDI','EYW','EZE','FAO','FCA','FCO','FHR','FLN','FLR','FNC','FOR','FRA','GCM','GEG',
       'GIG','GOT','GPS','GRU','GRX','GVA','HAM','HAN','HEL','HER','HHH','HIJ','HKG','HKT','HND','HNL','IAD','IAH',
       'ICN','IGU','IST','JFK','JMK','JPA','JTR','KEF','KIX','KOA','KRK','KTM','LAS','LAX','LGA','LGW',
@@ -11328,7 +11328,7 @@ window.TVE.home = (function () {
       'MLE','MRS','MSP','MSY','MUC','MVD','MXP','NAP','NAS','NAT','NCE','OAX','OGG','OLB','OPO','ORD',
       'ORS','ORY','OSL','PBH','PDL','PDX','PEK','PHL','PHX','PLS','PMI','PNS','POA','PPS','PRG','PSA',
       'PSP','PUS','PVG','PVR','RAK','RDM','REC','RHO','RIX','RNO','RSW','SAN','SCL','SEA','SFO','SIN',
-      'SJC','SJD','SJO','SJU','SKG','SLC','SLZ','SPU','SRQ','SSA','STR','STT','SXB','SYD','SZG','TBS',
+      'SJC','SJD','SJO','SJU','SKG','SLC','SLZ','SPU','SRQ','SSA','STR','STT','SVQ','SXB','SYD','SZG','TBS',
       'TFS','TIV','TLL','TOS','TPE','TRN','VCE','VIE','VLC','VNO','VRN','WLG','YQB','YUL','YVR','YYC',
       'YYZ','ZAG','ZQN','ZRH'
     ];

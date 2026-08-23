@@ -5656,11 +5656,12 @@ window.TVE.home = (function () {
       { name: 'Lisbon Marriott Hotel', note: 'Marriott full brand — Avenida dos Combatentes 45, outdoor pool, health club, 24h reception, walking distance to Sete Rios station · 8.2 Booking.com', url: 'https://www.booking.com/hotel/pt/lisbon-marriott.html', tier: 'budget' }
     ], price: { budget: '€100–160', mid: '€160–260', expensive: '€250–400', luxury: '€400+' } },
     'ljubljana': { h: [
-      { name: 'Hotel Cubo', note: 'Independent boutique — design hotel in Old Town pedestrian zone, terrace bar · 9.3 Booking.com' , url: 'https://www.booking.com/hotel/si/cubo.html' },
-      { name: 'Zlata Ladjica Boutique Hotel', note: 'Independent boutique — Jurčičev trg on the river in the Old Town, spa, restaurant and bar, 24h reception · 9.7 Booking.com' , url: 'https://www.booking.com/hotel/si/zlata-ladjica-boutique-ljubljana.html' },
-      { name: 'Grand Hotel Union Ljubljana', note: 'Independent — 1905 Art Nouveau landmark on Revolution Square, Congress restaurant, spa with indoor pool, landmark heritage building · 8.9 Booking.com' , url: 'https://www.booking.com/hotel/si/grand-union.html' },
-      { name: 'Hotel Vander Urbani Resort', note: 'Independent boutique — Old Town cobblestones, rooftop pool with castle views, Vander kitchen, 16 rooms · 9.2 Booking.com' , url: 'https://www.booking.com/hotel/si/vander-urbani-resort.html' }
-    ] },
+      { name: 'ibis Ljubljana Centre', note: 'Accor ibis brand — Trpinčeva ulica 4 near the train station, modern efficient rooms, 24h front desk, walkable to the Old Town in 15 min · 7.8 Booking.com', url: 'https://www.booking.com/hotel/si/ibis-ljubljana-centre.html', tier: 'budget' },
+      { name: 'Grand Hotel Union Ljubljana', note: 'Independent — 1905 Art Nouveau landmark on Revolution Square, Congress restaurant, spa with indoor pool, 24h reception · 8.9 Booking.com', url: 'https://www.booking.com/hotel/si/grand-union.html', tier: 'mid' },
+      { name: 'Hotel Cubo', note: 'Independent boutique — design hotel in the Old Town pedestrian zone, terrace bar, 24h reception · 9.3 Booking.com', url: 'https://www.booking.com/hotel/si/cubo.html', tier: 'expensive' },
+      { name: 'Hotel Vander Urbani Resort', note: 'Independent boutique — Old Town cobblestones, rooftop pool with castle views, Vander kitchen, 16 rooms, 24h reception · 9.2 Booking.com', url: 'https://www.booking.com/hotel/si/vander-urbani-resort.html', tier: 'expensive' },
+      { name: 'Zlata Ladjica Boutique Hotel', note: 'Independent boutique — Jurčičev trg on the river in the Old Town, spa, restaurant and bar, 24h reception · 9.7 Booking.com', url: 'https://www.booking.com/hotel/si/zlata-ladjica-boutique-ljubljana.html', tier: 'luxury' }
+    ], price: { budget: '€70–90', mid: '€90–160', expensive: '€160–280', luxury: '€280+' } },
     'melbourne': { h: [
       { name: 'AC Hotel by Marriott Melbourne Southbank', note: 'Marriott AC — Normanby Road in Southbank, rooftop infinity pool, 24h front desk, 25 min walk to Collins Street · 8.6 Booking.com', url: 'https://www.booking.com/hotel/au/ac-by-marriott-melbourne-southbank.html', tier: 'budget' },
       { name: 'Quest NewQuay', note: 'Independent serviced apartments — Caravel Lane on the Docklands waterfront, kitchens, gym, 24h front desk, 25 min walk to Collins Street · 8.7 Booking.com', url: 'https://www.booking.com/hotel/au/quest-newquay.html', tier: 'budget' },
@@ -11297,7 +11298,7 @@ window.TVE.home = (function () {
       'CPH','CPT','CUN','CUR','CUZ','CWB','DBV','DEN','DFW','DOH','DPS','DTW','DUB','DUS','DXB','EDI',
       'EYW','EZE','FAO','FCO','FHR','FLN','FLR','FOR','FRA','GCM','GIG','GOT','GPS','GRU','GVA','HAM',
       'HAN','HEL','HER','HKG','HKT','HND','IAD','IAH','ICN','IGU','IST','JFK','JMK','JPA','KEF','KOA',
-      'KRK','KTM','LAS','LAX','LGA','LGW','LHR','LIH','LIM','LIS','LUX','LYS','MAD','MAN','MCT','MEL',
+      'KRK','KTM','LAS','LAX','LGA','LGW','LHR','LIH','LIM','LIS','LJU','LUX','LYS','MAD','MAN','MCT','MEL',
       'MIA','MLA','MLE','MRS','MSP','MSY','MUC','MVD','MXP','NAP','NAS','NAT','NCE','OGG','OPO','ORD','ORY',
       'OSL','PBH','PDL','PDX','PEK','PHL','PHX','PLS','PMI','PNS','POA','PPS','PRG','PSA','PSP','PUS',
       'PVG','PVR','RAK','RDM','REC','RHO','RIX','RNO','RSW','SAN','SCL','SEA','SFO','SIN','SJC','SJO',

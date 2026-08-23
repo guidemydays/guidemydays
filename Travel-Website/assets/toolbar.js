@@ -7590,53 +7590,61 @@ window.TVE.home = (function () {
       { name: 'North Island Lodge', note: 'Independent ultra-luxury — private island, 11 villas, barefoot luxury philosophy, exclusive conservation reserve · 9.7 Booking.com', url: 'https://www.booking.com/hotel/sc/north-island.html', tier: 'luxury' }
     ], price: { budget: 'SCR 3,000–6,000', mid: 'SCR 6,000–12,000', expensive: 'SCR 12,000–22,000', luxury: 'SCR 22,000+' } },
     'shanghai': { h: [
-      { name: 'The Peninsula Shanghai', note: 'Peninsula brand — 1929 Bund landmark, rooftop Peter Café & Bar, helicopter landing, Bund-view rooms · 9.4 Booking.com' , url: 'https://www.booking.com/hotel/cn/the-peninsula-shanghai.html' },
-      { name: 'Waldorf Astoria Shanghai on the Bund', note: 'Hilton family — 1911 Shanghai Club, Bund-facing, indoor pool, Long Bar history · 9.3 Booking.com' , url: 'https://www.booking.com/hotel/cn/waldorf-astoria-shanghai-on-the-bund.html' },
-      { name: 'Park Hyatt Shanghai', note: 'Hyatt brand — floors 79–93 of the Shanghai World Financial Center, highest pool in the world, 100 Century Avenue restaurant · 9.1 Booking.com' , url: 'https://www.booking.com/hotel/cn/park-hyatt-shanghai.html' },
-      { name: 'Capella Shanghai, Jian Ye Li', note: 'Capella brand — nine restored 1930s shikumen townhouses in Jing\'an, outdoor pool, Cassio restaurant, intimate 35-villa complex · 9.5 Booking.com' , url: 'https://www.booking.com/hotel/cn/capella-shanghai-jian-ye-li.html' }
-    ] },
+      { name: 'Holiday Inn Express Shanghai Gubei', note: 'IHG brand — Honggu Road in Changning, free parking, gym, near Zhongshan Park metro · 8.4 Booking.com', url: 'https://www.booking.com/hotel/cn/holiday-inn-express-shanghai-gubei.html', tier: 'budget' },
+      { name: 'Atour Hotel People\'s Square Beijing East Road', note: 'Atour brand — East Beijing Road in central Huangpu, 4-star, 24h reception, airport shuttle service · 8.5 Booking.com', url: 'https://www.booking.com/hotel/cn/shang-hai-ren-min-yan-chang-bei-jing-dong-lu-qing-ju-jiu-dian.html', tier: 'mid' },
+      { name: 'Park Hyatt Shanghai', note: 'Hyatt brand — floors 79–93 of the Shanghai World Financial Center, highest pool in the world, 100 Century Avenue restaurant · 9.1 Booking.com', url: 'https://www.booking.com/hotel/cn/park-hyatt-shanghai.html', tier: 'expensive' },
+      { name: 'The Peninsula Shanghai', note: 'Peninsula brand — 1929 Bund landmark, rooftop Peter Café & Bar, helicopter landing, Bund-view rooms · 9.4 Booking.com', url: 'https://www.booking.com/hotel/cn/the-peninsula-shanghai.html', tier: 'luxury' },
+      { name: 'Waldorf Astoria Shanghai on the Bund', note: 'Hilton family — 1911 Shanghai Club, Bund-facing, indoor pool, Long Bar history · 9.3 Booking.com', url: 'https://www.booking.com/hotel/cn/waldorf-astoria-shanghai-on-the-bund.html', tier: 'luxury' },
+      { name: 'Capella Shanghai, Jian Ye Li', note: 'Capella brand — nine restored 1930s shikumen townhouses in Jing\'an, outdoor pool, Cassio restaurant, intimate 35-villa complex · 9.5 Booking.com', url: 'https://www.booking.com/hotel/cn/capella-shanghai-jian-ye-li.html', tier: 'luxury' }
+    ], price: { budget: '$90–160', mid: '$160–280', expensive: '$280–450', luxury: '$450+' } },
     'sicily': { h: [
-      { name: 'San Domenico Palace, Taormina, A Four Seasons Hotel', note: 'Four Seasons brand — 14th-century Dominican monastery, cliffside garden, pool, Etna and Ionian Bay views · 9.3 Booking.com', url: 'https://www.booking.com/hotel/it/san-domenico-palace-taormina.html' },
-      { name: 'Belmond Grand Hotel Timeo', note: 'Belmond brand — 1873 hilltop above Taormina, pool, Teatro Greco views, La Terrazza restaurant · 9.4 Booking.com', url: 'https://www.booking.com/hotel/it/grand-hotel-timeo.html' },
-      { name: 'Verdura Resort', note: 'Rocco Forte Hotels — Sciacca seafront, three 18-hole golf courses, spa, three pools · 9.2 Booking.com', url: 'https://www.booking.com/hotel/it/verdura-resort.html' },
-      { name: 'Palazzo Failla Hotel', note: 'Independent — 18th-century Modica baroque palace, courtyard terrace, local cuisine restaurant · 9.3 Booking.com', url: 'https://www.booking.com/hotel/it/palazzo-failla.html' }
-    ] },
+      { name: 'Villa Magnolia B&B', note: 'Independent — Viale dei Giardini near Giardini Naxos, south of Taormina, pool and garden, easy coastal access · 9.3 Booking.com', url: 'https://www.booking.com/hotel/it/villa-magnolia-b-amp-b.html', tier: 'budget' },
+      { name: 'Palazzo Failla Hotel', note: 'Independent — 18th-century Modica baroque palace, courtyard terrace, local cuisine restaurant · 9.3 Booking.com', url: 'https://www.booking.com/hotel/it/palazzo-failla.html', tier: 'mid' },
+      { name: 'Verdura Resort', note: 'Rocco Forte Hotels — Sciacca seafront, three 18-hole golf courses, spa, three pools · 9.2 Booking.com', url: 'https://www.booking.com/hotel/it/verdura-resort.html', tier: 'expensive' },
+      { name: 'San Domenico Palace, Taormina, A Four Seasons Hotel', note: 'Four Seasons brand — 14th-century Dominican monastery, cliffside garden, pool, Etna and Ionian Bay views · 9.3 Booking.com', url: 'https://www.booking.com/hotel/it/san-domenico-palace-taormina.html', tier: 'luxury' },
+      { name: 'Belmond Grand Hotel Timeo', note: 'Belmond brand — 1873 hilltop above Taormina, pool, Teatro Greco views, La Terrazza restaurant · 9.4 Booking.com', url: 'https://www.booking.com/hotel/it/grand-hotel-timeo.html', tier: 'luxury' }
+    ], price: { budget: '€120–200', mid: '€200–350', expensive: '€350–600', luxury: '€600+' } },
     'siena': { h: [
-      { name: 'Castello di Casole, A Belmond Hotel', note: 'Belmond brand — 11th-century hilltop estate, wine tower, two pools, 4,200 acres of Tuscan countryside · 9.4 Booking.com', url: 'https://www.booking.com/hotel/it/castello-di-casole.html' },
-      { name: 'Relais La Suvera', note: 'Independent — 12th-century papal villa estate, vineyard, spa, antique-furnished rooms · 9.2 Booking.com', url: 'https://www.booking.com/hotel/it/relais-la-suvera.html' },
-      { name: 'Hotel Certosa di Maggiano', note: 'Independent — 14th-century Certosa monastery 1 km from Piazza del Campo, pool in the cloister garden · 9.5 Booking.com', url: 'https://www.booking.com/hotel/it/certosa-di-maggiano.html' },
-      { name: 'Grand Hotel Continental Siena', note: 'Starhotels — Via Banchi di Sopra baroque palace in the heart of Siena, frescoed ceilings · 9.1 Booking.com', url: 'https://www.booking.com/hotel/it/grand-hotel-continental.html' }
-    ] },
+      { name: 'Albergo Bernini', note: 'Independent — Via della Sapienza 15, a short walk from the Campo, simple comfortable rooms in historic central Siena · 8.8 Booking.com', url: 'https://www.booking.com/hotel/it/albergo-bernini.html', tier: 'budget' },
+      { name: 'Grand Hotel Continental Siena', note: 'Starhotels — Via Banchi di Sopra baroque palace in the heart of Siena, frescoed ceilings · 9.1 Booking.com', url: 'https://www.booking.com/hotel/it/grand-hotel-continental.html', tier: 'mid' },
+      { name: 'Hotel Certosa di Maggiano', note: 'Independent — 14th-century Certosa monastery 1 km from Piazza del Campo, pool in the cloister garden · 9.5 Booking.com', url: 'https://www.booking.com/hotel/it/certosa-di-maggiano.html', tier: 'expensive' },
+      { name: 'Castello di Casole, A Belmond Hotel', note: 'Belmond brand — 11th-century hilltop estate, wine tower, two pools, 4,200 acres of Tuscan countryside · 9.4 Booking.com', url: 'https://www.booking.com/hotel/it/castello-di-casole.html', tier: 'luxury' },
+      { name: 'Relais La Suvera', note: 'Independent — 12th-century papal villa estate, vineyard, spa, antique-furnished rooms · 9.2 Booking.com', url: 'https://www.booking.com/hotel/it/relais-la-suvera.html', tier: 'luxury' }
+    ], price: { budget: '€100–180', mid: '€180–300', expensive: '€300–500', luxury: '€500+' } },
     'singapore': { h: [
-      { name: 'Capella Singapore', note: 'Capella Hotels — Sentosa Island estate, three pools, spa, two Michelin-starred restaurants, colonial architecture', url: 'https://capellahotels.com/en/capella-singapore' },
-      { name: 'The Fullerton Hotel Singapore', note: 'Independent luxury — 1928 Palladian General Post Office, heritage rooms, 25-metre outdoor pool', url: 'https://www.fullertonhotels.com/fullerton-hotel-singapore' },
-      { name: 'Marina Bay Sands', note: 'Sands Hotels — three-tower complex on Marina Bay, infinity rooftop pool at 57 floors, celebrity chef restaurants · 9.0 Booking.com', url: 'https://www.booking.com/hotel/sg/marina-bay-sands.html' },
-      { name: 'Raffles Singapore', note: 'Accor Raffles — 1887 colonial landmark on Beach Road, butler for every suite, Long Bar Singapore Sling · 9.4 Booking.com', url: 'https://www.booking.com/hotel/sg/raffles-the-plaza.html' }
-    ] },
+      { name: 'Rest Chinatown Hotel', note: 'Independent — Trengganu Street in Chinatown, 3-star, clean and central, MRT access to all sights · 8.0 Booking.com', url: 'https://www.booking.com/hotel/sg/jinshan-hotel.html', tier: 'budget' },
+      { name: 'Hotel Mi Rochor', note: 'Independent — Short Street in Bencoolen, rooftop pool, 4-star comfort close to Little India and Bugis · 8.3 Booking.com', url: 'https://www.booking.com/hotel/sg/mi-rochor.html', tier: 'mid' },
+      { name: 'The Fullerton Hotel Singapore', note: 'Independent luxury — 1928 Palladian General Post Office, heritage rooms, 25-metre outdoor pool', url: 'https://www.fullertonhotels.com/fullerton-hotel-singapore', tier: 'expensive' },
+      { name: 'Marina Bay Sands', note: 'Sands Hotels — three-tower complex on Marina Bay, infinity rooftop pool at 57 floors, celebrity chef restaurants · 9.0 Booking.com', url: 'https://www.booking.com/hotel/sg/marina-bay-sands.html', tier: 'expensive' },
+      { name: 'Capella Singapore', note: 'Capella Hotels — Sentosa Island estate, three pools, spa, two Michelin-starred restaurants, colonial architecture', url: 'https://capellahotels.com/en/capella-singapore', tier: 'luxury' },
+      { name: 'Raffles Singapore', note: 'Accor Raffles — 1887 colonial landmark on Beach Road, butler for every suite, Long Bar Singapore Sling · 9.4 Booking.com', url: 'https://www.booking.com/hotel/sg/raffles-the-plaza.html', tier: 'luxury' }
+    ], price: { budget: 'SGD 180–260', mid: 'SGD 260–380', expensive: 'SGD 380–600', luxury: 'SGD 600+' } },
     'sint-maarten': { h: [
-      { name: 'Belmond La Samanna', note: 'Belmond brand — Baie Longue private beach, three pools, spa, French West Indies elegance · 9.4 Booking.com', url: 'https://www.booking.com/hotel/mf/la-samanna-french-west-indies.html' },
-      { name: 'Sonesta Maho Beach Resort & Casino', note: 'Sonesta Hotels — Maho Beach, casino, pool, multiple bars · 8.5 Booking.com', url: 'https://www.booking.com/hotel/sx/sonesta-maho-beach-resort-casino-and-spa.html' },
-      { name: 'Divi Little Bay Beach Resort', note: 'Divi Resorts — Little Bay peninsula, three pools, private beach, dive centre, Aquamarine restaurant · 8.7 Booking.com', url: 'https://www.booking.com/hotel/sx/divi-little-bay-beach-resort.html' },
-      { name: 'JW Marriott St. Maarten Beach Resort & Spa', note: 'Marriott JW brand — Oyster Pond on Dawn Beach, pools, spa, private beach, views to St. Barths · 7.8 Booking.com', url: 'https://www.booking.com/hotel/sx/jw-marriott-st-maarten-beach-resort-spa.html' }
-    ] },
+      { name: 'Divi Little Bay Beach Resort', note: 'Divi Resorts — Little Bay peninsula, three pools, private beach, dive centre, Aquamarine restaurant · 8.7 Booking.com', url: 'https://www.booking.com/hotel/sx/divi-little-bay-beach-resort.html', tier: 'budget' },
+      { name: 'Sonesta Maho Beach Resort & Casino', note: 'Sonesta Hotels — Maho Beach, casino, pool, multiple bars · 8.5 Booking.com', url: 'https://www.booking.com/hotel/sx/sonesta-maho-beach-resort-casino-and-spa.html', tier: 'mid' },
+      { name: 'JW Marriott St. Maarten Beach Resort & Spa', note: 'Marriott JW brand — Oyster Pond on Dawn Beach, pools, spa, private beach, views to St. Barths · 7.8 Booking.com', url: 'https://www.booking.com/hotel/sx/jw-marriott-st-maarten-beach-resort-spa.html', tier: 'expensive' },
+      { name: 'Belmond La Samanna', note: 'Belmond brand — Baie Longue private beach, three pools, spa, French West Indies elegance · 9.4 Booking.com', url: 'https://www.booking.com/hotel/mf/la-samanna-french-west-indies.html', tier: 'luxury' }
+    ], price: { budget: '$150–250', mid: '$250–400', expensive: '$400–700', luxury: '$700+' } },
     'sintra': { h: [
-      { name: 'Valverde Sintra Palácio de Seteais', note: 'Leading Hotels of the World — 18th-century neoclassical palace on Rua Barbosa do Bocage, gardens, outdoor pool, valley views · 9.1 Booking.com', url: 'https://www.booking.com/hotel/pt/valverdesintrapalaciodeseteais.html' },
-      { name: 'Penha Longa Resort', note: 'Marriott — Sintra hills estate on Estrada da Lagoa Azul, two golf courses, Michelin-starred LAB restaurant, spa · 9.4 Booking.com', url: 'https://www.booking.com/hotel/pt/caesarparkhotel.html' },
-      { name: 'Lawrence\'s Hotel', note: 'Independent — Rua Consiglieri Pedroso in Sintra town, oldest hotel on the Iberian Peninsula (1764), garden, restaurant · 9.0 Booking.com', url: 'https://www.booking.com/hotel/pt/lawrence-s.html' },
-      { name: 'Tivoli Sintra Hotel', note: 'Tivoli Hotels — Praça da República facing the National Palace, valley and sea views, terrace · 8.8 Booking.com', url: 'https://www.booking.com/hotel/pt/tivoli-sintra.html' }
-    ] },
+      { name: 'Tivoli Sintra Hotel', note: 'Tivoli Hotels — Praça da República facing the National Palace, valley and sea views, terrace · 8.8 Booking.com', url: 'https://www.booking.com/hotel/pt/tivoli-sintra.html', tier: 'budget' },
+      { name: 'Lawrence\'s Hotel', note: 'Independent — Rua Consiglieri Pedroso in Sintra town, oldest hotel on the Iberian Peninsula (1764), garden, restaurant · 9.0 Booking.com', url: 'https://www.booking.com/hotel/pt/lawrence-s.html', tier: 'mid' },
+      { name: 'Penha Longa Resort', note: 'Marriott — Sintra hills estate on Estrada da Lagoa Azul, two golf courses, Michelin-starred LAB restaurant, spa · 9.4 Booking.com', url: 'https://www.booking.com/hotel/pt/caesarparkhotel.html', tier: 'expensive' },
+      { name: 'Valverde Sintra Palácio de Seteais', note: 'Leading Hotels of the World — 18th-century neoclassical palace on Rua Barbosa do Bocage, gardens, outdoor pool, valley views · 9.1 Booking.com', url: 'https://www.booking.com/hotel/pt/valverdesintrapalaciodeseteais.html', tier: 'luxury' }
+    ], price: { budget: '€80–150', mid: '€150–280', expensive: '€280–500', luxury: '€500+' } },
     'sorrento': { h: [
-      { name: 'Bellevue Syrene', note: 'Independent boutique — 1774 noble villa perched on Sorrento cliffs, saltwater pool cut into the rock, Bay of Naples views · 9.3 Booking.com', url: 'https://www.booking.com/hotel/it/bellevue-syrene.html' },
-      { name: 'Hotel Bristol Sorrento', note: 'Small Luxury Hotels — clifftop with lift to private sea platform, rooftop pool, Vesuvius panorama · 9.2 Booking.com', url: 'https://www.booking.com/hotel/it/bristol-sorrento.html' },
-      { name: 'Grand Hotel Excelsior Vittoria', note: 'Independent luxury — clifftop palazzo in Sorrento\'s main square, Bay of Naples panorama, La Serra spa, Mediterranean gardens · 9.5 Booking.com', url: 'https://www.booking.com/hotel/it/grande-albergo-excelsior-vittoria.html' },
-      { name: 'Maison La Minervetta', note: 'Independent boutique — cliff-top with panoramic Bay of Naples and Vesuvius views, large terrace hot tub, breakfast with vista · 9.5 Booking.com', url: 'https://www.booking.com/hotel/it/laminervetta.html' }
-    ] },
+      { name: 'Hotel Antiche Mura', note: 'Independent — Via Fuorimura in Sorrento\'s historic center, pool and garden terrace, walking distance to Piazza Tasso · Booking.com', url: 'https://www.booking.com/hotel/it/antiche-mura-sorrento.html', tier: 'budget' },
+      { name: 'Maison La Minervetta', note: 'Independent boutique — cliff-top with panoramic Bay of Naples and Vesuvius views, large terrace hot tub, breakfast with vista · 9.5 Booking.com', url: 'https://www.booking.com/hotel/it/laminervetta.html', tier: 'mid' },
+      { name: 'Bellevue Syrene', note: 'Independent boutique — 1774 noble villa perched on Sorrento cliffs, saltwater pool cut into the rock, Bay of Naples views · 9.3 Booking.com', url: 'https://www.booking.com/hotel/it/bellevue-syrene.html', tier: 'expensive' },
+      { name: 'Hotel Bristol Sorrento', note: 'Small Luxury Hotels — clifftop with lift to private sea platform, rooftop pool, Vesuvius panorama · 9.2 Booking.com', url: 'https://www.booking.com/hotel/it/bristol-sorrento.html', tier: 'expensive' },
+      { name: 'Grand Hotel Excelsior Vittoria', note: 'Independent luxury — clifftop palazzo in Sorrento\'s main square, Bay of Naples panorama, La Serra spa, Mediterranean gardens · 9.5 Booking.com', url: 'https://www.booking.com/hotel/it/grande-albergo-excelsior-vittoria.html', tier: 'luxury' }
+    ], price: { budget: '€90–160', mid: '€160–300', expensive: '€300–520', luxury: '€520+' } },
     'split': { h: [
-      { name: 'Hotel Vestibul Palace', note: 'Independent boutique — 7 suites inside the Roman Diocletian\'s Palace UNESCO walls, unrivalled historic setting · 9.4 Booking.com', url: 'https://www.booking.com/hotel/hr/vestibul-palace.html' },
-      { name: 'Radisson Blu Resort & Spa, Split', note: 'Radisson brand — Stobreč beach and marina, spa, infinity pool · 8.4 Booking.com', url: 'https://www.booking.com/hotel/hr/radisson-blu-resort-split.html' },
-      { name: 'Cornaro Hotel', note: 'Independent boutique — Diocletian\'s Palace Old Town edge, rooftop terrace with bar and hot tub · 9.1 Booking.com', url: 'https://www.booking.com/hotel/hr/cornaro.html' },
-      { name: 'Le Méridien Lav Split', note: 'Marriott brand — Podstrana beachfront 9 km south, indoor and outdoor pools, spa, tennis and kids\' club · 8.6 Booking.com', url: 'https://www.booking.com/hotel/hr/le-meridien-lav-split.html' }
-    ] },
+      { name: 'Hotel As', note: 'Independent — Kopilica 8A in western Split, 3-star, pool, free parking, good value 15-min walk from Diocletian\'s Palace · 8.5 Booking.com', url: 'https://www.booking.com/hotel/hr/as.html', tier: 'budget' },
+      { name: 'Cornaro Hotel', note: 'Independent boutique — Diocletian\'s Palace Old Town edge, rooftop terrace with bar and hot tub · 9.1 Booking.com', url: 'https://www.booking.com/hotel/hr/cornaro.html', tier: 'mid' },
+      { name: 'Radisson Blu Resort & Spa, Split', note: 'Radisson brand — Stobreč beach and marina, spa, infinity pool · 8.4 Booking.com', url: 'https://www.booking.com/hotel/hr/radisson-blu-resort-split.html', tier: 'expensive' },
+      { name: 'Le Méridien Lav Split', note: 'Marriott brand — Podstrana beachfront 9 km south, indoor and outdoor pools, spa, tennis and kids\' club · 8.6 Booking.com', url: 'https://www.booking.com/hotel/hr/le-meridien-lav-split.html', tier: 'expensive' },
+      { name: 'Hotel Vestibul Palace', note: 'Independent boutique — 7 suites inside the Roman Diocletian\'s Palace UNESCO walls, unrivalled historic setting · 9.4 Booking.com', url: 'https://www.booking.com/hotel/hr/vestibul-palace.html', tier: 'luxury' }
+    ], price: { budget: '€80–150', mid: '€150–250', expensive: '€250–420', luxury: '€420+' } },
     'stockholm': { h: [
       { name: 'NOFO Hotel, WorldHotels Crafted', note: 'Independent — Tjärhovsgatan 11 on Södermalm, 1700s courtyard building, garden restaurant, 24h reception, no AC · 9.0 Booking.com', url: 'https://www.booking.com/hotel/se/nofo.html', tier: 'budget' },
       { name: 'Villa Dahlia', note: 'Independent — Tegnérlunden 8 in Vasastan, park-side 1920s villa, sauna and spa, 24h reception, no AC · 9.0 Booking.com', url: 'https://www.booking.com/hotel/se/tegnerlunden.html', tier: 'budget' },
@@ -11510,7 +11518,7 @@ window.TVE.home = (function () {
     var LOUNGE_IATAS = [
       'ABQ','AES','AGP','AJU','AMM','AMS','ANC','ARN','ATH','ATL','AUA','AUH','AUS','BCN','BDS','BER',
       'BGI','BGO','BIO','BKK','BLQ','BNA','BOB','BOD','BOS','BRU','BSL','BUD','CAE','CAI','CDG','CFU','CGN','CKG',
-      'CLT','CMB','CNX','CPH','CPT','CUN','CUR','CUZ','CWB','DAD','DBV','DCA','DEN','DFW','DOH','DPS','DTW','DUB',
+      'CLT','CMB','CNX','CPH','CPT','CTA','CUN','CUR','CUZ','CWB','DAD','DBV','DCA','DEN','DFW','DOH','DPS','DTW','DUB',
       'DUS','DXB','EDI','EYW','EZE','FAO','FCA','FCO','FHR','FLN','FLR','FNC','FOR','FRA','GCM','GEG',
       'GIG','GOT','GPS','GRU','GRX','GVA','HAM','HAN','HEL','HER','HHH','HIJ','HKG','HKT','HND','HNL','IAD','IAH',
       'ICN','IGU','IST','JFK','JMK','JPA','JTR','KEF','KIX','KOA','KRK','KTM','LAS','LAX','LGA','LGW',
@@ -11518,7 +11526,7 @@ window.TVE.home = (function () {
       'MLE','MRS','MSP','MSY','MUC','MVD','MXP','NAP','NAS','NAT','NCE','OAX','OGG','OLB','OPO','ORD',
       'ORS','ORY','OSL','PBH','PDL','PDX','PEK','PHL','PHX','PLS','PMI','PNS','POA','PPS','PRG','PSA',
       'PSP','PUS','PVG','PVR','RAK','RDM','REC','RHO','RIX','RNO','RSW','SAN','SCL','SEA','SEZ','SFO','SIN',
-      'SJC','SJD','SJO','SJU','SKG','SLC','SLZ','SPU','SRQ','SSA','STR','STT','SVQ','SXB','SYD','SZG','TBS',
+      'SJC','SJD','SJO','SJU','SKG','SLC','SLZ','SPU','SRQ','SSA','STR','STT','SVQ','SXB','SXM','SYD','SZG','TBS',
       'TFS','TIV','TLL','TOS','TPE','TRN','VCE','VIE','VLC','VNO','VRN','WLG','YQB','YUL','YVR','YYC',
       'DYG','YYZ','ZAG','ZQN','ZRH','ZTH'
     ];

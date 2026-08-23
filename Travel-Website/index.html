@@ -1974,14 +1974,21 @@ summary.res-head:focus-visible { outline: 2px solid var(--rust, #C04E1A); outlin
 .tt-sug-item { display:block; width:100%; text-align:left; background:none; border:0; border-bottom:1px solid var(--border2,#e6e2da); padding:9px 14px; font-size:13px; color:var(--text,#1a1917); cursor:pointer; font-family:inherit; white-space:nowrap; }
 .tt-sug-item:last-child { border-bottom:0; }
 .tt-sug-item:hover { background:rgba(184,134,11,.06); color:#C04E1A; }
-.tt-safe-row { margin:14px 0 16px; display:flex; align-items:center; }
-.tt-check-lbl { display:inline-flex; align-items:center; gap:7px; font-size:13px; color:var(--text,#1a1917); cursor:pointer; }
-.tt-check-lbl input[type="checkbox"] { width:14px; height:14px; accent-color:#C04E1A; cursor:pointer; }
 .tt-res-head { font-size:10px; font-weight:700; letter-spacing:.12em; text-transform:uppercase; color:var(--muted); margin:0 0 14px; }
 .tt-back-btn { display:inline-block; margin-top:16px; font-family:inherit; font-size:12px; background:none; border:none; color:var(--accent, #8a6c1a); cursor:pointer; padding:0; text-decoration:underline; }
 .tt-back-btn:hover { color:#C04E1A; }
 .hc-pill-result { display:flex; align-items:center; gap:10px; padding:13px 16px; width:fit-content; min-width:180px; background:var(--surface,#fff); border:1px solid var(--border,#e3ddd2); border-left:3px solid #C04E1A; border-radius:8px; text-decoration:none; color:var(--text,#1a1917); font-size:14px; font-weight:600; margin-bottom:8px; }
 .hc-pill-result:hover { background:var(--surface2,#faf7f2); border-color:var(--rust, #C04E1A); color:var(--rust, #C04E1A); }
+/* SIX ACROSS, NOT SIX DOWN. The pill is fit-content and was stacked one per
+   line, so Trip Escape's answer ran the full height of the panel with the right
+   two thirds of it empty. Only the container wraps — the pill component itself
+   is untouched, and Help Me Choose's copy of it is unaffected. */
+/* Scoped through the panel on purpose: guides-index-style.css — a SHARED asset,
+   and the guides index's own copy of this widget needs it — sets
+   `#tt-res-cards { flex-direction:column }`, and it loads after this block, so a
+   bare #id override here loses on order. */
+#trip-twin-panel #tt-res-cards { display:flex; flex-direction:row; flex-wrap:wrap; gap:8px; }
+#trip-twin-panel #tt-res-cards .hc-pill-result { margin-bottom:0; }
 /* ── Help Me Choose wizard ── */
 #help-choose-panel { margin:8px 0 20px; padding:20px 22px 22px; background:var(--warm); border:1px solid var(--border); border-radius:12px; box-shadow:0 4px 16px rgba(122,59,30,.08); }
 #help-choose-panel[hidden],#hc-inner[hidden],#hc-results[hidden] { display:none !important; }
@@ -2051,9 +2058,6 @@ summary.res-head:focus-visible { outline: 2px solid var(--rust, #C04E1A); outlin
 .tt-sug-item:last-child { border-bottom:0; }
 .tt-sug-item:hover { background:rgba(184,134,11,.06); color:#C04E1A; }
 #tt-city-badge { display:inline-block; margin-left:10px; font-size:12px; color:#C04E1A; font-weight:500; vertical-align:middle; }
-.tt-safe-row { margin:14px 0 16px; display:flex; align-items:center; }
-.tt-check-lbl { display:inline-flex; align-items:center; gap:7px; font-size:13px; color:var(--text,#1a1917); cursor:pointer; }
-.tt-check-lbl input[type="checkbox"] { width:14px; height:14px; accent-color:#C04E1A; cursor:pointer; }
 #tt-go { height:38px; padding:0 20px; font-family:inherit; font-size:13px; font-weight:600; background:#C04E1A; border:1.5px solid #C04E1A; border-radius:6px; color:#fff; cursor:pointer; transition:background .15s,border-color .15s; }
 #tt-go::after { content:' ›'; font-size:15px; font-weight:400; }
 #tt-go:hover:not(:disabled) { background:#8A3F18; border-color:#8A3F18; }
@@ -3299,29 +3303,89 @@ window.lpGuideCard = function (href, flag, name, extra) {
           </div>
         </div>
         <div class="tt-section">
-          <div class="tt-label">Travel budget (per night)</div>
+          <!-- FOUR BRACKETS, NO DOLLAR FIGURE (owner rule 2026-08-23: "change money
+               part remove valor and add like either the hotel way or the filter
+               above" &middot; "we should have 4 ranges in the money part").
+
+               The three chips that stood here named a price per night &mdash; "Budget
+               (under $100)", "Mid-range ($100&ndash;$250)", "Premium ($250+)" &mdash; and every
+               one of those numbers was wrong twice over. A figure in dollars is
+               what a READER CHOOSES to spend, which says nothing about where they
+               live (owner rule 2026-08-22, the same reason Help Me Choose stopped
+               asking it: "people can travel to the same places and spend 500 a day
+               or 50"); and the numbers were a fourth opinion about cost, against
+               /essentials/budget/, COST_DATA and the guides-index filter, which all
+               use FOUR named brackets and no money at all.
+
+               The guides index's own copy of this widget made exactly this change on
+               2026-08-22 and the landing page was the stale lift; the label and the
+               four chips below are ITS wording and ITS icons, character for
+               character, so the two copies of one tool ask one question.
+
+               So this is now the vocabulary of the filter above, word for word &mdash;
+               Cheap &middot; Moderate &middot; Expensive &middot; Very expensive &mdash; and four of them, one per
+               COST_DATA tier (Budget x44, Moderate x111, Expensive x58, Premium
+               x24). It reads as an ORDINAL 1&ndash;4 in costLevel() below, so the escape
+               contrast is a distance in brackets, not in dollars. Every icon is
+               the catalogue's money family, escalating: coin &rarr; bills &rarr; card &rarr;
+               bag (Twenty-eighth non-negotiable). -->
+          <div class="tt-label">How expensive it is where you are</div>
           <div class="ttchip-row" id="tt-budget-chips">
-            <button type="button" class="ttchip" data-v="budget"><svg viewBox="0 0 24 24" width="14" height="14" aria-hidden="true" style="vertical-align:middle;flex-shrink:0"><use href="#gm-i-bills"/></svg> Budget (under $100)</button>
-            <button type="button" class="ttchip" data-v="mid"><svg viewBox="0 0 24 24" width="14" height="14" aria-hidden="true" style="vertical-align:middle;flex-shrink:0"><use href="#gm-i-credit-card"/></svg> Mid-range ($100–$250)</button>
-            <button type="button" class="ttchip" data-v="premium"><svg viewBox="0 0 24 24" width="14" height="14" aria-hidden="true" style="vertical-align:middle;flex-shrink:0"><use href="#gm-i-money-bag"/></svg> Premium ($250+)</button>
+            <button type="button" class="ttchip" data-v="cheap"><svg viewBox="0 0 24 24" width="14" height="14" aria-hidden="true" style="vertical-align:middle;flex-shrink:0"><use href="#gm-i-coin"/></svg> Cheap</button>
+            <button type="button" class="ttchip" data-v="moderate"><svg viewBox="0 0 24 24" width="14" height="14" aria-hidden="true" style="vertical-align:middle;flex-shrink:0"><use href="#gm-i-bills"/></svg> Moderate</button>
+            <button type="button" class="ttchip" data-v="expensive"><svg viewBox="0 0 24 24" width="14" height="14" aria-hidden="true" style="vertical-align:middle;flex-shrink:0"><use href="#gm-i-credit-card"/></svg> Expensive</button>
+            <button type="button" class="ttchip" data-v="very"><svg viewBox="0 0 24 24" width="14" height="14" aria-hidden="true" style="vertical-align:middle;flex-shrink:0"><use href="#gm-i-money-bag"/></svg> Very expensive</button>
           </div>
         </div>
         <!-- NARROW THE ESCAPE (owner 2026-08-22: Trip Escape "gains the rows the finder
-             already has the data for"). The month makes the climate contrast the
-             contrast of THAT month rather than the annual mean; the activity keeps
-             only guides tagged with it. Weather and budget are deliberately NOT here
-             — this card picks the opposite of those itself. -->
+             already has the data for"; extended 2026-08-23: "work on the trip escape
+             based in all filters we already on help me choose, make it more
+             interesting"). The month makes the climate contrast the contrast of THAT
+             month rather than the annual mean; the rest are Help Me Choose's own
+             fields, reading Help Me Choose's own data — activity is THEME_DATA, trip
+             length is DAYS_DATA, language is each card's data-lang, safety is the
+             State Department level from SAFETY_DATA. Nothing new was invented and no
+             second copy of any dataset exists.
+
+             Weather and cost are deliberately NOT here — this card picks the OPPOSITE
+             of those itself, which is the whole tool. What is here instead is "How
+             different?", the one dimension only this card has: it aims the ranking at
+             a level of contrast rather than always returning the single most extreme
+             flip, so a reader who wants a change of scene and a reader who wants the
+             far side of the planet do not get the same three cities. -->
         <div class="tt-section tt-narrow">
           <div class="tt-label">Narrow the escape</div>
           <div class="fnd-row">
+            <div class="fnd-field"><label for="tt-degree">How different?</label>
+              <div class="fnd-ctl"><span class="fnd-ic" aria-hidden="true"><svg viewBox="0 0 24 24"><use href="#gm-i-compass"/></svg></span><select id="tt-degree"><option value="max">As different as possible</option><option value="strong">A real change</option><option value="mild">Just a change of scene</option></select></div></div>
             <div class="fnd-field"><label for="tt-month">When are you going?</label>
               <div class="fnd-ctl"><span class="fnd-ic" aria-hidden="true"><svg viewBox="0 0 24 24"><use href="#gm-i-wall-calendar"/></svg></span><select id="tt-month"><option value="">Any month</option><option value="0">January</option><option value="1">February</option><option value="2">March</option><option value="3">April</option><option value="4">May</option><option value="5">June</option><option value="6">July</option><option value="7">August</option><option value="8">September</option><option value="9">October</option><option value="10">November</option><option value="11">December</option></select></div></div>
             <div class="fnd-field"><label for="tt-act">What do you want to do?</label>
               <div class="fnd-ctl"><span class="fnd-ic" aria-hidden="true"><svg viewBox="0 0 24 24"><use href="#gm-i-backpack-strapped"/></svg></span><select id="tt-act"><option value="">Anything</option><option value="beach">Beaches</option><option value="islands">Islands</option><option value="nature">Greenery</option><option value="snow">Snow &amp; ski</option><option value="history">History</option><option value="amusement">Theme parks</option><option value="hiking">Hiking</option></select></div></div>
+            <div class="fnd-field"><label for="tt-days">How long is the escape?</label>
+              <!-- THREE BANDS, cut where the fleet actually sits: DAYS_DATA is 2d x17,
+                   3d x60, 4d x45, 5d x44, 6d x53, 7d+ x20 — so 2–3 / 4–5 / 6+ splits it
+                   77 / 89 / 73 and every band comes back full. Same data the guides
+                   index's Trip Length menu reads (#gm-i-day-dots is that menu's icon),
+                   never a second table. -->
+              <div class="fnd-ctl"><span class="fnd-ic" aria-hidden="true"><svg viewBox="0 0 24 24"><use href="#gm-i-day-dots"/></svg></span><select id="tt-days"><option value="">Any length</option><option value="short">A short break &mdash; 2 to 3 days</option><option value="week">Most of a week &mdash; 4 to 5 days</option><option value="long">A full week &mdash; 6 days and up</option></select></div></div>
+            <div class="fnd-field"><label for="tt-lang">Which language?</label>
+              <!-- BUILT FROM THE DATA (ttBuildLang), never a hand list — the same rule
+                   and the same failure the finder's copy of this field documents: a
+                   language that exists in a data-lang attribute and not in the list is
+                   unreachable and nothing says so. The names come from the finder's own
+                   LANG_NAMES via window._LANG_NAMES rather than a second copy of the
+                   table; a code with no name still gets an option under its own code. -->
+              <div class="fnd-ctl"><span class="fnd-ic" aria-hidden="true"><svg viewBox="0 0 24 24"><use href="#gm-i-language-roundel"/></svg></span><select id="tt-lang"><option value="">No preference</option></select></div></div>
+            <div class="fnd-field"><label for="tt-safety">How safe does it need to be?</label>
+              <!-- The State Department levels from /essentials/safety/, exactly as Help
+                   Me Choose asks them, and a FLOOR rather than an exact match. This
+                   replaces a "Safe destinations only" checkbox, which was a second
+                   vocabulary for the same data and could only say Level 1 or nothing —
+                   there was no way to say "Level 1 or 2", which is where 118 of the
+                   fleet's cities sit. -->
+              <div class="fnd-ctl"><span class="fnd-ic" aria-hidden="true"><svg viewBox="0 0 24 24"><use href="#gm-i-safety-guide"/></svg></span><select id="tt-safety"><option value="">No preference</option><option value="1">Level 1 only &mdash; normal precautions</option><option value="2">Level 1 or 2 &mdash; increased caution</option><option value="3">Level 1, 2 or 3 &mdash; reconsider travel</option></select></div></div>
           </div>
-        </div>
-        <div class="tt-safe-row">
-          <label class="tt-check-lbl"><input type="checkbox" id="tt-safe"> Safe destinations only</label>
         </div>
         <button id="tt-go" type="button" class="tt-go-btn" disabled>Find My Escape</button>
         <p id="tt-err" hidden></p>
@@ -5333,7 +5397,7 @@ function render() {
   var errP    = document.getElementById('tt-err');
   var cards   = document.getElementById('tt-res-cards');
   var backBtn = document.getElementById('tt-back');
-  var safeBox = document.getElementById('tt-safe');
+  var safetySel = document.getElementById('tt-safety');
   if (!btnTT) return;
 
   var allCards = Array.from(document.querySelectorAll('a.dest-card')).filter(function(c) { return !c.hasAttribute('data-special'); });
@@ -5399,13 +5463,68 @@ function render() {
   function updateGo() {
     var hasCity    = matchedCard !== null;
     var hasClimate = selVal('tt-climate-chips') !== null;
-    var hasBudget  = selVal('tt-budget-chips') !== null;
-    goBtn.disabled = !(hasCity || (hasClimate && hasBudget));
+    /* A CLIMATE ALONE IS ENOUGH. The gate used to demand climate AND cost
+       together, so a reader who knew their weather and not their cost bracket
+       sat on a dead button with nothing saying why. Cost is one term of three in
+       scoreCard() and falls back to a flat 0.5 when it is unknown, exactly as it
+       already does for a card with no data-cost — an unset bracket is a missing
+       term, never an invalid form. */
+    goBtn.disabled = !(hasCity || hasClimate);
   }
 
   // Data extractors
   function ttMonth() { var el = document.getElementById('tt-month'); var v = el ? el.value : ''; return v === '' ? null : parseInt(v, 10); }
   function ttAct() { var el = document.getElementById('tt-act'); return el && el.value ? el.value : null; }
+  function ttDays() { var el = document.getElementById('tt-days'); return el && el.value ? el.value : null; }
+  function ttLang() { var el = document.getElementById('tt-lang'); return el && el.value ? el.value : null; }
+  function ttSafetyMax() { var v = safetySel && safetySel.value; return v ? parseInt(v, 10) : null; }
+  function ttDegree() { var el = document.getElementById('tt-degree'); return (el && el.value) || 'max'; }
+
+  /* Trip length, from DAYS_DATA — keyed by CITY NAME, which is how that table is
+     keyed and how the guides index reads it. Three bands, documented on the
+     control itself. */
+  var DAY_BAND = {
+    short: function (n) { return n <= 3; },
+    week:  function (n) { return n >= 4 && n <= 5; },
+    long:  function (n) { return n >= 6; }
+  };
+  function daysOf(card) {
+    var n = Number((window._DAYS_DATA || {})[cityName(card)]);
+    return n ? n : null;
+  }
+  function langsOf(card) {
+    var raw = card.getAttribute('data-lang') || '';
+    return raw.split(/\s+/).filter(Boolean);
+  }
+
+  /* The language list is BUILT FROM THE DATA the first time the panel opens, and
+     named from the finder's LANG_NAMES (window._LANG_NAMES) rather than a second
+     copy of a 60-row table that would drift from it. No names loaded yet — the
+     finder IIFE runs in the same pass but publishes late — falls back to the
+     uppercased code, which is still reachable and still honest. */
+  var ttLangBuilt = false;
+  function ttBuildLang() {
+    var sel = document.getElementById('tt-lang');
+    if (ttLangBuilt || !sel) return;
+    var names = window._LANG_NAMES || {};
+    var count = {};
+    allCards.forEach(function (c) {
+      langsOf(c).forEach(function (k) { count[k] = (count[k] || 0) + 1; });
+    });
+    var codes = Object.keys(count);
+    if (!codes.length) return;
+    ttLangBuilt = true;
+    codes.sort(function (a, b) {
+      return count[b] - count[a] || (names[a] || a).localeCompare(names[b] || b);
+    });
+    codes.forEach(function (c) {
+      var o = document.createElement('option');
+      o.value = c;
+      o.textContent = (names[c] || c.toUpperCase()) +
+                      ' (' + count[c] + (count[c] === 1 ? ' guide' : ' guides') + ')';
+      sel.appendChild(o);
+    });
+  }
   function hiData(card, mi) {
     var raw = card.getAttribute('data-climate');
     if (!raw) return null;
@@ -5429,23 +5548,36 @@ function render() {
     return { avg: avg };
   }
 
-  function costMid(card) {
+  /* THE COST BRACKET, 1 to 4, NEVER A PRICE (owner rule 2026-08-23). This was
+     costMid(), which returned dollars per night — $60 / $150 / $300 / $550 —
+     invented here and agreeing with nothing else on the site. COST_DATA holds a
+     TIER and only a tier (Budget x44, Moderate x111, Expensive x58, Premium
+     x24), so the ordinal IS the data and the dollar figures were a translation
+     with no source. Contrast now measures how many brackets apart two places
+     are, which is a number both ends of this card can actually mean.
+
+     The numeric `mid` branch is kept because a card MAY carry one, but it is
+     banded rather than compared: a stray price still lands in the same four
+     brackets as everything else instead of scoring on a different axis. */
+  function costLevel(card) {
     var raw = card.getAttribute('data-cost');
     if (!raw) return null;
     var d; try { d = JSON.parse(raw); } catch (e) { return null; }
-    if (d.mid) return +d.mid;
-    var t = (d.tier || '').toLowerCase();
-    if (t === 'budget') return 60;
-    /* 'moderate' and 'expensive' are the site's own vocabulary — COST_DATA is
-       Moderate x111, Expensive x58, Budget x44, Premium x24, and nothing else.
-       Without these two, 169 of the 237 stamped cards returned null here and
-       the budget half of the score silently fell back to a flat 0.5 contrast.
-       Same values as the guides-index copy of this function. */
-    if (t === 'mid' || t === 'mid-range' || t === 'moderate') return 150;
-    if (t === 'expensive') return 300;
-    if (t === 'premium') return 350;
-    if (t === 'luxury') return 550;
-    if (t === 'upscale') return 420;
+    /* THE PRICE INDEX FIRST when the row carries one — /essentials/budget/'s own
+       New-York-is-100 number — banded at 35 / 50 / 70, the four cut points
+       Brain/scripts/build/build_cost_page.py BANDS defines and the guides-index
+       Budget filter reads. Two COST_DATA tables can reach this card: the landing
+       page's own (tier only) and the guides index's (tier AND idx), and the
+       bootstrap takes whichever loaded first. Banding the index instead of
+       scoring it raw is what makes the two answer the same question — the
+       guides index's own copy of this widget scores idx directly, which is finer
+       inside a bracket and identical across them. */
+    if (typeof d.idx === 'number') return d.idx < 35 ? 1 : d.idx < 50 ? 2 : d.idx < 70 ? 3 : 4;
+    var t = (d.tier || d.band || '').toLowerCase();
+    if (t === 'budget' || t === 'cheap') return 1;
+    if (t === 'mid' || t === 'mid-range' || t === 'moderate') return 2;
+    if (t === 'expensive') return 3;
+    if (t === 'premium' || t === 'luxury' || t === 'upscale' || t === 'very') return 4;
     return null;
   }
 
@@ -5519,29 +5651,50 @@ function render() {
 
   // Scoring
   var CLIM = { hot: 92, warm: 82, mild: 65, cool: 55, cold: 42 };
-  var BUDG = { budget: 70, mid: 150, premium: 380 };
+  /* The four brackets as the ordinal the chips now carry. Was a dollar figure
+     per chip; see costLevel() for why there is no money in this card any more. */
+  var BUDG = { cheap: 1, moderate: 2, expensive: 3, very: 4 };
+
+  /* HOW DIFFERENT — the target the ranking aims at, not a filter. 1.0 is the
+     furthest this data can go; 0.62 and 0.35 are a real change and a change of
+     scene. Ranking by |contrast - target| rather than by contrast alone is what
+     makes the middle settings mean anything: sorting by raw contrast and then
+     cutting the top three returns the SAME three cities whatever the reader
+     picked, which is how a dial that changes nothing gets shipped. */
+  var DEGREE = { max: 1.00, strong: 0.62, mild: 0.35 };
 
   function buildRef() {
     if (matchedCard) {
       var cl = hiData(matchedCard, ttMonth());
-      return { avgHi: cl ? cl.avg : null, costMid: costMid(matchedCard), safetyLvl: safety(matchedCard) };
+      return { avgHi: cl ? cl.avg : null, costLvl: costLevel(matchedCard), safetyLvl: safety(matchedCard) };
     }
     return {
       avgHi: CLIM[selVal('tt-climate-chips')] || null,
-      costMid: BUDG[selVal('tt-budget-chips')] || null,
+      costLvl: BUDG[selVal('tt-budget-chips')] || null,
       safetyLvl: null
     };
   }
 
-  function scoreCard(ref, card) {
+  /* The contrast itself, 0 to 1: climate is three quarters of it and cost the
+     rest. Safety is NOT in here any more — it was 15% of the old score, which
+     quietly pushed Level 1 cities up the list whatever the reader asked for, and
+     it is now a filter the reader sets on the control above (a floor, like the
+     finder's). A score is one thing or the other; this one is contrast. */
+  function contrastOf(ref, card) {
     var cl = hiData(card, ttMonth());
     if (!cl) return -1;
     var cContrast = ref.avgHi !== null ? Math.min(1, Math.abs(ref.avgHi - cl.avg) / 50) : 0.5;
-    var co = costMid(card);
-    var coContrast = (ref.costMid !== null && co !== null) ? Math.min(1, Math.abs(ref.costMid - co) / 280) : 0.5;
-    var sa = safety(card);
-    var saScore = sa !== null ? (sa === 1 ? 1.0 : sa === 2 ? 0.7 : 0.4) : 0.65;
-    return 0.60 * cContrast + 0.25 * coContrast + 0.15 * saScore;
+    var co = costLevel(card);
+    var coContrast = (ref.costLvl !== null && co !== null) ? Math.abs(ref.costLvl - co) / 3 : 0.5;
+    return 0.75 * cContrast + 0.25 * coContrast;
+  }
+
+  /* Ranked HIGH IS BEST, so the aim is inverted into a fit: 1 at the target,
+     falling away on both sides. */
+  function scoreCard(ref, card) {
+    var c = contrastOf(ref, card);
+    if (c < 0) return -1;
+    return 1 - Math.abs(c - (DEGREE[ttDegree()] || 1));
   }
 
   function whyReasons(ref, card) {
@@ -5553,17 +5706,26 @@ function render() {
       else if (d > 22) list.push('Strong climate contrast');
       else if (d > 10) list.push('Different climate');
     }
-    var co = costMid(card);
-    if (co !== null && ref.costMid !== null) {
-      var cd = Math.abs(ref.costMid - co);
-      if (cd > 200) list.push('Opposite budget range');
-      else if (cd > 90) list.push('Different budget tier');
+    var co = costLevel(card);
+    if (co !== null && ref.costLvl !== null) {
+      var cd = Math.abs(ref.costLvl - co);
+      if (cd >= 3) list.push('Opposite cost bracket');
+      else if (cd === 2) list.push('Two brackets cheaper or dearer');
+      else if (cd === 1) list.push('A different cost bracket');
     }
     var sa = safety(card);
     if (sa === 1) { list.push('Very safe'); }
     if (!list.length) list.push('Strong contrast');
     return list.slice(0, 3);
   }
+
+  /* Built HERE, at init, not on the panel's first open. The card that opens this
+     panel clicks #btn-trip-twin itself, and it can do so BEFORE this IIFE has
+     bound its handler — the whole widget is lazily booted behind that card — so
+     a build hung off that click ran zero times and the field stayed at "No
+     preference" alone. Init runs after the cards are grafted, which is the only
+     precondition it has. */
+  ttBuildLang();
 
   goBtn.addEventListener('click', function () {
     errP.hidden = true;
@@ -5573,13 +5735,16 @@ function render() {
       errP.hidden = false;
       return;
     }
-    var safeOnly = safeBox.checked;
-    var act = ttAct();
+    var act = ttAct(), dayBand = ttDays(), lang = ttLang(), safeMax = ttSafetyMax();
     var scored = allCards.map(function (c) {
       if (c === matchedCard) return null;
       if (act && ((window._THEME_DATA || {})[cityName(c)] || []).indexOf(act) === -1) return null;
-      var sa = safety(c);
-      if (safeOnly && sa !== null && sa > 1) return null;
+      if (dayBand) { var dn = daysOf(c); if (dn === null || !DAY_BAND[dayBand](dn)) return null; }
+      if (lang && langsOf(c).indexOf(lang) === -1) return null;
+      /* A FLOOR, like the finder's: "Level 1 or 2" keeps 1 and 2. A card whose
+         level is unknown is kept — the same reading the old checkbox had, and
+         the alternative silently drops a guide for a fact nobody stated. */
+      if (safeMax !== null) { var sa = safety(c); if (sa !== null && sa > safeMax) return null; }
       var s = scoreCard(ref, c);
       return s >= 0 ? { card: c, score: s } : null;
     }).filter(Boolean);
@@ -5591,7 +5756,10 @@ function render() {
       seenNames[n] = true;
       return true;
     });
-    var top = scored.slice(0, 3);
+    /* SIX, not three. Three was the answer when the card asked two questions;
+       with six controls a reader who has narrowed the fleet to a handful wants
+       to see the handful, and the pills wrap. */
+    var top = scored.slice(0, 6);
     if (!top.length) {
       errP.textContent = 'No escape destinations found. Try adjusting your preferences.';
       errP.hidden = false;
@@ -5862,9 +6030,14 @@ function render() {
       });
     });
     function _tableKeyFor(slug) { return _KEY_BY_SLUG[_slugFold(slug)] || slug; }
+    /* The city picker below this engine needs the same fold — it reads COST_DATA
+       and SAFETY_DATA per card to print each row's facts, and both are keyed by
+       the retired folder name. Exposed rather than copied: a second _slugFold in
+       the picker is a second thing to keep in step with the tables. */
+    window._cmpKeyFor = _tableKeyFor;
 
     /* Stamp the three data attributes onto every card.
-       Trip Escape does NOT read the globals above — hiData(), costMid() and
+       Trip Escape does NOT read the globals above — hiData(), costLevel() and
        safety() read data-climate / data-cost / data-safety off each CARD, and
        scoreCard() returns -1 the moment data-climate is absent. Only 31 of the
        286 cards carry them in the source HTML, so without this it scored 31
@@ -6767,6 +6940,11 @@ function render() {
     cjy: 'Sichuanese', nan: 'Taiwanese Hokkien', zap: 'Zapotec',
     mix: 'Mixtec', hi: 'Hindi', ur: 'Urdu'
   };
+  /* ONE table, two readers. Trip Escape's own language field names its options
+     from this (window._LANG_NAMES) instead of carrying a second copy that would
+     drift from it the first time a guide ships in a language nobody added
+     twice. */
+  window._LANG_NAMES = LANG_NAMES;
   var langOptsBuilt = false;
   function buildLangOpts(d) {
     var sel = document.getElementById('fnd-lang');

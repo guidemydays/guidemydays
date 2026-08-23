@@ -1051,16 +1051,20 @@ a.land-cta:hover:visited {
 /* THE AIRPORT FIELD, ALONE, ABOVE THE GRID (owner 2026-08-23: "put the airport
    alone on top of all of them to be clear"). It does NOT get an arbitrary
    width of its own — .fnd-home-row carries the SAME .fnd-row class as the
-   grid below it, so it shares the exact column tracks, gap and breakpoints,
-   and .fnd-home-standalone sits in column 1 only. That is what actually reads
-   as aligned: the airport input's left AND right edges land on the same
-   vertical lines as "When are you going?" in the row underneath, rather than
-   a hand-picked max-width that lines up with nothing. The two empty tracks
-   beside it are deliberate — the airport is one question, not three, and a
-   full-bleed input would be the one control on the page with no companion
-   the same size anywhere else on the card. */
+   grid below it, so it shares the exact column tracks, gap and breakpoints;
+   .fnd-home-standalone's LEFT edge lands on the same line as "When are you
+   going?" in the row underneath, which is what actually reads as aligned,
+   rather than a hand-picked max-width that lined up with nothing.
+
+   IT SPANS ALL THREE TRACKS rather than sitting in column 1 alone (owner,
+   same session: "this name should not be cut"). A picked airport can echo
+   its full official name plus code — "Norman Y. Mineta San Jose
+   International (SJC)" is 44 characters — and a single 1fr column is not
+   wide enough to hold that without clipping it. Full width is also correct
+   on its own terms: this is the one field every other one is greyed out
+   behind, not a pill the same size as its neighbours. */
 .fnd-home-row { margin-bottom: clamp(0.6rem, 1.4vw, 1rem); }
-.fnd-home-standalone { grid-column: 1; }
+.fnd-home-standalone { grid-column: 1 / -1; }
 
 /* ── Home-city control (2026-08-15) ────────────────────────────────────────
    The "from Seattle" hint became a button. It sits inside the label because
@@ -1170,6 +1174,11 @@ a.land-cta:hover:visited {
   font: inherit; font-weight: normal; color: var(--accent); padding: 0; cursor: text; height: 100%;
   margin: 0;
   text-align: start;
+  /* Safety net, not the fix — the fix is the field's own full width
+     (.fnd-home-standalone above). A handful of official airport names still
+     run past even that on a narrow phone, and an ellipsis reads as "there is
+     more" where a hard clip mid-letter reads as broken. */
+  overflow: hidden; text-overflow: ellipsis;
 }
 /* A disabled select still has to read as a control, not as damage. */
 .fnd-ctl:has(select:disabled) { opacity: 0.55; }
@@ -1360,7 +1369,7 @@ a.land-cta:hover:visited {
    question and its answer — deliberate, because it is not an answer to the
    question above it, it is the instruction that makes the field make sense
    (Fifty-seventh / Sixty-second non-negotiables are about ANSWERS). */
-.fnd-home-lede { margin: 0 0 0.4rem; font-size: 0.78rem; font-weight: 400; color: var(--muted,#6a6660); }
+.fnd-home-lede { margin: 0 0 0.4rem; font-size: 0.78rem; font-weight: 700; color: var(--muted,#6a6660); }
 /* The locked form. `.fnd-ctl:has(select:disabled)` already drops the pill to
    opacity .55 and the shared hover rule already refuses it, so a locked field
    is drawn exactly like a pruned one and nothing new is invented. All this adds
@@ -3302,7 +3311,7 @@ window.lpGuideCard = function (href, flag, name, extra) {
                        known origin and that pair can never both be offered. relax()
                        still stands behind it, because a reader can CHANGE their
                        airport under picks that fitted the old one. -->
-                  <p class="fnd-home-lede">Start here &mdash; the rest of the form opens once we know where you are flying from.</p>
+                  <p class="fnd-home-lede">Start here &mdash; this unlocks the rest of the form.</p>
                   <div class="fnd-ctl">
                     <span class="fnd-ic" aria-hidden="true"><svg viewBox="0 0 24 24"><use href="#gm-i-flight-nav"/></svg></span>
                     <input type="text" id="fnd-home-in" placeholder="City or airport" autocomplete="off" spellcheck="false">
@@ -9306,13 +9315,12 @@ function render() {
           farNote.textContent = '* Total time in the air. ' +
             'Time waiting between connections is not counted.';
         }
-        /* ONE PLACE, SAID ONCE (owner decision 2026-08-23). Both numbers on a
-           result card are now measured from this airport — the flying time and
-           the jet lag — and the card itself says neither, because "6h 30m" and
-           "+3h vs your clock" read as plain facts and only stop being plain if
-           they disagree. They cannot disagree any more; this line is what says
-           so, in the one place a reader is looking when they wonder. */
-        homeNote.textContent = 'Flying time and jet lag are both measured from here.';
+        /* RETIRED (owner, 2026-08-23: "remove this"). The sentence used to say
+           where the flying-time and jet-lag numbers come from — true, but the
+           reader has just picked the airport themselves and does not need to
+           be told what picking it does; the note only added a line of text
+           under a field that was already answered. */
+        homeNote.textContent = '';
         return;
       }
       /* No origin yet. Silent until a band is actually picked — a permanent

@@ -103,7 +103,14 @@
 /* The label is a flex row so the computed quantity can be pushed to the right
    edge: every result then lands in one column the eye can run straight down,
    instead of sitting mid-sentence after each item name at a different offset. */
-.item label { font-size: 14px; color: var(--text); cursor: pointer; line-height: 1.45; transition: color 0.15s; display: flex; align-items: baseline; flex-wrap: wrap; gap: 0 7px; width: 100%; }
+/* nowrap, deliberately: the item name is an anonymous flex item, and with
+   flex-wrap:wrap it keeps its max-content width and shoves the quantity onto a
+   second line instead of wrapping itself — which is what "Leggings or
+   comfortable casual pants" and "Pacifiers / binkies" did at 360px. Held on one
+   flex line the name wraps internally and the number stays put; baseline
+   alignment then pins it to the name's FIRST line, so the column holds even
+   where a name runs to two. */
+.item label { font-size: 14px; color: var(--text); cursor: pointer; line-height: 1.45; transition: color 0.15s; display: flex; align-items: baseline; flex-wrap: nowrap; gap: 0 7px; width: 100%; }
 .item.checked label { color: #b0aaa2; text-decoration: line-through; text-decoration-color: #c0bab2; }
 .callout {
  margin: 12px 0;
@@ -121,6 +128,24 @@
 @media (max-width: 600px) and (pointer: coarse) {
  .card-header { padding: 13px 14px; }
  .card-body { padding: 10px 14px; }
+ /* ONE ROW, ONE BUTTON SIZE. mobile.css shrinks the small utility buttons to
+    11px/4px — but it names .reset-btn and .print-btn only, so Hide packed and
+    Save for Offline stayed at the full 40px tap size and the row rendered as
+    two big controls beside two small ones. Matched here rather than in
+    mobile.css because .toggle-btn is not this page's alone; scoped to
+    .action-row so nothing else moves, and !important at a higher specificity
+    than mobile.css's own, which is what lets an earlier stylesheet win. */
+ .action-row .reset-btn, .action-row .print-btn, .action-row .toggle-btn {
+  min-height: auto !important;
+  font-size: 11px !important;
+  padding: 4px 10px !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  /* A <button> resets line-height to `normal`; an <a> inherits the page's 1.65,
+     which made Save for Offline 5px taller than the three buttons beside it. */
+  line-height: 1.2 !important;
+  text-transform: uppercase !important;
+ }
 }
 html { scroll-behavior: smooth; }
 .section-card  { transition: box-shadow .18s, transform .18s; }
@@ -153,6 +178,10 @@ html { scroll-behavior: smooth; }
 .summary .progress-track { margin: 0; }
 .action-row { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 14px; }
 .action-row .reset-btn, .action-row .print-btn { margin-top: 0; margin-left: 0; }
+/* Four controls in one row read as one set: same case, same line box. Reset and
+   Print were uppercase while Hide packed and Save for Offline were sentence
+   case, and an <a> inherits the page line-height where a <button> resets it. */
+.action-row .toggle-btn { text-transform: uppercase; letter-spacing: 0.1em; line-height: 1.2; display: inline-flex; align-items: center; }
 .trip-setup {
  display: flex; align-items: center; flex-wrap: wrap; gap: 8px 16px;
  margin-top: 16px; padding: 14px 20px;
@@ -190,8 +219,6 @@ html { scroll-behavior: smooth; }
    to the first — the row already states the total. */
 .qty-note { font-size: 12px; color: var(--muted); font-weight: 400; white-space: nowrap; }
 .item.checked .qty-note { color: #b0aaa2; }
-.item.checked .qty { color: #b0aaa2; background: var(--surface2); border-color: var(--border); }
-.item.checked 
 .toggle-btn {
  font-size: 13px; font-weight: 500; letter-spacing: 0.1em; color: var(--rust, #C04E1A);
  background: var(--surface, #fff); border: 1px solid rgba(192,78,26,.30); border-radius: 999px; padding: 7px 16px;
@@ -211,7 +238,27 @@ body.hide-packed .item.checked { display: none; }
 body.hide-packed .section-card.complete .card-body,
 body.hide-packed .critical-card.complete .card-body { display: none; }
 @media print {
- #toolbar-mount, .reset-btn, .print-btn, .summary, .action-row { display: none !important; }
+ /* #toolbar-mount is listed for completeness only and hides NOTHING: toolbar.js
+    deletes that div itself once it has built the bar, so by print time the id no
+    longer exists and the rule passes vacuously — the same trap the offline
+    builder's strip list fell into (83rd non-negotiable). The classes below are
+    what the toolbar actually leaves on the page, and without them the nav pills
+    and the scroll hairline ate the top third of page 1. */
+ #toolbar-mount, .tb-links, .tb-ham-menu, .tb-scroll-wrap, .tb-progress,
+ .reset-btn, .print-btn, .summary, .action-row { display: none !important; }
+ /* The hero is a solid terracotta flood — fine on screen, a whole ink cartridge
+    on paper, and it pushed the first card onto page 2. Flattened to plain text
+    on white, with the sub-paragraph dropped: it describes the page to a reader
+    who is looking at it, and on a printed checklist it is six lines of nothing. */
+ .hero-band { background: none !important; padding: 0 0 8px !important; margin: 0 0 12px !important; border-bottom: 2px solid #000 !important; }
+ .hero-title { color: #000 !important; font-size: 20px !important; }
+ .hero-sub { display: none !important; }
+ /* The stepper's − and + do nothing on paper; the NUMBER is the thing worth
+    printing, because every quantity on the sheet is derived from it. */
+ .day-stepper button { display: none !important; }
+ .day-stepper input { border: none !important; font-weight: 700 !important; width: auto !important; }
+ .trip-setup { border: 1px solid #999 !important; background: none !important; }
+ .setup-note { display: none !important; }
  .header { background: none !important; border-radius: 0 !important; border-bottom: 2px solid #000 !important; padding: 0 0 8px !important; margin: 0 0 12px !important; }
  .header h1 { color: #000 !important; font-size: 18px !important; }
  .section-card, .critical-card { border: 1px solid #999 !important; box-shadow: none !important; transform: none !important; break-inside: avoid; page-break-inside: avoid; margin-bottom: 10px; }

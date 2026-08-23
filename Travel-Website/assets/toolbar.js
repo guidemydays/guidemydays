@@ -6873,11 +6873,11 @@ window.TVE.home = (function () {
       { name: 'The Ritz-Carlton, New Orleans', note: 'Ritz-Carlton brand — Canal Street landmark in 1907 Beaux-Arts building, spa, Club Lounge · 8.7 Booking.com', url: 'https://www.booking.com/hotel/us/nine-twenty-one-canal-street-new-orleans.html', tier: 'luxury' }
     ], price: { budget: 'USD 100–180', mid: 'USD 180–280', expensive: 'USD 280–450', luxury: 'USD 450+' } },
     'new-york': { h: [
-      { name: 'The Mark Hotel', note: 'Independent luxury — 25 East 77th Street Upper East Side, largest suite in NYC, Jean-Georges Vongerichten restaurant · 9.4 Booking.com' , url: 'https://www.booking.com/hotel/us/the-mark-new-york.html' },
-      { name: 'The Carlyle, A Rosewood Hotel', note: 'Rosewood brand — 1930 Upper East Side landmark, Bemelmans Bar murals, Café Carlyle cabaret · 9.5 Booking.com' , url: 'https://www.booking.com/hotel/us/the-carlyle.html' },
-      { name: 'The Peninsula New York', note: 'Peninsula brand — Fifth Avenue and 55th Street, rooftop pool and bar, Julie Spa, Clement Restaurant, prime Midtown position · 9.3 Booking.com' , url: 'https://www.booking.com/hotel/us/the-peninsula-new-york.html' },
-      { name: 'Four Seasons Hotel New York Downtown', note: 'Four Seasons brand — Tribeca, private plunge pools in suites, CUT by Wolfgang Puck restaurant, spa, Hudson River proximity · 9.2 Booking.com' , url: 'https://www.booking.com/hotel/us/four-seasons-hotel-new-york-downtown.html' }
-    ] },
+      { name: 'The Mark Hotel', note: 'Independent luxury — 25 East 77th Street Upper East Side, largest suite in NYC, Jean-Georges Vongerichten restaurant · 9.4 Booking.com' , url: 'https://www.booking.com/hotel/us/the-mark-new-york.html', tier: 'luxury' },
+      { name: 'The Carlyle, A Rosewood Hotel', note: 'Rosewood brand — 1930 Upper East Side landmark, Bemelmans Bar murals, Café Carlyle cabaret · 9.5 Booking.com' , url: 'https://www.booking.com/hotel/us/the-carlyle.html', tier: 'expensive' },
+      { name: 'The Peninsula New York', note: 'Peninsula brand — Fifth Avenue and 55th Street, rooftop pool and bar, Julie Spa, Clement Restaurant, prime Midtown position · 9.3 Booking.com' , url: 'https://www.booking.com/hotel/us/the-peninsula-new-york.html', tier: 'mid' },
+      { name: 'Four Seasons Hotel New York Downtown', note: 'Four Seasons brand — Tribeca, private plunge pools in suites, CUT by Wolfgang Puck restaurant, spa, Hudson River proximity · 9.2 Booking.com' , url: 'https://www.booking.com/hotel/us/four-seasons-hotel-new-york-downtown.html', tier: 'budget' }
+    ], price: { budget: 'USD 450–700', mid: 'USD 650–950', expensive: 'USD 850–1300', luxury: 'USD 1200+' } },
     'nice': { h: [
       { name: 'Hôtel Le Negresco', note: 'Independent luxury — 1913 Promenade des Anglais landmark, Royal Suite, Michelin-starred Chantecler restaurant · 9.3 Booking.com', url: 'https://www.booking.com/hotel/fr/negresco.html' },
       { name: 'Maison Albar - Le Victoria', note: 'Independent 5-star — Avenue de Suède off Place Masséna, rooftop infinity pool, spa, 24h reception · 9.1 Booking.com', url: 'https://www.booking.com/hotel/fr/maison-albar-le-victoria.html' },
@@ -7567,11 +7567,11 @@ window.TVE.home = (function () {
       { name: 'Le Méridien Turin Art + Tech', note: 'Marriott Le Méridien — Lingotto complex (converted FIAT factory), rooftop test track views, indoor pool, spa, design-forward interiors · 8.5 Booking.com', url: 'https://www.booking.com/hotel/it/le-meridien-art-tech.html', tier: 'luxury' }
     ], price: { budget: 'EUR 90–150', mid: 'EUR 150–250', expensive: 'EUR 250–400', luxury: 'EUR 380–600' } },
     'turks-and-caicos': { h: [
-      { name: 'Grace Bay Club', note: 'Independent — Grace Bay beachfront on Providenciales, three properties, pool, Infiniti Bar & Grill · 9.6 Booking.com', url: 'https://www.booking.com/hotel/tc/grace-bay-club.html' },
-      { name: 'COMO Parrot Cay', note: 'COMO brand — private island 30 min by boat, COMO Shambhala spa, pool villas, dive centre · 9.5 Booking.com', url: 'https://www.booking.com/hotel/tc/como-parrot-cay.html' },
-      { name: 'The Shore Club · Turks & Caicos', note: 'Independent luxury — Grace Bay beachfront, 22-acre estate, three pools, private beach club, three restaurants · 9.2 Booking.com', url: 'https://www.booking.com/hotel/tc/the-shore-club-turks-amp-caicos.html' },
-      { name: 'The Ritz-Carlton · Turks & Caicos', note: 'Marriott Ritz-Carlton — Grace Bay Road on Providenciales, 88 butler-service suites, private beach, Sugar Mill spa · 8.6 Booking.com', url: 'https://www.booking.com/hotel/tc/the-ritz-carlton-turks-caicos.html' }
-    ] },
+      { name: 'Grace Bay Club', note: 'Independent — Grace Bay beachfront on Providenciales, three properties, pool, Infiniti Bar & Grill · 9.6 Booking.com', url: 'https://www.booking.com/hotel/tc/grace-bay-club.html', tier: 'budget' },
+      { name: 'The Shore Club · Turks & Caicos', note: 'Independent luxury — Grace Bay beachfront, 22-acre estate, three pools, private beach club, three restaurants · 9.2 Booking.com', url: 'https://www.booking.com/hotel/tc/the-shore-club-turks-amp-caicos.html', tier: 'mid' },
+      { name: 'The Ritz-Carlton · Turks & Caicos', note: 'Marriott Ritz-Carlton — Grace Bay Road on Providenciales, 88 butler-service suites, private beach, Sugar Mill spa · 8.6 Booking.com', url: 'https://www.booking.com/hotel/tc/the-ritz-carlton-turks-caicos.html', tier: 'expensive' },
+      { name: 'COMO Parrot Cay', note: 'COMO brand — private island 30 min by boat, COMO Shambhala spa, pool villas, dive centre · 9.5 Booking.com', url: 'https://www.booking.com/hotel/tc/como-parrot-cay.html', tier: 'luxury' }
+    ], price: { budget: '$350–650', mid: '$650–1,100', expensive: '$1,100–1,800', luxury: '$1,800+' } },
     'valletta': { h: [
       { name: 'The Phoenicia Malta', note: 'Small Luxury Hotels — 1947 landmark at city gate, outdoor pool in formal gardens, Malta\'s most storied hotel · 9.1 Booking.com', url: 'https://www.booking.com/hotel/mt/the-phoenicia-malta.html' },
       { name: 'Ursulino Malta', note: 'Independent boutique — within the historic city walls, curated rooms, intimate boutique atmosphere · 9.3 Booking.com', url: 'https://www.booking.com/hotel/mt/ursulino-valletta.html' },
@@ -11289,16 +11289,16 @@ window.TVE.home = (function () {
        its airport. */
     var LOUNGE_IATAS = [
       'ABQ','AES','AGP','AJU','AMM','AMS','ANC','ARN','ATH','ATL','AUA','AUH','AUS','BCN','BDS','BER',
-      'BGI','BGO','BIO','BKK','BLQ','BNA','BOB','BOS','BRU','BUD','CAI','CDG','CLT','CMB','CPH','CPT',
-      'CUN','CUR','CUZ','CWB','DBV','DEN','DFW','DOH','DPS','DTW','DUB','DUS','DXB','EDI','EYW','EZE',
-      'FAO','FCO','FHR','FLN','FLR','FOR','FRA','GCM','GIG','GOT','GPS','GRU','GVA','HAM','HAN','HEL',
-      'HER','HKG','HKT','HND','IAD','IAH','ICN','IGU','IST','JFK','JMK','JPA','KEF','KOA','KRK','KTM',
-      'LAS','LAX','LGA','LGW','LHR','LIH','LIM','LIS','LUX','LYS','MAD','MAN','MCT','MEL','MIA','MLE',
-      'MRS','MSP','MSY','MUC','MVD','MXP','NAP','NAS','NAT','NCE','OGG','OPO','ORD','ORY','OSL','PBH','PDL',
-      'PDX','PEK','PHL','PHX','PLS','PMI','PNS','POA','PPS','PRG','PSA','PSP','PUS','PVG','PVR','RAK',
-      'RDM','REC','RHO','RIX','RNO','RSW','SAN','SCL','SEA','SFO','SIN','SJC','SJO','SJU','SKG','SLC',
-      'SPU','STR','SXB','SYD','TBS','TFS','TIV','TLL','TOS','TPE','TRN','VCE','VIE','VLC','WLG','YQB',
-      'YUL','YVR','YYC','YYZ','ZAG','ZQN','ZRH'
+      'BGI','BGO','BIO','BKK','BLQ','BNA','BOB','BOD','BOS','BRU','BUD','CAI','CDG','CLT','CMB','CNX',
+      'CPH','CPT','CUN','CUR','CUZ','CWB','DBV','DEN','DFW','DOH','DPS','DTW','DUB','DUS','DXB','EDI',
+      'EYW','EZE','FAO','FCO','FHR','FLN','FLR','FOR','FRA','GCM','GIG','GOT','GPS','GRU','GVA','HAM',
+      'HAN','HEL','HER','HKG','HKT','HND','IAD','IAH','ICN','IGU','IST','JFK','JMK','JPA','KEF','KOA',
+      'KRK','KTM','LAS','LAX','LGA','LGW','LHR','LIH','LIM','LIS','LUX','LYS','MAD','MAN','MCT','MEL',
+      'MIA','MLE','MRS','MSP','MSY','MUC','MVD','MXP','NAP','NAS','NAT','NCE','OGG','OPO','ORD','ORY',
+      'OSL','PBH','PDL','PDX','PEK','PHL','PHX','PLS','PMI','PNS','POA','PPS','PRG','PSA','PSP','PUS',
+      'PVG','PVR','RAK','RDM','REC','RHO','RIX','RNO','RSW','SAN','SCL','SEA','SFO','SIN','SJC','SJO',
+      'SJU','SKG','SLC','SPU','STR','SXB','SYD','TBS','TFS','TIV','TLL','TOS','TPE','TRN','VCE','VIE',
+      'VLC','WLG','YQB','YUL','YVR','YYC','YYZ','ZAG','ZQN','ZRH'
     ];
 
     function _inject() {

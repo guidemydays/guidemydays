@@ -1158,47 +1158,39 @@ a.land-cta:hover:visited {
 }
 #fnd-home-list[hidden] { display: none !important; }
 #fnd-home-note { margin: 0.3rem 0 0; }
-/* THE CONTROL HOLDS WHAT YOU PICKED (owner rule 2026-08-23: "can we find a more
-   pretty way to show what was selected? maybe the pill stay with the value
-   exposed frozen?" · "it gets super confusing all the numbers mixed what we
-   chose with the rest").
+/* ONE VALUE PER FILTER, AND THE CONTROL FREEZES TO SHOW IT (owner rules
+   2026-08-23, in order: "maybe the pill stay with the value exposed frozen?" ·
+   "it gets super confusing all the numbers mixed what we chose with the rest" ·
+   "letting people add more to the same filter will make even more likely to
+   show the wrong data" · "we didnt have the option to add several in the same
+   category" · "all i want it for the filter to freeze the look maybe you add a
+   background hover that stays?").
 
-   The picks used to sit in a `.fnd-chips` row BELOW the control, and the control
-   itself snapped back to "Flexible" / "No preference". So a field that held
-   "Expensive" read "Flexible" on the pill with "Expensive ×" floating under it —
-   the answer and the not-an-answer side by side, in a grid where the row beneath
-   is the next field's chip row, a footnote, or nothing, depending on the column.
-   That is the mixing: at a glance nothing told you which words were yours.
+   THE WHOLE CHIP APPARATUS IS GONE. A pick used to append a removable chip and
+   the select snapped back to its neutral label, so a field holding "Expensive"
+   read "Flexible" with "Expensive ×" beside it, and a reader could stack values
+   in one field — where picks are OR, so adding one WIDENED the results while
+   every other control on the card narrowed them. That is the wrong data the
+   owner named. Now the select simply keeps its value: the answer is the
+   control, there is nothing to remove, and choosing the neutral line clears it.
 
-   The chips now live INSIDE the pill, before the select, and the select's own
-   placeholder changes to "Add another…" the moment a field holds one — so the
-   pill always reads as the answer and never contradicts it. Multi-pick is
-   untouched (Thirty-seventh non-negotiable): a second pick is a second chip in
-   the same pill, and the pill grows to hold it.
-
-   height became min-height for that growth; the block padding is what keeps a
-   single chip from touching the rim. */
+   THE FROZEN LOOK IS THE CARD'S OWN HOVER, MADE PERMANENT — ground var(--bg),
+   rim terracotta, and the font does not move (the Option-B standard, owner rule
+   2026-07-30). Nothing new was invented for a "selected" state: outlined and
+   tinted IS selected on this site, and a filled pill would read as a button. */
 .fnd-ctl {
-  display: flex; align-items: center; flex-wrap: wrap; gap: 0.5rem 0.5rem; min-width: 0;
+  display: flex; align-items: center; gap: 0.5rem; min-width: 0;
   border: 1px solid var(--border,#e3ddd2); border-radius: 999px;
-  background: var(--surface, #fff); padding: 0.26rem 0.9rem;
-  min-height: 2.55rem; box-sizing: border-box;
+  background: var(--surface, #fff); padding: 0 0.9rem;
+  height: 2.55rem; box-sizing: border-box;
 }
-/* Inside the pill the chips are a run of tokens, not a row under a field: no
-   top margin, tighter gap, and a smaller box so a chip reads as a value the
-   control is holding rather than a second control. */
-.fnd-ctl > .fnd-chips { margin: 0; gap: 5px; }
-.fnd-ctl > .fnd-chips .fnd-chip { padding: 0.16em 0.62em; font-size: 0.88em; line-height: 1.45; }
-/* `height: 100%` ON THE SELECT IS ONLY SAFE ON A ONE-LINE PILL. It exists so the
-   whole pill is a click target, and it resolves against the CONTROL — so the
-   moment the control wrapped to two lines the select became 57px tall inside a
-   40px line and hung out through the pill's bottom rim. Measured, not guessed:
-   ctl 67.7px / bottom 820.9, select 57.4px / bottom 849.1.
-
-   A control holding tokens sizes its select to its own text instead, and stops
-   flexing to fill the row — "Add another…" belongs immediately after the last
-   chip, not stretched across whatever is left of the line. */
-.fnd-ctl:has(> .fnd-chips) select { height: auto; min-height: 1.9rem; flex: 0 1 auto; }
+.fnd-ctl.is-set { background: var(--bg, #f5f4f0); border-color: var(--rust, #C04E1A); }
+/* A SET-ASIDE ANSWER — a value the reader chose that the finder could not apply
+   (see relax()). It inherits from `.fnd-chip.is-off`, which it replaces now that
+   there is no chip to mark: the rim goes dashed and loses its terracotta, so the
+   control reads as provisional without inventing a colour. The ink does not
+   move; the value is still what the reader picked. */
+.fnd-ctl.is-off { background: var(--surface, #fff); border-style: dashed; border-color: var(--border,#e3ddd2); }
 .fnd-ctl[hidden] { display: none !important; }
 .fnd-ctl select option:disabled { color: #bbb; }
 .fnd-ctl:focus-within { border-color: var(--rust, #C04E1A); }
@@ -1245,34 +1237,12 @@ a.land-cta:hover:visited {
 /* A disabled select still has to read as a control, not as damage. */
 .fnd-ctl:has(select:disabled) { opacity: 0.55; }
 .fnd-ctl select:disabled { cursor: not-allowed; }
-/* Multi-pick chips (owner rule 2026-08-17): each value picked in a select
-   lands here as a removable outlined pill — same rest/hover rim ladder as
-   every pill on the site (.30 rest, .55 hover, Thirty-fifth non-negotiable).
-
-   A chip is a SELECTED value, so its ink is terracotta, never ink-black
-   (owner rule 2026-08-19: "make sure all filters same font look and color").
-   That is the site's own chip grammar — `.ttchip` carries gold #8a6c1a while
-   unpicked and `.ttchip.on` terracotta once chosen — and it is why the chip is
-   NOT the gold of the select above it: the select is showing its "Any …"
-   placeholder, the chip is showing a choice. It also matched its own hover
-   already, which is what made the black rest state read as an oversight.
-
-   The ground is var(--surface), not #fff: a hardcoded white chip in dark mode
-   painted --text #e8e5e0 on white at 1.15:1 — the value was invisible. And
-   `font: inherit` stands alone with no font-size after it, so the chip reads at
-   the size of the select whose value it echoes (mobile.css already forces both
-   to 16px on a phone; this is what makes desktop agree).
-
-   2026-08-23: the rule above was already correct and the code disagreed with
-   it — `color` was `var(--accent, #8a6c1a)`, the gold the comment says a
-   chip must NOT be. Selection Pills audit (owner: "sometimes the hove is
-   wrong sometimes is the font"). Now var(--rust, #C04E1A), matching the rim. */
-.fnd-chips { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 7px; }
-.fnd-chip {
-  background: var(--surface, #fff); border: 1px solid rgba(192, 78, 26, .30);
-  border-radius: 999px; padding: 0.3em 0.85em; font: inherit;
-  color: var(--rust, #C04E1A); cursor: pointer;
-}
+/* The multi-pick chips (`.fnd-chips` / `.fnd-chip`, owner rule 2026-08-17) are
+   DELETED — rule and code together, 2026-08-23: "we didnt have the option to add
+   several in the same category". A filter holds ONE value now and the control
+   shows it, so there is no chip to draw, no × to remove it with and no second
+   ink to reconcile with the select's gold. The rest/hover rim ladder they used
+   lives on in `.fnd-ctl` itself, which is where a reader now sees their pick. */
 /* OWNER-DIRECTED 2026-08-22: "change this button to terracota move to the
    middle of the filter above and move up a bit."
 
@@ -1401,7 +1371,6 @@ a.land-cta:hover:visited {
    the owner asked for that button to match Find My Destinations — a filled
    button that tinted to var(--bg) on hover would be a third behaviour again. ── */
 .fnd-ctl:hover:not(:has(select:disabled)),
-.fnd-chip:hover,
 .fnd-reset:hover {
   background: var(--bg, #f5f4f0);
   border-color: var(--rust, #C04E1A);
@@ -1418,19 +1387,8 @@ a.land-cta:hover:visited {
    2026-08-23: the finder never hands a reader an empty screen — it sets the
    smallest number of answers aside and shows the list; see relax()). The class
    is gone rather than left unused so nothing can render into it again. */
-/* A SET-ASIDE CHIP — a value the reader chose that the finder could not apply.
-   Same box, same ×, same size as `.fnd-chip`: it is still a chosen value. What
-   changes is that it is not in FORCE, so the terracotta ink that means "picked
-   and applied" steps back to the muted ink every secondary line on the site
-   uses, and the rim goes dashed — the one border treatment on the card that
-   reads as provisional without inventing a colour. It keeps the ONE hover
-   (ground to var(--bg), rim to terracotta, the font does not move), because a
-   set-aside chip is still a control you can click to remove. */
-.fnd-chip.is-off {
-  color: var(--muted,#6a6660);
-  border-style: dashed;
-  border-color: var(--border,#e3ddd2);
-}
+/* The set-aside state moved to `.fnd-ctl.is-off` (see it above, by the frozen
+   `.is-set` look): with no chip to mark, the control carries it. */
 /* THE LINE THAT SAYS WHY THE FORM IS SHUT. It sits between the airport's label
    and its control, which is the one place on this card anything sits between a
    question and its answer — deliberate, because it is not an answer to the
@@ -1498,7 +1456,31 @@ a.land-cta:hover:visited {
    is an <a> that leaves for its own page, so it needs the link defaults undone
    to sit level with its siblings. */
 a.ask-card { text-decoration: none; }
-a.ask-card:visited .ask-name { color: var(--ink,#3d3a32); }
+/* THE :visited RULE WAS EATING THE HOVER, and only for the one card that is a
+   link (owner, 2026-08-23: "ask your guide does not have the hover"). Two
+   separate faults in one line, and both are invisible to a test — the browser
+   deliberately lies to getComputedStyle about visited links, so this can only
+   be read off the CSS:
+
+     1. `var()` DOES NOT RESOLVE INSIDE :visited. Browsers restrict what a
+        visited rule may set, and a custom property is not on the list, so the
+        declaration was dropped and the rule did nothing at all — which is what
+        brain_check's no-var-in-visited check has been failing this page on.
+        The literal hex is the fix it asks for.
+     2. SPECIFICITY. `a.ask-card:visited .ask-name` is (0,3,1) against
+        `.ask-card:hover .ask-name` at (0,3,0), so once a reader had opened
+        /ask-your-guide/ once, the visited rule outranked the hover and the
+        card's name stopped going gold under the pointer. Every other card is a
+        <button>, has no visited state, and kept its hover — which is exactly
+        how this reads as "one card behaves differently" rather than as a CSS
+        bug.
+
+   So the hover is restated for the link at matching specificity, AFTER the
+   visited rule. Never drop it as a duplicate of the shared `.ask-card:hover`
+   rule: that one is lower-specificity and loses to :visited. */
+a.ask-card:visited .ask-name { color: #3d3a32; }
+a.ask-card:hover .ask-name,
+a.ask-card:focus-visible .ask-name { color: var(--accent, #8a6c1a); }
 @media (max-width: 700px) { .ask-row { grid-template-columns: 1fr; } }
 .ask-card {
   display: grid; grid-template-columns: auto 1fr; column-gap: 0.85rem; row-gap: 0.25rem;
@@ -3931,25 +3913,25 @@ window.lpGuideCard = function (href, flag, name, extra) {
         <label for="cmpx-continent">Which continent?</label>
         <div class="fnd-ctl"><span class="fnd-ic" aria-hidden="true"><svg viewBox="0 0 24 24"><use href="#gm-i-blue-marble"/></svg></span><select id="cmpx-continent">
           <option value="">Anywhere</option>
-        </select><div class="fnd-chips" id="cmpx-chips-continent"></div></div>
+        </select></div>
       </div>
       <div class="fnd-field">
         <label for="cmpx-country">Which country?</label>
         <div class="fnd-ctl"><span class="fnd-ic" aria-hidden="true"><svg viewBox="0 0 24 24"><use href="#gm-i-country-map"/></svg></span><select id="cmpx-country">
           <option value="">Any country</option>
-        </select><div class="fnd-chips" id="cmpx-chips-country"></div></div>
+        </select></div>
       </div>
       <div class="fnd-field">
         <label for="cmpx-type">What kind of trip?</label>
         <div class="fnd-ctl"><span class="fnd-ic" aria-hidden="true"><svg viewBox="0 0 24 24"><use href="#gm-i-backpack-strapped"/></svg></span><select id="cmpx-type">
           <option value="">Any kind</option>
-        </select><div class="fnd-chips" id="cmpx-chips-type"></div></div>
+        </select></div>
       </div>
       <div class="fnd-field">
         <label for="cmpx-days">How long a trip?</label>
         <div class="fnd-ctl"><span class="fnd-ic" aria-hidden="true"><svg viewBox="0 0 24 24"><use href="#gm-i-day-dots"/></svg></span><select id="cmpx-days">
           <option value="">Any length</option>
-        </select><div class="fnd-chips" id="cmpx-chips-days"></div></div>
+        </select></div>
       </div>
       <div class="fnd-field">
         <label for="cmpx-cost">Average costs</label>
@@ -3960,7 +3942,7 @@ window.lpGuideCard = function (href, flag, name, extra) {
              row it filters says another is two vocabularies for one fact. -->
         <div class="fnd-ctl"><span class="fnd-ic" aria-hidden="true"><svg viewBox="0 0 24 24"><use href="#gm-i-budget"/></svg></span><select id="cmpx-cost">
           <option value="">Any cost</option>
-        </select><div class="fnd-chips" id="cmpx-chips-cost"></div></div>
+        </select></div>
       </div>
       <div class="fnd-field">
         <label for="cmpx-safety">How safe?</label>
@@ -3970,7 +3952,7 @@ window.lpGuideCard = function (href, flag, name, extra) {
              is what the table's Safety row prints. -->
         <div class="fnd-ctl"><span class="fnd-ic" aria-hidden="true"><svg viewBox="0 0 24 24"><use href="#gm-i-safety-guide"/></svg></span><select id="cmpx-safety">
           <option value="">Any level</option>
-        </select><div class="fnd-chips" id="cmpx-chips-safety"></div></div>
+        </select></div>
       </div>
     </div>
 
@@ -7628,25 +7610,16 @@ function render() {
        selects is a regression, not a simplification. */
     var picks = { continent: [], country: [], type: [], days: [], cost: [], safety: [] };
 
-    function chipBox(k) { return document.getElementById('cmpx-chips-' + k); }
-
-    /* Same two rules as the finder's renderChips, and for the same reason: the
-       chip box is inside the control now (see the markup), and a field holding a
-       value must not still read "Any cost". */
+    /* The finder's paintSet, on this card's six filters. Same owner rules, same
+       reason they are one thing: this panel is the finder's grammar by
+       construction, and two answers on one page to "how do I see what I picked"
+       is the drift the Thirty-seventh non-negotiable exists to stop. */
     function drawChips() {
       FIELDS.forEach(function (k) {
-        var box = chipBox(k);
-        if (!box) return;
-        box.innerHTML = picks[k].map(function (p) {
-          return '<button type="button" class="fnd-chip" data-k="' + k + '" data-v="' +
-                 esc(p.value) + '">' + p.label + ' &times;</button>';
-        }).join('');
         var sel = F[k];
-        if (sel && sel.options.length && sel.options[0].value === '') {
-          var o = sel.options[0];
-          if (!o.dataset.neutral) o.dataset.neutral = o.textContent;
-          o.textContent = picks[k].length ? 'Add another…' : o.dataset.neutral;
-        }
+        if (!sel) return;
+        var ctl = sel.closest('.fnd-ctl');
+        if (ctl) ctl.classList.toggle('is-set', picks[k].length > 0);
       });
     }
 
@@ -7853,25 +7826,15 @@ function render() {
     FIELDS.forEach(function (k) {
       var sel = F[k];
       if (!sel) return;
+      /* ONE VALUE, KEPT ON THE CONTROL. It used to snap back to "Any …" and push
+         the value into a chip; a second pick added to the first, which inside a
+         dimension is OR — more picks, MORE cities — while the reader was
+         narrowing a list. Picking now replaces, and the neutral line clears. */
       sel.addEventListener('change', function () {
         var v = sel.value;
-        /* Back to the "Any …" label the moment the value has become a chip —
-           a select left showing a picked value would be saying the same thing
-           twice, and the chip is the one that can be removed. */
-        sel.value = '';
-        if (!v) return;
-        if (picks[k].some(function (p) { return p.value === v; })) return;
+        if (!v) { picks[k] = []; drawChips(); render(); return; }
         var opt = [].slice.call(sel.options).filter(function (o) { return o.value === v; })[0];
-        picks[k].push({ value: v, label: opt ? esc(opt.textContent) : esc(v) });
-        drawChips();
-        render();
-      });
-      var box = chipBox(k);
-      if (box) box.addEventListener('click', function (ev) {
-        var chip = ev.target.closest ? ev.target.closest('.fnd-chip') : null;
-        if (!chip) return;
-        var v = chip.getAttribute('data-v');
-        picks[k] = picks[k].filter(function (p) { return p.value !== v; });
+        picks[k] = [{ value: v, label: opt ? esc(opt.textContent) : esc(v) }];
         drawChips();
         render();
       });
@@ -8762,10 +8725,15 @@ function render() {
       }
       [].slice.call(pair.el.options).forEach(function (opt) {
         if (!opt.value) { opt.disabled = false; return; }
-        /* The candidate is ADDED to its group, exactly as a pick would be —
-           within a group picks are OR, so adding to a non-empty group can only
-           widen and those options stay live; the pruning bites on the first
-           pick of a dimension and on cross-dimension dead ends. */
+        /* The candidate REPLACES its group, exactly as a pick now does
+           (2026-08-23, one value per filter). It used to be ADDED, because picks
+           inside a dimension were OR — and that made this whole function nearly
+           inert on any field the reader had already answered: adding to a
+           non-empty OR group can only widen, so every other option in that field
+           stayed lit even when choosing it would return nothing. A dead end
+           offered as live is the exact failure pruning exists to prevent (owner
+           rule 2026-08-17), and under single-pick the honest question is "what
+           would this option return INSTEAD of the one you have". */
         var test = {};
         for (var k2 in s) test[k2] = Array.isArray(s[k2]) ? s[k2].slice() : s[k2];
         /* THE TRAINS CARVE-OUT ASKS THE DATA, NOT THE CONTINENT (fixed
@@ -8793,7 +8761,7 @@ function render() {
         if (pair.field === 'co' && !scopeHasTrains(d, opt.value, null)) test.tr = [];
         if (pair.field === 'ct' && !scopeHasTrains(d, null, opt.value)) test.tr = [];
         var v = pair.field === 'mo' ? parseInt(opt.value, 10) : opt.value;
-        if (test[pair.field].indexOf(v) === -1) test[pair.field] = test[pair.field].concat([v]);
+        test[pair.field] = [v];
         opt.disabled = matches(d, test).length === 0;
       });
     });
@@ -9095,8 +9063,8 @@ function render() {
 
   function run() {
     syncTrain();
-    renderChips();
-    /* After renderChips, because both notes describe the CURRENT picks. */
+    paintSet();
+    /* After paintSet, because both notes describe the CURRENT picks. */
     syncFarNote();
     var s = state();
     /* The guard still holds for a plain change event: clearing your last filter
@@ -9231,19 +9199,32 @@ function render() {
     if (reset) reset.hidden = !anySet(s) && !forced;
   }
 
-  /* Picking a value ADDS it (multi-pick, owner rule 2026-08-17) — the chip row
-     under the field is the state, the select is just the way in. Choosing the
-     "Any …" line is a no-op: removal is the chip's ×, so the box can always sit
-     on its label. The hidden fnd-far select keeps the plain re-run. */
+  /* ONE VALUE PER FILTER (owner rule 2026-08-23: "we didnt have the option to
+     add several in the same category" · "letting people add more to the same
+     filter will make even more likely to show the wrong data").
+
+     It used to APPEND, and the select snapped back to its neutral label so the
+     chip row could be the state. Two things were wrong with that and the owner
+     named both: the card showed "Flexible" over a chip reading "Expensive", and
+     stacking values inside one field WIDENED the result set — within a dimension
+     picks are OR — while every other control on the card narrowed it. A filter
+     that adds results when you add answers is the wrong-data trap.
+
+     Now a pick REPLACES, the select keeps showing it, and the neutral line is
+     the way to clear the field. `picks[field]` stays an array of 0 or 1 rather
+     than becoming a scalar: every consumer downstream — matches(), pruneSelects,
+     the dropped-answer labels, the state serialiser — already reads it as a
+     list, and rewriting six of them to prove a point is how a working filter
+     breaks. The hidden fnd-far select keeps the plain re-run. */
   function addPick(field, el) {
     var raw = el.value;
     if (raw) {
       var v = field === 'mo' ? parseInt(raw, 10) : raw;
       var opt = el.options[el.selectedIndex];
       var label = opt ? (opt.getAttribute('data-name') || opt.textContent.trim()) : String(raw);
-      var dup = picks[field].some(function (p) { return p.value === v; });
-      if (!dup) picks[field].push({ value: v, label: label });
-      el.value = '';
+      picks[field] = [{ value: v, label: label }];
+    } else {
+      picks[field] = [];
     }
     run();
   }
@@ -9291,84 +9272,46 @@ function render() {
 
   /* THE SET-ASIDE ANSWER IS MARKED WHERE THE READER PICKED IT, not only in the
      sentence above the results (Sixty-second non-negotiable — the answer sits
-     under the control that asked for it). A `.fnd-chip.is-off` keeps the same
-     box and the same ×, and goes muted with a dashed rim: it is still a chosen
-     value, it is simply not in force, and the reader can see at a glance which
-     control the finder had to let go of. Called from the render, after
-     renderChips has rebuilt the row — a fresh chip carries no class, so a run
-     that drops nothing clears the state by construction. */
+     under the control that asked for it). It used to mark the chip; with the
+     chips gone it marks the CONTROL, which is where the value lives now: the
+     frozen `.is-set` look drops back to paper and its rim goes dashed, so the
+     field reads as chosen-but-not-in-force. The ink does not move — it is still
+     the reader's answer, it simply is not being applied. */
   function markDropped(fields) {
     var on = {};
     (fields || []).forEach(function (f) { on[f] = 1; });
     PRUNE_PAIRS().forEach(function (pair) {
       if (!pair.el) return;
-      var fieldEl = pair.el.closest('.fnd-field');
-      if (!fieldEl) return;
-      [].forEach.call(fieldEl.querySelectorAll('.fnd-chip'), function (b) {
-        if (on[pair.field]) {
-          b.classList.add('is-off');
-          b.title = 'Set aside — nothing matched with it. Remove it, or change another answer.';
-        } else {
-          b.classList.remove('is-off');
-          b.removeAttribute('title');
-        }
-      });
+      var ctl = pair.el.closest('.fnd-ctl');
+      if (!ctl) return;
+      if (on[pair.field]) {
+        ctl.classList.add('is-off');
+        ctl.title = 'Set aside — nothing matched with it. Change it, or change another answer.';
+      } else {
+        ctl.classList.remove('is-off');
+        ctl.removeAttribute('title');
+      }
     });
   }
 
-  /* "Flexible" AND "Expensive" CANNOT BOTH BE ON ONE FIELD. The select's first
-     option is its neutral label — "Flexible", "No preference", "Any country" —
-     and it stayed selected while a chip beside it named a real pick, which is
-     half of what the owner called "all the numbers mixed what we chose with the
-     rest". A field that holds a value now offers to ADD to it instead of
-     announcing it has none. The original label is stashed on the option itself,
-     so removing the last chip puts back that field's own word, not a generic
-     one. */
-  function syncPlaceholder(sel, hasPicks) {
-    if (!sel || !sel.options.length) return;
-    var o = sel.options[0];
-    if (o.value !== '') return;
-    if (!o.dataset.neutral) o.dataset.neutral = o.textContent;
-    o.textContent = hasPicks ? 'Add another…' : o.dataset.neutral;
-  }
+  /* THE CONTROL IS THE STATE (owner rules 2026-08-23: "all i want it for the
+     filter to freeze the look maybe you add a background hover that stays?" ·
+     "we didnt have the option to add several in the same category").
 
-  function renderChips() {
+     renderChips() and syncPlaceholder() stood here and are DELETED with the
+     chips. A filter holds one value, the select keeps showing it, and the pill
+     it sits in freezes into the card's own hover — ground var(--bg), terracotta
+     rim, ink unmoved — so a set filter is legible at a glance without a second
+     element beside it saying the same thing in a second colour.
+
+     Called from the same place renderChips was, on every run, so a pick made by
+     the reader, by syncTrain clearing a hidden field, or by Clear everything all
+     repaint through one path. */
+  function paintSet() {
     PRUNE_PAIRS().forEach(function (pair) {
       if (!pair.el) return;
-      var fieldEl = pair.el.closest('.fnd-field');
-      if (!fieldEl) return;
-      var row = fieldEl.querySelector('.fnd-chips');
-      var list = picks[pair.field];
-      syncPlaceholder(pair.el, list.length > 0);
-      if (!list.length) { if (row) row.remove(); return; }
-      if (!row) {
-        row = document.createElement('div');
-        row.className = 'fnd-chips';
-        /* INSIDE THE CONTROL, before the select (owner rule 2026-08-23: "maybe
-           the pill stay with the value exposed frozen"). It used to go straight
-           under the control — itself a fix for an earlier version that appended
-           it after the field's footnote, so the note sat between a question and
-           its answer. Inside the pill there is no ordering question left to get
-           wrong: the answer is not near the control, it IS the control. */
-        var ctl = fieldEl.querySelector('.fnd-ctl');
-        var sel = ctl && ctl.querySelector('select');
-        if (sel) ctl.insertBefore(row, sel);
-        else if (ctl) ctl.appendChild(row);
-        else fieldEl.appendChild(row);
-      }
-      row.textContent = '';
-      list.forEach(function (p) {
-        var b = document.createElement('button');
-        b.type = 'button';
-        b.className = 'fnd-chip';
-        b.textContent = p.label + ' ×';
-        b.setAttribute('aria-label', 'Remove ' + p.label);
-        b.addEventListener('click', function () {
-          picks[pair.field] = picks[pair.field].filter(function (x) { return x.value !== p.value; });
-          run();
-        });
-        row.appendChild(b);
-      });
+      var ctl = pair.el.closest('.fnd-ctl');
+      if (ctl) ctl.classList.toggle('is-set', (picks[pair.field] || []).length > 0);
     });
   }
 

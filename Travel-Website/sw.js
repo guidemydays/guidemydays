@@ -1,3 +1,4 @@
+
 /* 2026-08-23: chicago: HOTEL_ALT_DATA 4 tiers + USD prices (budget Hotel Blake, mid Loews, expensive Four Seasons, luxury The Langham); 66 motion-route links; train icons, GA-FD clauses fixed. toolbar.js -> v989. CACHE to v1379. */
 /* 2026-08-23: lisbon: HOTEL_ALT_DATA 5 hotels across 4 tiers + EUR price ranges; station entry icons, hike-pack pill, stop pins. toolbar.js -> v978. CACHE to v1368. */
 /* 2026-08-23: charlotte: HOTEL_ALT_DATA 4-tier + USD price ranges (budget Dunhill, mid Omni, expensive JW Marriott, luxury Ritz-Carlton). toolbar.js -> v976. CACHE to v1366. */
@@ -1939,7 +1940,7 @@
 /* 2026-08-23: salzburg: price ranges corrected to EUR symbol format (€70–120 shape) toolbar.js -> v997. CACHE to v1387. */
 /* 2026-08-23: luxembourg: HOTEL_ALT_DATA 4 tiers + EUR prices, motion-route links, train icons, position-2c toolbar.js -> v998. CACHE to v1388. */
 /* 2026-08-23: malibu: HOTEL_ALT_DATA 4 tiers + USD prices, motion-route links, position-2c, GA/FD fix toolbar.js -> v999. CACHE to v1389. */
-/* 2026-08-23: madrid: guide fixes — motion routes, train icons, station format, position-2c, GA/FD fix toolbar.js -> v1000. CACHE to v1390. */
+/* 2026-08-23: glasgow: GLA lounge card + LOUNGE_IATAS, 4-tier hotel tiers + GBP prices. toolbar.js -> v1000. CACHE to v1390. */
 var CACHE = 'travel-cache-v1390';
 
 /* The guide-calendar hand-off cache. Written by toolbar.js, read and emptied

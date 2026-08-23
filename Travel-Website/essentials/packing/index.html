@@ -100,7 +100,10 @@
  border-top: none; border-left: none;
  transform: rotate(45deg);
 }
-.item label { font-size: 14px; color: var(--text); cursor: pointer; line-height: 1.45; transition: color 0.15s; }
+/* The label is a flex row so the computed quantity can be pushed to the right
+   edge: every result then lands in one column the eye can run straight down,
+   instead of sitting mid-sentence after each item name at a different offset. */
+.item label { font-size: 14px; color: var(--text); cursor: pointer; line-height: 1.45; transition: color 0.15s; display: flex; align-items: baseline; flex-wrap: wrap; gap: 0 7px; width: 100%; }
 .item.checked label { color: #b0aaa2; text-decoration: line-through; text-decoration-color: #c0bab2; }
 .callout {
  margin: 12px 0;
@@ -171,7 +174,22 @@ html { scroll-behavior: smooth; }
 .day-unit { font-size: 13px; color: #7a5c0e; font-weight: 600; }
 .setup-note { font-size: 12px; color: #a08a4a; flex: 1; min-width: 180px; }
 /* .qty sizing+colour from .badge .fam-red in web-travel-style.css */
-.qty { display: inline-block; margin-left: 7px; }
+/* The computed quantity is NOT a badge. Across the site a badge means a category
+   or a status — a fixed label attached to a thing — and borrowing that chrome for
+   a number the page just calculated made the result read as another tag on the
+   item rather than as the answer to "how many". It gets its own language instead:
+   a right-aligned data column, number weighted, unit quiet beside it. Holding the
+   note and the figure in one wrapper that takes the free space keeps the numbers
+   flush right on every row, with or without a note, so the eye runs down them. */
+.qty-out { margin-left: auto; display: flex; align-items: baseline; gap: 6px; flex-shrink: 0; }
+.qty { flex-shrink: 0; font-size: 14px; font-weight: 700; color: var(--text); font-variant-numeric: tabular-nums; letter-spacing: 0; text-transform: none; }
+.qty .qty-unit { font-size: 12px; font-weight: 400; color: var(--muted); margin-left: 3px; }
+.item.checked .qty { color: #b0aaa2; }
+.item.checked .qty .qty-unit { color: #b0aaa2; }
+/* Where the number came from. Quiet, and deliberately not a second figure to add
+   to the first — the row already states the total. */
+.qty-note { font-size: 12px; color: var(--muted); font-weight: 400; white-space: nowrap; }
+.item.checked .qty-note { color: #b0aaa2; }
 .item.checked .qty { color: #b0aaa2; background: var(--surface2); border-color: var(--border); }
 .item.checked 
 .toggle-btn {
@@ -208,7 +226,7 @@ body.hide-packed .critical-card.complete .card-body { display: none; }
   .day-stepper button { color: #c8a060; border-color: var(--border); }
   .day-stepper input { color: var(--text); border-color: var(--border); }
   .item.checked .qty { color: var(--muted); }
-  .item.checked 
+  .item.checked .qty-note { color: var(--muted); }
   .card-header { background: var(--surface2); }
   .collapsible-card .card-header { background: var(--surface2); border-bottom-color: var(--border); }
   .collapsible-card .card-header:hover { background: var(--surface); }
@@ -456,22 +474,22 @@ body.hide-packed .critical-card.complete .card-body { display: none; }
  </div>
  <div class="card-body">
  <div class="sub-label">Undergarments</div>
- <div class="item"><input type="checkbox" id="cb-c1" onchange="toggle(this)"><label for="cb-c1">Socks<span class="qty badge fam-red" id="qty-cb-c1"></span></label></div>
+ <div class="item"><input type="checkbox" id="cb-c1" onchange="toggle(this)"><label for="cb-c1">Socks<span class="qty" id="qty-cb-c1"></span></label></div>
  <div class="item"><input type="checkbox" id="cb-c1b" onchange="toggle(this)"><label for="cb-c1b">Warm socks for plane</label></div>
- <div class="item"><input type="checkbox" id="cb-c2" onchange="toggle(this)"><label for="cb-c2">Underwear<span class="qty badge fam-red" id="qty-cb-c2"></span></label></div>
- <div class="item"><input type="checkbox" id="cb-c3" onchange="toggle(this)"><label for="cb-c3">Bras<span class="qty badge fam-red" id="qty-cb-c3"></span></label></div>
+ <div class="item"><input type="checkbox" id="cb-c2" onchange="toggle(this)"><label for="cb-c2">Underwear<span class="qty" id="qty-cb-c2"></span></label></div>
+ <div class="item"><input type="checkbox" id="cb-c3" onchange="toggle(this)"><label for="cb-c3">Bras<span class="qty" id="qty-cb-c3"></span></label></div>
  <div class="item"><input type="checkbox" id="cb-c3b" onchange="toggle(this)"><label for="cb-c3b">Undershirts</label></div>
 
  <div class="sub-label">Tops</div>
- <div class="item"><input type="checkbox" id="cb-c4" onchange="toggle(this)"><label for="cb-c4">T-shirts or casual tops<span class="qty badge fam-red" id="qty-cb-c4"></span></label></div>
- <div class="item"><input type="checkbox" id="cb-c5" onchange="toggle(this)"><label for="cb-c5">Long-sleeve shirts<span class="qty badge fam-red" id="qty-cb-c5"></span></label></div>
- <div class="item"><input type="checkbox" id="cb-c6" onchange="toggle(this)"><label for="cb-c6">Sweater / cardigan<span class="qty badge fam-red" id="qty-cb-c6"></span></label></div>
+ <div class="item"><input type="checkbox" id="cb-c4" onchange="toggle(this)"><label for="cb-c4">T-shirts or casual tops<span class="qty" id="qty-cb-c4"></span></label></div>
+ <div class="item"><input type="checkbox" id="cb-c5" onchange="toggle(this)"><label for="cb-c5">Long-sleeve shirts<span class="qty" id="qty-cb-c5"></span></label></div>
+ <div class="item"><input type="checkbox" id="cb-c6" onchange="toggle(this)"><label for="cb-c6">Sweater / cardigan<span class="qty" id="qty-cb-c6"></span></label></div>
 
  <div class="sub-label">Bottoms</div>
- <div class="item"><input type="checkbox" id="cb-c7" onchange="toggle(this)"><label for="cb-c7">Jeans or casual pants<span class="qty badge fam-red" id="qty-cb-c7"></span></label></div>
- <div class="item"><input type="checkbox" id="cb-c8" onchange="toggle(this)"><label for="cb-c8">Shorts<span class="qty badge fam-red" id="qty-cb-c8"></span></label></div>
- <div class="item"><input type="checkbox" id="cb-c9" onchange="toggle(this)"><label for="cb-c9">Dressy pants<span class="qty badge fam-red" id="qty-cb-c9"></span></label></div>
- <div class="item"><input type="checkbox" id="cb-c10" onchange="toggle(this)"><label for="cb-c10">Leggings or comfortable casual pants<span class="qty badge fam-red" id="qty-cb-c10"></span></label></div>
+ <div class="item"><input type="checkbox" id="cb-c7" onchange="toggle(this)"><label for="cb-c7">Jeans or casual pants<span class="qty" id="qty-cb-c7"></span></label></div>
+ <div class="item"><input type="checkbox" id="cb-c8" onchange="toggle(this)"><label for="cb-c8">Shorts<span class="qty" id="qty-cb-c8"></span></label></div>
+ <div class="item"><input type="checkbox" id="cb-c9" onchange="toggle(this)"><label for="cb-c9">Dressy pants<span class="qty" id="qty-cb-c9"></span></label></div>
+ <div class="item"><input type="checkbox" id="cb-c10" onchange="toggle(this)"><label for="cb-c10">Leggings or comfortable casual pants<span class="qty" id="qty-cb-c10"></span></label></div>
  <div class="item"><input type="checkbox" id="cb-c19" onchange="toggle(this)"><label for="cb-c19">Capris</label></div>
 
  <div class="sub-label">Active</div>
@@ -485,7 +503,7 @@ body.hide-packed .critical-card.complete .card-body { display: none; }
  <div class="item"><input type="checkbox" id="cb-c20" onchange="toggle(this)"><label for="cb-c20">Belt</label></div>
 
  <div class="sub-label">Sleepwear</div>
- <div class="item"><input type="checkbox" id="cb-c14" onchange="toggle(this)"><label for="cb-c14">Pajamas<span class="qty badge fam-red" id="qty-cb-c14"></span></label></div>
+ <div class="item"><input type="checkbox" id="cb-c14" onchange="toggle(this)"><label for="cb-c14">Pajamas<span class="qty" id="qty-cb-c14"></span></label></div>
 
  <div class="sub-label">Cold Weather</div>
  <div class="item"><input type="checkbox" id="cb-c11" onchange="toggle(this)"><label for="cb-c11">Light jacket / windbreaker</label></div>
@@ -535,7 +553,7 @@ body.hide-packed .critical-card.complete .card-body { display: none; }
 
  <div class="section-card">
  <div class="card-header">
- <span class="card-icon" data-icon="124"><svg data-fill="1.10" viewBox="-0.32 0.03 24.64 24.64"><path d="M12 2a1.4 1.4 0 0 1 1.4 1.4v6.1l8.1 4.8v2.2l-8.1-2.6v5.2l2.6 1.9v1.7L12 21.4l-4 1.3v-1.7l2.6-1.9v-5.2L2.5 16.5v-2.2l8.1-4.8V3.4A1.4 1.4 0 0 1 12 2z" fill="url(#gm-paper)" stroke="var(--c-rim-cool)" stroke-width="0.6"/><path d="M12 2a1.4 1.4 0 0 1 1.4 1.4v6.1l8.1 4.8v2.2l-8.1-2.6v5.2l2.6 1.9v1.7L12 21.4l-4 1.3v-1.7l2.6-1.9v-5.2L2.5 16.5v-2.2l8.1-4.8V3.4A1.4 1.4 0 0 1 12 2z" fill="url(#gm-gloss)"/></svg></span><span class="card-title">In-Flight</span>
+ <span class="card-icon" data-icon="124"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#gm-i-flight-nav"/></svg></span><span class="card-title">In-Flight</span>
  <span class="card-pill badge fam-yellow" id="pill-downtime">0 / 7</span>
  </div>
  <div class="card-body">
@@ -556,7 +574,7 @@ body.hide-packed .critical-card.complete .card-body { display: none; }
  </div>
  <div class="card-body">
  <div class="sub-label">Diapering &amp; Feeding</div>
- <div class="item"><input type="checkbox" id="cb-bb1" onchange="toggle(this)"><label for="cb-bb1">Diapers<span class="qty badge fam-red" id="qty-cb-bb1"></span></label></div>
+ <div class="item"><input type="checkbox" id="cb-bb1" onchange="toggle(this)"><label for="cb-bb1">Diapers<span class="qty" id="qty-cb-bb1"></span></label></div>
  <div class="item"><input type="checkbox" id="cb-bb2" onchange="toggle(this)"><label for="cb-bb2">Baby wipes</label></div>
  <div class="item"><input type="checkbox" id="cb-bb3" onchange="toggle(this)"><label for="cb-bb3">Diaper cream</label></div>
  <div class="item"><input type="checkbox" id="cb-bb4" onchange="toggle(this)"><label for="cb-bb4">Portable changing pad</label></div>
@@ -570,34 +588,34 @@ body.hide-packed .critical-card.complete .card-body { display: none; }
  <div class="item"><input type="checkbox" id="cb-bb18" onchange="toggle(this)"><label for="cb-bb18">Snack holder</label></div>
  <div class="item"><input type="checkbox" id="cb-bb19" onchange="toggle(this)"><label for="cb-bb19">Baby plate</label></div>
  <div class="item"><input type="checkbox" id="cb-bb20" onchange="toggle(this)"><label for="cb-bb20">Baby utensils</label></div>
- <div class="item"><input type="checkbox" id="cb-bb21" onchange="toggle(this)"><label for="cb-bb21">Bibs<span class="qty badge fam-red" id="qty-cb-bb21"></span></label></div>
+ <div class="item"><input type="checkbox" id="cb-bb21" onchange="toggle(this)"><label for="cb-bb21">Bibs<span class="qty" id="qty-cb-bb21"></span></label></div>
  <div class="item"><input type="checkbox" id="cb-bb22" onchange="toggle(this)"><label for="cb-bb22">Eating smock</label></div>
  <div class="item"><input type="checkbox" id="cb-bb22b" onchange="toggle(this)"><label for="cb-bb22b">Long-sleeve bib</label></div>
 
  <div class="sub-label">Clothing</div>
- <div class="item"><input type="checkbox" id="cb-bb24" onchange="toggle(this)"><label for="cb-bb24">Day outfits<span class="qty badge fam-red" id="qty-cb-bb24"></span></label></div>
- <div class="item"><input type="checkbox" id="cb-bb48" onchange="toggle(this)"><label for="cb-bb48">Pajamas<span class="qty badge fam-red" id="qty-cb-bb48"></span></label></div>
+ <div class="item"><input type="checkbox" id="cb-bb24" onchange="toggle(this)"><label for="cb-bb24">Day outfits<span class="qty" id="qty-cb-bb24"></span></label></div>
+ <div class="item"><input type="checkbox" id="cb-bb48" onchange="toggle(this)"><label for="cb-bb48">Pajamas<span class="qty" id="qty-cb-bb48"></span></label></div>
  <div class="item"><input type="checkbox" id="cb-bb25" onchange="toggle(this)"><label for="cb-bb25">Shoes</label></div>
 
  <div class="sub-label">Toys &amp; Entertainment</div>
- <div class="item"><input type="checkbox" id="cb-bb26" onchange="toggle(this)"><label for="cb-bb26">Teethers<span class="qty badge fam-red" id="qty-cb-bb26"></span></label></div>
- <div class="item"><input type="checkbox" id="cb-bb27" onchange="toggle(this)"><label for="cb-bb27">Sensory toys<span class="qty badge fam-red" id="qty-cb-bb27"></span></label></div>
- <div class="item"><input type="checkbox" id="cb-bb28" onchange="toggle(this)"><label for="cb-bb28">Puzzles<span class="qty badge fam-red" id="qty-cb-bb28"></span></label></div>
+ <div class="item"><input type="checkbox" id="cb-bb26" onchange="toggle(this)"><label for="cb-bb26">Teethers<span class="qty" id="qty-cb-bb26"></span></label></div>
+ <div class="item"><input type="checkbox" id="cb-bb27" onchange="toggle(this)"><label for="cb-bb27">Sensory toys<span class="qty" id="qty-cb-bb27"></span></label></div>
+ <div class="item"><input type="checkbox" id="cb-bb28" onchange="toggle(this)"><label for="cb-bb28">Puzzles<span class="qty" id="qty-cb-bb28"></span></label></div>
  <div class="item"><input type="checkbox" id="cb-bb29" onchange="toggle(this)"><label for="cb-bb29">Interactive snack toy</label></div>
  <div class="item"><input type="checkbox" id="cb-bb30" onchange="toggle(this)"><label for="cb-bb30">Interactive water book</label></div>
  <div class="item"><input type="checkbox" id="cb-bb31" onchange="toggle(this)"><label for="cb-bb31">Interactive sticker book</label></div>
- <div class="item"><input type="checkbox" id="cb-bb32" onchange="toggle(this)"><label for="cb-bb32">Favorite books<span class="qty badge fam-red" id="qty-cb-bb32"></span></label></div>
+ <div class="item"><input type="checkbox" id="cb-bb32" onchange="toggle(this)"><label for="cb-bb32">Favorite books<span class="qty" id="qty-cb-bb32"></span></label></div>
  <div class="item"><input type="checkbox" id="cb-bb33" onchange="toggle(this)"><label for="cb-bb33">Stacking cups</label></div>
- <div class="item"><input type="checkbox" id="cb-bb34" onchange="toggle(this)"><label for="cb-bb34">Little People figures<span class="qty badge fam-red" id="qty-cb-bb34"></span></label></div>
- <div class="item"><input type="checkbox" id="cb-bb35" onchange="toggle(this)"><label for="cb-bb35">Animal figures<span class="qty badge fam-red" id="qty-cb-bb35"></span></label></div>
- <div class="item"><input type="checkbox" id="cb-bb36" onchange="toggle(this)"><label for="cb-bb36">Toy cars<span class="qty badge fam-red" id="qty-cb-bb36"></span></label></div>
+ <div class="item"><input type="checkbox" id="cb-bb34" onchange="toggle(this)"><label for="cb-bb34">Little People figures<span class="qty" id="qty-cb-bb34"></span></label></div>
+ <div class="item"><input type="checkbox" id="cb-bb35" onchange="toggle(this)"><label for="cb-bb35">Animal figures<span class="qty" id="qty-cb-bb35"></span></label></div>
+ <div class="item"><input type="checkbox" id="cb-bb36" onchange="toggle(this)"><label for="cb-bb36">Toy cars<span class="qty" id="qty-cb-bb36"></span></label></div>
 
  <div class="sub-label">Gear &amp; Comfort</div>
  <div class="item"><input type="checkbox" id="cb-bb8" onchange="toggle(this)"><label for="cb-bb8">Stroller</label></div>
  <div class="item"><input type="checkbox" id="cb-bb9" onchange="toggle(this)"><label for="cb-bb9">Baby carrier</label></div>
  <div class="item"><input type="checkbox" id="cb-bb9b" onchange="toggle(this)"><label for="cb-bb9b">Baby wrap</label></div>
  <div class="item"><input type="checkbox" id="cb-bb10" onchange="toggle(this)"><label for="cb-bb10">Car seat</label></div>
- <div class="item"><input type="checkbox" id="cb-bb11" onchange="toggle(this)"><label for="cb-bb11">Pacifiers / binkies<span class="qty badge fam-red" id="qty-cb-bb11"></span></label></div>
+ <div class="item"><input type="checkbox" id="cb-bb11" onchange="toggle(this)"><label for="cb-bb11">Pacifiers / binkies<span class="qty" id="qty-cb-bb11"></span></label></div>
  <div class="item"><input type="checkbox" id="cb-bb12" onchange="toggle(this)"><label for="cb-bb12">Favorite toy or comfort item</label></div>
  <div class="item"><input type="checkbox" id="cb-bb13" onchange="toggle(this)"><label for="cb-bb13">Sleep sack</label></div>
  <div class="item"><input type="checkbox" id="cb-bb13b" onchange="toggle(this)"><label for="cb-bb13b">Travel blanket</label></div>
@@ -621,7 +639,7 @@ body.hide-packed .critical-card.complete .card-body { display: none; }
  <div class="item"><input type="checkbox" id="cb-bb45" onchange="toggle(this)"><label for="cb-bb45">Potty book</label></div>
 
  <div class="sub-label">Beach &amp; Pool</div>
- <div class="item"><input type="checkbox" id="cb-bb17" onchange="toggle(this)"><label for="cb-bb17">Swim diapers<span class="qty badge fam-red" id="qty-cb-bb17"></span></label></div>
+ <div class="item"><input type="checkbox" id="cb-bb17" onchange="toggle(this)"><label for="cb-bb17">Swim diapers<span class="qty" id="qty-cb-bb17"></span></label></div>
  <div class="item"><input type="checkbox" id="cb-bb46" onchange="toggle(this)"><label for="cb-bb46">Baby swimsuit</label></div>
  <div class="item"><input type="checkbox" id="cb-bb47" onchange="toggle(this)"><label for="cb-bb47">Sun hat</label></div>
  </div>
@@ -718,11 +736,12 @@ body.hide-packed .critical-card.complete .card-body { display: none; }
 
  /* `unit` is what the number counts, and it is not decoration: a bare "7" on the
     diapers row reads as a 7-pack rather than seven diapers. Every row that can be
-    misread as a package states its unit. Every number here is the trip length
-    multiplied by the per-day rate — nothing is silently added on top. */
+    misread as a package states its unit. `plus` is the spare that does not scale
+    with trip length — you do not pack exactly one pair of socks per day, and a
+    baby needs the same backup pacifiers whether the trip is 1 day or 14. */
  const QTY = {
- 'cb-c1':  { ratio: 1,    min: 1,          unit: 'pairs' },
- 'cb-c2':  { ratio: 1,    min: 1,          unit: 'pairs' },
+ 'cb-c1':  { ratio: 1,    min: 1,          plus: 2, unit: 'pairs' },
+ 'cb-c2':  { ratio: 1,    min: 1,          plus: 2, unit: 'pairs' },
  'cb-c3':  { ratio: 0.25, min: 1, cap: 5,  unit: '' },
  'cb-c4':  { ratio: 1,    min: 1, cap: 10, unit: '' },
  'cb-c5':  { ratio: 0.25, min: 1, cap: 6,  unit: '' },
@@ -733,10 +752,10 @@ body.hide-packed .critical-card.complete .card-body { display: none; }
  'cb-c10': { ratio: 0.25, min: 1, cap: 5,  unit: '' },
  'cb-c14': { ratio: 0.2,  min: 1, cap: 3,  unit: 'sets' },
  'cb-bb1':  { ratio: 7,   min: 7,  cap: 999, unit: 'diapers' },
- 'cb-bb11': { ratio: 1,   min: 1,  cap: 999, unit: '' },
+ 'cb-bb11': { ratio: 1,   min: 1,  cap: 999, plus: 6, unit: '' },
  'cb-bb17': { ratio: 2,   min: 2,  cap: 999, unit: 'diapers' },
  'cb-bb21': { ratio: 2,   min: 2,  cap: 14, unit: '' },
- 'cb-bb24': { ratio: 2,   min: 2,  cap: 14, unit: 'outfits' },
+ 'cb-bb24': { ratio: 2,   min: 2,  cap: 14, plus: 2, unit: 'outfits' },
  'cb-bb48': { ratio: 1,   min: 1,  cap: 7,  unit: 'sets' },
  /* Toys do not scale with trip length — a fixed count, previously printed as a
     bare "+ 3 extras" pill with no base number beside it. */
@@ -756,16 +775,15 @@ body.hide-packed .critical-card.complete .card-body { display: none; }
  return n;
  }
 
- /* One number per item, and it always means the same thing: how many to pack.
-    It is the trip length multiplied by the per-day rate, bounded by `cap` — never
-    a rate plus a hidden constant, so the figure always reads back to the number of
-    days chosen. The page used to print a second "+ N extras" pill beside the
-    count, which left the reader adding two numbers by hand, and on the toy rows it
-    printed "+ 3 extras" with no base number beside it at all. */
+ /* Returns the per-day part and the spare separately, because the reader needs
+    both: the TOTAL is what goes in the bag, and the split is what makes the total
+    believable. `cap` bounds only the per-day part — a laundry cycle limits how
+    many shirts the trip length can justify, it does not remove the spares. */
  function computeQty(cfg, days) {
- var n = Math.max(cfg.min, Math.ceil(days * cfg.ratio));
- if (cfg.cap != null) n = Math.min(n, cfg.cap);
- return n;
+ var base = Math.max(cfg.min, Math.ceil(days * cfg.ratio));
+ if (cfg.cap != null) base = Math.min(base, cfg.cap);
+ var plus = cfg.plus || 0;
+ return { base: base, plus: plus, total: base + plus };
  }
 
  function applyQuantities() {
@@ -774,14 +792,50 @@ body.hide-packed .critical-card.complete .card-body { display: none; }
   if (!QTY.hasOwnProperty(id)) continue;
   var span = document.getElementById('qty-' + id);
   if (!span) continue;
-  var n = computeQty(QTY[id], days);
-  /* Reads as the OUTPUT of the trip-length control, not as a tag on the item:
-     the leading "=" marks it as a computed result, and the unit says what the
-     number counts so "7" on the diapers row cannot be read as a 7-pack. Units
-     are stored plural and dropped to singular at 1 — "1 pairs" reads as a bug. */
-  var u = QTY[id].unit;
-  if (u && n === 1) u = u.replace(/s$/, '');
-  span.textContent = u ? ('= ' + n + ' ' + u) : ('= ' + n);
+  var cfg = QTY[id];
+  var q = computeQty(cfg, days);
+  /* The badge carries the ANSWER and nothing else — the number that goes in the
+     bag. Units are stored plural and drop to singular at 1 ("1 pairs" reads as a
+     bug), and the unit matters: a bare "7" on the diapers row reads as a 7-pack.
+     The badge family is nowrap and uppercase, so the derivation cannot live
+     inside it without overflowing the row on a phone. */
+  var u = cfg.unit;
+  if (u && q.total === 1) u = u.replace(/s$/, '');
+  span.textContent = String(q.total);
+  if (u) {
+  var us = document.createElement('span');
+  us.className = 'qty-unit';
+  us.textContent = u;
+  span.appendChild(us);
+  }
+
+  /* Move the badge into a right-aligned wrapper the first time through, so every
+     row's answer sits in the same column instead of trailing the item name at a
+     different offset on every line. */
+  var out = span.parentNode;
+  if (!out || out.className !== 'qty-out') {
+  out = document.createElement('span');
+  out.className = 'qty-out';
+  span.parentNode.insertBefore(out, span);
+  out.appendChild(span);
+  }
+
+  /* The spare is real — nobody packs exactly one pair of socks per day — so the
+     derivation stays on the page, but as quiet prose ahead of the badge rather
+     than a second badge beside it. The old layout put "× 7" and "+ 2 EXTRAS"
+     side by side in matching pills, which read as two quantities to add up, and
+     on the toy rows it printed "+ 3 EXTRAS" with no base number at all. */
+  var note = out.querySelector('.qty-note');
+  if (q.plus) {
+  if (!note) {
+   note = document.createElement('span');
+   note.className = 'qty-note';
+   out.insertBefore(note, span);
+  }
+  note.textContent = q.base + ' + ' + q.plus + ' spare';
+  } else if (note) {
+  note.remove();
+  }
  }
  try { localStorage.setItem(DAYS_KEY, String(days)); } catch (e) {}
  }

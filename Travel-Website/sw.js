@@ -2005,7 +2005,8 @@
 /* 2026-08-23: badge/pill-badge size settled to one shared token pair (--fam-fs:13px / --fam-pad:5px 11px in web-travel-style.css, replacing the split between the site-wide 11px/3px-8px box and /essentials/budget/'s page-scoped 15px/7px-14px .ci-btn upsize) -- owner rule 2026-08-23. Same pass, a coloured pill no longer carries a terracotta label: .sibling-pill:visited scored higher than .fam-green etc, so any visited fam-* sibling pill (Where to Stay) rendered terracotta text on a coloured fill. web-travel-style.css -> v99. CACHE to v1451. */
 /* 2026-08-23: the top-pill size rule from the previous entry gets its own half: every TOP pill (a *clickable* .pill-badge, never a static .badge) now matches the WIDTH of the longest label in its own control row, not just its height (owner: "the biggest pill sets the size for the rest, period" — a short "All" next to a long "Carrier plan" read as a smaller, different control even at an identical box). toolbar.js gained _equalizePillRows(), grouped by clickable pill-badge siblings rather than a container-class allowlist so it survives every page's own filter-row naming (.pills, .pill-wrap, .filter-strip, .pill-row, .sc-legend, …) without hardcoding each one, and correctly skips static badge legends (airline-networks' .tier-legend) and card-tags. The three-part rule (height / width / case) is now spelled out in web-travel-style.css next to the token pair it governs. toolbar.js -> v1053. CACHE to v1452. */
 /* 2026-08-23: terracotta type is legal only in the toolbar combination — paper ground, terracotta rim, terracotta label (owner rule: "the color pills with terracota fonts looks terrible… the olny one it is okay is the toolbar combination"). Six gold-wash controls (#season-badge, #lang-badge, #clear-all-filters, a.days-jump-header, .tt-sug-item:hover, .days-jump-item.on) take the gold ink their own rim already used, and the selected day keeps its terracotta through :visited — guides-index-style.css -> 27, web-travel-style.css -> 100. CACHE to v1453. */
-var CACHE = 'travel-cache-v1453';
+/* 2026-08-23: toolbar.js: pointer comment naming the tab CSS as the canonical Selection Pill definition (owner rule 2026-08-23, Selection Pills) toolbar.js -> v1054. CACHE to v1454. */
+var CACHE = 'travel-cache-v1454';
 
 /* The guide-calendar hand-off cache. Written by toolbar.js, read and emptied
    once by the fetch handler below, and EXEMPT from the activate sweep — it is
@@ -2018,7 +2019,7 @@ var ICS_OUTBOX = 'gmd-ics-outbox';
    THIS IS THE ONLY PLACE to bump toolbar.js / guide-style.css versions.
    NEVER bump ?v= inside guide HTML — it breaks HMAC stamps and forces re-validation
    of 230+ guides. Instead, bump MIN_VERSIONS here + increment the CACHE version. */
-var MIN_VERSIONS = { 'guide-style.css': 264,'toolbar.js': 1053, 'mobile.css': 88, 'web-travel-style.css': 100, 'guides-index-style.css': 27, 'read-about.css': 6, 'best-of-features.js': 4, 'best-of-cross-data.js': 24, 'weather.js': 12, 'trains.css': 11, 'trains.js': 2, 'airlines.css': 2, 'airlines.js': 2, 'passport.js': 4 };
+var MIN_VERSIONS = { 'guide-style.css': 264,'toolbar.js': 1054, 'mobile.css': 88, 'web-travel-style.css': 100, 'guides-index-style.css': 27, 'read-about.css': 6, 'best-of-features.js': 4, 'best-of-cross-data.js': 24, 'weather.js': 12, 'trains.css': 11, 'trains.js': 2, 'airlines.css': 2, 'airlines.js': 2, 'passport.js': 4 };
 
 function rewriteAssetUrl(urlStr) {
   var u;

@@ -1,3 +1,4 @@
+/* 2026-08-23: charlotte: HOTEL_ALT_DATA 4-tier + USD price ranges (budget Dunhill, mid Omni, expensive JW Marriott, luxury Ritz-Carlton). toolbar.js -> v976. CACHE to v1366. */
 /* 2026-08-23: lima price ranges to HOTEL_ALT_DATA, LIM lounge card + LOUNGE_IATAS. toolbar.js -> v975. CACHE to v1365. */
 /* 2026-08-23: lille train icons, station entry format, Uber/Bolt verification clauses, position-2c, HOTEL_ALT_DATA 4 tiers + EUR prices. toolbar.js -> v972. CACHE to v1362. */
 /* 2026-08-23: lecce train icons, station entry format, Free Now clause, position-2c, HOTEL_ALT_DATA 4 tiers + EUR prices; BDS added to LOUNGE_IATAS, Brindisi lounge card added. toolbar.js -> v970. CACHE to v1360. */
@@ -1915,8 +1916,7 @@
 /* 2026-08-23: turin: TRN lounge card, LOUNGE_IATAS, HOTEL_ALT_DATA toolbar.js -> v971. CACHE to v1361. */
 /* 2026-08-23: bhutan: add PBH lounge card, regenerate LOUNGE_IATAS, fix long-walk/uphill times, FN clause toolbar.js -> v973. CACHE to v1363. */
 /* 2026-08-23: big-island: add KOA lounge card, regenerate LOUNGE_IATAS, fix long-walk time toolbar.js -> v974. CACHE to v1364. */
-/* 2026-08-23: bologna train icons, uphill/walk times, station pin+motion format; BLQ lounge card + LOUNGE_IATAS (also picks up BNA + CLT) toolbar.js -> v976. CACHE to v1366. */
-/* 2026-08-23: bora-bora motion-route fix; BOB lounge card + LOUNGE_IATAS toolbar.js -> v977. CACHE to v1367. */
+/* 2026-08-23: charlotte, rome, rio-de-janeiro HOTEL_ALT_DATA — 4 tiers + price ranges in each. toolbar.js -> v977. CACHE to v1367. */
 var CACHE = 'travel-cache-v1367';
 
 /* The guide-calendar hand-off cache. Written by toolbar.js, read and emptied

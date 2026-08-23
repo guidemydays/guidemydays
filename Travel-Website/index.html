@@ -1370,6 +1370,15 @@ a.land-cta:hover:visited {
   padding: clamp(1rem, 2.2vw, 1.6rem);
   background: var(--surface, #fff);
   border: 1px solid var(--border2,#e6e2da); border-radius: 14px;
+  /* A GRID ITEM'S AUTOMATIC MINIMUM SIZE IS ITS MIN-CONTENT, and these panels
+     hold a 440px search bar. Without this the track resolves to 474px on a
+     393px phone, the panel hangs 81px off the right of the screen, and the
+     `max-width: 100%` on the field inside cannot save it: it resolves against
+     a container that has already grown to fit the field. Measured at 393 with
+     a coarse pointer before it was added (Thirty-third non-negotiable — a
+     guide on a phone is not a desktop page at a smaller size, and the same
+     goes for the front door). */
+  min-width: 0;
 }
 .tl-panel[hidden] { display: none !important; }
 
@@ -1751,37 +1760,107 @@ a.land-cta:hover:visited {
 }
 
 /* ── Compare: the city picker ─────────────────────────────────────────────────
-   Only the choosing. Everything below the picker — the chips, the count, the
-   table — is the guides index's own compare CSS out of guides-index-style.css,
-   which this page already loads, so none of it is restyled here. */
+   THE PICKER IS THE FINDER'S GRID (owner, 2026-08-23: "improve this compare
+   section look as the help me choose for all the filters make this one more
+   interesting and useful").
+
+   What it was: one search box on an empty white card. Nothing to look at until
+   you typed, no way to browse, and no way to tell that 237 cities sat behind
+   it — a reader who did not already have two city names in mind had nothing to
+   do. It now asks the six questions the comparison itself answers (continent,
+   country, trip type, trip length, cost, safety) in the SAME .fnd-row /
+   .fnd-field / .fnd-ctl shape Help Me Choose uses two cards above, so the
+   three doors in this section read as one tool rather than three.
+
+   NO NEW COMPONENT IS INVENTED HERE. Every control is a finder class, the
+   divider is .tt-or off Trip Escape, and the only rules below are the result
+   list, the count row, and the page-local sizing of the engine's own selection
+   bar — which is shared CSS and is therefore scoped to #tp-compare, never
+   edited in guides-index-style.css (same reasoning as the .hc-nav override
+   above: the guides index shares the class and must not move). */
 .cmpx-lede { font-size: 0.92rem; line-height: 1.6; color: var(--muted,#6a6660); margin: 0 0 clamp(0.9rem, 2vw, 1.2rem); max-width: 66ch; }
 .cmpx-lede strong { color: var(--text,#3d3a32); font-weight: 600; }
 /* The search box is NOT styled here. It carries .search-input and takes the
-   site-wide standard out of shared CSS — 360px wide, 6px corners, the standard
-   border and focus colour, and the shared magnifier that a background of our
-   own would paint over. brain_check § search-bar-standard enforces every one
-   of those; a rounded pill to match the finder above fails all six. */
-.cmpx-pick { max-width: 360px; }
+   site-wide standard out of shared CSS — 440×56 at 17px, 6px corners, the
+   standard border and focus colour, and the shared magnifier that a background
+   of our own would paint over. brain_check § search-bar-standard enforces every
+   one of those; a rounded pill to match the finder fields below fails all six,
+   which is why this one field sits ABOVE the grid on its own row instead of
+   inside a .fnd-ctl beside them. */
+.cmpx-pick { margin: 0 0 clamp(0.6rem, 1.4vw, 0.9rem); }
+/* The one thing the standard cannot know: 440px is wider than a phone. A
+   percentage max-width is explicitly legal under § 14 (100%/auto stay legal as
+   responsive forms) and it is what mobile.css already applies to every other
+   search box on the site — but only under `(pointer: coarse)`, so a narrow
+   desktop window still overflowed. Stated here, at every width, on the element
+   rather than on the class, so it cannot be read as a redefinition of the bar. */
+.cmpx-pick input { max-width: 100%; box-sizing: border-box; }
+.cmpx-pick label { display: block; font-size: 0.82rem; font-weight: 600; color: var(--muted,#6a6660); margin: 0 0 0.35rem; }
+.cmpx-fields { margin-bottom: clamp(0.9rem, 2vw, 1.2rem); }
+/* The count line and the two small controls beside it. .cmpx-count takes the
+   auto margin so the buttons stay right-aligned at every width and wrap under
+   it on a phone rather than squeezing the sentence. */
+.cmpx-bar { display: flex; flex-wrap: wrap; align-items: center; gap: 0.6rem; margin: 0 0 0.55rem; }
+.cmpx-count { margin: 0 auto 0 0; font-size: 0.9rem; color: var(--muted,#6a6660); }
+.cmpx-count b { color: var(--text,#3d3a32); }
+/* Smaller than .fnd-reset because they sit above the list rather than under the
+   card, but the same grammar: outlined, muted ink, and the site's ONE hover —
+   ground goes var(--bg), rim goes terracotta, THE FONT DOES NOT MOVE (owner
+   rule 2026-07-30 / 2026-08-19). */
+.cmpx-mini {
+  display: inline-flex; align-items: center; gap: 0.4rem;
+  border: 1px solid var(--border,#e3ddd2); background: transparent;
+  color: var(--muted,#6a6660); font: inherit; font-size: 0.85rem;
+  border-radius: 999px; padding: 0.45em 1.1em; cursor: pointer;
+}
+.cmpx-mini:hover, .cmpx-mini:focus-visible { background: var(--bg,#f0ede8); border-color: var(--rust, #C04E1A); }
+.cmpx-mini svg { width: 16px; height: 16px; display: block; flex: 0 0 auto; }
+.cmpx-mini[hidden] { display: none !important; }
 #cmpx-list:not(:empty) {
-  margin-top: 0.5rem; max-height: 15rem; overflow-y: auto;
+  max-height: 21rem; overflow-y: auto;
   border: 1px solid var(--border2,#e6e2da); border-radius: 10px;
   background: var(--surface, #fff);
 }
 .cmpx-opt {
-  display: flex; align-items: center; gap: 0.5rem; width: 100%;
-  padding: 0.5rem 0.8rem; font: inherit; font-size: 0.9rem; text-align: left;
+  display: flex; align-items: center; gap: 0.6rem; width: 100%;
+  padding: 0.55rem 0.85rem; font: inherit; font-size: 0.9rem; text-align: left;
   background: transparent; border: 0; border-bottom: 1px solid var(--border2,#e6e2da);
   color: var(--text,#3d3a32); cursor: pointer;
 }
 .cmpx-opt:last-child { border-bottom: 0; }
-.cmpx-opt:hover { background: var(--surface2,#faf7f2); color: var(--rust, #C04E1A); }
-.cmpx-opt.on { color: var(--rust, #C04E1A); font-weight: 600; }
-.cmpx-flag { flex: 0 0 auto; }
-.cmpx-tick { margin-left: auto; font-size: 0.72rem; font-weight: 400; color: var(--muted,#6a6660); }
+.cmpx-opt:hover { background: var(--bg,#f0ede8); }
+.cmpx-opt.on { background: var(--bg,#f0ede8); }
+.cmpx-flag { flex: 0 0 auto; font-size: 1.05rem; line-height: 1; }
+.cmpx-body { display: flex; flex-direction: column; gap: 2px; min-width: 0; }
+.cmpx-name { font-weight: 600; }
+/* A picked value is terracotta — the site's chip grammar, and the reason the
+   hover above leaves the ink alone: if hover painted it too, "selected" would
+   stop being readable at the pointer. */
+.cmpx-opt.on .cmpx-name { color: var(--rust, #C04E1A); }
+.cmpx-ctry { font-weight: 400; color: var(--muted,#6a6660); }
+.cmpx-facts { display: flex; align-items: center; flex-wrap: wrap; gap: 0.3rem; font-size: 0.78rem; color: var(--muted,#6a6660); }
+.cmpx-facts .cmpx-dot { width: 11px; height: 11px; display: block; flex: 0 0 auto; }
+.cmpx-tick { margin-left: auto; flex: 0 0 auto; font-size: 0.72rem; font-weight: 600; color: var(--rust, #C04E1A); }
 .cmpx-empty { margin: 0.5rem 0 0; font-size: 0.88rem; color: var(--muted,#6a6660); }
-.cmpx-opt[disabled] { opacity: .5; cursor: default; }
-.cmpx-opt[disabled]:hover { background: transparent; color: var(--text,#3d3a32); }
+.cmpx-opt[disabled] { opacity: .45; cursor: default; }
+.cmpx-opt[disabled]:hover { background: transparent; }
 .cmpx-full { margin: 0.6rem 0 0; font-size: 0.85rem; color: var(--rust, #C04E1A); }
+/* ── The engine's selection bar, sized to THIS card ──────────────────────────
+   .cmp-sel-bar / .cmp-go-btn / .cmp-exit-btn are the guides index's own compare
+   CSS and are shared, so this scopes every override to #tp-compare rather than
+   moving them in guides-index-style.css — the guides index draws the same bar
+   inside a 12px filter strip where a 17px CTA would tower over its neighbours.
+   Here the bar closes a card whose buttons are the finder's, so it takes the
+   finder's CTA pair: filled terracotta that EMPTIES on hover, outlined muted
+   way-out whose ink does not repaint (Thirty-fifth non-negotiable). */
+#tp-compare .cmp-sel-bar { width: auto; max-width: 100%; margin: clamp(0.9rem, 2vw, 1.2rem) 0 0; padding: 14px 16px; border-radius: 12px; gap: 12px; }
+#tp-compare .cmp-chip { border-radius: 999px; font-size: 0.9rem; padding: 0.32em 0.5em 0.32em 0.9em; }
+#tp-compare .cmp-count { font-size: 0.82rem; }
+#tp-compare .cmp-go-btn, #tp-compare .cmp-exit-btn { font-size: clamp(0.95rem, 1.2vw, 1.05rem); border-radius: 999px; padding: 0.8em 1.7em; }
+#tp-compare .cmp-go-btn { border: 1px solid var(--rust, #C04E1A); font-weight: 700; transition: background .15s, color .15s; }
+#tp-compare .cmp-go-btn:not(:disabled):hover { background: transparent; color: var(--rust, #C04E1A); }
+#tp-compare .cmp-exit-btn { border-color: var(--border,#e3ddd2); }
+#tp-compare .cmp-exit-btn:hover { background: var(--bg,#f0ede8); border-color: var(--rust, #C04E1A); color: var(--muted,#6a6660); }
 /* Five columns of comparison do not fit a phone, and at 1180px they only just
    fit a desktop — the fifth city was being clipped by the panel. The table
    scrolls inside its own box; the page never scrolls sideways. */
@@ -3430,10 +3509,103 @@ window.lpGuideCard = function (href, flag, name, extra) {
     languages, what a day costs and how safe it is.</p>
 
     <div class="cmpx-pick">
-      <label for="cmpx-search" class="sr-only">City to compare</label>
+      <label for="cmpx-search">Search for a city or a country</label>
       <input type="search" id="cmpx-search" class="search-input" placeholder="City or country" aria-label="City to compare" autocomplete="off" spellcheck="false">
-      <div id="cmpx-list" role="listbox" aria-label="Cities to compare"></div>
     </div>
+
+    <p class="tt-or">or narrow the list</p>
+
+    <!-- SIX FILTERS, ALL AT ONCE, IN THE FINDER'S OWN GRID (owner, 2026-08-23:
+         "improve this compare session look as the help me choose for all the
+         filters"). Same rule Help Me Choose was rebuilt on the day before: no
+         steps and no "more ways" disclosure — every field is on the card and
+         the list under them updates on every pick.
+
+         WHY THESE SIX AND NOT THE FINDER'S ELEVEN. This card is not a second
+         destination finder; it narrows a list you are about to READ a table
+         about. So each field is a ROW OF THAT TABLE — continent and country
+         (its Country row), trip type (Type), trip length, cost (Cost) and
+         safety (Safety). Ask for a month or a passport here and the answer
+         would be somewhere else on the page: the climate strip and the Entry
+         row already carry their own controls, inside the table, under the
+         question they answer (Sixty-second non-negotiable).
+
+         EVERY OPTION IS BUILT FROM THE DATA, never typed here — continents and
+         countries off the grafted mosaic's own country blocks, trip types from
+         THEME_DATA, lengths from DAYS_DATA, tiers from COST_DATA and levels
+         from SAFETY_DATA. Same rule as the finder's Language and Country
+         fields, and for the same reason: a hand list goes stale the day a
+         guide ships and nothing anywhere says so (Seventy-sixth non-negotiable
+         — the guide is the source).
+
+         Icons are catalogue ids drawn from the toolbar sprite, never a typed
+         emoji (Twenty-eighth / Fifty-ninth non-negotiables): globe, country
+         map, backpack, day dots, budget, safety guide. -->
+    <div class="fnd-row cmpx-fields">
+      <div class="fnd-field">
+        <label for="cmpx-continent">Which continent?</label>
+        <div class="fnd-ctl"><span class="fnd-ic" aria-hidden="true"><svg viewBox="0 0 24 24"><use href="#gm-i-blue-marble"/></svg></span><select id="cmpx-continent">
+          <option value="">Anywhere</option>
+        </select></div>
+        <div class="fnd-chips" id="cmpx-chips-continent"></div>
+      </div>
+      <div class="fnd-field">
+        <label for="cmpx-country">Which country?</label>
+        <div class="fnd-ctl"><span class="fnd-ic" aria-hidden="true"><svg viewBox="0 0 24 24"><use href="#gm-i-country-map"/></svg></span><select id="cmpx-country">
+          <option value="">Any country</option>
+        </select></div>
+        <div class="fnd-chips" id="cmpx-chips-country"></div>
+      </div>
+      <div class="fnd-field">
+        <label for="cmpx-type">What kind of trip?</label>
+        <div class="fnd-ctl"><span class="fnd-ic" aria-hidden="true"><svg viewBox="0 0 24 24"><use href="#gm-i-backpack-strapped"/></svg></span><select id="cmpx-type">
+          <option value="">Any kind</option>
+        </select></div>
+        <div class="fnd-chips" id="cmpx-chips-type"></div>
+      </div>
+      <div class="fnd-field">
+        <label for="cmpx-days">How long a trip?</label>
+        <div class="fnd-ctl"><span class="fnd-ic" aria-hidden="true"><svg viewBox="0 0 24 24"><use href="#gm-i-day-dots"/></svg></span><select id="cmpx-days">
+          <option value="">Any length</option>
+        </select></div>
+        <div class="fnd-chips" id="cmpx-chips-days"></div>
+      </div>
+      <div class="fnd-field">
+        <label for="cmpx-cost">Average costs</label>
+        <!-- The COST_DATA tier, in the words the table's own Cost row prints —
+             Budget / Moderate / Expensive / Premium. Not the finder's
+             Cheap/Moderate/Expensive/Very expensive: those are the
+             /essentials/budget/ tags, and a filter that says one word while the
+             row it filters says another is two vocabularies for one fact. -->
+        <div class="fnd-ctl"><span class="fnd-ic" aria-hidden="true"><svg viewBox="0 0 24 24"><use href="#gm-i-budget"/></svg></span><select id="cmpx-cost">
+          <option value="">Any cost</option>
+        </select></div>
+        <div class="fnd-chips" id="cmpx-chips-cost"></div>
+      </div>
+      <div class="fnd-field">
+        <label for="cmpx-safety">How safe?</label>
+        <!-- A FLOOR, not an exact match — "Safe or better" means at least as
+             safe as Safe, which is what a safety level is for. Same shape the
+             finder's own safety field takes. The words are SAFETY_DATA's, which
+             is what the table's Safety row prints. -->
+        <div class="fnd-ctl"><span class="fnd-ic" aria-hidden="true"><svg viewBox="0 0 24 24"><use href="#gm-i-safety-guide"/></svg></span><select id="cmpx-safety">
+          <option value="">Any level</option>
+        </select></div>
+        <div class="fnd-chips" id="cmpx-chips-safety"></div>
+      </div>
+    </div>
+
+    <div class="cmpx-bar">
+      <p class="cmpx-count" id="cmpx-count"></p>
+      <!-- SURPRISE ME fills the five slots from whatever the filters currently
+           leave standing. It is the one thing this card could do that a search
+           box never can: two cities you would not have thought to type, out of
+           a fleet you cannot see. It respects the filters — surprise inside
+           "Japan, 5 days" is a real answer; surprise out of nowhere is noise. -->
+      <button type="button" class="cmpx-mini" id="cmpx-shuffle"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#gm-i-shuffle"/></svg> Surprise me</button>
+      <button type="button" class="cmpx-mini" id="cmpx-clear" hidden>Clear filters</button>
+    </div>
+    <div id="cmpx-list" role="listbox" aria-label="Cities to compare"></div>
 
     <button id="view-compare" hidden aria-hidden="true"></button>
     <div id="compare-mount"></div>
@@ -5318,6 +5490,20 @@ function render() {
          table was never given any". */
       window._FMAP        = window._FMAP        || lit('FMAP')        || {};
 
+      /* CONTINENT is a SINGLE-QUOTED object literal, so lit()'s JSON.parse
+         cannot read it and returns null — it is pulled out pair by pair, the
+         same way the finder's own dataset() reads it. The compare picker's
+         continent field is built from this; without it that field offers
+         nothing and a reader can only browse by country. */
+      if (!window._CONTINENT) {
+        var _cm = html.match(/var CONTINENT = \{([\s\S]*?)\};/), _cc = {};
+        if (_cm) {
+          var _cre = /'([^']+)'\s*:\s*'([^']+)'/g, _cx;
+          while ((_cx = _cre.exec(_cm[1]))) _cc[_cx[1]] = _cx[2];
+        }
+        window._CONTINENT = _cc;
+      }
+
       /* the cards computeScores() walks — real ones, hidden */
       var doc = new DOMParser().parseFromString(html, 'text/html');
       var mos = doc.querySelector('.mosaic-wrap');
@@ -6432,6 +6618,10 @@ function render() {
       selBar.querySelectorAll('.cmp-chip-x').forEach(function(b){
         b.addEventListener('click', function(e){ e.stopPropagation(); deselect(b.dataset.href); });
       });
+      /* The city picker draws a tick against every selected city, and its only
+         source for that is the engine. Removing a chip with its ✕ used to leave
+         the row in the list still ticked until the next keystroke. */
+      if (window._cmpxSync) window._cmpxSync();
       /* if panel is open, refresh it */
       if (!compareView.hidden) showPanel();
     }
@@ -6574,80 +6764,399 @@ function render() {
      Selection state is not tracked here on purpose. The engine owns it — the
      chips, the count, the 5-city cap, the Compare button, Exit — so this stays a
      way of reaching a card and nothing more, and there is no second copy of
-     "which cities are selected" to fall out of step. */
+     "which cities are selected" to fall out of step. render() reads the engine's
+     own .cmp-sel class off the cards for its ticks, and updateBar() calls back
+     into _cmpxSync so a chip removed with its ✕ unticks its row here too.
+
+     SIX FILTERS AND A FACT LINE (owner, 2026-08-23). What made the old box thin
+     was not its looks: it listed nothing until you typed, so it could only find
+     a city you already had in mind, and the row it drew was a flag and a name —
+     no reason to pick one city over another until the table was already built.
+     Every row now carries the four facts the table's own rows print (length,
+     cost tier, safety level, trip type) and the list is browsable cold. */
   (function () {
     var search = document.getElementById('cmpx-search');
     var list   = document.getElementById('cmpx-list');
     var btnCmp = document.getElementById('view-compare');
     if (!search || !list || !btnCmp) return;
 
+    var countEl = document.getElementById('cmpx-count');
+    var shufBtn = document.getElementById('cmpx-shuffle');
+    var clrBtn  = document.getElementById('cmpx-clear');
+    var FIELDS  = ['continent', 'country', 'type', 'days', 'cost', 'safety'];
+    var F = {};
+    FIELDS.forEach(function (k) { F[k] = document.getElementById('cmpx-' + k); });
+
+    var MAX_PICK = 5;      /* the engine's own cap — see MAX at the top of it */
+    var SHOW     = 80;     /* rows drawn before the list says how many it kept back */
+
+    /* Every table below is the one the compare rows themselves read, reached
+       through the globals the bootstrap replayed off /guides/index.html. Nothing
+       here is a second copy of the data, and nothing is a hand list. */
+    var CONT   = window._CONTINENT  || {};
+    var THEMES = window._THEME_DATA || {};
+    var DAYS   = window._DAYS_DATA  || {};
+    var COSTS  = window._COST_DATA  || {};
+    var SAFE   = window._SAFETY_DATA|| {};
+    var KEYFOR = window._cmpKeyFor  || function (s) { return s; };
+
+    /* Same seven labels the table's Type row prints (CMP_TAGS), which lives in
+       the engine's closure and is not reachable from here. Two short maps rather
+       than a reach into another scope; if a tag is ever added, both fail the same
+       way — the raw key shows — which is visible rather than silent. */
+    var TAG_LABEL  = { nature:'Greenery', beach:'Beaches', islands:'Islands',
+                       snow:'Snow & ski', hiking:'Hiking', history:'History',
+                       amusement:'Theme parks' };
+    var TAG_ORDER  = ['beach', 'islands', 'nature', 'snow', 'hiking', 'history', 'amusement'];
+    var COST_ORDER = ['Budget', 'Moderate', 'Expensive', 'Premium'];
+    /* The Safety row's five levels and their dots, exactly as the table draws
+       them (SAFE_DOT in buildTable). The dot is a catalogue icon out of the
+       sprite, never a coloured bullet character — Fifty-ninth non-negotiable. */
+    var SAFE_ORDER = ['Very Safe', 'Safe', 'Moderate', 'Caution', 'High Risk'];
+    var SAFE_DOT   = { 'Very Safe':'dot-green', 'Safe':'dot-green', 'Moderate':'dot-yellow',
+                       'Caution':'dot-orange', 'High Risk':'dot-red' };
+
+    function esc(s) {
+      return String(s).replace(/[&<>"']/g, function (c) {
+        return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c];
+      });
+    }
+
     function cards() {
       return [].slice.call(document.querySelectorAll('.mosaic-wrap .dest-card'))
                .filter(function (c) { return !c.hasAttribute('data-special'); });
     }
 
-    function render(q) {
-      q = (q || '').trim().toLowerCase();
+    /* ── One pass over the grafted cards ──────────────────────────────────────
+       Built once and cached: the mosaic is static after the bootstrap grafts it,
+       and rebuilding 237 rows on every keystroke is the difference between a
+       list that keeps up with typing and one that does not. */
+    var MODEL = null;
+    function model() {
+      if (MODEL) return MODEL;
       var all = cards();
-      if (!all.length) {
+      if (!all.length) return null;
+      MODEL = all.map(function (c) {
+        var name = ((c.querySelector('.dest-name') || {}).textContent || '').trim();
+        var href = c.getAttribute('href') || '';
+        var grp  = c.closest ? c.closest('.country') : null;
+        /* The tables are keyed by the retired folder name; the href is a flat
+           slug. Same fold the engine uses for its own rows. */
+        var key  = KEYFOR(decodeURIComponent(href).split('/').pop().replace(/\.html$/, ''));
+        var ci   = COSTS[key] || COSTS[name] || null;
+        var si   = SAFE[key]  || SAFE[name]  || null;
+        /* country = the parent block's label, minus its flag and its guide count
+           — the same strip the engine does when it selects a card. */
+        var ctry = '', slug = '';
+        if (grp) {
+          slug = grp.getAttribute('data-country') || '';
+          var lbl = grp.querySelector('.country-label');
+          if (lbl) {
+            var cnt = lbl.querySelector('.country-count');
+            ctry = lbl.textContent
+              .replace(cnt ? cnt.textContent : '', '')
+              .replace(/·\s*$/, '')
+              .replace(/^[^A-Za-zÀ-ÿ]+/, '')
+              .trim();
+          }
+        }
+        return {
+          el: c, href: href, name: name,
+          flag: ((c.querySelector('.dest-flag') || {}).textContent || '').trim(),
+          slug: slug, country: ctry, continent: slug ? (CONT[slug] || '') : '',
+          tags: THEMES[name] || [],
+          days: parseInt(DAYS[name], 10) || 0,
+          tier: ci ? ci.tier : '',
+          safe: si ? si.level : '',
+          hay: (name + ' ' + ctry).toLowerCase()
+        };
+      });
+      return MODEL;
+    }
+
+    /* ── The options, built from the data ─────────────────────────────────────
+       Never a hand list (Seventy-sixth non-negotiable). Runs once, the first
+       time the panel has cards to read. */
+    var built = false;
+    function buildOpts(rows) {
+      if (built) return;
+      built = true;
+
+      function fill(sel, opts) {
+        if (!sel) return;
+        sel.insertAdjacentHTML('beforeend', opts.map(function (o) {
+          return '<option value="' + esc(o[0]) + '">' + o[1] + '</option>';
+        }).join(''));
+      }
+
+      var conts = {}, ctrys = {}, tags = {}, lens = {}, tiers = {}, lvls = {};
+      rows.forEach(function (g) {
+        if (g.continent) conts[g.continent] = (conts[g.continent] || 0) + 1;
+        if (g.slug && g.country) { ctrys[g.slug] = ctrys[g.slug] || { name: g.country, n: 0 }; ctrys[g.slug].n++; }
+        g.tags.forEach(function (t) { tags[t] = (tags[t] || 0) + 1; });
+        if (g.days) lens[g.days] = (lens[g.days] || 0) + 1;
+        if (g.tier) tiers[g.tier] = (tiers[g.tier] || 0) + 1;
+        if (g.safe) lvls[g.safe] = (lvls[g.safe] || 0) + 1;
+      });
+
+      fill(F.continent, Object.keys(conts).sort().map(function (k) { return [k, esc(k)]; }));
+
+      /* "(N guides)" spelled out — a bare "(1)" reads as a ranking or a code
+         (owner, 2026-08-22, on the finder's own country field). */
+      fill(F.country, Object.keys(ctrys)
+        .sort(function (a, b) { return ctrys[a].name.localeCompare(ctrys[b].name); })
+        .map(function (k) {
+          var c = ctrys[k];
+          return [k, esc(c.name) + ' (' + c.n + (c.n === 1 ? ' guide)' : ' guides)')];
+        }));
+
+      fill(F.type, TAG_ORDER.filter(function (t) { return tags[t]; })
+        .map(function (t) { return [t, esc(TAG_LABEL[t] || t)]; }));
+
+      fill(F.days, Object.keys(lens).map(Number).sort(function (a, b) { return a - b; })
+        .map(function (n) { return [String(n), n + (n === 1 ? ' day' : ' days')]; }));
+
+      fill(F.cost, COST_ORDER.filter(function (t) { return tiers[t]; })
+        .map(function (t) { return [t, esc(t)]; }));
+
+      /* A FLOOR: the value is a rank, and a city passes when its own rank is at
+         or below it. "High Risk or better" would be every city on the site, so
+         the last level never becomes an option. */
+      fill(F.safety, SAFE_ORDER.slice(0, -1).filter(function (l) { return lvls[l]; })
+        .map(function (l) {
+          var r = SAFE_ORDER.indexOf(l) + 1;
+          /* The top level is the only one with nothing above it, so it is the
+             only one that reads "only"; every other is a floor. Keyed off the
+             LEVEL, not off the position in the filtered array — if Very Safe
+             ever went missing from the fleet, an index test would quietly
+             promote Safe to "Safe only" and change what the filter means. */
+          return [String(r), r === 1 ? esc(l) + ' only' : esc(l) + ' or better'];
+        }));
+    }
+
+    /* ── Every select is a MULTI-PICK ADDER (Thirty-seventh non-negotiable) ────
+       Picking a value appends a removable outlined chip under the field and the
+       select snaps back to its "Any …" label, exactly as the finder two cards
+       above behaves. WITHIN a dimension the picks are OR (Japan or Italy — more
+       picks, MORE cities), ACROSS dimensions they stay AND (Japan or Italy AND
+       5 days). That is the whole reason to have it here: the comparison a
+       reader actually wants is usually Kyoto against Rome, and a single-value
+       country field cannot even offer them both. Reverting these to single
+       selects is a regression, not a simplification. */
+    var picks = { continent: [], country: [], type: [], days: [], cost: [], safety: [] };
+
+    function chipBox(k) { return document.getElementById('cmpx-chips-' + k); }
+
+    function drawChips() {
+      FIELDS.forEach(function (k) {
+        var box = chipBox(k);
+        if (!box) return;
+        box.innerHTML = picks[k].map(function (p) {
+          return '<button type="button" class="fnd-chip" data-k="' + k + '" data-v="' +
+                 esc(p.value) + '">' + p.label + ' &times;</button>';
+        }).join('');
+      });
+    }
+
+    function anyFilter() {
+      return FIELDS.some(function (k) { return picks[k].length > 0; }) || !!search.value.trim();
+    }
+
+    function anyOf(vals, fn) {
+      for (var i = 0; i < vals.length; i++) if (fn(vals[i])) return true;
+      return false;
+    }
+
+    function matches(g, q) {
+      if (q && g.hay.indexOf(q) === -1) return false;
+      if (picks.continent.length && !anyOf(picks.continent, function (p) { return g.continent === p.value; })) return false;
+      if (picks.country.length   && !anyOf(picks.country,   function (p) { return g.slug === p.value; }))      return false;
+      if (picks.type.length      && !anyOf(picks.type,      function (p) { return g.tags.indexOf(p.value) > -1; })) return false;
+      if (picks.days.length      && !anyOf(picks.days,      function (p) { return String(g.days) === p.value; })) return false;
+      if (picks.cost.length      && !anyOf(picks.cost,      function (p) { return g.tier === p.value; }))      return false;
+      if (picks.safety.length) {
+        var rank = SAFE_ORDER.indexOf(g.safe) + 1;
+        if (!rank) return false;
+        /* A floor, OR'd: two floors picked means the looser one wins, which is
+           what OR-within-a-dimension has to mean for a threshold. */
+        if (!anyOf(picks.safety, function (p) { return rank <= Number(p.value); })) return false;
+      }
+      return true;
+    }
+
+    function hits() {
+      var rows = model();
+      if (!rows) return null;
+      buildOpts(rows);
+      var q = (search.value || '').trim().toLowerCase();
+      return rows.filter(function (g) { return matches(g, q); })
+                 .sort(function (a, b) { return a.name.localeCompare(b.name); });
+    }
+
+    /* The four facts the table's own rows carry, on one line, so a row is worth
+       reading before the comparison exists. A city missing one simply drops it
+       rather than printing a dash: this is a summary, not the table. */
+    function facts(g) {
+      var out = [];
+      if (g.days) out.push(esc(g.days + (g.days === 1 ? ' day' : ' days')));
+      if (g.tier) out.push(esc(g.tier));
+      if (g.safe) {
+        out.push('<svg class="gm-icon cmpx-dot" data-icon="' + SAFE_DOT[g.safe] +
+                 '" data-role="dot" viewBox="0 0 24 24" aria-hidden="true"><use href="#gm-i-' +
+                 SAFE_DOT[g.safe] + '"/></svg>' + esc(g.safe));
+      }
+      if (g.tags.length) out.push(esc(g.tags.slice(0, 2).map(function (t) { return TAG_LABEL[t] || t; }).join(' · ')));
+      return out.join('<span aria-hidden="true">·</span>');
+    }
+
+    function render() {
+      var rows = hits();
+      if (!rows) {
         list.innerHTML = '<p class="cmpx-empty">Loading the city list&hellip;</p>';
+        if (countEl) countEl.textContent = '';
         return;
       }
-      var hits = all.filter(function (c) {
-        var name = ((c.querySelector('.dest-name') || {}).textContent || '');
-        var grp  = c.closest('.country');
-        var ctry = grp ? (grp.getAttribute('data-country') || '') : '';
-        if (!q) return false;
-        return (name + ' ' + ctry).toLowerCase().indexOf(q) > -1;
-      }).slice(0, 40);
+      var picked = document.querySelectorAll('.mosaic-wrap .dest-card.cmp-sel').length;
+      var full   = picked >= MAX_PICK;
+      if (clrBtn) clrBtn.hidden = !anyFilter();
 
-      if (!q) { list.innerHTML = ''; return; }
-      if (!hits.length) { list.innerHTML = '<p class="cmpx-empty">No guide by that name.</p>'; return; }
+      if (countEl) {
+        countEl.innerHTML = rows.length
+          ? '<b>' + rows.length + '</b> ' + (rows.length === 1 ? 'city' : 'cities') +
+            ' to choose from &mdash; ' +
+            (picked ? '<b>' + picked + '</b> of ' + MAX_PICK + ' picked.'
+                    : 'pick 2 to 5.')
+          : 'Nothing matches all of those.';
+      }
 
-      /* At five, an unselected row does nothing when clicked — the engine's cap
-         returns silently. Say so on the row rather than let it look broken. */
-      var full = document.querySelectorAll('.mosaic-wrap .dest-card.cmp-sel').length >= 5;
+      if (!rows.length) {
+        list.innerHTML = '<p class="cmpx-empty">No guide fits every filter &mdash; ' +
+          'widen one of them, or clear them all.</p>';
+        return;
+      }
 
-      list.innerHTML = hits.map(function (c) {
-        var flag = ((c.querySelector('.dest-flag') || {}).textContent || '');
-        var name = ((c.querySelector('.dest-name') || {}).textContent || '');
-        var on   = c.classList.contains('cmp-sel');
+      list.innerHTML = rows.slice(0, SHOW).map(function (g) {
+        var on = g.el.classList.contains('cmp-sel');
         return '<button type="button" class="cmpx-opt' + (on ? ' on' : '') + '"' +
                (!on && full ? ' disabled' : '') +
-               ' data-href="' + c.getAttribute('href') + '">' +
-               '<span class="cmpx-flag">' + flag + '</span>' + name +
-               (on ? '<span class="cmpx-tick">selected &mdash; tap to remove</span>' : '') +
+               ' data-href="' + esc(g.href) + '">' +
+               (g.flag ? '<span class="cmpx-flag">' + g.flag + '</span>' : '') +
+               '<span class="cmpx-body">' +
+                 '<span class="cmpx-name">' + esc(g.name) +
+                 (g.country ? ' <span class="cmpx-ctry">' + esc(g.country) + '</span>' : '') +
+                 '</span>' +
+                 '<span class="cmpx-facts">' + facts(g) + '</span>' +
+               '</span>' +
+               (on ? '<span class="cmpx-tick">Picked &mdash; tap to remove</span>' : '') +
                '</button>';
       }).join('');
+
+      if (rows.length > SHOW) {
+        list.insertAdjacentHTML('beforeend',
+          '<p class="cmpx-empty" style="padding:0.6rem 0.85rem;margin:0">Showing the first ' +
+          SHOW + ' &mdash; search or narrow a filter to see the rest.</p>');
+      }
+      /* At five, an unselected row does nothing when clicked — the engine's cap
+         returns silently. Say so on the row rather than let it look broken. */
       if (full) list.insertAdjacentHTML('beforeend',
-        '<p class="cmpx-full">Five is the maximum. Remove one to swap it out.</p>');
+        '<p class="cmpx-full" style="padding:0 0.85rem 0.6rem;margin:0">Five is the maximum. Remove one to swap it out.</p>');
+    }
+
+    /* Compare mode is what makes the engine listen to a card click at all, and
+       it is also what shows its selection bar. Entering it when the panel opens
+       means the bar is there from the first row picked rather than appearing
+       from nowhere on the second. */
+    function ensureMode() {
+      if (!document.body.classList.contains('mode-compare')) btnCmp.click();
+    }
+
+    function pick(href) {
+      var card = document.querySelector('.mosaic-wrap .dest-card[href="' + href + '"]');
+      if (!card) return;
+      ensureMode();
+      card.click();
     }
 
     var t = null;
     search.addEventListener('input', function () {
       clearTimeout(t);
-      t = setTimeout(function () { render(search.value); }, 120);
+      t = setTimeout(render, 120);
+    });
+    FIELDS.forEach(function (k) {
+      var sel = F[k];
+      if (!sel) return;
+      sel.addEventListener('change', function () {
+        var v = sel.value;
+        /* Back to the "Any …" label the moment the value has become a chip —
+           a select left showing a picked value would be saying the same thing
+           twice, and the chip is the one that can be removed. */
+        sel.value = '';
+        if (!v) return;
+        if (picks[k].some(function (p) { return p.value === v; })) return;
+        var opt = [].slice.call(sel.options).filter(function (o) { return o.value === v; })[0];
+        picks[k].push({ value: v, label: opt ? esc(opt.textContent) : esc(v) });
+        drawChips();
+        render();
+      });
+      var box = chipBox(k);
+      if (box) box.addEventListener('click', function (ev) {
+        var chip = ev.target.closest ? ev.target.closest('.fnd-chip') : null;
+        if (!chip) return;
+        var v = chip.getAttribute('data-v');
+        picks[k] = picks[k].filter(function (p) { return p.value !== v; });
+        drawChips();
+        render();
+      });
     });
 
     list.addEventListener('click', function (ev) {
       var opt = ev.target.closest ? ev.target.closest('.cmpx-opt') : null;
       if (!opt) return;
-      var href = opt.getAttribute('data-href');
-      var card = document.querySelector('.mosaic-wrap .dest-card[href="' + href + '"]');
-      if (!card) return;
-      /* The engine ignores card clicks unless it is in compare mode. */
-      if (!document.body.classList.contains('mode-compare')) btnCmp.click();
-      card.click();
-      render(search.value);
+      pick(opt.getAttribute('data-href'));
+      render();
+    });
+
+    /* Surprise me — five slots filled from whatever is left standing, so it is
+       a surprise WITHIN the filters rather than out of the whole fleet. It
+       replaces the current selection rather than topping it up: a shuffle that
+       kept two cities you had chosen and added three you had not is neither a
+       surprise nor your list. Fisher-Yates on a copy; the model is not
+       reordered under the list that is about to redraw from it. */
+    if (shufBtn) shufBtn.addEventListener('click', function () {
+      var rows = hits();
+      if (!rows || rows.length < 2) return;
+      var pool = rows.slice();
+      for (var i = pool.length - 1; i > 0; i--) {
+        var j = Math.floor(Math.random() * (i + 1));
+        var tmp = pool[i]; pool[i] = pool[j]; pool[j] = tmp;
+      }
+      ensureMode();
+      document.querySelectorAll('.mosaic-wrap .dest-card.cmp-sel')
+        .forEach(function (c) { c.click(); });          /* a second click deselects */
+      pool.slice(0, Math.min(MAX_PICK, pool.length)).forEach(function (g) { g.el.click(); });
+      render();
+    });
+
+    if (clrBtn) clrBtn.addEventListener('click', function () {
+      search.value = '';
+      FIELDS.forEach(function (k) { picks[k] = []; if (F[k]) F[k].value = ''; });
+      drawChips();
+      render();
     });
 
     /* Exit clears the engine's selection; the list has to stop claiming the
        cities are still ticked. */
     document.addEventListener('click', function (ev) {
-      if (ev.target && ev.target.id === 'cmp-exit') setTimeout(function () { render(search.value); }, 0);
+      if (ev.target && ev.target.id === 'cmp-exit') setTimeout(render, 0);
     });
 
-    window._cmpxRefresh = function () { render(search.value); };
+    /* Two hooks, and they are not the same call. _cmpxSync is the engine asking
+       the list to redraw after IT changed the selection (a chip's ✕), and must
+       never re-enter compare mode — Exit calls updateBar on its way out.
+       _cmpxRefresh is the panel opening, which is exactly when the mode should
+       be entered and the cards have just been grafted. */
+    window._cmpxSync    = render;
+    window._cmpxRefresh = function () { ensureMode(); render(); };
   }());
 
   }

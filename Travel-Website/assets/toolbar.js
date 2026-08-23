@@ -6674,11 +6674,11 @@ window.TVE.home = (function () {
       { name: 'Kenoa – Exclusive Beach Spa & Resort', note: 'Small Luxury Hotels — Barra de São Miguel, 6-room adults-only eco-resort, private beach, 9.7 Booking.com', url: 'https://www.booking.com/hotel/br/kenoa-exclusive-beach-spa-resort.html', tier: 'luxury' }
     ], price: { budget: 'R$250–420', mid: 'R$420–750', expensive: 'R$750–1,300', luxury: 'R$1,500–4,000' } },
     'machupicchu': { h: [
-      { name: 'Inkaterra Machu Picchu Pueblo Hotel', note: 'Independent luxury — 83 casitas in cloud forest, 372 orchid species on-site, tea house, nature walks · 9.2 Booking.com' , url: 'https://www.booking.com/hotel/pe/inkaterra-machu-picchu-pueblo.html' },
-      { name: 'Sumaq Machu Picchu Hotel', note: 'Independent — 62 rooms with mountain views inside the UNESCO sanctuary, gourmet Qunuq restaurant · 9.0 Booking.com' , url: 'https://www.booking.com/hotel/pe/sumaq-machu-picchu.html' },
-      { name: 'Belmond Sanctuary Lodge', note: 'Belmond brand — only hotel at the ruins gate, exclusive early private access before site opens, 31 rooms, Mapi restaurant · 9.2 Booking.com' , url: 'https://www.booking.com/hotel/pe/belmond-sanctuary-lodge.html' },
-      { name: 'El Mapi by Inkaterra', note: 'Inkaterra brand — Aguas Calientes town centre, outdoor pool, contemporary eco-lodge style, steps from shuttle buses · 8.9 Booking.com' , url: 'https://www.booking.com/hotel/pe/el-mapi-by-inkaterra.html' }
-    ] },
+      { name: 'Hostal Rupa Wasi', note: 'Independent budget — Aguas Calientes town centre, clean rooms, hot water, close to shuttle bus stop and train station · 8.2 Booking.com', url: 'https://www.booking.com/hotel/pe/hostal-rupa-wasi.html', tier: 'budget' },
+      { name: 'El Mapi by Inkaterra', note: 'Inkaterra brand — Aguas Calientes town centre, outdoor pool, contemporary eco-lodge style, steps from shuttle buses · 8.9 Booking.com', url: 'https://www.booking.com/hotel/pe/el-mapi-by-inkaterra.html', tier: 'mid' },
+      { name: 'Inkaterra Machu Picchu Pueblo Hotel', note: 'Independent luxury — 83 casitas in cloud forest, 372 orchid species on-site, tea house, nature walks · 9.2 Booking.com', url: 'https://www.booking.com/hotel/pe/inkaterra-machu-picchu-pueblo.html', tier: 'expensive' },
+      { name: 'Belmond Sanctuary Lodge', note: 'Belmond brand — only hotel at the ruins gate, exclusive early private access before site opens, 31 rooms, Mapi restaurant · 9.2 Booking.com', url: 'https://www.booking.com/hotel/pe/belmond-sanctuary-lodge.html', tier: 'luxury' }
+    ], price: { budget: '$60–120', mid: '$120–300', expensive: '$300–600', luxury: '$600+' } },
     'madeira': { h: [
       { name: 'Reid\'s Palace, A Belmond Hotel', note: 'Belmond brand — 1891 clifftop landmark, seawater pools, afternoon tea tradition, lush subtropical gardens · 9.2 Booking.com', url: 'https://www.booking.com/hotel/pt/reids-palace.html' },
       { name: 'Choupana Hills Boutique Hotel', note: 'Small Luxury Hotels — adults-only, thatched eco-bungalows above Funchal in eucalyptus forest, pool · 9.1 Booking.com', url: 'https://www.booking.com/hotel/pt/choupana-hills-resort-spa.html' },
@@ -6917,11 +6917,11 @@ window.TVE.home = (function () {
       { name: 'JW Marriott Orlando Grande Lakes', tier: 'budget', note: 'Marriott JW brand — Grande Lakes, lazy river, Greg Norman golf, Whisper Creek Farm-inspired dining · 9.2 Booking.com', url: 'https://www.booking.com/hotel/us/jw-marriott-grande-lakes.html' }
     ], price: { budget: 'USD 200–400', mid: 'USD 350–600', expensive: 'USD 500–900', luxury: 'USD 800+' } },
     'osaka': { h: [
-      { name: 'InterContinental Osaka', note: 'IHG brand — Grand Front Osaka, 57th-floor Pierre restaurant panorama, spa and indoor pool · 9.0 Booking.com', url: 'https://www.booking.com/hotel/jp/intercontinental-osaka.html' },
-      { name: 'Conrad Osaka', note: 'Hilton family — Nakanoshima Festival City, sky infinity pool on 40th floor, harbor views · 9.2 Booking.com', url: 'https://www.booking.com/hotel/jp/conrad-osaka.html' },
-      { name: 'Courtyard by Marriott Osaka Honmachi', note: 'Marriott family — 2-3-7 Minami-Honmachi in the Chuo business district, Japanese public bath on site, soundproofed rooms · 8.8 Booking.com', url: 'https://www.booking.com/hotel/jp/courtyard-by-marriott-osaka-honmachi.html' },
-      { name: 'The Ritz-Carlton Osaka', note: 'Ritz-Carlton brand — Umeda, indoor pool, Splendor spa, La Baie French restaurant · 9.3 Booking.com', url: 'https://www.booking.com/hotel/jp/the-ritz-carlton-osaka.html' }
-    ] },
+      { name: 'Courtyard by Marriott Osaka Honmachi', tier: 'budget', note: 'Marriott family — 2-3-7 Minami-Honmachi in the Chuo business district, Japanese public bath on site, soundproofed rooms · 8.8 Booking.com', url: 'https://www.booking.com/hotel/jp/courtyard-by-marriott-osaka-honmachi.html' },
+      { name: 'InterContinental Osaka', tier: 'mid', note: 'IHG brand — Grand Front Osaka, 57th-floor Pierre restaurant panorama, spa and indoor pool · 9.0 Booking.com', url: 'https://www.booking.com/hotel/jp/intercontinental-osaka.html' },
+      { name: 'Conrad Osaka', tier: 'expensive', note: 'Hilton family — Nakanoshima Festival City, sky infinity pool on 40th floor, harbor views · 9.2 Booking.com', url: 'https://www.booking.com/hotel/jp/conrad-osaka.html' },
+      { name: 'The Ritz-Carlton Osaka', tier: 'luxury', note: 'Ritz-Carlton brand — Umeda, indoor pool, Splendor spa, La Baie French restaurant · 9.3 Booking.com', url: 'https://www.booking.com/hotel/jp/the-ritz-carlton-osaka.html' }
+    ], price: { budget: 'JPY 20,000–40,000', mid: 'JPY 35,000–60,000', expensive: 'JPY 50,000–80,000', luxury: 'JPY 80,000+' } },
     'oslo': { h: [
       { name: 'The Thief', note: 'Independent boutique — Tjuvholmen Sculpture Park waterfront, spa, contemporary art throughout · 9.3 Booking.com', url: 'https://www.booking.com/hotel/no/the-thief.html' },
       { name: 'Amerikalinjen', note: 'Independent — 1919 Norwegian America Line headquarters, 122 rooms, three restaurants, rooftop bar · 9.2 Booking.com', url: 'https://www.booking.com/hotel/no/amerikalinjen.html' },
@@ -7187,11 +7187,11 @@ window.TVE.home = (function () {
       { name: 'Hotel Fasano Salvador', note: 'Fasano brand — Praça Castro Alves in the historic centre, rooftop pool, spa, 24h reception, AC · 9.1 Booking.com', url: 'https://www.booking.com/hotel/br/fasano-salvador.html', tier: 'luxury' }
     ], price: { budget: 'R$400–700', mid: 'R$700–1,200', expensive: 'R$1,200–2,500', luxury: 'R$2,500+' } },
     'salzburg': { h: [
-      { name: 'Schloss Mönchstein', note: 'Independent luxury — 14th-century castle above the Old Town, spa, panoramic garden with city views · 9.2 Booking.com' , url: 'https://www.booking.com/hotel/at/schloss-monchstein.html' },
-      { name: 'Hotel Bristol Salzburg', note: 'Small Luxury Hotels — Makartplatz, spa with indoor pool, facing Landestheater, classic elegance · 9.3 Booking.com' , url: 'https://www.booking.com/hotel/at/hotel-bristol-salzburg.html' },
-      { name: 'Goldener Hirsch, a Luxury Collection Hotel', note: 'Marriott Luxury Collection — medieval inn on Getreidegasse, Goldener Hirsch restaurant, low-ceilinged historic rooms · 9.1 Booking.com' , url: 'https://www.booking.com/hotel/at/goldener-hirsch.html' },
-      { name: 'Hotel Sacher Salzburg', note: 'Independent — Schwarzstrasse on the Salzach River, iconic Sacher Torte heritage, terrace and river views, spa · 8.9 Booking.com' , url: 'https://www.booking.com/hotel/at/sacher-salzburg.html' }
-    ] },
+      { name: 'ibis Salzburg Nord', note: 'Accor ibis brand — Münchner Bundesstraße, 3 km north of centre, 24h reception, AC · 8.2 Booking.com', url: 'https://www.booking.com/hotel/at/ibis-salzburg-nord.html', tier: 'budget' },
+      { name: 'Hotel Imlauer & Bräu', note: 'Independent — Rainerstraße on the Neustadt waterfront, in-house brewery bar, 10-min walk to the Altstadt, 24h reception, AC · 8.4 Booking.com', url: 'https://www.booking.com/hotel/at/imlauer-braeu.html', tier: 'mid' },
+      { name: 'Hotel Stein', note: 'Independent boutique 4-star — Giselakai on the Salzach, rooftop bar with fortress panorama, 24h reception, AC · 9.0 Booking.com', url: 'https://www.booking.com/hotel/at/stein.html', tier: 'expensive' },
+      { name: 'Hotel Sacher Salzburg', note: 'Independent — Schwarzstraße on the Salzach River, iconic Sacher Torte heritage, terrace and river views, spa, 24h reception · 8.9 Booking.com', url: 'https://www.booking.com/hotel/at/sacher-salzburg.html', tier: 'luxury' }
+    ], price: { currency: 'EUR', budget: '70-120', mid: '130-220', expensive: '230-380', luxury: '400+' } },
     'san-diego': { h: [
       { name: 'Best Western Plus Bayside Inn', note: 'Best Western brand — 555 West Ash Street on the Little Italy edge of downtown, heated outdoor pool and hot tub, free parking, 24h reception, AC · 8.8 Booking.com', url: 'https://www.booking.com/hotel/us/bayside-inn.html', tier: 'budget' },
       { name: 'Gaslamp Plaza Suites', note: 'Independent — 520 E Street in a 1913 landmark tower one block from the Gaslamp, rooftop terrace, 24h reception, AC · 8.3 Booking.com', url: 'https://www.booking.com/hotel/us/gaslamp-plaza-suites.html', tier: 'budget' },
@@ -11073,7 +11073,7 @@ window.TVE.home = (function () {
       'bergen':            {iata:'BGO', name:'Bergen Flesland'},
       'berlin':            {iata:'BER', name:'Berlin Brandenburg'},
       'bhutan':            {iata:'PBH', name:'Paro Airport'},
-      'big-island':        {iata:'KOA', name:'Ellison Onizuka Kona International'},
+      'big-island':        {iata:'KIX','KOA', name:'Ellison Onizuka Kona International'},
       'bilbao':            {iata:'BIO', name:'Bilbao Airport'},
       'bologna':           {iata:'BLQ', name:'Bologna Guglielmo Marconi'},
       'bora-bora':         {iata:'BOB', name:'Bora Bora Airport (Motu Mute)'},
@@ -11302,12 +11302,12 @@ window.TVE.home = (function () {
       'BGI','BGO','BIO','BKK','BLQ','BNA','BOB','BOD','BOS','BRU','BUD','CAI','CDG','CLT','CMB','CNX',
       'CPH','CPT','CUN','CUR','CUZ','CWB','DBV','DEN','DFW','DOH','DPS','DTW','DUB','DUS','DXB','EDI',
       'EYW','EZE','FAO','FCA','FCO','FHR','FLN','FLR','FOR','FRA','GCM','GIG','GOT','GPS','GRU','GVA','HAM',
-      'HAN','HEL','HER','HKG','HKT','HND','IAD','IAH','ICN','IGU','IST','JFK','JMK','JPA','JTR','KEF','KOA',
+      'HAN','HEL','HER','HKG','HKT','HND','IAD','IAH','ICN','IGU','IST','JFK','JMK','JPA','JTR','KEF','KIX','KOA',
       'KRK','KTM','LAS','LAX','LGA','LGW','LHR','LIH','LIM','LIS','LJU','LPQ','LUX','LYS','MAD','MAN','MCT','MEL',
       'MIA','MCO','MCZ','MLA','MLE','MRS','MSP','MSY','MUC','MVD','MXP','NAP','NAS','NAT','NCE','OGG','OPO','ORD','ORS','ORY',
       'OSL','PBH','PDL','PDX','PEK','PHL','PHX','PLS','PMI','PNS','POA','PPS','PRG','PSA','PSP','PUS',
       'PVG','PVR','RAK','RDM','REC','RHO','RIX','RNO','RSW','SAN','SCL','SEA','SFO','SIN','SJC','SJO',
-      'SJU','SKG','SLC','SLZ','SPU','SSA','STR','SXB','SYD','TBS','TFS','TIV','TLL','TOS','TPE','TRN','VCE','VIE',
+      'SJU','SKG','SLC','SLZ','SPU','SSA','STR','SXB','SYD','SZG','TBS','TFS','TIV','TLL','TOS','TPE','TRN','VCE','VIE',
       'VLC','WLG','YQB','YUL','YVR','YYC','YYZ','ZAG','ZQN','ZRH'
     ];
 

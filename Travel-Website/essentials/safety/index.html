@@ -67,14 +67,33 @@ html { scroll-behavior: smooth; }
 #city-search::placeholder { color: #A8895A; }
 #city-search:focus { border-color: var(--c-search-focus-border); box-shadow: none; }
 #no-results { display: none; color: var(--muted); font-size: 13px; margin: 12px 0; }
-/* ── Level section ── */
-.level-section { margin-bottom: 28px; }
+/* ── Level section ──────────────────────────────────────────────────────
+   Each level is its own card (owner rule 2026-08-23 — the page read as one
+   flat wall of identical rows with no separation between the four levels).
+   .level-section stays the outer id/hidden-toggle target for filterLevel();
+   .level-panel is a purely visual wrapper one layer in, so the JS that
+   hides/shows by #section-l* id is untouched. */
+.level-section { margin-bottom: 22px; }
+.level-panel {
+  background: var(--surface);
+  border: 1px solid var(--border2);
+  border-radius: 12px;
+  padding: 18px 20px 20px;
+  box-shadow: 0 1px 6px rgba(92,61,17,.05);
+}
 .level-heading {
   display: flex;
-  align-items: center;
+  align-items: baseline;
+  flex-wrap: wrap;
   gap: 10px;
-  margin-bottom: 10px;
-  padding-bottom: 7px;
+  margin-bottom: 4px;
+}
+.level-desc {
+  flex-basis: 100%;
+  font-size: 12.5px;
+  color: var(--muted);
+  line-height: 1.5;
+  margin: 0 0 14px;
 }
 .level-count {
   font-size: var(--fs-sub,12px);
@@ -91,11 +110,11 @@ a.city-row {
   display: flex;
   align-items: center;
   gap: 7px;
-  padding: 6px 10px;
-  background: var(--surface);
+  padding: 8px 11px;
+  background: var(--bg);
   border: 1px solid var(--border2);
   border-left: 3px solid #ccc;
-  border-radius: 6px;
+  border-radius: 7px;
   font-size: 13px;
   text-decoration: none;
   transition: background .12s, border-color .15s, box-shadow .15s, color .12s, transform .08s;
@@ -122,19 +141,47 @@ a.city-row.hidden { display: none; }
 .source-list a { color: var(--accent); text-decoration: none; }
 .source-list a:visited { color: #8a6c1a; }
 .source-list a:hover { text-decoration: underline; }
-/* ── Note box ── */
-.note {
-  background: var(--surface);
-  border: 1px solid var(--border2);
-  border-left: 3px solid #b3402a;
-  border-radius: 6px;
-  padding: 10px 13px;
+/* ── Standing advisory note ── — restyled 2026-08-23 as a red-family alert
+   card (was an ad-hoc bordered div with inline `style="color:#9b2020"` links).
+   Uses the same .fam-red tokens as the Level 3 badge below, so the box reads
+   as "this is a Level 3 situation" rather than a separately-invented red. */
+.advisory-note {
+  background: var(--fam-red-bg);
+  border: 1px solid var(--fam-red-bd);
+  border-left: 4px solid #e01818;
+  border-radius: 10px;
+  padding: 14px 16px 15px;
+  margin-bottom: 22px;
+}
+.advisory-note-head {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  margin-bottom: 7px;
+}
+.advisory-icon { width: 20px; height: 20px; flex-shrink: 0; display: flex; }
+.advisory-icon svg { width: 100%; height: 100%; }
+.advisory-note-title {
+  font-size: 13.5px;
+  font-weight: 700;
+  color: var(--fam-red-ink);
+}
+.advisory-note-body {
   font-size: 12.5px;
   color: var(--text);
-  margin-bottom: 22px;
-  line-height: 1.5;
+  line-height: 1.55;
+  margin: 0 0 12px;
 }
-.note strong { color: var(--text); }
+.advisory-note-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 7px;
+}
+.advisory-note-links .chevron-link-pill {
+  background: var(--surface);
+  font-size: 12.5px;
+  padding: 5px 10px;
+}
 @media (max-width: 600px) and (pointer: coarse) {
   .city-grid { grid-template-columns: 1fr 1fr; }
   .legend { display: flex !important; flex-direction: column !important; gap: var(--search-gap, 32px) !important; padding: var(--search-gap, 32px) 0 !important; margin: 0 0 12px !important; justify-content: flex-start !important; align-items: center !important; }
@@ -151,8 +198,7 @@ a.city-row.hidden { display: none; }
 }
 @media (prefers-color-scheme: dark) {
   a.badge:visited { color: #e8e5e0; }
-  /* fam-* tokens handle dark mode for l1–l4 pill colors */
-  a[style*="9b2020"] { color: #f07070 !important; }
+  /* fam-* tokens handle dark mode for l1–l4 pill colors and the advisory note */
 }
 </style>
 <link rel="stylesheet" href="/assets/mobile.css?v=50">
@@ -183,7 +229,7 @@ a.city-row.hidden { display: none; }
 <!-- seo:end -->
 </head>
 <body>
-<div id="toolbar-mount" data-depth="2" data-maxwidth="940" data-updated="2026-08-09"></div>
+<div id="toolbar-mount" data-depth="2" data-maxwidth="940" data-updated="2026-08-23"></div>
 <!-- toolbar.js ?v= is FROZEN — cache-busting via sw.js MIN_VERSIONS only -->
 <script src="/assets/toolbar.js?v=122"></script>
 
@@ -200,25 +246,37 @@ a.city-row.hidden { display: none; }
   <div class="legend">
     <input type="search" id="city-search" class="search-input" placeholder="City or country" aria-label="Filter cities">
     <div class="pills tve-glue-m" id="level-pills">
-      <button class="pill pill-badge fam-green" data-filter="l1" onclick="filterLevel(this,'l1')">Level 1 — Normal precautions <span class="pill-count" id="pcnt-l1"></span></button>
-      <button class="pill pill-badge fam-yellow" data-filter="l2" onclick="filterLevel(this,'l2')">Level 2 — Increased caution <span class="pill-count" id="pcnt-l2"></span></button>
-      <button class="pill pill-badge fam-red" data-filter="l3" onclick="filterLevel(this,'l3')">Level 3 — Reconsider travel <span class="pill-count" id="pcnt-l3"></span></button>
-      <button class="pill pill-badge fam-grey" data-filter="l4" onclick="filterLevel(this,'l4')">Level 4 — Do not travel <span class="pill-count" id="pcnt-l4"></span></button>
+      <button class="pill pill-badge fam-green" data-filter="l1" onclick="filterLevel(this,'l1')"><svg class="gm-icon" data-icon="dot-green" data-role="dot" viewBox="0 0 24 24" aria-hidden="true"><use href="#gm-i-dot-green"/></svg> Level 1 — Normal precautions <span class="pill-count" id="pcnt-l1"></span></button>
+      <button class="pill pill-badge fam-yellow" data-filter="l2" onclick="filterLevel(this,'l2')"><svg class="gm-icon" data-icon="dot-yellow" data-role="dot" viewBox="0 0 24 24" aria-hidden="true"><use href="#gm-i-dot-yellow"/></svg> Level 2 — Increased caution <span class="pill-count" id="pcnt-l2"></span></button>
+      <button class="pill pill-badge fam-red" data-filter="l3" onclick="filterLevel(this,'l3')"><svg class="gm-icon" data-icon="dot-red" data-role="dot" viewBox="0 0 24 24" aria-hidden="true"><use href="#gm-i-dot-red"/></svg> Level 3 — Reconsider travel <span class="pill-count" id="pcnt-l3"></span></button>
+      <button class="pill pill-badge fam-grey" data-filter="l4" onclick="filterLevel(this,'l4')"><svg class="gm-icon" data-icon="dot-black" data-role="dot" viewBox="0 0 24 24" aria-hidden="true"><use href="#gm-i-dot-black"/></svg> Level 4 — Do not travel <span class="pill-count" id="pcnt-l4"></span></button>
     </div>
   </div>
 
-  <div class="note">
-    <strong>UAE, Qatar, Oman &amp; Jordan — Level 3 as of 2026.</strong> The State Dept issued Level 3 "Reconsider Travel" advisories for the UAE, Qatar, Oman, and Jordan citing regional armed-conflict risks — including the threat of drone and missile attacks following US–Iran hostilities — and authorized non-emergency US government personnel to depart the UAE and Qatar. Monitor the advisories for <a href="https://travel.state.gov/content/travel/en/traveladvisories/traveladvisories/united-arab-emirates-travel-advisory.html" target="_blank" rel="noopener" style="color:#9b2020">the UAE</a>, <a href="https://travel.state.gov/content/travel/en/traveladvisories/traveladvisories/qatar-travel-advisory.html" target="_blank" rel="noopener" style="color:#9b2020">Qatar</a>, <a href="https://travel.state.gov/content/travel/en/traveladvisories/traveladvisories/oman-travel-advisory.html" target="_blank" rel="noopener" style="color:#9b2020">Oman</a>, and <a href="https://travel.state.gov/content/travel/en/traveladvisories/traveladvisories/jordan-travel-advisory.html" target="_blank" rel="noopener" style="color:#9b2020">Jordan</a> closely before any travel to Abu Dhabi, Dubai, Doha, Muscat, or Petra.
+  <div class="advisory-note">
+    <div class="advisory-note-head">
+      <span class="advisory-icon" data-icon="994"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.2c-.66 0-1.27.35-1.6.92L.7 20.3A1.85 1.85 0 0 0 2.3 23h19.4a1.85 1.85 0 0 0 1.6-2.7L13.6 3.12A1.85 1.85 0 0 0 12 2.2zm0 3.4 8.9 15.5H3.1L12 5.6zm-1.05 4.4h2.1v5.4h-2.1zm0 6.7h2.1v2.1h-2.1z" fill="url(#gm-sun)" stroke="var(--c-sun-rim)" stroke-width="0.5" fill-rule="evenodd"/></svg></span>
+      <span class="advisory-note-title">UAE, Qatar, Oman &amp; Jordan — Level 3 as of 2026</span>
+    </div>
+    <p class="advisory-note-body">The State Dept issued Level 3 "Reconsider Travel" advisories for the UAE, Qatar, Oman, and Jordan citing regional armed-conflict risks — including the threat of drone and missile attacks following US–Iran hostilities — and authorized non-emergency US government personnel to depart the UAE and Qatar. Monitor each country's advisory closely before any travel to Abu Dhabi, Dubai, Doha, Muscat, or Petra.</p>
+    <div class="advisory-note-links">
+      <a class="chevron-link-pill" href="https://travel.state.gov/content/travel/en/traveladvisories/traveladvisories/united-arab-emirates-travel-advisory.html" target="_blank" rel="noopener">UAE advisory</a>
+      <a class="chevron-link-pill" href="https://travel.state.gov/content/travel/en/traveladvisories/traveladvisories/qatar-travel-advisory.html" target="_blank" rel="noopener">Qatar advisory</a>
+      <a class="chevron-link-pill" href="https://travel.state.gov/content/travel/en/traveladvisories/traveladvisories/oman-travel-advisory.html" target="_blank" rel="noopener">Oman advisory</a>
+      <a class="chevron-link-pill" href="https://travel.state.gov/content/travel/en/traveladvisories/traveladvisories/jordan-travel-advisory.html" target="_blank" rel="noopener">Jordan advisory</a>
+    </div>
   </div>
   <p id="no-results">No cities match your search.</p>
 
   <!-- ── LEVEL 1 ── -->
   <div class="level-section" id="section-l1">
+   <div class="level-panel">
     <div class="level-heading">
       <span class="badge fam-green badge-l1">Level 1</span>
       <span style="font-size:13px;color:var(--muted)">Exercise normal precautions</span>
       <span class="level-count" id="count-l1"></span>
     </div>
+    <p class="level-desc">The level assigned to most of the world. Crime and civil unrest are at levels comparable to home — use the same everyday awareness you would in any unfamiliar city.</p>
     <div class="city-grid" id="grid-l1">
       <a class="city-row" href="/guides/alaska.html" data-city="alaska" data-verified="2026-08"><span class="city-name">Alaska</span><span class="city-country">🇺🇸 USA</span></a>
       <a class="city-row" href="/guides/aruba.html" data-city="aruba" data-verified="2026-08"><span class="city-name">Aruba</span><span class="city-country">🇦🇼 Aruba</span></a>
@@ -357,14 +415,17 @@ a.city-row.hidden { display: none; }
       <a class="city-row" href="/guides/zurich.html" data-city="zürich zurich" data-verified="2026-08"><span class="city-name">Zürich</span><span class="city-country">🇨🇭 Switzerland</span></a>
       <a class="city-row" href="/guides/alesund.html" data-city="ålesund alesund" data-verified="2026-08"><span class="city-name">Ålesund</span><span class="city-country">🇳🇴 Norway</span></a>
     </div>
+   </div>
   </div>
   <!-- ── LEVEL 2 ── -->
   <div class="level-section" id="section-l2">
+   <div class="level-panel">
     <div class="level-heading">
       <span class="badge fam-yellow badge-l2">Level 2</span>
       <span style="font-size:13px;color:var(--muted)">Increased caution</span>
       <span class="level-count" id="count-l2"></span>
     </div>
+    <p class="level-desc">Be aware of heightened risks to personal safety and security — follow local guidance, register with your embassy for longer stays, and keep an eye on local news.</p>
     <div class="city-grid" id="grid-l2">
       <a class="city-row" href="/guides/aix-en-provence.html" data-city="aix-en-provence aix" data-verified="2026-08"><span class="city-name">Aix-en-Provence</span><span class="city-country">🇫🇷 France</span></a>
       <a class="city-row" href="/guides/amalfi.html" data-city="amalfi" data-verified="2026-08"><span class="city-name">Amalfi</span><span class="city-country">🇮🇹 Italy</span></a>
@@ -465,14 +526,17 @@ a.city-row.hidden { display: none; }
       <a class="city-row" href="/guides/verona.html" data-city="verona" data-verified="2026-08"><span class="city-name">Verona</span><span class="city-country">🇮🇹 Italy</span></a>
       <a class="city-row" href="/guides/zhangjiajie.html" data-city="zhangjiajie" data-verified="2026-08"><span class="city-name">Zhangjiajie</span><span class="city-country">🇨🇳 China</span></a>
     </div>
+   </div>
   </div>
   <!-- ── LEVEL 3 ── -->
   <div class="level-section" id="section-l3">
+   <div class="level-panel">
     <div class="level-heading">
       <span class="badge fam-red badge-l3">Level 3</span>
       <span style="font-size:13px;color:var(--muted)">Reconsider travel</span>
       <span class="level-count" id="count-l3"></span>
     </div>
+    <p class="level-desc">The State Dept advises weighing the trip against a real, elevated risk to safety — crime, civil unrest, terrorism, or a combination. Check the country's live advisory before booking.</p>
     <div class="city-grid" id="grid-l3">
       <a class="city-row" href="/guides/abu-dhabi.html" data-city="abu dhabi uae emirates" data-verified="2026-08"><span class="city-name">Abu Dhabi</span><span class="city-country">🇦🇪 UAE</span></a>
       <a class="city-row" href="/guides/doha.html" data-city="doha qatar" data-verified="2026-08"><span class="city-name">Doha</span><span class="city-country">🇶🇦 Qatar</span></a>
@@ -480,22 +544,28 @@ a.city-row.hidden { display: none; }
       <a class="city-row" href="/guides/muscat.html" data-city="muscat" data-verified="2026-08"><span class="city-name">Muscat</span><span class="city-country">🇴🇲 Oman</span></a>
       <a class="city-row" href="/guides/petra.html" data-city="petra jordan" data-verified="2026-08"><span class="city-name">Petra</span><span class="city-country">🇯🇴 Jordan</span></a>
     </div>
+   </div>
   </div>
   <!-- ── LEVEL 4 ── -->
   <div class="level-section" id="section-l4">
+   <div class="level-panel">
     <div class="level-heading">
       <span class="badge fam-grey badge-l4">Level 4</span>
       <span style="font-size:13px;color:var(--muted)">Do not travel</span>
       <span class="level-count" id="count-l4"></span>
     </div>
+    <p class="level-desc">The highest advisory level — issued when there is a greater likelihood of life-threatening risk, with no practical way to reduce it. No guide on this site currently sits at Level 4.</p>
     <div class="city-grid" id="grid-l4">
       <p style="color:var(--muted);font-size:13px;margin:8px 0">No destinations currently at this level.</p>
     </div>
+   </div>
   </div>
   <div class="sources">
     <h2>Sources</h2>
     <ul class="source-list">
-      <li><a href="https://travel.state.gov/content/travel/en/traveladvisories/traveladvisories.html" target="_blank" rel="noopener">U.S. State Department Travel Advisories</a></li>
+      <li><a href="https://travel.state.gov/content/travel/en/traveladvisories/traveladvisories.html" target="_blank" rel="noopener">U.S. State Department Travel Advisories — the four-level system this page groups guides by</a></li>
+      <li><a href="https://step.state.gov/step/" target="_blank" rel="noopener">Smart Traveler Enrollment Program (STEP) — register a trip so the nearest US embassy can reach you</a></li>
+      <li><a href="https://www.osac.gov/Content/Browse/Report" target="_blank" rel="noopener">Overseas Security Advisory Council — country-level crime and security reporting</a></li>
     </ul>
   </div>
 </div>

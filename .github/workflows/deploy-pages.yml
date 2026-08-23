@@ -9,9 +9,31 @@ name: Deploy site (publish only — validation is local)
 # Drive and never reaches the repo — the local pre-push hook (pre_push_guard.py)
 # blocks any push that adds/modifies a guide lacking a valid signed stamp.
 #
-# So the repo only ever contains guides that passed locally. There is nothing to
-# check at deploy time — this workflow stages Travel-Website/ and publishes it.
-# No placeholders, no all-or-nothing block, no CI validation.
+# So the repo only ever contains guides that passed locally. There is nothing
+# per-GUIDE to check at deploy time — this workflow stages Travel-Website/ and
+# publishes it. No placeholders, no all-or-nothing block, no CI format validation.
+#
+# ONE EXCEPTION, and it is not a format opinion: SHIPPED JS MUST PARSE.
+# (owner, 2026-08-23, after the homepage went dead: "we need to fix it in a way
+# that never happens again. we cant have this happening spcially in the
+# homepage".) Every page on this site loads assets/toolbar.js, and a browser
+# discards an unparseable script SILENTLY — so one stray character takes the
+# whole site down with no error anywhere, and the person checking usually has a
+# cached copy that still works. It has happened twice: 723e833a (2026-08-08, a
+# star-slash inside an sw.js changelog comment closed it early) and 2050e65b5
+# (2026-08-23, toolbar.js AIRPORTS carried {iata:'KIX','KOA', ...} — a bare
+# string in an object literal).
+#
+# The local gates (pre_commit_guard._js_parse_error, pre_push_guard) both depend
+# on core.hooksPath being wired in this clone, so --no-verify, a fresh clone, or
+# any commit made outside them walks straight past. This step does not: it runs
+# on GitHub, on the pushed commit, and it CANNOT be bypassed locally. It gates
+# the BUILD, so a failure means the deploy never runs and THE LAST GOOD SITE
+# STAYS LIVE — a broken commit stops at CI instead of reaching readers.
+#
+# It is deliberately the narrowest possible check: "does this file parse", not
+# "is this file good". There is no such thing as a deliberate SyntaxError, so it
+# has no override.
 #
 # Serving: the CONTENTS of Travel-Website/ are staged at the artifact root +
 # .nojekyll, so the site is served at https://guidemydays.com/… — a page at
@@ -48,6 +70,33 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+
+      - name: Shipped JS must parse (blocks the deploy — see header)
+        run: |
+          set -uo pipefail
+          fail=0
+          for f in Travel-Website/assets/*.js Travel-Website/sw.js; do
+            [ -e "$f" ] || continue
+            if ! err=$(node --check "$f" 2>&1); then
+              fail=1
+              echo "::error file=$f::$f does not parse — $(echo "$err" | grep -m1 -E 'SyntaxError|Error' || echo 'node --check failed')"
+              echo "$err" | head -12
+            fi
+          done
+          # toolbar.js is loaded by EVERY page, so its absence is a site-wide outage.
+          if [ ! -s Travel-Website/assets/toolbar.js ]; then
+            fail=1
+            echo "::error::Travel-Website/assets/toolbar.js is missing or empty — every page on the site depends on it."
+          fi
+          if [ "$fail" -ne 0 ]; then
+            echo ""
+            echo "DEPLOY BLOCKED — refusing to publish unparseable JS."
+            echo "The previously deployed site stays live and is unaffected."
+            echo "Fix the file, commit, and push again. Reproduce locally with:"
+            echo "    node --check Travel-Website/assets/toolbar.js"
+            exit 1
+          fi
+          echo "All shipped JS parses."
 
       - name: Stage site (publish as-is — validation is enforced locally)
         run: |

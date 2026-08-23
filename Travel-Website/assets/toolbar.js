@@ -7479,11 +7479,12 @@ window.TVE.home = (function () {
       { name: 'Capella Sydney', note: 'Capella Hotels — restored 1950s–60s heritage ensemble, spa, David Laris-conceived dining · 9.5 Booking.com' , url: 'https://www.booking.com/hotel/au/capella-sydney.html', tier: 'luxury' }
     ], price: { budget: 'AUD 220–320', mid: 'AUD 320–420', expensive: 'AUD 420–600', luxury: 'AUD 600+' } },
     'sao-luis': { h: [
-      { name: 'Brisamar Hotel & SPA São Luís', note: 'Independent — Avenida São Marcos on Ponta da Areia beach, outdoor pool, spa, 24h reception, AC · 9.0 Booking.com', url: 'https://www.booking.com/hotel/br/brisamar.html' },
-      { name: 'Blue Tree Premium São Luís', note: 'Blue Tree — Avenida Avicênia on the Calhau beachfront, outdoor pool, tennis court, 24h reception, AC · 8.7 Booking.com', url: 'https://www.booking.com/hotel/br/pestana-sao-luis.html' },
-      { name: 'Stop Way Hotel São Luís', note: 'Independent — Avenida Mário Meirelles in the Renascença district, 24h reception, AC · 8.6 Booking.com', url: 'https://www.booking.com/hotel/br/stop-way.html' },
-      { name: 'Casa Lavinia', note: 'Independent boutique — Rua 28 de Julho inside the Praia Grande historic centre, garden, AC · 8.5 Booking.com', url: 'https://www.booking.com/hotel/br/casa-lavinia.html' }
-    ] },
+      { name: 'Hospedaria Colonial Pousada', note: 'Independent boutique — Rua São João in the Praia Grande historic centre, colonial house, AC, 24h reception, steps from all Day 1–2 stops · 8.3 Booking.com', url: 'https://www.booking.com/hotel/br/hospedaria-colonial.html', tier: 'budget' },
+      { name: 'Stop Way Hotel São Luís', note: 'Independent — Avenida Mário Meirelles in the Renascença district, 24h reception, AC · 8.6 Booking.com', url: 'https://www.booking.com/hotel/br/stop-way.html', tier: 'budget' },
+      { name: 'Casa Lavinia', note: 'Independent boutique — Rua 28 de Julho inside the Praia Grande historic centre, garden, AC · 8.5 Booking.com', url: 'https://www.booking.com/hotel/br/casa-lavinia.html', tier: 'mid' },
+      { name: 'Brisamar Hotel & SPA São Luís', note: 'Independent — Avenida São Marcos on Ponta da Areia beach, outdoor pool, spa, 24h reception, AC · 9.0 Booking.com', url: 'https://www.booking.com/hotel/br/brisamar.html', tier: 'expensive' },
+      { name: 'Blue Tree Premium São Luís', note: 'Blue Tree — Avenida Avicênia on the Calhau beachfront, outdoor pool, tennis court, 24h reception, AC · 8.7 Booking.com', url: 'https://www.booking.com/hotel/br/pestana-sao-luis.html', tier: 'luxury' }
+    ], price: { budget: 'BRL 180–380', mid: 'BRL 400–700', expensive: 'BRL 700–1200', luxury: 'BRL 1100+' } },
     'sao-paulo': { h: [
       { name: 'Rosewood São Paulo', note: 'Rosewood brand — Cidade Matarazzo on Rua Itapeva in Bela Vista, rooftop infinity pool, Evvai Michelin-starred dining, 24h reception · 9.4 Booking.com', url: 'https://www.booking.com/hotel/br/rosewood-sao-paulo.html' },
       { name: 'L\'Hôtel PortoBay São Paulo', note: 'PortoBay brand — Alameda Campinas in Bela Vista off Avenida Paulista, rooftop pool, 24h reception, AC · 9.2 Booking.com', url: 'https://www.booking.com/hotel/br/porto-bay-lhotel.html' },
@@ -11305,7 +11306,7 @@ window.TVE.home = (function () {
       'MIA','MLA','MLE','MRS','MSP','MSY','MUC','MVD','MXP','NAP','NAS','NAT','NCE','OGG','OPO','ORD','ORY',
       'OSL','PBH','PDL','PDX','PEK','PHL','PHX','PLS','PMI','PNS','POA','PPS','PRG','PSA','PSP','PUS',
       'PVG','PVR','RAK','RDM','REC','RHO','RIX','RNO','RSW','SAN','SCL','SEA','SFO','SIN','SJC','SJO',
-      'SJU','SKG','SLC','SPU','SSA','STR','SXB','SYD','TBS','TFS','TIV','TLL','TOS','TPE','TRN','VCE','VIE',
+      'SJU','SKG','SLC','SLZ','SPU','SSA','STR','SXB','SYD','TBS','TFS','TIV','TLL','TOS','TPE','TRN','VCE','VIE',
       'VLC','WLG','YQB','YUL','YVR','YYC','YYZ','ZAG','ZQN','ZRH'
     ];
 

@@ -2023,7 +2023,8 @@
 /* 2026-08-23: toolbar.js GM_SPRITE gains '423' (backpack) for Getting Around's Luggage Storage sub-block toolbar.js -> v1060. CACHE to v1468. */
 /* 2026-08-23: packing reverted to its pre-2026-08-23 shape (owner request) — the toggle-button/qty-column styling and Hide/Show label change all ship inline in essentials/packing/index.html, no shared asset moved, but the PAGE is precached and several hard refreshes still showed the old content on the reader's device, so the fetch handler's cached copy needed a fresh cache name to force it. CACHE to v1469. */
 /* 2026-08-23: packing corrected to 3-days-ago state (2026-08-20, bb7ba33e2) — the first revert landed on 2026-08-21 by mistake; this rolls back the icon stroke-width normalization too. CACHE to v1471. */
-var CACHE = 'travel-cache-v1471';
+/* 2026-08-23: airlines boarding-pass redesign (owner-approved mockup) — the plain rectangle card on the seven continent airline pages is replaced by a card shaped like the document it describes: a perforated seam splits the body from a torn counterfoil stub carrying the carrier's own IATA designator and fleet count. Alliance filter chips move onto the shared .pill-badge fam-* system so a selected filter's colour always matches the badge colour it filters for, instead of a bespoke box that always turned rust regardless of family; same-family badge pills (Independent + Full-service, both grey) now merge into one pill instead of repeating the colour. Shipped first on Middle East (its data gained the new optional `iata` field, verified against real airline designators); the other six pages render the same new card with a "—" placeholder where `iata` is still missing, and the hub code(s) and short fleet number are derived from their existing `hub`/`fl` strings so nothing else needed to change for them to keep working. airlines.css -> v3, airlines.js -> v3. CACHE to v1472. */
+var CACHE = 'travel-cache-v1472';
 
 /* The guide-calendar hand-off cache. Written by toolbar.js, read and emptied
    once by the fetch handler below, and EXEMPT from the activate sweep — it is
@@ -2036,7 +2037,7 @@ var ICS_OUTBOX = 'gmd-ics-outbox';
    THIS IS THE ONLY PLACE to bump toolbar.js / guide-style.css versions.
    NEVER bump ?v= inside guide HTML — it breaks HMAC stamps and forces re-validation
    of 230+ guides. Instead, bump MIN_VERSIONS here + increment the CACHE version. */
-var MIN_VERSIONS = { 'guide-style.css': 264,'toolbar.js': 1061, 'mobile.css': 88, 'web-travel-style.css': 108, 'guides-index-style.css': 27, 'read-about.css': 6, 'best-of-features.js': 4, 'best-of-cross-data.js': 24, 'weather.js': 12, 'trains.css': 11, 'trains.js': 2, 'airlines.css': 2, 'airlines.js': 2, 'passport.js': 4 };
+var MIN_VERSIONS = { 'guide-style.css': 264,'toolbar.js': 1061, 'mobile.css': 88, 'web-travel-style.css': 108, 'guides-index-style.css': 27, 'read-about.css': 6, 'best-of-features.js': 4, 'best-of-cross-data.js': 24, 'weather.js': 12, 'trains.css': 11, 'trains.js': 2, 'airlines.css': 3, 'airlines.js': 3, 'passport.js': 4 };
 
 function rewriteAssetUrl(urlStr) {
   var u;

@@ -7349,11 +7349,12 @@ window.TVE.home = (function () {
       { name: 'Mystique, a Luxury Collection Hotel', note: 'Marriott Luxury Collection — Oia main street clifftop, adults-only, Asea restaurant, private plunge pools · 9.3 Booking.com', url: 'https://www.booking.com/hotel/gr/mystique-a-luxury-collection-hotel-santorini.html', tier: 'luxury' }
     ], price: { budget: '€90–160', mid: '€200–380', expensive: '€380–700', luxury: '€700+' } },
     'sarasota': { h: [
-      { name: 'The Westin Sarasota', note: 'Marriott family — downtown bayfront tower, outdoor rooftop pool, marina and Sarasota Bay views', url: 'https://www.expedia.com/Sarasota-Hotels-The-Westin-Sarasota.h16818933.Hotel-Information' },
-      { name: 'Hotel Ranola', note: 'Independent boutique — downtown historic district, 10 rooms, chef-driven breakfast, walkable arts scene', url: 'https://www.expedia.com/Sarasota-Hotels-Hotel-Ranola.h12348410.Hotel-Information' },
-      { name: 'The Ritz-Carlton, Sarasota', note: 'Ritz-Carlton brand — downtown waterfront, The Club by Ritz-Carlton beach access, Ristorante Primo · 9.1 Booking.com', url: 'https://www.booking.com/hotel/us/the-ritz-carlton-sarasota.html' },
-      { name: 'Hyatt Regency Sarasota', note: 'Hyatt brand — Sarasota Bay, marina, outdoor pool, Currents Waterfront Dining · 8.8 Booking.com', url: 'https://www.booking.com/hotel/us/hyatt-regency-sarasota.html' }
-    ] },
+      { name: 'Hampton Inn & Suites Sarasota/Bradenton Airport', note: 'Hilton Hampton brand — 8404 15th Street East near I-75, 24h reception, outdoor pool, AC · 8.3 Booking.com', url: 'https://www.booking.com/hotel/us/hampton-inn-sarasota-bradenton-airport.html', tier: 'budget' },
+      { name: 'Hotel Ranola', note: 'Independent boutique — downtown historic district, 10 rooms, chef-driven breakfast, walkable arts scene · 8.8 Booking.com', url: 'https://www.booking.com/hotel/us/hotel-ranola.html', tier: 'mid' },
+      { name: 'The Westin Sarasota', note: 'Marriott Westin — downtown bayfront tower, outdoor rooftop pool, marina and Sarasota Bay views, 24h reception, AC · 8.5 Booking.com', url: 'https://www.booking.com/hotel/us/the-westin-sarasota.html', tier: 'expensive' },
+      { name: 'Hyatt Regency Sarasota', note: 'Hyatt brand — Sarasota Bay waterfront, marina, outdoor pool, Currents Waterfront Dining, 24h reception, AC · 8.8 Booking.com', url: 'https://www.booking.com/hotel/us/hyatt-regency-sarasota.html', tier: 'expensive' },
+      { name: 'The Ritz-Carlton, Sarasota', note: 'Ritz-Carlton brand — downtown waterfront, The Club beach access, Ristorante Primo, 24h reception, AC · 9.1 Booking.com', url: 'https://www.booking.com/hotel/us/the-ritz-carlton-sarasota.html', tier: 'luxury' }
+    ], price: { budget: 'USD 100–190', mid: 'USD 180–320', expensive: 'USD 300–550', luxury: 'USD 550+' } },
     'sardinia': { h: [
       { name: 'Hotel Pitrizza, a Luxury Collection Resort', note: 'Marriott Luxury Collection — Costa Smeralda private rocky bay, saltwater pool, adults-only enclave · 9.3 Booking.com', url: 'https://www.booking.com/hotel/it/hotel-pitrizza-luxury-collection-resort-costa-smeralda.html' },
       { name: 'Romazzino, A Belmond Hotel', note: 'Belmond brand — Costa Smeralda private beach, parasol-shaded white sand, boat excursions · 9.1 Booking.com', url: 'https://www.booking.com/hotel/it/romazzino.html' },
@@ -11320,7 +11321,7 @@ window.TVE.home = (function () {
       'PDL','PDX','PEK','PHL','PHX','PLS','PMI','PNS','POA','PPS','PRG','PSA','PSP','PUS','PVG','PVR',
       'RAK','RDM','REC','RHO','RIX','RNO','RSW','SAN','SCL','SEA','SFO','SIN','SJC','SJD','SJO','SJU',
       'SKG','SLC','SLZ','SPU','SSA','STR','SXB','SYD','SZG','TBS','TFS','TIV','TLL','TOS','TPE','TRN',
-      'VCE','VIE','VLC','WLG','YQB','YUL','YVR','YYC','YYZ','ZAG','ZQN','ZRH'
+      'VCE','VIE','VLC','VRN','WLG','YQB','YUL','YVR','YYC','YYZ','ZAG','ZQN','ZRH'
     ];
 
     function _inject() {

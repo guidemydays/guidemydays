@@ -115,18 +115,6 @@ a.apply-btn:visited { color: #6a6660; }
 .evisa-link { font-size: 12px; color: var(--accent); text-decoration: none; }
 .evisa-link:hover { color: #C04E1A; }
 
-/* Visa-free note */
-.visa-free-grid {
-  display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
-  gap: 10px; margin-bottom: 20px;
-}
-.vf-card {
-  background: var(--surface); border: 1px solid var(--border2); border-radius: 8px;
-  padding: 12px 14px;
-}
-.vf-region { font-size: 11px; font-weight: 700; color: var(--muted); text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 5px; }
-.vf-cities { font-size: 12px; color: var(--text); line-height: 1.65; }
-
 /* Mobile apply link — visible only on mobile inside the destination cell */
 .evisa-mobile-link { display: none; margin-top: 3px; }
 
@@ -135,7 +123,6 @@ a.apply-btn:visited { color: #6a6660; }
   .system-meta { grid-template-columns: 1fr 1fr; }
   .evisa-table th:nth-child(4), .evisa-table td:nth-child(4) { display: none; }
   .evisa-mobile-link { display: block; }
-  .visa-free-grid { grid-template-columns: 1fr; }
   /* Keep the e-visa table a real table (mobile.css display:block squishes its
      columns to one word/line); scroll it in its wrapper if it exceeds width. */
   .evisa-wrap { overflow-x: auto; -webkit-overflow-scrolling: touch; }
@@ -449,10 +436,10 @@ a.apply-btn:visited { color: #6a6660; }
   var inp = document.getElementById('er-search');
   var noRes = document.getElementById('er-noresult');
   if (!inp) return;
-  var cards = [].slice.call(document.querySelectorAll('.system-card, .vf-card'));
+  var cards = [].slice.call(document.querySelectorAll('.system-card'));
   // Group each section-head with the cards that follow it (DOM order), to hide empty sections.
   var groups = [], cur = null;
-  [].slice.call(document.querySelectorAll('.section-head, .system-card, .vf-card')).forEach(function (el) {
+  [].slice.call(document.querySelectorAll('.section-head, .system-card')).forEach(function (el) {
     if (el.classList.contains('section-head')) { cur = { head: el, cards: [] }; groups.push(cur); }
     else if (cur) { cur.cards.push(el); }
   });
@@ -489,15 +476,6 @@ a.apply-btn:visited { color: #6a6660; }
   document.querySelectorAll('.evisa-table tbody tr').forEach(function(tr){
     var dn=tr.querySelector('.dest-name'); if(!dn) return;
     add({name:dn.textContent.trim(), sub:'e-Visa', el:tr});
-  });
-  document.querySelectorAll('.vf-card').forEach(function(card){
-    var region=card.querySelector('.vf-region');
-    var cities=card.querySelector('.vf-cities'); if(!cities) return;
-    var rlabel=region?region.textContent.trim():'Visa-free';
-    cities.textContent.replace(/\([^)]*\)/g,'').split('·').forEach(function(part){
-      var nm=part.trim(); if(!nm) return;
-      add({name:nm, sub:rlabel, el:card});
-    });
   });
   TVESearch.attach(input,{items:items, onPick:function(it){
     input.value=it.name;

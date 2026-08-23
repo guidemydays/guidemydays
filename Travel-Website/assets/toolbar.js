@@ -7652,11 +7652,11 @@ window.TVE.home = (function () {
       { name: 'Rosewood Washington D.C.', note: 'Rosewood brand — Georgetown neighborhood, outdoor pool, acclaimed Wyld restaurant, townhouse suites · 9.4 Booking.com', url: 'https://www.booking.com/hotel/us/rosewood-washington-dc.html', tier: 'luxury' }
     ], price: { budget: '$200–320', mid: '$320–500', expensive: '$500–700', luxury: '$700+' } },
     'wellington': { h: [
-      { name: 'Sofitel Wellington', note: 'Sofitel brand — 11 Bolton Street at the Parliament end of the CBD, valet parking and concierge, walk to the Botanic Garden · 8.8 Booking.com', url: 'https://www.booking.com/hotel/nz/sofitel-wellington.html' },
-      { name: 'DoubleTree by Hilton Wellington', note: 'Hilton family — 28 Grey Street on the corner of Lambton Quay, in the middle of the shopping strip and two blocks off the waterfront · 8.8 Booking.com', url: 'https://www.booking.com/hotel/nz/doubletree-by-hilton-wellington.html' },
-      { name: 'Novotel Wellington', note: 'Novotel brand — 133-137 The Terrace, one block above Lambton Quay and the cable car base · 8.1 Booking.com', url: 'https://www.booking.com/hotel/nz/capital-wellington.html' },
-      { name: 'Bolton Hotel', note: 'Independent — corner of Bolton and Mowbray Streets beside the Botanic Garden, year-round indoor pool, sauna and hot tub · 8.8 Booking.com', url: 'https://www.booking.com/hotel/nz/bolton.html' }
-    ] },
+      { name: 'ibis Wellington', note: 'Accor ibis brand — 153 Featherston Street in the financial district, walking distance to the waterfront and Te Papa · 7.9 Booking.com', url: 'https://www.booking.com/hotel/nz/ibis-wellington.html', tier: 'budget' },
+      { name: 'Novotel Wellington', note: 'Novotel brand — 133-137 The Terrace, one block above Lambton Quay and the cable car base, well-rated central option · 8.1 Booking.com', url: 'https://www.booking.com/hotel/nz/capital-wellington.html', tier: 'mid' },
+      { name: 'DoubleTree by Hilton Wellington', note: 'Hilton family — 28 Grey Street on the corner of Lambton Quay, in the middle of the shopping strip and two blocks off the waterfront · 8.8 Booking.com', url: 'https://www.booking.com/hotel/nz/doubletree-by-hilton-wellington.html', tier: 'expensive' },
+      { name: 'Sofitel Wellington', note: 'Sofitel brand — 11 Bolton Street at the Parliament end of the CBD, valet parking and concierge, walk to the Botanic Garden · 8.8 Booking.com', url: 'https://www.booking.com/hotel/nz/sofitel-wellington.html', tier: 'luxury' }
+    ], price: { budget: 'NZD 130–200', mid: 'NZD 200–350', expensive: 'NZD 350–550', luxury: 'NZD 550+' } },
     'whistler': { h: [
       { name: 'Four Seasons Resort and Residences Whistler', note: 'Four Seasons brand — ski-in/ski-out base of Blackcomb, outdoor heated pool, spa · 9.3 Booking.com', url: 'https://www.booking.com/hotel/ca/four-seasons-whistler.html' },
       { name: 'Nita Lake Lodge', note: 'Independent boutique — Nita Lake waterfront, cross-country trail access, spa, quiet Creekside enclave · 9.4 Booking.com', url: 'https://www.booking.com/hotel/ca/nita-lake-lodge.html' },

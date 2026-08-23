@@ -2016,7 +2016,8 @@
 /* 2026-08-23: Compare strip — TVE.home gains mount(), so the strip above the comparison table now asks for the AIRPORT as well as the passport. Both rows it governs are omitted until answered, and the airport had no control inside Compare at all: the site's only airport box lives in the landing page's Help Me Choose card, so a reader who opened Compare alone could never reach the Flight row the panel advertises. web-travel-style.css carries the pairing rule (.cmp-strip-q) and the IATA lead (.pp-code) -> v103. toolbar.js moved in the same pass (v1058). CACHE to v1461. */
 /* 2026-08-23: web-travel-style.css picks up the new .selection-pill shared class (the toolbar tab's box/hover/selected values, reusable by any page) and a universal :focus-visible fix for .pill-badge/.badge/.sibling-pill -- a <span role="button"> pill previously matched neither a:focus-visible nor button:focus-visible, so it fell back to the browser's default black ring (owner 2026-08-23: "it changes to black"), or a page suppressed it locally (scams' outline:none) and lost focus indication entirely. web-travel-style.css -> v104. CACHE to v1462. */
 /* 2026-08-23: Compare's passport/airport strip gets 18px above and below instead of running into the selection bar's rim (owner: "these are below the top needs to be moved down"; gap above equals gap below, Fifty-fourth non-negotiable). web-travel-style.css -> v106. CACHE to v1464. */
-var CACHE = 'travel-cache-v1464';
+/* 2026-08-23: Best-Of filter row (continent chips, Sort dropdown, Saved pill) had near-zero contrast against the page — .bo-chip / .bo-favs-pill / #regionJump .disc-btn painted background:var(--surface2,#f2ede7) on a var(--bg,#f5f4f0) page, two shades of the same beige, and color:var(--muted,#6a6660) on top of that (owner: "i cant barely see these pills"). All three now sit on var(--surface,#fff) with a var(--border2) rim and var(--text) ink, matching the readable .disc-btn pattern already used elsewhere on the site. Also widened the gap between the "Filter by country" row and the chip row below it (.bo-feat-toolbar margin-top 8px -> 18px) per the same complaint ("filter by country is too close to the ones below"). web-travel-style.css -> v107. CACHE to v1465. */
+var CACHE = 'travel-cache-v1465';
 
 /* The guide-calendar hand-off cache. Written by toolbar.js, read and emptied
    once by the fetch handler below, and EXEMPT from the activate sweep — it is
@@ -2029,7 +2030,7 @@ var ICS_OUTBOX = 'gmd-ics-outbox';
    THIS IS THE ONLY PLACE to bump toolbar.js / guide-style.css versions.
    NEVER bump ?v= inside guide HTML — it breaks HMAC stamps and forces re-validation
    of 230+ guides. Instead, bump MIN_VERSIONS here + increment the CACHE version. */
-var MIN_VERSIONS = { 'guide-style.css': 264,'toolbar.js': 1058, 'mobile.css': 88, 'web-travel-style.css': 106, 'guides-index-style.css': 27, 'read-about.css': 6, 'best-of-features.js': 4, 'best-of-cross-data.js': 24, 'weather.js': 12, 'trains.css': 11, 'trains.js': 2, 'airlines.css': 2, 'airlines.js': 2, 'passport.js': 4 };
+var MIN_VERSIONS = { 'guide-style.css': 264,'toolbar.js': 1058, 'mobile.css': 88, 'web-travel-style.css': 107, 'guides-index-style.css': 27, 'read-about.css': 6, 'best-of-features.js': 4, 'best-of-cross-data.js': 24, 'weather.js': 12, 'trains.css': 11, 'trains.js': 2, 'airlines.css': 2, 'airlines.js': 2, 'passport.js': 4 };
 
 function rewriteAssetUrl(urlStr) {
   var u;

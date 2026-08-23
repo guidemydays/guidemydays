@@ -59,17 +59,31 @@ html { overflow-x: clip; }
      rule 2026-08-20, measured off the lounges-us legend row). Closer than
      this and the two borders start reading as one merged hairline. */
   --fam-gap:    10px;
-  /* ONE SIZE FOR THE WHOLE FAMILY — the settle, owner rule 2026-08-23. The
-     site had drifted to two extremes: the shared 11px/3px 8px box (cards-atm,
-     scams, tipping) read as fine print, and /essentials/budget/ carried a
-     page-scoped .ci-btn upsize to 15px/7px 14px that read as a row of
-     buttons. Neither is the size — this token is, and it is the ONLY place
-     the number lives. A page NEVER restates a font-size or a padding on a
-     .badge / .pill-badge; if one reads wrong, the token moves and every page
-     moves with it (badge and pill-badge are one element — see the block at
-     "ONE BOX, ONE CASE"). */
+  /* TWO SIZES NOW, ONE PER ROLE — owner rule 2026-08-23, reversing the
+     "one size for the whole family" settle from earlier the same day. That
+     pass fixed the wrong drift: it made every .badge/.pill-badge on the
+     site match EACH OTHER, but never asked whether a clickable filter pill
+     and a static inline tag should be the same size to begin with. They
+     shouldn't — owner, looking at essentials/budget's per-row "CHEAP" tag
+     sitting in a table next to a 14px place name: "the badge can't be
+     bigger than the text it refers to" — a bordered, padded, 32px-tall pill
+     was dominating a row whose own text needed less than 20px. "the badge
+     pills needs to be smaller, different locations and idea."
+     --fam-fs/--fam-pad stay exactly as settled this morning and now belong
+     to .pill-badge ONLY — a clickable control (filter, sort, tab) that is
+     usually the only content in its row, where the full-size box reads
+     right. --badge-fs/--badge-pad are new and belong to .badge ONLY — a
+     static inline label sitting next to other text (a table-cell tag, a
+     card tag), sized down so it stops out-weighing that text. The values
+     are the site's OWN pre-settle default (cards-atm/scams/tipping's
+     11px/3px 8px, described as "fine print" this morning) — not a new
+     invented number, just correctly assigned to the role it always fit. A
+     page still NEVER restates either token locally; if one reads wrong,
+     the token moves and every page carrying that role moves with it. */
   --fam-fs:     13px;
   --fam-pad:    5px 11px;
+  --badge-fs:   11px;
+  --badge-pad:  3px 8px;
   /* Border RGB triplets — one source for BOTH alphas of the ladder:
      rest rgba(...,.4), selected rgba(...,.85). Owner's own pattern. */
   --fam-yellow-rgb:122,88,0;   --fam-green-rgb:26,90,26;    --fam-red-rgb:122,58,26;
@@ -2546,10 +2560,16 @@ body > .hero-ground {
         together.
    ══════════════════════════════════════════════════════════════════════════ */
 
-/* ONE BOX, ONE CASE. Badge and pill-badge are the SAME element — size,
-   weight, spacing, padding, radius AND case all identical (owner rules
-   2026-08-18 and 2026-08-20). BEHAVIOUR is the only difference. No
-   transition: nothing animates because nothing hovers. */
+/* ONE SHAPE, ONE CASE, TWO SIZES. Badge and pill-badge still share every
+   structural property — gap, border width, radius, weight, letter-spacing,
+   caps — and still read as ONE FAMILY at a glance. Size is no longer one of
+   the shared properties (owner rule 2026-08-23, reversing 2026-08-18's "same
+   size vertically and horizontally": see the --badge-fs/--fam-fs note above).
+   .badge is a static inline label — sized down so it never outweighs the
+   text it sits beside. .pill-badge is a clickable control — full size,
+   because it is usually the only thing in its row. BEHAVIOUR was always the
+   documented difference between them; size just stopped pretending to be
+   identical too. No transition: nothing animates because nothing hovers. */
 .badge,
 .pill-badge {
   display: inline-flex;
@@ -2560,24 +2580,22 @@ body > .hero-ground {
   border-radius: var(--fam-radius, 4px);
   white-space: nowrap;
   line-height: 1.5;
-  font-size: var(--fam-fs, 13px);
   font-weight: 700;
   letter-spacing: 0.04em;
-  padding: var(--fam-pad, 5px 11px);
   text-transform: uppercase;
 }
+.badge { font-size: var(--badge-fs, 11px); padding: var(--badge-pad, 3px 8px); }
+.pill-badge { font-size: var(--fam-fs, 13px); padding: var(--fam-pad, 5px 11px); }
 
-/* ONE CASE TOO — owner rule 2026-08-20. Both are ALL CAPS, so the two are now
-   visually IDENTICAL: same box, same colour, same case. What separates them is
-   BEHAVIOUR and nothing else — .badge is a static label, .pill-badge clicks and
-   can carry .is-on. text-transform lives in the shared block above; never
-   re-add `text-transform: none` here to "tell them apart", and never uppercase
-   an anchor/link pill (also-on-this-site, nearby-guide, chevron-link, jump-nav)
+/* ONE CASE STILL — owner rule 2026-08-20, untouched by the size split above.
+   Both are ALL CAPS. What separates them is BEHAVIOUR (.badge is a static
+   label, .pill-badge clicks and can carry .is-on) and now SIZE; text-
+   transform lives in the shared block above regardless — never re-add
+   `text-transform: none` here to "tell them apart", and never uppercase an
+   anchor/link pill (also-on-this-site, nearby-guide, chevron-link, jump-nav)
    on the strength of this rule — caps belongs to this badge-anchored family
    alone. */
 
-/* .badge needs no rule of its own any more — the shared block above IS the
-   badge. Only the control adds anything, and all it adds is clickability. */
 .pill-badge {
   cursor: pointer;
   text-decoration: none;
@@ -2590,11 +2608,17 @@ body > .hero-ground {
    check_pill_hover_option_b validator still describes a terracotta-border
    hover — that rule is retired, do not reinstate it from there. */
 
-/* selected — the currentColor ring, already live on scams and visa-times */
+/* selected — the currentColor ring, already live on scams and visa-times.
+   2026-08-23: shrunk from 2.5px/2px offset (4.5px total footprint per side)
+   to 2px/1px (3px per side) — owner, looking at the budget page's "All"
+   pill: "looks too big now". The BOX never changed (same 32px height on
+   every pill in the row, selected or not); the ring drawn outside it was
+   the part reading as oversized. Tight enough to still clearly mark
+   selection, without the floating-halo look the old offset gave it. */
 .badge.is-on,
 .pill-badge.is-on {
-  outline: 2.5px solid currentColor;
-  outline-offset: 2px;
+  outline: 2px solid currentColor;
+  outline-offset: 1px;
 }
 
 /* SELECTED ALSO DARKENS THE BORDER — rest .4 -> selected .85, per the owner's

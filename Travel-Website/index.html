@@ -1437,8 +1437,16 @@ a.land-cta:hover:visited {
    would be a second, unasked change. */
 .lp-ask { max-width: var(--lp-max, 1180px); margin: clamp(2.4rem, 5vw, 4rem) auto 0; }
 .ask-row { display: grid; grid-template-columns: 1fr 1fr; gap: clamp(0.6rem, 1.4vw, 1rem); }
-/* Compare cities is the third card and takes the whole row beneath the pair. */
+/* FOUR cards in two equal rows, not three with a full-width straggler (owner
+   rule 2026-08-23: Ask Your Guide "move to share half of the width with compare
+   cities. Which is very fitting!"). Compare cities put its `.ask-card--wide`
+   down to make room; the class stays defined for whatever lands fifth and odd. */
 .ask-card--wide { grid-column: 1 / -1; }
+/* Three of the four cards are <button>s that open a panel below; Ask Your Guide
+   is an <a> that leaves for its own page, so it needs the link defaults undone
+   to sit level with its siblings. */
+a.ask-card { text-decoration: none; }
+a.ask-card:visited .ask-name { color: var(--ink,#3d3a32); }
 @media (max-width: 700px) { .ask-row { grid-template-columns: 1fr; } }
 .ask-card {
   display: grid; grid-template-columns: auto 1fr; column-gap: 0.85rem; row-gap: 0.25rem;
@@ -3799,11 +3807,28 @@ window.lpGuideCard = function (href, flag, name, extra) {
          rule 2026-08-22: "they are related") — three ways to decide, one block.
          It left the quiet-end row it shared with Stats; its panel stays the
          next sibling so the answer lands under the control that asked for it. -->
-    <button type="button" class="ask-card ask-card--wide" data-tool="compare" aria-expanded="false" aria-controls="tp-compare">
+    <button type="button" class="ask-card" data-tool="compare" aria-expanded="false" aria-controls="tp-compare">
       <span class="ask-ic" aria-hidden="true"><svg viewBox="0 0 24 24"><use href="#gm-i-compare"/></svg></span>
       <span class="ask-name">Compare cities</span>
       <span class="ask-desc">Up to five cities side by side &mdash; days, weather, flight time.</span>
     </button>
+    <!-- ASK YOUR GUIDE — the fourth card, sharing Compare's row (owner rule
+         2026-08-23: "move to share half of the width with compare cities. Which
+         is very fitting!"). It is the only one of the four that LEAVES: the other
+         three open a panel beneath the row, this one goes to its own page,
+         because the pack it shows is a whole page of numbers about one place and
+         not an answer that fits under a control.
+
+         It is also the reason the /stats/{region}/ pages stop being the front
+         door to that data. Those pages are metric-first — one ranked table per
+         metric, thirty countries deep — so reading up on Vienna meant finding
+         Austria eighteen separate times. This is the same data, place-first.
+         Icon: Site-Icons #956 `person-question` — never an emoji. -->
+    <a class="ask-card" href="/ask-your-guide/">
+      <span class="ask-ic" aria-hidden="true"><svg viewBox="0 0 24 24"><use href="#gm-i-person-question"/></svg></span>
+      <span class="ask-name">Ask Your Guide</span>
+      <span class="ask-desc">What people earn, what they own, how long they live &mdash; one place, every number.</span>
+    </a>
   <!-- ═══ COMPARE ══════════════════════════════════════════════════════════════
        The comparison itself, on this page. It used to be a link to
        /guides/#compare, which is a different page with a different way in: you

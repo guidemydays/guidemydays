@@ -45,11 +45,22 @@ html { overflow-x: clip; }
   --fam-green-bg:  #e8f5e8; --fam-green-bd:  rgba(26,90,26,0.4);   --fam-green-ink:  #1a5a1a;
   --fam-red-bg:    #fdf0e8; --fam-red-bd:    rgba(122,58,26,0.4);  --fam-red-ink:    #7a3a1a;
   --fam-blue-bg:   #e8f0fb; --fam-blue-bd:   rgba(26,58,139,0.4);  --fam-blue-ink:   #1a3a8b;
-  --fam-purple-bg: #f3e8ff; --fam-purple-bd: rgba(124,58,237,0.4); --fam-purple-ink: #7c3aed;
-  --fam-orange-bg: #fdf8f0; --fam-orange-bd: rgba(184,134,90,0.4); --fam-orange-ink: #8a4a10;
+  --fam-purple-bg: #f3e8ff; --fam-purple-bd: rgba(124,58,237,0.45); --fam-purple-ink: #7c3aed;
+  --fam-orange-bg: #fdf8f0; --fam-orange-bd: rgba(184,134,90,0.65); --fam-orange-ink: #8a4a10;
   --fam-pink-bg:   rgba(160,40,110,0.08); --fam-pink-bd: rgba(160,40,110,0.4); --fam-pink-ink: #8a2168;
-  --fam-grey-bg:   rgba(138,108,26,0.07); --fam-grey-bd: rgba(106,102,96,0.4); --fam-grey-ink: #6a6660;
-  /* shape + rhythm — a 4px rounded rectangle, and never closer than the
+  --fam-grey-bg:   rgba(138,108,26,0.07); --fam-grey-bd: rgba(106,102,96,0.48); --fam-grey-ink: #6a6660;
+  /* BORDER-ALPHA EQUALIZATION — owner rule 2026-08-24. All eight families used
+     a flat 0.4 border alpha, but a light/warm hue (orange especially, grey and
+     purple to a lesser degree) blends into the near-white page background at
+     that alpha far more than a dark/saturated one (green, blue, red) does —
+     same rule, wildly different contrast. Trigger: ATM TIPS (orange) read as a
+     near-invisible hairline next to EXCHANGE (green) at the identical 1px/0.4
+     spec. Alpha bumped per-family (orange 0.4→0.65, grey 0.4→0.48, purple
+     0.4→0.45) so every family's rest-state border reads at roughly the same
+     visual weight; yellow/green/red/blue/pink were already close enough to
+     leave untouched. Never move these back to a single shared 0.4 without
+     re-checking contrast — that is the bug this fixes.
+     shape + rhythm — a 4px rounded rectangle, and never closer than the
      --fam-gap floor.
      4px / 5px are the SPEC values (Formatting.html#sec-badges "Shape and
      effect · badge box"), not chosen here. An earlier pass shipped 6px/6px
@@ -69,19 +80,19 @@ html { overflow-x: clip; }
      bigger than the text it refers to" — a bordered, padded, 32px-tall pill
      was dominating a row whose own text needed less than 20px. "the badge
      pills needs to be smaller, different locations and idea."
-     --fam-fs/--fam-pad stay exactly as settled this morning and now belong
-     to .pill-badge ONLY — a clickable control (filter, sort, tab) that is
-     usually the only content in its row, where the full-size box reads
-     right. --badge-fs/--badge-pad are new and belong to .badge ONLY — a
-     static inline label sitting next to other text (a table-cell tag, a
-     card tag), sized down so it stops out-weighing that text. The values
-     are the site's OWN pre-settle default (cards-atm/scams/tipping's
-     11px/3px 8px, described as "fine print" this morning) — not a new
-     invented number, just correctly assigned to the role it always fit. A
-     page still NEVER restates either token locally; if one reads wrong,
+     --fam-fs/--fam-pad belong to .pill-badge ONLY — a clickable control
+     (filter, sort, tab) that is usually the only content in its row.
+     --badge-fs/--badge-pad belong to .badge ONLY — a static inline label
+     sitting next to other text (a table-cell tag, a card tag), sized down
+     so it stops out-weighing that text. Owner rule 2026-08-24: .pill-badge
+     dropped from 13px/5px 11px to 12px/4px 10px (site-wide filter rows —
+     cards-atm's ALL/CREDIT CARDS/… row was the trigger — read too large).
+     First pass overcorrected to 11px/4px 9px — owner: "too small now, don't
+     do extremes" — settled one notch up from that.
+     A page still NEVER restates either token locally; if one reads wrong,
      the token moves and every page carrying that role moves with it. */
-  --fam-fs:     13px;
-  --fam-pad:    5px 11px;
+  --fam-fs:     12px;
+  --fam-pad:    4px 10px;
   --badge-fs:   11px;
   --badge-pad:  3px 8px;
   /* Border RGB triplets — one source for BOTH alphas of the ladder:
@@ -269,7 +280,7 @@ html { overflow-x: clip; }
 
     /* ── Badge families, dark. Same eight, one definition. ── */
     --fam-yellow-bg: #281f00; --fam-yellow-bd: rgba(212,168,48,0.4);  --fam-yellow-ink: #d4a830;
-    --fam-green-bg:  #0d200d; --fam-green-bd:  rgba(90,170,94,0.4);   --fam-green-ink:  #5aaa5e;
+    --fam-green-bg:  #0d200d; --fam-green-bd:  rgba(90,170,94,0.5);   --fam-green-ink:  #5aaa5e;
     --fam-red-bg:    #2a1408; --fam-red-bd:    rgba(232,168,128,0.4); --fam-red-ink:    #e8a880;
     --fam-blue-bg:   #0a1a3a; --fam-blue-bd:   rgba(147,180,255,0.4); --fam-blue-ink:   #93b4ff;
     --fam-purple-bg: #2d1b5e; --fam-purple-bd: rgba(192,132,252,0.4); --fam-purple-ink: #c084fc;

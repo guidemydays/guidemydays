@@ -867,8 +867,14 @@ html { scroll-behavior: smooth; }
     decide for themselves whether to pack more or less than it recommends. */
  function explainQty(cfg) {
  if (!cfg.ratio) return cfg.min + ' total, regardless of trip length';
- var perDays = Math.max(1, Math.round(1 / cfg.ratio));
- var txt = '1 every ' + perDays + (perDays === 1 ? ' day' : ' days');
+ var txt;
+ if (cfg.ratio >= 1) {
+  var perDay = Math.round(cfg.ratio);
+  txt = perDay + ' per day';
+ } else {
+  var perDays = Math.max(2, Math.round(1 / cfg.ratio));
+  txt = '1 every ' + perDays + ' days';
+ }
  if (cfg.offset) txt += ' + ' + cfg.offset + (Math.abs(cfg.offset) === 1 ? ' spare' : ' spares');
  return txt;
  }

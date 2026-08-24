@@ -12,15 +12,16 @@
    (align-items center -> flex-start, sub 12.5px -> 13px) that copy silently
    pinned this one page to the old look. Do not paste it back. */
 
+.dp-wrap { max-width: var(--rail); padding: 0 var(--gutter); margin: 0 auto; }
+
 /* ── Controls ── */
-.controls {
-  display: flex; flex-direction: column; align-items: center; gap: 16px;
-  padding: 0 0 14px; margin: 0 0 20px;
-  background: var(--bg);
+.dp-controls {
+  background: var(--surface); border: 1px solid var(--border2); border-radius: 12px;
+  padding: 16px 18px; box-shadow: 0 2px 12px rgba(92,61,17,.07);
+  margin: 0 0 26px;
 }
-.search-wrap { display: flex; justify-content: center; align-self: stretch; }
-.search-wrap input { margin-bottom: 0; }
-.pills { display: flex; flex-wrap: nowrap; justify-content: center; gap: var(--fam-gap,10px); margin-top: var(--search-gap,32px); }
+.dp-ctrl-label { font-size: var(--fs-label); text-transform: uppercase; letter-spacing: .06em; color: var(--muted); margin-bottom: 10px; }
+.pills { display: flex; flex-wrap: wrap; justify-content: flex-start; gap: var(--fam-gap,10px); }
 /* Filter pills — size + colour from .pill-badge / .fam-*. No hover. */
 /* .pill is a layout hook — box, colour, case and the selected state come from
    the shared .pill-badge + .fam-* classes (markup writes pill pill-badge fam-*;
@@ -28,43 +29,49 @@
    Spec: Brain/Reference/Formatting/Badge-Pill-System/. */
 .pill { font-family: inherit; }
 .pill-count { display: none; }
-@media (max-width: 600px) and (pointer: coarse) {
-  .pills { gap: var(--fam-gap,10px); }
-}
 
-/* ── Rows ── */
+/* ── Section heads ── */
 #no-results { display: none; color: var(--muted); font-size: 13px; margin-bottom: 12px; text-align: center; }
-.region-label {
-  font-size: 12px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase;
-  color: var(--muted); margin: 22px 0 10px; padding-bottom: 6px;
-  border-bottom: 1px solid var(--border2);
+.dp-section-head {
+  display: flex; align-items: center; gap: 10px; margin: 34px 0 16px;
+  padding-bottom: 9px; border-bottom: 2px solid var(--border2);
 }
-.region-label:first-of-type { margin-top: 4px; }
-.region-label.hidden { display: none; }
-.row-list { display: flex; flex-direction: column; gap: 8px; }
-.dp-row {
-  border: 1px solid var(--border2); border-radius: 8px;
-  padding: 13px 15px; background: var(--surface);
-  display: flex; flex-direction: column; gap: 9px;
-  scroll-margin-top: 120px;
+.dp-section-head:first-of-type { margin-top: 4px; }
+.dp-section-head.hidden { display: none; }
+.dp-section-title { font-size: 15px; font-weight: 700; color: var(--text); }
+.dp-section-num {
+  font-size: 11px; font-weight: 700; color: var(--muted);
+  background: var(--bg); border: 1px solid var(--border2);
+  border-radius: 4px; width: 22px; height: 22px; flex-shrink: 0;
+  display: inline-flex; align-items: center; justify-content: center;
 }
-.dp-row.hidden { display: none; }
-.dp-header { display: flex; align-items: baseline; gap: 8px; flex-wrap: wrap; }
-.dp-title { font-size: 14px; font-weight: 700; color: var(--text); }
-.dp-where { font-size: 12px; color: var(--muted); }
-.dp-tip { display: flex; align-items: flex-start; gap: 9px; }
-.dp-text { font-size: 13px; color: var(--muted); line-height: 1.55; }
-/* dp-tag sizing + colour from .badge / .fam-* */
-.dp-tag { flex-shrink: 0; text-transform: uppercase; min-width: 116px; text-align: center; white-space: nowrap; }
+
+/* ── Card grid ── */
+.dp-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(310px, 1fr)); gap: 14px; margin-bottom: 6px; }
+.dp-card {
+  background: var(--surface); border: 1px solid var(--border2); border-radius: 12px;
+  padding: 17px 18px 18px; box-shadow: 0 1px 6px rgba(92,61,17,.05);
+  display: flex; flex-direction: column; gap: 10px;
+}
+.dp-card.hidden { display: none; }
+.dp-card-top { display: flex; align-items: center; justify-content: space-between; gap: 8px; flex-wrap: wrap; }
+.dp-tags { display: flex; gap: 6px; flex-wrap: wrap; }
+/* badge sizing + colour from .badge / .fam-* */
+.dp-where { font-size: 10.5px; font-weight: 700; color: var(--muted); text-transform: uppercase; letter-spacing: .05em; white-space: nowrap; }
+.dp-title { font-size: 15px; font-weight: 700; color: var(--text); line-height: 1.35; margin: 0; }
+.dp-facts { margin: 0; padding-left: 18px; display: flex; flex-direction: column; gap: 8px; }
+.dp-facts li { font-size: 13px; color: var(--muted); line-height: 1.55; }
+.dp-facts li::marker { color: var(--rust,#C04E1A); }
 
 @media (max-width: 600px) and (pointer: coarse) {
+  .dp-wrap { padding: 0 14px; }
   .search-wrap input { width: 100%; max-width: 100%; }
-  /* Form B glued grid — 3 across, two even rows of 3. 1.5px neutral border with
-     negative margins so adjacent borders overlap into one hairline. */
-  .dp-tip { flex-direction: column; gap: 5px; }
-  .dp-tag { min-width: 0; }
+  .dp-grid { grid-template-columns: 1fr; gap: 12px; }
+  .dp-controls { padding: 14px 15px; }
+  .pills { gap: var(--fam-gap,10px); }
+  .dp-card { padding: 15px 15px 16px; }
 }
-/* pill + dp-tag dark mode handled by .fam-* tokens */
+/* pill + badge dark mode handled by .fam-* tokens */
 </style>
 <link rel="stylesheet" href="/assets/mobile.css?v=53">
 <!-- seo:start — generated by Brain/scripts/build/build_seo.py · do not hand-edit -->
@@ -94,7 +101,7 @@
 <!-- seo:end -->
 </head>
 <body>
-<div id="toolbar-mount" data-depth="2" data-maxwidth="760" data-updated="2026-08-08"></div>
+<div id="toolbar-mount" data-depth="2" data-maxwidth="760" data-updated="2026-08-24"></div>
 <script src="/assets/toolbar.js?v=127"></script>
 
   <div class="hero-band">
@@ -105,9 +112,10 @@
     <input type="search" id="dp-search" class="search-input" placeholder="Park, ride or topic" aria-label="Search Disney timing tips" autocomplete="off" spellcheck="false">
   </div>
 
-<div class="wrap">
+<div class="dp-wrap">
 
-  <div class="controls">
+  <div class="dp-controls">
+    <div class="dp-ctrl-label">Filter by topic</div>
     <div class="pills tve-glue-m">
       <button class="pill pill-badge fam-yellow" data-filter="dates"   onclick="filterCat(this,'dates')" aria-pressed="false"><svg class="gm-icon" data-icon="dot-yellow" data-role="dot" viewBox="0 0 24 24" aria-hidden="true"><use href="#gm-i-dot-yellow"/></svg> When to go <span class="pill-count" id="cnt-dates"></span></button>
       <button class="pill pill-badge fam-purple" data-filter="book"    onclick="filterCat(this,'book')" aria-pressed="false"><svg class="gm-icon" data-icon="dot-purple" data-role="dot" viewBox="0 0 24 24" aria-hidden="true"><use href="#gm-i-dot-purple"/></svg> Book ahead <span class="pill-count" id="cnt-book"></span></button>
@@ -120,184 +128,361 @@
 
   <p id="no-results">Nothing matches your search.</p>
 
-  <div class="row-list">
+  <div class="dp-section-head"><span class="dp-section-num">1</span><span class="dp-section-title">Choosing your dates</span></div>
+  <div class="dp-grid">
 
-    <div class="region-label">Choosing your dates</div>
-
-    <div class="dp-row" data-cats="dates">
-      <div class="dp-header"><span class="dp-title">The quiet weeks in Orlando</span><span class="dp-where">Walt Disney World</span></div>
-      <div class="dp-tip"><span class="dp-tag badge fam-yellow">When to go</span><span class="dp-text">Late August through September, skipping Labor Day weekend, is the lightest stretch of the year across all four parks. January and early February are the cool-weather equivalent. The two other gaps are early November outside Veterans Day weekend, and the first ten days of December after Thanksgiving but before the holiday rush.</span></div>
-      <div class="dp-tip"><span class="dp-tag badge fam-yellow">When to go</span><span class="dp-text">The hidden cost of a quiet week is short hours. A 9am–7pm September day gives you far less usable park time than a 9am–11pm July day, so a low-crowd trip needs more days, not fewer. Check the posted hours for your dates before deciding how many park days to buy.</span></div>
+    <div class="dp-card" data-cats="dates">
+      <div class="dp-card-top">
+        <div class="dp-tags"><span class="badge fam-yellow">When to go</span></div>
+        <span class="dp-where">Walt Disney World</span>
+      </div>
+      <h3 class="dp-title">The quiet weeks in Orlando</h3>
+      <ul class="dp-facts">
+        <li>Late August through September, skipping Labor Day weekend, is the lightest stretch of the year across all four parks. January and early February are the cool-weather equivalent. The two other gaps are early November outside Veterans Day weekend, and the first ten days of December after Thanksgiving but before the holiday rush.</li>
+        <li>The hidden cost of a quiet week is short hours. A 9am–7pm September day gives you far less usable park time than a 9am–11pm July day, so a low-crowd trip needs more days, not fewer. Check the posted hours for your dates before deciding how many park days to buy.</li>
+      </ul>
     </div>
 
-    <div class="dp-row" data-cats="dates">
-      <div class="dp-header"><span class="dp-title">The quiet weeks in Anaheim</span><span class="dp-where">Disneyland</span></div>
-      <div class="dp-tip"><span class="dp-tag badge fam-yellow">When to go</span><span class="dp-text">Mid-January to mid-March and mid-September to mid-November are the shoulder seasons. Within any week, Tuesday and Wednesday are consistently the two quietest days and weekends are consistently the worst — at a resort this heavily driven by local annual passholders, the day of the week matters more than it does in Orlando.</span></div>
-      <div class="dp-tip"><span class="dp-tag badge fam-yellow">When to go</span><span class="dp-text">Summer is peak, with one counterintuitive exception: the week of 4 July often runs lighter than the weeks around it, because annual-pass blockouts and top-tier single-day ticket pricing both bite hardest on those dates. D23, the Disney fan convention, is at Anaheim 14–16 August 2026 and fills both the parks and the surrounding hotels.</span></div>
+    <div class="dp-card" data-cats="dates">
+      <div class="dp-card-top">
+        <div class="dp-tags"><span class="badge fam-yellow">When to go</span></div>
+        <span class="dp-where">Disneyland</span>
+      </div>
+      <h3 class="dp-title">The quiet weeks in Anaheim</h3>
+      <ul class="dp-facts">
+        <li>Mid-January to mid-March and mid-September to mid-November are the shoulder seasons. Within any week, Tuesday and Wednesday are consistently the two quietest days and weekends are consistently the worst — at a resort this heavily driven by local annual passholders, the day of the week matters more than it does in Orlando.</li>
+        <li>Summer is peak, with one counterintuitive exception: the week of 4 July often runs lighter than the weeks around it, because annual-pass blockouts and top-tier single-day ticket pricing both bite hardest on those dates. D23, the Disney fan convention, is at Anaheim 14–16 August 2026 and fills both the parks and the surrounding hotels.</li>
+      </ul>
     </div>
 
-    <div class="dp-row" data-cats="dates inpark">
-      <div class="dp-header"><span class="dp-title">Building the day around Florida weather</span><span class="dp-where">Walt Disney World</span></div>
-      <div class="dp-tip"><span class="dp-tag badge fam-yellow">When to go</span><span class="dp-text">June to September is the wet season, and the storms are a schedule, not a risk: near-daily thunderstorms roll through in the mid-afternoon, most often between 2pm and 5pm. Outdoor coasters and anything with an exposed queue shut down for lightning and can stay down for 30–45 minutes after the last strike.</span></div>
-      <div class="dp-tip"><span class="dp-tag badge fam-green">In the park</span><span class="dp-text">Plan the exposed park for the morning and put an indoor block in the afternoon — a show, a table-service meal, or the hotel pool. Coming back for the evening after the storm clears is the standard summer shape of the day and the reason evening park hours run so late.</span></div>
+    <div class="dp-card" data-cats="dates inpark">
+      <div class="dp-card-top">
+        <div class="dp-tags"><span class="badge fam-yellow">When to go</span><span class="badge fam-green">In the park</span></div>
+        <span class="dp-where">Walt Disney World</span>
+      </div>
+      <h3 class="dp-title">Building the day around Florida weather</h3>
+      <ul class="dp-facts">
+        <li>June to September is the wet season, and the storms are a schedule, not a risk: near-daily thunderstorms roll through in the mid-afternoon, most often between 2pm and 5pm. Outdoor coasters and anything with an exposed queue shut down for lightning and can stay down for 30–45 minutes after the last strike.</li>
+        <li>Plan the exposed park for the morning and put an indoor block in the afternoon — a show, a table-service meal, or the hotel pool. Coming back for the evening after the storm clears is the standard summer shape of the day and the reason evening park hours run so late.</li>
+      </ul>
     </div>
 
-    <div class="dp-row" data-cats="dates inpark">
-      <div class="dp-header"><span class="dp-title">Hard-ticket party nights close the park early</span><span class="dp-where">Both resorts</span></div>
-      <div class="dp-tip"><span class="dp-tag badge fam-yellow">When to go</span><span class="dp-text">On Mickey's Not-So-Scary Halloween Party nights, Magic Kingdom closes at 6pm to anyone without a party ticket. Party guests can enter from 4pm and the event runs 7pm to midnight. The 2026 season starts 7 August, with dates on Tuesdays, Fridays and Sundays in August and September, and most nights of the week through October. Mickey's Very Merry Christmas Party works the same way in November and December.</span></div>
-      <div class="dp-tip"><span class="dp-tag badge fam-yellow">When to go</span><span class="dp-text">This catches people who bought a regular ticket for a party date and lose the evening. Check the park calendar for your dates before you buy, and if you land on a party night, either buy the party ticket or make that a different park's day. Disneyland runs the same model with Oogie Boogie Bash at California Adventure in the autumn.</span></div>
-    </div>
-
-    <div class="region-label">Sixty days out — dining</div>
-
-    <div class="dp-row" data-cats="book">
-      <div class="dp-header"><span class="dp-title">The dining window opens 60 days ahead at 6am</span><span class="dp-where">Walt Disney World</span></div>
-      <div class="dp-tip"><span class="dp-tag badge fam-purple">Book ahead</span><span class="dp-text">Reservations open 60 days before the dining date at 6:00am Eastern. Guests staying at a Disney resort hotel, Shades of Green, the Swan and Dolphin or Swan Reserve get the better version: 60 days before check-in you can book the whole stay in one sitting, up to 10 days of reservations. Everyone else books one day at a time, returning at each individual 60-day mark.</span></div>
-      <div class="dp-tip"><span class="dp-tag badge fam-purple">Book ahead</span><span class="dp-text">Be logged in and on the reservation screen before 6:00am, not at 6:00am — the hardest tables go in the first minutes. Space 220, Cinderella's Royal Table, Be Our Guest, 'Ohana and Victoria &amp; Albert's are the ones that vanish fastest.</span></div>
-    </div>
-
-    <div class="dp-row" data-cats="book">
-      <div class="dp-header"><span class="dp-title">The dining window opens 60 days ahead at 6am</span><span class="dp-where">Disneyland</span></div>
-      <div class="dp-tip"><span class="dp-tag badge fam-purple">Book ahead</span><span class="dp-text">Same 60 days, same 6:00am — but Pacific time, and one day at a time. There is no length-of-stay privilege for hotel guests here, so a five-night trip means five separate booking mornings. Blue Bayou, Oga's Cantina, Napa Rose and Carthay Circle are the ones that need the alarm.</span></div>
-      <div class="dp-tip"><span class="dp-tag badge fam-purple">Book ahead</span><span class="dp-text">If Blue Bayou is gone for dinner, try lunch — same room, slightly shorter menu, and noticeably more cancellations.</span></div>
-    </div>
-
-    <div class="dp-row" data-cats="book">
-      <div class="dp-header"><span class="dp-title">The cancellation clock is the second chance</span><span class="dp-where">Both resorts</span></div>
-      <div class="dp-tip"><span class="dp-tag badge fam-purple">Book ahead</span><span class="dp-text">Both resorts charge a per-person no-show fee if you cancel inside two hours of the reservation, which means inventory reliably drops back into the app right around that two-hour line. Check the morning of your visit and again about two hours before the slot you want — those are the two moments when tables reappear.</span></div>
-      <div class="dp-tip"><span class="dp-tag badge fam-purple">Book ahead</span><span class="dp-text">The mobile walk-up list is separate from reservations and opens at park opening for participating restaurants. Join it early in the day even if you have no intention of eating until evening; the position is what you are queuing for.</span></div>
-    </div>
-
-    <div class="region-label">Seven days out — Lightning Lane</div>
-
-    <div class="dp-row" data-cats="book ll">
-      <div class="dp-header"><span class="dp-title">Lightning Lane Multi Pass — the booking window</span><span class="dp-where">Walt Disney World</span></div>
-      <div class="dp-tip"><span class="dp-tag badge fam-orange">Lightning Lane</span><span class="dp-text">Guests at a Disney resort hotel, Shades of Green, the Swan and Dolphin or Swan Reserve can buy and book from 7 days before check-in, covering the whole stay up to 14 days. Everyone else books from 3 days before their first park day. Either way the window opens at 7:00am Eastern on your first eligible morning.</span></div>
-      <div class="dp-tip"><span class="dp-tag badge fam-orange">Lightning Lane</span><span class="dp-text">That four-day gap is the single largest practical difference between staying on property and off. On a busy week the on-site window is often the difference between a booked morning slot for a headliner and a mid-afternoon one.</span></div>
-    </div>
-
-    <div class="dp-row" data-cats="ll">
-      <div class="dp-header"><span class="dp-title">Tiers, and the three-at-a-time rule</span><span class="dp-where">Walt Disney World</span></div>
-      <div class="dp-tip"><span class="dp-tag badge fam-orange">Lightning Lane</span><span class="dp-text">You hold three selections at once. Magic Kingdom, EPCOT and Hollywood Studios split the list into two tiers: of your three pre-booked picks, at most one can be Tier 1. Animal Kingdom has no tiers at all, so all three picks are free choices there.</span></div>
-      <div class="dp-tip"><span class="dp-tag badge fam-orange">Lightning Lane</span><span class="dp-text">Once you tap into one of the three, the slot frees up and you can book a fourth, then a fifth, all day. The pre-booked three are the floor, not the ceiling — people who never re-book after tapping in get a third of the value they paid for.</span></div>
-    </div>
-
-    <div class="dp-row" data-cats="ll book">
-      <div class="dp-header"><span class="dp-title">Single Pass rides are bought separately</span><span class="dp-where">Walt Disney World</span></div>
-      <div class="dp-tip"><span class="dp-tag badge fam-orange">Lightning Lane</span><span class="dp-text">Five attractions sit outside Multi Pass and are sold one at a time: Seven Dwarfs Mine Train and TRON Lightcycle / Run at Magic Kingdom, Guardians of the Galaxy: Cosmic Rewind at EPCOT, Star Wars: Rise of the Resistance at Hollywood Studios, and Avatar Flight of Passage at Animal Kingdom.</span></div>
-      <div class="dp-tip"><span class="dp-tag badge fam-orange">Lightning Lane</span><span class="dp-text">They open on the same 7-day and 3-day schedule as Multi Pass, and the good return times on the top two or three go within the first hour of the window. If a Single Pass ride is the reason someone in your party wanted this park, buy it the moment the window opens rather than deciding at the gate.</span></div>
-    </div>
-
-    <div class="dp-row" data-cats="ll">
-      <div class="dp-header"><span class="dp-title">Premier Pass buys the whole park for a day</span><span class="dp-where">Both resorts</span></div>
-      <div class="dp-tip"><span class="dp-tag badge fam-orange">Lightning Lane</span><span class="dp-text">Premier Pass is one-time entry to every Lightning Lane attraction in a park for a day, with no bookings to make and no return windows to manage. At Walt Disney World it is priced per park per date, running from roughly $119 at Animal Kingdom to around $449 at Magic Kingdom. At Disneyland it spans both parks and includes the two Single Pass headliners.</span></div>
-      <div class="dp-tip"><span class="dp-tag badge fam-orange">Lightning Lane</span><span class="dp-text">Numbers sold are capped and it frequently sells out for busy dates. It is worth the money only on a single-day trip where every hour has to count — over a week it costs more than the extra park days would.</span></div>
-    </div>
-
-    <div class="dp-row" data-cats="ll book">
-      <div class="dp-header"><span class="dp-title">Disneyland's Lightning Lane runs on a different clock</span><span class="dp-where">Disneyland</span></div>
-      <div class="dp-tip"><span class="dp-tag badge fam-orange">Lightning Lane</span><span class="dp-text">You can buy Multi Pass up to 7 days ahead from 7:00am Pacific, or on the day — but buying is not booking. The first selection can only be made once you have physically tapped into a park, so there is no pre-dawn booking race the way there is in Orlando.</span></div>
-      <div class="dp-tip"><span class="dp-tag badge fam-orange">Lightning Lane</span><span class="dp-text">After that you hold one selection at a time, not three, and there are no tiers. The next booking unlocks when you redeem the current one or two hours after you booked it, whichever comes first — so a selection with a distant return time still lets you book again after two hours. Setting a two-hour phone timer is the whole strategy.</span></div>
-      <div class="dp-tip"><span class="dp-tag badge fam-orange">Lightning Lane</span><span class="dp-text">One purchase covers both Disneyland and California Adventure, so there is no per-park decision to make. Prices start around $30 and move with demand; the exact price for a given date posts about 21 days ahead. Star Wars: Rise of the Resistance and Radiator Springs Racers are the two Single Pass rides.</span></div>
-    </div>
-
-    <div class="region-label">The morning — rope drop</div>
-
-    <div class="dp-row" data-cats="rope">
-      <div class="dp-header"><span class="dp-title">How early you actually need to be there</span><span class="dp-where">Both resorts</span></div>
-      <div class="dp-tip"><span class="dp-tag badge fam-blue">Rope drop</span><span class="dp-text">Aim to be at the tapstiles 45 to 60 minutes before the posted opening, and 60 to 75 on a peak date. Both resorts routinely start scanning people in ahead of the published time, so the crowd that arrives "on time" is already behind the crowd that is inside.</span></div>
-      <div class="dp-tip"><span class="dp-tag badge fam-blue">Rope drop</span><span class="dp-text">Work backwards from the tapstile, not from the park: parking, tram, security and, in Orlando, an internal transport leg all sit between the car and the gate. The first 90 minutes after opening are worth roughly three hours of the same day at 2pm, which is why the arithmetic is worth doing.</span></div>
-    </div>
-
-    <div class="dp-row" data-cats="rope">
-      <div class="dp-header"><span class="dp-title">Early Theme Park Entry — 30 minutes, every park, every day</span><span class="dp-where">Walt Disney World</span></div>
-      <div class="dp-tip"><span class="dp-tag badge fam-blue">Rope drop</span><span class="dp-text">Guests of any Disney resort hotel, plus the Swan and Dolphin, Swan Reserve and Shades of Green, get in 30 minutes before official opening at all four parks, every day. Disney has confirmed the benefit through 2027. Only a subset of attractions operates during the half hour, so check what is running before choosing which park to use it on.</span></div>
-      <div class="dp-tip"><span class="dp-tag badge fam-blue">Rope drop</span><span class="dp-text">It is genuinely the cheapest advantage on the property, and it shifts the arrival maths: on-site guests should target 75 minutes before the <em>posted</em> opening, which is 45 before their own.</span></div>
-    </div>
-
-    <div class="dp-row" data-cats="rope">
-      <div class="dp-header"><span class="dp-title">Early entry no longer exists in Anaheim</span><span class="dp-where">Disneyland</span></div>
-      <div class="dp-tip"><span class="dp-tag badge fam-blue">Rope drop</span><span class="dp-text">Disneyland's 30-minute early entry for hotel guests ended on 5 January 2026. It has been replaced by one complimentary Lightning Lane Multi Pass entry per hotel stay — one per stay, not one per day — and it cannot be used on the two Single Pass headliners.</span></div>
-      <div class="dp-tip"><span class="dp-tag badge fam-blue">Rope drop</span><span class="dp-text">The practical effect is that everyone at Disneyland now starts at the same moment. Being physically early at the gate now matters more than which hotel you booked, and the old advice to pay for an on-site room purely for the morning head start no longer applies.</span></div>
-    </div>
-
-    <div class="dp-row" data-cats="rope inpark">
-      <div class="dp-header"><span class="dp-title">What to ride in the first hour</span><span class="dp-where">Both resorts</span></div>
-      <div class="dp-tip"><span class="dp-tag badge fam-blue">Rope drop</span><span class="dp-text">Go straight to the highest-demand ride that has no Lightning Lane booked, not the one nearest the entrance. The rides closest to the gate absorb the whole opening crowd; walking two minutes further routinely halves the first wait of the day.</span></div>
-      <div class="dp-tip"><span class="dp-tag badge fam-green">In the park</span><span class="dp-text">Save anything you already hold a Lightning Lane for — spending the best hour of the day in a queue you have already paid to skip is the most common self-inflicted error at both resorts.</span></div>
-    </div>
-
-    <div class="region-label">Through the day</div>
-
-    <div class="dp-row" data-cats="inpark transit">
-      <div class="dp-header"><span class="dp-title">Park hopping — both time limits are gone</span><span class="dp-where">Both resorts</span></div>
-      <div class="dp-tip"><span class="dp-tag badge fam-green">In the park</span><span class="dp-text">Walt Disney World dropped its 2pm hopping restriction in January 2024: once you have tapped into your first park you can move to any other at any time during its hours, subject to capacity. Disneyland's 11am rule ended on 9 June 2026 — Park Hopper tickets and every Magic Key tier can now cross at any time, though you still nominate a starting park when you make the reservation.</span></div>
-      <div class="dp-tip"><span class="dp-tag badge fam-green">In the park</span><span class="dp-text">This changes what a hopper is for. It is no longer an afternoon add-on; it is a tool for taking two rope drops in one day at Disneyland, or for leaving a park the moment its evening show ends in Orlando.</span></div>
-    </div>
-
-    <div class="dp-row" data-cats="book inpark">
-      <div class="dp-header"><span class="dp-title">Park reservations — required in one place, not the other</span><span class="dp-where">Both resorts</span></div>
-      <div class="dp-tip"><span class="dp-tag badge fam-purple">Book ahead</span><span class="dp-text">Walt Disney World dropped reservations for date-based tickets, the kind most visitors buy. Annual passholders still need one for most dates, though they can enter without a reservation on good-to-go days or after 2pm, except weekends at Magic Kingdom.</span></div>
-      <div class="dp-tip"><span class="dp-tag badge fam-purple">Book ahead</span><span class="dp-text">Disneyland still requires a park reservation for every ticket type, Magic Key included, with no announced end date. Book it the day you buy the ticket — popular dates run out of reservation inventory well before they run out of tickets.</span></div>
-    </div>
-
-    <div class="dp-row" data-cats="inpark">
-      <div class="dp-header"><span class="dp-title">The 11-to-3 trough</span><span class="dp-where">Both resorts</span></div>
-      <div class="dp-tip"><span class="dp-tag badge fam-green">In the park</span><span class="dp-text">Waits peak between roughly 11am and 3pm at both resorts, and standby times in that window are typically double what the same ride posts at opening. Nothing you do inside the park changes that, so plan to spend it on something that is not a queue.</span></div>
-      <div class="dp-tip"><span class="dp-tag badge fam-green">In the park</span><span class="dp-text">The good uses are the table-service meal you booked, an indoor show, or a trip back to the hotel. With Orlando resorts 20 to 40 minutes away this needs deciding in advance; at Disneyland the hotels are close enough to make a midday break realistic even on a single-day trip.</span></div>
-    </div>
-
-    <div class="dp-row" data-cats="inpark">
-      <div class="dp-header"><span class="dp-title">Parades and fireworks are a wait-time tool</span><span class="dp-where">Both resorts</span></div>
-      <div class="dp-tip"><span class="dp-tag badge fam-green">In the park</span><span class="dp-text">Every scheduled show pulls a large share of the park into one place and holds it there. Waits on major rides fall noticeably during a parade and during the first of two fireworks performances — the standard trade is to watch the later show and ride during the earlier one.</span></div>
-      <div class="dp-tip"><span class="dp-tag badge fam-green">In the park</span><span class="dp-text">The cost is the exit. A park emptying after fireworks takes 45 to 60 minutes to clear, and in Orlando that queue is for a bus or a monorail, not a footpath. Either leave 10 minutes before the finale or plan to stay another half hour.</span></div>
-    </div>
-
-    <div class="dp-row" data-cats="inpark ll">
-      <div class="dp-header"><span class="dp-title">Virtual queues, and when they come back</span><span class="dp-where">Walt Disney World</span></div>
-      <div class="dp-tip"><span class="dp-tag badge fam-green">In the park</span><span class="dp-text">No attraction is on a virtual queue at Walt Disney World at the moment — everything runs standby plus Lightning Lane. The system now appears only for new ride openings, most recently Bluey's Wild World at Animal Kingdom, which moved to a standby line on 2 June 2026.</span></div>
-      <div class="dp-tip"><span class="dp-tag badge fam-green">In the park</span><span class="dp-text">When it does return, the shape has been consistent: drops at 7:00am and 1:00pm, with the morning drop joinable from anywhere as long as you hold valid admission, and the afternoon one requiring you to already be inside the park. With new lands due at Magic Kingdom and Hollywood Studios, it is worth checking the app the night before during any opening week.</span></div>
-    </div>
-
-    <div class="dp-row" data-cats="inpark rope">
-      <div class="dp-header"><span class="dp-title">Extended Evening Hours are the best window of the week</span><span class="dp-where">Walt Disney World</span></div>
-      <div class="dp-tip"><span class="dp-tag badge fam-green">In the park</span><span class="dp-text">Guests of Deluxe and Deluxe Villa resorts, plus the Swan and Dolphin, Swan Reserve and Shades of Green, can stay two hours past regular closing on select nights — usually Monday at EPCOT and Wednesday at Magic Kingdom. Confirmed through 2027.</span></div>
-      <div class="dp-tip"><span class="dp-tag badge fam-green">In the park</span><span class="dp-text">With most of the park gone, waits in those two hours are the lowest of any time all week, early entry included. If your hotel qualifies, build the whole trip so that its park days land on those nights.</span></div>
-    </div>
-
-    <div class="dp-row" data-cats="inpark">
-      <div class="dp-header"><span class="dp-title">The last hour before close</span><span class="dp-where">Both resorts</span></div>
-      <div class="dp-tip"><span class="dp-tag badge fam-green">In the park</span><span class="dp-text">Posted waits drop sharply in the final hour, and a queue you join before the posted closing time will be run to the end — the gate closes, the line does not. It is the second-best low-wait window of the day after rope drop and costs nothing.</span></div>
-      <div class="dp-tip"><span class="dp-tag badge fam-green">In the park</span><span class="dp-text">Join the longest line you still want at about ten minutes before close. The posted time at that hour is usually inflated and you will often walk on.</span></div>
-    </div>
-
-    <div class="region-label">Getting around</div>
-
-    <div class="dp-row" data-cats="transit">
-      <div class="dp-header"><span class="dp-title">Allow a full hour, door to tapstile</span><span class="dp-where">Walt Disney World</span></div>
-      <div class="dp-tip"><span class="dp-tag badge fam-grey">Getting around</span><span class="dp-text">Sixty minutes from a resort room to the park tapstile is the planning number, whichever transport you use. Buses, boats, the Skyliner and the monorail all queue at rope drop and again at close, which are exactly the two moments you care about.</span></div>
-      <div class="dp-tip"><span class="dp-tag badge fam-grey">Getting around</span><span class="dp-text">The Skyliner does not run in lightning or high wind and is replaced by buses, slowly. On a summer afternoon, treat a Skyliner connection as something that may not be there when you need it.</span></div>
-    </div>
-
-    <div class="dp-row" data-cats="transit">
-      <div class="dp-header"><span class="dp-title">Magic Kingdom parking is not at Magic Kingdom</span><span class="dp-where">Walt Disney World</span></div>
-      <div class="dp-tip"><span class="dp-tag badge fam-grey">Getting around</span><span class="dp-text">Driving to Magic Kingdom puts you at the Transportation and Ticket Center, across the lagoon. After the tram there is still a monorail or ferry leg, so add about 20 minutes on top of what the other three parks need. This is the single most common reason people miss their own rope drop.</span></div>
-      <div class="dp-tip"><span class="dp-tag badge fam-grey">Getting around</span><span class="dp-text">The same leg exists on the way out and is worst immediately after fireworks. Staying 20 minutes past the crowd is faster than joining it.</span></div>
-    </div>
-
-    <div class="dp-row" data-cats="transit">
-      <div class="dp-header"><span class="dp-title">Two parks, one esplanade</span><span class="dp-where">Disneyland</span></div>
-      <div class="dp-tip"><span class="dp-tag badge fam-grey">Getting around</span><span class="dp-text">Disneyland and California Adventure face each other across a single plaza — hopping between them is a five-minute walk, not a transport leg. That is the structural difference from Orlando, and it is why a Disneyland day can be planned as two half-days in different parks while a Walt Disney World day generally cannot.</span></div>
-      <div class="dp-tip"><span class="dp-tag badge fam-grey">Getting around</span><span class="dp-text">Parking is the Mickey and Friends or Pixar Pals structure plus a tram. Allow 45 minutes from parking space to tapstile at opening; the tram queue at 8am is the bottleneck, not the drive.</span></div>
-    </div>
-
-    <div class="dp-row" data-cats="transit">
-      <div class="dp-header"><span class="dp-title">Arriving from the airport</span><span class="dp-where">Both resorts</span></div>
-      <div class="dp-tip"><span class="dp-tag badge fam-grey">Getting around</span><span class="dp-text">Orlando International is 30 to 45 minutes from the Walt Disney World area. Disney's free Magical Express coach no longer exists, so the options are the paid Mears Connect shuttle, a rideshare, or a rental car — book the shuttle ahead, since it runs on a schedule rather than on demand.</span></div>
-      <div class="dp-tip"><span class="dp-tag badge fam-grey">Getting around</span><span class="dp-text">For Disneyland, John Wayne in Santa Ana is about 20 minutes away and Los Angeles International is 45 to 90 depending entirely on the hour. If the flight lands into LAX between 3pm and 7pm, assume the long end.</span></div>
+    <div class="dp-card" data-cats="dates inpark">
+      <div class="dp-card-top">
+        <div class="dp-tags"><span class="badge fam-yellow">When to go</span></div>
+        <span class="dp-where">Both resorts</span>
+      </div>
+      <h3 class="dp-title">Hard-ticket party nights close the park early</h3>
+      <ul class="dp-facts">
+        <li>On Mickey's Not-So-Scary Halloween Party nights, Magic Kingdom closes at 6pm to anyone without a party ticket. Party guests can enter from 4pm and the event runs 7pm to midnight. The 2026 season starts 7 August, with dates on Tuesdays, Fridays and Sundays in August and September, and most nights of the week through October. Mickey's Very Merry Christmas Party works the same way in November and December.</li>
+        <li>This catches people who bought a regular ticket for a party date and lose the evening. Check the park calendar for your dates before you buy, and if you land on a party night, either buy the party ticket or make that a different park's day. Disneyland runs the same model with Oogie Boogie Bash at California Adventure in the autumn.</li>
+      </ul>
     </div>
 
   </div>
+
+  <div class="dp-section-head"><span class="dp-section-num">2</span><span class="dp-section-title">Sixty days out — dining</span></div>
+  <div class="dp-grid">
+
+    <div class="dp-card" data-cats="book">
+      <div class="dp-card-top">
+        <div class="dp-tags"><span class="badge fam-purple">Book ahead</span></div>
+        <span class="dp-where">Walt Disney World</span>
+      </div>
+      <h3 class="dp-title">The dining window opens 60 days ahead at 6am</h3>
+      <ul class="dp-facts">
+        <li>Reservations open 60 days before the dining date at 6:00am Eastern. Guests staying at a Disney resort hotel, Shades of Green, the Swan and Dolphin or Swan Reserve get the better version: 60 days before check-in you can book the whole stay in one sitting, up to 10 days of reservations. Everyone else books one day at a time, returning at each individual 60-day mark.</li>
+        <li>Be logged in and on the reservation screen before 6:00am, not at 6:00am — the hardest tables go in the first minutes. Space 220, Cinderella's Royal Table, Be Our Guest, 'Ohana and Victoria &amp; Albert's are the ones that vanish fastest.</li>
+      </ul>
+    </div>
+
+    <div class="dp-card" data-cats="book">
+      <div class="dp-card-top">
+        <div class="dp-tags"><span class="badge fam-purple">Book ahead</span></div>
+        <span class="dp-where">Disneyland</span>
+      </div>
+      <h3 class="dp-title">The dining window opens 60 days ahead at 6am</h3>
+      <ul class="dp-facts">
+        <li>Same 60 days, same 6:00am — but Pacific time, and one day at a time. There is no length-of-stay privilege for hotel guests here, so a five-night trip means five separate booking mornings. Blue Bayou, Oga's Cantina, Napa Rose and Carthay Circle are the ones that need the alarm.</li>
+        <li>If Blue Bayou is gone for dinner, try lunch — same room, slightly shorter menu, and noticeably more cancellations.</li>
+      </ul>
+    </div>
+
+    <div class="dp-card" data-cats="book">
+      <div class="dp-card-top">
+        <div class="dp-tags"><span class="badge fam-purple">Book ahead</span></div>
+        <span class="dp-where">Both resorts</span>
+      </div>
+      <h3 class="dp-title">The cancellation clock is the second chance</h3>
+      <ul class="dp-facts">
+        <li>Both resorts charge a per-person no-show fee if you cancel inside two hours of the reservation, which means inventory reliably drops back into the app right around that two-hour line. Check the morning of your visit and again about two hours before the slot you want — those are the two moments when tables reappear.</li>
+        <li>The mobile walk-up list is separate from reservations and opens at park opening for participating restaurants. Join it early in the day even if you have no intention of eating until evening; the position is what you are queuing for.</li>
+      </ul>
+    </div>
+
+  </div>
+
+  <div class="dp-section-head"><span class="dp-section-num">3</span><span class="dp-section-title">Seven days out — Lightning Lane</span></div>
+  <div class="dp-grid">
+
+    <div class="dp-card" data-cats="book ll">
+      <div class="dp-card-top">
+        <div class="dp-tags"><span class="badge fam-orange">Lightning Lane</span></div>
+        <span class="dp-where">Walt Disney World</span>
+      </div>
+      <h3 class="dp-title">Lightning Lane Multi Pass — the booking window</h3>
+      <ul class="dp-facts">
+        <li>Guests at a Disney resort hotel, Shades of Green, the Swan and Dolphin or Swan Reserve can buy and book from 7 days before check-in, covering the whole stay up to 14 days. Everyone else books from 3 days before their first park day. Either way the window opens at 7:00am Eastern on your first eligible morning.</li>
+        <li>That four-day gap is the single largest practical difference between staying on property and off. On a busy week the on-site window is often the difference between a booked morning slot for a headliner and a mid-afternoon one.</li>
+      </ul>
+    </div>
+
+    <div class="dp-card" data-cats="ll">
+      <div class="dp-card-top">
+        <div class="dp-tags"><span class="badge fam-orange">Lightning Lane</span></div>
+        <span class="dp-where">Walt Disney World</span>
+      </div>
+      <h3 class="dp-title">Tiers, and the three-at-a-time rule</h3>
+      <ul class="dp-facts">
+        <li>You hold three selections at once. Magic Kingdom, EPCOT and Hollywood Studios split the list into two tiers: of your three pre-booked picks, at most one can be Tier 1. Animal Kingdom has no tiers at all, so all three picks are free choices there.</li>
+        <li>Once you tap into one of the three, the slot frees up and you can book a fourth, then a fifth, all day. The pre-booked three are the floor, not the ceiling — people who never re-book after tapping in get a third of the value they paid for.</li>
+      </ul>
+    </div>
+
+    <div class="dp-card" data-cats="ll book">
+      <div class="dp-card-top">
+        <div class="dp-tags"><span class="badge fam-orange">Lightning Lane</span></div>
+        <span class="dp-where">Walt Disney World</span>
+      </div>
+      <h3 class="dp-title">Single Pass rides are bought separately</h3>
+      <ul class="dp-facts">
+        <li>Five attractions sit outside Multi Pass and are sold one at a time: Seven Dwarfs Mine Train and TRON Lightcycle / Run at Magic Kingdom, Guardians of the Galaxy: Cosmic Rewind at EPCOT, Star Wars: Rise of the Resistance at Hollywood Studios, and Avatar Flight of Passage at Animal Kingdom.</li>
+        <li>They open on the same 7-day and 3-day schedule as Multi Pass, and the good return times on the top two or three go within the first hour of the window. If a Single Pass ride is the reason someone in your party wanted this park, buy it the moment the window opens rather than deciding at the gate.</li>
+      </ul>
+    </div>
+
+    <div class="dp-card" data-cats="ll">
+      <div class="dp-card-top">
+        <div class="dp-tags"><span class="badge fam-orange">Lightning Lane</span></div>
+        <span class="dp-where">Both resorts</span>
+      </div>
+      <h3 class="dp-title">Premier Pass buys the whole park for a day</h3>
+      <ul class="dp-facts">
+        <li>Premier Pass is one-time entry to every Lightning Lane attraction in a park for a day, with no bookings to make and no return windows to manage. At Walt Disney World it is priced per park per date, running from roughly $119 at Animal Kingdom to around $449 at Magic Kingdom. At Disneyland it spans both parks and includes the two Single Pass headliners.</li>
+        <li>Numbers sold are capped and it frequently sells out for busy dates. It is worth the money only on a single-day trip where every hour has to count — over a week it costs more than the extra park days would.</li>
+      </ul>
+    </div>
+
+    <div class="dp-card" data-cats="ll book">
+      <div class="dp-card-top">
+        <div class="dp-tags"><span class="badge fam-orange">Lightning Lane</span></div>
+        <span class="dp-where">Disneyland</span>
+      </div>
+      <h3 class="dp-title">Disneyland's Lightning Lane runs on a different clock</h3>
+      <ul class="dp-facts">
+        <li>You can buy Multi Pass up to 7 days ahead from 7:00am Pacific, or on the day — but buying is not booking. The first selection can only be made once you have physically tapped into a park, so there is no pre-dawn booking race the way there is in Orlando.</li>
+        <li>After that you hold one selection at a time, not three, and there are no tiers. The next booking unlocks when you redeem the current one or two hours after you booked it, whichever comes first — so a selection with a distant return time still lets you book again after two hours. Setting a two-hour phone timer is the whole strategy.</li>
+        <li>One purchase covers both Disneyland and California Adventure, so there is no per-park decision to make. Prices start around $30 and move with demand; the exact price for a given date posts about 21 days ahead. Star Wars: Rise of the Resistance and Radiator Springs Racers are the two Single Pass rides.</li>
+      </ul>
+    </div>
+
+  </div>
+
+  <div class="dp-section-head"><span class="dp-section-num">4</span><span class="dp-section-title">The morning — rope drop</span></div>
+  <div class="dp-grid">
+
+    <div class="dp-card" data-cats="rope">
+      <div class="dp-card-top">
+        <div class="dp-tags"><span class="badge fam-blue">Rope drop</span></div>
+        <span class="dp-where">Both resorts</span>
+      </div>
+      <h3 class="dp-title">How early you actually need to be there</h3>
+      <ul class="dp-facts">
+        <li>Aim to be at the tapstiles 45 to 60 minutes before the posted opening, and 60 to 75 on a peak date. Both resorts routinely start scanning people in ahead of the published time, so the crowd that arrives "on time" is already behind the crowd that is inside.</li>
+        <li>Work backwards from the tapstile, not from the park: parking, tram, security and, in Orlando, an internal transport leg all sit between the car and the gate. The first 90 minutes after opening are worth roughly three hours of the same day at 2pm, which is why the arithmetic is worth doing.</li>
+      </ul>
+    </div>
+
+    <div class="dp-card" data-cats="rope">
+      <div class="dp-card-top">
+        <div class="dp-tags"><span class="badge fam-blue">Rope drop</span></div>
+        <span class="dp-where">Walt Disney World</span>
+      </div>
+      <h3 class="dp-title">Early Theme Park Entry — 30 minutes, every park, every day</h3>
+      <ul class="dp-facts">
+        <li>Guests of any Disney resort hotel, plus the Swan and Dolphin, Swan Reserve and Shades of Green, get in 30 minutes before official opening at all four parks, every day. Disney has confirmed the benefit through 2027. Only a subset of attractions operates during the half hour, so check what is running before choosing which park to use it on.</li>
+        <li>It is genuinely the cheapest advantage on the property, and it shifts the arrival maths: on-site guests should target 75 minutes before the <em>posted</em> opening, which is 45 before their own.</li>
+      </ul>
+    </div>
+
+    <div class="dp-card" data-cats="rope">
+      <div class="dp-card-top">
+        <div class="dp-tags"><span class="badge fam-blue">Rope drop</span></div>
+        <span class="dp-where">Disneyland</span>
+      </div>
+      <h3 class="dp-title">Early entry no longer exists in Anaheim</h3>
+      <ul class="dp-facts">
+        <li>Disneyland's 30-minute early entry for hotel guests ended on 5 January 2026. It has been replaced by one complimentary Lightning Lane Multi Pass entry per hotel stay — one per stay, not one per day — and it cannot be used on the two Single Pass headliners.</li>
+        <li>The practical effect is that everyone at Disneyland now starts at the same moment. Being physically early at the gate now matters more than which hotel you booked, and the old advice to pay for an on-site room purely for the morning head start no longer applies.</li>
+      </ul>
+    </div>
+
+    <div class="dp-card" data-cats="rope inpark">
+      <div class="dp-card-top">
+        <div class="dp-tags"><span class="badge fam-blue">Rope drop</span><span class="badge fam-green">In the park</span></div>
+        <span class="dp-where">Both resorts</span>
+      </div>
+      <h3 class="dp-title">What to ride in the first hour</h3>
+      <ul class="dp-facts">
+        <li>Go straight to the highest-demand ride that has no Lightning Lane booked, not the one nearest the entrance. The rides closest to the gate absorb the whole opening crowd; walking two minutes further routinely halves the first wait of the day.</li>
+        <li>Save anything you already hold a Lightning Lane for — spending the best hour of the day in a queue you have already paid to skip is the most common self-inflicted error at both resorts.</li>
+      </ul>
+    </div>
+
+  </div>
+
+  <div class="dp-section-head"><span class="dp-section-num">5</span><span class="dp-section-title">Through the day</span></div>
+  <div class="dp-grid">
+
+    <div class="dp-card" data-cats="inpark transit">
+      <div class="dp-card-top">
+        <div class="dp-tags"><span class="badge fam-green">In the park</span></div>
+        <span class="dp-where">Both resorts</span>
+      </div>
+      <h3 class="dp-title">Park hopping — both time limits are gone</h3>
+      <ul class="dp-facts">
+        <li>Walt Disney World dropped its 2pm hopping restriction in January 2024: once you have tapped into your first park you can move to any other at any time during its hours, subject to capacity. Disneyland's 11am rule ended on 9 June 2026 — Park Hopper tickets and every Magic Key tier can now cross at any time, though you still nominate a starting park when you make the reservation.</li>
+        <li>This changes what a hopper is for. It is no longer an afternoon add-on; it is a tool for taking two rope drops in one day at Disneyland, or for leaving a park the moment its evening show ends in Orlando.</li>
+      </ul>
+    </div>
+
+    <div class="dp-card" data-cats="book inpark">
+      <div class="dp-card-top">
+        <div class="dp-tags"><span class="badge fam-purple">Book ahead</span></div>
+        <span class="dp-where">Both resorts</span>
+      </div>
+      <h3 class="dp-title">Park reservations — required in one place, not the other</h3>
+      <ul class="dp-facts">
+        <li>Walt Disney World dropped reservations for date-based tickets, the kind most visitors buy. Annual passholders still need one for most dates, though they can enter without a reservation on good-to-go days or after 2pm, except weekends at Magic Kingdom.</li>
+        <li>Disneyland still requires a park reservation for every ticket type, Magic Key included, with no announced end date. Book it the day you buy the ticket — popular dates run out of reservation inventory well before they run out of tickets.</li>
+      </ul>
+    </div>
+
+    <div class="dp-card" data-cats="inpark">
+      <div class="dp-card-top">
+        <div class="dp-tags"><span class="badge fam-green">In the park</span></div>
+        <span class="dp-where">Both resorts</span>
+      </div>
+      <h3 class="dp-title">The 11-to-3 trough</h3>
+      <ul class="dp-facts">
+        <li>Waits peak between roughly 11am and 3pm at both resorts, and standby times in that window are typically double what the same ride posts at opening. Nothing you do inside the park changes that, so plan to spend it on something that is not a queue.</li>
+        <li>The good uses are the table-service meal you booked, an indoor show, or a trip back to the hotel. With Orlando resorts 20 to 40 minutes away this needs deciding in advance; at Disneyland the hotels are close enough to make a midday break realistic even on a single-day trip.</li>
+      </ul>
+    </div>
+
+    <div class="dp-card" data-cats="inpark">
+      <div class="dp-card-top">
+        <div class="dp-tags"><span class="badge fam-green">In the park</span></div>
+        <span class="dp-where">Both resorts</span>
+      </div>
+      <h3 class="dp-title">Parades and fireworks are a wait-time tool</h3>
+      <ul class="dp-facts">
+        <li>Every scheduled show pulls a large share of the park into one place and holds it there. Waits on major rides fall noticeably during a parade and during the first of two fireworks performances — the standard trade is to watch the later show and ride during the earlier one.</li>
+        <li>The cost is the exit. A park emptying after fireworks takes 45 to 60 minutes to clear, and in Orlando that queue is for a bus or a monorail, not a footpath. Either leave 10 minutes before the finale or plan to stay another half hour.</li>
+      </ul>
+    </div>
+
+    <div class="dp-card" data-cats="inpark ll">
+      <div class="dp-card-top">
+        <div class="dp-tags"><span class="badge fam-green">In the park</span></div>
+        <span class="dp-where">Walt Disney World</span>
+      </div>
+      <h3 class="dp-title">Virtual queues, and when they come back</h3>
+      <ul class="dp-facts">
+        <li>No attraction is on a virtual queue at Walt Disney World at the moment — everything runs standby plus Lightning Lane. The system now appears only for new ride openings, most recently Bluey's Wild World at Animal Kingdom, which moved to a standby line on 2 June 2026.</li>
+        <li>When it does return, the shape has been consistent: drops at 7:00am and 1:00pm, with the morning drop joinable from anywhere as long as you hold valid admission, and the afternoon one requiring you to already be inside the park. With new lands due at Magic Kingdom and Hollywood Studios, it is worth checking the app the night before during any opening week.</li>
+      </ul>
+    </div>
+
+    <div class="dp-card" data-cats="inpark rope">
+      <div class="dp-card-top">
+        <div class="dp-tags"><span class="badge fam-green">In the park</span></div>
+        <span class="dp-where">Walt Disney World</span>
+      </div>
+      <h3 class="dp-title">Extended Evening Hours are the best window of the week</h3>
+      <ul class="dp-facts">
+        <li>Guests of Deluxe and Deluxe Villa resorts, plus the Swan and Dolphin, Swan Reserve and Shades of Green, can stay two hours past regular closing on select nights — usually Monday at EPCOT and Wednesday at Magic Kingdom. Confirmed through 2027.</li>
+        <li>With most of the park gone, waits in those two hours are the lowest of any time all week, early entry included. If your hotel qualifies, build the whole trip so that its park days land on those nights.</li>
+      </ul>
+    </div>
+
+    <div class="dp-card" data-cats="inpark">
+      <div class="dp-card-top">
+        <div class="dp-tags"><span class="badge fam-green">In the park</span></div>
+        <span class="dp-where">Both resorts</span>
+      </div>
+      <h3 class="dp-title">The last hour before close</h3>
+      <ul class="dp-facts">
+        <li>Posted waits drop sharply in the final hour, and a queue you join before the posted closing time will be run to the end — the gate closes, the line does not. It is the second-best low-wait window of the day after rope drop and costs nothing.</li>
+        <li>Join the longest line you still want at about ten minutes before close. The posted time at that hour is usually inflated and you will often walk on.</li>
+      </ul>
+    </div>
+
+  </div>
+
+  <div class="dp-section-head"><span class="dp-section-num">6</span><span class="dp-section-title">Getting around</span></div>
+  <div class="dp-grid">
+
+    <div class="dp-card" data-cats="transit">
+      <div class="dp-card-top">
+        <div class="dp-tags"><span class="badge fam-grey">Getting around</span></div>
+        <span class="dp-where">Walt Disney World</span>
+      </div>
+      <h3 class="dp-title">Allow a full hour, door to tapstile</h3>
+      <ul class="dp-facts">
+        <li>Sixty minutes from a resort room to the park tapstile is the planning number, whichever transport you use. Buses, boats, the Skyliner and the monorail all queue at rope drop and again at close, which are exactly the two moments you care about.</li>
+        <li>The Skyliner does not run in lightning or high wind and is replaced by buses, slowly. On a summer afternoon, treat a Skyliner connection as something that may not be there when you need it.</li>
+      </ul>
+    </div>
+
+    <div class="dp-card" data-cats="transit">
+      <div class="dp-card-top">
+        <div class="dp-tags"><span class="badge fam-grey">Getting around</span></div>
+        <span class="dp-where">Walt Disney World</span>
+      </div>
+      <h3 class="dp-title">Magic Kingdom parking is not at Magic Kingdom</h3>
+      <ul class="dp-facts">
+        <li>Driving to Magic Kingdom puts you at the Transportation and Ticket Center, across the lagoon. After the tram there is still a monorail or ferry leg, so add about 20 minutes on top of what the other three parks need. This is the single most common reason people miss their own rope drop.</li>
+        <li>The same leg exists on the way out and is worst immediately after fireworks. Staying 20 minutes past the crowd is faster than joining it.</li>
+      </ul>
+    </div>
+
+    <div class="dp-card" data-cats="transit">
+      <div class="dp-card-top">
+        <div class="dp-tags"><span class="badge fam-grey">Getting around</span></div>
+        <span class="dp-where">Disneyland</span>
+      </div>
+      <h3 class="dp-title">Two parks, one esplanade</h3>
+      <ul class="dp-facts">
+        <li>Disneyland and California Adventure face each other across a single plaza — hopping between them is a five-minute walk, not a transport leg. That is the structural difference from Orlando, and it is why a Disneyland day can be planned as two half-days in different parks while a Walt Disney World day generally cannot.</li>
+        <li>Parking is the Mickey and Friends or Pixar Pals structure plus a tram. Allow 45 minutes from parking space to tapstile at opening; the tram queue at 8am is the bottleneck, not the drive.</li>
+      </ul>
+    </div>
+
+    <div class="dp-card" data-cats="transit">
+      <div class="dp-card-top">
+        <div class="dp-tags"><span class="badge fam-grey">Getting around</span></div>
+        <span class="dp-where">Both resorts</span>
+      </div>
+      <h3 class="dp-title">Arriving from the airport</h3>
+      <ul class="dp-facts">
+        <li>Orlando International is 30 to 45 minutes from the Walt Disney World area. Disney's free Magical Express coach no longer exists, so the options are the paid Mears Connect shuttle, a rideshare, or a rental car — book the shuttle ahead, since it runs on a schedule rather than on demand.</li>
+        <li>For Disneyland, John Wayne in Santa Ana is about 20 minutes away and Los Angeles International is 45 to 90 depending entirely on the hour. If the flight lands into LAX between 3pm and 7pm, assume the long end.</li>
+      </ul>
+    </div>
+
+  </div>
+
 </div>
 
 <script>
@@ -305,7 +490,7 @@ var activeFilter = null;
 
 function countRows() {
   var counts = {};
-  document.querySelectorAll('.dp-row').forEach(function (r) {
+  document.querySelectorAll('.dp-card').forEach(function (r) {
     (r.dataset.cats || '').split(/\s+/).forEach(function (c) {
       if (!c) return;
       counts[c] = (counts[c] || 0) + 1;
@@ -317,14 +502,16 @@ function countRows() {
   });
 }
 
-/* Hide a section header when every row under it is hidden. */
+/* Hide a section header when every card under it is hidden. */
 function syncRegionLabels() {
-  var labels = document.querySelectorAll('.region-label');
+  var labels = document.querySelectorAll('.dp-section-head');
   labels.forEach(function (label) {
     var any = false;
     var node = label.nextElementSibling;
-    while (node && !node.classList.contains('region-label')) {
-      if (node.classList.contains('dp-row') && !node.classList.contains('hidden')) { any = true; break; }
+    while (node && !node.classList.contains('dp-section-head')) {
+      if (node.classList.contains('dp-grid')) {
+        if (node.querySelector('.dp-card:not(.hidden)')) any = true;
+      }
       node = node.nextElementSibling;
     }
     label.classList.toggle('hidden', !any);
@@ -332,7 +519,7 @@ function syncRegionLabels() {
 }
 
 function filterCat(btn, cat) {
-  var rows  = document.querySelectorAll('.dp-row');
+  var rows  = document.querySelectorAll('.dp-card');
   var pills = document.querySelectorAll('.pill[data-filter]');
   document.getElementById('dp-search').value = '';
   if (activeFilter === cat) {
@@ -355,7 +542,7 @@ function filterCat(btn, cat) {
 
 (function () {
   var search = document.getElementById('dp-search');
-  var rows   = document.querySelectorAll('.dp-row');
+  var rows   = document.querySelectorAll('.dp-card');
   var noRes  = document.getElementById('no-results');
   search.addEventListener('input', function () {
     activeFilter = null;
@@ -380,7 +567,7 @@ function filterCat(btn, cat) {
   var input = document.getElementById('dp-search');
   if (!input) return;
   var items = [], seen = {};
-  document.querySelectorAll('.dp-row').forEach(function (row) {
+  document.querySelectorAll('.dp-card').forEach(function (row) {
     var title = row.querySelector('.dp-title');
     var where = row.querySelector('.dp-where');
     var nm = title ? title.textContent.trim() : '';

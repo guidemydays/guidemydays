@@ -98,11 +98,17 @@ html { overflow-x: clip; }
      reversing the 2026-08-18 "badge and pill-badge are always the same
      size" rule: a badge sits INLINE next to other text it is labeling (a
      table-cell tag next to a place name, a card tag next to a headline), so
-     its font-size is `inherit` — it is always exactly the size of whatever
-     text it sits beside, on every page, rather than a fixed px that could
-     read bigger or smaller than that text depending where it lands. Padding
-     is em-based so it scales with the inherited size instead of going tiny
-     next to big text or oversized next to small text.
+     its font-size follows the inherited context instead of a fixed px that
+     could read bigger or smaller than the text it labels. CAPPED, not bare
+     `inherit`: clamp(10px, 1em, 13px) — bare inherit blew up to 15-28px tall
+     on essentials/budget's Cost-of-Living table (row font-size 15px), which
+     is oversized for a small tag next to a place name, not "matching" it in
+     any useful sense. 13px is the ceiling because that is roughly the
+     biggest body-text context a badge should ever need to sit next to; a
+     page whose text runs bigger than that just gets a badge capped at 13px,
+     smaller than its surrounding text — reads as a compact tag rather than
+     shouting the same size as a place name. Padding is em-based so it scales
+     with the (capped) size instead of going tiny next to small text.
      A page still NEVER restates --fam-fs/--fam-pad/--badge-pad locally; if
      one reads wrong, the token moves and every page carrying that role
      moves with it. */
@@ -2622,7 +2628,7 @@ body > .hero-ground {
   letter-spacing: 0.04em;
   text-transform: uppercase;
 }
-.badge { font-size: inherit; padding: var(--badge-pad, 0.3em 0.65em); }
+.badge { font-size: clamp(10px, 1em, 13px); padding: var(--badge-pad, 0.3em 0.65em); }
 .pill-badge { font-size: var(--fam-fs, 12px); padding: var(--fam-pad, 4px 9px); }
 
 /* ONE CASE STILL — owner rule 2026-08-20, untouched by the size split above.

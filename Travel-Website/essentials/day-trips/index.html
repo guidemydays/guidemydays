@@ -56,46 +56,66 @@
 .dt-summary button { font: inherit; font-size: 13px; color: var(--rust, #C04E1A); background: none; border: 0;
   border-bottom: 1px dashed currentColor; padding: 0 0 1px; margin-left: 10px; cursor: pointer; }
 
-/* ══ REDESIGNED 2026-08-23 (owner: "this is terrible and needs a redesign!") ═══
-   The 2026-08-14 rebuild fixed the accordion but left the browse view as 150+
-   identical white pills in one undifferentiated wall — same size, same color,
-   alphabetical with no grouping, nothing to look at until you click one. That
-   is the flat-chip pattern the owner separately ruled out on the sibling
-   time-zones page (A–Z as a filter was retired there 2026-08-17: resting
-   alphabetical order is enough, the page needs to say something *with* that
-   order, not just hold it).
+/* ══ REDESIGNED 2026-08-24 (owner: "search cool design website ideas, do
+   modern, surprise me — everything but the background and the banner") ═══
+   The 2026-08-23 pass turned the browse view into small white cards, but a
+   grid of cards is what half the site already does (Alt. Hotels, Best Of,
+   the guides index). Nothing here read as belonging to a *train* page.
 
-   So each city is a small card, not a bare button, and it carries the one
-   fact this whole page is built around — the fastest trip from there — the
-   same way a selected city's own cards lead with journey time. A pick still
-   sets `city` and calls render(); nothing about the interaction changed. */
-.dt-city-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(190px, 1fr)); gap: 10px; max-width: 1120px; margin: 0 auto; }
-.dt-citycard { box-sizing: border-box; display: block; width: 100%; min-width: 0; text-align: left; font: inherit; cursor: pointer;
-  background: var(--surface, #fff); border: 1px solid var(--border2, #e6e2da); border-radius: 10px;
-  padding: 12px 14px; transition: border-color .15s, box-shadow .15s, transform .08s; overflow-wrap: break-word; }
-.dt-citycard:hover { border-color: var(--rust, #C04E1A); box-shadow: 0 3px 10px rgba(192,78,26,.12); transform: translateY(-1px); }
-.dt-citycard-top { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
-.dt-citycard-name { font-weight: 700; font-size: 14.5px; color: var(--text, #3d3a32); }
-.dt-citycard-fast { margin-top: 7px; font-size: 12px; line-height: 1.4; color: var(--muted, #6a6660); }
-.dt-citycard-fast b { color: var(--rust, #C04E1A); font-weight: 700; }
+   So the browse list now reads like a station departure board — one row per
+   city, monospace time, split-flap entrance — and a selected city's trips
+   read like a platform timeline: a single rail with stops in order, closest
+   ride first, instead of a wall of identical cards. Same data, same click
+   still sets `city` and calls render() — only the shape changed. */
+.dt-board { max-width: 900px; margin: 0 auto; border: 1px solid var(--border2, #e6e2da); border-radius: 14px;
+  overflow: hidden; background: var(--surface, #fff); box-shadow: 0 10px 34px rgba(30,20,5,.06); }
+.dt-board-head { display: grid; grid-template-columns: 1fr auto 20px; gap: 14px; align-items: center;
+  padding: 11px 20px; font-size: 10.5px; font-weight: 700; letter-spacing: .12em; text-transform: uppercase;
+  color: var(--muted, #6a6660); background: var(--bg, #faf8f4); border-bottom: 1px solid var(--border2, #e6e2da); }
+.dt-board-row { display: grid; grid-template-columns: 1fr auto 20px; align-items: center; gap: 14px;
+  width: 100%; text-align: left; font: inherit; cursor: pointer; background: none; border: 0;
+  border-bottom: 1px solid var(--border2, #e6e2da); padding: 14px 20px; opacity: 0;
+  animation: dt-flap .45s cubic-bezier(.2,.9,.25,1) forwards; }
+.dt-board-row:last-child { border-bottom: 0; }
+.dt-board-row:hover { background: var(--bg, #faf8f4); }
+.dt-board-row:hover .dt-board-name { color: var(--rust, #C04E1A); }
+.dt-board-name { font-family: ui-monospace, 'SF Mono', 'Roboto Mono', Menlo, Consolas, monospace;
+  font-size: 15px; font-weight: 700; letter-spacing: .01em; color: var(--text, #17150f); transition: color .12s; }
+.dt-board-name span { display: block; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  font-weight: 500; font-size: 11.5px; color: var(--muted, #6a6660); margin-top: 3px; }
+.dt-board-time { font-family: ui-monospace, 'SF Mono', 'Roboto Mono', Menlo, Consolas, monospace;
+  font-size: 19px; font-weight: 700; color: var(--rust, #C04E1A); white-space: nowrap; text-align: right; }
+.dt-board-time .u { font-size: 10px; font-weight: 700; letter-spacing: .05em; text-transform: uppercase; color: var(--muted, #6a6660); margin-left: 2px; }
+.dt-board-dot { width: 8px; height: 8px; border-radius: 50%; justify-self: end; }
+.dt-board-dot[data-band="u30"]   { background: rgb(var(--fam-green-rgb)); }
+.dt-board-dot[data-band="30-60"] { background: rgb(var(--fam-blue-rgb)); }
+.dt-board-dot[data-band="1-2"]   { background: rgb(var(--fam-purple-rgb)); }
+.dt-board-dot[data-band="2plus"] { background: rgb(var(--fam-orange-rgb)); }
 
-/* Trip cards — the journey time is the biggest thing on the card. */
-.dt-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 14px; align-items: start; }
-.dt-card { background: var(--surface, #fff); border: 1px solid var(--border2, #e6e2da); border-radius: 12px;
-  padding: 16px 18px 18px; box-shadow: 0 1px 6px rgba(92,61,17,.05); }
-.dt-card-top { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; }
-.dt-card-time { font-size: 30px; font-weight: 700; letter-spacing: -.02em; color: var(--rust, #C04E1A); line-height: 1; white-space: nowrap; }
-.dt-card-time .u { font-size: 13px; font-weight: 600; color: var(--muted, #6a6660); margin-left: 3px; }
-.dt-card-dest { font-size: 16px; font-weight: 700; color: var(--text, #3d3a32); }
-.dt-card-from { font-size: 11.5px; text-transform: uppercase; letter-spacing: .06em; color: var(--muted, #6a6660); margin-top: 3px; }
-.dt-card-from a { color: inherit; }
-.dt-card-desc { font-size: 13px; line-height: 1.6; color: var(--muted, #6a6660); margin: 10px 0 0; }
-.dt-card-links { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 12px; }
-.dt-card-links a { font-size: 12px; color: #3d3a32; padding: 5px 11px; border: 1px solid var(--border2, #e6e2da);
+@keyframes dt-flap { from { opacity: 0; transform: rotateX(-90deg) translateY(-6px); } to { opacity: 1; transform: none; } }
+@media (prefers-reduced-motion: reduce) { .dt-board-row { animation: none; opacity: 1; } }
+
+/* Platform timeline — a selected city's (or filtered band's) trips, strung
+   along one rail closest-first instead of stacked as cards. */
+.dt-timeline { position: relative; max-width: 760px; margin: 0 auto; padding-left: 34px; }
+.dt-timeline::before { content: ''; position: absolute; left: 9px; top: 8px; bottom: 8px; width: 2px; background: var(--border2, #e6e2da); }
+.dt-stop { position: relative; padding: 0 0 28px; }
+.dt-stop:last-child { padding-bottom: 0; }
+.dt-stop::before { content: ''; position: absolute; left: -34px; top: 4px; width: 12px; height: 12px; border-radius: 50%;
+  background: var(--surface, #fff); border: 2.5px solid var(--rust, #C04E1A); }
+.dt-stop-top { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; flex-wrap: wrap; }
+.dt-stop-dest { font-size: 19px; font-weight: 700; color: var(--text, #3d3a32); }
+.dt-stop-from { font-size: 11.5px; text-transform: uppercase; letter-spacing: .06em; color: var(--muted, #6a6660); margin-top: 2px; }
+.dt-stop-from a { color: inherit; }
+.dt-stop-from a:visited { color: inherit; }
+.dt-stop-time { font-family: ui-monospace, 'SF Mono', 'Roboto Mono', Menlo, Consolas, monospace;
+  font-size: 15px; font-weight: 700; color: var(--rust, #C04E1A); white-space: nowrap; }
+.dt-stop-desc { font-size: 13.5px; line-height: 1.6; color: var(--muted, #6a6660); margin: 6px 0 0; max-width: 62ch; }
+.dt-stop-links { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 10px; }
+.dt-stop-links a { font-size: 12px; color: var(--text, #3d3a32); padding: 5px 11px; border: 1px solid var(--border2, #e6e2da);
   border-radius: 999px; background: var(--bg, #faf8f4); text-decoration: none; }
-.dt-card-links a:visited { color: #3d3a32; }  /* literal: var() is inert in :visited */
-.dt-card-links a:hover { border-color: var(--rust, #C04E1A); }
-.dt-card-from a:visited { color: inherit; }
+.dt-stop-links a:visited { color: var(--text, #3d3a32); }
+.dt-stop-links a:hover { border-color: var(--rust, #C04E1A); }
 
 @media (max-width: 700px) {
   .dt-hero { padding-top: 1.5rem; }
@@ -103,8 +123,11 @@
   /* No phone shrink: one search height at every viewport (--search-h,
      owner rule 2026-08-17). */
   .dt-band { font-size: 13px !important; height: 34px !important; padding: 0 14px !important; border-radius: var(--fam-radius,4px) !important; }
-  .dt-grid { grid-template-columns: 1fr; }
-  .dt-city-grid { grid-template-columns: repeat(2, 1fr); gap: 8px; }
+  .dt-board-head { display: none; }
+  .dt-board-row { grid-template-columns: 1fr auto; padding: 12px 16px; }
+  .dt-board-dot { display: none; }
+  .dt-timeline { padding-left: 26px; }
+  .dt-stop::before { left: -26px; }
 }
 </style>
 <link rel="stylesheet" href="/assets/mobile.css">
@@ -213,38 +236,54 @@ function fmtTime(mins, raw) {
   return m ? { n: h + ':' + (m < 10 ? '0' : '') + m, u: 'hr' } : { n: String(h), u: h === 1 ? 'hr' : 'hr' };
 }
 
+function bandKeyFor(mins) {
+  if (mins === null) return null;
+  if (mins < 30) return 'u30';
+  if (mins <= 60) return '30-60';
+  if (mins <= 120) return '1-2';
+  return '2plus';
+}
+
 function bookLinks(book) {
   if (!book || !book.length) return '';
-  return '<div class="dt-card-links">' + book.map(function (b) {
+  return '<div class="dt-stop-links">' + book.map(function (b) {
     return '<a href="' + b.url + '" target="_blank" rel="noopener">' + b.label + '</a>';
   }).join('') + '</div>';
 }
 
-function card(t, showFrom) {
+/* One stop on the platform timeline — used for both a selected city's
+   trips and a band-filtered list across every city. */
+function stop(t, showFrom) {
   var f = fmtTime(t.mins, t.time);
-  return '<div class="dt-card">' +
-      '<div class="dt-card-top">' +
-        '<div><div class="dt-card-dest">' + t.dest + '</div>' +
-          (showFrom ? '<div class="dt-card-from">from <a href="' + t.url + '">' + t.city + '</a></div>' : '') +
+  return '<div class="dt-stop">' +
+      '<div class="dt-stop-top">' +
+        '<div><div class="dt-stop-dest">' + t.dest + '</div>' +
+          (showFrom ? '<div class="dt-stop-from">from <a href="' + t.url + '">' + t.city + '</a></div>' : '') +
         '</div>' +
-        '<div class="dt-card-time">' + f.n + '<span class="u">' + f.u + '</span></div>' +
+        '<div class="dt-stop-time">' + f.n + (f.u ? ' ' + f.u : '') + '</div>' +
       '</div>' +
-      '<p class="dt-card-desc">' + t.desc + '</p>' +
+      '<p class="dt-stop-desc">' + t.desc + '</p>' +
       bookLinks(t.book) +
     '</div>';
 }
 
-/* One builder for both browse-grid states (full list and search-narrowed) so
-   the card markup never drifts between the two call sites. */
-function cityCard(c) {
+/* One row on the departure board — used for both browse states (full board
+   and search-narrowed) so the markup never drifts between call sites. */
+function boardRow(c, i) {
   var best = FASTEST[c.city];
   var fast = best ? fmtTime(best.mins, best.time) : null;
-  return '<button type="button" class="dt-citycard" data-city="' + c.city.replace(/"/g, '&quot;') + '">' +
-      '<div class="dt-citycard-top">' +
-        '<span class="dt-citycard-name">' + c.city + '</span>' +
-      '</div>' +
-      (fast ? '<div class="dt-citycard-fast">' + best.dest + ' in <b>' + fast.n + (fast.u ? ' ' + fast.u : '') + '</b></div>' : '') +
+  return '<button type="button" class="dt-board-row" style="animation-delay:' + Math.min(i * 0.025, 0.5) + 's" data-city="' + c.city.replace(/"/g, '&quot;') + '">' +
+      '<span class="dt-board-name">' + c.city + (fast ? '<span>' + best.dest + '</span>' : '') + '</span>' +
+      (fast ? '<span class="dt-board-time">' + fast.n + '<span class="u">' + (fast.u || '') + '</span></span>' : '<span></span>') +
+      '<span class="dt-board-dot" data-band="' + (best ? bandKeyFor(best.mins) : '') + '"></span>' +
     '</button>';
+}
+
+function board(cities) {
+  return '<div class="dt-board">' +
+      '<div class="dt-board-head"><span>Departure city</span><span>Fastest trip</span><span></span></div>' +
+      cities.map(boardRow).join('') +
+    '</div>';
 }
 
 function paintBands() {
@@ -279,11 +318,11 @@ function render() {
   paintBands();
   paintHero();
 
-  /* No city and no band: browse. Every city as a card, each carrying its own
-     fastest trip, rather than a wall of rows or identical bare pills. */
+  /* No city and no band: browse. Every city as a departure-board row, each
+     carrying its own fastest trip, rather than a wall of cards. */
   if (!city && band === 'all') {
     summary.innerHTML = 'Pick a departure city';
-    list.innerHTML = '<div class="dt-city-grid">' + DATA.map(cityCard).join('') + '</div>';
+    list.innerHTML = board(DATA);
     return;
   }
 
@@ -298,7 +337,7 @@ function render() {
     '<button type="button" id="dt-reset">Clear</button>';
 
   list.innerHTML = rows.length
-    ? '<div class="dt-grid">' + rows.map(function (t) { return card(t, !city); }).join('') + '</div>'
+    ? '<div class="dt-timeline">' + rows.map(function (t) { return stop(t, !city); }).join('') + '</div>'
     : '<div class="empty-state"><div class="empty-state-text">Nothing that short from here — try a longer ride.</div></div>';
 }
 
@@ -310,7 +349,7 @@ bandsEl.addEventListener('click', function (e) {
 });
 
 list.addEventListener('click', function (e) {
-  var chip = e.target.closest('.dt-citycard');
+  var chip = e.target.closest('.dt-board-row');
   if (!chip) return;
   city = chip.dataset.city;
   search.value = city;
@@ -331,12 +370,12 @@ search.addEventListener('input', function () {
   var hits = DATA.filter(function (c) { return c.city.toLowerCase().indexOf(q) >= 0; });
   city = hits.length === 1 ? hits[0].city : null;
   if (city) { render(); return; }
-  /* Partial text with several matches: narrow the browse grid rather than
-     jumping into one city. */
+  /* Partial text with several matches: narrow the board rather than jumping
+     into one city. */
   paintHero(); paintBands();
   summary.innerHTML = '<b>' + hits.length + '</b> departure cit' + (hits.length === 1 ? 'y' : 'ies') + ' matching &ldquo;' + search.value + '&rdquo;';
   list.innerHTML = hits.length
-    ? '<div class="dt-city-grid">' + hits.map(cityCard).join('') + '</div>'
+    ? board(hits)
     : '<div class="empty-state"><div class="empty-state-text">No departure city matches that.</div></div>';
 });
 

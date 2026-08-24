@@ -2130,7 +2130,17 @@
    shared CSS/JS touched (cars.css link dropped, that file itself unchanged).
    CACHE to v1522 so the cached copy of the page itself gets invalidated for
    returning visitors. */
-var CACHE = 'travel-cache-v1522';
+/* 2026-08-24: essentials/baggage redesigned below the hero band (owner-requested,
+   "surprise me" / wow-fact ask) — a sourced "did you know" callout on the federal
+   excise-tax exemption for bag fees (26 CFR §49.4261-8), three stat tiles ($7.4B
+   U.S. bag fees 2025 / 162% five-year rise per BTS, $157B global ancillary revenue,
+   Southwest ending free bags), and a standouts grid of extremes (most generous /
+   strictest carry-on, no-weight-limit US carriers, two-free-bags carriers) computed
+   from the page's own existing carrier rows — no carrier data changed. Region tabs
+   restyled onto the documented dot-chip jump-strip pattern (Apps page), same filter
+   JS. Page's own inline <style>, no shared CSS/JS touched. CACHE to v1523 so the
+   cached copy of the page itself gets invalidated for returning visitors. */
+var CACHE = 'travel-cache-v1523';
 
 /* The guide-calendar hand-off cache. Written by toolbar.js, read and emptied
    once by the fetch handler below, and EXEMPT from the activate sweep — it is

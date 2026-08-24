@@ -18,43 +18,28 @@
 #bg-search:focus { border-color: var(--c-search-focus-border); box-shadow: none; }
 #no-results { display: none; color: var(--muted); font-size: 13px; margin-bottom: 12px; text-align: center; }
 
-/* Wow-fact intro — a single sourced "did you know" callout plus three
-   supporting stat tiles, replacing the old plain jump from hero to search. */
+/* Wow-fact intro — ONE compact sourced "did you know" callout (headline fact
+   + a slim stat line), replacing the old plain jump from hero to search.
+   2026-08-24 follow-up: this used to be four stacked blocks (callout, a
+   3-tile stat grid, a "standouts" header, a 4-card leaderboard) — roughly
+   three screens of trivia before the search box. Owner feedback: "this page
+   is very confusing." Collapsed to one card so the reader reaches the actual
+   tool in one scroll; the standouts data is still there, just not blocking
+   the top — it's what browsing the region lists below shows directly. */
 .wow-callout {
   display: flex; align-items: flex-start; gap: 16px;
   background: var(--fam-orange-bg); border: 1px solid var(--fam-orange-bd);
-  border-radius: 14px; padding: 20px 22px; margin: 22px 0 14px;
+  border-radius: 14px; padding: 18px 20px; margin: 22px 0 18px;
   box-shadow: 0 1px 6px rgba(92,61,17,.05);
 }
-.wow-callout .card-icon { font-size: 38px; flex-shrink: 0; }
+.wow-callout .card-icon { font-size: 34px; flex-shrink: 0; }
 .wow-callout .card-icon svg { width: 1em; height: 1em; display: block; }
-.wow-callout h2 { margin: 8px 0 6px; font-size: 16.5px; font-weight: 800; color: var(--text); letter-spacing: -0.01em; }
+.wow-callout h2 { margin: 8px 0 6px; font-size: 16px; font-weight: 800; color: var(--text); letter-spacing: -0.01em; }
 .wow-callout p { margin: 0; font-size: 13px; color: var(--muted); line-height: 1.6; }
 .wow-callout code { font-size: 11.5px; background: var(--surface); padding: 1px 5px; border-radius: 3px; border: 1px solid var(--border2); }
-
-.wow-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin: 0 0 30px; }
-.wow-tile { background: var(--surface); border: 1px solid var(--border2); border-radius: 12px; padding: 16px 17px; box-shadow: 0 1px 6px rgba(92,61,17,.05); transition: box-shadow .15s, transform .15s; }
-.wow-tile:hover { box-shadow: 0 8px 22px rgba(92,61,17,.15); transform: translateY(-2px); }
-.wow-tile .card-icon { font-size: 24px; display: block; margin-bottom: 8px; }
-.wow-tile .card-icon svg { width: 1em; height: 1em; display: block; }
-.wow-num { font-size: 25px; font-weight: 800; color: var(--rust,#C04E1A); letter-spacing: -0.02em; line-height: 1.1; }
-.wow-label { font-size: 12.5px; color: var(--text); font-weight: 600; margin-top: 5px; line-height: 1.4; }
-.wow-sub { font-size: 11.5px; color: var(--muted); margin-top: 4px; line-height: 1.5; }
-
-/* Standouts — extremes computed from this page's own carrier data. */
-.stand-head { display: flex; align-items: center; gap: 8px; margin: 4px 0 12px; }
-.stand-head .card-icon { font-size: 20px; }
-.stand-head .card-icon svg { width: 1em; height: 1em; display: block; }
-.stand-head h2 { font-size: 12.5px; font-weight: 800; letter-spacing: .08em; text-transform: uppercase; color: var(--text); margin: 0; }
-.stand-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; margin-bottom: 30px; }
-.stand-card { background: var(--surface); border: 1px solid var(--border2); border-left: 3px solid var(--fam-grey-bd); border-radius: 9px; padding: 13px 14px; }
-.stand-card.sc-green { border-left-color: var(--fam-green-bd); }
-.stand-card.sc-red { border-left-color: var(--fam-red-bd); }
-.stand-card.sc-blue { border-left-color: var(--fam-blue-bd); }
-.stand-card.sc-purple { border-left-color: var(--fam-purple-bd); }
-.stand-title { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: .05em; color: var(--muted); margin-bottom: 6px; }
-.stand-value { font-size: 13px; font-weight: 700; color: var(--text); line-height: 1.35; margin-bottom: 4px; }
-.stand-detail { font-size: 11.5px; color: var(--muted); line-height: 1.5; }
+.wow-stats { display: flex; flex-wrap: wrap; gap: 6px 20px; margin-top: 12px; padding-top: 12px; border-top: 1px solid var(--fam-orange-bd); }
+.wow-stats span { font-size: 11.5px; color: var(--muted); line-height: 1.5; }
+.wow-stats b { color: var(--text); font-weight: 800; }
 
 /* Region jump-strip — dot-chip variant (rounded, catalogue dot per family,
    hover/active flip terracotta) in place of the old squared region-tab row. */
@@ -140,8 +125,6 @@
 @media (max-width: 600px) and (pointer: coarse) {
   #bg-search { width: 100%; max-width: 100%; }
   .wow-callout { flex-direction: column; }
-  .wow-grid { grid-template-columns: 1fr; }
-  .stand-grid { grid-template-columns: 1fr; }
   .jump-strip { justify-content: flex-start; overflow-x: auto; flex-wrap: nowrap; padding-bottom: 2px; }
   .bag-head { flex-wrap: wrap; }
   .bag-chips { max-width: 100%; width: 100%; padding-left: 44px; justify-content: flex-start; }
@@ -197,55 +180,12 @@
     <div>
       <span class="badge fam-orange">Did you know</span>
       <h2>Bag fees pay no federal ticket tax</h2>
-      <p>Airfare carries a 7.5% federal excise tax — but under <code>26 CFR §49.4261-8</code>, checked-bag and other à la carte fees are legally exempt from it. Every dollar an airline shifts from the fare into a fee is a dollar that tax never touches, which is part of why bag fees keep climbing even when ticket prices hold steady.</p>
-    </div>
-  </div>
-
-  <div class="wow-grid">
-    <div class="wow-tile">
-      <span class="card-icon" data-icon="554"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M2.4 21.4V3" stroke="var(--c-stone)" stroke-width="1.5" stroke-linecap="round"/><path d="M2.4 21.4H22" stroke="var(--c-stone)" stroke-width="1.5" stroke-linecap="round"/><path d="M5 17.6 9.8 12.4l3.6 3.2 6.6-8" fill="none" stroke="var(--c-green)" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"/><path d="M15.4 7.6h4.6v4.6" fill="none" stroke="var(--c-green)" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"/><g fill="url(#gm-green)" stroke="var(--c-green-rim)" stroke-width="0.5"><circle cx="9.8" cy="12.4" r="1.5"/><circle cx="13.4" cy="15.6" r="1.5"/></g></svg></span>
-      <div class="wow-num">$7.4B</div>
-      <div class="wow-label">in U.S. checked-bag fees, 2025</div>
-      <div class="wow-sub">Up 162% over five years — Bureau of Transportation Statistics</div>
-    </div>
-    <div class="wow-tile">
-      <span class="card-icon" data-icon="560"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9.6" fill="url(#gm-stone)" stroke="var(--c-stone-rim)" stroke-width="0.5"/><path d="M12 2.4A9.6 9.6 0 0 1 20.9 15.6L12 12z" fill="url(#gm-blue)" stroke="var(--c-blue-rim)" stroke-width="0.5"/><path d="M20.9 15.6A9.6 9.6 0 0 1 5.2 18.2L12 12z" fill="url(#gm-clay)" stroke="var(--c-clay-rim)" stroke-width="0.5"/><circle cx="12" cy="12" r="4.4" fill="url(#gm-cream)" stroke="var(--c-rim-warm)" stroke-width="0.6"/></svg></span>
-      <div class="wow-num">$157B</div>
-      <div class="wow-label">projected global airline ancillary revenue, 2025</div>
-      <div class="wow-sub">Bag, seat and other add-on fees combined, worldwide</div>
-    </div>
-    <div class="wow-tile">
-      <span class="card-icon" data-icon="429"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 6V4.8h5.6V6h1.8V4.6a2 2 0 0 0-2-2H8.2a2 2 0 0 0-2 2V6z" fill="url(#gm-cocoa)" stroke="var(--c-cocoa-rim)" stroke-width="0.5"/><path d="M8 6V4.8h5.6V6h1.8V4.6a2 2 0 0 0-2-2H8.2a2 2 0 0 0-2 2V6z" fill="url(#gm-gloss)"/><rect x="1.8" y="6" width="16" height="13.2" rx="2.1" fill="url(#gm-navy)" stroke="var(--c-navy-rim)" stroke-width="0.5"/><rect x="1.8" y="9.4" width="16" height="2.4" fill="url(#gm-cream)" stroke="var(--c-rim-warm)" stroke-width="0.6"/><rect x="3.8" y="19.2" width="1.9" height="2.4" rx="0.85" fill="url(#gm-tire)" stroke="var(--c-tire-rim)" stroke-width="0.5"/><rect x="13.9" y="19.2" width="1.9" height="2.4" rx="0.85" fill="url(#gm-tire)" stroke="var(--c-tire-rim)" stroke-width="0.5"/><path d="M16.4 12.6 21.8 11v8.4l-5.4-1.6z" fill="url(#gm-cream)" stroke="var(--c-rim-warm)" stroke-width="0.6"/><g stroke="var(--c-cocoa)" stroke-width="0.8"><path d="M17.8 13.4v4.2M19 13v4.8M20.2 12.7v5.2M21 12.4v5.6"/></g></svg></span>
-      <div class="wow-num">2 → 0</div>
-      <div class="wow-label">free checked bags on Southwest</div>
-      <div class="wow-sub">Ended May 2025, closing out a decades-long industry holdout</div>
-    </div>
-  </div>
-
-  <div class="stand-head">
-    <span class="card-icon" data-icon="566"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="2.4" y="3.6" width="19" height="4.2" rx="1" fill="url(#gm-blue)" stroke="var(--c-blue-rim)" stroke-width="0.5"/><rect x="2.4" y="9.9" width="13.4" height="4.2" rx="1" fill="url(#gm-teal)" stroke="var(--c-teal-rim)" stroke-width="0.5"/><rect x="2.4" y="16.2" width="8" height="4.2" rx="1" fill="url(#gm-clay)" stroke="var(--c-clay-rim)" stroke-width="0.5"/></svg></span>
-    <h2>Standouts across 44 carriers</h2>
-  </div>
-  <div class="stand-grid">
-    <div class="stand-card sc-green">
-      <div class="stand-title">Most generous carry-on</div>
-      <div class="stand-value">British Airways — 51 lb (23 kg)</div>
-      <div class="stand-detail">More than double the 7–8 kg most European and Middle Eastern carriers enforce — and equal to what many airlines allow for an entire checked bag.</div>
-    </div>
-    <div class="stand-card sc-red">
-      <div class="stand-title">Strictest carry-on — a 6-way tie</div>
-      <div class="stand-value">Emirates · Qatar · Etihad · Singapore · Cathay Pacific · Qantas</div>
-      <div class="stand-detail">All six cap the cabin bag at exactly 15.4 lb (7 kg), tighter than any other carrier on this page.</div>
-    </div>
-    <div class="stand-card sc-blue">
-      <div class="stand-title">No weight limit at all</div>
-      <div class="stand-value">Delta · United · American · Southwest · Alaska · JetBlue</div>
-      <div class="stand-detail">Every major U.S. carrier judges the carry-on by size only — pack it heavy, no scale involved.</div>
-    </div>
-    <div class="stand-card sc-purple">
-      <div class="stand-title">Two free checked bags, Economy</div>
-      <div class="stand-value">JAL / ANA · Aerolíneas Argentinas</div>
-      <div class="stand-detail">A full second bag included on international routes, no elite status or credit card required.</div>
+      <p>Airfare carries a 7.5% federal excise tax — but under <code>26 CFR §49.4261-8</code>, checked-bag fees are legally exempt from it, which is part of why they keep climbing even when ticket prices hold steady.</p>
+      <div class="wow-stats">
+        <span><b>$7.4B</b> in U.S. bag fees, 2025 — up 162% in five years (BTS)</span>
+        <span><b>$157B</b> projected global airline ancillary revenue, 2025</span>
+        <span><b>Southwest</b> ended free checked bags in May 2025</span>
+      </div>
     </div>
   </div>
 

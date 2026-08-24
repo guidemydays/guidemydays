@@ -171,9 +171,19 @@ html { scroll-behavior: smooth; }
 .day-stepper input::-webkit-outer-spin-button, .day-stepper input::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
 .day-unit { font-size: 13px; color: #7a5c0e; font-weight: 600; }
 .setup-note { font-size: 12px; color: #a08a4a; flex: 1; min-width: 180px; }
-/* .qty sizing+colour from .badge .fam-red in web-travel-style.css */
-.qty { display: inline-block; margin-right: 7px; }
-.item.checked .qty { color: #b0aaa2; background: var(--surface2); border-color: var(--border); }
+/* Readout, not a badge: a circular number chip (same size/weight as the
+   earlier bold-number treatment) followed by a plain phrase naming what's
+   being counted, so the row reads as a computed result on its own. */
+.qty { display: inline-flex; align-items: center; gap: 6px; margin-left: 8px; }
+.qty-circle {
+ display: inline-flex; align-items: center; justify-content: center;
+ min-width: 22px; height: 22px; padding: 0 4px; border-radius: 999px;
+ background: var(--fam-red-bg); border: 1px solid var(--fam-red-bd); color: var(--fam-red-ink);
+ font-size: 13px; font-weight: 700; font-variant-numeric: tabular-nums; flex-shrink: 0;
+}
+.qty-phrase { font-size: 13px; color: var(--muted); }
+.item.checked .qty-circle { background: var(--surface2); border-color: var(--border); color: #b0aaa2; }
+.item.checked .qty-phrase { color: #b0aaa2; }
 /* .extras-pill sizing+colour from .badge .fam-yellow in web-travel-style.css */
 .extras-pill { flex-shrink: 0; }
 .item.checked .extras-pill { color: #b0aaa2; background: var(--surface2); border-color: var(--border); }
@@ -219,7 +229,8 @@ body.hide-packed .critical-card.complete .card-body { display: none; }
 @media (prefers-color-scheme: dark) {
   .day-stepper button { color: #c8a060; border-color: var(--border); }
   .day-stepper input { color: var(--text); border-color: var(--border); }
-  .item.checked .qty { color: var(--muted); }
+  .item.checked .qty-circle { color: var(--muted); }
+  .item.checked .qty-phrase { color: var(--muted); }
   .item.checked .extras-pill { color: var(--muted); }
   .card-header { background: var(--surface2); }
   .collapsible-card .card-header { background: var(--surface2); border-bottom-color: var(--border); }
@@ -228,7 +239,7 @@ body.hide-packed .critical-card.complete .card-body { display: none; }
   .callout.amber strong { color: var(--text); }
   .trip-setup { background: var(--surface2); border-color: var(--border); }
   .setup-label, .day-unit { color: var(--muted); }
-  /* .extras-pill / .card-pill / .qty dark mode handled by .fam-yellow / .fam-green / .fam-red tokens */
+  /* .extras-pill / .card-pill / .qty-circle dark mode handled by .fam-yellow / .fam-green / .fam-red tokens */
   .summary-big { color: var(--text); }
   .summary-sub b { color: var(--text); }
   .card-title { color: #c8a060; }
@@ -469,22 +480,22 @@ body.hide-packed .critical-card.complete .card-body { display: none; }
  </div>
  <div class="card-body">
  <div class="sub-label">Undergarments</div>
- <div class="item"><input type="checkbox" id="cb-c1" onchange="toggle(this)"><label for="cb-c1"><span class="qty badge fam-red" id="qty-cb-c1"></span>Socks</label></div>
+ <div class="item"><input type="checkbox" id="cb-c1" onchange="toggle(this)"><label for="cb-c1"><span class="qty" id="qty-cb-c1"></span></label></div>
  <div class="item"><input type="checkbox" id="cb-c1b" onchange="toggle(this)"><label for="cb-c1b">Warm socks for plane</label></div>
- <div class="item"><input type="checkbox" id="cb-c2" onchange="toggle(this)"><label for="cb-c2"><span class="qty badge fam-red" id="qty-cb-c2"></span>Underwear</label></div>
- <div class="item"><input type="checkbox" id="cb-c3" onchange="toggle(this)"><label for="cb-c3"><span class="qty badge fam-red" id="qty-cb-c3"></span>Bras</label></div>
+ <div class="item"><input type="checkbox" id="cb-c2" onchange="toggle(this)"><label for="cb-c2"><span class="qty" id="qty-cb-c2"></span></label></div>
+ <div class="item"><input type="checkbox" id="cb-c3" onchange="toggle(this)"><label for="cb-c3"><span class="qty" id="qty-cb-c3"></span></label></div>
  <div class="item"><input type="checkbox" id="cb-c3b" onchange="toggle(this)"><label for="cb-c3b">Undershirts</label></div>
 
  <div class="sub-label">Tops</div>
- <div class="item"><input type="checkbox" id="cb-c4" onchange="toggle(this)"><label for="cb-c4"><span class="qty badge fam-red" id="qty-cb-c4"></span>T-shirts or casual tops</label></div>
- <div class="item"><input type="checkbox" id="cb-c5" onchange="toggle(this)"><label for="cb-c5"><span class="qty badge fam-red" id="qty-cb-c5"></span>Long-sleeve shirts</label></div>
- <div class="item"><input type="checkbox" id="cb-c6" onchange="toggle(this)"><label for="cb-c6"><span class="qty badge fam-red" id="qty-cb-c6"></span>Sweater / cardigan</label></div>
+ <div class="item"><input type="checkbox" id="cb-c4" onchange="toggle(this)"><label for="cb-c4"><span class="qty" id="qty-cb-c4"></span></label></div>
+ <div class="item"><input type="checkbox" id="cb-c5" onchange="toggle(this)"><label for="cb-c5"><span class="qty" id="qty-cb-c5"></span></label></div>
+ <div class="item"><input type="checkbox" id="cb-c6" onchange="toggle(this)"><label for="cb-c6"><span class="qty" id="qty-cb-c6"></span></label></div>
 
  <div class="sub-label">Bottoms</div>
- <div class="item"><input type="checkbox" id="cb-c7" onchange="toggle(this)"><label for="cb-c7"><span class="qty badge fam-red" id="qty-cb-c7"></span>Jeans or casual pants</label></div>
- <div class="item"><input type="checkbox" id="cb-c8" onchange="toggle(this)"><label for="cb-c8"><span class="qty badge fam-red" id="qty-cb-c8"></span>Shorts</label></div>
- <div class="item"><input type="checkbox" id="cb-c9" onchange="toggle(this)"><label for="cb-c9"><span class="qty badge fam-red" id="qty-cb-c9"></span>Dressy pants</label></div>
- <div class="item"><input type="checkbox" id="cb-c10" onchange="toggle(this)"><label for="cb-c10"><span class="qty badge fam-red" id="qty-cb-c10"></span>Leggings or comfortable casual pants</label></div>
+ <div class="item"><input type="checkbox" id="cb-c7" onchange="toggle(this)"><label for="cb-c7"><span class="qty" id="qty-cb-c7"></span></label></div>
+ <div class="item"><input type="checkbox" id="cb-c8" onchange="toggle(this)"><label for="cb-c8"><span class="qty" id="qty-cb-c8"></span></label></div>
+ <div class="item"><input type="checkbox" id="cb-c9" onchange="toggle(this)"><label for="cb-c9"><span class="qty" id="qty-cb-c9"></span></label></div>
+ <div class="item"><input type="checkbox" id="cb-c10" onchange="toggle(this)"><label for="cb-c10"><span class="qty" id="qty-cb-c10"></span></label></div>
  <div class="item"><input type="checkbox" id="cb-c19" onchange="toggle(this)"><label for="cb-c19">Capris</label></div>
 
  <div class="sub-label">Active</div>
@@ -498,7 +509,7 @@ body.hide-packed .critical-card.complete .card-body { display: none; }
  <div class="item"><input type="checkbox" id="cb-c20" onchange="toggle(this)"><label for="cb-c20">Belt</label></div>
 
  <div class="sub-label">Sleepwear</div>
- <div class="item"><input type="checkbox" id="cb-c14" onchange="toggle(this)"><label for="cb-c14"><span class="qty badge fam-red" id="qty-cb-c14"></span>Pajamas</label></div>
+ <div class="item"><input type="checkbox" id="cb-c14" onchange="toggle(this)"><label for="cb-c14"><span class="qty" id="qty-cb-c14"></span></label></div>
 
  <div class="sub-label">Cold Weather</div>
  <div class="item"><input type="checkbox" id="cb-c11" onchange="toggle(this)"><label for="cb-c11">Light jacket / windbreaker</label></div>
@@ -572,7 +583,7 @@ body.hide-packed .critical-card.complete .card-body { display: none; }
  </div>
  <div class="card-body">
  <div class="sub-label">Diapering &amp; Feeding</div>
- <div class="item"><input type="checkbox" id="cb-bb1" onchange="toggle(this)"><label for="cb-bb1"><span class="qty badge fam-red" id="qty-cb-bb1"></span>Diapers</label></div>
+ <div class="item"><input type="checkbox" id="cb-bb1" onchange="toggle(this)"><label for="cb-bb1"><span class="qty" id="qty-cb-bb1"></span></label></div>
  <div class="item"><input type="checkbox" id="cb-bb2" onchange="toggle(this)"><label for="cb-bb2">Baby wipes</label></div>
  <div class="item"><input type="checkbox" id="cb-bb3" onchange="toggle(this)"><label for="cb-bb3">Diaper cream</label></div>
  <div class="item"><input type="checkbox" id="cb-bb4" onchange="toggle(this)"><label for="cb-bb4">Portable changing pad</label></div>
@@ -586,13 +597,13 @@ body.hide-packed .critical-card.complete .card-body { display: none; }
  <div class="item"><input type="checkbox" id="cb-bb18" onchange="toggle(this)"><label for="cb-bb18">Snack holder</label></div>
  <div class="item"><input type="checkbox" id="cb-bb19" onchange="toggle(this)"><label for="cb-bb19">Baby plate</label></div>
  <div class="item"><input type="checkbox" id="cb-bb20" onchange="toggle(this)"><label for="cb-bb20">Baby utensils</label></div>
- <div class="item"><input type="checkbox" id="cb-bb21" onchange="toggle(this)"><label for="cb-bb21"><span class="qty badge fam-red" id="qty-cb-bb21"></span>Bibs</label></div>
+ <div class="item"><input type="checkbox" id="cb-bb21" onchange="toggle(this)"><label for="cb-bb21"><span class="qty" id="qty-cb-bb21"></span></label></div>
  <div class="item"><input type="checkbox" id="cb-bb22" onchange="toggle(this)"><label for="cb-bb22">Eating smock</label></div>
  <div class="item"><input type="checkbox" id="cb-bb22b" onchange="toggle(this)"><label for="cb-bb22b">Long-sleeve bib</label></div>
 
  <div class="sub-label">Clothing</div>
- <div class="item"><input type="checkbox" id="cb-bb24" onchange="toggle(this)"><div class="item-label-wrap"><label for="cb-bb24"><span class="qty badge fam-red" id="qty-cb-bb24"></span>Day outfits</label><span class="extras-pill badge fam-yellow">+ 2 extras</span></div></div>
- <div class="item"><input type="checkbox" id="cb-bb48" onchange="toggle(this)"><label for="cb-bb48"><span class="qty badge fam-red" id="qty-cb-bb48"></span>Pajamas</label></div>
+ <div class="item"><input type="checkbox" id="cb-bb24" onchange="toggle(this)"><div class="item-label-wrap"><label for="cb-bb24"><span class="qty" id="qty-cb-bb24"></span></label><span class="extras-pill badge fam-yellow">+ 2 extras</span></div></div>
+ <div class="item"><input type="checkbox" id="cb-bb48" onchange="toggle(this)"><label for="cb-bb48"><span class="qty" id="qty-cb-bb48"></span></label></div>
  <div class="item"><input type="checkbox" id="cb-bb25" onchange="toggle(this)"><label for="cb-bb25">Shoes</label></div>
 
  <div class="sub-label">Toys &amp; Entertainment</div>
@@ -613,7 +624,7 @@ body.hide-packed .critical-card.complete .card-body { display: none; }
  <div class="item"><input type="checkbox" id="cb-bb9" onchange="toggle(this)"><label for="cb-bb9">Baby carrier</label></div>
  <div class="item"><input type="checkbox" id="cb-bb9b" onchange="toggle(this)"><label for="cb-bb9b">Baby wrap</label></div>
  <div class="item"><input type="checkbox" id="cb-bb10" onchange="toggle(this)"><label for="cb-bb10">Car seat</label></div>
- <div class="item"><input type="checkbox" id="cb-bb11" onchange="toggle(this)"><div class="item-label-wrap"><label for="cb-bb11"><span class="qty badge fam-red" id="qty-cb-bb11"></span>Pacifiers / binkies</label><span class="extras-pill badge fam-yellow">+ 6 extras</span></div></div>
+ <div class="item"><input type="checkbox" id="cb-bb11" onchange="toggle(this)"><div class="item-label-wrap"><label for="cb-bb11"><span class="qty" id="qty-cb-bb11"></span></label><span class="extras-pill badge fam-yellow">+ 6 extras</span></div></div>
  <div class="item"><input type="checkbox" id="cb-bb12" onchange="toggle(this)"><label for="cb-bb12">Favorite toy or comfort item</label></div>
  <div class="item"><input type="checkbox" id="cb-bb13" onchange="toggle(this)"><label for="cb-bb13">Sleep sack</label></div>
  <div class="item"><input type="checkbox" id="cb-bb13b" onchange="toggle(this)"><label for="cb-bb13b">Travel blanket</label></div>
@@ -637,7 +648,7 @@ body.hide-packed .critical-card.complete .card-body { display: none; }
  <div class="item"><input type="checkbox" id="cb-bb45" onchange="toggle(this)"><label for="cb-bb45">Potty book</label></div>
 
  <div class="sub-label">Beach &amp; Pool</div>
- <div class="item"><input type="checkbox" id="cb-bb17" onchange="toggle(this)"><label for="cb-bb17"><span class="qty badge fam-red" id="qty-cb-bb17"></span>Swim diapers</label></div>
+ <div class="item"><input type="checkbox" id="cb-bb17" onchange="toggle(this)"><label for="cb-bb17"><span class="qty" id="qty-cb-bb17"></span></label></div>
  <div class="item"><input type="checkbox" id="cb-bb46" onchange="toggle(this)"><label for="cb-bb46">Baby swimsuit</label></div>
  <div class="item"><input type="checkbox" id="cb-bb47" onchange="toggle(this)"><label for="cb-bb47">Sun hat</label></div>
  </div>
@@ -733,23 +744,23 @@ body.hide-packed .critical-card.complete .card-body { display: none; }
  const HIDE_KEY = 'packing_generic_hide_v1';
 
  const QTY = {
- 'cb-c1':  { ratio: 1,    min: 1,          unit: '' },
- 'cb-c2':  { ratio: 1,    min: 1,          unit: '' },
- 'cb-c3':  { ratio: 0.25, min: 1, cap: 5,  unit: '' },
- 'cb-c4':  { ratio: 1,    min: 1, cap: 10, unit: '' },
- 'cb-c5':  { ratio: 0.25, min: 1, cap: 6,  unit: '' },
- 'cb-c6':  { ratio: 0.14, min: 1, cap: 2,  unit: '' },
- 'cb-c7':  { ratio: 0.14, min: 1, cap: 3,  unit: '' },
- 'cb-c8':  { ratio: 0.25, min: 1, cap: 5,  unit: '' },
- 'cb-c9':  { ratio: 0.1,  min: 1, cap: 2,  unit: '' },
- 'cb-c10': { ratio: 0.25, min: 1, cap: 5,  unit: '' },
- 'cb-c14': { ratio: 0.2,  min: 1, cap: 3,  unit: '' },
- 'cb-bb1':  { ratio: 7,   min: 7,  cap: 999, unit: '' },
- 'cb-bb11': { ratio: 1,   min: 1,  cap: 999, unit: '' },
- 'cb-bb17': { ratio: 2,   min: 2,  cap: 999, unit: '' },
- 'cb-bb21': { ratio: 2,   min: 2,  cap: 14, unit: '' },
- 'cb-bb24': { ratio: 2,   min: 2,  cap: 14, unit: '' },
- 'cb-bb48': { ratio: 1,   min: 1,  cap: 7,  unit: '' },
+ 'cb-c1':  { ratio: 1,    min: 1,          unit: '', name: 'socks' },
+ 'cb-c2':  { ratio: 1,    min: 1,          unit: '', name: 'underwear' },
+ 'cb-c3':  { ratio: 0.25, min: 1, cap: 5,  unit: '', name: 'bras' },
+ 'cb-c4':  { ratio: 1,    min: 1, cap: 10, unit: '', name: 't-shirts or casual tops' },
+ 'cb-c5':  { ratio: 0.25, min: 1, cap: 6,  unit: '', name: 'long-sleeve shirts' },
+ 'cb-c6':  { ratio: 0.14, min: 1, cap: 2,  unit: '', name: 'sweater / cardigan' },
+ 'cb-c7':  { ratio: 0.14, min: 1, cap: 3,  unit: '', name: 'jeans or casual pants' },
+ 'cb-c8':  { ratio: 0.25, min: 1, cap: 5,  unit: '', name: 'shorts' },
+ 'cb-c9':  { ratio: 0.1,  min: 1, cap: 2,  unit: '', name: 'dressy pants' },
+ 'cb-c10': { ratio: 0.25, min: 1, cap: 5,  unit: '', name: 'leggings or comfortable casual pants' },
+ 'cb-c14': { ratio: 0.2,  min: 1, cap: 3,  unit: '', name: 'pajamas' },
+ 'cb-bb1':  { ratio: 7,   min: 7,  cap: 999, unit: '', name: 'diapers' },
+ 'cb-bb11': { ratio: 1,   min: 1,  cap: 999, unit: '', name: 'pacifiers / binkies' },
+ 'cb-bb17': { ratio: 2,   min: 2,  cap: 999, unit: '', name: 'swim diapers' },
+ 'cb-bb21': { ratio: 2,   min: 2,  cap: 14, unit: '', name: 'bibs' },
+ 'cb-bb24': { ratio: 2,   min: 2,  cap: 14, unit: '', name: 'day outfits' },
+ 'cb-bb48': { ratio: 1,   min: 1,  cap: 7,  unit: '', name: 'pajamas' },
  };
 
  function getDays() {
@@ -773,7 +784,9 @@ body.hide-packed .critical-card.complete .card-body { display: none; }
   var span = document.getElementById('qty-' + id);
   if (!span) continue;
   var n = computeQty(QTY[id], days);
-  span.textContent = QTY[id].unit ? (n + ' ' + QTY[id].unit) : String(n);
+  var unit = QTY[id].unit ? (' ' + QTY[id].unit) : '';
+  var name = QTY[id].name || '';
+  span.innerHTML = '<span class="qty-circle">' + n + unit + '</span><span class="qty-phrase">' + name + ' to pack</span>';
  }
  try { localStorage.setItem(DAYS_KEY, String(days)); } catch (e) {}
  }

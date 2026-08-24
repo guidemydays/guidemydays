@@ -2123,7 +2123,14 @@
 /* 2026-08-24: apps essentials page — same "wow factor" pass as day-trips/train-passes/entry. Each of the 16 app cards now opens as a home-screen icon tile (colored rounded-square glyph reusing the page's own jump-strip dot icons — gm-i-dot-green/red/blue/purple/orange/pink/black — tinted per category, app name, platform tag, chevron) and taps open to a CSS grid-rows accordion revealing the original description/pills/"Open X" link. Filter pills, jump-strip and the .app-anchor label are untouched. Caught and fixed one bug before shipping: the grid-template-rows:0fr collapse trick only collapses a SINGLE child, so the first pass left desc/pills/link all visibly expanded on load — fixed by wrapping the three into one .app-detail-inner child. New pattern for the site — no other page does a home-screen icon grid. Bumped CACHE to v1519. */
 /* 2026-08-24: trains.css — closed the .op-review "What it is like" callout into a self-contained tinted box (color-mix on --rust, tracks both themes) instead of a bare left-rule with no closing edge, after the owner flagged a screenshot of it as confusing/defect-looking. Shared file, so this lands on all five continent train pages (Europe/Asia/Americas/Africa/Oceania) at once. Recommended keeping the five pages separate rather than merging them — the actual issue was this one shared component. trains.css -> v16. Bumped CACHE to v1520. */
 /* 2026-08-24: trains.css — follow-up "improve it further" pass on the continent train pages: each route-item's plain '↔' character becomes a dot/line/dot mini rail segment (SVG mask, recoloured via background-color: var(--spine), the same per-card family colour the left spine already uses — no JS change). .route-warn routes pick up currentColor so discontinued/suspended routes draw the segment in the same red as their text. Shared file, lands on all five continent pages. trains.css -> v17. Bumped CACHE to v1521. */
-var CACHE = 'travel-cache-v1521';
+/* 2026-08-24: essentials/private-transfers redesigned below the hero band — sourced
+   "why the price never moves" bento stat panel (flight-delay rate, surge-pricing
+   range, fixed-fare payoff), spotlight tile for the top pick, feature chips +
+   progressive-disclosure review per service card. Page's own inline <style>, no
+   shared CSS/JS touched (cars.css link dropped, that file itself unchanged).
+   CACHE to v1522 so the cached copy of the page itself gets invalidated for
+   returning visitors. */
+var CACHE = 'travel-cache-v1522';
 
 /* The guide-calendar hand-off cache. Written by toolbar.js, read and emptied
    once by the fetch handler below, and EXEMPT from the activate sweep — it is

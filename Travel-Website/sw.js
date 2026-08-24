@@ -2033,7 +2033,8 @@
 /* 2026-08-23: toolbar.js: add 'ask-your-guide' to PAGE_ICON (person-question) — the pill sat bare on all ~239 shipped guides since the /stats/ retirement replaced their Stats pill with Ask Your Guide, which had no PAGE_ICON entry. toolbar.js -> v1064. CACHE to v1479. */
 /* 2026-08-24: toolbar.js: budget sprite (#378) whitespace-only sync with its Site-Icons.html catalogue specimen — no visual change, byte-exact match restored toolbar.js -> v1065. CACHE to v1480. */
 /* 2026-08-24: .pill-badge shrunk site-wide (13px/5px 11px -> 12px/4px 10px, --fam-fs/--fam-pad) — cards-atm's ALL/CREDIT CARDS/... filter row read oversized. Also equalized per-family border alpha so light hues (orange, grey, purple) stop reading as a near-invisible hairline next to dark ones (green, blue, red) at the same 1px/0.4 spec — orange 0.4->0.65, grey 0.4->0.48, purple 0.4->0.45 (light); green 0.4->0.5 (dark). web-travel-style.css -> v110. CACHE to v1481. */
-var CACHE = 'travel-cache-v1481';
+/* 2026-08-24: .badge/.pill-badge line-height 1.5 -> 1 — owner: "the words are not even center". The 1.5 line box added leading above/below the glyphs that align-items:center centered as a whole, so a single-line all-caps label (no descenders) sat visibly high in the pill. web-travel-style.css -> v111. CACHE to v1482. */
+var CACHE = 'travel-cache-v1482';
 
 /* The guide-calendar hand-off cache. Written by toolbar.js, read and emptied
    once by the fetch handler below, and EXEMPT from the activate sweep — it is
@@ -2046,7 +2047,7 @@ var ICS_OUTBOX = 'gmd-ics-outbox';
    THIS IS THE ONLY PLACE to bump toolbar.js / guide-style.css versions.
    NEVER bump ?v= inside guide HTML — it breaks HMAC stamps and forces re-validation
    of 230+ guides. Instead, bump MIN_VERSIONS here + increment the CACHE version. */
-var MIN_VERSIONS = { 'guide-style.css': 264,'toolbar.js': 1065, 'mobile.css': 88, 'web-travel-style.css': 110, 'guides-index-style.css': 27, 'read-about.css': 6, 'best-of-features.js': 4, 'best-of-cross-data.js': 24, 'weather.js': 12, 'trains.css': 13, 'trains.js': 3, 'airlines.css': 3, 'airlines.js': 4, 'passport.js': 4 };
+var MIN_VERSIONS = { 'guide-style.css': 264,'toolbar.js': 1065, 'mobile.css': 88, 'web-travel-style.css': 111, 'guides-index-style.css': 27, 'read-about.css': 6, 'best-of-features.js': 4, 'best-of-cross-data.js': 24, 'weather.js': 12, 'trains.css': 13, 'trains.js': 3, 'airlines.css': 3, 'airlines.js': 4, 'passport.js': 4 };
 
 function rewriteAssetUrl(urlStr) {
   var u;

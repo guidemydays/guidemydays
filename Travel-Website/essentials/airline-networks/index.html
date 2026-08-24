@@ -81,10 +81,41 @@
      script depends on moved. Terracotta stays the only accent and nothing
      here paints a coloured SURFACE with a gradient — both gradients below
      draw a neutral --border2 texture, not a fill (Thirty-fifth
-     non-negotiable). .pill-badge / .badge / .fam-* colours are untouched. */
+     non-negotiable). .pill-badge / .badge / .fam-* colours are untouched.
+
+     FOLLOW-UP same day — the static reskin above read as flat next to the
+     motion sibling pages already got (day-trips' shuttling train, disney's
+     cursor-tilt, train-passes' card flip): each hub code now stamps itself
+     in once as its section scrolls into view (IntersectionObserver, arms via
+     .stamp-armed so no-JS/reduced-motion just renders it at rest — see
+     .hub-code below), and a destination card's barcode sweeps a highlight on
+     hover/focus, like being read at the gate. Disney also owns a ticket-stub
+     idiom (die-cut edge notches + dashed tear-line on admission tickets);
+     this page's stub reads as a boarding pass specifically — giant hub-code
+     stamp, corner-notch mask, barcode sweep — none of which Disney's page
+     has, but the two are close enough as a category that a future redesign
+     pass should treat "ticket stub" as spoken for twice now, not zero times. */
   .hub-section { margin-bottom: 40px; scroll-margin-top: 100px; }
   .hub-header { display: flex; align-items: baseline; gap: 18px; margin-bottom: 0; padding: 4px 0 0; border-bottom: none; }
   .hub-code { font-family: ui-monospace, 'SF Mono', 'Roboto Mono', Menlo, Consolas, monospace; font-size: 40px; font-weight: 800; letter-spacing: -.01em; color: var(--rust, #C04E1A); line-height: 1; }
+  /* Stamp-in entrance — armed only by JS (progressive enhancement: with no
+     JS, or IntersectionObserver unsupported, .stamp-armed is never added and
+     the code just sits at its normal opacity/scale, exactly as before). Each
+     hub code animates once as its section scrolls into view, like an ink
+     stamp hitting the stub — the site's other "wow" passes (day-trips'
+     shuttling train, disney's cursor-tilt, train-passes' card flip) each
+     picked a motion that fits their own object; this one is the boarding
+     pass's own gesture, not borrowed from any of them. */
+  .hub-section.stamp-armed .hub-code { opacity: 0; transform: scale(1.6) rotate(-9deg); }
+  .hub-section.stamp-armed.stamped .hub-code { animation: hub-stamp-in .5s cubic-bezier(.22,1.6,.4,1) forwards; }
+  @keyframes hub-stamp-in {
+    0%   { opacity: 0; transform: scale(1.6) rotate(-9deg); }
+    55%  { opacity: 1; transform: scale(.93) rotate(1.5deg); }
+    100% { opacity: 1; transform: scale(1) rotate(0); }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .hub-section.stamp-armed .hub-code { opacity: 1; transform: none; animation: none; }
+  }
   .hub-info { flex: 1; }
   .hub-city { font-size: 11.5px; font-weight: 700; letter-spacing: .14em; text-transform: uppercase; color: var(--muted); }
   .hub-strength { position: relative; font-size: var(--fs-body,14px); color: var(--muted); margin: 10px 0 26px; padding: 12px 14px 22px; background: var(--surface, #ffffff); border: 1px solid var(--border); border-left: 3px solid var(--rust, #a67b5b); border-radius: 3px; line-height: 1.6; }
@@ -117,12 +148,29 @@
     font-weight: 800; font-size: 12.5px; letter-spacing: .04em; color: var(--text, #3d3a32);
     display: flex; align-items: center; gap: 7px; margin: 3px 0 2px;
   }
-  /* Barcode-style rule beside the code — decorative texture, not a fill. */
+  /* Barcode-style rule beside the code — decorative texture, not a fill.
+     Hovering/focusing the card sweeps a highlight across it, like the pass
+     being read at the gate scanner. transition, not a running animation —
+     with 300+ of these on the page at once (all three carriers, unfiltered)
+     an always-on loop across every card would be noise, not a "wow" moment;
+     this only ever moves the one card the reader is actually touching. */
   .dest-code::after {
     content: '';
     flex: 1 1 auto; min-width: 16px; height: 12px;
-    background-image: repeating-linear-gradient(90deg, var(--border2,#d8d2c5) 0 1.4px, transparent 1.4px 3.6px);
+    background-image:
+      linear-gradient(100deg, transparent 42%, rgba(255,255,255,.9) 50%, transparent 58%),
+      repeating-linear-gradient(90deg, var(--border2,#d8d2c5) 0 1.4px, transparent 1.4px 3.6px);
+    background-size: 220% 100%, auto;
+    background-position: -120% 0, 0 0;
     opacity: .5;
+    transition: background-position .6s ease;
+  }
+  .dest-card:hover .dest-code::after,
+  .dest-card:focus-within .dest-code::after {
+    background-position: 120% 0, 0 0;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .dest-code::after { transition: none; }
   }
   .dest-meta { font-size: 11.5px; color: var(--muted); margin-bottom: 2px; }
   /* Dest-card left bars — match the emoji sphere mid-tone (bright, vivid) so the
@@ -2088,6 +2136,28 @@ body.is-searching #route-nav.filter-bar { display:flex !important; }
   });
   TVESearch.attach(input, { items: items });
 }());
+</script>
+
+<script>
+(function () {
+  /* Arms the hub-code stamp-in (see .stamp-armed in <style>). Progressive
+     enhancement only: no IntersectionObserver support or reduced-motion
+     means this never runs and every hub code just renders at full opacity,
+     same as before this pass. */
+  if (!('IntersectionObserver' in window)) return;
+  if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  var sections = document.querySelectorAll('.hub-section');
+  if (!sections.length) return;
+  sections.forEach(function (s) { s.classList.add('stamp-armed'); });
+  var io = new IntersectionObserver(function (entries) {
+    entries.forEach(function (entry) {
+      if (!entry.isIntersecting) return;
+      entry.target.classList.add('stamped');
+      io.unobserve(entry.target);
+    });
+  }, { threshold: 0.2, rootMargin: '0px 0px -10% 0px' });
+  sections.forEach(function (s) { io.observe(s); });
+})();
 </script>
 </body>
 </html>

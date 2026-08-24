@@ -73,49 +73,26 @@ html { overflow-x: clip; }
      rule 2026-08-20, measured off the lounges-us legend row). Closer than
      this and the two borders start reading as one merged hairline. */
   --fam-gap:    10px;
-  /* TWO SIZES NOW, ONE PER ROLE — owner rule 2026-08-23, reversing the
-     "one size for the whole family" settle from earlier the same day. That
-     pass fixed the wrong drift: it made every .badge/.pill-badge on the
-     site match EACH OTHER, but never asked whether a clickable filter pill
-     and a static inline tag should be the same size to begin with. They
-     shouldn't — owner, looking at essentials/budget's per-row "CHEAP" tag
-     sitting in a table next to a 14px place name: "the badge can't be
-     bigger than the text it refers to" — a bordered, padded, 32px-tall pill
-     was dominating a row whose own text needed less than 20px. "the badge
-     pills needs to be smaller, different locations and idea."
-     --fam-fs/--fam-pad belong to .pill-badge ONLY — a clickable control
-     (filter, sort, tab) that is usually the only content in its row, fixed
-     size for the same reason a button doesn't resize to its neighbours.
-     Owner rule 2026-08-24: .pill-badge dropped from 13px/5px 11px to
-     12px/4px 10px (site-wide filter rows — cards-atm's ALL/CREDIT CARDS/…
-     row was the trigger — read too large). First pass overcorrected to
-     11px/4px 9px — owner: "too small now, don't do extremes" — settled one
-     notch up. Final settle in Badge-Pill-System.html: padding trimmed
-     4px 10px -> 4px 9px (font-size stayed 12px).
-     --badge-pad belongs to .badge ONLY, in em (not --badge-fs — SEE BELOW,
-     that token is now unused/dead, kept only so nothing that still
-     references it 404s on an undefined var). Owner rule 2026-08-24,
-     reversing the 2026-08-18 "badge and pill-badge are always the same
-     size" rule: a badge sits INLINE next to other text it is labeling (a
-     table-cell tag next to a place name, a card tag next to a headline), so
-     its font-size follows the inherited context instead of a fixed px that
-     could read bigger or smaller than the text it labels. CAPPED, not bare
-     `inherit`: clamp(10px, 1em, 13px) — bare inherit blew up to 15-28px tall
-     on essentials/budget's Cost-of-Living table (row font-size 15px), which
-     is oversized for a small tag next to a place name, not "matching" it in
-     any useful sense. 13px is the ceiling because that is roughly the
-     biggest body-text context a badge should ever need to sit next to; a
-     page whose text runs bigger than that just gets a badge capped at 13px,
-     smaller than its surrounding text — reads as a compact tag rather than
-     shouting the same size as a place name. Padding is em-based so it scales
-     with the (capped) size instead of going tiny next to small text.
-     A page still NEVER restates --fam-fs/--fam-pad/--badge-pad locally; if
-     one reads wrong, the token moves and every page carrying that role
-     moves with it. */
-  --fam-fs:     12px;
-  --fam-pad:    4px 9px;
-  --badge-fs:   11px; /* dead — .badge no longer reads this, see comment above */
-  --badge-pad:  0.3em 0.65em;
+  /* ONE SIZE, THE WHOLE FAMILY — owner rule 2026-08-24, final settle,
+     ending a same-day chain of partial fixes that kept re-splitting this
+     into a .pill-badge track and a .badge track and never actually reading
+     smaller on the page (cards-atm's ALL/CREDIT CARDS/… row, essentials/
+     budget's Cost-of-Living filters and its per-row "CHEAP" tag, tipping's
+     region + amount pills — every one of them still measured oversized
+     after 13px/5px 11px -> 12px/4px 10px -> 12px/4px 9px on the pill side,
+     and inherit -> clamp(10px,1em,13px) -> fixed 11px/3px 8px on the badge
+     side, none of it visible enough on the live page to read as "reduced."
+     Owner: "there is litterally not point in spend tons of time to do a
+     standard format if NONE of the pages gets changed." Splitting pill vs.
+     badge by role was solving the wrong problem — the actual complaint was
+     always just "smaller," on every surface, badge or pill. One token pair
+     for both again: 11px / 3px 8px, --fam-radius unchanged. A page still
+     NEVER restates --fam-fs/--fam-pad locally; if it reads wrong, the
+     token moves and every page carrying that role moves with it. */
+  --fam-fs:     11px;
+  --fam-pad:    3px 8px;
+  --badge-fs:   11px;
+  --badge-pad:  3px 8px;
   /* Border RGB triplets — one source for BOTH alphas of the ladder:
      rest rgba(...,.4), selected rgba(...,.85). Owner's own pattern. */
   --fam-yellow-rgb:122,88,0;   --fam-green-rgb:26,90,26;    --fam-red-rgb:122,58,26;
@@ -2650,13 +2627,16 @@ body > .hero-ground {
   letter-spacing: 0.04em;
   text-transform: uppercase;
 }
-.badge { font-size: clamp(10px, 1em, 13px); padding: var(--badge-pad, 0.3em 0.65em); }
-.pill-badge { font-size: var(--fam-fs, 12px); padding: var(--fam-pad, 4px 9px); }
+.badge { font-size: var(--badge-fs, 11px); padding: var(--badge-pad, 3px 8px); }
+.pill-badge { font-size: var(--fam-fs, 11px); padding: var(--fam-pad, 3px 8px); }
 
-/* ONE CASE STILL — owner rule 2026-08-20, untouched by the size split above.
-   Both are ALL CAPS. What separates them is BEHAVIOUR (.badge is a static
-   label, .pill-badge clicks and can carry .is-on) and now SIZE; text-
-   transform lives in the shared block above regardless — never re-add
+/* ONE CASE, ONE SIZE — owner rule 2026-08-20 (case) + 2026-08-24 final settle
+   (size, see the --fam-fs/--fam-pad comment above). The size split tried
+   earlier the same day is reversed: .badge and .pill-badge read the same
+   box again. What still separates them is BEHAVIOUR ONLY (.badge is a
+   static label, .pill-badge clicks and can carry .is-on) — size is not
+   one of the differences any more. Text-transform lives in the shared
+   block above regardless — never re-add
    `text-transform: none` here to "tell them apart", and never uppercase an
    anchor/link pill (also-on-this-site, nearby-guide, chevron-link, jump-nav)
    on the strength of this rule — caps belongs to this badge-anchored family

@@ -45,19 +45,21 @@ a.pill:visited { color: inherit; }
 /* Status badges — size + colour from .badge / .fam-*; kept for :has() card-border selector */
 .status-badge { flex-shrink: 0; gap: 5px; }
 
-/* System cards — glass surfaces (site idiom already shipped on Passport/
-   Scams: color-mix(surface, transparent) + backdrop-blur, soft shadow,
-   hover lift) with the family-accent bar kept, plus a fade/lift scroll
-   reveal so cards settle into place as you scroll (JS toggles .is-in,
-   prefers-reduced-motion skips straight to visible). */
+/* System cards — "control-panel" idiom: a dark kiosk-screen header (system
+   name + live/delayed status) bled to the card edges, sitting on a plain
+   paper body where the facts print out as a monospace receipt list. New
+   pattern for the site — every other recent redesign here went glass
+   (Passport/Scams) or split-flap (tried on this page, reverted); this one
+   goes the other direction, a self-service terminal rather than paper or
+   light. Fade/lift scroll reveal kept (JS toggles .is-in, prefers-reduced-
+   motion skips straight to visible), plus a light "scan" sweep on hover. */
 .system-card {
   position: relative;
-  background: color-mix(in srgb, var(--surface) 82%, transparent);
-  backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
-  border: 1px solid var(--border2); border-radius: 14px;
+  background: var(--surface);
+  border: 1px solid var(--border2); border-radius: 10px;
   box-shadow: 0 1px 2px rgba(0,0,0,0.03), 0 8px 20px -12px rgba(0,0,0,0.10);
-  padding: 18px 20px; margin-bottom: 14px;
-  border-left: 4px solid transparent;
+  padding: 0 20px 18px; margin-bottom: 14px;
+  overflow: hidden;
   transition: transform var(--transition-normal,0.2s) ease, box-shadow var(--transition-normal,0.2s) ease,
               opacity 0.5s ease, translate 0.5s ease;
 }
@@ -65,34 +67,52 @@ a.pill:visited { color: inherit; }
   transform: translateY(-2px);
   box-shadow: 0 1px 2px rgba(0,0,0,0.04), 0 14px 26px -14px rgba(0,0,0,0.16);
 }
-/* Family-accent bar — canonical sphere mid tones (Badge spec 2026-07-29). */
-.system-card:has(.status-live)   { border-left-color: var(--er-live-accent); }
-.system-card:has(.status-coming) { border-left-color: var(--er-coming-accent); }
+.system-card::after {
+  content: ''; position: absolute; left: 0; right: 0; top: -45%; height: 45%;
+  background: linear-gradient(180deg, rgba(255,255,255,0) 0%, rgba(255,255,255,.30) 50%, rgba(255,255,255,0) 100%);
+  pointer-events: none; opacity: 0;
+}
+.system-card:hover::after { opacity: 1; animation: er-scan 1.1s ease; }
+@keyframes er-scan { from { top: -45%; } to { top: 115%; } }
 .system-card.reveal { opacity: 0; transform: translateY(16px); }
 .system-card.reveal.is-in { opacity: 1; transform: translateY(0); }
 .system-card.reveal.is-in:hover { transform: translateY(-2px); }
+/* Kiosk header — bled to the card's own edges via negative margin, dark
+   regardless of site theme (deliberate "screen", same idea as the pickleball
+   scoreboard's fixed-dark tiles). Tinted toward the status accent already
+   declared at the top of this file — no new colour tokens introduced. */
 .system-head {
   display: flex; align-items: flex-start; justify-content: space-between;
-  gap: 12px; margin-bottom: 14px;
+  gap: 12px; margin: 0 -20px 14px; padding: 14px 20px 13px;
+  background: linear-gradient(135deg, #201e1a, #26231e);
+  position: relative;
 }
-.system-name { font-size: 14px; font-weight: 700; color: var(--text); line-height: 1.3; }
-.system-sub  { font-size: 12px; color: var(--muted); margin-top: 3px; }
-/* Fact grid — soft tinted fields rather than a table, each one a small
-   rounded chip so the six-ish facts read as a set instead of a list. */
-.system-meta {
-  display: grid; grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
-  gap: 8px 10px; margin-bottom: 14px;
+.system-card:has(.status-live) .system-head   { background: linear-gradient(135deg, #1c231c, color-mix(in srgb, var(--er-live-accent) 20%, #201e1a)); }
+.system-card:has(.status-coming) .system-head { background: linear-gradient(135deg, #241f18, color-mix(in srgb, var(--er-coming-accent) 20%, #201e1a)); }
+.system-head::after {
+  content: ''; position: absolute; left: 0; right: 0; bottom: 0; height: 3px;
+  background: var(--er-live-accent);
 }
+.system-card:has(.status-coming) .system-head::after { background: var(--er-coming-accent); }
+.system-name {
+  font-family: 'Courier New', ui-monospace, monospace; font-size: 13.5px; font-weight: 700;
+  letter-spacing: 0.04em; text-transform: uppercase; color: #fff; line-height: 1.3;
+}
+.system-sub  { font-size: 11.5px; color: rgba(255,255,255,.62); margin-top: 4px; line-height: 1.4; }
+/* Fact list — a printed receipt: one dotted-leader line per fact instead of
+   a chip grid, values set in monospace like a kiosk ticket printout. */
+.system-meta { display: flex; flex-direction: column; margin-bottom: 14px; }
 .system-meta > div {
-  background: color-mix(in srgb, var(--bg, #f5f4f0) 85%, transparent);
-  border: 1px solid var(--border2); border-radius: 8px;
-  padding: 7px 10px 8px;
+  display: flex; align-items: baseline; justify-content: space-between; gap: 12px;
+  border-bottom: 1px dashed var(--border2); padding: 6px 0;
 }
+.system-meta > div:last-child { border-bottom: none; }
 .meta-label {
-  font-size: 10px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase;
-  color: var(--muted); margin-bottom: 2px;
+  font-size: 10px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase;
+  color: var(--muted); flex-shrink: 0;
 }
-.meta-val { font-size: 13px; font-weight: 600; color: var(--text); line-height: 1.4; }
+.meta-val { font-family: 'Courier New', ui-monospace, monospace; font-size: 12.5px; font-weight: 700; color: var(--text); text-align: right; }
+@media (prefers-reduced-motion: reduce) { .system-card:hover::after { animation: none; opacity: 0; } }
 .system-countries {
   font-size: 12px; color: var(--muted); line-height: 1.7;
   border-top: 1px solid var(--border2); padding-top: 12px; margin-bottom: 12px;
@@ -153,29 +173,31 @@ a.apply-btn:visited { color: #6a6660; }
 /* e-Visa table — same glass surface as the system cards, so the whole page
    reads as one material. */
 .evisa-wrap {
-  background: color-mix(in srgb, var(--surface) 82%, transparent);
-  backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
+  background: var(--surface);
   border: 1px solid var(--border2);
   box-shadow: 0 1px 2px rgba(0,0,0,0.03), 0 8px 20px -12px rgba(0,0,0,0.10);
-  border-radius: 14px; overflow: hidden; margin-bottom: 24px;
+  border-radius: 10px; overflow: hidden; margin-bottom: 24px;
 }
 .evisa-table tbody tr { transition: background-color 0.15s ease; }
 .evisa-table tbody tr:hover { background-color: color-mix(in srgb, var(--accent) 6%, transparent); }
 .evisa-table { width: 100%; border-collapse: collapse; }
+.evisa-table thead { background: linear-gradient(135deg, #201e1a, #26231e); }
 .evisa-table th {
-  font-size: 11px; font-weight: 700; color: var(--muted);
-  text-transform: uppercase; letter-spacing: 0.06em;
-  padding: 10px 14px 8px; text-align: left;
-  border-bottom: 1px solid var(--border2);
+  font-family: 'Courier New', ui-monospace, monospace;
+  font-size: 10.5px; font-weight: 700; color: rgba(255,255,255,.7);
+  text-transform: uppercase; letter-spacing: 0.08em;
+  padding: 10px 14px 9px; text-align: left;
+  border-bottom: none;
 }
 .evisa-table td {
   font-size: 13px; padding: 11px 14px;
-  border-top: 1px solid var(--border2);
+  border-top: 1px dashed var(--border2);
   vertical-align: top; line-height: 1.4; color: var(--text);
 }
 .evisa-table tr:first-child td { border-top: none; }
-.dest-name { font-weight: 600; }
+.dest-name { font-weight: 700; }
 .dest-note { font-size: 11px; color: var(--muted); margin-top: 2px; }
+.evisa-table td:nth-child(2) { font-family: 'Courier New', ui-monospace, monospace; font-weight: 700; font-size: 12.5px; }
 .evisa-link { font-size: 12px; color: var(--accent); text-decoration: none; }
 .evisa-link:hover { color: #C04E1A; }
 
@@ -184,7 +206,6 @@ a.apply-btn:visited { color: #6a6660; }
 
 /* Mobile */
 @media (max-width: 600px) and (pointer: coarse) {
-  .system-meta { grid-template-columns: 1fr 1fr; }
   .evisa-table th:nth-child(4), .evisa-table td:nth-child(4) { display: none; }
   .evisa-mobile-link { display: block; }
   /* Keep the e-visa table a real table (mobile.css display:block squishes its

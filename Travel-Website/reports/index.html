@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Reports — Guide My Days Hub</title>
-<!-- built: 2026-08-24 09:01 UTC | backlog: 148 | scouting-open: 46 -->
+<!-- built: 2026-08-24 09:08 UTC | backlog: 148 | scouting-open: 46 -->
 <style>
   :root{ --bg:#f6f2ec; --surface:#fffdf9; --surface2:#f1ece3; --ink:#2f2a22; --muted:#736c60; --faint:#a49b8c; --line:#e4ddd0;
     --rust:#b0501f; --open:#b23a22; --partial:#a86f16; --unsure:#7a7368; --pending:#1a4d8c;
@@ -262,14 +262,14 @@
     <div class="stat s-open"><b>144</b><span>Open</span></div>
     <div class="stat s-partial"><b>4</b><span>Partial</span></div>
     <div class="stat s-unsure"><b>0</b><span>Unsure</span></div>
-    <div class="stat s-pending"><b>4</b><span>Pending approval</span></div>
+    <div class="stat s-pending"><b>2</b><span>Pending approval</span></div>
   </div>
   <div class="controls">
     <button onclick="document.querySelectorAll('.tile').forEach(t=>t.open=true)">Expand all tiles</button>
     <button onclick="document.querySelectorAll('.tile').forEach(t=>t.open=false)">Collapse all tiles</button>
   </div>
 </header>
-<nav class="nav"><a href="#mobile-ux" class="navchip">📱 Mobile UX <span class="navcount">13</span></a><a href="#ux-desktop" class="navchip">🖥️ UX/Desktop <span class="navcount">3</span></a><a href="#layout" class="navchip">📐 Layout <span class="navcount">8</span></a><a href="#new-features" class="navchip">🆕 New Features <span class="navcount">56</span></a><a href="#new-pages" class="navchip">📄 New Pages <span class="navcount">68</span></a><a href="#rules-change-approval" class="navchip">⚖️ Rules Change Approval <span class="navcount">4</span></a><a href="#new-guides" class="navchip">🗺️ New Guides <span class="navcount">46</span></a><a href="#guide-drift-log" class="navchip">🔍 Guide Drift Log</a><a href="#photo-audit-log" class="navchip">📸 Photo Audit Log</a><a href="#ux-research-log" class="navchip">🎨 UX Research Log</a><a href="#validator-audit" class="navchip">✅ Validator Audit</a><a href="#section-coverage" class="navchip">📊 Section Coverage</a></nav>
+<nav class="nav"><a href="#mobile-ux" class="navchip">📱 Mobile UX <span class="navcount">13</span></a><a href="#ux-desktop" class="navchip">🖥️ UX/Desktop <span class="navcount">3</span></a><a href="#layout" class="navchip">📐 Layout <span class="navcount">8</span></a><a href="#new-features" class="navchip">🆕 New Features <span class="navcount">56</span></a><a href="#new-pages" class="navchip">📄 New Pages <span class="navcount">68</span></a><a href="#rules-change-approval" class="navchip">⚖️ Rules Change Approval <span class="navcount">2</span></a><a href="#new-guides" class="navchip">🗺️ New Guides <span class="navcount">46</span></a><a href="#guide-drift-log" class="navchip">🔍 Guide Drift Log</a><a href="#photo-audit-log" class="navchip">📸 Photo Audit Log</a><a href="#ux-research-log" class="navchip">🎨 UX Research Log</a><a href="#validator-audit" class="navchip">✅ Validator Audit</a><a href="#section-coverage" class="navchip">📊 Section Coverage</a></nav>
 
   <section class="cat" id="mobile-ux">
     <button class="cathead" onclick="this.parentElement.classList.toggle('collapsed')">
@@ -2238,32 +2238,10 @@
   <section class="cat" id="rules-change-approval">
     <button class="cathead" onclick="this.parentElement.classList.toggle('collapsed')">
       <span class="catname">⚖️ Rules Change Approval</span>
-      <span class="catcount">4</span>
+      <span class="catcount">2</span>
       <span class="catchev">&rsaquo;</span>
     </button>
     <div class="catbody">
-      <details class="tile">
-        <summary>
-          <span class="tstatus st-pending">PENDING</span>
-          <span class="ttitle">78% of shipped guides carry an off-list hotel on the title card — the brand ladder is not being applied</span>
-          <span class="chev">&rsaquo;</span>
-        </summary>
-        <div class="tbody">
-          <p class="tdetail">Owner question, 2026-08-09: &#x27;so when cribs are choosing hotels they are not using my preferred hotels?&#x27; Measured across all 236 shipped guides by reading the .title-hotel value off each title page and testing it against hotel_rules.html § 3, counting every sub-brand as the doc directs (&#x27;All sub-brands count&#x27;): 48 guides (20%) carry a first-tier brand, 3 (1%) a second-tier Radisson Blu, 1 an explicitly EXCLUDED brand (sao-paulo → Grand Mercure, and Mercure is named in the exclusion list beside Ibis, Park Inn and Holiday Inn), and 184 (78%) are off-list. The rule reads &#x27;No off-list brand ever ships as primary.&#x27; THE AIRTIGHT SUBSET: hotel_rules.html allows a rental fallback when no qualifying hotel exists, so some off-list primaries in small markets (Alesund, Arenal, Azores) could in principle be legitimate — except the escape hatch is a rental, not an off-list hotel, and it does not explain the major markets. To remove all doubt I cross-checked each guide&#x27;s own HOTEL_ALT_DATA: in 90 of 236 guides the primary is off-list while that same guide&#x27;s alternatives already list a preferred-brand property in the same city. Austin runs Fairmont Austin as primary with JW Marriott Austin sitting in its alternatives; Atlanta runs The Georgian Terrace with Atlanta Marriott Marquis in its alternatives; Boston runs The Langham with InterContinental Boston; Berlin runs Hotel Adlon Kempinski with Waldorf Astoria Berlin; Boulder runs Hotel Boulderado with Marriott Boulder. In those 90 the qualifying brand hotel was found, written into the guide as a runner-up, and passed over for the title card. That is the ladder being inverted, not a market with no options. WHY IT HAPPENED: the On Demand deletion (cd3f2e1) cleared the hotel pointers instead of repointing them. Until a296c20 today, CLAUDE.md had zero references to hotel_rules.html, guide_tools.py had zero, and Rules for Claude.html § 4 sent the &#x27;hotel research playbook&#x27; to Connectors.html § Hotel Research — the tooling list, which names which connectors to call and carries no thresholds, no brand ladder and no 9.0 bar. A crib following the documented build path learned how to search and never learned what qualifies. Those pointers are now fixed, so new builds will follow the ladder; this entry is about the 184 already shipped. THE DECISION: (a) re-pick the title-card hotel on all 184 — correct but it rewrites the identity line of most of the fleet, and every changed banner needs its address, map pin and Restaurants/Train-Stations-Near-Hotel sections re-derived, so it is a large content programme, not a sweep; (b) fix only the 90 airtight cases where the brand hotel is already sitting in the guide&#x27;s own alternatives — much cheaper, since the replacement is already researched and on the page, and it removes every instance where the ladder was demonstrably inverted; (c) accept the current state and amend § 3 to say the ladder is a preference for trip booking rather than a constraint on guide content, which would make the rule match reality; (d) fix (b) now and treat the rest as a slow backlog. Whichever way, sao-paulo&#x27;s Grand Mercure should be replaced regardless — it is the one primary that names a brand the rule explicitly excludes.</p>
-          <div class="tmeta"><span class="badge tgt">Brain/CORE RULES/hotel_rules.html § 3 + 236 shipped guide title pages + validate_itinerary.py FINAL GATE</span><span class="badge src">hotel-url backfill, 2026-08-09</span></div>
-        </div>
-      </details>
-      <details class="tile">
-        <summary>
-          <span class="tstatus st-pending">PENDING</span>
-          <span class="ttitle">HOTEL_ALT_DATA breaks the 9.0 bar in hotel_rules.html § 5 — 201 non-brand entries below it</span>
-          <span class="chev">&rsaquo;</span>
-        </summary>
-        <div class="tbody">
-          <p class="tdetail">SUPERSEDES the first version of this entry, which asked whether the brand ladder should apply to HOTEL_ALT_DATA. It already does, and the answer was already written — I filed the question before hotel_rules.html existed. hotel_rules.html (created 2026-08-09, now tracked at caf7917) puts HOTEL_ALT_DATA explicitly in scope, and § 5 Output defines the structure: &#x27;Preferred brands — all qualifying brand properties found (location gate only), include even if rating is below threshold&#x27; then &#x27;Top alternatives — at least 4 NON-BRAND hotels, ranked by Booking score descending (9.0+ threshold applies)&#x27;. So the independents in the Alt. Hotels list are correct BY DESIGN — Tawaraya, Villa d&#x27;Este, Pousada Saudade and the rest are exactly what &#x27;Top alternatives&#x27; is meant to hold, and the earlier framing of them as &#x27;odd places that ignore the brand list&#x27; was wrong. THE REAL VIOLATION is the rating bar. Of 950 entries, 249 are brand-family properties the bar does not apply to; 701 are non-brand, of which 688 quote a score and 201 (29%) sit below 9.0 — Grand Hotel Union Ljubljana 8.9, The Langham Melbourne 8.9, Crown Towers Melbourne 8.8, Hotel Captain Cook 8.8, Thon Hotel Alesund 8.7, and 196 more. Those are rule breaks as written, and they are not close calls. A second structural gap: § 5 mandates two ordered sections, brands first and non-brand alternatives second, but HOTEL_ALT_DATA is one flat list with the 249 brand entries mixed through it in no particular order, so the guide page cannot render the split the rule describes. THE DECISION IS ABOUT WHAT TO DO WITH THE 201, not about the standard: (a) re-research each and replace with a 9.0+ non-brand property in the same city — correct but expensive, and in small markets (Olinda, Kotor, Alesund, Ljubljana) there may be no non-brand property above 9.0, in which case the entry should become a brand property and move to the brands section; (b) treat sub-9.0 as acceptable for alternatives specifically and amend § 5 to say so, since a 8.7 in Alesund may genuinely be the best available; (c) keep the bar and let short slugs fall below four entries, which conflicts with the &gt;=4 count gate in check_post_ci_sections.py. Note (c) is the collision worth deciding first: the count gate and the quality bar can both be satisfied in Paris and cannot both be satisfied in Alesund, and it was that exact tension that produced the b2b232fe backfill. Whichever way it goes, the 9.0 bar should be enforced by a check rather than remembered — Rule 810 now covers score-without-url and the same parser can carry it.</p>
-          <div class="tmeta"><span class="badge tgt">Brain/CORE RULES/hotel_rules.html § 5 + toolbar.js HOTEL_ALT_DATA + check_post_ci_sections.py + brain_check</span><span class="badge src">hotel-url backfill, 2026-08-09</span></div>
-        </div>
-      </details>
       <details class="tile">
         <summary>
           <span class="tstatus st-pending">PENDING</span>

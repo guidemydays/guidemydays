@@ -99,6 +99,18 @@
    along one rail closest-first instead of stacked as cards. */
 .dt-timeline { position: relative; max-width: 760px; margin: 0 auto; padding-left: 34px; }
 .dt-timeline::before { content: ''; position: absolute; left: 9px; top: 8px; bottom: 8px; width: 2px; background: var(--border2, #e6e2da); }
+
+/* One train (Site-Icons #1237, the site's only train drawing, already in the
+   page via toolbar.js's shared sprite) rides the rail — a slow shuttle
+   between the departure city and its furthest trip, not a decoration bolted
+   on top of the data. */
+.dt-rail-train { position: absolute; left: 9px; top: 0; transform: translateX(-50%); width: 24px; height: 24px;
+  border-radius: 50%; background: var(--surface, #fff); border: 2px solid var(--rust, #C04E1A);
+  box-shadow: 0 3px 10px rgba(192,78,26,.28); display: flex; align-items: center; justify-content: center;
+  animation: dt-ride 7s cubic-bezier(.45,0,.55,1) infinite alternate; z-index: 1; }
+.dt-rail-train svg { width: 14px; height: 14px; }
+@keyframes dt-ride { from { top: 0; } to { top: calc(100% - 24px); } }
+@media (prefers-reduced-motion: reduce) { .dt-rail-train { animation: none; top: 0; } }
 .dt-stop { position: relative; padding: 0 0 28px; }
 .dt-stop:last-child { padding-bottom: 0; }
 .dt-stop::before { content: ''; position: absolute; left: -34px; top: 4px; width: 12px; height: 12px; border-radius: 50%;
@@ -128,6 +140,9 @@
   .dt-board-dot { display: none; }
   .dt-timeline { padding-left: 26px; }
   .dt-stop::before { left: -26px; }
+  .dt-rail-train { left: 6px; width: 20px; height: 20px; }
+  .dt-rail-train svg { width: 12px; height: 12px; }
+  @keyframes dt-ride { from { top: 0; } to { top: calc(100% - 20px); } }
 }
 </style>
 <link rel="stylesheet" href="/assets/mobile.css">
@@ -336,8 +351,9 @@ function render() {
   summary.innerHTML = (bits.length ? bits.join(' &middot; ') : '') +
     '<button type="button" id="dt-reset">Clear</button>';
 
+  var trainMark = '<div class="dt-rail-train" aria-hidden="true"><svg class="gm-icon" viewBox="0 0 24 24"><use href="#gm-i-train"/></svg></div>';
   list.innerHTML = rows.length
-    ? '<div class="dt-timeline">' + rows.map(function (t) { return stop(t, !city); }).join('') + '</div>'
+    ? '<div class="dt-timeline">' + (rows.length > 1 ? trainMark : '') + rows.map(function (t) { return stop(t, !city); }).join('') + '</div>'
     : '<div class="empty-state"><div class="empty-state-text">Nothing that short from here — try a longer ride.</div></div>';
 }
 

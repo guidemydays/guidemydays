@@ -27,7 +27,6 @@
    bare class here. Never simplify that selector. */
 svg.gm-icon.stat-dot { width: 11px; height: 11px; flex-shrink: 0; }
 .stat-label { color: var(--sub,#7A7368); }
-.stat-count { font-weight: 700; }
 /* ── Filter pills ── */
 .controls { margin: var(--search-gap,32px) 0 20px; }
 .pills { display: flex; gap: var(--fam-gap,10px); flex-wrap: nowrap; justify-content: center; }
@@ -1061,8 +1060,6 @@ function norm(n) {
 }
 
 function buildStatBar() {
-  var counts = {expected:0, appreciated:0, check:0, skip:0};
-  COUNTRIES.forEach(function(c) { if (counts[c.norm] !== undefined) counts[c.norm]++; });
   var labels = {expected:'Expected', appreciated:'Appreciated', check:'Check Bill', skip:'Not Customary'};
   /* One drawing per tier — Site-Icons.html § Dots (856-867). The keys line up with the
      pill's own fam-* class directly below, so the dot and its box can never disagree. */
@@ -1072,7 +1069,6 @@ function buildStatBar() {
     html += '<div class="stat-pill badge fam-' + ({expected:'green',appreciated:'blue',check:'yellow',skip:'grey'}[k]||'grey') + ' stat-pill-' + k + '">' +
       '<svg class="gm-icon stat-dot" data-icon="' + STAT_DOT[k] + '" data-role="dot" viewBox="0 0 24 24" aria-hidden="true"><use href="#gm-i-' + STAT_DOT[k] + '"/></svg>' +
       '<span class="stat-label">' + labels[k] + '</span>' +
-      '<span class="stat-count">' + counts[k] + '</span>' +
     '</div>';
   });
   document.getElementById('stat-bar').innerHTML = html;

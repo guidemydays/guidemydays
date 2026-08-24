@@ -20,10 +20,6 @@
 /* ── Sibling pills (shape comes from shared .sibling-pill) ── */
 .an-siblings { display: flex; flex-wrap: wrap; gap: 7px; margin: 0 0 18px; justify-content: center; }
 
-/* ── Result count line ── */
-.an-count { font-size: 12px; color: var(--muted); margin: 0 0 4px; }
-.an-count strong { color: var(--text); font-weight: 700; }
-
 /* ── Region divider between city blocks ── */
 .an-region-head {
   font-size: var(--fs-label); text-transform: uppercase; letter-spacing: .08em;
@@ -97,11 +93,9 @@
   max-width: 760px;
 }
 
-/* The count line and the jump share a row. The jump is right-aligned by
-   margin-left:auto so it stays at the rail edge next to the count rather than
-   needing a width of its own. */
+/* The jump link sits alone in its row, right-aligned by margin-left:auto so
+   it stays at the rail edge. */
 .an-count-row { display: flex; align-items: baseline; gap: 12px; margin: 0 0 4px; }
-.an-count-row .an-count { margin: 0; }
 .an-jump {
   margin-left: auto; font-size: 12px; font-weight: 600; color: var(--accent);
   white-space: nowrap;
@@ -238,7 +232,6 @@ a.an-jump:visited { color: var(--accent); }
   </div>
 
   <div class="an-count-row">
-    <div class="an-count" id="an-count"></div>
     <a class="an-jump" href="#booking">Booking sites &amp; chains &darr;</a>
   </div>
   <div id="an-results"></div>
@@ -4176,7 +4169,7 @@ function cardHTML(d) {
 function cityBlockHTML(c, districts) {
   return `<div class="an-city-head">
       <span class="an-city-title">${c.flag} ${c.city}</span>
-      <span class="an-city-meta">${c.country} · ${c.days}-day guide · ${districts.length} neighborhoods</span>
+      <span class="an-city-meta">${c.country} · ${c.days}-day guide</span>
       <a class="also-on-this-site-pill" data-no-icon href="${c.guide}">${c.city} guide</a>
     </div>
     <div class="an-grid">${districts.map(cardHTML).join('')}</div>`;
@@ -4184,28 +4177,22 @@ function cityBlockHTML(c, districts) {
 
 function render(filterFn, emptyMsg) {
   const res = document.getElementById('an-results');
-  const cnt = document.getElementById('an-count');
   const matched = AN_DISTRICTS.filter(filterFn);
   if (!matched.length) {
-    cnt.textContent = '';
     res.innerHTML = `<div class="empty-state">
       <div class="empty-state-text">${emptyMsg}</div>
     </div>`;
     return;
   }
   let html = '';
-  let cityCount = 0;
   AN_REGIONS.forEach(region => {
     let block = '';
     AN_LIVE_CITIES.filter(c => c.region === region).forEach(c => {
       const list = matched.filter(d => d.city === c.city);
-      if (list.length) { block += cityBlockHTML(c, list); cityCount++; }
+      if (list.length) { block += cityBlockHTML(c, list); }
     });
     if (block) html += `<div class="an-region-head">${region}</div>` + block;
   });
-  cnt.innerHTML = `<strong>${matched.length}</strong> neighborhood${matched.length === 1 ? '' : 's'}`
-                + (cityCount < AN_LIVE_CITIES.length
-                   ? ` in <strong>${cityCount}</strong> cit${cityCount === 1 ? 'y' : 'ies'}` : '');
   res.innerHTML = html;
 }
 

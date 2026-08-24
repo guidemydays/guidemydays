@@ -29,54 +29,81 @@
 .pill { font-family: inherit; }
 .pill-count { display: none; }
 
-/* ── Section heads: oversized editorial numeral, same serif as the hero ── */
+/* ── Section heads: marquee attraction-sign banner ── */
 #no-results { display: none; color: var(--muted); font-size: 13px; margin-bottom: 12px; text-align: center; }
 .dp-section-head {
-  display: flex; align-items: baseline; gap: 16px; margin: 52px 0 22px;
-  padding-bottom: 14px; border-bottom: 3px solid var(--text);
+  display: flex; align-items: center; gap: 14px; margin: 56px 0 24px;
+  background: var(--text); border-radius: 4px; padding: 13px 20px;
 }
 .dp-section-head:first-of-type { margin-top: 6px; }
 .dp-section-head.hidden { display: none; }
-.dp-section-title {
-  font-size: 22px; font-weight: 700; color: var(--text); line-height: 1;
-  letter-spacing: -.01em; text-transform: uppercase;
-}
 .dp-section-num {
   font-family: var(--font); font-weight: 700; font-style: italic;
-  font-size: 40px; line-height: .8; color: var(--text); flex-shrink: 0;
+  font-size: 15px; line-height: 1; color: var(--bg); flex-shrink: 0;
+  width: 26px; height: 26px; border-radius: 50%; border: 1.5px solid var(--bg);
+  display: flex; align-items: center; justify-content: center;
+}
+.dp-section-title {
+  font-size: 15px; font-weight: 800; color: var(--bg); line-height: 1;
+  letter-spacing: .1em; text-transform: uppercase;
 }
 
-/* ── Card grid: sharp corners, heavier rule, title does the work ── */
-.dp-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(310px, 1fr)); gap: 18px; margin-bottom: 6px; }
+/* ── Card grid: admission-ticket stubs — die-cut perforation, dashed tear line ── */
+.dp-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 22px 18px; margin-bottom: 6px; padding-top: 4px; }
 .dp-card {
-  background: var(--surface); border: 1px solid var(--border); border-radius: 3px;
-  border-top: 3px solid var(--text);
-  padding: 20px 20px 18px;
+  position: relative;
+  background: var(--surface); border: 1.5px solid var(--text); border-radius: 8px;
+  padding: 18px 20px 18px 28px;
   display: flex; flex-direction: column; gap: 11px;
+  transform: rotate(var(--tilt, -.4deg));
+  transition: transform .15s ease;
 }
+.dp-grid .dp-card:nth-child(3n+2) { --tilt: .5deg; }
+.dp-grid .dp-card:nth-child(3n+3) { --tilt: -.7deg; }
+.dp-card:hover { transform: rotate(0deg) translateY(-2px); }
 .dp-card.hidden { display: none; }
-.dp-where { font-size: 10.5px; font-weight: 800; color: var(--muted); text-transform: uppercase; letter-spacing: .09em; white-space: nowrap; }
+/* die-cut notches, top and bottom, punched out of the ticket edge */
+.dp-card::before, .dp-card::after {
+  content: ""; position: absolute; left: -9px; width: 18px; height: 18px;
+  background: var(--bg); border: 1.5px solid var(--text); border-radius: 50%;
+}
+.dp-card::before { top: -9px; }
+.dp-card::after { bottom: -9px; }
+/* dashed tear-line separating the ticket stub from the body */
+.dp-card-top {
+  display: flex; align-items: center; justify-content: space-between; order: 3;
+  margin-top: 4px; padding-top: 13px;
+  border-top: 2px dashed var(--border2);
+  position: relative;
+}
+.dp-card-top::before {
+  content: ""; position: absolute; left: -20px; top: -9px; bottom: 0; width: 0;
+  border-left: 2px dashed var(--border2);
+}
+.dp-where {
+  font-size: 10px; font-weight: 800; color: var(--muted); text-transform: uppercase;
+  letter-spacing: .09em; white-space: nowrap; font-family: var(--font); font-style: italic;
+}
 .dp-title {
-  font-family: var(--font); font-size: 21px; font-weight: 700;
+  font-family: var(--font); font-size: 20px; font-weight: 700;
   color: var(--text); line-height: 1.15; letter-spacing: -.01em; margin: 0;
 }
 .dp-facts { margin: 0; padding-left: 18px; display: flex; flex-direction: column; gap: 9px; }
 .dp-facts li { font-size: 13.5px; color: var(--text); line-height: 1.6; }
 .dp-facts li::marker { color: var(--rust,#C04E1A); font-weight: 700; }
-/* Category tag reads as a quiet footer label, not a headline — badge box/colour untouched. */
-.dp-card-top { display: flex; align-items: center; justify-content: space-between; order: 3; margin-top: 4px; padding-top: 11px; border-top: 1px solid var(--border2); }
 .dp-tags { display: flex; gap: 6px; flex-wrap: wrap; }
 /* badge sizing + colour from .badge / .fam-* */
 
 @media (max-width: 600px) and (pointer: coarse) {
   .dp-wrap { padding: 0 14px; }
   .search-wrap input { width: 100%; max-width: 100%; }
-  .dp-grid { grid-template-columns: 1fr; gap: 14px; }
+  .dp-grid { grid-template-columns: 1fr; gap: 20px; }
   .dp-controls { padding: 15px 16px; }
   .pills { gap: var(--fam-gap,10px); }
-  .dp-card { padding: 17px 17px 15px; }
-  .dp-section-num { font-size: 32px; }
-  .dp-section-title { font-size: 18px; }
+  .dp-card { padding: 16px 17px 15px 24px; transform: none; }
+  .dp-card:hover { transform: translateY(-1px); }
+  .dp-section-head { padding: 11px 16px; margin: 44px 0 18px; }
+  .dp-section-title { font-size: 13px; }
 }
 /* pill + badge dark mode handled by .fam-* tokens */
 </style>

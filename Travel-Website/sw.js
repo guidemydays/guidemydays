@@ -1,3 +1,4 @@
+/* 2026-08-24: disney essentials page — redesigned the content below the hero/background (owner: "change this page to something we dont have on the site... do modern... surprise me") as theme-park admission-ticket stubs: die-cut perforation notches punched out of the card edges, a dashed tear-line separating the ticket stub (category/location) from the body, slight alternating rotation on the cards for a scattered-ticket feel, and section heads restyled as dark marquee attraction-sign banners with a circled numeral. Hero band, hero-ground search bar and page background untouched. Thematically new — storage used luggage tags, trusted-traveler used a spec-sheet/departure-board, nothing else on the site does a ticket-stub treatment. No badge/pill/family colors touched. Bumped CACHE to v1506. */
 /* 2026-08-23: Getting Around icon-key correction — Private Transfers moves off 'app-car' (Food Delivery's dedicated drawing, 479 existing occurrences) onto the unused 'ride' GM_SPRITE key (teal shuttle/van, distinct from 'ride-app'); Luggage Storage moves off the just-added numeric '423' backpack key onto the existing 'luggage' key (orange suitcase, #1208), and the now-unused GM_SPRITE['423'] entry + its comment are deleted from toolbar.js (dead code, added only for this reverted choice). No new sprite content — only glyph-key reassignment — but sprite table changed, so toolbar.js -> v1061. CACHE to v1470. */
 /* 2026-08-23: toronto: hotel 4-tier HOTEL_ALT_DATA (budget Chelsea/mid Fairmont/expensive Shangri-La/luxury Four Seasons+Hazelton) + CAD price ranges; ferry icon fix. toolbar.js -> v1041. CACHE to v1434. */
 /* 2026-08-23: zakynthos: train icon fix, position-2c uphill, ZTH lounge card + LOUNGE_IATAS. toolbar.js -> v1034. CACHE to v1426. */
@@ -2107,7 +2108,7 @@
    v126. CACHE to v1504. */
 /* 2026-08-24: badge ceiling commit landed as its own push after the prior
    bump. web-travel-style.css -> v127. CACHE to v1505. */
-var CACHE = 'travel-cache-v1505';
+var CACHE = 'travel-cache-v1506';
 
 /* The guide-calendar hand-off cache. Written by toolbar.js, read and emptied
    once by the fetch handler below, and EXEMPT from the activate sweep — it is

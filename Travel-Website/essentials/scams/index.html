@@ -46,11 +46,25 @@
   background: var(--surface); border: 1px solid var(--border2);
   border-radius: 16px; margin-bottom: 14px; padding: 16px 18px 18px;
   box-shadow: 0 1px 2px rgba(26,25,23,.05), 0 8px 20px -14px rgba(26,25,23,.18);
-  transition: transform .16s ease, box-shadow .16s ease;
+  transition: transform .16s ease, box-shadow .16s ease, opacity .5s ease, translate .5s ease;
 }
 .city-card:hover {
   transform: translateY(-2px);
   box-shadow: 0 1px 2px rgba(26,25,23,.06), 0 16px 28px -16px rgba(26,25,23,.24);
+}
+/* Scroll-reveal — each case file settles into place as it enters view instead
+   of the whole 239-city list dumping onto the screen at once. A card is
+   VISIBLE BY DEFAULT: the script opts a card INTO the hidden state via
+   .pre-reveal only once it has confirmed IntersectionObserver exists and
+   motion isn't reduced, then removes the class on intersect (or on a hard
+   timeout — see revealCards()). Tested live: IntersectionObserver callbacks
+   can silently never fire in some automated/throttled browser contexts, and
+   an opacity:0-by-default design would leave the whole list permanently
+   blank in that case. Defaulting to visible means a stalled observer costs
+   only the animation, never the content. */
+.city-card.pre-reveal { opacity: 0; translate: 0 10px; }
+@media (prefers-reduced-motion: reduce) {
+  .city-card.pre-reveal { opacity: 1; translate: 0 0; transition: none; }
 }
 .city-head { display: flex; align-items: center; gap: 11px; margin-bottom: 4px; flex-wrap: wrap; }
 .city-flag-chip {
@@ -3291,6 +3305,38 @@ var CITIES = [
         ? 'No city or scam matches “' + searchEl.value.trim() + '”.'
         : 'No entries for that scam type.';
     }
+    revealCards();
+  }
+
+  /* Scroll-reveal for the case files. A card is VISIBLE BY DEFAULT (no CSS
+     class needed) — this function only OPTS a card INTO the hidden
+     .pre-reveal state, and only once IntersectionObserver exists and motion
+     isn't reduced. If IntersectionObserver's callback never fires for some
+     reason (observed live: it can silently stall in a throttled/automated
+     browser context), a hard 1200ms timeout strips .pre-reveal from
+     everything anyway, so the worst case is "no animation," never "blank
+     page." Never build a reveal effect that can outlive its own JS. */
+  var reduceMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var revealIO = ('IntersectionObserver' in window && !reduceMotion)
+    ? new IntersectionObserver(function (entries) {
+        entries.forEach(function (entry) {
+          if (!entry.isIntersecting) return;
+          entry.target.classList.remove('pre-reveal');
+          revealIO.unobserve(entry.target);
+        });
+      }, { rootMargin: '0px 0px -40px 0px' })
+    : null;
+
+  function revealCards() {
+    if (!revealIO) return;
+    var cards = listEl.querySelectorAll('.city-card');
+    cards.forEach(function (c) {
+      c.classList.add('pre-reveal');
+      revealIO.observe(c);
+    });
+    setTimeout(function () {
+      cards.forEach(function (c) { c.classList.remove('pre-reveal'); });
+    }, 1200);
   }
 
   function toggleType(el) {

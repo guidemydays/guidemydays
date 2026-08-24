@@ -256,12 +256,16 @@ html { overflow-x: clip; }
   --con-bg: #eef1f8; --con-bd: #6b7fb8;
   --med-bg: #fdf0f0; --med-bd: #c06060;
 
-  /* ── Semantic tag colors (Travel-Insurance.html) — canonical GREEN + YELLOW trios per Badge spec ── */
-  --c-tag-good-bg:     #e8f5e8;
-  --c-tag-good-border: rgba(26,90,26,0.4);
-  --c-tag-ok-bg:       #fff8e0;
-  --c-tag-ok-text:     #7a5800;
-  --c-tag-ok-border:   rgba(122,88,0,0.4);
+  /* ── Semantic tag colors (essentials/insurance, trips) — 2026-08-24:
+     repointed at the real --fam-green-*/--fam-yellow-* tokens instead of
+     their own frozen copy (was still the pre-redesign translucent
+     rgba(...,0.4) border and the old yellow ink #7a5800, both retired
+     elsewhere on 2026-08-24). Never give these their own hex again. ── */
+  --c-tag-good-bg:     var(--fam-green-bg);
+  --c-tag-good-border: var(--fam-green-ink);
+  --c-tag-ok-bg:       var(--fam-yellow-bg);
+  --c-tag-ok-text:     var(--fam-yellow-ink);
+  --c-tag-ok-border:   var(--fam-yellow-ink);
 
   /* ── Search bar standard tokens (§ 14 Formatting.html#sec-colors) ── */
   --c-search-focus-border: #c8b99a;
@@ -320,11 +324,11 @@ html { overflow-x: clip; }
     --rec-bg: #0e200e; --rec-bd: #4a9a4a;
     --con-bg: #101525; --con-bd: #7080b0;
     --med-bg: #250e0e; --med-bd: #c06060;
-    --c-tag-good-bg:     #0d200d;
-    --c-tag-good-border: rgba(90,170,94,0.4);   /* canonical dark GREEN border */
-    --c-tag-ok-bg:       #281f00;
-    --c-tag-ok-text:     #d4a830;
-    --c-tag-ok-border:   #7a6010;
+    --c-tag-good-bg:     var(--fam-green-bg);
+    --c-tag-good-border: var(--fam-green-ink);
+    --c-tag-ok-bg:       var(--fam-yellow-bg);
+    --c-tag-ok-text:     var(--fam-yellow-ink);
+    --c-tag-ok-border:   var(--fam-yellow-ink);
     --c0: #4aaa70; --c0bg: #0e2415; --c0bd: #285e3a;
     --c1: #6090d8; --c1bg: #0e1525; --c1bd: #304878;
     --c2: #c8a44a; --c2bg: rgba(200,164,74,.12); --c2bd: #9a7830;
@@ -2624,6 +2628,16 @@ body > .hero-ground {
   border-radius: var(--fam-radius, 4px);
   white-space: nowrap;
   line-height: 1;
+  font-family: inherit; /* owner rule 2026-08-24: "make sure they all use the
+    same font" — a <button> does NOT inherit font-family from body by
+    default in every browser's UA stylesheet, and .pill-badge is always a
+    <button>. Dozens of pages were individually patching this with their
+    own page-local ".pill { font-family: inherit; }" rule (found across
+    the badge/pill audit) — some had it, some didn't, so pill-badge buttons
+    on the pages without the patch silently rendered in the browser's
+    default UI font instead of the site's own. Fixed once, here, for every
+    badge and every pill-badge site-wide — a page's own font-family patch
+    is now redundant (harmless to leave, never required going forward). */
   font-weight: 700;
   letter-spacing: 0.04em;
   text-transform: uppercase;

@@ -45,7 +45,17 @@
 .bento-step2 { grid-column: 3; grid-row: 1; }
 .bento-step3 { grid-column: 2 / 4; grid-row: 2; display: flex; align-items: center; gap: 16px; }
 
-.stamp-svg { width: 72px; height: 72px; flex-shrink: 0; transform: rotate(-7deg); align-self: center; }
+.stamp-svg { width: 72px; height: 72px; flex-shrink: 0; transform: rotate(-7deg); align-self: center; opacity: 0; }
+/* The stamp "thuds" into place — overshoots past rest, like a real
+   rubber stamp coming down — instead of just fading with the tile. */
+.bento-stamp.is-in .stamp-svg {
+  animation: stampImpact 0.55s cubic-bezier(0.34, 1.56, 0.64, 1) 0.15s forwards;
+}
+@keyframes stampImpact {
+  0%   { opacity: 0; transform: scale(2.4) rotate(-26deg); }
+  55%  { opacity: 1; transform: scale(0.94) rotate(-4deg); }
+  100% { opacity: 1; transform: scale(1) rotate(-7deg); }
+}
 .stamp-copy { font-size: 12.5px; color: var(--text); line-height: 1.5; }
 .stamp-copy strong { font-weight: 700; }
 .stamp-chip {
@@ -77,12 +87,18 @@
 }
 .reveal.is-in { opacity: 1; transform: translateY(0); }
 
+/* The ticket ejects sideways, like it's printing out of a machine,
+   rather than the generic fade-up every other .reveal element uses. */
+.ticket-card.reveal { transform: translateX(-26px); }
+.ticket-card.reveal.is-in { transform: translateX(0); }
+
 /* ── Boarding-pass style ticket for per-country renewal facts ────────── */
 .ticket-card {
   display: flex; background: color-mix(in srgb, var(--surface) 82%, transparent);
   backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
   border: 1px solid var(--border2);
   border-radius: 12px; overflow: visible; margin-bottom: 10px; position: relative;
+  transition: opacity 0.45s ease, transform 0.45s cubic-bezier(0.22, 1, 0.36, 1);
   box-shadow: 0 1px 2px rgba(0,0,0,0.03), 0 8px 20px -12px rgba(0,0,0,0.10);
 }
 .ticket-stub {
@@ -149,6 +165,8 @@
 @media (prefers-reduced-motion: reduce) {
   .reveal, .reveal.is-in { opacity: 1; transform: none; transition: none; }
   .bento-cell, .bento-cell:hover { transform: none; }
+  .stamp-svg, .bento-stamp.is-in .stamp-svg { opacity: 1; animation: none; transform: rotate(-7deg); }
+  .ticket-card.reveal { transform: none; }
 }
 </style>
 <link rel="stylesheet" href="/assets/mobile.css?v=53">

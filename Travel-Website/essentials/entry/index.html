@@ -45,88 +45,54 @@ a.pill:visited { color: inherit; }
 /* Status badges — size + colour from .badge / .fam-*; kept for :has() card-border selector */
 .status-badge { flex-shrink: 0; gap: 5px; }
 
-/* System cards — styled as passport control pages: a folded corner carrying
-   the status colour (replaces the old left accent bar), a dashed top edge
-   like a tear-off perforation, and a giant low-opacity ink-stamp word
-   ("REQUIRED"/"DELAYED") bled across the page behind the content. Pure CSS,
-   no new badge box (x06 keeps .status-badge's shape and size untouched). */
+/* System cards — glass surfaces (site idiom already shipped on Passport/
+   Scams: color-mix(surface, transparent) + backdrop-blur, soft shadow,
+   hover lift) with the family-accent bar kept, plus a fade/lift scroll
+   reveal so cards settle into place as you scroll (JS toggles .is-in,
+   prefers-reduced-motion skips straight to visible). */
 .system-card {
-  position: relative; z-index: 0; overflow: hidden;
-  background: var(--surface); border: 1px solid var(--border2);
-  border-top-width: 2px; border-top-style: dashed;
-  border-radius: 4px; padding: 18px 20px; margin-bottom: 14px;
+  position: relative;
+  background: color-mix(in srgb, var(--surface) 82%, transparent);
+  backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
+  border: 1px solid var(--border2); border-radius: 14px;
+  box-shadow: 0 1px 2px rgba(0,0,0,0.03), 0 8px 20px -12px rgba(0,0,0,0.10);
+  padding: 18px 20px; margin-bottom: 14px;
+  border-left: 4px solid transparent;
+  transition: transform var(--transition-normal,0.2s) ease, box-shadow var(--transition-normal,0.2s) ease,
+              opacity 0.5s ease, translate 0.5s ease;
 }
-.system-card::before {
-  content: ""; position: absolute; top: 0; right: 0;
-  width: 0; height: 0; border-style: solid; border-width: 0 22px 22px 0;
-  border-color: transparent var(--border2) transparent transparent;
-  pointer-events: none;
+.system-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 1px 2px rgba(0,0,0,0.04), 0 14px 26px -14px rgba(0,0,0,0.16);
 }
-.system-card:has(.status-live)::before   { border-color: transparent var(--er-live-accent) transparent transparent; }
-.system-card:has(.status-coming)::before { border-color: transparent var(--er-coming-accent) transparent transparent; }
-.system-card::after {
-  content: ""; position: absolute; inset: 0; z-index: -1;
-  display: flex; align-items: center; justify-content: center;
-  font-size: 60px; font-weight: 800; letter-spacing: .05em;
-  white-space: nowrap; transform: rotate(-9deg); pointer-events: none;
-}
-.system-card:has(.status-live)::after   { content: "REQUIRED"; color: rgba(94,184,51,.22); }
-.system-card:has(.status-coming)::after { content: "DELAYED";  color: rgba(245,166,35,.24); }
-@media (prefers-color-scheme: dark) {
-  .system-card:has(.status-live)::after   { color: rgba(94,184,51,.30); }
-  .system-card:has(.status-coming)::after { color: rgba(255,184,90,.30); }
-}
+/* Family-accent bar — canonical sphere mid tones (Badge spec 2026-07-29). */
+.system-card:has(.status-live)   { border-left-color: var(--er-live-accent); }
+.system-card:has(.status-coming) { border-left-color: var(--er-coming-accent); }
+.system-card.reveal { opacity: 0; transform: translateY(16px); }
+.system-card.reveal.is-in { opacity: 1; transform: translateY(0); }
+.system-card.reveal.is-in:hover { transform: translateY(-2px); }
 .system-head {
   display: flex; align-items: flex-start; justify-content: space-between;
   gap: 12px; margin-bottom: 14px;
 }
 .system-name { font-size: 14px; font-weight: 700; color: var(--text); line-height: 1.3; }
 .system-sub  { font-size: 12px; color: var(--muted); margin-top: 3px; }
-/* Split-flap departure board — each fact reads like a mechanical airport
-   board module: dark cell, seam line across the middle, amber LED value
-   that flips in on load. The wow layer on top of the passport-stamp card. */
+/* Fact grid — soft tinted fields rather than a table, each one a small
+   rounded chip so the six-ish facts read as a set instead of a list. */
 .system-meta {
   display: grid; grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
-  gap: 8px; margin-bottom: 14px;
+  gap: 8px 10px; margin-bottom: 14px;
 }
 .system-meta > div {
-  position: relative; overflow: hidden;
-  background: linear-gradient(180deg, #211e1a 0%, #17150f 100%);
-  border: 1px solid rgba(255,255,255,.07);
-  border-radius: 5px; padding: 8px 10px 9px;
-  transform-origin: 50% 30%; perspective: 240px;
-  animation: gmd-flap .5s cubic-bezier(.2,.7,.25,1) both;
-}
-.system-meta > div::after {
-  content: ""; position: absolute; left: 0; right: 0; top: 50%; height: 1px;
-  background: rgba(0,0,0,.6); box-shadow: 0 1px 0 rgba(255,255,255,.04);
-}
-.system-meta > div:nth-child(1) { animation-delay: .00s; }
-.system-meta > div:nth-child(2) { animation-delay: .06s; }
-.system-meta > div:nth-child(3) { animation-delay: .12s; }
-.system-meta > div:nth-child(4) { animation-delay: .18s; }
-.system-meta > div:nth-child(5) { animation-delay: .24s; }
-.system-meta > div:nth-child(6) { animation-delay: .30s; }
-.system-meta > div:nth-child(7) { animation-delay: .36s; }
-.system-meta > div:nth-child(8) { animation-delay: .42s; }
-@keyframes gmd-flap {
-  0%   { opacity: 0; transform: rotateX(-90deg); }
-  55%  { opacity: 1; }
-  100% { opacity: 1; transform: rotateX(0deg); }
-}
-@media (prefers-reduced-motion: reduce) {
-  .system-meta > div { animation: none; }
+  background: color-mix(in srgb, var(--bg, #f5f4f0) 85%, transparent);
+  border: 1px solid var(--border2); border-radius: 8px;
+  padding: 7px 10px 8px;
 }
 .meta-label {
-  font-family: "Courier New", ui-monospace, monospace;
-  font-size: 9px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase;
-  color: #8f887a; margin-bottom: 3px;
+  font-size: 10px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase;
+  color: var(--muted); margin-bottom: 2px;
 }
-.meta-val {
-  font-family: "Courier New", ui-monospace, monospace;
-  font-size: 12.5px; font-weight: 700; letter-spacing: .01em; line-height: 1.4;
-  color: #ffb238; text-shadow: 0 0 7px rgba(255,178,56,.5);
-}
+.meta-val { font-size: 13px; font-weight: 600; color: var(--text); line-height: 1.4; }
 .system-countries {
   font-size: 12px; color: var(--muted); line-height: 1.7;
   border-top: 1px solid var(--border2); padding-top: 12px; margin-bottom: 12px;
@@ -146,7 +112,7 @@ details.ctry-chip { flex: 0 0 auto; }
 details.ctry-chip > summary {
   list-style: none; cursor: pointer; display: inline-flex; align-items: baseline; gap: 5px;
   font-size: 12.5px; font-weight: 600; color: var(--text);
-  background: var(--bg, #f5f4f0); border: 1px dashed var(--border2); border-radius: 6px;
+  background: var(--bg, #f5f4f0); border: 1px solid var(--border2); border-radius: 6px;
   padding: 5px 10px 5px 8px;
 }
 details.ctry-chip > summary::-webkit-details-marker { display: none; }
@@ -169,36 +135,38 @@ details.ctry-chip[open] > summary { border-color: var(--rust); background: var(-
 .apply-btn {
   display: inline-flex; align-items: center; justify-content: center; gap: 5px;
   padding: 6px 14px; border-radius: 999px; font-family: inherit; font-size: 12px; font-weight: 400;
-  background: var(--surface); border: 1.5px dashed var(--border2, #e6e2da);
+  background: var(--surface); border: 1.5px solid var(--border2, #e6e2da);
   color: var(--muted); text-decoration: none;
-  transition: border-color .15s, border-style .15s, background .15s;
+  transition: border-color .15s, background .15s;
 }
 a.apply-btn:visited { color: #6a6660; }
-.apply-btn:hover { border-color: var(--rust); border-style: solid; }
+.apply-btn:hover { border-color: var(--rust); }
 
-/* Section headers — dashed to match the perforated-paper theme running
-   through the cards and the form below (same spacing as before, only the
-   line style changed). */
+/* Section headers */
 .section-head {
   font-size: 12px; font-weight: 700; color: var(--muted);
   text-transform: uppercase; letter-spacing: 0.14em;
   margin: 30px 0 14px; padding-bottom: 7px;
-  border-bottom: 2px dashed var(--border2);
+  border-bottom: 2px solid var(--border2);
 }
 
-/* e-Visa table — reads as an official arrival-card form: dashed tear edge on
-   top, a double rule under the field labels, faint zebra rows. */
+/* e-Visa table — same glass surface as the system cards, so the whole page
+   reads as one material. */
 .evisa-wrap {
-  background: var(--surface); border: 1px solid var(--border2);
-  border-top: 2px dashed var(--border2);
-  border-radius: 4px; overflow: hidden; margin-bottom: 24px;
+  background: color-mix(in srgb, var(--surface) 82%, transparent);
+  backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
+  border: 1px solid var(--border2);
+  box-shadow: 0 1px 2px rgba(0,0,0,0.03), 0 8px 20px -12px rgba(0,0,0,0.10);
+  border-radius: 14px; overflow: hidden; margin-bottom: 24px;
 }
+.evisa-table tbody tr { transition: background-color 0.15s ease; }
+.evisa-table tbody tr:hover { background-color: color-mix(in srgb, var(--accent) 6%, transparent); }
 .evisa-table { width: 100%; border-collapse: collapse; }
 .evisa-table th {
   font-size: 11px; font-weight: 700; color: var(--muted);
   text-transform: uppercase; letter-spacing: 0.06em;
   padding: 10px 14px 8px; text-align: left;
-  border-bottom: 2px double var(--border2);
+  border-bottom: 1px solid var(--border2);
 }
 .evisa-table td {
   font-size: 13px; padding: 11px 14px;
@@ -206,7 +174,6 @@ a.apply-btn:visited { color: #6a6660; }
   vertical-align: top; line-height: 1.4; color: var(--text);
 }
 .evisa-table tr:first-child td { border-top: none; }
-.evisa-table tbody tr:nth-child(even) td { background: var(--bg); }
 .dest-name { font-weight: 600; }
 .dest-note { font-size: 11px; color: var(--muted); margin-top: 2px; }
 .evisa-link { font-size: 12px; color: var(--accent); text-decoration: none; }
@@ -224,6 +191,10 @@ a.apply-btn:visited { color: #6a6660; }
      columns to one word/line); scroll it in its wrapper if it exceeds width. */
   .evisa-wrap { overflow-x: auto; -webkit-overflow-scrolling: touch; }
   .evisa-table { display: table; min-width: 380px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .system-card.reveal, .system-card.reveal.is-in { opacity: 1; transform: none; transition: none; }
+  .system-card, .system-card:hover { transform: none; }
 }
 
 /* Status badge dark mode handled by .fam-* tokens */
@@ -285,7 +256,7 @@ a.apply-btn:visited { color: #6a6660; }
   <div class="section-head" id="er-preauth">Pre-Entry Authorizations</div>
 
   <!-- ETIAS -->
-  <div class="system-card">
+  <div class="system-card reveal">
     <div class="system-head">
       <div>
         <div class="system-name">ETIAS</div>
@@ -336,7 +307,7 @@ a.apply-btn:visited { color: #6a6660; }
   </div>
 
   <!-- UK ETA -->
-  <div class="system-card">
+  <div class="system-card reveal">
     <div class="system-head">
       <div>
         <div class="system-name">UK ETA</div>
@@ -360,7 +331,7 @@ a.apply-btn:visited { color: #6a6660; }
   </div>
 
   <!-- Australia ETA -->
-  <div class="system-card">
+  <div class="system-card reveal">
     <div class="system-head">
       <div>
         <div class="system-name">Australia ETA (Subclass 601)</div>
@@ -384,7 +355,7 @@ a.apply-btn:visited { color: #6a6660; }
   </div>
 
   <!-- NZeTA -->
-  <div class="system-card">
+  <div class="system-card reveal">
     <div class="system-head">
       <div>
         <div class="system-name">NZeTA</div>
@@ -605,5 +576,27 @@ a.apply-btn:visited { color: #6a6660; }
     }
   }});
 }());</script>
+<script>
+(function () {
+  /* Scroll-reveal for the system cards — matches Passport/Scams. Purely a
+     nicety: prefers-reduced-motion (or no IntersectionObserver support)
+     skips straight to visible and never gates reading the content. */
+  var reduceMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var reveals = document.querySelectorAll('.reveal');
+  if (reduceMotion || !('IntersectionObserver' in window)) {
+    reveals.forEach(function (el) { el.classList.add('is-in'); });
+  } else {
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('is-in');
+          io.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.15 });
+    reveals.forEach(function (el) { io.observe(el); });
+  }
+})();
+</script>
 </body>
 </html>

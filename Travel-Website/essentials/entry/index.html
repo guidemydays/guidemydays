@@ -45,15 +45,37 @@ a.pill:visited { color: inherit; }
 /* Status badges — size + colour from .badge / .fam-*; kept for :has() card-border selector */
 .status-badge { flex-shrink: 0; gap: 5px; }
 
-/* System cards */
+/* System cards — styled as passport control pages: a folded corner carrying
+   the status colour (replaces the old left accent bar), a dashed top edge
+   like a tear-off perforation, and a giant low-opacity ink-stamp word
+   ("REQUIRED"/"DELAYED") bled across the page behind the content. Pure CSS,
+   no new badge box (x06 keeps .status-badge's shape and size untouched). */
 .system-card {
-  background: var(--surface); border: 1px solid var(--border2); border-radius: 10px;
-  padding: 18px 20px; margin-bottom: 14px;
-  border-left: 4px solid transparent;
+  position: relative; z-index: 0; overflow: hidden;
+  background: var(--surface); border: 1px solid var(--border2);
+  border-top-width: 2px; border-top-style: dashed;
+  border-radius: 4px; padding: 18px 20px; margin-bottom: 14px;
 }
-/* Family-accent bar — canonical sphere mid tones (Badge spec 2026-07-29). */
-.system-card:has(.status-live)   { border-left-color: var(--er-live-accent); }
-.system-card:has(.status-coming) { border-left-color: var(--er-coming-accent); }
+.system-card::before {
+  content: ""; position: absolute; top: 0; right: 0;
+  width: 0; height: 0; border-style: solid; border-width: 0 22px 22px 0;
+  border-color: transparent var(--border2) transparent transparent;
+  pointer-events: none;
+}
+.system-card:has(.status-live)::before   { border-color: transparent var(--er-live-accent) transparent transparent; }
+.system-card:has(.status-coming)::before { border-color: transparent var(--er-coming-accent) transparent transparent; }
+.system-card::after {
+  content: ""; position: absolute; inset: 0; z-index: -1;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 60px; font-weight: 800; letter-spacing: .05em;
+  white-space: nowrap; transform: rotate(-9deg); pointer-events: none;
+}
+.system-card:has(.status-live)::after   { content: "REQUIRED"; color: rgba(94,184,51,.22); }
+.system-card:has(.status-coming)::after { content: "DELAYED";  color: rgba(245,166,35,.24); }
+@media (prefers-color-scheme: dark) {
+  .system-card:has(.status-live)::after   { color: rgba(94,184,51,.30); }
+  .system-card:has(.status-coming)::after { color: rgba(255,184,90,.30); }
+}
 .system-head {
   display: flex; align-items: flex-start; justify-content: space-between;
   gap: 12px; margin-bottom: 14px;
@@ -88,7 +110,7 @@ details.ctry-chip { flex: 0 0 auto; }
 details.ctry-chip > summary {
   list-style: none; cursor: pointer; display: inline-flex; align-items: baseline; gap: 5px;
   font-size: 12.5px; font-weight: 600; color: var(--text);
-  background: var(--bg, #f5f4f0); border: 1px solid var(--border2); border-radius: 6px;
+  background: var(--bg, #f5f4f0); border: 1px dashed var(--border2); border-radius: 6px;
   padding: 5px 10px 5px 8px;
 }
 details.ctry-chip > summary::-webkit-details-marker { display: none; }
@@ -111,32 +133,36 @@ details.ctry-chip[open] > summary { border-color: var(--rust); background: var(-
 .apply-btn {
   display: inline-flex; align-items: center; justify-content: center; gap: 5px;
   padding: 6px 14px; border-radius: 999px; font-family: inherit; font-size: 12px; font-weight: 400;
-  background: var(--surface); border: 1.5px solid var(--border2, #e6e2da);
+  background: var(--surface); border: 1.5px dashed var(--border2, #e6e2da);
   color: var(--muted); text-decoration: none;
-  transition: border-color .15s, background .15s;
+  transition: border-color .15s, border-style .15s, background .15s;
 }
 a.apply-btn:visited { color: #6a6660; }
-.apply-btn:hover { border-color: var(--rust); }
+.apply-btn:hover { border-color: var(--rust); border-style: solid; }
 
-/* Section headers */
+/* Section headers — dashed to match the perforated-paper theme running
+   through the cards and the form below (same spacing as before, only the
+   line style changed). */
 .section-head {
   font-size: 12px; font-weight: 700; color: var(--muted);
   text-transform: uppercase; letter-spacing: 0.14em;
   margin: 30px 0 14px; padding-bottom: 7px;
-  border-bottom: 2px solid var(--border2);
+  border-bottom: 2px dashed var(--border2);
 }
 
-/* e-Visa table */
+/* e-Visa table — reads as an official arrival-card form: dashed tear edge on
+   top, a double rule under the field labels, faint zebra rows. */
 .evisa-wrap {
   background: var(--surface); border: 1px solid var(--border2);
-  border-radius: 10px; overflow: hidden; margin-bottom: 24px;
+  border-top: 2px dashed var(--border2);
+  border-radius: 4px; overflow: hidden; margin-bottom: 24px;
 }
 .evisa-table { width: 100%; border-collapse: collapse; }
 .evisa-table th {
   font-size: 11px; font-weight: 700; color: var(--muted);
   text-transform: uppercase; letter-spacing: 0.06em;
   padding: 10px 14px 8px; text-align: left;
-  border-bottom: 1px solid var(--border2);
+  border-bottom: 2px double var(--border2);
 }
 .evisa-table td {
   font-size: 13px; padding: 11px 14px;
@@ -144,6 +170,7 @@ a.apply-btn:visited { color: #6a6660; }
   vertical-align: top; line-height: 1.4; color: var(--text);
 }
 .evisa-table tr:first-child td { border-top: none; }
+.evisa-table tbody tr:nth-child(even) td { background: var(--bg); }
 .dest-name { font-weight: 600; }
 .dest-note { font-size: 11px; color: var(--muted); margin-top: 2px; }
 .evisa-link { font-size: 12px; color: var(--accent); text-decoration: none; }

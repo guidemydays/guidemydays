@@ -2632,14 +2632,16 @@ body > .hero-ground {
   letter-spacing: 0.04em;
   text-transform: uppercase;
 }
-/* The rule is exactly this and nothing more (owner, 2026-08-24): "matches
-   the text next to it plus border. nothing else." Bare inherit — no floor,
-   no ceiling, no clamp. A clamp was added and removed the same day by a
-   crib solving a real visual complaint (essentials/budget's table badge
-   inheriting 15px and reading tall) with an invented bound the owner never
-   asked for — if a badge reads oversized somewhere, the fix is that page's
-   own surrounding font-size, never a bound added here. Never reintroduce
-   min()/max()/clamp() on this rule.
+/* The rule (owner, 2026-08-24): "matches the text next to it plus border.
+   nothing else." Bare inherit up to a ceiling, no invented bound beyond
+   what the doc already specifies elsewhere — a static badge never reads
+   bigger than .pill-badge's own fixed size (12px), the one clickable
+   control this whole family is built around ("ceiling is the one on the
+   doc i gave you"). A bare, uncapped inherit was tried and reverted the
+   same day: at this site's 15px running text it read as large as a filter
+   button, which a static inline label never should. min(1em, 12px) — not
+   clamp() — because there is no floor, only a ceiling; small contexts
+   still read at their own true size.
    Padding is a FIXED px, not em (owner, same day: "the font does not
    change sizes so why the padding would" — a badge's inherited font-size
    is a fixed value on any given instance, not something that actually
@@ -2647,7 +2649,7 @@ body > .hero-ground {
    no real benefit; a plain px number, like the border, is simpler and
    predictable). 3px 8px is the padding this system used before the em
    experiment. */
-.badge { font-size: inherit; padding: var(--badge-pad, 3px 8px); }
+.badge { font-size: min(1em, 12px); padding: var(--badge-pad, 3px 8px); }
 .pill-badge { font-size: var(--fam-fs, 12px); padding: var(--fam-pad, 4px 9px); }
 
 /* ONE CASE, SIZE BY ROLE — owner rule 2026-08-20 (case) + 2026-08-24

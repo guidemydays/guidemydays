@@ -133,7 +133,6 @@ function matches(a) {
 
 function render() {
   var res = document.getElementById('al-results');
-  var cnt = document.getElementById('al-count');
   var list = AIRLINES.filter(matches);
   var q = (document.getElementById('al-search').value || '').trim();
   var noResults = list.length === 0;
@@ -144,13 +143,9 @@ function render() {
   document.getElementById('al-alliance-filters').style.display = noResults ? 'none' : '';
 
   if (noResults) {
-    cnt.textContent = '';
     res.innerHTML = '<div class="empty-state">No airline matches “' + esc(q) + '”.</div>';
     return;
   }
-
-  cnt.innerHTML = '<b>' + list.length + '</b> airline' + (list.length === 1 ? '' : 's')
-                + ' · <b>' + new Set(list.map(function(a) { return a.c; })).size + '</b> countries';
 
   /* One continent per page, so countries are the only grouping left. */
   var html = '';
@@ -163,7 +158,6 @@ function render() {
       '<span class="al-country-flag">' + cards[0].f + '</span>' +
       '<span class="al-country-name">' + esc(country) + '</span>' +
       '<span class="al-country-rule"></span>' +
-      '<span class="al-country-count">' + cards.length + ' carrier' + (cards.length === 1 ? '' : 's') + '</span>' +
       '</div><div class="al-grid">' + cards.map(cardHTML).join('') + '</div></div>';
   });
   res.innerHTML = html;
@@ -180,12 +174,11 @@ function buildAllChips() {
     }));
   mount.innerHTML = '';
   opts.forEach(function(o) {
-    var n = o.key === 'All' ? AIRLINES.length : AIRLINES.filter(o.test).length;
     var b = document.createElement('button');
     b.type = 'button';
     b.className = 'pill-badge ' + o.cls + (o.key === alAlliance ? ' is-on' : '');
     b.dataset.key = o.key;
-    b.textContent = o.label + ' ' + n;
+    b.textContent = o.label;
     b.onclick = function() {
       alAlliance = o.key;
       document.getElementById('al-search').value = '';

@@ -26,7 +26,6 @@
 (function () {
   var activeType = 'all';
   var searchEl = document.getElementById('train-search');
-  var countEl = document.getElementById('train-count');
   var noRes = document.getElementById('train-noresult');
   var nav = document.getElementById('jump-nav');
 
@@ -149,8 +148,6 @@
     if (ctrl) ctrl.style.display = q ? 'none' : '';
     if (nav) nav.style.display = q ? 'none' : '';
     if (noRes) noRes.style.display = (shown === 0 && q) ? 'block' : 'none';
-    var filtering = !!q || activeType !== 'all';
-    if (countEl) countEl.textContent = filtering ? (shown + (shown === 1 ? ' operator' : ' operators')) : '';
   }
 
   if (searchEl) { searchEl.addEventListener('input', applyFilters); searchEl.addEventListener('search', applyFilters); }

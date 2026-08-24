@@ -2632,7 +2632,15 @@ body > .hero-ground {
   letter-spacing: 0.04em;
   text-transform: uppercase;
 }
-.badge { font-size: inherit; padding: var(--badge-pad, 0.3em 0.65em); }
+/* CLAMPED, not bare inherit — bare inherit blew up to 28px tall wherever a
+   badge sits in the site's normal 15px (--fs-body) running text, e.g.
+   essentials/budget's per-row "CHEAP" tag. 13px is the ceiling: roughly the
+   biggest body-text context a badge should ever need to sit beside; above
+   that it stays capped at 13px, reading as a compact tag rather than
+   shouting the same size as the text next to it. 10px is the floor so it
+   never goes illegibly small beside fine print. Documented alongside the
+   doc's own example, Badge-Pill-System.html § 2 — update both together. */
+.badge { font-size: clamp(10px, 1em, 13px); padding: var(--badge-pad, 0.3em 0.65em); }
 .pill-badge { font-size: var(--fam-fs, 12px); padding: var(--fam-pad, 4px 9px); }
 
 /* ONE CASE, SIZE BY ROLE — owner rule 2026-08-20 (case) + 2026-08-24

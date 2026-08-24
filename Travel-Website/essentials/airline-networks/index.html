@@ -94,27 +94,66 @@
      this page's stub reads as a boarding pass specifically — giant hub-code
      stamp, corner-notch mask, barcode sweep — none of which Disney's page
      has, but the two are close enough as a category that a future redesign
-     pass should treat "ticket stub" as spoken for twice now, not zero times. */
+     pass should treat "ticket stub" as spoken for twice now, not zero times.
+
+     SECOND FOLLOW-UP, same day (owner: "saw almost no change? where is the
+     wow factor?") — correctly called out: the entrance animation and the
+     hover sweep are both TRANSIENT, so a second after either plays, or in a
+     static screenshot, the page looked byte-for-byte like the pass before
+     it — no lasting visual signature. Fixed by making the two headline
+     elements bolder AT REST, not just animated: the hub code now carries a
+     permanent ink-stamp ring (an irregular ellipse in the code's own ink,
+     currentColor — a rubber stamp's border is never a second colour) with a
+     per-hub tilt cycling through five values so consecutive hubs don't read
+     as one template repeated, and the barcode switched from a pale
+     var(--border2) hairline to solid var(--text) ink with real varied-width
+     bars, both bigger (12→14px tall) and higher-opacity (.5→.62) — visible
+     at a glance, not just on hover. The scroll/hover motion from the first
+     follow-up stays layered on top of these. */
   .hub-section { margin-bottom: 40px; scroll-margin-top: 100px; }
   .hub-header { display: flex; align-items: baseline; gap: 18px; margin-bottom: 0; padding: 4px 0 0; border-bottom: none; }
-  .hub-code { font-family: ui-monospace, 'SF Mono', 'Roboto Mono', Menlo, Consolas, monospace; font-size: 40px; font-weight: 800; letter-spacing: -.01em; color: var(--rust, #C04E1A); line-height: 1; }
+  /* Per-hub tilt — a real rubber stamp never lands perfectly straight twice.
+     Cycles through 5 values so consecutive hubs read as genuinely stamped,
+     not as one template repeated. Referenced by both the resting state and
+     the animation below so the entrance settles into the SAME tilt it holds
+     at rest, instead of snapping back to 0 the instant the animation ends. */
+  .hub-section:nth-of-type(5n+1) { --stamp-tilt: -3deg; }
+  .hub-section:nth-of-type(5n+2) { --stamp-tilt: 2deg; }
+  .hub-section:nth-of-type(5n+3) { --stamp-tilt: -1.5deg; }
+  .hub-section:nth-of-type(5n+4) { --stamp-tilt: 2.5deg; }
+  .hub-section:nth-of-type(5n)   { --stamp-tilt: -2deg; }
+  .hub-code { position: relative; display: inline-block; font-family: ui-monospace, 'SF Mono', 'Roboto Mono', Menlo, Consolas, monospace; font-size: 40px; font-weight: 800; letter-spacing: -.01em; color: var(--rust, #C04E1A); line-height: 1; transform: rotate(var(--stamp-tilt, 0deg)); }
+  /* The ink-stamp ring — a real rubber stamp's border rarely prints as a
+     true circle (uneven pressure, worn rubber), so the ellipse radii are
+     deliberately mismatched rather than a clean 50%. Same ink as the code
+     itself (currentColor = var(--rust)) — a stamp ring is never a second
+     colour, it's the same ink slightly overspreading past the letterforms.
+     This is the persistent, ALWAYS-VISIBLE half of the boarding-pass idea —
+     the animation below is the entrance, this is what's still true a
+     second later once it's settled, which a static screenshot can see. */
+  .hub-code::before {
+    content: ''; position: absolute; inset: -9px -15px -11px -15px;
+    border: 2.5px solid currentColor;
+    border-radius: 44% 56% 51% 49% / 55% 45% 58% 42%;
+    opacity: .32; pointer-events: none;
+  }
   /* Stamp-in entrance — armed only by JS (progressive enhancement: with no
      JS, or IntersectionObserver unsupported, .stamp-armed is never added and
-     the code just sits at its normal opacity/scale, exactly as before). Each
-     hub code animates once as its section scrolls into view, like an ink
-     stamp hitting the stub — the site's other "wow" passes (day-trips'
-     shuttling train, disney's cursor-tilt, train-passes' card flip) each
-     picked a motion that fits their own object; this one is the boarding
-     pass's own gesture, not borrowed from any of them. */
-  .hub-section.stamp-armed .hub-code { opacity: 0; transform: scale(1.6) rotate(-9deg); }
+     the code (plus its ring) just sits at rest, exactly as without this
+     pass). Each hub code animates once as its section scrolls into view,
+     like the moment a stamp hits the paper — the site's other "wow" passes
+     (day-trips' shuttling train, disney's cursor-tilt, train-passes' card
+     flip) each picked a motion that fits their own object; this one is the
+     boarding pass's own gesture, not borrowed from any of them. */
+  .hub-section.stamp-armed .hub-code { opacity: 0; transform: scale(1.7) rotate(calc(var(--stamp-tilt, 0deg) - 11deg)); }
   .hub-section.stamp-armed.stamped .hub-code { animation: hub-stamp-in .5s cubic-bezier(.22,1.6,.4,1) forwards; }
   @keyframes hub-stamp-in {
-    0%   { opacity: 0; transform: scale(1.6) rotate(-9deg); }
-    55%  { opacity: 1; transform: scale(.93) rotate(1.5deg); }
-    100% { opacity: 1; transform: scale(1) rotate(0); }
+    0%   { opacity: 0; transform: scale(1.7) rotate(calc(var(--stamp-tilt, 0deg) - 11deg)); }
+    55%  { opacity: 1; transform: scale(.92) rotate(calc(var(--stamp-tilt, 0deg) + 2deg)); }
+    100% { opacity: 1; transform: scale(1) rotate(var(--stamp-tilt, 0deg)); }
   }
   @media (prefers-reduced-motion: reduce) {
-    .hub-section.stamp-armed .hub-code { opacity: 1; transform: none; animation: none; }
+    .hub-section.stamp-armed .hub-code { opacity: 1; transform: rotate(var(--stamp-tilt, 0deg)); animation: none; }
   }
   .hub-info { flex: 1; }
   .hub-city { font-size: 11.5px; font-weight: 700; letter-spacing: .14em; text-transform: uppercase; color: var(--muted); }
@@ -137,8 +176,8 @@
     transition: box-shadow .16s ease, transform .16s ease;
     /* Torn-corner notch, top-right — a semicircle bitten out of the card via
        a CSS mask, the same "stub" language as the hub header's tear-line. */
-    -webkit-mask-image: radial-gradient(circle 6px at calc(100% - 13px) 0, transparent 6px, #000 6.6px);
-            mask-image: radial-gradient(circle 6px at calc(100% - 13px) 0, transparent 6px, #000 6.6px);
+    -webkit-mask-image: radial-gradient(circle 8px at calc(100% - 15px) 0, transparent 8px, #000 8.6px);
+            mask-image: radial-gradient(circle 8px at calc(100% - 15px) 0, transparent 8px, #000 8.6px);
   }
   .dest-card:hover { box-shadow: 0 6px 18px rgba(30,20,5,.10); transform: translateY(-1px); }
   .dest-card .tags { margin-top: auto; }
@@ -148,21 +187,27 @@
     font-weight: 800; font-size: 12.5px; letter-spacing: .04em; color: var(--text, #3d3a32);
     display: flex; align-items: center; gap: 7px; margin: 3px 0 2px;
   }
-  /* Barcode-style rule beside the code — decorative texture, not a fill.
-     Hovering/focusing the card sweeps a highlight across it, like the pass
-     being read at the gate scanner. transition, not a running animation —
-     with 300+ of these on the page at once (all three carriers, unfiltered)
-     an always-on loop across every card would be noise, not a "wow" moment;
-     this only ever moves the one card the reader is actually touching. */
+  /* Barcode-style rule beside the code — a real barcode's bars vary in
+     width (thin-thin-thick, never a uniform repeat), and print in solid
+     ink rather than a pale hairline, so this reads as an actual barcode at
+     rest rather than decoration you only notice up close. Hovering/focusing
+     the card sweeps a highlight across it, like the pass being read at the
+     gate scanner — a transition, not a running animation: with 300+ of
+     these on the page at once (all three carriers, unfiltered) an always-on
+     loop across every card would be noise, not a "wow" moment; this only
+     ever moves the one card the reader is actually touching. */
   .dest-code::after {
     content: '';
-    flex: 1 1 auto; min-width: 16px; height: 12px;
+    flex: 1 1 auto; min-width: 22px; height: 14px;
     background-image:
       linear-gradient(100deg, transparent 42%, rgba(255,255,255,.9) 50%, transparent 58%),
-      repeating-linear-gradient(90deg, var(--border2,#d8d2c5) 0 1.4px, transparent 1.4px 3.6px);
+      repeating-linear-gradient(90deg,
+        var(--text,#3d3a32) 0 1px, transparent 1px 2.2px,
+        var(--text,#3d3a32) 2.2px 4.6px, transparent 4.6px 5.6px,
+        var(--text,#3d3a32) 5.6px 6.2px, transparent 6.2px 8.4px);
     background-size: 220% 100%, auto;
     background-position: -120% 0, 0 0;
-    opacity: .5;
+    opacity: .62;
     transition: background-position .6s ease;
   }
   .dest-card:hover .dest-code::after,

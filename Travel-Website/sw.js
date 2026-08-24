@@ -2146,7 +2146,8 @@
    make sure the site in the main body has that size on all pages"). Both are
    MIN_VERSIONS assets, so both floors move: guide-style.css -> 265, web-travel-
    style.css -> 128. CACHE to v1524. */
-var CACHE = 'travel-cache-v1524';
+/* 2026-08-24: airline-networks: ink-stamp ring + bolder real-barcode (persistent, not just on hover/scroll) — inline style/script only, cache-first page needs a bump for returning readers toolbar.js -> v1077. CACHE to v1525. */
+var CACHE = 'travel-cache-v1525';
 
 /* The guide-calendar hand-off cache. Written by toolbar.js, read and emptied
    once by the fetch handler below, and EXEMPT from the activate sweep — it is
@@ -2159,7 +2160,7 @@ var ICS_OUTBOX = 'gmd-ics-outbox';
    THIS IS THE ONLY PLACE to bump toolbar.js / guide-style.css versions.
    NEVER bump ?v= inside guide HTML — it breaks HMAC stamps and forces re-validation
    of 230+ guides. Instead, bump MIN_VERSIONS here + increment the CACHE version. */
-var MIN_VERSIONS = { 'guide-style.css': 265,'toolbar.js': 1076, 'mobile.css': 88, 'web-travel-style.css': 128, 'guides-index-style.css': 27, 'read-about.css': 6, 'best-of-features.js': 4, 'best-of-cross-data.js': 24, 'weather.js': 12, 'trains.css': 17, 'trains.js': 4, 'airlines.css': 5, 'airlines.js': 5, 'passport.js': 4, 'search-autocomplete.js': 9 };
+var MIN_VERSIONS = { 'guide-style.css': 265,'toolbar.js': 1077, 'mobile.css': 88, 'web-travel-style.css': 128, 'guides-index-style.css': 27, 'read-about.css': 6, 'best-of-features.js': 4, 'best-of-cross-data.js': 24, 'weather.js': 12, 'trains.css': 17, 'trains.js': 4, 'airlines.css': 5, 'airlines.js': 5, 'passport.js': 4, 'search-autocomplete.js': 9 };
 
 function rewriteAssetUrl(urlStr) {
   var u;

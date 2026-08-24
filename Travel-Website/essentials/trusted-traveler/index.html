@@ -98,6 +98,15 @@ a.program-link:visited { color: #6a6660; }
   font-family: 'JetBrains Mono', ui-monospace, 'SF Mono', Consolas, monospace;
   font-variant-numeric: tabular-nums; font-size: 14px; font-weight: 700;
   color: var(--rust); letter-spacing: 0.03em;
+  transform-origin: 50% 0; backface-visibility: hidden; display: inline-block;
+}
+@media (prefers-reduced-motion: no-preference) {
+  @keyframes apt-flap {
+    0%   { transform: rotateX(90deg); opacity: 0; }
+    55%  { transform: rotateX(-12deg); opacity: 1; }
+    100% { transform: rotateX(0deg); }
+  }
+  .apt-code.flap-in { animation: apt-flap .45s cubic-bezier(.2,.7,.3,1); }
 }
 .apt-info { min-width: 0; }
 .apt-city { display: block; font-size: 14px; color: var(--text); }
@@ -129,6 +138,16 @@ a.program-link:visited { color: #6a6660; }
 
 /* ── No results ── */
 #no-results { display: none; }
+
+/* A row with 2-3 badges (e.g. LAX: Global Entry + Enrollment on Arrival + CLEAR)
+   needs real width for the fixed-size badge column — below it the auto-sized
+   badges out-compete the info column and crush city/airport names to one word
+   per line. This is a WIDTH problem, not a touch/mouse one, so it fires on any
+   pointer type once the row genuinely runs out of room. */
+@media (max-width: 900px) {
+  .apt-row { grid-template-columns: 56px 1fr; align-items: flex-start; }
+  .badge-wrap { grid-column: 1 / -1; justify-content: flex-start; margin-top: 6px; }
+}
 
 @media (max-width: 600px) and (pointer: coarse) {
   #tt-search { width: 100%; }
@@ -1150,6 +1169,42 @@ a.program-link:visited { color: #6a6660; }
   el.value = q;
   el.dispatchEvent(new Event('input'));
 }());
+</script>
+<script>
+(function () {
+  if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  if (!('IntersectionObserver' in window) || !('MutationObserver' in window)) return;
+
+  function flap(row) {
+    var code = row.querySelector('.apt-code');
+    if (!code) return;
+    code.classList.remove('flap-in');
+    void code.offsetWidth; /* restart the animation */
+    code.classList.add('flap-in');
+  }
+
+  var rows = document.querySelectorAll('#airport-list .apt-row, #intl-section .apt-row');
+
+  /* Flap each code once as its row scrolls into view — the board "updating" as you read down it. */
+  var io = new IntersectionObserver(function (entries) {
+    entries.forEach(function (entry) {
+      if (entry.isIntersecting) {
+        flap(entry.target);
+        io.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.4 });
+  rows.forEach(function (r) { io.observe(r); });
+
+  /* Flap codes that a filter or search just revealed (class 'hidden' removed). */
+  var mo = new MutationObserver(function (mutations) {
+    mutations.forEach(function (m) {
+      var row = m.target;
+      if (row.classList.contains('apt-row') && !row.classList.contains('hidden')) flap(row);
+    });
+  });
+  rows.forEach(function (r) { mo.observe(r, { attributes: true, attributeFilter: ['class'] }); });
+})();
 </script>
 </body>
 </html>

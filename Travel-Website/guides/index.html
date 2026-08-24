@@ -4302,19 +4302,24 @@
     if (activeMo === null) {
       cards.forEach(function (c) { c.classList.remove('season-hide'); });
       badge.classList.remove('visible');
-      return;
+    } else {
+      var m = activeMo;
+      cards.forEach(function (c) {
+        var key = climateKey(c);
+        if (goodMonth(key, m)) {
+          c.classList.remove('season-hide');
+        } else {
+          c.classList.add('season-hide');
+        }
+      });
+      badge.classList.add('visible');
     }
-    var m = activeMo;
-    cards.forEach(function (c) {
-      var key = climateKey(c);
-      if (goodMonth(key, m)) {
-        c.classList.remove('season-hide');
-      } else {
-        c.classList.add('season-hide');
-      }
-    });
-    badge.classList.add('visible');
-    /* Trigger existing mosaic "no results" check */
+    /* Trigger existing mosaic "no results" check — every other apply*Filter
+       does this unconditionally. This one used to return early on the
+       activeMo===null (clear) path and skip it, so a .country section that
+       applyMosaicFilter had collapsed to display:none while a month was
+       active stayed collapsed after the month was cleared, even though its
+       cards had already lost season-hide. */
     var inputEvt = document.createEvent('Event');
     inputEvt.initEvent('input', true, true);
     var inp = document.getElementById('guide-search');

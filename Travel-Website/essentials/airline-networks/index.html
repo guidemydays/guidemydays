@@ -67,19 +67,64 @@
       vertical-align: middle;
     }
   }
-  .hub-section { margin-bottom: 24px; scroll-margin-top: 100px; }
-  .hub-header { display: flex; align-items: center; gap: 14px; margin-bottom: 4px; padding-bottom: 10px; border-bottom: 1px solid #b3402a; }
-  .hub-code { font-size: 16px; font-weight: 700; color: var(--accent); line-height: 1; }
+  /* ══ REDESIGNED 2026-08-24 (owner: "search cool design website ideas, do
+     modern, surprise me — everything but the background and the banner") ═══
+     day-trips already claimed the train-station departure-board look this
+     same day, so this page needed its own idea rather than a copy — an
+     airline reference reads naturally as a BOARDING-PASS STUB: every hub
+     code becomes an oversized monospace stamp, a perforated tear-line (a
+     literal dotted texture drawn with radial-gradient, per Site-Icons's own
+     "no images needed" suggestion) separates the stub from the destination
+     list under it, and every destination card takes a torn-corner notch
+     (CSS mask) plus a barcode-style rule beside its airport code
+     (repeating-linear-gradient). CSS-only — no class, id or nesting any
+     script depends on moved. Terracotta stays the only accent and nothing
+     here paints a coloured SURFACE with a gradient — both gradients below
+     draw a neutral --border2 texture, not a fill (Thirty-fifth
+     non-negotiable). .pill-badge / .badge / .fam-* colours are untouched. */
+  .hub-section { margin-bottom: 40px; scroll-margin-top: 100px; }
+  .hub-header { display: flex; align-items: baseline; gap: 18px; margin-bottom: 0; padding: 4px 0 0; border-bottom: none; }
+  .hub-code { font-family: ui-monospace, 'SF Mono', 'Roboto Mono', Menlo, Consolas, monospace; font-size: 40px; font-weight: 800; letter-spacing: -.01em; color: var(--rust, #C04E1A); line-height: 1; }
   .hub-info { flex: 1; }
-  .hub-city { font-size: var(--fs-body,14px); font-weight: 400; }
-  .hub-strength { font-size: var(--fs-body,14px); color: var(--muted); margin-bottom: 8px; padding: 8px 14px; background: var(--surface, #ffffff); border: 1px solid var(--border); border-left: 3px solid #a67b5b; border-radius: 3px; line-height: 1.6; }
+  .hub-city { font-size: 11.5px; font-weight: 700; letter-spacing: .14em; text-transform: uppercase; color: var(--muted); }
+  .hub-strength { position: relative; font-size: var(--fs-body,14px); color: var(--muted); margin: 10px 0 26px; padding: 12px 14px 22px; background: var(--surface, #ffffff); border: 1px solid var(--border); border-left: 3px solid var(--rust, #a67b5b); border-radius: 3px; line-height: 1.6; }
+  /* Perforated tear-line under the stub — a dotted texture, not a fill. */
+  .hub-strength::after { content: ''; position: absolute; left: 14px; right: 14px; bottom: 9px; height: 2px; background-image: radial-gradient(circle, var(--border2,#d8d2c5) 1.3px, transparent 1.5px); background-size: 9px 2px; background-repeat: repeat-x; }
   .region-block { margin-bottom: 20px; }
   .region-header { display: flex; align-items: center; gap: 8px; margin-bottom: 10px; }
   .region-title { font-family: var(--font); font-size: var(--fs-sub,12px); letter-spacing: 0.15em; text-transform: uppercase; color: var(--muted); }
   .region-line { flex: 1; height: 1px; background: var(--border); }
-  .dest-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(195px, 1fr)); gap: 10px; }
-  .dest-card { background: var(--surface, #ffffff); border: 1px solid var(--border); border-left: 3px solid transparent; border-radius: 4px; padding: 9px 11px; display: flex; flex-direction: column; }
+  .dest-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(195px, 1fr)); gap: 12px; }
+  .dest-card {
+    position: relative;
+    background: var(--surface, #ffffff);
+    border: 1px solid var(--border);
+    border-left: 3px solid transparent;
+    border-radius: 4px;
+    padding: 10px 12px;
+    display: flex; flex-direction: column;
+    transition: box-shadow .16s ease, transform .16s ease;
+    /* Torn-corner notch, top-right — a semicircle bitten out of the card via
+       a CSS mask, the same "stub" language as the hub header's tear-line. */
+    -webkit-mask-image: radial-gradient(circle 6px at calc(100% - 13px) 0, transparent 6px, #000 6.6px);
+            mask-image: radial-gradient(circle 6px at calc(100% - 13px) 0, transparent 6px, #000 6.6px);
+  }
+  .dest-card:hover { box-shadow: 0 6px 18px rgba(30,20,5,.10); transform: translateY(-1px); }
   .dest-card .tags { margin-top: auto; }
+  .dest-city { font-weight: 600; }
+  .dest-code {
+    font-family: ui-monospace, 'SF Mono', 'Roboto Mono', Menlo, Consolas, monospace;
+    font-weight: 800; font-size: 12.5px; letter-spacing: .04em; color: var(--text, #3d3a32);
+    display: flex; align-items: center; gap: 7px; margin: 3px 0 2px;
+  }
+  /* Barcode-style rule beside the code — decorative texture, not a fill. */
+  .dest-code::after {
+    content: '';
+    flex: 1 1 auto; min-width: 16px; height: 12px;
+    background-image: repeating-linear-gradient(90deg, var(--border2,#d8d2c5) 0 1.4px, transparent 1.4px 3.6px);
+    opacity: .5;
+  }
+  .dest-meta { font-size: 11.5px; color: var(--muted); margin-bottom: 2px; }
   /* Dest-card left bars — match the emoji sphere mid-tone (bright, vivid) so the
      bar reads like the dot it belongs to, not the muted pill text. */
   .dest-card.t0 { border-left-color: #5eb833; }  /* GREEN dot-green */
@@ -127,6 +172,15 @@ body.is-searching #route-nav.filter-bar { display:flex !important; }
   #route-nav .hub-nav{display:none !important;}
   .filter-row{padding:8px 0 6px;gap:5px;}
   .book-link{padding:3px 10px;}
+}
+/* Boarding-pass stub sizing — phones (2026-08-24 redesign, see above). */
+@media (max-width: 600px) and (pointer: coarse) {
+  .hub-code{font-size:30px;}
+  .hub-city{font-size:10px;}
+  .hub-header{gap:12px;}
+  .hub-strength{padding:10px 12px 18px;margin:8px 0 22px;}
+  .hub-strength::after{left:10px;right:10px;bottom:7px;}
+  .dest-code::after{min-width:12px;}
 }
 /* secondary nav: solid page-bg so content doesn't bleed through on scroll */
 .nav{background:var(--bg)!important;border-bottom:none!important;}

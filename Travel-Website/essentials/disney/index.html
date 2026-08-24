@@ -56,12 +56,16 @@
   padding: 18px 20px 18px 28px;
   display: flex; flex-direction: column; gap: 11px;
   transform: rotate(var(--tilt, -.4deg));
-  transition: transform .15s ease;
+  box-shadow: 3px 4px 0 var(--bg), 4px 5px 0 1px var(--border2);
+  transition: transform .2s ease, box-shadow .2s ease, opacity .5s ease;
 }
 .dp-grid .dp-card:nth-child(3n+2) { --tilt: .5deg; }
 .dp-grid .dp-card:nth-child(3n+3) { --tilt: -.7deg; }
-.dp-card:hover { transform: rotate(0deg) translateY(-2px); }
+.dp-card:hover { transform: rotate(0deg) translateY(-3px); box-shadow: 4px 7px 0 var(--bg), 5px 8px 10px -2px rgba(0,0,0,.18); }
 .dp-card.hidden { display: none; }
+/* scroll-reveal: rise + fade in as the ticket enters view; skipped for reduced-motion */
+.dp-card.dp-reveal { opacity: 0; transform: rotate(var(--tilt, -.4deg)) translateY(16px); }
+.dp-card.dp-reveal.dp-in { opacity: 1; transform: rotate(var(--tilt, -.4deg)) translateY(0); }
 /* die-cut notches, top and bottom, punched out of the ticket edge */
 .dp-card::before, .dp-card::after {
   content: ""; position: absolute; left: -9px; width: 18px; height: 18px;
@@ -100,10 +104,16 @@
   .dp-grid { grid-template-columns: 1fr; gap: 20px; }
   .dp-controls { padding: 15px 16px; }
   .pills { gap: var(--fam-gap,10px); }
-  .dp-card { padding: 16px 17px 15px 24px; transform: none; }
-  .dp-card:hover { transform: translateY(-1px); }
+  .dp-card { padding: 16px 17px 15px 24px; transform: none; box-shadow: 2px 3px 0 var(--bg), 3px 4px 0 1px var(--border2); }
+  .dp-card:hover { transform: translateY(-1px); box-shadow: 2px 3px 0 var(--bg), 3px 4px 0 1px var(--border2); }
+  .dp-card.dp-reveal { transform: translateY(16px); }
+  .dp-card.dp-reveal.dp-in { transform: translateY(0); }
   .dp-section-head { padding: 11px 16px; margin: 44px 0 18px; }
   .dp-section-title { font-size: 13px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .dp-card.dp-reveal { opacity: 1; transform: none; }
+  .dp-card { transition: none; }
 }
 /* pill + badge dark mode handled by .fam-* tokens */
 </style>
@@ -819,6 +829,25 @@ function filterCat(btn, cat) {
   });
   countRows();
   syncRegionLabels();
+})();
+
+/* Rise-and-fade the tickets in as they scroll into view, staggered by grid column. */
+(function () {
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  var cards = document.querySelectorAll('.dp-card');
+  if (!('IntersectionObserver' in window)) return;
+  cards.forEach(function (c, i) {
+    c.classList.add('dp-reveal');
+    c.style.transitionDelay = (i % 3) * 70 + 'ms';
+  });
+  var io = new IntersectionObserver(function (entries) {
+    entries.forEach(function (entry) {
+      if (!entry.isIntersecting) return;
+      entry.target.classList.add('dp-in');
+      io.unobserve(entry.target);
+    });
+  }, { rootMargin: '0px 0px -8% 0px', threshold: 0.1 });
+  cards.forEach(function (c) { io.observe(c); });
 })();
 </script>
 <script src="/assets/search-autocomplete.js?v=8"></script>

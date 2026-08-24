@@ -10,24 +10,48 @@
 
 .ti-search-wrap { display: flex; justify-content: center; margin: 0 0 18px; }
 
-/* Section headers — fleet standard (Entry-Requirements / Passport / Travel-Apps) */
+/* Section headers — numbered like a policy document's articles, not just a
+   filed label. A CSS counter, so the number is free — insert or reorder a
+   section and every number downstream renumbers itself. */
+.wrap { counter-reset: ti-sec; }
 .section-head {
+  counter-increment: ti-sec;
   font-size: 12px; font-weight: 700; color: var(--muted);
   text-transform: uppercase; letter-spacing: 0.14em;
   margin: 30px 0 14px; padding-bottom: 7px;
   border-bottom: 2px solid var(--border2);
+  display: flex; align-items: baseline; gap: 10px;
+}
+.section-head::before {
+  content: counter(ti-sec, decimal-leading-zero);
+  font-size: 11px; font-weight: 800; color: var(--rust, #C04E1A);
+  letter-spacing: 0; font-variant-numeric: tabular-nums;
 }
 
-/* Coverage type cards */
+/* Coverage type cards — a policy clause: a small article marker pinned to
+   the corner (muted monospace-style §, not a badge), a thin top accent
+   instead of a border-radius-only box, and a quiet hover lift. */
 .coverage-grid {
   display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
-  gap: 12px; margin-bottom: 6px;
+  gap: 14px; margin-bottom: 6px;
 }
 .cov-card {
-  background: var(--surface); border: 1px solid var(--border2); border-radius: 10px;
-  padding: 16px 18px;
+  background: var(--surface); border: 1px solid var(--border2); border-top: 2px solid var(--border2);
+  border-radius: 3px; padding: 18px 18px 16px; position: relative;
+  transition: border-color .18s, box-shadow .18s, transform .18s;
 }
-.cov-name { font-size: 13px; font-weight: 700; color: var(--text); margin-bottom: 5px; }
+.cov-card::before {
+  content: '§'; position: absolute; top: 10px; right: 12px;
+  font-size: 15px; font-weight: 700; color: var(--border2, #e6e2da);
+  line-height: 1;
+}
+.cov-card:hover {
+  border-top-color: var(--rust, #C04E1A);
+  box-shadow: 0 8px 18px rgba(0,0,0,.08);
+  transform: translateY(-2px);
+}
+.cov-card:hover::before { color: var(--rust, #C04E1A); }
+.cov-name { font-size: 13px; font-weight: 700; color: var(--text); margin-bottom: 5px; padding-right: 16px; }
 .cov-desc { font-size: 12px; color: var(--muted); line-height: 1.6; }
 .cov-limit {
   margin-top: 10px; padding-top: 9px; border-top: 1px solid var(--border2);
@@ -36,10 +60,11 @@
 .cov-limit-row { display: flex; gap: 6px; }
 .cov-limit-label { font-weight: 600; color: var(--text); min-width: 80px; flex-shrink: 0; }
 
-/* Decision table */
+/* Decision table — a thin rust header bar stands in for an official form's
+   letterhead strip, and zebra rows carry the eye across a wide table. */
 .decision-wrap {
-  background: var(--surface); border: 1px solid var(--border2);
-  border-radius: 10px; overflow: hidden; margin-bottom: 24px;
+  background: var(--surface); border: 1px solid var(--border2); border-top: 3px solid var(--rust, #C04E1A);
+  border-radius: 4px; overflow: hidden; margin-bottom: 24px;
 }
 .decision-table th {
   font-size: 11px; font-weight: 700; color: var(--muted);
@@ -53,6 +78,7 @@
   vertical-align: top; line-height: 1.45; color: var(--text);
 }
 .decision-table tr:first-child td { border-top: none; }
+.decision-table tbody tr:nth-child(even) td { background: var(--warm, #fdf8f0); }
 .situation { font-weight: 600; }
 .rec { font-size: 12px; color: var(--muted); margin-top: 2px; }
 /* rec-badge sizing + colour from .badge / .fam-* */
@@ -60,8 +86,8 @@
 
 /* Credit card table */
 .cc-wrap {
-  background: var(--surface); border: 1px solid var(--border2);
-  border-radius: 10px; overflow: hidden; margin-bottom: 24px;
+  background: var(--surface); border: 1px solid var(--border2); border-top: 3px solid var(--rust, #C04E1A);
+  border-radius: 4px; overflow: hidden; margin-bottom: 24px;
   overflow-x: auto;
 }
 .cc-table { width: 100%; border-collapse: collapse; min-width: 680px; }
@@ -77,6 +103,7 @@
   vertical-align: top; line-height: 1.45; color: var(--text);
 }
 .cc-table tr:first-child td { border-top: none; }
+.cc-table tbody tr:nth-child(even) td { background: var(--warm, #fdf8f0); }
 .cc-name { font-weight: 700; font-size: 13px; }
 .cc-caveat { font-size: 11px; color: var(--muted); margin-top: 2px; }
 /* Inline tags — canonical shape per Formatting.html#sec-badges (ALL CAPS is a badge absolute) */
@@ -101,7 +128,24 @@
   background: var(--surface); border: 1px solid var(--border2);
   border-left: 3px solid var(--border2); border-radius: 10px;
   padding: 15px 17px; display: flex; flex-direction: column; gap: 9px;
+  position: relative; overflow: hidden;
+  transition: box-shadow .2s ease, transform .2s ease;
 }
+/* A faint concentric seal, like an insurer's embossed stamp on a policy
+   page — two rings, near-invisible at rest, that come up slightly on
+   hover as though the card were just certified. Pure CSS, no image. */
+.provider-row::after {
+  content: ''; position: absolute; right: -22px; bottom: -22px;
+  width: 88px; height: 88px; border-radius: 50%;
+  border: 1.5px solid currentColor;
+  box-shadow: 0 0 0 7px var(--surface, #fff), 0 0 0 8.5px currentColor;
+  color: var(--border2, #e6e2da);
+  opacity: .55; pointer-events: none;
+  transition: opacity .25s ease, color .25s ease;
+}
+.provider-row:hover { box-shadow: 0 10px 22px rgba(0,0,0,.09); transform: translateY(-2px); }
+.provider-row:hover::after { color: var(--rust, #C04E1A); opacity: .3; }
+.provider-row > * { position: relative; z-index: 1; }
 .provider-row:has(.prov-tag.fam-green)  { border-left-color: var(--fam-green-bd); }
 .provider-row:has(.prov-tag.fam-orange) { border-left-color: var(--fam-orange-bd); }
 .provider-row:has(.prov-tag.fam-blue)   { border-left-color: var(--fam-blue-bd); }
@@ -137,6 +181,12 @@ a.prov-link:visited { color: #6a6660; }
 .tip-card {
   background: var(--surface); border: 1px solid var(--border2); border-radius: 8px;
   padding: 13px 16px; border-left: 3px solid var(--border);
+  transition: border-left-color .18s ease, transform .18s ease, box-shadow .18s ease;
+}
+.tip-card:hover {
+  border-left-color: var(--rust, #C04E1A);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 16px rgba(0,0,0,.07);
 }
 .tip-text strong { color: var(--text); font-weight: 700; }
 

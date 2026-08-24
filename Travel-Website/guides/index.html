@@ -4406,7 +4406,6 @@
       });
       if (badge) badge.hidden = false;
     }
-    window._giThemeFilter = sel.slice();
     var inp = document.getElementById('guide-search');
     if (inp) { var e = document.createEvent('Event'); e.initEvent('input', true, true); inp.dispatchEvent(e); }
   }
@@ -4472,7 +4471,6 @@
         c.classList.toggle('days-hide', String(d) !== active);
       }
     });
-    window._giDaysFilter = active;
     var inp = document.getElementById('guide-search');
     if (inp) { var e = document.createEvent('Event'); e.initEvent('input', true, true); inp.dispatchEvent(e); }
   }
@@ -4549,7 +4547,6 @@
       if (active === null) { c.classList.remove('country-hide'); return; }
       c.classList.toggle('country-hide', cardSlug(c) !== active);
     });
-    window._giCountryFilter = active;
     var inp = document.getElementById('guide-search');
     if (inp) { var e = document.createEvent('Event'); e.initEvent('input', true, true); inp.dispatchEvent(e); }
   }
@@ -4886,6 +4883,12 @@
     if (!label) {
       var coi = document.querySelector('#continentJumpList .days-jump-item.on:not([data-cont="all"])');
       if (coi) label = coi.textContent.trim();
+    }
+    /* New-guides pill — already counted toward anyFilter/no-results in
+       applyMosaicFilter, but had no label here, unlike every other facet */
+    if (!label) {
+      var nfb = document.getElementById('btn-new-filter');
+      if (nfb && nfb.getAttribute('aria-pressed') === 'true') label = 'New guides';
     }
     if (filterBar) {
       var sp = document.getElementById('filter-active-label');

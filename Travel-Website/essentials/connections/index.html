@@ -48,7 +48,6 @@
    the single-line ALL-CAPS control the badge/pill system requires everywhere
    else on the site; it does not grow a second line of prose. */
 .pill { font-family: inherit; }
-.pill-count { display: none; }
 
 /* ── How to read ── */
 .howto {
@@ -75,7 +74,6 @@
   color: var(--text); margin: 0; white-space: nowrap; order: 1;
 }
 .region-label::after { content: ""; flex: 1; height: 1px; background: var(--border2); order: 2; }
-.region-count { font-size: 11.5px; color: var(--muted); font-variant-numeric: tabular-nums; white-space: nowrap; order: 3; }
 
 /* Two-up on desktop, collapsing to one column whenever 2×420px doesn't
    fit — no separate breakpoint needed. Region headers span both columns
@@ -144,12 +142,11 @@
   .apt-row { padding: 16px 16px 14px; }
   .ar-headline { flex-basis: 100%; flex-direction: row; align-items: baseline; justify-content: space-between; margin-top: 6px; }
   .ar-grid { column-gap: 16px; }
-  /* "Middle East & Africa" at 19px nowrap plus the count pill is wider than
-     the mobile rail — let the count wrap to its own line instead of forcing
-     row-list's min-content past the viewport (which stretched every row). */
+  /* "Middle East & Africa" at 19px nowrap is wider than the mobile rail —
+     let the header wrap instead of forcing row-list's min-content past the
+     viewport (which stretched every row). */
   .region-label { flex-wrap: wrap; row-gap: 2px; }
   .region-label::after { display: none; }
-  .region-count { margin-left: auto; }
 }
 @media (prefers-color-scheme: dark) {
   .src-link, a.src-link { color: #c8a060; }
@@ -198,9 +195,9 @@
 
   <div class="controls">
     <div class="pills tve-glue-m">
-      <button class="pill pill-badge fam-green"  data-filter="easy"  onclick="filterTier(this,'easy')" title="Easy: the published minimum is fine"><svg class="gm-icon" data-icon="dot-green" data-role="dot" viewBox="0 0 24 24" aria-hidden="true"><use href="#gm-i-dot-green"/></svg> Easy <span class="pill-count" id="cnt-easy"></span></button>
-      <button class="pill pill-badge fam-yellow" data-filter="mod"   onclick="filterTier(this,'mod')" title="Moderate: mind the terminal pairing"><svg class="gm-icon" data-icon="dot-yellow" data-role="dot" viewBox="0 0 24 24" aria-hidden="true"><use href="#gm-i-dot-yellow"/></svg> Moderate <span class="pill-count" id="cnt-mod"></span></button>
-      <button class="pill pill-badge fam-orange" data-filter="extra" onclick="filterTier(this,'extra')" title="Allow extra: plan this connection deliberately"><svg class="gm-icon" data-icon="dot-red" data-role="dot" viewBox="0 0 24 24" aria-hidden="true"><use href="#gm-i-dot-red"/></svg> Allow extra <span class="pill-count" id="cnt-extra"></span></button>
+      <button class="pill pill-badge fam-green"  data-filter="easy"  onclick="filterTier(this,'easy')" title="Easy: the published minimum is fine"><svg class="gm-icon" data-icon="dot-green" data-role="dot" viewBox="0 0 24 24" aria-hidden="true"><use href="#gm-i-dot-green"/></svg> Easy</button>
+      <button class="pill pill-badge fam-yellow" data-filter="mod"   onclick="filterTier(this,'mod')" title="Moderate: mind the terminal pairing"><svg class="gm-icon" data-icon="dot-yellow" data-role="dot" viewBox="0 0 24 24" aria-hidden="true"><use href="#gm-i-dot-yellow"/></svg> Moderate</button>
+      <button class="pill pill-badge fam-orange" data-filter="extra" onclick="filterTier(this,'extra')" title="Allow extra: plan this connection deliberately"><svg class="gm-icon" data-icon="dot-red" data-role="dot" viewBox="0 0 24 24" aria-hidden="true"><use href="#gm-i-dot-red"/></svg> Allow extra</button>
     </div>
   </div>
 
@@ -215,7 +212,7 @@
 
   <div class="row-list">
 
-    <div class="region-label"><h2>Europe</h2><span class="region-count"></span></div>
+    <div class="region-label"><h2>Europe</h2></div>
 
     <div class="apt-row tier-easy" data-tier="easy">
       <div class="ar-top">
@@ -562,7 +559,7 @@
       </div>
     </div>
 
-    <div class="region-label"><h2>North America</h2><span class="region-count"></span></div>
+    <div class="region-label"><h2>North America</h2></div>
 
     <div class="apt-row tier-mod" data-tier="mod">
       <div class="ar-top">
@@ -863,7 +860,7 @@
       </div>
     </div>
 
-    <div class="region-label"><h2>Middle East &amp; Africa</h2><span class="region-count"></span></div>
+    <div class="region-label"><h2>Middle East &amp; Africa</h2></div>
 
     <div class="apt-row tier-easy" data-tier="easy">
       <div class="ar-top">
@@ -980,7 +977,7 @@
       </div>
     </div>
 
-    <div class="region-label"><h2>Asia-Pacific</h2><span class="region-count"></span></div>
+    <div class="region-label"><h2>Asia-Pacific</h2></div>
 
     <div class="apt-row tier-easy" data-tier="easy">
       <div class="ar-top">
@@ -1276,33 +1273,6 @@
 <script>
 var activeFilter = null;
 
-function countRows() {
-  var counts = { easy: 0, mod: 0, extra: 0 };
-  document.querySelectorAll('.apt-row').forEach(function (r) {
-    var t = r.dataset.tier;
-    if (counts[t] !== undefined) counts[t]++;
-  });
-  Object.keys(counts).forEach(function (t) {
-    var el = document.getElementById('cnt-' + t);
-    if (el) el.textContent = counts[t];
-  });
-}
-
-/* Static per-region airport counts for the region-band header — computed
-   once, since region membership never changes with a filter or search. */
-function labelRegionCounts() {
-  document.querySelectorAll('.region-label').forEach(function (label) {
-    var n = 0;
-    var node = label.nextElementSibling;
-    while (node && !node.classList.contains('region-label')) {
-      if (node.classList.contains('apt-row')) n++;
-      node = node.nextElementSibling;
-    }
-    var el = label.querySelector('.region-count');
-    if (el) el.textContent = n + (n === 1 ? ' airport' : ' airports');
-  });
-}
-
 /* Hide a region header when every row under it is hidden. */
 function syncRegionLabels() {
   document.querySelectorAll('.region-label').forEach(function (label) {
@@ -1351,8 +1321,6 @@ function filterTier(btn, tier) {
     noRes.style.display = visible === 0 ? '' : 'none';
     syncRegionLabels();
   });
-  countRows();
-  labelRegionCounts();
   syncRegionLabels();
 })();
 </script>

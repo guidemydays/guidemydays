@@ -16,37 +16,37 @@
   border-bottom: 2px solid var(--border2);
 }
 
-/* ── Process stepper — the renewal timeline as a connected journey ───── */
-.stepper {
-  display: grid; grid-template-columns: repeat(3, 1fr);
-  gap: 0; margin-bottom: 24px; position: relative;
+/* ── Bento grid — stamp tile (tall, left) + 3 step tiles (right) ──────
+   Glass cells: var(--surface) blended toward transparent via color-mix
+   (no hardcoded hex) + backdrop-blur for the layered/sheen look. Each
+   cell fades/lifts in on scroll via .reveal (see script, respects
+   prefers-reduced-motion). */
+.bento {
+  display: grid; margin-bottom: 24px;
+  grid-template-columns: 1.3fr 1fr 1fr;
+  grid-template-rows: auto auto;
+  gap: 12px;
+  align-items: stretch;
 }
-.step { position: relative; padding: 0 14px 0 0; }
-.step::before {
-  content: ''; position: absolute; top: 15px; left: calc(50% + 16px); right: calc(-50% + 16px);
-  height: 2px; background: var(--border2);
+.bento-cell {
+  background: color-mix(in srgb, var(--surface) 78%, transparent);
+  backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
+  border: 1px solid var(--border2); border-radius: 14px;
+  box-shadow: 0 1px 2px rgba(0,0,0,0.03), 0 8px 20px -12px rgba(0,0,0,0.10);
+  padding: 18px 20px;
+  transition: transform var(--transition-normal,0.2s) ease, box-shadow var(--transition-normal,0.2s) ease;
 }
-.step:last-child::before { display: none; }
-.step-head { display: flex; align-items: center; gap: 10px; margin-bottom: 8px; }
-.step-node {
-  width: 30px; height: 30px; border-radius: 50%; flex-shrink: 0;
-  background: var(--surface); border: 2px solid var(--accent);
-  color: var(--accent); font-size: 13px; font-weight: 800;
-  display: flex; align-items: center; justify-content: center;
-  position: relative; z-index: 1;
+.bento-cell:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 1px 2px rgba(0,0,0,0.04), 0 14px 26px -14px rgba(0,0,0,0.16);
 }
-.step-label { font-size: 11px; font-weight: 700; color: var(--muted); text-transform: uppercase; letter-spacing: 0.08em; }
-.step-val   { font-size: 15px; font-weight: 700; color: var(--text); line-height: 1.25; margin-bottom: 3px; }
-.step-note  { font-size: 11px; color: var(--muted); line-height: 1.45; }
+.bento-stamp { grid-column: 1; grid-row: 1 / 3; display: flex; flex-direction: column; align-items: flex-start; gap: 14px; }
+.bento-step1 { grid-column: 2; grid-row: 1; }
+.bento-step2 { grid-column: 3; grid-row: 1; }
+.bento-step3 { grid-column: 2 / 4; grid-row: 2; display: flex; align-items: center; gap: 16px; }
 
-/* ── Rubber-stamp visual for the 6-month rule ─────────────────────── */
-.stamp-block {
-  display: flex; align-items: center; gap: 20px;
-  background: var(--surface); border: 1px solid var(--border2); border-radius: 10px;
-  padding: 16px 20px; margin-bottom: 24px;
-}
-.stamp-svg { width: 96px; height: 96px; flex-shrink: 0; transform: rotate(-7deg); }
-.stamp-copy { font-size: 13px; color: var(--text); line-height: 1.55; }
+.stamp-svg { width: 72px; height: 72px; flex-shrink: 0; transform: rotate(-7deg); align-self: center; }
+.stamp-copy { font-size: 12.5px; color: var(--text); line-height: 1.5; }
 .stamp-copy strong { font-weight: 700; }
 .stamp-chip {
   display: inline-block; margin-top: 8px; font-size: 11px; font-weight: 700;
@@ -54,10 +54,36 @@
   padding: 3px 10px;
 }
 
+.step-head { display: flex; align-items: center; gap: 10px; margin-bottom: 8px; }
+.step-node {
+  width: 28px; height: 28px; border-radius: 50%; flex-shrink: 0;
+  background: color-mix(in srgb, var(--accent) 12%, var(--surface));
+  border: 2px solid var(--accent);
+  color: var(--accent); font-size: 12px; font-weight: 800;
+  display: flex; align-items: center; justify-content: center;
+}
+.step-label { font-size: 11px; font-weight: 700; color: var(--muted); text-transform: uppercase; letter-spacing: 0.08em; }
+.step-val   { font-size: 15px; font-weight: 700; color: var(--text); line-height: 1.25; margin-bottom: 3px; }
+.step-note  { font-size: 11px; color: var(--muted); line-height: 1.45; }
+.bento-step3 .step-head { margin-bottom: 0; }
+.bento-step3 .step-body { flex: 1; }
+
+/* ── Scroll-reveal — fades/lifts elements in as they enter view ──────
+   JS toggles .is-in; prefers-reduced-motion gets everything visible
+   immediately (see inline script). */
+.reveal {
+  opacity: 0; transform: translateY(16px);
+  transition: opacity 0.5s ease, transform 0.5s ease;
+}
+.reveal.is-in { opacity: 1; transform: translateY(0); }
+
 /* ── Boarding-pass style ticket for per-country renewal facts ────────── */
 .ticket-card {
-  display: flex; background: var(--surface); border: 1px solid var(--border2);
+  display: flex; background: color-mix(in srgb, var(--surface) 82%, transparent);
+  backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
+  border: 1px solid var(--border2);
   border-radius: 12px; overflow: visible; margin-bottom: 10px; position: relative;
+  box-shadow: 0 1px 2px rgba(0,0,0,0.03), 0 8px 20px -12px rgba(0,0,0,0.10);
 }
 .ticket-stub {
   width: 132px; flex-shrink: 0; background: var(--surface2);
@@ -86,8 +112,17 @@
 /* ── Tips as an accordion ─────────────────────────────────────────── */
 .tip-acc {
   border: 1px solid var(--border2); border-radius: 8px; margin-bottom: 8px;
-  background: var(--surface); overflow: hidden;
+  background: color-mix(in srgb, var(--surface) 85%, transparent); overflow: hidden;
 }
+.tip-acc.reveal:nth-of-type(1) { transition-delay: 0s; }
+.tip-acc.reveal:nth-of-type(2) { transition-delay: 0.04s; }
+.tip-acc.reveal:nth-of-type(3) { transition-delay: 0.08s; }
+.tip-acc.reveal:nth-of-type(4) { transition-delay: 0.12s; }
+.tip-acc.reveal:nth-of-type(5) { transition-delay: 0.16s; }
+.tip-acc.reveal:nth-of-type(6) { transition-delay: 0.20s; }
+.tip-acc.reveal:nth-of-type(7) { transition-delay: 0.24s; }
+.tip-acc.reveal:nth-of-type(8) { transition-delay: 0.28s; }
+.tip-acc.reveal:nth-of-type(9) { transition-delay: 0.32s; }
 .tip-acc summary {
   cursor: pointer; padding: 12px 16px; font-size: 13px; font-weight: 700;
   color: var(--text); list-style: none; display: flex; justify-content: space-between;
@@ -103,13 +138,17 @@
 
 /* Mobile */
 @media (max-width: 600px) and (pointer: coarse) {
-  .stepper { grid-template-columns: 1fr; gap: 16px; }
-  .step::before { display: none; }
-  .stamp-block { flex-direction: column; align-items: flex-start; }
+  .bento { grid-template-columns: 1fr; grid-template-rows: auto; }
+  .bento-stamp, .bento-step1, .bento-step2, .bento-step3 { grid-column: 1; grid-row: auto; }
+  .bento-step3 { flex-direction: column; align-items: flex-start; }
   .ticket-card { flex-direction: column; }
   .ticket-stub { width: auto; border-radius: 12px 12px 0 0; }
   .ticket-perf { display: none; }
   .ticket-main { grid-template-columns: 1fr; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .reveal, .reveal.is-in { opacity: 1; transform: none; transition: none; }
+  .bento-cell, .bento-cell:hover { transform: none; }
 }
 </style>
 <link rel="stylesheet" href="/assets/mobile.css?v=53">
@@ -150,41 +189,42 @@
 
 <div class="wrap">
 
-  <!-- ── The renewal journey, as a connected timeline ─────────── -->
+  <!-- ── The renewal journey — a bento grid: a big stamp tile plus
+       three step tiles, glass surfaces, fades in on scroll ─────────── -->
   <div class="section-head">The Renewal Journey</div>
-  <div class="stepper">
-    <div class="step">
+  <div class="bento">
+    <div class="bento-cell bento-stamp reveal">
+      <svg class="stamp-svg" viewBox="0 0 160 160" aria-hidden="true">
+        <circle cx="80" cy="80" r="72" fill="none" stroke="var(--accent)" stroke-width="2" stroke-dasharray="2 5"/>
+        <circle cx="80" cy="80" r="59" fill="none" stroke="var(--accent)" stroke-width="1.5"/>
+        <path id="stampRing" d="M 80,21 A 59,59 0 1 1 79.9,21" fill="none"/>
+        <text font-size="8.5" font-weight="700" letter-spacing="2.5" fill="var(--accent)">
+          <textPath href="#stampRing" startOffset="1%">MINIMUM VALIDITY REQUIRED &#8226; MINIMUM VALIDITY REQUIRED &#8226;</textPath>
+        </text>
+        <text x="80" y="77" text-anchor="middle" font-size="32" font-weight="800" fill="var(--accent)">6</text>
+        <text x="80" y="97" text-anchor="middle" font-size="10.5" font-weight="700" letter-spacing="2" fill="var(--accent)">MONTHS</text>
+      </svg>
+      <div class="stamp-copy">
+        <strong>The 6-month validity rule.</strong> Many countries — including most of Europe, all of Southeast Asia, and large parts of the Middle East — require your passport to be valid for at least 6 months beyond your entry date, whichever country issued it. Airlines enforce this before you board.
+        <div><span class="stamp-chip">2–4 blank pages usually required too</span></div>
+      </div>
+    </div>
+    <div class="bento-cell bento-step1 reveal">
       <div class="step-head"><div class="step-node">1</div><div class="step-label">Apply</div></div>
       <div class="step-val">9–12 months out</div>
       <div class="step-note">Earlier is safer, whatever your country's queue looks like right now.</div>
     </div>
-    <div class="step">
+    <div class="bento-cell bento-step2 reveal">
       <div class="step-head"><div class="step-node">2</div><div class="step-label">Processing</div></div>
       <div class="step-val">6–12 weeks, typically</div>
-      <div class="step-note">Varies by country, season and how you apply — see the specifics below.</div>
+      <div class="step-note">Varies by country and season — specifics below.</div>
     </div>
-    <div class="step">
-      <div class="step-head"><div class="step-node">3</div><div class="step-label">Board</div></div>
-      <div class="step-val">6 months validity</div>
-      <div class="step-note">The minimum most destinations require beyond your travel dates — airlines check this before you board.</div>
-    </div>
-  </div>
-
-  <!-- ── The 6-month rule, as a stamp ──────────────────────────── -->
-  <div class="stamp-block">
-    <svg class="stamp-svg" viewBox="0 0 160 160" aria-hidden="true">
-      <circle cx="80" cy="80" r="72" fill="none" stroke="var(--accent)" stroke-width="2" stroke-dasharray="2 5"/>
-      <circle cx="80" cy="80" r="59" fill="none" stroke="var(--accent)" stroke-width="1.5"/>
-      <path id="stampRing" d="M 80,21 A 59,59 0 1 1 79.9,21" fill="none"/>
-      <text font-size="8.5" font-weight="700" letter-spacing="2.5" fill="var(--accent)">
-        <textPath href="#stampRing" startOffset="1%">MINIMUM VALIDITY REQUIRED &#8226; MINIMUM VALIDITY REQUIRED &#8226;</textPath>
-      </text>
-      <text x="80" y="77" text-anchor="middle" font-size="32" font-weight="800" fill="var(--accent)">6</text>
-      <text x="80" y="97" text-anchor="middle" font-size="10.5" font-weight="700" letter-spacing="2" fill="var(--accent)">MONTHS</text>
-    </svg>
-    <div class="stamp-copy">
-      <strong>The 6-month validity rule.</strong> Many countries — including most of Europe, all of Southeast Asia, and large parts of the Middle East — require your passport to be valid for at least 6 months beyond your entry date, whichever country issued it. Airlines enforce this before you board. If your passport has less than 6 months remaining, renew before you travel internationally — regardless of how long your trip actually is.
-      <div><span class="stamp-chip">2–4 blank pages usually required too</span></div>
+    <div class="bento-cell bento-step3 reveal">
+      <div class="step-body">
+        <div class="step-head"><div class="step-node">3</div><div class="step-label">Board</div></div>
+        <div class="step-val">6 months validity required</div>
+      </div>
+      <div class="step-note" style="flex:1;">The minimum most destinations require beyond your travel dates — airlines check this before you board. If your passport has less than 6 months remaining, renew before you travel internationally, regardless of how long the trip actually is.</div>
     </div>
   </div>
 
@@ -215,39 +255,39 @@
   <!-- ── Tips — accordion so the page opens short and reads on demand ── -->
   <div class="section-head">Key Things to Know</div>
 
-  <details class="tip-acc">
+  <details class="tip-acc reveal">
     <summary>Apply 9–12 months before your next international trip</summary>
     <div class="tip-body">Routine processing commonly runs 6–12 weeks door-to-door depending on your country's own passport authority. Don't wait until 6 months out — if demand spikes, you may not make it in time without paying an expedited fee, where one is even offered.</div>
   </details>
-  <details class="tip-acc">
+  <details class="tip-acc reveal">
     <summary>The 6-month rule catches people off guard</summary>
     <div class="tip-body">Your passport may technically be valid, but if it has less than 6 months remaining after your return date, many countries will turn you away at the border — and airlines will deny boarding.</div>
   </details>
-  <details class="tip-acc">
+  <details class="tip-acc reveal">
     <summary>Child passports usually expire sooner than adult ones</summary>
     <div class="tip-body">Commonly 5 years rather than 10, though the exact figure and whether both parents/guardians must appear in person varies by country. Check your own passport authority's requirements for minors well before applying.</div>
   </details>
-  <details class="tip-acc">
+  <details class="tip-acc reveal">
     <summary>Count your blank pages before every trip</summary>
     <div class="tip-body">Many countries require at least 2–4 blank pages. Most passport authorities no longer offer a page-adding service (the US discontinued its version some years ago) — a full passport usually means renewing rather than adding pages.</div>
   </details>
-  <details class="tip-acc">
+  <details class="tip-acc reveal">
     <summary>Some visas require a full blank page</summary>
     <div class="tip-body">Countries like India, Brazil, and South Africa require a full blank page just for their visa stamp. Factor this in before trips that need visas stamped in-person.</div>
   </details>
-  <details class="tip-acc">
+  <details class="tip-acc reveal">
     <summary>Make a copy before every trip</summary>
     <div class="tip-body">Store a photo of your passport data page in your email or cloud storage. If your passport is stolen abroad, having the number and issue date speeds up emergency replacement at the nearest embassy of your own country.</div>
   </details>
-  <details class="tip-acc">
+  <details class="tip-acc reveal">
     <summary>Register your trip with your own government, if it offers the option</summary>
     <div class="tip-body">A number of countries run a free traveler-registration program that lets your embassy reach you in an emergency — the US's version is STEP (step.state.gov); Australia runs a similar one. Check whether your own country offers one before you travel; it typically takes two minutes.</div>
   </details>
-  <details class="tip-acc">
+  <details class="tip-acc reveal">
     <summary>Third-party appointment services are not your government</summary>
     <div class="tip-body">Any site charging a fee to "book your passport appointment" is a third party — official passport appointments are free directly through your own country's passport authority (in the US, that's travel.state.gov or 877-487-2778).</div>
   </details>
-  <details class="tip-acc">
+  <details class="tip-acc reveal">
     <summary>No AI-edited or digitally altered photos</summary>
     <div class="tip-body">Passport authorities increasingly screen for AI-generated and edited images — the US State Department is one that actively does. Submit an original, unedited photo taken within the last 6 months, whatever country you're applying to; altered photos are rejected.</div>
   </details>
@@ -450,7 +490,7 @@
     unresearched.hidden = true;
     card.hidden = false;
     card.innerHTML =
-      '<div class="ticket-card">' +
+      '<div class="ticket-card reveal">' +
         '<div class="ticket-stub"><div class="t-country">' + d.name + '</div><div class="t-validity">' + d.validity + '</div></div>' +
         '<div class="ticket-perf"><span class="ticket-notch top"></span><span class="ticket-notch bottom"></span></div>' +
         '<div class="ticket-main">' +
@@ -461,10 +501,35 @@
         '</div>' +
       '</div>' +
       '<p style="font-size:12px;color:var(--muted);margin:8px 0 24px;">Source: <a href="' + d.url + '" target="_blank" rel="noopener">' + d.src + '</a> — confirm current fee and timing there before applying.</p>';
+    /* Just picked — fade it straight in rather than waiting on scroll. */
+    var freshTicket = card.querySelector('.ticket-card');
+    requestAnimationFrame(function () {
+      requestAnimationFrame(function () { freshTicket.classList.add('is-in'); });
+    });
   }
 
   TVE.passport.mount(mount, { prompt: 'Choose your passport', onPick: render });
   render();
+
+  /* ── Scroll-reveal for the bento cells and tip accordion ─────────────
+     prefers-reduced-motion (or no IntersectionObserver support) skips
+     straight to visible — motion here is a nicety, never a gate on
+     reading the content. */
+  var reduceMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var staticReveals = document.querySelectorAll('.reveal');
+  if (reduceMotion || !('IntersectionObserver' in window)) {
+    staticReveals.forEach(function (el) { el.classList.add('is-in'); });
+  } else {
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('is-in');
+          io.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.15 });
+    staticReveals.forEach(function (el) { io.observe(el); });
+  }
 })();
 </script>
 </body>

@@ -480,8 +480,11 @@ var AGMO=["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec
       var r=AGG[i];
       /* sub carries the COUNTRY, so the shared typeahead — which matches on name
          OR sub — answers "Spain" with every Spanish guide, not just the one the
-         stats page happened to link. */
-      items.push({name:r[1], sub:r[2], anchor:r[0]});
+         stats page happened to link. r[2] itself is the internal "region|Country"
+         key AGP is looked up by (see show()) and must stay untouched there — only
+         the display copy here is trimmed to the part after the pipe, so the
+         dropdown reads "Italy", not "europe|Italy". */
+      items.push({name:r[1], sub:r[2]?r[2].split('|').pop():'', anchor:r[0]});
     }
     TVESearch.attach(input,{items:items,onPick:function(it){ show(it.anchor); }});
   }

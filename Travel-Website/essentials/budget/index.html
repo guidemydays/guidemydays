@@ -60,20 +60,34 @@
 .ci-summary a { color: var(--text); font-weight: 700; text-decoration: none; border-bottom: 1px solid var(--border,#d8d4cc); }
 .ci-summary a:hover { color: var(--accent,#8a6c1a); border-bottom-color: currentColor; }
 
-.index-table { width: 100%; border-collapse: collapse; border: 1px solid var(--border,#d8d4cc); border-radius: 8px; overflow: hidden; }
+/* ═══════════════════════════════════════════════════════════════════
+   LEADERBOARD REDESIGN — 2026-08-24. Owner: "do modern... surprise me"
+   (same brief as the scams/passport/disney/storage passes this session).
+   Background and .hero-band untouched; the controls (filter/sort pills,
+   search) are the site's shared, already-current pattern and stay as
+   they are. Everything below is new: the plain table becomes a ranked
+   leaderboard — a live rank number per row, a gauge-style bar with an
+   end-cap marker, and the expanded "what drives it" panel becomes three
+   bento tiles instead of a mini table. Structure stays a real <table>
+   (colgroup/thead/tbody, screen-reader semantics, the phone's declared-
+   width-drop trick) — only how it's painted changes. No gradient paints
+   the terracotta family (Thirty-fifth non-negotiable); the track tint
+   gradient below is fam-green/blue/orange/purple, pre-existing, untouched. */
+.index-table { width: 100%; border-collapse: collapse; border: 1px solid var(--border,#d8d4cc); border-radius: 14px; overflow: hidden; }
 /* THE WIDTHS ARE ON CLASSES BECAUSE THE PHONE HIDES THE MIDDLE COLUMN, and a
    <col> does not follow. `display:none` on a th/td removes the COLUMN but
    leaves the <colgroup> three entries long, so on a phone the entries stop
    lining up with the columns they were written for: the bar cell inherited the
-   band's width and the detail row's colspan="3" still asked for a third column,
+   band's width and the detail row's colspan="4" still asked for a fourth column,
    which took the difference — every two-cell row stopped 58px short of the
    panel underneath it. So the phone drops the declared widths entirely and lets
    the table size itself (.ci-bar-cell already claims width:100%, which is the
    whole remainder). `table-layout: fixed` is NOT the fix here — it makes the
    mis-mapping worse, collapsing the bar column to nothing. */
-.index-table .cw-place { width: 34%; }
-.index-table .cw-band  { width: 20%; }
-.index-table .cw-bar   { width: 46%; }
+.index-table .cw-rank  { width: 44px; }
+.index-table .cw-place { width: 32%; }
+.index-table .cw-band  { width: 18%; }
+.index-table .cw-bar   { width: 44%; }
 .index-table thead th {
   background: var(--surface2, #f0ede8); border-bottom: 2px solid var(--border, #d8d4cc);
   padding: 10px 14px; text-align: left;
@@ -81,10 +95,32 @@
   letter-spacing: 0.1em; text-transform: uppercase;
 }
 .index-table th.num, .index-table td.num { text-align: right; font-variant-numeric: tabular-nums; }
-.index-table tbody td { font-size: var(--fs-body,14px); box-shadow: inset 0 -1px 0 var(--border2,#e6e2da); padding: 7px 14px; }
-.index-table tbody tr.ci-city { cursor: pointer; background: var(--surface,#fff); }
-.index-table tbody tr.ci-city:hover td { background: #FAE8DE; box-shadow: inset 0 1px 0 rgba(192,78,26,.15), inset 0 -1px 0 rgba(192,78,26,.15); }
-.index-table tbody tr.ci-city:active td { background: #f2d0bb; box-shadow: inset 0 2px 0 #C04E1A, inset 0 -2px 0 #C04E1A; }
+.index-table tbody td { font-size: var(--fs-body,14px); box-shadow: inset 0 -1px 0 var(--border2,#e6e2da); padding: 9px 14px; }
+.index-table tbody tr.ci-city { cursor: pointer; background: var(--surface,#fff); transition: background .15s ease, box-shadow .15s ease, opacity .4s ease; }
+/* Scroll-reveal, same visible-by-default / opt-into-hidden pattern as the
+   scams redesign this session: a row is only ever hidden if JS explicitly
+   adds .pre-reveal (and only once IntersectionObserver exists and motion
+   isn't reduced), and a hard timeout strips it regardless — see revealRows()
+   below. transform doesn't animate reliably on a real <tr> in every engine,
+   so this is opacity-only, not the slide-in the card pages use. */
+.index-table tbody tr.ci-city.pre-reveal { opacity: 0; }
+@media (prefers-reduced-motion: reduce) {
+  .index-table tbody tr.ci-city.pre-reveal { opacity: 1; transition: none; }
+}
+.index-table tbody tr.ci-city:hover td { background: #FAE8DE; box-shadow: inset 3px 0 0 var(--row-ink, #C04E1A), inset 0 1px 0 rgba(192,78,26,.15), inset 0 -1px 0 rgba(192,78,26,.15); }
+.index-table tbody tr.ci-city:active td { background: #f2d0bb; box-shadow: inset 3px 0 0 var(--row-ink, #C04E1A), inset 0 2px 0 #C04E1A, inset 0 -2px 0 #C04E1A; }
+
+/* Rank chip — the leaderboard number, recomputed on every render() from the
+   CURRENT sorted/filtered order (so "#1" always means "cheapest of what's on
+   screen right now," never a fixed fleet-wide position). Tinted from the same
+   --fam-*-ink the row's own band uses, via --row-ink set inline per row. */
+.ci-rank {
+  display: inline-flex; align-items: center; justify-content: center;
+  width: 26px; height: 26px; border-radius: 50%;
+  font-size: 11px; font-weight: 800; font-variant-numeric: tabular-nums;
+  color: var(--row-ink, var(--muted)); background: var(--row-bg, var(--surface2));
+  border: 1px solid var(--row-bd, var(--border2));
+}
 
 /* The 1-2-3-4 coin ladder, the same one the guides' Hotel Recommendations
    tier heads carry (.hr-coins in guide-style.css) drawing the same registered
@@ -116,10 +152,19 @@
    benchmark city, so the owner's 2026-08-22 rule stands. The stops are written
    from JS because they depend on the dearest place on the page. */
 .ci-bar {
+  position: relative;
   flex: 1 1 auto; height: 9px; border-radius: 5px; min-width: 60px;
-  background: var(--surface2,#f0ede8); overflow: hidden;
+  background: var(--surface2,#f0ede8); overflow: visible;
 }
-.ci-bar i { display: block; height: 100%; border-radius: 5px; background: currentColor; }
+.ci-bar i { display: block; height: 100%; border-radius: 5px; background: currentColor; overflow: hidden; }
+/* Gauge end-cap — a small ringed dot sitting exactly where the fill stops, so
+   the reading point on the track is a mark you can find, not just an edge. */
+.ci-bar em {
+  position: absolute; top: 50%; width: 11px; height: 11px; margin: -5.5px 0 0 -5.5px;
+  border-radius: 50%; background: currentColor; border: 2px solid var(--surface,#fff);
+  box-shadow: 0 0 0 1px currentColor, 0 1px 3px rgba(26,25,23,.25);
+  font-style: normal;
+}
 /* A row opens. Nothing said so before — the pointer cursor was the only hint,
    and it reads as "this is a link to the guide", which the name beside it
    already is. */
@@ -133,21 +178,26 @@ tr.ci-city[aria-expanded="true"] .ci-open { transform: rotate(90deg); color: var
 .ci-c-expensive      { color: var(--fam-orange-ink,#8a4a10); }
 .ci-c-very-expensive { color: var(--fam-purple-ink,#7c3aed); }
 
-/* The expanded row: what is driving the tag, tagged the same way. */
-.ci-detail > td { background: var(--surface2,#f0ede8); padding: 14px !important;
+/* The expanded row: what is driving the tag. Was a mini <table>; is now three
+   bento tiles — Rent / Eating out / Groceries, each with its own catalogue
+   icon, its own band tag, and its own mini gauge on the same scale as the
+   headline bar, so you can see WHICH driver is carrying the tag at a glance —
+   a place whose rent is cheap and whose restaurants are dear is a different
+   trip from one where both are dear, and three tags alone never said that. */
+.ci-detail > td { background: var(--surface2,#f0ede8); padding: 16px !important;
   box-shadow: inset 0 1px 0 var(--border,#d8d4cc), inset 0 -1px 0 var(--border,#d8d4cc) !important; }
-.ci-basket { width: 100%; border-collapse: collapse; margin: 0 0 10px; max-width: 520px; }
-.ci-basket th {
-  text-align: left; font-size: var(--fs-label,11px); font-weight: 700; letter-spacing: .08em;
-  text-transform: uppercase; color: var(--muted,#6a6660); padding: 0 10px 4px 0;
+.ci-basket { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin: 0 0 12px; max-width: 620px; }
+.ci-basket-tile {
+  background: var(--surface,#fff); border: 1px solid var(--border2,#e6e2da); border-radius: 12px;
+  padding: 10px 12px; display: flex; flex-direction: column; gap: 6px;
 }
-.ci-basket td { font-size: var(--fs-sub,12px); padding: 4px 10px 4px 0; color: var(--text); vertical-align: middle; }
-/* Each driver on the same scale as the headline bar, so you can see WHICH of
-   the three is carrying the tag — a place whose rent is cheap and whose
-   restaurants are dear is a different trip from one where both are dear, and
-   the three tags alone never said that. */
-.ci-basket .ci-bar { display: block; min-width: 90px; width: 140px; height: 7px; }
-.ci-basket td.ci-basket-bar { width: 150px; }
+.ci-basket-head { display: flex; align-items: center; gap: 7px; }
+.ci-basket-head .gm-i { width: 18px; height: 18px; flex: none; }
+.ci-basket-label {
+  font-size: var(--fs-label,11px); font-weight: 700; letter-spacing: .06em;
+  text-transform: uppercase; color: var(--muted,#6a6660);
+}
+.ci-basket-tile .ci-bar { display: block; height: 7px; }
 .ci-detail-note { font-size: var(--fs-sub,12px); color: var(--muted,#6a6660); margin: 0; }
 .ci-detail-note a { color: var(--accent,#8a6c1a); }
 
@@ -164,10 +214,12 @@ html { scroll-behavior: smooth; }
   .hero-title { font-size: 32px; }
   /* No phone override on the search gap: one token at every viewport. */
   .index-table td, .index-table th { font-size: var(--fs-sub,12px) !important; padding: 6px 8px !important; }
-  /* Only the FIRST <col> still maps to the column it was written for once the
-     middle one is hidden, so it is the only one that keeps a width — 87px of
-     auto-sized name column broke "Zhangjiajie" across two lines. */
-  .index-table .cw-place { width: 40%; }
+  /* Only the RANK and PLACE <col>s still map to the columns they were written
+     for once the middle one is hidden, so those two are the only ones that
+     keep a width — 87px of auto-sized name column broke "Zhangjiajie" across
+     two lines. */
+  .index-table .cw-rank  { width: 30px; }
+  .index-table .cw-place { width: 38%; }
   .index-table .cw-band,
   .index-table .cw-bar { width: auto; }
   .ci-row { justify-content: center; gap: 6px; }
@@ -176,6 +228,8 @@ html { scroll-behavior: smooth; }
      number are what a phone keeps. */
   .index-table th.col-band, .index-table td.col-band { display: none; }
   .ci-bar { min-width: 40px; }
+  .ci-rank { width: 22px; height: 22px; font-size: 10px; }
+  .ci-basket { grid-template-columns: 1fr; }
 }
 @media (prefers-color-scheme: dark) {
   .index-table tbody tr.ci-city:hover td { background: rgba(212,102,58,.16); box-shadow: inset 0 1px 0 rgba(212,102,58,.25), inset 0 -1px 0 rgba(212,102,58,.25); }
@@ -228,6 +282,14 @@ html { scroll-behavior: smooth; }
 <div id="toolbar-mount" data-depth="2" data-maxwidth="940" data-updated="2026-08-22"></div>
 <script src="/assets/toolbar.js?v=127"></script>
 
+<!-- Site icon catalogue (Brain/Reference/Formatting/Site-Icons.html) for the
+     expanded "what drives it" bento tiles below. 1217 house (Rent) ·
+     1211 restaurant fork & knife (Eating out) · 344 fruit bowl (Groceries).
+     toolbar.js already injects #gm-i-coin globally — this defs block only
+     adds the three the page draws on its own. -->
+<style>:root{--c-tire:#3a332e;--c-stone:#a89c8e;--c-paper:#fff;--c-cream:#f6ecdb;--c-tan:#fca240;--c-cocoa:#8a3d0c;--c-rust:#e25100;--c-clay:#ff661d;--c-red:#ff200c;--c-rose:#ff3d7a;--c-plum:#ad29e5;--c-sun:#ffc110;--c-amber:#ff7c08;--c-green:#4ad017;--c-leaf:#2f9106;--c-teal:#01d5bc;--c-blue:#0982ec;--c-navy:#0d4a86;--c-sky:#3dbaff;--c-grape:#6b2fa0;--c-wine:#8c1a10;--c-pine:#14663c;--c-slate:#566b7a;--c-paper-shade:#dad4cb;--c-cream-shade:#e0d7c7;--c-rim-warm:#c25a20;--c-rim-cool:#93a4b2;--c-tire-shade:#171412;--c-tire-rim:#26221e;--c-stone-shade:#80776c;--c-stone-rim:#6f675e;--c-tan-shade:#c57e32;--c-tan-rim:#a66b2a;--c-cocoa-shade:#572608;--c-cocoa-rim:#5b2808;--c-rust-shade:#a73c00;--c-rust-rim:#953500;--c-clay-shade:#c24e16;--c-clay-rim:#a84313;--c-red-shade:#bf1809;--c-red-rim:#a81508;--c-rose-shade:#bf2e5b;--c-rose-rim:#a82851;--c-plum-shade:#7d1ea5;--c-plum-rim:#721b97;--c-sun-shade:#c7970c;--c-sun-rim:#a87f0b;--c-amber-shade:#c45f06;--c-amber-rim:#a85205;--c-green-shade:#3aa212;--c-green-rim:#31890f;--c-leaf-shade:#236b04;--c-leaf-rim:#1f6004;--c-teal-shade:#01a693;--c-teal-rim:#018d7c;--c-blue-shade:#0760af;--c-blue-rim:#06569c;--c-navy-shade:#072a4c;--c-navy-rim:#093158;--c-sky-shade:#2f8fc4;--c-sky-rim:#287ba8;--c-grape-shade:#401c60;--c-grape-rim:#471f6a;--c-wine-shade:#4e0f09;--c-wine-rim:#5c110a;--c-pine-shade:#0d4227;--c-pine-rim:#0d4327;--c-slate-shade:#3c4b55;--c-slate-rim:#394751}.gm-i{width:1.2em;height:1.2em;vertical-align:-.25em;display:inline-block}</style>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs><linearGradient id="gm-gloss" x1="0" y1="0" x2="0.55" y2="1"><stop offset="0" stop-color="#fff" stop-opacity="0.46"/><stop offset="0.42" stop-color="#fff" stop-opacity="0.14"/><stop offset="1" stop-color="#fff" stop-opacity="0"/></linearGradient><radialGradient id="sph-black" cx="40%" cy="34%" r="82%"><stop offset="0%" stop-color="#7a7a7a"/><stop offset="46%" stop-color="#2c2c2c"/><stop offset="100%" stop-color="#040404"/></radialGradient><radialGradient id="sph-black-b" cx="50%" cy="90%" r="42%"><stop offset="0%" stop-color="#7a7a7a" stop-opacity="0.34"/><stop offset="100%" stop-color="#7a7a7a" stop-opacity="0"/></radialGradient><radialGradient id="sph-blue" cx="40%" cy="34%" r="82%"><stop offset="0%" stop-color="#95cbf2"/><stop offset="46%" stop-color="#2c80c9"/><stop offset="100%" stop-color="#123f68"/></radialGradient><radialGradient id="sph-blue-b" cx="50%" cy="90%" r="42%"><stop offset="0%" stop-color="#95cbf2" stop-opacity="0.34"/><stop offset="100%" stop-color="#95cbf2" stop-opacity="0"/></radialGradient><radialGradient id="sph-brown" cx="40%" cy="34%" r="82%"><stop offset="0%" stop-color="#d5a677"/><stop offset="46%" stop-color="#95603a"/><stop offset="100%" stop-color="#4a2d1d"/></radialGradient><radialGradient id="sph-brown-b" cx="50%" cy="90%" r="42%"><stop offset="0%" stop-color="#d5a677" stop-opacity="0.34"/><stop offset="100%" stop-color="#d5a677" stop-opacity="0"/></radialGradient><radialGradient id="sph-green" cx="40%" cy="34%" r="82%"><stop offset="0%" stop-color="#a6e473"/><stop offset="46%" stop-color="#57b334"/><stop offset="100%" stop-color="#2a6a17"/></radialGradient><radialGradient id="sph-green-b" cx="50%" cy="90%" r="42%"><stop offset="0%" stop-color="#a6e473" stop-opacity="0.34"/><stop offset="100%" stop-color="#a6e473" stop-opacity="0"/></radialGradient><radialGradient id="sph-grey" cx="40%" cy="34%" r="82%"><stop offset="0%" stop-color="#dedbd6"/><stop offset="46%" stop-color="#98928a"/><stop offset="100%" stop-color="#4a4641"/></radialGradient><radialGradient id="sph-grey-b" cx="50%" cy="90%" r="42%"><stop offset="0%" stop-color="#dedbd6" stop-opacity="0.34"/><stop offset="100%" stop-color="#dedbd6" stop-opacity="0"/></radialGradient><radialGradient id="sph-orange" cx="40%" cy="34%" r="82%"><stop offset="0%" stop-color="#ffb75f"/><stop offset="46%" stop-color="#ef7d18"/><stop offset="100%" stop-color="#8f4408"/></radialGradient><radialGradient id="sph-orange-b" cx="50%" cy="90%" r="42%"><stop offset="0%" stop-color="#ffb75f" stop-opacity="0.34"/><stop offset="100%" stop-color="#ffb75f" stop-opacity="0"/></radialGradient><radialGradient id="sph-pink" cx="40%" cy="34%" r="82%"><stop offset="0%" stop-color="#ffadc7"/><stop offset="46%" stop-color="#e76890"/><stop offset="100%" stop-color="#88304e"/></radialGradient><radialGradient id="sph-pink-b" cx="50%" cy="90%" r="42%"><stop offset="0%" stop-color="#ffadc7" stop-opacity="0.34"/><stop offset="100%" stop-color="#ffadc7" stop-opacity="0"/></radialGradient><radialGradient id="sph-plum" cx="40%" cy="34%" r="82%"><stop offset="0%" stop-color="#d8abe4"/><stop offset="46%" stop-color="#9a58b6"/><stop offset="100%" stop-color="#523067"/></radialGradient><radialGradient id="sph-plum-b" cx="50%" cy="90%" r="42%"><stop offset="0%" stop-color="#d8abe4" stop-opacity="0.34"/><stop offset="100%" stop-color="#d8abe4" stop-opacity="0"/></radialGradient><radialGradient id="sph-teal" cx="40%" cy="34%" r="82%"><stop offset="0%" stop-color="#84e4d8"/><stop offset="46%" stop-color="#26a596"/><stop offset="100%" stop-color="#0f5f58"/></radialGradient><radialGradient id="sph-teal-b" cx="50%" cy="90%" r="42%"><stop offset="0%" stop-color="#84e4d8" stop-opacity="0.34"/><stop offset="100%" stop-color="#84e4d8" stop-opacity="0"/></radialGradient><radialGradient id="sph-white" cx="40%" cy="34%" r="82%"><stop offset="0%" stop-color="#ffffff"/><stop offset="46%" stop-color="#efebe5"/><stop offset="100%" stop-color="#aea79e"/></radialGradient><radialGradient id="sph-white-b" cx="50%" cy="90%" r="42%"><stop offset="0%" stop-color="#ffffff" stop-opacity="0.34"/><stop offset="100%" stop-color="#ffffff" stop-opacity="0"/></radialGradient><radialGradient id="sph-yellow" cx="40%" cy="34%" r="82%"><stop offset="0%" stop-color="#ffe886"/><stop offset="46%" stop-color="#f3c02e"/><stop offset="100%" stop-color="#a2740a"/></radialGradient><radialGradient id="sph-yellow-b" cx="50%" cy="90%" r="42%"><stop offset="0%" stop-color="#ffe886" stop-opacity="0.34"/><stop offset="100%" stop-color="#ffe886" stop-opacity="0"/></radialGradient><radialGradient id="sph-red" cx="40%" cy="34%" r="82%"><stop offset="0%" stop-color="#ff8878"/><stop offset="46%" stop-color="#e03a2b"/><stop offset="100%" stop-color="#8a1a11"/></radialGradient><radialGradient id="sph-red-b" cx="50%" cy="90%" r="42%"><stop offset="0%" stop-color="#ff8878" stop-opacity="0.34"/><stop offset="100%" stop-color="#ff8878" stop-opacity="0"/></radialGradient><linearGradient id="gm-sheen" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#fff" stop-opacity="0.30"/><stop offset="0.55" stop-color="#fff" stop-opacity="0.06"/><stop offset="1" stop-color="#fff" stop-opacity="0"/></linearGradient><linearGradient id="gm-amber" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="var(--c-amber)"/><stop offset="1" stop-color="var(--c-amber-shade)"/></linearGradient><linearGradient id="gm-blue" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="var(--c-blue)"/><stop offset="1" stop-color="var(--c-blue-shade)"/></linearGradient><linearGradient id="gm-clay" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="var(--c-clay)"/><stop offset="1" stop-color="var(--c-clay-shade)"/></linearGradient><linearGradient id="gm-cocoa" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="var(--c-cocoa)"/><stop offset="1" stop-color="var(--c-cocoa-shade)"/></linearGradient><linearGradient id="gm-grape" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="var(--c-grape)"/><stop offset="1" stop-color="var(--c-grape-shade)"/></linearGradient><linearGradient id="gm-wine" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="var(--c-wine)"/><stop offset="1" stop-color="var(--c-wine-shade)"/></linearGradient><linearGradient id="gm-pine" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="var(--c-pine)"/><stop offset="1" stop-color="var(--c-pine-shade)"/></linearGradient><linearGradient id="gm-slate" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="var(--c-slate)"/><stop offset="1" stop-color="var(--c-slate-shade)"/></linearGradient><linearGradient id="gm-green" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="var(--c-green)"/><stop offset="1" stop-color="var(--c-green-shade)"/></linearGradient><linearGradient id="gm-leaf" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="var(--c-leaf)"/><stop offset="1" stop-color="var(--c-leaf-shade)"/></linearGradient><linearGradient id="gm-navy" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="var(--c-navy)"/><stop offset="1" stop-color="var(--c-navy-shade)"/></linearGradient><linearGradient id="gm-plum" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="var(--c-plum)"/><stop offset="1" stop-color="var(--c-plum-shade)"/></linearGradient><linearGradient id="gm-red" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="var(--c-red)"/><stop offset="1" stop-color="var(--c-red-shade)"/></linearGradient><linearGradient id="gm-rose" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="var(--c-rose)"/><stop offset="1" stop-color="var(--c-rose-shade)"/></linearGradient><linearGradient id="gm-rust" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="var(--c-rust)"/><stop offset="1" stop-color="var(--c-rust-shade)"/></linearGradient><linearGradient id="gm-sky" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="var(--c-sky)"/><stop offset="1" stop-color="var(--c-sky-shade)"/></linearGradient><linearGradient id="gm-stone" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="var(--c-stone)"/><stop offset="1" stop-color="var(--c-stone-shade)"/></linearGradient><linearGradient id="gm-sun" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="var(--c-sun)"/><stop offset="1" stop-color="var(--c-sun-shade)"/></linearGradient><linearGradient id="gm-tan" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="var(--c-tan)"/><stop offset="1" stop-color="var(--c-tan-shade)"/></linearGradient><linearGradient id="gm-teal" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="var(--c-teal)"/><stop offset="1" stop-color="var(--c-teal-shade)"/></linearGradient><linearGradient id="gm-tire" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="var(--c-tire)"/><stop offset="1" stop-color="var(--c-tire-shade)"/></linearGradient><linearGradient id="gm-paper" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="var(--c-paper)"/><stop offset="1" stop-color="var(--c-paper-shade)"/></linearGradient><linearGradient id="gm-cream" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="var(--c-cream)"/><stop offset="1" stop-color="var(--c-cream-shade)"/></linearGradient><symbol id="gm-i-1217" viewBox="0 0 24 24"><path d="M12 2 L23 11 H1Z" fill="url(#gm-rust)" stroke="var(--c-rust-rim)" stroke-width="0.5"/><path d="M12 2 L23 11 H1Z" fill="url(#gm-gloss)"/><rect x="2" y="10.5" width="20" height="1" fill="url(#gm-clay)" stroke="var(--c-clay-rim)" stroke-width="0.5"/><rect x="3" y="11" width="18" height="11" fill="url(#gm-clay)" stroke="var(--c-clay-rim)" stroke-width="0.5"/><path d="M10 22 V18 Q10 15.5 12 15.5 Q14 15.5 14 18 V22Z" fill="url(#gm-cocoa)" stroke="var(--c-cocoa-rim)" stroke-width="0.5"/><rect x="4.5" y="13" width="4" height="3.5" rx="0.4" fill="url(#gm-sky)" stroke="var(--c-sky-rim)" stroke-width="0.5"/><rect x="15.5" y="13" width="4" height="3.5" rx="0.4" fill="url(#gm-sky)" stroke="var(--c-sky-rim)" stroke-width="0.5"/></symbol><symbol id="gm-i-1211" viewBox="0 0 24 24"><g fill="url(#gm-blue)" stroke="var(--c-blue-rim)" stroke-width="0.5"><rect x="3.6" y="2" width="1.9" height="7.2" rx="0.95"/><rect x="6.6" y="2" width="1.9" height="7.2" rx="0.95"/><rect x="9.6" y="2" width="1.9" height="7.2" rx="0.95"/><path d="M3.6 7.6h7.9v1.2a3.95 3.95 0 0 1-7.9 0z"/><rect x="6.6" y="10.4" width="1.9" height="11.6" rx="0.95"/></g><g fill="url(#gm-navy)" stroke="var(--c-navy-rim)" stroke-width="0.5"><path d="M17.4 2c2.4 2.4 3.4 5.6 3.4 8.4 0 1.9-1.1 3.1-2.6 3.4v-1.9c.6-.3 1-.9 1-1.5 0-2.1-.7-4.5-1.8-6.4z"/><path d="M15.2 2h2.2v20a1.1 1.1 0 0 1-2.2 0z"/></g></symbol><symbol id="gm-i-344" viewBox="0 0 24 24"><circle cx="8.6" cy="9.4" r="3.0" fill="url(#gm-red)" stroke="var(--c-red-rim)" stroke-width="0.5"/><circle cx="8.6" cy="9.4" r="3.0" fill="url(#gm-gloss)"/><circle cx="13.2" cy="8.2" r="2.8" fill="url(#gm-red)" stroke="var(--c-red-rim)" stroke-width="0.5"/><circle cx="16.6" cy="10.4" r="2.9" fill="url(#gm-green)" stroke="var(--c-green-rim)" stroke-width="0.5"/><circle cx="11.2" cy="11.4" r="2.6" fill="url(#gm-clay)" stroke="var(--c-clay-rim)" stroke-width="0.5"/><circle cx="6" cy="11.6" r="2.2" fill="url(#gm-plum)" stroke="var(--c-plum-rim)" stroke-width="0.5"/><path d="M11.6 5.4c1.2-1.2 2.6-1.6 4.2-1.2-.4 1.6-1.4 2.6-3 3z" fill="url(#gm-leaf)" stroke="var(--c-leaf-rim)" stroke-width="0.5"/><path d="M1.6 12.4h20.8c0 5.2-4.6 9.2-10.4 9.2S1.6 17.6 1.6 12.4z" fill="url(#gm-sky)" stroke="var(--c-sky-rim)" stroke-width="0.5"/><path d="M3.6 12.4h16.8c0 3.4-2.4 6-6 7 3.2-2 4.6-4.2 4.6-7z" fill="url(#gm-paper)" stroke="var(--c-rim-cool)" stroke-width="0.6" opacity="0.45"/></symbol></defs></svg>
+
 <div class="index-section">
   <div class="hero-band">
     <h1 class="hero-title">Average Costs</h1>
@@ -258,8 +320,9 @@ html { scroll-behavior: smooth; }
   <div id="cost-noresult">No place matches that search.</div>
 
   <table class="index-table">
-    <colgroup><col class="cw-place"><col class="cw-band"><col class="cw-bar"></colgroup>
+    <colgroup><col class="cw-rank"><col class="cw-place"><col class="cw-band"><col class="cw-bar"></colgroup>
     <thead><tr>
+      <th aria-label="Rank"></th>
       <th>Place</th>
       <th class="col-band">Cost of living</th>
       <th>Cheap to very expensive</th>
@@ -587,9 +650,12 @@ function bar(idx, band, label) {
      a place specific … use cheap, expensive etc like hotels". The bar is a
      relative shape against the dearest place on the page, which needs no name;
      the tag is the answer. A bare index with nothing to measure it against
-     would have meant nothing anyway. */
+     would have meant nothing anyway. The <em> is a small ringed dot marking
+     exactly where the fill stops — a reading point you can find on the track,
+     not just an edge to eyeball. */
   return '<span class="ci-bar ' + bandClass(band) + '" style="' + trackStyle() +
-         '" role="img" aria-label="' + label + '"><i style="width:' + pct + '%"></i></span>';
+         '" role="img" aria-label="' + label + '"><i style="width:' + pct + '%"></i>' +
+         '<em style="left:' + pct + '%"></em></span>';
 }
 
 function barCell(idx, band) {
@@ -599,24 +665,45 @@ function barCell(idx, band) {
          '<polyline points="9 6 15 12 9 18"></polyline></svg></span></td>';
 }
 
-function rowHTML(r) {
-  return '<td class="ci-name"><a href="' + guideURL(r) + '">' + r[N_NAME] + '</a>' +
+/* Sets the row's local --row-ink/--row-bg/--row-bd from that row's own band
+   family — the rank chip and the hover accent bar both read these, so a
+   Cheap row glows green and a Very expensive one glows purple, with no new
+   hardcoded colour anywhere on the page. */
+function rowVars(band) {
+  var fam = BAND_FAM[band];
+  return 'style="--row-ink:var(--' + fam + '-ink);--row-bg:var(--' + fam + '-bg);--row-bd:var(--' + fam + '-bd)"';
+}
+
+function rowHTML(r, rank) {
+  return '<td class="cw-rank"><span class="ci-rank">' + rank + '</span></td>' +
+         '<td class="ci-name"><a href="' + guideURL(r) + '">' + r[N_NAME] + '</a>' +
            '<span class="ci-country"><span class="ci-flag">' + r[N_FLAG] + '</span>' + r[N_COUNTRY] + '</span></td>' +
          '<td class="col-band">' + tag(r[N_BAND]) + '</td>' +
          barCell(r[N_IDX], r[N_BAND]);
 }
 
+/* One catalogue icon per basket driver — Rent (house #1217), Eating out
+   (fork & knife #1211), Groceries (fruit bowl #344). The defs live once near
+   the top of <body>; every basket tile just <use>s one of the three. */
+var BASKET_ICON = { 'Rent': 1217, 'Eating out': 1211, 'Groceries': 344 };
+
 function detailHTML(r) {
-  var out = '<td colspan="3">';
+  var out = '<td colspan="4">';
   if (r[N_EV] && r[N_EV].length) {
-    out += '<table class="ci-basket"><thead><tr><th>What drives it</th>' +
-           '<th>Here</th><th></th></tr></thead><tbody>';
+    out += '<div class="ci-basket">';
     r[N_EV].forEach(function (e) {
       var b = bandOf(e[1]);
-      out += '<tr><td>' + e[0] + '</td><td>' + tag(b) + '</td>' +
-             '<td class="ci-basket-bar">' + bar(e[1], b, e[0] + ': ' + b) + '</td></tr>';
+      var icon = BASKET_ICON[e[0]];
+      out += '<div class="ci-basket-tile">' +
+               '<div class="ci-basket-head">' +
+                 (icon ? '<svg class="gm-i" viewBox="0 0 24 24" aria-hidden="true"><use href="#gm-i-' + icon + '"/></svg>' : '') +
+                 '<span class="ci-basket-label">' + e[0] + '</span>' +
+               '</div>' +
+               tag(b) +
+               bar(e[1], b, e[0] + ': ' + b) +
+             '</div>';
     });
-    out += '</tbody></table>';
+    out += '</div>';
   }
   /* Say whose prices these are. A stand-in that does not name itself is the
      one thing this page must never do. */
@@ -648,11 +735,12 @@ function render() {
   var list = sorted(visible());
   var tb = document.getElementById('cost-tbody');
   tb.innerHTML = '';
-  list.forEach(function (r) {
+  list.forEach(function (r, i) {
     var tr = document.createElement('tr');
     tr.className = 'ci-city';
     tr.setAttribute('aria-expanded', 'false');
-    tr.innerHTML = rowHTML(r);
+    tr.setAttribute('style', rowVars(r[N_BAND]));
+    tr.innerHTML = rowHTML(r, i + 1);
     var dt = document.createElement('tr');
     dt.className = 'ci-detail';
     dt.hidden = true;
@@ -665,6 +753,7 @@ function render() {
     tb.appendChild(tr);
     tb.appendChild(dt);
   });
+  revealRows();
 
   document.getElementById('cost-noresult').style.display = list.length ? 'none' : 'block';
 
@@ -686,6 +775,39 @@ function render() {
   if (state.q && cheapest[N_BAND] !== dearest[N_BAND]) {
     sum.innerHTML += ' · spans ' + cheapest[N_BAND] + ' to ' + dearest[N_BAND];
   }
+}
+
+/* Scroll-reveal for the leaderboard rows. VISIBLE BY DEFAULT — this only
+   opts a row INTO the hidden .pre-reveal state, and only once
+   IntersectionObserver exists and motion isn't reduced. A hard 900ms timeout
+   strips .pre-reveal from every row in this render() pass regardless of
+   whether the observer ever fired, so a stalled observer costs only the
+   fade-in, never the row itself. Same reasoning as the scams page: tested
+   live that IntersectionObserver callbacks can silently never fire in a
+   throttled/automated browser context, and this page re-renders its whole
+   tbody on every filter/sort/search — an opacity:0-by-default row would risk
+   going permanently blank on every single interaction, not just page load. */
+var reduceMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+var revealIO = ('IntersectionObserver' in window && !reduceMotion)
+  ? new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) {
+        if (!entry.isIntersecting) return;
+        entry.target.classList.remove('pre-reveal');
+        revealIO.unobserve(entry.target);
+      });
+    }, { rootMargin: '0px 0px -30px 0px' })
+  : null;
+
+function revealRows() {
+  if (!revealIO) return;
+  var rows = document.querySelectorAll('#cost-tbody tr.ci-city');
+  rows.forEach(function (r) {
+    r.classList.add('pre-reveal');
+    revealIO.observe(r);
+  });
+  setTimeout(function () {
+    rows.forEach(function (r) { r.classList.remove('pre-reveal'); });
+  }, 900);
 }
 
 function bindGroup(sel, apply) {

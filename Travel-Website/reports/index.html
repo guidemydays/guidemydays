@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Reports — Guide My Days Hub</title>
-<!-- built: 2026-08-24 04:24 UTC | backlog: 148 | scouting-open: 46 -->
+<!-- built: 2026-08-24 09:01 UTC | backlog: 148 | scouting-open: 46 -->
 <style>
   :root{ --bg:#f6f2ec; --surface:#fffdf9; --surface2:#f1ece3; --ink:#2f2a22; --muted:#736c60; --faint:#a49b8c; --line:#e4ddd0;
     --rust:#b0501f; --open:#b23a22; --partial:#a86f16; --unsure:#7a7368; --pending:#1a4d8c;
@@ -262,14 +262,14 @@
     <div class="stat s-open"><b>144</b><span>Open</span></div>
     <div class="stat s-partial"><b>4</b><span>Partial</span></div>
     <div class="stat s-unsure"><b>0</b><span>Unsure</span></div>
-    <div class="stat s-pending"><b>18</b><span>Pending approval</span></div>
+    <div class="stat s-pending"><b>4</b><span>Pending approval</span></div>
   </div>
   <div class="controls">
     <button onclick="document.querySelectorAll('.tile').forEach(t=>t.open=true)">Expand all tiles</button>
     <button onclick="document.querySelectorAll('.tile').forEach(t=>t.open=false)">Collapse all tiles</button>
   </div>
 </header>
-<nav class="nav"><a href="#mobile-ux" class="navchip">📱 Mobile UX <span class="navcount">13</span></a><a href="#ux-desktop" class="navchip">🖥️ UX/Desktop <span class="navcount">3</span></a><a href="#layout" class="navchip">📐 Layout <span class="navcount">8</span></a><a href="#new-features" class="navchip">🆕 New Features <span class="navcount">56</span></a><a href="#new-pages" class="navchip">📄 New Pages <span class="navcount">68</span></a><a href="#rules-change-approval" class="navchip">⚖️ Rules Change Approval <span class="navcount">18</span></a><a href="#new-guides" class="navchip">🗺️ New Guides <span class="navcount">46</span></a><a href="#guide-drift-log" class="navchip">🔍 Guide Drift Log</a><a href="#photo-audit-log" class="navchip">📸 Photo Audit Log</a><a href="#ux-research-log" class="navchip">🎨 UX Research Log</a><a href="#validator-audit" class="navchip">✅ Validator Audit</a><a href="#section-coverage" class="navchip">📊 Section Coverage</a></nav>
+<nav class="nav"><a href="#mobile-ux" class="navchip">📱 Mobile UX <span class="navcount">13</span></a><a href="#ux-desktop" class="navchip">🖥️ UX/Desktop <span class="navcount">3</span></a><a href="#layout" class="navchip">📐 Layout <span class="navcount">8</span></a><a href="#new-features" class="navchip">🆕 New Features <span class="navcount">56</span></a><a href="#new-pages" class="navchip">📄 New Pages <span class="navcount">68</span></a><a href="#rules-change-approval" class="navchip">⚖️ Rules Change Approval <span class="navcount">4</span></a><a href="#new-guides" class="navchip">🗺️ New Guides <span class="navcount">46</span></a><a href="#guide-drift-log" class="navchip">🔍 Guide Drift Log</a><a href="#photo-audit-log" class="navchip">📸 Photo Audit Log</a><a href="#ux-research-log" class="navchip">🎨 UX Research Log</a><a href="#validator-audit" class="navchip">✅ Validator Audit</a><a href="#section-coverage" class="navchip">📊 Section Coverage</a></nav>
 
   <section class="cat" id="mobile-ux">
     <button class="cathead" onclick="this.parentElement.classList.toggle('collapsed')">
@@ -2238,7 +2238,7 @@
   <section class="cat" id="rules-change-approval">
     <button class="cathead" onclick="this.parentElement.classList.toggle('collapsed')">
       <span class="catname">⚖️ Rules Change Approval</span>
-      <span class="catcount">18</span>
+      <span class="catcount">4</span>
       <span class="catchev">&rsaquo;</span>
     </button>
     <div class="catbody">
@@ -2267,172 +2267,12 @@
       <details class="tile">
         <summary>
           <span class="tstatus st-pending">PENDING</span>
-          <span class="ttitle">HOTEL_ALT_DATA: allow a TripAdvisor url for hotels that are not sold on Booking.com?</span>
-          <span class="chev">&rsaquo;</span>
-        </summary>
-        <div class="tbody">
-          <p class="tdetail">The 2026-08-06 rule requires every HOTEL_ALT_DATA entry to carry url: &#x27;https://www.booking.com/hotel/{cc}/{slug}.html&#x27;. Backfilling the 320 pre-rule entries (9e9ffcc0, b8cc7da6 — 151 fixed, 169 left) surfaced a class the rule has no answer for. TWICE-CORRECTED SIZE ESTIMATE, because the first two versions of this entry were both too pessimistic: the Booking.com connector is availability-gated and drops sold-out properties silently, AND it misses listings that plainly exist — Risorgimento Resort in Lecce was reported unresolved by the connector but has a clean page at booking.com/hotel/it/risorgimento-resort.html, found in one `site:booking.com` web search. So before any rule change, re-sweep the remaining entries with `site:booking.com` WebSearch rather than the connector; that alone will resolve most of them. The genuinely-absent set is real but small — verified absent by independent search: Tawaraya Ryokan (Kyoto) and Aman Venice both return no Booking.com listing, only same-name properties elsewhere. Those are hotels that sell direct or through Relais &amp; Châteaux / Leading Hotels and refuse OTA inventory. THE ACTUAL QUESTION for that remainder: TripAdvisor carries every one of them and is a connector here (hotel_details / search_hotels), not a scrape — direct fetch returns 403, but the connector returns a canonical hotel.absoluteUrl of the form https://www.tripadvisor.com/Hotel_Review-g{geo}-d{id}-Reviews-{Name}-{Location}.html. Verified against the hardest cases: Sandy Lane (g147265-d148703), Aman Venice (g187870-d4781648), Tawaraya Ryokan (g298564-d310306), Amanpulo (g13370553-d306043), Villa d&#x27;Este (g194728-d197757). TripAdvisor is a review index rather than a booking channel, so its coverage does not depend on whether a hotel sells inventory. Expedia was tested and is the weakest of the three: it has no hotel-name lookup (only a geo `destination`, so searching &#x27;Sandy Lane, Saint James, Barbados&#x27; returned three unrelated nearby properties), its URLs are opaque numeric IDs carrying an affiliate tag tied to this integration (expedia.com/.h7083074.Hotel-Information?...&amp;SEOCID=...), and being an OTA it is missing exactly the same hotels Booking.com is. Options: (a) allow a TripAdvisor Hotel_Review url as a documented fallback when the property has no Booking.com listing — requires widening the FINAL GATE regex in validate_itinerary.py, which matches booking.com only, and stripping the ?staydates=/&amp;uguests=/&amp;m= query string; (b) allow the hotel&#x27;s official site, weaker because it carries no reviews or price signal; (c) keep Booking-only and replace those hotels with bookable alternatives. Note that (a) also needs a decision on the note text, since a &#x27;N.N Booking.com&#x27; score cannot stand on an entry linking TripAdvisor (see Rule 810). Related content bugs found in the same pass: kauai names &#x27;St. Regis Princeville Resort&#x27;, which rebranded to 1 Hotel Hanalei Bay in 2022 and already exists as a separate entry on the same slug, so that slug lists one hotel twice; frankfurt names &#x27;Villa Kennedy&#x27; and &#x27;Hotel Hessischer Hof&#x27;, both permanently closed; bend names &#x27;Lara House Lodge&#x27;, which Yelp has marked closed since September 2025.</p>
-          <div class="tmeta"><span class="badge tgt">Brain/CORE RULES + validate_itinerary.py FINAL GATE regex + toolbar.js HOTEL_ALT_DATA</span><span class="badge src">hotel-url backfill, 2026-08-09</span></div>
-        </div>
-      </details>
-      <details class="tile">
-        <summary>
-          <span class="tstatus st-pending">PENDING</span>
-          <span class="ttitle">Some cities have no ladder brand at all — Ålesund has none, and the § 4 rentals fallback does not cover it</span>
-          <span class="chev">&rsaquo;</span>
-        </summary>
-        <div class="tbody">
-          <p class="tdetail">Found while running hotel-rehome on guides 1-20. Ålesund (guide 4) was searched across all three required channels for the whole city, not just the centre: Trivago returned 25 properties, TripAdvisor 11 with totalCount 11 (i.e. its entire inventory), Booking 7 hotels. The city carries NO Marriott, Hilton, Hyatt, NH Collection, Meliá, Novotel, Sofitel, Pullman or InterContinental property, and no second-tier Radisson Blu. Every hotel in Ålesund is Thon, Scandic, Quality/Strawberry, or independent. hotel_rules.html § 3 therefore cannot be satisfied at any rank — this is not a crib failing to look hard enough, it is a city with no listed brand in it.
-
-§ 4 is the documented escape hatch, and it does not close the gap either. The qualifying entire-home listings in central Ålesund are all Airbnb LISTING TITLES rather than named properties — the strongest is &#x27;Penthouse apartment in the city center with free parking.&#x27; at 9.6 with 534 reviews, 0.3 km from the centre — and none carries a verifiable street address. The two rentals already shipped on title cards (Bend → Sunriver Rental, Sintra → Villa Bela Vista) are named properties with addresses; an Airbnb headline is not, and a reader could not find it. The one Booking-listed serviced apartment with a real address, Aalesund City Apartment at Storgata 24, scores 8.2 and fails the § 4 4.5+ gate.
-
-So the guide is parked on Hotel Brosundet (Apotekergata 1-5 · Sentrum — 9.1 Trivago / 4.4 TripAdvisor / 8.9 Booking), the best property in the city and off-list. Rule 811 will keep flagging it forever, and the same wall will come up in every small Nordic and regional market the fleet covers.
-
-THREE WAYS OUT, all owner calls:
-1. A documented no-ladder-brand-in-this-city exemption — the guide keeps the best local independent, and Rule 811 learns to skip a city on an explicit allow-list rather than reporting it every run.
-2. Widen the ladder regionally. Thon and Scandic are the Nordic equivalents of the listed chains — both are full chains with 24h reception as a brand standard, which is the property the ladder is really selecting for. This would be a § 3 edit adding a regional tier, not a global loosening.
-3. Allow an Airbnb listing title on a title card, accepting that the name is not a findable property and the listing can disappear.
-
-A crib cannot pick between these: option 1 and 2 are CORE RULES edits and option 3 changes what a title card means. Until it is decided, hotel-rehome will log each such city to the To Do List under ### hotel-alts and leave the guide on its existing hotel.</p>
-          <div class="tmeta"><span class="badge tgt">Brain/CORE RULES/hotel_rules.html § 3 and § 4 + brain_check.check_guide_primary_hotel_on_brand_ladder (Rule 811) + Travel-Website/Guides/Alesund/</span><span class="badge src">hotel-rehome guides 1-20, 2026-08-10</span></div>
-        </div>
-      </details>
-      <details class="tile">
-        <summary>
-          <span class="tstatus st-pending">PENDING</span>
-          <span class="ttitle">Vaccines.html lost its colour-coded status legend, but still shows the statuses it explained</span>
-          <span class="chev">&rsaquo;</span>
-        </summary>
-        <div class="tbody">
-          <p class="tdetail">Commit 82ff94bf — whose subject is &#x27;ui(guides): stop-action icons speak one language&#x27;, i.e. a GUIDES change — also removed 26 lines of .tleg legend CSS from /essentials/vaccines/ and added nothing back. The page now uses plain .rpill filter chips instead. The data that legend explained is still on the page: &#x27;Required&#x27; appears 16 times and &#x27;Recommended&#x27; 83, so a reader sees the statuses with nothing telling them what the colours meant. brain_check&#x27;s badge registry still describes the .tleg family, which produced five hard failures per run — enough on its own to flip the whole check to &#x27;integrity FAILED&#x27; and block every crib on an unrelated page&#x27;s edit. That is now a single WARN instead (2026-08-11), and the registry entry is kept so the spec survives. The owner decision is which way to close it: restore the legend, or drop the registry entry because plain chips are the intended look now.</p>
-          <div class="tmeta"><span class="badge tgt">Travel-Website//essentials/vaccines/, Brain/scripts/brain_check.py (badge registry)</span><span class="badge src">crib 2026-08-11 (validator pass)</span></div>
-        </div>
-      </details>
-      <details class="tile">
-        <summary>
-          <span class="tstatus st-pending">PENDING</span>
-          <span class="ttitle">The venue day-coverage gate still reads stop-blocks only — the 814 bad rows are fixed, but nothing stops the next guide reintroducing them</span>
-          <span class="chev">&rsaquo;</span>
-        </summary>
-        <div class="tbody">
-          <p class="tdetail">STATUS 2026-08-11: the DATA is fixed. Commit 1566a192 swept missing closed-day rows into 199 guides, and a fleet re-check over all 1,437 boxes that now carry both a 🏛 and a 🚫 row finds zero with a day on both sides and zero with a gap. Turin&#x27;s Costadoro — the hard case, an entry splitting weekday and weekend hours across two 🏛 rows — is correctly left with no closed row.
-
-WHAT IS STILL OPEN, and it is the part that matters: the gate itself is unchanged. &#x27;Venue days fully covered&#x27; walks stop-block .ticket-box / .tour-box divs and does not walk .entry-body, which is what every extras section uses. So the 814 entries were only ever found by hand, and nothing prevents the next guide build — or the next crib editing an hours row — from reintroducing the defect silently. Lima proved that: commit e4b3a41d deleted the closed-day row from five restaurants and the guide validated 892/0 before and after.
-
-THE DECISION: extend the gate to .entry-body, or don&#x27;t. Now that the fleet is clean the cost objection is gone — the sweep that would have turned 183 guides red has already run, so turning the check on should be close to a no-op. The remaining question is whether a closed-day row is genuinely REQUIRED in extras sections or merely conventional; if it is conventional, the Extra Section specs should say so and this can be closed instead.
-
-Brain/scripts/fill_closed_day_rows.py exists either way — it derives the row from the hours already on the page, never researches one, and is what verified the fleet above.</p>
-          <div class="tmeta"></div>
-        </div>
-      </details>
-      <details class="tile">
-        <summary>
-          <span class="tstatus st-pending">PENDING</span>
-          <span class="ttitle">Nine practical pages are reachable only from sibling pages — the toolbar retirement left them off every nav surface</span>
-          <span class="chev">&rsaquo;</span>
-        </summary>
-        <div class="tbody">
-          <p class="tdetail">Found while repointing the validators after the 2026-08-16 URL migration. Three checks hard-fail because the pages they protect sit on NO nav-level surface: check_toolbar_safety_order (insurance, mistakes, scams), check_toolbar_lounges_in_flights (lounges-us, lounges-europe) and check_toolbar_flights_before_trains (flights, trains). Each check&#x27;s fallback reads the landing page, and the landing page no longer links them.
-
-This is NOT drift from the URL migration — the pages moved correctly and all resolve. It dates from the 2026-08-14 toolbar retirement, when the bar went from dropdowns to five plain links and these dropdown children lost their only nav entry. They are still reachable, but only by already being on a related essentials page (tap-water links vaccines, flights links lounges) or via website-digram-tree.html, which is an internal index.
-
-Not actioned here: the Nineteenth non-negotiable forbids a crib adding toolbar entries, and where these pages should live is a navigation decision, not a repair. Options: (a) leave as-is and soften the three checks to reachable-from-anywhere; (b) surface them on Before You Go, which is already a tab and already carries safety, vaccines and tap-water; (c) give them a home on the landing page.
-
-Until decided, brain_check reports 3 failures that are accurate and cannot be fixed by a crib.</p>
-          <div class="tmeta"><span class="badge tgt">Travel-Website/assets/toolbar.js (ITEMS) + Travel-Website/index.html + before-you-go/index.html + brain_check.check_toolbar_safety_order / check_toolbar_lounges_in_flights / check_toolbar_flights_before_trains</span><span class="badge src">URL migration repair, 2026-08-16</span></div>
-        </div>
-      </details>
-      <details class="tile">
-        <summary>
-          <span class="tstatus st-pending">PENDING</span>
-          <span class="ttitle">Travel-Website/index.html (landing page) has no routine owner -- Destination Finder, Trip Resources block, and landing tiles are unwatched</span>
-          <span class="chev">&rsaquo;</span>
-        </summary>
-        <div class="tbody">
-          <p class="tdetail">The 2026-08-16/17 redesign turned Travel-Website/index.html into a feature-rich landing page with three distinct zones: (1) Trip Resources block -- nine closed disclosures listing every essentials/ page, owner of reachability for all 52 essentials pages (also-recommended-audit reads this block to discover which pages to audit, but no routine owns the block itself); (2) Destination Finder -- Help Me Choose, Trip Escape, and Compare tools with complex data lookups (_CLIMATE, COST_DATA, SAFETY_DATA, FMAP) and multi-select filtering across 237 guides (bugs in these tools were found and fixed on 2026-08-17: stale href-shape keys, degrees-F in a degrees-C table, city-only search missing country, Seattle home-base persisting in Compare); (3) five phone-only landing tiles (plug, packing, world map, when-to-go, before-you-go). Currently: also-recommended-audit reads index.html to discover essentials pages but does not own or maintain it; filter-coverage-audit owns guides/index.html (the separate guides index); search-audit owns the Destination Finder search bar wiring. No routine owns the Trip Resources block content, the Destination Finder logic and data, or the landing tiles. The landing page is not in any toolbar group, but it IS the site root reached from the toolbar logo -- so the every-page-not-in-toolbar catch-all (also-recommended-audit) does not clearly apply. Decision needed: assign index.html to an existing routine (filter-coverage-audit scope extension, or also-recommended-audit), or create a new landing-page-audit routine.</p>
-          <div class="tmeta"><span class="badge tgt">Travel-Website/index.html -- Trip Resources block, Destination Finder (Help Me Choose, Trip Escape, Compare), landing tiles</span><span class="badge src">routine-audit, 2026-08-17</span></div>
-        </div>
-      </details>
-      <details class="tile">
-        <summary>
-          <span class="tstatus st-pending">PENDING</span>
-          <span class="ttitle">The dark terracotta fails AA as text on a raised card — --rust on --surface is 4.03:1, and 78 pages use that pair</span>
-          <span class="chev">&rsaquo;</span>
-        </summary>
-        <div class="tbody">
-          <p class="tdetail">Measured 2026-08-18 while working the design audit. The site has exactly two terracottas (Thirty-fifth non-negotiable): #C04E1A light, #D4663A dark. As INK in dark mode #D4663A measures 4.82:1 on --bg (#1a1917) and 4.70:1 on --surface2 (#1e1c1a) — both pass — but only 4.03:1 on --surface (#2a2825) and 4.35:1 on --warm (#242220), and AA needs 4.5 for normal text. So terracotta ink is fine on the page ground and fails on a raised card.
-
-That is why it looks like scattered page bugs rather than one palette gap: most terracotta text happens to sit on --bg. Only the instances on a card fail. Three survive today, all the identical pair, and none of them has a box to recess:
-  · time-zones/index.html  .card-time      22px  the clock on every city card
-  · when-to-go/index.html  .cf-tval        15px  the two temperature values (x2)
-  · essentials/sims/       provider links  13px  &#x27;Airalo&#x27; and its siblings
-  · essentials/festival-finder/ .ff-event-name 13px  every event title (surfaced
-    2026-08-18 when the page stopped opening blank — the colour was always there,
-    but with nothing rendered there was nothing to measure)
-
-Where the element DOES have its own box the fix is already in-system and shipped: give it --surface2 in dark, which is what .cont-btn.on has always done and what .cf-mon.on, .sun-mon.on and .cf-seg button.on now do (commits a3b3cc5c, 335b2830). Bare inline text has no such lever.
-
-This needs an owner decision because the scope is the palette, not the pages: 78 pages and 45 shared-CSS rules use `color: var(--rust)`, and a crib inventing a third terracotta across them is exactly what the Thirty-fifth non-negotiable exists to stop. Three options, cheapest first:
-  1. A lighter dark-mode ink used ONLY for terracotta text — e.g. #E0805A (5.59:1 on --warm,      5.18 on --surface). One new token, no change to fills or rims, which stay #D4663A.
-  2. Darken dark --surface from #2a2825 toward #232120 (#D4663A reaches ~4.5). One token, but      it moves every card on the site.
-  3. Accept it and mark these three as intentional. Not recommended: the clock face on Time      Zones is the page&#x27;s primary data.
-
-Whatever is chosen, the value belongs in web-travel-style.css and the Thirty-fifth non-negotiable moves in the same commit.</p>
-          <div class="tmeta"><span class="badge tgt">[&#x27;Travel-Website/assets/web-travel-style.css&#x27;, &#x27;Travel-Website/time-zones/index.html&#x27;, &#x27;Travel-Website/when-to-go/index.html&#x27;, &#x27;Travel-Website/essentials/sims/index.html&#x27;, &#x27;CLAUDE.md (Thirty-fifth non-negotiable)&#x27;, &#x27;Travel-Website/essentials/festival-finder/index.html&#x27;]</span><span class="badge src">design-audit 2026-08-18</span></div>
-        </div>
-      </details>
-      <details class="tile">
-        <summary>
-          <span class="tstatus st-pending">PENDING</span>
-          <span class="ttitle">CLAUDE.md is 247 KB read every session — which of the 52 non-negotiables could become a pointer now that validators enforce them?</span>
-          <span class="chev">&rsaquo;</span>
-        </summary>
-        <div class="tbody">
-          <p class="tdetail">The read-pile problem is FIXED for everything a crib can fix without touching content. Phase 0–5 went from 36 documents / 3,055,769 B / ~764k tokens to 9 documents / 533,133 B / ~133k tokens — 83% removed, and it now sits at 0.67x a 200k window instead of 3.8x.
-
-How, with no rule changed: the pile was mostly ARTWORK, three times over. Site-Icons.html is 77.3% raw &lt;path&gt; data (→ icon_find.py, 11,821x smaller). Icon Order and Format is 195 KB of which 136 KB is inline SVG, and Toolbar.html is 66 sections when a build needs two (→ spec_find.py, 24x smaller per section). Rules for Claude.html carried 123 inline SVG blocks but only 21 unique drawings, one repeated 54 times — deduplicated to &lt;use&gt; references, 232 KB → 184 KB, verified by a 28,130,300-pixel full-page diff returning zero differences. The rest was sequencing: the extra-section specs are now read one at a time immediately before writing that section, not all 17 upfront for sections the city may not ship.
-
-WHAT IS LEFT IS A CONTENT DECISION, AND ONLY THE OWNER CAN MAKE IT. CLAUDE.md is 247,060 B (~62k tokens) and is read every session before any task starts. It was measured and deliberately left alone: it contains no artwork to strip, and only 0.6% of it appears verbatim in Rules for Claude.html, so there is no duplication to remove. What remains is 52 non-negotiables plus the reasoning behind them — and that reasoning is load-bearing. The file argues repeatedly, from specific dated incidents, that rules get reverted precisely when the reason for them is lost. Cutting the history to save tokens would cause the exact regressions the file exists to prevent.
-
-So the question for the owner is narrow: which of the 52 are now fully enforced by a hard-fail validator, such that the entry could shrink to the rule plus a pointer to the check, with the incident narrative moving to the validator&#x27;s own docs? That is a judgement about which rules still need their story told inline — not something a crib should decide.
-
-Evidence: Brain/Reference/Ship-Validate/Build-Time-Heads-Up.html</p>
-          <div class="tmeta"><span class="badge tgt">CLAUDE.md · Brain/Reference/Ship-Validate/Build-Time-Heads-Up.html · Validator Index.html</span><span class="badge src">build-time investigation, 2026-08-18 (owner-requested)</span></div>
-        </div>
-      </details>
-      <details class="tile">
-        <summary>
-          <span class="tstatus st-pending">PENDING</span>
           <span class="ttitle">No thermometer mark in the catalogue — the guides-index &#x27;Night low&#x27; filter ships with no icon</span>
           <span class="chev">&rsaquo;</span>
         </summary>
         <div class="tbody">
           <p class="tdetail">Every other filter on guides/index.html now draws a catalogue mark. The Night-low temperature filter carried a raw thermometer emoji; there is no thermometer or temperature drawing in Site-Icons.html, so per the Twenty-eighth non-negotiable it ships without an icon rather than falling back to the emoji. Add a thermometer drawing to the catalogue and wire it, or confirm the filter reads fine without one.</p>
           <div class="tmeta"><span class="badge tgt">Travel-Website/guides/index.html · Brain/Reference/Formatting/Site-Icons.html</span><span class="badge src">icon cleanup 2026-08-19</span></div>
-        </div>
-      </details>
-      <details class="tile">
-        <summary>
-          <span class="tstatus st-pending">PENDING</span>
-          <span class="ttitle">Three shipped photos carry free licences the allow-list does not name — GFDL 1.2, FAL and Attribution</span>
-          <span class="chev">&rsaquo;</span>
-        </summary>
-        <div class="tbody">
-          <p class="tdetail">Surfaced 2026-08-21, when the photo authenticity gate was re-pointed after five days of being inert on all 237 guides (it matched no photos at all, so nothing it checked could fail). With the gate live, the fleet is clean except five findings, and three of them are the same question.
-
-Photos Rules.html § 2 allows CC-BY, CC-BY-SA, Public Domain and CC0. These three photos are on licences that are FREE and Commons-hosted but are not on that list:
-  • seychelles/800px-aldabra-giant-tortoise-seychelles.jpg — GFDL 1.2 (GNU Free Documentation License)
-  • tallinn/800px-kadriorg-palace-tallinn.jpg — FAL (Free Art License)
-  • sicily/800px-villa-comunale-taormina-sicily.jpg — &#x27;Attribution&#x27; (the Commons {{Attribution}} template: free reuse, attribution required — arguably CC-BY by another name, which is why this one is the least clear-cut of the three)
-
-THE DECISION IS YOURS BECAUSE IT IS A RULE, NOT A BUG. A crib can go two ways here and both look like a fix: replace the three photographs, or add three names to the allow-list. Widening the list is the cheaper-looking one and is exactly the move CLAUDE.md bans as &#x27;weakening the check&#x27;, so no crib should take it on its own — but it may well be the right answer, since all three licences genuinely permit reuse with attribution and the site already attributes every photo.
-
-  Option A — leave the list as it is. The three photos are replaced with CC-BY/CC-BY-SA/PD/CC0 equivalents. Costs three photo swaps; keeps the licence set to the four that need no thought.
-  Option B — add &#x27;Attribution&#x27; only. It is attribution-with-free-reuse, the same bargain as CC-BY. Costs one line; leaves GFDL and FAL failing, which is defensible: GFDL 1.2 in particular carries invariant-section and copy-of-the-licence obligations that a photo caption cannot satisfy.
-  Option C — add all three. One line each; every Commons free licence then passes.
-
-Until you rule, the three guides hard-fail their ship gate and the To Do List says to replace the photos. Nothing is blocked fleet-wide — it is three guides.</p>
-          <div class="tmeta"><span class="badge tgt">Brain/CORE RULES/Photos Rules.html § 2 (the allow-list) + Brain/scripts/photo_provenance.py verify_guide_photos() ok_licenses + 3 shipped guides: seychelles, sicily, tallinn</span><span class="badge src">photo-provenance gate repair, 2026-08-21</span></div>
         </div>
       </details>
       <details class="tile">
@@ -2450,83 +2290,6 @@ Proposal: add both pages to _is_shared_asset. The cost is that every crib touchi
 
 Not done on this crib&#x27;s own initiative because it changes the commit path for every crib on the two busiest files on the site.</p>
           <div class="tmeta"><span class="badge tgt">Brain/scripts/pre_commit_guard.py (_is_shared_asset) + Travel-Website/index.html + Travel-Website/guides/index.html</span><span class="badge src">language-tag audit, 2026-08-22</span></div>
-        </div>
-      </details>
-      <details class="tile">
-        <summary>
-          <span class="tstatus st-pending">PENDING</span>
-          <span class="ttitle">Trip Escape now asks six questions on the landing page and two in the guides-index dropdown — should the dropdown follow?</span>
-          <span class="chev">&rsaquo;</span>
-        </summary>
-        <div class="tbody">
-          <p class="tdetail">Owner rule 2026-08-23 rebuilt the LANDING copy of Trip Escape: the money row lost its dollar figures and became the site&#x27;s four cost brackets (Cheap / Moderate / Expensive / Very expensive, the guides index&#x27;s own wording and icons), and &#x27;Narrow the escape&#x27; grew from two fields to six — How different? / When / What do you want to do? / How long is the escape? / Which language? / How safe does it need to be? — each reading a dataset the site already has (DAYS_DATA, data-lang, SAFETY_DATA, THEME_DATA). The &#x27;Safe destinations only&#x27; checkbox was retired there in favour of Help Me Choose&#x27;s three advisory levels.
-
-THE GUIDES-INDEX COPY DID NOT MOVE. It already carries the four cost brackets (it made that change on 2026-08-22 and the landing page was the stale lift), so the two agree on HOW they score — costLevel/costMid resolve to the same four brackets either way. They now differ in WHAT THEY ASK: the guides-index copy still offers only the climate chips, the cost chips and the safe-only checkbox.
-
-The reason it was left alone is shape, not oversight: on the guides index Trip Escape is a narrow toolbar dropdown, and a 3-column grid of six selects does not fit one. Three ways out, all owner decisions: (a) leave them different — the landing card is the considered surface and the dropdown is the quick one; (b) give the dropdown the same six rows stacked one per line, which makes it a tall panel; (c) retire the dropdown and send the toolbar entry to the landing card. NN 37 records the divergence as it stands.</p>
-          <div class="tmeta"><span class="badge tgt">Travel-Website/guides/index.html (#trip-twin-panel) + Travel-Website/index.html (#tp-trip-escape)</span><span class="badge src">Trip Escape rebuild, 2026-08-23</span></div>
-        </div>
-      </details>
-      <details class="tile">
-        <summary>
-          <span class="tstatus st-pending">PENDING</span>
-          <span class="ttitle">Riga and Bora Bora have no price on /essentials/budget/, so the finder&#x27;s Average costs filter silently drops them</span>
-          <span class="chev">&rsaquo;</span>
-        </summary>
-        <div class="tbody">
-          <p class="tdetail">cost_index.json carries 237 of the 239 shipped guides. Riga and Bora Bora are absent, and the finder&#x27;s rule for a guide it cannot price is to DROP it (the same rule it applies to a guide with no climate row or no mapped airport — padding a priced answer with unpriced cities is worse than a shorter list). So picking any of Cheap / Moderate / Expensive / Very expensive removes those two guides from the answer, on every combination, and nothing on screen says so.
-
-This is not the finder&#x27;s to fix — the index is Numbeo&#x27;s published city ranking, captured whole by fetch_cost_index.py on 2026-08-22, and the page and the guides-index filter are both written from it by build_cost_page.py. TWO DIFFERENT CASES, and only the owner can decide the second: Riga is a European capital and is almost certainly in Numbeo under a spelling the capture missed, so a re-run or a name alias should recover it. Bora Bora is a small island and may genuinely not be in Numbeo at all — the question is whether an absent city should fall back to its COUNTRY row (French Polynesia, which Numbeo does publish, and which fetch_cost_index.py already knows how to read since cost_index.json entries carry a &#x27;via&#x27; field that is either &#x27;city&#x27; or &#x27;country&#x27;), or stay unpriced and keep being dropped.
-
-Why it is logged rather than fixed: re-running fetch_cost_index.py needs the network and build_cost_page.py rewrites BOTH /essentials/budget/index.html and guides/index.html wholesale between cost:data markers — two of the most contended files in the tree — for a two-row gap. Verified 2026-08-23 by parsing the budget page exactly the way the finder does (name fold, then slug fold) against all 239 cards: 237 priced, these two not.</p>
-          <div class="tmeta"><span class="badge tgt">Brain/scripts/build/fetch_cost_index.py + Brain/scripts/build/cost_index.json + Travel-Website/essentials/budget/index.html + Travel-Website/guides/index.html</span><span class="badge src">Help Me Choose filter audit, 2026-08-23</span></div>
-        </div>
-      </details>
-      <details class="tile">
-        <summary>
-          <span class="tstatus st-pending">PENDING</span>
-          <span class="ttitle">Help Me Choose measures jet lag from the DEVICE clock but flight time from the airport the reader named — the two disagree</span>
-          <span class="chev">&rsaquo;</span>
-        </summary>
-        <div class="tbody">
-          <p class="tdetail">Both behaviours are individually correct and they contradict each other on the same card.
-
-&#x27;How much jet lag?&#x27; and the &#x27;+2h vs your clock&#x27; fact are computed from the BROWSER&#x27;s time zone — which is right, and is the Forty-seventh non-negotiable: nothing on this site is anchored to one person&#x27;s city, and the device clock is the only reference that is the reader&#x27;s own without asking. &#x27;How far are you willing to fly?&#x27; and the &#x27;~3h 42m&#x27; on the card are computed from the AIRPORT the reader typed into the field two rows above.
-
-So a reader on a Berlin machine who names LHR is told Abu Dhabi is a 6h 30m flight FROM LONDON and &#x27;+2h vs your clock&#x27; FROM BERLIN. From London it is +3h. The card states two facts about the same trip measured from two different places, and nothing on it says which is which. Measured 2026-08-23 with a Berlin device and LHR picked.
-
-THE DECISION IS YOURS BECAUSE EITHER ANSWER GIVES SOMETHING UP. Keeping the device clock means the jet-lag number is about the reader&#x27;s body and stays honest for someone reading on holiday or on a work laptop in another country — but it can disagree with the flight time beside it. Switching to the picked airport&#x27;s zone once one is named makes the whole card speak from one place — but it re-introduces a chosen origin into a dimension that deliberately has none, it is silent for the majority of readers who never name an airport (there is no default and must not be), and it would mean the same guide reports different jet lag before and after the airport is filled in. A third option is to leave the numbers alone and LABEL them, which costs nothing and fixes only the confusion, not the disagreement.</p>
-          <div class="tmeta"><span class="badge tgt">Travel-Website/index.html (#fnd-tz, tzDiffMinutes / tzDiff) — and the same question on /essentials/time-zones/ and Compare</span><span class="badge src">Help Me Choose filter audit, 2026-08-23</span></div>
-        </div>
-      </details>
-      <details class="tile">
-        <summary>
-          <span class="tstatus st-pending">PENDING</span>
-          <span class="ttitle">The airport picker cannot find Narita from &quot;tokyo&quot; — and it is now the first, required question</span>
-          <span class="chev">&rsaquo;</span>
-        </summary>
-        <div class="tbody">
-          <p class="tdetail">UPDATED 2026-08-23, after the airport became the FIRST field and the rest of the form was greyed out behind it (owner rule the same day). That raises this from a ranking nicety to something that can stop a reader on question one.
-
-THE HALF THAT IS FIXED, in the page, needs no decision: the list read the OurAirports `municipality`, so Milan Malpensa offered itself as &quot;Ferno (VA) (MXP)&quot;, Athens as &quot;Spata-Artemida (ATH)&quot;, Venice as &quot;Venezia (VE)&quot; and Washington Dulles as &quot;Dulles (IAD)&quot;. Rows now lead with the airport&#x27;s own NAME, which almost always carries the city, and that also settles Heathrow against Gatwick — both read &quot;London&quot; before.
-
-THE HALF THAT NEEDS YOU IS THE SEARCH, because it needs data the site does not have. Matching is against the code, the municipality and the airport name, and some airports carry the city in none of the three. Measured: typing &quot;tokyo&quot; returns Haneda and NOT Narita, whose municipality is &quot;Narita&quot; and whose name is &quot;Narita International&quot;; typing &quot;bergamo&quot; returns NOTHING, because BGY is filed as &quot;Orio al Serio (BG)&quot; / &quot;Il Caravaggio International&quot;. A reader who cannot find their airport now cannot use the finder at all.
-
-TWO WAYS TO CLOSE IT, and the choice is a data-policy call. (a) A CITY ALIAS TABLE — perhaps thirty to fifty rows mapping a city people type to the airports that serve it (tokyo → HND, NRT; milan → MXP, LIN, BGY; london → LHR, LGW, STN, LCY). Hand-curated, which is the same kind of judgement the FMAP destination codes already are (Aix-en-Provence to MRS, Cinque Terre to the mainland field), so it is consistent with how the site already answers this question in the other direction — and it would carry the primary-airport order too, which is the original point of this entry. (b) ADD PASSENGER VOLUME from a second public source and rank on it — a new dependency, a number that ages, and it fixes the ORDER without fixing the MISSES, so it does not help Bergamo at all.
-
-A third option, if neither appeals: let the reader skip the airport. That reverses today&#x27;s gate and brings back the case it was added to stop, so it is listed for completeness rather than recommended.</p>
-          <div class="tmeta"><span class="badge tgt">Travel-Website/assets/airport-names.json + Brain/scripts/build/build_airports.py + Travel-Website/assets/toolbar.js (TVE.home.lookup)</span><span class="badge src">Help Me Choose filter audit, 2026-08-23</span></div>
-        </div>
-      </details>
-      <details class="tile">
-        <summary>
-          <span class="tstatus st-pending">PENDING</span>
-          <span class="ttitle">stats-audit and filter-coverage-audit scheduled tasks: retire the stats-audit task now that its whole scope is deleted</span>
-          <span class="chev">&rsaquo;</span>
-        </summary>
-        <div class="tbody">
-          <p class="tdetail">Found during a site-wide brain-check audit (2026-08-23). The Ninetieth non-negotiable retired all nine /stats/ pages and the six scripts that built/validated them. Brain/Routines/stats-audit.md owned that entire surface end to end (guide-count parity, FMAP integrity, flight-index validation, regional coverage sync, DATA sync) and has nothing left to audit — every command in the old spec targeted a deleted script or a deleted page. It has a live scheduled task at ~/.claude/scheduled-tasks/stats-audit/. I replaced the spec&#x27;s body with a short retirement notice (so the scheduled task does not fail loudly on a dead script every time it fires) and preserved the original runbook in git history, but left the scheduled task itself untouched — deleting or disabling a scheduled task is not a decision a crib makes on its own initiative. filter-coverage-audit.md is a broader, still-live routine; I only removed its three now-dead validator invocations (validate_travel_stats.py, validate_us_stats.py, validate_regional_stats_chips.py) from its command block, leaving the rest of that routine intact. THE DECISION: retire the stats-audit scheduled task outright (its owning routine has zero remaining scope), or repurpose it toward /ask-your-guide/ if there is ongoing maintenance work there the owner wants a dedicated routine for.</p>
-          <div class="tmeta"><span class="badge tgt">Brain/Routines/stats-audit.md + ~/.claude/scheduled-tasks/stats-audit/ + Brain/Routines/filter-coverage-audit.md</span><span class="badge src">brain-check audit, 2026-08-23</span></div>
         </div>
       </details><p class="rules-hint">Scope: CORE RULES edits &middot; toolbar structural changes &middot; new design decisions &middot; stray-file delete approvals. Everything else goes to the To&nbsp;Do&nbsp;List for cribs to resolve. To propose: add an entry to <code>Brain/scripts/open_recs/rules_changes.json</code> and rebuild.</p></div>
   </section>

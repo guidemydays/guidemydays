@@ -6,38 +6,51 @@
 <link rel="stylesheet" href="/assets/web-travel-style.css">
 <title>Trusted Traveler Programs | Guide My Days</title>
 <style>
-/* ── Program explainer cards ── */
-.programs-grid {
-  display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 24px;
+/* ── Program spec-sheet (comparison table, not cards) ── */
+.spec-table {
+  border: 1px solid var(--border); border-radius: 10px; overflow: hidden; margin-bottom: 24px;
+  background: var(--surface);
 }
-@media (max-width: 600px) and (pointer: coarse) { .programs-grid { grid-template-columns: 1fr; } }
-.program-card {
-  background: var(--surface); border: 1px solid var(--border); border-radius: 10px;
-  overflow: hidden;
+.spec-row {
+  display: grid; grid-template-columns: 84px 1fr 1fr;
+  border-bottom: 1px solid var(--border2);
 }
-.program-card-head {
-  padding: 13px 18px 11px; border-bottom: 1px solid var(--border2);
-  display: flex; align-items: center; gap: 10px;
+.spec-row:last-child { border-bottom: none; }
+.spec-row.spec-head { background: var(--surface2); }
+.spec-label, .spec-val, .spec-col-head {
+  padding: 12px 16px; font-size: 13px; line-height: 1.55; color: var(--text);
 }
-.program-icon { font-size: 22px; line-height: 1; }
-.program-name { font-size: 14px; font-weight: 700; color: var(--text); }
-/* .program-tag: dead CSS — no HTML element uses this class */
-.program-body { padding: 13px 18px; display: flex; flex-direction: column; gap: 8px; }
-.program-row { display: flex; gap: 8px; align-items: flex-start; font-size: 13px; color: var(--text); line-height: 1.5; }
-.program-row-label {
+.spec-label {
   font-size: 10px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase;
-  color: var(--muted); flex-shrink: 0; padding-top: 2px; min-width: 60px;
+  color: var(--muted); display: flex; align-items: center;
 }
-.program-row-val { color: var(--text); }
+.spec-col-head { font-size: 14px; font-weight: 700; color: var(--text); }
+.spec-val { border-left: 1px solid var(--border2); }
+.spec-val + .spec-val { border-left: 1px solid var(--border2); }
+.spec-row.spec-links .spec-val { padding: 10px 16px; }
 .program-link {
   display: inline-flex; align-items: center; justify-content: center;
-  margin-top: 4px; font-family: inherit; font-size: 12px; font-weight: 400;
+  font-family: inherit; font-size: 12px; font-weight: 400;
   color: var(--muted, #6a6660); border: 1.5px solid var(--border2, #e6e2da);
   border-radius: 999px; padding: 4px 10px; background: var(--surface);
   transition: border-color .15s, background .15s;
 }
 a.program-link:visited { color: #6a6660; }
 .program-link:hover { border-color: var(--rust); background: var(--bg, #f5f4f0); }
+@media (max-width: 600px) and (pointer: coarse) {
+  .spec-row { grid-template-columns: 1fr; }
+  .spec-row.spec-head { display: none; }
+  .spec-label { padding: 10px 14px 2px; }
+  .spec-val { border-left: none; border-top: 1px solid var(--border2); padding-top: 8px; }
+  .spec-val::before {
+    content: attr(data-label); display: block; margin-bottom: 3px;
+    font-size: 10px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase;
+    color: var(--rust);
+  }
+  .spec-row.spec-links { grid-template-columns: 1fr 1fr; }
+  .spec-row.spec-links .spec-val { border-top: none; padding-top: 10px; }
+  .spec-row.spec-links .spec-val::before { display: none; }
+}
 
 /* ── Controls ── */
 .controls {
@@ -58,34 +71,39 @@ a.program-link:visited { color: #6a6660; }
    Spec: Brain/Reference/Formatting/Badge-Pill-System/. */
 .fpill { font-family: inherit; }
 
-/* ── Airport list ── */
+/* ── Airport list — departure-board treatment ── */
 .state-block {
-  background: var(--surface); border: 1px solid var(--border); border-radius: 6px;
-  overflow: hidden; margin-bottom: 8px;
-  transition: box-shadow .18s, transform .18s;
+  background: var(--surface); border: 1px solid var(--border); border-radius: 4px;
+  overflow: hidden; margin-bottom: 10px;
 }
-.state-block:hover { box-shadow: 0 4px 14px rgba(0,0,0,0.08); transform: translateY(-1px); }
 .state-block.hidden { display: none; }
 
 .state-header {
   display: flex; align-items: baseline; gap: 10px;
-  padding: 14px 20px 12px; background: var(--surface2); border-bottom: 1px solid var(--border);
-  font-size: 14px; font-weight: 600; color: var(--text);
+  padding: 9px 20px; background: var(--surface2); border-bottom: 2px solid var(--rust);
+  font-size: 11px; font-weight: 800; letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted);
 }
 
 .apt-list { display: flex; flex-direction: column; }
 .apt-row {
-  display: flex; align-items: center; gap: 14px; padding: 12px 20px;
-  border-bottom: 1px solid var(--border2); transition: background .12s;
+  display: grid; grid-template-columns: 56px 1fr auto; align-items: center; gap: 14px;
+  padding: 11px 20px; border-bottom: 1px solid var(--border2);
+  border-left: 3px solid transparent; transition: background .12s, border-color .12s;
 }
+.apt-row:nth-child(even) { background: var(--surface2); }
 .apt-row:last-child { border-bottom: none; }
-.apt-row:hover { background: var(--surface); }
+.apt-row:hover { background: var(--surface); border-left-color: var(--rust); }
 .apt-row.hidden { display: none; }
-.apt-code { font-size: 14px; font-weight: 700; color: var(--accent); width: 44px; flex-shrink: 0; letter-spacing: 0.02em; }
-.apt-info { flex: 1; min-width: 0; }
+.apt-code {
+  font-family: 'JetBrains Mono', ui-monospace, 'SF Mono', Consolas, monospace;
+  font-variant-numeric: tabular-nums; font-size: 14px; font-weight: 700;
+  color: var(--rust); letter-spacing: 0.03em;
+}
+.apt-info { min-width: 0; }
 .apt-city { display: block; font-size: 14px; color: var(--text); }
 .apt-name { display: block; font-size: 12px; color: var(--muted); line-height: 1.4; margin-top: 2px; }
-.apt-loc { display: block; font-size: 11px; color: var(--muted); line-height: 1.55; margin-top: 5px; }.badge-wrap { display: flex; gap: var(--fam-gap, 10px); flex-shrink: 0; flex-wrap: wrap; justify-content: flex-end; }
+.apt-loc { display: block; font-size: 11px; color: var(--muted); line-height: 1.55; margin-top: 5px; }
+.badge-wrap { display: flex; gap: var(--fam-gap, 10px); flex-shrink: 0; flex-wrap: wrap; justify-content: flex-end; }
 /* .badge sizing + colour from shared .badge / .fam-* in web-travel-style.css */
 /* ── International section ── */
 .section-divider {
@@ -114,11 +132,10 @@ a.program-link:visited { color: #6a6660; }
 
 @media (max-width: 600px) and (pointer: coarse) {
   #tt-search { width: 100%; }
-  /* Row was flex code|info|badges; the fixed-width badges crushed the info to
-     one word per line. Wrap so code+info take the first line (info full width)
-     and the badges drop to their own line below. */
-  .apt-row { padding: 10px 14px; gap: 6px 10px; flex-wrap: wrap; align-items: flex-start; }
-  .badge-wrap { flex-basis: 100%; justify-content: flex-start; }
+  /* Grid is code|info on row one; badges drop to a full-width row below so the
+     fixed-width badge column doesn't crush the info text to one word per line. */
+  .apt-row { padding: 10px 14px; gap: 4px 10px; grid-template-columns: 44px 1fr; align-items: flex-start; }
+  .badge-wrap { grid-column: 1 / -1; justify-content: flex-start; }
   .pill-row { flex-wrap: wrap !important; gap: var(--fam-gap,10px) !important; }
   .state-header, .country-header { padding: 11px 14px 9px; }
 }
@@ -166,51 +183,32 @@ a.program-link:visited { color: #6a6660; }
   </div>
 
   <div class="section-divider" style="margin-top:24px;">About These Programs</div>
-  <div class="programs-grid">
-
-    <div class="program-card">
-      <div class="program-card-head">
-        <span class="program-name">Global Entry</span>
-      </div>
-      <div class="program-body">
-        <div class="program-row">
-          <span class="program-row-label">What</span>
-          <span class="program-row-val">Expedited US Customs clearance when returning from international trips. Includes TSA PreCheck.</span>
-        </div>
-        <div class="program-row">
-          <span class="program-row-label">Where</span>
-          <span class="program-row-val">After landing, follow signs to <strong>US Customs / Federal Inspection</strong> — usually the arrivals level. Look for the Global Entry kiosk bank before the CBP officer booths. Scan passport, fingerprints, done.</span>
-        </div>
-        <div class="program-row">
-          <span class="program-row-label">Enroll</span>
-          <span class="program-row-val">Apply online at ttp.cbp.dhs.gov, then schedule an interview at a CBP enrollment center — or use Enrollment on Arrival (EoA) after your next international flight at a participating airport.</span>
-        </div>
-        <a class="program-link" href="https://www.cbp.gov/travel/trusted-traveler-programs/global-entry" target="_blank" rel="noopener">cbp.gov/global-entry</a>
-      </div>
+  <div class="spec-table">
+    <div class="spec-row spec-head">
+      <div class="spec-label"></div>
+      <div class="spec-col-head">Global Entry</div>
+      <div class="spec-col-head">CLEAR</div>
     </div>
-
-    <div class="program-card">
-      <div class="program-card-head">
-        <span class="program-icon"><svg class="gm-icon" data-icon="dot-blue" data-role="dot" viewBox="0 0 24 24" aria-hidden="true"><use href="#gm-i-dot-blue"/></svg></span>
-        <span class="program-name">CLEAR</span>
-      </div>
-      <div class="program-body">
-        <div class="program-row">
-          <span class="program-row-label">What</span>
-          <span class="program-row-val">Biometric identity check at TSA security — replaces showing your ID. Doesn't skip the X-ray belt.</span>
-        </div>
-        <div class="program-row">
-          <span class="program-row-label">Where</span>
-          <span class="program-row-val">At the <strong>entrance to TSA security lanes</strong> — look for the blue CLEAR podium/kiosk near the ID-check area. A CLEAR ambassador scans your eyes or fingerprints, then walks you to the front of the PreCheck or regular X-ray lane.</span>
-        </div>
-        <div class="program-row">
-          <span class="program-row-label">Enroll</span>
-          <span class="program-row-val">Sign up online or walk up to any CLEAR location. Biometrics are captured on-site in under 5 minutes — no appointment needed.</span>
-        </div>
-        <a class="program-link" href="https://www.clearme.com/" target="_blank" rel="noopener">clearme.com</a>
-      </div>
+    <div class="spec-row">
+      <div class="spec-label">Solves</div>
+      <div class="spec-val" data-label="Global Entry">Expedited US Customs clearance when returning from international trips. Includes TSA PreCheck.</div>
+      <div class="spec-val" data-label="CLEAR">Biometric identity check at TSA security — replaces showing your ID. Doesn't skip the X-ray belt.</div>
     </div>
-
+    <div class="spec-row">
+      <div class="spec-label">Find it</div>
+      <div class="spec-val" data-label="Global Entry">After landing, follow signs to <strong>US Customs / Federal Inspection</strong> — usually the arrivals level. Look for the kiosk bank before the CBP officer booths. Scan passport, fingerprints, done.</div>
+      <div class="spec-val" data-label="CLEAR">At the <strong>entrance to TSA security lanes</strong> — look for the blue CLEAR podium/kiosk near the ID-check area. An ambassador scans your eyes or fingerprints, then walks you to the front of the line.</div>
+    </div>
+    <div class="spec-row">
+      <div class="spec-label">Enroll</div>
+      <div class="spec-val" data-label="Global Entry">Apply online at ttp.cbp.dhs.gov, then schedule an interview at a CBP enrollment center — or use Enrollment on Arrival (EoA) after your next international flight at a participating airport.</div>
+      <div class="spec-val" data-label="CLEAR">Sign up online or walk up to any CLEAR location. Biometrics are captured on-site in under 5 minutes — no appointment needed.</div>
+    </div>
+    <div class="spec-row spec-links">
+      <div class="spec-label"></div>
+      <div class="spec-val"><a class="program-link" href="https://www.cbp.gov/travel/trusted-traveler-programs/global-entry" target="_blank" rel="noopener">cbp.gov/global-entry</a></div>
+      <div class="spec-val"><a class="program-link" href="https://www.clearme.com/" target="_blank" rel="noopener">clearme.com</a></div>
+    </div>
   </div>
 
   <div class="controls" style="margin-top:35px;">

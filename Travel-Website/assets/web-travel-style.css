@@ -93,7 +93,7 @@ html { overflow-x: clip; }
      moves with it. */
   --fam-fs:     12px;
   --fam-pad:    4px 9px;
-  --badge-pad:  0.3em 0.65em;
+  --badge-pad:  3px 8px;
   /* Border RGB triplets — one source for BOTH alphas of the ladder:
      rest rgba(...,.4), selected rgba(...,.85). Owner's own pattern. */
   --fam-yellow-rgb:122,88,0;   --fam-green-rgb:26,90,26;    --fam-red-rgb:122,58,26;
@@ -2632,15 +2632,22 @@ body > .hero-ground {
   letter-spacing: 0.04em;
   text-transform: uppercase;
 }
-/* CLAMPED, not bare inherit — bare inherit blew up to 28px tall wherever a
-   badge sits in the site's normal 15px (--fs-body) running text, e.g.
-   essentials/budget's per-row "CHEAP" tag. 13px is the ceiling: roughly the
-   biggest body-text context a badge should ever need to sit beside; above
-   that it stays capped at 13px, reading as a compact tag rather than
-   shouting the same size as the text next to it. 10px is the floor so it
-   never goes illegibly small beside fine print. Documented alongside the
-   doc's own example, Badge-Pill-System.html § 2 — update both together. */
-.badge { font-size: clamp(10px, 1em, 13px); padding: var(--badge-pad, 0.3em 0.65em); }
+/* The rule is exactly this and nothing more (owner, 2026-08-24): "matches
+   the text next to it plus border. nothing else." Bare inherit — no floor,
+   no ceiling, no clamp. A clamp was added and removed the same day by a
+   crib solving a real visual complaint (essentials/budget's table badge
+   inheriting 15px and reading tall) with an invented bound the owner never
+   asked for — if a badge reads oversized somewhere, the fix is that page's
+   own surrounding font-size, never a bound added here. Never reintroduce
+   min()/max()/clamp() on this rule.
+   Padding is a FIXED px, not em (owner, same day: "the font does not
+   change sizes so why the padding would" — a badge's inherited font-size
+   is a fixed value on any given instance, not something that actually
+   varies at runtime, so scaling the padding with it added complexity for
+   no real benefit; a plain px number, like the border, is simpler and
+   predictable). 3px 8px is the padding this system used before the em
+   experiment. */
+.badge { font-size: inherit; padding: var(--badge-pad, 3px 8px); }
 .pill-badge { font-size: var(--fam-fs, 12px); padding: var(--fam-pad, 4px 9px); }
 
 /* ONE CASE, SIZE BY ROLE — owner rule 2026-08-20 (case) + 2026-08-24

@@ -2080,7 +2080,13 @@
    blew up to 28px on essentials/budget's per-row tag (15px row context).
    Badge-Pill-System.html updated to match so doc and code can't diverge
    again. web-travel-style.css -> v122. CACHE to v1499. */
-var CACHE = 'travel-cache-v1499';
+/* 2026-08-24: .badge clamp(10px,1em,13px) REMOVED — owner: "the rule is
+   matches the text next to it plus border. nothing else the rest you
+   invented." Back to bare font-size:inherit, no floor/ceiling. Same pass:
+   .badge padding 0.3em 0.65em -> fixed 3px 8px — owner: "the font does not
+   change sizes so why the padding would." Both doc and code updated
+   together. web-travel-style.css -> v124. CACHE to v1501. */
+var CACHE = 'travel-cache-v1501';
 
 /* The guide-calendar hand-off cache. Written by toolbar.js, read and emptied
    once by the fetch handler below, and EXEMPT from the activate sweep — it is
@@ -2093,7 +2099,7 @@ var ICS_OUTBOX = 'gmd-ics-outbox';
    THIS IS THE ONLY PLACE to bump toolbar.js / guide-style.css versions.
    NEVER bump ?v= inside guide HTML — it breaks HMAC stamps and forces re-validation
    of 230+ guides. Instead, bump MIN_VERSIONS here + increment the CACHE version. */
-var MIN_VERSIONS = { 'guide-style.css': 264,'toolbar.js': 1070, 'mobile.css': 88, 'web-travel-style.css': 122, 'guides-index-style.css': 27, 'read-about.css': 6, 'best-of-features.js': 4, 'best-of-cross-data.js': 24, 'weather.js': 12, 'trains.css': 14, 'trains.js': 4, 'airlines.css': 4, 'airlines.js': 5, 'passport.js': 4, 'search-autocomplete.js': 9 };
+var MIN_VERSIONS = { 'guide-style.css': 264,'toolbar.js': 1070, 'mobile.css': 88, 'web-travel-style.css': 124, 'guides-index-style.css': 27, 'read-about.css': 6, 'best-of-features.js': 4, 'best-of-cross-data.js': 24, 'weather.js': 12, 'trains.css': 14, 'trains.js': 4, 'airlines.css': 4, 'airlines.js': 5, 'passport.js': 4, 'search-autocomplete.js': 9 };
 
 function rewriteAssetUrl(urlStr) {
   var u;

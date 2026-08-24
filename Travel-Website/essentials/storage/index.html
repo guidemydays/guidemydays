@@ -43,18 +43,32 @@
   content: ''; position: absolute; left: 0; right: 0; top: 8px; height: 1px;
   background: repeating-linear-gradient(90deg, var(--border2, #d8d3c8) 0 6px, transparent 6px 11px);
 }
+@keyframes ls-tag-swing {
+  0%, 100% { transform: rotate(-2.2deg); }
+  50% { transform: rotate(2.2deg); }
+}
 .ls-prim-card {
   background: var(--surface, #ffffff); border: 1px solid var(--border2, #e6e2da); border-radius: 4px 12px 12px 4px;
   padding: 16px 14px 12px; flex: 0 0 202px; scroll-snap-align: start; position: relative;
   box-shadow: 0 3px 9px rgba(0,0,0,.07);
-  transform: rotate(var(--tag-tilt, -1.5deg));
+  transform-origin: 14px -14px;
+  /* Hanging tags sway on their string, each on its own clock — the desync
+     across five cards is what sells "hanging" over "decorated". */
+  animation: ls-tag-swing 4.5s ease-in-out infinite;
+  animation-delay: calc(var(--swing-delay, 0) * -1s);
   transition: transform .18s, box-shadow .18s;
 }
-.ls-prim-card:nth-child(2) { --tag-tilt: 1deg; }
-.ls-prim-card:nth-child(3) { --tag-tilt: -0.75deg; }
-.ls-prim-card:nth-child(4) { --tag-tilt: 1.25deg; }
-.ls-prim-card:nth-child(5) { --tag-tilt: -1deg; }
-.ls-prim-card:hover { transform: rotate(0deg) translateY(-3px); box-shadow: 0 8px 18px rgba(0,0,0,.12); }
+.ls-prim-card:nth-child(1) { --swing-delay: 0.2; }
+.ls-prim-card:nth-child(2) { --swing-delay: 1.6; animation-duration: 5.2s; }
+.ls-prim-card:nth-child(3) { --swing-delay: 3.1; animation-duration: 3.9s; }
+.ls-prim-card:nth-child(4) { --swing-delay: 0.9; animation-duration: 4.8s; }
+.ls-prim-card:nth-child(5) { --swing-delay: 2.4; animation-duration: 4.2s; }
+.ls-prim-card:hover {
+  animation-play-state: paused;
+  transform: rotate(0deg) translateY(-4px) scale(1.03);
+  box-shadow: 0 10px 22px rgba(0,0,0,.14);
+}
+@media (prefers-reduced-motion: reduce) { .ls-prim-card { animation: none; } }
 .ls-prim-card::before {
   /* the string, from the rack line down to the grommet */
   content: ''; position: absolute; left: 14px; top: -14px; width: 1px; height: 14px;
@@ -90,6 +104,7 @@
 .row-list {
   display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
   gap: 20px 22px; align-items: start; padding-top: 6px;
+  perspective: 900px;
 }
 .ls-row {
   background: var(--surface, #ffffff); border: 1px solid var(--border2, #e6e2da);
@@ -102,7 +117,8 @@
           mask-image: radial-gradient(circle 6.5px at 18px 18px, transparent 0 6.5px, #000 6.5px);
   overflow: hidden; position: relative; isolation: isolate;
   transform: rotate(var(--tag-tilt, 0deg));
-  transition: box-shadow .18s, transform .18s, border-color .15s;
+  transform-style: preserve-3d;
+  transition: box-shadow .32s cubic-bezier(.22,1,.36,1), transform .32s cubic-bezier(.22,1,.36,1), border-color .15s;
 }
 .row-list .ls-row:nth-child(6n+1) { --tag-tilt: -1deg; }
 .row-list .ls-row:nth-child(6n+2) { --tag-tilt: 0.75deg; }
@@ -126,8 +142,13 @@
 }
 .ls-row:hover::after { background-position: -20% 120%; }
 @media (prefers-color-scheme: dark) { .ls-row::after { display: none; } }
-.ls-row:hover { box-shadow: 0 8px 20px rgba(0,0,0,.11); transform: rotate(0deg) translateY(-3px); z-index: 2; }
+.ls-row:hover {
+  box-shadow: 0 20px 34px rgba(0,0,0,.16), 0 4px 10px rgba(0,0,0,.08);
+  transform: rotate(0deg) translateY(-7px) scale(1.035) rotateX(4deg);
+  z-index: 2;
+}
 .ls-row[open] { border-color: var(--rust, #C04E1A); grid-column: 1 / -1; transform: rotate(0deg); }
+.ls-row[open]:hover { transform: rotate(0deg) translateY(-2px) scale(1); box-shadow: 0 10px 20px rgba(0,0,0,.1); }
 .ls-row.hidden { display: none; }
 /* Card top strip — now the <summary> disclosure control */
 .ls-top {

@@ -109,7 +109,25 @@
     return false;
   }
 
+  // A caller passed a raw internal composite key (e.g. "europe|Italy", a
+  // region|Country lookup key) straight through as display text. No real
+  // place name, country, or category ever contains "|" — see TVESearch.html
+  // "bugs fixed" for three earlier shapes of exactly this leak (EU Train
+  // dataset.type, Safety Guide US sub-label, Ask Your Guide's region|Country
+  // sub). Strip to the last segment for display and shout in the console so
+  // the page that leaked it gets fixed at the source, not silently shipped.
+  function _stripRawKey(field, val, it) {
+    var s = String(val == null ? '' : val);
+    if (s.indexOf('|') === -1) return s;
+    console.error('[TVESearch] item.' + field + ' carries a raw "|" key ("' + s +
+      '") — display text should never contain a pipe; fix the caller\'s items array, not this guard.', it);
+    return s.split('|').pop();
+  }
+
   function buildFields(it) {
+    it.name = _stripRawKey('name', it.name, it);
+    it.sub  = _stripRawKey('sub',  it.sub,  it);
+    it.text = _stripRawKey('text', it.text, it);
     it._n = String(it.name || '').toLowerCase();
     it._s = String(it.sub  || '').toLowerCase();
     var extra = stateText(it.name, it.sub);

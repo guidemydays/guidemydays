@@ -2042,7 +2042,8 @@
 /* 2026-08-24: comment-only fix — moved the font-family:inherit explanation out of the .badge,.pill-badge rule body into the prelude comment, because a literal brace pair quoted inside the body comment was desyncing brain_check's badge-compliance scanner. No CSS behavior change, bumped only for tracking consistency. web-travel-style.css -> v117. CACHE to v1488. */
 /* 2026-08-24: toolbar.js: add gm-i-thermometer sprite (#1453) for guides-index Night-low/Day-high filters toolbar.js -> v1066. CACHE to v1489. */
 /* 2026-08-24: toolbar.js: gm-i-thermometer sprite (#1453) for guides-index Night-low/Day-high filters — shared asset changed without its MIN_VERSIONS floor raised toolbar.js -> v1067. CACHE to v1490. */
-var CACHE = 'travel-cache-v1490';
+/* 2026-08-24: toolbar.js: add gm-i-thermometer sprite (#1453) for guides-index Night-low/Day-high filters toolbar.js -> v1068. CACHE to v1491. */
+var CACHE = 'travel-cache-v1491';
 
 /* The guide-calendar hand-off cache. Written by toolbar.js, read and emptied
    once by the fetch handler below, and EXEMPT from the activate sweep — it is
@@ -2055,7 +2056,7 @@ var ICS_OUTBOX = 'gmd-ics-outbox';
    THIS IS THE ONLY PLACE to bump toolbar.js / guide-style.css versions.
    NEVER bump ?v= inside guide HTML — it breaks HMAC stamps and forces re-validation
    of 230+ guides. Instead, bump MIN_VERSIONS here + increment the CACHE version. */
-var MIN_VERSIONS = { 'guide-style.css': 264,'toolbar.js': 1067, 'mobile.css': 88, 'web-travel-style.css': 117, 'guides-index-style.css': 27, 'read-about.css': 6, 'best-of-features.js': 4, 'best-of-cross-data.js': 24, 'weather.js': 12, 'trains.css': 14, 'trains.js': 4, 'airlines.css': 4, 'airlines.js': 5, 'passport.js': 4 };
+var MIN_VERSIONS = { 'guide-style.css': 264,'toolbar.js': 1068, 'mobile.css': 88, 'web-travel-style.css': 117, 'guides-index-style.css': 27, 'read-about.css': 6, 'best-of-features.js': 4, 'best-of-cross-data.js': 24, 'weather.js': 12, 'trains.css': 14, 'trains.js': 4, 'airlines.css': 4, 'airlines.js': 5, 'passport.js': 4 };
 
 function rewriteAssetUrl(urlStr) {
   var u;

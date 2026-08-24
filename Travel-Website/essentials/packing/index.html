@@ -89,8 +89,8 @@
  flex-shrink: 0;
  transition: background 0.15s, border-color 0.15s;
 }
-.item input[type="checkbox"]:hover { border-color: var(--rust); }
-.item input[type="checkbox"]:checked { background: var(--rust); border-color: var(--rust); }
+.item input[type="checkbox"]:hover { border-color: #7a5c0e; }
+.item input[type="checkbox"]:checked { background: #7a5c0e; border-color: #7a5c0e; }
 .item input[type="checkbox"]:checked::after {
  content: '';
  position: absolute;
@@ -146,9 +146,9 @@ html { scroll-behavior: smooth; }
  font-size: 21px; font-weight: 700; color: #7a5c0e; letter-spacing: -0.02em;
 }
 .summary-stats { flex: 1; min-width: 0; }
-.summary-big { font-size: 16px; font-weight: 400; color: var(--muted); margin-bottom: 3px; }
+.summary-big { font-size: 18px; font-weight: 400; color: var(--muted); margin-bottom: 3px; }
 .summary-big b { color: #7a5c0e; font-weight: 700; }
-.summary-sub { font-size: 16px; color: var(--muted); margin-bottom: 11px; line-height: 1.5; }
+.summary-sub { font-size: 18px; color: var(--muted); margin-bottom: 11px; line-height: 1.5; }
 .summary-sub b { color: #3d3a32; font-weight: 600; }
 .summary .progress-track { margin: 0; }
 .action-row { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 14px; margin-bottom: 14px; }
@@ -260,6 +260,7 @@ html { scroll-behavior: smooth; }
   .reset-btn:hover, .print-btn:hover, .toggle-btn:hover { background: none; border-color: #c8a060; color: #c8a060; }
   .sub-label { color: #c8a060; }
   .item input[type="checkbox"] { border-color: #7a5c0e; }
+  .item input[type="checkbox"]:checked { background: #c8a060; border-color: #c8a060; }
   .ring-fg, .ring-pct, .summary-big b, .progress-fill { color: #c8a060; stroke: #c8a060; background: #c8a060; }
 }
 </style>
@@ -759,99 +760,105 @@ html { scroll-behavior: smooth; }
  const STORAGE_KEY = 'packing_generic_v1';
  const DAYS_KEY = 'packing_generic_days_v1';
 
+ /* Every entry below is EXACT integer math — perDays: "+1 every N days";
+    perDay: "N per day"; neither: fixed, never scales. No fractional ratio
+    is ever stored, because rounding a fraction into words ("1 every N
+    days") is exactly what drifted from the number computeQty produced.
+    With whole-number intervals, the number and its explanation are the
+    same arithmetic — they cannot disagree, at any trip length. */
  const QTY = {
- 'cb-c1':  { ratio: 0.25, min: 1, cap: 5,  unit: '', name: 'socks' },
- 'cb-c2':  { ratio: 1, offset: 3, min: 4, cap: 14, unit: '', name: 'underwear' },
- 'cb-c3':  { ratio: 0.25, min: 1, cap: 5,  unit: '', name: 'bras' },
- 'cb-c4':  { ratio: 0.4,  min: 2, cap: 7,  unit: '', name: 't-shirts or casual tops' },
- 'cb-c5':  { ratio: 0, min: 2, cap: 2, unit: '', name: 'long-sleeve shirts' },
- 'cb-c6':  { ratio: 0, min: 1, cap: 1, unit: '', name: 'sweater / cardigan' },
- 'cb-c7':  { ratio: 0.15, min: 2, cap: 3,  unit: '', name: 'jeans or casual pants' },
- 'cb-c8':  { ratio: 0.15, min: 2, cap: 3,  unit: '', name: 'shorts' },
- 'cb-c9':  { ratio: 0.05, min: 1, cap: 2,  unit: '', name: 'dressy pants' },
- 'cb-c10': { ratio: 0.15, min: 2, cap: 4,  unit: '', name: 'leggings or comfortable casual pants' },
- 'cb-c14': { ratio: 0.3,  min: 1, cap: 2,  unit: '', name: 'pajamas' },
- 'cb-bb1':  { ratio: 7,   min: 7,  cap: 999, unit: '', name: 'diapers' },
- 'cb-bb11': { ratio: 1,   min: 1,  cap: 999, unit: '', name: 'pacifiers / binkies' },
- 'cb-bb17': { ratio: 2,   min: 2,  cap: 999, unit: '', name: 'swim diapers' },
- 'cb-bb21': { ratio: 2,   min: 2,  cap: 14, unit: '', name: 'bibs' },
- 'cb-bb24': { ratio: 2,   min: 2,  cap: 14, unit: '', name: 'day outfits' },
- 'cb-bb48': { ratio: 1,   min: 1,  cap: 7,  unit: '', name: 'pajamas' },
+ 'cb-c1':  { perDays: 4, min: 1, cap: 4,  unit: '', name: 'socks' },
+ 'cb-c2':  { perDay: 1, offset: 3, min: 4, cap: 14, unit: '', name: 'underwear' },
+ 'cb-c3':  { perDays: 4, min: 1, cap: 4,  unit: '', name: 'bras' },
+ 'cb-c4':  { perDays: 3, min: 2, cap: 7,  unit: '', name: 't-shirts or casual tops' },
+ 'cb-c5':  { perDays: 7, min: 2, cap: 4, unit: '', name: 'long-sleeve shirts' },
+ 'cb-c6':  { perDays: 20, min: 1, cap: 2, unit: '', name: 'sweater / cardigan' },
+ 'cb-c7':  { perDays: 7, min: 2, cap: 3,  unit: '', name: 'jeans or casual pants' },
+ 'cb-c8':  { perDays: 7, min: 2, cap: 3,  unit: '', name: 'shorts' },
+ 'cb-c9':  { perDays: 20, min: 1, cap: 2,  unit: '', name: 'dressy pants' },
+ 'cb-c10': { perDays: 7, min: 2, cap: 4,  unit: '', name: 'leggings or comfortable casual pants' },
+ 'cb-c14': { perDays: 3,  min: 1, cap: 2,  unit: '', name: 'pajamas' },
+ 'cb-bb1':  { perDay: 7,   min: 7,  cap: 999, unit: '', name: 'diapers' },
+ 'cb-bb11': { perDay: 1,   min: 1,  cap: 999, unit: '', name: 'pacifiers / binkies' },
+ 'cb-bb17': { perDay: 2,   min: 2,  cap: 999, unit: '', name: 'swim diapers' },
+ 'cb-bb21': { perDay: 2,   min: 2,  cap: 14, unit: '', name: 'bibs' },
+ 'cb-bb24': { perDay: 2,   min: 2,  cap: 14, unit: '', name: 'day outfits' },
+ 'cb-bb48': { perDay: 1,   min: 1,  cap: 7,  unit: '', name: 'pajamas' },
 
  /* Fixed at 1 regardless of trip length — single items, not scaled by day
     count, but shown with the same number chip as their siblings above so
     the list reads consistently (owner rule 2026-08-24: "items with no
     number need to show 1 to be consistent"). */
- 'cb-c1b': { ratio: 0, min: 1, cap: 1, unit: '', name: 'warm socks for plane' },
- 'cb-c3b': { ratio: 0.25, min: 1, cap: 5, unit: '', name: 'undershirts' },
- 'cb-c19': { ratio: 0, min: 1, cap: 1, unit: '', name: 'capris' },
- 'cb-c17': { ratio: 0, min: 1, cap: 1, unit: '', name: 'sports / workout gear' },
- 'cb-bp1': { ratio: 0, min: 1, cap: 1, unit: '', name: 'swimwear' },
- 'cb-c1c': { ratio: 0, min: 1, cap: 1, unit: '', name: 'sports socks' },
- 'cb-c16': { ratio: 0, min: 1, cap: 1, unit: '', name: 'formal / evening outfit' },
- 'cb-s3':  { ratio: 0, min: 1, cap: 1, unit: '', name: 'dress shoes' },
- 'cb-c20': { ratio: 0, min: 1, cap: 1, unit: '', name: 'belt' },
- 'cb-c11': { ratio: 0, min: 1, cap: 1, unit: '', name: 'light jacket / windbreaker' },
- 'cb-c21': { ratio: 0, min: 1, cap: 1, unit: '', name: 'rain jacket' },
- 'cb-c12': { ratio: 0, min: 1, cap: 1, unit: '', name: 'warm coat' },
- 'cb-cw1': { ratio: 0, min: 1, cap: 1, unit: '', name: 'sweater' },
- 'cb-cw6': { ratio: 0, min: 1, cap: 1, unit: '', name: 'pullover' },
- 'cb-cw2': { ratio: 0, min: 2, cap: 2, unit: '', name: 'under pants' },
- 'cb-c13': { ratio: 0, min: 1, cap: 1, unit: '', name: 'scarf' },
- 'cb-c15': { ratio: 0, min: 1, cap: 1, unit: '', name: 'gloves' },
- 'cb-cw5': { ratio: 0, min: 1, cap: 1, unit: '', name: 'beanie' },
- 'cb-bb25': { ratio: 0, min: 1, cap: 1, unit: '', name: 'shoes' },
- 'cb-bb46': { ratio: 0, min: 1, cap: 1, unit: '', name: 'baby swimsuit' },
- 'cb-bb47': { ratio: 0, min: 1, cap: 1, unit: '', name: 'sun hat' },
+ 'cb-c1b': { min: 1, cap: 1, unit: '', name: 'warm socks for plane' },
+ 'cb-c3b': { perDays: 4, min: 1, cap: 4, unit: '', name: 'undershirts' },
+ 'cb-c19': { min: 1, cap: 1, unit: '', name: 'capris' },
+ 'cb-c17': { min: 1, cap: 1, unit: '', name: 'sports / workout gear' },
+ 'cb-bp1': { min: 1, cap: 1, unit: '', name: 'swimwear' },
+ 'cb-c1c': { min: 1, cap: 1, unit: '', name: 'sports socks' },
+ 'cb-c16': { min: 1, cap: 1, unit: '', name: 'formal / evening outfit' },
+ 'cb-s3':  { min: 1, cap: 1, unit: '', name: 'dress shoes' },
+ 'cb-c20': { min: 1, cap: 1, unit: '', name: 'belt' },
+ 'cb-c11': { perDays: 20, min: 1, cap: 2, unit: '', name: 'light jacket / windbreaker' },
+ 'cb-c21': { min: 1, cap: 1, unit: '', name: 'rain jacket' },
+ 'cb-c12': { min: 1, cap: 1, unit: '', name: 'warm coat' },
+ 'cb-cw1': { perDays: 20, min: 1, cap: 2, unit: '', name: 'sweater' },
+ 'cb-cw6': { perDays: 20, min: 1, cap: 2, unit: '', name: 'pullover' },
+ 'cb-cw2': { perDays: 20, min: 2, cap: 3, unit: '', name: 'under pants' },
+ 'cb-c13': { min: 1, cap: 1, unit: '', name: 'scarf' },
+ 'cb-c15': { min: 1, cap: 1, unit: '', name: 'gloves' },
+ 'cb-cw5': { min: 1, cap: 1, unit: '', name: 'beanie' },
+ 'cb-bb25': { min: 1, cap: 1, unit: '', name: 'shoes' },
+ 'cb-bb46': { min: 1, cap: 1, unit: '', name: 'baby swimsuit' },
+ 'cb-bb47': { min: 1, cap: 1, unit: '', name: 'sun hat' },
 
  /* Baby & Toddler: rest of the card, fixed at 1 for the same reason —
     every item in a card that already carries numbers gets one, so the
     list reads consistently start to finish. */
- 'cb-bb2':  { ratio: 0, min: 1, cap: 1, unit: '', name: 'baby wipes' },
- 'cb-bb3':  { ratio: 0, min: 1, cap: 1, unit: '', name: 'diaper cream' },
- 'cb-bb4':  { ratio: 0, min: 1, cap: 1, unit: '', name: 'portable changing pad' },
- 'cb-bb23': { ratio: 0, min: 1, cap: 1, unit: '', name: 'diaper disposal bags' },
- 'cb-bb5':  { ratio: 0, min: 1, cap: 1, unit: '', name: 'formula' },
- 'cb-bb5b': { ratio: 0, min: 1, cap: 1, unit: '', name: 'nursing supplies' },
- 'cb-bb6':  { ratio: 0, min: 1, cap: 1, unit: '', name: 'baby food' },
- 'cb-bb6b': { ratio: 0, min: 1, cap: 1, unit: '', name: 'snacks' },
- 'cb-bb7':  { ratio: 0, min: 1, cap: 1, unit: '', name: 'bottles' },
- 'cb-bb7b': { ratio: 0, min: 1, cap: 1, unit: '', name: 'sippy cups' },
- 'cb-bb18': { ratio: 0, min: 1, cap: 1, unit: '', name: 'snack holder' },
- 'cb-bb19': { ratio: 0, min: 1, cap: 1, unit: '', name: 'baby plate' },
- 'cb-bb20': { ratio: 0, min: 1, cap: 1, unit: '', name: 'baby utensils' },
- 'cb-bb22': { ratio: 0, min: 1, cap: 1, unit: '', name: 'eating smock' },
- 'cb-bb22b': { ratio: 0, min: 1, cap: 1, unit: '', name: 'long-sleeve bib' },
- 'cb-bb26': { ratio: 0, min: 1, cap: 1, unit: '', name: 'teethers' },
- 'cb-bb27': { ratio: 0, min: 1, cap: 1, unit: '', name: 'sensory toys' },
- 'cb-bb28': { ratio: 0, min: 1, cap: 1, unit: '', name: 'puzzles' },
- 'cb-bb29': { ratio: 0, min: 1, cap: 1, unit: '', name: 'interactive snack toy' },
- 'cb-bb30': { ratio: 0, min: 1, cap: 1, unit: '', name: 'interactive water book' },
- 'cb-bb31': { ratio: 0, min: 1, cap: 1, unit: '', name: 'interactive sticker book' },
- 'cb-bb32': { ratio: 0, min: 1, cap: 1, unit: '', name: 'favorite books' },
- 'cb-bb33': { ratio: 0, min: 1, cap: 1, unit: '', name: 'stacking cups' },
- 'cb-bb34': { ratio: 0, min: 1, cap: 1, unit: '', name: 'little people figures' },
- 'cb-bb35': { ratio: 0, min: 1, cap: 1, unit: '', name: 'animal figures' },
- 'cb-bb36': { ratio: 0, min: 1, cap: 1, unit: '', name: 'toy cars' },
- 'cb-bb8':  { ratio: 0, min: 1, cap: 1, unit: '', name: 'stroller' },
- 'cb-bb9':  { ratio: 0, min: 1, cap: 1, unit: '', name: 'baby carrier' },
- 'cb-bb9b': { ratio: 0, min: 1, cap: 1, unit: '', name: 'baby wrap' },
- 'cb-bb10': { ratio: 0, min: 1, cap: 1, unit: '', name: 'car seat' },
- 'cb-bb12': { ratio: 0, min: 1, cap: 1, unit: '', name: 'favorite toy or comfort item' },
- 'cb-bb13': { ratio: 0, min: 1, cap: 1, unit: '', name: 'sleep sack' },
- 'cb-bb13b': { ratio: 0, min: 1, cap: 1, unit: '', name: 'travel blanket' },
- 'cb-bb14': { ratio: 0, min: 1, cap: 1, unit: '', name: 'portable white noise machine' },
- 'cb-bb37': { ratio: 0, min: 1, cap: 1, unit: '', name: 'ceraVe' },
- 'cb-bb38': { ratio: 0, min: 1, cap: 1, unit: '', name: 'aquaphor' },
- 'cb-bb39': { ratio: 0, min: 1, cap: 1, unit: '', name: 'baby soap' },
- 'cb-bb40': { ratio: 0, min: 1, cap: 1, unit: '', name: 'cradle cap shampoo' },
- 'cb-bb41': { ratio: 0, min: 1, cap: 1, unit: '', name: 'nail filer' },
- 'cb-bb42': { ratio: 0, min: 1, cap: 1, unit: '', name: 'baby hair brush' },
- 'cb-bb15': { ratio: 0, min: 1, cap: 1, unit: '', name: 'baby sunscreen' },
- 'cb-bb49': { ratio: 0, min: 1, cap: 1, unit: '', name: 'bug repellent' },
- 'cb-bb16': { ratio: 0, min: 1, cap: 1, unit: '', name: 'infant pain reliever / fever reducer' },
- 'cb-bb44': { ratio: 0, min: 1, cap: 1, unit: '', name: 'potty insert' },
- 'cb-bb45': { ratio: 0, min: 1, cap: 1, unit: '', name: 'potty book' },
+ 'cb-bb2':  { min: 1, cap: 1, unit: '', name: 'baby wipes' },
+ 'cb-bb3':  { min: 1, cap: 1, unit: '', name: 'diaper cream' },
+ 'cb-bb4':  { min: 1, cap: 1, unit: '', name: 'portable changing pad' },
+ 'cb-bb23': { min: 1, cap: 1, unit: '', name: 'diaper disposal bags' },
+ 'cb-bb5':  { min: 1, cap: 1, unit: '', name: 'formula' },
+ 'cb-bb5b': { min: 1, cap: 1, unit: '', name: 'nursing supplies' },
+ 'cb-bb6':  { min: 1, cap: 1, unit: '', name: 'baby food' },
+ 'cb-bb6b': { min: 1, cap: 1, unit: '', name: 'snacks' },
+ 'cb-bb7':  { min: 1, cap: 1, unit: '', name: 'bottles' },
+ 'cb-bb7b': { min: 1, cap: 1, unit: '', name: 'sippy cups' },
+ 'cb-bb18': { min: 1, cap: 1, unit: '', name: 'snack holder' },
+ 'cb-bb19': { min: 1, cap: 1, unit: '', name: 'baby plate' },
+ 'cb-bb20': { min: 1, cap: 1, unit: '', name: 'baby utensils' },
+ 'cb-bb22': { min: 1, cap: 1, unit: '', name: 'eating smock' },
+ 'cb-bb22b': { min: 1, cap: 1, unit: '', name: 'long-sleeve bib' },
+ 'cb-bb26': { min: 1, cap: 1, unit: '', name: 'teethers' },
+ 'cb-bb27': { min: 1, cap: 1, unit: '', name: 'sensory toys' },
+ 'cb-bb28': { min: 1, cap: 1, unit: '', name: 'puzzles' },
+ 'cb-bb29': { min: 1, cap: 1, unit: '', name: 'interactive snack toy' },
+ 'cb-bb30': { min: 1, cap: 1, unit: '', name: 'interactive water book' },
+ 'cb-bb31': { min: 1, cap: 1, unit: '', name: 'interactive sticker book' },
+ 'cb-bb32': { min: 1, cap: 1, unit: '', name: 'favorite books' },
+ 'cb-bb33': { min: 1, cap: 1, unit: '', name: 'stacking cups' },
+ 'cb-bb34': { min: 1, cap: 1, unit: '', name: 'little people figures' },
+ 'cb-bb35': { min: 1, cap: 1, unit: '', name: 'animal figures' },
+ 'cb-bb36': { min: 1, cap: 1, unit: '', name: 'toy cars' },
+ 'cb-bb8':  { min: 1, cap: 1, unit: '', name: 'stroller' },
+ 'cb-bb9':  { min: 1, cap: 1, unit: '', name: 'baby carrier' },
+ 'cb-bb9b': { min: 1, cap: 1, unit: '', name: 'baby wrap' },
+ 'cb-bb10': { min: 1, cap: 1, unit: '', name: 'car seat' },
+ 'cb-bb12': { min: 1, cap: 1, unit: '', name: 'favorite toy or comfort item' },
+ 'cb-bb13': { min: 1, cap: 1, unit: '', name: 'sleep sack' },
+ 'cb-bb13b': { min: 1, cap: 1, unit: '', name: 'travel blanket' },
+ 'cb-bb14': { min: 1, cap: 1, unit: '', name: 'portable white noise machine' },
+ 'cb-bb37': { min: 1, cap: 1, unit: '', name: 'ceraVe' },
+ 'cb-bb38': { min: 1, cap: 1, unit: '', name: 'aquaphor' },
+ 'cb-bb39': { min: 1, cap: 1, unit: '', name: 'baby soap' },
+ 'cb-bb40': { min: 1, cap: 1, unit: '', name: 'cradle cap shampoo' },
+ 'cb-bb41': { min: 1, cap: 1, unit: '', name: 'nail filer' },
+ 'cb-bb42': { min: 1, cap: 1, unit: '', name: 'baby hair brush' },
+ 'cb-bb15': { min: 1, cap: 1, unit: '', name: 'baby sunscreen' },
+ 'cb-bb49': { min: 1, cap: 1, unit: '', name: 'bug repellent' },
+ 'cb-bb16': { min: 1, cap: 1, unit: '', name: 'infant pain reliever / fever reducer' },
+ 'cb-bb44': { min: 1, cap: 1, unit: '', name: 'potty insert' },
+ 'cb-bb45': { min: 1, cap: 1, unit: '', name: 'potty book' },
  };
 
  function getDays() {
@@ -863,7 +870,8 @@ html { scroll-behavior: smooth; }
  }
 
  function computeQty(cfg, days) {
- var n = Math.max(cfg.min, Math.ceil(days * cfg.ratio) + (cfg.offset || 0));
+ var raw = cfg.perDay ? (days * cfg.perDay) : cfg.perDays ? Math.ceil(days / cfg.perDays) : 0;
+ var n = Math.max(cfg.min, raw + (cfg.offset || 0));
  if (cfg.cap != null) n = Math.min(n, cfg.cap);
  return n;
  }
@@ -874,15 +882,23 @@ html { scroll-behavior: smooth; }
     used by computeQty above, spelled out so the two can never disagree.
     Fixed (ratio 0) items get no formula: there's nothing to explain, the
     number never changes. */
+ /* Fixed (ratio 0) items get no line at all — a single number that never
+    changes doesn't need explaining, and stating it as "advice" is what
+    read as confusing/false-precision on items like a rain jacket. Scaled
+    items say plainly that they scale, instead of a bare range that could
+    be misread as a menu to pick from. */
+ /* Absolute numbers only — this is the literal rule computeQty runs above,
+    spelled out, so it can never disagree with the number in the circle at
+    any trip length. min only appears when it actually binds (min > 1); for
+    a 3-day trip that's the number that's really driving the 2 you see, not
+    the ratio, so the text has to say so. */
  function explainQty(cfg) {
+ if (!cfg.perDay && !cfg.perDays) return null;
  var txt;
- if (!cfg.ratio) {
-  txt = cfg.min + ' for the trip';
- } else if (cfg.ratio >= 1) {
-  txt = Math.round(cfg.ratio) + ' per day';
+ if (cfg.perDay) {
+  txt = cfg.perDay + ' per day';
  } else {
-  var hi = cfg.cap;
-  txt = (hi && hi !== cfg.min ? (cfg.min + '–' + hi) : String(cfg.min)) + ' for the trip';
+  txt = (cfg.min > 1 ? 'min ' + cfg.min + ', ' : '') + '1 per ' + cfg.perDays + ' days, max ' + cfg.cap;
  }
  if (cfg.offset) txt += ' + ' + cfg.offset + (Math.abs(cfg.offset) === 1 ? ' spare' : ' spares');
  return 'recommended: ' + txt;

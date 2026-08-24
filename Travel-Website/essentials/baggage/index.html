@@ -18,17 +18,56 @@
 #bg-search:focus { border-color: var(--c-search-focus-border); box-shadow: none; }
 #no-results { display: none; color: var(--muted); font-size: 13px; margin-bottom: 12px; text-align: center; }
 
-/* Region tabs — replaces the old single-airline pill row; these jump/filter
-   by region instead of by one specific carrier (search already covers
-   finding any single airline by name). */
-.region-tabs { display: flex; flex-wrap: wrap; gap: 8px; justify-content: center; margin-top: 16px; margin-bottom: 8px; }
-.region-tab {
-  font-family: inherit; font-size: 12.5px; font-weight: 700; color: var(--muted);
-  background: var(--surface); border: 1px solid var(--border2); border-radius: 20px;
-  padding: 7px 15px; cursor: pointer; transition: border-color .12s, color .12s, background .12s;
+/* Wow-fact intro — a single sourced "did you know" callout plus three
+   supporting stat tiles, replacing the old plain jump from hero to search. */
+.wow-callout {
+  display: flex; align-items: flex-start; gap: 16px;
+  background: var(--fam-orange-bg); border: 1px solid var(--fam-orange-bd);
+  border-radius: 14px; padding: 20px 22px; margin: 22px 0 14px;
+  box-shadow: 0 1px 6px rgba(92,61,17,.05);
 }
-.region-tab:hover { border-color: var(--rust); color: var(--rust); }
-.region-tab.is-on { background: var(--rust); border-color: var(--rust); color: #fff; }
+.wow-callout .card-icon { font-size: 38px; flex-shrink: 0; }
+.wow-callout .card-icon svg { width: 1em; height: 1em; display: block; }
+.wow-callout h2 { margin: 8px 0 6px; font-size: 16.5px; font-weight: 800; color: var(--text); letter-spacing: -0.01em; }
+.wow-callout p { margin: 0; font-size: 13px; color: var(--muted); line-height: 1.6; }
+.wow-callout code { font-size: 11.5px; background: var(--surface); padding: 1px 5px; border-radius: 3px; border: 1px solid var(--border2); }
+
+.wow-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin: 0 0 30px; }
+.wow-tile { background: var(--surface); border: 1px solid var(--border2); border-radius: 12px; padding: 16px 17px; box-shadow: 0 1px 6px rgba(92,61,17,.05); transition: box-shadow .15s, transform .15s; }
+.wow-tile:hover { box-shadow: 0 8px 22px rgba(92,61,17,.15); transform: translateY(-2px); }
+.wow-tile .card-icon { font-size: 24px; display: block; margin-bottom: 8px; }
+.wow-tile .card-icon svg { width: 1em; height: 1em; display: block; }
+.wow-num { font-size: 25px; font-weight: 800; color: var(--rust,#C04E1A); letter-spacing: -0.02em; line-height: 1.1; }
+.wow-label { font-size: 12.5px; color: var(--text); font-weight: 600; margin-top: 5px; line-height: 1.4; }
+.wow-sub { font-size: 11.5px; color: var(--muted); margin-top: 4px; line-height: 1.5; }
+
+/* Standouts — extremes computed from this page's own carrier data. */
+.stand-head { display: flex; align-items: center; gap: 8px; margin: 4px 0 12px; }
+.stand-head .card-icon { font-size: 20px; }
+.stand-head .card-icon svg { width: 1em; height: 1em; display: block; }
+.stand-head h2 { font-size: 12.5px; font-weight: 800; letter-spacing: .08em; text-transform: uppercase; color: var(--text); margin: 0; }
+.stand-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; margin-bottom: 30px; }
+.stand-card { background: var(--surface); border: 1px solid var(--border2); border-left: 3px solid var(--fam-grey-bd); border-radius: 9px; padding: 13px 14px; }
+.stand-card.sc-green { border-left-color: var(--fam-green-bd); }
+.stand-card.sc-red { border-left-color: var(--fam-red-bd); }
+.stand-card.sc-blue { border-left-color: var(--fam-blue-bd); }
+.stand-card.sc-purple { border-left-color: var(--fam-purple-bd); }
+.stand-title { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: .05em; color: var(--muted); margin-bottom: 6px; }
+.stand-value { font-size: 13px; font-weight: 700; color: var(--text); line-height: 1.35; margin-bottom: 4px; }
+.stand-detail { font-size: 11.5px; color: var(--muted); line-height: 1.5; }
+
+/* Region jump-strip — dot-chip variant (rounded, catalogue dot per family,
+   hover/active flip terracotta) in place of the old squared region-tab row. */
+.jump-strip { display: flex; flex-wrap: wrap; gap: 6px; justify-content: center; margin-top: 16px; margin-bottom: 8px; }
+.jchip {
+  display: inline-flex; align-items: center; gap: 6px;
+  font-family: inherit; font-size: 12px; font-weight: 600; line-height: 1.3; color: var(--text);
+  background: var(--surface); border: 1px solid var(--border2); border-radius: 20px;
+  padding: 5px 12px; cursor: pointer; transition: border-color .12s, color .12s, background .12s;
+}
+.jchip .gm-icon { width: 10px; height: 10px; flex: none; }
+.jchip:hover { border-color: var(--rust,#C04E1A); color: var(--rust,#C04E1A); }
+.jchip.is-on { background: var(--rust); border-color: var(--rust); color: #fff; }
 
 /* Region sections */
 .bag-region { margin-top: 28px; }
@@ -45,7 +84,8 @@
    always be on screen. Chips reuse the exact .badge/.pill-badge fam-* system
    already defined site-wide — no new color language. */
 .row-list { display: flex; flex-direction: column; gap: 10px; }
-.bag-row { background: var(--surface); border: 1px solid var(--border2); border-radius: 10px; overflow: hidden; }
+.bag-row { background: var(--surface); border: 1px solid var(--border2); border-radius: 12px; overflow: hidden; box-shadow: 0 1px 4px rgba(92,61,17,.04); transition: box-shadow .15s, border-color .15s; }
+.bag-row:hover { border-color: var(--rust); box-shadow: 0 4px 14px rgba(92,61,17,.10); }
 .bag-row.hidden { display: none; }
 
 .bag-head {
@@ -99,7 +139,10 @@
 
 @media (max-width: 600px) and (pointer: coarse) {
   #bg-search { width: 100%; max-width: 100%; }
-  .region-tabs { justify-content: flex-start; overflow-x: auto; flex-wrap: nowrap; padding-bottom: 2px; }
+  .wow-callout { flex-direction: column; }
+  .wow-grid { grid-template-columns: 1fr; }
+  .stand-grid { grid-template-columns: 1fr; }
+  .jump-strip { justify-content: flex-start; overflow-x: auto; flex-wrap: nowrap; padding-bottom: 2px; }
   .bag-head { flex-wrap: wrap; }
   .bag-chips { max-width: 100%; width: 100%; padding-left: 44px; justify-content: flex-start; }
   .bag-cols { grid-template-columns: 1fr; }
@@ -140,7 +183,7 @@
 <body>
 <div class="wrap">
 
-  <div id="toolbar-mount" data-depth="2" data-maxwidth="760" data-updated="2026-08-08"></div>
+  <div id="toolbar-mount" data-depth="2" data-maxwidth="760" data-updated="2026-08-24"></div>
 <script src="/assets/toolbar.js?v=127"></script>
 
   <div class="hero-band">
@@ -149,17 +192,74 @@
     <p class="hero-sub" style="margin-top:10px;">The spread is wide: Southwest and JetBlue still give most fares a free first checked bag, while Frontier, Wizz Air and other budget carriers charge for any bag bigger than a small under-seat personal item. Emirates, Qatar and Turkish Airlines check bags by weight allowance rather than a flat per-bag fee. Search below for your airline's exact numbers.</p>
   </div>
 
+  <div class="wow-callout">
+    <span class="card-icon" data-icon="552"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M11.2 4.6h1.6v15.4h-1.6z" fill="url(#gm-cocoa)" stroke="var(--c-cocoa-rim)" stroke-width="0.5"/><rect x="7.4" y="20" width="9.2" height="1.8" rx="0.9" fill="url(#gm-cocoa)" stroke="var(--c-cocoa-rim)" stroke-width="0.5"/><circle cx="12" cy="4" r="1.6" fill="url(#gm-sun)" stroke="var(--c-sun-rim)" stroke-width="0.5"/><path d="M3 7.2h18" stroke="var(--c-cocoa)" stroke-width="1.6" stroke-linecap="round"/><path d="M1.4 12.2 4.2 7.4 7 12.2a2.8 2.8 0 0 1-5.6 0z" fill="url(#gm-blue)" stroke="var(--c-blue-rim)" stroke-width="0.5"/><path d="M17 14.4 19.8 9.6l2.8 4.8a2.8 2.8 0 0 1-5.6 0z" fill="url(#gm-clay)" stroke="var(--c-clay-rim)" stroke-width="0.5"/><path d="M4.2 7.4v-1M19.8 9.6V7.4" stroke="var(--c-cocoa)" stroke-width="1.2"/></svg></span>
+    <div>
+      <span class="badge fam-orange">Did you know</span>
+      <h2>Bag fees pay no federal ticket tax</h2>
+      <p>Airfare carries a 7.5% federal excise tax — but under <code>26 CFR §49.4261-8</code>, checked-bag and other à la carte fees are legally exempt from it. Every dollar an airline shifts from the fare into a fee is a dollar that tax never touches, which is part of why bag fees keep climbing even when ticket prices hold steady.</p>
+    </div>
+  </div>
+
+  <div class="wow-grid">
+    <div class="wow-tile">
+      <span class="card-icon" data-icon="554"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M2.4 21.4V3" stroke="var(--c-stone)" stroke-width="1.5" stroke-linecap="round"/><path d="M2.4 21.4H22" stroke="var(--c-stone)" stroke-width="1.5" stroke-linecap="round"/><path d="M5 17.6 9.8 12.4l3.6 3.2 6.6-8" fill="none" stroke="var(--c-green)" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"/><path d="M15.4 7.6h4.6v4.6" fill="none" stroke="var(--c-green)" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"/><g fill="url(#gm-green)" stroke="var(--c-green-rim)" stroke-width="0.5"><circle cx="9.8" cy="12.4" r="1.5"/><circle cx="13.4" cy="15.6" r="1.5"/></g></svg></span>
+      <div class="wow-num">$7.4B</div>
+      <div class="wow-label">in U.S. checked-bag fees, 2025</div>
+      <div class="wow-sub">Up 162% over five years — Bureau of Transportation Statistics</div>
+    </div>
+    <div class="wow-tile">
+      <span class="card-icon" data-icon="560"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9.6" fill="url(#gm-stone)" stroke="var(--c-stone-rim)" stroke-width="0.5"/><path d="M12 2.4A9.6 9.6 0 0 1 20.9 15.6L12 12z" fill="url(#gm-blue)" stroke="var(--c-blue-rim)" stroke-width="0.5"/><path d="M20.9 15.6A9.6 9.6 0 0 1 5.2 18.2L12 12z" fill="url(#gm-clay)" stroke="var(--c-clay-rim)" stroke-width="0.5"/><circle cx="12" cy="12" r="4.4" fill="url(#gm-cream)" stroke="var(--c-rim-warm)" stroke-width="0.6"/></svg></span>
+      <div class="wow-num">$157B</div>
+      <div class="wow-label">projected global airline ancillary revenue, 2025</div>
+      <div class="wow-sub">Bag, seat and other add-on fees combined, worldwide</div>
+    </div>
+    <div class="wow-tile">
+      <span class="card-icon" data-icon="429"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 6V4.8h5.6V6h1.8V4.6a2 2 0 0 0-2-2H8.2a2 2 0 0 0-2 2V6z" fill="url(#gm-cocoa)" stroke="var(--c-cocoa-rim)" stroke-width="0.5"/><path d="M8 6V4.8h5.6V6h1.8V4.6a2 2 0 0 0-2-2H8.2a2 2 0 0 0-2 2V6z" fill="url(#gm-gloss)"/><rect x="1.8" y="6" width="16" height="13.2" rx="2.1" fill="url(#gm-navy)" stroke="var(--c-navy-rim)" stroke-width="0.5"/><rect x="1.8" y="9.4" width="16" height="2.4" fill="url(#gm-cream)" stroke="var(--c-rim-warm)" stroke-width="0.6"/><rect x="3.8" y="19.2" width="1.9" height="2.4" rx="0.85" fill="url(#gm-tire)" stroke="var(--c-tire-rim)" stroke-width="0.5"/><rect x="13.9" y="19.2" width="1.9" height="2.4" rx="0.85" fill="url(#gm-tire)" stroke="var(--c-tire-rim)" stroke-width="0.5"/><path d="M16.4 12.6 21.8 11v8.4l-5.4-1.6z" fill="url(#gm-cream)" stroke="var(--c-rim-warm)" stroke-width="0.6"/><g stroke="var(--c-cocoa)" stroke-width="0.8"><path d="M17.8 13.4v4.2M19 13v4.8M20.2 12.7v5.2M21 12.4v5.6"/></g></svg></span>
+      <div class="wow-num">2 → 0</div>
+      <div class="wow-label">free checked bags on Southwest</div>
+      <div class="wow-sub">Ended May 2025, closing out a decades-long industry holdout</div>
+    </div>
+  </div>
+
+  <div class="stand-head">
+    <span class="card-icon" data-icon="566"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="2.4" y="3.6" width="19" height="4.2" rx="1" fill="url(#gm-blue)" stroke="var(--c-blue-rim)" stroke-width="0.5"/><rect x="2.4" y="9.9" width="13.4" height="4.2" rx="1" fill="url(#gm-teal)" stroke="var(--c-teal-rim)" stroke-width="0.5"/><rect x="2.4" y="16.2" width="8" height="4.2" rx="1" fill="url(#gm-clay)" stroke="var(--c-clay-rim)" stroke-width="0.5"/></svg></span>
+    <h2>Standouts across 44 carriers</h2>
+  </div>
+  <div class="stand-grid">
+    <div class="stand-card sc-green">
+      <div class="stand-title">Most generous carry-on</div>
+      <div class="stand-value">British Airways — 51 lb (23 kg)</div>
+      <div class="stand-detail">More than double the 7–8 kg most European and Middle Eastern carriers enforce — and equal to what many airlines allow for an entire checked bag.</div>
+    </div>
+    <div class="stand-card sc-red">
+      <div class="stand-title">Strictest carry-on — a 6-way tie</div>
+      <div class="stand-value">Emirates · Qatar · Etihad · Singapore · Cathay Pacific · Qantas</div>
+      <div class="stand-detail">All six cap the cabin bag at exactly 15.4 lb (7 kg), tighter than any other carrier on this page.</div>
+    </div>
+    <div class="stand-card sc-blue">
+      <div class="stand-title">No weight limit at all</div>
+      <div class="stand-value">Delta · United · American · Southwest · Alaska · JetBlue</div>
+      <div class="stand-detail">Every major U.S. carrier judges the carry-on by size only — pack it heavy, no scale involved.</div>
+    </div>
+    <div class="stand-card sc-purple">
+      <div class="stand-title">Two free checked bags, Economy</div>
+      <div class="stand-value">JAL / ANA · Aerolíneas Argentinas</div>
+      <div class="stand-detail">A full second bag included on international routes, no elite status or credit card required.</div>
+    </div>
+  </div>
+
   <div class="search-wrap">
     <input type="search" class="search-input" id="bg-search" placeholder="Airline" aria-label="Search" autocomplete="off">
   </div>
 
-  <div class="region-tabs">
-    <button class="region-tab is-on" data-region="all">All regions</button>
-    <button class="region-tab" data-region="north-america">North America</button>
-    <button class="region-tab" data-region="europe">Europe</button>
-    <button class="region-tab" data-region="middle-east">Middle East</button>
-    <button class="region-tab" data-region="asia-oceania">Asia · Oceania</button>
-    <button class="region-tab" data-region="latin-america">Latin America</button>
+  <div class="jump-strip">
+    <button class="jchip is-on" data-region="all"><svg class="gm-icon" data-icon="dot-grey" data-role="dot" viewBox="0 0 24 24" aria-hidden="true"><use href="#gm-i-dot-grey"/></svg>All regions</button>
+    <button class="jchip" data-region="north-america"><svg class="gm-icon" data-icon="dot-blue" data-role="dot" viewBox="0 0 24 24" aria-hidden="true"><use href="#gm-i-dot-blue"/></svg>North America</button>
+    <button class="jchip" data-region="europe"><svg class="gm-icon" data-icon="dot-purple" data-role="dot" viewBox="0 0 24 24" aria-hidden="true"><use href="#gm-i-dot-purple"/></svg>Europe</button>
+    <button class="jchip" data-region="middle-east"><svg class="gm-icon" data-icon="dot-orange" data-role="dot" viewBox="0 0 24 24" aria-hidden="true"><use href="#gm-i-dot-orange"/></svg>Middle East</button>
+    <button class="jchip" data-region="asia-oceania"><svg class="gm-icon" data-icon="dot-green" data-role="dot" viewBox="0 0 24 24" aria-hidden="true"><use href="#gm-i-dot-green"/></svg>Asia · Oceania</button>
+    <button class="jchip" data-region="latin-america"><svg class="gm-icon" data-icon="dot-pink" data-role="dot" viewBox="0 0 24 24" aria-hidden="true"><use href="#gm-i-dot-pink"/></svg>Latin America</button>
   </div>
 
   <p id="no-results">Nothing matches your search.</p>
@@ -1373,7 +1473,7 @@
   var rows     = document.querySelectorAll('.bag-row[data-region]');
   var sections = document.querySelectorAll('.bag-region[data-region-section]');
   var noRes    = document.getElementById('no-results');
-  var tabs     = document.querySelectorAll('.region-tab');
+  var tabs     = document.querySelectorAll('.jchip');
   var activeRegion = 'all';
 
   rows.forEach(function (r) {

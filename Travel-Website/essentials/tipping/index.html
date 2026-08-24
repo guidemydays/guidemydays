@@ -7,18 +7,30 @@
 <title>Tipping Customs by Country | Guide My Days</title>
 <style>/* ── Tipping norm palette ── */
 :root {
-  --c-expected:    #5eb833;
-  --c-appreciated: #4a90e2;
-  --c-check:       #f5c518;
-  --c-skip:        #c8c0b4;
+  /* 2026-08-24: repointed at the real --fam-*-ink tokens instead of their
+     own hardcoded hex — these are the same four categories the norm-chip
+     .badge fam-green/blue/yellow/grey pills already color, just used here
+     for a country-row left accent bar. One source now. */
+  --c-expected:    var(--fam-green-ink);
+  --c-appreciated: var(--fam-blue-ink);
+  --c-check:       var(--fam-yellow-ink);
+  --c-skip:        var(--fam-grey-ink);
 }
 /* ── Stat bar ── */
 .stat-bar { display: flex; flex-wrap: wrap; gap: 8px; margin: 28px 0 14px; justify-content: center; }
 .stat-pill {
   /* hook — box, case and colour from the shared .badge + .fam-* (the JS
      writes stat-pill badge fam-*). Was a 999px oval at 12px with a 1.5px
-     rim; never re-add a box. flex lets the four fill the row evenly. */
-  flex: 1 1 auto; justify-content: center;
+     rim; never re-add a box, never re-add padding beyond the shared
+     .badge default. 2026-08-24: flex:1 1 auto (stretch-to-fill-row) is
+     RETIRED — owner: "the longest text dictates the size of the rest...
+     don't pad tons around, these are crazy." These are static .badge
+     labels, so the shared _equalizePillRows() in toolbar.js (which only
+     equalizes clickable .pill-badge rows) does not touch them; equalizeStatPills()
+     below does the same measure-the-widest-then-match trick, scoped to
+     just this row, instead of stretching each pill to fill available
+     space with padding. */
+  flex: 0 0 auto; justify-content: center;
 }
 /* .stat-dot — drawn since 2026-08-21. The flat 8px circle and its four colour rules are
    retired: Site-Icons.html § Dots (856-867) holds the sphere, and a flat circle is neither
@@ -165,7 +177,7 @@ svg.gm-icon.stat-dot { width: 11px; height: 11px; flex-shrink: 0; }
 
   <div class="controls">
     <div class="pills" id="region-pills">
-      <button class="pill fam-yellow is-on pill-badge" data-region="all" aria-pressed="true">All</button>
+      <button class="pill fam-grey is-on pill-badge" data-region="all" aria-pressed="true">All</button>
       <button class="pill fam-red pill-badge" data-region="americas" aria-pressed="false">Americas</button>
       <button class="pill fam-pink pill-badge" data-region="caribbean" aria-pressed="false">Caribbean</button>
       <button class="pill fam-purple pill-badge" data-region="europe" aria-pressed="false">Europe</button>
@@ -1072,7 +1084,22 @@ function buildStatBar() {
     '</div>';
   });
   document.getElementById('stat-bar').innerHTML = html;
+  equalizeStatPills();
 }
+
+/* Same measure-the-widest-then-match-min-width trick as toolbar.js's
+   _equalizePillRows(), scoped to just #stat-bar — that shared function only
+   touches clickable .pill-badge rows, and these four are static .badge
+   legend items, not buttons. Width comes from content, never from padding. */
+function equalizeStatPills() {
+  var pills = [].slice.call(document.querySelectorAll('#stat-bar .stat-pill'));
+  if (pills.length < 2) return;
+  pills.forEach(function (p) { p.style.minWidth = ''; });
+  var max = 0;
+  pills.forEach(function (p) { max = Math.max(max, p.getBoundingClientRect().width); });
+  pills.forEach(function (p) { p.style.minWidth = max + 'px'; });
+}
+window.addEventListener('resize', equalizeStatPills);
 
 function renderCard(c) {
   var tipRows = c.tips.map(function(t) {

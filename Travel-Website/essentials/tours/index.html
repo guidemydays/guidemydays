@@ -8,158 +8,199 @@
 <style>
 .gm-i { width: 1.2em; height: 1.2em; vertical-align: -.25em; display: inline-block; }
 
-/* ── Four-things tip panel (replaces the old wall-of-bold-text alert-banner) ── */
-.tt-tips {
-  background: var(--warm);
-  border: 1px solid var(--border2);
-  border-radius: 12px;
-  padding: 18px 20px 20px;
-  margin-bottom: 28px;
-}
-.tt-tips-head {
+/* ── Field notes: flush single-strip ledger, not a boxed tile grid ── */
+.tt-notes-intro {
   display: flex;
   align-items: center;
-  gap: 9px;
+  gap: 8px;
   font-size: 12px;
   font-weight: 800;
   color: var(--rust);
   text-transform: uppercase;
   letter-spacing: 0.05em;
-  padding-bottom: 12px;
-  margin-bottom: 14px;
-  border-bottom: 1px solid var(--border2);
+  margin: 0 0 12px;
 }
-.tt-tips-head .gm-i { width: 17px; height: 17px; }
-.tt-tips-grid {
+.tt-notes-intro .gm-i { width: 15px; height: 15px; }
+.tt-notes {
   display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 16px 24px;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1px;
+  background: var(--border2);
+  border-top: 1px solid var(--border2);
+  border-bottom: 1px solid var(--border2);
+  margin: 0 0 40px;
 }
-.tt-tip { display: flex; align-items: flex-start; gap: 12px; }
-.tt-tip-num {
-  flex-shrink: 0;
-  width: 24px; height: 24px;
-  border-radius: 50%;
-  background: var(--rust);
-  color: #fff;
-  font-size: 12px;
-  font-weight: 800;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin-top: 1px;
+.tt-note { background: var(--bg); padding: 16px 18px 18px; }
+.tt-note-num {
+  display: block;
+  font-family: var(--font);
+  font-size: 10.5px;
+  font-weight: 700;
+  color: var(--rust);
+  letter-spacing: 0.08em;
+  margin-bottom: 8px;
 }
-.tt-tip-body { font-size: 13px; line-height: 1.55; color: var(--text); }
-.tt-tip-body strong { color: var(--text); }
-@media (max-width: 700px) {
-  .tt-tips-grid { grid-template-columns: 1fr; }
-}
+.tt-note-body { font-size: 12.5px; line-height: 1.55; color: var(--text); }
+.tt-note-body strong { display: block; font-size: 13px; color: var(--text); margin-bottom: 4px; }
+@media (max-width: 820px) { .tt-notes { grid-template-columns: 1fr 1fr; } }
+@media (max-width: 520px) { .tt-notes { grid-template-columns: 1fr; } }
 
+/* ── Directory: a static index rail (never sticky, never fixed) beside the grid ── */
+.tt-layout {
+  display: grid;
+  grid-template-columns: 202px 1fr;
+  gap: 8px 40px;
+  align-items: start;
+}
+.tt-index { display: flex; flex-direction: column; gap: 2px; }
+.tt-index-item {
+  display: block;
+  padding: 11px 6px 11px 16px;
+  border-left: 3px solid var(--border2);
+  text-decoration: none;
+  transition: border-color .15s ease, background .15s ease;
+}
+.tt-index-item:hover, .tt-index-item.active { background: var(--warm); }
+.ti-num {
+  display: block;
+  font-family: var(--font);
+  font-size: 10px;
+  font-weight: 700;
+  color: var(--muted);
+  letter-spacing: 0.06em;
+  margin-bottom: 3px;
+}
+.ti-label { display: block; font-size: 13px; font-weight: 700; color: var(--text); line-height: 1.3; }
+a.tt-index-item:visited .ti-label { color: #3d3a32; }
+.tt-index-item.ti-yellow.active, .tt-index-item.ti-yellow:hover { border-left-color: var(--fam-yellow-ink); }
+.tt-index-item.ti-blue.active,   .tt-index-item.ti-blue:hover   { border-left-color: var(--fam-blue-ink); }
+.tt-index-item.ti-green.active,  .tt-index-item.ti-green:hover  { border-left-color: var(--fam-green-ink); }
+.tt-index-item.ti-orange.active, .tt-index-item.ti-orange:hover { border-left-color: var(--fam-orange-ink); }
+.tt-index-item.ti-purple.active, .tt-index-item.ti-purple:hover { border-left-color: var(--fam-purple-ink); }
+.tt-index-item.ti-pink.active,   .tt-index-item.ti-pink:hover   { border-left-color: var(--fam-pink-ink); }
+.tt-index-item.ti-grey.active,   .tt-index-item.ti-grey:hover   { border-left-color: var(--fam-grey-ink); }
+
+/* ── Directory grid — active bento: one wide spotlight card per section, rest compact ── */
 .tt-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
-  gap: 16px;
-  margin-top: 20px;
-}
-/* Section navigation (in-page anchors) — canonical jump-nav, matches Insurance
-   / Destination-Records in layout (desktop = glued squared strip; mobile = Form B
-   grid from shared mobile.css). fam-* tinted + ALL CAPS per the 2026-08-23 rule. */
-.jump-nav { display: flex; gap: 6px; flex-wrap: wrap; margin: 20px 0 0; }
-.jump-pill {
-  font-family: inherit; display: inline-flex; align-items: center; justify-content: center;
-  height: 34px; padding: 0 14px; border: 1px solid; border-radius: 6px;
-  font-size: 13px; font-weight: 700; white-space: nowrap; cursor: pointer; text-decoration: none;
-  text-transform: uppercase; letter-spacing: 0.04em;
-}
-a.jump-pill[href="#sec-worldwide"]       { background:var(--fam-yellow-bg); border-color:var(--fam-yellow-bd); color:var(--fam-yellow-ink); }
-a.jump-pill[href="#sec-regional"]        { background:var(--fam-blue-bg);   border-color:var(--fam-blue-bd);   color:var(--fam-blue-ink); }
-a.jump-pill[href="#sec-multiday"]        { background:var(--fam-green-bg);  border-color:var(--fam-green-bd);  color:var(--fam-green-ink); }
-a.jump-pill[href="#sec-passes"]          { background:var(--fam-orange-bg); border-color:var(--fam-orange-bd); color:var(--fam-orange-ink); }
-a.jump-pill[href="#sec-primary-tickets"] { background:var(--fam-purple-bg); border-color:var(--fam-purple-bd); color:var(--fam-purple-ink); }
-a.jump-pill[href="#sec-resale"]          { background:var(--fam-pink-bg);   border-color:var(--fam-pink-bd);   color:var(--fam-pink-ink); }
-a.jump-pill[href="#sec-whats-on"]        { background:var(--fam-grey-bg);   border-color:var(--fam-grey-bd);   color:var(--fam-grey-ink); }
-a.jump-pill:visited { color: inherit; }
-@media (prefers-color-scheme: dark) {
-  .jump-pill { color: var(--text); }
+  grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
+  gap: 14px;
+  margin-top: 4px;
 }
 .tt-section-label {
   grid-column: 1 / -1;
   display: flex;
   align-items: center;
-  gap: 10px;
-  font-size: 12px;
-  font-weight: 800;
-  color: var(--text);
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
-  padding-bottom: 9px;
-  border-bottom: 2px solid var(--rust);
-  margin-top: 40px;
+  gap: 12px;
+  margin-top: 48px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid var(--border2);
 }
 .tt-section-label:first-child { margin-top: 0; }
 .tt-section-icon-wrap {
-  width: 28px; height: 28px;
-  border-radius: 8px;
-  background: var(--surface);
-  border: 1px solid var(--border2);
+  width: 32px; height: 32px;
+  border-radius: 50%;
+  background: var(--warm);
   display: flex;
   align-items: center;
   justify-content: center;
   flex-shrink: 0;
 }
-.tt-section-icon-wrap .gm-i { width: 17px; height: 17px; }
+.tt-section-icon-wrap .gm-i { width: 18px; height: 18px; }
+.tt-section-label > span:last-of-type {
+  font-size: 15px;
+  font-weight: 800;
+  color: var(--text);
+}
 .tt-section-note {
   grid-column: 1 / -1;
   font-size: 12.5px;
   color: var(--muted);
-  line-height: 1.55;
-  margin: -6px 0 2px;
-  max-width: 740px;
+  line-height: 1.6;
+  margin: -6px 0 4px;
+  max-width: 720px;
 }
 .tt-card {
   background: var(--surface);
   border: 1px solid var(--border2);
-  border-radius: 10px;
-  padding: 18px 18px 20px;
-  transition: transform .14s ease, box-shadow .14s ease, border-color .14s ease;
+  border-radius: 12px;
+  padding: 16px 16px 18px;
+  transition: transform .16s ease, box-shadow .16s ease, border-color .16s ease;
 }
 .tt-card:hover {
-  transform: translateY(-2px);
+  transform: translateY(-3px);
   border-color: var(--rust);
-  box-shadow: 0 8px 20px -12px rgba(0,0,0,.28);
+  box-shadow: 0 14px 28px -18px rgba(0,0,0,.32);
 }
-.tt-card-head {
-  display: flex;
-  align-items: flex-start;
-  gap: 10px;
-  margin-bottom: 10px;
-  padding-bottom: 10px;
-  border-bottom: 1px solid #efece6;
-}
+.tt-card-head { display: block; margin-bottom: 10px; }
 .tt-name {
-  font-size: 14px;
+  font-size: 14.5px;
   font-weight: 700;
   color: var(--text);
   line-height: 1.25;
-  margin-bottom: 8px;
+  margin-bottom: 6px;
 }
 .tt-tag {
-  font-size: 11.5px;
+  display: inline-block;
+  font-size: 10.5px;
   color: var(--muted);
-  font-weight: 600;
+  font-weight: 700;
   text-transform: uppercase;
-  letter-spacing: 0.04em;
+  letter-spacing: 0.05em;
+  background: var(--warm);
+  border-radius: 5px;
+  padding: 3px 7px;
 }
 .tt-desc {
-  font-size: 13px;
+  font-size: 12.5px;
   color: var(--text);
-  line-height: 1.5;
+  line-height: 1.55;
 }
 .tt-plain { font-weight: 700; color: var(--text); }
+
+/* Feature card: one per section — wider, a touch larger, family-tinted wash. Not a
+   badge and not a ribbon (both already exist elsewhere on the site) — just scale
+   and a soft gradient, so the section's best-known platform reads first. */
+.tt-card.tt-feature {
+  grid-column: span 2;
+  padding: 22px 24px 24px;
+  border-radius: 14px;
+  background: linear-gradient(128deg, var(--wash, var(--warm)) 0%, var(--surface) 62%);
+}
+.tt-feature .tt-card-head { display: flex; align-items: center; gap: 14px; margin-bottom: 12px; }
+.tt-mono {
+  flex-shrink: 0;
+  width: 40px; height: 40px;
+  border-radius: 50%;
+  border: 1.5px solid var(--wash-ink, var(--rust));
+  color: var(--wash-ink, var(--rust));
+  font-size: 16px;
+  font-weight: 800;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--surface);
+}
+.tt-feature .tt-name { font-size: 18px; margin-bottom: 4px; }
+.tt-feature .tt-desc { font-size: 13px; }
+.tf-yellow { --wash: var(--fam-yellow-bg); --wash-ink: var(--fam-yellow-ink); }
+.tf-blue   { --wash: var(--fam-blue-bg);   --wash-ink: var(--fam-blue-ink); }
+.tf-green  { --wash: var(--fam-green-bg);  --wash-ink: var(--fam-green-ink); }
+.tf-orange { --wash: var(--fam-orange-bg); --wash-ink: var(--fam-orange-ink); }
+.tf-purple { --wash: var(--fam-purple-bg); --wash-ink: var(--fam-purple-ink); }
+.tf-pink   { --wash: var(--fam-pink-bg);   --wash-ink: var(--fam-pink-ink); }
+.tf-grey   { --wash: var(--fam-grey-bg);   --wash-ink: var(--fam-grey-ink); }
+
+@media (max-width: 860px) {
+  .tt-layout { grid-template-columns: 1fr; }
+  .tt-index { flex-direction: row; flex-wrap: wrap; gap: 8px; margin-bottom: 26px; }
+  .tt-index-item { border-left: none; border-bottom: 3px solid var(--border2); padding: 8px 12px; flex: 0 0 auto; }
+  .ti-num { display: none; }
+}
 @media (max-width: 600px) and (pointer: coarse) {
   .tt-grid { grid-template-columns: 1fr; }
-  /* .jump-nav / .jump-pill mobile layout comes from the shared Form B grid in
-     mobile.css (3-across, 46px, radius 0) — never overridden per page. */
+  .tt-card.tt-feature { grid-column: span 1; padding: 18px 16px 20px; }
+  .tt-notes { grid-template-columns: 1fr; }
 }</style>
 <link rel="stylesheet" href="/assets/mobile.css?v=53">
 <!-- seo:start — generated by Brain/scripts/build/build_seo.py · do not hand-edit -->
@@ -216,33 +257,34 @@ a.jump-pill:visited { color: inherit; }
               <circle cx="12" cy="7.6" r="3.2" fill="url(#gm-tan)" stroke="var(--c-tan-rim)" stroke-width="0.5"/>
               <path d="M12 11.6c3 0 5.4 1.9 5.4 4.3V19H6.6v-3.1c0-2.4 2.4-4.3 5.4-4.3z" fill="url(#gm-rust)" stroke="var(--c-rust-rim)" stroke-width="0.5"/></symbol><symbol id="gm-i-576" viewBox="0 0 24 24"><rect x="2.4" y="6.6" width="11" height="13.4" rx="1.6" fill="url(#gm-sky)" stroke="var(--c-sky-rim)" stroke-width="0.5" transform="rotate(-11 7.9 13.3)"/><rect x="10.6" y="4" width="11" height="13.4" rx="1.6" fill="url(#gm-clay)" stroke="var(--c-clay-rim)" stroke-width="0.5" transform="rotate(11 16.1 10.7)"/><circle cx="16.1" cy="10.7" r="2.4" fill="url(#gm-paper)" stroke="var(--c-rim-cool)" stroke-width="0.6"/><circle cx="7.9" cy="13.3" r="2.4" fill="url(#gm-paper)" stroke="var(--c-rim-cool)" stroke-width="0.6"/></symbol><symbol id="gm-i-527" viewBox="0 0 24 24"><path d="M1.6 5.4h20.8v4a2 2 0 0 0 0 4v4H1.6v-4a2 2 0 0 0 0-4z" fill="url(#gm-plum)" stroke="var(--c-plum-rim)" stroke-width="0.5"/><path d="M1.6 5.4h20.8v4a2 2 0 0 0 0 4v4H1.6v-4a2 2 0 0 0 0-4z" fill="url(#gm-gloss)"/><path d="M4 7.6h9.4v8.8H4z" fill="url(#gm-paper)" stroke="var(--c-rim-cool)" stroke-width="0.6"/><path d="M8.7 9.2 9.8 11.6l2.6.2-2 1.7.6 2.5-2.3-1.4-2.3 1.4.6-2.5-2-1.7 2.6-.2z" fill="url(#gm-plum)" stroke="var(--c-plum-rim)" stroke-width="0.5"/><g fill="url(#gm-paper)" stroke="var(--c-rim-cool)" stroke-width="0.4" opacity="0.9"><rect x="15.6" y="9" width="5" height="1.3" rx="0.65"/><rect x="15.6" y="11.4" width="5" height="1.3" rx="0.65"/><rect x="15.6" y="13.8" width="3.4" height="1.3" rx="0.65"/></g></symbol><symbol id="gm-i-407" viewBox="0 0 24 24"><circle cx="6.8" cy="8.6" r="5.4" fill="url(#gm-sun)" stroke="var(--c-sun-rim)" stroke-width="0.5"/><circle cx="6.8" cy="8.6" r="5.4" fill="url(#gm-gloss)"/><circle cx="6.8" cy="8.6" r="3.9" fill="url(#gm-amber)" stroke="var(--c-amber-rim)" stroke-width="0.5"/><text x="6.8" y="10.8" font-family="ui-sans-serif, system-ui, sans-serif" font-size="5.4" font-weight="700" text-anchor="middle" fill="url(#gm-cocoa)" stroke="var(--c-cocoa-rim)" stroke-width="0.35">$</text><circle cx="17.2" cy="15.4" r="5.4" fill="url(#gm-sun)" stroke="var(--c-sun-rim)" stroke-width="0.5"/><circle cx="17.2" cy="15.4" r="3.9" fill="url(#gm-amber)" stroke="var(--c-amber-rim)" stroke-width="0.5"/><text x="17.2" y="17.6" font-family="ui-sans-serif, system-ui, sans-serif" font-size="5.4" font-weight="700" text-anchor="middle" fill="url(#gm-cocoa)" stroke="var(--c-cocoa-rim)" stroke-width="0.35">€</text><path d="M13.6 5.4c3 .6 5.2 2.2 6.6 4.6" fill="none" stroke="var(--c-navy)" stroke-width="1.6" stroke-linecap="round"/><path d="M22 11.4 19 9.2l3.4-1z" fill="url(#gm-navy)" stroke="var(--c-navy-rim)" stroke-width="0.5"/><path d="M10.4 18.6c-3-.6-5.2-2.2-6.6-4.6" fill="none" stroke="var(--c-navy)" stroke-width="1.6" stroke-linecap="round"/><path d="M2 12.6 5 14.8l-3.4 1z" fill="url(#gm-navy)" stroke="var(--c-navy-rim)" stroke-width="0.5"/></symbol><symbol id="gm-i-46" viewBox="0.10 -0.90 23.81 23.81"><path d="M19 3h-1V1h-2v2H8V1H6v2H5c-1.11 0-1.99.9-1.99 2L3 19c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 16H5V8h14v11zM7 10h5v5H7z" fill="url(#gm-cream)" stroke="var(--c-rim-warm)" stroke-width="0.6"/></symbol></defs></svg>
 
-  <div class="tt-tips">
-    <div class="tt-tips-head"><svg class="gm-i" viewBox="0 0 24 24" aria-hidden="true"><use href="#gm-i-946"/></svg>True of every platform on this page</div>
-    <div class="tt-tips-grid">
-      <div class="tt-tip"><span class="tt-tip-num">1</span><div class="tt-tip-body"><strong>You are not buying from them.</strong> The operator running the tour is a separate company; the platform handles payment and the voucher. When something goes wrong on the day, the operator's own phone number is the one that helps, so save it from the booking confirmation before you travel.</div></div>
-      <div class="tt-tip"><span class="tt-tip-num">2</span><div class="tt-tip-body"><strong>Ratings belong to the product, not the site.</strong> A 4.9 on one listing says nothing about the 4.1 tour next to it. Read the number of reviews as well as the score: 4.6 from 3,000 people is a safer bet than 5.0 from nine.</div></div>
-      <div class="tt-tip"><span class="tt-tip-num">3</span><div class="tt-tip-body"><strong>Free cancellation is set per listing.</strong> Two tours on the same platform can have completely different terms, and the 24-hour window is measured in the local time zone of the tour, not yours.</div></div>
-      <div class="tt-tip"><span class="tt-tip-num">4</span><div class="tt-tip-body"><strong>The venue's own website is worth one check.</strong> For major museums and monuments it is often cheaper and sometimes the only place to get a specific time slot — but it may have no English-language checkout, no mobile ticket, and no cancellation at all, which is exactly what the marketplaces are selling you.</div></div>
-    </div>
+  <p class="tt-notes-intro"><svg class="gm-i" viewBox="0 0 24 24" aria-hidden="true"><use href="#gm-i-946"/></svg>True of every platform on this page</p>
+  <div class="tt-notes">
+    <div class="tt-note"><span class="tt-note-num">01</span><div class="tt-note-body"><strong>You are not buying from them.</strong>The operator running the tour is a separate company; the platform handles payment and the voucher. When something goes wrong on the day, the operator's own phone number is the one that helps, so save it from the booking confirmation before you travel.</div></div>
+    <div class="tt-note"><span class="tt-note-num">02</span><div class="tt-note-body"><strong>Ratings belong to the product, not the site.</strong>A 4.9 on one listing says nothing about the 4.1 tour next to it. Read the number of reviews as well as the score: 4.6 from 3,000 people is a safer bet than 5.0 from nine.</div></div>
+    <div class="tt-note"><span class="tt-note-num">03</span><div class="tt-note-body"><strong>Free cancellation is set per listing.</strong>Two tours on the same platform can have completely different terms, and the 24-hour window is measured in the local time zone of the tour, not yours.</div></div>
+    <div class="tt-note"><span class="tt-note-num">04</span><div class="tt-note-body"><strong>The venue's own website is worth one check.</strong>For major museums and monuments it is often cheaper and sometimes the only place to get a specific time slot — but it may have no English-language checkout, no mobile ticket, and no cancellation at all, which is exactly what the marketplaces are selling you.</div></div>
   </div>
 
-  <div class="jump-nav">
-    <a class="jump-pill" href="#sec-worldwide">Worldwide</a>
-    <a class="jump-pill" href="#sec-regional">Regional</a>
-    <a class="jump-pill" href="#sec-multiday">Multi-day tours</a>
-    <a class="jump-pill" href="#sec-passes">Passes</a>
-    <a class="jump-pill" href="#sec-primary-tickets">Tickets</a>
-    <a class="jump-pill" href="#sec-resale">Resale</a>
-    <a class="jump-pill" href="#sec-whats-on">What's on</a>
-  </div>
+  <div class="tt-layout">
+    <nav class="tt-index" aria-label="Jump to a section">
+      <a class="tt-index-item ti-yellow" href="#sec-worldwide" data-sec="sec-worldwide"><span class="ti-num">01</span><span class="ti-label">Worldwide</span></a>
+      <a class="tt-index-item ti-blue" href="#sec-regional" data-sec="sec-regional"><span class="ti-num">02</span><span class="ti-label">Regional</span></a>
+      <a class="tt-index-item ti-green" href="#sec-multiday" data-sec="sec-multiday"><span class="ti-num">03</span><span class="ti-label">Multi-day tours</span></a>
+      <a class="tt-index-item ti-orange" href="#sec-passes" data-sec="sec-passes"><span class="ti-num">04</span><span class="ti-label">Passes</span></a>
+      <a class="tt-index-item ti-purple" href="#sec-primary-tickets" data-sec="sec-primary-tickets"><span class="ti-num">05</span><span class="ti-label">Tickets</span></a>
+      <a class="tt-index-item ti-pink" href="#sec-resale" data-sec="sec-resale"><span class="ti-num">06</span><span class="ti-label">Resale</span></a>
+      <a class="tt-index-item ti-grey" href="#sec-whats-on" data-sec="sec-whats-on"><span class="ti-num">07</span><span class="ti-label">What's on</span></a>
+    </nav>
 
+    <div class="tt-content">
   <div class="tt-grid">
 
     <div class="tt-section-label" id="sec-worldwide"><span class="tt-section-icon-wrap"><svg class="gm-i" viewBox="0 0 24 24" aria-hidden="true"><use href="#gm-i-10"/></svg></span>Tours &amp; Attractions — Worldwide</div>
     <div class="tt-section-note">These four cover most of the planet and compete on the same inventory, so the practical difference is price, cancellation terms and how the voucher works on the day. Two of them share a warehouse: TripAdvisor owns Viator, and the experiences you book on TripAdvisor are Viator's listings.</div>
 
-    <div class="tt-card">
+    <div class="tt-card tt-feature tf-yellow">
       <div class="tt-card-head">
+        <span class="tt-mono">V</span>
         <div>
           <div class="tt-name"><a class="chevron-link-pill" href="https://www.viator.com" target="_blank" rel="noopener">Viator</a></div>
           <div class="tt-tag">Tours · Worldwide</div>
@@ -374,8 +416,9 @@ a.jump-pill:visited { color: inherit; }
     <div class="tt-section-label" id="sec-regional"><span class="tt-section-icon-wrap"><svg class="gm-i" viewBox="0 0 24 24" aria-hidden="true"><use href="#gm-i-4"/></svg></span>Tours &amp; Attractions — Regional Specialists</div>
     <div class="tt-section-note">Outside Western Europe and North America, a regional platform usually has inventory the global ones simply do not carry — local operators list where their customers already are. These are also where you find the things that are not tours at all: transport passes, SIM cards, airport transfers and theme-park tickets bundled into the same checkout.</div>
 
-    <div class="tt-card">
+    <div class="tt-card tt-feature tf-blue">
       <div class="tt-card-head">
+        <span class="tt-mono">K</span>
         <div>
           <div class="tt-name"><a class="chevron-link-pill" href="https://www.klook.com" target="_blank" rel="noopener">Klook</a></div>
           <div class="tt-tag">Asia-Pacific</div>
@@ -487,8 +530,9 @@ a.jump-pill:visited { color: inherit; }
     <div class="tt-section-label" id="sec-multiday"><span class="tt-section-icon-wrap"><svg class="gm-i" viewBox="0 0 24 24" aria-hidden="true"><use href="#gm-i-954"/></svg></span>Multi-Day &amp; Small-Group Tours</div>
     <div class="tt-section-note">Different product, different companies. These sell an entire trip — transport, accommodation, guide, most meals — over days or weeks, and most of them operate what they sell rather than reselling it. The decision here is style, not price: group size, average age, how much of each day is scheduled, and whether accommodation is a hostel, a three-star or a converted monastery. Read the day-by-day itinerary and the single-supplement charge before comparing headline prices.</div>
 
-    <div class="tt-card">
+    <div class="tt-card tt-feature tf-green">
       <div class="tt-card-head">
+        <span class="tt-mono">T</span>
         <div>
           <div class="tt-name"><a class="chevron-link-pill" href="https://www.tourradar.com" target="_blank" rel="noopener">TourRadar</a></div>
           <div class="tt-tag">Marketplace · Multi-day</div>
@@ -570,8 +614,9 @@ a.jump-pill:visited { color: inherit; }
     <div class="tt-section-label" id="sec-passes"><span class="tt-section-icon-wrap"><svg class="gm-i" viewBox="0 0 24 24" aria-hidden="true"><use href="#gm-i-576"/></svg></span>Attraction Passes</div>
     <div class="tt-section-note">A pass is a bet: you pay once and it pays off only above a certain number of paid attractions per day. Two things decide whether it works — whether the sights you actually want are on the list, and whether the pass still requires a separate timed reservation at the busiest ones. Do the arithmetic against the individual ticket prices before buying; for a two-sight-a-day trip it usually loses.</div>
 
-    <div class="tt-card">
+    <div class="tt-card tt-feature tf-orange">
       <div class="tt-card-head">
+        <span class="tt-mono">G</span>
         <div>
           <div class="tt-name"><a class="chevron-link-pill" href="https://gocity.com" target="_blank" rel="noopener">Go City</a></div>
           <div class="tt-tag">Multi-attraction pass</div>
@@ -633,8 +678,9 @@ a.jump-pill:visited { color: inherit; }
     <div class="tt-section-label" id="sec-primary-tickets"><span class="tt-section-icon-wrap"><svg class="gm-i" viewBox="0 0 24 24" aria-hidden="true"><use href="#gm-i-527"/></svg></span>Shows, Concerts &amp; Sport — Primary Tickets</div>
     <div class="tt-section-note">Primary means the ticket is issued by the event, at face value plus fees, and which company holds a given event is decided by the venue's contract — not by you. So the practical approach is the reverse of shopping around: find the event, see which platform the venue uses, and create the account before tickets go on sale. Popular events sell out in minutes and a queue is no place to be typing card details for the first time.</div>
 
-    <div class="tt-card">
+    <div class="tt-card tt-feature tf-purple">
       <div class="tt-card-head">
+        <span class="tt-mono">T</span>
         <div>
           <div class="tt-name"><a class="chevron-link-pill" href="https://www.ticketmaster.com" target="_blank" rel="noopener">Ticketmaster</a></div>
           <div class="tt-tag">Primary · Worldwide</div>
@@ -796,8 +842,9 @@ a.jump-pill:visited { color: inherit; }
     <div class="tt-section-label" id="sec-resale"><span class="tt-section-icon-wrap"><svg class="gm-i" viewBox="0 0 24 24" aria-hidden="true"><use href="#gm-i-407"/></svg></span>Resale</div>
     <div class="tt-section-note">Resale is where sold-out events go, and where the money is lost. Prices float with demand and can sit far above or below face value — the same seat is often cheaper an hour before doors than it was a week earlier. Check the resale rules where you are going before paying a markup: several countries cap resale prices or ban above-face resale outright, and in the United Kingdom and much of the European Union a capped, face-value platform usually has the same ticket for less.</div>
 
-    <div class="tt-card">
+    <div class="tt-card tt-feature tf-pink">
       <div class="tt-card-head">
+        <span class="tt-mono">S</span>
         <div>
           <div class="tt-name"><a class="chevron-link-pill" href="https://www.stubhub.com" target="_blank" rel="noopener">StubHub</a></div>
           <div class="tt-tag">Resale · Worldwide</div>
@@ -879,8 +926,9 @@ a.jump-pill:visited { color: inherit; }
     <div class="tt-section-label" id="sec-whats-on"><span class="tt-section-icon-wrap"><svg class="gm-i" viewBox="0 0 24 24" aria-hidden="true"><use href="#gm-i-46"/></svg></span>Finding Out What's On</div>
     <div class="tt-section-note">Half the problem is not buying a ticket but knowing an event exists. These are the tools for pointing at a city and a set of dates and seeing what is actually happening while you are there — often the difference between a good trip and a memorable one, and they cost nothing to check.</div>
 
-    <div class="tt-card">
+    <div class="tt-card tt-feature tf-grey">
       <div class="tt-card-head">
+        <span class="tt-mono">B</span>
         <div>
           <div class="tt-name"><a class="chevron-link-pill" href="https://www.bandsintown.com" target="_blank" rel="noopener">Bandsintown</a></div>
           <div class="tt-tag">Concert alerts · Worldwide</div>
@@ -910,8 +958,30 @@ a.jump-pill:visited { color: inherit; }
     </div>
 
   </div>
+    </div><!-- /tt-content -->
+  </div><!-- /tt-layout -->
 
 </div><!-- /wrap -->
 
+<script>
+(function () {
+  var items = Array.prototype.slice.call(document.querySelectorAll('.tt-index-item'));
+  var sections = items.map(function (a) { return document.getElementById(a.dataset.sec); }).filter(Boolean);
+  if (!items.length || !sections.length || !('IntersectionObserver' in window)) return;
+  var byId = {};
+  items.forEach(function (a) { byId[a.dataset.sec] = a; });
+  var observer = new IntersectionObserver(function (entries) {
+    entries.forEach(function (entry) {
+      var link = byId[entry.target.id];
+      if (!link) return;
+      if (entry.isIntersecting) {
+        items.forEach(function (a) { a.classList.remove('active'); });
+        link.classList.add('active');
+      }
+    });
+  }, { rootMargin: '-15% 0px -70% 0px', threshold: 0 });
+  sections.forEach(function (s) { observer.observe(s); });
+}());
+</script>
 </body>
 </html>

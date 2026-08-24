@@ -16,79 +16,100 @@
   border-bottom: 2px solid var(--border2);
 }
 
-/* Stat bar */
-.stat-bar {
-  display: grid; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
-  gap: 10px; margin-bottom: 24px;
+/* ── Process stepper — the renewal timeline as a connected journey ───── */
+.stepper {
+  display: grid; grid-template-columns: repeat(3, 1fr);
+  gap: 0; margin-bottom: 24px; position: relative;
 }
-.stat-tile {
-  background: var(--surface); border: 1px solid var(--border2); border-radius: 8px;
-  padding: 13px 16px;
+.step { position: relative; padding: 0 14px 0 0; }
+.step::before {
+  content: ''; position: absolute; top: 15px; left: calc(50% + 16px); right: calc(-50% + 16px);
+  height: 2px; background: var(--border2);
 }
-.stat-label { font-size: 10px; font-weight: 700; color: var(--muted); text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 4px; }
-.stat-val   { font-size: 16px; font-weight: 700; color: var(--text); line-height: 1.2; }
-.stat-note  { font-size: 11px; color: var(--muted); margin-top: 3px; }
+.step:last-child::before { display: none; }
+.step-head { display: flex; align-items: center; gap: 10px; margin-bottom: 8px; }
+.step-node {
+  width: 30px; height: 30px; border-radius: 50%; flex-shrink: 0;
+  background: var(--surface); border: 2px solid var(--accent);
+  color: var(--accent); font-size: 13px; font-weight: 800;
+  display: flex; align-items: center; justify-content: center;
+  position: relative; z-index: 1;
+}
+.step-label { font-size: 11px; font-weight: 700; color: var(--muted); text-transform: uppercase; letter-spacing: 0.08em; }
+.step-val   { font-size: 15px; font-weight: 700; color: var(--text); line-height: 1.25; margin-bottom: 3px; }
+.step-note  { font-size: 11px; color: var(--muted); line-height: 1.45; }
 
-/* Alert banner */
-.alert {
-  background: var(--surface); border: 1px solid var(--border2);
-  border-left: 4px solid var(--accent); border-radius: 8px;
-  padding: 12px 16px; font-size: 13px; color: var(--text);
-  line-height: 1.55; margin-bottom: 20px;
-}
-.alert strong { font-weight: 700; }
-
-/* Cost / time table */
-.table-wrap {
-  background: var(--surface); border: 1px solid var(--border2);
-  border-radius: 10px; overflow: hidden; margin-bottom: 24px;
-}
-.info-table { width: 100%; border-collapse: collapse; }
-.info-table th {
-  font-size: 11px; font-weight: 700; color: var(--muted);
-  text-transform: uppercase; letter-spacing: 0.06em;
-  padding: 10px 14px 8px; text-align: left;
-  border-bottom: 1px solid var(--border2);
-}
-.info-table td {
-  font-size: 13px; padding: 11px 14px;
-  border-top: 1px solid var(--border2);
-  vertical-align: top; line-height: 1.4; color: var(--text);
-}
-.info-table tr:first-child td { border-top: none; }
-.row-label { font-weight: 600; }
-.row-note  { font-size: 11px; color: var(--muted); margin-top: 2px; }
-
-/* Method cards */
-.method-grid {
-  display: grid; grid-template-columns: repeat(auto-fill, minmax(210px, 1fr));
-  gap: 12px; margin-bottom: 24px;
-}
-.method-card {
+/* ── Rubber-stamp visual for the 6-month rule ─────────────────────── */
+.stamp-block {
+  display: flex; align-items: center; gap: 20px;
   background: var(--surface); border: 1px solid var(--border2); border-radius: 10px;
-  padding: 15px 17px;
+  padding: 16px 20px; margin-bottom: 24px;
 }
-.method-name { font-size: 13px; font-weight: 700; color: var(--text); margin-bottom: 6px; }
-.method-tag  { font-size: 11px; color: var(--muted); margin-bottom: 8px; }
-.method-rows { display: flex; flex-direction: column; gap: 4px; }
-.mrow { font-size: 12px; display: flex; gap: 6px; line-height: 1.4; }
-.mrow-label { color: var(--muted); min-width: 64px; flex-shrink: 0; font-weight: 600; }
+.stamp-svg { width: 96px; height: 96px; flex-shrink: 0; transform: rotate(-7deg); }
+.stamp-copy { font-size: 13px; color: var(--text); line-height: 1.55; }
+.stamp-copy strong { font-weight: 700; }
+.stamp-chip {
+  display: inline-block; margin-top: 8px; font-size: 11px; font-weight: 700;
+  color: var(--muted); border: 1px dashed var(--border2); border-radius: 20px;
+  padding: 3px 10px;
+}
 
-/* Tips */
-.tips { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 10px; margin-bottom: 28px; }
-.tip {
-  background: var(--surface); border: 1px solid var(--border2); border-radius: 8px;
-  padding: 12px 15px; display: flex; gap: 10px; align-items: flex-start;
+/* ── Boarding-pass style ticket for per-country renewal facts ────────── */
+.ticket-card {
+  display: flex; background: var(--surface); border: 1px solid var(--border2);
+  border-radius: 12px; overflow: visible; margin-bottom: 10px; position: relative;
 }
-.tip-icon { font-size: 16px; line-height: 1.4; flex-shrink: 0; }
-.tip-text strong { font-weight: 700; }
+.ticket-stub {
+  width: 132px; flex-shrink: 0; background: var(--surface2);
+  border-radius: 12px 0 0 12px; padding: 18px 16px;
+  display: flex; flex-direction: column; justify-content: center; gap: 6px;
+}
+.t-country  { font-size: 15px; font-weight: 800; color: var(--text); line-height: 1.25; }
+.t-validity { font-size: 11px; color: var(--muted); line-height: 1.4; }
+.ticket-perf { width: 0; flex-shrink: 0; position: relative; }
+.ticket-perf::before {
+  content: ''; position: absolute; top: 12px; bottom: 12px; left: -1px; width: 2px;
+  background-image: linear-gradient(var(--border2) 55%, transparent 0%);
+  background-size: 2px 9px; background-repeat: repeat-y;
+}
+.ticket-notch { position: absolute; width: 18px; height: 18px; border-radius: 50%; background: var(--bg); left: -9px; z-index: 1; }
+.ticket-notch.top { top: -9px; }
+.ticket-notch.bottom { bottom: -9px; }
+.ticket-main {
+  flex: 1; padding: 16px 20px; display: grid;
+  grid-template-columns: 1fr 1fr; gap: 12px 22px; align-content: center;
+}
+.t-field-label { font-size: 10px; font-weight: 700; color: var(--muted); text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 3px; }
+.t-field-val   { font-size: 13px; color: var(--text); line-height: 1.45; }
+.t-field.wide  { grid-column: 1 / -1; }
+
+/* ── Tips as an accordion ─────────────────────────────────────────── */
+.tip-acc {
+  border: 1px solid var(--border2); border-radius: 8px; margin-bottom: 8px;
+  background: var(--surface); overflow: hidden;
+}
+.tip-acc summary {
+  cursor: pointer; padding: 12px 16px; font-size: 13px; font-weight: 700;
+  color: var(--text); list-style: none; display: flex; justify-content: space-between;
+  align-items: center; gap: 12px; line-height: 1.4;
+}
+.tip-acc summary::-webkit-details-marker { display: none; }
+.tip-acc summary::after {
+  content: '+'; font-size: 17px; font-weight: 400; color: var(--muted);
+  flex-shrink: 0; width: 18px; text-align: center;
+}
+.tip-acc[open] summary::after { content: '–'; }
+.tip-acc .tip-body { padding: 0 16px 14px; font-size: 13px; line-height: 1.55; color: var(--text); }
 
 /* Mobile */
 @media (max-width: 600px) and (pointer: coarse) {
-  .stat-bar  { grid-template-columns: 1fr 1fr; }
-  .method-grid { grid-template-columns: 1fr; }
-  .tips { grid-template-columns: 1fr; }
-  .info-table th:last-child, .info-table td:last-child { display: none; }
+  .stepper { grid-template-columns: 1fr; gap: 16px; }
+  .step::before { display: none; }
+  .stamp-block { flex-direction: column; align-items: flex-start; }
+  .ticket-card { flex-direction: column; }
+  .ticket-stub { width: auto; border-radius: 12px 12px 0 0; }
+  .ticket-perf { display: none; }
+  .ticket-main { grid-template-columns: 1fr; }
 }
 </style>
 <link rel="stylesheet" href="/assets/mobile.css?v=53">
@@ -129,27 +150,42 @@
 
 <div class="wrap">
 
-  <!-- ── Quick Facts — universal, true for any passport ──────── -->
-  <div class="stat-bar">
-    <div class="stat-tile">
-      <div class="stat-label">Renew when</div>
-      <div class="stat-val">9–12 mo left</div>
-      <div class="stat-note">Earlier is safer, whatever your country's queue looks like</div>
+  <!-- ── The renewal journey, as a connected timeline ─────────── -->
+  <div class="section-head">The Renewal Journey</div>
+  <div class="stepper">
+    <div class="step">
+      <div class="step-head"><div class="step-node">1</div><div class="step-label">Apply</div></div>
+      <div class="step-val">9–12 months out</div>
+      <div class="step-note">Earlier is safer, whatever your country's queue looks like right now.</div>
     </div>
-    <div class="stat-tile">
-      <div class="stat-label">Boarding rule</div>
-      <div class="stat-val">6 months</div>
-      <div class="stat-note">Minimum validity most destinations require beyond your travel dates</div>
+    <div class="step">
+      <div class="step-head"><div class="step-node">2</div><div class="step-label">Processing</div></div>
+      <div class="step-val">6–12 weeks, typically</div>
+      <div class="step-note">Varies by country, season and how you apply — see the specifics below.</div>
     </div>
-    <div class="stat-tile">
-      <div class="stat-label">Blank pages</div>
-      <div class="stat-val">2–4 minimum</div>
-      <div class="stat-note">What most destinations expect free for stamps</div>
+    <div class="step">
+      <div class="step-head"><div class="step-node">3</div><div class="step-label">Board</div></div>
+      <div class="step-val">6 months validity</div>
+      <div class="step-note">The minimum most destinations require beyond your travel dates — airlines check this before you board.</div>
     </div>
   </div>
 
-  <div class="alert">
-    <strong>The 6-month validity rule.</strong> Many countries — including most of Europe, all of Southeast Asia, and large parts of the Middle East — require your passport to be valid for at least 6 months beyond your entry date, whichever country issued it. Airlines enforce this before you board. If your passport has less than 6 months remaining, renew before you travel internationally — regardless of how long your trip actually is.
+  <!-- ── The 6-month rule, as a stamp ──────────────────────────── -->
+  <div class="stamp-block">
+    <svg class="stamp-svg" viewBox="0 0 160 160" aria-hidden="true">
+      <circle cx="80" cy="80" r="72" fill="none" stroke="var(--accent)" stroke-width="2" stroke-dasharray="2 5"/>
+      <circle cx="80" cy="80" r="59" fill="none" stroke="var(--accent)" stroke-width="1.5"/>
+      <path id="stampRing" d="M 80,21 A 59,59 0 1 1 79.9,21" fill="none"/>
+      <text font-size="8.5" font-weight="700" letter-spacing="2.5" fill="var(--accent)">
+        <textPath href="#stampRing" startOffset="1%">MINIMUM VALIDITY REQUIRED &#8226; MINIMUM VALIDITY REQUIRED &#8226;</textPath>
+      </text>
+      <text x="80" y="77" text-anchor="middle" font-size="32" font-weight="800" fill="var(--accent)">6</text>
+      <text x="80" y="97" text-anchor="middle" font-size="10.5" font-weight="700" letter-spacing="2" fill="var(--accent)">MONTHS</text>
+    </svg>
+    <div class="stamp-copy">
+      <strong>The 6-month validity rule.</strong> Many countries — including most of Europe, all of Southeast Asia, and large parts of the Middle East — require your passport to be valid for at least 6 months beyond your entry date, whichever country issued it. Airlines enforce this before you board. If your passport has less than 6 months remaining, renew before you travel internationally — regardless of how long your trip actually is.
+      <div><span class="stamp-chip">2–4 blank pages usually required too</span></div>
+    </div>
   </div>
 
   <!-- ── Renewal by country ───────────────────────────────────
@@ -176,39 +212,47 @@
   <div id="pp-renewal-card" hidden></div>
   <p id="pp-renewal-unresearched" hidden style="font-size:13px;color:var(--muted);margin:0 0 24px;line-height:1.55;"></p>
 
-  <!-- ── Tips ─────────────────────────────────────────────── -->
+  <!-- ── Tips — accordion so the page opens short and reads on demand ── -->
   <div class="section-head">Key Things to Know</div>
-  <div class="tips">
-    <div class="tip">
-      <div class="tip-text"><strong>Apply 9–12 months before your next international trip.</strong> Routine processing commonly runs 6–12 weeks door-to-door depending on your country's own passport authority. Don't wait until 6 months out — if demand spikes, you may not make it in time without paying an expedited fee, where one is even offered.</div>
-    </div>
-    <div class="tip">
-      <div class="tip-text"><strong>The 6-month rule catches people off guard.</strong> Your passport may technically be valid, but if it has less than 6 months remaining after your return date, many countries will turn you away at the border — and airlines will deny boarding.</div>
-    </div>
-    <div class="tip">
-      <div class="tip-text"><strong>Child passports usually expire sooner than adult ones</strong> — commonly 5 years rather than 10, though the exact figure and whether both parents/guardians must appear in person varies by country. Check your own passport authority's requirements for minors well before applying.</div>
-    </div>
-    <div class="tip">
-      <div class="tip-text"><strong>Count your blank pages before every trip.</strong> Many countries require at least 2–4 blank pages. Most passport authorities no longer offer a page-adding service (the US discontinued its version some years ago) — a full passport usually means renewing rather than adding pages.</div>
-    </div>
-    <div class="tip">
-      <div class="tip-text"><strong>Some visas require a full blank page.</strong> Countries like India, Brazil, and South Africa require a full blank page just for their visa stamp. Factor this in before trips that need visas stamped in-person.</div>
-    </div>
-    <div class="tip">
-      <div class="tip-text"><strong>Make a copy before every trip.</strong> Store a photo of your passport data page in your email or cloud storage. If your passport is stolen abroad, having the number and issue date speeds up emergency replacement at the nearest embassy of your own country.</div>
-    </div>
-    <div class="tip">
-      <div class="tip-text"><strong>Register your trip with your own government, if it offers the option.</strong> A number of countries run a free traveler-registration program that lets your embassy reach you in an emergency — the US's version is STEP (step.state.gov); Australia runs a similar one. Check whether your own country offers one before you travel; it typically takes two minutes.</div>
-    </div>
-    <div class="tip">
-      <div class="tip-text"><strong>Third-party appointment services are not your government.</strong> Any site charging a fee to "book your passport appointment" is a third party — official passport appointments are free directly through your own country's passport authority (in the US, that's travel.state.gov or 877-487-2778).</div>
-    </div>
-    <div class="tip">
-      <div class="tip-text"><strong>No AI-edited or digitally altered photos.</strong> Passport authorities increasingly screen for AI-generated and edited images — the US State Department is one that actively does. Submit an original, unedited photo taken within the last 6 months, whatever country you're applying to; altered photos are rejected.</div>
-    </div>
-  </div>
 
-  <p class="page-source">
+  <details class="tip-acc">
+    <summary>Apply 9–12 months before your next international trip</summary>
+    <div class="tip-body">Routine processing commonly runs 6–12 weeks door-to-door depending on your country's own passport authority. Don't wait until 6 months out — if demand spikes, you may not make it in time without paying an expedited fee, where one is even offered.</div>
+  </details>
+  <details class="tip-acc">
+    <summary>The 6-month rule catches people off guard</summary>
+    <div class="tip-body">Your passport may technically be valid, but if it has less than 6 months remaining after your return date, many countries will turn you away at the border — and airlines will deny boarding.</div>
+  </details>
+  <details class="tip-acc">
+    <summary>Child passports usually expire sooner than adult ones</summary>
+    <div class="tip-body">Commonly 5 years rather than 10, though the exact figure and whether both parents/guardians must appear in person varies by country. Check your own passport authority's requirements for minors well before applying.</div>
+  </details>
+  <details class="tip-acc">
+    <summary>Count your blank pages before every trip</summary>
+    <div class="tip-body">Many countries require at least 2–4 blank pages. Most passport authorities no longer offer a page-adding service (the US discontinued its version some years ago) — a full passport usually means renewing rather than adding pages.</div>
+  </details>
+  <details class="tip-acc">
+    <summary>Some visas require a full blank page</summary>
+    <div class="tip-body">Countries like India, Brazil, and South Africa require a full blank page just for their visa stamp. Factor this in before trips that need visas stamped in-person.</div>
+  </details>
+  <details class="tip-acc">
+    <summary>Make a copy before every trip</summary>
+    <div class="tip-body">Store a photo of your passport data page in your email or cloud storage. If your passport is stolen abroad, having the number and issue date speeds up emergency replacement at the nearest embassy of your own country.</div>
+  </details>
+  <details class="tip-acc">
+    <summary>Register your trip with your own government, if it offers the option</summary>
+    <div class="tip-body">A number of countries run a free traveler-registration program that lets your embassy reach you in an emergency — the US's version is STEP (step.state.gov); Australia runs a similar one. Check whether your own country offers one before you travel; it typically takes two minutes.</div>
+  </details>
+  <details class="tip-acc">
+    <summary>Third-party appointment services are not your government</summary>
+    <div class="tip-body">Any site charging a fee to "book your passport appointment" is a third party — official passport appointments are free directly through your own country's passport authority (in the US, that's travel.state.gov or 877-487-2778).</div>
+  </details>
+  <details class="tip-acc">
+    <summary>No AI-edited or digitally altered photos</summary>
+    <div class="tip-body">Passport authorities increasingly screen for AI-generated and edited images — the US State Department is one that actively does. Submit an original, unedited photo taken within the last 6 months, whatever country you're applying to; altered photos are rejected.</div>
+  </details>
+
+  <p class="page-source" style="margin-top:20px;">
     Country-specific renewal facts above are sourced from each country's own passport authority, listed against each one. General guidance here — the 6-month rule, blank pages, timing — applies regardless of who issued your passport; check current details with your own authority before applying.
   </p>
 
@@ -382,9 +426,9 @@
   var unresearched = document.getElementById('pp-renewal-unresearched');
   if (!mount || !window.TVE || !window.TVE.passport) return;
 
-  function row(label, val) {
+  function field(label, val, wide) {
     if (!val) return '';
-    return '<tr><td><div class="row-label">' + label + '</div></td><td colspan="2">' + val + '</td></tr>';
+    return '<div class="t-field' + (wide ? ' wide' : '') + '"><div class="t-field-label">' + label + '</div><div class="t-field-val">' + val + '</div></div>';
   }
 
   function render() {
@@ -406,14 +450,17 @@
     unresearched.hidden = true;
     card.hidden = false;
     card.innerHTML =
-      '<div class="table-wrap"><table class="info-table"><tbody>' +
-      row('Validity', d.validity) +
-      row('Routine processing', d.routine) +
-      row('Expedited', d.expedited) +
-      row('Fee', d.fee) +
-      row('How to apply', d.apply) +
-      '</tbody></table></div>' +
-      '<p style="font-size:12px;color:var(--muted);margin:0 0 24px;">Source: <a href="' + d.url + '" target="_blank" rel="noopener">' + d.src + '</a> — confirm current fee and timing there before applying.</p>';
+      '<div class="ticket-card">' +
+        '<div class="ticket-stub"><div class="t-country">' + d.name + '</div><div class="t-validity">' + d.validity + '</div></div>' +
+        '<div class="ticket-perf"><span class="ticket-notch top"></span><span class="ticket-notch bottom"></span></div>' +
+        '<div class="ticket-main">' +
+          field('Routine processing', d.routine) +
+          field('Expedited', d.expedited) +
+          field('Fee', d.fee, true) +
+          field('How to apply', d.apply, true) +
+        '</div>' +
+      '</div>' +
+      '<p style="font-size:12px;color:var(--muted);margin:8px 0 24px;">Source: <a href="' + d.url + '" target="_blank" rel="noopener">' + d.src + '</a> — confirm current fee and timing there before applying.</p>';
   }
 
   TVE.passport.mount(mount, { prompt: 'Choose your passport', onPick: render });

@@ -34,19 +34,42 @@
   text-transform: uppercase; color: var(--muted);
   margin: 28px 0 10px;
 }
-/* ── Provider primer — compact horizontal strip, not five tall boxes ── */
+/* ── Provider primer — a rack of hanging luggage tags, strung from one line ── */
 .ls-primer {
-  display: flex; gap: 8px; margin: 0 0 6px; overflow-x: auto; padding: 2px 2px 8px;
-  scrollbar-width: thin;
+  display: flex; gap: 22px; margin: 22px 0 16px; overflow-x: auto; padding: 22px 10px 10px;
+  scrollbar-width: thin; position: relative;
+}
+.ls-primer::before {
+  content: ''; position: absolute; left: 0; right: 0; top: 8px; height: 1px;
+  background: repeating-linear-gradient(90deg, var(--border2, #d8d3c8) 0 6px, transparent 6px 11px);
 }
 .ls-prim-card {
-  background: var(--surface, #ffffff); border: 1px solid var(--border2, #e6e2da); border-radius: 10px;
-  padding: 12px 14px; flex: 0 0 200px; scroll-snap-align: start;
+  background: var(--surface, #ffffff); border: 1px solid var(--border2, #e6e2da); border-radius: 4px 12px 12px 4px;
+  padding: 16px 14px 12px; flex: 0 0 202px; scroll-snap-align: start; position: relative;
+  box-shadow: 0 3px 9px rgba(0,0,0,.07);
+  transform: rotate(var(--tag-tilt, -1.5deg));
+  transition: transform .18s, box-shadow .18s;
+}
+.ls-prim-card:nth-child(2) { --tag-tilt: 1deg; }
+.ls-prim-card:nth-child(3) { --tag-tilt: -0.75deg; }
+.ls-prim-card:nth-child(4) { --tag-tilt: 1.25deg; }
+.ls-prim-card:nth-child(5) { --tag-tilt: -1deg; }
+.ls-prim-card:hover { transform: rotate(0deg) translateY(-3px); box-shadow: 0 8px 18px rgba(0,0,0,.12); }
+.ls-prim-card::before {
+  /* the string, from the rack line down to the grommet */
+  content: ''; position: absolute; left: 14px; top: -14px; width: 1px; height: 14px;
+  background: var(--border2, #d8d3c8);
+}
+.ls-prim-card::after {
+  /* the punch-hole grommet */
+  content: ''; position: absolute; left: 8px; top: -2px; width: 12px; height: 12px;
+  border-radius: 50%; border: 2px solid var(--muted, #8a857a);
+  background: var(--bg, #f5f4f0);
 }
 .ls-primer { scroll-snap-type: x proximity; }
-.ls-prim-name { font-size: 13px; font-weight: 700; color: var(--text, #1a1917); margin-bottom: 2px; }
-.ls-prim-model { font-size: 11.5px; color: var(--rust, #C04E1A); font-weight: 600; margin-bottom: 5px; }
-.ls-prim-desc { font-size: 12px; color: var(--muted); line-height: 1.5; }
+.ls-prim-name { font-size: 13px; font-weight: 700; color: var(--text, #1a1917); margin: 0 0 2px 14px; }
+.ls-prim-model { font-size: 11.5px; color: var(--rust, #C04E1A); font-weight: 600; margin: 0 0 5px 14px; }
+.ls-prim-desc { font-size: 12px; color: var(--muted); line-height: 1.5; margin-left: 14px; }
 .ls-prim-card a { color: var(--text, #3d3a32); font-size: 12px; text-decoration: none; }
 .ls-prim-card a:visited { color: #3d3a32; }
 .ls-prim-card a:hover { color: var(--rust); text-decoration: none; }
@@ -59,19 +82,42 @@
   border-radius: 6px; padding: 4px 10px; cursor: pointer; transition: border-color .15s, color .15s;
 }
 .ls-toggle-all:hover { color: var(--rust, #C04E1A); border-color: var(--rust, #C04E1A); }
-/* ── City cards — <details>/<summary> accordion, collapsed by default ── */
-.row-list { display: flex; flex-direction: column; gap: 8px; }
-.ls-row {
-  background: var(--surface, #ffffff); border: 1px solid var(--border2, #e6e2da); border-radius: 10px;
-  overflow: hidden; transition: box-shadow .15s, transform .15s, border-color .15s;
+/* ── City cards — a scattered pile of luggage tags, one per city ──
+   Each .ls-row keeps its original <details>/<summary> markup and every JS
+   hook (.hidden, [open], .ls-price-teaser…) untouched; only the shape reads
+   as a tag now — die-cut corner, punch-hole grommet, tilt that straightens
+   on hover, like tags spread out on a desk rather than a stacked list. */
+.row-list {
+  display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 20px 22px; align-items: start; padding-top: 6px;
 }
-.ls-row:hover { box-shadow: 0 3px 11px rgba(0,0,0,.08); transform: translateY(-1px); }
-.ls-row[open] { border-color: var(--rust, #C04E1A); }
+.ls-row {
+  background: var(--surface, #ffffff); border: 1px solid var(--border2, #e6e2da);
+  border-radius: 3px 14px 14px 3px;
+  clip-path: polygon(0 0, calc(100% - 16px) 0, 100% 16px, 100% 100%, 0 100%);
+  overflow: hidden; position: relative;
+  transform: rotate(var(--tag-tilt, 0deg));
+  transition: box-shadow .18s, transform .18s, border-color .15s;
+}
+.row-list .ls-row:nth-child(6n+1) { --tag-tilt: -1deg; }
+.row-list .ls-row:nth-child(6n+2) { --tag-tilt: 0.75deg; }
+.row-list .ls-row:nth-child(6n+3) { --tag-tilt: -0.5deg; }
+.row-list .ls-row:nth-child(6n+4) { --tag-tilt: 1deg; }
+.row-list .ls-row:nth-child(6n+5) { --tag-tilt: -0.75deg; }
+.row-list .ls-row:nth-child(6n+6) { --tag-tilt: 0.5deg; }
+.ls-row::before {
+  /* punch-hole grommet, top-left corner of every tag */
+  content: ''; position: absolute; left: 12px; top: 12px; width: 13px; height: 13px;
+  border-radius: 50%; border: 2px solid var(--border2, #d8d3c8);
+  background: var(--bg, #f5f4f0); z-index: 1; pointer-events: none;
+}
+.ls-row:hover { box-shadow: 0 8px 20px rgba(0,0,0,.11); transform: rotate(0deg) translateY(-3px); z-index: 2; }
+.ls-row[open] { border-color: var(--rust, #C04E1A); grid-column: 1 / -1; transform: rotate(0deg); }
 .ls-row.hidden { display: none; }
 /* Card top strip — now the <summary> disclosure control */
 .ls-top {
   display: flex; align-items: center; gap: 10px; flex-wrap: wrap;
-  padding: 12px 40px 10px 16px;
+  padding: 12px 40px 10px 34px;
   border-bottom: 1px solid transparent;
   cursor: pointer; position: relative; list-style: none;
 }
@@ -108,7 +154,12 @@ a.ls-guide:visited { color: #8a6c1a; }
   .ls-row[open] .ls-station { display: none; }
 }
 /* ── Badges — sizing+colour from .badge / .pill-badge / .fam-* in web-travel-style.css ── */
-/* ls-lockers=fam-green  ls-desk=fam-yellow  ls-none=fam-orange  ls-247=fam-blue */
+/* ls-lockers=fam-green  ls-desk=fam-yellow  ls-none=fam-red  ls-247=fam-blue */
+/* ls-none was fam-orange with a dot-red icon — box family and dot colour
+   disagreed on every occurrence, a real drift the owner caught live
+   ("this is completely wrong"). fam-red now matches the dot it's drawn
+   with, and reads correctly as the negative/warning case next to
+   fam-green's positive "Station lockers". */
 /* Provider chips — canonical PURPLE family (operator tag). */
 .ls-prov { display: flex; flex-wrap: wrap; gap: 4px; padding: 8px 16px 10px; }
 /* Sizing, colour AND shape all come from .pill-badge + .fam-purple. This rule
@@ -118,6 +169,7 @@ a.ls-guide:visited { color: #8a6c1a; }
    is the drift that section is written about. Nothing left to set. */
 /* Info grid */
 .ls-body { padding: 0 16px 0; }
+.ls-row[open] .ls-body, .ls-row[open] .ls-tip { max-width: 640px; }
 .ls-grid {
   display: grid; grid-template-columns: 1fr 1fr;
   gap: 0; border-top: 1px solid var(--border2, #e6e2da);
@@ -156,6 +208,10 @@ a.ls-guide:visited { color: #8a6c1a; }
   .ls-top::after { right: 14px; }
   .ls-prim-card { flex-basis: 78vw; }
   .pills { display: flex !important; flex-wrap: wrap !important; gap: var(--fam-gap,10px) !important; justify-content: center !important; width: 100% !important; }
+  /* One tag per row, no scatter — the tilt is a desktop-desk touch only */
+  .row-list { grid-template-columns: 1fr; gap: 14px; }
+  .ls-row { transform: none !important; }
+  .ls-row:hover { transform: none !important; }
 }
 @media (prefers-color-scheme: dark) {
   .ls-prim-model { color: var(--text); }
@@ -566,7 +622,7 @@ a.ls-guide:visited { color: #8a6c1a; }
       <details class="ls-row" data-verified="2026-08" data-tags="atocha chamartin europe madrid spain" data-guide="Madrid">
         <summary class="ls-top">
           <span class="ls-city">🇪🇸 Madrid</span><a href="/guides/madrid.html" class="ls-guide">Guide</a>
-          <span class="ls-tag ls-none badge fam-orange"><svg class="gm-icon" data-icon="dot-red" data-role="dot" viewBox="0 0 24 24" aria-hidden="true"><use href="#gm-i-dot-red"/></svg> NO STATION STORAGE</span>
+          <span class="ls-tag ls-none badge fam-red"><svg class="gm-icon" data-icon="dot-red" data-role="dot" viewBox="0 0 24 24" aria-hidden="true"><use href="#gm-i-dot-red"/></svg> NO STATION STORAGE</span>
           <span class="ls-station">Atocha · Chamartín</span>
         </summary>
         <div class="ls-prov"><span class="prov-chip pill-badge fam-purple">Bounce</span><span class="prov-chip pill-badge fam-purple">Radical Storage</span><span class="prov-chip pill-badge fam-purple">Stasher</span><span class="prov-chip pill-badge fam-purple">LuggageHero</span><span class="prov-chip pill-badge fam-purple">Nannybag</span></div>
@@ -616,7 +672,7 @@ a.ls-guide:visited { color: #8a6c1a; }
       <details class="ls-row" data-verified="2026-08" data-tags="basque donostia europe san sansebastián sebastián spain" data-guide="San-Sebastian">
         <summary class="ls-top">
           <span class="ls-city">🇪🇸 San Sebastián</span><a href="/guides/san-sebastian.html" class="ls-guide">Guide</a>
-          <span class="ls-tag ls-none badge fam-orange"><svg class="gm-icon" data-icon="dot-red" data-role="dot" viewBox="0 0 24 24" aria-hidden="true"><use href="#gm-i-dot-red"/></svg> NO STATION STORAGE</span>
+          <span class="ls-tag ls-none badge fam-red"><svg class="gm-icon" data-icon="dot-red" data-role="dot" viewBox="0 0 24 24" aria-hidden="true"><use href="#gm-i-dot-red"/></svg> NO STATION STORAGE</span>
           <span class="ls-station">Amara · Renfe station</span>
         </summary>
         <div class="ls-prov"><span class="prov-chip pill-badge fam-purple">Bounce</span><span class="prov-chip pill-badge fam-purple">Radical Storage</span><span class="prov-chip pill-badge fam-purple">Nannybag</span></div>
@@ -1200,7 +1256,7 @@ a.ls-guide:visited { color: #8a6c1a; }
       <details class="ls-row" data-verified="2026-08" data-tags="acropolis athens europe greece larissa monastiraki plaka" data-guide="Athens">
         <summary class="ls-top">
           <span class="ls-city">🇬🇷 Athens</span><a href="/guides/athens.html" class="ls-guide">Guide</a>
-          <span class="ls-tag ls-none badge fam-orange"><svg class="gm-icon" data-icon="dot-red" data-role="dot" viewBox="0 0 24 24" aria-hidden="true"><use href="#gm-i-dot-red"/></svg> NO STATION STORAGE</span>
+          <span class="ls-tag ls-none badge fam-red"><svg class="gm-icon" data-icon="dot-red" data-role="dot" viewBox="0 0 24 24" aria-hidden="true"><use href="#gm-i-dot-red"/></svg> NO STATION STORAGE</span>
           <span class="ls-station">Larissa Station</span>
         </summary>
         <div class="ls-prov"><span class="prov-chip pill-badge fam-purple">Bounce</span><span class="prov-chip pill-badge fam-purple">Radical Storage</span><span class="prov-chip pill-badge fam-purple">Nannybag</span><span class="prov-chip pill-badge fam-purple">Stasher</span></div>
@@ -1250,7 +1306,7 @@ a.ls-guide:visited { color: #8a6c1a; }
       <details class="ls-row" data-verified="2026-08" data-tags="bar connolly dublin europe heuston ireland temple" data-guide="Dublin">
         <summary class="ls-top">
           <span class="ls-city">🇮🇪 Dublin</span><a href="/guides/dublin.html" class="ls-guide">Guide</a>
-          <span class="ls-tag ls-none badge fam-orange"><svg class="gm-icon" data-icon="dot-red" data-role="dot" viewBox="0 0 24 24" aria-hidden="true"><use href="#gm-i-dot-red"/></svg> NO STATION STORAGE</span>
+          <span class="ls-tag ls-none badge fam-red"><svg class="gm-icon" data-icon="dot-red" data-role="dot" viewBox="0 0 24 24" aria-hidden="true"><use href="#gm-i-dot-red"/></svg> NO STATION STORAGE</span>
           <span class="ls-station">Heuston · Connolly</span>
         </summary>
         <div class="ls-prov"><span class="prov-chip pill-badge fam-purple">Bounce</span><span class="prov-chip pill-badge fam-purple">Radical Storage</span><span class="prov-chip pill-badge fam-purple">Stasher</span><span class="prov-chip pill-badge fam-purple">Nannybag</span></div>
@@ -1690,7 +1746,7 @@ a.ls-guide:visited { color: #8a6c1a; }
       <details class="ls-row" data-verified="2026-08" data-tags="americas central grand manhattan new newyork nyc penn states united usa york" data-guide="New-York">
         <summary class="ls-top">
           <span class="ls-city">🇺🇸 New York</span><a href="/guides/new-york.html" class="ls-guide">Guide</a>
-          <span class="ls-tag ls-none badge fam-orange"><svg class="gm-icon" data-icon="dot-red" data-role="dot" viewBox="0 0 24 24" aria-hidden="true"><use href="#gm-i-dot-red"/></svg> NO STATION STORAGE</span>
+          <span class="ls-tag ls-none badge fam-red"><svg class="gm-icon" data-icon="dot-red" data-role="dot" viewBox="0 0 24 24" aria-hidden="true"><use href="#gm-i-dot-red"/></svg> NO STATION STORAGE</span>
           <span class="ls-station">Penn Station · Grand Central · Port Authority</span>
         </summary>
         <div class="ls-prov"><span class="prov-chip pill-badge fam-purple">Bounce</span><span class="prov-chip pill-badge fam-purple">Stasher</span><span class="prov-chip pill-badge fam-purple">Radical Storage</span><span class="prov-chip pill-badge fam-purple">LuggageHero</span></div>
@@ -1715,7 +1771,7 @@ a.ls-guide:visited { color: #8a6c1a; }
       <details class="ls-row" data-verified="2026-08" data-tags="americas capitol dc smithsonian states station union united usa washington washingtondc" data-guide="Washington-DC">
         <summary class="ls-top">
           <span class="ls-city">🇺🇸 Washington DC</span><a href="/guides/washington-dc.html" class="ls-guide">Guide</a>
-          <span class="ls-tag ls-none badge fam-orange"><svg class="gm-icon" data-icon="dot-red" data-role="dot" viewBox="0 0 24 24" aria-hidden="true"><use href="#gm-i-dot-red"/></svg> NO STATION STORAGE</span>
+          <span class="ls-tag ls-none badge fam-red"><svg class="gm-icon" data-icon="dot-red" data-role="dot" viewBox="0 0 24 24" aria-hidden="true"><use href="#gm-i-dot-red"/></svg> NO STATION STORAGE</span>
           <span class="ls-station">Union Station</span>
         </summary>
         <div class="ls-prov"><span class="prov-chip pill-badge fam-purple">Bounce</span><span class="prov-chip pill-badge fam-purple">Radical Storage</span><span class="prov-chip pill-badge fam-purple">Stasher</span><span class="prov-chip pill-badge fam-purple">LuggageHero</span></div>
@@ -1740,7 +1796,7 @@ a.ls-guide:visited { color: #8a6c1a; }
       <details class="ls-row" data-verified="2026-08" data-tags="americas chicago loop millennium north river states station union united usa" data-guide="Chicago">
         <summary class="ls-top">
           <span class="ls-city">🇺🇸 Chicago</span><a href="/guides/chicago.html" class="ls-guide">Guide</a>
-          <span class="ls-tag ls-none badge fam-orange"><svg class="gm-icon" data-icon="dot-red" data-role="dot" viewBox="0 0 24 24" aria-hidden="true"><use href="#gm-i-dot-red"/></svg> NO STATION STORAGE</span>
+          <span class="ls-tag ls-none badge fam-red"><svg class="gm-icon" data-icon="dot-red" data-role="dot" viewBox="0 0 24 24" aria-hidden="true"><use href="#gm-i-dot-red"/></svg> NO STATION STORAGE</span>
           <span class="ls-station">Union Station · Ogilvie</span>
         </summary>
         <div class="ls-prov"><span class="prov-chip pill-badge fam-purple">Bounce</span><span class="prov-chip pill-badge fam-purple">Radical Storage</span><span class="prov-chip pill-badge fam-purple">Stasher</span><span class="prov-chip pill-badge fam-purple">LuggageHero</span></div>
@@ -1765,7 +1821,7 @@ a.ls-guide:visited { color: #8a6c1a; }
       <details class="ls-row" data-verified="2026-08" data-tags="americas back bay boston freedom south states station trail united usa" data-guide="Boston">
         <summary class="ls-top">
           <span class="ls-city">🇺🇸 Boston</span><a href="/guides/boston.html" class="ls-guide">Guide</a>
-          <span class="ls-tag ls-none badge fam-orange"><svg class="gm-icon" data-icon="dot-red" data-role="dot" viewBox="0 0 24 24" aria-hidden="true"><use href="#gm-i-dot-red"/></svg> NO STATION STORAGE</span>
+          <span class="ls-tag ls-none badge fam-red"><svg class="gm-icon" data-icon="dot-red" data-role="dot" viewBox="0 0 24 24" aria-hidden="true"><use href="#gm-i-dot-red"/></svg> NO STATION STORAGE</span>
           <span class="ls-station">South Station · Back Bay</span>
         </summary>
         <div class="ls-prov"><span class="prov-chip pill-badge fam-purple">Bounce</span><span class="prov-chip pill-badge fam-purple">Radical Storage</span><span class="prov-chip pill-badge fam-purple">Stasher</span><span class="prov-chip pill-badge fam-purple">LuggageHero</span></div>
@@ -1790,7 +1846,7 @@ a.ls-guide:visited { color: #8a6c1a; }
       <details class="ls-row" data-verified="2026-08" data-tags="americas area bay fishermans francisco san sanfrancisco sf square states union united usa wharf" data-guide="San-Francisco">
         <summary class="ls-top">
           <span class="ls-city">🇺🇸 San Francisco</span><a href="/guides/san-francisco.html" class="ls-guide">Guide</a>
-          <span class="ls-tag ls-none badge fam-orange"><svg class="gm-icon" data-icon="dot-red" data-role="dot" viewBox="0 0 24 24" aria-hidden="true"><use href="#gm-i-dot-red"/></svg> NO STATION STORAGE</span>
+          <span class="ls-tag ls-none badge fam-red"><svg class="gm-icon" data-icon="dot-red" data-role="dot" viewBox="0 0 24 24" aria-hidden="true"><use href="#gm-i-dot-red"/></svg> NO STATION STORAGE</span>
           <span class="ls-station">Salesforce Transit Center · Caltrain 4th &amp; King</span>
         </summary>
         <div class="ls-prov"><span class="prov-chip pill-badge fam-purple">Bounce</span><span class="prov-chip pill-badge fam-purple">Radical Storage</span><span class="prov-chip pill-badge fam-purple">Stasher</span><span class="prov-chip pill-badge fam-purple">LuggageHero</span></div>
@@ -1815,7 +1871,7 @@ a.ls-guide:visited { color: #8a6c1a; }
       <details class="ls-row" data-verified="2026-08" data-tags="americas angeles hollywood la lax los losangeles monica santa states station union united usa" data-guide="Los-Angeles">
         <summary class="ls-top">
           <span class="ls-city">🇺🇸 Los Angeles</span><a href="/guides/los-angeles.html" class="ls-guide">Guide</a>
-          <span class="ls-tag ls-none badge fam-orange"><svg class="gm-icon" data-icon="dot-red" data-role="dot" viewBox="0 0 24 24" aria-hidden="true"><use href="#gm-i-dot-red"/></svg> NO STATION STORAGE</span>
+          <span class="ls-tag ls-none badge fam-red"><svg class="gm-icon" data-icon="dot-red" data-role="dot" viewBox="0 0 24 24" aria-hidden="true"><use href="#gm-i-dot-red"/></svg> NO STATION STORAGE</span>
           <span class="ls-station">Union Station · LAX</span>
         </summary>
         <div class="ls-prov"><span class="prov-chip pill-badge fam-purple">Bounce</span><span class="prov-chip pill-badge fam-purple">Stasher</span><span class="prov-chip pill-badge fam-purple">Radical Storage</span><span class="prov-chip pill-badge fam-purple">LuggageHero</span></div>
@@ -1840,7 +1896,7 @@ a.ls-guide:visited { color: #8a6c1a; }
       <details class="ls-row" data-verified="2026-08" data-tags="americas canada cn express station toronto tower union up" data-guide="Toronto">
         <summary class="ls-top">
           <span class="ls-city">🇨🇦 Toronto</span><a href="/guides/toronto.html" class="ls-guide">Guide</a>
-          <span class="ls-tag ls-none badge fam-orange"><svg class="gm-icon" data-icon="dot-red" data-role="dot" viewBox="0 0 24 24" aria-hidden="true"><use href="#gm-i-dot-red"/></svg> NO STATION STORAGE</span>
+          <span class="ls-tag ls-none badge fam-red"><svg class="gm-icon" data-icon="dot-red" data-role="dot" viewBox="0 0 24 24" aria-hidden="true"><use href="#gm-i-dot-red"/></svg> NO STATION STORAGE</span>
           <span class="ls-station">Union Station</span>
         </summary>
         <div class="ls-prov"><span class="prov-chip pill-badge fam-purple">Bounce</span><span class="prov-chip pill-badge fam-purple">Radical Storage</span><span class="prov-chip pill-badge fam-purple">Nannybag</span></div>
@@ -1865,7 +1921,7 @@ a.ls-guide:visited { color: #8a6c1a; }
       <details class="ls-row" data-verified="2026-08" data-tags="americas canada centrale gare montreal quebec vieux" data-guide="Montreal">
         <summary class="ls-top">
           <span class="ls-city">🇨🇦 Montreal</span><a href="/guides/montreal.html" class="ls-guide">Guide</a>
-          <span class="ls-tag ls-none badge fam-orange"><svg class="gm-icon" data-icon="dot-red" data-role="dot" viewBox="0 0 24 24" aria-hidden="true"><use href="#gm-i-dot-red"/></svg> NO STATION STORAGE</span>
+          <span class="ls-tag ls-none badge fam-red"><svg class="gm-icon" data-icon="dot-red" data-role="dot" viewBox="0 0 24 24" aria-hidden="true"><use href="#gm-i-dot-red"/></svg> NO STATION STORAGE</span>
           <span class="ls-station">Gare Centrale</span>
         </summary>
         <div class="ls-prov"><span class="prov-chip pill-badge fam-purple">Bounce</span><span class="prov-chip pill-badge fam-purple">Radical Storage</span><span class="prov-chip pill-badge fam-purple">Nannybag</span></div>
@@ -1890,7 +1946,7 @@ a.ls-guide:visited { color: #8a6c1a; }
       <details class="ls-row" data-verified="2026-08" data-tags="americas brazil copacabana de guarda ipanema janeiro novo rio riodejaneiro volumes" data-guide="Rio-de-Janeiro">
         <summary class="ls-top">
           <span class="ls-city">🇧🇷 Rio de Janeiro</span><a href="/guides/rio-de-janeiro.html" class="ls-guide">Guide</a>
-          <span class="ls-tag ls-none badge fam-orange"><svg class="gm-icon" data-icon="dot-red" data-role="dot" viewBox="0 0 24 24" aria-hidden="true"><use href="#gm-i-dot-red"/></svg> NO STATION STORAGE</span>
+          <span class="ls-tag ls-none badge fam-red"><svg class="gm-icon" data-icon="dot-red" data-role="dot" viewBox="0 0 24 24" aria-hidden="true"><use href="#gm-i-dot-red"/></svg> NO STATION STORAGE</span>
           <span class="ls-station">Rodoviária Novo Rio · Santos Dumont</span>
         </summary>
         <div class="ls-prov"><span class="prov-chip pill-badge fam-purple">Radical Storage</span><span class="prov-chip pill-badge fam-purple">Bounce</span></div>
@@ -1915,7 +1971,7 @@ a.ls-guide:visited { color: #8a6c1a; }
       <details class="ls-row" data-verified="2026-08" data-tags="aires americas argentina buenos buenosaires palermo recoleta retiro san telmo" data-guide="Buenos-Aires">
         <summary class="ls-top">
           <span class="ls-city">🇦🇷 Buenos Aires</span><a href="/guides/buenos-aires.html" class="ls-guide">Guide</a>
-          <span class="ls-tag ls-none badge fam-orange"><svg class="gm-icon" data-icon="dot-red" data-role="dot" viewBox="0 0 24 24" aria-hidden="true"><use href="#gm-i-dot-red"/></svg> NO STATION STORAGE</span>
+          <span class="ls-tag ls-none badge fam-red"><svg class="gm-icon" data-icon="dot-red" data-role="dot" viewBox="0 0 24 24" aria-hidden="true"><use href="#gm-i-dot-red"/></svg> NO STATION STORAGE</span>
           <span class="ls-station">Retiro · Terminal de Ómnibus</span>
         </summary>
         <div class="ls-prov"><span class="prov-chip pill-badge fam-purple">Radical Storage</span><span class="prov-chip pill-badge fam-purple">Bounce</span></div>
@@ -1947,7 +2003,7 @@ a.ls-guide:visited { color: #8a6c1a; }
       <details class="ls-row" data-verified="2026-08" data-tags="australia central circular haymarket house nsw oceania opera quay sydney" data-guide="Sydney">
         <summary class="ls-top">
           <span class="ls-city">🇦🇺 Sydney</span><a href="/guides/sydney.html" class="ls-guide">Guide</a>
-          <span class="ls-tag ls-none badge fam-orange"><svg class="gm-icon" data-icon="dot-red" data-role="dot" viewBox="0 0 24 24" aria-hidden="true"><use href="#gm-i-dot-red"/></svg> NO STATION STORAGE</span>
+          <span class="ls-tag ls-none badge fam-red"><svg class="gm-icon" data-icon="dot-red" data-role="dot" viewBox="0 0 24 24" aria-hidden="true"><use href="#gm-i-dot-red"/></svg> NO STATION STORAGE</span>
           <span class="ls-station">Central Station · Circular Quay</span>
         </summary>
         <div class="ls-prov"><span class="prov-chip pill-badge fam-purple">Bounce</span><span class="prov-chip pill-badge fam-purple">Radical Storage</span><span class="prov-chip pill-badge fam-purple">Nannybag</span></div>
@@ -1972,7 +2028,7 @@ a.ls-guide:visited { color: #8a6c1a; }
       <details class="ls-row" data-verified="2026-08" data-tags="australia cross flinders melbourne oceania skybus southern victoria" data-guide="Melbourne">
         <summary class="ls-top">
           <span class="ls-city">🇦🇺 Melbourne</span><a href="/guides/melbourne.html" class="ls-guide">Guide</a>
-          <span class="ls-tag ls-none badge fam-orange"><svg class="gm-icon" data-icon="dot-red" data-role="dot" viewBox="0 0 24 24" aria-hidden="true"><use href="#gm-i-dot-red"/></svg> NO STATION STORAGE</span>
+          <span class="ls-tag ls-none badge fam-red"><svg class="gm-icon" data-icon="dot-red" data-role="dot" viewBox="0 0 24 24" aria-hidden="true"><use href="#gm-i-dot-red"/></svg> NO STATION STORAGE</span>
           <span class="ls-station">Southern Cross · Flinders Street</span>
         </summary>
         <div class="ls-prov"><span class="prov-chip pill-badge fam-purple">Bounce</span><span class="prov-chip pill-badge fam-purple">Radical Storage</span><span class="prov-chip pill-badge fam-purple">Nannybag</span></div>
@@ -2004,7 +2060,7 @@ a.ls-guide:visited { color: #8a6c1a; }
       <details class="ls-row" data-verified="2026-08" data-tags="africame arab deira downtown dubai dxb emirates marina metro uae united" data-guide="Dubai">
         <summary class="ls-top">
           <span class="ls-city">🇦🇪 Dubai</span><a href="/guides/dubai.html" class="ls-guide">Guide</a>
-          <span class="ls-tag ls-none badge fam-orange"><svg class="gm-icon" data-icon="dot-red" data-role="dot" viewBox="0 0 24 24" aria-hidden="true"><use href="#gm-i-dot-red"/></svg> NO STATION STORAGE</span>
+          <span class="ls-tag ls-none badge fam-red"><svg class="gm-icon" data-icon="dot-red" data-role="dot" viewBox="0 0 24 24" aria-hidden="true"><use href="#gm-i-dot-red"/></svg> NO STATION STORAGE</span>
           <span class="ls-station">Metro network · DXB</span>
         </summary>
         <div class="ls-prov"><span class="prov-chip pill-badge fam-purple">Radical Storage</span><span class="prov-chip pill-badge fam-purple">Bounce</span></div>
@@ -2029,7 +2085,7 @@ a.ls-guide:visited { color: #8a6c1a; }
       <details class="ls-row" data-verified="2026-08" data-tags="africame el fna gueliz jemaa marrakech medina morocco riad" data-guide="Marrakech">
         <summary class="ls-top">
           <span class="ls-city">🇲🇦 Marrakech</span><a href="/guides/marrakech.html" class="ls-guide">Guide</a>
-          <span class="ls-tag ls-none badge fam-orange"><svg class="gm-icon" data-icon="dot-red" data-role="dot" viewBox="0 0 24 24" aria-hidden="true"><use href="#gm-i-dot-red"/></svg> NO STATION STORAGE</span>
+          <span class="ls-tag ls-none badge fam-red"><svg class="gm-icon" data-icon="dot-red" data-role="dot" viewBox="0 0 24 24" aria-hidden="true"><use href="#gm-i-dot-red"/></svg> NO STATION STORAGE</span>
           <span class="ls-station">Marrakech-Ville</span>
         </summary>
         <div class="ls-prov"><span class="prov-chip pill-badge fam-purple">Radical Storage</span></div>
@@ -2054,7 +2110,7 @@ a.ls-guide:visited { color: #8a6c1a; }
       <details class="ls-row" data-verified="2026-08" data-tags="africa africame bowl cape capetown city mountain south table town v&a waterfront" data-guide="Cape-Town">
         <summary class="ls-top">
           <span class="ls-city">🇿🇦 Cape Town</span><a href="/guides/cape-town.html" class="ls-guide">Guide</a>
-          <span class="ls-tag ls-none badge fam-orange"><svg class="gm-icon" data-icon="dot-red" data-role="dot" viewBox="0 0 24 24" aria-hidden="true"><use href="#gm-i-dot-red"/></svg> NO STATION STORAGE</span>
+          <span class="ls-tag ls-none badge fam-red"><svg class="gm-icon" data-icon="dot-red" data-role="dot" viewBox="0 0 24 24" aria-hidden="true"><use href="#gm-i-dot-red"/></svg> NO STATION STORAGE</span>
           <span class="ls-station">Cape Town Station</span>
         </summary>
         <div class="ls-prov"><span class="prov-chip pill-badge fam-purple">Bounce</span><span class="prov-chip pill-badge fam-purple">Radical Storage</span></div>

@@ -2086,7 +2086,12 @@
    .badge padding 0.3em 0.65em -> fixed 3px 8px — owner: "the font does not
    change sizes so why the padding would." Both doc and code updated
    together. web-travel-style.css -> v124. CACHE to v1501. */
-var CACHE = 'travel-cache-v1501';
+/* 2026-08-24: title/header Georgia-serif drift removed site-wide — ask-your-guide,
+   time-zones, cards-atm, connections, disney, where-to-stay, airline-networks and
+   three shared sheets had titles set in Georgia/Cambria instead of the one site
+   typeface (owner: never authorized, badge/pill-badge only exemption). airlines.css
+   -> v5, trains.css -> v15, web-travel-style.css -> v125. CACHE to v1502. */
+var CACHE = 'travel-cache-v1502';
 
 /* The guide-calendar hand-off cache. Written by toolbar.js, read and emptied
    once by the fetch handler below, and EXEMPT from the activate sweep — it is
@@ -2099,7 +2104,7 @@ var ICS_OUTBOX = 'gmd-ics-outbox';
    THIS IS THE ONLY PLACE to bump toolbar.js / guide-style.css versions.
    NEVER bump ?v= inside guide HTML — it breaks HMAC stamps and forces re-validation
    of 230+ guides. Instead, bump MIN_VERSIONS here + increment the CACHE version. */
-var MIN_VERSIONS = { 'guide-style.css': 264,'toolbar.js': 1070, 'mobile.css': 88, 'web-travel-style.css': 124, 'guides-index-style.css': 27, 'read-about.css': 6, 'best-of-features.js': 4, 'best-of-cross-data.js': 24, 'weather.js': 12, 'trains.css': 14, 'trains.js': 4, 'airlines.css': 4, 'airlines.js': 5, 'passport.js': 4, 'search-autocomplete.js': 9 };
+var MIN_VERSIONS = { 'guide-style.css': 264,'toolbar.js': 1070, 'mobile.css': 88, 'web-travel-style.css': 125, 'guides-index-style.css': 27, 'read-about.css': 6, 'best-of-features.js': 4, 'best-of-cross-data.js': 24, 'weather.js': 12, 'trains.css': 15, 'trains.js': 4, 'airlines.css': 5, 'airlines.js': 5, 'passport.js': 4, 'search-autocomplete.js': 9 };
 
 function rewriteAssetUrl(urlStr) {
   var u;

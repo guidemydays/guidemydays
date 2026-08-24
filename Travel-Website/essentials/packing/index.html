@@ -8,7 +8,7 @@
 <style>
 .progress-track { background: var(--border2); border-radius: 2px; height: 3px; }
 .progress-fill { height: 3px; border-radius: 2px; background: var(--rust); transition: width 0.35s ease; width: 0%; }
-.reset-btn { margin-top: 14px; font-size: 12px; letter-spacing: 0.1em; color: #7a5c0e; text-transform: uppercase; display: inline-flex; align-items: center; justify-content: center; font-family: inherit; font-weight: 400; background: none; border: 1.5px solid var(--gold); border-radius: 999px; padding: 5px 13px; cursor: pointer; transition: color 0.2s, border-color 0.2s; }
+.reset-btn { margin-top: 14px; font-size: 12px; letter-spacing: 0.18em; color: #7a5c0e; text-transform: uppercase; display: inline-flex; align-items: center; justify-content: center; font-family: inherit; font-weight: 700; background: none; border: 1.5px solid var(--gold); border-radius: 999px; padding: 5px 13px; cursor: pointer; transition: color 0.2s, border-color 0.2s; }
 .reset-btn:hover { background: var(--gold); border-color: var(--gold); color: #fff; }
 .section-card, .critical-card {
  border: 1px solid var(--border);
@@ -125,7 +125,7 @@ html { scroll-behavior: smooth; }
 .section-card:hover  { box-shadow: 0 4px 14px rgba(0,0,0,0.07); transform: translateY(-1px); }
 .critical-card { transition: box-shadow .18s, transform .18s; }
 .critical-card:hover { box-shadow: 0 4px 14px rgba(0,0,0,0.07); transform: translateY(-1px); }
-.print-btn { margin-top: 14px; margin-left: 8px; font-size: 12px; letter-spacing: 0.1em; color: #7a5c0e; text-transform: uppercase; display: inline-flex; align-items: center; justify-content: center; font-family: inherit; font-weight: 400; background: none; border: 1.5px solid var(--gold); border-radius: 999px; padding: 5px 13px; cursor: pointer; transition: color 0.2s, border-color 0.2s; }
+.print-btn { margin-top: 14px; margin-left: 8px; font-size: 12px; letter-spacing: 0.18em; color: #7a5c0e; text-transform: uppercase; display: inline-flex; align-items: center; justify-content: center; font-family: inherit; font-weight: 700; background: none; border: 1.5px solid var(--gold); border-radius: 999px; padding: 5px 13px; cursor: pointer; transition: color 0.2s, border-color 0.2s; }
 .print-btn:hover { background: var(--gold); border-color: var(--gold); color: #fff; }
 .summary {
  display: flex; align-items: center; gap: 20px;
@@ -182,6 +182,13 @@ html { scroll-behavior: smooth; }
  font-size: 13px; font-weight: 700; font-variant-numeric: tabular-nums; flex-shrink: 0;
 }
 .qty-phrase { font-size: 13px; color: var(--muted); }
+/* The "why" behind the number, right-aligned so it reads as an aside, not
+   part of the item's own name — the reader can see the logic and adjust. */
+.qty-math { margin-left: auto; padding-left: 12px; font-size: 11px; color: var(--muted); white-space: nowrap; flex-shrink: 0; }
+@media (max-width: 600px) and (pointer: coarse) {
+ .item { flex-wrap: wrap; }
+ .qty-math { margin-left: 31px; padding-left: 0; white-space: normal; width: 100%; }
+}
 .item.checked .qty-circle { background: var(--surface2); border-color: var(--border); color: #b0aaa2; }
 .item.checked .qty-phrase { color: #b0aaa2; }
 /* Same round-chip-plus-phrase construction as .qty-circle/.qty-phrase, so
@@ -201,7 +208,7 @@ html { scroll-behavior: smooth; }
    just the toolbar.js-injected "Save for Offline") — same shape, caps and
    gold treatment as .reset-btn/.print-btn so the row reads as one set. */
 .toggle-btn {
- font-size: 12px; font-weight: 400; letter-spacing: 0.1em; color: var(--gold); text-transform: uppercase;
+ font-size: 12px; font-weight: 700; letter-spacing: 0.18em; color: #7a5c0e; text-transform: uppercase;
  background: none; border: 1.5px solid var(--gold); border-radius: 999px; padding: 5px 13px;
  cursor: pointer; transition: color .2s, border-color .2s, background .2s;
 }
@@ -856,6 +863,16 @@ html { scroll-behavior: smooth; }
  return n;
  }
 
+ /* In plain words, so the reader can see the logic behind the number and
+    decide for themselves whether to pack more or less than it recommends. */
+ function explainQty(cfg) {
+ if (!cfg.ratio) return cfg.min + ' total, regardless of trip length';
+ var perDays = Math.max(1, Math.round(1 / cfg.ratio));
+ var txt = '1 every ' + perDays + (perDays === 1 ? ' day' : ' days');
+ if (cfg.offset) txt += ' + ' + cfg.offset + (Math.abs(cfg.offset) === 1 ? ' spare' : ' spares');
+ return txt;
+ }
+
  function applyQuantities() {
  var days = getDays();
  for (var id in QTY) {
@@ -866,6 +883,18 @@ html { scroll-behavior: smooth; }
   var unit = QTY[id].unit ? (' ' + QTY[id].unit) : '';
   var name = QTY[id].name || '';
   span.innerHTML = '<span class="qty-circle">' + n + unit + '</span><span class="qty-phrase">' + name + ' to pack</span>';
+
+  var cb = document.getElementById(id);
+  var item = cb ? cb.closest('.item') : null;
+  if (item) {
+   var math = item.querySelector('.qty-math');
+   if (!math) {
+    math = document.createElement('span');
+    math.className = 'qty-math';
+    item.appendChild(math);
+   }
+   math.textContent = 'we recommend: ' + explainQty(QTY[id]);
+  }
  }
  try { localStorage.setItem(DAYS_KEY, String(days)); } catch (e) {}
  }

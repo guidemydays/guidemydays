@@ -3880,7 +3880,7 @@ window.TVE.home = (function () {
     box.style.cssText =
       'position:relative;background:#fff;border-radius:12px;padding:26px 26px 20px;' +
       'max-width:320px;width:90vw;box-shadow:0 12px 40px rgba(0,0,0,.22);' +
-      'font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;';
+      'font-family:var(--font,var(--font-family,\'Public Sans\',sans-serif));';
     /* Stop touches inside the box from bubbling to the overlay backdrop */
     box.addEventListener('click', function (e) { e.stopPropagation(); });
     box.addEventListener('touchend', function (e) { e.stopPropagation(); });

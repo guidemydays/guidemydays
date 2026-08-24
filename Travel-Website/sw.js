@@ -2162,7 +2162,21 @@
    reading like a badge interrupting the paragraph. De-boxed to plain
    parenthetical text; removed the now-unused .wow-callout code rule. Page's
    own inline <style>, no shared CSS/JS touched. CACHE to v1527. */
-var CACHE = 'travel-cache-v1527';
+/* 2026-08-24: typeface audit follow-up — the "one typeface, Public Sans" rule
+   (check_no_serif_font_drift) only screens for banned SERIF fonts, so five
+   spots leaking the OS system-font stack (-apple-system/Segoe UI/Roboto/Arial)
+   instead of var(--font) went uncaught: toolbar.js's shared modal dialog
+   (runs on every page), web-travel-style.css's .dest-code, the trips PIN
+   gate, day-trips's board-name sub-label, and the world-map + stops-map
+   .leaflet-container overrides. Owner, after noticing the mismatch:
+   "make sure all pages, the entire text including pills that are not connect
+   to badges and badges are the sam font." All five now read var(--font)
+   (with a var(--font-family) fallback in toolbar.js, since guide pages define
+   that name instead of --font). Deliberate monospace stamps (scoreboard/
+   hub-code/board-time digits, entry/trusted-traveler reference numbers) are
+   untouched — a distinct, consistent numeric-alignment convention, not drift.
+   toolbar.js -> v1078, web-travel-style.css -> v129. CACHE to v1528. */
+var CACHE = 'travel-cache-v1528';
 
 /* The guide-calendar hand-off cache. Written by toolbar.js, read and emptied
    once by the fetch handler below, and EXEMPT from the activate sweep — it is
@@ -2175,7 +2189,7 @@ var ICS_OUTBOX = 'gmd-ics-outbox';
    THIS IS THE ONLY PLACE to bump toolbar.js / guide-style.css versions.
    NEVER bump ?v= inside guide HTML — it breaks HMAC stamps and forces re-validation
    of 230+ guides. Instead, bump MIN_VERSIONS here + increment the CACHE version. */
-var MIN_VERSIONS = { 'guide-style.css': 265,'toolbar.js': 1077, 'mobile.css': 88, 'web-travel-style.css': 128, 'guides-index-style.css': 27, 'read-about.css': 6, 'best-of-features.js': 4, 'best-of-cross-data.js': 24, 'weather.js': 12, 'trains.css': 17, 'trains.js': 4, 'airlines.css': 5, 'airlines.js': 5, 'passport.js': 4, 'search-autocomplete.js': 9 };
+var MIN_VERSIONS = { 'guide-style.css': 265,'toolbar.js': 1078, 'mobile.css': 88, 'web-travel-style.css': 129, 'guides-index-style.css': 27, 'read-about.css': 6, 'best-of-features.js': 4, 'best-of-cross-data.js': 24, 'weather.js': 12, 'trains.css': 17, 'trains.js': 4, 'airlines.css': 5, 'airlines.js': 5, 'passport.js': 4, 'search-autocomplete.js': 9 };
 
 function rewriteAssetUrl(urlStr) {
   var u;

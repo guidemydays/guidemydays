@@ -108,11 +108,12 @@ html { scroll-behavior: smooth; }
 
 /* ============ BUBBLE CLOUD (courts by state) ============ */
 .pb-bubble-wrap { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 24px 16px; margin-bottom: 20px; }
-.pb-bubble-cloud { display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: 10px; }
+.pb-bubble-cloud { display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: center; gap: 14px 10px; }
+.pb-bubble-item { display: flex; flex-direction: column; align-items: center; gap: 6px; width: 90px; }
 .pb-bubble { display: flex; flex-direction: column; align-items: center; justify-content: center; border-radius: 50%; background: radial-gradient(circle at 32% 28%, #e8c090, #C04E1A 72%); color: #fff; text-align: center; flex-shrink: 0; }
-.pb-bubble-name { font-weight: 800; letter-spacing: -0.01em; line-height: 1.1; }
+.pb-bubble-name { font-weight: 800; letter-spacing: 0.01em; line-height: 1.1; }
 .pb-bubble-val { font-size: 9.5px; opacity: 0.9; margin-top: 1px; }
-.pb-bubble-top { font-size: 9px; opacity: 0.85; margin-top: 1px; }
+.pb-bubble-caption { font-size: 10px; font-weight: 600; color: var(--muted); text-align: center; line-height: 1.25; }
 
 /* ============ RADIAL RINGS ============ */
 .pb-rings-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 20px; }
@@ -498,21 +499,21 @@ var CITIES = [
 ];
 
 var STATES = [
-  {st:'Florida',        courts:1400, players:'4.2M', top:'Naples'},
-  {st:'California',     courts:1200, players:'3.8M', top:'Palm Desert'},
-  {st:'Arizona',        courts:980,  players:'3.1M', top:'Scottsdale'},
-  {st:'Texas',          courts:870,  players:'2.9M', top:'Austin'},
-  {st:'North Carolina', courts:650,  players:'2.0M', top:'Charlotte'},
-  {st:'Washington',     courts:600,  players:'1.8M', top:'Seattle/Bainbridge'},
-  {st:'Colorado',       courts:560,  players:'1.6M', top:'Denver'},
-  {st:'Georgia',        courts:520,  players:'1.5M', top:'Atlanta'},
-  {st:'Utah',           courts:500,  players:'1.4M', top:'St. George'},
-  {st:'Tennessee',      courts:440,  players:'1.2M', top:'Nashville'},
-  {st:'Oregon',         courts:390,  players:'1.1M', top:'Portland'},
-  {st:'Nevada',         courts:360,  players:'1.0M', top:'Las Vegas'},
-  {st:'Pennsylvania',   courts:340,  players:'0.9M', top:'Philadelphia'},
-  {st:'New York',       courts:320,  players:'0.9M', top:'New York City'},
-  {st:'Michigan',       courts:300,  players:'0.8M', top:'Grand Rapids'}
+  {st:'Florida',        abbr:'FL', courts:1400, players:'4.2M', top:'Naples'},
+  {st:'California',     abbr:'CA', courts:1200, players:'3.8M', top:'Palm Desert'},
+  {st:'Arizona',        abbr:'AZ', courts:980,  players:'3.1M', top:'Scottsdale'},
+  {st:'Texas',          abbr:'TX', courts:870,  players:'2.9M', top:'Austin'},
+  {st:'North Carolina', abbr:'NC', courts:650,  players:'2.0M', top:'Charlotte'},
+  {st:'Washington',     abbr:'WA', courts:600,  players:'1.8M', top:'Seattle/Bainbridge'},
+  {st:'Colorado',       abbr:'CO', courts:560,  players:'1.6M', top:'Denver'},
+  {st:'Georgia',        abbr:'GA', courts:520,  players:'1.5M', top:'Atlanta'},
+  {st:'Utah',           abbr:'UT', courts:500,  players:'1.4M', top:'St. George'},
+  {st:'Tennessee',      abbr:'TN', courts:440,  players:'1.2M', top:'Nashville'},
+  {st:'Oregon',         abbr:'OR', courts:390,  players:'1.1M', top:'Portland'},
+  {st:'Nevada',         abbr:'NV', courts:360,  players:'1.0M', top:'Las Vegas'},
+  {st:'Pennsylvania',   abbr:'PA', courts:340,  players:'0.9M', top:'Philadelphia'},
+  {st:'New York',       abbr:'NY', courts:320,  players:'0.9M', top:'New York City'},
+  {st:'Michigan',       abbr:'MI', courts:300,  players:'0.8M', top:'Grand Rapids'}
 ];
 
 var GROWTH = [{y:'2020',v:4.2},{y:'2021',v:4.8},{y:'2022',v:8.9},{y:'2023',v:13.6},{y:'2024',v:19.8},{y:'2025',v:24.3}];
@@ -782,10 +783,13 @@ function cityNameHTML(c){
   el.innerHTML=STATES.map(function(s){
     var pct=(s.courts-min)/(max-min);
     var d=Math.round(minD+pct*(maxD-minD));
-    var fs=Math.max(10,Math.round(d*0.15));
-    return '<div class="pb-bubble" style="width:'+d+'px;height:'+d+'px" title="'+esc(s.st)+' · '+s.courts+' courts · '+s.players+' players · top city '+esc(s.top)+'">'+
-      '<div class="pb-bubble-name" style="font-size:'+fs+'px">'+esc(s.st.split(' ')[0])+'</div>'+
-      '<div class="pb-bubble-val" style="font-size:'+Math.max(8,fs*0.5)+'px">'+s.courts.toLocaleString()+'</div>'+
+    var fs=Math.max(13,Math.round(d*0.22));
+    return '<div class="pb-bubble-item" title="'+esc(s.st)+' · '+s.courts+' courts · '+s.players+' players · top city '+esc(s.top)+'">'+
+      '<div class="pb-bubble" style="width:'+d+'px;height:'+d+'px">'+
+        '<div class="pb-bubble-name" style="font-size:'+fs+'px">'+esc(s.abbr)+'</div>'+
+        '<div class="pb-bubble-val" style="font-size:'+Math.max(8,Math.round(fs*0.5))+'px">'+s.courts.toLocaleString()+'</div>'+
+      '</div>'+
+      '<div class="pb-bubble-caption">'+esc(s.st)+'</div>'+
     '</div>';
   }).join('');
 })();

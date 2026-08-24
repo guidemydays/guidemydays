@@ -2176,7 +2176,17 @@
    hub-code/board-time digits, entry/trusted-traveler reference numbers) are
    untouched — a distinct, consistent numeric-alignment convention, not drift.
    toolbar.js -> v1078, web-travel-style.css -> v129. CACHE to v1528. */
-var CACHE = 'travel-cache-v1528';
+/* 2026-08-24: typeface audit, round 2 — owner, after the system-font-stack fix:
+   "i want them all t ouse the same font including coreboard digits, airport
+   hub codes, day-trips etc." The monospace numeric-stamp convention (Courier
+   New / ui-monospace / JetBrains Mono, various fallback chains) is retired
+   site-wide: essentials/tours, airline-networks (.hub-code x2), day-trips
+   (.dt-board-name/.dt-board-time/.dt-stop-time), entry (.meta-val + 3 more),
+   pickleball (.pb-sb-val/.pb-podium-step), trusted-traveler (.step-note code)
+   all now read var(--font) — 12 declarations across 6 pages, none left.
+   Page-only changes, no shared CSS/JS touched. CACHE to v1529 so the cached
+   copies of these six pages get invalidated for returning visitors. */
+var CACHE = 'travel-cache-v1529';
 
 /* The guide-calendar hand-off cache. Written by toolbar.js, read and emptied
    once by the fetch handler below, and EXEMPT from the activate sweep — it is

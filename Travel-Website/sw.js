@@ -2147,7 +2147,16 @@
    MIN_VERSIONS assets, so both floors move: guide-style.css -> 265, web-travel-
    style.css -> 128. CACHE to v1524. */
 /* 2026-08-24: airline-networks: ink-stamp ring + bolder real-barcode (persistent, not just on hover/scroll) — inline style/script only, cache-first page needs a bump for returning readers toolbar.js -> v1077. CACHE to v1525. */
-var CACHE = 'travel-cache-v1525';
+/* 2026-08-24: essentials/baggage follow-up — owner feedback "this page is very
+   confusing" on the v1523 wow-fact redesign above. That shipped FOUR stacked
+   blocks (callout, a 3-tile stat grid, a "standouts" header, a 4-card
+   leaderboard) — roughly three screens of trivia before the search box.
+   Collapsed to ONE compact callout (the tax-exemption fact + a slim stat line),
+   straight into search after it. No data lost — the standouts facts are what
+   the region lists below already show by browsing. Page's own inline <style>,
+   no shared CSS/JS touched. CACHE to v1526 so the cached copy of the page
+   itself gets invalidated for returning visitors. */
+var CACHE = 'travel-cache-v1526';
 
 /* The guide-calendar hand-off cache. Written by toolbar.js, read and emptied
    once by the fetch handler below, and EXEMPT from the activate sweep — it is

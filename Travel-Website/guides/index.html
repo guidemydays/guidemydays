@@ -780,13 +780,13 @@
   <span id="season-badge">✕ clear</span>
 </div>
 <div id="temp-range">
-  <span class="sfl">Night low ≥</span>
+  <span class="sfl"><svg viewBox="0 0 24 24" width="14" height="14" aria-hidden="true" style="vertical-align:middle;flex-shrink:0"><use href="#gm-i-thermometer"/></svg> Night low ≥</span>
   <span class="sfl-end" id="tlomin-lo">-20°C</span>
   <input type="range" id="tlomin" min="-20" max="35" value="10" step="1" aria-label="Night low minimum temperature">
   <span class="sfl-end" id="tlomin-hi">35°C</span>
   <span class="temp-val" id="tlomin-val">10°C</span>
   <span class="temp-sep" style="margin:0 4px">·</span>
-  <span class="sfl">Day high ≤</span>
+  <span class="sfl"><svg viewBox="0 0 24 24" width="14" height="14" aria-hidden="true" style="vertical-align:middle;flex-shrink:0"><use href="#gm-i-thermometer"/></svg> Day high ≤</span>
   <span class="sfl-end" id="tmin-lo">-10°C</span>
   <input type="range" id="tmin" min="-10" max="45" value="30" step="1" aria-label="Day high maximum temperature">
   <span class="sfl-end" id="tmin-hi">45°C</span>
@@ -4806,17 +4806,13 @@
     if (window._closeBestofMenu) window._closeBestofMenu(); if (window._closeContinentMenu) window._closeContinentMenu();
     if (opening) {
       if (window._exitCompareMode) window._exitCompareMode();
-      /* Clear all active filter state when opening any facet panel */
-      if (window._clearDaysFilter) window._clearDaysFilter();
-      if (window._clearLangFilter) window._clearLangFilter();
-      if (window._clearCountryFilter) window._clearCountryFilter();
-      if (window._clearContinentFilter) window._clearContinentFilter();
-      var sb = document.querySelector('#season-filter .mchip.on');
-      if (sb) sb.click();
-      var tb = document.querySelector('#theme-panel .tchip.on:not([data-theme="all"])');
-      if (tb) tb.click();
-      var srch = document.getElementById('guide-search');
-      if (srch && srch.value) { srch.value = ''; srch.dispatchEvent(new Event('input')); }
+      /* Opening a panel only shows it — it does not touch any other facet's
+         state. Days/Country/Continent stopped mutex-clearing on selection
+         (see the "remove asymmetric mutex-clear" fix); this panel-open path
+         used to do the same clearing the other direction, silently wiping
+         Days/Country/Continent/Language and un-toggling the active Season or
+         Theme chip every time this panel was opened. That contradicted the
+         facets' own "composable" comments and is not restored. */
       if (target.reset && window._setBrowseView) window._setBrowseView('country');
       setState(target.btn, target.panel, true);
     }

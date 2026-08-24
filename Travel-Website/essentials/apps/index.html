@@ -42,7 +42,17 @@
 .section.hidden { display: none; }
 .app-card-wrap.hidden { display: none; }
 
-/* App cards */
+/* App cards — REDESIGNED 2026-08-24 (owner: give this page the same "wow
+   factor" pass as day-trips/train-passes — keep hero band, hero-ground
+   search and background, redesign the rest, modern, thematically new).
+   This is a page about PHONE apps, so each card now opens as a home-screen
+   app icon tile — a colored rounded-square glyph plus the app name, packed
+   tight like an actual launcher grid — and tapping a tile expands it
+   accordion-style to the original description/pills/link. Filter pills,
+   eligibility-style filter row and the .app-anchor label are untouched
+   (locked pill/badge system + existing layout-only pattern). New pattern
+   for the site — day-trips did a departure board, train-passes did a flip
+   smart-card, nothing does a home-screen icon grid. */
 .app-grid {
   display: grid; grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
   gap: 14px; margin-bottom: 6px;
@@ -68,28 +78,63 @@
 
 .app-card {
   background: var(--surface); border: 1px solid var(--border2); border-radius: 0 10px 10px 10px;
-  padding: 14px 16px; position: relative;
+  position: relative; overflow: hidden;
 }
 /* Top pick — one app per category, marked with a ribbon in the card's
    top-right corner (the top-left is already occupied by .app-anchor). */
 .app-card-wrap.top .app-card { border-color: var(--rust,#C04E1A); }
 .app-card-wrap.top .app-card::before {
-  content: 'Top pick'; position: absolute; top: -9px; right: 13px;
+  content: 'Top pick'; position: absolute; top: -9px; right: 13px; z-index: 2;
   font-size: 9.5px; font-weight: 700; letter-spacing: .04em; text-transform: uppercase;
   background: var(--rust,#C04E1A); color: #fff; padding: 2px 8px; border-radius: 20px;
 }
-.app-head { display: flex; align-items: flex-start; justify-content: space-between; gap: 8px; margin-bottom: 7px; }
-.app-name { font-size: 13px; font-weight: 700; color: var(--text); line-height: 1.2; }
-.app-name a { color: var(--text); text-decoration: none; }
-.app-name a:visited { color: #3d3a32; }
-.app-name a:hover { color: #C04E1A; text-decoration: none; }
+
+/* The tile — a home-screen icon row: glyph, name, platform tag, chevron.
+   A real <button> so it's keyboard-reachable without extra tabindex work. */
+.app-tile {
+  display: flex; align-items: center; gap: 11px; width: 100%;
+  font: inherit; text-align: left; background: none; border: 0; cursor: pointer;
+  padding: 13px 14px; color: inherit;
+}
+.app-icon {
+  width: 40px; height: 40px; border-radius: 11px; flex-shrink: 0;
+  display: flex; align-items: center; justify-content: center;
+  box-shadow: inset 0 0 0 1px rgba(0,0,0,.06), 0 2px 5px rgba(30,20,5,.1);
+}
+.app-icon svg { width: 22px; height: 22px; }
+.app-card-wrap[data-sec="maps"]        .app-icon { background: linear-gradient(150deg, rgba(var(--fam-green-rgb),.28),  rgba(var(--fam-green-rgb),.14)); }
+.app-card-wrap[data-sec="flights"]     .app-icon { background: linear-gradient(150deg, rgba(var(--fam-red-rgb),.28),    rgba(var(--fam-red-rgb),.14)); }
+.app-card-wrap[data-sec="translation"] .app-icon { background: linear-gradient(150deg, rgba(var(--fam-blue-rgb),.28),   rgba(var(--fam-blue-rgb),.14)); }
+.app-card-wrap[data-sec="money"]       .app-icon { background: linear-gradient(150deg, rgba(var(--fam-purple-rgb),.28), rgba(var(--fam-purple-rgb),.14)); }
+.app-card-wrap[data-sec="safety"]      .app-icon { background: linear-gradient(150deg, rgba(var(--fam-orange-rgb),.28), rgba(var(--fam-orange-rgb),.14)); }
+.app-card-wrap[data-sec="esim"]        .app-icon { background: linear-gradient(150deg, rgba(var(--fam-pink-rgb),.28),   rgba(var(--fam-pink-rgb),.14)); }
+.app-card-wrap[data-sec="planning"]    .app-icon { background: linear-gradient(150deg, rgba(var(--fam-yellow-rgb),.32), rgba(var(--fam-yellow-rgb),.16)); }
+
+.app-tile-text { flex: 1; min-width: 0; }
+.app-name { display: block; font-size: 13.5px; font-weight: 700; color: var(--text); line-height: 1.25; }
 .app-platforms {
-  font-size: 10px; color: var(--muted); white-space: nowrap; flex-shrink: 0;
+  display: block; font-size: 10px; color: var(--muted); margin-top: 1px;
   font-weight: 600; letter-spacing: 0.04em;
 }
-.app-desc { font-size: 12px; color: var(--muted); line-height: 1.6; }
-.app-pills { display: flex; flex-wrap: wrap; gap: var(--fam-gap, 5px); margin-top: 9px; }
+.app-chev { flex-shrink: 0; color: var(--muted); transition: transform .25s ease; }
+.app-tile:active .app-icon { transform: scale(.92); }
+.app-icon { transition: transform .12s ease; }
+
+/* Detail — collapsed by default (grid-rows 0fr trick: animates height
+   without a fixed max-height guess), opens on .app-card-wrap.open. */
+.app-detail { display: grid; grid-template-rows: 0fr; transition: grid-template-rows .32s ease; }
+.app-detail-inner { overflow: hidden; }
+.app-card-wrap.open .app-detail { grid-template-rows: 1fr; }
+.app-card-wrap.open .app-chev { transform: rotate(180deg); }
+.app-desc { font-size: 12px; color: var(--muted); line-height: 1.6; padding: 0 14px; }
+.app-pills { display: flex; flex-wrap: wrap; gap: var(--fam-gap, 5px); padding: 9px 14px 0; }
 /* Pill colours via .badge.fam-* — no hex here, dark mode handled by shared tokens */
+.app-open {
+  display: inline-flex; align-items: center; gap: 5px; margin: 11px 14px 14px;
+  font-size: 11.5px; font-weight: 700; color: var(--rust, #C04E1A); text-decoration: none;
+}
+.app-open:hover { text-decoration: underline; }
+@media (prefers-reduced-motion: reduce) { .app-detail, .app-chev, .app-icon { transition: none; } }
 
 /* Download tip note */
 .dl-note {
@@ -185,48 +230,84 @@
   <div class="section" data-section="maps" id="sec-maps">
   <div class="section-head">Maps &amp; Navigation</div>
   <div class="app-grid">
-    <div class="app-card-wrap top">
+    <div class="app-card-wrap top" data-sec="maps">
       <span class="app-anchor fam-grey">The standard — works everywhere</span>
       <div class="app-card">
-        <div class="app-head">
-          <div class="app-name"><a href="https://maps.google.com" target="_blank" rel="noopener" class="ext-arrow">Google Maps</a></div>
-          <div class="app-platforms">iOS · Android</div>
+        <button type="button" class="app-tile" aria-expanded="false">
+          <span class="app-icon" aria-hidden="true"><svg class="gm-icon" viewBox="0 0 24 24"><use href="#gm-i-dot-green"/></svg></span>
+          <span class="app-tile-text">
+            <span class="app-name">Google Maps</span>
+            <span class="app-platforms">iOS · Android</span>
+          </span>
+          <svg class="app-chev" width="11" height="11" viewBox="0 0 11 11" aria-hidden="true"><path d="M2.5 4L5.5 7L8.5 4" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+        <div class="app-detail">
+          <div class="app-detail-inner">
+            <div class="app-desc">Walking, driving, transit, and cycling directions worldwide. Download a city or region for offline use before departure. Street View is useful for orienting yourself before you arrive somewhere new.</div>
+          <div class="app-pills"><span class="badge fam-green">Free</span><span class="badge fam-blue">Offline maps</span><span class="badge fam-blue">Street View</span></div>
+          <a class="app-open" href="https://maps.google.com" target="_blank" rel="noopener">Open Google Maps<svg width="10" height="10" viewBox="0 0 10 10" aria-hidden="true"><path d="M2 8L8 2M8 2H3.5M8 2V6.5" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+          </div>
         </div>
-        <div class="app-desc">Walking, driving, transit, and cycling directions worldwide. Download a city or region for offline use before departure. Street View is useful for orienting yourself before you arrive somewhere new.</div>
-        <div class="app-pills"><span class="badge fam-green">Free</span><span class="badge fam-blue">Offline maps</span><span class="badge fam-blue">Street View</span></div>
       </div>
     </div>
-    <div class="app-card-wrap">
+    <div class="app-card-wrap" data-sec="maps">
       <span class="app-anchor fam-grey">Fully offline, built on OpenStreetMap</span>
       <div class="app-card">
-        <div class="app-head">
-          <div class="app-name"><a href="https://maps.me" target="_blank" rel="noopener" class="ext-arrow">Maps.me</a></div>
-          <div class="app-platforms">iOS · Android</div>
+        <button type="button" class="app-tile" aria-expanded="false">
+          <span class="app-icon" aria-hidden="true"><svg class="gm-icon" viewBox="0 0 24 24"><use href="#gm-i-dot-green"/></svg></span>
+          <span class="app-tile-text">
+            <span class="app-name">Maps.me</span>
+            <span class="app-platforms">iOS · Android</span>
+          </span>
+          <svg class="app-chev" width="11" height="11" viewBox="0 0 11 11" aria-hidden="true"><path d="M2.5 4L5.5 7L8.5 4" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+        <div class="app-detail">
+          <div class="app-detail-inner">
+            <div class="app-desc">Offline maps covering 200+ countries, useful where Google Maps is blocked or unreliable. Still downloadable and updated, but quality and community trust have declined since it dropped open-source development. Organic Maps is now the more recommended alternative among OpenStreetMap users.</div>
+          <div class="app-pills"><span class="badge fam-green">Free</span><span class="badge fam-blue">Full offline</span><span class="badge fam-blue">Hiking trails</span></div>
+          <a class="app-open" href="https://maps.me" target="_blank" rel="noopener">Open Maps.me<svg width="10" height="10" viewBox="0 0 10 10" aria-hidden="true"><path d="M2 8L8 2M8 2H3.5M8 2V6.5" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+          </div>
         </div>
-        <div class="app-desc">Offline maps covering 200+ countries, useful where Google Maps is blocked or unreliable. Still downloadable and updated, but quality and community trust have declined since it dropped open-source development. Organic Maps is now the more recommended alternative among OpenStreetMap users.</div>
-        <div class="app-pills"><span class="badge fam-green">Free</span><span class="badge fam-blue">Full offline</span><span class="badge fam-blue">Hiking trails</span></div>
       </div>
     </div>
-    <div class="app-card-wrap">
+    <div class="app-card-wrap" data-sec="maps">
       <span class="app-anchor fam-grey">Multi-modal route planner</span>
       <div class="app-card">
-        <div class="app-head">
-          <div class="app-name"><a href="https://www.rome2rio.com" target="_blank" rel="noopener" class="ext-arrow">Rome2rio</a></div>
-          <div class="app-platforms">iOS · Android · Web</div>
+        <button type="button" class="app-tile" aria-expanded="false">
+          <span class="app-icon" aria-hidden="true"><svg class="gm-icon" viewBox="0 0 24 24"><use href="#gm-i-dot-green"/></svg></span>
+          <span class="app-tile-text">
+            <span class="app-name">Rome2rio</span>
+            <span class="app-platforms">iOS · Android · Web</span>
+          </span>
+          <svg class="app-chev" width="11" height="11" viewBox="0 0 11 11" aria-hidden="true"><path d="M2.5 4L5.5 7L8.5 4" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+        <div class="app-detail">
+          <div class="app-detail-inner">
+            <div class="app-desc">Enter any two places on Earth and it shows every way to get there — flights, trains, buses, ferries, rideshare — with costs and travel times. Useful for planning regional legs of a trip where you're not sure what exists.</div>
+          <div class="app-pills"><span class="badge fam-green">Free</span><span class="badge fam-blue">Trains + buses</span><span class="badge fam-blue">Booking links</span></div>
+          <a class="app-open" href="https://www.rome2rio.com" target="_blank" rel="noopener">Open Rome2rio<svg width="10" height="10" viewBox="0 0 10 10" aria-hidden="true"><path d="M2 8L8 2M8 2H3.5M8 2V6.5" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+          </div>
         </div>
-        <div class="app-desc">Enter any two places on Earth and it shows every way to get there — flights, trains, buses, ferries, rideshare — with costs and travel times. Useful for planning regional legs of a trip where you're not sure what exists.</div>
-        <div class="app-pills"><span class="badge fam-green">Free</span><span class="badge fam-blue">Trains + buses</span><span class="badge fam-blue">Booking links</span></div>
       </div>
     </div>
-    <div class="app-card-wrap">
+    <div class="app-card-wrap" data-sec="maps">
       <span class="app-anchor fam-grey">Best for urban transit in major cities</span>
       <div class="app-card">
-        <div class="app-head">
-          <div class="app-name"><a href="https://citymapper.com" target="_blank" rel="noopener" class="ext-arrow">Citymapper</a></div>
-          <div class="app-platforms">iOS · Android</div>
+        <button type="button" class="app-tile" aria-expanded="false">
+          <span class="app-icon" aria-hidden="true"><svg class="gm-icon" viewBox="0 0 24 24"><use href="#gm-i-dot-green"/></svg></span>
+          <span class="app-tile-text">
+            <span class="app-name">Citymapper</span>
+            <span class="app-platforms">iOS · Android</span>
+          </span>
+          <svg class="app-chev" width="11" height="11" viewBox="0 0 11 11" aria-hidden="true"><path d="M2.5 4L5.5 7L8.5 4" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+        <div class="app-detail">
+          <div class="app-detail-inner">
+            <div class="app-desc">Detailed transit directions for 100+ cities — subway, bus, bike share, and scooter. More accurate than Google Maps for real-time transit in London, Paris, Tokyo, New York. Offline mode for covered cities.</div>
+          <div class="app-pills"><span class="badge fam-green">Free</span><span class="badge fam-blue">Real-time transit</span><span class="badge fam-blue">Offline mode</span></div>
+          <a class="app-open" href="https://citymapper.com" target="_blank" rel="noopener">Open Citymapper<svg width="10" height="10" viewBox="0 0 10 10" aria-hidden="true"><path d="M2 8L8 2M8 2H3.5M8 2V6.5" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+          </div>
         </div>
-        <div class="app-desc">Detailed transit directions for 100+ cities — subway, bus, bike share, and scooter. More accurate than Google Maps for real-time transit in London, Paris, Tokyo, New York. Offline mode for covered cities.</div>
-        <div class="app-pills"><span class="badge fam-green">Free</span><span class="badge fam-blue">Real-time transit</span><span class="badge fam-blue">Offline mode</span></div>
       </div>
     </div>
   </div>
@@ -236,26 +317,44 @@
   <div class="section" data-section="flights" id="sec-flights">
   <div class="section-head">Flights</div>
   <div class="app-grid">
-    <div class="app-card-wrap top">
+    <div class="app-card-wrap top" data-sec="flights">
       <span class="app-anchor fam-grey">Fastest flight alerts available</span>
       <div class="app-card">
-        <div class="app-head">
-          <div class="app-name"><a href="https://www.flightyapp.com" target="_blank" rel="noopener" class="ext-arrow">Flighty</a></div>
-          <div class="app-platforms">iOS</div>
+        <button type="button" class="app-tile" aria-expanded="false">
+          <span class="app-icon" aria-hidden="true"><svg class="gm-icon" viewBox="0 0 24 24"><use href="#gm-i-dot-red"/></svg></span>
+          <span class="app-tile-text">
+            <span class="app-name">Flighty</span>
+            <span class="app-platforms">iOS</span>
+          </span>
+          <svg class="app-chev" width="11" height="11" viewBox="0 0 11 11" aria-hidden="true"><path d="M2.5 4L5.5 7L8.5 4" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+        <div class="app-detail">
+          <div class="app-detail-inner">
+            <div class="app-desc">Sends delay and gate change notifications before the airline does — often 30+ minutes earlier. Delay prediction tells you if a flight is likely to be delayed based on incoming aircraft. Tracks flight history and stats over time.</div>
+          <div class="app-pills"><span class="badge fam-green">Free / $5.99/mo Pro</span><span class="badge fam-blue">Delay prediction</span></div>
+          <a class="app-open" href="https://www.flightyapp.com" target="_blank" rel="noopener">Open Flighty<svg width="10" height="10" viewBox="0 0 10 10" aria-hidden="true"><path d="M2 8L8 2M8 2H3.5M8 2V6.5" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+          </div>
         </div>
-        <div class="app-desc">Sends delay and gate change notifications before the airline does — often 30+ minutes earlier. Delay prediction tells you if a flight is likely to be delayed based on incoming aircraft. Tracks flight history and stats over time.</div>
-        <div class="app-pills"><span class="badge fam-green">Free / $5.99/mo Pro</span><span class="badge fam-blue">Delay prediction</span></div>
       </div>
     </div>
-    <div class="app-card-wrap">
+    <div class="app-card-wrap" data-sec="flights">
       <span class="app-anchor fam-grey">Itinerary organizer from email confirmations</span>
       <div class="app-card">
-        <div class="app-head">
-          <div class="app-name"><a href="https://www.tripit.com" target="_blank" rel="noopener" class="ext-arrow">TripIt</a></div>
-          <div class="app-platforms">iOS · Android</div>
+        <button type="button" class="app-tile" aria-expanded="false">
+          <span class="app-icon" aria-hidden="true"><svg class="gm-icon" viewBox="0 0 24 24"><use href="#gm-i-dot-red"/></svg></span>
+          <span class="app-tile-text">
+            <span class="app-name">TripIt</span>
+            <span class="app-platforms">iOS · Android</span>
+          </span>
+          <svg class="app-chev" width="11" height="11" viewBox="0 0 11 11" aria-hidden="true"><path d="M2.5 4L5.5 7L8.5 4" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+        <div class="app-detail">
+          <div class="app-detail-inner">
+            <div class="app-desc">Forward any booking confirmation email and TripIt builds a unified trip itinerary automatically — flights, hotels, rental cars, restaurant reservations. Pro version adds real-time alerts and seat tracking. Works offline.</div>
+          <div class="app-pills"><span class="badge fam-green">Free / $49/yr Pro</span><span class="badge fam-blue">Auto-parse email</span></div>
+          <a class="app-open" href="https://www.tripit.com" target="_blank" rel="noopener">Open TripIt<svg width="10" height="10" viewBox="0 0 10 10" aria-hidden="true"><path d="M2 8L8 2M8 2H3.5M8 2V6.5" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+          </div>
         </div>
-        <div class="app-desc">Forward any booking confirmation email and TripIt builds a unified trip itinerary automatically — flights, hotels, rental cars, restaurant reservations. Pro version adds real-time alerts and seat tracking. Works offline.</div>
-        <div class="app-pills"><span class="badge fam-green">Free / $49/yr Pro</span><span class="badge fam-blue">Auto-parse email</span></div>
       </div>
     </div>
   </div>
@@ -265,26 +364,44 @@
   <div class="section" data-section="translation" id="sec-translation">
   <div class="section-head">Translation</div>
   <div class="app-grid">
-    <div class="app-card-wrap top">
+    <div class="app-card-wrap top" data-sec="translation">
       <span class="app-anchor fam-grey">Point your camera at signs and menus</span>
       <div class="app-card">
-        <div class="app-head">
-          <div class="app-name"><a href="https://translate.google.com" target="_blank" rel="noopener" class="ext-arrow">Google Translate</a></div>
-          <div class="app-platforms">iOS · Android</div>
+        <button type="button" class="app-tile" aria-expanded="false">
+          <span class="app-icon" aria-hidden="true"><svg class="gm-icon" viewBox="0 0 24 24"><use href="#gm-i-dot-blue"/></svg></span>
+          <span class="app-tile-text">
+            <span class="app-name">Google Translate</span>
+            <span class="app-platforms">iOS · Android</span>
+          </span>
+          <svg class="app-chev" width="11" height="11" viewBox="0 0 11 11" aria-hidden="true"><path d="M2.5 4L5.5 7L8.5 4" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+        <div class="app-detail">
+          <div class="app-detail-inner">
+            <div class="app-desc">200+ languages, including instant camera translation that overlays translated text on-screen in real time. Download language packs for fully offline use — accuracy offline is nearly as good as online for most languages.</div>
+          <div class="app-pills"><span class="badge fam-green">Free</span><span class="badge fam-blue">Camera translate</span><span class="badge fam-blue">Offline packs</span></div>
+          <a class="app-open" href="https://translate.google.com" target="_blank" rel="noopener">Open Google Translate<svg width="10" height="10" viewBox="0 0 10 10" aria-hidden="true"><path d="M2 8L8 2M8 2H3.5M8 2V6.5" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+          </div>
         </div>
-        <div class="app-desc">200+ languages, including instant camera translation that overlays translated text on-screen in real time. Download language packs for fully offline use — accuracy offline is nearly as good as online for most languages.</div>
-        <div class="app-pills"><span class="badge fam-green">Free</span><span class="badge fam-blue">Camera translate</span><span class="badge fam-blue">Offline packs</span></div>
       </div>
     </div>
-    <div class="app-card-wrap">
+    <div class="app-card-wrap" data-sec="translation">
       <span class="app-anchor fam-grey">More natural for European languages</span>
       <div class="app-card">
-        <div class="app-head">
-          <div class="app-name"><a href="https://www.deepl.com" target="_blank" rel="noopener" class="ext-arrow">DeepL</a></div>
-          <div class="app-platforms">iOS · Android · Web</div>
+        <button type="button" class="app-tile" aria-expanded="false">
+          <span class="app-icon" aria-hidden="true"><svg class="gm-icon" viewBox="0 0 24 24"><use href="#gm-i-dot-blue"/></svg></span>
+          <span class="app-tile-text">
+            <span class="app-name">DeepL</span>
+            <span class="app-platforms">iOS · Android · Web</span>
+          </span>
+          <svg class="app-chev" width="11" height="11" viewBox="0 0 11 11" aria-hidden="true"><path d="M2.5 4L5.5 7L8.5 4" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+        <div class="app-detail">
+          <div class="app-detail-inner">
+            <div class="app-desc">Generally better than Google Translate for nuanced writing in French, German, Spanish, Italian, Polish, and other European languages. No camera mode — text and document translation only.</div>
+          <div class="app-pills"><span class="badge fam-green">Free / Pro</span><span class="badge fam-blue">Document translate</span></div>
+          <a class="app-open" href="https://www.deepl.com" target="_blank" rel="noopener">Open DeepL<svg width="10" height="10" viewBox="0 0 10 10" aria-hidden="true"><path d="M2 8L8 2M8 2H3.5M8 2V6.5" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+          </div>
         </div>
-        <div class="app-desc">Generally better than Google Translate for nuanced writing in French, German, Spanish, Italian, Polish, and other European languages. No camera mode — text and document translation only.</div>
-        <div class="app-pills"><span class="badge fam-green">Free / Pro</span><span class="badge fam-blue">Document translate</span></div>
       </div>
     </div>
   </div>
@@ -294,26 +411,44 @@
   <div class="section" data-section="money" id="sec-money">
   <div class="section-head">Money &amp; Currency</div>
   <div class="app-grid">
-    <div class="app-card-wrap">
+    <div class="app-card-wrap" data-sec="money">
       <span class="app-anchor fam-grey">Offline currency converter</span>
       <div class="app-card">
-        <div class="app-head">
-          <div class="app-name"><a href="https://www.xe.com/apps" target="_blank" rel="noopener" class="ext-arrow">XE Currency</a></div>
-          <div class="app-platforms">iOS · Android</div>
+        <button type="button" class="app-tile" aria-expanded="false">
+          <span class="app-icon" aria-hidden="true"><svg class="gm-icon" viewBox="0 0 24 24"><use href="#gm-i-dot-purple"/></svg></span>
+          <span class="app-tile-text">
+            <span class="app-name">XE Currency</span>
+            <span class="app-platforms">iOS · Android</span>
+          </span>
+          <svg class="app-chev" width="11" height="11" viewBox="0 0 11 11" aria-hidden="true"><path d="M2.5 4L5.5 7L8.5 4" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+        <div class="app-detail">
+          <div class="app-detail-inner">
+            <div class="app-desc">Download exchange rates before you leave. Works fully offline for quick conversions at markets, restaurants, or when negotiating. Tracks multiple currencies at once. No account required.</div>
+          <div class="app-pills"><span class="badge fam-green">Free</span><span class="badge fam-blue">Offline rates</span><span class="badge fam-blue">Multi-currency</span></div>
+          <a class="app-open" href="https://www.xe.com/apps" target="_blank" rel="noopener">Open XE Currency<svg width="10" height="10" viewBox="0 0 10 10" aria-hidden="true"><path d="M2 8L8 2M8 2H3.5M8 2V6.5" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+          </div>
         </div>
-        <div class="app-desc">Download exchange rates before you leave. Works fully offline for quick conversions at markets, restaurants, or when negotiating. Tracks multiple currencies at once. No account required.</div>
-        <div class="app-pills"><span class="badge fam-green">Free</span><span class="badge fam-blue">Offline rates</span><span class="badge fam-blue">Multi-currency</span></div>
       </div>
     </div>
-    <div class="app-card-wrap top">
+    <div class="app-card-wrap top" data-sec="money">
       <span class="app-anchor fam-grey">Spend and send at the real exchange rate</span>
       <div class="app-card">
-        <div class="app-head">
-          <div class="app-name"><a href="https://wise.com" target="_blank" rel="noopener" class="ext-arrow">Wise</a></div>
-          <div class="app-platforms">iOS · Android</div>
+        <button type="button" class="app-tile" aria-expanded="false">
+          <span class="app-icon" aria-hidden="true"><svg class="gm-icon" viewBox="0 0 24 24"><use href="#gm-i-dot-purple"/></svg></span>
+          <span class="app-tile-text">
+            <span class="app-name">Wise</span>
+            <span class="app-platforms">iOS · Android</span>
+          </span>
+          <svg class="app-chev" width="11" height="11" viewBox="0 0 11 11" aria-hidden="true"><path d="M2.5 4L5.5 7L8.5 4" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+        <div class="app-detail">
+          <div class="app-detail-inner">
+            <div class="app-desc">Debit card and account that converts at the mid-market rate with minimal fees. Hold and convert 50+ currencies. Withdraw from ATMs worldwide. Better than most bank cards for international spending. See also: <a href="/essentials/cards-atm/" class="xref">Cards &amp; ATM</a>.</div>
+          <div class="app-pills"><span class="badge fam-green">Free account</span><span class="badge fam-blue">Real rate</span><span class="badge fam-blue">50+ currencies</span></div>
+          <a class="app-open" href="https://wise.com" target="_blank" rel="noopener">Open Wise<svg width="10" height="10" viewBox="0 0 10 10" aria-hidden="true"><path d="M2 8L8 2M8 2H3.5M8 2V6.5" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+          </div>
         </div>
-        <div class="app-desc">Debit card and account that converts at the mid-market rate with minimal fees. Hold and convert 50+ currencies. Withdraw from ATMs worldwide. Better than most bank cards for international spending. See also: <a href="/essentials/cards-atm/" class="xref">Cards &amp; ATM</a>.</div>
-        <div class="app-pills"><span class="badge fam-green">Free account</span><span class="badge fam-blue">Real rate</span><span class="badge fam-blue">50+ currencies</span></div>
       </div>
     </div>
   </div>
@@ -323,26 +458,44 @@
   <div class="section" data-section="safety" id="sec-safety">
   <div class="section-head">Safety &amp; Alerts</div>
   <div class="app-grid">
-    <div class="app-card-wrap top">
+    <div class="app-card-wrap top" data-sec="safety">
       <span class="app-anchor fam-grey">US State Department enrollment + alerts</span>
       <div class="app-card">
-        <div class="app-head">
-          <div class="app-name"><a href="https://step.state.gov" target="_blank" rel="noopener" class="ext-arrow">Smart Traveler (STEP)</a></div>
-          <div class="app-platforms">iOS · Android</div>
+        <button type="button" class="app-tile" aria-expanded="false">
+          <span class="app-icon" aria-hidden="true"><svg class="gm-icon" viewBox="0 0 24 24"><use href="#gm-i-dot-orange"/></svg></span>
+          <span class="app-tile-text">
+            <span class="app-name">Smart Traveler (STEP)</span>
+            <span class="app-platforms">iOS · Android</span>
+          </span>
+          <svg class="app-chev" width="11" height="11" viewBox="0 0 11 11" aria-hidden="true"><path d="M2.5 4L5.5 7L8.5 4" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+        <div class="app-detail">
+          <div class="app-detail-inner">
+            <div class="app-desc">Enroll your trips with the Smart Traveler Enrollment Program so the nearest US Embassy can contact you in an emergency. Sends country-specific security alerts, entry requirement updates, and health notices.</div>
+          <div class="app-pills"><span class="badge fam-green">Free</span><span class="badge fam-blue">Embassy alerts</span><span class="badge fam-blue">Trip enrollment</span></div>
+          <a class="app-open" href="https://step.state.gov" target="_blank" rel="noopener">Open Smart Traveler (STEP)<svg width="10" height="10" viewBox="0 0 10 10" aria-hidden="true"><path d="M2 8L8 2M8 2H3.5M8 2V6.5" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+          </div>
         </div>
-        <div class="app-desc">Enroll your trips with the Smart Traveler Enrollment Program so the nearest US Embassy can contact you in an emergency. Sends country-specific security alerts, entry requirement updates, and health notices.</div>
-        <div class="app-pills"><span class="badge fam-green">Free</span><span class="badge fam-blue">Embassy alerts</span><span class="badge fam-blue">Trip enrollment</span></div>
       </div>
     </div>
-    <div class="app-card-wrap">
+    <div class="app-card-wrap" data-sec="safety">
       <span class="app-anchor fam-grey">Boarding passes + same-day rebooking</span>
       <div class="app-card">
-        <div class="app-head">
-          <div class="app-name"><a href="https://www.delta.com" target="_blank" rel="noopener" class="ext-arrow">Delta / Airline App</a></div>
-          <div class="app-platforms">iOS · Android</div>
+        <button type="button" class="app-tile" aria-expanded="false">
+          <span class="app-icon" aria-hidden="true"><svg class="gm-icon" viewBox="0 0 24 24"><use href="#gm-i-dot-orange"/></svg></span>
+          <span class="app-tile-text">
+            <span class="app-name">Delta / Airline App</span>
+            <span class="app-platforms">iOS · Android</span>
+          </span>
+          <svg class="app-chev" width="11" height="11" viewBox="0 0 11 11" aria-hidden="true"><path d="M2.5 4L5.5 7L8.5 4" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+        <div class="app-detail">
+          <div class="app-detail-inner">
+            <div class="app-desc">Download boarding passes before you need them. Delta's app lets you rebook directly during irregular operations without waiting on hold. Add your flights to Apple Wallet or Google Wallet for offline access at the gate.</div>
+          <div class="app-pills"><span class="badge fam-green">Free</span><span class="badge fam-blue">Offline boarding pass</span></div>
+          <a class="app-open" href="https://www.delta.com" target="_blank" rel="noopener">Open Delta / Airline App<svg width="10" height="10" viewBox="0 0 10 10" aria-hidden="true"><path d="M2 8L8 2M8 2H3.5M8 2V6.5" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+          </div>
         </div>
-        <div class="app-desc">Download boarding passes before you need them. Delta's app lets you rebook directly during irregular operations without waiting on hold. Add your flights to Apple Wallet or Google Wallet for offline access at the gate.</div>
-        <div class="app-pills"><span class="badge fam-green">Free</span><span class="badge fam-blue">Offline boarding pass</span></div>
       </div>
     </div>
   </div>
@@ -352,26 +505,44 @@
   <div class="section" data-section="esim" id="sec-esim">
   <div class="section-head">eSIM &amp; Connectivity</div>
   <div class="app-grid">
-    <div class="app-card-wrap top">
+    <div class="app-card-wrap top" data-sec="esim">
       <span class="app-anchor fam-grey">eSIM marketplace — buy before you land</span>
       <div class="app-card">
-        <div class="app-head">
-          <div class="app-name"><a href="https://www.airalo.com" target="_blank" rel="noopener" class="ext-arrow">Airalo</a></div>
-          <div class="app-platforms">iOS · Android</div>
+        <button type="button" class="app-tile" aria-expanded="false">
+          <span class="app-icon" aria-hidden="true"><svg class="gm-icon" viewBox="0 0 24 24"><use href="#gm-i-dot-pink"/></svg></span>
+          <span class="app-tile-text">
+            <span class="app-name">Airalo</span>
+            <span class="app-platforms">iOS · Android</span>
+          </span>
+          <svg class="app-chev" width="11" height="11" viewBox="0 0 11 11" aria-hidden="true"><path d="M2.5 4L5.5 7L8.5 4" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+        <div class="app-detail">
+          <div class="app-detail-inner">
+            <div class="app-desc">Buy and install a local eSIM for 200+ countries before you leave — no physical SIM swap. Cheaper than carrier international plans for data-heavy trips. Full comparison of eSIM options on the <a href="/essentials/sims/" class="xref">Phone &amp; SIM Abroad</a> page.</div>
+          <div class="app-pills"><span class="badge fam-green">Free app</span><span class="badge fam-blue">Pay per plan</span><span class="badge fam-blue">200+ countries</span></div>
+          <a class="app-open" href="https://www.airalo.com" target="_blank" rel="noopener">Open Airalo<svg width="10" height="10" viewBox="0 0 10 10" aria-hidden="true"><path d="M2 8L8 2M8 2H3.5M8 2V6.5" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+          </div>
         </div>
-        <div class="app-desc">Buy and install a local eSIM for 200+ countries before you leave — no physical SIM swap. Cheaper than carrier international plans for data-heavy trips. Full comparison of eSIM options on the <a href="/essentials/sims/" class="xref">Phone &amp; SIM Abroad</a> page.</div>
-        <div class="app-pills"><span class="badge fam-green">Free app</span><span class="badge fam-blue">Pay per plan</span><span class="badge fam-blue">200+ countries</span></div>
       </div>
     </div>
-    <div class="app-card-wrap">
+    <div class="app-card-wrap" data-sec="esim">
       <span class="app-anchor fam-grey">International messaging and calls over Wi-Fi</span>
       <div class="app-card">
-        <div class="app-head">
-          <div class="app-name"><a href="https://www.whatsapp.com" target="_blank" rel="noopener" class="ext-arrow">WhatsApp</a></div>
-          <div class="app-platforms">iOS · Android</div>
+        <button type="button" class="app-tile" aria-expanded="false">
+          <span class="app-icon" aria-hidden="true"><svg class="gm-icon" viewBox="0 0 24 24"><use href="#gm-i-dot-pink"/></svg></span>
+          <span class="app-tile-text">
+            <span class="app-name">WhatsApp</span>
+            <span class="app-platforms">iOS · Android</span>
+          </span>
+          <svg class="app-chev" width="11" height="11" viewBox="0 0 11 11" aria-hidden="true"><path d="M2.5 4L5.5 7L8.5 4" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+        <div class="app-detail">
+          <div class="app-detail-inner">
+            <div class="app-desc">The default messaging app in most of Europe, Latin America, and Asia. Free calls and messages over Wi-Fi or data. Useful for contacting hotels, restaurants, and tour operators who don't answer email quickly.</div>
+          <div class="app-pills"><span class="badge fam-green">Free</span><span class="badge fam-blue">Voice + video calls</span></div>
+          <a class="app-open" href="https://www.whatsapp.com" target="_blank" rel="noopener">Open WhatsApp<svg width="10" height="10" viewBox="0 0 10 10" aria-hidden="true"><path d="M2 8L8 2M8 2H3.5M8 2V6.5" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+          </div>
         </div>
-        <div class="app-desc">The default messaging app in most of Europe, Latin America, and Asia. Free calls and messages over Wi-Fi or data. Useful for contacting hotels, restaurants, and tour operators who don't answer email quickly.</div>
-        <div class="app-pills"><span class="badge fam-green">Free</span><span class="badge fam-blue">Voice + video calls</span></div>
       </div>
     </div>
   </div>
@@ -381,26 +552,44 @@
   <div class="section" data-section="planning" id="sec-planning">
   <div class="section-head">Planning &amp; Packing</div>
   <div class="app-grid">
-    <div class="app-card-wrap top">
+    <div class="app-card-wrap top" data-sec="planning">
       <span class="app-anchor fam-grey">Smart packing list generator</span>
       <div class="app-card">
-        <div class="app-head">
-          <div class="app-name"><a href="https://packpnt.com" target="_blank" rel="noopener" class="ext-arrow">PackPoint</a></div>
-          <div class="app-platforms">iOS · Android</div>
+        <button type="button" class="app-tile" aria-expanded="false">
+          <span class="app-icon" aria-hidden="true"><svg class="gm-icon" viewBox="0 0 24 24"><use href="#gm-i-dot-black"/></svg></span>
+          <span class="app-tile-text">
+            <span class="app-name">PackPoint</span>
+            <span class="app-platforms">iOS · Android</span>
+          </span>
+          <svg class="app-chev" width="11" height="11" viewBox="0 0 11 11" aria-hidden="true"><path d="M2.5 4L5.5 7L8.5 4" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+        <div class="app-detail">
+          <div class="app-detail-inner">
+            <div class="app-desc">Enter your destination, trip dates, and activities. PackPoint generates a packing list adjusted for the weather forecast and what you're doing — beach day vs. business dinner vs. hiking. Catches things you'd forget.</div>
+          <div class="app-pills"><span class="badge fam-green">Free / $2.99 Premium</span></div>
+          <a class="app-open" href="https://packpnt.com" target="_blank" rel="noopener">Open PackPoint<svg width="10" height="10" viewBox="0 0 10 10" aria-hidden="true"><path d="M2 8L8 2M8 2H3.5M8 2V6.5" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+          </div>
         </div>
-        <div class="app-desc">Enter your destination, trip dates, and activities. PackPoint generates a packing list adjusted for the weather forecast and what you're doing — beach day vs. business dinner vs. hiking. Catches things you'd forget.</div>
-        <div class="app-pills"><span class="badge fam-green">Free / $2.99 Premium</span></div>
       </div>
     </div>
-    <div class="app-card-wrap">
+    <div class="app-card-wrap" data-sec="planning">
       <span class="app-anchor fam-grey">Point-and-search for menus, signs, and places</span>
       <div class="app-card">
-        <div class="app-head">
-          <div class="app-name"><a href="https://lens.google.com" target="_blank" rel="noopener" class="ext-arrow">Google Lens</a></div>
-          <div class="app-platforms">iOS · Android (built into Google app)</div>
+        <button type="button" class="app-tile" aria-expanded="false">
+          <span class="app-icon" aria-hidden="true"><svg class="gm-icon" viewBox="0 0 24 24"><use href="#gm-i-dot-black"/></svg></span>
+          <span class="app-tile-text">
+            <span class="app-name">Google Lens</span>
+            <span class="app-platforms">iOS · Android (built into Google app)</span>
+          </span>
+          <svg class="app-chev" width="11" height="11" viewBox="0 0 11 11" aria-hidden="true"><path d="M2.5 4L5.5 7L8.5 4" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+        <div class="app-detail">
+          <div class="app-detail-inner">
+            <div class="app-desc">Translate menus in real time, identify landmarks, search for things visually, scan QR codes. Built into Google Photos and the Google app — no separate download needed on Android; install the Google app on iOS.</div>
+          <div class="app-pills"><span class="badge fam-green">Free</span><span class="badge fam-blue">Camera translate</span><span class="badge fam-blue">Visual search</span></div>
+          <a class="app-open" href="https://lens.google.com" target="_blank" rel="noopener">Open Google Lens<svg width="10" height="10" viewBox="0 0 10 10" aria-hidden="true"><path d="M2 8L8 2M8 2H3.5M8 2V6.5" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+          </div>
         </div>
-        <div class="app-desc">Translate menus in real time, identify landmarks, search for things visually, scan QR codes. Built into Google Photos and the Google app — no separate download needed on Android; install the Google app on iOS.</div>
-        <div class="app-pills"><span class="badge fam-green">Free</span><span class="badge fam-blue">Camera translate</span><span class="badge fam-blue">Visual search</span></div>
       </div>
     </div>
   </div>
@@ -457,6 +646,15 @@
   search.addEventListener('input', function () {
     clearTimeout(_debounceTimer);
     _debounceTimer = setTimeout(applyFilter, 180);
+  });
+
+  /* App tile — tap the icon row to expand/collapse its detail panel. */
+  document.querySelectorAll('.app-tile').forEach(function (tile) {
+    tile.addEventListener('click', function () {
+      var wrap = tile.closest('.app-card-wrap');
+      var open = wrap.classList.toggle('open');
+      tile.setAttribute('aria-expanded', open ? 'true' : 'false');
+    });
   });
 
   applyFilter();

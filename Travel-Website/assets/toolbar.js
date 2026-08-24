@@ -165,6 +165,24 @@ window.TVE.home = (function () {
     return Math.round(44 + km(h.lat, h.lon, destLat, destLon) / 14);
   }
 
+  /* THE ONE PLACE "is this the reader's home" is decided — an exact airport-code
+     match OR a destination within 100km of the reader's own airport (Ciampino
+     vs. FCO-coded Rome must both read "Home city", never a fake short flying
+     time). Every widget that needs this fact (the guides-index flight-time
+     filter/card, the Compare table, and any future consumer) calls THIS
+     function rather than re-deriving the rule — a duplicate copy is exactly
+     how the guides-index card and the Compare table disagreed on 2026-08-24:
+     Compare had the 100km guard, the card's farOf() only checked the code.
+     `destCode`/`destLat`/`destLon` are the DESTINATION's own values, not the
+     reader's — callers pass what they already looked up. */
+  function isHome(destCode, destLat, destLon) {
+    var h = get();
+    if (!h) return false;
+    if (destCode && String(destCode).toUpperCase() === h.code) return true;
+    if (typeof destLat !== 'number' || typeof destLon !== 'number') return false;
+    return km(h.lat, h.lon, destLat, destLon) < 100;
+  }
+
   /* "9h 45m" / "45m" — the same shape FMAP.t already uses, so an estimated
      card and an exact one read identically apart from the "~". */
   function fmt(mins) {
@@ -463,7 +481,7 @@ window.TVE.home = (function () {
        guards changed meaning: it used to mean "use SEA", it now means
        "show nothing and ask". */
     isDefault: function () { return !picked; },
-    km: km, estimate: estimate, fmt: fmt,
+    km: km, estimate: estimate, fmt: fmt, isHome: isHome,
     fold: fold, lookup: lookup, names: names, fromRow: fromRow,
     onChange: function (fn) { if (typeof fn === 'function') subs.push(fn); }
   };

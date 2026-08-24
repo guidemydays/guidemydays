@@ -2050,7 +2050,8 @@
    browser or installed PWA, the exact failure this file exists to prevent. All ~91 pages that
    load it hardcode `?v=8` inline (never bumped in-page — see the NEVER-bump-?v= note above), so
    9 is the first live floor. search-autocomplete.js added to MIN_VERSIONS at 9. CACHE to v1493. */
-var CACHE = 'travel-cache-v1493';
+/* 2026-08-24: TVE.home.isHome() — same-metro home determination consolidated into one canonical function, called by farOf() and both Compare widgets instead of each re-deriving it toolbar.js -> v1070. CACHE to v1494. */
+var CACHE = 'travel-cache-v1494';
 
 /* The guide-calendar hand-off cache. Written by toolbar.js, read and emptied
    once by the fetch handler below, and EXEMPT from the activate sweep — it is
@@ -2063,7 +2064,7 @@ var ICS_OUTBOX = 'gmd-ics-outbox';
    THIS IS THE ONLY PLACE to bump toolbar.js / guide-style.css versions.
    NEVER bump ?v= inside guide HTML — it breaks HMAC stamps and forces re-validation
    of 230+ guides. Instead, bump MIN_VERSIONS here + increment the CACHE version. */
-var MIN_VERSIONS = { 'guide-style.css': 264,'toolbar.js': 1069, 'mobile.css': 88, 'web-travel-style.css': 117, 'guides-index-style.css': 27, 'read-about.css': 6, 'best-of-features.js': 4, 'best-of-cross-data.js': 24, 'weather.js': 12, 'trains.css': 14, 'trains.js': 4, 'airlines.css': 4, 'airlines.js': 5, 'passport.js': 4, 'search-autocomplete.js': 9 };
+var MIN_VERSIONS = { 'guide-style.css': 264,'toolbar.js': 1070, 'mobile.css': 88, 'web-travel-style.css': 117, 'guides-index-style.css': 27, 'read-about.css': 6, 'best-of-features.js': 4, 'best-of-cross-data.js': 24, 'weather.js': 12, 'trains.css': 14, 'trains.js': 4, 'airlines.css': 4, 'airlines.js': 5, 'passport.js': 4, 'search-autocomplete.js': 9 };
 
 function rewriteAssetUrl(urlStr) {
   var u;

@@ -3769,17 +3769,14 @@
          map is ever re-keyed. */
       var code = AIRBY ? (AIRBY[key] || AIRBY[key + '.html'] || '') : '';
       var pos = (code && AIRXY) ? AIRXY[code] : null;
-      /* Same-metro guard: an airport CODE match doesn't catch a reader whose
-         home airport is a different code in the same city (Ciampino vs.
-         FCO-coded Rome would otherwise read "~46m flying, estimated"). The
-         flight-time view already applies this 100km threshold — matched
-         here so the two views never disagree about what counts as home. */
-      var sameMetro = pos && cmpHome && HOMEcmp.km(cmpHome.lat, cmpHome.lon, pos[0], pos[1]) < 100;
-      var mins = (pos && code !== homeCode && !sameMetro) ? HOMEcmp.estimate(pos[0], pos[1]) : null;
+      /* HOMEcmp.isHome is THE ONE PLACE this is decided (toolbar.js) — never
+         re-derive the code-match / same-metro rule here again. */
+      var atHome = code && pos && HOMEcmp.isHome(code, pos[0], pos[1]);
+      var mins = (pos && !atHome) ? HOMEcmp.estimate(pos[0], pos[1]) : null;
       if (mins !== null) {
         out += '<td class="cmp-col"><span class="cmp-v">~' + HOMEcmp.fmt(mins) + '</span>' +
           '<span class="cmp-sub">flying time, estimated</span></td>';
-      } else if (code && (code === homeCode || sameMetro)) {
+      } else if (atHome) {
         out += '<td class="cmp-col"><span class="cmp-sub">Home city</span></td>';
       } else {
         out += '<td class="cmp-col"><span class="cmp-sub">—</span></td>';

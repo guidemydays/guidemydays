@@ -13,6 +13,13 @@
 }
 html { scroll-behavior: smooth; }
 
+/* ============ SCROLL REVEAL ============ */
+.pb-reveal { opacity: 0; transform: translateY(16px); transition: opacity .55s cubic-bezier(.2,.7,.3,1), transform .55s cubic-bezier(.2,.7,.3,1); }
+.pb-reveal.in-view { opacity: 1; transform: translateY(0); }
+@media (prefers-reduced-motion: reduce) {
+  .pb-reveal { opacity: 1 !important; transform: none !important; transition: none !important; }
+}
+
 /* ============ NAV + SEARCH (shared pattern, restyled) ============ */
 .pb-search-row { display: flex; align-items: center; justify-content: center; gap: 10px; margin: var(--search-gap, 28px) 0 18px; }
 .pb-search-box { flex: none; width: var(--search-w, 440px); max-width: 100%; position: relative; }
@@ -65,10 +72,19 @@ html { scroll-behavior: smooth; }
 .pb-podium-slot[data-rank="1"] { order: 2; }
 .pb-podium-slot[data-rank="2"] { order: 1; }
 .pb-podium-slot[data-rank="3"] { order: 3; }
-.pb-podium-card { background: var(--surface); border: 1px solid var(--border2); border-radius: 12px 12px 0 0; padding: 14px 14px 12px; cursor: pointer; }
-.pb-podium-slot[data-rank="1"] .pb-podium-card { border-top: 3px solid #d4af37; }
+.pb-podium-card { background: var(--surface); border: 1px solid var(--border2); border-radius: 12px 12px 0 0; padding: 14px 14px 12px; cursor: pointer; position: relative; overflow: hidden; transition: transform .2s ease, box-shadow .2s ease; }
+.pb-podium-card:hover { transform: translateY(-2px); box-shadow: 0 8px 20px rgba(0,0,0,.09); }
+.pb-podium-slot[data-rank="1"] .pb-podium-card { border-top: 3px solid #d4af37; animation: pb-gold-glow 3.2s ease-in-out infinite; }
 .pb-podium-slot[data-rank="2"] .pb-podium-card { border-top: 3px solid #adb5bd; }
 .pb-podium-slot[data-rank="3"] .pb-podium-card { border-top: 3px solid #c07a3e; }
+.pb-podium-card::before { content: ''; position: absolute; top: 0; left: -60%; width: 40%; height: 100%; background: linear-gradient(115deg, transparent, rgba(255,255,255,.35), transparent); transform: skewX(-18deg); pointer-events: none; }
+.pb-podium-slot[data-rank="1"] .pb-podium-card::before { animation: pb-shine 4.5s ease-in-out infinite; }
+@keyframes pb-shine { 0% { left: -60%; } 32% { left: 130%; } 100% { left: 130%; } }
+@keyframes pb-gold-glow { 0%,100% { box-shadow: 0 0 0 rgba(212,175,55,0); } 50% { box-shadow: 0 0 22px rgba(212,175,55,.30); } }
+@media (prefers-reduced-motion: reduce) {
+  .pb-podium-slot[data-rank="1"] .pb-podium-card { animation: none; }
+  .pb-podium-slot[data-rank="1"] .pb-podium-card::before { animation: none; display: none; }
+}
 .pb-podium-step { height: 44px; border-radius: 0 0 8px 8px; display: flex; align-items: center; justify-content: center; font-family: 'Courier New', ui-monospace, monospace; font-weight: 800; font-size: 22px; color: #fff; }
 .pb-podium-slot[data-rank="1"] .pb-podium-step { height: 64px; background: linear-gradient(180deg,#e8c46a,#d4af37); }
 .pb-podium-slot[data-rank="2"] .pb-podium-step { height: 46px; background: linear-gradient(180deg,#c9cdd1,#adb5bd); }
@@ -110,7 +126,8 @@ html { scroll-behavior: smooth; }
 .pb-bubble-wrap { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 24px 16px; margin-bottom: 20px; }
 .pb-bubble-cloud { display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: center; gap: 14px 10px; }
 .pb-bubble-item { display: flex; flex-direction: column; align-items: center; gap: 6px; width: 90px; }
-.pb-bubble { display: flex; flex-direction: column; align-items: center; justify-content: center; border-radius: 50%; background: radial-gradient(circle at 32% 28%, #e8c090, #C04E1A 72%); color: #fff; text-align: center; flex-shrink: 0; }
+.pb-bubble { display: flex; flex-direction: column; align-items: center; justify-content: center; border-radius: 50%; background: radial-gradient(circle at 32% 28%, #e8c090, #C04E1A 72%); color: #fff; text-align: center; flex-shrink: 0; transition: transform .2s ease, box-shadow .2s ease; }
+.pb-bubble-item:hover .pb-bubble { transform: scale(1.06); box-shadow: 0 6px 18px rgba(192,78,26,.28); }
 .pb-bubble-name { font-weight: 800; letter-spacing: 0.01em; line-height: 1.1; }
 .pb-bubble-val { font-size: 9.5px; opacity: 0.9; margin-top: 1px; }
 .pb-bubble-caption { font-size: 10px; font-weight: 600; color: var(--muted); text-align: center; line-height: 1.25; }
@@ -163,7 +180,8 @@ html { scroll-behavior: smooth; }
 
 /* ============ WORLD MEDALS ============ */
 .pb-medal-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 20px; }
-.pb-medal-card { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 13px 14px; display: flex; align-items: center; gap: 12px; }
+.pb-medal-card { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 13px 14px; display: flex; align-items: center; gap: 12px; transition: transform .2s ease, box-shadow .2s ease; }
+.pb-medal-card:hover { transform: translateY(-2px); box-shadow: 0 6px 16px rgba(0,0,0,.08); }
 .pb-medal-num { width: 30px; height: 30px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 15px; flex-shrink: 0; }
 .pb-medal-flag { font-size: 25px; line-height: 1; flex-shrink: 0; }
 .pb-medal-body { flex: 1; min-width: 0; }
@@ -178,7 +196,8 @@ html { scroll-behavior: smooth; }
 .pb-wbar-flag { font-size: 16px; line-height: 1; }
 .pb-wbar-name { font-size: 12px; font-weight: 600; color: var(--text); }
 .pb-wbar-track { background: var(--track); border-radius: 4px; height: 10px; overflow: hidden; }
-.pb-wbar-fill { height: 100%; border-radius: 4px; background: linear-gradient(90deg,#c8960c,#e8c020); }
+.pb-wbar-fill { height: 100%; border-radius: 4px; background: linear-gradient(90deg,#c8960c,#e8c020); width: 0; transition: width 1s cubic-bezier(.2,.7,.3,1); }
+@media (prefers-reduced-motion: reduce) { .pb-wbar-fill { transition: none; } }
 .pb-wbar-tail { display: flex; align-items: center; gap: 6px; }
 .pb-wbar-val { font-size: 10.5px; color: var(--muted); width: 46px; text-align: right; }
 
@@ -923,7 +942,7 @@ function cityNameHTML(c){
         '<div class="pb-wbar-rank">'+w.rank+'</div>'+
         '<div class="pb-wbar-flag">'+w.flag+'</div>'+
         '<div class="pb-wbar-name">'+esc(w.name)+'</div>'+
-        '<div class="pb-wbar-track"><div class="pb-wbar-fill" style="width:'+pct+'%"></div></div>'+
+        '<div class="pb-wbar-track"><div class="pb-wbar-fill" data-pct="'+pct+'"></div></div>'+
         '<div class="pb-wbar-tail"><div class="pb-wbar-val">'+esc(w.playersLabel)+'</div>'+guide+'</div>'+
       '</div>';
     }).join('');
@@ -1038,6 +1057,77 @@ function cityNameHTML(c){
     });
   },{rootMargin:'-12% 0px -78% 0px',threshold:0});
   Object.keys(map).forEach(function(id){var el=document.getElementById(id);if(el)obs.observe(el);});
+})();
+
+/* ============================================================
+   SCROLL REVEAL + COUNT-UP + BAR FILL
+   ============================================================ */
+(function(){
+  var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  // mark reveal targets
+  var groups = [
+    {sel:'#hero-scoreboard .pb-sb-tile', step:45},
+    {sel:'#us-podium .pb-podium-slot', step:90},
+    {sel:'#us-leaderboard .pb-city', step:35},
+    {sel:'#state-bubbles .pb-bubble-item', step:35},
+    {sel:'.pb-ring-wrap', step:80},
+    {sel:'#growth-scoreboard .pb-sb-tile', step:35},
+    {sel:'#tour-timeline .pb-tl-month', step:35},
+    {sel:'.pb-tip-card', step:70},
+    {sel:'#world-scoreboard .pb-sb-tile', step:35},
+    {sel:'#world-medals .pb-world-item', step:70},
+    {sel:'#world-bars .pb-wbar-row', step:40}
+  ];
+  groups.forEach(function(g){
+    [].slice.call(document.querySelectorAll(g.sel)).forEach(function(el,i){
+      el.classList.add('pb-reveal');
+      if(!reduce) el.style.transitionDelay=(Math.min(i,10)*g.step)+'ms';
+    });
+  });
+
+  function animateCount(el){
+    var raw=el.textContent;
+    var m=raw.match(/^([^\d]*)([\d,]+\.?\d*)(.*)$/);
+    if(!m || reduce) return;
+    var prefix=m[1], target=parseFloat(m[2].replace(/,/g,'')), suffix=m[3];
+    var isInt = m[2].indexOf('.')===-1;
+    var dur=900, start=null;
+    function frame(ts){
+      if(!start) start=ts;
+      var p=Math.min(1,(ts-start)/dur);
+      var eased=1-Math.pow(1-p,3);
+      var val=target*eased;
+      el.textContent = prefix + (isInt ? Math.round(val).toLocaleString() : val.toFixed(1)) + suffix;
+      if(p<1) requestAnimationFrame(frame); else el.textContent=raw;
+    }
+    requestAnimationFrame(frame);
+  }
+
+  var counted = new WeakSet();
+  var filled = new WeakSet();
+
+  var obs = ('IntersectionObserver' in window) ? new IntersectionObserver(function(entries){
+    entries.forEach(function(en){
+      if(!en.isIntersecting) return;
+      en.target.classList.add('in-view');
+      var val = en.target.querySelector ? en.target.querySelector('.pb-sb-val') : null;
+      if(val && !counted.has(val)){ counted.add(val); animateCount(val); }
+      var fill = en.target.querySelector ? en.target.querySelector('.pb-wbar-fill[data-pct]') : null;
+      if(fill && !filled.has(fill)){ filled.add(fill); fill.style.width = fill.getAttribute('data-pct')+'%'; }
+      obs.unobserve(en.target);
+    });
+  },{rootMargin:'0px 0px -8% 0px',threshold:0.15}) : null;
+
+  if(obs){
+    [].slice.call(document.querySelectorAll('.pb-reveal')).forEach(function(el){ obs.observe(el); });
+  } else {
+    [].slice.call(document.querySelectorAll('.pb-reveal')).forEach(function(el){
+      el.classList.add('in-view');
+      var fill=el.querySelector('.pb-wbar-fill[data-pct]');
+      if(fill) fill.style.width=fill.getAttribute('data-pct')+'%';
+    });
+  }
 })();
 </script>
 

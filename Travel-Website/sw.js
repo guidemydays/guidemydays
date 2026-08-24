@@ -2061,7 +2061,14 @@
    (essentials/storage's ls-legend, essentials/tipping's stat-bar), so the
    legend can no longer reuse a fam-* color the filter row already claimed
    for a different label. web-travel-style.css -> v119. CACHE to v1496. */
-var CACHE = 'travel-cache-v1496';
+/* 2026-08-24: .legend-key.is-on — train-passes' elig-badge row (Non-residents
+   only / EU residents only / Open to all) is a clickable filter, not a
+   static legend, and its "Open to all" collided with the region row's
+   fam-green "United Kingdom" above it. Moved onto .legend-key like the
+   static legends, plus a terracotta .is-on/[aria-pressed] state since
+   .legend-key has no fam-* color to darken on selection.
+   web-travel-style.css -> v120. CACHE to v1497. */
+var CACHE = 'travel-cache-v1497';
 
 /* The guide-calendar hand-off cache. Written by toolbar.js, read and emptied
    once by the fetch handler below, and EXEMPT from the activate sweep — it is
@@ -2074,7 +2081,7 @@ var ICS_OUTBOX = 'gmd-ics-outbox';
    THIS IS THE ONLY PLACE to bump toolbar.js / guide-style.css versions.
    NEVER bump ?v= inside guide HTML — it breaks HMAC stamps and forces re-validation
    of 230+ guides. Instead, bump MIN_VERSIONS here + increment the CACHE version. */
-var MIN_VERSIONS = { 'guide-style.css': 264,'toolbar.js': 1070, 'mobile.css': 88, 'web-travel-style.css': 119, 'guides-index-style.css': 27, 'read-about.css': 6, 'best-of-features.js': 4, 'best-of-cross-data.js': 24, 'weather.js': 12, 'trains.css': 14, 'trains.js': 4, 'airlines.css': 4, 'airlines.js': 5, 'passport.js': 4, 'search-autocomplete.js': 9 };
+var MIN_VERSIONS = { 'guide-style.css': 264,'toolbar.js': 1070, 'mobile.css': 88, 'web-travel-style.css': 120, 'guides-index-style.css': 27, 'read-about.css': 6, 'best-of-features.js': 4, 'best-of-cross-data.js': 24, 'weather.js': 12, 'trains.css': 14, 'trains.js': 4, 'airlines.css': 4, 'airlines.js': 5, 'passport.js': 4, 'search-autocomplete.js': 9 };
 
 function rewriteAssetUrl(urlStr) {
   var u;

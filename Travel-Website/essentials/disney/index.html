@@ -50,22 +50,26 @@
 
 /* ── Card grid: admission-ticket stubs — die-cut perforation, dashed tear line ── */
 .dp-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 22px 18px; margin-bottom: 6px; padding-top: 4px; }
+.dp-grid { perspective: 1200px; }
 .dp-card {
   position: relative;
   background: var(--surface); border: 1.5px solid var(--text); border-radius: 8px;
   padding: 18px 20px 18px 28px;
   display: flex; flex-direction: column; gap: 11px;
-  transform: rotate(var(--tilt, -.4deg));
+  transform: rotate(var(--tilt, -.4deg)) perspective(700px) rotateX(var(--rx,0deg)) rotateY(var(--ry,0deg)) translateY(var(--ty,0px)) scale(var(--sc,1));
+  transform-style: preserve-3d;
   box-shadow: 3px 4px 0 var(--bg), 4px 5px 0 1px var(--border2);
-  transition: transform .2s ease, box-shadow .2s ease, opacity .5s ease;
+  transition: transform .35s cubic-bezier(.2,.8,.2,1), box-shadow .35s ease, opacity .5s ease;
 }
 .dp-grid .dp-card:nth-child(3n+2) { --tilt: .5deg; }
 .dp-grid .dp-card:nth-child(3n+3) { --tilt: -.7deg; }
-.dp-card:hover { transform: rotate(0deg) translateY(-3px); box-shadow: 4px 7px 0 var(--bg), 5px 8px 10px -2px rgba(0,0,0,.18); }
+/* 3D lift on hover — cursor position drives --rx/--ry via JS; this is the fallback for no-JS/touch */
+.dp-card:hover { --ty: -4px; --sc: 1.02; box-shadow: 6px 12px 22px -6px rgba(0,0,0,.28), 4px 7px 0 var(--bg), 5px 8px 0 1px var(--border2); }
+.dp-card.dp-tilting { transition: box-shadow .35s ease, opacity .5s ease; }
 .dp-card.hidden { display: none; }
 /* scroll-reveal: rise + fade in as the ticket enters view; skipped for reduced-motion */
-.dp-card.dp-reveal { opacity: 0; transform: rotate(var(--tilt, -.4deg)) translateY(16px); }
-.dp-card.dp-reveal.dp-in { opacity: 1; transform: rotate(var(--tilt, -.4deg)) translateY(0); }
+.dp-card.dp-reveal { opacity: 0; --ty: 16px; }
+.dp-card.dp-reveal.dp-in { opacity: 1; --ty: 0px; }
 /* die-cut notches, top and bottom, punched out of the ticket edge */
 .dp-card::before, .dp-card::after {
   content: ""; position: absolute; left: -9px; width: 18px; height: 18px;
@@ -848,6 +852,30 @@ function filterCat(btn, cat) {
     });
   }, { rootMargin: '0px 0px -8% 0px', threshold: 0.1 });
   cards.forEach(function (c) { io.observe(c); });
+})();
+
+/* Ticket lift: the card tilts toward the cursor in 3D, like picking it up off the stack. Pointer/mouse only. */
+(function () {
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  if (window.matchMedia('(pointer: coarse)').matches) return;
+  var MAX_DEG = 7;
+  document.querySelectorAll('.dp-card').forEach(function (card) {
+    card.addEventListener('pointerenter', function () { card.classList.add('dp-tilting'); });
+    card.addEventListener('pointermove', function (e) {
+      var r = card.getBoundingClientRect();
+      var px = (e.clientX - r.left) / r.width;   // 0..1
+      var py = (e.clientY - r.top) / r.height;   // 0..1
+      var ry = (px - 0.5) * 2 * MAX_DEG;          // left/right cursor -> rotateY
+      var rx = (0.5 - py) * 2 * MAX_DEG;          // up/down cursor -> rotateX
+      card.style.setProperty('--rx', rx.toFixed(2) + 'deg');
+      card.style.setProperty('--ry', ry.toFixed(2) + 'deg');
+    });
+    card.addEventListener('pointerleave', function () {
+      card.classList.remove('dp-tilting');
+      card.style.removeProperty('--rx');
+      card.style.removeProperty('--ry');
+    });
+  });
 })();
 </script>
 <script src="/assets/search-autocomplete.js?v=8"></script>

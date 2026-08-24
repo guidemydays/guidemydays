@@ -32,6 +32,7 @@
   background: color-mix(in srgb, var(--surface) 78%, transparent);
   backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
   border: 1px solid var(--border2); border-radius: 14px;
+  border-top: 3px solid var(--cell-accent, var(--border2));
   box-shadow: 0 1px 2px rgba(0,0,0,0.03), 0 8px 20px -12px rgba(0,0,0,0.10);
   padding: 18px 20px;
   transition: transform var(--transition-normal,0.2s) ease, box-shadow var(--transition-normal,0.2s) ease;
@@ -40,10 +41,14 @@
   transform: translateY(-2px);
   box-shadow: 0 1px 2px rgba(0,0,0,0.04), 0 14px 26px -14px rgba(0,0,0,0.16);
 }
-.bento-stamp { grid-column: 1; grid-row: 1 / 3; display: flex; flex-direction: column; align-items: flex-start; gap: 14px; }
-.bento-step1 { grid-column: 2; grid-row: 1; }
-.bento-step2 { grid-column: 3; grid-row: 1; }
-.bento-step3 { grid-column: 2 / 4; grid-row: 2; display: flex; align-items: center; gap: 16px; }
+/* Each tile gets its own hue from the site's canonical badge families —
+   an official stamp reads blue-ink, a first step reads green (go), the
+   waiting step reads amber, the hard rule reads red. Same 8-family
+   palette every badge on the site already uses, not invented here. */
+.bento-stamp { --cell-accent: var(--fam-blue-bd); grid-column: 1; grid-row: 1 / 3; display: flex; flex-direction: column; align-items: flex-start; gap: 14px; }
+.bento-step1 { --cell-accent: var(--fam-green-bd); grid-column: 2; grid-row: 1; }
+.bento-step2 { --cell-accent: var(--fam-orange-border, var(--fam-orange-bd)); grid-column: 3; grid-row: 1; }
+.bento-step3 { --cell-accent: var(--fam-red-bd); grid-column: 2 / 4; grid-row: 2; display: flex; align-items: center; gap: 16px; }
 
 .stamp-svg { width: 72px; height: 72px; flex-shrink: 0; transform: rotate(-7deg); align-self: center; opacity: 0; }
 /* The stamp "thuds" into place — overshoots past rest, like a real
@@ -60,19 +65,20 @@
 .stamp-copy strong { font-weight: 700; }
 .stamp-chip {
   display: inline-block; margin-top: 8px; font-size: 11px; font-weight: 700;
-  color: var(--muted); border: 1px dashed var(--border2); border-radius: 20px;
+  color: var(--fam-purple-ink); background: var(--fam-purple-bg);
+  border: 1px solid var(--fam-purple-bd); border-radius: 20px;
   padding: 3px 10px;
 }
 
 .step-head { display: flex; align-items: center; gap: 10px; margin-bottom: 8px; }
 .step-node {
   width: 28px; height: 28px; border-radius: 50%; flex-shrink: 0;
-  background: color-mix(in srgb, var(--accent) 12%, var(--surface));
-  border: 2px solid var(--accent);
-  color: var(--accent); font-size: 12px; font-weight: 800;
+  background: color-mix(in srgb, var(--cell-accent, var(--accent)) 14%, var(--surface));
+  border: 2px solid var(--cell-accent, var(--accent));
+  color: var(--cell-accent, var(--accent)); font-size: 12px; font-weight: 800;
   display: flex; align-items: center; justify-content: center;
 }
-.step-label { font-size: 11px; font-weight: 700; color: var(--muted); text-transform: uppercase; letter-spacing: 0.08em; }
+.step-label { font-size: 11px; font-weight: 700; color: var(--cell-accent, var(--muted)); text-transform: uppercase; letter-spacing: 0.08em; }
 .step-val   { font-size: 15px; font-weight: 700; color: var(--text); line-height: 1.25; margin-bottom: 3px; }
 .step-note  { font-size: 11px; color: var(--muted); line-height: 1.45; }
 .bento-step3 .step-head { margin-bottom: 0; }
@@ -213,14 +219,14 @@
   <div class="bento">
     <div class="bento-cell bento-stamp reveal">
       <svg class="stamp-svg" viewBox="0 0 160 160" aria-hidden="true">
-        <circle cx="80" cy="80" r="72" fill="none" stroke="var(--accent)" stroke-width="2" stroke-dasharray="2 5"/>
-        <circle cx="80" cy="80" r="59" fill="none" stroke="var(--accent)" stroke-width="1.5"/>
+        <circle cx="80" cy="80" r="72" fill="none" stroke="var(--fam-blue-bd)" stroke-width="2" stroke-dasharray="2 5"/>
+        <circle cx="80" cy="80" r="59" fill="none" stroke="var(--fam-blue-bd)" stroke-width="1.5"/>
         <path id="stampRing" d="M 80,21 A 59,59 0 1 1 79.9,21" fill="none"/>
-        <text font-size="8.5" font-weight="700" letter-spacing="2.5" fill="var(--accent)">
+        <text font-size="8.5" font-weight="700" letter-spacing="2.5" fill="var(--fam-blue-bd)">
           <textPath href="#stampRing" startOffset="1%">MINIMUM VALIDITY REQUIRED &#8226; MINIMUM VALIDITY REQUIRED &#8226;</textPath>
         </text>
-        <text x="80" y="77" text-anchor="middle" font-size="32" font-weight="800" fill="var(--accent)">6</text>
-        <text x="80" y="97" text-anchor="middle" font-size="10.5" font-weight="700" letter-spacing="2" fill="var(--accent)">MONTHS</text>
+        <text x="80" y="77" text-anchor="middle" font-size="32" font-weight="800" fill="var(--fam-blue-bd)">6</text>
+        <text x="80" y="97" text-anchor="middle" font-size="10.5" font-weight="700" letter-spacing="2" fill="var(--fam-blue-bd)">MONTHS</text>
       </svg>
       <div class="stamp-copy">
         <strong>The 6-month validity rule.</strong> Many countries — including most of Europe, all of Southeast Asia, and large parts of the Middle East — require your passport to be valid for at least 6 months beyond your entry date, whichever country issued it. Airlines enforce this before you board.

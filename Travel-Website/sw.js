@@ -2122,7 +2122,8 @@
 /* 2026-08-24: essentials/restaurants: reservation-card redesign (menu dividers, folded corner, wax-seal chips) toolbar.js -> v1076. CACHE to v1518. */
 /* 2026-08-24: apps essentials page — same "wow factor" pass as day-trips/train-passes/entry. Each of the 16 app cards now opens as a home-screen icon tile (colored rounded-square glyph reusing the page's own jump-strip dot icons — gm-i-dot-green/red/blue/purple/orange/pink/black — tinted per category, app name, platform tag, chevron) and taps open to a CSS grid-rows accordion revealing the original description/pills/"Open X" link. Filter pills, jump-strip and the .app-anchor label are untouched. Caught and fixed one bug before shipping: the grid-template-rows:0fr collapse trick only collapses a SINGLE child, so the first pass left desc/pills/link all visibly expanded on load — fixed by wrapping the three into one .app-detail-inner child. New pattern for the site — no other page does a home-screen icon grid. Bumped CACHE to v1519. */
 /* 2026-08-24: trains.css — closed the .op-review "What it is like" callout into a self-contained tinted box (color-mix on --rust, tracks both themes) instead of a bare left-rule with no closing edge, after the owner flagged a screenshot of it as confusing/defect-looking. Shared file, so this lands on all five continent train pages (Europe/Asia/Americas/Africa/Oceania) at once. Recommended keeping the five pages separate rather than merging them — the actual issue was this one shared component. trains.css -> v16. Bumped CACHE to v1520. */
-var CACHE = 'travel-cache-v1520';
+/* 2026-08-24: essentials/where-to-stay color+glass+reveal pass — inline <style>, cache-first pages need a bump for returning readers toolbar.js -> v1077. CACHE to v1521. */
+var CACHE = 'travel-cache-v1521';
 
 /* The guide-calendar hand-off cache. Written by toolbar.js, read and emptied
    once by the fetch handler below, and EXEMPT from the activate sweep — it is
@@ -2135,7 +2136,7 @@ var ICS_OUTBOX = 'gmd-ics-outbox';
    THIS IS THE ONLY PLACE to bump toolbar.js / guide-style.css versions.
    NEVER bump ?v= inside guide HTML — it breaks HMAC stamps and forces re-validation
    of 230+ guides. Instead, bump MIN_VERSIONS here + increment the CACHE version. */
-var MIN_VERSIONS = { 'guide-style.css': 264,'toolbar.js': 1076, 'mobile.css': 88, 'web-travel-style.css': 127, 'guides-index-style.css': 27, 'read-about.css': 6, 'best-of-features.js': 4, 'best-of-cross-data.js': 24, 'weather.js': 12, 'trains.css': 16, 'trains.js': 4, 'airlines.css': 5, 'airlines.js': 5, 'passport.js': 4, 'search-autocomplete.js': 9 };
+var MIN_VERSIONS = { 'guide-style.css': 264,'toolbar.js': 1077, 'mobile.css': 88, 'web-travel-style.css': 127, 'guides-index-style.css': 27, 'read-about.css': 6, 'best-of-features.js': 4, 'best-of-cross-data.js': 24, 'weather.js': 12, 'trains.css': 16, 'trains.js': 4, 'airlines.css': 5, 'airlines.js': 5, 'passport.js': 4, 'search-autocomplete.js': 9 };
 
 function rewriteAssetUrl(urlStr) {
   var u;

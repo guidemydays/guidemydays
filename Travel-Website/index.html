@@ -7841,7 +7841,14 @@ function render() {
     var out = null;
     var p = destPos(g);
     if (p) {
-      if (destCode(g) === h.code) out = { mins: 0, exact: false, home: h.code, text: '', atHome: true };
+      /* Same-metro guard: an airport CODE match doesn't catch a reader whose
+         home airport is a different code in the same city (Ciampino vs.
+         FCO-coded Rome would otherwise read "~46m flying, estimated"). Matches
+         the Compare widget's own 100km threshold so the two views never
+         disagree about what counts as home. */
+      var sameMetro = typeof h.lat === 'number' && typeof h.lon === 'number' &&
+        HOME.km(h.lat, h.lon, p[0], p[1]) < 100;
+      if (destCode(g) === h.code || sameMetro) out = { mins: 0, exact: false, home: h.code, text: '', atHome: true };
       else {
         var mins = HOME.estimate(p[0], p[1]);
         if (mins !== null) out = { mins: mins, exact: false, home: h.code, text: '~' + HOME.fmt(mins), atHome: false };

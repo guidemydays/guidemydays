@@ -2056,7 +2056,12 @@
    pill-badge; inherit -> clamp(10px,1em,13px) -> fixed on badge), none of
    which read as smaller on the live page. Both are now 11px / 3px 8px,
    fixed, everywhere. web-travel-style.css -> v118. CACHE to v1495. */
-var CACHE = 'travel-cache-v1495';
+/* 2026-08-24: .legend-key added — oval, neutral, non-fam-* box for a legend
+   row that explains dot-icon colors underneath a fam-* filter-pill row
+   (essentials/storage's ls-legend, essentials/tipping's stat-bar), so the
+   legend can no longer reuse a fam-* color the filter row already claimed
+   for a different label. web-travel-style.css -> v119. CACHE to v1496. */
+var CACHE = 'travel-cache-v1496';
 
 /* The guide-calendar hand-off cache. Written by toolbar.js, read and emptied
    once by the fetch handler below, and EXEMPT from the activate sweep — it is
@@ -2069,7 +2074,7 @@ var ICS_OUTBOX = 'gmd-ics-outbox';
    THIS IS THE ONLY PLACE to bump toolbar.js / guide-style.css versions.
    NEVER bump ?v= inside guide HTML — it breaks HMAC stamps and forces re-validation
    of 230+ guides. Instead, bump MIN_VERSIONS here + increment the CACHE version. */
-var MIN_VERSIONS = { 'guide-style.css': 264,'toolbar.js': 1070, 'mobile.css': 88, 'web-travel-style.css': 118, 'guides-index-style.css': 27, 'read-about.css': 6, 'best-of-features.js': 4, 'best-of-cross-data.js': 24, 'weather.js': 12, 'trains.css': 14, 'trains.js': 4, 'airlines.css': 4, 'airlines.js': 5, 'passport.js': 4, 'search-autocomplete.js': 9 };
+var MIN_VERSIONS = { 'guide-style.css': 264,'toolbar.js': 1070, 'mobile.css': 88, 'web-travel-style.css': 119, 'guides-index-style.css': 27, 'read-about.css': 6, 'best-of-features.js': 4, 'best-of-cross-data.js': 24, 'weather.js': 12, 'trains.css': 14, 'trains.js': 4, 'airlines.css': 4, 'airlines.js': 5, 'passport.js': 4, 'search-autocomplete.js': 9 };
 
 function rewriteAssetUrl(urlStr) {
   var u;

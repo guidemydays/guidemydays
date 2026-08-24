@@ -19,12 +19,16 @@
 /* ── Stat bar ── */
 .stat-bar { display: flex; flex-wrap: wrap; gap: 8px; margin: 28px 0 14px; justify-content: center; }
 .stat-pill {
-  /* hook — box, case and colour from the shared .badge + .fam-* (the JS
-     writes stat-pill badge fam-*). Was a 999px oval at 12px with a 1.5px
-     rim; never re-add a box, never re-add padding beyond the shared
-     .badge default. 2026-08-24: flex:1 1 auto (stretch-to-fill-row) is
-     RETIRED — owner: "the longest text dictates the size of the rest...
-     don't pad tons around, these are crazy." These are static .badge
+  /* hook — box, case and colour from the shared .legend-key (the JS writes
+     stat-pill legend-key). Was .badge fam-* until 2026-08-24: this row sits
+     directly under the region filter pills above it, which already claim
+     every fam-* colour for a different label (fam-grey = "All" up there,
+     "Not Customary" down here) — .legend-key is oval and neutral so it can
+     never collide with a fam-* row, and the dot icon alone still carries
+     the real colour. Never re-add a fam-* class or padding beyond the
+     shared .legend-key default. 2026-08-24: flex:1 1 auto (stretch-to-fill-row)
+     is RETIRED — owner: "the longest text dictates the size of the rest...
+     don't pad tons around, these are crazy." These are static legend
      labels, so the shared _equalizePillRows() in toolbar.js (which only
      equalizes clickable .pill-badge rows) does not touch them; equalizeStatPills()
      below does the same measure-the-widest-then-match trick, scoped to
@@ -1078,7 +1082,7 @@ function buildStatBar() {
   var STAT_DOT = {expected:'dot-green', appreciated:'dot-blue', check:'dot-yellow', skip:'dot-grey'};
   var html = '';
   ['expected','appreciated','check','skip'].forEach(function(k) {
-    html += '<div class="stat-pill badge fam-' + ({expected:'green',appreciated:'blue',check:'yellow',skip:'grey'}[k]||'grey') + ' stat-pill-' + k + '">' +
+    html += '<div class="stat-pill legend-key stat-pill-' + k + '">' +
       '<svg class="gm-icon stat-dot" data-icon="' + STAT_DOT[k] + '" data-role="dot" viewBox="0 0 24 24" aria-hidden="true"><use href="#gm-i-' + STAT_DOT[k] + '"/></svg>' +
       '<span class="stat-label">' + labels[k] + '</span>' +
     '</div>';

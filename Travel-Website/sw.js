@@ -2035,7 +2035,8 @@
 /* 2026-08-24: .pill-badge shrunk site-wide (13px/5px 11px -> 12px/4px 10px, --fam-fs/--fam-pad) — cards-atm's ALL/CREDIT CARDS/... filter row read oversized. Also equalized per-family border alpha so light hues (orange, grey, purple) stop reading as a near-invisible hairline next to dark ones (green, blue, red) at the same 1px/0.4 spec — orange 0.4->0.65, grey 0.4->0.48, purple 0.4->0.45 (light); green 0.4->0.5 (dark). web-travel-style.css -> v110. CACHE to v1481. */
 /* 2026-08-24: .badge/.pill-badge line-height 1.5 -> 1 — owner: "the words are not even center". The 1.5 line box added leading above/below the glyphs that align-items:center centered as a whole, so a single-line all-caps label (no descenders) sat visibly high in the pill. web-travel-style.css -> v111. CACHE to v1482. */
 /* 2026-08-24: REVERTED the v1481 border-alpha equalization (orange 0.4->0.65, grey 0.4->0.48, purple 0.4->0.45, dark-green 0.4->0.5) — Formatting.html#sec-badges' "Two absolutes" rule already documents every family's border at a flat 0.4 and says "never approximate, never substitute across families"; that doc should have been read before touching these values, not after. All eight families back to the canonical 0.4. Pill size (12px/4px 10px) and line-height 1 stay — those were explicit owner asks, not color-family changes. web-travel-style.css -> v112. CACHE to v1483. */
-var CACHE = 'travel-cache-v1483';
+/* 2026-08-24: item-count badge sweep (92nd non-negotiable) — removed al-count/al-country-count and the alliance filter-chip trailing counts from airlines.js+css, train-count and country-count from trains.js+css, filter-count and lounge-count from web-travel-style.css. airlines.css -> v4, airlines.js -> v5, trains.css -> v14, trains.js -> v4, web-travel-style.css -> v113. CACHE to v1484. */
+var CACHE = 'travel-cache-v1484';
 
 /* The guide-calendar hand-off cache. Written by toolbar.js, read and emptied
    once by the fetch handler below, and EXEMPT from the activate sweep — it is
@@ -2048,7 +2049,7 @@ var ICS_OUTBOX = 'gmd-ics-outbox';
    THIS IS THE ONLY PLACE to bump toolbar.js / guide-style.css versions.
    NEVER bump ?v= inside guide HTML — it breaks HMAC stamps and forces re-validation
    of 230+ guides. Instead, bump MIN_VERSIONS here + increment the CACHE version. */
-var MIN_VERSIONS = { 'guide-style.css': 264,'toolbar.js': 1065, 'mobile.css': 88, 'web-travel-style.css': 112, 'guides-index-style.css': 27, 'read-about.css': 6, 'best-of-features.js': 4, 'best-of-cross-data.js': 24, 'weather.js': 12, 'trains.css': 13, 'trains.js': 3, 'airlines.css': 3, 'airlines.js': 4, 'passport.js': 4 };
+var MIN_VERSIONS = { 'guide-style.css': 264,'toolbar.js': 1065, 'mobile.css': 88, 'web-travel-style.css': 113, 'guides-index-style.css': 27, 'read-about.css': 6, 'best-of-features.js': 4, 'best-of-cross-data.js': 24, 'weather.js': 12, 'trains.css': 14, 'trains.js': 4, 'airlines.css': 4, 'airlines.js': 5, 'passport.js': 4 };
 
 function rewriteAssetUrl(urlStr) {
   var u;

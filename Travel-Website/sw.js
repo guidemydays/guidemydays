@@ -2091,7 +2091,12 @@
    three shared sheets had titles set in Georgia/Cambria instead of the one site
    typeface (owner: never authorized, badge/pill-badge only exemption). airlines.css
    -> v5, trains.css -> v15, web-travel-style.css -> v125. CACHE to v1502. */
-var CACHE = 'travel-cache-v1502';
+/* 2026-08-24: essentials/storage redesigned as a scattered pile of luggage tags —
+   grid layout, punch-hole grommet, die-cut corner, desk-tilt on hover; provider
+   primer restyled as a rack of hanging tags. Owner-requested redesign, page's own
+   inline <style>, no shared CSS touched. CACHE to v1503 so the cached copy of the
+   page itself (not just its assets) gets invalidated for returning visitors. */
+var CACHE = 'travel-cache-v1503';
 
 /* The guide-calendar hand-off cache. Written by toolbar.js, read and emptied
    once by the fetch handler below, and EXEMPT from the activate sweep — it is

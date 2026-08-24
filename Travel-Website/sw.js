@@ -2068,7 +2068,15 @@
    static legends, plus a terracotta .is-on/[aria-pressed] state since
    .legend-key has no fam-* color to darken on selection.
    web-travel-style.css -> v120. CACHE to v1497. */
-var CACHE = 'travel-cache-v1497';
+/* 2026-08-24: badge/pill-badge CORRECTION — the 11:55 "one fixed size" commit
+   (v1495) never checked Brain/Reference/Formatting/Badge-Pill-System/
+   Badge-Pill-System.html first, the actual owner-approved single source for
+   these two numbers. Restored to what that doc specifies: .pill-badge fixed
+   12px/4px 9px, .badge font-size:inherit + 0.3em 0.65em padding (matches
+   the text it labels, never a fixed px). .legend-key now reads the same
+   --fam-fs/--fam-pad tokens instead of its own invented 11px/3px 10px.
+   web-travel-style.css -> v121. CACHE to v1498. */
+var CACHE = 'travel-cache-v1498';
 
 /* The guide-calendar hand-off cache. Written by toolbar.js, read and emptied
    once by the fetch handler below, and EXEMPT from the activate sweep — it is
@@ -2081,7 +2089,7 @@ var ICS_OUTBOX = 'gmd-ics-outbox';
    THIS IS THE ONLY PLACE to bump toolbar.js / guide-style.css versions.
    NEVER bump ?v= inside guide HTML — it breaks HMAC stamps and forces re-validation
    of 230+ guides. Instead, bump MIN_VERSIONS here + increment the CACHE version. */
-var MIN_VERSIONS = { 'guide-style.css': 264,'toolbar.js': 1070, 'mobile.css': 88, 'web-travel-style.css': 120, 'guides-index-style.css': 27, 'read-about.css': 6, 'best-of-features.js': 4, 'best-of-cross-data.js': 24, 'weather.js': 12, 'trains.css': 14, 'trains.js': 4, 'airlines.css': 4, 'airlines.js': 5, 'passport.js': 4, 'search-autocomplete.js': 9 };
+var MIN_VERSIONS = { 'guide-style.css': 264,'toolbar.js': 1070, 'mobile.css': 88, 'web-travel-style.css': 121, 'guides-index-style.css': 27, 'read-about.css': 6, 'best-of-features.js': 4, 'best-of-cross-data.js': 24, 'weather.js': 12, 'trains.css': 14, 'trains.js': 4, 'airlines.css': 4, 'airlines.js': 5, 'passport.js': 4, 'search-autocomplete.js': 9 };
 
 function rewriteAssetUrl(urlStr) {
   var u;

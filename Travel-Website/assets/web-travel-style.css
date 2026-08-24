@@ -73,26 +73,27 @@ html { overflow-x: clip; }
      rule 2026-08-20, measured off the lounges-us legend row). Closer than
      this and the two borders start reading as one merged hairline. */
   --fam-gap:    10px;
-  /* ONE SIZE, THE WHOLE FAMILY — owner rule 2026-08-24, final settle,
-     ending a same-day chain of partial fixes that kept re-splitting this
-     into a .pill-badge track and a .badge track and never actually reading
-     smaller on the page (cards-atm's ALL/CREDIT CARDS/… row, essentials/
-     budget's Cost-of-Living filters and its per-row "CHEAP" tag, tipping's
-     region + amount pills — every one of them still measured oversized
-     after 13px/5px 11px -> 12px/4px 10px -> 12px/4px 9px on the pill side,
-     and inherit -> clamp(10px,1em,13px) -> fixed 11px/3px 8px on the badge
-     side, none of it visible enough on the live page to read as "reduced."
-     Owner: "there is litterally not point in spend tons of time to do a
-     standard format if NONE of the pages gets changed." Splitting pill vs.
-     badge by role was solving the wrong problem — the actual complaint was
-     always just "smaller," on every surface, badge or pill. One token pair
-     for both again: 11px / 3px 8px, --fam-radius unchanged. A page still
-     NEVER restates --fam-fs/--fam-pad locally; if it reads wrong, the
-     token moves and every page carrying that role moves with it. */
-  --fam-fs:     11px;
-  --fam-pad:    3px 8px;
-  --badge-fs:   11px;
-  --badge-pad:  3px 8px;
+  /* SIZE DIFFERS BY ROLE — the single source of truth for these two numbers
+     is Brain/Reference/Formatting/Badge-Pill-System/Badge-Pill-System.html
+     § 2–4 ("worked out live with the owner", dated 2026-08-24) — READ THAT
+     DOC before touching either value again, don't re-derive from memory or
+     from what "reads smaller" on one page. It states, verbatim:
+       .pillbadge  { font-size: 12px; padding: 4px 9px; }   -- fixed, always
+       .badge      { font-size: inherit; padding: 0.3em 0.65em; }  -- scales
+     A .pill-badge is a clickable control, usually alone in its row, so it
+     keeps one fixed size. A .badge sits inline next to the text it labels
+     (a table-cell tag next to a place name, a card tag next to a headline)
+     and must never be a fixed px that reads bigger or smaller than that
+     text depending on the page — font-size:inherit guarantees the match by
+     construction. This reverses an earlier same-day pass on this file that
+     unified both to a fixed 11px/3px 8px without checking the doc above
+     first — that was wrong; this is the number the doc actually specifies.
+     A page still NEVER restates --fam-fs/--fam-pad/--badge-pad locally; if
+     one reads wrong, the token moves and every page carrying that role
+     moves with it. */
+  --fam-fs:     12px;
+  --fam-pad:    4px 9px;
+  --badge-pad:  0.3em 0.65em;
   /* Border RGB triplets — one source for BOTH alphas of the ladder:
      rest rgba(...,.4), selected rgba(...,.85). Owner's own pattern. */
   --fam-yellow-rgb:122,88,0;   --fam-green-rgb:26,90,26;    --fam-red-rgb:122,58,26;
@@ -2583,12 +2584,16 @@ body > .hero-ground {
    structural property — gap, border width, radius, weight, letter-spacing,
    caps — and still read as ONE FAMILY at a glance. Size is no longer one of
    the shared properties (owner rule 2026-08-23, reversing 2026-08-18's "same
-   size vertically and horizontally": see the --badge-fs/--fam-fs note above).
-   .badge is a static inline label — sized down so it never outweighs the
-   text it sits beside. .pill-badge is a clickable control — full size,
-   because it is usually the only thing in its row. BEHAVIOUR was always the
-   documented difference between them; size just stopped pretending to be
-   identical too. No transition: nothing animates because nothing hovers.
+   size vertically and horizontally": see the --fam-fs/--badge-pad note
+   above, and Badge-Pill-System.html § 2–4 for the full rationale — that
+   doc, not this comment, is the source of truth for these two numbers).
+   .badge is a static inline label — font-size:inherit, so it always matches
+   the text it sits beside, never a fixed px that could read bigger or
+   smaller depending on the page. .pill-badge is a clickable control — a
+   fixed 12px/4px 9px, because it is usually the only thing in its row and
+   has no "surrounding text" to match. BEHAVIOUR was always the documented
+   difference between them; size just stopped pretending to be identical
+   too. No transition: nothing animates because nothing hovers.
    line-height 1.5 -> 1 (owner rule 2026-08-24, "the words are not even
    center"): with 1.5 the line box reserved extra leading above and below
    the glyphs, and align-items:center only centers that whole box — for a
@@ -2627,16 +2632,15 @@ body > .hero-ground {
   letter-spacing: 0.04em;
   text-transform: uppercase;
 }
-.badge { font-size: var(--badge-fs, 11px); padding: var(--badge-pad, 3px 8px); }
-.pill-badge { font-size: var(--fam-fs, 11px); padding: var(--fam-pad, 3px 8px); }
+.badge { font-size: inherit; padding: var(--badge-pad, 0.3em 0.65em); }
+.pill-badge { font-size: var(--fam-fs, 12px); padding: var(--fam-pad, 4px 9px); }
 
-/* ONE CASE, ONE SIZE — owner rule 2026-08-20 (case) + 2026-08-24 final settle
-   (size, see the --fam-fs/--fam-pad comment above). The size split tried
-   earlier the same day is reversed: .badge and .pill-badge read the same
-   box again. What still separates them is BEHAVIOUR ONLY (.badge is a
-   static label, .pill-badge clicks and can carry .is-on) — size is not
-   one of the differences any more. Text-transform lives in the shared
-   block above regardless — never re-add
+/* ONE CASE, SIZE BY ROLE — owner rule 2026-08-20 (case) + 2026-08-24
+   (size, see the --fam-fs/--badge-pad comment above and Badge-Pill-System.html
+   § 2–4). What separates .badge from .pill-badge is BEHAVIOUR (.badge is a
+   static label, .pill-badge clicks and can carry .is-on) AND SIZE (.badge
+   inherits from context, .pill-badge is fixed) — text-transform lives in
+   the shared block above regardless — never re-add
    `text-transform: none` here to "tell them apart", and never uppercase an
    anchor/link pill (also-on-this-site, nearby-guide, chevron-link, jump-nav)
    on the strength of this rule — caps belongs to this badge-anchored family
@@ -2708,17 +2712,22 @@ body > .hero-ground {
    rectangle) and NEUTRAL (no fam-* background/border/text — the dot icon
    alone already carries the color) so it can never collide with a
    fam-* row above or below it, however many items either row has. */
+/* Same font-size/padding numbers as .pill-badge (var(--fam-fs)/var(--fam-pad),
+   Badge-Pill-System.html § 3) — a legend-key is a clickable control sitting
+   in the same kind of row, so it takes the same fixed size. Only the shape
+   (oval, not the family's 4px rectangle) and colour (neutral, not fam-*)
+   differ; never give this its own hand-picked font-size or padding. */
 .legend-key {
   display: inline-flex;
   align-items: center;
   gap: 5px;
   font-family: inherit;
-  font-size: 11px;
+  font-size: var(--fam-fs, 12px);
   font-weight: 700;
   letter-spacing: 0.04em;
   text-transform: uppercase;
   white-space: nowrap;
-  padding: 3px 10px;
+  padding: var(--fam-pad, 4px 9px);
   border-radius: 999px;
   border: 1px solid var(--border2, #e6e2da);
   background: var(--surface, #fff);

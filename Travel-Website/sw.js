@@ -2156,7 +2156,13 @@
    the region lists below already show by browsing. Page's own inline <style>,
    no shared CSS/JS touched. CACHE to v1526 so the cached copy of the page
    itself gets invalidated for returning visitors. */
-var CACHE = 'travel-cache-v1526';
+/* 2026-08-24: essentials/baggage — owner feedback "too many strong badges in
+   the middle of hard to read text": the wow-callout's 26 CFR §49.4261-8
+   citation was wrapped in a bordered/boxed <code> chip sitting mid-sentence,
+   reading like a badge interrupting the paragraph. De-boxed to plain
+   parenthetical text; removed the now-unused .wow-callout code rule. Page's
+   own inline <style>, no shared CSS/JS touched. CACHE to v1527. */
+var CACHE = 'travel-cache-v1527';
 
 /* The guide-calendar hand-off cache. Written by toolbar.js, read and emptied
    once by the fetch handler below, and EXEMPT from the activate sweep — it is

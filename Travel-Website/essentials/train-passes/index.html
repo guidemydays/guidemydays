@@ -50,37 +50,69 @@
 .elig-badge:focus-visible { outline: 2.5px solid currentColor; outline-offset: 2px; }
 .elig-badge.dimmed { opacity: 0.38; }
 
-/* ── Pass card grid ── */
+/* ── Pass card grid — REDESIGNED 2026-08-24 (owner: give this page the same
+   treatment as day-trips — "wow factor"). Every other card-shaped page on
+   the site is a flat rectangle you read top to bottom. A train PASS is a
+   physical object — so each card is now a transit smart-card: a branded
+   face (chip, region tint, barcode) that flips in 3D on tap to reveal the
+   coverage/cost/verdict on its back. Region filter pills and the
+   eligibility legend are untouched (locked pill/badge system); only the
+   card shape changed. New pattern for the site — day-trips did a
+   departure-board/timeline, disney did ticket stubs, nothing does a flip
+   card. */
 .passes-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(380px, 1fr));
-  gap: 14px; padding: 0 0 28px;
+  grid-template-columns: repeat(auto-fill, minmax(360px, 1fr));
+  gap: 20px; padding: 0 0 28px;
 }
-.pass-card {
-  display: flex; flex-direction: column;
-  background: var(--surface,#fff);
-  border: 1px solid var(--border,#d8d4cc);
-  border-radius: 8px; overflow: hidden;
-  transition: box-shadow .18s, border-color .15s;
-}
-.pass-card:hover { border-color: var(--accent,#8a6c1a); box-shadow: 0 4px 14px rgba(138,108,26,.1); }
+.pass-card { perspective: 1600px; }
 .pass-card.hidden { display: none; }
 
-.card-top {
-  padding: 14px 16px 12px;
-  background: var(--surface2,#f0ede8);
-  border-bottom: 1px solid var(--border,#d8d4cc);
+.card-flip {
+  position: relative; width: 100%; height: 420px; cursor: pointer;
+  transform-style: preserve-3d; transition: transform .65s cubic-bezier(.4,.1,.2,1);
+  border-radius: 16px;
 }
-.card-name { font-size: 14.5px; font-weight: 700; color: var(--text,#1a1917); margin: 0 0 8px; line-height: 1.2; }
-.card-badges { display: flex; gap: 6px; flex-wrap: wrap; align-items: center; }
+.pass-card.flipped .card-flip { transform: rotateY(180deg); }
+.card-flip:focus-visible { outline: 2.5px solid var(--rust, #C04E1A); outline-offset: 4px; }
 
-/* badge sizing + colour from .badge / .fam-* */
+.card-face {
+  position: absolute; inset: 0; backface-visibility: hidden; -webkit-backface-visibility: hidden;
+  border-radius: 16px; border: 1px solid var(--border, #d8d4cc);
+  display: flex; flex-direction: column; overflow: hidden;
+  box-shadow: 0 8px 26px rgba(30,20,5,.08);
+}
+.card-back { transform: rotateY(180deg); background: var(--surface, #fff); overflow-y: auto; }
 
-.card-body { padding: 14px 16px; flex: 1; }
+/* Front face — the smart-card itself. Region tint reuses the same fam-*
+   rgb tokens as the filter pills above (europe/blue, japan/red, uk/green) —
+   decorative chrome, not a new badge, so the locked badge palette holds. */
+.card-front { padding: 20px; justify-content: space-between; gap: 16px; background: var(--surface, #fff); }
+.pass-card[data-rgn="europe"] .card-front { background: linear-gradient(148deg, rgba(var(--fam-blue-rgb),.13), rgba(var(--fam-blue-rgb),.02) 65%); }
+.pass-card[data-rgn="japan"]  .card-front { background: linear-gradient(148deg, rgba(var(--fam-red-rgb),.13), rgba(var(--fam-red-rgb),.02) 65%); }
+.pass-card[data-rgn="uk"]     .card-front { background: linear-gradient(148deg, rgba(var(--fam-green-rgb),.13), rgba(var(--fam-green-rgb),.02) 65%); }
+
+.tc-top { display: flex; flex-direction: column; align-items: flex-start; gap: 10px; }
+.tc-chip { width: 38px; height: 28px; border-radius: 5px; flex-shrink: 0;
+  background: repeating-linear-gradient(90deg, #cda550 0 4px, #b8912e 4px 5px), linear-gradient(135deg, #f0dd9c, #a97c22);
+  background-blend-mode: multiply; box-shadow: inset 0 0 0 1px rgba(0,0,0,.22); }
+.tc-badges { display: flex; flex-direction: row; flex-wrap: wrap; gap: 6px; align-items: center; max-width: 100%; }
+.tc-name { font-size: 19px; font-weight: 800; letter-spacing: .01em; line-height: 1.2; color: var(--text, #1a1917); }
+.tc-barcode { height: 30px; border-radius: 2px; opacity: .75;
+  background: repeating-linear-gradient(90deg, currentColor 0 1px, transparent 1px 3px, currentColor 3px 5px, transparent 5px 6px, currentColor 6px 9px, transparent 9px 11px, currentColor 11px 12px, transparent 12px 15px);
+  color: var(--text, #1a1917); }
+.tc-hint { font-size: 10.5px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: var(--muted, #6a6660); text-align: right; }
+
+/* Back face — the original comparison content, now scrollable inside a
+   fixed-height card so the flip has a stable pivot on both faces. */
+.tc-back-hint { display: flex; align-items: center; gap: 4px; padding: 12px 16px 0;
+  font-size: 10.5px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; color: var(--muted, #6a6660); }
+
+.card-body { padding: 10px 16px 14px; flex: 1; }
 .info-row  { display: flex; gap: 10px; margin-bottom: 11px; align-items: flex-start; }
 .info-row:last-child { margin-bottom: 0; }
 .info-icon    { font-size: 13px; flex-shrink: 0; width: 18px; text-align: center; margin-top: 3px; }
-.info-content { flex: 1; font-size: 13.5px; color: var(--text,#3d3a32); line-height: 1.5; }
+.info-content { flex: 1; font-size: 13px; color: var(--text,#3d3a32); line-height: 1.48; }
 .info-label   { display: block; font-size: 11px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted,#6a6660); margin-bottom: 2px; }
 
 .card-footer {
@@ -94,7 +126,9 @@
   .passes-grid { grid-template-columns: 1fr; }
   .filter-strip { flex-wrap: wrap; gap: var(--fam-gap,10px); width: 100%; justify-content: center; }
   .elig-legend { flex-wrap: wrap; gap: 8px; }
+  .card-flip { height: 460px; }
 }
+@media (prefers-reduced-motion: reduce) { .card-flip { transition: none; } }
 /* badge + elig-badge dark mode handled by .fam-* tokens */
 </style>
 <link rel="stylesheet" href="/assets/mobile.css?v=53">
@@ -151,18 +185,25 @@
 
   <!-- Pass cards -->
   <div class="passes-grid" id="passes-grid">
-
     <!-- 1. Eurail Global -->
     <div class="pass-card" data-rgn="europe" data-elig="non-residents">
-      <div class="card-top">
-        <div class="card-name">Eurail Global Pass</div>
-        <div class="card-badges">
-          <span class="badge fam-blue">33 European countries</span>
+      <div class="card-flip" role="button" tabindex="0" aria-label="Flip Eurail Global Pass for details">
+        <div class="card-face card-front">
+          <div class="tc-top">
+            <div class="tc-chip" aria-hidden="true"></div>
+            <div class="tc-badges">
+              <span class="badge fam-blue">33 European countries</span>
           <span class="badge fam-orange">Non-residents only</span>
+            </div>
+          </div>
+          <div class="tc-name">Eurail Global Pass</div>
+          <div class="tc-barcode" aria-hidden="true"></div>
+          <div class="tc-hint">Tap for details</div>
         </div>
-      </div>
-      <div class="card-body">
-        <div class="info-row">
+        <div class="card-face card-back">
+          <div class="tc-back-hint"><svg width="9" height="9" viewBox="0 0 9 9" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M6 1.5L2 4.5L6 7.5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg> Back</div>
+          <div class="card-body">
+            <div class="info-row">
           <div class="info-content">
             <span class="info-label">Coverage</span>
             Most national rail networks across 33 European countries. High-speed trains (TGV, Thalys, Eurostar) require a separate seat reservation at additional cost.
@@ -180,23 +221,33 @@
             Visiting 3 or more countries with a flexible itinerary and 10+ train journeys in the pass window, or mixing fast trains across borders where advance fares are hard to find.
           </div>
         </div>
-      </div>
-      <div class="card-footer">
-        <a class="apply-btn" href="https://www.eurail.com/en/eurail-passes/global-pass" target="_blank" rel="noopener">Buy at eurail.com</a>
+          </div>
+          <div class="card-footer">
+            <a class="apply-btn" href="https://www.eurail.com/en/eurail-passes/global-pass" target="_blank" rel="noopener" onclick="event.stopPropagation()">Buy at eurail.com</a>
+          </div>
+        </div>
       </div>
     </div>
 
     <!-- 2. Interrail Global -->
     <div class="pass-card" data-rgn="europe" data-elig="eu-residents">
-      <div class="card-top">
-        <div class="card-name">Interrail Global Pass</div>
-        <div class="card-badges">
-          <span class="badge fam-blue">33 European countries</span>
+      <div class="card-flip" role="button" tabindex="0" aria-label="Flip Interrail Global Pass for details">
+        <div class="card-face card-front">
+          <div class="tc-top">
+            <div class="tc-chip" aria-hidden="true"></div>
+            <div class="tc-badges">
+              <span class="badge fam-blue">33 European countries</span>
           <span class="badge fam-yellow">EU residents only</span>
+            </div>
+          </div>
+          <div class="tc-name">Interrail Global Pass</div>
+          <div class="tc-barcode" aria-hidden="true"></div>
+          <div class="tc-hint">Tap for details</div>
         </div>
-      </div>
-      <div class="card-body">
-        <div class="info-row">
+        <div class="card-face card-back">
+          <div class="tc-back-hint"><svg width="9" height="9" viewBox="0 0 9 9" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M6 1.5L2 4.5L6 7.5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg> Back</div>
+          <div class="card-body">
+            <div class="info-row">
           <div class="info-content">
             <span class="info-label">Coverage</span>
             Identical network to Eurail Global — all 33 countries. The European resident counterpart to Eurail. Same seat reservation surcharges apply on high-speed routes.
@@ -214,23 +265,33 @@
             Same use case as Eurail — multi-country, rail-heavy, flexible travel. Designed for EU, EEA, and Swiss residents; proof of residency required at purchase.
           </div>
         </div>
-      </div>
-      <div class="card-footer">
-        <a class="apply-btn" href="https://www.interrail.eu/en/interrail-passes/global-pass" target="_blank" rel="noopener">Buy at interrail.eu</a>
+          </div>
+          <div class="card-footer">
+            <a class="apply-btn" href="https://www.interrail.eu/en/interrail-passes/global-pass" target="_blank" rel="noopener" onclick="event.stopPropagation()">Buy at interrail.eu</a>
+          </div>
+        </div>
       </div>
     </div>
 
     <!-- 3. Swiss Travel Pass -->
     <div class="pass-card" data-rgn="europe" data-elig="non-residents">
-      <div class="card-top">
-        <div class="card-name">Swiss Travel Pass</div>
-        <div class="card-badges">
-          <span class="badge fam-blue">Switzerland</span>
+      <div class="card-flip" role="button" tabindex="0" aria-label="Flip Swiss Travel Pass for details">
+        <div class="card-face card-front">
+          <div class="tc-top">
+            <div class="tc-chip" aria-hidden="true"></div>
+            <div class="tc-badges">
+              <span class="badge fam-blue">Switzerland</span>
           <span class="badge fam-orange">Non-residents only</span>
+            </div>
+          </div>
+          <div class="tc-name">Swiss Travel Pass</div>
+          <div class="tc-barcode" aria-hidden="true"></div>
+          <div class="tc-hint">Tap for details</div>
         </div>
-      </div>
-      <div class="card-body">
-        <div class="info-row">
+        <div class="card-face card-back">
+          <div class="tc-back-hint"><svg width="9" height="9" viewBox="0 0 9 9" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M6 1.5L2 4.5L6 7.5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg> Back</div>
+          <div class="card-body">
+            <div class="info-row">
           <div class="info-content">
             <span class="info-label">Coverage</span>
             All Swiss Federal Railways, PostBus routes, and lake boats. Most mountain railways included (Rigi, Pilatus, Schynige Platte). Jungfraujoch and a handful of aerial cableways receive a 25% discount rather than free entry.
@@ -248,23 +309,33 @@
             Almost always the better value within Switzerland. Zurich → Lucerne → Interlaken → Zermatt → Geneva costs substantially more individually. Mountain railway access at no extra charge seals it.
           </div>
         </div>
-      </div>
-      <div class="card-footer">
-        <a class="apply-btn" href="https://www.sbb.ch/en/offers/swiss-travel-pass" target="_blank" rel="noopener">Buy at sbb.ch</a>
+          </div>
+          <div class="card-footer">
+            <a class="apply-btn" href="https://www.sbb.ch/en/offers/swiss-travel-pass" target="_blank" rel="noopener" onclick="event.stopPropagation()">Buy at sbb.ch</a>
+          </div>
+        </div>
       </div>
     </div>
 
     <!-- 4. Germany Deutschlandticket -->
     <div class="pass-card" data-rgn="europe" data-elig="open">
-      <div class="card-top">
-        <div class="card-name">Germany Deutschlandticket</div>
-        <div class="card-badges">
-          <span class="badge fam-blue">Germany</span>
+      <div class="card-flip" role="button" tabindex="0" aria-label="Flip Germany Deutschlandticket for details">
+        <div class="card-face card-front">
+          <div class="tc-top">
+            <div class="tc-chip" aria-hidden="true"></div>
+            <div class="tc-badges">
+              <span class="badge fam-blue">Germany</span>
           <span class="badge fam-green">Open to all</span>
+            </div>
+          </div>
+          <div class="tc-name">Germany Deutschlandticket</div>
+          <div class="tc-barcode" aria-hidden="true"></div>
+          <div class="tc-hint">Tap for details</div>
         </div>
-      </div>
-      <div class="card-body">
-        <div class="info-row">
+        <div class="card-face card-back">
+          <div class="tc-back-hint"><svg width="9" height="9" viewBox="0 0 9 9" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M6 1.5L2 4.5L6 7.5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg> Back</div>
+          <div class="card-body">
+            <div class="info-row">
           <div class="info-content">
             <span class="info-label">Coverage</span>
             All regional trains (RE, RB, S-Bahn) and local transit (U-Bahn, trams, city buses) across Germany. Does <strong>not</strong> cover ICE, IC, or EC long-distance trains — those require a separate ticket.
@@ -282,23 +353,33 @@
             Slow travel through Germany using regional trains, or a longer city stay with heavy local transit use. Not suited for fast inter-city hops — ICE trains require a separate Bahn ticket regardless.
           </div>
         </div>
-      </div>
-      <div class="card-footer">
-        <a class="apply-btn" href="https://www.bahn.de/angebot/regio/deutschland-ticket" target="_blank" rel="noopener">Buy at bahn.de</a>
+          </div>
+          <div class="card-footer">
+            <a class="apply-btn" href="https://www.bahn.de/angebot/regio/deutschland-ticket" target="_blank" rel="noopener" onclick="event.stopPropagation()">Buy at bahn.de</a>
+          </div>
+        </div>
       </div>
     </div>
 
     <!-- 5. Renfe Spain Pass -->
     <div class="pass-card" data-rgn="europe" data-elig="non-residents">
-      <div class="card-top">
-        <div class="card-name">Renfe Spain Pass</div>
-        <div class="card-badges">
-          <span class="badge fam-blue">Spain</span>
+      <div class="card-flip" role="button" tabindex="0" aria-label="Flip Renfe Spain Pass for details">
+        <div class="card-face card-front">
+          <div class="tc-top">
+            <div class="tc-chip" aria-hidden="true"></div>
+            <div class="tc-badges">
+              <span class="badge fam-blue">Spain</span>
           <span class="badge fam-orange">Non-residents only</span>
+            </div>
+          </div>
+          <div class="tc-name">Renfe Spain Pass</div>
+          <div class="tc-barcode" aria-hidden="true"></div>
+          <div class="tc-hint">Tap for details</div>
         </div>
-      </div>
-      <div class="card-body">
-        <div class="info-row">
+        <div class="card-face card-back">
+          <div class="tc-back-hint"><svg width="9" height="9" viewBox="0 0 9 9" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M6 1.5L2 4.5L6 7.5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg> Back</div>
+          <div class="card-body">
+            <div class="info-row">
           <div class="info-content">
             <span class="info-label">Coverage</span>
             All Renfe long-distance trains (AVE, Alvia, Intercity) plus regional Media Distancia and Avant services. Seat reservations included. Must be purchased outside Spain.
@@ -316,23 +397,33 @@
             4 or more Spanish cities with AVE connections. Madrid → Barcelona or Madrid → Seville each run €60–100+ individually; a 4-trip pass at ~€215 pays off from the fourth segment at peak fares.
           </div>
         </div>
-      </div>
-      <div class="card-footer">
-        <a class="apply-btn" href="https://www.renfe.com/es/en/travel/prepare-your-trip/abonos-ave-y-largadistancia/renfe-spain-pass" target="_blank" rel="noopener">Buy at renfe.com</a>
+          </div>
+          <div class="card-footer">
+            <a class="apply-btn" href="https://www.renfe.com/es/en/travel/prepare-your-trip/abonos-ave-y-largadistancia/renfe-spain-pass" target="_blank" rel="noopener" onclick="event.stopPropagation()">Buy at renfe.com</a>
+          </div>
+        </div>
       </div>
     </div>
 
     <!-- 6. Eurail/Interrail One Country -->
     <div class="pass-card" data-rgn="europe" data-elig="non-residents">
-      <div class="card-top">
-        <div class="card-name">Eurail / Interrail One Country Pass</div>
-        <div class="card-badges">
-          <span class="badge fam-blue">Single European country</span>
+      <div class="card-flip" role="button" tabindex="0" aria-label="Flip Eurail / Interrail One Country Pass for details">
+        <div class="card-face card-front">
+          <div class="tc-top">
+            <div class="tc-chip" aria-hidden="true"></div>
+            <div class="tc-badges">
+              <span class="badge fam-blue">Single European country</span>
           <span class="badge fam-orange">Non-residents (Eurail) · EU residents (Interrail)</span>
+            </div>
+          </div>
+          <div class="tc-name">Eurail / Interrail One Country Pass</div>
+          <div class="tc-barcode" aria-hidden="true"></div>
+          <div class="tc-hint">Tap for details</div>
         </div>
-      </div>
-      <div class="card-body">
-        <div class="info-row">
+        <div class="card-face card-back">
+          <div class="tc-back-hint"><svg width="9" height="9" viewBox="0 0 9 9" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M6 1.5L2 4.5L6 7.5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg> Back</div>
+          <div class="card-body">
+            <div class="info-row">
           <div class="info-content">
             <span class="info-label">Coverage</span>
             National rail in one country of choice: France, Italy, Germany, Austria, Norway, Portugal, and others. Same reservation rules apply on high-speed routes. Useful for countries not covered by a dedicated national pass.
@@ -350,23 +441,33 @@
             Deep rail exploration of one country with a flexible schedule. In Italy and France, advance fares booked 6+ weeks ahead often undercut the pass significantly.
           </div>
         </div>
-      </div>
-      <div class="card-footer">
-        <a class="apply-btn" href="https://www.eurail.com/en/eurail-passes/one-country-pass" target="_blank" rel="noopener">Buy at eurail.com</a>
+          </div>
+          <div class="card-footer">
+            <a class="apply-btn" href="https://www.eurail.com/en/eurail-passes/one-country-pass" target="_blank" rel="noopener" onclick="event.stopPropagation()">Buy at eurail.com</a>
+          </div>
+        </div>
       </div>
     </div>
 
     <!-- 7. JR Pass -->
     <div class="pass-card" data-rgn="japan" data-elig="non-residents">
-      <div class="card-top">
-        <div class="card-name">Japan Rail Pass (JR Pass)</div>
-        <div class="card-badges">
-          <span class="badge fam-green">Japan</span>
+      <div class="card-flip" role="button" tabindex="0" aria-label="Flip Japan Rail Pass (JR Pass) for details">
+        <div class="card-face card-front">
+          <div class="tc-top">
+            <div class="tc-chip" aria-hidden="true"></div>
+            <div class="tc-badges">
+              <span class="badge fam-green">Japan</span>
           <span class="badge fam-orange">Non-residents only</span>
+            </div>
+          </div>
+          <div class="tc-name">Japan Rail Pass (JR Pass)</div>
+          <div class="tc-barcode" aria-hidden="true"></div>
+          <div class="tc-hint">Tap for details</div>
         </div>
-      </div>
-      <div class="card-body">
-        <div class="info-row">
+        <div class="card-face card-back">
+          <div class="tc-back-hint"><svg width="9" height="9" viewBox="0 0 9 9" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M6 1.5L2 4.5L6 7.5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg> Back</div>
+          <div class="card-body">
+            <div class="info-row">
           <div class="info-content">
             <span class="info-label">Coverage</span>
             All JR shinkansen (bullet trains) except the fastest Nozomi and Mizuho services; all JR limited express, express, and local trains; some JR bus and ferry routes. Exchange the voucher for a physical pass at JR offices in Japan.
@@ -384,23 +485,33 @@
             Tokyo plus 2 or more shinkansen cities: Kyoto, Osaka, Hiroshima, Kanazawa, or Hokkaido. Tokyo → Osaka → Kyoto → Tokyo round trip on the shinkansen alone nearly covers the 7-day pass cost. Not worth it for a Tokyo-only stay.
           </div>
         </div>
-      </div>
-      <div class="card-footer">
-        <a class="apply-btn" href="https://www.japan-rail-pass.com" target="_blank" rel="noopener">Buy at japan-rail-pass.com</a>
+          </div>
+          <div class="card-footer">
+            <a class="apply-btn" href="https://www.japan-rail-pass.com" target="_blank" rel="noopener" onclick="event.stopPropagation()">Buy at japan-rail-pass.com</a>
+          </div>
+        </div>
       </div>
     </div>
 
     <!-- 8. BritRail -->
     <div class="pass-card" data-rgn="uk" data-elig="non-residents">
-      <div class="card-top">
-        <div class="card-name">BritRail Pass</div>
-        <div class="card-badges">
-          <span class="badge fam-grey">United Kingdom</span>
+      <div class="card-flip" role="button" tabindex="0" aria-label="Flip BritRail Pass for details">
+        <div class="card-face card-front">
+          <div class="tc-top">
+            <div class="tc-chip" aria-hidden="true"></div>
+            <div class="tc-badges">
+              <span class="badge fam-grey">United Kingdom</span>
           <span class="badge fam-orange">Non-residents only</span>
+            </div>
+          </div>
+          <div class="tc-name">BritRail Pass</div>
+          <div class="tc-barcode" aria-hidden="true"></div>
+          <div class="tc-hint">Tap for details</div>
         </div>
-      </div>
-      <div class="card-body">
-        <div class="info-row">
+        <div class="card-face card-back">
+          <div class="tc-back-hint"><svg width="9" height="9" viewBox="0 0 9 9" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M6 1.5L2 4.5L6 7.5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg> Back</div>
+          <div class="card-body">
+            <div class="info-row">
           <div class="info-content">
             <span class="info-label">Coverage</span>
             All National Rail trains in England, Scotland, and Wales. Does not cover Northern Ireland, the London Underground, or private heritage railways. Must be purchased outside the UK before travel — it cannot be bought in Britain.
@@ -418,9 +529,11 @@
             4 or more UK cities over 2+ weeks with spontaneous, unplanned travel. UK advance fares can be very cheap (London → Edinburgh from £35 if booked early) — a fixed itinerary often makes individual tickets the better deal.
           </div>
         </div>
-      </div>
-      <div class="card-footer">
-        <a class="apply-btn" href="https://www.britrail.com" target="_blank" rel="noopener">Buy at britrail.com</a>
+          </div>
+          <div class="card-footer">
+            <a class="apply-btn" href="https://www.britrail.com" target="_blank" rel="noopener" onclick="event.stopPropagation()">Buy at britrail.com</a>
+          </div>
+        </div>
       </div>
     </div>
 
@@ -473,6 +586,19 @@
     badge.addEventListener('click', toggle);
     badge.addEventListener('keydown', function (e) {
       if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); toggle(); }
+    });
+  });
+
+  /* Card flip — tap the smart-card face to reveal coverage/cost/verdict on
+     its back. The apply-btn link inside the back face stops its own click
+     from bubbling here (inline onclick), so buying doesn't also flip. */
+  [].slice.call(document.querySelectorAll('.card-flip')).forEach(function (flip) {
+    function toggleFlip() {
+      flip.closest('.pass-card').classList.toggle('flipped');
+    }
+    flip.addEventListener('click', toggleFlip);
+    flip.addEventListener('keydown', function (e) {
+      if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); toggleFlip(); }
     });
   });
 }());

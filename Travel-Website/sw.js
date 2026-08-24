@@ -2120,7 +2120,8 @@
 /* 2026-08-24: essentials/storage: status tags de-badged to plain dot+text per owner sizing feedback toolbar.js -> v1074. CACHE to v1516. */
 /* 2026-08-24: essentials/passport bento color pass — inline <style>, cache-first pages need a bump for returning readers toolbar.js -> v1075. CACHE to v1517. */
 /* 2026-08-24: essentials/restaurants: reservation-card redesign (menu dividers, folded corner, wax-seal chips) toolbar.js -> v1076. CACHE to v1518. */
-var CACHE = 'travel-cache-v1518';
+/* 2026-08-24: apps essentials page — same "wow factor" pass as day-trips/train-passes/entry. Each of the 16 app cards now opens as a home-screen icon tile (colored rounded-square glyph reusing the page's own jump-strip dot icons — gm-i-dot-green/red/blue/purple/orange/pink/black — tinted per category, app name, platform tag, chevron) and taps open to a CSS grid-rows accordion revealing the original description/pills/"Open X" link. Filter pills, jump-strip and the .app-anchor label are untouched. Caught and fixed one bug before shipping: the grid-template-rows:0fr collapse trick only collapses a SINGLE child, so the first pass left desc/pills/link all visibly expanded on load — fixed by wrapping the three into one .app-detail-inner child. New pattern for the site — no other page does a home-screen icon grid. Bumped CACHE to v1519. */
+var CACHE = 'travel-cache-v1519';
 
 /* The guide-calendar hand-off cache. Written by toolbar.js, read and emptied
    once by the fetch handler below, and EXEMPT from the activate sweep — it is

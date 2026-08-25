@@ -2196,7 +2196,14 @@
    Go / Sunrise & Sunset), and .eb-intro moves from a sibling paragraph to a
    nested child of .eb-copy, matching those two reference pages. CSS-only.
    web-travel-style.css -> v131. CACHE to v1531. */
-var CACHE = 'travel-cache-v1531';
+/* 2026-08-24: essentials/baggage — owner-reported: long fee-range badges
+   (Frontier's two chips, Air Canada's "$45 domestic & transborder") spilled
+   off the right edge of the screen on mobile instead of truncating.
+   .bag-chips .chip had max-width:220px + overflow:hidden + ellipsis but no
+   min-width, so flexbox's default min-width:auto (= full nowrap text width)
+   silently overrode max-width. Added min-width:0. Page's own inline <style>,
+   no shared CSS/JS touched. CACHE to v1532. */
+var CACHE = 'travel-cache-v1532';
 
 /* The guide-calendar hand-off cache. Written by toolbar.js, read and emptied
    once by the fetch handler below, and EXEMPT from the activate sweep — it is

@@ -1911,10 +1911,10 @@ window.TVE.home = (function () {
     /* Desktop nav links — white text on gradient bar.
        Colours use !important so a page's own `a{}` / `a:visited{}` rules
        (e.g. guide-style.css link colours) can NEVER bleed into the shared bar. */
-    '.tb a,.tb a:visited{font-size:14px;font-weight:600;color:#C04E1A!important;text-decoration:none;padding:8px 18px;' +
+    '.tb a,.tb a:visited{font-size:14px;font-weight:600;color:#6b4423!important;text-decoration:none;padding:8px 18px;' +
       'border:none;border-radius:4px;background:transparent;white-space:nowrap;flex-shrink:0;' +
-      'transition:color .15s,background .15s,border-color .15s}' +
-    '.tb a:hover{color:#C04E1A!important;background:transparent}' +
+      'transition:color .15s,background .15s,border-color .15s,box-shadow .15s}' +
+    '.tb a:hover{color:#6b4423!important;background:transparent}' +
     /* ── DESKTOP TOP STRIP = PILLS (owner 2026-08-17) ────────────────────────
        Every tab in the top strip is a visible outlined pill AT REST, not bare
        text that only becomes a pill once you are on that page. The strip used
@@ -1964,8 +1964,8 @@ window.TVE.home = (function () {
        from .selection-pill without updating both. */
     '.tb-links>a,.tb-links>a:visited{' +
       'box-sizing:border-box;display:inline-flex;align-items:center;line-height:1.2;' +
-      'padding:8px 18px;border:1px solid rgba(192,78,26,.30);border-radius:999px;background:#fff}' +
-    '.tb-links>a:hover{background:#fdf4ed;border-color:rgba(192,78,26,.55)}' +
+      'padding:8px 18px;border:1px solid rgba(107,68,35,.45);border-radius:999px;background:#f7eee5}' +
+    '.tb-links>a:hover{box-shadow:0 0 0 6px rgba(107,68,35,.18),0 0 18px rgba(107,68,35,.35);border-color:#6b4423}' +
     /* SELECTED RING IS AN OUTLINE, NOT A BORDER — and that is a LAYOUT rule,
        not a style one. A border plus padding:4px 12px against the base
        padding:2px 2px makes the selected tab ~23px WIDER than the same tab
@@ -1983,18 +1983,18 @@ window.TVE.home = (function () {
        it; in a row of pills that same .55 is the hover value and the selected
        tab stopped standing out. Colour only — the BOX is identical in all three
        states, per the note above. */
-    '.tb a.tb-active{box-sizing:border-box;display:inline-flex;align-items:center;padding:8px 18px;color:#C04E1A!important;background:#fdf4ed;border:1px solid rgba(192,78,26,0.85);border-radius:999px;font-weight:600;line-height:1.2}' +
+    '.tb a.tb-active{box-sizing:border-box;display:inline-flex;align-items:center;padding:8px 18px;color:#6b4423!important;background:#f7eee5;border:1px solid #6b4423;border-radius:999px;font-weight:600;line-height:1.2}' +
     /* Dropdown group (e.g. 🚆 Trains) — parent button + absolute flyout menu */
     '.tb-dd{position:relative;display:inline-flex;flex-shrink:0}' +
     /* Same pill as a plain tab (2026-08-17) — it already carried the 1px border
        and the 999px radius, so the strip only had to stop drawing them
        transparent. Kept in THIS rule rather than folded into the .tb-links>a
        block above: see the note there on check_toolbar_font_size_unified. */
-    '.tb-ddbtn{display:inline-flex;align-items:center;gap:5px;font-size:14px;font-weight:600;color:#C04E1A!important;' +
-      'padding:8px 18px;border:1px solid rgba(192,78,26,.30);border-radius:999px;background:#fff;white-space:nowrap;' +
-      'cursor:pointer;font-family:inherit;transition:color .15s,background .15s,border-color .15s}' +
-    '.tb-ddbtn:hover{color:#C04E1A!important;background:#fdf4ed;border-color:rgba(192,78,26,.55)}' +
-    '.tb-ddbtn.tb-active{box-sizing:border-box;display:inline-flex;align-items:center;color:#C04E1A!important;background:#fdf4ed;border:1px solid rgba(192,78,26,0.85);border-radius:999px;font-weight:600;line-height:1.2}' +
+    '.tb-ddbtn{display:inline-flex;align-items:center;gap:5px;font-size:14px;font-weight:600;color:#6b4423!important;' +
+      'padding:8px 18px;border:1px solid rgba(107,68,35,.45);border-radius:999px;background:#f7eee5;white-space:nowrap;' +
+      'cursor:pointer;font-family:inherit;transition:color .15s,background .15s,border-color .15s,box-shadow .15s}' +
+    '.tb-ddbtn:hover{color:#6b4423!important;box-shadow:0 0 0 6px rgba(107,68,35,.18),0 0 18px rgba(107,68,35,.35);border-color:#6b4423}' +
+    '.tb-ddbtn.tb-active{box-sizing:border-box;display:inline-flex;align-items:center;color:#6b4423!important;background:#f7eee5;border:1px solid #6b4423;border-radius:999px;font-weight:600;line-height:1.2}' +
     /* An OPEN dropdown gets the same terracotta ring as the active tab, so the
    menu is visibly attached to the tab it came from. It only changed text
    colour before, which was invisible against the other tabs. */
@@ -2003,8 +2003,8 @@ window.TVE.home = (function () {
        Opening a dropdown grew its button by ~23px, which was enough to reflow
        the whole row on the click. Measured: closed 1283.9px / open 1306.9px
        before, 1260.9px / 1260.9px after. */
-    '.tb-dd.tb-open>.tb-ddbtn:not(.tb-active){box-sizing:border-box;display:inline-flex;align-items:center;color:#C04E1A!important;background:transparent;'+
-      'outline:1.5px solid rgba(192,78,26,0.85);outline-offset:5px;border-radius:14px}' +
+    '.tb-dd.tb-open>.tb-ddbtn:not(.tb-active){box-sizing:border-box;display:inline-flex;align-items:center;color:#6b4423!important;background:transparent;'+
+      'outline:1.5px solid rgba(107,68,35,0.85);outline-offset:5px;border-radius:14px}' +
     '.tb-caret{font-size:8px;line-height:1;transition:transform .15s}' +
     '.tb-dd.tb-open .tb-caret{transform:rotate(180deg)}' +
     /* Split dropdown — one-click link + small caret toggle */

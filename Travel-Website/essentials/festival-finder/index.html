@@ -58,18 +58,25 @@ a.ff-spotlight:hover .ff-spot-name { color: var(--rust); }
 .ff-spot-place b { color: var(--text); font-weight: 700; }
 .ff-spot-desc { font-size: 14.5px; color: var(--text); line-height: 1.65; max-width: 720px; }
 
-/* Festival cards — flattened: thin border only, no shadow */
-.ff-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 10px; }
-.ff-card { background: var(--surface); border: 1px solid var(--border2); border-radius: 9px; padding: 15px 16px; }
-a.ff-card { display: block; color: inherit; transition: border-color .15s; }
-a.ff-card:hover { border-color: var(--rust); }
+/* Festival index — a numbered editorial list, not boxed cards. The numeral
+   carries the rhythm (oversized, low-contrast, decorative) so nothing needs
+   a border or a shadow to feel structured — the exaggerated-scale-plus-quiet-
+   color pairing several 2026 editorial sites use instead of card chrome. */
+.ff-index-list { display: flex; flex-direction: column; }
+.ff-index-item { display: flex; gap: 18px; padding: 20px 0; border-top: 1px solid var(--border2); text-decoration: none; color: inherit; }
+.ff-index-item:first-child { border-top: none; padding-top: 0; }
+a.ff-index-item { transition: gap .15s; }
+a.ff-index-item:hover { gap: 24px; }
+.ff-index-num { flex: 0 0 44px; font-size: 32px; font-weight: 800; line-height: 1; letter-spacing: -.02em; color: var(--border); transition: color .15s; }
+a.ff-index-item:hover .ff-index-num { color: var(--rust); }
+.ff-index-body { flex: 1; min-width: 0; }
 .ff-card-top { display: flex; align-items: flex-start; justify-content: space-between; gap: 8px; margin-bottom: 7px; }
 .ff-city { font-size: var(--fs-body); font-weight: 700; color: var(--text); }
-a.ff-card:hover .ff-city { color: var(--rust); }
+a.ff-index-item:hover .ff-city { color: var(--rust); }
 .ff-flag-country { font-size: 10.5px; color: var(--muted); text-align: right; line-height: 1.5; flex-shrink: 0; }
 .ff-event-name { font-size: 13px; font-weight: 700; color: var(--rust-ink, #C04E1A); margin-bottom: 3px; }
 .ff-dates { font-size: 11px; color: var(--muted); margin-bottom: 6px; letter-spacing: .02em; }
-.ff-desc { font-size: var(--fs-sub); color: var(--text); line-height: 1.5; }
+.ff-desc { font-size: var(--fs-sub); color: var(--text); line-height: 1.55; max-width: 640px; }
 .ff-no-guide .ff-city { color: var(--muted); }
 
 /* Closures — a plain rule-separated list, not colored boxed cards */
@@ -110,7 +117,9 @@ a.ff-cl-city:hover { border-color: var(--rust); }
   .ff-stat-item { border-left: none; padding-left: 0; border-top: 1px solid var(--border2); padding-top: 12px; }
   .ff-stat-item:first-child { border-top: none; padding-top: 0; }
   .ff-spot-name { font-size: 20px; }
-  .ff-grid { grid-template-columns: 1fr; }
+  .ff-index-item { gap: 12px; }
+  a.ff-index-item:hover { gap: 12px; }
+  .ff-index-num { flex-basis: 30px; font-size: 24px; }
   .ff-siblings { display: grid; grid-template-columns: repeat(3, 1fr); }
   .ff-siblings .sibling-pill { justify-content: center; text-align: center; }
 }
@@ -628,14 +637,18 @@ function festivalCardHTML(f, opts) {
     </${tag}>`;
   }
 
-  return `<${tag}${linkAttr} class="ff-card${f.guide ? '' : ' ff-no-guide'}">
-    <div class="ff-card-top">
-      <span class="ff-city">${placeLabel}</span>
-      <span class="ff-flag-country">${f.flag}<br>${f.country}</span>
+  const num = String(opts.index || 1).padStart(2, '0');
+  return `<${tag}${linkAttr} class="ff-index-item${f.guide ? '' : ' ff-no-guide'}">
+    <span class="ff-index-num" aria-hidden="true">${num}</span>
+    <div class="ff-index-body">
+      <div class="ff-card-top">
+        <span class="ff-city">${placeLabel}</span>
+        <span class="ff-flag-country">${f.flag}<br>${f.country}</span>
+      </div>
+      <div class="ff-event-name">${f.name}</div>
+      <div class="ff-dates">${f.dates}</div>
+      <div class="ff-desc">${f.desc}</div>
     </div>
-    <div class="ff-event-name">${f.name}</div>
-    <div class="ff-dates">${f.dates}</div>
-    <div class="ff-desc">${f.desc}</div>
   </${tag}>`;
 }
 
@@ -658,8 +671,8 @@ function renderResults(mon) {
     const rest = flagship ? festivals.filter(f => f !== flagship) : festivals;
     if (flagship) html += festivalCardHTML(flagship, { spotlight: true });
     if (rest.length) {
-      html += `<div class="ff-grid">`;
-      rest.forEach(f => { html += festivalCardHTML(f); });
+      html += `<div class="ff-index-list">`;
+      rest.forEach((f, i) => { html += festivalCardHTML(f, { index: flagship ? i + 2 : i + 1 }); });
       html += `</div>`;
     }
   }
@@ -710,10 +723,11 @@ function renderCityResults(cityName) {
   let html = `<div class="ff-section-head">
     <span class="ff-section-title">Festivals in ${cityName}</span>
     <span class="ff-section-count">${matched.length} curated</span>
-  </div><div class="ff-grid">`;
+  </div><div class="ff-index-list">`;
+  let idx = 1;
   monthsWithEvents.forEach(mon => {
     matched.filter(f => f.months.includes(mon)).forEach(f => {
-      html += festivalCardHTML(f, { showMonth: true, month: mon });
+      html += festivalCardHTML(f, { showMonth: true, month: mon, index: idx++ });
     });
   });
   html += `</div>`;

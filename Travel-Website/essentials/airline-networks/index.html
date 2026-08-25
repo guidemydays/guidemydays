@@ -67,99 +67,69 @@
       vertical-align: middle;
     }
   }
-  /* ══ REDESIGNED 2026-08-24 (owner: "search cool design website ideas, do
-     modern, surprise me — everything but the background and the banner") ═══
-     day-trips already claimed the train-station departure-board look this
-     same day, so this page needed its own idea rather than a copy — an
-     airline reference reads naturally as a BOARDING-PASS STUB: every hub
-     code becomes an oversized monospace stamp, a perforated tear-line (a
-     literal dotted texture drawn with radial-gradient, per Site-Icons's own
-     "no images needed" suggestion) separates the stub from the destination
-     list under it, and every destination card takes a torn-corner notch
-     (CSS mask) plus a barcode-style rule beside its airport code
-     (repeating-linear-gradient). CSS-only — no class, id or nesting any
-     script depends on moved. Terracotta stays the only accent and nothing
-     here paints a coloured SURFACE with a gradient — both gradients below
-     draw a neutral --border2 texture, not a fill (Thirty-fifth
-     non-negotiable). .pill-badge / .badge / .fam-* colours are untouched.
+  /* ══ REDESIGNED 2026-08-24/25 (owner: "search cool design website ideas,
+     do modern, surprise me — everything but the background and the
+     banner") — REBUILT FROM ZERO after two failed passes. First was a
+     boarding-pass ticket-stub skin (owner: "boring", "the effect makes no
+     sense"); the follow-ups tried to save it with motion, then with bolder
+     resting-state textures, and owner feedback stayed the same both times.
+     Also: the site retired its monospace-stamp typeface convention entirely
+     the same day (commit 3629008, "i want them all to use the same font
+     including... airport hub codes"), which was load-bearing for the whole
+     ticket idea — so patching it a third time was the wrong move, not just
+     an unlucky one. Full stop, new concept.
 
-     FOLLOW-UP same day — the static reskin above read as flat next to the
-     motion sibling pages already got (day-trips' shuttling train, disney's
-     cursor-tilt, train-passes' card flip): each hub code now stamps itself
-     in once as its section scrolls into view (IntersectionObserver, arms via
-     .stamp-armed so no-JS/reduced-motion just renders it at rest — see
-     .hub-code below), and a destination card's barcode sweeps a highlight on
-     hover/focus, like being read at the gate. Disney also owns a ticket-stub
-     idiom (die-cut edge notches + dashed tear-line on admission tickets);
-     this page's stub reads as a boarding pass specifically — giant hub-code
-     stamp, corner-notch mask, barcode sweep — none of which Disney's page
-     has, but the two are close enough as a category that a future redesign
-     pass should treat "ticket stub" as spoken for twice now, not zero times.
-
-     SECOND FOLLOW-UP, same day (owner: "saw almost no change? where is the
-     wow factor?") — correctly called out: the entrance animation and the
-     hover sweep are both TRANSIENT, so a second after either plays, or in a
-     static screenshot, the page looked byte-for-byte like the pass before
-     it — no lasting visual signature. Fixed by making the two headline
-     elements bolder AT REST, not just animated: the hub code now carries a
-     permanent ink-stamp ring (an irregular ellipse in the code's own ink,
-     currentColor — a rubber stamp's border is never a second colour) with a
-     per-hub tilt cycling through five values so consecutive hubs don't read
-     as one template repeated, and the barcode switched from a pale
-     var(--border2) hairline to solid var(--text) ink with real varied-width
-     bars, both bigger (12→14px tall) and higher-opacity (.5→.62) — visible
-     at a glance, not just on hover. The scroll/hover motion from the first
-     follow-up stays layered on top of these. */
+     THE NEW IDEA — a HUB PERFORMANCE DASHBOARD, not a decorated list. The
+     page's own meta description says what it's for: "the country each hub
+     reaches nonstop." Today the reader has to scroll a wall of destination
+     cards to work that out for themselves; nothing on the page ever
+     actually answers it. So each hub now opens on a computed summary —
+     an animated ring chart (real SVG, stroke-dashoffset) showing what
+     percentage of its destinations are nonstop, plus a region-count
+     breakdown (Europe 11 · Asia-Pacific 6 · …) — built by walking the
+     .dest-card elements already rendered on the page (JS, ~line 2190) and
+     counting them. Nothing invented: every number is a live count of
+     content already on this page, not a new fact. This is structurally
+     different from every sibling redesign in this series (day-trips'
+     departure board, disney's ticket stubs + tilt, train-passes' flip
+     cards, cards-atm/private-transfers/baggage's bento stat tiles) — it's
+     the only one that's a data visualization computed from the page's own
+     content rather than a decorative skin over it, and it doesn't share a
+     category with any of them the way the ticket-stub attempt duplicated
+     Disney's. Terracotta stays the one accent; see .hub-stats below. */
   .hub-section { margin-bottom: 40px; scroll-margin-top: 100px; }
   .hub-header { display: flex; align-items: baseline; gap: 18px; margin-bottom: 0; padding: 4px 0 0; border-bottom: none; }
-  /* Per-hub tilt — a real rubber stamp never lands perfectly straight twice.
-     Cycles through 5 values so consecutive hubs read as genuinely stamped,
-     not as one template repeated. Referenced by both the resting state and
-     the animation below so the entrance settles into the SAME tilt it holds
-     at rest, instead of snapping back to 0 the instant the animation ends. */
-  .hub-section:nth-of-type(5n+1) { --stamp-tilt: -3deg; }
-  .hub-section:nth-of-type(5n+2) { --stamp-tilt: 2deg; }
-  .hub-section:nth-of-type(5n+3) { --stamp-tilt: -1.5deg; }
-  .hub-section:nth-of-type(5n+4) { --stamp-tilt: 2.5deg; }
-  .hub-section:nth-of-type(5n)   { --stamp-tilt: -2deg; }
-  .hub-code { position: relative; display: inline-block; font-family: var(--font); font-size: 40px; font-weight: 800; letter-spacing: -.01em; color: var(--rust, #C04E1A); line-height: 1; transform: rotate(var(--stamp-tilt, 0deg)); }
-  /* The ink-stamp ring — a real rubber stamp's border rarely prints as a
-     true circle (uneven pressure, worn rubber), so the ellipse radii are
-     deliberately mismatched rather than a clean 50%. Same ink as the code
-     itself (currentColor = var(--rust)) — a stamp ring is never a second
-     colour, it's the same ink slightly overspreading past the letterforms.
-     This is the persistent, ALWAYS-VISIBLE half of the boarding-pass idea —
-     the animation below is the entrance, this is what's still true a
-     second later once it's settled, which a static screenshot can see. */
-  .hub-code::before {
-    content: ''; position: absolute; inset: -9px -15px -11px -15px;
-    border: 2.5px solid currentColor;
-    border-radius: 44% 56% 51% 49% / 55% 45% 58% 42%;
-    opacity: .32; pointer-events: none;
-  }
-  /* Stamp-in entrance — armed only by JS (progressive enhancement: with no
-     JS, or IntersectionObserver unsupported, .stamp-armed is never added and
-     the code (plus its ring) just sits at rest, exactly as without this
-     pass). Each hub code animates once as its section scrolls into view,
-     like the moment a stamp hits the paper — the site's other "wow" passes
-     (day-trips' shuttling train, disney's cursor-tilt, train-passes' card
-     flip) each picked a motion that fits their own object; this one is the
-     boarding pass's own gesture, not borrowed from any of them. */
-  .hub-section.stamp-armed .hub-code { opacity: 0; transform: scale(1.7) rotate(calc(var(--stamp-tilt, 0deg) - 11deg)); }
-  .hub-section.stamp-armed.stamped .hub-code { animation: hub-stamp-in .5s cubic-bezier(.22,1.6,.4,1) forwards; }
-  @keyframes hub-stamp-in {
-    0%   { opacity: 0; transform: scale(1.7) rotate(calc(var(--stamp-tilt, 0deg) - 11deg)); }
-    55%  { opacity: 1; transform: scale(.92) rotate(calc(var(--stamp-tilt, 0deg) + 2deg)); }
-    100% { opacity: 1; transform: scale(1) rotate(var(--stamp-tilt, 0deg)); }
-  }
-  @media (prefers-reduced-motion: reduce) {
-    .hub-section.stamp-armed .hub-code { opacity: 1; transform: rotate(var(--stamp-tilt, 0deg)); animation: none; }
-  }
+  .hub-code { font-family: var(--font); font-size: 34px; font-weight: 800; letter-spacing: -.01em; color: var(--rust, #C04E1A); line-height: 1; }
   .hub-info { flex: 1; }
   .hub-city { font-size: 11.5px; font-weight: 700; letter-spacing: .14em; text-transform: uppercase; color: var(--muted); }
-  .hub-strength { position: relative; font-size: var(--fs-body,14px); color: var(--muted); margin: 10px 0 26px; padding: 12px 14px 22px; background: var(--surface, #ffffff); border: 1px solid var(--border); border-left: 3px solid var(--rust, #a67b5b); border-radius: 3px; line-height: 1.6; }
-  /* Perforated tear-line under the stub — a dotted texture, not a fill. */
-  .hub-strength::after { content: ''; position: absolute; left: 14px; right: 14px; bottom: 9px; height: 2px; background-image: radial-gradient(circle, var(--border2,#d8d2c5) 1.3px, transparent 1.5px); background-size: 9px 2px; background-repeat: repeat-x; }
+  /* ── Hub dashboard — the page's actual "wow": a computed answer, not a
+     texture. Injected by JS right after .hub-header (see script near the
+     end of the file); if JS never runs, this element simply never exists
+     and the page reads exactly like the plain list below it — a safe,
+     inert no-JS fallback rather than a broken half-state. */
+  .hub-stats { display: flex; align-items: center; gap: 18px; margin: 12px 0 22px; padding: 14px 18px; background: var(--surface, #ffffff); border: 1px solid var(--border); border-radius: 8px; }
+  .hub-ring { position: relative; width: 62px; height: 62px; flex-shrink: 0; }
+  .hub-ring svg { width: 100%; height: 100%; transform: rotate(-90deg); }
+  .hub-ring .ring-track { fill: none; stroke: var(--border2, #e6e2da); stroke-width: 6; }
+  .hub-ring .ring-fill {
+    fill: none; stroke: var(--rust, #C04E1A); stroke-width: 6; stroke-linecap: round;
+    stroke-dasharray: 163.36; stroke-dashoffset: 163.36;
+    transition: stroke-dashoffset 1.1s cubic-bezier(.22,1,.36,1);
+  }
+  .hub-stats.animate-in .ring-fill { stroke-dashoffset: var(--ring-offset, 163.36); }
+  .ring-label { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; line-height: 1.05; }
+  .ring-label strong { font-family: var(--font); font-size: 15px; font-weight: 800; color: var(--text, #3d3a32); }
+  .ring-label span { font-size: 7.5px; font-weight: 700; letter-spacing: .05em; text-transform: uppercase; color: var(--muted); }
+  .hub-regions { display: flex; flex-wrap: wrap; align-items: center; gap: 5px 16px; flex: 1; min-width: 0; }
+  .hub-regions .hr-total { font-size: 12.5px; font-weight: 700; color: var(--text, #3d3a32); white-space: nowrap; }
+  .region-chip { font-size: 12px; color: var(--muted); white-space: nowrap; }
+  .region-chip b { color: var(--text, #3d3a32); font-weight: 700; margin-left: 3px; }
+  @media (prefers-reduced-motion: reduce) { .hub-ring .ring-fill { transition: none; } }
+  @media (max-width: 600px) and (pointer: coarse) {
+    .hub-stats { flex-wrap: wrap; gap: 12px 18px; padding: 12px 14px; }
+    .hub-ring { width: 52px; height: 52px; }
+  }
+  .hub-strength { font-size: var(--fs-body,14px); color: var(--muted); margin: 10px 0 26px; padding: 12px 14px; background: var(--surface, #ffffff); border: 1px solid var(--border); border-left: 3px solid var(--rust, #a67b5b); border-radius: 3px; line-height: 1.6; }
   .region-block { margin-bottom: 20px; }
   .region-header { display: flex; align-items: center; gap: 8px; margin-bottom: 10px; }
   .region-title { font-family: var(--font); font-size: var(--fs-sub,12px); letter-spacing: 0.15em; text-transform: uppercase; color: var(--muted); }
@@ -174,10 +144,6 @@
     padding: 10px 12px;
     display: flex; flex-direction: column;
     transition: box-shadow .16s ease, transform .16s ease;
-    /* Torn-corner notch, top-right — a semicircle bitten out of the card via
-       a CSS mask, the same "stub" language as the hub header's tear-line. */
-    -webkit-mask-image: radial-gradient(circle 8px at calc(100% - 15px) 0, transparent 8px, #000 8.6px);
-            mask-image: radial-gradient(circle 8px at calc(100% - 15px) 0, transparent 8px, #000 8.6px);
   }
   .dest-card:hover { box-shadow: 0 6px 18px rgba(30,20,5,.10); transform: translateY(-1px); }
   .dest-card .tags { margin-top: auto; }
@@ -185,37 +151,7 @@
   .dest-code {
     font-family: var(--font);
     font-weight: 800; font-size: 12.5px; letter-spacing: .04em; color: var(--text, #3d3a32);
-    display: flex; align-items: center; gap: 7px; margin: 3px 0 2px;
-  }
-  /* Barcode-style rule beside the code — a real barcode's bars vary in
-     width (thin-thin-thick, never a uniform repeat), and print in solid
-     ink rather than a pale hairline, so this reads as an actual barcode at
-     rest rather than decoration you only notice up close. Hovering/focusing
-     the card sweeps a highlight across it, like the pass being read at the
-     gate scanner — a transition, not a running animation: with 300+ of
-     these on the page at once (all three carriers, unfiltered) an always-on
-     loop across every card would be noise, not a "wow" moment; this only
-     ever moves the one card the reader is actually touching. */
-  .dest-code::after {
-    content: '';
-    flex: 1 1 auto; min-width: 22px; height: 14px;
-    background-image:
-      linear-gradient(100deg, transparent 42%, rgba(255,255,255,.9) 50%, transparent 58%),
-      repeating-linear-gradient(90deg,
-        var(--text,#3d3a32) 0 1px, transparent 1px 2.2px,
-        var(--text,#3d3a32) 2.2px 4.6px, transparent 4.6px 5.6px,
-        var(--text,#3d3a32) 5.6px 6.2px, transparent 6.2px 8.4px);
-    background-size: 220% 100%, auto;
-    background-position: -120% 0, 0 0;
-    opacity: .62;
-    transition: background-position .6s ease;
-  }
-  .dest-card:hover .dest-code::after,
-  .dest-card:focus-within .dest-code::after {
-    background-position: 120% 0, 0 0;
-  }
-  @media (prefers-reduced-motion: reduce) {
-    .dest-code::after { transition: none; }
+    margin: 3px 0 2px;
   }
   .dest-meta { font-size: 11.5px; color: var(--muted); margin-bottom: 2px; }
   /* Dest-card left bars — match the emoji sphere mid-tone (bright, vivid) so the
@@ -266,14 +202,12 @@ body.is-searching #route-nav.filter-bar { display:flex !important; }
   .filter-row{padding:8px 0 6px;gap:5px;}
   .book-link{padding:3px 10px;}
 }
-/* Boarding-pass stub sizing — phones (2026-08-24 redesign, see above). */
+/* Hub dashboard sizing — phones (2026-08-24/25 redesign, see above). */
 @media (max-width: 600px) and (pointer: coarse) {
-  .hub-code{font-size:30px;}
+  .hub-code{font-size:26px;}
   .hub-city{font-size:10px;}
   .hub-header{gap:12px;}
-  .hub-strength{padding:10px 12px 18px;margin:8px 0 22px;}
-  .hub-strength::after{left:10px;right:10px;bottom:7px;}
-  .dest-code::after{min-width:12px;}
+  .hub-strength{margin:8px 0 22px;}
 }
 /* secondary nav: solid page-bg so content doesn't bleed through on scroll */
 .nav{background:var(--bg)!important;border-bottom:none!important;}
@@ -2190,23 +2124,77 @@ body.is-searching #route-nav.filter-bar { display:flex !important; }
 
 <script>
 (function () {
-  /* Arms the hub-code stamp-in (see .stamp-armed in <style>). Progressive
-     enhancement only: no IntersectionObserver support or reduced-motion
-     means this never runs and every hub code just renders at full opacity,
-     same as before this pass. */
-  if (!('IntersectionObserver' in window)) return;
-  if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
-  var sections = document.querySelectorAll('.hub-section');
-  if (!sections.length) return;
-  sections.forEach(function (s) { s.classList.add('stamp-armed'); });
-  var io = new IntersectionObserver(function (entries) {
-    entries.forEach(function (entry) {
-      if (!entry.isIntersecting) return;
-      entry.target.classList.add('stamped');
-      io.unobserve(entry.target);
+  /* Builds the .hub-stats dashboard (CSS near .hub-code above) by counting
+     the .dest-card elements already rendered under each .hub-section —
+     every number shown is a live count of content already on this page,
+     nothing invented. Progressive enhancement: if anything here fails to
+     run, .hub-stats is simply never created and the page reads exactly
+     like the plain list below it — no broken half-state. */
+  var RING_R = 26, RING_C = 2 * Math.PI * RING_R; // matches stroke-dasharray in CSS (163.36)
+  var reduceMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var canObserve = 'IntersectionObserver' in window;
+
+  var MAX_REGION_CHIPS = 5;
+  // Region-title source text is free-form across hubs — flags appear mid-string
+  // ("Canada · Mexico"), not just leading, and the "Nonstop" suffix is
+  // sometimes dash-separated ("Europe — Nonstop") and sometimes not ("Canada
+  // Nonstop"). Strip every emoji/flag codepoint anywhere in the string rather
+  // than only a leading run, then peel off both suffix shapes.
+  function regionName(raw) {
+    var t = raw.replace(/[\u{1F1E6}-\u{1F1FF}\u{1F300}-\u{1FAFF}\u{2600}-\u{27BF}]/gu, '')
+               .replace(/\s+/g, ' ').trim();
+    t = t.split('—')[0].trim();
+    t = t.replace(/\bNonstop\b\s*$/i, '').replace(/[·,]\s*$/, '').trim();
+    return t || raw.trim();
+  }
+
+  document.querySelectorAll('.hub-section').forEach(function (section) {
+    var total = section.querySelectorAll('.dest-card').length;
+    if (!total) return;
+    var nonstop = section.querySelectorAll('.dest-card.t0').length;
+    var pct = Math.round((nonstop / total) * 100);
+
+    var regions = [];
+    section.querySelectorAll('.region-block').forEach(function (block) {
+      var titleEl = block.querySelector('.region-title');
+      if (!titleEl) return;
+      var name = regionName(titleEl.textContent);
+      var count = block.querySelectorAll('.dest-card').length;
+      var existing = regions.filter(function (r) { return r.name === name; })[0];
+      if (existing) existing.count += count;
+      else regions.push({ name: name, count: count });
     });
-  }, { threshold: 0.2, rootMargin: '0px 0px -10% 0px' });
-  sections.forEach(function (s) { io.observe(s); });
+    regions.sort(function (a, b) { return b.count - a.count; });
+
+    var stats = document.createElement('div');
+    stats.className = 'hub-stats';
+    stats.style.setProperty('--ring-offset', (RING_C * (1 - pct / 100)).toFixed(2));
+    var shown = regions.slice(0, MAX_REGION_CHIPS);
+    var rest = regions.length - shown.length;
+    var regionsHTML = shown.map(function (r) {
+      return '<span class="region-chip">' + r.name + '<b>' + r.count + '</b></span>';
+    }).join('') + (rest > 0 ? '<span class="region-chip region-chip-more">+' + rest + ' more</span>' : '');
+    stats.innerHTML =
+      '<div class="hub-ring"><svg viewBox="0 0 62 62">' +
+        '<circle class="ring-track" cx="31" cy="31" r="' + RING_R + '"></circle>' +
+        '<circle class="ring-fill" cx="31" cy="31" r="' + RING_R + '"></circle>' +
+      '</svg><div class="ring-label"><strong>' + pct + '%</strong><span>Nonstop</span></div></div>' +
+      '<div class="hub-regions"><span class="hr-total">' + total + ' destinations</span>' + regionsHTML + '</div>';
+
+    var header = section.querySelector('.hub-header');
+    if (!header) return;
+    header.insertAdjacentElement('afterend', stats);
+
+    if (reduceMotion || !canObserve) { stats.classList.add('animate-in'); return; }
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) {
+        if (!entry.isIntersecting) return;
+        entry.target.classList.add('animate-in');
+        io.unobserve(entry.target);
+      });
+    }, { threshold: 0.2, rootMargin: '0px 0px -10% 0px' });
+    io.observe(stats);
+  });
 })();
 </script>
 </body>

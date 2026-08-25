@@ -48,10 +48,11 @@
 /* ── Directory: a static index rail (never sticky, never fixed) beside the grid ── */
 .tt-layout {
   display: grid;
-  grid-template-columns: 202px 1fr;
+  grid-template-columns: 202px minmax(0, 1fr);
   gap: 8px 40px;
   align-items: start;
 }
+.tt-content { min-width: 0; }
 .tt-index { display: flex; flex-direction: column; gap: 2px; }
 .tt-index-item {
   display: block;
@@ -86,6 +87,7 @@ a.tt-index-item:visited .ti-label { color: #3d3a32; }
   grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
   gap: 14px;
   margin-top: 4px;
+  min-width: 0;
 }
 .tt-section-label {
   grid-column: 1 / -1;
@@ -192,10 +194,18 @@ a.tt-index-item:visited .ti-label { color: #3d3a32; }
 .tf-grey   { --wash: var(--fam-grey-bg);   --wash-ink: var(--fam-grey-ink); }
 
 @media (max-width: 860px) {
-  .tt-layout { grid-template-columns: 1fr; }
+  .tt-layout { grid-template-columns: minmax(0, 1fr); }
   .tt-index { flex-direction: row; flex-wrap: wrap; gap: 8px; margin-bottom: 26px; }
   .tt-index-item { border-left: none; border-bottom: 3px solid var(--border2); padding: 8px 12px; flex: 0 0 auto; }
   .ti-num { display: none; }
+}
+/* Width-only safety net (no pointer gate): a nested auto-fill grid inside the
+   .tt-layout column can under-measure its own available width and squeeze a
+   second column below the 230px floor instead of collapsing to one — this
+   forces the correct single column regardless of pointer type. */
+@media (max-width: 520px) {
+  .tt-grid { grid-template-columns: 1fr; }
+  .tt-card.tt-feature { grid-column: span 1; }
 }
 @media (max-width: 600px) and (pointer: coarse) {
   .tt-grid { grid-template-columns: 1fr; }

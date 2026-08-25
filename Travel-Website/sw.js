@@ -2289,7 +2289,8 @@
 /* 2026-08-25: toolbar pill recolor to Saddle + Glow hover toolbar.js -> v1080. CACHE to v1555. */
 /* 2026-08-25: Best Of hero title-position fix rolled out to all 37 category pages (was amusement-parks only) — every title starts at the same fixed position, second title line reads in the terracotta accent. web-travel-style.css -> v145. CACHE to v1556. */
 /* 2026-08-25: country flags are a numbered SVG sprite symbol now, never a raw emoji (owner: "i dont want any emoji marks" · "these were the last ones"). All 208 flags in use are flat, gradient-free Twemoji SVGs consolidated into one new asset, assets/flags/sprite.svg, each a numbered <symbol id="flag-N"> (10001-10208, above every Site-Icons.html id — table at Icons-Formats-Logos/Flags.html). New shared helper assets/flag-render.js exposes TVE.flag.html()/.node(); web-travel-style.css gained .flag-svg (1em sizing) on top of the concurrent title-position fix above; airlines.js and passport.js's flag render calls route through the helper. brain_check.py check_no_flag_emoji_anywhere (Cleanliness Rule 961) now HARD-FAILS on any raw flag emoji reintroduced. web-travel-style.css -> v146. airlines.js -> v6. passport.js -> v5. flag-render.js -> v1 (new). CACHE to v1557. */
-var CACHE = 'travel-cache-v1557';
+/* 2026-08-26: Currencies/Plugs/Time Zones move onto the shared .eb-hero modifier (owner rule, live in chat: "do cool designs! bold graphics") — same wash-card recipe as the 48 essentials/ask-your-guide pages, one page-specific decorative .eb-graphic each (plug-face fan, exchange coins, day/twilight/night clock ring). web-travel-style.css -> v147. CACHE to v1558. */
+var CACHE = 'travel-cache-v1558';
 
 /* The guide-calendar hand-off cache. Written by toolbar.js, read and emptied
    once by the fetch handler below, and EXEMPT from the activate sweep — it is
@@ -2302,7 +2303,7 @@ var ICS_OUTBOX = 'gmd-ics-outbox';
    THIS IS THE ONLY PLACE to bump toolbar.js / guide-style.css versions.
    NEVER bump ?v= inside guide HTML — it breaks HMAC stamps and forces re-validation
    of 230+ guides. Instead, bump MIN_VERSIONS here + increment the CACHE version. */
-var MIN_VERSIONS = { 'guide-style.css': 265,'toolbar.js': 1080, 'mobile.css': 88, 'web-travel-style.css': 146, 'guides-index-style.css': 27, 'read-about.css': 6, 'best-of-features.js': 4, 'best-of-cross-data.js': 24, 'weather.js': 12, 'trains.css': 17, 'trains.js': 4, 'airlines.css': 5, 'airlines.js': 6, 'passport.js': 5, 'search-autocomplete.js': 9, 'flag-render.js': 1 };
+var MIN_VERSIONS = { 'guide-style.css': 265,'toolbar.js': 1080, 'mobile.css': 88, 'web-travel-style.css': 147, 'guides-index-style.css': 27, 'read-about.css': 6, 'best-of-features.js': 4, 'best-of-cross-data.js': 24, 'weather.js': 12, 'trains.css': 17, 'trains.js': 4, 'airlines.css': 5, 'airlines.js': 6, 'passport.js': 5, 'search-autocomplete.js': 9, 'flag-render.js': 1 };
 
 function rewriteAssetUrl(urlStr) {
   var u;

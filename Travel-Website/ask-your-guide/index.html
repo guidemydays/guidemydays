@@ -10,6 +10,39 @@
    A wrong number is fixed on its /stats/{region}/ page, then re-extracted and
    rebuilt; an edit here is reverted by the next run without a word. */
 
+/* ── Bold hero (owner rule 2026-08-25: "be more modern and bold, this page
+   is very important" — research on 2026 hero design pointed at two things
+   this page had neither of: oversized type as the hero element itself, and a
+   SaaS-style "one real number before you search" preview instead of only a
+   promise in prose). Layered ON TOP of the shared .eb-hero recipe from
+   web-travel-style.css — that still supplies the card, the wash, the border,
+   the grid; .ayg-hero only pushes the title bigger, turns the corner graphic
+   into a filled colour-blocked badge instead of loose line art, and adds the
+   chip row. The three colours stay exactly the ones the card already uses
+   (#C04E1A / ink / cream) — nothing here invents a fourth. */
+.ayg-hero .eb-title { font-size: clamp(1.9rem, 4.6vw, 3.35rem); }
+.ayg-hero-chips { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 2px; }
+.ayg-hero-chip {
+  font-size: 13px; font-weight: 700; padding: 7px 15px; border-radius: 20px;
+  background: #fff; border: 1px solid rgba(192,78,26,.28); color: var(--brand,#C04E1A);
+}
+/* The corner graphic every eb-hero page carries is loose line art; this page
+   has no physical object to sketch, so the SAME slot instead becomes a large
+   filled badge holding the page's own already-established icon (toolbar.js
+   GM_SPRITE 'person-question', the exact key ask-your-guide has carried
+   since before this pass — reused, never redrawn, Twenty-eighth
+   non-negotiable). Sized off the shared .eb-graphic envelope so it still
+   matches every sibling page's footprint. */
+.ayg-hero-badge {
+  width: clamp(200px, 24vw, 300px); aspect-ratio: 1; border-radius: 50%;
+  background: radial-gradient(120% 120% at 32% 26%, rgba(192,78,26,.20), rgba(192,78,26,.05) 72%);
+  border: 1.5px solid rgba(192,78,26,.26);
+}
+.ayg-hero-badge svg { width: 56% !important; max-width: none !important; height: auto; }
+@media (max-width: 640px) {
+  .ayg-hero-chip { font-size: 12.5px; padding: 6px 13px; }
+}
+
 /* .wrap carries the rail (--rail/--gutter, shared CSS). Never re-cap it
    here with a literal — Thirty-second non-negotiable. */
 .ag-field { display: flex; justify-content: center; }
@@ -25,8 +58,7 @@
 
 /* 2026-08-24 vibrant pass — owner rule: "brutal redesign without losing the
    content... modern, vibrant... do not change the background or the terracotta
-   banner." Background and .hero-band are untouched. Everything below the hero
-   now lives inside ONE result card (not per-row chrome — the "no card chrome"
+   banner." Everything below the hero lives inside ONE result card (not per-row chrome — the "no card chrome"
    rule from the previous pass was about 22 identical bordered ROW boxes reading
    like an admin table; a single outer sheet holding a flowing list is a
    different, common pattern and stays). Colour comes back, but disciplined: the
@@ -268,9 +300,13 @@
 <script>(function(){try{var h=location.hash;if(h&&h.length>1){window.__tveDeep=decodeURIComponent(h.slice(1));history.replaceState(null,'',location.pathname+location.search);}}catch(e){}}());</script>
 
 <div class="wrap">
-  <div class="hero-band">
-    <h1 class="hero-title">Ask Your Guide</h1>
-    <p class="hero-sub">The things you end up asking a guide halfway through a walking tour &mdash; whether people own their homes, what they earn, how much paid holiday they get, how long they live. Search a city: every figure we hold about it, on one page.</p>
+  <div class="hero-band eb-hero ayg-hero">
+    <div class="eb-copy">
+      <h1 class="eb-title">The things you’d ask a guide, <em>answered for any city</em>.</h1>
+      <p class="eb-intro">The things you end up asking a guide halfway through a walking tour &mdash; whether people own their homes, what they earn, how much paid holiday they get, how long they live. Search a city: every figure we hold about it, on one page.</p>
+      <div class="ayg-hero-chips"><span class="ayg-hero-chip">Own their home</span><span class="ayg-hero-chip">Median income</span><span class="ayg-hero-chip">Paid holiday</span><span class="ayg-hero-chip">Life expectancy</span></div>
+    </div>
+    <div class="eb-graphic ayg-hero-badge" aria-hidden="true"><svg viewBox="0 0 24 24"><use href="#gm-i-person-question"/></svg></div>
   </div>
   <div class="hero-ground">
     <div class="ag-field"><input id="ag-search" type="search" placeholder="City or country" aria-label="Search a city or country" autocomplete="off" spellcheck="false" class="search-input"></div>

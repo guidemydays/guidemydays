@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Reports — Guide My Days Hub</title>
-<!-- built: 2026-08-24 10:05 UTC | backlog: 148 | scouting-open: 46 -->
+<!-- built: 2026-08-25 07:10 UTC | backlog: 148 | scouting-open: 46 -->
 <style>
   :root{ --bg:#f6f2ec; --surface:#fffdf9; --surface2:#f1ece3; --ink:#2f2a22; --muted:#736c60; --faint:#a49b8c; --line:#e4ddd0;
     --rust:#b0501f; --open:#b23a22; --partial:#a86f16; --unsure:#7a7368; --pending:#1a4d8c;
@@ -443,7 +443,7 @@
         <div class="tbody">
           <p class="tdetail">toolbar.js line 1212 sets .tb-ham-menu a { font-size:14px } in the injected CSS string. Apple HIG recommends minimum 16px for UI text in primary navigation. Fix: change font-size:14px to font-size:16px in the .tb-ham-menu a rule string inside toolbar.js. This is a stylistic change to how existing toolbar entries render on mobile — not a structural change. No TOOLBAR_ITEMS_LOCK change required.</p>
           <div class="tmeta"><span class="badge eff-s">S</span><span class="badge conf">conf: high</span><span class="badge scope scope-ALL PAGES — toolbar.js hamburger menu (.tb-ham-menu a)">ALL PAGES — toolbar.js hamburger menu (.tb-ham-menu a)</span><span class="badge tgt">Travel-Website/assets/toolbar.js</span><span class="badge src">ux-research-mobile-2026-08-13</span></div>
-          <p class="tev"><b>Checked:</b> Re-verified 2026-08-18: toolbar.js:1701 .tb-ham-menu a font-size now 15px (was 14px — moved by phone-menu-one-tone pass 2026-08-17). Target 16px not yet reached. Apple HIG minimum 16px for primary navigation UI text still not met.</p>
+          <p class="tev"><b>Checked:</b> Re-verified 2026-08-25: toolbar.js:2130 .tb-ham-menu a font-size is 15px. Target 16px (Apple HIG minimum) not yet reached. PARTIAL remains.</p>
           <p class="tmockup"><a href="/reports/mock-ups/mobile-hamburger-item-font-size.html" target="_blank" rel="noopener">View mockup</a></p>
         </div>
       </details></div>
@@ -464,7 +464,7 @@
         <div class="tbody">
           <p class="tdetail">web-travel-style.css line 795 sets .showcase-photo { overflow: hidden; } and line 796 sets .showcase-photo img { object-fit: cover; } — the container already clips overflow, the precondition for a zoom effect. No transform or transition is applied on hover. Fix: add .showcase-photo img { transition: transform .3s ease; } and .showcase-card:hover .showcase-photo img { transform: scale(1.04); }. The 1.04 scale is intentionally subtle to remain editorial. Benchmark evidence: G Adventures, Atlas Obscura, and Intrepid Travel apply gentle image scale on card hover.</p>
           <div class="tmeta"><span class="badge eff-s">S</span><span class="badge conf">conf: high</span><span class="badge scope scope-SHARED COMPONENT — .showcase-photo (web-travel-style.css)">SHARED COMPONENT — .showcase-photo (web-travel-style.css)</span><span class="badge tgt">Travel-Website/assets/web-travel-style.css (after line 796)</span><span class="badge src">ux-research-desktop-2026-08-08</span></div>
-          <p class="tev"><b>Checked:</b> Verified 2026-08-08: web-travel-style.css line 795 .showcase-photo has overflow:hidden; line 796 img has object-fit:cover but no transition or hover transform.</p>
+          <p class="tev"><b>Checked:</b> Re-verified 2026-08-25: web-travel-style.css .showcase-photo has overflow:hidden; img has object-fit:cover but no transition or hover transform scale. Still OPEN.</p>
           <p class="tmockup"><a href="/reports/mock-ups/showcase-card-image-zoom-on-hover.html" target="_blank" rel="noopener">View mockup</a></p>
         </div>
       </details>
@@ -511,7 +511,7 @@
         <div class="tbody">
           <p class="tdetail">web-travel-style.css line 323 sets a { text-decoration: none; } globally. In long-form prose on Trip-Essentials pages, inline anchor text blends with surrounding text — users cannot identify which words are linked without hovering every word. Fix: add .reading-col a:not([class]) { text-decoration: underline; text-underline-offset: 2px; text-decoration-color: var(--accent); }. The :not([class]) guard limits the effect to raw anchor elements in prose, keeping all styled pills and icon links unaffected. The .reading-col class already exists at line 203. Benchmark evidence: Rough Guides, Rick Steves, and Nomadic Matt all underline inline body text links.</p>
           <div class="tmeta"><span class="badge eff-s">S</span><span class="badge conf">conf: high</span><span class="badge scope scope-ALL PAGES — shared CSS (web-travel-style.css)">ALL PAGES — shared CSS (web-travel-style.css)</span><span class="badge tgt">Travel-Website/assets/web-travel-style.css (after line 323)</span><span class="badge src">ux-research-desktop-2026-08-08</span></div>
-          <p class="tev"><b>Checked:</b> Verified 2026-08-08: web-travel-style.css line 323 a { text-decoration: none; } — no scoped override for .reading-col prose links exists anywhere in the file.</p>
+          <p class="tev"><b>Checked:</b> Re-verified 2026-08-25: web-travel-style.css global a { text-decoration: none } — no .reading-col a:not([class]) override anywhere in the file. Still OPEN.</p>
           <p class="tmockup"><a href="/reports/mock-ups/underline-prose-links-in-reading-col.html" target="_blank" rel="noopener">View mockup</a></p>
         </div>
       </details>
@@ -537,7 +537,7 @@
         <div class="tbody">
           <p class="tdetail">web-travel-style.css line 798 sets .showcase-name { font-size: 16px; font-weight: 700; line-height: 1.3; } with no overflow truncation. Destination names vary and wrap freely, creating cards of uneven height across the showcase grid. The only existing clamp is on .best-of-desc (line 655: -webkit-line-clamp: 3). Fix: add display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; to .showcase-name. Benchmark evidence: Culture Trip, Intrepid Travel, and G Adventures apply 1-2 line clamps on card title elements to maintain grid visual rhythm.</p>
           <div class="tmeta"><span class="badge eff-s">S</span><span class="badge conf">conf: medium</span><span class="badge scope scope-SHARED COMPONENT — .showcase-name (web-travel-style.css)">SHARED COMPONENT — .showcase-name (web-travel-style.css)</span><span class="badge tgt">Travel-Website/assets/web-travel-style.css (line 798)</span><span class="badge src">ux-research-desktop-2026-08-08</span></div>
-          <p class="tev"><b>Checked:</b> Verified 2026-08-08: web-travel-style.css line 798 .showcase-name has no -webkit-line-clamp or overflow:hidden.</p>
+          <p class="tev"><b>Checked:</b> Re-verified 2026-08-25: web-travel-style.css:1519 .showcase-name has font-size:16px/font-weight:700/line-height:1.3 with no -webkit-line-clamp or overflow:hidden. Still OPEN.</p>
           <p class="tmockup"><a href="/reports/mock-ups/showcase-name-two-line-clamp.html" target="_blank" rel="noopener">View mockup</a></p>
         </div>
       </details>
@@ -550,7 +550,7 @@
         <div class="tbody">
           <p class="tdetail">web-travel-style.css line 208 defines h2 { font-size: var(--fs-h2); font-weight: 700; } and line 209 defines h3 { font-size: var(--fs-h3); font-weight: 600; } — neither has letter-spacing. At heavier weights, slightly negative letter-spacing tightens the visual colour of a heading and gives it a more polished editorial feel. The pattern already appears on the site: .page-intro-head { letter-spacing: -0.01em; } (line 1267). Applying it to h2 and h3 extends the existing pattern. Fix: add letter-spacing: -0.01em to both h2 and h3 rules. Benchmark evidence: Conde Nast Traveler, Travel + Leisure, and Lonely Planet all apply slightly negative letter-spacing to section headings at font-weight &gt;= 600.</p>
           <div class="tmeta"><span class="badge eff-s">S</span><span class="badge conf">conf: medium</span><span class="badge scope scope-ALL PAGES — shared CSS (web-travel-style.css)">ALL PAGES — shared CSS (web-travel-style.css)</span><span class="badge tgt">Travel-Website/assets/web-travel-style.css (lines 208-209)</span><span class="badge src">ux-research-desktop-2026-08-08</span></div>
-          <p class="tev"><b>Checked:</b> Verified 2026-08-08: web-travel-style.css lines 208-209 h2/h3 have no letter-spacing. Pattern letter-spacing: -0.01em exists on .page-intro-head at line 1267.</p>
+          <p class="tev"><b>Checked:</b> Re-verified 2026-08-25: web-travel-style.css h2/h3 have no letter-spacing. Pattern exists on .page-intro-head at line 2100. Still OPEN.</p>
           <p class="tmockup"><a href="/reports/mock-ups/add-letter-spacing-to-h2-headings.html" target="_blank" rel="noopener">View mockup</a></p>
         </div>
       </details>
@@ -589,7 +589,7 @@
         <div class="tbody">
           <p class="tdetail">A grep of web-travel-style.css, mobile.css, and guides-index-style.css returns zero matches for prefers-reduced-motion. The site applies card hover transforms, filter-btn transitions, showcase-photo transitions, and pill animations to all users — including those with vestibular disorders who have set Reduce Motion in their OS. Fix: append @media (prefers-reduced-motion: reduce) { *, *::before, *::after { transition-duration: 0.01ms !important; animation-duration: 0.01ms !important; } } to web-travel-style.css. One rule neutralises every transition site-wide for affected users. Pairs naturally with scroll-behavior: smooth (browsers auto-suppress it when reduced-motion is active). Benchmark evidence: Lonely Planet, Rough Guides, and Gov.uk all include this media query.</p>
           <div class="tmeta"><span class="badge eff-s">S</span><span class="badge conf">conf: high</span><span class="badge scope scope-ALL PAGES — shared CSS (web-travel-style.css and guide-style.css)">ALL PAGES — shared CSS (web-travel-style.css and guide-style.css)</span><span class="badge tgt">Travel-Website/assets/web-travel-style.css (append at bottom)</span><span class="badge src">ux-research-desktop-2026-08-08</span></div>
-          <p class="tev"><b>Checked:</b> Re-verified 2026-08-17: mobile.css:525 has @media (prefers-reduced-motion: reduce) block covering Trip-Essentials pages. STILL MISSING in guide-style.css — grep returns no match for prefers-reduced-motion. Guide pages still animate for all users.</p>
+          <p class="tev"><b>Checked:</b> Re-verified 2026-08-25: mobile.css:643 has @media (prefers-reduced-motion: reduce) block. guide-style.css: grep returns no match for prefers-reduced-motion — still missing. Guide pages still animate for all users. PARTIAL remains.</p>
           <p class="tmockup"><a href="/reports/mock-ups/add-prefers-reduced-motion-media-query.html" target="_blank" rel="noopener">View mockup</a></p>
         </div>
       </details>
@@ -602,7 +602,7 @@
         <div class="tbody">
           <p class="tdetail">A grep of all site CSS returns zero matches for scroll-behavior. Every in-page anchor link currently snaps the viewport with no animation, which feels disorienting on long pages. Fix: add html { scroll-behavior: smooth; } — one line. Browsers that honour prefers-reduced-motion: reduce automatically suppress smooth scroll for those users, so this pairs safely with the prefers-reduced-motion finding. Benchmark evidence: Fodor&#x27;s, Nomadic Matt, and Rough Guides all apply scroll-behavior: smooth on their destination pages with anchor navigation.</p>
           <div class="tmeta"><span class="badge eff-s">S</span><span class="badge conf">conf: high</span><span class="badge scope scope-ALL PAGES — shared CSS (web-travel-style.css and guide-style.css)">ALL PAGES — shared CSS (web-travel-style.css and guide-style.css)</span><span class="badge tgt">Travel-Website/assets/web-travel-style.css (html rule block)</span><span class="badge src">ux-research-desktop-2026-08-08</span></div>
-          <p class="tev"><b>Checked:</b> Re-verified 2026-08-17: guide-style.css:205 has html { scroll-behavior: smooth } — guide pages covered. STILL MISSING in web-travel-style.css — grep returns no match for scroll-behavior. Trip-Essentials and Guides-Index anchor links still jump hard.</p>
+          <p class="tev"><b>Checked:</b> Re-verified 2026-08-25: guide-style.css:220 has html { scroll-behavior: smooth }. web-travel-style.css: grep returns no match for scroll-behavior — still missing. Trip-Essentials and Guides-Index anchor links still jump hard. PARTIAL remains.</p>
           <p class="tmockup"><a href="/reports/mock-ups/add-scroll-behavior-smooth.html" target="_blank" rel="noopener">View mockup</a></p>
         </div>
       </details></div>
@@ -1338,7 +1338,7 @@
         <div class="tbody">
           <p class="tdetail">The Compare table in Guides-Index currently shows Country, Local Time, Flight from SEA, Needs Visa, and Climate rows. Add two more rows: Safety (from SAFETY_DATA at index.html:2574, value = sd.level + optional note) and Guide Days (from DAYS_DATA at index.html:3177, value = N + &#x27; days&#x27;). In the buildTable function (~line 2800 of index.html), add two new &lt;tr&gt; blocks following the exact pattern of existing rows: loop over selected cities, read SAFETY_DATA[c.name] and DAYS_DATA[cityName(c)], render text cells. Both data objects are already defined and in-scope in the compare block — zero new data, zero new fetches.</p>
           <div class="tmeta"><span class="badge eff-s">S</span><span class="badge conf">conf: high</span><span class="badge scope scope-ONE PAGE ONLY — Guides-Index.html compare mode">ONE PAGE ONLY — Guides-Index.html compare mode</span><span class="badge tgt">Travel-Website/index.html (compare buildTable function ~line 2800)</span><span class="badge src">content-suggestions-2026-08-08</span></div>
-          <p class="tev"><b>Checked:</b> Re-verified 2026-08-17: Safety row confirmed in buildTable (index.html) with level/note display and color indicators. DAYS_DATA defined and used for card filtering but no Guide Days &lt;tr&gt; in buildTable. PARTIAL — Safety added, Guide Days still missing.</p>
+          <p class="tev"><b>Checked:</b> Re-verified 2026-08-25: Safety row confirmed in buildTable (index.html:7029). No Guide Days &lt;tr&gt; found in buildTable — DAYS_DATA used only for card filtering. PARTIAL remains.</p>
           <p class="tmockup-missing">⚠ No mockup yet — add one before implementing</p>
         </div>
       </details></div>

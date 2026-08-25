@@ -14,57 +14,62 @@
 .ff-wrap { max-width: var(--rail); padding: 0 var(--gutter); margin: var(--search-gap, 32px) auto 0; }
 .ff-siblings { display: flex; flex-wrap: wrap; gap: 7px; margin: 0 0 20px; }
 
-/* ── Hero stat — one big number, no card, no border, no second color.
-   Everything on this page is ink/muted grayscale plus ONE accent
-   (terracotta, the site's only brand color) used sparingly for active
-   states — scale carries the "wow," not a rainbow of badge colors. ── */
-.ff-hero-stat { padding: 4px 0 28px; }
+/* ── Hero stat — a bold reversed-color panel, not another card on beige.
+   Fixed brand terracotta — the same `--brand` fill + white-text pairing
+   `.hero-band` already ships (proven, already accessible) — not the
+   theme-adaptive --rust. A deliberate "poster" moment, not more ink on
+   paper. ── */
+.ff-hero-stat { background: var(--brand, #C04E1A); border-radius: 20px; padding: 34px 36px 30px; margin: 4px 0 28px; }
 .ff-hero-top { display: flex; align-items: flex-start; gap: 36px; }
 .ff-hero-lead { flex: 1 1 auto; min-width: 0; }
-.ff-hero-kicker { font-size: var(--fs-label); font-weight: 700; text-transform: uppercase; letter-spacing: .12em; color: var(--muted); margin-bottom: 16px; }
-.ff-hero-num { font-size: clamp(56px, 9vw, 108px); font-weight: 800; line-height: .94; letter-spacing: -.03em; color: var(--text); margin: 0 0 10px; font-variant-numeric: tabular-nums; }
-.ff-hero-line { font-size: var(--fs-body); font-weight: 600; color: var(--text); line-height: 1.5; max-width: 680px; margin: 0 0 12px; }
-.ff-hero-sub { font-size: var(--fs-sub); color: var(--muted); line-height: 1.7; max-width: 680px; margin: 0; }
+.ff-hero-kicker { font-size: var(--fs-label); font-weight: 700; text-transform: uppercase; letter-spacing: .12em; color: rgba(255,255,255,.72); margin-bottom: 16px; }
+.ff-hero-num { font-size: clamp(56px, 9vw, 108px); font-weight: 800; line-height: .94; letter-spacing: -.03em; color: #fff; margin: 0 0 10px; font-variant-numeric: tabular-nums; }
+.ff-hero-line { font-size: var(--fs-body); font-weight: 600; color: #fff; line-height: 1.5; max-width: 680px; margin: 0 0 12px; }
+.ff-hero-sub { font-size: var(--fs-sub); color: rgba(255,255,255,.78); line-height: 1.7; max-width: 680px; margin: 0; }
 .ff-hero-graphic { flex: 0 0 190px; padding-top: 10px; }
 .ff-hero-graphic svg { width: 100%; height: auto; display: block; }
 
-.ff-stat-row { display: flex; margin-top: 26px; border-top: 1px solid var(--border2); padding-top: 20px; }
-.ff-stat-item { flex: 1; padding: 0 24px; border-left: 1px solid var(--border2); }
+.ff-stat-row { display: flex; margin-top: 26px; border-top: 1px solid rgba(255,255,255,.25); padding-top: 20px; }
+.ff-stat-item { flex: 1; padding: 0 24px; border-left: 1px solid rgba(255,255,255,.25); }
 .ff-stat-item:first-child { border-left: none; padding-left: 0; }
-.ff-stat-num { font-size: 24px; font-weight: 800; color: var(--text); letter-spacing: -.01em; font-variant-numeric: tabular-nums; }
-.ff-stat-lbl { font-size: var(--fs-label); color: var(--muted); line-height: 1.5; margin-top: 4px; }
+.ff-stat-num { font-size: 24px; font-weight: 800; color: #fff; letter-spacing: -.01em; font-variant-numeric: tabular-nums; }
+.ff-stat-lbl { font-size: var(--fs-label); color: rgba(255,255,255,.72); line-height: 1.5; margin-top: 4px; }
 
 /* ── Motion — entrance reveals only, gated behind prefers-reduced-motion so
    nothing moves for anyone who's asked for less. "Felt, not noticed": short,
    small-amplitude, no bounce. ── */
 @media (prefers-reduced-motion: no-preference) {
-  .ff-hero-top { animation: ffRise .6s ease both; }
-  .ff-stat-row { animation: ffRise .6s ease .12s both; }
+  .ff-hero-stat { animation: ffRise .6s ease both; }
+  .ff-mtab { animation: ffRise .4s ease both; }
   .ff-index-item, .ff-spotlight { animation: ffRise .5s ease both; }
 }
 @keyframes ffRise { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 
-/* ── Month strip — a plain underline-tab row, not colored cards. Terracotta
-   marks the active tab's underline only; the label itself stays ink. ── */
-.ff-rail-wrap { margin-bottom: 26px; border-top: 1px solid var(--border2); border-bottom: 1px solid var(--border2); }
-.ff-rail { display: flex; overflow-x: auto; }
+/* ── Month picker — filled pill carousel. Active month is a solid terracotta
+   button; the rest are outlined, the same shape family as .sibling-pill
+   above it so the two rows read as one control language. ── */
+.ff-rail-wrap { margin-bottom: 26px; }
+.ff-rail { display: flex; gap: 8px; overflow-x: auto; padding-bottom: 2px; }
 .ff-mtab {
   flex: 0 0 auto; display: flex; align-items: baseline; gap: 6px;
-  background: none; border: none; border-bottom: 2px solid transparent; cursor: pointer;
-  font-family: inherit; padding: 13px 16px 11px; font-size: 14px; font-weight: 700;
-  color: var(--muted); white-space: nowrap;
+  background: var(--surface); border: 1px solid var(--border); border-radius: 999px; cursor: pointer;
+  font-family: inherit; padding: 9px 16px; font-size: 14px; font-weight: 700;
+  color: var(--text); white-space: nowrap; transition: background .15s, border-color .15s, color .15s;
 }
-.ff-mtab:hover { color: var(--text); }
-.ff-mtab.on { color: var(--text); border-bottom-color: var(--rust); }
+.ff-mtab:hover { border-color: var(--rust); }
+.ff-mtab.on { background: var(--brand, #C04E1A); border-color: var(--brand, #C04E1A); color: #fff; }
 .ff-mtab-count { font-size: var(--fs-label); font-weight: 600; color: var(--muted); opacity: .7; }
+.ff-mtab.on .ff-mtab-count { color: rgba(255,255,255,.75); opacity: 1; }
 
 /* Section headings */
 .ff-section-head { display: flex; align-items: baseline; justify-content: space-between; margin: 34px 0 16px; }
 .ff-section-title { font-size: var(--fs-label); font-weight: 700; text-transform: uppercase; letter-spacing: .07em; color: var(--muted); }
 .ff-section-count { font-size: var(--fs-label); color: var(--muted); }
 
-/* Spotlight — the flagship event of the month, set off with a rule, not a box */
-.ff-spotlight { display: block; text-decoration: none; color: inherit; padding-bottom: 24px; margin-bottom: 24px; border-bottom: 1px solid var(--border2); }
+/* Spotlight — the flagship event of the month, called out with a thick
+   terracotta rule so it reads as "the one that matters," without repeating
+   the hero panel's full color reversal. */
+.ff-spotlight { display: block; text-decoration: none; color: inherit; padding: 2px 0 24px 20px; margin-bottom: 24px; border-bottom: 1px solid var(--border2); border-left: 5px solid var(--rust); }
 .ff-spot-eyebrow { font-size: var(--fs-label); font-weight: 700; text-transform: uppercase; letter-spacing: .07em; color: var(--muted); margin-bottom: 9px; }
 .ff-spot-name { font-size: 24px; font-weight: 800; letter-spacing: -.015em; color: var(--text); margin-bottom: 7px; line-height: 1.2; }
 a.ff-spotlight:hover .ff-spot-name { color: var(--rust); }
@@ -73,9 +78,9 @@ a.ff-spotlight:hover .ff-spot-name { color: var(--rust); }
 .ff-spot-desc { font-size: var(--fs-sub); color: var(--text); line-height: 1.65; max-width: 720px; }
 
 /* Festival index — a numbered editorial list, not boxed cards. The numeral
-   carries the rhythm (oversized, low-contrast, decorative) so nothing needs
-   a border or a shadow to feel structured — the exaggerated-scale-plus-quiet-
-   color pairing several 2026 editorial sites use instead of card chrome. */
+   carries the rhythm (oversized, low-contrast, decorative). Each row also
+   carries a "passport stamp" — a rotated dashed-circle badge holding the
+   flag — the one piece of tactile, playful texture on the page. */
 .ff-index-list { display: flex; flex-direction: column; }
 .ff-index-item { display: flex; gap: 18px; padding: 20px 0; border-top: 1px solid var(--border2); text-decoration: none; color: inherit; }
 .ff-index-item:first-child { border-top: none; padding-top: 0; }
@@ -84,10 +89,18 @@ a.ff-index-item:hover { gap: 24px; }
 .ff-index-num { flex: 0 0 40px; font-size: 28px; font-weight: 800; line-height: 1; letter-spacing: -.02em; color: var(--border); transition: color .15s; }
 a.ff-index-item:hover .ff-index-num { color: var(--rust); }
 .ff-index-body { flex: 1; min-width: 0; }
-.ff-card-top { display: flex; align-items: flex-start; justify-content: space-between; gap: 8px; margin-bottom: 7px; }
-.ff-city { font-size: var(--fs-body); font-weight: 700; color: var(--text); }
+.ff-card-top { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 7px; }
+.ff-city { display: block; font-size: var(--fs-body); font-weight: 700; color: var(--text); }
 a.ff-index-item:hover .ff-city { color: var(--rust); }
-.ff-flag-country { font-size: var(--fs-label); color: var(--muted); text-align: right; line-height: 1.5; flex-shrink: 0; }
+.ff-flag-country { display: block; font-size: var(--fs-label); color: var(--muted); margin-top: 2px; }
+.ff-stamp {
+  flex: 0 0 auto; width: 44px; height: 44px; border-radius: 50%;
+  border: 2px dashed var(--border); background: var(--surface);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 21px; line-height: 1; transform: rotate(-8deg);
+  transition: border-color .15s, transform .15s;
+}
+a.ff-index-item:hover .ff-stamp { border-color: var(--rust); transform: rotate(-8deg) scale(1.08); }
 .ff-event-name { font-size: var(--fs-sub); font-weight: 700; color: var(--text); margin-bottom: 3px; }
 .ff-dates { font-size: var(--fs-label); color: var(--muted); margin-bottom: 6px; letter-spacing: .02em; }
 .ff-desc { font-size: var(--fs-sub); color: var(--text); line-height: 1.55; max-width: 640px; }
@@ -125,16 +138,19 @@ a.ff-cl-city:hover { border-color: var(--rust); }
 
 @media (max-width: 600px) and (pointer: coarse) {
   .ff-wrap { padding: 0 14px; }
+  .ff-hero-stat { padding: 24px 20px 22px; border-radius: 16px; }
   .ff-hero-top { flex-direction: column; gap: 14px; }
   .ff-hero-graphic { flex-basis: auto; max-width: 190px; margin: 0 auto; padding-top: 0; }
   .ff-hero-num { font-size: clamp(44px, 15vw, 72px); }
   .ff-stat-row { flex-direction: column; gap: 14px; }
-  .ff-stat-item { border-left: none; padding-left: 0; border-top: 1px solid var(--border2); padding-top: 12px; }
+  .ff-stat-item { border-left: none; padding-left: 0; border-top: 1px solid rgba(255,255,255,.25); padding-top: 12px; }
   .ff-stat-item:first-child { border-top: none; padding-top: 0; }
   .ff-spot-name { font-size: 20px; }
+  .ff-spotlight { padding-left: 14px; }
   .ff-index-item { gap: 12px; }
   a.ff-index-item:hover { gap: 12px; }
   .ff-index-num { flex-basis: 28px; font-size: 22px; }
+  .ff-stamp { width: 38px; height: 38px; font-size: 18px; }
   .ff-siblings { display: grid; grid-template-columns: repeat(3, 1fr); }
   .ff-siblings .sibling-pill { justify-content: center; text-align: center; }
 }
@@ -199,7 +215,7 @@ a.ff-cl-city:hover { border-color: var(--rust); }
         <p class="ff-hero-sub">It isn't on this page — it isn't tied to one city guide, and it only happens once every 12 years — but it makes everything below look small. Pilgrims filled a 4,000-hectare tent city on the banks of the Ganges, complete with its own hospitals, police force and seven train stations, lit by 68,000 lamp posts bright enough to be seen from orbit.</p>
       </div>
       <div class="ff-hero-graphic" aria-hidden="true"><svg viewBox="0 0 200 140">
-        <g fill="#C04E1A">
+        <g fill="#ffffff">
           <circle cx="114.0" cy="81.7" r="2.79" opacity="0.57"/><circle cx="147.0" cy="81.1" r="3.03" opacity="0.48"/><circle cx="50.6" cy="31.6" r="1.84" opacity="0.31"/><circle cx="102.4" cy="79.4" r="3.05" opacity="0.4"/><circle cx="165.0" cy="100.8" r="3.1" opacity="0.71"/>
           <circle cx="60.1" cy="45.7" r="2.62" opacity="0.37"/><circle cx="166.2" cy="105.6" r="3.75" opacity="0.61"/><circle cx="122.0" cy="80.8" r="3.1" opacity="0.49"/><circle cx="126.7" cy="87.4" r="2.98" opacity="0.51"/><circle cx="41.1" cy="39.1" r="2.22" opacity="0.27"/>
           <circle cx="69.8" cy="53.3" r="2.76" opacity="0.4"/><circle cx="112.8" cy="89.5" r="2.67" opacity="0.5"/><circle cx="196.0" cy="125.3" r="3.92" opacity="0.8"/><circle cx="145.4" cy="90.3" r="3.16" opacity="0.58"/><circle cx="62.3" cy="51.2" r="1.92" opacity="0.3"/>
@@ -680,8 +696,11 @@ function festivalCardHTML(f, opts) {
     <span class="ff-index-num" aria-hidden="true">${num}</span>
     <div class="ff-index-body">
       <div class="ff-card-top">
-        <span class="ff-city">${placeLabel}</span>
-        <span class="ff-flag-country">${f.flag}<br>${f.country}</span>
+        <span>
+          <span class="ff-city">${placeLabel}</span>
+          <span class="ff-flag-country">${f.country}</span>
+        </span>
+        <span class="ff-stamp" aria-hidden="true">${f.flag}</span>
       </div>
       <div class="ff-event-name">${f.name}</div>
       <div class="ff-dates">${f.dates}</div>

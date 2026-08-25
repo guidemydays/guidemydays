@@ -2227,7 +2227,15 @@
    *-bg tone (not just its border). Same blue/purple/orange/green/pink
    family as the jump-strip dots; no new palette. Page's own inline
    <style>, no shared CSS/JS touched. CACHE to v1537. */
-var CACHE = 'travel-cache-v1537';
+/* 2026-08-24: essentials/baggage — owner feedback "boring white, where's the
+   wow factor". Rows now read as an actual luggage tag: squared stub on the
+   left running into a rounded body, a bold region-coloured spine, a punched
+   grommet hole (circle painted --bg, not --surface, so it reads as a
+   cutout), and the card's own surface tinted with the region's pastel
+   *-bg tone (not just its border). Same blue/purple/orange/green/pink
+   family as the jump-strip dots; no new palette. Page's own inline
+   <style>, no shared CSS/JS touched. CACHE to v1538. */
+var CACHE = 'travel-cache-v1538';
 
 /* The guide-calendar hand-off cache. Written by toolbar.js, read and emptied
    once by the fetch handler below, and EXEMPT from the activate sweep — it is

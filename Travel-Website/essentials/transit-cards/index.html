@@ -41,20 +41,109 @@
   margin: 28px 0 10px;
 }
 /* ── Transit cards ── */
-.row-list { display: flex; flex-direction: column; gap: 8px; }
+/* ══ REDESIGNED 2026-08-24 (owner: "search cool design website ideas, do
+   modern, surprise me — everything but the background and the banner") ═══
+   airline-networks claimed the boarding-pass stub, baggage claimed the
+   stat-tile "wow" grid, private-transfers claimed the bento+bars dashboard
+   — so this page needed its own idea. A TRANSIT CARDS page reads most
+   naturally as an actual deck of transit cards: every row keeps its
+   existing region-coded left rail (unchanged data language) but now reads
+   as a literal card face — rounded 16px corners, a CSS-drawn EMV chip
+   (gradient rectangle + two contact lines, no catalogue icon needed for
+   a purely decorative texture, same logic as the tear-line/barcode
+   textures on airline-networks), a soft resting shadow like a card lying
+   on a surface, and a diagonal gloss sheen that sweeps across on hover —
+   the "floating card with depth" language that's the live 2026 UI trend
+   (glassmorphism + soft dimensional cards), applied here as a literal
+   object metaphor rather than decoration for its own sake. CSS-only — no
+   class, id or JS hook any script depends on moved. Terracotta stays
+   flat #C04E1A only, never a gradient fill (Thirty-fifth non-negotiable);
+   the chip's gold gradient and card shadow are neutral card texture, not
+   a terracotta treatment. .badge / .fam-* colours are untouched. */
+.row-list { display: flex; flex-direction: column; gap: 14px; }
+/* Metro-line card: a colored rail down the left edge keyed to the row's region,
+   reusing the SAME family tokens as the region filter pills above — filter and
+   content read as one system, no new colors invented. */
 .transit-row {
-  background: var(--surface, #ffffff); border: 1px solid var(--border2, #e6e2da); border-radius: 10px;
-  overflow: hidden; transition: box-shadow .15s;
+  position: relative;
+  background: var(--surface, #ffffff);
+  border: 1px solid var(--border2, #e6e2da);
+  border-left-width: 4px; border-left-style: solid; border-left-color: var(--border2, #e6e2da);
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 1px 3px rgba(20,15,5,.05), 0 8px 20px -14px rgba(20,15,5,.15);
+  transition: box-shadow .3s ease, transform .3s ease, border-left-color .25s ease, opacity .5s ease;
 }
-.transit-row:hover { box-shadow: 0 2px 8px rgba(0,0,0,.07); }
+.section[data-section="europe"]   .transit-row { border-left-color: var(--fam-purple-ink); }
+.section[data-section="asia"]     .transit-row { border-left-color: var(--fam-orange-border, var(--fam-orange-ink)); }
+.section[data-section="americas"] .transit-row { border-left-color: var(--fam-red-ink); }
+.section[data-section="oceania"]  .transit-row { border-left-color: var(--fam-blue-ink); }
+.section[data-section="africa"]   .transit-row { border-left-color: var(--fam-grey-ink); }
+.transit-row:hover {
+  box-shadow: 0 2px 6px rgba(20,15,5,.06), 0 20px 34px -16px rgba(20,15,5,.28);
+  transform: translateY(-4px);
+}
+/* Diagonal gloss sheen — a card catching the light, clipped to the rounded corners. */
+.transit-row::after {
+  content: ''; position: absolute; inset: 0; pointer-events: none;
+  background: linear-gradient(115deg, rgba(255,255,255,.5) 0%, rgba(255,255,255,0) 32%);
+  opacity: 0; transition: opacity .3s ease;
+}
+.transit-row:hover::after { opacity: 1; }
 .transit-row.hidden { display: none; }
-/* Card top strip */
-.tc-top {
-  display: flex; align-items: center; gap: 10px; flex-wrap: wrap;
-  padding: 12px 16px 10px;
-  border-bottom: 1px solid var(--border2, #e6e2da);
+/* scroll-reveal: rows rise + fade in as they enter view; skipped for reduced-motion */
+.transit-row.tc-reveal { opacity: 0; transform: translateY(14px); }
+.transit-row.tc-reveal.tc-in { opacity: 1; transform: translateY(0); }
+/* contactless ripple — the tap-to-pay badge pulses like a real reader on row hover */
+.tc-tap { position: relative; }
+.tc-tap::before, .tc-tap::after {
+  content: ""; position: absolute; left: 50%; top: 50%;
+  width: 100%; height: 100%; border-radius: 999px;
+  border: 1.5px solid var(--fam-green-ink); opacity: 0;
+  transform: translate(-50%,-50%) scale(1);
+  pointer-events: none;
 }
-.tc-city { font-size: 14px; font-weight: 700; color: var(--text, #1a1917); }
+.transit-row:hover .tc-tap::before { animation: tc-ripple 1.1s ease-out; }
+.transit-row:hover .tc-tap::after { animation: tc-ripple 1.1s ease-out .28s; }
+@keyframes tc-ripple {
+  0%   { opacity: .55; transform: translate(-50%,-50%) scale(1); }
+  100% { opacity: 0;   transform: translate(-50%,-50%) scale(1.7); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .transit-row { transition: none; }
+  .transit-row.tc-reveal { opacity: 1; transform: none; }
+  .transit-row::after { transition: none; }
+  .transit-row:hover .tc-tap::before, .transit-row:hover .tc-tap::after { animation: none; }
+}
+/* Card top strip — the chip lives here (::before/::after on the header itself,
+   no HTML added to any of the ~40 rows below): an EMV-style gradient
+   rectangle with two contact lines, exactly the "decorative CSS texture,
+   not a catalogue icon" treatment the tear-line/barcode on airline-networks
+   already established for card-face detail that carries no new information. */
+.tc-top {
+  position: relative;
+  display: flex; align-items: center; gap: 10px; flex-wrap: wrap;
+  padding: 12px 16px 10px 54px;
+  border-bottom: 1px solid var(--border2, #e6e2da);
+  min-height: 40px;
+}
+.tc-top::before {
+  content: ''; position: absolute; left: 16px; top: 16px;
+  width: 24px; height: 17px; border-radius: 3px;
+  background: linear-gradient(145deg, #f3dc9a, #b98a2e);
+  box-shadow: inset 0 0 0 1px rgba(0,0,0,.18), 0 1px 2px rgba(0,0,0,.12);
+}
+.tc-top::after {
+  content: ''; position: absolute; left: 16px; top: 16px;
+  width: 24px; height: 17px; border-radius: 3px; pointer-events: none;
+  background-image:
+    linear-gradient(rgba(0,0,0,.24) 1px, transparent 1px),
+    linear-gradient(rgba(0,0,0,.24) 1px, transparent 1px);
+  background-size: 24px 5.6px, 8px 17px;
+  background-position: 0 5.6px, 8px 0;
+  background-repeat: no-repeat;
+}
+.tc-city { font-size: 14px; font-weight: 700; color: var(--text, #1a1917); letter-spacing: .01em; }
 /* tc-card-name sizing + colour from .badge / .fam-blue */
 /* Reorder .tc-top children so "Guide →" comes AFTER both badges:
    [City]  [Card name]  [Tap to pay]  [Guide →]  →  [tc-site far-right] */
@@ -76,12 +165,24 @@
 .tc-site:hover { color: var(--rust); text-decoration: none; }
 .tc-guide { margin-left: 6px; font-size: 11px; font-weight: 600; color: var(--accent); text-decoration: none; opacity: 0.8; }
 .tc-guide:hover { text-decoration: none; }
-/* Network chips */
+/* Network list — 2026-08-25 owner feedback: "too many badges confusing".
+   A single 7-network London row was 7 identical pink pills plus the card-name
+   and tap-to-pay badges, reading as a wall of chips rather than a card. Only
+   ONE badge now survives per card (the card name) plus TAP TO PAY when it
+   applies — everything that used to be its own pink pill reads as a plain
+   printed line instead, like the network list on the back of a real card.
+   Overrides .badge/.fam-pink for JUST this class — no HTML touched on any
+   of the 105 rows below, they're still plain adjacent <span>s. */
 .tc-network {
-  display: flex; flex-wrap: wrap; gap: 4px;
   padding: 8px 16px 10px;
+  font-size: 12.5px; line-height: 1.7; color: var(--muted);
 }
-/* net-chip sizing + colour from .badge / .fam-purple */
+.net-chip {
+  background: none !important; border: none !important; padding: 0 !important;
+  border-radius: 0 !important; font-weight: 600 !important; text-transform: none !important;
+  color: var(--text, #1a1917) !important; display: inline;
+}
+.net-chip:not(:last-child)::after { content: " \00b7 "; color: var(--muted); font-weight: 400; }
 /* Info grid */
 .tc-body { padding: 0 16px 0; }
 .tc-grid {
@@ -100,11 +201,10 @@
 .tc-val { font-size: 13px; color: var(--text, #1a1917); line-height: 1.45; }
 /* Tip bar — full width, warm tint */
 .tc-tip {
-  margin: 0 16px;
-  border-top: 1px solid var(--border2, #e6e2da);
+  margin: 10px 16px 0;
   padding: 10px 12px;
   background: var(--warm);
-  border-radius: 0 0 6px 6px;
+  border-radius: 8px;
   margin-bottom: 12px;
   display: flex; gap: 8px; align-items: flex-start;
 }
@@ -117,9 +217,6 @@
 /* ── Clear filters link ── */
 #tc-clear { display: none; font-size: 11px; color: var(--rust, #C04E1A); cursor: pointer; background: none; border: none; padding: 0; text-decoration: none; }
 /* tc-app-req sizing + colour from .badge / .fam-orange */
-/* gentle lift on hover */
-.transit-row { transition: box-shadow .15s, transform .15s; }
-.transit-row:hover { box-shadow: 0 3px 11px rgba(0,0,0,.08); transform: translateY(-1px); }
 /* ── Mobile ── */
 @media (max-width: 600px) and (pointer: coarse) {
   .search-wrap { width: 100%; }
@@ -127,15 +224,65 @@
   .tc-cell { border-right: none; padding-left: 0; }
   .tc-cell:nth-child(even) { padding-left: 0; border-top: 1px solid var(--border2, #e6e2da); }
   .tc-site { margin-left: 0; }
-  .tc-top { gap: 7px; }
+  .tc-top { gap: 7px; padding-left: 46px; }
+  .tc-top::before, .tc-top::after { left: 14px; top: 14px; width: 20px; height: 14px; }
+  .tc-top::after { background-size: 20px 4.6px, 7px 14px; background-position: 0 4.6px, 7px 0; }
   /* Form B glued 3-across grid — full width, no gaps, square corners, 46px. */
   .pills { display: flex !important; flex-wrap: wrap !important; gap: var(--fam-gap,10px) !important; justify-content: center !important; }
+  .tw-hero { flex-direction: column; align-items: center; }
+  .tw-stack { margin: 0 0 20px; }
+  .tw-fact { min-width: 0; width: 100%; }
 }
-/* ── Verified date indicator ── */
-.tc-verified { font-size: 10px; color: var(--muted); letter-spacing: 0.05em; text-transform: uppercase; display: block; text-align: right; padding: 4px 16px 8px; }
-@media (prefers-color-scheme: dark) {
-  /* fam-* tokens auto-handle dark mode */
+/* ── Verified date indicator — a small stamp, not a floating text line ── */
+.tc-verified {
+  font-size: 9.5px; font-weight: 700; color: var(--muted); letter-spacing: 0.06em; text-transform: uppercase;
+  display: inline-block; float: right; margin: 0 16px 10px;
+  padding: 2px 8px; border: 1px dashed var(--border2, #e6e2da); border-radius: 999px;
 }
+.tc-verified::after { content: ''; display: block; clear: both; }
+
+/* ── Transit wallet — the "wow fact" hero, a literal fanned deck of cards ══
+   Real sourced stats, never used elsewhere on the site (see the sources
+   comment near the markup below). Dark card face is fixed regardless of
+   site theme — a real card doesn't repaint itself for dark mode, so no
+   @media (prefers-color-scheme) branch is needed for .tw-card-1. */
+.tw-hero { display: flex; gap: 30px; align-items: flex-start; margin: 26px 0 24px; flex-wrap: wrap; }
+.tw-stack { position: relative; width: 230px; height: 150px; flex-shrink: 0; margin: 6px 0 0; }
+.tw-card { position: absolute; inset: 0; border-radius: 16px; transition: transform .3s ease; }
+.tw-card-3 { background: var(--fam-blue-bg); border: 1px solid var(--fam-blue-bd); opacity: .5; transform: rotate(8deg) translate(12px, 8px); }
+.tw-card-2 { background: var(--fam-purple-bg); border: 1px solid var(--fam-purple-bd); opacity: .68; transform: rotate(-6deg) translate(-9px, 5px); }
+.tw-card-1 {
+  background: linear-gradient(155deg, #2b3644 0%, #171614 100%);
+  border: 1px solid rgba(255,255,255,.1);
+  color: #f5f0e8;
+  padding: 16px 18px;
+  box-shadow: 0 18px 32px -16px rgba(0,0,0,.5);
+  overflow: hidden;
+}
+.tw-card-1::after {
+  content: ''; position: absolute; inset: 0; pointer-events: none;
+  background: linear-gradient(115deg, rgba(255,255,255,.16) 0%, rgba(255,255,255,0) 40%);
+}
+.tw-stack:hover .tw-card-1 { transform: translateY(-5px) rotate(-1deg); }
+.tw-stack:hover .tw-card-3 { transform: rotate(10deg) translate(16px, 11px); }
+.tw-stack:hover .tw-card-2 { transform: rotate(-8deg) translate(-13px, 8px); }
+.tw-chip { width: 28px; height: 20px; border-radius: 4px; background: linear-gradient(145deg, #f3dc9a, #b98a2e); box-shadow: inset 0 0 0 1px rgba(0,0,0,.2); margin-bottom: 10px; }
+.tw-wave { position: absolute; top: 18px; right: 18px; width: 18px; height: 18px; }
+.tw-wave i { position: absolute; left: 50%; bottom: 0; display: block; border: 1.6px solid rgba(245,240,232,.8); border-bottom: none; border-radius: 50% 50% 0 0; transform: translateX(-50%); font-style: normal; }
+.tw-wave i:nth-child(1) { width: 5px; height: 2.5px; }
+.tw-wave i:nth-child(2) { width: 10.5px; height: 5.5px; opacity: .75; }
+.tw-wave i:nth-child(3) { width: 16px; height: 8px; opacity: .5; }
+.tw-stat { font-size: 32px; font-weight: 800; letter-spacing: -0.02em; line-height: 1; margin-top: 2px; }
+.tw-stat-sub { font-size: 11px; line-height: 1.5; opacity: .82; margin-top: 6px; max-width: 185px; }
+.tw-fact { flex: 1 1 320px; min-width: 300px; }
+.tw-fact-top { display: flex; align-items: center; gap: 10px; margin-bottom: 8px; }
+.tw-fact-icon { width: 26px; height: 26px; flex-shrink: 0; display: inline-flex; }
+.tw-fact-icon svg { width: 100%; height: 100%; display: block; }
+.tw-fact p { font-size: 13px; color: var(--muted); line-height: 1.65; margin: 0 0 16px; }
+.tw-chips { display: flex; gap: 10px; flex-wrap: wrap; }
+.tw-mini { background: var(--surface); border: 1px solid var(--border2); border-radius: 10px; padding: 10px 12px; flex: 1 1 150px; }
+.tw-mini-num { display: block; font-size: 18px; font-weight: 800; color: var(--rust, #C04E1A); }
+.tw-mini-label { display: block; font-size: 11px; color: var(--muted); line-height: 1.4; margin-top: 2px; }
 </style>
 <link rel="stylesheet" href="/assets/mobile.css?v=53">
 <!-- seo:start — generated by Brain/scripts/build/build_seo.py · do not hand-edit -->
@@ -179,6 +326,36 @@
       <rect x="26" y="46" width="86" height="54" rx="8" fill="#fff" stroke="#C04E1A" stroke-width="2"/><rect x="38" y="58" width="18" height="13" rx="2" fill="#C04E1A" opacity=".85"/><line x1="38" y1="82" x2="90" y2="82" stroke="#6a6660" stroke-width="2" opacity=".4"/><g fill="none" stroke="#C04E1A" stroke-linecap="round"><path d="M128 50a34 34 0 0 1 0 40" stroke-width="3" opacity=".85"/><path d="M140 40a52 52 0 0 1 0 60" stroke-width="3" opacity=".5"/><path d="M152 30a70 70 0 0 1 0 80" stroke-width="3" opacity=".28"/></g>
     </svg></div>
   </div>
+
+  <!-- Sources for the stats below: TfL (contactless share, taps/day, revenue
+       share — fintechfutures.com/contactless-payments/tfl-tops-1-billion-contactless-journeys,
+       tfl-newsroom.prgloo.com, digitaltransactions.net) and the Octopus card's
+       own history (hkengineer.org.hk vol53-2025, sony.co.jp FeliCa case study). -->
+  <div class="tw-hero">
+    <div class="tw-stack" aria-hidden="true">
+      <div class="tw-card tw-card-3"></div>
+      <div class="tw-card tw-card-2"></div>
+      <div class="tw-card tw-card-1">
+        <div class="tw-chip"></div>
+        <div class="tw-wave"><i></i><i></i><i></i></div>
+        <div class="tw-stat">40%</div>
+        <div class="tw-stat-sub">of London's Tube &amp; rail pay-as-you-go trips are now tapped with a contactless card or phone — double what it was a year earlier</div>
+      </div>
+    </div>
+    <div class="tw-fact">
+      <div class="tw-fact-top">
+        <span class="tw-fact-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="2.4" y="6.6" width="11" height="13.4" rx="1.6" fill="url(#gm-sky)" stroke="var(--c-sky-rim)" stroke-width="0.5" transform="rotate(-11 7.9 13.3)"/><rect x="10.6" y="4" width="11" height="13.4" rx="1.6" fill="url(#gm-clay)" stroke="var(--c-clay-rim)" stroke-width="0.5" transform="rotate(11 16.1 10.7)"/><circle cx="16.1" cy="10.7" r="2.4" fill="url(#gm-paper)" stroke="var(--c-rim-cool)" stroke-width="0.6"/><circle cx="7.9" cy="13.3" r="2.4" fill="url(#gm-paper)" stroke="var(--c-rim-cool)" stroke-width="0.6"/></svg></span>
+        <span class="badge fam-orange">Did you know</span>
+      </div>
+      <p>The first contactless transit card on Earth wasn't Oyster or Navigo — it was Hong Kong's <strong>Octopus card</strong>, launched in September 1997. Three million were issued in its first three months, years before any Western city had a tap-in system at all.</p>
+      <div class="tw-chips">
+        <div class="tw-mini"><span class="tw-mini-num">2M+</span><span class="tw-mini-label">contactless taps every day on London's network alone</span></div>
+        <div class="tw-mini"><span class="tw-mini-num">80%</span><span class="tw-mini-label">of TfL's fare revenue is contactless now, vs under 10% in 2015</span></div>
+        <div class="tw-mini"><span class="tw-mini-num">1997</span><span class="tw-mini-label">the year the world's first contactless transit card launched</span></div>
+      </div>
+    </div>
+  </div>
+
   <div class="hero-ground">
     <input type="search" class="search-input" id="tc-search" placeholder="City, country or card" aria-label="Search by city or card name" autocomplete="off">
   </div>
@@ -208,7 +385,7 @@
         <div class="tc-top">
           <span class="tc-city">🇬🇧 London</span><a href="/guides/london.html" class="tc-guide">Guide</a>
           <span class="tc-card-name badge fam-yellow">Oyster Card</span>
-          <span class="tc-tap badge fam-green">Tap to pay</span>
+          <span class="tc-tap"><span class="badge fam-green">Tap to pay</span></span>
           <a class="tc-site" href="https://tfl.gov.uk/fares/how-to-pay-and-where-to-buy-tickets-and-oyster" target="_blank" rel="noopener">tfl.gov.uk</a>
         </div>
         <div class="tc-network">
@@ -265,7 +442,7 @@
         <div class="tc-top">
           <span class="tc-city">🇳🇱 Amsterdam</span><a href="/guides/amsterdam.html" class="tc-guide">Guide</a>
           <span class="tc-card-name badge fam-yellow">OV-chipkaart</span>
-          <span class="tc-tap badge fam-green">Tap to pay</span>
+          <span class="tc-tap"><span class="badge fam-green">Tap to pay</span></span>
           <a class="tc-site" href="https://www.ov-chipkaart.nl/en/" target="_blank" rel="noopener">ov-chipkaart.nl</a>
         </div>
         <div class="tc-network">
@@ -294,7 +471,7 @@
         <div class="tc-top">
           <span class="tc-city">🇳🇱 Rotterdam</span><a href="/guides/rotterdam.html" class="tc-guide">Guide</a>
           <span class="tc-card-name badge fam-yellow">OV-chipkaart</span>
-          <span class="tc-tap badge fam-green">Tap to pay</span>
+          <span class="tc-tap"><span class="badge fam-green">Tap to pay</span></span>
           <a class="tc-site" href="https://www.ov-chipkaart.nl/en/" target="_blank" rel="noopener">ov-chipkaart.nl</a>
         </div>
         <div class="tc-network">
@@ -519,7 +696,7 @@
         <div class="tc-top">
           <span class="tc-city">🇬🇷 Athens</span><a href="/guides/athens.html" class="tc-guide">Guide</a>
           <span class="tc-card-name badge fam-yellow">ATH.ENA Card / Tap2Ride</span>
-          <span class="tc-tap badge fam-green">Tap to pay</span>
+          <span class="tc-tap"><span class="badge fam-green">Tap to pay</span></span>
           <a class="tc-site" href="https://www.oasa.gr/en/" target="_blank" rel="noopener">oasa.gr</a>
         </div>
         <div class="tc-network">
@@ -548,7 +725,7 @@
         <div class="tc-top">
           <span class="tc-city">🇧🇪 Brussels</span><a href="/guides/brussels.html" class="tc-guide">Guide</a>
           <span class="tc-card-name badge fam-yellow">MOBIB / Contactless</span>
-          <span class="tc-tap badge fam-green">Tap to pay</span>
+          <span class="tc-tap"><span class="badge fam-green">Tap to pay</span></span>
           <a class="tc-site" href="https://www.stib-mivb.be/home" target="_blank" rel="noopener">stib-mivb.be</a>
         </div>
         <div class="tc-network">
@@ -577,7 +754,7 @@
         <div class="tc-top">
           <span class="tc-city">🇭🇺 Budapest</span><a href="/guides/budapest.html" class="tc-guide">Guide</a>
           <span class="tc-card-name badge fam-yellow">BudapestGO App / Pay&amp;GO</span>
-          <span class="tc-tap badge fam-green">Tap to pay</span>
+          <span class="tc-tap"><span class="badge fam-green">Tap to pay</span></span>
           <a class="tc-site" href="https://bkk.hu/en/" target="_blank" rel="noopener">bkk.hu</a>
         </div>
         <div class="tc-network">
@@ -663,7 +840,7 @@
         <div class="tc-top">
           <span class="tc-city">󠁧󠁢󠁳󠁣󠁴󠁿 Edinburgh</span><a href="/guides/edinburgh.html" class="tc-guide">Guide</a>
           <span class="tc-card-name badge fam-yellow">Contactless / Ridacard</span>
-          <span class="tc-tap badge fam-green">Tap to pay</span>
+          <span class="tc-tap"><span class="badge fam-green">Tap to pay</span></span>
           <a class="tc-site" href="https://www.lothianbuses.com/tickets/" target="_blank" rel="noopener">lothianbuses.com</a>
         </div>
         <div class="tc-network">
@@ -720,7 +897,7 @@
         <div class="tc-top">
           <span class="tc-city">󠁧󠁢󠁳󠁣󠁴󠁿 Glasgow</span><a href="/guides/glasgow.html" class="tc-guide">Guide</a>
           <span class="tc-card-name badge fam-yellow">SPT Subway / Contactless</span>
-          <span class="tc-tap badge fam-green">Tap to pay</span>
+          <span class="tc-tap"><span class="badge fam-green">Tap to pay</span></span>
           <a class="tc-site" href="https://www.spt.co.uk/subway/" target="_blank" rel="noopener">spt.co.uk</a>
         </div>
         <div class="tc-network">
@@ -748,7 +925,7 @@
         <div class="tc-top">
           <span class="tc-city">🇫🇮 Helsinki</span><a href="/guides/helsinki.html" class="tc-guide">Guide</a>
           <span class="tc-card-name badge fam-yellow">HSL Travel Card</span>
-          <span class="tc-tap badge fam-green">Tap to pay</span>
+          <span class="tc-tap"><span class="badge fam-green">Tap to pay</span></span>
           <a class="tc-site" href="https://www.hsl.fi/en" target="_blank" rel="noopener">hsl.fi</a>
         </div>
         <div class="tc-network">
@@ -832,7 +1009,7 @@
         <div class="tc-top">
           <span class="tc-city">🇮🇹 Milan</span><a href="/guides/milan.html" class="tc-guide">Guide</a>
           <span class="tc-card-name badge fam-yellow">ATM Milan Ticket / Contactless</span>
-          <span class="tc-tap badge fam-green">Tap to pay</span>
+          <span class="tc-tap"><span class="badge fam-green">Tap to pay</span></span>
           <a class="tc-site" href="https://www.atm.it/en/Pages/default.aspx" target="_blank" rel="noopener">atm.it</a>
         </div>
         <div class="tc-network">
@@ -947,7 +1124,7 @@
         <div class="tc-top">
           <span class="tc-city">🇸🇪 Stockholm</span><a href="/guides/stockholm.html" class="tc-guide">Guide</a>
           <span class="tc-card-name badge fam-yellow">SL Access / Contactless</span>
-          <span class="tc-tap badge fam-green">Tap to pay</span>
+          <span class="tc-tap"><span class="badge fam-green">Tap to pay</span></span>
           <a class="tc-site" href="https://sl.se/en" target="_blank" rel="noopener">sl.se</a>
         </div>
         <div class="tc-network">
@@ -976,7 +1153,7 @@
         <div class="tc-top">
           <span class="tc-city">🇮🇹 Venice</span><a href="/guides/venice.html" class="tc-guide">Guide</a>
           <span class="tc-card-name badge fam-yellow">ACTV Vaporetto Pass</span>
-          <span class="tc-tap badge fam-green">Tap to pay</span>
+          <span class="tc-tap"><span class="badge fam-green">Tap to pay</span></span>
           <a class="tc-site" href="https://www.actv.it/en" target="_blank" rel="noopener">actv.it</a>
         </div>
         <div class="tc-network">
@@ -1004,7 +1181,7 @@
         <div class="tc-top">
           <span class="tc-city">🇨🇭 Zurich</span><a href="/guides/zurich.html" class="tc-guide">Guide</a>
           <span class="tc-card-name badge fam-yellow">ZVV Ticket / Swiss Travel Pass</span>
-          <span class="tc-tap badge fam-green">Tap to pay</span>
+          <span class="tc-tap"><span class="badge fam-green">Tap to pay</span></span>
           <a class="tc-site" href="https://www.zvv.ch/en/home.html" target="_blank" rel="noopener">zvv.ch</a>
         </div>
         <div class="tc-network">
@@ -1114,7 +1291,7 @@
         <div class="tc-top">
           <span class="tc-city">🇸🇪 Gothenburg</span><a href="/guides/gothenburg.html" class="tc-guide">Guide</a>
           <span class="tc-card-name badge fam-yellow">Västtrafik / Contactless</span>
-          <span class="tc-tap badge fam-green">Tap to pay</span>
+          <span class="tc-tap"><span class="badge fam-green">Tap to pay</span></span>
           <a class="tc-site" href="https://www.vasttrafik.se/en/" target="_blank" rel="noopener">vasttrafik.se</a>
         </div>
         <div class="tc-network">
@@ -1250,7 +1427,7 @@
         <div class="tc-top">
           <span class="tc-city">🇪🇸 Málaga</span><a href="/guides/malaga.html" class="tc-guide">Guide</a>
           <span class="tc-card-name badge fam-yellow">Tarjeta de Transporte (EMT)</span>
-          <span class="tc-tap badge fam-green">Tap to pay</span>
+          <span class="tc-tap"><span class="badge fam-green">Tap to pay</span></span>
           <a class="tc-site" href="https://www.emtmalaga.es" target="_blank" rel="noopener">emtmalaga.es</a>
         </div>
         <div class="tc-network">
@@ -1278,7 +1455,7 @@
         <div class="tc-top">
           <span class="tc-city">🇫🇷 Marseille</span><a href="/guides/marseille.html" class="tc-guide">Guide</a>
           <span class="tc-card-name badge fam-yellow">RTM / Contactless</span>
-          <span class="tc-tap badge fam-green">Tap to pay</span>
+          <span class="tc-tap"><span class="badge fam-green">Tap to pay</span></span>
           <a class="tc-site" href="https://www.rtm.fr" target="_blank" rel="noopener">rtm.fr</a>
         </div>
         <div class="tc-network">
@@ -1333,7 +1510,7 @@
         <div class="tc-top">
           <span class="tc-city">🇪🇸 San Sebastián</span><a href="/guides/san-sebastian.html" class="tc-guide">Guide</a>
           <span class="tc-card-name badge fam-yellow">Dbus Contactless / MUGI</span>
-          <span class="tc-tap badge fam-green">Tap to pay</span>
+          <span class="tc-tap"><span class="badge fam-green">Tap to pay</span></span>
           <a class="tc-site" href="https://dbus.eus" target="_blank" rel="noopener">dbus.eus</a>
         </div>
         <div class="tc-network">
@@ -1388,7 +1565,7 @@
         <div class="tc-top">
           <span class="tc-city">🇪🇸 Seville</span><a href="/guides/seville.html" class="tc-guide">Guide</a>
           <span class="tc-card-name badge fam-yellow">Tarjeta Multiviaje</span>
-          <span class="tc-tap badge fam-green">Tap to pay</span>
+          <span class="tc-tap"><span class="badge fam-green">Tap to pay</span></span>
           <a class="tc-site" href="https://www.tussam.es" target="_blank" rel="noopener">tussam.es</a>
         </div>
         <div class="tc-network">
@@ -1470,7 +1647,7 @@
         <div class="tc-top">
           <span class="tc-city">🇪🇪 Tallinn</span><a href="/guides/tallinn.html" class="tc-guide">Guide</a>
           <span class="tc-card-name badge fam-yellow">Ühiskaart</span>
-          <span class="tc-tap badge fam-green">Tap to pay</span>
+          <span class="tc-tap"><span class="badge fam-green">Tap to pay</span></span>
           <a class="tc-site" href="https://www.tallinn.ee/en/transport" target="_blank" rel="noopener">tallinn.ee</a>
         </div>
         <div class="tc-network">
@@ -1498,7 +1675,7 @@
         <div class="tc-top">
           <span class="tc-city">🇪🇸 Tenerife</span><a href="/guides/tenerife.html" class="tc-guide">Guide</a>
           <span class="tc-card-name badge fam-yellow">ten+ Card / Contactless</span>
-          <span class="tc-tap badge fam-green">Tap to pay</span>
+          <span class="tc-tap"><span class="badge fam-green">Tap to pay</span></span>
           <a class="tc-site" href="https://www.titsa.com" target="_blank" rel="noopener">titsa.com</a>
         </div>
         <div class="tc-network">
@@ -1526,7 +1703,7 @@
         <div class="tc-top">
           <span class="tc-city">🇮🇹 Turin</span><a href="/guides/turin.html" class="tc-guide">Guide</a>
           <span class="tc-card-name badge fam-yellow">GTT / Tap &amp; Go</span>
-          <span class="tc-tap badge fam-green">Tap to pay</span>
+          <span class="tc-tap"><span class="badge fam-green">Tap to pay</span></span>
           <a class="tc-site" href="https://www.gtt.to.it/cms/en/" target="_blank" rel="noopener">gtt.to.it</a>
         </div>
         <div class="tc-network">
@@ -1554,7 +1731,7 @@
         <div class="tc-top">
           <span class="tc-city">🇲🇹 Valletta</span><a href="/guides/valletta.html" class="tc-guide">Guide</a>
           <span class="tc-card-name badge fam-yellow">Tallinja Card / Explore Card</span>
-          <span class="tc-tap badge fam-green">Tap to pay</span>
+          <span class="tc-tap"><span class="badge fam-green">Tap to pay</span></span>
           <a class="tc-site" href="https://www.publictransport.com.mt" target="_blank" rel="noopener">publictransport.com.mt</a>
         </div>
         <div class="tc-network">
@@ -1700,7 +1877,7 @@
         <div class="tc-top">
           <span class="tc-city">🇸🇬 Singapore</span><a href="/guides/singapore.html" class="tc-guide">Guide</a>
           <span class="tc-card-name badge fam-yellow">EZ-Link / Contactless</span>
-          <span class="tc-tap badge fam-green">Tap to pay</span>
+          <span class="tc-tap"><span class="badge fam-green">Tap to pay</span></span>
           <a class="tc-site" href="https://www.ezlink.com.sg" target="_blank" rel="noopener">ezlink.com.sg</a>
         </div>
         <div class="tc-network">
@@ -1894,7 +2071,7 @@
         <div class="tc-top">
           <span class="tc-city">🇶🇦 Doha</span><a href="/guides/doha.html" class="tc-guide">Guide</a>
           <span class="tc-card-name badge fam-yellow">Doha Metro Travel Card</span>
-          <span class="tc-tap badge fam-green">Tap to pay</span>
+          <span class="tc-tap"><span class="badge fam-green">Tap to pay</span></span>
           <a class="tc-site" href="https://www.qr.com.qa/en/doha-metro" target="_blank" rel="noopener">qr.com.qa</a>
         </div>
         <div class="tc-network">
@@ -2032,7 +2209,7 @@
         <div class="tc-top">
           <span class="tc-city">🇻🇳 Hanoi</span><a href="/guides/hanoi.html" class="tc-guide">Guide</a>
           <span class="tc-card-name badge fam-yellow">Hanoi Metro Card</span>
-          <span class="tc-tap badge fam-green">Tap to pay</span>
+          <span class="tc-tap"><span class="badge fam-green">Tap to pay</span></span>
           <a class="tc-site" href="https://hanoimetro.net.vn" target="_blank" rel="noopener">hanoimetro.net.vn</a>
         </div>
         <div class="tc-network">
@@ -2095,7 +2272,7 @@
         <div class="tc-top">
           <span class="tc-city">🇺🇸 New York</span><a href="/guides/new-york.html" class="tc-guide">Guide</a>
           <span class="tc-card-name badge fam-yellow">OMNY (tap to pay)</span>
-          <span class="tc-tap badge fam-green">Tap to pay</span>
+          <span class="tc-tap"><span class="badge fam-green">Tap to pay</span></span>
           <a class="tc-site" href="https://omny.mta.info" target="_blank" rel="noopener">omny.mta.info</a>
         </div>
         <div class="tc-network">
@@ -2124,7 +2301,7 @@
         <div class="tc-top">
           <span class="tc-city">🇺🇸 Washington DC</span><a href="/guides/washington-dc.html" class="tc-guide">Guide</a>
           <span class="tc-card-name badge fam-yellow">SmarTrip</span>
-          <span class="tc-tap badge fam-green">Tap to pay</span>
+          <span class="tc-tap"><span class="badge fam-green">Tap to pay</span></span>
           <a class="tc-site" href="https://www.wmata.com/fares/smartrip/" target="_blank" rel="noopener">wmata.com</a>
         </div>
         <div class="tc-network">
@@ -2153,7 +2330,7 @@
         <div class="tc-top">
           <span class="tc-city">🇺🇸 Chicago</span><a href="/guides/chicago.html" class="tc-guide">Guide</a>
           <span class="tc-card-name badge fam-yellow">Ventra</span>
-          <span class="tc-tap badge fam-green">Tap to pay</span>
+          <span class="tc-tap"><span class="badge fam-green">Tap to pay</span></span>
           <a class="tc-site" href="https://www.ventrachicago.com" target="_blank" rel="noopener">ventrachicago.com</a>
         </div>
         <div class="tc-network">
@@ -2263,7 +2440,7 @@
         <div class="tc-top">
           <span class="tc-city">🇺🇸 Boston</span><a href="/guides/boston.html" class="tc-guide">Guide</a>
           <span class="tc-card-name badge fam-yellow">CharlieCard (MBTA)</span>
-          <span class="tc-tap badge fam-green">Tap to pay</span>
+          <span class="tc-tap"><span class="badge fam-green">Tap to pay</span></span>
           <a class="tc-site" href="https://www.mbta.com/fares/charliecard" target="_blank" rel="noopener">mbta.com</a>
         </div>
         <div class="tc-network">
@@ -2292,7 +2469,7 @@
         <div class="tc-top">
           <span class="tc-city">🇦🇷 Buenos Aires</span><a href="/guides/buenos-aires.html" class="tc-guide">Guide</a>
           <span class="tc-card-name badge fam-yellow">SUBE</span>
-          <span class="tc-tap badge fam-green">Tap to pay</span>
+          <span class="tc-tap"><span class="badge fam-green">Tap to pay</span></span>
           <a class="tc-site" href="https://www.sube.gob.ar" target="_blank" rel="noopener">sube.gob.ar</a>
         </div>
         <div class="tc-network">
@@ -2320,7 +2497,7 @@
         <div class="tc-top">
           <span class="tc-city">🇺🇸 Los Angeles</span><a href="/guides/los-angeles.html" class="tc-guide">Guide</a>
           <span class="tc-card-name badge fam-yellow">TAP Card</span>
-          <span class="tc-tap badge fam-green">Tap to pay</span>
+          <span class="tc-tap"><span class="badge fam-green">Tap to pay</span></span>
           <a class="tc-site" href="https://www.taptogo.net" target="_blank" rel="noopener">taptogo.net</a>
         </div>
         <div class="tc-network">
@@ -2377,7 +2554,7 @@
         <div class="tc-top">
           <span class="tc-city">🇺🇸 Philadelphia</span><a href="/guides/philadelphia.html" class="tc-guide">Guide</a>
           <span class="tc-card-name badge fam-yellow">SEPTA Key</span>
-          <span class="tc-tap badge fam-green">Tap to pay</span>
+          <span class="tc-tap"><span class="badge fam-green">Tap to pay</span></span>
           <a class="tc-site" href="https://septakey.org" target="_blank" rel="noopener">septakey.org</a>
         </div>
         <div class="tc-network">
@@ -2432,7 +2609,7 @@
         <div class="tc-top">
           <span class="tc-city">🇺🇸 San Francisco</span><a href="/guides/san-francisco.html" class="tc-guide">Guide</a>
           <span class="tc-card-name badge fam-yellow">Clipper Card</span>
-          <span class="tc-tap badge fam-green">Tap to pay</span>
+          <span class="tc-tap"><span class="badge fam-green">Tap to pay</span></span>
           <a class="tc-site" href="https://www.clippercard.com" target="_blank" rel="noopener">clippercard.com</a>
         </div>
         <div class="tc-network">
@@ -2488,7 +2665,7 @@
         <div class="tc-top">
           <span class="tc-city">🇺🇸 Seattle</span><a href="/guides/seattle.html" class="tc-guide">Guide</a>
           <span class="tc-card-name badge fam-yellow">ORCA Card</span>
-          <span class="tc-tap badge fam-green">Tap to pay</span>
+          <span class="tc-tap"><span class="badge fam-green">Tap to pay</span></span>
           <a class="tc-site" href="https://www.myorca.com" target="_blank" rel="noopener">myorca.com</a>
         </div>
         <div class="tc-network">
@@ -2517,7 +2694,7 @@
         <div class="tc-top">
           <span class="tc-city">🇨🇦 Toronto</span><a href="/guides/toronto.html" class="tc-guide">Guide</a>
           <span class="tc-card-name badge fam-yellow">PRESTO Card</span>
-          <span class="tc-tap badge fam-green">Tap to pay</span>
+          <span class="tc-tap"><span class="badge fam-green">Tap to pay</span></span>
           <a class="tc-site" href="https://www.prestocard.ca" target="_blank" rel="noopener">prestocard.ca</a>
         </div>
         <div class="tc-network">
@@ -2546,7 +2723,7 @@
         <div class="tc-top">
           <span class="tc-city">🇨🇦 Vancouver</span><a href="/guides/vancouver.html" class="tc-guide">Guide</a>
           <span class="tc-card-name badge fam-yellow">Compass Card</span>
-          <span class="tc-tap badge fam-green">Tap to pay</span>
+          <span class="tc-tap"><span class="badge fam-green">Tap to pay</span></span>
           <a class="tc-site" href="https://www.compasscard.ca" target="_blank" rel="noopener">compasscard.ca</a>
         </div>
         <div class="tc-network">
@@ -2575,7 +2752,7 @@
         <div class="tc-top">
           <span class="tc-city">🇺🇸 Atlanta</span><a href="/guides/atlanta.html" class="tc-guide">Guide</a>
           <span class="tc-card-name badge fam-yellow">Better Breeze Card</span>
-          <span class="tc-tap badge fam-green">Tap to pay</span>
+          <span class="tc-tap"><span class="badge fam-green">Tap to pay</span></span>
           <a class="tc-site" href="https://www.itsmarta.com" target="_blank" rel="noopener">itsmarta.com</a>
         </div>
         <div class="tc-network">
@@ -2604,7 +2781,7 @@
         <div class="tc-top">
           <span class="tc-city">🇺🇸 Austin</span><a href="/guides/austin.html" class="tc-guide">Guide</a>
           <span class="tc-card-name badge fam-yellow">CapMetro Q Card</span>
-          <span class="tc-tap badge fam-green">Tap to pay</span>
+          <span class="tc-tap"><span class="badge fam-green">Tap to pay</span></span>
           <a class="tc-site" href="https://www.capmetro.org" target="_blank" rel="noopener">capmetro.org</a>
         </div>
         <div class="tc-network">
@@ -2659,7 +2836,7 @@
         <div class="tc-top">
           <span class="tc-city">🇺🇸 Dallas</span><a href="/guides/dallas.html" class="tc-guide">Guide</a>
           <span class="tc-card-name badge fam-yellow">GoPass / Contactless</span>
-          <span class="tc-tap badge fam-green">Tap to pay</span>
+          <span class="tc-tap"><span class="badge fam-green">Tap to pay</span></span>
           <a class="tc-site" href="https://www.dart.org" target="_blank" rel="noopener">dart.org</a>
         </div>
         <div class="tc-network">
@@ -2715,7 +2892,7 @@
         <div class="tc-top">
           <span class="tc-city">🇺🇸 Las Vegas</span><a href="/guides/las-vegas.html" class="tc-guide">Guide</a>
           <span class="tc-card-name badge fam-yellow">RTC Tap &amp; GO</span>
-          <span class="tc-tap badge fam-green">Tap to pay</span>
+          <span class="tc-tap"><span class="badge fam-green">Tap to pay</span></span>
           <a class="tc-site" href="https://www.rtcsnv.com" target="_blank" rel="noopener">rtcsnv.com</a>
         </div>
         <div class="tc-network">
@@ -2770,7 +2947,7 @@
         <div class="tc-top">
           <span class="tc-city">🇺🇸 Miami</span><a href="/guides/miami.html" class="tc-guide">Guide</a>
           <span class="tc-card-name badge fam-yellow">EASY Card</span>
-          <span class="tc-tap badge fam-green">Tap to pay</span>
+          <span class="tc-tap"><span class="badge fam-green">Tap to pay</span></span>
           <a class="tc-site" href="https://www.miamidade.gov/transit" target="_blank" rel="noopener">miamidade.gov/transit</a>
         </div>
         <div class="tc-network">
@@ -2826,7 +3003,7 @@
         <div class="tc-top">
           <span class="tc-city">🇺🇸 Nashville</span><a href="/guides/nashville.html" class="tc-guide">Guide</a>
           <span class="tc-card-name badge fam-yellow">QuickTicket / Contactless</span>
-          <span class="tc-tap badge fam-green">Tap to pay</span>
+          <span class="tc-tap"><span class="badge fam-green">Tap to pay</span></span>
           <a class="tc-site" href="https://www.quicktickettn.com" target="_blank" rel="noopener">quicktickettn.com</a>
         </div>
         <div class="tc-network">
@@ -2962,7 +3139,7 @@
         <div class="tc-top">
           <span class="tc-city">🇺🇸 San Diego</span><a href="/guides/san-diego.html" class="tc-guide">Guide</a>
           <span class="tc-card-name badge fam-yellow">PRONTO</span>
-          <span class="tc-tap badge fam-green">Tap to pay</span>
+          <span class="tc-tap"><span class="badge fam-green">Tap to pay</span></span>
           <a class="tc-site" href="https://www.sdmts.com/pronto" target="_blank" rel="noopener">sdmts.com/pronto</a>
         </div>
         <div class="tc-network">
@@ -2990,7 +3167,7 @@
         <div class="tc-top">
           <span class="tc-city">🇺🇸 San José</span><a href="/guides/san-jose.html" class="tc-guide">Guide</a>
           <span class="tc-card-name badge fam-yellow">Clipper Card</span>
-          <span class="tc-tap badge fam-green">Tap to pay</span>
+          <span class="tc-tap"><span class="badge fam-green">Tap to pay</span></span>
           <a class="tc-site" href="https://www.vta.org" target="_blank" rel="noopener">vta.org</a>
         </div>
         <div class="tc-network">
@@ -3018,7 +3195,7 @@
         <div class="tc-top">
           <span class="tc-city">🇨🇦 Victoria</span><a href="/guides/victoria.html" class="tc-guide">Guide</a>
           <span class="tc-card-name badge fam-yellow">Umo Card / Contactless</span>
-          <span class="tc-tap badge fam-green">Tap to pay</span>
+          <span class="tc-tap"><span class="badge fam-green">Tap to pay</span></span>
           <a class="tc-site" href="https://www.bctransit.com/victoria" target="_blank" rel="noopener">bctransit.com/victoria</a>
         </div>
         <div class="tc-network">
@@ -3054,7 +3231,7 @@
         <div class="tc-top">
           <span class="tc-city">🇦🇺 Sydney</span><a href="/guides/sydney.html" class="tc-guide">Guide</a>
           <span class="tc-card-name badge fam-yellow">Opal Card</span>
-          <span class="tc-tap badge fam-green">Tap to pay</span>
+          <span class="tc-tap"><span class="badge fam-green">Tap to pay</span></span>
           <a class="tc-site" href="https://www.opal.com.au" target="_blank" rel="noopener">opal.com.au</a>
         </div>
         <div class="tc-network">
@@ -3083,7 +3260,7 @@
         <div class="tc-top">
           <span class="tc-city">🇦🇺 Melbourne</span><a href="/guides/melbourne.html" class="tc-guide">Guide</a>
           <span class="tc-card-name badge fam-yellow">Myki</span>
-          <span class="tc-tap badge fam-green">Tap to pay</span>
+          <span class="tc-tap"><span class="badge fam-green">Tap to pay</span></span>
           <a class="tc-site" href="https://www.ptv.vic.gov.au/tickets/myki/" target="_blank" rel="noopener">ptv.vic.gov.au</a>
         </div>
         <div class="tc-network">
@@ -3112,7 +3289,7 @@
         <div class="tc-top">
           <span class="tc-city">🇳🇿 Wellington</span><a href="/guides/wellington.html" class="tc-guide">Guide</a>
           <span class="tc-card-name badge fam-yellow">Snapper</span>
-          <span class="tc-tap badge fam-green">Tap to pay</span>
+          <span class="tc-tap"><span class="badge fam-green">Tap to pay</span></span>
           <a class="tc-site" href="https://www.snapper.co.nz" target="_blank" rel="noopener">snapper.co.nz</a>
         </div>
         <div class="tc-network">

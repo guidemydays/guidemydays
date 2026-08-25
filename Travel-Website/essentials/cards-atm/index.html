@@ -5,11 +5,17 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link rel="stylesheet" href="/assets/web-travel-style.css">
 <title>Cards &amp; ATM | Guide My Days</title>
-<style>/* ── Controls — search uses the shared input[type=search]/.search-input
-   component (web-travel-style.css § 14 standard); no per-page override here,
-   which also drops the drift the old #ca-search block carried (43rd
-   non-negotiable — one search bar, one place it's styled). ── */
-.controls { display: flex; flex-direction: column; gap: 14px; align-items: center; margin: 0 0 28px; background: var(--bg, #f5f4f0); padding: 8px 0 4px; }
+<style>/* ── Toolbar — a floating control panel instead of a bare flex row. Search
+   input itself is still the untouched shared component (43rd non-negotiable);
+   only the frame around it is page-scoped. ── */
+.controls {
+  display: flex; flex-direction: column; gap: 14px; align-items: center;
+  margin: 0 0 40px; padding: 16px 18px;
+  background: color-mix(in srgb, var(--surface) 88%, transparent);
+  border: 1px solid var(--border2); border-radius: 16px;
+  box-shadow: 0 1px 2px rgba(0,0,0,.03);
+  backdrop-filter: blur(6px);
+}
 .pills { font-family: inherit; display: flex; gap: var(--fam-gap,10px); flex-wrap: wrap; justify-content: center; }
 /* .pill is a layout hook — box, colour, case and the selected state come from
    the shared .pill-badge + .fam-* classes (markup writes pill pill-badge fam-*;
@@ -18,48 +24,80 @@
 .pill { font-family: inherit; }
 #no-results { display: none; color: var(--muted); font-size: 13px; margin-bottom: 12px; text-align: center; }
 
-/* ── Section header — icon + title, terracotta rule (never gold). No item-count badge — see Non-Negotiable 92. ── */
-.section-block { margin-top: 52px; }
+/* ── Section header — oversized eyebrow number + icon chip + title. Icon is
+   still the same catalogue glyph (data-icon unchanged); the circular tint
+   behind it is a flat color-mix, never a gradient (35th non-negotiable). ── */
+.section-block { margin-top: 64px; counter-reset: bento; }
 .section-block:first-of-type { margin-top: 8px; }
 .section-block.hidden { display: none; }
 .section-head {
-  display: flex; align-items: center; gap: 13px;
-  padding-bottom: 14px; margin-bottom: 20px;
+  display: flex; align-items: center; gap: 16px;
+  padding-bottom: 18px; margin-bottom: 26px;
   border-bottom: 3px solid var(--rust, #C04E1A);
+  counter-increment: section-count;
 }
-.section-head .gm-icon { width: 1.9em; height: 1.9em; flex-shrink: 0; }
-.ca-sh-title { font-size: 19px; font-weight: 700; color: var(--text); letter-spacing: -.005em; text-transform: uppercase; }
+.section-head::before {
+  content: counter(section-count, decimal-leading-zero);
+  font-size: 13px; font-weight: 800; letter-spacing: .08em;
+  color: var(--muted); opacity: .55; flex-shrink: 0;
+}
+.section-head .gm-icon {
+  width: 1.5em; height: 1.5em; flex-shrink: 0; padding: 9px; box-sizing: content-box;
+  border-radius: 50%;
+  background: color-mix(in srgb, var(--rust, #C04E1A) 10%, transparent);
+}
+.ca-sh-title { font-size: 21px; font-weight: 800; color: var(--text); letter-spacing: -.01em; text-transform: uppercase; }
+.wrap { counter-reset: section-count; }
 
-/* ── Card grid — responsive, cards keep their own height (align-items:start)
-   so a one-line network entry doesn't stretch to match a long review. The two
-   text-dense reference sections (Exchange, Cash by Region) read as a single
-   column of short articles rather than a grid, per essentials-Page-Format's
-   "answer sits under its control" spirit — cramming multi-country entries
-   into 340px columns broke their <strong> sub-headings across lines. ── */
-.ca-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(340px, 1fr)); gap: 14px; align-items: start; }
+/* ── Bento grid — dense auto-flow so odd-shaped tiles backfill gaps instead
+   of leaving holes. The "top pick" card (badge-top) and the long-form
+   .ca-wide rows earn a wider tile; everything else sits at one unit. This is
+   column-span only (no row-span) so content keeps its natural height and
+   nothing overlaps. The two text-dense reference sections (Exchange, Cash by
+   Region) stay single-column — cramming multi-country entries into narrow
+   tiles broke their <strong> sub-headings across lines. ── */
+.ca-grid {
+  display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  grid-auto-flow: dense; gap: 16px; align-items: start;
+}
 .section-block[data-section="exchange"] .ca-grid,
 .section-block[data-section="cash"] .ca-grid { grid-template-columns: 1fr; }
+.card-row:has(.badge-top) { grid-column: span 2; }
 
 .card-row {
-  background: var(--surface); border: 1px solid var(--border); border-radius: 3px;
+  position: relative;
+  background: color-mix(in srgb, var(--surface) 94%, transparent);
+  border: 1px solid var(--border); border-radius: 14px;
   border-top: 3px solid var(--text);
-  padding: 19px 20px 18px; display: flex; flex-direction: column;
+  padding: 20px 22px 19px; display: flex; flex-direction: column;
+  counter-increment: bento;
+}
+.card-row::after {
+  content: counter(bento, decimal-leading-zero);
+  position: absolute; top: 14px; right: 16px;
+  font-size: 10.5px; font-weight: 700; letter-spacing: .06em;
+  color: var(--muted); opacity: .35; pointer-events: none;
 }
 .card-row.hidden { display: none; }
 .card-row.ca-wide { grid-column: 1 / -1; }
 @media (pointer: fine) {
-  .card-row { transition: border-color .15s, box-shadow .15s, transform .12s; }
-  .card-row:hover { border-top-color: var(--rust, #C04E1A); box-shadow: 0 6px 16px rgba(0,0,0,.07); transform: translateY(-2px); }
+  .card-row { transition: border-color .15s, box-shadow .18s, transform .15s; }
+  .card-row:hover { border-top-color: var(--rust, #C04E1A); box-shadow: 0 10px 24px rgba(0,0,0,.09); transform: translateY(-3px); }
 }
 .card-row > div:first-child {
   padding-bottom: 11px; margin-bottom: 11px; border-bottom: 1px solid var(--border2);
+  padding-right: 26px; /* clear the corner index number */
 }
 .card-name { font-family: var(--font); font-size: 19px; font-weight: 700; color: var(--text); line-height: 1.2; letter-spacing: -.005em; }
 .card-name a { color: var(--text); font-weight: 700; }
 .card-name a:visited { color: #3d3a32; }
 .card-name a:hover { color: var(--rust); }
 .card-name .plain { font-weight: 700; }
-.card-type { font-size: 11.5px; font-weight: 700; color: var(--muted); text-transform: uppercase; letter-spacing: .05em; margin-top: 5px; }
+.card-type {
+  display: inline-block; font-size: 11.5px; font-weight: 700; color: var(--muted);
+  text-transform: uppercase; letter-spacing: .05em; margin-top: 7px;
+  padding-left: 9px; border-left: 2px solid var(--rust, #C04E1A);
+}
 .card-note { font-size: 13.5px; color: var(--text); line-height: 1.65; }
 .card-note ul, .card-note ol { margin: 8px 0 0 18px; padding: 0; }
 .card-note li { margin-bottom: 4px; }
@@ -84,6 +122,7 @@
 
 @media (max-width: 600px) and (pointer: coarse) {
   .ca-grid { grid-template-columns: 1fr; }
+  .card-row:has(.badge-top) { grid-column: span 1; }
   .mini-table { font-size: 11px; }
   .pills { flex-wrap: wrap !important; gap: var(--fam-gap,10px) !important; }
 }

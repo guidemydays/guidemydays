@@ -89,7 +89,8 @@ html { scroll-behavior: smooth; }
 .pb-podium-slot[data-rank="1"] .pb-podium-step { height: 64px; background: linear-gradient(180deg,#e8c46a,#d4af37); }
 .pb-podium-slot[data-rank="2"] .pb-podium-step { height: 46px; background: linear-gradient(180deg,#c9cdd1,#adb5bd); }
 .pb-podium-slot[data-rank="3"] .pb-podium-step { height: 34px; background: linear-gradient(180deg,#d99a5f,#c07a3e); }
-.pb-podium-medal { font-size: 15px; margin-bottom: 2px; }
+.pb-podium-medal { margin-bottom: 2px; }
+.pb-podium-medal .gm-icon { width: 20px; height: 20px; }
 .pb-podium-name { font-size: 13px; font-weight: 700; color: var(--text); line-height: 1.3; }
 .pb-podium-sub { font-size: 10.5px; color: var(--muted); margin-top: 4px; line-height: 1.45; }
 .pb-podium-tags { display: flex; gap: 4px; flex-wrap: wrap; margin-top: 7px; font-size: 10.5px; }
@@ -391,7 +392,7 @@ html { scroll-behavior: smooth; }
     <div id="pb-world-map"></div>
     <div class="pb-legend">
       <div class="pb-leg"><div class="pb-leg-box" style="background:#C04E1A"></div> Dominant</div>
-      <div class="pb-leg"><div class="pb-leg-box" style="background:#d4874a"></div> Established</div>
+      <div class="pb-leg"><div class="pb-leg-box" style="background:#D4663A"></div> Established</div>
       <div class="pb-leg"><div class="pb-leg-box" style="background:#e8b87a"></div> Growing</div>
       <div class="pb-leg"><div class="pb-leg-box" style="background:#ece6dd"></div> Emerging</div>
     </div>
@@ -541,7 +542,7 @@ var STATES = [
 ];
 
 var GROWTH = [{y:'2020',v:4.2},{y:'2021',v:4.8},{y:'2022',v:8.9},{y:'2023',v:13.6},{y:'2024',v:19.8},{y:'2025',v:24.3}];
-var AGE = [{g:'18–34',pct:28,color:'#C04E1A'},{g:'35–49',pct:22,color:'#d4874a'},{g:'50–64',pct:33,color:'#e8b87a'},{g:'65+',pct:17,color:'#ece6dd'}];
+var AGE = [{g:'18–34',pct:28,color:'#C04E1A'},{g:'35–49',pct:22,color:'#D4663A'},{g:'50–64',pct:33,color:'#e8b87a'},{g:'65+',pct:17,color:'#ece6dd'}];
 
 var TIER_META = {major:{label:'Major',fam:'fam-yellow'}, ppa:{label:'PPA',fam:'fam-green'}, app:{label:'APP',fam:'fam-blue'}};
 var TOURNAMENTS = [
@@ -646,7 +647,8 @@ function cityNameHTML(c){
 (function(){
   var el=document.getElementById('us-podium');
   if(!el) return;
-  var medals={1:'🥇',2:'🥈',3:'🥉'};
+  var trophyIcon='<svg class="gm-icon" data-icon="trophy" data-role="badge" viewBox="0 0 24 24" aria-hidden="true"><use href="#gm-i-trophy"/></svg>';
+  var medals={1:trophyIcon,2:trophyIcon,3:trophyIcon};
   var top3=CITIES.filter(function(c){return c.rank<=3;});
   el.innerHTML=top3.map(function(c){
     return '<div class="pb-podium-slot pb-city" data-rank="'+c.rank+'" data-region="'+c.region+'" data-type="'+c.type+'" data-pro="'+c.pro+'" data-name="'+esc(c.name)+'">'+
@@ -707,7 +709,7 @@ function cityNameHTML(c){
    ============================================================ */
 (function(){
   var CW=60,CH=45,GAP=4;
-  var FILL=['#f5f2ee','#ece6dd','#e8b87a','#d4874a','#C04E1A'];
+  var FILL=['#f5f2ee','#ece6dd','#e8b87a','#D4663A','#C04E1A'];
   var TC   =['#9a9490','#6a6660','#7a3b1e','#ffffff','#ffffff'];
   var S=[
     ['AK',0,0,0,'Alaska','—'],['ME',0,10,0,'Maine','—'],
@@ -752,7 +754,7 @@ function cityNameHTML(c){
    ============================================================ */
 (function(){
   var CW=68,CH=66,GAP=6;
-  var FILL=['#ece6dd','#e8b87a','#d4874a','#C04E1A'];
+  var FILL=['#ece6dd','#e8b87a','#D4663A','#C04E1A'];
   var TC  =['#6a6660','#7a3b1e','#ffffff','#ffffff'];
   var TILES=[
     ['CAN','🇨🇦',0,1,2,'Canada · 3.6M players','3.6M'],
@@ -925,7 +927,7 @@ function cityNameHTML(c){
   if(el){
     el.innerHTML=WORLD_TOP4.map(function(w){
       var lv=LEVEL_META[w.level];
-      var num=w.rank<=3?['🥇','🥈','🥉'][w.rank-1]:w.rank;
+      var num=w.rank;
       return '<div class="pb-world-item" data-wlevel="'+w.level+'">'+
         '<div class="pb-medal-card">'+
           '<div class="pb-medal-num" style="background:'+medalBg[w.rank]+';color:'+medalFg[w.rank]+'">'+num+'</div>'+

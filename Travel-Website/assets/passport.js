@@ -338,15 +338,13 @@
       var t = document.createElement('span');
       t.className = 'pp-btn-text';
       /* The flag goes in its own element rather than being glued to the name
-         with a space character. A regional-indicator flag is a wide glyph and
-         a plain space beside it renders visually flush — "🇧🇷Brazil passport"
-         — so the gap is a margin on .gm-flag, not whitespace in a string. */
+         with a space character. The flag SVG sits flush against a plain space
+         character ("[flag]Brazil passport" reads cramped) — so the gap is a
+         margin on .gm-flag, not whitespace in a string. */
       t.textContent = '';
       if (me && me.flag) {
-        var fl = document.createElement('span');
-        fl.className = 'gm-flag';
-        fl.textContent = me.flag;
-        t.appendChild(fl);
+        var flNode = TVE.flag.node(me.flag, 'gm-flag');
+        if (flNode) t.appendChild(flNode);
       }
       t.appendChild(document.createTextNode(
         me ? me.name + ' passport' : (opts.prompt || 'Choose your passport')));
@@ -407,10 +405,8 @@
           li.tabIndex = 0;
           li.textContent = '';
           if (r[2]) {
-            var lf = document.createElement('span');
-            lf.className = 'gm-flag';
-            lf.textContent = r[2];
-            li.appendChild(lf);
+            var lfNode = TVE.flag.node(r[2], 'gm-flag');
+            if (lfNode) li.appendChild(lfNode);
           }
           li.appendChild(document.createTextNode(r[1]));
           if (picked && picked.code === r[0]) li.classList.add('pp-on');

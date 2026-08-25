@@ -91,7 +91,7 @@ function cardHTML(a) {
   '<div class="al-pass">' +
     '<div class="al-pass-body">' +
       '<div class="al-pass-head">' +
-        '<div class="al-pass-flag">' + a.f + '</div>' +
+        '<div class="al-pass-flag">' + TVE.flag.html(a.f) + '</div>' +
         '<div class="al-pass-id">' +
           '<h3 class="al-pass-name"><a href="' + a.w + '" target="_blank" rel="noopener">' + esc(a.n) + '</a></h3>' +
           '<div class="al-pass-sub">' + esc(a.hq) + ', ' + esc(a.c) + '</div>' +
@@ -155,7 +155,7 @@ function render() {
     var cards = list.filter(function(a) { return a.c === country; })
                     .sort(function(x, y) { return x.n.localeCompare(y.n); });
     html += '<div class="al-country"><div class="al-country-head">' +
-      '<span class="al-country-flag">' + cards[0].f + '</span>' +
+      '<span class="al-country-flag">' + TVE.flag.html(cards[0].f) + '</span>' +
       '<span class="al-country-name">' + esc(country) + '</span>' +
       '<span class="al-country-rule"></span>' +
       '</div><div class="al-grid">' + cards.map(cardHTML).join('') + '</div></div>';

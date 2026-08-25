@@ -2203,7 +2203,14 @@
    min-width, so flexbox's default min-width:auto (= full nowrap text width)
    silently overrode max-width. Added min-width:0. Page's own inline <style>,
    no shared CSS/JS touched. CACHE to v1532. */
-var CACHE = 'travel-cache-v1532';
+/* 2026-08-25: .hero-band + .eb-intro / .hero-band + .eb-intro + * deleted
+   from web-travel-style.css's search-gap selector lists — dead now that all
+   47 essentials pages plus ask-your-guide/index.html nest .eb-intro inside
+   .eb-copy instead of trailing it as a sibling; the generic .hero-band +
+   .search-wrap / + .controls-row / + :not(.hero-ground):not(.wrap) rules
+   already reach whatever follows the band. CSS comment updated to match.
+   web-travel-style.css -> v132. CACHE to v1533. */
+var CACHE = 'travel-cache-v1533';
 
 /* The guide-calendar hand-off cache. Written by toolbar.js, read and emptied
    once by the fetch handler below, and EXEMPT from the activate sweep — it is
@@ -2216,7 +2223,7 @@ var ICS_OUTBOX = 'gmd-ics-outbox';
    THIS IS THE ONLY PLACE to bump toolbar.js / guide-style.css versions.
    NEVER bump ?v= inside guide HTML — it breaks HMAC stamps and forces re-validation
    of 230+ guides. Instead, bump MIN_VERSIONS here + increment the CACHE version. */
-var MIN_VERSIONS = { 'guide-style.css': 265,'toolbar.js': 1078, 'mobile.css': 88, 'web-travel-style.css': 131, 'guides-index-style.css': 27, 'read-about.css': 6, 'best-of-features.js': 4, 'best-of-cross-data.js': 24, 'weather.js': 12, 'trains.css': 17, 'trains.js': 4, 'airlines.css': 5, 'airlines.js': 5, 'passport.js': 4, 'search-autocomplete.js': 9 };
+var MIN_VERSIONS = { 'guide-style.css': 265,'toolbar.js': 1078, 'mobile.css': 88, 'web-travel-style.css': 132, 'guides-index-style.css': 27, 'read-about.css': 6, 'best-of-features.js': 4, 'best-of-cross-data.js': 24, 'weather.js': 12, 'trains.css': 17, 'trains.js': 4, 'airlines.css': 5, 'airlines.js': 5, 'passport.js': 4, 'search-autocomplete.js': 9 };
 
 function rewriteAssetUrl(urlStr) {
   var u;

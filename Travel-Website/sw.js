@@ -2279,7 +2279,8 @@
 /* 2026-08-25: Best Of category .bo-graph — drop the Places/Countries tally (conflicted with Non-Negotiable 92), two fixed decorative bars now, no digits. web-travel-style.css -> v135. CACHE to v1545. */
 /* 2026-08-25: Best Of category hero — .bo-title moved out of .bo-main (sits right after the hero's own top padding, paragraph/graph unchanged) + amusement-parks test page (3-row stagger, terracotta accent line). web-travel-style.css -> v136. CACHE to v1546. */
 /* 2026-08-25: Best Of hero title — moved up further on pages using the new structure (amusement-parks), accent color swapped to the middle title line. web-travel-style.css -> v137. CACHE to v1547. */
-var CACHE = 'travel-cache-v1547';
+/* 2026-08-25: Best Of hero title — extra gap above Parks (ln3) on the amusement-parks test page. web-travel-style.css -> v138. CACHE to v1548. */
+var CACHE = 'travel-cache-v1548';
 
 /* The guide-calendar hand-off cache. Written by toolbar.js, read and emptied
    once by the fetch handler below, and EXEMPT from the activate sweep — it is
@@ -2292,7 +2293,7 @@ var ICS_OUTBOX = 'gmd-ics-outbox';
    THIS IS THE ONLY PLACE to bump toolbar.js / guide-style.css versions.
    NEVER bump ?v= inside guide HTML — it breaks HMAC stamps and forces re-validation
    of 230+ guides. Instead, bump MIN_VERSIONS here + increment the CACHE version. */
-var MIN_VERSIONS = { 'guide-style.css': 265,'toolbar.js': 1079, 'mobile.css': 88, 'web-travel-style.css': 137, 'guides-index-style.css': 27, 'read-about.css': 6, 'best-of-features.js': 4, 'best-of-cross-data.js': 24, 'weather.js': 12, 'trains.css': 17, 'trains.js': 4, 'airlines.css': 5, 'airlines.js': 5, 'passport.js': 4, 'search-autocomplete.js': 9 };
+var MIN_VERSIONS = { 'guide-style.css': 265,'toolbar.js': 1079, 'mobile.css': 88, 'web-travel-style.css': 138, 'guides-index-style.css': 27, 'read-about.css': 6, 'best-of-features.js': 4, 'best-of-cross-data.js': 24, 'weather.js': 12, 'trains.css': 17, 'trains.js': 4, 'airlines.css': 5, 'airlines.js': 5, 'passport.js': 4, 'search-autocomplete.js': 9 };
 
 function rewriteAssetUrl(urlStr) {
   var u;

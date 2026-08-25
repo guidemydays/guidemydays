@@ -2284,7 +2284,8 @@
 /* 2026-08-25: Best Of hero icons — 3 more added to the amusement-parks spread test (tent, ferris wheel, volcano), pastel-recolored to match the cluster. web-travel-style.css -> v140. CACHE to v1550. */
 /* 2026-08-25: Best Of hero icons — ferris wheel gradient fix, volcano swapped for hot air balloon on the amusement-parks test page. web-travel-style.css -> v141. CACHE to v1551. */
 /* 2026-08-25: Best Of hero icons — colosseum repositioned, grand canyon swapped for pastel-recolored fireworks on the amusement-parks test page. web-travel-style.css -> v142. CACHE to v1552. */
-var CACHE = 'travel-cache-v1552';
+/* 2026-08-25: Best Of hero icons — pastel-recolored crocodile added to the amusement-parks test page (olive green, matches everest). web-travel-style.css -> v143. CACHE to v1553. */
+var CACHE = 'travel-cache-v1553';
 
 /* The guide-calendar hand-off cache. Written by toolbar.js, read and emptied
    once by the fetch handler below, and EXEMPT from the activate sweep — it is
@@ -2297,7 +2298,7 @@ var ICS_OUTBOX = 'gmd-ics-outbox';
    THIS IS THE ONLY PLACE to bump toolbar.js / guide-style.css versions.
    NEVER bump ?v= inside guide HTML — it breaks HMAC stamps and forces re-validation
    of 230+ guides. Instead, bump MIN_VERSIONS here + increment the CACHE version. */
-var MIN_VERSIONS = { 'guide-style.css': 265,'toolbar.js': 1079, 'mobile.css': 88, 'web-travel-style.css': 142, 'guides-index-style.css': 27, 'read-about.css': 6, 'best-of-features.js': 4, 'best-of-cross-data.js': 24, 'weather.js': 12, 'trains.css': 17, 'trains.js': 4, 'airlines.css': 5, 'airlines.js': 5, 'passport.js': 4, 'search-autocomplete.js': 9 };
+var MIN_VERSIONS = { 'guide-style.css': 265,'toolbar.js': 1079, 'mobile.css': 88, 'web-travel-style.css': 143, 'guides-index-style.css': 27, 'read-about.css': 6, 'best-of-features.js': 4, 'best-of-cross-data.js': 24, 'weather.js': 12, 'trains.css': 17, 'trains.js': 4, 'airlines.css': 5, 'airlines.js': 5, 'passport.js': 4, 'search-autocomplete.js': 9 };
 
 function rewriteAssetUrl(urlStr) {
   var u;

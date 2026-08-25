@@ -2210,7 +2210,14 @@
    .search-wrap / + .controls-row / + :not(.hero-ground):not(.wrap) rules
    already reach whatever follows the band. CSS comment updated to match.
    web-travel-style.css -> v132. CACHE to v1533. */
-var CACHE = 'travel-cache-v1533';
+/* 2026-08-24: essentials/baggage — owner feedback "cards boring white". Each
+   row's 3px left border and the airline-mark chip now tint by region, reusing
+   the exact blue/purple/orange/green/pink family already used by the
+   jump-strip dots above (no new colour language, keyed off the row's
+   existing data-region attribute). General-rules card has no region, stays
+   neutral. Page's own inline <style>, no shared CSS/JS touched. CACHE to
+   v1534. */
+var CACHE = 'travel-cache-v1534';
 
 /* The guide-calendar hand-off cache. Written by toolbar.js, read and emptied
    once by the fetch handler below, and EXEMPT from the activate sweep — it is

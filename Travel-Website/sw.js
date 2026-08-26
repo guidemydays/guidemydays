@@ -2343,7 +2343,8 @@
 /* 2026-08-26: essentials/where-to-stay + essentials/day-trips hero icons recolored a third time, onto colors pulled directly from best-of/amusement-parks (owner: "use these colors only") -- both pages precached, no shared asset moved. CACHE to v1610. */
 /* 2026-08-26: essentials/where-to-stay: the "[City] guide" pill recolored sand -> espresso (sand sat too close to the shared component's own visited-link gold, #8a6c1a, reading as unchanged on visited links) -- page precached, no shared asset moved. CACHE to v1611. */
 /* 2026-08-26: forced cache bump, no code change -- owner asked for a fresh deploy/push cycle to rule out a caching gap after repeated reports that tonight's pill/hover/badge pass wasn't showing live. CACHE to v1612. */
-var CACHE = 'travel-cache-v1612';
+/* 2026-08-26: before-you-go: .byg-link's 21 literal typed arrow characters replaced with the shared ::after chevron -- page precached, no shared asset moved. CACHE to v1613. */
+var CACHE = 'travel-cache-v1613';
 
 /* The guide-calendar hand-off cache. Written by toolbar.js, read and emptied
    once by the fetch handler below, and EXEMPT from the activate sweep — it is

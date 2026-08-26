@@ -2333,7 +2333,8 @@
 /* 2026-08-26: .cmp-guide-link (Compare cities plug/etc. "Guide" link) was gold text at rest with a broken hover (terracotta border but gold text) -- moved to muted rest + terracotta+beige hover, both themes, dark hover added (none existed). guides-index-style.css -> v32. CACHE to v1600. */
 /* 2026-08-26: index.html: the #8a4a2c revert (.lp-btn/.lp-hero h1 em/.lp-pick-lead em, commit 3b3bf529) landed just after this CACHE floor -- bump to carry it to readers. CACHE to v1601. */
 /* 2026-08-26: index.html: .lp-btn/.lp-hero h1 em/.lp-pick-lead em back to Saddle+Glow/gold -- the #8a4a2c amusement-parks pass (commit 3b3bf529) also didn't land, owner: "go back to the first one". CACHE to v1602. */
-var CACHE = 'travel-cache-v1602';
+/* 2026-08-26: index.html: .lp-btn/.lp-hero h1 em/.lp-pick-lead em back to the ORIGINAL #C04E1A terracotta (commit 0660d275) -- owner clarified "go back to the first one" meant this, not Saddle+Glow (commit fac2219a). Third and final reversal of today's colour cycle. CACHE to v1603. */
+var CACHE = 'travel-cache-v1603';
 
 /* The guide-calendar hand-off cache. Written by toolbar.js, read and emptied
    once by the fetch handler below, and EXEMPT from the activate sweep — it is

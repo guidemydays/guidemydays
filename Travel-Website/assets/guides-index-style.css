@@ -702,11 +702,20 @@ body.mode-compare .mosaic-wrap .dest-card.cmp-sel {
   box-shadow: 0 0 0 1.5px var(--accent);
 }
 body.mode-compare .mosaic-wrap .dest-card.cmp-sel .dest-name { color: var(--accent); }
+/* Drawn, not typed (2026-08-26): a raw "✓" character painted via CSS content
+   was invisible to check_icons_are_drawn_only (it reads markup/JS/CSS text,
+   not painted pseudo-content) until the check was widened the same session
+   to decode CSS content: strings too. Path is NAV_ICONS['check'] from
+   toolbar.js — the same flat check mark TVE.icon('check', …) draws
+   elsewhere — as a mask so background:var(--accent) still carries the
+   dark-mode-aware fill a literal character used to get from `color`. */
 body.mode-compare .mosaic-wrap .dest-card.cmp-sel::after {
-  content: "✓"; position: absolute; right: 38px; top: 50%;
+  content: ""; position: absolute; right: 38px; top: 50%;
   transform: translateY(-50%);
-  font-size: 11px; font-weight: 700; color: var(--accent);
-  width: auto; height: auto; border-radius: 0; background: none;
+  width: 12px; height: 12px; background: var(--accent);
+  -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M9.2 16.6 4.6 12l-1.5 1.4 6.1 6.2L21 8l-1.4-1.4-10.4 10z'/%3E%3C/svg%3E") no-repeat center / contain;
+  mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M9.2 16.6 4.6 12l-1.5 1.4 6.1 6.2L21 8l-1.4-1.4-10.4 10z'/%3E%3C/svg%3E") no-repeat center / contain;
+  border-radius: 0;
 }
 /* Dim non-selected cards once 5 are chosen */
 body.mode-compare.cmp-full .mosaic-wrap .dest-card:not(.cmp-sel) { opacity: .45; }

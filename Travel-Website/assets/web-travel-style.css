@@ -3248,8 +3248,17 @@ body > .hero-ground {
   cursor: pointer;
   transition: background .12s ease, border-color .12s ease;
 }
+/* Glow hover (Dropdown-Collapse.html "The rule" — one of the 4 approved
+   pill hovers, copied not reinvented): ambient halo instead of a directional
+   shadow, solid border, NO fill change. Same rgb as this control's own
+   existing focus-border tan (#C8B99A), same ring/blur geometry the toolbar's
+   Glow uses (assets/toolbar.js .tb-ddbtn:hover). Replaces the old flat
+   background+border shift, which was neither Darken, Lift, Press nor Glow. */
 .pp-btn:hover,
-.pp-btn:focus-visible { background: var(--bg, #f5f4f0); border-color: var(--c-search-focus-border, #C8B99A); }
+.pp-btn:focus-visible {
+  box-shadow: 0 0 0 6px rgba(200,185,154,.18), 0 0 18px rgba(200,185,154,.35);
+  border-color: var(--c-search-focus-border, #C8B99A);
+}
 
 /* THE AIRPORT PICKER IS ONE FIELD (owner rule 2026-08-23: "this should be one
    field no drop down to then type"). It takes the .pp-btn box exactly — same
@@ -3384,6 +3393,13 @@ input.pp-input::placeholder { color: var(--muted, #6a6660); opacity: .82; font-w
    show it. */
 @media (prefers-color-scheme: dark) {
   .pp-btn { border-color: var(--border2, #332f2a); }
+  /* The glow ring is a hardcoded rgba (box-shadow can't take var() color-mix),
+     so unlike the rest of .pp-btn it does need a dark restate here — the dark
+     partner of --c-search-focus-border (#7a6a5a = 122,106,90), not the light
+     tan carried over. */
+  .pp-btn:hover, .pp-btn:focus-visible {
+    box-shadow: 0 0 0 6px rgba(122,106,90,.25), 0 0 18px rgba(122,106,90,.45);
+  }
   .pp-pop { box-shadow: 0 8px 28px rgba(0,0,0,.5); }
 }
 

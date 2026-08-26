@@ -2321,7 +2321,8 @@
 /* 2026-08-26: web-travel-style.css: TVE.passport picker + landing selects gold->muted (owner rule 2026-08-26) toolbar.js -> v1085. CACHE to v1588. */
 /* 2026-08-26: web-travel-style.css: TVE.passport picker + landing-page selects (.pp-btn, input.pp-input, .pp-opt.pp-on, .pp-pop .pp-search placeholder) gold var(--accent) -> muted var(--muted), matching the same-day search-bar reversal (d7bca9fc6). web-travel-style.css -> v168. CACHE to v1589. */
 /* 2026-08-26: guides-index-style.css/index.html: Compare Cities bar (.cmp-go-btn/.cmp-exit-btn, both the guides-index toolbar copy and the landing #tp-compare copy) rest/hover recolored to match the desktop toolbar's own Saddle+Glow pill (owner rule) — fixes the disabled "Pick 2-5 cities" opacity-fade-on-terracotta reading as washed-out pink. guides-index-style.css -> v31. CACHE to v1590. */
-var CACHE = 'travel-cache-v1590';
+/* 2026-08-26: web-travel-style.css: .pp-btn (passport picker, "Entry Rules For") hover was a bespoke flat background+border shift matching none of the 4 approved pill hovers -- now Glow (ambient halo, no fill change), the same mechanism as the toolbar's own .tb-ddbtn:hover, same tan tone as the control's existing --c-search-focus-border. Dropdown-Collapse.html item 1 resolved. web-travel-style.css -> v169. CACHE to v1591. */
+var CACHE = 'travel-cache-v1591';
 
 /* The guide-calendar hand-off cache. Written by toolbar.js, read and emptied
    once by the fetch handler below, and EXEMPT from the activate sweep — it is
@@ -2334,7 +2335,7 @@ var ICS_OUTBOX = 'gmd-ics-outbox';
    THIS IS THE ONLY PLACE to bump toolbar.js / guide-style.css versions.
    NEVER bump ?v= inside guide HTML — it breaks HMAC stamps and forces re-validation
    of 230+ guides. Instead, bump MIN_VERSIONS here + increment the CACHE version. */
-var MIN_VERSIONS = { 'guide-style.css': 267,'toolbar.js': 1085, 'mobile.css': 90, 'web-travel-style.css': 168, 'guides-index-style.css': 31, 'read-about.css': 6, 'best-of-features.js': 4, 'best-of-cross-data.js': 24, 'weather.js': 12, 'trains.css': 18, 'trains.js': 5, 'airlines.css': 5, 'airlines.js': 7, 'passport.js': 5, 'search-autocomplete.js': 9, 'flag-render.js': 2 };
+var MIN_VERSIONS = { 'guide-style.css': 267,'toolbar.js': 1085, 'mobile.css': 90, 'web-travel-style.css': 169, 'guides-index-style.css': 31, 'read-about.css': 6, 'best-of-features.js': 4, 'best-of-cross-data.js': 24, 'weather.js': 12, 'trains.css': 18, 'trains.js': 5, 'airlines.css': 5, 'airlines.js': 7, 'passport.js': 5, 'search-autocomplete.js': 9, 'flag-render.js': 2 };
 
 function rewriteAssetUrl(urlStr) {
   var u;

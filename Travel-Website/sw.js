@@ -2355,7 +2355,8 @@
 /* 2026-08-26: essentials/average-costs: Place column single-row on desktop (flag+name left, country right), text sized up -- page precached, no shared asset moved. CACHE to v1622. */
 /* 2026-08-26: essentials/average-costs: trackStyle() bar gradient still green->blue->orange->purple, now matches the badges' green->yellow->orange->red -- page precached, no shared asset moved. CACHE to v1623. */
 /* 2026-08-26: essentials/where-to-stay: the "[City] guide" pill recolored green -> saddle (owner ask, different from green), sp-saddle from the Selection Pill doc, already shipped on the live toolbar -- page precached, no shared asset moved. CACHE to v1624. */
-var CACHE = 'travel-cache-v1624';
+/* 2026-08-26: essentials/tipping: legend dots, row accent bar and per-country chip all recolored green->yellow->orange->grey (was green/blue/gold/grey, not a scale), paused Vibrant -> live Enamel -- page precached, no shared asset moved. CACHE to v1625. */
+var CACHE = 'travel-cache-v1625';
 
 /* The guide-calendar hand-off cache. Written by toolbar.js, read and emptied
    once by the fetch handler below, and EXEMPT from the activate sweep — it is

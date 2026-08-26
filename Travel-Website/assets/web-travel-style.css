@@ -2439,6 +2439,19 @@ body.is-searching .hub-top { display:none!important; }
    page, only pages using the single wrapping ln2 block. */
 .bo-title .ln2 { text-align: left; padding-left: 8%; text-indent: 8%; color: #3d2f1f; }
 .bo-title .ln2::first-line { color: #8a4a2c; }
+/* When ln2 wraps to 2+ lines, the model's own row2→row3 gap (ln3's
+   margin-top:14px, verified 84.48px top-to-top vs the plain 70.48px
+   between every other pair of rows) was missing here — a wrapped line
+   is just line-height spacing, nothing adds ln3's extra 14px. line-height
+   1.259em + margin-top:-7px reproduces that exact 14px gap between ln2's
+   first and second visual line: the margin-top exactly cancels the
+   line-height increase's own top-side growth (verified empirically:
+   row1→row2 stays 70.48px unchanged), so only the row-to-row gap AFTER
+   the first line grows. A single-line ln2 (most categories) is a
+   verified no-op — nothing to add a gap between. Scoped to exclude
+   amusement-parks (:not(:has(.ln3))): it already gets this exact gap from
+   ln3's own margin-top, and applying both would double it. */
+.bo-title:not(:has(.ln3)) .ln2 { line-height: 1.259em; margin-top: -7px; }
 .bo-title .ln3 { text-align: left; padding-left: 8%; margin-top: 14px; }
 /* Direct-child selector — .bo-title now sits as a direct sibling of .bo-main
    on all 37 category pages (moved out of the old .bo-main > div wrapper),

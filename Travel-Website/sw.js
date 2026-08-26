@@ -2328,7 +2328,8 @@
 /* 2026-08-26: index.html: .lp-hero h1 em ("day by day.") and .lp-pick-lead em ("pick your guide") text color terracotta -> gold (owner rule: "change terracota fonts to GOLD"), same var(--accent) token the rest of the site's gold ink uses. Only these two rest-state headline/link em rules moved -- the dozens of :hover/:focus/.on terracotta text states elsewhere on the page (finder, ask-cards, tiles, etc.) are untouched, they're a different, still-live grammar (terracotta = interactive state). CACHE to v1595. */
 /* 2026-08-26: index.html: .lp-btn.big (the "Browse over 200 guides" hero CTA) scaled up again -- clamp(0.95rem,1.2vw,1.08rem)/0.85em 1.9em -> clamp(1.05rem,1.5vw,1.25rem)/1em 2.3em (owner: "make the browse guide a bit bigger"). Only consumer of .lp-btn.big on the site. CACHE to v1596. */
 /* 2026-08-26: the shared --c-tag-good and --c-tag-ok alias tokens (light + dark blocks) repointed from paused Vibrant fam-green/fam-yellow to live Enamel en-green/en-yellow (Non-Negotiable 93) -- the shared source every essentials/insurance-style "good/ok" tag reads its color from. web-travel-style.css -> v171. CACHE to v1597. */
-var CACHE = 'travel-cache-v1597';
+/* 2026-08-26: .showcase-links a (the Wikipedia/Official/Map link row on all 37 Best Of cards) was gold text at rest with a border-only hover -- moved to muted text + the standard beige+terracotta hover, plus a dark-mode variant (none existed). web-travel-style.css -> v172. CACHE to v1598. */
+var CACHE = 'travel-cache-v1598';
 
 /* The guide-calendar hand-off cache. Written by toolbar.js, read and emptied
    once by the fetch handler below, and EXEMPT from the activate sweep — it is
@@ -2341,7 +2342,7 @@ var ICS_OUTBOX = 'gmd-ics-outbox';
    THIS IS THE ONLY PLACE to bump toolbar.js / guide-style.css versions.
    NEVER bump ?v= inside guide HTML — it breaks HMAC stamps and forces re-validation
    of 230+ guides. Instead, bump MIN_VERSIONS here + increment the CACHE version. */
-var MIN_VERSIONS = { 'guide-style.css': 267,'toolbar.js': 1086, 'mobile.css': 90, 'web-travel-style.css': 171, 'guides-index-style.css': 31, 'read-about.css': 6, 'best-of-features.js': 4, 'best-of-cross-data.js': 24, 'weather.js': 12, 'trains.css': 18, 'trains.js': 5, 'airlines.css': 5, 'airlines.js': 7, 'passport.js': 5, 'search-autocomplete.js': 9, 'flag-render.js': 2 };
+var MIN_VERSIONS = { 'guide-style.css': 267,'toolbar.js': 1086, 'mobile.css': 90, 'web-travel-style.css': 172, 'guides-index-style.css': 31, 'read-about.css': 6, 'best-of-features.js': 4, 'best-of-cross-data.js': 24, 'weather.js': 12, 'trains.css': 18, 'trains.js': 5, 'airlines.css': 5, 'airlines.js': 7, 'passport.js': 5, 'search-autocomplete.js': 9, 'flag-render.js': 2 };
 
 function rewriteAssetUrl(urlStr) {
   var u;

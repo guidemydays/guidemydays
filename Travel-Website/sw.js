@@ -2336,7 +2336,8 @@
 /* 2026-08-26: index.html: .lp-btn/.lp-hero h1 em/.lp-pick-lead em back to the ORIGINAL #C04E1A terracotta (commit 0660d275) -- owner clarified "go back to the first one" meant this, not Saddle+Glow (commit fac2219a). Third and final reversal of today's colour cycle. CACHE to v1603. */
 /* 2026-08-26: index.html: .lp-btn hover gets its glow ring back (commit faf50022) -- added on top of the existing empty-on-hover CTA grammar, terracotta tint both themes. Owner: "glow not there". CACHE to v1604. */
 /* 2026-08-26: index.html: .lp-btn hover gets its glow ring back (commit faf50022) -- added on top of the existing empty-on-hover CTA grammar, terracotta tint both themes. Owner: "glow not there". CACHE to v1605. */
-var CACHE = 'travel-cache-v1605';
+/* 2026-08-26: toolbar.js: average-costs PAGE_ICON entry added — Cost of Living pill now draws an icon toolbar.js -> v1087. CACHE to v1606. */
+var CACHE = 'travel-cache-v1606';
 
 /* The guide-calendar hand-off cache. Written by toolbar.js, read and emptied
    once by the fetch handler below, and EXEMPT from the activate sweep — it is
@@ -2349,7 +2350,7 @@ var ICS_OUTBOX = 'gmd-ics-outbox';
    THIS IS THE ONLY PLACE to bump toolbar.js / guide-style.css versions.
    NEVER bump ?v= inside guide HTML — it breaks HMAC stamps and forces re-validation
    of 230+ guides. Instead, bump MIN_VERSIONS here + increment the CACHE version. */
-var MIN_VERSIONS = { 'guide-style.css': 267,'toolbar.js': 1086, 'mobile.css': 90, 'web-travel-style.css': 172, 'guides-index-style.css': 32, 'read-about.css': 6, 'best-of-features.js': 4, 'best-of-cross-data.js': 24, 'weather.js': 12, 'trains.css': 18, 'trains.js': 5, 'airlines.css': 5, 'airlines.js': 7, 'passport.js': 5, 'search-autocomplete.js': 9, 'flag-render.js': 2 };
+var MIN_VERSIONS = { 'guide-style.css': 267,'toolbar.js': 1087, 'mobile.css': 90, 'web-travel-style.css': 172, 'guides-index-style.css': 32, 'read-about.css': 6, 'best-of-features.js': 4, 'best-of-cross-data.js': 24, 'weather.js': 12, 'trains.css': 18, 'trains.js': 5, 'airlines.css': 5, 'airlines.js': 7, 'passport.js': 5, 'search-autocomplete.js': 9, 'flag-render.js': 2 };
 
 function rewriteAssetUrl(urlStr) {
   var u;

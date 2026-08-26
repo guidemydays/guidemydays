@@ -10113,6 +10113,10 @@ window.TVE.home = (function () {
       /* Bags — `before-you-go` also draws `luggage`, but its icon comes from
          ITEMS (the nav owns it), so the checked-bag page takes the variant. */
       'baggage': 'luggage-hardcase', 'storage': 'luggage', 'packing': 'packing',
+      /* Missing entirely — average-costs sibling pills sat bare beside pills
+         that draw one (check_also_on_site_pills_intact). The 'budget' icon
+         key already exists in the catalogue below, just never wired here. */
+      'average-costs': 'budget',
       /* Stays — six pages all drew `neighborhoods`, which put five identical
          house marks down the Hotels & Stays strip. */
       'hotels': 'hotel', 'neighborhoods': 'neighborhoods',

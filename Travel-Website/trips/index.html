@@ -542,6 +542,7 @@ document.addEventListener('DOMContentLoaded',()=>{
 
 <div id="toolbar-mount" data-depth="2" data-maxwidth="940" data-updated="2026-06-18"></div>
 <script src="/assets/toolbar.js?v=127"></script>
+<script src="/assets/flag-render.js"></script>
 
 <div class="wrap">
 
@@ -558,7 +559,7 @@ document.addEventListener('DOMContentLoaded',()=>{
 <div class="trip">
   <div class="trip-header">
     <div class="trip-dates">Aug 15 — 25</div>
-    <div class="trip-title">🇮🇹 Rome, Italy</div>
+    <div class="trip-title"><svg class="flag-svg" viewBox="0 0 36 36" aria-hidden="true" data-flag="10087"><use href="/assets/flags/sprite.svg#flag-10087"></use></svg> Rome, Italy</div>
   </div>
   <div class="trip-body">
 
@@ -820,8 +821,8 @@ document.addEventListener('DOMContentLoaded',()=>{
     if (emon == null) return null;
     return new Date(YR, emon, parseInt(m[4]));
   }
-  function flagFrom(title) { var m = title.match(/[\u{1F1E0}-\u{1F1FF}]{2}/u); return m ? m[0] : ''; }
-  function nameFrom(title) { return title.replace(/[\u{1F1E0}-\u{1F1FF}]{2}/u,'').replace(/—.*/,'').trim(); }
+  function flagFrom(titleEl) { var s = titleEl.querySelector('[data-flag]'); return s ? s.getAttribute('data-flag') : ''; }
+  function nameFrom(title) { return title.replace(/—.*/,'').trim(); }
   var cards = [].slice.call(document.querySelectorAll('.trip'));
   var items = [];
   cards.forEach(function(card, i) {
@@ -831,14 +832,16 @@ document.addEventListener('DOMContentLoaded',()=>{
     var titleEl = card.querySelector('.trip-title'); if (!titleEl) return;
     var title = titleEl.textContent.trim();
     if (!card.id) card.id = 'trip-' + i;
-    items.push({ id: card.id, flag: flagFrom(title), name: nameFrom(title) });
+    items.push({ id: card.id, flag: flagFrom(titleEl), name: nameFrom(title) });
   });
   if (items.length < 2) return;
   var bar = document.createElement('div'); bar.className = 'trip-jump-bar';
   items.forEach(function(t) {
     var a = document.createElement('a');
     a.className = 'trip-jump-pill'; a.href = '#' + t.id;
-    a.textContent = t.flag + ' ' + t.name;
+    var jumpFlagNode = TVE.flag.node(t.flag);
+    if (jumpFlagNode) { a.appendChild(jumpFlagNode); a.appendChild(document.createTextNode(' ')); }
+    a.appendChild(document.createTextNode(t.name));
     bar.appendChild(a);
   });
   mount.appendChild(bar);
@@ -887,8 +890,8 @@ document.addEventListener('DOMContentLoaded',()=>{
     }
     return best;
   }
-  function flagOf(title){ var m=title.match(/^(?:\uD83C[\uDDE6-\uDDFF]){2}/); return m?m[0]:''; }
-  function nameOf(title){ return title.replace(/^(?:\uD83C[\uDDE6-\uDDFF]){2}\s*/,'').split(/[—–-]/)[0].trim(); }
+  function flagOf(titleEl){ var s = titleEl.querySelector('[data-flag]'); return s ? s.getAttribute('data-flag') : ''; }
+  function nameOf(title){ return title.split(/[—–-]/)[0].trim(); }
 
   function longCount(st){
     if(st.days==null) return 'Dates TBD';
@@ -926,7 +929,7 @@ document.addEventListener('DOMContentLoaded',()=>{
     var ds=days(sd), de=days(ed);
     var st=(ds<=0 && de>=0)?{status:'now',days:ds,endDays:de,mon:rng.start.mon}
                            :{status:'set',days:ds,endDays:de,mon:rng.start.mon};
-    trips.push({id:card.id,flag:flagOf(title),name:nameOf(title),title:title,st:st});
+    trips.push({id:card.id,flag:flagOf(titleEl),name:nameOf(title),title:title,st:st});
   });
   if(!trips.length) return;
 
@@ -943,7 +946,7 @@ document.addEventListener('DOMContentLoaded',()=>{
   function esc(s){return (s||'').replace(/[&<>"]/g,function(x){return{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[x];});}
   var html='<div class="nu-head">Next up</div>'
     +'<a class="nu-hero" href="#'+hero.id+'">'
-      +'<span class="nu-flag">'+hero.flag+'</span>'
+      +'<span class="nu-flag">'+TVE.flag.html(hero.flag)+'</span>'
       +'<span class="nu-city">'+esc(hero.name)+'</span>'
       +'<span class="nu-count">'+longCount(hero.st)+'</span>'
       +(wx?'<span class="nu-wx" title="Tap to switch °C / °F">'+wx+'</span>':'')
@@ -954,7 +957,7 @@ document.addEventListener('DOMContentLoaded',()=>{
        is a fixed platform colour that cannot re-tint for dark mode. */
     var nuEmoji=_nuDot({now:'green',set:'orange',hold:'yellow',tbd:'black'}[t.st.status]||'black');
     html+='<a class="nu-chip '+t.st.status+'" href="#'+t.id+'">'
-      +nuEmoji+' '+t.flag+' '+esc(t.name)
+      +nuEmoji+' '+TVE.flag.html(t.flag)+' '+esc(t.name)
       +' <span class="nu-c">'+chipCount(t.st)+'</span></a>';
   });
   html+='</div>';

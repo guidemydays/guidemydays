@@ -190,7 +190,7 @@ a.ff-cl-city:hover { border-color: var(--rust); }
   <div class="hero-band eb-hero">
     <span class="eb-kicker">Best Festivals &amp; Holidays</span>
     <div class="eb-copy">
-      <h1 class="eb-title">The events worth timing <em>a trip around</em>.</h1>
+      <h1 class="eb-title">The events worth timing <em>a trip around.</em></h1>
       <p class="eb-intro">The events worth timing a trip around — Carnival, Songkran, Oktoberfest, Diwali and the rest — laid out by month so you can see what is running when you travel. The same view flags the national holidays that close banks, museums and shops, so a festival week does not cost you the rest of the city.</p>
     </div>
     <div class="eb-graphic" aria-hidden="true"><svg viewBox="0 0 200 140">
@@ -852,11 +852,15 @@ if (window.TVESearch) {
         renderCityResults(it.name);
       }
     });
+    /* Any typed edit clears the stale result, not just emptying the box —
+       typing a city that isn't in the list never fires onPick, so without
+       this the previous city's (or month's) results stayed on screen under
+       a search box that no longer names anything real. A programmatic
+       value-set from picking a match never fires 'input', so this can't
+       race the render that follows a pick. */
     cityInp.addEventListener('input', function() {
-      if (cityInp.value === '') {
-        activeCity = null;
-        document.getElementById('ff-results').innerHTML = '';
-      }
+      activeCity = null;
+      document.getElementById('ff-results').innerHTML = '';
     });
   }
 }

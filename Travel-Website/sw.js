@@ -2357,7 +2357,8 @@
 /* 2026-08-26: essentials/where-to-stay: the "[City] guide" pill recolored green -> saddle (owner ask, different from green), sp-saddle from the Selection Pill doc, already shipped on the live toolbar -- page precached, no shared asset moved. CACHE to v1624. */
 /* 2026-08-26: essentials/tipping: legend dots, row accent bar and per-country chip all recolored green->yellow->orange->grey (was green/blue/gold/grey, not a scale), paused Vibrant -> live Enamel -- page precached, no shared asset moved. CACHE to v1625. */
 /* 2026-08-26: essentials/where-to-stay: removed the "N-day guide" day-count text from every city header (91st non-negotiable — a guide's day count lives only in the guide) -- page precached, no shared asset moved. CACHE to v1626. */
-var CACHE = 'travel-cache-v1626';
+/* 2026-08-26: essentials/tipping: legend pills now match the per-country chip's badge look 100%, region filter row gets a sand earth-tone wash instead of white -- page precached, no shared asset moved. CACHE to v1627. */
+var CACHE = 'travel-cache-v1627';
 
 /* The guide-calendar hand-off cache. Written by toolbar.js, read and emptied
    once by the fetch handler below, and EXEMPT from the activate sweep — it is

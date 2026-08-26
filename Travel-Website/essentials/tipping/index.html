@@ -45,12 +45,18 @@
    selection is .is-on). Never re-add a box or a colour here.
    Spec: Travel-Website/Icons-Formats-Logos/selection-pills-badges-pills-to-badge-dots/. */
 .pill { font-family: inherit; }
-/* Owner: "these are click action pills choose earth tones for these" —
-   the region filter row is a clickable control, not a static badge, so it
-   gets a warm sand wash at rest instead of the shared .selection-pill's
-   white — same --en-sand token the rest of the site's earth-tone accents
-   use. Scoped to this page's region row only. */
-#region-pills .pill.selection-pill { background: var(--en-sand-top, #f2e7d6); }
+/* Owner: "these are click action pills choose earth tones for these" / "we do
+   not have ANY terracotta fonts in the doc" — the doc's own Selection Pill
+   spec (selection-pills-badges-pills-to-badge-dots.html § 2, 2026-08-25) says
+   rest is ALWAYS a pale tint of a tone, never white, and text reads that
+   tone's own ink, never hardcoded terracotta — exactly the .sp-sand values
+   (--sp-sand-wash/--sp-sand-ink), which exist only in that doc and were never
+   shipped to the shared CSS. Applied here directly with the doc's own hex
+   until that tone system ships site-wide. */
+#region-pills .pill.selection-pill { background: #f8f0e4; border-color: rgba(143,106,62,.45); color: #8f6a3e; }
+#region-pills .pill.selection-pill:hover { filter: brightness(.94); border-color: #8f6a3e; }
+#region-pills .pill.selection-pill.is-on,
+#region-pills .pill.selection-pill[aria-pressed="true"] { filter: brightness(.82); border-color: #8f6a3e; }
 /* ── Region headers (B — hairline rule) ── */
 .region-header {
   display: flex; align-items: center; gap: 12px;
@@ -131,9 +137,12 @@
 }
 @media (prefers-color-scheme: dark) {
   :root { --rule: #3a3730; }
-  #region-pills.pills .pill { color: var(--text); }
-  
-  .stat-label { color: var(--muted); }
+  /* Dark-mode sand — the doc has no --sp-sand dark pair, so this borrows the
+     site's existing dark en-sand values (same family, already theme-aware). */
+  #region-pills .pill.selection-pill { background: #2c2010; border-color: rgba(201,154,95,.45); color: #c99a5f; }
+  #region-pills .pill.selection-pill:hover { border-color: #ead1a4; }
+  #region-pills .pill.selection-pill.is-on,
+  #region-pills .pill.selection-pill[aria-pressed="true"] { border-color: #ead1a4; }
   .region-header { color: var(--muted); }
 }
 

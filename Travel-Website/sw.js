@@ -2314,7 +2314,8 @@
 /* 2026-08-26: Best Of hero title — the row2→row3 gap was missing on every wrapped title (owner: "the space between the second row and third is not matching the model one"). ln3's 14px margin-top gives amusement-parks an 84.48px row2→row3 gap vs 70.48px everywhere else; .ln2 line-height 1.259em + margin-top -7px reproduces it (verified no-op on single-line titles and on amusement-parks itself, scoped out via :not(:has(.ln3))). web-travel-style.css -> v163. CACHE to v1581. */
 /* 2026-08-26: essentials pages — a small yellow "page name" kicker in the top-right corner of the hero band (owner: a reader landing mid-site on e.g. /essentials/budget/ from a guide pill has no way to tell which essentials page they're on, since .eb-title is a stylised headline, not the page's name). New .eb-kicker rule on .hero-band.eb-hero, plus a matching span added to all 49 essentials pages on that hero and to day-trips' own bespoke .dt-hero. Text colour is the existing --fam-yellow-ink badge token, not a raw yellow. web-travel-style.css -> v164. CACHE to v1582. */
 /* 2026-08-26: floor-bump — the eb-title em-block change (10bb16bec) landed on web-travel-style.css without its own floor bump, right after the essentials page-name-kicker bump above. web-travel-style.css -> v165. CACHE to v1583. */
-var CACHE = 'travel-cache-v1583';
+/* 2026-08-26: sitewide interactive-elements audit: 6 bug fixes (lightbox ghost-click, offline-save cancel/double-tap/image-fallback, share-stop clipboard fallback, collapse-toggle aria-expanded). toolbar.js -> v1084. CACHE to v1584. */
+var CACHE = 'travel-cache-v1584';
 
 /* The guide-calendar hand-off cache. Written by toolbar.js, read and emptied
    once by the fetch handler below, and EXEMPT from the activate sweep — it is
@@ -2327,7 +2328,7 @@ var ICS_OUTBOX = 'gmd-ics-outbox';
    THIS IS THE ONLY PLACE to bump toolbar.js / guide-style.css versions.
    NEVER bump ?v= inside guide HTML — it breaks HMAC stamps and forces re-validation
    of 230+ guides. Instead, bump MIN_VERSIONS here + increment the CACHE version. */
-var MIN_VERSIONS = { 'guide-style.css': 265,'toolbar.js': 1083, 'mobile.css': 89, 'web-travel-style.css': 165, 'guides-index-style.css': 29, 'read-about.css': 6, 'best-of-features.js': 4, 'best-of-cross-data.js': 24, 'weather.js': 12, 'trains.css': 18, 'trains.js': 5, 'airlines.css': 5, 'airlines.js': 7, 'passport.js': 5, 'search-autocomplete.js': 9, 'flag-render.js': 1 };
+var MIN_VERSIONS = { 'guide-style.css': 265,'toolbar.js': 1084, 'mobile.css': 89, 'web-travel-style.css': 165, 'guides-index-style.css': 29, 'read-about.css': 6, 'best-of-features.js': 4, 'best-of-cross-data.js': 24, 'weather.js': 12, 'trains.css': 18, 'trains.js': 5, 'airlines.css': 5, 'airlines.js': 7, 'passport.js': 5, 'search-autocomplete.js': 9, 'flag-render.js': 1 };
 
 function rewriteAssetUrl(urlStr) {
   var u;

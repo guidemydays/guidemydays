@@ -5402,7 +5402,13 @@ window.TVE.home = (function () {
         catch (e) { abs = img.getAttribute('src'); }
         var p = cache[abs] || (cache[abs] = _offlineFetchDataURI(abs));
         return p.then(function (d) {
-          if (d) img.setAttribute('src', d);
+          /* A failed fetch (flaky wifi) must still leave an ABSOLUTE src —
+             the original was root-relative and _offlineAbsolutise() only
+             ever touches a[href], never img[src], so a bare `if (d)` here
+             left root-relative paths in the saved file. Opened offline
+             (file://), those can never resolve; the abs URL at least still
+             loads once the reader is back online. */
+          img.setAttribute('src', d || abs);
           /* srcset would override the src we just embedded and point back at
              the network — the one attribute that silently un-does this work. */
           img.removeAttribute('srcset');
@@ -5654,8 +5660,14 @@ window.TVE.home = (function () {
     btn.addEventListener('click', function (e) {
       e.preventDefault(); e.stopPropagation();
 
-      /* A build that lost its activation is waiting for one fresh tap. */
+      /* A build that lost its activation is waiting for one fresh tap. Same
+         busy guard as the normal flow below — without it, a fast double-tap
+         here cleared __pending on the first tap and the second tap then fell
+         through to the (still-false) busy check and started a brand-new
+         save cycle while the first deliverShare() was still in flight. */
       if (btn.__pending) {
+        if (busy) return;
+        busy = true;
         var pending = btn.__pending;
         btn.__pending = null;
         deliverShare(pending);
@@ -5675,7 +5687,16 @@ window.TVE.home = (function () {
         handlePromise = window.showSaveFilePicker({
           suggestedName: fileName,
           types: [{ description: 'Web page', accept: { 'text/html': ['.html'] } }]
-        })['catch'](function () { return null; });   /* cancelled → fall through */
+        })['catch'](function (err) {
+          /* AbortError is the reader clicking Cancel on the picker dialog — a
+             deliberate decline, and it must stop here, not fall through to
+             building the file anyway and force-downloading/sharing it. Any
+             OTHER rejection (unsupported, permission quirk) really is "no
+             picker available", which is the one case that should fall
+             through to the share/download cascade. */
+          if (err && err.name === 'AbortError') { throw err; }
+          return null;
+        });
       }
 
       return handlePromise.then(function (handle) {
@@ -5691,8 +5712,11 @@ window.TVE.home = (function () {
           rest();
           deliverShare(html);
         });
-      })['catch'](function () {
+      })['catch'](function (err) {
         rest();
+        /* A cancelled picker dialog is not a failure — no error toast for a
+           choice the reader just made on purpose. */
+        if (err && err.name === 'AbortError') return;
         toast('Could not save the ' + (isPacking ? 'list' : 'guide') + ' — please try again');
       });
     });
@@ -9880,6 +9904,25 @@ window.TVE.home = (function () {
       'outline-offset:2px;border-radius:3px;}';
     (document.head || document.documentElement).appendChild(_ssCss);
 
+    /* Same execCommand fallback _injectAddrCopy/_injectCopyDayButtons already
+       carry — the async Clipboard API is absent or rejects outside a secure
+       context (plain http://, or a guide opened from the offline PWA cache),
+       and this button had no fallback of its own: on a browser with neither
+       the Web Share API nor a usable Clipboard API, clicking it did nothing
+       at all, with zero feedback that anything was even attempted. */
+    function _shareLegacyCopy(text) {
+      var ta = document.createElement('textarea');
+      ta.value = text;
+      ta.setAttribute('readonly', '');
+      ta.style.cssText = 'position:fixed;top:0;left:-9999px;opacity:0;';
+      document.body.appendChild(ta);
+      var ok = false;
+      try { ta.select(); ta.setSelectionRange(0, ta.value.length); ok = document.execCommand('copy'); }
+      catch (e) { ok = false; }
+      document.body.removeChild(ta);
+      return ok;
+    }
+
     function _setup() {
       [].forEach.call(document.querySelectorAll('.stop-block'), function(block) {
         var nameEl = block.querySelector('.stop-name');
@@ -9918,11 +9961,16 @@ window.TVE.home = (function () {
             navigator.share({ title: stopName, text: shareText, url: url }).catch(function() {});
             return;
           }
+          var full = shareText + '\n' + url;
+          function showCopied() {
+            btn.innerHTML = _checkSvg;
+            setTimeout(function() { btn.innerHTML = _shareSvg; }, 1600);
+          }
           if (navigator.clipboard && navigator.clipboard.writeText) {
-            navigator.clipboard.writeText(shareText + '\n' + url).then(function() {
-              btn.innerHTML = _checkSvg;
-              setTimeout(function() { btn.innerHTML = _shareSvg; }, 1600);
-            }).catch(function() {});
+            navigator.clipboard.writeText(full).then(showCopied)
+              ['catch'](function() { if (_shareLegacyCopy(full)) showCopied(); });
+          } else {
+            if (_shareLegacyCopy(full)) showCopied();
           }
         });
 
@@ -11030,11 +11078,13 @@ window.TVE.home = (function () {
         title.setAttribute('tabindex', '0');
         title.addEventListener('click', function () {
           sec.classList.toggle('collapsed');
+          title.setAttribute('aria-expanded', sec.classList.contains('collapsed') ? 'false' : 'true');
         });
         title.addEventListener('keydown', function (e) {
           if (e.key === 'Enter' || e.key === ' ') {
             e.preventDefault();
             sec.classList.toggle('collapsed');
+            title.setAttribute('aria-expanded', sec.classList.contains('collapsed') ? 'false' : 'true');
           }
         });
       });
@@ -11056,6 +11106,16 @@ window.TVE.home = (function () {
           if (sec.dataset.collapseInited && sec.id !== 'nearby-guides') sec.classList.add('collapsed');
         });
       }
+      /* Initial aria-expanded, set here rather than in the loop above — the
+         mobile default-collapse block just above can add .collapsed AFTER
+         a title's role/handlers are wired, so reading the class any earlier
+         would announce every section as expanded even when it opens closed. */
+      document.querySelectorAll('.extras-section, .worth-knowing, #hotel-alternatives').forEach(function (sec) {
+        var title = sec.querySelector(':scope > .extras-title');
+        if (title && sec.dataset.collapseInited) {
+          title.setAttribute('aria-expanded', sec.classList.contains('collapsed') ? 'false' : 'true');
+        }
+      });
 
       document.querySelectorAll('.day-block').forEach(function (day) {
         var hdr = day.querySelector(':scope > .day-header');
@@ -11063,13 +11123,16 @@ window.TVE.home = (function () {
         day.dataset.collapseInited = '1';
         hdr.setAttribute('role', 'button');
         hdr.setAttribute('tabindex', '0');
+        hdr.setAttribute('aria-expanded', day.classList.contains('collapsed') ? 'false' : 'true');
         hdr.addEventListener('click', function () {
           day.classList.toggle('collapsed');
+          hdr.setAttribute('aria-expanded', day.classList.contains('collapsed') ? 'false' : 'true');
         });
         hdr.addEventListener('keydown', function (e) {
           if (e.key === 'Enter' || e.key === ' ') {
             e.preventDefault();
             day.classList.toggle('collapsed');
+            hdr.setAttribute('aria-expanded', day.classList.contains('collapsed') ? 'false' : 'true');
           }
         });
       });
@@ -11082,8 +11145,10 @@ window.TVE.home = (function () {
           ng.dataset.collapseInited = '1';
           ngTitle.setAttribute('role', 'button');
           ngTitle.setAttribute('tabindex', '0');
+          ngTitle.setAttribute('aria-expanded', ng.classList.contains('collapsed') ? 'false' : 'true');
           function _ngToggle() {
             ng.classList.toggle('collapsed');
+            ngTitle.setAttribute('aria-expanded', ng.classList.contains('collapsed') ? 'false' : 'true');
             var ngPills = ng.querySelector('.nearby-guides-pills');
             if (ngPills) ngPills.style.display = '';
             ngTitle.style.marginBottom = '';
@@ -12048,10 +12113,19 @@ window.TVE.home = (function () {
 
       /* Touch swipe */
       var touchStartX = 0;
+      var touchStartOnArrow = false;
       lb.addEventListener('touchstart', function(e) {
         touchStartX = e.changedTouches[0].clientX;
+        /* Prev/Next/Close sit inside lb, so a tap on one still bubbles here.
+           A tap near the screen edge (where the arrows live) easily carries
+           40px+ of lateral drift, which used to fire BOTH this swipe nav AND
+           the button's own click handler for the same tap — a double-advance,
+           or a cancel-out if the drift ran the opposite way from the arrow
+           pressed. Any touch that starts on a control is never a swipe. */
+        touchStartOnArrow = !!(e.target.closest && e.target.closest('.tve-lb-arrow, #tve-lb-close'));
       }, { passive: true });
       lb.addEventListener('touchend', function(e) {
+        if (touchStartOnArrow) return;
         var dx = e.changedTouches[0].clientX - touchStartX;
         if (Math.abs(dx) < 40) return;   /* too short — treat as tap */
         if (dx < 0) _next(); else _prev();

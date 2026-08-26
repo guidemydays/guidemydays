@@ -570,7 +570,7 @@ a.apply-btn, a.apply-btn:hover, .apply-btn, .apply-btn:hover,
 .sibling-pill { font-family: inherit;
   box-sizing: border-box; display: inline-flex; align-items: center; line-height: 1.2;
   font-size: 14px; font-weight: 600; padding: 8px 18px;
-  border: 1px solid rgba(192,78,26,.30); border-radius: 999px; background: #fff;
+  border: 1px solid rgba(192,78,26,.30); border-radius: 999px; background: var(--surface, #fff);
   text-decoration: none;
 }
 .sibling-pill:not([class*="fam-"]) { color: var(--rust, #C04E1A); }
@@ -699,7 +699,7 @@ a.also-on-this-site-pill:active {
 .selection-pill {
   font-family: inherit; box-sizing: border-box; display: inline-flex; align-items: center;
   line-height: 1.2; font-size: 16px; font-weight: 600; padding: 8px 18px;
-  border: 1px solid rgba(192,78,26,.30); border-radius: 999px; background: #fff;
+  border: 1px solid rgba(192,78,26,.30); border-radius: 999px; background: var(--surface, #fff);
   color: var(--rust, #C04E1A); cursor: pointer; text-decoration: none; user-select: none;
 }
 @media (hover: hover) {
@@ -715,9 +715,18 @@ a.also-on-this-site-pill:active {
   background: #fdf4ed; border-color: rgba(192,78,26,.85); font-weight: 600;
 }
 /* Same dark-mode contrast fix as .sibling-pill above: #D4663A on #2a2825
-   measures 4.03:1, under WCAG AA — body text colour instead. */
+   measures 4.03:1, under WCAG AA — body text colour instead. The owner-locked
+   #fdf4ed fill (Non-Negotiable 35) never flips, so hover/is-on need their own
+   dark background too — light gray text on that light-mode-only cream read
+   worse than the 4.03:1 this was meant to fix. Same rgba(212,102,58,…) tint
+   .cont-btn.on already uses for this exact problem elsewhere in this file —
+   pills/buttons may never take the card-only --warm token
+   (check_no_beige_pill_button hard-fail). */
 @media (prefers-color-scheme: dark) {
   .selection-pill { color: var(--text); }
+  .selection-pill:hover,
+  .selection-pill.is-on,
+  .selection-pill[aria-pressed="true"] { background: rgba(212,102,58,.16); }
 }
 :root[data-theme="dark"] .selection-pill { color: var(--text); }
 
@@ -1985,7 +1994,7 @@ a.nav-link:visited { color: #3d3a32; }
 .dest-card.t0 { border-left-color: var(--c0); }
 .dest-card.t1 { border-left-color: var(--c1); }
 .dest-card.t2 { border-left-color: var(--c2); }
-.tag.seasonal { background: #fff8e8; color: var(--warn); }
+.tag.seasonal { background: var(--fam-yellow-bg, #fff8e8); color: var(--fam-yellow-ink, #8a6524); }
 .tag.partner { background: var(--c1bg); color: var(--c1); }
 .filter-clear:hover { border-color:#B8860B;color:var(--accent, #8a6c1a); }
 body.is-searching #route-nav { display:none !important; }
@@ -2222,7 +2231,7 @@ body.is-searching .hub-top { display:none!important; }
   padding: clamp(1.7rem, 3.6vw, 2.9rem) clamp(1.4rem, 3.4vw, 2.6rem);
   background:
     radial-gradient(120% 140% at 0% 0%, rgba(192,78,26,.085), transparent 62%),
-    #faf7f2;
+    var(--surface2, #faf7f2);
   border: 1px solid rgba(192,78,26,.2);
   border-radius: 12px;
   display: grid;
@@ -2235,7 +2244,7 @@ body.is-searching .hub-top { display:none!important; }
   font-family: var(--font); font-size: clamp(1.6rem, 3.9vw, 2.9rem); font-weight: 700; color: var(--text,#3d3a32);
   letter-spacing: -.03em; line-height: 1.05; text-wrap: balance; margin: 0;
 }
-.eb-title em { font-style: normal; color: var(--brand,#C04E1A); }
+.eb-title em { font-style: normal; color: var(--rust,#C04E1A); }
 .eb-graphic { display: flex; align-items: center; justify-content: center; }
 .eb-graphic svg { width: 100%; max-width: clamp(200px, 24vw, 320px); height: auto; }
 /* Same paragraph, same words — now nested inside the card, under the title.
@@ -2245,8 +2254,8 @@ body.is-searching .hub-top { display:none!important; }
 /* Base .hero-band a/a:visited take the band's white for the flat orange fill —
    wrong on this card's cream ground, so eb-hero takes its own link color. */
 .hero-band.eb-hero a,
-.hero-band.eb-hero a:visited { color: var(--brand,#C04E1A); text-decoration-color: rgba(192,78,26,.45); }
-.hero-band.eb-hero a:hover { text-decoration-color: var(--brand,#C04E1A); }
+.hero-band.eb-hero a:visited { color: var(--rust,#C04E1A); text-decoration-color: rgba(192,78,26,.45); }
+.hero-band.eb-hero a:hover { text-decoration-color: var(--rust,#C04E1A); }
 @media (max-width: 640px) {
   .hero-band.eb-hero { grid-template-columns: 1fr; padding: 26px 22px; }
   .eb-graphic { display: none; }
@@ -3005,6 +3014,13 @@ body > .hero-ground {
   background: #fdf4ed;
   border-color: rgba(192,78,26,.85);
   color: var(--rust, #C04E1A);
+}
+/* Owner-locked #fdf4ed (Non-Negotiable 35) never flips for dark mode — same
+   fix as .selection-pill's is-on state above (rgba tint, never --warm —
+   pills/buttons can't take the card-only token, check_no_beige_pill_button). */
+@media (prefers-color-scheme: dark) {
+  .legend-key.is-on,
+  .legend-key[aria-pressed="true"] { background: rgba(212,102,58,.16); }
 }
 .legend-key-row {
   display: flex;

@@ -326,17 +326,30 @@ a.pill:visited { color: #6a6660; }
   flex: 0 0 auto; margin-top: auto;
 }
 .utc-offset  { font-size: 11px; color: var(--muted); }
-.vs-sea      { font-size: 11px; font-weight: 500; padding: 1px 6px; border-radius: 6px; }
-/* Canonical family colors per Badge spec 2026-07-29. */
-.vs-sea.ahead  { color: #1a5a1a; background: #e8f5e8; }   /* GREEN */
-.vs-sea.behind { color: #7a3a1a; background: #fdf0e8; }   /* RED */
+/* Badge System — Complete Production Spec, merged 2026-08-25
+   (selection-pills-badges-pills-to-badge-dots.html#sec-badge-full-spec). A
+   badge is always the full trio — background + matching BORDER + text, never
+   bare-colored text on the card's own ground — and its text is ALL CAPS at
+   every size, on a `min(1em, 12px)` static-label size rather than a fixed px.
+   This chip classifies each card's ahead/behind/same status exactly like any
+   other content badge on the site, so it takes the shape/colors/case exactly,
+   not an approximated hex. */
+.vs-sea {
+  font-size: min(1em, 12px); font-weight: 700; letter-spacing: .04em;
+  line-height: 1; text-transform: uppercase;
+  padding: 3px 8px; border-radius: 4px; border: 1px solid transparent;
+}
+.vs-sea.ahead  { color: #1a5a1a; background: #e8f5e8; border-color: #1a5a1a; }   /* GREEN */
+.vs-sea.behind { color: #7a1414; background: #fdf0e8; border-color: #7a1414; }   /* RED */
 /* "SAME" IS A LABEL LIKE THE OTHER TWO (owner 2026-08-23: "same should be a label
    too and look the same"). It was bare text on the card's own ground — the one
    reading in the set that did not look like a reading, so a zero offset read as an
    annotation rather than as the answer the other cards were giving. It takes the
-   canonical GREY family (Formatting.html#sec-badges) because zero is neither ahead
-   nor behind: borrowing GREEN would claim a direction it does not have. */
-.vs-sea.same   { color: #6a6660; background: rgba(138,108,26,.07); }
+   canonical GREY family (selection-pills-badges-pills-to-badge-dots.html#sec-badge-full-spec) because zero is neither ahead
+   nor behind: borrowing GREEN would claim a direction it does not have. GREY's
+   text carries fw:800 per the family palette table — the one family where the
+   base 700 reads too light against its low-contrast tint. */
+.vs-sea.same   { color: #6a6660; background: rgba(138,108,26,.07); border-color: #6a6660; font-weight: 800; }
 /* base .empty-state lives in web-travel-style.css — page keeps only the grid span */
 .empty-state { grid-column: 1 / -1; }
 /* ── Day / night mark — EVERY card carries one, in the BOTTOM-RIGHT corner, last in
@@ -419,9 +432,9 @@ a.pill:visited { color: #6a6660; }
 @media (prefers-color-scheme: dark) {
   .pills .pill       { color: var(--rust); background: var(--surface, #2a2825); }
   .pills .pill.active { color: var(--rust); }
-  .vs-sea.ahead  { background: #0a1e0a; color: #4aaa4a; }
-  .vs-sea.behind { background: #240e00; color: #c8840a; }
-  .vs-sea.same   { background: #24221c; color: #a09a90; }
+  .vs-sea.ahead  { background: #0d200d; color: #5aaa5e; border-color: #5aaa5e; }
+  .vs-sea.behind { background: #2a1408; color: #e8a880; border-color: #e8a880; }
+  .vs-sea.same   { background: rgba(180,175,168,.10); color: #b4afa8; border-color: #b4afa8; }
 }
 /* The desktop three-step ladder, redrawn in the dark terracotta. The light
    #fdf4ed fill is a cream card on a dark page, so hover and active become
@@ -475,34 +488,73 @@ a.pill:visited { color: #6a6660; }
 
   <div class="hero-band eb-hero">
     <div class="eb-copy">
-      <h1 class="eb-title">Live local time, <em>everywhere on the site at once</em>.</h1>
+      <h1 class="eb-title">Live local time, <em>everywhere on the site at once.</em></h1>
       <p class="eb-intro">Live local time in every destination on the site, so you can see at a glance whether it is a reasonable hour to call a hotel, whether a shop is still open, or what time you actually land.</p>
     </div>
-    <!-- Dot colors match the page's own day/twilight/night tokens defined in
-         :root above (--tz-day-mark's #a87f0b, --tz-twi-a, --tz-night-a) rather
-         than inventing a fourth palette — decorative literals, not var(), same
-         idiom every other .eb-graphic on the site uses (no dark-mode variant),
-         but chosen to read as the same three states .tz-card already draws per
-         city, just several at once around one clock face. -->
+    <!-- Gradient-technique world-clock, replacing the flat line-art clock
+         (2026-08-26, owner-directed). Recipe from Icons-Formats-Logos/Icons
+         Gradients.html: each shape is a 2-stop linearGradient (light stop,
+         dark stop) plus a white fading "gloss" overlay and a near-black rim
+         stroke, same as the catalogue's own icon treatment — applied fresh
+         here with page-local gradient ids (tzh-*) rather than reusing the
+         Best Of cluster's locked families (Non-Negotiable 36 only locks
+         that cluster, not this page). Colours: the sphere is Earth-blue,
+         not terracotta, because a terracotta *gradient fill* is the exact
+         regression the Thirty-fifth non-negotiable bans near a hero band —
+         terracotta here stays confined to strokes (ticks/hands/orbit ring),
+         which the rule always allowed. The three orbiting dots are gradient
+         versions of the page's own day/twilight/night tokens (--tz-day-mark
+         #a87f0b, --tz-twi-a #4a3a52, --tz-night-a #1c2740 — decorative
+         literals, not var(), same idiom every other .eb-graphic uses, no
+         dark-mode variant) so the "planets" are the same three states each
+         .tz-card already draws per city, orbiting one world clock. -->
     <div class="eb-graphic" aria-hidden="true"><svg viewBox="0 0 200 140">
-      <circle cx="100" cy="70" r="52" fill="none" stroke="#C04E1A" stroke-width="2" opacity=".22"/>
-      <g stroke="#C04E1A" stroke-width="3" stroke-linecap="round" opacity=".45">
-        <line x1="100" y1="18" x2="100" y2="26"/>
-        <line x1="152" y1="70" x2="144" y2="70"/>
-        <line x1="100" y1="122" x2="100" y2="114"/>
-        <line x1="48" y1="70" x2="56" y2="70"/>
-        <line x1="137" y1="33" x2="132" y2="38"/>
-        <line x1="137" y1="107" x2="132" y2="102"/>
-        <line x1="63" y1="107" x2="68" y2="102"/>
-        <line x1="63" y1="33" x2="68" y2="38"/>
+      <defs>
+        <linearGradient id="tzh-globe" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0" stop-color="#7f9fc2"/>
+          <stop offset="1" stop-color="#1c2740"/>
+        </linearGradient>
+        <linearGradient id="tzh-gloss" x1="0" y1="0" x2="0.55" y2="1">
+          <stop offset="0" stop-color="#fff" stop-opacity=".5"/>
+          <stop offset=".45" stop-color="#fff" stop-opacity=".14"/>
+          <stop offset="1" stop-color="#fff" stop-opacity="0"/>
+        </linearGradient>
+        <linearGradient id="tzh-day" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0" stop-color="#e6b34a"/>
+          <stop offset="1" stop-color="#a87f0b"/>
+        </linearGradient>
+        <linearGradient id="tzh-twi" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0" stop-color="#8a6f96"/>
+          <stop offset="1" stop-color="#4a3a52"/>
+        </linearGradient>
+        <linearGradient id="tzh-night" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0" stop-color="#3e5478"/>
+          <stop offset="1" stop-color="#1c2740"/>
+        </linearGradient>
+      </defs>
+      <circle cx="100" cy="70" r="58" fill="none" stroke="#C04E1A" stroke-width="1" opacity=".18"/>
+      <g stroke="#C04E1A" stroke-width="2.4" stroke-linecap="round" opacity=".4">
+        <line x1="100" y1="23" x2="100" y2="29"/>
+        <line x1="147" y1="70" x2="141" y2="70"/>
+        <line x1="100" y1="117" x2="100" y2="111"/>
+        <line x1="53" y1="70" x2="59" y2="70"/>
       </g>
-      <line x1="100" y1="70" x2="100" y2="34" stroke="#C04E1A" stroke-width="4" stroke-linecap="round"/>
-      <line x1="100" y1="70" x2="126" y2="70" stroke="#C04E1A" stroke-width="4" stroke-linecap="round" opacity=".6"/>
-      <circle cx="100" cy="70" r="5" fill="#C04E1A"/>
-      <circle cx="152" cy="70" r="7" fill="#a87f0b"/>
-      <circle cx="126" cy="24" r="7" fill="#4a3a52"/>
-      <circle cx="48" cy="70" r="7" fill="#1c2740"/>
-      <circle cx="74" cy="116" r="7" fill="#a87f0b"/>
+      <circle cx="100" cy="70" r="40" fill="url(#tzh-globe)" stroke="#0f1830" stroke-width=".6"/>
+      <path d="M100 30a40 40 0 0 1 0 80" fill="none" stroke="#0f1830" stroke-width=".8" opacity=".35"/>
+      <path d="M64 48a45 26 0 0 0 72 44" fill="none" stroke="#0f1830" stroke-width=".8" opacity=".28"/>
+      <circle cx="100" cy="70" r="40" fill="url(#tzh-gloss)"/>
+      <line x1="100" y1="70" x2="100" y2="43" stroke="#C04E1A" stroke-width="4.2" stroke-linecap="round"/>
+      <line x1="100" y1="70" x2="121" y2="70" stroke="#C04E1A" stroke-width="4.2" stroke-linecap="round" opacity=".82"/>
+      <circle cx="100" cy="70" r="5.6" fill="url(#tzh-day)" stroke="#5c4508" stroke-width=".6"/>
+      <circle cx="97.9" cy="67.9" r="1.6" fill="#fff" opacity=".55"/>
+      <circle cx="152" cy="70" r="8.2" fill="url(#tzh-day)" stroke="#5c4508" stroke-width=".5"/>
+      <circle cx="149.4" cy="67.4" r="2.3" fill="#fff" opacity=".5"/>
+      <circle cx="126" cy="22" r="8.2" fill="url(#tzh-twi)" stroke="#241b29" stroke-width=".5"/>
+      <circle cx="123.4" cy="19.4" r="2.3" fill="#fff" opacity=".45"/>
+      <circle cx="48" cy="70" r="8.2" fill="url(#tzh-night)" stroke="#0a0f1c" stroke-width=".5"/>
+      <circle cx="45.4" cy="67.4" r="2.3" fill="#fff" opacity=".4"/>
+      <circle cx="74" cy="118" r="8.2" fill="url(#tzh-day)" stroke="#5c4508" stroke-width=".5"/>
+      <circle cx="71.4" cy="115.4" r="2.3" fill="#fff" opacity=".5"/>
     </svg></div>
   </div>
   <div class="hero-ground">

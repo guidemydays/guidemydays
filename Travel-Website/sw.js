@@ -2297,7 +2297,8 @@
 /* 2026-08-26: trains.js — applyCardSpines() taught to key off fam-en-* first (mapping to --en-*-text), falling back to bare fam-*: the Trains Essentials badge swap to Enamel left every train-card's left spine silently defaulting to grey, since the class it read (bare fam-orange etc.) no longer exists on the badge. Same missed-floor-bump pattern as airlines.js above. trains.js -> v5. CACHE to v1563. */
 /* 2026-08-25: toolbar.js hover/selected-state contrast + outline-is-selected fixes toolbar.js -> v1081. CACHE to v1564. */
 /* 2026-08-26: Best Of hero icons, amusement-parks — the .bo-icons-spread cluster rebuilt again: this time by solving placement against a real measured render (five exclusion rects for the title lines/paragraph/graph, plus every other icon, each with a real pixel gap) instead of hand-plotting it, because the previous hand-plotted pass still overlapped the title text and itself in multiple spots and clipped the balloon off the bottom edge. Balloon now hovers above "Amusement" instead of sitting at the bottom; icon sizes and rotation vary and color families are spread apart so nothing reads as a row. web-travel-style.css -> v151. CACHE to v1565. */
-var CACHE = 'travel-cache-v1565';
+/* 2026-08-25: toolbar.js drawn-checkmark swaps (d0156da9, 36535c5a) need the cache floor raised so returning browsers actually fetch it toolbar.js -> v1082. CACHE to v1566. */
+var CACHE = 'travel-cache-v1566';
 
 /* The guide-calendar hand-off cache. Written by toolbar.js, read and emptied
    once by the fetch handler below, and EXEMPT from the activate sweep — it is
@@ -2310,7 +2311,7 @@ var ICS_OUTBOX = 'gmd-ics-outbox';
    THIS IS THE ONLY PLACE to bump toolbar.js / guide-style.css versions.
    NEVER bump ?v= inside guide HTML — it breaks HMAC stamps and forces re-validation
    of 230+ guides. Instead, bump MIN_VERSIONS here + increment the CACHE version. */
-var MIN_VERSIONS = { 'guide-style.css': 265,'toolbar.js': 1081, 'mobile.css': 89, 'web-travel-style.css': 151, 'guides-index-style.css': 27, 'read-about.css': 6, 'best-of-features.js': 4, 'best-of-cross-data.js': 24, 'weather.js': 12, 'trains.css': 17, 'trains.js': 5, 'airlines.css': 5, 'airlines.js': 7, 'passport.js': 5, 'search-autocomplete.js': 9, 'flag-render.js': 1 };
+var MIN_VERSIONS = { 'guide-style.css': 265,'toolbar.js': 1082, 'mobile.css': 89, 'web-travel-style.css': 151, 'guides-index-style.css': 27, 'read-about.css': 6, 'best-of-features.js': 4, 'best-of-cross-data.js': 24, 'weather.js': 12, 'trains.css': 17, 'trains.js': 5, 'airlines.css': 5, 'airlines.js': 7, 'passport.js': 5, 'search-autocomplete.js': 9, 'flag-render.js': 1 };
 
 function rewriteAssetUrl(urlStr) {
   var u;

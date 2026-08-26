@@ -49,6 +49,12 @@
    font-size or a padding here. The coin icons are sized in em (.ci-coins svg),
    so they follow the token on their own. */
 .ci-btn { font-family: inherit; }
+/* "All" isn't a price band, so it takes no Stamp earth tone of its own —
+   it gets the same solid-fill-plus-white-text WEIGHT as its four Stamp
+   siblings (never a lone soft/neutral pill dropped into a row of bold
+   ones), just in neutral charcoal instead of an earth hue. */
+.ci-btn[data-band="all"] { background: var(--muted,#6a6660); border-color: var(--muted,#6a6660); color: #fff; }
+@media (prefers-color-scheme: dark) { .ci-btn[data-band="all"] { background: #57524a; border-color: #57524a; } }
 
 /* The count line sits under the controls that produced it — CLAUDE.md
    Sixty-second non-negotiable. */
@@ -72,7 +78,8 @@
    (colgroup/thead/tbody, screen-reader semantics, the phone's declared-
    width-drop trick) — only how it's painted changes. No gradient paints
    the terracotta family (Thirty-fifth non-negotiable); the track tint
-   gradient below is fam-green/blue/orange/purple, pre-existing, untouched. */
+   gradient below is the Ink earth-tone family (2026-08-26 recolour, see
+   BAND_TONE near the JS data — was fam-green/blue/orange/purple). */
 .index-table { width: 100%; border-collapse: collapse; border: 1px solid var(--border,#d8d4cc); border-radius: 14px; overflow: hidden; }
 /* THE WIDTHS ARE ON CLASSES BECAUSE THE PHONE HIDES THE MIDDLE COLUMN, and a
    <col> does not follow. `display:none` on a th/td removes the COLUMN but
@@ -173,10 +180,17 @@
   transition: transform .15s ease;
 }
 tr.ci-city[aria-expanded="true"] .ci-open { transform: rotate(90deg); color: var(--accent,#8a6c1a); }
-.ci-c-cheap          { color: var(--fam-green-ink,#1a5a1a); }
-.ci-c-moderate       { color: var(--fam-blue-ink,#1a3a8b); }
-.ci-c-expensive      { color: var(--fam-orange-ink,#8a4a10); }
-.ci-c-very-expensive { color: var(--fam-purple-ink,#7c3aed); }
+/* Ink, not Stamp — this is a FOREGROUND colour (bar fill, rank ring, hover
+   accent via currentColor), and Stamp's fills are fixed-both-themes so they
+   go muddy as text/lines on a dark page. Ink is the same 4 earth tones with
+   a real dark-mode brightening, and its LIGHT value is byte-identical to
+   Stamp's fill (--ink-sand:#8f6a3e === --st-sand:#8f6a3e) — so a Cheap row's
+   bar and its badge are the exact same hue in light mode, and Ink only
+   diverges from Stamp once dark mode needs the lift Stamp can't give it. */
+.ci-c-cheap          { color: var(--ink-sand,#8f6a3e); }
+.ci-c-moderate       { color: var(--ink-clay,#a8632b); }
+.ci-c-expensive      { color: var(--ink-rust,#8a3f18); }
+.ci-c-very-expensive { color: var(--ink-espresso,#4a2e1a); }
 
 /* The expanded row: what is driving the tag. Was a mini <table>; is now three
    bento tiles — Rent / Eating out / Groceries, each with its own catalogue
@@ -328,15 +342,16 @@ html { scroll-behavior: smooth; }
   <div class="ci-controls">
     <div class="ci-row pill-badge-strip" id="band-row" role="group" aria-label="Filter by cost of living">
       <span class="ci-row-label">Cost of living</span>
-      <button class="ci-btn pill-badge fam-en fam-en-grey is-on" data-band="all"            aria-pressed="true">All</button>
-      <button class="ci-btn pill-badge fam-en fam-en-green"      data-band="Cheap"          aria-pressed="false"><span class="ci-coins"><svg viewBox="0.10 0.10 23.81 23.81" aria-hidden="true"><use href="#gm-i-coin"></use></svg></span>Cheap</button>
-      <button class="ci-btn pill-badge fam-en fam-en-blue"       data-band="Moderate"       aria-pressed="false"><span class="ci-coins"><svg viewBox="0.10 0.10 23.81 23.81" aria-hidden="true"><use href="#gm-i-coin"></use></svg><svg viewBox="0.10 0.10 23.81 23.81" aria-hidden="true"><use href="#gm-i-coin"></use></svg></span>Moderate</button>
-      <button class="ci-btn pill-badge fam-en fam-en-orange"     data-band="Expensive"      aria-pressed="false"><span class="ci-coins"><svg viewBox="0.10 0.10 23.81 23.81" aria-hidden="true"><use href="#gm-i-coin"></use></svg><svg viewBox="0.10 0.10 23.81 23.81" aria-hidden="true"><use href="#gm-i-coin"></use></svg><svg viewBox="0.10 0.10 23.81 23.81" aria-hidden="true"><use href="#gm-i-coin"></use></svg></span>Expensive</button>
-      <button class="ci-btn pill-badge fam-en fam-en-purple"     data-band="Very expensive" aria-pressed="false"><span class="ci-coins"><svg viewBox="0.10 0.10 23.81 23.81" aria-hidden="true"><use href="#gm-i-coin"></use></svg><svg viewBox="0.10 0.10 23.81 23.81" aria-hidden="true"><use href="#gm-i-coin"></use></svg><svg viewBox="0.10 0.10 23.81 23.81" aria-hidden="true"><use href="#gm-i-coin"></use></svg><svg viewBox="0.10 0.10 23.81 23.81" aria-hidden="true"><use href="#gm-i-coin"></use></svg></span>Very expensive</button>
+      <button class="ci-btn pill-badge is-on"                    data-band="all"            aria-pressed="true">All</button>
+      <button class="ci-btn pill-badge fam-st fam-st-sand"       data-band="Cheap"          aria-pressed="false"><span class="ci-coins"><svg viewBox="0.10 0.10 23.81 23.81" aria-hidden="true"><use href="#gm-i-coin"></use></svg></span>Cheap</button>
+      <button class="ci-btn pill-badge fam-st fam-st-clay"       data-band="Moderate"       aria-pressed="false"><span class="ci-coins"><svg viewBox="0.10 0.10 23.81 23.81" aria-hidden="true"><use href="#gm-i-coin"></use></svg><svg viewBox="0.10 0.10 23.81 23.81" aria-hidden="true"><use href="#gm-i-coin"></use></svg></span>Moderate</button>
+      <button class="ci-btn pill-badge fam-st fam-st-rust"       data-band="Expensive"      aria-pressed="false"><span class="ci-coins"><svg viewBox="0.10 0.10 23.81 23.81" aria-hidden="true"><use href="#gm-i-coin"></use></svg><svg viewBox="0.10 0.10 23.81 23.81" aria-hidden="true"><use href="#gm-i-coin"></use></svg><svg viewBox="0.10 0.10 23.81 23.81" aria-hidden="true"><use href="#gm-i-coin"></use></svg></span>Expensive</button>
+      <button class="ci-btn pill-badge fam-st fam-st-espresso"   data-band="Very expensive" aria-pressed="false"><span class="ci-coins"><svg viewBox="0.10 0.10 23.81 23.81" aria-hidden="true"><use href="#gm-i-coin"></use></svg><svg viewBox="0.10 0.10 23.81 23.81" aria-hidden="true"><use href="#gm-i-coin"></use></svg><svg viewBox="0.10 0.10 23.81 23.81" aria-hidden="true"><use href="#gm-i-coin"></use></svg><svg viewBox="0.10 0.10 23.81 23.81" aria-hidden="true"><use href="#gm-i-coin"></use></svg></span>Very expensive</button>
     </div>
-    <!-- Sort used the same fam-en gradient pills as the Cost-of-living legend
-         above it, so the two rows read as one long strip of identical
-         colourful controls — "cheapest first" is not a category with a
+    <!-- Sort used to share whatever family (Enamel, now Stamp) the
+         Cost-of-living legend above it wears, so the two rows read as one
+         long strip of identical colourful controls — "cheapest first" is
+         not a category with a
          matching badge anywhere on the page, so tinting it via the
          pill-to-badge family system was a false match. .legend-key is the
          shared oval/neutral/terracotta-selected control built for exactly
@@ -615,8 +630,21 @@ var CI=[
 var N_NAME=0, N_SLUG=1, N_COUNTRY=2, N_FLAG=3, N_IDX=4, N_BAND=5, N_VIA=6,
     N_RESOLVED=7, N_EV=8;
 
-var BAND_FAM = { 'Cheap':'fam-green', 'Moderate':'fam-blue',
-                 'Expensive':'fam-orange', 'Very expensive':'fam-purple' };
+/* Earth tones (selection-pills-badges-pills-to-badge-dots.html §5.2/5.3),
+   not the four-hue Vibrant/Enamel rainbow this page shipped with — owner
+   rule 2026-08-26: "use Badge (tint) 10 tones, or earth tones... redo the
+   page." Picked Stamp+Ink over Tint: Tint's own doc note says "dark-mode
+   values not yet decided," and this page is read in both themes — shipping
+   an undecided half would be worse than the drift this replaces. Stamp/Ink
+   are both fully wired, both light+dark, and share the same 8 tones by
+   design: Stamp is the solid fill (BADGES — top pill, table tag, tile tag,
+   always white text, fixed both themes) and Ink is the same hue as a
+   FOREGROUND colour (bar fill, rank ring, hover accent, all via
+   currentColor) that brightens correctly in dark mode where a fixed fill
+   would go muddy as text. Four of the eight, ordered light-to-dark so the
+   badge itself reads as a rough price gauge before you even open the bar:
+   sand (lightest) -> clay -> rust -> espresso (near-black, priciest). */
+var BAND_TONE = { 'Cheap':'sand', 'Moderate':'clay', 'Expensive':'rust', 'Very expensive':'espresso' };
 function bandClass(b) { return 'ci-c-' + b.toLowerCase().replace(/ /g, '-'); }
 /* The same cut points build_cost_page.py BANDS uses — kept in step by hand in
    exactly one place, here, and only because the sub-readings inside an opened
@@ -629,15 +657,8 @@ function coins(band) {
   }
   return out + '</span>';
 }
-/* Enamel — matches the top filter-pill row's gradient family exactly
-   (selection-pills-badges-pills-to-badge-dots.html §5, shipped 2026-08-26).
-   BAND_FAM above is left Vibrant: it also feeds rowVars()/trackStyle() for
-   the bar, rank chip and row hover glow, which are page chrome, not
-   badges, and were never part of that swap. */
-var BAND_FAM_EN = { 'Cheap':'fam-en-green', 'Moderate':'fam-en-blue',
-                     'Expensive':'fam-en-orange', 'Very expensive':'fam-en-purple' };
 function tag(band) {
-  return '<span class="badge fam-en ' + BAND_FAM_EN[band] + '">' + coins(band) + band + '</span>';
+  return '<span class="badge fam-st fam-st-' + BAND_TONE[band] + '">' + coins(band) + band + '</span>';
 }
 function bandOf(n) {
   return n < 35 ? 'Cheap' : n < 50 ? 'Moderate' : n < 70 ? 'Expensive' : 'Very expensive';
@@ -679,10 +700,10 @@ function guideURL(r) { return '/guides/' + r[N_SLUG] + '.html'; }
 function trackStyle() {
   var a = 35 / MAX * 100, b = 50 / MAX * 100, c = 70 / MAX * 100;
   return 'background:linear-gradient(to right,' +
-    'var(--fam-green-bg) 0 '  + a.toFixed(1) + '%,' +
-    'var(--fam-blue-bg) '     + a.toFixed(1) + '% ' + b.toFixed(1) + '%,' +
-    'var(--fam-orange-bg) '   + b.toFixed(1) + '% ' + c.toFixed(1) + '%,' +
-    'var(--fam-purple-bg) '   + c.toFixed(1) + '% 100%)';
+    'rgba(var(--ink-sand-rgb),.20) 0 '      + a.toFixed(1) + '%,' +
+    'rgba(var(--ink-clay-rgb),.20) '        + a.toFixed(1) + '% ' + b.toFixed(1) + '%,' +
+    'rgba(var(--ink-rust-rgb),.20) '        + b.toFixed(1) + '% ' + c.toFixed(1) + '%,' +
+    'rgba(var(--ink-espresso-rgb),.20) '    + c.toFixed(1) + '% 100%)';
 }
 
 function bar(idx, band, label) {
@@ -707,12 +728,12 @@ function barCell(idx, band) {
 }
 
 /* Sets the row's local --row-ink/--row-bg/--row-bd from that row's own band
-   family — the rank chip and the hover accent bar both read these, so a
-   Cheap row glows green and a Very expensive one glows purple, with no new
+   tone — the rank chip and the hover accent bar both read these, so a
+   Cheap row glows sand and a Very expensive one glows espresso, with no new
    hardcoded colour anywhere on the page. */
 function rowVars(band) {
-  var fam = BAND_FAM[band];
-  return 'style="--row-ink:var(--' + fam + '-ink);--row-bg:var(--' + fam + '-bg);--row-bd:var(--' + fam + '-bd)"';
+  var t = BAND_TONE[band];
+  return 'style="--row-ink:var(--ink-' + t + ');--row-bg:rgba(var(--ink-' + t + '-rgb),.12);--row-bd:rgba(var(--ink-' + t + '-rgb),.4)"';
 }
 
 function rowHTML(r, rank) {
@@ -732,8 +753,8 @@ var BASKET_ICON = { 'Rent': 1217, 'Eating out': 1211, 'Groceries': 344 };
    place tagged Moderate can still have a dear driver, and that is the one
    thing this breakdown exists to show. */
 function tileVars(band) {
-  var fam = BAND_FAM[band];
-  return 'style="--tile-ink:var(--' + fam + '-ink);--tile-bg:var(--' + fam + '-bg)"';
+  var t = BAND_TONE[band];
+  return 'style="--tile-ink:var(--ink-' + t + ');--tile-bg:rgba(var(--ink-' + t + '-rgb),.12)"';
 }
 
 function detailHTML(r) {

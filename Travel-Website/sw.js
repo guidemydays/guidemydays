@@ -2317,7 +2317,8 @@
 /* 2026-08-26: sitewide interactive-elements audit: 6 bug fixes (lightbox ghost-click, offline-save cancel/double-tap/image-fallback, share-stop clipboard fallback, collapse-toggle aria-expanded). toolbar.js -> v1084. CACHE to v1584. */
 /* 2026-08-26: push-guard floor bump for other cribs' already-committed guide-style.css/guides-index-style.css/mobile.css changes (sitewide audits, print stylesheet fixes) that landed without their own MIN_VERSIONS bump. guide-style.css -> 266. mobile.css -> 90. guides-index-style.css -> 30. CACHE to v1585. */
 /* 2026-08-26: comment-only fixes — stale Brain/Reference/Formatting/ path citations in web-travel-style.css, guide-style.css and flag-render.js repointed to Travel-Website/Icons-Formats-Logos/ (that folder moved before this session), and two dead Formatting.html anchors (#sec-badges, #src-pills) repointed to selection-pills-badges-pills-to-badge-dots.html now that pill/badge content lives only there. No rule/value changed. web-travel-style.css -> v166. guide-style.css -> 267. flag-render.js -> 2. CACHE to v1586. */
-var CACHE = 'travel-cache-v1586';
+/* 2026-08-26: .eb-kicker rebuilt as a real approved .badge Pill (bg+border+text trio, YELLOW family) instead of bare colored text, size raised to the approved min(1em,12px) ceiling. web-travel-style.css -> v167. CACHE to v1587. */
+var CACHE = 'travel-cache-v1587';
 
 /* The guide-calendar hand-off cache. Written by toolbar.js, read and emptied
    once by the fetch handler below, and EXEMPT from the activate sweep — it is
@@ -2330,7 +2331,7 @@ var ICS_OUTBOX = 'gmd-ics-outbox';
    THIS IS THE ONLY PLACE to bump toolbar.js / guide-style.css versions.
    NEVER bump ?v= inside guide HTML — it breaks HMAC stamps and forces re-validation
    of 230+ guides. Instead, bump MIN_VERSIONS here + increment the CACHE version. */
-var MIN_VERSIONS = { 'guide-style.css': 267,'toolbar.js': 1084, 'mobile.css': 90, 'web-travel-style.css': 166, 'guides-index-style.css': 30, 'read-about.css': 6, 'best-of-features.js': 4, 'best-of-cross-data.js': 24, 'weather.js': 12, 'trains.css': 18, 'trains.js': 5, 'airlines.css': 5, 'airlines.js': 7, 'passport.js': 5, 'search-autocomplete.js': 9, 'flag-render.js': 2 };
+var MIN_VERSIONS = { 'guide-style.css': 267,'toolbar.js': 1084, 'mobile.css': 90, 'web-travel-style.css': 167, 'guides-index-style.css': 30, 'read-about.css': 6, 'best-of-features.js': 4, 'best-of-cross-data.js': 24, 'weather.js': 12, 'trains.css': 18, 'trains.js': 5, 'airlines.css': 5, 'airlines.js': 7, 'passport.js': 5, 'search-autocomplete.js': 9, 'flag-render.js': 2 };
 
 function rewriteAssetUrl(urlStr) {
   var u;

@@ -7,14 +7,15 @@
 <title>Tipping Customs by Country | Guide My Days</title>
 <style>/* ── Tipping norm palette ── */
 :root {
-  /* 2026-08-24: repointed at the real --fam-*-ink tokens instead of their
-     own hardcoded hex — these are the same four categories the norm-chip
-     .badge fam-green/blue/yellow/grey pills already color, just used here
-     for a country-row left accent bar. One source now. */
-  --c-expected:    var(--fam-green-ink);
-  --c-appreciated: var(--fam-blue-ink);
-  --c-check:       var(--fam-yellow-ink);
-  --c-skip:        var(--fam-grey-ink);
+  /* 2026-08-26: repointed at live Enamel tokens (paused Vibrant --fam-*-ink
+     retired). Also swapped appreciated blue -> yellow and check yellow ->
+     orange: green/blue/gold/grey read as four unrelated hues, not a scale —
+     green -> yellow -> orange -> grey reads strongest-expectation to
+     doesn't-apply, matching the heat-scale fix on essentials/average-costs. */
+  --c-expected:    var(--en-green-text);
+  --c-appreciated: var(--en-yellow-text);
+  --c-check:       var(--en-orange-text);
+  --c-skip:        var(--en-grey-text);
 }
 /* ── Stat bar ── */
 .stat-bar { display: flex; flex-wrap: wrap; gap: 8px; margin: 28px 0 14px; justify-content: center; }
@@ -1092,7 +1093,7 @@ function buildStatBar() {
   var labels = {expected:'Expected', appreciated:'Appreciated', check:'Check Bill', skip:'Not Customary'};
   /* One drawing per tier — Site-Icons.html § Dots (856-867). The keys line up with the
      pill's own fam-* class directly below, so the dot and its box can never disagree. */
-  var STAT_DOT = {expected:'dot-green', appreciated:'dot-blue', check:'dot-yellow', skip:'dot-grey'};
+  var STAT_DOT = {expected:'dot-green', appreciated:'dot-yellow', check:'dot-orange', skip:'dot-grey'};
   var html = '';
   ['expected','appreciated','check','skip'].forEach(function(k) {
     html += '<div class="stat-pill legend-key stat-pill-' + k + '">' +
@@ -1128,7 +1129,7 @@ function renderCard(c) {
       '<div class="country-cities">' + c.cities + '</div>' +
     '</div>' +
     '<div class="country-right">' +
-      '<div class="tip-header"><span class="norm-chip badge fam-' + ({expected:'green',appreciated:'blue',check:'yellow',skip:'grey'}[c.norm]||'grey') + ' ' + c.norm + '">' + norm(c.norm) + '</span></div>' +
+      '<div class="tip-header"><span class="norm-chip badge fam-en fam-en-' + ({expected:'green',appreciated:'yellow',check:'orange',skip:'grey'}[c.norm]||'grey') + ' ' + c.norm + '">' + norm(c.norm) + '</span></div>' +
       '<div class="tip-rows">' + tipRows + '</div>' +
       (c.note ? '<div class="tip-note">' + c.note + '</div>' : '') +
     '</div>' +

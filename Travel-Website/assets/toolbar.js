@@ -1652,7 +1652,7 @@ window.TVE.home = (function () {
        contact form, which is where a reader who wants to write to us goes.
        It carried no path, so TOOLBAR_ITEMS_LOCK (keyed on paths) never had an
        entry for it and does not move on its removal. Do not re-add it. */
-    { href: base + 'time-zones/', text: 'Time Zones', icon: 'clock' }
+    { href: base + 'time-zones/', text: 'Time Zones', icon: 'wall-clock' }
   ];
   // isGuide: only fires when data-toolbar-theme="guide" is explicitly set (guides_index).
   // Guide pages now share the #f5f4f0 warm background with essentials — colour detection
@@ -2645,7 +2645,7 @@ window.TVE.home = (function () {
      nesting for no new page. Every page is still one tap from here. */
   var RES_GROUPS = [
     { name: 'Money', links: [
-      ['essentials/budget/',            'Budget Guide'],
+      ['essentials/average-costs/',            'Average Costs'],
       ['essentials/cards-atm/',         'Cards & ATM'],
       ['essentials/tipping/',           'Tipping Guide']
     ] },

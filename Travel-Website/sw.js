@@ -2335,7 +2335,8 @@
 /* 2026-08-26: index.html: .lp-btn/.lp-hero h1 em/.lp-pick-lead em back to Saddle+Glow/gold -- the #8a4a2c amusement-parks pass (commit 3b3bf529) also didn't land, owner: "go back to the first one". CACHE to v1602. */
 /* 2026-08-26: index.html: .lp-btn/.lp-hero h1 em/.lp-pick-lead em back to the ORIGINAL #C04E1A terracotta (commit 0660d275) -- owner clarified "go back to the first one" meant this, not Saddle+Glow (commit fac2219a). Third and final reversal of today's colour cycle. CACHE to v1603. */
 /* 2026-08-26: index.html: .lp-btn hover gets its glow ring back (commit faf50022) -- added on top of the existing empty-on-hover CTA grammar, terracotta tint both themes. Owner: "glow not there". CACHE to v1604. */
-var CACHE = 'travel-cache-v1604';
+/* 2026-08-26: index.html: .lp-btn hover gets its glow ring back (commit faf50022) -- added on top of the existing empty-on-hover CTA grammar, terracotta tint both themes. Owner: "glow not there". CACHE to v1605. */
+var CACHE = 'travel-cache-v1605';
 
 /* The guide-calendar hand-off cache. Written by toolbar.js, read and emptied
    once by the fetch handler below, and EXEMPT from the activate sweep — it is

@@ -134,7 +134,7 @@ html { overflow-x: clip; }
   --c-navbtn-text: #6b6860;   /* prev/next chevron buttons */
 
   /* Shared search magnifier icon — reference as background-image on any search box */
-  --search-icon: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='15' height='15' viewBox='0 0 13 13' fill='none'%3E%3Ccircle cx='5.5' cy='5.5' r='4.5' stroke='%23a8895a' stroke-width='1.5'/%3E%3Cline x1='9.35' y1='9.35' x2='12' y2='12' stroke='%23a8895a' stroke-width='1.5' stroke-linecap='round'/%3E%3C/svg%3E");
+  --search-icon: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='15' height='15' viewBox='0 0 13 13' fill='none'%3E%3Ccircle cx='5.5' cy='5.5' r='4.5' stroke='%236a6660' stroke-width='1.5'/%3E%3Cline x1='9.35' y1='9.35' x2='12' y2='12' stroke='%236a6660' stroke-width='1.5' stroke-linecap='round'/%3E%3C/svg%3E");
 
   /* ── Banner (matches guide hotel banner) ── */
   --banner-gradient: linear-gradient(135deg, #7a3b1e 0%, #C04E1A 55%, #d4874a 100%);
@@ -194,18 +194,23 @@ html { overflow-x: clip; }
      tokens and left the RADIUS behind on a literal, so a sweep two days later
      rounded the bar to 999px on fourteen pages, one hardcoded number at a
      time — and check_search_bar_standard went on pinning 6px, hard-failing
-     ten of those pages.
+     ten of those pages. At the time that was correctly drift, not a decision:
+     no rule doc named the oval and it had to be reverted.
 
-     6px is the value, because § 14 of Formatting.html says so and says it in
-     the same 2026-08-17 revision that set the other three tokens. The oval
-     was undocumented drift, not a decision: no rule doc mentions it, and the
-     only 999px in the whole formatting reference is the toolbar TAB, which is
-     a different control on a different surface. A page reads the token and
-     never restates it. */
+     REVERSED 2026-08-26 (owner rule) — this time it IS the decision, made
+     deliberately on a local preview (index.html) and approved there before
+     shipping: the bar is now a full oval (999px, self-clamping to half the
+     height at any --search-h), the border goes transparent and an ambient
+     box-shadow (Google-style) carries the edge instead, and the icon +
+     placeholder + typed text all move off the old gold #A8895A onto the
+     site's own muted body-text tone #6a6660 (dark mode: #9a9690, the dark
+     --muted value — #6a6660 reads far too dark against the dark --surface).
+     Formatting.html § 14 and check_search_bar_standard are updated in the
+     same pass, so this is no longer undocumented. */
   --search-w:      440px;
   --search-h:      56px;
   --search-gap:    32px;
-  --search-radius: 6px;
+  --search-radius: 999px;
 
   /* ── Delta routing tier colors (nonstop=green / 1-stop=blue / 2-stop=amber) ── */
   --c0: #1a5a1a; --c0bg: #e8f5e8; --c0bd: #a0d8a0;
@@ -274,7 +279,7 @@ html { overflow-x: clip; }
 
   /* ── Search bar standard tokens (§ 14 Formatting.html#sec-colors) ── */
   --c-search-focus-border: #c8b99a;
-  --c-search-placeholder:  #A8895A;
+  --c-search-placeholder:  #6a6660;
 
   /* ── Section head + badge colors (Cards-ATM.html) ── */
   --c-section-head:  #5C3D11;
@@ -368,7 +373,8 @@ html { overflow-x: clip; }
     --c-temp-lo: #6090e0;
     --c-rain: #70a0c0;
     --c-search-focus-border: #7a6a5a;
-    --c-search-placeholder:  #7a6a50;
+    --c-search-placeholder:  #9a9690;
+    --search-icon: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='15' height='15' viewBox='0 0 13 13' fill='none'%3E%3Ccircle cx='5.5' cy='5.5' r='4.5' stroke='%239a9690' stroke-width='1.5'/%3E%3Cline x1='9.35' y1='9.35' x2='12' y2='12' stroke='%239a9690' stroke-width='1.5' stroke-linecap='round'/%3E%3C/svg%3E");
     --c-section-head:  #c8a060;
     --c-terracotta:    #D4663A;
     --badge-top-bg:    #2a1e00;
@@ -914,32 +920,40 @@ input[type="text"],
   width: var(--search-w, 440px); height: var(--search-h, 56px); box-sizing: border-box;
   padding: 0 20px 0 44px; margin-bottom: 14px;
   font-size: 17px; font-family: var(--font); line-height: 1;
-  border: 1.5px solid #e6e2da; border-radius: 6px;
+  border: 1.5px solid transparent; border-radius: var(--search-radius, 999px);
+  box-shadow: 0 1px 6px rgba(32,33,36,.28);
   /* Shared magnifier icon (matches guides_index) — one place, every search box gets it.
      Pages that put a literal 🔍 in the placeholder should drop it (this replaces it). */
   background: #ffffff var(--search-icon) no-repeat 16px center;
-  color: #1a1917;
+  color: #6a6660;
   -webkit-appearance: none; appearance: none;
   outline: none; transition: border-color .15s, box-shadow .15s;
 }
 /* ── Search inputs, DARK MODE ────────────────────────────────────────────────
-   The rule above hardcodes background #ffffff, border #e6e2da and color #1a1917,
-   with no dark counterpart anywhere — so every search box on the site (~70 pages)
-   stayed a white slab after the theme flipped. On the stats pages that was a bright
-   white plank in a dark page; on the essentials pages it was worse than that, because
-   something downstream DOES flip the text token there, leaving light text on a white
-   ground — an unreadable placeholder.
+   The rule above hardcodes background #ffffff, border transparent and color
+   #6a6660, with no dark counterpart anywhere — so every search box on the site
+   (~70 pages) stayed a white slab after the theme flipped. On the stats pages
+   that was a bright white plank in a dark page; on the essentials pages it was
+   worse than that, because something downstream DOES flip the text token
+   there, leaving light text on a white ground — an unreadable placeholder.
 
    Additive on purpose: the light declarations above are not touched, so light mode is
-   byte-for-byte what it was on all ~70 pages, and only the three colours move here.
+   byte-for-byte what it was on all ~70 pages, and only the colours below move here.
    --surface / --border2 / --text already carry dark values on BOTH paths (the
    prefers-color-scheme block below and the html[data-theme="dark"] tokens toolbar.js
    injects), so no new token and no toolbar.js change is needed.
 
    background-COLOR, never the `background` shorthand: the shorthand above also carries
    var(--search-icon) at a fixed offset, and re-stating it here would drop the
-   magnifier. The icon itself needs no dark variant — it is #a8895a gold, which sits at
-   roughly 4.5:1 on the dark #2a2825 surface and is the same glyph light mode shows.
+   magnifier. The icon DOES need a dark variant now (redefined on dark :root,
+   2026-08-26): the light icon is #6a6660, which reads at a poor ratio against
+   the dark #2a2825 surface, so dark :root repoints --search-icon at the dark
+   --muted tone #9a9690 instead.
+
+   box-shadow: none in BOTH blocks below — the light-mode ambient shadow
+   (rgba(32,33,36,.28)) is a dark colour and would be invisible-to-muddy against
+   a dark surface, so dark mode goes back to a plain visible border via
+   border-color: var(--border2) instead of the shadow-only "washed out" look.
 
    BOTH selectors are required and neither is redundant: the media query serves readers
    whose OS is dark, and the attribute serves the site's own toggle, which stamps
@@ -951,6 +965,7 @@ input[type="text"],
   .search-input {
     background-color: var(--surface);
     border-color: var(--border2);
+    box-shadow: none;
     color: var(--text);
   }
 }
@@ -959,6 +974,7 @@ html[data-theme="dark"] input[type="text"],
 html[data-theme="dark"] .search-input {
   background-color: var(--surface);
   border-color: var(--border2);
+  box-shadow: none;
   color: var(--text);
 }
 

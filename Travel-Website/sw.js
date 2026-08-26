@@ -2329,7 +2329,9 @@
 /* 2026-08-26: index.html: .lp-btn.big (the "Browse over 200 guides" hero CTA) scaled up again -- clamp(0.95rem,1.2vw,1.08rem)/0.85em 1.9em -> clamp(1.05rem,1.5vw,1.25rem)/1em 2.3em (owner: "make the browse guide a bit bigger"). Only consumer of .lp-btn.big on the site. CACHE to v1596. */
 /* 2026-08-26: the shared --c-tag-good and --c-tag-ok alias tokens (light + dark blocks) repointed from paused Vibrant fam-green/fam-yellow to live Enamel en-green/en-yellow (Non-Negotiable 93) -- the shared source every essentials/insurance-style "good/ok" tag reads its color from. web-travel-style.css -> v171. CACHE to v1597. */
 /* 2026-08-26: .showcase-links a (the Wikipedia/Official/Map link row on all 37 Best Of cards) was gold text at rest with a border-only hover -- moved to muted text + the standard beige+terracotta hover, plus a dark-mode variant (none existed). web-travel-style.css -> v172. CACHE to v1598. */
-var CACHE = 'travel-cache-v1598';
+/* 2026-08-26: index.html: REVERTED the 2026-08-26 Saddle+Glow/gold pass on .lp-btn ("Browse over 200 guides") + .lp-hero h1 em + .lp-pick-lead em (owner: "did not like my choices"). All three now use #8a4a2c -- copied verbatim from .bo-title .ln2::first-line (web-travel-style.css), the amusement-parks Best Of page's own muted rust-brown, per explicit "copy the code, do not guess" instruction. .lp-btn filled again (empties on hover), same literal color in dark (no dark variant exists for #8a4a2c anywhere on the site). #cf-submit and the Compare Cities bar / passport picker are untouched. CACHE to v1599. */
+/* 2026-08-26: .cmp-guide-link (Compare cities plug/etc. "Guide" link) was gold text at rest with a broken hover (terracotta border but gold text) -- moved to muted rest + terracotta+beige hover, both themes, dark hover added (none existed). guides-index-style.css -> v32. CACHE to v1600. */
+var CACHE = 'travel-cache-v1600';
 
 /* The guide-calendar hand-off cache. Written by toolbar.js, read and emptied
    once by the fetch handler below, and EXEMPT from the activate sweep — it is
@@ -2342,7 +2344,7 @@ var ICS_OUTBOX = 'gmd-ics-outbox';
    THIS IS THE ONLY PLACE to bump toolbar.js / guide-style.css versions.
    NEVER bump ?v= inside guide HTML — it breaks HMAC stamps and forces re-validation
    of 230+ guides. Instead, bump MIN_VERSIONS here + increment the CACHE version. */
-var MIN_VERSIONS = { 'guide-style.css': 267,'toolbar.js': 1086, 'mobile.css': 90, 'web-travel-style.css': 172, 'guides-index-style.css': 31, 'read-about.css': 6, 'best-of-features.js': 4, 'best-of-cross-data.js': 24, 'weather.js': 12, 'trains.css': 18, 'trains.js': 5, 'airlines.css': 5, 'airlines.js': 7, 'passport.js': 5, 'search-autocomplete.js': 9, 'flag-render.js': 2 };
+var MIN_VERSIONS = { 'guide-style.css': 267,'toolbar.js': 1086, 'mobile.css': 90, 'web-travel-style.css': 172, 'guides-index-style.css': 32, 'read-about.css': 6, 'best-of-features.js': 4, 'best-of-cross-data.js': 24, 'weather.js': 12, 'trains.css': 18, 'trains.js': 5, 'airlines.css': 5, 'airlines.js': 7, 'passport.js': 5, 'search-autocomplete.js': 9, 'flag-render.js': 2 };
 
 function rewriteAssetUrl(urlStr) {
   var u;

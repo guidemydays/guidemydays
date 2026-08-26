@@ -2302,13 +2302,21 @@ body.is-searching .hub-top { display:none!important; }
 .eb-copy { min-width: 0; display: flex; flex-direction: column; gap: clamp(.65rem, 1.3vw, 1rem); }
 .eb-title {
   font-family: var(--font); font-size: clamp(1.8rem, 4.4vw, 3.2rem); font-weight: 800; color: var(--text,#3d3a32);
-  letter-spacing: -.03em; line-height: 1.05; text-wrap: balance; margin: 0;
+  letter-spacing: -.03em; line-height: 1.18; text-wrap: balance; margin: 0;
 }
-/* #8a4a2c is .bo-title .ln2's literal colour — the accent word matches the
+/* em is a block, not inline — the accent clause almost always needs its own
+   row(s) below the lead-in text, and a natural inline em let a long clause
+   wrap onto a second visual row that inherited the SAME red as the first
+   (e.g. "everywhere on" + "the site at once" both red) — wrong; only the
+   clause's own first line should read as the accent. ::first-line only
+   ever applies to block containers, hence the display:block. Indented 8%
+   to read as a continuation row, matching .bo-title .ln2/.ln3's own 8%.
+   #8a4a2c is .bo-title .ln2's literal colour — the accent word matches the
    same muted rust-brown amusement-parks uses on its own title, not the
    site's universal terracotta (which no longer appears anywhere in this
    band, including its own links, below). */
-.eb-title em { font-style: normal; color: #8a4a2c; }
+.eb-title em { font-style: normal; color: inherit; display: block; padding-left: 8%; margin-top: 4px; }
+.eb-title em::first-line { color: #8a4a2c; }
 .eb-graphic { display: flex; align-items: center; justify-content: center; }
 .eb-graphic svg { width: 100%; max-width: clamp(200px, 24vw, 320px); height: auto; }
 /* Same paragraph, same words — now nested inside the card, under the title.
@@ -2325,6 +2333,7 @@ body.is-searching .hub-top { display:none!important; }
 @media (max-width: 640px) {
   .hero-band.eb-hero { grid-template-columns: 1fr; padding: 40px 24px 34px; }
   .eb-graphic { display: none; }
+  .eb-title em { padding-left: 4%; }
 }
 
 /* ============ BEST OF CATEGORY HERO — .hero-band.bo-hero ============

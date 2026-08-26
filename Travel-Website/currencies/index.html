@@ -22,24 +22,34 @@
 .fx-field { display: flex; flex-direction: column; gap: 0.35rem; min-width: 0; }
 .fx-field label { font-size: var(--fs-label,11px); font-weight: 700; color: var(--muted,#6a6660); text-transform: uppercase; letter-spacing: 0.08em; }
 /* One height for every control on the page, from the same token the search bar
-   uses — this row IS this page's search (Forty-third non-negotiable). */
+   uses — this row IS this page's search (Forty-third non-negotiable). The box
+   itself now matches the site's own oval search-bar standard directly (border
+   transparent + ambient shadow, --search-radius) instead of borrowing
+   .selection-pill's terracotta-filter rim — that class was never a filter
+   chip here, it just supplied a border/radius this row needed its own copy
+   of (owner rule 2026-08-26, after the row was found reusing a class it
+   didn't semantically belong to). */
 .fx-ctl {
   display: flex; align-items: center; min-width: 0;
   background: var(--surface,#fff); padding: 0 18px;
   height: var(--search-h, 56px); box-sizing: border-box;
+  border: 1.5px solid transparent; border-radius: var(--search-radius, 999px);
+  box-shadow: 0 1px 6px rgba(32,33,36,.28);
 }
-.fx-ctl:focus-within { border-color: #C04E1A; box-shadow: 0 0 0 3px rgba(184,134,11,.12); }
-/* Gold, not ink: every picker select on the site is var(--accent) and
-   brain_check.check_picker_select_gold_color enforces it.
+.fx-ctl:focus-within { border-color: var(--c-search-focus-border, #C8B99A); box-shadow: none; }
+/* Muted, not gold — matches the site-wide search bar standard (icon/placeholder/
+   typed text #6a6660 light · #9a9690 dark), reversed from the old gold
+   var(--accent) rule 2026-08-26 (owner rule) once every picker on the page
+   became a TVESearch typeahead sharing the row with the search bar it now is.
    `margin: 0` is not redundant — a site-wide rule gives every <input> a 14px
    bottom margin, and .fx-ctl centres the MARGIN box, so without it the field
    rides 7px high inside its own pill. Same trap the landing finder documents. */
-.fx-ctl select, .fx-ctl input {
+.fx-ctl input {
   flex: 1 1 auto; min-width: 0; border: 0; outline: none; background: transparent;
-  font: inherit; font-size: var(--fs-body,14px); color: var(--accent);
-  padding: 0; margin: 0; height: 100%; cursor: pointer;
+  font: inherit; font-size: var(--fs-body,14px); color: var(--muted, #6a6660);
+  padding: 0; margin: 0; height: 100%; cursor: text; text-align: start; font-weight: 600;
 }
-.fx-ctl input { cursor: text; text-align: start; font-weight: 600; }
+.fx-ctl input::placeholder { color: var(--muted, #6a6660); font-weight: 400; }
 .fx-amt { width: 8.5rem; }
 .fx-cur { width: 17rem; max-width: 100%; }
 /* The swap sits on the row's baseline with the two pills, not under the labels —
@@ -307,6 +317,7 @@ tr[aria-expanded="true"] .fx-mark { transform: rotate(90deg); opacity: 1; }
 
 <div id="toolbar-mount" data-depth="2" data-maxwidth="940" data-updated="2026-08-25"></div>
 <script src="/assets/toolbar.js?v=103"></script>
+<script src="/assets/search-autocomplete.js?v=8"></script>
 
 <div class="index-section">
   <div class="hero-band eb-hero">
@@ -376,206 +387,16 @@ tr[aria-expanded="true"] .fx-mark { transform: rotate(90deg); opacity: 1; }
     <div class="fx-row">
       <div class="fx-field">
         <label for="fx-amount">Amount</label>
-        <div class="fx-ctl fx-amt selection-pill"><input id="fx-amount" type="number" min="0" step="any" value="1" inputmode="decimal"></div>
+        <div class="fx-ctl fx-amt"><input id="fx-amount" type="number" min="0" step="any" value="1" inputmode="decimal"></div>
       </div>
       <div class="fx-field">
         <label for="fx-from">From</label>
-        <div class="fx-ctl fx-cur selection-pill"><select id="fx-from">
-      <option value="">Choose a currency</option>
-      <optgroup label="Europe">
-        <option value="Austria">Austria — Euro</option>
-        <option value="Belgium">Belgium — Euro</option>
-        <option value="Croatia">Croatia — Euro</option>
-        <option value="Czech_Republic">Czech Republic — Czech Koruna</option>
-        <option value="Denmark">Denmark — Danish Krone</option>
-        <option value="Estonia">Estonia — Euro</option>
-        <option value="Finland">Finland — Euro</option>
-        <option value="France">France — Euro</option>
-        <option value="Georgia">Georgia — Georgian Lari</option>
-        <option value="Germany">Germany — Euro</option>
-        <option value="Greece">Greece — Euro</option>
-        <option value="Hungary">Hungary — Hungarian Forint</option>
-        <option value="Iceland">Iceland — Icelandic Króna</option>
-        <option value="Ireland">Ireland — Euro</option>
-        <option value="Italy">Italy — Euro</option>
-        <option value="Latvia">Latvia — Euro</option>
-        <option value="Lithuania">Lithuania — Euro</option>
-        <option value="Luxembourg">Luxembourg — Euro</option>
-        <option value="Malta">Malta — Euro</option>
-        <option value="Monaco">Monaco — Euro</option>
-        <option value="Montenegro">Montenegro — Euro</option>
-        <option value="Netherlands">Netherlands — Euro</option>
-        <option value="Norway">Norway — Norwegian Krone</option>
-        <option value="Poland">Poland — Polish Złoty</option>
-        <option value="Portugal">Portugal — Euro</option>
-        <option value="Slovenia">Slovenia — Euro</option>
-        <option value="Spain">Spain — Euro</option>
-        <option value="Sweden">Sweden — Swedish Krona</option>
-        <option value="Switzerland">Switzerland — Swiss Franc</option>
-        <option value="Turkey">Turkey — Turkish Lira</option>
-        <option value="United_Kingdom">United Kingdom — Pound Sterling</option>
-      </optgroup>
-      <optgroup label="Middle East">
-        <option value="Jordan">Jordan — Jordanian Dinar</option>
-        <option value="Oman">Oman — Omani Rial</option>
-        <option value="Qatar">Qatar — Qatari Riyal</option>
-        <option value="United_Arab_Emirates">United Arab Emirates — UAE Dirham</option>
-      </optgroup>
-      <optgroup label="Africa">
-        <option value="Egypt">Egypt — Egyptian Pound</option>
-        <option value="Morocco">Morocco — Moroccan Dirham</option>
-        <option value="Seychelles">Seychelles — Seychellois Rupee</option>
-        <option value="South_Africa">South Africa — South African Rand</option>
-      </optgroup>
-      <optgroup label="Asia">
-        <option value="Bhutan">Bhutan — Bhutanese Ngultrum</option>
-        <option value="China">China — Chinese Yuan (Renminbi)</option>
-        <option value="Hong_Kong">Hong Kong — Hong Kong Dollar</option>
-        <option value="Indonesia">Indonesia — Indonesian Rupiah</option>
-        <option value="Japan">Japan — Japanese Yen</option>
-        <option value="Laos">Laos — Lao Kip</option>
-        <option value="Maldives">Maldives — Maldivian Rufiyaa</option>
-        <option value="Nepal">Nepal — Nepalese Rupee</option>
-        <option value="Philippines">Philippines — Philippine Peso</option>
-        <option value="Singapore">Singapore — Singapore Dollar</option>
-        <option value="South_Korea">South Korea — South Korean Won</option>
-        <option value="Sri_Lanka">Sri Lanka — Sri Lankan Rupee</option>
-        <option value="Taiwan">Taiwan — New Taiwan Dollar</option>
-        <option value="Thailand">Thailand — Thai Baht</option>
-        <option value="Vietnam">Vietnam — Vietnamese Dong</option>
-      </optgroup>
-      <optgroup label="Oceania">
-        <option value="Australia">Australia — Australian Dollar</option>
-        <option value="French_Polynesia">French Polynesia — CFP Franc</option>
-        <option value="New_Zealand">New Zealand — New Zealand Dollar</option>
-      </optgroup>
-      <optgroup label="North America">
-        <option value="Canada">Canada — Canadian Dollar</option>
-        <option value="Mexico">Mexico — Mexican Peso</option>
-        <option value="United_States">United States — US Dollar</option>
-      </optgroup>
-      <optgroup label="Central America">
-        <option value="Costa_Rica">Costa Rica — Costa Rican Colón</option>
-      </optgroup>
-      <optgroup label="Caribbean">
-        <option value="Aruba">Aruba — Aruban Florin</option>
-        <option value="Bahamas">Bahamas — Bahamian Dollar</option>
-        <option value="Barbados">Barbados — Barbadian Dollar</option>
-        <option value="Cayman_Islands">Cayman Islands — Cayman Islands Dollar</option>
-        <option value="Curacao">Curaçao — Caribbean Guilder</option>
-        <option value="Puerto_Rico">Puerto Rico — US Dollar</option>
-        <option value="Sint_Maarten">Sint Maarten — Caribbean Guilder</option>
-        <option value="Turks_and_Caicos">Turks and Caicos — US Dollar</option>
-      </optgroup>
-      <optgroup label="South America">
-        <option value="Argentina">Argentina — Argentine Peso</option>
-        <option value="Brazil">Brazil — Brazilian Real</option>
-        <option value="Chile">Chile — Chilean Peso</option>
-        <option value="Ecuador">Ecuador — US Dollar</option>
-        <option value="Peru">Peru — Peruvian Sol</option>
-        <option value="Uruguay">Uruguay — Uruguayan Peso</option>
-      </optgroup>
-        </select></div>
+        <div class="fx-ctl fx-cur"><input type="text" id="fx-from" placeholder="Choose a currency" autocomplete="off" spellcheck="false"></div>
       </div>
       <button id="fx-swap" class="fx-swap" type="button" aria-label="Swap the two currencies" title="Swap">&#8646;</button>
       <div class="fx-field">
         <label for="fx-to">To</label>
-        <div class="fx-ctl fx-cur selection-pill"><select id="fx-to">
-      <option value="">Choose a currency</option>
-      <optgroup label="Europe">
-        <option value="Austria">Austria — Euro</option>
-        <option value="Belgium">Belgium — Euro</option>
-        <option value="Croatia">Croatia — Euro</option>
-        <option value="Czech_Republic">Czech Republic — Czech Koruna</option>
-        <option value="Denmark">Denmark — Danish Krone</option>
-        <option value="Estonia">Estonia — Euro</option>
-        <option value="Finland">Finland — Euro</option>
-        <option value="France">France — Euro</option>
-        <option value="Georgia">Georgia — Georgian Lari</option>
-        <option value="Germany">Germany — Euro</option>
-        <option value="Greece">Greece — Euro</option>
-        <option value="Hungary">Hungary — Hungarian Forint</option>
-        <option value="Iceland">Iceland — Icelandic Króna</option>
-        <option value="Ireland">Ireland — Euro</option>
-        <option value="Italy">Italy — Euro</option>
-        <option value="Latvia">Latvia — Euro</option>
-        <option value="Lithuania">Lithuania — Euro</option>
-        <option value="Luxembourg">Luxembourg — Euro</option>
-        <option value="Malta">Malta — Euro</option>
-        <option value="Monaco">Monaco — Euro</option>
-        <option value="Montenegro">Montenegro — Euro</option>
-        <option value="Netherlands">Netherlands — Euro</option>
-        <option value="Norway">Norway — Norwegian Krone</option>
-        <option value="Poland">Poland — Polish Złoty</option>
-        <option value="Portugal">Portugal — Euro</option>
-        <option value="Slovenia">Slovenia — Euro</option>
-        <option value="Spain">Spain — Euro</option>
-        <option value="Sweden">Sweden — Swedish Krona</option>
-        <option value="Switzerland">Switzerland — Swiss Franc</option>
-        <option value="Turkey">Turkey — Turkish Lira</option>
-        <option value="United_Kingdom">United Kingdom — Pound Sterling</option>
-      </optgroup>
-      <optgroup label="Middle East">
-        <option value="Jordan">Jordan — Jordanian Dinar</option>
-        <option value="Oman">Oman — Omani Rial</option>
-        <option value="Qatar">Qatar — Qatari Riyal</option>
-        <option value="United_Arab_Emirates">United Arab Emirates — UAE Dirham</option>
-      </optgroup>
-      <optgroup label="Africa">
-        <option value="Egypt">Egypt — Egyptian Pound</option>
-        <option value="Morocco">Morocco — Moroccan Dirham</option>
-        <option value="Seychelles">Seychelles — Seychellois Rupee</option>
-        <option value="South_Africa">South Africa — South African Rand</option>
-      </optgroup>
-      <optgroup label="Asia">
-        <option value="Bhutan">Bhutan — Bhutanese Ngultrum</option>
-        <option value="China">China — Chinese Yuan (Renminbi)</option>
-        <option value="Hong_Kong">Hong Kong — Hong Kong Dollar</option>
-        <option value="Indonesia">Indonesia — Indonesian Rupiah</option>
-        <option value="Japan">Japan — Japanese Yen</option>
-        <option value="Laos">Laos — Lao Kip</option>
-        <option value="Maldives">Maldives — Maldivian Rufiyaa</option>
-        <option value="Nepal">Nepal — Nepalese Rupee</option>
-        <option value="Philippines">Philippines — Philippine Peso</option>
-        <option value="Singapore">Singapore — Singapore Dollar</option>
-        <option value="South_Korea">South Korea — South Korean Won</option>
-        <option value="Sri_Lanka">Sri Lanka — Sri Lankan Rupee</option>
-        <option value="Taiwan">Taiwan — New Taiwan Dollar</option>
-        <option value="Thailand">Thailand — Thai Baht</option>
-        <option value="Vietnam">Vietnam — Vietnamese Dong</option>
-      </optgroup>
-      <optgroup label="Oceania">
-        <option value="Australia">Australia — Australian Dollar</option>
-        <option value="French_Polynesia">French Polynesia — CFP Franc</option>
-        <option value="New_Zealand">New Zealand — New Zealand Dollar</option>
-      </optgroup>
-      <optgroup label="North America">
-        <option value="Canada">Canada — Canadian Dollar</option>
-        <option value="Mexico">Mexico — Mexican Peso</option>
-        <option value="United_States">United States — US Dollar</option>
-      </optgroup>
-      <optgroup label="Central America">
-        <option value="Costa_Rica">Costa Rica — Costa Rican Colón</option>
-      </optgroup>
-      <optgroup label="Caribbean">
-        <option value="Aruba">Aruba — Aruban Florin</option>
-        <option value="Bahamas">Bahamas — Bahamian Dollar</option>
-        <option value="Barbados">Barbados — Barbadian Dollar</option>
-        <option value="Cayman_Islands">Cayman Islands — Cayman Islands Dollar</option>
-        <option value="Curacao">Curaçao — Caribbean Guilder</option>
-        <option value="Puerto_Rico">Puerto Rico — US Dollar</option>
-        <option value="Sint_Maarten">Sint Maarten — Caribbean Guilder</option>
-        <option value="Turks_and_Caicos">Turks and Caicos — US Dollar</option>
-      </optgroup>
-      <optgroup label="South America">
-        <option value="Argentina">Argentina — Argentine Peso</option>
-        <option value="Brazil">Brazil — Brazilian Real</option>
-        <option value="Chile">Chile — Chilean Peso</option>
-        <option value="Ecuador">Ecuador — US Dollar</option>
-        <option value="Peru">Peru — Peruvian Sol</option>
-        <option value="Uruguay">Uruguay — Uruguayan Peso</option>
-      </optgroup>
-        </select></div>
+        <div class="fx-ctl fx-cur"><input type="text" id="fx-to" placeholder="Choose a currency" autocomplete="off" spellcheck="false"></div>
       </div>
     </div>
   </div>
@@ -633,7 +454,7 @@ var FXC=[["Austria","Austria","Europe","EUR","",[["Salzburg","/guides/salzburg.h
      countries share EUR and four share USD, so the table is keyed by CURRENCY
      while the two pickers are keyed by COUNTRY — that is what lets a reader
      pick "Italy" and read a result about the Euro. */
-  var BYA={}, USED={}, GUIDES={};
+  var BYA={}, USED={}, GUIDES={}, FX_ITEMS=[];
   for(var i=0;i<FXC.length;i++){
     var row=FXC[i]; BYA[row[0]]=row;
     (USED[row[3]]=USED[row[3]]||[]).push(row[1]);
@@ -641,8 +462,11 @@ var FXC=[["Austria","Austria","Europe","EUR","",[["Salzburg","/guides/salzburg.h
        sixty-odd guides, and an undifferentiated list of sixty city names is not
        something anyone reads. The country is the thing the reader is choosing. */
     if(row[5] && row[5].length) (GUIDES[row[3]]=GUIDES[row[3]]||[]).push([row[1],row[5]]);
+    var curName=(FXR[row[3]]||{}).n||row[3];
+    FX_ITEMS.push({name:row[1], sub:curName, text:row[2]+' '+row[3], anchor:row[0]});
   }
   var sortMode='most', tableOpen=false;
+  var fromAnchor='', toAnchor='';
 
   function fmt(v){
     if(!isFinite(v)) return '—';
@@ -665,7 +489,7 @@ var FXC=[["Austria","Austria","Europe","EUR","",[["Salzburg","/guides/salzburg.h
 
   function render(){
     var amt=parseFloat(elAmt.value);
-    var fi=iso(elFrom.value), ti=iso(elTo.value);
+    var fi=iso(fromAnchor), ti=iso(toAnchor);
     /* No currency chosen, no result — and no empty card standing in for one.
        The page opens on nothing and says so by showing nothing. */
     if(!fi||!ti||isNaN(amt)){
@@ -680,7 +504,7 @@ var FXC=[["Austria","Austria","Europe","EUR","",[["Salzburg","/guides/salzburg.h
     var where=USED[ti]||[];
     document.getElementById('fx-where').textContent=
       B.n+' is used in '+where.join(' · ')+'.';
-    var peg=(BYA[elTo.value]||[])[4]||'';
+    var peg=(BYA[toAnchor]||[])[4]||'';
     var note=document.getElementById('fx-note');
     note.textContent=peg; note.hidden=!peg;
     elRes.hidden=false;
@@ -689,7 +513,7 @@ var FXC=[["Austria","Austria","Europe","EUR","",[["Salzburg","/guides/salzburg.h
   }
 
   function renderTable(){
-    var amt=parseFloat(elAmt.value), fi=iso(elFrom.value);
+    var amt=parseFloat(elAmt.value), fi=iso(fromAnchor);
     if(!fi||isNaN(amt)) return;
     var A=FXR[fi], list=[];
     for(var code in FXR){
@@ -717,10 +541,21 @@ var FXC=[["Austria","Austria","Europe","EUR","",[["Salzburg","/guides/salzburg.h
   }
 
   elAmt.addEventListener('input',render);
-  elFrom.addEventListener('change',render);
-  elTo.addEventListener('change',render);
+  function pickFrom(item){ fromAnchor=item.anchor; elFrom.value=item.name; render(); }
+  function pickTo(item){ toAnchor=item.anchor; elTo.value=item.name; render(); }
+  if(window.TVESearch){
+    TVESearch.attach(elFrom,{items:FX_ITEMS, onPick:pickFrom});
+    TVESearch.attach(elTo,{items:FX_ITEMS, onPick:pickTo});
+  }
+  /* Manually clearing the field (not picking a fresh item) drops the anchor
+     too — an emptied box must not go on converting the last thing it held. */
+  elFrom.addEventListener('input',function(){ if(!elFrom.value){ fromAnchor=''; render(); } });
+  elTo.addEventListener('input',function(){ if(!elTo.value){ toAnchor=''; render(); } });
   document.getElementById('fx-swap').addEventListener('click',function(){
-    var a=elFrom.value; elFrom.value=elTo.value; elTo.value=a; render();
+    var a=fromAnchor, an=elFrom.value;
+    fromAnchor=toAnchor; elFrom.value=elTo.value;
+    toAnchor=a; elTo.value=an;
+    render();
   });
   document.getElementById('fx-yes').addEventListener('click',function(){
     tableOpen=true; elAsk.hidden=true; elWrap.hidden=false; renderTable();
@@ -795,7 +630,7 @@ var FXC=[["Austria","Austria","Europe","EUR","",[["Salzburg","/guides/salzburg.h
      preselected currency by another name. */
   if(window.__tveDeep){
     var d=window.__tveDeep;
-    if(BYA[d]){ elTo.value=d; render(); }
+    if(BYA[d]){ toAnchor=d; elTo.value=BYA[d][1]; render(); }
   }
 }());
 </script>

@@ -2310,7 +2310,8 @@
 /* 2026-08-26: .bo-title min-height (3.34em) reserves 3-row height on every best-of category page so a 2-row title (e.g. Best Castles) doesn't leave the paragraph overlapping the icon cluster below it. Verified no-op on amusement-parks. web-travel-style.css -> v159. CACHE to v1577. */
 /* 2026-08-26: Search bar standard — oval shape (999px), transparent border + ambient box-shadow, icon/placeholder/text moved from gold to muted grey (owner rule, reversing the 2026-08-21 revert); 9 pages' redundant hardcoded copies removed to inherit the shared rule (9dd923ff0). That commit landed without its own floor bump. guides-index-style.css -> v29. trains.css -> v18. web-travel-style.css -> v160. CACHE to v1578. */
 /* 2026-08-26: eb-hero — shared default recoloured to the beige+dots recipe, verified against best-of/amusement-parks (2e2dff5c2). That commit landed without its own floor bump. web-travel-style.css -> v161. CACHE to v1579. */
-var CACHE = 'travel-cache-v1579';
+/* 2026-08-26: eb-hero — padding matched to bo-hero's size, title scaled to fit the narrower 2-column text width (f311912d). web-travel-style.css -> v162. CACHE to v1580. */
+var CACHE = 'travel-cache-v1580';
 
 /* The guide-calendar hand-off cache. Written by toolbar.js, read and emptied
    once by the fetch handler below, and EXEMPT from the activate sweep — it is
@@ -2323,7 +2324,7 @@ var ICS_OUTBOX = 'gmd-ics-outbox';
    THIS IS THE ONLY PLACE to bump toolbar.js / guide-style.css versions.
    NEVER bump ?v= inside guide HTML — it breaks HMAC stamps and forces re-validation
    of 230+ guides. Instead, bump MIN_VERSIONS here + increment the CACHE version. */
-var MIN_VERSIONS = { 'guide-style.css': 265,'toolbar.js': 1083, 'mobile.css': 89, 'web-travel-style.css': 161, 'guides-index-style.css': 29, 'read-about.css': 6, 'best-of-features.js': 4, 'best-of-cross-data.js': 24, 'weather.js': 12, 'trains.css': 18, 'trains.js': 5, 'airlines.css': 5, 'airlines.js': 7, 'passport.js': 5, 'search-autocomplete.js': 9, 'flag-render.js': 1 };
+var MIN_VERSIONS = { 'guide-style.css': 265,'toolbar.js': 1083, 'mobile.css': 89, 'web-travel-style.css': 162, 'guides-index-style.css': 29, 'read-about.css': 6, 'best-of-features.js': 4, 'best-of-cross-data.js': 24, 'weather.js': 12, 'trains.css': 18, 'trains.js': 5, 'airlines.css': 5, 'airlines.js': 7, 'passport.js': 5, 'search-autocomplete.js': 9, 'flag-render.js': 1 };
 
 function rewriteAssetUrl(urlStr) {
   var u;

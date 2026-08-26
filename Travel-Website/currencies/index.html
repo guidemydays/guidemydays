@@ -45,7 +45,18 @@
    bottom margin, and .fx-ctl centres the MARGIN box, so without it the field
    rides 7px high inside its own pill. Same trap the landing finder documents. */
 .fx-ctl input {
-  flex: 1 1 auto; min-width: 0; border: 0; outline: none; background: transparent;
+  /* input[type="text"] carries the FULL site-wide search-bar box (§ 14 of the
+     old Formatting.html, now web-travel-style.css) — width, radius, box-shadow,
+     background icon — because #fx-from/#fx-to are type="text" (deliberately,
+     to opt out of the search bar's OWN box so this row's .fx-ctl pill governs
+     instead; see the .fx-ctl comment above). Radius/shadow/width are the same
+     specificity as this rule and this rule is declared after it, but only for
+     properties THIS rule actually sets — box-shadow/border-radius/width were
+     never in the original set and kept rendering their own pill nested inside
+     .fx-ctl's, a visible double-oval stack (reported live 2026-08-26). Explicit
+     resets below close every property the shared rule could otherwise still win. */
+  flex: 1 1 auto; min-width: 0; width: 100%; border: 0; outline: none; background: transparent;
+  box-shadow: none; border-radius: 0;
   font: inherit; font-size: var(--fs-body,14px); color: var(--muted, #6a6660);
   padding: 0; margin: 0; height: 100%; cursor: text; text-align: start; font-weight: 600;
 }

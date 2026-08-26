@@ -5,158 +5,150 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link rel="stylesheet" href="/assets/web-travel-style.css">
 <title>Best Festivals &amp; Holidays | Guide My Days</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@500;700;800;900&family=Work+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
-/* Page-specific styles only — inherits base from web-travel-style.css */
-/* 32px under the band, like every other page. This was 8px, and it was the
-   tightest gap on the site: the § 14 rule reaches `.ff-search-wrap` only when
-   it is the FIRST child under the band, and here the sibling-pill row is, so
-   nothing set the distance and the pills sat glued to the terracotta. */
-.ff-wrap { max-width: var(--rail); padding: 0 var(--gutter); margin: var(--search-gap, 32px) auto 0; }
-.ff-siblings { display: flex; flex-wrap: wrap; gap: 7px; margin: 0 0 20px; }
+/* Page-specific styles only — inherits base (search input, .sibling-pill,
+   .sa-suggest/.sa-row) from web-travel-style.css. Only this page's own
+   redesigned components (fa-*) are declared here, page-scoped, never
+   touching a shared class. */
+.fa-page { max-width: var(--rail); padding: 0 var(--gutter); margin: 0 auto 0; }
+.fa-page .disp { font-family: 'Unbounded', system-ui, sans-serif; }
+.fa-page .mono { font-family: 'IBM Plex Mono', ui-monospace, monospace; }
+.fa-page, .fa-page input, .fa-page button { font-family: 'Work Sans', var(--font); }
 
-/* ── Hero stat — a bold reversed-color panel, not another card on beige.
-   Fixed brand terracotta — the same `--brand` fill + white-text pairing
-   `.hero-band` already ships (proven, already accessible) — not the
-   theme-adaptive --rust. A deliberate "poster" moment, not more ink on
-   paper. ── */
-.ff-hero-stat { background: var(--brand, #C04E1A); border-radius: 20px; padding: 34px 36px 30px; margin: 4px 0 28px; }
-.ff-hero-top { display: flex; align-items: flex-start; gap: 36px; }
-.ff-hero-lead { flex: 1 1 auto; min-width: 0; }
-.ff-hero-kicker { font-size: var(--fs-label); font-weight: 700; text-transform: uppercase; letter-spacing: .12em; color: rgba(255,255,255,.72); margin-bottom: 16px; }
-.ff-hero-num { font-size: clamp(56px, 9vw, 108px); font-weight: 800; line-height: .94; letter-spacing: -.03em; color: #fff; margin: 0 0 10px; font-variant-numeric: tabular-nums; }
-.ff-hero-line { font-size: var(--fs-body); font-weight: 600; color: #fff; line-height: 1.5; max-width: 680px; margin: 0 0 12px; }
-.ff-hero-sub { font-size: var(--fs-sub); color: rgba(255,255,255,.78); line-height: 1.7; max-width: 680px; margin: 0; }
-.ff-hero-graphic { flex: 0 0 190px; padding-top: 10px; }
-.ff-hero-graphic svg { width: 100%; height: auto; display: block; }
+:root {
+  --fa-ink: #201a14; --fa-ink-soft: #5b5248; --fa-line: #d8d0c2;
+  --fa-sand-ink: #8f6a3e; --fa-sand-rgb: 143,106,62; --fa-sand-wash: #f8f0e4;
+  --fa-paper-card: #fbf7ee;
+  --fa-band-ink: #7a4128; --fa-band-ink-text: #fbf3e4; --fa-band-accent: #f0cf94;
+}
+@media (prefers-color-scheme: dark) {
+  :root {
+    --fa-ink: #f2ece0; --fa-ink-soft: #b8ac9c; --fa-line: #3a352c;
+    --fa-sand-ink: #c2a37c; --fa-sand-rgb: 194,163,124; --fa-sand-wash: #2a251d;
+    --fa-paper-card: #221f1a;
+    --fa-band-ink: #4a2c1c; --fa-band-ink-text: #f2ece0; --fa-band-accent: #e8bd7a;
+  }
+}
 
-.ff-stat-row { display: flex; margin-top: 26px; border-top: 1px solid rgba(255,255,255,.25); padding-top: 20px; }
-.ff-stat-item { flex: 1; padding: 0 24px; border-left: 1px solid rgba(255,255,255,.25); }
-.ff-stat-item:first-child { border-left: none; padding-left: 0; }
-.ff-stat-num { font-size: 24px; font-weight: 800; color: #fff; letter-spacing: -.01em; font-variant-numeric: tabular-nums; }
-.ff-stat-lbl { font-size: var(--fs-label); color: rgba(255,255,255,.72); line-height: 1.5; margin-top: 4px; }
+/* ── Wow-fact band — oversized kinetic numeral, not a boxed stat card ── */
+.fa-wow {
+  background: var(--fa-band-ink); color: var(--fa-band-ink-text);
+  border-radius: 20px; margin: var(--search-gap,32px) 0 0;
+  padding: clamp(32px,5vw,56px) clamp(24px,5vw,56px) 0; position: relative; overflow: hidden;
+}
+.fa-wow::before { content:""; position:absolute; inset:0; background: radial-gradient(rgba(255,255,255,.05) 1.4px, transparent 1.4px) 0 0/26px 26px; pointer-events:none; }
+.fa-wow-eyebrow { font-size:12px; font-weight:600; text-transform:uppercase; letter-spacing:.16em; color:var(--fa-band-accent); margin-bottom:18px; position:relative; }
+.fa-wow-num { font-family:'Unbounded',system-ui,sans-serif; font-weight:900; font-size:clamp(64px,13vw,168px); line-height:.88; letter-spacing:-.03em; margin:0 0 14px; position:relative; font-variant-numeric:tabular-nums; }
+.fa-wow-line { font-size:clamp(18px,2.4vw,26px); font-weight:600; line-height:1.4; max-width:760px; margin:0 0 14px; position:relative; }
+.fa-wow-sub { font-size:15px; line-height:1.75; max-width:700px; margin:0 0 32px; color:color-mix(in srgb, var(--fa-band-ink-text) 78%, transparent); position:relative; }
+.fa-wow-stubs { display:flex; gap:0; position:relative; flex-wrap:wrap; }
+.fa-stub { flex:1 1 200px; min-width:180px; padding:18px 20px 22px; position:relative; border-top:1.5px dashed color-mix(in srgb, var(--fa-band-ink-text) 30%, transparent); }
+.fa-stub + .fa-stub { border-left:1.5px dashed color-mix(in srgb, var(--fa-band-ink-text) 30%, transparent); }
+.fa-stub-num { font-family:'Unbounded',system-ui,sans-serif; font-weight:800; font-size:28px; color:var(--fa-band-accent); font-variant-numeric:tabular-nums; }
+.fa-stub-lbl { font-size:13px; line-height:1.5; margin-top:6px; color:color-mix(in srgb, var(--fa-band-ink-text) 82%, transparent); }
 
-/* ── Motion — entrance reveals only, gated behind prefers-reduced-motion so
-   nothing moves for anyone who's asked for less. "Felt, not noticed": short,
-   small-amplitude, no bounce. ── */
 @media (prefers-reduced-motion: no-preference) {
-  .ff-hero-stat { animation: ffRise .6s ease both; }
-  .ff-mtab { animation: ffRise .4s ease both; }
-  .ff-index-item, .ff-spotlight { animation: ffRise .5s ease both; }
+  .fa-wow-num { animation: faRise .7s ease both; }
+  .fa-spoke-btn, .fa-ticket, .fa-stamp-card { animation: faRise .45s ease both; }
 }
-@keyframes ffRise { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+@keyframes faRise { from { opacity:0; transform:translateY(8px); } to { opacity:1; transform:translateY(0); } }
 
-/* ── Month picker — filled pill carousel. Active month is a solid terracotta
-   button; the rest are outlined, the same shape family as .sibling-pill
-   above it so the two rows read as one control language. ── */
-.ff-rail-wrap { margin-bottom: 26px; }
-.ff-rail { display: flex; gap: 8px; overflow-x: auto; padding-bottom: 2px; }
-.ff-mtab {
-  flex: 0 0 auto; display: flex; align-items: baseline; gap: 6px;
-  background: var(--surface); border: 1px solid var(--border); border-radius: 999px; cursor: pointer;
-  font-family: inherit; padding: 9px 16px; font-size: 14px; font-weight: 700;
-  color: var(--text); white-space: nowrap; transition: background .15s, border-color .15s, color .15s;
+/* ── Cross-link row — page-owned, NOT .sibling-pill (that class is shared
+   site-wide and never restyled per page). Same earth tone as every other
+   pill on this page — no terracotta, per owner rule 2026-08-26. ── */
+.fa-siblings { display:flex; flex-wrap:wrap; gap:8px; margin:28px 0 0; }
+.fa-sib-pill {
+  font-weight:600; font-size:14px; padding:8px 18px; display:inline-flex; align-items:center; line-height:1.2;
+  border:1px solid rgba(var(--fa-sand-rgb),.45); border-radius:999px; background:var(--fa-sand-wash);
+  text-decoration:none; color:var(--fa-sand-ink);
 }
-.ff-mtab:hover { border-color: var(--rust); }
-/* Outlined, not filled — selected is never a solid terracotta fill (Twenty-
-   fourth non-negotiable: filled is for true CTAs only, selected/hover are
-   outlined). Was background:var(--brand) + white text, the exact banned
-   pattern; matches .cf-mon.on / .sun-mon.on elsewhere on the site. */
-.ff-mtab.on { background: var(--surface, #fff); border-color: var(--rust, #C04E1A); color: var(--rust, #C04E1A); }
-.ff-mtab-count { font-size: var(--fs-label); font-weight: 600; color: var(--muted); opacity: .7; }
-.ff-mtab.on .ff-mtab-count { color: var(--rust, #C04E1A); opacity: .75; }
+.fa-sib-pill:hover, .fa-sib-pill:visited:hover { border-color:var(--fa-sand-ink); }
+a.fa-sib-pill:visited { color:var(--fa-sand-ink); }
 
-/* Section headings */
-.ff-section-head { display: flex; align-items: baseline; justify-content: space-between; margin: 34px 0 16px; }
-.ff-section-title { font-size: var(--fs-label); font-weight: 700; text-transform: uppercase; letter-spacing: .07em; color: var(--muted); }
-.ff-section-count { font-size: var(--fs-label); color: var(--muted); }
+.fa-search-wrap { display:flex; justify-content:center; margin:var(--search-gap,32px) 0; }
 
-/* Spotlight — the flagship event of the month, called out with a thick
-   terracotta rule so it reads as "the one that matters," without repeating
-   the hero panel's full color reversal. */
-.ff-spotlight { display: block; text-decoration: none; color: inherit; padding: 2px 0 24px 20px; margin-bottom: 24px; border-bottom: 1px solid var(--border2); border-left: 5px solid var(--rust); }
-.ff-spot-eyebrow { font-size: var(--fs-label); font-weight: 700; text-transform: uppercase; letter-spacing: .07em; color: var(--muted); margin-bottom: 9px; }
-.ff-spot-name { font-size: 24px; font-weight: 800; letter-spacing: -.015em; color: var(--text); margin-bottom: 7px; line-height: 1.2; }
-a.ff-spotlight:hover .ff-spot-name { color: var(--rust); }
-.ff-spot-place { font-size: var(--fs-sub); color: var(--muted); margin-bottom: 10px; }
-.ff-spot-place b { color: var(--text); font-weight: 700; }
-.ff-spot-desc { font-size: var(--fs-sub); color: var(--text); line-height: 1.65; max-width: 720px; }
-
-/* Festival index — a numbered editorial list, not boxed cards. The numeral
-   carries the rhythm (oversized, low-contrast, decorative). Each row also
-   carries a "passport stamp" — a rotated dashed-circle badge holding the
-   flag — the one piece of tactile, playful texture on the page. */
-.ff-index-list { display: flex; flex-direction: column; }
-.ff-index-item { display: flex; gap: 18px; padding: 20px 0; border-top: 1px solid var(--border2); text-decoration: none; color: inherit; }
-.ff-index-item:first-child { border-top: none; padding-top: 0; }
-a.ff-index-item { transition: gap .15s; }
-a.ff-index-item:hover { gap: 24px; }
-.ff-index-num { flex: 0 0 40px; font-size: 28px; font-weight: 800; line-height: 1; letter-spacing: -.02em; color: var(--border); transition: color .15s; }
-a.ff-index-item:hover .ff-index-num { color: var(--rust); }
-.ff-index-body { flex: 1; min-width: 0; }
-.ff-card-top { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 7px; }
-.ff-city { display: block; font-size: var(--fs-body); font-weight: 700; color: var(--text); }
-a.ff-index-item:hover .ff-city { color: var(--rust); }
-.ff-flag-country { display: block; font-size: var(--fs-label); color: var(--muted); margin-top: 2px; }
-.ff-stamp {
-  flex: 0 0 auto; width: 44px; height: 44px; border-radius: 50%;
-  border: 2px dashed var(--border); background: var(--surface);
-  display: flex; align-items: center; justify-content: center;
-  font-size: 21px; line-height: 1; transform: rotate(-8deg);
-  transition: border-color .15s, transform .15s;
+/* ── The Year Wheel — a radial polar chart replacing the old pill rail.
+   Bar length per month = curated-festival count. ── */
+.fa-wheel-section { margin:44px 0 8px; display:flex; flex-direction:column; align-items:center; }
+.fa-wheel-title { font-size:11px; letter-spacing:.16em; text-transform:uppercase; color:var(--fa-ink-soft); margin-bottom:22px; text-align:center; }
+.fa-wheel { position:relative; width:min(460px,92vw); aspect-ratio:1; }
+.fa-wheel svg { position:absolute; inset:0; width:100%; height:100%; }
+.fa-wheel-bar { stroke:var(--fa-band-accent); stroke-width:3.6; stroke-linecap:round; opacity:.55; transition:stroke .2s, opacity .2s; }
+.fa-wheel-bar.current { stroke:var(--fa-band-ink); opacity:1; }
+.fa-wheel-bar.on { stroke:var(--fa-band-ink); opacity:1; stroke-width:4.6; }
+.fa-wheel-guide { fill:none; stroke:var(--fa-line); stroke-width:.5; }
+.fa-spoke-btn {
+  position:absolute; box-sizing:border-box; display:inline-flex; align-items:center; gap:4px;
+  transform:translate(-50%,-50%); font-weight:600; font-size:12px; padding:5px 12px;
+  line-height:1.2; border-radius:999px; cursor:pointer; white-space:nowrap;
+  border:1px solid rgba(var(--fa-sand-rgb),.45); background:var(--fa-sand-wash); color:var(--fa-sand-ink);
 }
-a.ff-index-item:hover .ff-stamp { border-color: var(--rust); transform: rotate(-8deg) scale(1.08); }
-.ff-event-name { font-size: var(--fs-sub); font-weight: 700; color: var(--text); margin-bottom: 3px; }
-.ff-dates { font-size: var(--fs-label); color: var(--muted); margin-bottom: 6px; letter-spacing: .02em; }
-.ff-desc { font-size: var(--fs-sub); color: var(--text); line-height: 1.55; max-width: 640px; }
-.ff-no-guide .ff-city { color: var(--muted); }
+.fa-spoke-btn:hover, .fa-spoke-btn:focus-visible { border-color:var(--fa-sand-ink); }
+.fa-spoke-btn.is-on { outline:1.5px solid currentColor; outline-offset:1px; font-weight:800; }
+.fa-spoke-cnt { opacity:.65; font-weight:400; }
+.fa-hub { position:absolute; top:50%; left:50%; transform:translate(-50%,-50%); width:38%; aspect-ratio:1; border-radius:50%; background:var(--fa-paper-card); border:1.5px solid var(--fa-line); display:flex; flex-direction:column; align-items:center; justify-content:center; text-align:center; padding:8px; pointer-events:none; }
+.fa-hub-month { font-family:'Unbounded',system-ui,sans-serif; font-weight:800; font-size:clamp(17px,3.4vw,24px); letter-spacing:-.01em; }
+.fa-hub-count { font-size:11px; color:var(--fa-ink-soft); margin-top:4px; }
 
-/* Closures — a plain rule-separated list, not colored boxed cards */
-.ff-closure-list { display: flex; flex-direction: column; }
-.ff-closure { padding: 15px 0; border-top: 1px solid var(--border2); }
-.ff-cl-head { display: flex; align-items: center; gap: 9px; margin-bottom: 4px; }
-.ff-cl-flag { font-size: 18px; line-height: 1; }
-.ff-cl-name { font-size: var(--fs-body); font-weight: 700; color: var(--text); }
-.ff-cl-holiday { font-size: var(--fs-sub); color: var(--text); font-weight: 700; display: block; margin-bottom: 3px; }
-.ff-cl-shuts { font-size: var(--fs-sub); color: var(--muted); }
-.ff-cl-shuts b { color: var(--text); font-weight: 600; }
-.ff-cl-cities { display: flex; flex-wrap: wrap; gap: 5px; margin-top: 9px; }
-/* inline-flex + centring: mobile.css gives these a 40px tap target on phones,
-   and a bare inline anchor grown to 40px leaves its label sitting 8px above
-   centre — which is what validate_mobile_render reports as OFF-CENTER. */
-.ff-cl-city { display: inline-flex; align-items: center; justify-content: center;
-  font-size: 11px; color: var(--text); border: 1px solid var(--border); border-radius: 999px; padding: 2px 7px; background: var(--surface, #ffffff); text-decoration: none; }
-a.ff-cl-city:visited { color: #3d3a32; }
-a.ff-cl-city:hover { border-color: var(--rust); }
+.fa-head { display:flex; align-items:baseline; justify-content:space-between; gap:12px; margin:48px 0 18px; padding-bottom:10px; border-bottom:1.5px solid var(--fa-line); }
+.fa-head-title { font-family:'Unbounded',system-ui,sans-serif; font-weight:700; font-size:15px; letter-spacing:-.01em; }
+.fa-head-count { font-size:12px; color:var(--fa-ink-soft); }
 
-/* City search */
-.ff-search-wrap { display: flex; justify-content: center; margin: var(--search-gap, 32px) 0; }
+.fa-spotlight { display:grid; grid-template-columns:minmax(0,1fr) auto; gap:24px; align-items:center; text-decoration:none; color:inherit; position:relative; background:var(--fa-paper-card); border:1.5px solid var(--fa-line); border-radius:14px; padding:28px clamp(24px,4vw,40px); margin-bottom:22px; }
+.fa-spot-eyebrow { font-size:11px; letter-spacing:.12em; text-transform:uppercase; color:var(--fa-band-ink); margin-bottom:10px; }
+.fa-spot-name { font-family:'Unbounded',system-ui,sans-serif; font-weight:800; font-size:clamp(22px,3.2vw,32px); letter-spacing:-.02em; line-height:1.15; margin-bottom:10px; }
+a.fa-spotlight:hover .fa-spot-name { color:var(--fa-band-ink); }
+.fa-spot-place { font-size:13px; color:var(--fa-ink-soft); margin-bottom:12px; display:flex; gap:8px; align-items:center; flex-wrap:wrap; }
+.fa-cc { display:inline-flex; align-items:center; justify-content:center; gap:5px; border:1px solid rgba(var(--fa-sand-rgb),.45); border-radius:4px; white-space:nowrap; line-height:1; font-weight:700; letter-spacing:.04em; text-transform:uppercase; background:var(--fa-sand-wash); color:var(--fa-sand-ink); font-size:min(1em,12px); padding:3px 8px; }
+.fa-spot-desc { font-size:15.5px; line-height:1.65; max-width:620px; }
+.fa-spot-badge { width:108px; height:108px; border-radius:50%; border:2.5px dashed var(--fa-band-ink); color:var(--fa-band-ink); display:flex; align-items:center; justify-content:center; transform:rotate(-9deg); flex-shrink:0; text-align:center; }
+.fa-spot-badge-inner { font-family:'Unbounded',system-ui,sans-serif; font-weight:800; font-size:12px; line-height:1.25; letter-spacing:.02em; text-transform:uppercase; }
+@media (max-width:640px) { .fa-spotlight { grid-template-columns:1fr; } .fa-spot-badge { justify-self:start; } }
 
-/* Sources — the one externally-sourced fact on the page (§ 8b pattern) */
-.sources { margin-top: 32px; padding-top: 16px; border-top: 1px solid var(--border2); }
-.sources h2 { font-size: 11px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: var(--muted); margin: 0 0 9px; }
-.source-list { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 6px; }
-.source-list li { font-size: var(--fs-label); line-height: 1.6; }
-.source-list a { color: var(--text, #3d3a32); text-decoration: none; }
-.source-list a:visited { color: var(--text, #3d3a32); }
-.source-list a:hover { color: var(--rust); }
+.fa-filmstrip { display:flex; gap:16px; overflow-x:auto; padding:4px 4px 18px; scroll-snap-type:x proximity; margin:0 -4px; }
+.fa-ticket { scroll-snap-align:start; flex:0 0 280px; text-decoration:none; color:inherit; background:var(--fa-paper-card); border:1.5px solid var(--fa-line); border-radius:10px; position:relative; overflow:hidden; padding:20px 20px 18px; display:flex; flex-direction:column; gap:10px; transition:border-color .15s, transform .15s; }
+.fa-ticket::before { content:""; position:absolute; top:0; left:0; right:0; height:8px; background-image:radial-gradient(circle at 10px 0, var(--bg) 5px, transparent 5.5px); background-size:20px 8px; background-repeat:repeat-x; }
+a.fa-ticket:hover { border-color:var(--fa-band-ink); transform:translateY(-3px); }
+.fa-ticket-top { display:flex; justify-content:space-between; align-items:flex-start; gap:8px; margin-top:6px; }
+.fa-ticket-city { font-weight:700; font-size:15px; }
+a.fa-ticket:hover .fa-ticket-city { color:var(--fa-band-ink); }
+.fa-ticket-name { font-family:'Unbounded',system-ui,sans-serif; font-weight:700; font-size:16px; line-height:1.25; letter-spacing:-.01em; }
+.fa-ticket-dates { font-size:11.5px; color:var(--fa-ink-soft); }
+.fa-ticket-desc { font-size:13.5px; line-height:1.55; color:var(--fa-ink-soft); }
+.fa-no-guide .fa-ticket-city { color:var(--fa-ink-soft); }
 
-@media (max-width: 600px) and (pointer: coarse) {
-  .ff-wrap { padding: 0 14px; }
-  .ff-hero-stat { padding: 24px 20px 22px; border-radius: 16px; }
-  .ff-hero-top { flex-direction: column; gap: 14px; }
-  .ff-hero-graphic { flex-basis: auto; max-width: 190px; margin: 0 auto; padding-top: 0; }
-  .ff-hero-num { font-size: clamp(44px, 15vw, 72px); }
-  .ff-stat-row { flex-direction: column; gap: 14px; }
-  .ff-stat-item { border-left: none; padding-left: 0; border-top: 1px solid rgba(255,255,255,.25); padding-top: 12px; }
-  .ff-stat-item:first-child { border-top: none; padding-top: 0; }
-  .ff-spot-name { font-size: 20px; }
-  .ff-spotlight { padding-left: 14px; }
-  .ff-index-item { gap: 12px; }
-  a.ff-index-item:hover { gap: 12px; }
-  .ff-index-num { flex-basis: 28px; font-size: 22px; }
-  .ff-stamp { width: 38px; height: 38px; font-size: 18px; }
-  .ff-siblings { display: grid; grid-template-columns: repeat(3, 1fr); }
-  .ff-siblings .sibling-pill { justify-content: center; text-align: center; }
+.fa-customs { background:var(--fa-band-ink); color:var(--fa-band-ink-text); border-radius:18px; padding:28px clamp(20px,4vw,36px) 24px; margin-top:40px; }
+.fa-customs-head { font-size:11px; letter-spacing:.14em; text-transform:uppercase; color:var(--fa-band-accent); margin-bottom:16px; }
+.fa-customs-empty { font-size:13px; color:color-mix(in srgb, var(--fa-band-ink-text) 65%, transparent); padding:6px 0 4px; }
+.fa-stamp-row { display:flex; gap:14px; overflow-x:auto; padding-bottom:4px; }
+.fa-stamp-card { flex:0 0 240px; border:1.5px solid color-mix(in srgb, var(--fa-band-ink-text) 25%, transparent); border-radius:10px; padding:16px 16px 14px; display:flex; flex-direction:column; gap:8px; }
+.fa-stamp-head { display:flex; align-items:center; gap:8px; }
+.fa-stamp-cc { display:inline-flex; align-items:center; justify-content:center; gap:5px; border:1px solid rgba(var(--fa-sand-rgb),.6); border-radius:4px; white-space:nowrap; line-height:1; font-weight:700; letter-spacing:.04em; text-transform:uppercase; background:var(--fa-sand-wash); color:var(--fa-sand-ink); font-size:min(1em,11px); padding:3px 8px; }
+.fa-stamp-country { font-size:12.5px; font-weight:600; color:color-mix(in srgb, var(--fa-band-ink-text) 80%, transparent); }
+.fa-stamp-holiday { font-family:'Unbounded',system-ui,sans-serif; font-weight:700; font-size:14.5px; line-height:1.3; }
+.fa-stamp-shuts { font-size:12.5px; line-height:1.55; color:color-mix(in srgb, var(--fa-band-ink-text) 72%, transparent); }
+.fa-stamp-cities { display:flex; flex-wrap:wrap; gap:5px; margin-top:2px; }
+.fa-stamp-city { display:inline-flex; align-items:center; justify-content:center; font-size:10.5px; text-decoration:none; color:var(--fa-band-ink-text); border:1px solid color-mix(in srgb, var(--fa-band-ink-text) 35%, transparent); border-radius:999px; padding:2px 8px; }
+.fa-stamp-city:hover { border-color:var(--fa-band-accent); color:var(--fa-band-accent); }
+
+.fa-empty { font-size:13px; color:var(--fa-ink-soft); padding:20px 0; }
+
+.fa-sources { margin-top:40px; padding-top:18px; border-top:1.5px solid var(--fa-line); }
+.fa-sources h2 { font-size:11px; font-weight:600; letter-spacing:.12em; text-transform:uppercase; color:var(--fa-ink-soft); margin:0 0 10px; }
+.fa-source-list { list-style:none; padding:0; margin:0; display:flex; flex-direction:column; gap:6px; }
+.fa-source-list a { font-size:13px; color:var(--fa-ink-soft); text-decoration:none; }
+.fa-source-list a:hover { color:var(--fa-band-ink); }
+
+@media (max-width:600px) and (pointer:coarse) {
+  .fa-page { padding:0 14px; }
+  .fa-wow { padding:28px 20px 0; }
+  .fa-wow-num { font-size:clamp(48px,17vw,80px); }
+  .fa-wheel { width:min(460px,74vw); }
+  .fa-spoke-btn { padding:3px 6px; font-size:9.5px; gap:2px; }
+  .fa-ticket { flex-basis:240px; }
 }
 </style>
 <link rel="stylesheet" href="/assets/mobile.css?v=53">
@@ -187,9 +179,8 @@ a.ff-cl-city:hover { border-color: var(--rust); }
 <!-- seo:end -->
 </head>
 <body>
-<div id="toolbar-mount" data-depth="2" data-maxwidth="1040" data-updated="2026-08-24"></div>
+<div id="toolbar-mount" data-depth="2" data-maxwidth="1040" data-updated="2026-08-26"></div>
 <script src="/assets/toolbar.js?v=127"></script>
-<script src="/assets/flag-render.js"></script>
 
   <div class="hero-band eb-hero">
     <span class="eb-kicker">Best Festivals &amp; Holidays</span>
@@ -197,74 +188,66 @@ a.ff-cl-city:hover { border-color: var(--rust); }
       <h1 class="eb-title">The events worth timing <em>a trip around.</em></h1>
       <p class="eb-intro">The events worth timing a trip around — Carnival, Songkran, Oktoberfest, Diwali and the rest — laid out by month so you can see what is running when you travel. The same view flags the national holidays that close banks, museums and shops, so a festival week does not cost you the rest of the city.</p>
     </div>
-    <div class="eb-graphic" aria-hidden="true"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#gm-i-bunting"/></svg></div>
+    <div class="eb-graphic" aria-hidden="true"><svg viewBox="0 0 24 24" aria-hidden="true"><defs>
+      <linearGradient id="cth-mid2" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#c08078"/><stop offset="1" stop-color="#63362f"/></linearGradient>
+      <linearGradient id="isl-mid2" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#cba85c"/><stop offset="1" stop-color="#6e5527"/></linearGradient>
+      <linearGradient id="mtn-mid2" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#97a06c"/><stop offset="1" stop-color="#4a5030"/></linearGradient>
+    </defs>
+      <path d="M2 3.4v3.4Q12 10.4 22 6.8V3.4Q12 7 2 3.4Z" fill="none" stroke="#6b4f2f" stroke-width="0.9"/>
+      <path d="M3.4 6.2h4.4l-2.2 5.6z" fill="url(#cth-mid2)" stroke="#63362f" stroke-width="0.5"/>
+      <path d="M3.4 6.2h4.4l-2.2 5.6z" fill="url(#gm-gloss)"/>
+      <path d="M9.8 7.6h4.4l-2.2 6.4z" fill="url(#isl-mid2)" stroke="#6e5527" stroke-width="0.5"/>
+      <path d="M16.2 6.2h4.4l-2.2 5.6z" fill="url(#mtn-mid2)" stroke="#4a5030" stroke-width="0.5"/>
+    </svg></div>
   </div>
 <script src="/assets/search-autocomplete.js?v=8"></script>
 
-<div class="ff-wrap">
+<div class="fa-page">
 
-  <div class="ff-hero-stat">
-    <div class="ff-hero-top">
-      <div class="ff-hero-lead">
-        <div class="ff-hero-kicker">Before you pick a month</div>
-        <div class="ff-hero-num" data-count="500" data-suffix="M+">0M+</div>
-        <p class="ff-hero-line">pilgrims gathered for India's Maha Kumbh Mela in 2025 — more people than live in the United States.</p>
-        <p class="ff-hero-sub">It isn't on this page — it isn't tied to one city guide, and it only happens once every 12 years — but it makes everything below look small. Pilgrims filled a 4,000-hectare tent city on the banks of the Ganges, complete with its own hospitals, police force and seven train stations, lit by 68,000 lamp posts bright enough to be seen from orbit.</p>
-      </div>
-      <div class="ff-hero-graphic" aria-hidden="true"><svg viewBox="0 0 200 140">
-        <g fill="#ffffff">
-          <circle cx="114.0" cy="81.7" r="2.79" opacity="0.57"/><circle cx="147.0" cy="81.1" r="3.03" opacity="0.48"/><circle cx="50.6" cy="31.6" r="1.84" opacity="0.31"/><circle cx="102.4" cy="79.4" r="3.05" opacity="0.4"/><circle cx="165.0" cy="100.8" r="3.1" opacity="0.71"/>
-          <circle cx="60.1" cy="45.7" r="2.62" opacity="0.37"/><circle cx="166.2" cy="105.6" r="3.75" opacity="0.61"/><circle cx="122.0" cy="80.8" r="3.1" opacity="0.49"/><circle cx="126.7" cy="87.4" r="2.98" opacity="0.51"/><circle cx="41.1" cy="39.1" r="2.22" opacity="0.27"/>
-          <circle cx="69.8" cy="53.3" r="2.76" opacity="0.4"/><circle cx="112.8" cy="89.5" r="2.67" opacity="0.5"/><circle cx="196.0" cy="125.3" r="3.92" opacity="0.8"/><circle cx="145.4" cy="90.3" r="3.16" opacity="0.58"/><circle cx="62.3" cy="51.2" r="1.92" opacity="0.3"/>
-          <circle cx="95.6" cy="60.6" r="2.28" opacity="0.35"/><circle cx="106.7" cy="81.0" r="3.15" opacity="0.47"/><circle cx="65.5" cy="43.3" r="1.76" opacity="0.21"/><circle cx="34.1" cy="38.5" r="1.78" opacity="0.15"/><circle cx="95.5" cy="60.8" r="2.82" opacity="0.44"/>
-          <circle cx="18.7" cy="25.6" r="1.65" opacity="0.12"/><circle cx="116.9" cy="85.7" r="2.97" opacity="0.61"/><circle cx="164.9" cy="112.0" r="3.27" opacity="0.74"/><circle cx="165.0" cy="114.7" r="3.6" opacity="0.62"/><circle cx="152.2" cy="106.8" r="3.3" opacity="0.53"/>
-          <circle cx="55.6" cy="64.3" r="2.62" opacity="0.4"/><circle cx="53.6" cy="61.4" r="2.63" opacity="0.27"/><circle cx="87.0" cy="77.3" r="2.88" opacity="0.38"/><circle cx="99.4" cy="64.3" r="2.94" opacity="0.42"/><circle cx="50.4" cy="47.8" r="1.83" opacity="0.25"/>
-          <circle cx="196.0" cy="123.0" r="3.8" opacity="0.69"/><circle cx="46.7" cy="45.7" r="1.88" opacity="0.24"/><circle cx="27.1" cy="20.9" r="2.08" opacity="0.25"/><circle cx="15.2" cy="31.5" r="1.53" opacity="0.13"/><circle cx="185.2" cy="117.6" r="3.89" opacity="0.76"/>
-          <circle cx="33.1" cy="38.3" r="1.96" opacity="0.26"/><circle cx="150.1" cy="108.2" r="2.88" opacity="0.57"/><circle cx="83.6" cy="49.6" r="2.1" opacity="0.35"/><circle cx="81.4" cy="58.3" r="2.87" opacity="0.39"/><circle cx="170.9" cy="99.7" r="3.89" opacity="0.72"/>
-          <circle cx="196.0" cy="130.1" r="3.46" opacity="0.73"/><circle cx="46.6" cy="31.9" r="1.97" opacity="0.36"/><circle cx="67.6" cy="46.8" r="2.12" opacity="0.38"/><circle cx="195.8" cy="129.8" r="3.51" opacity="0.71"/><circle cx="191.6" cy="122.7" r="3.93" opacity="0.66"/>
-          <circle cx="118.2" cy="89.8" r="2.61" opacity="0.57"/><circle cx="15.4" cy="30.7" r="1.92" opacity="0.16"/><circle cx="43.9" cy="26.5" r="1.94" opacity="0.24"/><circle cx="90.1" cy="64.6" r="2.87" opacity="0.35"/><circle cx="134.7" cy="92.7" r="3.31" opacity="0.55"/>
-          <circle cx="76.0" cy="42.9" r="2.26" opacity="0.42"/><circle cx="181.5" cy="117.7" r="3.6" opacity="0.82"/><circle cx="184.3" cy="109.4" r="3.26" opacity="0.73"/><circle cx="143.5" cy="105.6" r="3.27" opacity="0.49"/><circle cx="155.1" cy="109.7" r="3.75" opacity="0.58"/>
-          <circle cx="19.6" cy="33.4" r="1.67" opacity="0.24"/><circle cx="133.9" cy="98.6" r="2.99" opacity="0.58"/><circle cx="187.9" cy="105.3" r="3.53" opacity="0.66"/><circle cx="18.8" cy="23.7" r="1.42" opacity="0.19"/><circle cx="109.9" cy="66.2" r="2.47" opacity="0.54"/>
-          <circle cx="178.6" cy="122.9" r="3.65" opacity="0.64"/><circle cx="27.8" cy="43.0" r="2.12" opacity="0.28"/><circle cx="167.6" cy="108.4" r="3.26" opacity="0.73"/><circle cx="170.8" cy="115.7" r="3.27" opacity="0.75"/><circle cx="184.2" cy="118.2" r="3.81" opacity="0.59"/>
-          <circle cx="141.2" cy="107.7" r="3.46" opacity="0.65"/><circle cx="153.0" cy="112.0" r="3.07" opacity="0.7"/><circle cx="160.5" cy="117.8" r="3.46" opacity="0.63"/><circle cx="149.0" cy="92.1" r="3.1" opacity="0.6"/><circle cx="183.9" cy="105.5" r="3.61" opacity="0.65"/>
-        </g>
-      </svg></div>
+  <section class="fa-wow" aria-labelledby="fa-wow-line">
+    <div class="fa-wow-eyebrow">Before you pick a month</div>
+    <div class="fa-wow-num" data-count="500" data-suffix="M+">0M+</div>
+    <p class="fa-wow-line" id="fa-wow-line">pilgrims gathered for India's Maha Kumbh Mela in 2025 — more people than live in the United States.</p>
+    <p class="fa-wow-sub">It isn't on this page — it isn't tied to one city guide, and it only happens once every 12 years — but it makes everything below look small. Pilgrims filled a 4,000-hectare tent city on the banks of the Ganges, complete with its own hospitals, police force and seven train stations, lit by 68,000 lamp posts bright enough to be seen from orbit.</p>
+    <div class="fa-wow-stubs">
+      <div class="fa-stub"><div class="fa-stub-num mono">6M</div><div class="fa-stub-lbl">people and 7M litres of beer — Oktoberfest, every September</div></div>
+      <div class="fa-stub"><div class="fa-stub-num mono">2M</div><div class="fa-stub-lbl">people over two days — Notting Hill Carnival, every August</div></div>
+      <div class="fa-stub"><div class="fa-stub-num mono">1570</div><div class="fa-stub-lbl">the year Strasbourg's Christmas market began — still trading every December</div></div>
     </div>
-    <div class="ff-stat-row">
-      <div class="ff-stat-item">
-        <div class="ff-stat-num" data-count="6" data-suffix="M">0M</div>
-        <div class="ff-stat-lbl">people and 7M litres of beer — Oktoberfest, every September</div>
-      </div>
-      <div class="ff-stat-item">
-        <div class="ff-stat-num" data-count="2" data-suffix="M">0M</div>
-        <div class="ff-stat-lbl">people over two days — Notting Hill Carnival, every August</div>
-      </div>
-      <div class="ff-stat-item">
-        <div class="ff-stat-num">1570</div>
-        <div class="ff-stat-lbl">the year Strasbourg's Christmas market began — still trading every December</div>
-      </div>
-    </div>
+  </section>
+
+  <div class="fa-siblings">
+    <a href="/essentials/sports-calendar/" class="fa-sib-pill">Sports calendar</a>
+    <a href="/when-to-go/" class="fa-sib-pill">When to go</a>
+    <a href="/weather/" class="fa-sib-pill">Weather by city</a>
   </div>
 
-  <div class="ff-siblings">
-    <a href="/essentials/sports-calendar/" class="sibling-pill">Sports calendar</a>
-    <a href="/when-to-go/" class="sibling-pill">When to go</a>
-        <a href="/weather/" class="sibling-pill">Weather by city</a>
-  </div>
-
-  <div class="ff-search-wrap">
+  <div class="fa-search-wrap">
     <input type="search" id="ff-city-search" class="search-input" placeholder="City or country" aria-label="Search by city" autocomplete="off" style="width:var(--search-w, 440px);max-width:100%;">
   </div>
 
-  <div class="ff-rail-wrap">
-    <div class="ff-rail" id="ff-months"></div>
+  <div class="fa-wheel-section">
+    <div class="fa-wheel-title">The year, at a glance — bar length = festivals curated that month</div>
+    <div class="fa-wheel" id="fa-wheel">
+      <svg viewBox="0 0 100 100" aria-hidden="true">
+        <circle class="fa-wheel-guide" cx="50" cy="50" r="19"></circle>
+        <circle class="fa-wheel-guide" cx="50" cy="50" r="30"></circle>
+        <circle class="fa-wheel-guide" cx="50" cy="50" r="41"></circle>
+        <g id="fa-wheel-bars"></g>
+      </svg>
+      <div class="fa-hub" aria-live="polite">
+        <div class="fa-hub-month" id="fa-hub-month">—</div>
+        <div class="fa-hub-count" id="fa-hub-count"></div>
+      </div>
+      <div id="fa-wheel-spokes"></div>
+    </div>
   </div>
 
-  <div id="ff-results"></div>
+  <div id="fa-results"></div>
 
-  <div class="sources">
+  <div class="fa-sources">
     <h2>Sources</h2>
-    <ul class="source-list">
+    <ul class="fa-source-list">
       <li><a href="https://www.nationalgeographic.com/culture/article/kumbh-mela-megacity-india" target="_blank" rel="noopener">National Geographic — the making of the Kumbh Mela, the largest religious festival on Earth</a></li>
       <li><a href="https://www.abc.net.au/news/2025-01-14/indias-mega-festival/104811300" target="_blank" rel="noopener">ABC News — how India builds and runs the Kumbh Mela's temporary mega-city</a></li>
     </ul>
@@ -274,352 +257,336 @@ a.ff-cl-city:hover { border-color: var(--rust); }
 
 <script>
 /* ── Data ────────────────────────────────────────────────────────── */
-
-// months: 0=Jan … 11=Dec; guide paths relative to Trip-Essentials/
 const FF_FESTIVALS = [
 
   /* JANUARY */
-  { months:[0,1], city:'New Orleans', country:'United States', flag:10194, guide:'/guides/new-orleans.html',
+  { months:[0,1], city:'New Orleans', country:'United States', guide:'/guides/new-orleans.html',
     name:'Mardi Gras Season', dates:'Early Jan – Fat Tuesday (varies Feb/Mar)',
     desc:'Parade season kicks off in January and builds to a crescendo in the weeks before Fat Tuesday — floats, brass bands, and revelry spill through the French Quarter every weekend.' },
-  { months:[0], city:'Edinburgh', country:'Scotland', flag:'󠁧󠁢󠁳󠁣󠁴󠁿', guide:'/guides/edinburgh.html',
+  { months:[0], city:'Edinburgh', country:'Scotland', guide:'/guides/edinburgh.html',
     name:"Burns Night", dates:'January 25',
     desc:"Scotland's annual tribute to poet Robert Burns — suppers of haggis, neeps, and tatties, toasts in whisky, and recitations of Scots verse at gatherings city-wide." },
-  { months:[0], city:'Sydney', country:'Australia', flag:10010, guide:'/guides/sydney.html',
+  { months:[0], city:'Sydney', country:'Australia', guide:'/guides/sydney.html',
     name:'Australia Day Celebrations', dates:'January 26 (public holiday)',
     desc:'Harbour fireworks, outdoor concerts, citizenship ceremonies, and one of the world\'s most spectacular waterfront backdrops for a national day.' },
-  { months:[0], city:'Tokyo', country:'Japan', flag:10090, guide:'/guides/tokyo.html', flagship:true,
+  { months:[0], city:'Tokyo', country:'Japan', guide:'/guides/tokyo.html', flagship:true,
     name:'New Year Shrine Visits (Hatsumode)', dates:'January 1–3',
     desc:'Tens of millions of Japanese visit shrines in the first three days of the year to pray for the new year. Meiji Shrine in Tokyo draws over 3 million visitors alone.' },
 
   /* FEBRUARY */
-  { months:[1], city:'Rio de Janeiro', country:'Brazil', flag:10024, guide:'/guides/rio-de-janeiro.html', flagship:true,
+  { months:[1], city:'Rio de Janeiro', country:'Brazil', guide:'/guides/rio-de-janeiro.html', flagship:true,
     name:'Carnival', dates:'4 days before Ash Wednesday (varies Feb/Mar)',
     desc:'The world\'s largest carnival — Sambadrome parades, blocos street parties, and five days of nonstop music, colour, and spectacle draw over 2 million people per day.' },
-  { months:[1], city:'Salvador', country:'Brazil', flag:10024, guide:'/guides/salvador.html',
+  { months:[1], city:'Salvador', country:'Brazil', guide:'/guides/salvador.html',
     name:'Carnival (street)', dates:'4 days before Ash Wednesday (varies Feb/Mar)',
     desc:'Salvador\'s Carnival is the world\'s biggest street party — 900,000 people per night follow music trucks (trios elétricos) through the historic Pelourinho and Barra neighborhoods.' },
-  { months:[1], city:'Olinda', country:'Brazil', flag:10024, guide:'/guides/olinda.html',
+  { months:[1], city:'Olinda', country:'Brazil', guide:'/guides/olinda.html',
     name:'Carnival (historic)', dates:'4 days before Ash Wednesday (varies Feb/Mar)',
     desc:'The most visually stunning of Brazil\'s carnivals — giant papier-mâché puppet figures called Bonecos de Olinda parade through the cobbled UNESCO-listed hillside town.' },
-  { months:[1], city:'Recife', country:'Brazil', flag:10024, guide:'/guides/recife.html',
+  { months:[1], city:'Recife', country:'Brazil', guide:'/guides/recife.html',
     name:'Carnival (Galo da Madrugada)', dates:'4 days before Ash Wednesday (varies Feb/Mar)',
     desc:'Home to the Galo da Madrugada parade, officially the world\'s largest carnival block with 1.5 million participants, fuelled by Pernambuco\'s own frevo and maracatu rhythms.' },
-  { months:[1], city:'São Paulo', country:'Brazil', flag:10024, guide:'/guides/sao-paulo.html',
+  { months:[1], city:'São Paulo', country:'Brazil', guide:'/guides/sao-paulo.html',
     name:'Carnival (Sambadrome)', dates:'4 days before Ash Wednesday (varies Feb/Mar)',
     desc:'São Paulo\'s Sambadrome parade rivals Rio\'s in spectacle — elite samba schools compete with million-dollar floats and 3,000-strong performer wings.' },
-  { months:[1], city:'Venice', country:'Italy', flag:10087, guide:'/guides/venice.html',
+  { months:[1], city:'Venice', country:'Italy', guide:'/guides/venice.html',
     name:'Carnevale di Venezia', dates:'10 days ending on Shrove Tuesday (varies Feb)',
     desc:'The world\'s most elegant carnival — masked balls, period costumes, and the Flight of the Angel from the Campanile transform the canals and piazzas into a living theatre.' },
-  { months:[1], city:'Nice', country:'France', flag:10062, guide:'/guides/nice.html',
+  { months:[1], city:'Nice', country:'France', guide:'/guides/nice.html',
     name:'Nice Carnival', dates:'Two weeks in February',
     desc:'One of Europe\'s biggest carnivals — flower battles on the Promenade des Anglais and giant satirical floats parade through the centre of the French Riviera\'s capital.' },
-  { months:[1], city:'Cologne', country:'Germany', flag:10046, guide:'/guides/cologne.html',
+  { months:[1], city:'Cologne', country:'Germany', guide:'/guides/cologne.html',
     name:'Karneval (Rose Monday)', dates:'Rose Monday (varies Feb/Mar)',
     desc:'Germany\'s biggest Karneval parade draws over a million spectators along the Rhine — colourful floats toss 300 tonnes of sweets into the crowd on Rose Monday.' },
-  { months:[0,1], city:'Hong Kong', country:'China', flag:10075, guide:'/guides/hong-kong.html',
+  { months:[0,1], city:'Hong Kong', country:'China', guide:'/guides/hong-kong.html',
     name:'Lunar New Year', dates:'Varies Jan/Feb (first new moon after Jan 21)',
     desc:'Hong Kong celebrates with fireworks over Victoria Harbour, a massive parade on Nathan Road, flower markets, and the city\'s iconic New Year\'s Eve countdown and lantern lighting.' },
-  { months:[0,1], city:'Singapore', country:'Singapore', flag:10164, guide:'/guides/singapore.html',
+  { months:[0,1], city:'Singapore', country:'Singapore', guide:'/guides/singapore.html',
     name:'Chinese New Year', dates:'Varies Jan/Feb',
     desc:'Chinatown transforms with elaborate lantern displays and street markets. The River Hongbao carnival at the Float@Marina Bay is one of Asia\'s premier festive celebrations.' },
-  { months:[0,1], city:'Taipei', country:'Taiwan', flag:10190, guide:'/guides/taipei.html',
+  { months:[0,1], city:'Taipei', country:'Taiwan', guide:'/guides/taipei.html',
     name:'Lunar New Year', dates:'Varies Jan/Feb',
     desc:'Taipei\'s temples overflow with worshippers, sky lanterns rise over Pingxi (45 min away), and the Lantern Festival 15 days later lights up the entire city.' },
-  { months:[0,1], city:'Seoul', country:'South Korea', flag:10098, guide:'/guides/seoul.html',
+  { months:[0,1], city:'Seoul', country:'South Korea', guide:'/guides/seoul.html',
     name:'Seollal (Lunar New Year)', dates:'Varies Jan/Feb',
     desc:'Korea\'s most important holiday — families gather, traditional hanbok is worn, ancestral rites are performed, and traditional games like yut nori fill the palaces\' courtyards.' },
-  { months:[0,1], city:'Hanoi', country:'Vietnam', flag:10201, guide:'/guides/hanoi.html',
+  { months:[0,1], city:'Hanoi', country:'Vietnam', guide:'/guides/hanoi.html',
     name:'Tết Nguyên Đán', dates:'Varies Jan/Feb (lunar new year)',
     desc:'Vietnam\'s biggest holiday sees Hoan Kiem Lake explode in fireworks, the streets of the Old Quarter fill with peach blossom trees, and a week of family feasts begins.' },
 
   /* MARCH */
-  { months:[2], city:'Dublin', country:'Ireland', flag:10081, guide:'/guides/dublin.html',
+  { months:[2], city:'Dublin', country:'Ireland', guide:'/guides/dublin.html',
     name:"St. Patrick's Festival", dates:'March 17 (week-long festival)',
     desc:'The world\'s premier St. Patrick\'s Day celebration — four days of parades, live music, and street theatre radiating out from O\'Connell Street, with every pub in the nation open.' },
-  { months:[2], city:'New York', country:'United States', flag:10194, guide:'/guides/new-york.html',
+  { months:[2], city:'New York', country:'United States', guide:'/guides/new-york.html',
     name:"St. Patrick's Day Parade", dates:'March 17',
     desc:'The world\'s largest St. Patrick\'s Day parade — 150,000 marchers and 2 million spectators line Fifth Avenue for a procession that dates back to 1762.' },
-  { months:[2], city:'Chicago', country:'United States', flag:10194, guide:'/guides/chicago.html',
+  { months:[2], city:'Chicago', country:'United States', guide:'/guides/chicago.html',
     name:'St. Patrick\'s Day River Dyeing', dates:'Saturday before March 17',
     desc:'The Chicago River is dyed a vivid emerald green using a secret vegetable dye — a tradition dating to 1962 that kicks off a full day of parades and street parties downtown.' },
-  { months:[2], city:'Austin', country:'United States', flag:10194, guide:'/guides/austin.html', flagship:true,
+  { months:[2], city:'Austin', country:'United States', guide:'/guides/austin.html', flagship:true,
     name:'SXSW (South by Southwest)', dates:'Mid-March (10 days)',
     desc:'The world\'s most influential creative festival — 2,000+ music acts, hundreds of film screenings, and a sprawling interactive/tech conference transform Austin for 10 days every March.' },
-  { months:[2,3], city:'Tokyo', country:'Japan', flag:10090, guide:'/guides/tokyo.html',
+  { months:[2,3], city:'Tokyo', country:'Japan', guide:'/guides/tokyo.html',
     name:'Cherry Blossom Season', dates:'Late March – early April (date varies)',
     desc:'Ueno Park, Shinjuku Gyoen, and Chidorigafuchi become outdoor salons as thousands gather for hanami (flower-viewing) picnics under clouds of pink blossoms.' },
-  { months:[2,3], city:'Kyoto', country:'Japan', flag:10090, guide:'/guides/kyoto.html',
+  { months:[2,3], city:'Kyoto', country:'Japan', guide:'/guides/kyoto.html',
     name:'Cherry Blossom Season', dates:'Late March – early April (date varies)',
     desc:'The Philosopher\'s Path, Maruyama Park, and Kinkaku-ji are wreathed in blossom — Kyoto\'s cherry season is the most photographed in Japan and draws visitors from around the world.' },
-  { months:[2,3], city:'Osaka', country:'Japan', flag:10090, guide:'/guides/osaka.html',
+  { months:[2,3], city:'Osaka', country:'Japan', guide:'/guides/osaka.html',
     name:'Cherry Blossom Season', dates:'Late March – early April (date varies)',
     desc:'Osaka Castle\'s moat is lined with 3,000 cherry trees; after dark the illuminated blossoms reflected on the water are one of Japan\'s great seasonal spectacles.' },
-  { months:[2,3], city:'Seoul', country:'South Korea', flag:10098, guide:'/guides/seoul.html',
+  { months:[2,3], city:'Seoul', country:'South Korea', guide:'/guides/seoul.html',
     name:'Cherry Blossom Season', dates:'Late March – early April',
     desc:'Yeouido Park\'s 1,800 cherry trees and the Han River promenades become beloved picnic destinations — the annual Yeouido Cherry Blossom Festival runs for 10 days.' },
 
   /* APRIL */
-  { months:[3], city:'Bangkok', country:'Thailand', flag:10181, guide:'/guides/bangkok.html', flagship:true,
+  { months:[3], city:'Bangkok', country:'Thailand', guide:'/guides/bangkok.html', flagship:true,
     name:'Songkran Water Festival', dates:'April 13–15 (public holiday)',
     desc:'Thai New Year is celebrated with the world\'s largest water fight — streets across the city become running battles of water guns and buckets in a three-day cleansing ritual of joy.' },
-  { months:[3], city:'Chiang Mai', country:'Thailand', flag:10181, guide:'/guides/chiang-mai.html',
+  { months:[3], city:'Chiang Mai', country:'Thailand', guide:'/guides/chiang-mai.html',
     name:'Songkran (Chiang Mai)', dates:'April 13–15 (extended locally)',
     desc:'Chiang Mai\'s Songkran is the most celebrated in Thailand — the moat encircling the old city becomes the epicentre of water fights that last up to a week.' },
-  { months:[3], city:'Seville', country:'Spain', flag:10056, guide:'/guides/seville.html',
+  { months:[3], city:'Seville', country:'Spain', guide:'/guides/seville.html',
     name:'Semana Santa & Feria de Abril', dates:'Holy Week (varies Mar/Apr) + Feria 2 weeks after Easter',
     desc:'Seville\'s Holy Week processions — hooded brotherhoods bearing gilded floats through candlelit streets at midnight — are followed two weeks later by the Feria de Abril fairground of flamenco and sherry.' },
-  { months:[3], city:'Barcelona', country:'Spain', flag:10056, guide:'/guides/barcelona.html',
+  { months:[3], city:'Barcelona', country:'Spain', guide:'/guides/barcelona.html',
     name:'Semana Santa & Sant Jordi', dates:'Holy Week (varies) + April 23',
     desc:'After Easter processions, April 23 is Sant Jordi\'s Day — Barcelona\'s answer to Valentine\'s Day. The Rambla fills with books and rose stalls, with couples exchanging gifts under the city\'s patron saint.' },
-  { months:[3], city:'Florence', country:'Italy', flag:10087, guide:'/guides/florence.html',
+  { months:[3], city:'Florence', country:'Italy', guide:'/guides/florence.html',
     name:'Scoppio del Carro (Easter Sunday)', dates:'Easter Sunday',
     desc:'The "Explosion of the Cart" — an ox-drawn 14th-century wagon packed with fireworks is ignited by a dove-shaped rocket from inside the Duomo in a tradition dating to the First Crusade.' },
-  { months:[3], city:'Rome', country:'Italy', flag:10087, guide:'/guides/rome.html',
+  { months:[3], city:'Rome', country:'Italy', guide:'/guides/rome.html',
     name:'Easter at the Vatican', dates:'Easter Sunday & Monday',
     desc:'The Pope celebrates Easter Mass in St. Peter\'s Square before up to 100,000 faithful, followed by the Urbi et Orbi blessing — the most attended religious event in the Christian calendar.' },
-  { months:[3,4], city:'New Orleans', country:'United States', flag:10194, guide:'/guides/new-orleans.html',
+  { months:[3,4], city:'New Orleans', country:'United States', guide:'/guides/new-orleans.html',
     name:'Jazz Fest (New Orleans Jazz & Heritage Festival)', dates:'Last weekend April + first weekend May',
     desc:'The world\'s premier roots-music festival draws 400,000 over two weekends — 12 stages, 500 acts, and 100+ food vendors spread across the Fair Grounds racetrack.' },
 
   /* MAY */
-  { months:[4], city:'Cannes', country:'France', flag:10062, guide:'/guides/cannes.html', flagship:true,
+  { months:[4], city:'Cannes', country:'France', guide:'/guides/cannes.html', flagship:true,
     name:'Cannes Film Festival', dates:'Mid–late May (12 days)',
     desc:'The world\'s most glamorous film festival — the Palme d\'Or, red-carpet premieres on the Croisette, and a city taken over by cinema for nearly two weeks every May.' },
-  { months:[4], city:'Tokyo', country:'Japan', flag:10090, guide:'/guides/tokyo.html',
+  { months:[4], city:'Tokyo', country:'Japan', guide:'/guides/tokyo.html',
     name:'Golden Week', dates:'April 29 – May 5 (national holiday week)',
     desc:'Japan\'s busiest travel week — four national holidays cluster together, filling bullet trains and every major attraction. Ueno Park, Asakusa, and Tokyo Disneyland reach peak crowds.' },
-  { months:[4], city:'Kyoto', country:'Japan', flag:10090, guide:'/guides/kyoto.html',
+  { months:[4], city:'Kyoto', country:'Japan', guide:'/guides/kyoto.html',
     name:'Aoi Matsuri (Hollyhock Festival)', dates:'May 15',
     desc:'One of Kyoto\'s three great festivals — 500 people in Heian-era court costumes process from the Imperial Palace to Shimogamo and Kamigamo shrines in a ritual unchanged for 1,400 years.' },
-  { months:[4], city:'Budapest', country:'Hungary', flag:10079, guide:'/guides/budapest.html',
+  { months:[4], city:'Budapest', country:'Hungary', guide:'/guides/budapest.html',
     name:'Budapest Spring Festival', dates:'Two weeks in mid-May',
     desc:'Central Europe\'s premier classical music and arts festival fills the Opera House, the Palace of Arts, and outdoor riverside stages with performances by world-class ensembles.' },
 
   /* JUNE */
-  { months:[5], city:'Stockholm', country:'Sweden', flag:10163, guide:'/guides/stockholm.html',
+  { months:[5], city:'Stockholm', country:'Sweden', guide:'/guides/stockholm.html',
     name:'Midsommar', dates:'Midsommar Eve (Friday closest to June 21)',
     desc:'Sweden\'s most beloved celebration — maypoles, flower crowns, herring, and schnapps at outdoor gatherings across the archipelago and city parks as the sun barely sets.' },
-  { months:[5], city:'Copenhagen', country:'Denmark', flag:10048, guide:'/guides/copenhagen.html',
+  { months:[5], city:'Copenhagen', country:'Denmark', guide:'/guides/copenhagen.html',
     name:'Midsummer (Sankt Hans Aften)', dates:'June 23',
     desc:'Bonfires are lit on beaches and in parks across Denmark on Midsummer Eve — Copenhageners gather at the harbour and in Dyrehaven to mark the longest day with song and flame.' },
-  { months:[5], city:'Reykjavik', country:'Iceland', flag:10086, guide:'/guides/reykjavik.html',
+  { months:[5], city:'Reykjavik', country:'Iceland', guide:'/guides/reykjavik.html',
     name:'Secret Solstice & Midnight Sun', dates:'Mid–late June',
     desc:'Iceland\'s midnight sun means the sky never fully darkens in June. The Secret Solstice festival takes place entirely in daylight; a midnight sun run at 11pm is as ordinary as it sounds extraordinary.' },
-  { months:[5], city:'Barcelona', country:'Spain', flag:10056, guide:'/guides/barcelona.html',
+  { months:[5], city:'Barcelona', country:'Spain', guide:'/guides/barcelona.html',
     name:'Festes de Sant Joan', dates:'June 23–24',
     desc:'The Night of Fire — Barcelonans celebrate Midsummer Eve with bonfires on every corner, fireworks, champagne cava, and a midnight mass bonfire tradition rooted in pre-Christian solstice ritual.' },
-  { months:[5], city:'Paris', country:'France', flag:10062, guide:'/guides/paris.html',
+  { months:[5], city:'Paris', country:'France', guide:'/guides/paris.html',
     name:'Fête de la Musique', dates:'June 21 (Summer Solstice)',
     desc:'Free outdoor concerts on every street, courtyard, and square across Paris — professional and amateur musicians alike perform from noon until dawn in France\'s most democratic festival.' },
-  { months:[5], city:'Montreal', country:'Canada', flag:10030, guide:'/guides/montreal.html', flagship:true,
+  { months:[5], city:'Montreal', country:'Canada', guide:'/guides/montreal.html', flagship:true,
     name:'Montreal International Jazz Festival', dates:'Late June – early July (10 days)',
     desc:'The world\'s largest jazz festival by attendance — 3,000 concerts (500 free outdoor shows) on 17 stages across downtown Montreal, drawing 2 million visitors each year.' },
 
   /* JULY */
-  { months:[6], city:'Paris', country:'France', flag:10062, guide:'/guides/paris.html',
+  { months:[6], city:'Paris', country:'France', guide:'/guides/paris.html',
     name:'Bastille Day', dates:'July 14 (national holiday)',
     desc:'France\'s national day — a military parade down the Champs-Élysées, fireworks over the Eiffel Tower, and free public concerts and dances (Bal des Pompiers) across the city.' },
-  { months:[6], city:'Nice', country:'France', flag:10062, guide:'/guides/nice.html',
+  { months:[6], city:'Nice', country:'France', guide:'/guides/nice.html',
     name:'Bastille Day Celebrations', dates:'July 14',
     desc:'Nice\'s Bastille Day fireworks display over the Promenade des Anglais and the Bay of Angels is one of the most spectacular in France — a 30-minute show that lights up the entire Riviera coast.' },
-  { months:[6], city:'Siena', country:'Italy', flag:10087, guide:'/guides/siena.html',
+  { months:[6], city:'Siena', country:'Italy', guide:'/guides/siena.html',
     name:'Palio di Siena (July)', dates:'July 2',
     desc:'One of the world\'s most dramatic sporting events — ten bareback riders representing Siena\'s contrade (neighbourhoods) race three times around the Campo in a race that can be over in 75 seconds.' },
-  { months:[6], city:'Glasgow', country:'Scotland', flag:'󠁧󠁢󠁳󠁣󠁴󠁿', guide:'/guides/glasgow.html',
+  { months:[6], city:'Glasgow', country:'Scotland', guide:'/guides/glasgow.html',
     name:'TRNSMT Music Festival', dates:'Early July (3 days)',
     desc:'Scotland\'s biggest outdoor music festival on Glasgow Green — headliners across three days draw 50,000 per day in what has become the UK\'s premier summer festival north of the border.' },
-  { months:[6], city:'New York', country:'United States', flag:10194, guide:'/guides/new-york.html',
+  { months:[6], city:'New York', country:'United States', guide:'/guides/new-york.html',
     name:'4th of July (Macy\'s Fireworks)', dates:'July 4',
     desc:'Macy\'s July 4th Fireworks over the East River is the largest annual pyrotechnic display in the US — 75,000 shells fired in 25 minutes, visible from across five boroughs.' },
-  { months:[6], city:'Quebec City', country:'Canada', flag:10030, guide:'/guides/quebec-city.html', flagship:true,
+  { months:[6], city:'Quebec City', country:'Canada', guide:'/guides/quebec-city.html', flagship:true,
     name:'Festival d\'été de Québec', dates:'Early–mid July (11 days)',
     desc:'North America\'s largest outdoor summer festival — 1,000 free and ticketed concerts on 11 stages throughout the walled old city, headlined by global stars across every genre.' },
 
   /* AUGUST */
-  { months:[7], city:'Edinburgh', country:'Scotland', flag:'󠁧󠁢󠁳󠁣󠁴󠁿', guide:'/guides/edinburgh.html', flagship:true,
+  { months:[7], city:'Edinburgh', country:'Scotland', guide:'/guides/edinburgh.html', flagship:true,
     name:'Edinburgh Festival Fringe', dates:'Entire August (25 days)',
     desc:'The world\'s largest arts festival — 50,000 performances of 3,800 shows across 300 venues. Every pub, church, and alley becomes a stage. The High Street is one continuous performers\' mile.' },
-  { months:[7], city:'London', country:'England', flag:'󠁧󠁢󠁥󠁮󠁧󠁿', guide:'/guides/london.html',
+  { months:[7], city:'London', country:'England', guide:'/guides/london.html',
     name:'Notting Hill Carnival', dates:'August bank holiday weekend (last Mon Aug)',
     desc:'Europe\'s biggest street festival — two million people line the streets of Notting Hill over two days for Caribbean steel bands, colourful floats, and sound systems thumping soca and dancehall.' },
-  { months:[7], city:'Siena', country:'Italy', flag:10087, guide:'/guides/siena.html',
+  { months:[7], city:'Siena', country:'Italy', guide:'/guides/siena.html',
     name:'Palio di Siena (August)', dates:'August 16',
     desc:'The second of Siena\'s two annual Palio races — held on the feast day of the Assumption, this summer race is even more fiercely contested by the city\'s medieval contrade.' },
-  { months:[7], city:'Barcelona', country:'Spain', flag:10056, guide:'/guides/barcelona.html',
+  { months:[7], city:'Barcelona', country:'Spain', guide:'/guides/barcelona.html',
     name:'Festes de Gràcia', dates:'Mid-August (10 days)',
     desc:'The Gràcia neighbourhood transforms into an open-air art installation — residents compete to decorate their streets with the most elaborate hanging sculptures in a festival dating back to 1817.' },
-  { months:[7], city:'Buenos Aires', country:'Argentina', flag:10008, guide:'/guides/buenos-aires.html',
+  { months:[7], city:'Buenos Aires', country:'Argentina', guide:'/guides/buenos-aires.html',
     name:'Buenos Aires Tango Championship', dates:'Mid-August (2 weeks)',
     desc:'The world\'s most prestigious tango competition — 500 couples from 40 countries compete at the Luna Park arena in front of 5,000 spectators nightly, with free milonga concerts across the city.' },
-  { months:[7], city:'Melbourne', country:'Australia', flag:10010, guide:'/guides/melbourne.html',
+  { months:[7], city:'Melbourne', country:'Australia', guide:'/guides/melbourne.html',
     name:'Melbourne International Film Festival', dates:'August (2 weeks)',
     desc:'The Asia-Pacific\'s most significant film festival — 200+ films from 50 countries screen at the Capitol, ACMI, and cinemas across the city, with the strongest Australian premiere program of any festival.' },
 
   /* SEPTEMBER */
-  { months:[8], city:'Munich', country:'Germany', flag:10046, guide:'/guides/munich.html', flagship:true,
+  { months:[8], city:'Munich', country:'Germany', guide:'/guides/munich.html', flagship:true,
     name:'Oktoberfest', dates:'Mid-September – first Sunday in October (16–18 days)',
     desc:'The world\'s largest folk festival — 6 million visitors, 7 million litres of beer, and 14 massive tents on the Theresienwiese fairground, opened each year with the Mayor\'s first keg tap.' },
-  { months:[8], city:'Stuttgart', country:'Germany', flag:10046, guide:'/guides/stuttgart.html',
+  { months:[8], city:'Stuttgart', country:'Germany', guide:'/guides/stuttgart.html',
     name:'Cannstatter Volksfest', dates:'Late September – mid October',
     desc:'The world\'s second-largest folk festival (after Munich\'s Oktoberfest) — 4 million visitors to the Bad Cannstatt fairgrounds for beer halls, carnival rides, and the ceremonial beer-barrel procession.' },
-  { months:[8], city:'Barcelona', country:'Spain', flag:10056, guide:'/guides/barcelona.html',
+  { months:[8], city:'Barcelona', country:'Spain', guide:'/guides/barcelona.html',
     name:'La Mercè Festival', dates:'September 24 (week-long festival)',
     desc:'Barcelona\'s biggest civic celebration — free outdoor concerts across every plaza, human towers (castellers), fire-running correfoc processions, and fireworks over the harbour for four days.' },
-  { months:[8,9], city:'Hong Kong', country:'China', flag:10075, guide:'/guides/hong-kong.html',
+  { months:[8,9], city:'Hong Kong', country:'China', guide:'/guides/hong-kong.html',
     name:'Mid-Autumn Festival', dates:'15th day of 8th lunar month (varies Sept/Oct)',
     desc:'Victoria Harbour is lit by a fire dragon dance at Tai Hang; Victoria Park fills with illuminated lanterns; and rooftops across the territory glow with mooncakes and candlelight.' },
-  { months:[8,9], city:'Singapore', country:'Singapore', flag:10164, guide:'/guides/singapore.html',
+  { months:[8,9], city:'Singapore', country:'Singapore', guide:'/guides/singapore.html',
     name:'Mid-Autumn Festival', dates:'15th day of 8th lunar month (varies Sept/Oct)',
     desc:'Chinatown and Gardens by the Bay are transformed with lantern displays; mooncakes are exchanged as gifts; and the nightly lantern walk through the Chinese Garden is one of Singapore\'s most beautiful seasonal events.' },
-  { months:[8,9], city:'Seoul', country:'South Korea', flag:10098, guide:'/guides/seoul.html',
+  { months:[8,9], city:'Seoul', country:'South Korea', guide:'/guides/seoul.html',
     name:'Chuseok (Korean Thanksgiving)', dates:'15th day of 8th lunar month (varies Sept/Oct)',
     desc:'Korea\'s most important harvest holiday — families return to hometowns, ancestral rites are performed, traditional food (songpyeon rice cakes) is shared, and traditional games fill the palace courtyards.' },
 
   /* OCTOBER */
-  { months:[9], city:'Oaxaca', country:'Mexico', flag:10129, guide:'/guides/oaxaca.html', flagship:true,
+  { months:[9], city:'Oaxaca', country:'Mexico', guide:'/guides/oaxaca.html', flagship:true,
     name:'Día de los Muertos', dates:'October 31 – November 2',
     desc:'Oaxaca hosts the most elaborate Día de los Muertos celebrations in Mexico — marigold-strewn altars in every home, candlelit cemetery vigils at Xoxocotlán, costumed comparsas, and alebrije parades filling the streets.' },
-  { months:[9], city:'Edinburgh', country:'Scotland', flag:'󠁧󠁢󠁳󠁣󠁴󠁿', guide:'/guides/edinburgh.html',
+  { months:[9], city:'Edinburgh', country:'Scotland', guide:'/guides/edinburgh.html',
     name:'Beltane Samhuinn Fire Festival', dates:'October 31',
     desc:'Edinburgh\'s ancient Samhuinn (Celtic Halloween) is marked by a fire festival on Calton Hill — drummers, fire-jugglers, and performers in elaborate costumes enact the change of seasons for 6,000 spectators.' },
-  { months:[9], city:'Dublin', country:'Ireland', flag:10081, guide:'/guides/dublin.html',
+  { months:[9], city:'Dublin', country:'Ireland', guide:'/guides/dublin.html',
     name:'Bram Stoker Festival', dates:'October 28–31',
     desc:'Dublin honours Dracula author Bram Stoker with a four-day gothic festival — immersive theatre, horror screenings, guided Stoker walks through Clontarf, and a spectacular Halloween parade.' },
-  { months:[9], city:'Amsterdam', country:'Netherlands', flag:10136, guide:'/guides/amsterdam.html',
+  { months:[9], city:'Amsterdam', country:'Netherlands', guide:'/guides/amsterdam.html',
     name:'Amsterdam Dance Event (ADE)', dates:'Late October (5 days)',
     desc:'The world\'s leading electronic music conference and festival — 600+ events across 200 venues, from the Concertgebouw to converted warehouses, drawing 400,000 visitors and the entire global DJ roster.' },
 
   /* NOVEMBER */
-  { months:[10], city:'Oaxaca', country:'Mexico', flag:10129, guide:'/guides/oaxaca.html',
+  { months:[10], city:'Oaxaca', country:'Mexico', guide:'/guides/oaxaca.html',
     name:'Día de los Muertos (peak)', dates:'November 1–2 (All Saints & All Souls)',
     desc:'The peak nights of Oaxaca\'s Día de los Muertos — families spend the night in cemeteries with candlelit ofrendas, marigold carpets, and favourite foods laid out for returning souls.' },
-  { months:[10], city:'Chiang Mai', country:'Thailand', flag:10181, guide:'/guides/chiang-mai.html', flagship:true,
+  { months:[10], city:'Chiang Mai', country:'Thailand', guide:'/guides/chiang-mai.html', flagship:true,
     name:'Yi Peng Lantern Festival', dates:'Full moon of 12th month of Lanna calendar (varies Nov)',
     desc:'Thousands of paper lanterns (khom loi) are released simultaneously into the night sky, creating one of the most breathtaking spectacles on earth — the night river and sky both filled with flickering light.' },
-  { months:[10], city:'Bangkok', country:'Thailand', flag:10181, guide:'/guides/bangkok.html',
+  { months:[10], city:'Bangkok', country:'Thailand', guide:'/guides/bangkok.html',
     name:'Loy Krathong', dates:'Full moon of 12th Thai month (varies Nov)',
     desc:'Bangkokians set small decorated lotus-shaped boats (krathongs) bearing candles, flowers, and incense afloat on the Chao Phraya River — offering gratitude to the water goddess and releasing the year\'s worries.' },
-  { months:[10], city:'Singapore', country:'Singapore', flag:10164, guide:'/guides/singapore.html',
+  { months:[10], city:'Singapore', country:'Singapore', guide:'/guides/singapore.html',
     name:'Deepavali (Diwali)', dates:'Varies Oct/Nov',
     desc:'Little India erupts in a six-week festival of lights — Serangoon Road is strung with 60,000 LED lights; flower garlands, kolam patterns, and sweet stalls line every shophouse for weeks.' },
-  { months:[10], city:'London', country:'England', flag:'󠁧󠁢󠁥󠁮󠁧󠁿', guide:'/guides/london.html',
+  { months:[10], city:'London', country:'England', guide:'/guides/london.html',
     name:'Bonfire Night (Guy Fawkes)', dates:'November 5',
     desc:'The UK\'s most atmospheric public celebration — Alexandra Palace and Battersea Park host massive bonfire-and-fireworks displays, while hundreds of smaller fires and sparkler parties light up across the city.' },
-  { months:[10], city:'New York', country:'United States', flag:10194, guide:'/guides/new-york.html',
+  { months:[10], city:'New York', country:'United States', guide:'/guides/new-york.html',
     name:'Macy\'s Thanksgiving Day Parade', dates:'Fourth Thursday of November',
     desc:'The world\'s most famous parade — giant helium balloons, 1,000-piece marching bands, and celebrity-studded floats wind 2.5 miles through Manhattan from the Upper West Side to Herald Square.' },
-  { months:[10], city:'Strasbourg', country:'France', flag:10062, guide:'/guides/strasbourg.html',
+  { months:[10], city:'Strasbourg', country:'France', guide:'/guides/strasbourg.html',
     name:'Christkindelsmarik (opens)', dates:'Last weekend of November (runs through Dec 24)',
     desc:'Strasbourg\'s Christmas market — dating to 1570, one of Europe\'s oldest — opens with 300 wooden chalets ringing the cathedral, a 30-metre tree, and the scent of vin chaud drifting through the medieval streets.' },
 
   /* DECEMBER */
-  { months:[11], city:'Vienna', country:'Austria', flag:10009, guide:'/guides/vienna.html',
+  { months:[11], city:'Vienna', country:'Austria', guide:'/guides/vienna.html',
     name:'Viennese Christmas Markets', dates:'Mid-November – December 26',
     desc:'Vienna\'s 20+ Advent markets are Europe\'s most elegant — Rathausplatz hosts the largest, while smaller markets fill the Imperial courtyards of the Belvedere, Schönbrunn, and the Am Hof square.' },
-  { months:[11], city:'Strasbourg', country:'France', flag:10062, guide:'/guides/strasbourg.html',
+  { months:[11], city:'Strasbourg', country:'France', guide:'/guides/strasbourg.html',
     name:'Christkindelsmarik (peak)', dates:'Late November – December 24',
     desc:'France\'s oldest Christmas market reaches its peak in December — 2 million visitors wind through six themed areas radiating from the cathedral, with mulled wine, pretzels, and Alsatian crafts at every turn.' },
-  { months:[11], city:'Prague', country:'Czech Republic', flag:10045, guide:'/guides/prague.html',
+  { months:[11], city:'Prague', country:'Czech Republic', guide:'/guides/prague.html',
     name:'Prague Christmas Markets', dates:'Late November – January 6',
     desc:'The Old Town Square market beneath the Astronomical Clock is one of Europe\'s most photogenic — a giant tree, nativity scene, and honey-wine stalls set against Baroque and Gothic spires.' },
-  { months:[11], city:'Bruges', country:'Belgium', flag:10016, guide:'/guides/bruges.html',
+  { months:[11], city:'Bruges', country:'Belgium', guide:'/guides/bruges.html',
     name:'Winter Glow Christmas Market', dates:'Late November – early January',
     desc:'Bruges in December is fairy-tale Belgium — 100 chalets along the illuminated canals, an ice-skating rink on the Market Square, and the medieval towers of Bruges reflected in lantern-lit water.' },
-  { months:[11], city:'Edinburgh', country:'Scotland', flag:'󠁧󠁢󠁳󠁣󠁴󠁿', guide:'/guides/edinburgh.html',
+  { months:[11], city:'Edinburgh', country:'Scotland', guide:'/guides/edinburgh.html',
     name:'Hogmanay (New Year)', dates:'December 30–31',
     desc:'Scotland\'s New Year is the world\'s most famous — a torch-lit procession of 20,000 down the Royal Mile, a giant street party for 80,000 in Princes Street, and fireworks from the Castle at midnight.' },
-  { months:[11], city:'Sydney', country:'Australia', flag:10010, guide:'/guides/sydney.html', flagship:true,
+  { months:[11], city:'Sydney', country:'Australia', guide:'/guides/sydney.html', flagship:true,
     name:'New Year\'s Eve Fireworks', dates:'December 31',
     desc:'Sydney\'s Opera House and Harbour Bridge host the world\'s first major New Year\'s Eve celebrations — two fireworks displays (9pm family show + midnight spectacular) visible from all around the harbour.' },
-  { months:[11], city:'Hong Kong', country:'China', flag:10075, guide:'/guides/hong-kong.html',
+  { months:[11], city:'Hong Kong', country:'China', guide:'/guides/hong-kong.html',
     name:'New Year\'s Eve Fireworks', dates:'December 31',
     desc:'Victoria Harbour\'s countdown fireworks display illuminates the iconic skyline from above — the reflected light in the harbour and the neon backdrop of Kowloon make it one of Asia\'s most spectacular NYE events.' },
-  { months:[11], city:'New York', country:'United States', flag:10194, guide:'/guides/new-york.html',
+  { months:[11], city:'New York', country:'United States', guide:'/guides/new-york.html',
     name:'Times Square New Year\'s Eve', dates:'December 31',
     desc:'One million people pack Times Square to watch the crystal ball drop at midnight — global broadcasts make this the most watched New Year\'s moment on earth.' },
-  { months:[11], city:'Rio de Janeiro', country:'Brazil', flag:10024, guide:'/guides/rio-de-janeiro.html',
+  { months:[11], city:'Rio de Janeiro', country:'Brazil', guide:'/guides/rio-de-janeiro.html',
     name:'Réveillon on Copacabana Beach', dates:'December 31',
     desc:'Copacabana Beach hosts the Southern Hemisphere\'s biggest New Year\'s celebration — 2 million white-clad revellers, seven simultaneous fireworks barges offshore, and free concerts by Brazil\'s biggest stars.' }
 ];
 
-/* ── Holiday / Closure Data ──────────────────────────────────────── */
-// Each entry: which countries/cities see major closures on this holiday
 const FF_HOLIDAYS = [
-  { months:[0], flag:'', country:'Worldwide', name:"New Year's Day (January 1)",
-    shuts:'Banks, government offices, most museums and major attractions. Many restaurants closed. Public transport runs a reduced schedule.',
-    cities:[] },
-  { months:[0], flag:10194, country:'United States', name:'MLK Day (3rd Monday of January)',
+  { months:[0], country:'Worldwide', name:"New Year's Day (January 1)",
+    shuts:'Banks, government offices, most museums and major attractions. Many restaurants closed. Public transport runs a reduced schedule.', cities:[] },
+  { months:[0], country:'United States', name:'MLK Day (3rd Monday of January)',
     shuts:'Federal offices, banks, schools, and government-run museums (including Smithsonians in DC) closed. Most private businesses open.',
     cities:['/guides/new-york.html|New York','/guides/washington-dc.html|Washington DC','/guides/chicago.html|Chicago','/guides/boston.html|Boston'] },
-  { months:[0], flag:10090, country:'Japan', name:'New Year Holidays (Jan 1–3)',
+  { months:[0], country:'Japan', name:'New Year Holidays (Jan 1–3)',
     shuts:'Most Japanese businesses, shops, and restaurants close for the first 3 days of January. Temples and shrines overflow with Hatsumode visitors.',
     cities:['/guides/tokyo.html|Tokyo','/guides/kyoto.html|Kyoto','/guides/osaka.html|Osaka'] },
-
-  { months:[0,1], flag:10038, country:'China, Hong Kong & Taiwan', name:'Lunar New Year (varies Jan/Feb, 3–7 days)',
+  { months:[0,1], country:'China, Hong Kong & Taiwan', name:'Lunar New Year (varies Jan/Feb, 3–7 days)',
     shuts:'Major holiday across East and Southeast Asia. Banks, businesses, and many restaurants close for 3–7 days. Transport is booked months ahead — the world\'s largest annual human migration.',
     cities:['/guides/hong-kong.html|Hong Kong','/guides/taipei.html|Taipei','/guides/singapore.html|Singapore','/guides/seoul.html|Seoul','/guides/hanoi.html|Hanoi','/guides/bangkok.html|Bangkok'] },
-  { months:[1], flag:10024, country:'Brazil', name:'Carnival (4 days, varies Feb/Mar)',
+  { months:[1], country:'Brazil', name:'Carnival (4 days, varies Feb/Mar)',
     shuts:'Brazil\'s 4-day national carnival is a de facto public holiday. Banks, offices, and most businesses close Thursday evening through Ash Wednesday. Schools, businesses, and government shut down entirely.',
     cities:['/guides/rio-de-janeiro.html|Rio de Janeiro','/guides/salvador.html|Salvador','/guides/recife.html|Recife','/guides/olinda.html|Olinda','/guides/sao-paulo.html|São Paulo'] },
-
-  { months:[2], flag:10081, country:'Ireland', name:"St. Patrick's Day (March 17)",
+  { months:[2], country:'Ireland', name:"St. Patrick's Day (March 17)",
     shuts:'National public holiday. Government offices, banks, and schools closed. Pubs are legally open all day (a special dispensation). Parades close major streets.',
     cities:['/guides/dublin.html|Dublin'] },
-  { months:[2,3], flag:'', country:'Europe (most countries)', name:'Good Friday & Easter Monday (varies Mar/Apr)',
+  { months:[2,3], country:'Europe (most countries)', name:'Good Friday & Easter Monday (varies Mar/Apr)',
     shuts:'Easter closures vary by country. Good Friday closes banks and many shops across Germany, UK, Ireland, Scandinavia, and Australia. Easter Monday closes almost everything in France, Italy, Spain, Germany, and across Catholic Europe. Museums stay open but crowds peak.',
     cities:['/guides/rome.html|Rome','/guides/florence.html|Florence','/guides/venice.html|Venice','/guides/paris.html|Paris','/guides/barcelona.html|Barcelona','/guides/madrid.html|Madrid','/guides/seville.html|Seville','/guides/dublin.html|Dublin','/guides/london.html|London','/guides/edinburgh.html|Edinburgh','/guides/amsterdam.html|Amsterdam','/guides/vienna.html|Vienna','/guides/prague.html|Prague','/guides/budapest.html|Budapest'] },
-
-  { months:[3], flag:10181, country:'Thailand', name:'Songkran (April 13–15)',
+  { months:[3], country:'Thailand', name:'Songkran (April 13–15)',
     shuts:'Three-day national public holiday. Banks and government offices closed. Businesses and shops largely close or run reduced hours. Streets in every city become water-fight battlegrounds.',
     cities:['/guides/bangkok.html|Bangkok','/guides/chiang-mai.html|Chiang Mai','/guides/phuket.html|Phuket'] },
-  { months:[3], flag:10010, country:'Australia', name:'Anzac Day (April 25)',
+  { months:[3], country:'Australia', name:'Anzac Day (April 25)',
     shuts:'National public holiday. Most shops, banks, and government offices closed until noon. Dawn services at war memorials, followed by marches. Pubs open from midday.',
     cities:['/guides/sydney.html|Sydney','/guides/melbourne.html|Melbourne'] },
-
-  { months:[4], flag:'', country:'Most of Europe', name:'Labour Day (May 1)',
+  { months:[4], country:'Most of Europe', name:'Labour Day (May 1)',
     shuts:'Public holiday across France, Germany, Italy, Spain, Belgium, Austria, Czech Republic, Portugal, Scandinavia, and most of Europe. Banks, government offices, and the majority of shops close. Even supermarkets close in France and Germany.',
     cities:['/guides/paris.html|Paris','/guides/berlin.html|Berlin','/guides/rome.html|Rome','/guides/barcelona.html|Barcelona','/guides/vienna.html|Vienna','/guides/amsterdam.html|Amsterdam','/guides/prague.html|Prague','/guides/budapest.html|Budapest','/guides/lisbon.html|Lisbon','/guides/brussels.html|Brussels','/guides/stockholm.html|Stockholm','/guides/copenhagen.html|Copenhagen'] },
-  { months:[4], flag:10090, country:'Japan', name:"Golden Week (Apr 29 – May 5)",
+  { months:[4], country:'Japan', name:"Golden Week (Apr 29 – May 5)",
     shuts:'Japan\'s busiest travel week — clusters four national holidays together. Bullet trains and flights are booked out months ahead. Major attractions hit peak-year crowds. Many small restaurants and shops close; large tourist venues stay open.',
     cities:['/guides/tokyo.html|Tokyo','/guides/kyoto.html|Kyoto','/guides/osaka.html|Osaka'] },
-
-  { months:[5], flag:10163, country:'Sweden & Finland', name:'Midsummer (Friday closest to June 21)',
+  { months:[5], country:'Sweden & Finland', name:'Midsummer (Friday closest to June 21)',
     shuts:'National public holiday in Sweden and Finland. Banks, shops, and almost all businesses close from Midsummer Eve through the weekend. Swedes leave cities en masse for countryside celebrations — Stockholm empties out.',
     cities:['/guides/stockholm.html|Stockholm','/guides/helsinki.html|Helsinki','/guides/gothenburg.html|Gothenburg'] },
-
-  { months:[6], flag:10062, country:'France', name:'Bastille Day (July 14)',
+  { months:[6], country:'France', name:'Bastille Day (July 14)',
     shuts:'National public holiday. Banks and government offices closed. Most non-tourist businesses closed. Fireworks and free concerts throughout the day and night.',
     cities:['/guides/paris.html|Paris','/guides/nice.html|Nice','/guides/lyon.html|Lyon','/guides/bordeaux.html|Bordeaux','/guides/strasbourg.html|Strasbourg','/guides/marseille.html|Marseille'] },
-  { months:[6], flag:10194, country:'United States', name:'Independence Day (July 4)',
+  { months:[6], country:'United States', name:'Independence Day (July 4)',
     shuts:'Federal holiday. Banks, post offices, and government offices closed. Many private businesses close or run reduced hours. Fireworks shows in every major city after dark.',
     cities:['/guides/new-york.html|New York','/guides/washington-dc.html|Washington DC','/guides/chicago.html|Chicago','/guides/boston.html|Boston','/guides/san-francisco.html|San Francisco'] },
-  { months:[6], flag:10030, country:'Canada', name:'Canada Day (July 1)',
+  { months:[6], country:'Canada', name:'Canada Day (July 1)',
     shuts:'National holiday. Banks, government offices, and many shops closed. Major celebrations in Ottawa and in cities across the country — fireworks, outdoor concerts, and citizenship ceremonies.',
     cities:['/guides/montreal.html|Montreal','/guides/quebec-city.html|Quebec City','/guides/vancouver.html|Vancouver','/guides/toronto.html|Toronto'] },
-
-  { months:[7], flag:10087, country:'Italy', name:'Ferragosto (August 15) — major closures',
+  { months:[7], country:'Italy', name:'Ferragosto (August 15) — major closures',
     shuts:'Italy\'s most significant summer holiday — most Italian-owned restaurants, shops, and businesses close for the week around August 15 (sometimes two full weeks). Major tourist attractions stay open, but staffing is reduced. Supermarkets and pharmacies open with reduced hours.',
     cities:['/guides/rome.html|Rome','/guides/florence.html|Florence','/guides/venice.html|Venice','/guides/amalfi.html|Amalfi','/guides/siena.html|Siena','/guides/bologna.html|Bologna','/guides/naples.html|Naples'] },
-  { months:[7], flag:10164, country:'Singapore', name:'National Day (August 9)',
+  { months:[7], country:'Singapore', name:'National Day (August 9)',
     shuts:'Public holiday. Banks and government offices closed. The National Day Parade and aerial display over Marina Bay are the centrepiece of the celebration.',
     cities:['/guides/singapore.html|Singapore'] },
-
-  { months:[8,9], flag:10098, country:'South Korea', name:'Chuseok (varies Sept/Oct — 3-day holiday)',
+  { months:[8,9], country:'South Korea', name:'Chuseok (varies Sept/Oct — 3-day holiday)',
     shuts:'South Korea\'s biggest holiday — businesses, banks, and shops close for 3 days. Koreans return to hometowns en masse (transport booked weeks ahead). Many restaurants and smaller shops in cities shut entirely.',
     cities:['/guides/seoul.html|Seoul','/guides/busan.html|Busan'] },
-
-  { months:[10], flag:'', country:'France, Italy, Spain & Catholic Europe', name:'All Saints Day (November 1)',
+  { months:[10], country:'France, Italy, Spain & Catholic Europe', name:'All Saints Day (November 1)',
     shuts:'Public holiday in France, Italy, Spain, Belgium, Portugal, and most Catholic European countries. Banks, schools, and many businesses close. Families visit cemeteries with flowers — florists do their busiest day of the year.',
     cities:['/guides/paris.html|Paris','/guides/rome.html|Rome','/guides/florence.html|Florence','/guides/barcelona.html|Barcelona','/guides/madrid.html|Madrid','/guides/lisbon.html|Lisbon','/guides/brussels.html|Brussels'] },
-  { months:[10], flag:10194, country:'United States', name:'Thanksgiving (4th Thursday of November)',
+  { months:[10], country:'United States', name:'Thanksgiving (4th Thursday of November)',
     shuts:'Major US holiday — banks, government offices, and most non-retail businesses closed. Many retail stores open for Black Friday sales the next day. Restaurants in tourist areas stay open; neighbourhood restaurants and diners usually close.',
     cities:['/guides/new-york.html|New York','/guides/chicago.html|Chicago','/guides/boston.html|Boston','/guides/new-orleans.html|New Orleans','/guides/san-francisco.html|San Francisco'] },
-
-  { months:[11], flag:'', country:'Worldwide', name:'Christmas Day (December 25)',
-    shuts:'The most universal closure of the year. Banks, government offices, and the vast majority of businesses close everywhere except Muslim-majority countries, Israel, and Japan. Many restaurants and tourist sites close or run skeleton hours. Book ahead for any New Year\'s Eve dining.',
-    cities:[] },
-  { months:[11], flag:10064, country:'UK, Australia & Canada', name:'Boxing Day (December 26)',
+  { months:[11], country:'Worldwide', name:'Christmas Day (December 25)',
+    shuts:'The most universal closure of the year. Banks, government offices, and the vast majority of businesses close everywhere except Muslim-majority countries, Israel, and Japan. Many restaurants and tourist sites close or run skeleton hours. Book ahead for any New Year\'s Eve dining.', cities:[] },
+  { months:[11], country:'UK, Australia & Canada', name:'Boxing Day (December 26)',
     shuts:'Public holiday across the UK, Australia, Canada, and New Zealand. Banks and government offices closed. UK high streets open for Boxing Day sales; Australia mixes beach + retail.',
     cities:['/guides/london.html|London','/guides/edinburgh.html|Edinburgh','/guides/sydney.html|Sydney','/guides/melbourne.html|Melbourne','/guides/vancouver.html|Vancouver','/guides/toronto.html|Toronto'] }
 ];
@@ -627,140 +594,140 @@ const FF_HOLIDAYS = [
 /* ── Rendering ──────────────────────────────────────────────────── */
 const MONTHS = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
 const MONTH_FULL = ['January','February','March','April','May','June','July','August','September','October','November','December'];
-let activeMon = null;
-let activeCity = null;
 
-function initMonths() {
-  const rail = document.getElementById('ff-months');
+const CC = { 'United States':'US','Scotland':'SCT','Australia':'AU','Japan':'JP','Brazil':'BR','Italy':'IT','France':'FR','Germany':'DE',
+  'China':'CN','Singapore':'SG','Taiwan':'TW','South Korea':'KR','Vietnam':'VN','Ireland':'IE','Sweden':'SE','Denmark':'DK','Iceland':'IS',
+  'Spain':'ES','Canada':'CA','England':'ENG','Argentina':'AR','Mexico':'MX','Netherlands':'NL','Austria':'AT','Czech Republic':'CZ',
+  'Belgium':'BE','Hungary':'HU','Thailand':'TH','Worldwide':'WW','China, Hong Kong & Taiwan':'HK/TW','Europe (most countries)':'EU',
+  'Most of Europe':'EU','Sweden & Finland':'SE/FI','France, Italy, Spain & Catholic Europe':'EU','UK, Australia & Canada':'UK/AU/CA' };
+function countryCode(name) { return CC[name] || name.slice(0,2).toUpperCase(); }
+
+let activeMon = null, activeCity = null;
+const counts = MONTHS.map((_, i) => FF_FESTIVALS.filter(f => f.months.includes(i)).length);
+const maxCount = Math.max(...counts);
+
+function buildWheel() {
+  const svgNS = 'http://www.w3.org/2000/svg';
+  const barsG = document.getElementById('fa-wheel-bars');
+  const spokesWrap = document.getElementById('fa-wheel-spokes');
+  const innerR = 19, outerMax = 41;
+  const curMon = new Date().getMonth();
+
   MONTHS.forEach((m, i) => {
-    const monthFests = FF_FESTIVALS.filter(f => f.months.includes(i));
+    const angle = (-90 + i * 30) * Math.PI / 180;
+    const cos = Math.cos(angle), sin = Math.sin(angle);
+    const c = counts[i];
+    const barLen = c > 0 ? innerR + Math.max(8, (c / maxCount) * (outerMax - innerR)) : innerR + 3;
+
+    const line = document.createElementNS(svgNS, 'line');
+    line.setAttribute('x1', 50 + innerR * cos); line.setAttribute('y1', 50 + innerR * sin);
+    line.setAttribute('x2', 50 + barLen * cos); line.setAttribute('y2', 50 + barLen * sin);
+    line.setAttribute('class', 'fa-wheel-bar' + (i === curMon ? ' current' : ''));
+    line.dataset.month = i;
+    barsG.appendChild(line);
+
+    const labelR = 47;
     const btn = document.createElement('button');
     btn.type = 'button';
-    btn.className = 'ff-mtab';
-    btn.setAttribute('aria-pressed', 'false');
-    btn.setAttribute('aria-label', MONTH_FULL[i] + (monthFests.length ? `, ${monthFests.length} event${monthFests.length === 1 ? '' : 's'} curated` : ', no events curated yet'));
-    btn.innerHTML = `${m}<span class="ff-mtab-count">${monthFests.length}</span>`;
-    btn.addEventListener('click', () => {
-      document.querySelectorAll('.ff-mtab').forEach(b => { b.classList.remove('on'); b.setAttribute('aria-pressed', 'false'); });
-      btn.classList.add('on');
-      btn.setAttribute('aria-pressed', 'true');
-      activeMon = i;
-      activeCity = null;
-      const cityInp = document.getElementById('ff-city-search');
-      if (cityInp) cityInp.value = '';
-      renderResults(i);
-    });
-    rail.appendChild(btn);
+    btn.className = 'fa-spoke-btn';
+    btn.style.left = (50 + labelR * cos) + '%';
+    btn.style.top = (50 + labelR * sin) + '%';
+    btn.dataset.month = i;
+    btn.setAttribute('aria-label', MONTH_FULL[i] + (c ? `, ${c} event${c === 1 ? '' : 's'} curated` : ', no events curated yet'));
+    btn.innerHTML = `${m}<span class="fa-spoke-cnt">${c}</span>`;
+    btn.addEventListener('click', () => selectMonth(i));
+    spokesWrap.appendChild(btn);
   });
 
-  /* Open on the current month. The page answers "what is running when I travel",
-     and every month has an answer — renderResults() filters on the month alone,
-     no city needed — so arriving on a blank half-screen with twelve unlit
-     tabs was the page withholding what it already knew. This is the same
-     treatment Sunrise & Sunset uses, and it is not the preselected-CITY that
-     rule 865 bans: the reader is not being told where they are, only which
-     month they are looking at, and the label says so. */
-  const now = new Date().getMonth();
-  const cur = rail.children[now];
-  if (cur) {
-    cur.classList.add('on');
-    cur.setAttribute('aria-pressed', 'true');
-    activeMon = now;
-    renderResults(now);
-    if (cur.scrollIntoView) cur.scrollIntoView({ block: 'nearest', inline: 'center' });
-  }
+  selectMonth(curMon);
 }
 
-function festivalCardHTML(f, opts) {
-  opts = opts || {};
+function setActiveSpoke(mon) {
+  document.querySelectorAll('.fa-spoke-btn').forEach(b => b.classList.toggle('is-on', +b.dataset.month === mon));
+  document.querySelectorAll('.fa-wheel-bar').forEach(b => b.classList.toggle('on', +b.dataset.month === mon));
+  document.getElementById('fa-hub-month').textContent = MONTH_FULL[mon];
+  const c = counts[mon];
+  document.getElementById('fa-hub-count').textContent = c ? `${c} curated` : 'none yet';
+}
+
+function selectMonth(mon) {
+  activeMon = mon; activeCity = null;
+  const inp = document.getElementById('ff-city-search');
+  if (inp) inp.value = '';
+  setActiveSpoke(mon);
+  renderResults(mon);
+}
+
+function ticketHTML(f, big) {
   const isLink = !!f.guide;
   const tag = isLink ? 'a' : 'div';
   const linkAttr = isLink ? ` href="${f.guide}"` : '';
-  const placeLabel = opts.showMonth ? MONTH_FULL[opts.month] : f.city;
-
-  if (opts.spotlight) {
-    return `<${tag}${linkAttr} class="ff-spotlight">
-      <div class="ff-spot-eyebrow">Biggest draw this month</div>
-      <div class="ff-spot-name">${f.name}</div>
-      <div class="ff-spot-place">${TVE.flag.html(f.flag)} <b>${placeLabel}</b> · ${f.country} · ${f.dates}</div>
-      <div class="ff-spot-desc">${f.desc}</div>
+  if (big) {
+    return `<${tag}${linkAttr} class="fa-spotlight">
+      <div>
+        <div class="fa-spot-eyebrow mono">Biggest draw this month</div>
+        <div class="fa-spot-name disp">${f.name}</div>
+        <div class="fa-spot-place"><span class="fa-cc">${countryCode(f.country)}</span> ${f.city} · ${f.dates}</div>
+        <div class="fa-spot-desc">${f.desc}</div>
+      </div>
+      <div class="fa-spot-badge" aria-hidden="true"><div class="fa-spot-badge-inner">Flagship<br>Event</div></div>
     </${tag}>`;
   }
-
-  const num = String(opts.index || 1).padStart(2, '0');
-  const delay = Math.min(opts.index || 1, 10) * 35;
-  return `<${tag}${linkAttr} class="ff-index-item${f.guide ? '' : ' ff-no-guide'}" style="animation-delay:${delay}ms">
-    <span class="ff-index-num" aria-hidden="true">${num}</span>
-    <div class="ff-index-body">
-      <div class="ff-card-top">
-        <span>
-          <span class="ff-city">${placeLabel}</span>
-          <span class="ff-flag-country">${f.country}</span>
-        </span>
-        <span class="ff-stamp" aria-hidden="true">${TVE.flag.html(f.flag)}</span>
-      </div>
-      <div class="ff-event-name">${f.name}</div>
-      <div class="ff-dates">${f.dates}</div>
-      <div class="ff-desc">${f.desc}</div>
+  return `<${tag}${linkAttr} class="fa-ticket${f.guide ? '' : ' fa-no-guide'}">
+    <div class="fa-ticket-top">
+      <span class="fa-ticket-city">${f.city}</span>
+      <span class="fa-cc">${countryCode(f.country)}</span>
     </div>
+    <div class="fa-ticket-name disp">${f.name}</div>
+    <div class="fa-ticket-dates mono">${f.dates}</div>
+    <div class="fa-ticket-desc">${f.desc}</div>
   </${tag}>`;
+}
+
+function stampCardHTML(h) {
+  const cities = (h.cities || []).filter(c => c.includes('|'));
+  let html = `<div class="fa-stamp-card">
+    <div class="fa-stamp-head"><span class="fa-stamp-cc mono">${countryCode(h.country)}</span><span class="fa-stamp-country">${h.country}</span></div>
+    <div class="fa-stamp-holiday disp">${h.name}</div>
+    <div class="fa-stamp-shuts">${h.shuts}</div>`;
+  if (cities.length) {
+    html += `<div class="fa-stamp-cities">`;
+    cities.forEach(c => { const [href, label] = c.split('|'); html += `<a href="${href}" class="fa-stamp-city">${label}</a>`; });
+    html += `</div>`;
+  }
+  html += `</div>`;
+  return html;
 }
 
 function renderResults(mon) {
   const festivals = FF_FESTIVALS.filter(f => f.months.includes(mon));
   const holidays  = FF_HOLIDAYS.filter(h => h.months.includes(mon));
-  const results   = document.getElementById('ff-results');
+  const results = document.getElementById('fa-results');
   let html = '';
 
-  /* ── Festivals section ── */
-  html += `<div class="ff-section-head">
-    <span class="ff-section-title">Festivals &amp; Events in ${MONTH_FULL[mon]}</span>
-    ${festivals.length ? `<span class="ff-section-count">${festivals.length} curated</span>` : ''}
-  </div>`;
-
-  if (festivals.length === 0) {
-    html += `<div class="empty-state"><div class="empty-state-text">No major events curated for ${MONTH_FULL[mon]} yet.</div></div>`;
+  html += `<div class="fa-head"><span class="fa-head-title">Festivals &amp; events in ${MONTH_FULL[mon]}</span>${festivals.length ? `<span class="fa-head-count mono">${festivals.length} curated</span>` : ''}</div>`;
+  if (!festivals.length) {
+    html += `<div class="fa-empty">No major events curated for ${MONTH_FULL[mon]} yet.</div>`;
   } else {
     const flagship = festivals.find(f => f.flagship);
     const rest = flagship ? festivals.filter(f => f !== flagship) : festivals;
-    if (flagship) html += festivalCardHTML(flagship, { spotlight: true });
+    if (flagship) html += ticketHTML(flagship, true);
     if (rest.length) {
-      html += `<div class="ff-index-list">`;
-      rest.forEach((f, i) => { html += festivalCardHTML(f, { index: flagship ? i + 2 : i + 1 }); });
+      html += `<div class="fa-filmstrip">`;
+      rest.forEach(f => { html += ticketHTML(f, false); });
       html += `</div>`;
     }
   }
 
-  /* ── Closures section ── */
-  html += `<div class="ff-section-head" style="margin-top:36px;">
-    <span class="ff-section-title">Public Holidays &amp; Closures in ${MONTH_FULL[mon]}</span>
-  </div>`;
-
-  if (holidays.length === 0) {
-    html += `<div class="empty-state"><div class="empty-state-text">No major public holidays curated for ${MONTH_FULL[mon]}.</div></div>`;
+  html += `<div class="fa-customs"><div class="fa-customs-head mono">Border control — closures in ${MONTH_FULL[mon]}</div>`;
+  if (!holidays.length) {
+    html += `<div class="fa-customs-empty">No major public holidays curated for ${MONTH_FULL[mon]}.</div>`;
   } else {
-    html += `<div class="ff-closure-list">`;
-    holidays.forEach(h => {
-      const cities = (h.cities || []).filter(c => c.includes('|'));
-      html += `<div class="ff-closure">
-        <div class="ff-cl-head">
-          <span class="ff-cl-flag">${TVE.flag.html(h.flag)}</span>
-          <span class="ff-cl-name">${h.country}</span>
-        </div>
-        <span class="ff-cl-holiday">${h.name}</span>
-        <div class="ff-cl-shuts">${h.shuts}</div>`;
-      if (cities.length) {
-        html += `<div class="ff-cl-cities">`;
-        cities.forEach(c => {
-          const [href, label] = c.split('|');
-          html += `<a href="${href}" class="ff-cl-city">${label}</a>`;
-        });
-        html += `</div>`;
-      }
-      html += `</div>`;
-    });
+    html += `<div class="fa-stamp-row">`;
+    holidays.forEach(h => { html += stampCardHTML(h); });
     html += `</div>`;
   }
+  html += `</div>`;
 
   results.innerHTML = html;
 }
@@ -768,68 +735,41 @@ function renderResults(mon) {
 function renderCityResults(cityName) {
   const lower = cityName.toLowerCase();
   const matched = FF_FESTIVALS.filter(f => f.city.toLowerCase() === lower);
-  const results = document.getElementById('ff-results');
-  if (!matched.length) {
-    results.innerHTML = `<div class="empty-state"><div class="empty-state-text">No festivals found for "${cityName}".</div></div>`;
-    return;
-  }
-  const monthsWithEvents = [...new Set(matched.flatMap(f => f.months))].sort((a, b) => a - b);
-  let html = `<div class="ff-section-head">
-    <span class="ff-section-title">Festivals in ${cityName}</span>
-    <span class="ff-section-count">${matched.length} curated</span>
-  </div><div class="ff-index-list">`;
-  let idx = 1;
-  monthsWithEvents.forEach(mon => {
-    matched.filter(f => f.months.includes(mon)).forEach(f => {
-      html += festivalCardHTML(f, { showMonth: true, month: mon, index: idx++ });
-    });
-  });
+  const results = document.getElementById('fa-results');
+  if (!matched.length) { results.innerHTML = `<div class="fa-empty">No festivals found for "${cityName}".</div>`; return; }
+  let html = `<div class="fa-head"><span class="fa-head-title">Festivals in ${cityName}</span><span class="fa-head-count mono">${matched.length} curated</span></div><div class="fa-filmstrip">`;
+  matched.forEach(f => { html += ticketHTML(f, false); });
   html += `</div>`;
   results.innerHTML = html;
 }
 
-initMonths();
+buildWheel();
 
-/* ── Count-up on the hero stats — the one place a number gets to move.
-   Fires once, on first scroll into view; skipped outright under
-   prefers-reduced-motion. ── */
+/* ── Count-up on the wow numeral ── */
 (function () {
-  var counters = document.querySelectorAll('[data-count]');
-  if (!counters.length) return;
-  var reduceMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-
-  function setFinal(el) {
-    el.textContent = el.getAttribute('data-count') + (el.getAttribute('data-suffix') || '');
-  }
-
-  function animateCount(el) {
-    if (reduceMotion || !window.requestAnimationFrame) { setFinal(el); return; }
-    var target = parseFloat(el.getAttribute('data-count'));
-    var suffix = el.getAttribute('data-suffix') || '';
-    var duration = 1300;
-    var start = null;
+  const el = document.querySelector('[data-count]');
+  if (!el) return;
+  const reduceMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  function setFinal() { el.textContent = el.getAttribute('data-count') + (el.getAttribute('data-suffix') || ''); }
+  function animate() {
+    if (reduceMotion || !window.requestAnimationFrame) { setFinal(); return; }
+    const target = parseFloat(el.getAttribute('data-count'));
+    const suffix = el.getAttribute('data-suffix') || '';
+    const duration = 1300; let start = null;
     function step(ts) {
       if (start === null) start = ts;
-      var p = Math.min((ts - start) / duration, 1);
-      var eased = 1 - Math.pow(1 - p, 3);
+      const p = Math.min((ts - start) / duration, 1);
+      const eased = 1 - Math.pow(1 - p, 3);
       el.textContent = Math.round(target * eased) + suffix;
-      if (p < 1) requestAnimationFrame(step);
-      else setFinal(el);
+      if (p < 1) requestAnimationFrame(step); else setFinal();
     }
     requestAnimationFrame(step);
   }
-
   if ('IntersectionObserver' in window) {
-    var io = new IntersectionObserver(function (entries) {
-      entries.forEach(function (entry) {
-        if (entry.isIntersecting) { animateCount(entry.target); io.unobserve(entry.target); }
-      });
-    }, { threshold: 0.4 });
-    counters.forEach(function (c) { io.observe(c); });
-  } else {
-    counters.forEach(setFinal);
-  }
-}());
+    const io = new IntersectionObserver((entries) => { entries.forEach(en => { if (en.isIntersecting) { animate(); io.unobserve(en.target); } }); }, { threshold: .4 });
+    io.observe(el);
+  } else setFinal();
+})();
 
 if (window.TVESearch) {
   const cityInp = document.getElementById('ff-city-search');
@@ -841,21 +781,18 @@ if (window.TVESearch) {
     TVESearch.attach(cityInp, {
       items: tveItems,
       onPick: function(it) {
-        document.querySelectorAll('.ff-mtab').forEach(b => { b.classList.remove('on'); b.setAttribute('aria-pressed', 'false'); });
+        document.querySelectorAll('.fa-spoke-btn').forEach(b => b.classList.remove('is-on'));
+        document.querySelectorAll('.fa-wheel-bar').forEach(b => b.classList.remove('on'));
+        document.getElementById('fa-hub-month').textContent = it.name;
+        document.getElementById('fa-hub-count').textContent = 'search result';
         activeMon = null;
         activeCity = it.name;
         renderCityResults(it.name);
       }
     });
-    /* Any typed edit clears the stale result, not just emptying the box —
-       typing a city that isn't in the list never fires onPick, so without
-       this the previous city's (or month's) results stayed on screen under
-       a search box that no longer names anything real. A programmatic
-       value-set from picking a match never fires 'input', so this can't
-       race the render that follows a pick. */
     cityInp.addEventListener('input', function() {
       activeCity = null;
-      document.getElementById('ff-results').innerHTML = '';
+      document.getElementById('fa-results').innerHTML = '';
     });
   }
 }

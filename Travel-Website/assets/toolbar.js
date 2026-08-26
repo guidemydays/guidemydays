@@ -10334,7 +10334,7 @@ window.TVE.home = (function () {
       '.tve-wl-copy{font-size:12px;font-weight:600;color:#C04E1A;background:none;' +
       'border:1px solid #C04E1A;border-radius:5px;padding:4px 11px;cursor:pointer;' +
       'font-family:inherit;transition:background .12s,color .12s;}' +
-      '.tve-wl-copy:hover{background:#C04E1A;color:#C04E1A;}' +
+      '.tve-wl-copy:hover{background:#C04E1A;color:#fff;}' +
       '.tve-wl-empty{padding:24px 14px;text-align:center;color:#a8a09a;' +
       'font-size:13px;line-height:1.6;font-family:inherit;}' +
       /* Mobile: align with scroll-top FAB (bottom:62px+36px+10px=108px) */
@@ -10724,7 +10724,7 @@ window.TVE.home = (function () {
       '.tve-note-save{font-size:12px;font-weight:600;color:#C04E1A;background:none;' +
       'border:1px solid #C04E1A;border-radius:5px;padding:5px 12px;cursor:pointer;' +
       'font-family:inherit;flex-shrink:0;transition:background .12s,color .12s;}' +
-      '.tve-note-save:hover{background:#C04E1A;color:#C04E1A;}' +
+      '.tve-note-save:hover{background:#C04E1A;color:#fff;}' +
 
       /* MY TRIP NOTES card — mirrors .overview-section / .overview-title */
       '#tve-notes-card{display:none;background:var(--c-card-bg,#fff);' +
@@ -12750,27 +12750,25 @@ window.TVE.home = (function () {
         '@media (hover:hover){.tve-stf-chip:hover{background:var(--c-pill-hover);' +
         'border-color:var(--c-pill-bd-hover);}}' +
         '.tve-stf-chip:focus-visible{outline:2px solid #C04E1A;outline-offset:2px;}' +
-        /* #fff, not #C04E1A — the gradient's own midpoint IS #C04E1A, so terracotta
-           text on it renders at ~1:1 contrast and the selected chip's label
-           disappears (owner spotted "All 24" unreadable on Buenos Aires,
-           2026-08-10). Every other element on the site that takes this fill pairs
-           it with white: .pkl-chip.on, .pkl-nav a.active, .country-chip.active,
-           .dest-card:hover, #btn-my-trips:active. The dark-theme variant below
-           already got this right (#f5efe6). */
-        '.tve-stf-chip.is-on{background:#C04E1A;' +
-        'border-color:#C04E1A;color:#fff;}' +
+        /* Outlined, not filled — a selected chip is outlined site-wide ("Filled is
+           a Button, Outlined is Selected"; every filter pill/chip/month button
+           follows this — Non-Negotiables x05). This chip's fill used to go solid
+           #C04E1A on selection, which also caused a separate contrast bug (owner
+           spotted "All 24" unreadable on Buenos Aires, 2026-08-10) papered over
+           with white text instead of fixing the underlying violation. Deepening
+           the chip's own var()-driven rest-state tokens instead keeps it outlined
+           and gets dark mode for free — no separate override block needed. */
+        '.tve-stf-chip.is-on{background:var(--c-pill-hover);' +
+        'border-color:var(--c-pill-text);color:var(--c-pill-text);font-weight:600;}' +
         '.tve-stf-chip.is-on .tve-stf-n{opacity:.85;}' +
         '@media (hover:hover){.tve-stf-chip.is-on:hover{' +
-        'background:#C04E1A;' +
-        'border-color:#C04E1A;}}' +
+        'background:var(--c-pill-hover);' +
+        'border-color:var(--c-pill-text);}}' +
         '.overview-day.tve-stf-dim{opacity:.35;pointer-events:none;}' +
         '@media (prefers-color-scheme:dark){' +
         '#tve-stf{border-bottom-color:rgba(212,184,150,.16);}' +
         '#tve-stf .tve-stf-lead{color:#8a827a;}' +
-        '.tve-stf-chip.is-on{background:#8A3F18;border-color:#a85e28;color:#f5efe6;}' +
-        '}' +
-        '@media (hover:hover) and (prefers-color-scheme:dark){' +
-        '.tve-stf-chip.is-on:hover{background:#8A3F18;border-color:#a85e28;}}';
+        '}';
       (document.head || document.documentElement).appendChild(css);
 
       /* ── Markup ── */

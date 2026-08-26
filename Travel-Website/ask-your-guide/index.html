@@ -65,7 +65,7 @@
    rule from the previous pass was about 22 identical bordered ROW boxes reading
    like an admin table; a single outer sheet holding a flowing list is a
    different, common pattern and stays). Colour comes back, but disciplined: the
-   8 canonical badge families (selection-pills-badges-pills-to-badge-dots.html#sec-badge-full-spec), one assigned per
+   8 canonical badge families (Formatting.html#sec-badges), one assigned per
    section, never an invented hue — the fix for "several fonts and colors"
    (2026-08-23) was ungoverned colour, not colour itself. */
 .ag-pack {
@@ -304,8 +304,9 @@
 
 <div class="wrap">
   <div class="hero-band eb-hero ayg-hero">
+    <span class="eb-kicker">Ask Your Guide</span>
     <div class="eb-copy">
-      <h1 class="eb-title">The things you’d ask a guide, <em>answered for any city.</em></h1>
+      <h1 class="eb-title">The things you’d ask a guide, <em>answered for any city</em>.</h1>
       <p class="eb-intro">The things you end up asking a guide halfway through a walking tour &mdash; whether people own their homes, what they earn, how much paid holiday they get, how long they live. Search a city: every figure we hold about it, on one page.</p>
       <div class="ayg-hero-chips"><span class="ayg-hero-chip">Own their home</span><span class="ayg-hero-chip">Median income</span><span class="ayg-hero-chip">Paid holiday</span><span class="ayg-hero-chip">Life expectancy</span></div>
     </div>
@@ -336,7 +337,7 @@
            is stored per place and nothing is researched. -->
       <p class="ag-lede" id="ag-lede" hidden></p>
       <div class="ag-trio" id="ag-trio" hidden></div>
-      <!-- CITY-LEVEL cost, from /essentials/budget/ — the country tables do not
+      <!-- CITY-LEVEL cost, from /essentials/average-costs/ — the country tables do not
            carry it, and the two genuinely disagree: Aix-en-Provence reads 45.7
            against France's national 65.0 (owner rule 2026-08-23: "where is the
            cost of living? need to be there"). -->
@@ -386,6 +387,9 @@ var AGMO=["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec
     var row=BYA[anchor];
     if(!row){ elRes.hidden=true; return; }
     var city=row[1], placeName=row[2], slug=row[3];
+    /* dn = the human-readable half of the compound key (e.g. "europe|France" → "France").
+       placeName stays as the AGP lookup key; dn goes into every user-facing string. */
+    var dn=placeName.split('|').pop();
     var place=AGP[placeName];
     if(!place){
       /* NAME THE GAP. Nine guides — Abu Dhabi, Dubai, the Caymans, Curacao,
@@ -416,7 +420,7 @@ var AGMO=["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec
        so this rendered "San Jose / SAN JOSE"; the sub-line names what the city
        sits inside instead. */
     var COUNTRY_OF={us:'United States',canada:'Canada'};
-    var sub=(placeName===city)?(COUNTRY_OF[place.r]||''):placeName;
+    var sub=(dn===city)?(COUNTRY_OF[place.r]||''):dn;
     document.getElementById('ag-guide-link').innerHTML=
       esc(city)+(sub?'<span class="ag-of">'+esc(sub)+'</span>':'');
     /* Say what the number actually MEASURES. Compared by name this got New York
@@ -425,9 +429,9 @@ var AGMO=["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec
        subject is the fact; the spelling is not. */
     document.getElementById('ag-scope').textContent =
       (place.s==='country')
-        ? 'These are national figures for '+placeName+'. A city can sit above or below its country.'
+        ? 'These are national figures for '+dn+'. A city can sit above or below its country.'
         : (place.s==='state')
-          ? 'These are state-level figures for '+placeName+'.'
+          ? 'These are state-level figures for '+dn+'.'
           : 'Measured for the city itself.';
 
     /* THE VERDICT AND THE THREE NUMBERS. Both are read off the ranks already on
@@ -449,7 +453,7 @@ var AGMO=["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec
       var nm=function(x){ return x.n.toLowerCase(); };
       var reg=REGION_WORD[place.r]||'the region';
       ledeEl.innerHTML=
-        esc(placeName)+' sits <b>near the top of '+esc(reg)+'</b> for '+
+        esc(dn)+' sits <b>near the top of '+esc(reg)+'</b> for '+
         esc(nm(top[0]))+' and '+esc(nm(top[1]))+' ('+ord(top[0].r)+' and '+
         ord(top[1].r)+' of '+top[0].of+'), and <b>near the bottom</b> for '+
         esc(nm(bot[0]))+' and '+esc(nm(bot[1]))+' ('+ord(bot[0].r)+' and '+

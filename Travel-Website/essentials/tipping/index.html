@@ -37,13 +37,6 @@
      space with padding. */
   flex: 0 0 auto; justify-content: center;
 }
-/* .stat-dot — drawn since 2026-08-21. The flat 8px circle and its four colour rules are
-   retired: Site-Icons.html § Dots (856-867) holds the sphere, and a flat circle is neither
-   an emoji (so no check saw it) nor the catalogue drawing. Sized svg.gm-icon.stat-dot,
-   (0,2,1), because toolbar.js appends .gm-icon{width:1.2em} at RUNTIME and so outranks a
-   bare class here. Never simplify that selector. */
-svg.gm-icon.stat-dot { width: 11px; height: 11px; flex-shrink: 0; }
-.stat-label { color: var(--sub,#7A7368); }
 /* ── Filter pills ── */
 .controls { margin: var(--search-gap,32px) 0 20px; }
 .pills { display: flex; gap: var(--fam-gap,10px); flex-wrap: nowrap; justify-content: center; }
@@ -52,6 +45,12 @@ svg.gm-icon.stat-dot { width: 11px; height: 11px; flex-shrink: 0; }
    selection is .is-on). Never re-add a box or a colour here.
    Spec: Travel-Website/Icons-Formats-Logos/selection-pills-badges-pills-to-badge-dots/. */
 .pill { font-family: inherit; }
+/* Owner: "these are click action pills choose earth tones for these" —
+   the region filter row is a clickable control, not a static badge, so it
+   gets a warm sand wash at rest instead of the shared .selection-pill's
+   white — same --en-sand token the rest of the site's earth-tone accents
+   use. Scoped to this page's region row only. */
+#region-pills .pill.selection-pill { background: var(--en-sand-top, #f2e7d6); }
 /* ── Region headers (B — hairline rule) ── */
 .region-header {
   display: flex; align-items: center; gap: 12px;
@@ -1091,13 +1090,13 @@ function norm(n) {
 
 function buildStatBar() {
   var labels = {expected:'Expected', appreciated:'Appreciated', check:'Check Bill', skip:'Not Customary'};
-  /* One drawing per tier — Site-Icons.html § Dots (856-867). The keys line up with the
-     pill's own fam-* class directly below, so the dot and its box can never disagree. */
-  var STAT_DOT = {expected:'dot-green', appreciated:'dot-yellow', check:'dot-orange', skip:'dot-grey'};
+  /* Owner: "these need to match 100% the look" — the legend now uses the exact
+     same badge fam-en fam-en-{color} classes as the per-country chip
+     (renderCard() below), instead of its own separate white+dot treatment. */
+  var STAT_FAM = {expected:'green', appreciated:'yellow', check:'orange', skip:'grey'};
   var html = '';
   ['expected','appreciated','check','skip'].forEach(function(k) {
-    html += '<div class="stat-pill legend-key stat-pill-' + k + '">' +
-      '<svg class="gm-icon stat-dot" data-icon="' + STAT_DOT[k] + '" data-role="dot" viewBox="0 0 24 24" aria-hidden="true"><use href="#gm-i-' + STAT_DOT[k] + '"/></svg>' +
+    html += '<div class="stat-pill legend-key badge fam-en fam-en-' + STAT_FAM[k] + '">' +
       '<span class="stat-label">' + labels[k] + '</span>' +
     '</div>';
   });

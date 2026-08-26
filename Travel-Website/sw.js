@@ -2352,7 +2352,8 @@
 /* 2026-08-26: essentials/where-to-stay: the "[City] guide" pill gets a green wash background (doc's actual Selection Pill spec — pale tint, never white), not just font/border color -- page precached, no shared asset moved. CACHE to v1619. */
 /* 2026-08-26: essentials/average-costs: removed the redundant Sort row and 'Cheapest of these / dearest' summary line, recolored the 4 tiers to green->yellow->orange->red -- page precached, no shared asset moved. CACHE to v1620. */
 /* 2026-08-26: essentials/average-costs: row hover reads its own band color instead of fixed terracotta, control pills flattened to pastel (page-scoped, not the shared Enamel gradient) -- page precached, no shared asset moved. CACHE to v1621. */
-var CACHE = 'travel-cache-v1621';
+/* 2026-08-26: essentials/average-costs: Place column single-row on desktop (flag+name left, country right), text sized up -- page precached, no shared asset moved. CACHE to v1622. */
+var CACHE = 'travel-cache-v1622';
 
 /* The guide-calendar hand-off cache. Written by toolbar.js, read and emptied
    once by the fetch handler below, and EXEMPT from the activate sweep — it is

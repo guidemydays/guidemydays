@@ -2307,7 +2307,8 @@
 /* 2026-08-26: amusement-parks — mosque shifted left off the paragraph text. web-travel-style.css -> v156. CACHE to v1573. */
 /* 2026-08-26: amusement-parks — colosseum/lion/mosque overlaps fixed by measuring the live render directly (colosseum vs "Parks", lion vs the pyramid, mosque still vs the paragraph). web-travel-style.css -> v157. CACHE to v1574. */
 /* 2026-08-26: Best Of hero title — .ln2 row-color/indent bug fixed site-wide (37 pages) with ::first-line + text-indent so any wrapped title matches amusement-parks' row/color pattern automatically. web-travel-style.css -> v158. CACHE to v1575. */
-var CACHE = 'travel-cache-v1575';
+/* 2026-08-26: bo-title min-height fixes 2-row-title paragraph/icon overlap on best-of category pages toolbar.js -> v1084. CACHE to v1576. */
+var CACHE = 'travel-cache-v1576';
 
 /* The guide-calendar hand-off cache. Written by toolbar.js, read and emptied
    once by the fetch handler below, and EXEMPT from the activate sweep — it is
@@ -2320,7 +2321,7 @@ var ICS_OUTBOX = 'gmd-ics-outbox';
    THIS IS THE ONLY PLACE to bump toolbar.js / guide-style.css versions.
    NEVER bump ?v= inside guide HTML — it breaks HMAC stamps and forces re-validation
    of 230+ guides. Instead, bump MIN_VERSIONS here + increment the CACHE version. */
-var MIN_VERSIONS = { 'guide-style.css': 265,'toolbar.js': 1083, 'mobile.css': 89, 'web-travel-style.css': 158, 'guides-index-style.css': 28, 'read-about.css': 6, 'best-of-features.js': 4, 'best-of-cross-data.js': 24, 'weather.js': 12, 'trains.css': 17, 'trains.js': 5, 'airlines.css': 5, 'airlines.js': 7, 'passport.js': 5, 'search-autocomplete.js': 9, 'flag-render.js': 1 };
+var MIN_VERSIONS = { 'guide-style.css': 265,'toolbar.js': 1084, 'mobile.css': 89, 'web-travel-style.css': 158, 'guides-index-style.css': 28, 'read-about.css': 6, 'best-of-features.js': 4, 'best-of-cross-data.js': 24, 'weather.js': 12, 'trains.css': 17, 'trains.js': 5, 'airlines.css': 5, 'airlines.js': 7, 'passport.js': 5, 'search-autocomplete.js': 9, 'flag-render.js': 1 };
 
 function rewriteAssetUrl(urlStr) {
   var u;

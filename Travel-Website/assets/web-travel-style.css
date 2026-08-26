@@ -2373,8 +2373,15 @@ body.is-searching .hub-top { display:none!important; }
    risk): "Best" alone on line one, then the rest of the title as one
    indented block that wraps naturally however many lines it needs. .bo-title
    needs a REAL width (not just max-width) or the percentage-based padding
-   has no stable box to measure against and the stagger barely shows. */
-.bo-title { position: relative; z-index: 3; font-family: var(--font); font-weight: 800; color: #3d2f1f; font-size: clamp(38px,6.6vw,74px); line-height: 1.05; letter-spacing: -.03em; margin: 0 0 14px; width: min(56vw,600px); max-width: 600px; }
+   has no stable box to measure against and the stagger barely shows.
+   min-height reserves 3 lines' worth of height (line-height 1.05 × 3 +
+   ln3's 14px margin, in em so it scales with the clamp) regardless of how
+   many rows the actual title needs — a page like "Best Castles" (2 rows)
+   would otherwise leave .bo-main sitting higher than amusement-parks (3
+   rows) and its paragraph text would overlap the icon cluster below. No
+   visual effect on amusement-parks itself: 3 real rows already meet this
+   height. */
+.bo-title { position: relative; z-index: 3; font-family: var(--font); font-weight: 800; color: #3d2f1f; font-size: clamp(38px,6.6vw,74px); line-height: 1.05; letter-spacing: -.03em; margin: 0 0 14px; width: min(56vw,600px); max-width: 600px; min-height: 3.34em; }
 .bo-title .ln { display: block; width: 100%; box-sizing: border-box; text-wrap: balance; }
 .bo-title .ln1 { text-align: left; }
 /* ln2 carries the REST of the title (everything after "Best") as one block

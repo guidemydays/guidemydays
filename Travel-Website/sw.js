@@ -2325,7 +2325,8 @@
 /* 2026-08-26: toolbar.js: RES_GROUPS essentials/budget/ -> essentials/average-costs/, label "Budget Guide" -> "Average Costs" (owner-called page rename — folder/nav-label/title had drifted to three different names). toolbar.js -> v1086. CACHE to v1592. */
 /* 2026-08-26: index.html: .lp-btn ("Browse over 200 guides" hero CTA) rest/hover recolored to match the toolbar's own Saddle+Glow pill, same treatment as the Compare Cities bar and passport picker (owner rule). #cf-submit ("Send message") keeps the filled-terracotta CTA look explicitly in both themes -- it shares the bare .lp-btn class with no theme of its own, so it needed the light-mode restate the dark block already had. CACHE to v1593. */
 /* 2026-08-26: chevron-link-pill hover — added the missing beige-ground shift + text-color change + dark-mode variant (owner rule: terracotta hover never stands alone on white). web-travel-style.css -> v170. CACHE to v1594. */
-var CACHE = 'travel-cache-v1594';
+/* 2026-08-26: index.html: .lp-hero h1 em ("day by day.") and .lp-pick-lead em ("pick your guide") text color terracotta -> gold (owner rule: "change terracota fonts to GOLD"), same var(--accent) token the rest of the site's gold ink uses. Only these two rest-state headline/link em rules moved -- the dozens of :hover/:focus/.on terracotta text states elsewhere on the page (finder, ask-cards, tiles, etc.) are untouched, they're a different, still-live grammar (terracotta = interactive state). CACHE to v1595. */
+var CACHE = 'travel-cache-v1595';
 
 /* The guide-calendar hand-off cache. Written by toolbar.js, read and emptied
    once by the fetch handler below, and EXEMPT from the activate sweep — it is

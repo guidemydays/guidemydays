@@ -2347,7 +2347,8 @@
 /* 2026-08-26: trips: .tsa-link same literal-arrow fix, plus gold hover -> terracotta -- page precached, no shared asset moved. CACHE to v1614. */
 /* 2026-08-26: essentials/average-costs: .ci-summary/.ci-name link hovers, gold -> terracotta -- page precached, no shared asset moved. CACHE to v1615. */
 /* 2026-08-26: essentials/average-costs: BAND_FAM/badge/row-vars/track-gradient/text-color classes -- paused Vibrant fam-* -> live Enamel, now matches the top filter pills' own palette -- page precached, no shared asset moved. CACHE to v1616. */
-var CACHE = 'travel-cache-v1616';
+/* 2026-08-26: essentials/average-costs: 'Most expensive first' sort pill red -> purple, matching the Very Expensive tier it sorts toward -- page precached, no shared asset moved. CACHE to v1617. */
+var CACHE = 'travel-cache-v1617';
 
 /* The guide-calendar hand-off cache. Written by toolbar.js, read and emptied
    once by the fetch handler below, and EXEMPT from the activate sweep — it is

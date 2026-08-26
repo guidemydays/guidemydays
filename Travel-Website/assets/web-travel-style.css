@@ -1805,6 +1805,11 @@ input[type="text"]:focus-visible,
      cannot carry a var() there. That literal is unreadable on a dark ground,
      so the dark value is restored here instead of in the base rule. */
   .country-name { color: var(--text); }
+  /* #fdf4ed is owner-locked and never flips (Non-Negotiable 35), so the
+     .chevron-link-pill hover background needs its own dark value — same
+     translucent-terracotta tint .selection-pill/.sibling-pill already use
+     for this exact problem in dark mode. */
+  .chevron-link-pill:hover { background: rgba(212,102,58,.16); color: #D4663A; border-color: #D4663A; }
 }
 html[data-theme="dark"] .country-name { color: var(--text); }
 
@@ -1842,7 +1847,13 @@ a.lounge-guide-link:visited { color: #6a6660; }  /* literal hex — browsers don
   transition: border-color .15s, color .15s;
 }
 .chevron-link-pill::after { content: '\203A'; font-size: 17px; vertical-align: -1px; margin-left: 5px; }
-.chevron-link-pill:hover { border-color: #C04E1A; }
+/* Was border-color only, on an otherwise-white/transparent ground — a
+   terracotta accent never stands alone on white; every other terracotta
+   hover on the site (.selection-pill, .sibling-pill) pairs it with a shift
+   to the warm beige ground (owner rule 2026-08-26). Also restores the text
+   color change this rule's own doc comment always claimed ("hover =
+   terracotta border/text") but never actually implemented. */
+.chevron-link-pill:hover { background: #fdf4ed; border-color: #C04E1A; color: #C04E1A; }
 a.chevron-link-pill:visited { color: #6a6660; }  /* literal hex — browsers don't resolve var() in :visited */
 
 /* ─── External-link arrow icon ────────────────────────────────────────────

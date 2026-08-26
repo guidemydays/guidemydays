@@ -2337,7 +2337,8 @@
 /* 2026-08-26: index.html: .lp-btn hover gets its glow ring back (commit faf50022) -- added on top of the existing empty-on-hover CTA grammar, terracotta tint both themes. Owner: "glow not there". CACHE to v1604. */
 /* 2026-08-26: index.html: .lp-btn hover gets its glow ring back (commit faf50022) -- added on top of the existing empty-on-hover CTA grammar, terracotta tint both themes. Owner: "glow not there". CACHE to v1605. */
 /* 2026-08-26: toolbar.js: average-costs PAGE_ICON entry added — Cost of Living pill now draws an icon toolbar.js -> v1087. CACHE to v1606. */
-var CACHE = 'travel-cache-v1606';
+/* 2026-08-26: essentials/where-to-stay (hero icon: catalogue #218 "hotel" replacing the old flat hand-drawn pin+house) and essentials/day-trips (dt-hero rebuilt into eb-hero's own two-column grid, gradient train icon added/repositioned) changed across several commits with no CACHE bump -- no shared asset moved, but both PAGES are precached, so a returning browser kept being served the pre-edit HTML no matter how many times it was reloaded (same failure shape as the 2026-08-21 index.html and 2026-08-23 packing entries above). CACHE to v1607. */
+var CACHE = 'travel-cache-v1607';
 
 /* The guide-calendar hand-off cache. Written by toolbar.js, read and emptied
    once by the fetch handler below, and EXEMPT from the activate sweep — it is

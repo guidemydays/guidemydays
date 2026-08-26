@@ -3426,6 +3426,42 @@ div.train .train-time   { padding: 2px 0; }
   .next,
   .next-tram,
   .next-metro     { break-after: avoid; page-break-after: avoid; }
+
+  /* Interactive chrome — none of it belongs on a printed page or exported
+     PDF; only the notes sheet's own print pass (body.tve-notes-printing,
+     toolbar.js) hid the toolbar before, so an ordinary Cmd+P/Share->Print
+     of the guide itself baked in the full nav, every action button and
+     every filter chip. */
+  .tb, .tb-ham, .tb-ham-menu,
+  #tve-offline-btn, #tve-visited-btn,
+  #tve-wl-fab, #tve-wl-panel, .tve-wl-btn,
+  .tve-share-stop-btn, #tve-stf,
+  .tve-copy-day-btn, #ics-cal-pill,
+  .addr-copy, .addr-copy-pop {
+    display: none !important;
+  }
+
+  /* A section or day the reader had collapsed while browsing must not print
+     blank — print is a fresh render of the whole guide, not a snapshot of
+     on-screen state. Only *_offlineStrip's clone (Save for Offline) and the
+     notes-only print path un-collapsed before; a plain browser print did
+     neither, so a closed Day 2 or a closed Worth Knowing card came out
+     empty with nothing on the page to say content was missing. */
+  .day-block.collapsed > *:not(.day-header),
+  .extras-section.collapsed > *:not(.extras-title),
+  .worth-knowing.collapsed > *:not(.extras-title),
+  #hotel-alternatives.collapsed > *:not(.extras-title) {
+    display: block !important;
+  }
+
+  /* Dark mode's near-white text tokens (--c-text-primary and its kin) print
+     as near-invisible on this block's forced white background — dozens of
+     element-specific rules set color from one of those tokens directly and
+     outrank the plain body{color:#000} above by specificity. One universal
+     override, consistent with the `a{color:#000}` rule already here for the
+     same reason, beats chasing each one down and beats it again the next
+     time a color:var(...) rule is added anywhere in this file. */
+  * { color: #000 !important; }
 }
 
 

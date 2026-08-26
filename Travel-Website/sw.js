@@ -2303,7 +2303,8 @@
 /* 2026-08-26: dark-mode contrast fixes (eb-hero bg, undefined --brand/--warn vars, pill is-on/hover backgrounds) toolbar.js -> v1083. CACHE to v1569. */
 /* 2026-08-26: web-travel-style.css MIN_VERSION 152->153 + CACHE to v1570 — floor bump for the mobile dark-mode contrast fixes (a970fc61), required by the push guard. */
 /* 2026-08-26: web-travel-style.css MIN_VERSION 153->154 + CACHE to v1571 — floor bump for the 4 new --ink-{sand,clay,rust,espresso}-rgb tokens (essentials/budget's earth-tone redesign), required by the push guard. */
-var CACHE = 'travel-cache-v1571';
+/* 2026-08-26: amusement-parks hero finalized — backpack/boot/binoculars/paw/camera final placements, mosque + hill pulled up off the hero's bottom edge. web-travel-style.css -> v155. CACHE to v1572. */
+var CACHE = 'travel-cache-v1572';
 
 /* The guide-calendar hand-off cache. Written by toolbar.js, read and emptied
    once by the fetch handler below, and EXEMPT from the activate sweep — it is
@@ -2316,7 +2317,7 @@ var ICS_OUTBOX = 'gmd-ics-outbox';
    THIS IS THE ONLY PLACE to bump toolbar.js / guide-style.css versions.
    NEVER bump ?v= inside guide HTML — it breaks HMAC stamps and forces re-validation
    of 230+ guides. Instead, bump MIN_VERSIONS here + increment the CACHE version. */
-var MIN_VERSIONS = { 'guide-style.css': 265,'toolbar.js': 1083, 'mobile.css': 89, 'web-travel-style.css': 154, 'guides-index-style.css': 28, 'read-about.css': 6, 'best-of-features.js': 4, 'best-of-cross-data.js': 24, 'weather.js': 12, 'trains.css': 17, 'trains.js': 5, 'airlines.css': 5, 'airlines.js': 7, 'passport.js': 5, 'search-autocomplete.js': 9, 'flag-render.js': 1 };
+var MIN_VERSIONS = { 'guide-style.css': 265,'toolbar.js': 1083, 'mobile.css': 89, 'web-travel-style.css': 155, 'guides-index-style.css': 28, 'read-about.css': 6, 'best-of-features.js': 4, 'best-of-cross-data.js': 24, 'weather.js': 12, 'trains.css': 17, 'trains.js': 5, 'airlines.css': 5, 'airlines.js': 7, 'passport.js': 5, 'search-autocomplete.js': 9, 'flag-render.js': 1 };
 
 function rewriteAssetUrl(urlStr) {
   var u;

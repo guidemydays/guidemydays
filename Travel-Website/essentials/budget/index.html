@@ -10,78 +10,226 @@
    overrode the shared rail-aware one. Do not paste it back. */
 .index-section { max-width: var(--rail); margin: 0 auto; padding: 0 var(--gutter); }
 
-/* Owner rule 2026-08-26: "push in all essentials pages" — the beige +
-   dot-texture recipe this page pioneered (matched against best-of/
-   amusement-parks' shared .hero-band.bo-hero) is now the shared
-   .hero-band.eb-hero default itself (web-travel-style.css), so the
-   page-local background/border/link/dots override this page carried is
-   retired — every essentials page reads the same rule now, this one
-   included, which is exactly what stops a future page-local copy from
-   quietly drifting the way the first version of this override did.
-   Only the title stagger stays page-local: it is TEXT-specific (two
-   short clauses split into their own lines), not something every
-   essentials page's title needs.
-   .bo-title's own ::first-line trick was tried here and reverted: it
-   exists because bo-title's ln2 can be a long multi-word category name
-   that legitimately wraps to 2-3 lines, where colouring all of them would
-   read as a wall of red — colouring only the first visual line keeps
-   ONE red row. Budget's ln2 is a short single clause; forcing the same
-   trick meant "and which" went red and "are cheap." didn't, splitting
-   one clause into two colours for no reason. Flat colour across the
-   whole span is correct here regardless of how many lines it wraps to. */
-.budget-title-staggered { display: block; }
-.budget-title-staggered .ln { display: block; width: 100%; box-sizing: border-box; text-wrap: balance; }
-.budget-title-staggered .ln2 { padding-left: 8%; color: #8a4a2c; }
-@media (max-width: 640px) { .budget-title-staggered .ln2 { padding-left: 4%; } }
+/* Two control rows: filter by cost level, then sort. Both are .pill-badge
+   strips — box, colour, case and the selected state all come from the shared
+   .pill-badge + .fam-* classes. A page carries NO colour of its own; never
+   re-add a box or a border here. */
+/* CENTRED UNDER THE BAR, AND A FULL GAP CLEAR OF IT. Both were owner calls
+   (2026-08-23): the rows were flush left while the search bar above them was
+   centred — "why there are all packed on the left" — and they sat directly on
+   the band's own 32px, close enough that the typeahead card landed on top of
+   them. `align-items: center` shrink-wraps each row to its pills and centres
+   it, which is the same shape every other pill strip on the site has (scams,
+   tap-water, tipping). The `!important` overrides the shared
+   `.hero-band + .hero-ground + *` reset, which zeroes this margin so the band's
+   padding is the only distance — here the owner asked for the pills to sit
+   "way lower", so it is the band's gap AGAIN, the same token twice rather than
+   a new number. */
+.index-section .ci-controls {
+  margin: var(--search-gap,32px) 0 0 !important;
+  display: flex; flex-direction: column; align-items: center; gap: 18px;
+}
+.ci-row { display: flex; flex-wrap: wrap; gap: 12px; align-items: center; justify-content: center; }
+/* The label sits ABOVE its row, not inline before the first pill — inline put
+   "COST OF LIVING" and the grey "ALL" pill right next to each other at the
+   same muted grey, and at a glance they read as one blurred label instead of
+   a caption over a control (owner: "the top and all lose together"). A block
+   label with its own line clears that; the row below still centres under it. */
+.ci-row-label {
+  display: block; width: 100%; text-align: center;
+  font-size: var(--fs-sub,12px); font-weight: 700; color: var(--muted,#6a6660);
+  letter-spacing: .1em; text-transform: uppercase; margin: 0 0 8px;
+}
+/* THE SIZE IS NOT SET HERE. This page carried a page-scoped upsize to 15px /
+   7px 14px while every other pill strip on the site sat at 11px / 3px 8px —
+   two extremes of the same control, which is exactly what the owner ended on
+   2026-08-23. The one size now lives in --fam-fs / --fam-pad in
+   web-travel-style.css and every page reads it. All this rule does is give a
+   <button> the page font, which a button does not inherit. Never re-add a
+   font-size or a padding here. The coin icons are sized in em (.ci-coins svg),
+   so they follow the token on their own. */
+.ci-btn { font-family: inherit; }
+
+/* The count line sits under the controls that produced it — CLAUDE.md
+   Sixty-second non-negotiable. */
+.ci-summary {
+  margin: 14px 0 var(--search-gap,32px); text-align: center;
+  font-size: var(--fs-sub,12px); color: var(--muted,#6a6660);
+}
+.ci-summary strong { color: var(--text); font-weight: 700; }
+.ci-summary a { color: var(--text); font-weight: 700; text-decoration: none; border-bottom: 1px solid var(--border,#d8d4cc); }
+.ci-summary a:hover { color: var(--accent,#8a6c1a); border-bottom-color: currentColor; }
 
 /* ═══════════════════════════════════════════════════════════════════
-   GROUPED-INDEX REBUILD — 2026-08-26. Owner: "entire page throw all
-   away" / "not the colours... this is a detail" — three rounds of
-   recolouring the same ranked-table-plus-pill-filter shape never landed;
-   the shape is what's gone, not just its palette. Cheap / Moderate /
-   Expensive / Very expensive are now four plain sections in that order,
-   each a flat wrap of chip links straight to the guide. The SECTION a
-   place sits under IS its price tag — there is no badge, no filter-pill
-   row, no per-row colour, nothing left to get wrong a fourth time. The
-   old rank/bar/expand-to-see-drivers mechanics are retired with it (the
-   Rent/Eating out/Groceries breakdown data still lives in CI, unused for
-   now — a later pass can surface it differently if it's wanted back). */
-.ci-groups { margin: var(--search-gap,32px) 0 0; }
-.ci-group { margin: 0 0 40px; }
-.ci-group:last-child { margin-bottom: 0; }
-.ci-group-head { display: flex; align-items: baseline; gap: 10px; margin: 0 0 14px; padding-bottom: 10px; border-bottom: 1px solid var(--border2,#e6e2da); }
-.ci-group-title { font-size: 20px; font-weight: 800; color: var(--text,#3d3a32); margin: 0; display: flex; align-items: center; gap: 8px; }
-/* Same 1-2-3-4 coin ladder as before (catalogue sprite #381, registered
-   as 'coin' by toolbar.js) — CLAUDE.md Twenty-eighth non-negotiable, reuse
-   never a second coin. Sits on the SECTION now, once, not on every chip —
-   the section-header-only pattern this site already uses for grouped
-   lists (essentials-Page-Format.html §13 never-do: "repeat the category
-   dot on every item when the group header already carries it"). */
-.ci-group-coins { display: inline-flex; align-items: center; }
-.ci-group-coins svg { width: 19px; height: 19px; margin-left: -6px; }
-.ci-group-coins svg:first-child { margin-left: 0; }
-.ci-group-count { font-size: var(--fs-sub,12px); color: var(--muted,#6a6660); }
-.ci-chips { display: flex; flex-wrap: wrap; gap: 8px; }
-.ci-chip {
-  display: inline-flex; align-items: center; gap: 7px;
-  padding: 8px 14px; border-radius: 20px;
-  border: 1px solid var(--border2,#e6e2da); background: var(--surface,#fff);
-  color: var(--text,#3d3a32); font-size: 13.5px; font-weight: 600;
-  text-decoration: none; transition: border-color .15s, color .15s, transform .15s, box-shadow .15s;
+   LEADERBOARD REDESIGN — 2026-08-24. Owner: "do modern... surprise me"
+   (same brief as the scams/passport/disney/storage passes this session).
+   Background and .hero-band untouched; the controls (filter/sort pills,
+   search) are the site's shared, already-current pattern and stay as
+   they are. Everything below is new: the plain table becomes a ranked
+   leaderboard — a live rank number per row, a gauge-style bar with an
+   end-cap marker, and the expanded "what drives it" panel becomes three
+   bento tiles instead of a mini table. Structure stays a real <table>
+   (colgroup/thead/tbody, screen-reader semantics, the phone's declared-
+   width-drop trick) — only how it's painted changes. No gradient paints
+   the terracotta family (Thirty-fifth non-negotiable); the track tint
+   gradient below is fam-green/blue/orange/purple, pre-existing, untouched. */
+.index-table { width: 100%; border-collapse: collapse; border: 1px solid var(--border,#d8d4cc); border-radius: 14px; overflow: hidden; }
+/* THE WIDTHS ARE ON CLASSES BECAUSE THE PHONE HIDES THE MIDDLE COLUMN, and a
+   <col> does not follow. `display:none` on a th/td removes the COLUMN but
+   leaves the <colgroup> three entries long, so on a phone the entries stop
+   lining up with the columns they were written for: the bar cell inherited the
+   band's width and the detail row's colspan="4" still asked for a fourth column,
+   which took the difference — every two-cell row stopped 58px short of the
+   panel underneath it. So the phone drops the declared widths entirely and lets
+   the table size itself (.ci-bar-cell already claims width:100%, which is the
+   whole remainder). `table-layout: fixed` is NOT the fix here — it makes the
+   mis-mapping worse, collapsing the bar column to nothing. */
+.index-table .cw-rank  { width: 44px; }
+.index-table .cw-place { width: 32%; }
+.index-table .cw-band  { width: 18%; }
+.index-table .cw-bar   { width: 44%; }
+.index-table thead th {
+  background: var(--surface2, #f0ede8); border-bottom: 2px solid var(--border, #d8d4cc);
+  padding: 10px 14px; text-align: left;
+  font-size: var(--fs-label, 11px); font-weight: 700; color: var(--muted, #6a6660);
+  letter-spacing: 0.1em; text-transform: uppercase;
 }
-.ci-chip:visited { color: #3d3a32; }
-.ci-chip:hover { border-color: var(--rust,#C04E1A); color: var(--rust,#C04E1A); transform: translateY(-1px); box-shadow: 0 3px 8px rgba(92,61,17,.10); }
-.ci-chip-country { color: var(--muted,#6a6660); font-weight: 400; }
-.ci-flag { display: inline-flex; }
+.index-table th.num, .index-table td.num { text-align: right; font-variant-numeric: tabular-nums; }
+.index-table tbody td { font-size: var(--fs-body,14px); box-shadow: inset 0 -1px 0 var(--border2,#e6e2da); padding: 9px 14px; }
+.index-table tbody tr.ci-city { cursor: pointer; background: var(--surface,#fff); transition: background .15s ease, box-shadow .15s ease, opacity .4s ease; }
+/* Scroll-reveal, same visible-by-default / opt-into-hidden pattern as the
+   scams redesign this session: a row is only ever hidden if JS explicitly
+   adds .pre-reveal (and only once IntersectionObserver exists and motion
+   isn't reduced), and a hard timeout strips it regardless — see revealRows()
+   below. transform doesn't animate reliably on a real <tr> in every engine,
+   so this is opacity-only, not the slide-in the card pages use. */
+.index-table tbody tr.ci-city.pre-reveal { opacity: 0; }
+@media (prefers-reduced-motion: reduce) {
+  .index-table tbody tr.ci-city.pre-reveal { opacity: 1; transition: none; }
+}
+.index-table tbody tr.ci-city:hover td { background: #FAE8DE; box-shadow: inset 3px 0 0 var(--row-ink, #C04E1A), inset 0 1px 0 rgba(192,78,26,.15), inset 0 -1px 0 rgba(192,78,26,.15); }
+.index-table tbody tr.ci-city:active td { background: #f2d0bb; box-shadow: inset 3px 0 0 var(--row-ink, #C04E1A), inset 0 2px 0 #C04E1A, inset 0 -2px 0 #C04E1A; }
+
+/* Rank chip — the leaderboard number, recomputed on every render() from the
+   CURRENT sorted/filtered order (so "#1" always means "cheapest of what's on
+   screen right now," never a fixed fleet-wide position). Tinted from the same
+   --fam-*-ink the row's own band uses, via --row-ink set inline per row. */
+.ci-rank {
+  display: inline-flex; align-items: center; justify-content: center;
+  width: 26px; height: 26px; border-radius: 50%;
+  font-size: 11px; font-weight: 800; font-variant-numeric: tabular-nums;
+  color: var(--row-ink, var(--muted)); background: var(--row-bg, var(--surface2));
+  border: 1px solid var(--row-bd, var(--border2));
+}
+
+/* The 1-2-3-4 coin ladder, the same one the guides' Hotel Recommendations
+   tier heads carry (.hr-coins in guide-style.css) drawing the same registered
+   catalogue sprite #381 — owner rule 2026-08-22, "use these". A reuse, never a
+   second coin: CLAUDE.md Twenty-eighth non-negotiable. The WORDS stay Cheap /
+   Moderate / Expensive / Very expensive rather than the hotels' Budget / Mid /
+   Luxury, because this rates a PLACE and those rate a room. */
+.ci-coins { display: inline-flex; align-items: center; flex: none; }
+.ci-coins svg { width: 1.15em; height: 1.15em; margin-left: -4px; }
+.ci-coins svg:first-child { margin-left: 0; }
+
+.ci-name { font-weight: 600; color: var(--text); }
+.ci-name a { color: var(--text); text-decoration: none; }
+.ci-name a:visited { color: #3d3a32; }
+.ci-name a:hover { color: var(--accent,#8a6c1a); }
+.ci-country { display: block; font-size: var(--fs-sub,12px); font-weight: 400; color: var(--muted,#6a6660); }
+.ci-country .ci-flag { display: inline-block; margin-right: 6px; }
+
+/* The bar is the whole point of the page — you should be able to see which
+   places are dear without reading a single number. Width is the index against
+   the dearest place in the fleet, so the scale never shifts with the filter. */
+.ci-bar-cell { width: 100%; }
+.ci-bar-wrap { display: flex; align-items: center; gap: 10px; }
+/* THE TRACK IS THE SCALE. A bar with a plain grey track said only "longer than
+   that one" — you could not see whether a place sat at the top of Moderate or
+   the bottom of it, which is the whole question once two places carry the same
+   tag. The track is now painted in the four band tints at the very cut points
+   the tags are decided on, so where the fill STOPS is the reading. It names no
+   benchmark city, so the owner's 2026-08-22 rule stands. The stops are written
+   from JS because they depend on the dearest place on the page. */
+.ci-bar {
+  position: relative;
+  flex: 1 1 auto; height: 9px; border-radius: 5px; min-width: 60px;
+  background: var(--surface2,#f0ede8); overflow: visible;
+}
+.ci-bar i { display: block; height: 100%; border-radius: 5px; background: currentColor; overflow: hidden; }
+/* Gauge end-cap — a small ringed dot sitting exactly where the fill stops, so
+   the reading point on the track is a mark you can find, not just an edge. */
+.ci-bar em {
+  position: absolute; top: 50%; width: 11px; height: 11px; margin: -5.5px 0 0 -5.5px;
+  border-radius: 50%; background: currentColor; border: 2px solid var(--surface,#fff);
+  box-shadow: 0 0 0 1px currentColor, 0 1px 3px rgba(26,25,23,.25);
+  font-style: normal;
+}
+/* A row opens. Nothing said so before — the pointer cursor was the only hint,
+   and it reads as "this is a link to the guide", which the name beside it
+   already is. */
+.ci-open {
+  flex: none; width: 16px; height: 16px; color: var(--muted,#6a6660);
+  transition: transform .15s ease;
+}
+tr.ci-city[aria-expanded="true"] .ci-open { transform: rotate(90deg); color: var(--accent,#8a6c1a); }
+.ci-c-cheap          { color: var(--fam-green-ink,#1a5a1a); }
+.ci-c-moderate       { color: var(--fam-blue-ink,#1a3a8b); }
+.ci-c-expensive      { color: var(--fam-orange-ink,#8a4a10); }
+.ci-c-very-expensive { color: var(--fam-purple-ink,#7c3aed); }
+
+/* The expanded row: what is driving the tag. Was a mini <table>; is now three
+   bento tiles — Rent / Eating out / Groceries, each with its own catalogue
+   icon, its own band tag, and its own mini gauge on the same scale as the
+   headline bar, so you can see WHICH driver is carrying the tag at a glance —
+   a place whose rent is cheap and whose restaurants are dear is a different
+   trip from one where both are dear, and three tags alone never said that. */
+.ci-detail > td { background: var(--surface2,#f0ede8); padding: 16px !important;
+  box-shadow: inset 0 1px 0 var(--border,#d8d4cc), inset 0 -1px 0 var(--border,#d8d4cc) !important; }
+.ci-basket { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin: 0 0 12px; max-width: 620px; }
+.ci-basket-tile {
+  background: var(--surface,#fff); border: 1px solid var(--border2,#e6e2da); border-radius: 12px;
+  padding: 10px 12px; display: flex; flex-direction: column; gap: 6px;
+}
+.ci-basket-head { display: flex; align-items: center; gap: 7px; }
+.ci-basket-head .gm-i { width: 18px; height: 18px; flex: none; }
+.ci-basket-label {
+  font-size: var(--fs-label,11px); font-weight: 700; letter-spacing: .06em;
+  text-transform: uppercase; color: var(--muted,#6a6660);
+}
+.ci-basket-tile .ci-bar { display: block; height: 7px; }
+.ci-detail-note { font-size: var(--fs-sub,12px); color: var(--muted,#6a6660); margin: 0; }
+.ci-detail-note a { color: var(--accent,#8a6c1a); }
 
 #cost-search { margin-bottom: 0; }
-#cost-noresult { display: none; }
+#cost-noresult { display: none; padding: 12px 4px; font-size: var(--fs-body,14px); color: var(--muted,#6a6660); }
 html { scroll-behavior: smooth; }
 .note { font-size: var(--fs-sub,12px); color: var(--muted,#6a6660); margin-top: 12px; }
 .note a { color: var(--accent,#8a6c1a); }
 @media (max-width: 600px) and (pointer: coarse) {
   .index-section { padding: 0 12px; }
-  .ci-group-title { font-size: 17px; }
+  /* No phone override on the search gap: one token at every viewport. */
+  .index-table td, .index-table th { font-size: var(--fs-sub,12px) !important; padding: 6px 8px !important; }
+  /* Only the RANK and PLACE <col>s still map to the columns they were written
+     for once the middle one is hidden, so those two are the only ones that
+     keep a width — 87px of auto-sized name column broke "Zhangjiajie" across
+     two lines. */
+  .index-table .cw-rank  { width: 30px; }
+  .index-table .cw-place { width: 38%; }
+  .index-table .cw-band,
+  .index-table .cw-bar { width: auto; }
+  .ci-row { justify-content: center; gap: 6px; }
+  .index-section .ci-controls { margin: var(--search-gap,32px) 0 0 !important; }
+  /* The badge repeats what the bar's colour already says; the bar and the
+     number are what a phone keeps. */
+  .index-table th.col-band, .index-table td.col-band { display: none; }
+  .ci-bar { min-width: 40px; }
+  .ci-rank { width: 22px; height: 22px; font-size: 10px; }
+  .ci-basket { grid-template-columns: 1fr; }
+}
+@media (prefers-color-scheme: dark) {
+  .index-table tbody tr.ci-city:hover td { background: rgba(212,102,58,.16); box-shadow: inset 0 1px 0 rgba(212,102,58,.25), inset 0 -1px 0 rgba(212,102,58,.25); }
+  .index-table tbody tr.ci-city:active td { background: rgba(212,102,58,.28); }
 }
 </style>
 <link rel="stylesheet" href="/assets/mobile.css?v=53">
@@ -137,34 +285,59 @@ html { scroll-behavior: smooth; }
      toolbar.js already injects #gm-i-coin globally — this defs block only
      adds the three the page draws on its own. -->
 <style>:root{--c-tire:#3a332e;--c-stone:#a89c8e;--c-paper:#fff;--c-cream:#f6ecdb;--c-tan:#fca240;--c-cocoa:#8a3d0c;--c-rust:#e25100;--c-clay:#ff661d;--c-red:#ff200c;--c-rose:#ff3d7a;--c-plum:#ad29e5;--c-sun:#ffc110;--c-amber:#ff7c08;--c-green:#4ad017;--c-leaf:#2f9106;--c-teal:#01d5bc;--c-blue:#0982ec;--c-navy:#0d4a86;--c-sky:#3dbaff;--c-grape:#6b2fa0;--c-wine:#8c1a10;--c-pine:#14663c;--c-slate:#566b7a;--c-paper-shade:#dad4cb;--c-cream-shade:#e0d7c7;--c-rim-warm:#c25a20;--c-rim-cool:#93a4b2;--c-tire-shade:#171412;--c-tire-rim:#26221e;--c-stone-shade:#80776c;--c-stone-rim:#6f675e;--c-tan-shade:#c57e32;--c-tan-rim:#a66b2a;--c-cocoa-shade:#572608;--c-cocoa-rim:#5b2808;--c-rust-shade:#a73c00;--c-rust-rim:#953500;--c-clay-shade:#c24e16;--c-clay-rim:#a84313;--c-red-shade:#bf1809;--c-red-rim:#a81508;--c-rose-shade:#bf2e5b;--c-rose-rim:#a82851;--c-plum-shade:#7d1ea5;--c-plum-rim:#721b97;--c-sun-shade:#c7970c;--c-sun-rim:#a87f0b;--c-amber-shade:#c45f06;--c-amber-rim:#a85205;--c-green-shade:#3aa212;--c-green-rim:#31890f;--c-leaf-shade:#236b04;--c-leaf-rim:#1f6004;--c-teal-shade:#01a693;--c-teal-rim:#018d7c;--c-blue-shade:#0760af;--c-blue-rim:#06569c;--c-navy-shade:#072a4c;--c-navy-rim:#093158;--c-sky-shade:#2f8fc4;--c-sky-rim:#287ba8;--c-grape-shade:#401c60;--c-grape-rim:#471f6a;--c-wine-shade:#4e0f09;--c-wine-rim:#5c110a;--c-pine-shade:#0d4227;--c-pine-rim:#0d4327;--c-slate-shade:#3c4b55;--c-slate-rim:#394751}.gm-i{width:1.2em;height:1.2em;vertical-align:-.25em;display:inline-block}</style>
-<svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs><linearGradient id="budget-gold" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#fff6d9"/><stop offset="1" stop-color="#f0cd6e"/></linearGradient><linearGradient id="gm-gloss" x1="0" y1="0" x2="0.55" y2="1"><stop offset="0" stop-color="#fff" stop-opacity="0.46"/><stop offset="0.42" stop-color="#fff" stop-opacity="0.14"/><stop offset="1" stop-color="#fff" stop-opacity="0"/></linearGradient><radialGradient id="sph-black" cx="40%" cy="34%" r="82%"><stop offset="0%" stop-color="#7a7a7a"/><stop offset="46%" stop-color="#2c2c2c"/><stop offset="100%" stop-color="#040404"/></radialGradient><radialGradient id="sph-black-b" cx="50%" cy="90%" r="42%"><stop offset="0%" stop-color="#7a7a7a" stop-opacity="0.34"/><stop offset="100%" stop-color="#7a7a7a" stop-opacity="0"/></radialGradient><radialGradient id="sph-blue" cx="40%" cy="34%" r="82%"><stop offset="0%" stop-color="#95cbf2"/><stop offset="46%" stop-color="#2c80c9"/><stop offset="100%" stop-color="#123f68"/></radialGradient><radialGradient id="sph-blue-b" cx="50%" cy="90%" r="42%"><stop offset="0%" stop-color="#95cbf2" stop-opacity="0.34"/><stop offset="100%" stop-color="#95cbf2" stop-opacity="0"/></radialGradient><radialGradient id="sph-brown" cx="40%" cy="34%" r="82%"><stop offset="0%" stop-color="#d5a677"/><stop offset="46%" stop-color="#95603a"/><stop offset="100%" stop-color="#4a2d1d"/></radialGradient><radialGradient id="sph-brown-b" cx="50%" cy="90%" r="42%"><stop offset="0%" stop-color="#d5a677" stop-opacity="0.34"/><stop offset="100%" stop-color="#d5a677" stop-opacity="0"/></radialGradient><radialGradient id="sph-green" cx="40%" cy="34%" r="82%"><stop offset="0%" stop-color="#a6e473"/><stop offset="46%" stop-color="#57b334"/><stop offset="100%" stop-color="#2a6a17"/></radialGradient><radialGradient id="sph-green-b" cx="50%" cy="90%" r="42%"><stop offset="0%" stop-color="#a6e473" stop-opacity="0.34"/><stop offset="100%" stop-color="#a6e473" stop-opacity="0"/></radialGradient><radialGradient id="sph-grey" cx="40%" cy="34%" r="82%"><stop offset="0%" stop-color="#dedbd6"/><stop offset="46%" stop-color="#98928a"/><stop offset="100%" stop-color="#4a4641"/></radialGradient><radialGradient id="sph-grey-b" cx="50%" cy="90%" r="42%"><stop offset="0%" stop-color="#dedbd6" stop-opacity="0.34"/><stop offset="100%" stop-color="#dedbd6" stop-opacity="0"/></radialGradient><radialGradient id="sph-orange" cx="40%" cy="34%" r="82%"><stop offset="0%" stop-color="#ffb75f"/><stop offset="46%" stop-color="#ef7d18"/><stop offset="100%" stop-color="#8f4408"/></radialGradient><radialGradient id="sph-orange-b" cx="50%" cy="90%" r="42%"><stop offset="0%" stop-color="#ffb75f" stop-opacity="0.34"/><stop offset="100%" stop-color="#ffb75f" stop-opacity="0"/></radialGradient><radialGradient id="sph-pink" cx="40%" cy="34%" r="82%"><stop offset="0%" stop-color="#ffadc7"/><stop offset="46%" stop-color="#e76890"/><stop offset="100%" stop-color="#88304e"/></radialGradient><radialGradient id="sph-pink-b" cx="50%" cy="90%" r="42%"><stop offset="0%" stop-color="#ffadc7" stop-opacity="0.34"/><stop offset="100%" stop-color="#ffadc7" stop-opacity="0"/></radialGradient><radialGradient id="sph-plum" cx="40%" cy="34%" r="82%"><stop offset="0%" stop-color="#d8abe4"/><stop offset="46%" stop-color="#9a58b6"/><stop offset="100%" stop-color="#523067"/></radialGradient><radialGradient id="sph-plum-b" cx="50%" cy="90%" r="42%"><stop offset="0%" stop-color="#d8abe4" stop-opacity="0.34"/><stop offset="100%" stop-color="#d8abe4" stop-opacity="0"/></radialGradient><radialGradient id="sph-teal" cx="40%" cy="34%" r="82%"><stop offset="0%" stop-color="#84e4d8"/><stop offset="46%" stop-color="#26a596"/><stop offset="100%" stop-color="#0f5f58"/></radialGradient><radialGradient id="sph-teal-b" cx="50%" cy="90%" r="42%"><stop offset="0%" stop-color="#84e4d8" stop-opacity="0.34"/><stop offset="100%" stop-color="#84e4d8" stop-opacity="0"/></radialGradient><radialGradient id="sph-white" cx="40%" cy="34%" r="82%"><stop offset="0%" stop-color="#ffffff"/><stop offset="46%" stop-color="#efebe5"/><stop offset="100%" stop-color="#aea79e"/></radialGradient><radialGradient id="sph-white-b" cx="50%" cy="90%" r="42%"><stop offset="0%" stop-color="#ffffff" stop-opacity="0.34"/><stop offset="100%" stop-color="#ffffff" stop-opacity="0"/></radialGradient><radialGradient id="sph-yellow" cx="40%" cy="34%" r="82%"><stop offset="0%" stop-color="#ffe886"/><stop offset="46%" stop-color="#f3c02e"/><stop offset="100%" stop-color="#a2740a"/></radialGradient><radialGradient id="sph-yellow-b" cx="50%" cy="90%" r="42%"><stop offset="0%" stop-color="#ffe886" stop-opacity="0.34"/><stop offset="100%" stop-color="#ffe886" stop-opacity="0"/></radialGradient><radialGradient id="sph-red" cx="40%" cy="34%" r="82%"><stop offset="0%" stop-color="#ff8878"/><stop offset="46%" stop-color="#e03a2b"/><stop offset="100%" stop-color="#8a1a11"/></radialGradient><radialGradient id="sph-red-b" cx="50%" cy="90%" r="42%"><stop offset="0%" stop-color="#ff8878" stop-opacity="0.34"/><stop offset="100%" stop-color="#ff8878" stop-opacity="0"/></radialGradient><linearGradient id="gm-sheen" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#fff" stop-opacity="0.30"/><stop offset="0.55" stop-color="#fff" stop-opacity="0.06"/><stop offset="1" stop-color="#fff" stop-opacity="0"/></linearGradient><linearGradient id="gm-amber" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="var(--c-amber)"/><stop offset="1" stop-color="var(--c-amber-shade)"/></linearGradient><linearGradient id="gm-blue" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="var(--c-blue)"/><stop offset="1" stop-color="var(--c-blue-shade)"/></linearGradient><linearGradient id="gm-clay" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="var(--c-clay)"/><stop offset="1" stop-color="var(--c-clay-shade)"/></linearGradient><linearGradient id="gm-cocoa" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="var(--c-cocoa)"/><stop offset="1" stop-color="var(--c-cocoa-shade)"/></linearGradient><linearGradient id="gm-grape" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="var(--c-grape)"/><stop offset="1" stop-color="var(--c-grape-shade)"/></linearGradient><linearGradient id="gm-wine" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="var(--c-wine)"/><stop offset="1" stop-color="var(--c-wine-shade)"/></linearGradient><linearGradient id="gm-pine" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="var(--c-pine)"/><stop offset="1" stop-color="var(--c-pine-shade)"/></linearGradient><linearGradient id="gm-slate" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="var(--c-slate)"/><stop offset="1" stop-color="var(--c-slate-shade)"/></linearGradient><linearGradient id="gm-green" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="var(--c-green)"/><stop offset="1" stop-color="var(--c-green-shade)"/></linearGradient><linearGradient id="gm-leaf" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="var(--c-leaf)"/><stop offset="1" stop-color="var(--c-leaf-shade)"/></linearGradient><linearGradient id="gm-navy" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="var(--c-navy)"/><stop offset="1" stop-color="var(--c-navy-shade)"/></linearGradient><linearGradient id="gm-plum" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="var(--c-plum)"/><stop offset="1" stop-color="var(--c-plum-shade)"/></linearGradient><linearGradient id="gm-red" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="var(--c-red)"/><stop offset="1" stop-color="var(--c-red-shade)"/></linearGradient><linearGradient id="gm-rose" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="var(--c-rose)"/><stop offset="1" stop-color="var(--c-rose-shade)"/></linearGradient><linearGradient id="gm-rust" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="var(--c-rust)"/><stop offset="1" stop-color="var(--c-rust-shade)"/></linearGradient><linearGradient id="gm-sky" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="var(--c-sky)"/><stop offset="1" stop-color="var(--c-sky-shade)"/></linearGradient><linearGradient id="gm-stone" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="var(--c-stone)"/><stop offset="1" stop-color="var(--c-stone-shade)"/></linearGradient><linearGradient id="gm-sun" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="var(--c-sun)"/><stop offset="1" stop-color="var(--c-sun-shade)"/></linearGradient><linearGradient id="gm-tan" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="var(--c-tan)"/><stop offset="1" stop-color="var(--c-tan-shade)"/></linearGradient><linearGradient id="gm-teal" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="var(--c-teal)"/><stop offset="1" stop-color="var(--c-teal-shade)"/></linearGradient><linearGradient id="gm-tire" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="var(--c-tire)"/><stop offset="1" stop-color="var(--c-tire-shade)"/></linearGradient><linearGradient id="gm-paper" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="var(--c-paper)"/><stop offset="1" stop-color="var(--c-paper-shade)"/></linearGradient><linearGradient id="gm-cream" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="var(--c-cream)"/><stop offset="1" stop-color="var(--c-cream-shade)"/></linearGradient><symbol id="gm-i-1217" viewBox="0 0 24 24"><path d="M12 2 L23 11 H1Z" fill="url(#gm-rust)" stroke="var(--c-rust-rim)" stroke-width="0.5"/><path d="M12 2 L23 11 H1Z" fill="url(#gm-gloss)"/><rect x="2" y="10.5" width="20" height="1" fill="url(#gm-clay)" stroke="var(--c-clay-rim)" stroke-width="0.5"/><rect x="3" y="11" width="18" height="11" fill="url(#gm-clay)" stroke="var(--c-clay-rim)" stroke-width="0.5"/><path d="M10 22 V18 Q10 15.5 12 15.5 Q14 15.5 14 18 V22Z" fill="url(#gm-cocoa)" stroke="var(--c-cocoa-rim)" stroke-width="0.5"/><rect x="4.5" y="13" width="4" height="3.5" rx="0.4" fill="url(#gm-sky)" stroke="var(--c-sky-rim)" stroke-width="0.5"/><rect x="15.5" y="13" width="4" height="3.5" rx="0.4" fill="url(#gm-sky)" stroke="var(--c-sky-rim)" stroke-width="0.5"/></symbol><symbol id="gm-i-1211" viewBox="0 0 24 24"><g fill="url(#gm-blue)" stroke="var(--c-blue-rim)" stroke-width="0.5"><rect x="3.6" y="2" width="1.9" height="7.2" rx="0.95"/><rect x="6.6" y="2" width="1.9" height="7.2" rx="0.95"/><rect x="9.6" y="2" width="1.9" height="7.2" rx="0.95"/><path d="M3.6 7.6h7.9v1.2a3.95 3.95 0 0 1-7.9 0z"/><rect x="6.6" y="10.4" width="1.9" height="11.6" rx="0.95"/></g><g fill="url(#gm-navy)" stroke="var(--c-navy-rim)" stroke-width="0.5"><path d="M17.4 2c2.4 2.4 3.4 5.6 3.4 8.4 0 1.9-1.1 3.1-2.6 3.4v-1.9c.6-.3 1-.9 1-1.5 0-2.1-.7-4.5-1.8-6.4z"/><path d="M15.2 2h2.2v20a1.1 1.1 0 0 1-2.2 0z"/></g></symbol><symbol id="gm-i-344" viewBox="0 0 24 24"><circle cx="8.6" cy="9.4" r="3.0" fill="url(#gm-red)" stroke="var(--c-red-rim)" stroke-width="0.5"/><circle cx="8.6" cy="9.4" r="3.0" fill="url(#gm-gloss)"/><circle cx="13.2" cy="8.2" r="2.8" fill="url(#gm-red)" stroke="var(--c-red-rim)" stroke-width="0.5"/><circle cx="16.6" cy="10.4" r="2.9" fill="url(#gm-green)" stroke="var(--c-green-rim)" stroke-width="0.5"/><circle cx="11.2" cy="11.4" r="2.6" fill="url(#gm-clay)" stroke="var(--c-clay-rim)" stroke-width="0.5"/><circle cx="6" cy="11.6" r="2.2" fill="url(#gm-plum)" stroke="var(--c-plum-rim)" stroke-width="0.5"/><path d="M11.6 5.4c1.2-1.2 2.6-1.6 4.2-1.2-.4 1.6-1.4 2.6-3 3z" fill="url(#gm-leaf)" stroke="var(--c-leaf-rim)" stroke-width="0.5"/><path d="M1.6 12.4h20.8c0 5.2-4.6 9.2-10.4 9.2S1.6 17.6 1.6 12.4z" fill="url(#gm-sky)" stroke="var(--c-sky-rim)" stroke-width="0.5"/><path d="M3.6 12.4h16.8c0 3.4-2.4 6-6 7 3.2-2 4.6-4.2 4.6-7z" fill="url(#gm-paper)" stroke="var(--c-rim-cool)" stroke-width="0.6" opacity="0.45"/></symbol></defs></svg>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs><linearGradient id="gm-gloss" x1="0" y1="0" x2="0.55" y2="1"><stop offset="0" stop-color="#fff" stop-opacity="0.46"/><stop offset="0.42" stop-color="#fff" stop-opacity="0.14"/><stop offset="1" stop-color="#fff" stop-opacity="0"/></linearGradient><radialGradient id="sph-black" cx="40%" cy="34%" r="82%"><stop offset="0%" stop-color="#7a7a7a"/><stop offset="46%" stop-color="#2c2c2c"/><stop offset="100%" stop-color="#040404"/></radialGradient><radialGradient id="sph-black-b" cx="50%" cy="90%" r="42%"><stop offset="0%" stop-color="#7a7a7a" stop-opacity="0.34"/><stop offset="100%" stop-color="#7a7a7a" stop-opacity="0"/></radialGradient><radialGradient id="sph-blue" cx="40%" cy="34%" r="82%"><stop offset="0%" stop-color="#95cbf2"/><stop offset="46%" stop-color="#2c80c9"/><stop offset="100%" stop-color="#123f68"/></radialGradient><radialGradient id="sph-blue-b" cx="50%" cy="90%" r="42%"><stop offset="0%" stop-color="#95cbf2" stop-opacity="0.34"/><stop offset="100%" stop-color="#95cbf2" stop-opacity="0"/></radialGradient><radialGradient id="sph-brown" cx="40%" cy="34%" r="82%"><stop offset="0%" stop-color="#d5a677"/><stop offset="46%" stop-color="#95603a"/><stop offset="100%" stop-color="#4a2d1d"/></radialGradient><radialGradient id="sph-brown-b" cx="50%" cy="90%" r="42%"><stop offset="0%" stop-color="#d5a677" stop-opacity="0.34"/><stop offset="100%" stop-color="#d5a677" stop-opacity="0"/></radialGradient><radialGradient id="sph-green" cx="40%" cy="34%" r="82%"><stop offset="0%" stop-color="#a6e473"/><stop offset="46%" stop-color="#57b334"/><stop offset="100%" stop-color="#2a6a17"/></radialGradient><radialGradient id="sph-green-b" cx="50%" cy="90%" r="42%"><stop offset="0%" stop-color="#a6e473" stop-opacity="0.34"/><stop offset="100%" stop-color="#a6e473" stop-opacity="0"/></radialGradient><radialGradient id="sph-grey" cx="40%" cy="34%" r="82%"><stop offset="0%" stop-color="#dedbd6"/><stop offset="46%" stop-color="#98928a"/><stop offset="100%" stop-color="#4a4641"/></radialGradient><radialGradient id="sph-grey-b" cx="50%" cy="90%" r="42%"><stop offset="0%" stop-color="#dedbd6" stop-opacity="0.34"/><stop offset="100%" stop-color="#dedbd6" stop-opacity="0"/></radialGradient><radialGradient id="sph-orange" cx="40%" cy="34%" r="82%"><stop offset="0%" stop-color="#ffb75f"/><stop offset="46%" stop-color="#ef7d18"/><stop offset="100%" stop-color="#8f4408"/></radialGradient><radialGradient id="sph-orange-b" cx="50%" cy="90%" r="42%"><stop offset="0%" stop-color="#ffb75f" stop-opacity="0.34"/><stop offset="100%" stop-color="#ffb75f" stop-opacity="0"/></radialGradient><radialGradient id="sph-pink" cx="40%" cy="34%" r="82%"><stop offset="0%" stop-color="#ffadc7"/><stop offset="46%" stop-color="#e76890"/><stop offset="100%" stop-color="#88304e"/></radialGradient><radialGradient id="sph-pink-b" cx="50%" cy="90%" r="42%"><stop offset="0%" stop-color="#ffadc7" stop-opacity="0.34"/><stop offset="100%" stop-color="#ffadc7" stop-opacity="0"/></radialGradient><radialGradient id="sph-plum" cx="40%" cy="34%" r="82%"><stop offset="0%" stop-color="#d8abe4"/><stop offset="46%" stop-color="#9a58b6"/><stop offset="100%" stop-color="#523067"/></radialGradient><radialGradient id="sph-plum-b" cx="50%" cy="90%" r="42%"><stop offset="0%" stop-color="#d8abe4" stop-opacity="0.34"/><stop offset="100%" stop-color="#d8abe4" stop-opacity="0"/></radialGradient><radialGradient id="sph-teal" cx="40%" cy="34%" r="82%"><stop offset="0%" stop-color="#84e4d8"/><stop offset="46%" stop-color="#26a596"/><stop offset="100%" stop-color="#0f5f58"/></radialGradient><radialGradient id="sph-teal-b" cx="50%" cy="90%" r="42%"><stop offset="0%" stop-color="#84e4d8" stop-opacity="0.34"/><stop offset="100%" stop-color="#84e4d8" stop-opacity="0"/></radialGradient><radialGradient id="sph-white" cx="40%" cy="34%" r="82%"><stop offset="0%" stop-color="#ffffff"/><stop offset="46%" stop-color="#efebe5"/><stop offset="100%" stop-color="#aea79e"/></radialGradient><radialGradient id="sph-white-b" cx="50%" cy="90%" r="42%"><stop offset="0%" stop-color="#ffffff" stop-opacity="0.34"/><stop offset="100%" stop-color="#ffffff" stop-opacity="0"/></radialGradient><radialGradient id="sph-yellow" cx="40%" cy="34%" r="82%"><stop offset="0%" stop-color="#ffe886"/><stop offset="46%" stop-color="#f3c02e"/><stop offset="100%" stop-color="#a2740a"/></radialGradient><radialGradient id="sph-yellow-b" cx="50%" cy="90%" r="42%"><stop offset="0%" stop-color="#ffe886" stop-opacity="0.34"/><stop offset="100%" stop-color="#ffe886" stop-opacity="0"/></radialGradient><radialGradient id="sph-red" cx="40%" cy="34%" r="82%"><stop offset="0%" stop-color="#ff8878"/><stop offset="46%" stop-color="#e03a2b"/><stop offset="100%" stop-color="#8a1a11"/></radialGradient><radialGradient id="sph-red-b" cx="50%" cy="90%" r="42%"><stop offset="0%" stop-color="#ff8878" stop-opacity="0.34"/><stop offset="100%" stop-color="#ff8878" stop-opacity="0"/></radialGradient><linearGradient id="gm-sheen" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#fff" stop-opacity="0.30"/><stop offset="0.55" stop-color="#fff" stop-opacity="0.06"/><stop offset="1" stop-color="#fff" stop-opacity="0"/></linearGradient><linearGradient id="gm-amber" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="var(--c-amber)"/><stop offset="1" stop-color="var(--c-amber-shade)"/></linearGradient><linearGradient id="gm-blue" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="var(--c-blue)"/><stop offset="1" stop-color="var(--c-blue-shade)"/></linearGradient><linearGradient id="gm-clay" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="var(--c-clay)"/><stop offset="1" stop-color="var(--c-clay-shade)"/></linearGradient><linearGradient id="gm-cocoa" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="var(--c-cocoa)"/><stop offset="1" stop-color="var(--c-cocoa-shade)"/></linearGradient><linearGradient id="gm-grape" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="var(--c-grape)"/><stop offset="1" stop-color="var(--c-grape-shade)"/></linearGradient><linearGradient id="gm-wine" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="var(--c-wine)"/><stop offset="1" stop-color="var(--c-wine-shade)"/></linearGradient><linearGradient id="gm-pine" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="var(--c-pine)"/><stop offset="1" stop-color="var(--c-pine-shade)"/></linearGradient><linearGradient id="gm-slate" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="var(--c-slate)"/><stop offset="1" stop-color="var(--c-slate-shade)"/></linearGradient><linearGradient id="gm-green" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="var(--c-green)"/><stop offset="1" stop-color="var(--c-green-shade)"/></linearGradient><linearGradient id="gm-leaf" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="var(--c-leaf)"/><stop offset="1" stop-color="var(--c-leaf-shade)"/></linearGradient><linearGradient id="gm-navy" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="var(--c-navy)"/><stop offset="1" stop-color="var(--c-navy-shade)"/></linearGradient><linearGradient id="gm-plum" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="var(--c-plum)"/><stop offset="1" stop-color="var(--c-plum-shade)"/></linearGradient><linearGradient id="gm-red" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="var(--c-red)"/><stop offset="1" stop-color="var(--c-red-shade)"/></linearGradient><linearGradient id="gm-rose" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="var(--c-rose)"/><stop offset="1" stop-color="var(--c-rose-shade)"/></linearGradient><linearGradient id="gm-rust" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="var(--c-rust)"/><stop offset="1" stop-color="var(--c-rust-shade)"/></linearGradient><linearGradient id="gm-sky" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="var(--c-sky)"/><stop offset="1" stop-color="var(--c-sky-shade)"/></linearGradient><linearGradient id="gm-stone" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="var(--c-stone)"/><stop offset="1" stop-color="var(--c-stone-shade)"/></linearGradient><linearGradient id="gm-sun" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="var(--c-sun)"/><stop offset="1" stop-color="var(--c-sun-shade)"/></linearGradient><linearGradient id="gm-tan" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="var(--c-tan)"/><stop offset="1" stop-color="var(--c-tan-shade)"/></linearGradient><linearGradient id="gm-teal" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="var(--c-teal)"/><stop offset="1" stop-color="var(--c-teal-shade)"/></linearGradient><linearGradient id="gm-tire" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="var(--c-tire)"/><stop offset="1" stop-color="var(--c-tire-shade)"/></linearGradient><linearGradient id="gm-paper" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="var(--c-paper)"/><stop offset="1" stop-color="var(--c-paper-shade)"/></linearGradient><linearGradient id="gm-cream" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="var(--c-cream)"/><stop offset="1" stop-color="var(--c-cream-shade)"/></linearGradient><symbol id="gm-i-1217" viewBox="0 0 24 24"><path d="M12 2 L23 11 H1Z" fill="url(#gm-rust)" stroke="var(--c-rust-rim)" stroke-width="0.5"/><path d="M12 2 L23 11 H1Z" fill="url(#gm-gloss)"/><rect x="2" y="10.5" width="20" height="1" fill="url(#gm-clay)" stroke="var(--c-clay-rim)" stroke-width="0.5"/><rect x="3" y="11" width="18" height="11" fill="url(#gm-clay)" stroke="var(--c-clay-rim)" stroke-width="0.5"/><path d="M10 22 V18 Q10 15.5 12 15.5 Q14 15.5 14 18 V22Z" fill="url(#gm-cocoa)" stroke="var(--c-cocoa-rim)" stroke-width="0.5"/><rect x="4.5" y="13" width="4" height="3.5" rx="0.4" fill="url(#gm-sky)" stroke="var(--c-sky-rim)" stroke-width="0.5"/><rect x="15.5" y="13" width="4" height="3.5" rx="0.4" fill="url(#gm-sky)" stroke="var(--c-sky-rim)" stroke-width="0.5"/></symbol><symbol id="gm-i-1211" viewBox="0 0 24 24"><g fill="url(#gm-blue)" stroke="var(--c-blue-rim)" stroke-width="0.5"><rect x="3.6" y="2" width="1.9" height="7.2" rx="0.95"/><rect x="6.6" y="2" width="1.9" height="7.2" rx="0.95"/><rect x="9.6" y="2" width="1.9" height="7.2" rx="0.95"/><path d="M3.6 7.6h7.9v1.2a3.95 3.95 0 0 1-7.9 0z"/><rect x="6.6" y="10.4" width="1.9" height="11.6" rx="0.95"/></g><g fill="url(#gm-navy)" stroke="var(--c-navy-rim)" stroke-width="0.5"><path d="M17.4 2c2.4 2.4 3.4 5.6 3.4 8.4 0 1.9-1.1 3.1-2.6 3.4v-1.9c.6-.3 1-.9 1-1.5 0-2.1-.7-4.5-1.8-6.4z"/><path d="M15.2 2h2.2v20a1.1 1.1 0 0 1-2.2 0z"/></g></symbol><symbol id="gm-i-344" viewBox="0 0 24 24"><circle cx="8.6" cy="9.4" r="3.0" fill="url(#gm-red)" stroke="var(--c-red-rim)" stroke-width="0.5"/><circle cx="8.6" cy="9.4" r="3.0" fill="url(#gm-gloss)"/><circle cx="13.2" cy="8.2" r="2.8" fill="url(#gm-red)" stroke="var(--c-red-rim)" stroke-width="0.5"/><circle cx="16.6" cy="10.4" r="2.9" fill="url(#gm-green)" stroke="var(--c-green-rim)" stroke-width="0.5"/><circle cx="11.2" cy="11.4" r="2.6" fill="url(#gm-clay)" stroke="var(--c-clay-rim)" stroke-width="0.5"/><circle cx="6" cy="11.6" r="2.2" fill="url(#gm-plum)" stroke="var(--c-plum-rim)" stroke-width="0.5"/><path d="M11.6 5.4c1.2-1.2 2.6-1.6 4.2-1.2-.4 1.6-1.4 2.6-3 3z" fill="url(#gm-leaf)" stroke="var(--c-leaf-rim)" stroke-width="0.5"/><path d="M1.6 12.4h20.8c0 5.2-4.6 9.2-10.4 9.2S1.6 17.6 1.6 12.4z" fill="url(#gm-sky)" stroke="var(--c-sky-rim)" stroke-width="0.5"/><path d="M3.6 12.4h16.8c0 3.4-2.4 6-6 7 3.2-2 4.6-4.2 4.6-7z" fill="url(#gm-paper)" stroke="var(--c-rim-cool)" stroke-width="0.6" opacity="0.45"/></symbol></defs></svg>
 
 <div class="index-section">
   <div class="hero-band eb-hero">
-    <span class="eb-kicker">Budget Guide</span>
     <div class="eb-copy">
-      <h1 class="eb-title budget-title-staggered"><span class="ln ln1">Which places are dear,</span><span class="ln ln2">and which are cheap.</span></h1>
+      <h1 class="eb-title">Which places are dear, <em>and which are cheap</em>.</h1>
       <p class="eb-intro">Which places are dear and which are cheap. Every destination is tagged by its cost of living — what the everyday things cost there: a roof, eating out, the weekly shop, getting around. It is what the place costs, not what a trip costs; the same city takes a careful week or an extravagant one.</p>
     </div>
-    <!-- Money bag, gold (catalogue #382 — Site-Icons.html) recoloured onto
-         budget-gold (the same gradient copied from best-of/amusement-parks'
-         solo hero icon), same technique that page used for its own catalogue
-         shapes: reuse the path data, swap the fill to a page-local gradient. -->
-    <div class="eb-graphic" aria-hidden="true"><svg viewBox="0 0 24 24">
-      <path d="M9.4 2.2h5.2l-1.4 2.6h-2.4z" fill="url(#budget-gold)" stroke="#8a6c2f" stroke-width="0.5"/>
-      <path d="M9.4 2.2h5.2l-1.4 2.6h-2.4z" fill="url(#gm-gloss)"/>
-      <path d="M12 4.8c4.6 0 8.2 5.4 8.2 10.4 0 4-3 6.6-8.2 6.6S3.8 19.2 3.8 15.2C3.8 10.2 7.4 4.8 12 4.8z" fill="url(#budget-gold)" stroke="#8a6c2f" stroke-width="0.5"/>
-      <path d="M12 4.8c-1.7 0-3.2.8-4.4 2 2.7 1.1 6.1 1.1 8.8 0-1.2-1.2-2.7-2-4.4-2z" fill="url(#budget-gold)" stroke="#8a6c2f" stroke-width="0.5"/>
-      <path d="M12 4.8c4.6 0 8.2 5.4 8.2 10.4 0 4-3 6.6-8.2 6.6S3.8 19.2 3.8 15.2C3.8 10.2 7.4 4.8 12 4.8z" fill="url(#gm-gloss)"/>
-      <text x="12" y="18" font-family="ui-sans-serif, system-ui, sans-serif" font-size="9" font-weight="700" text-anchor="middle" fill="#8a4a2c">$</text>
+    <div class="eb-graphic" aria-hidden="true"><svg viewBox="0 0 200 140">
+      <g fill="#C04E1A">
+        <rect x="28" y="96" width="16" height="16" rx="4" opacity=".35"/>
+        <rect x="56" y="82" width="16" height="30" rx="4" opacity=".55"/>
+        <rect x="84" y="64" width="16" height="48" rx="4" opacity=".7"/>
+        <rect x="112" y="42" width="16" height="70" rx="4" opacity=".88"/>
+        <rect x="140" y="20" width="16" height="92" rx="4"/>
+      </g>
+      <line x1="20" y1="114" x2="164" y2="114" stroke="#6a6660" stroke-width="1" opacity=".3"/>
     </svg></div>
   </div>
   <div class="hero-ground">
     <input id="cost-search" type="search" placeholder="City or country" aria-label="Search by city or country" autocomplete="off" spellcheck="false" class="search-input">
   </div>
 
-  <div class="ci-groups" id="ci-groups"></div>
-  <div id="cost-noresult" class="empty-state">No place matches that search.</div>
+  <div class="ci-controls">
+    <div class="ci-row pill-badge-strip" id="band-row" role="group" aria-label="Filter by cost of living">
+      <span class="ci-row-label">Cost of living</span>
+      <button class="ci-btn pill-badge fam-en fam-en-grey is-on" data-band="all"            aria-pressed="true">All</button>
+      <button class="ci-btn pill-badge fam-en fam-en-green"      data-band="Cheap"          aria-pressed="false"><span class="ci-coins"><svg viewBox="0.10 0.10 23.81 23.81" aria-hidden="true"><use href="#gm-i-coin"></use></svg></span>Cheap</button>
+      <button class="ci-btn pill-badge fam-en fam-en-blue"       data-band="Moderate"       aria-pressed="false"><span class="ci-coins"><svg viewBox="0.10 0.10 23.81 23.81" aria-hidden="true"><use href="#gm-i-coin"></use></svg><svg viewBox="0.10 0.10 23.81 23.81" aria-hidden="true"><use href="#gm-i-coin"></use></svg></span>Moderate</button>
+      <button class="ci-btn pill-badge fam-en fam-en-orange"     data-band="Expensive"      aria-pressed="false"><span class="ci-coins"><svg viewBox="0.10 0.10 23.81 23.81" aria-hidden="true"><use href="#gm-i-coin"></use></svg><svg viewBox="0.10 0.10 23.81 23.81" aria-hidden="true"><use href="#gm-i-coin"></use></svg><svg viewBox="0.10 0.10 23.81 23.81" aria-hidden="true"><use href="#gm-i-coin"></use></svg></span>Expensive</button>
+      <button class="ci-btn pill-badge fam-en fam-en-purple"     data-band="Very expensive" aria-pressed="false"><span class="ci-coins"><svg viewBox="0.10 0.10 23.81 23.81" aria-hidden="true"><use href="#gm-i-coin"></use></svg><svg viewBox="0.10 0.10 23.81 23.81" aria-hidden="true"><use href="#gm-i-coin"></use></svg><svg viewBox="0.10 0.10 23.81 23.81" aria-hidden="true"><use href="#gm-i-coin"></use></svg><svg viewBox="0.10 0.10 23.81 23.81" aria-hidden="true"><use href="#gm-i-coin"></use></svg></span>Very expensive</button>
+    </div>
+    <div class="ci-row pill-badge-strip" id="sort-row" role="group" aria-label="Sort">
+      <span class="ci-row-label">Sort</span>
+      <button class="ci-btn pill-badge fam-en fam-en-green is-on" id="sort-asc"  aria-pressed="true">Cheapest first</button>
+      <button class="ci-btn pill-badge fam-en fam-en-red"   id="sort-desc" aria-pressed="false">Most expensive first</button>
+      <button class="ci-btn pill-badge fam-en fam-en-grey"  id="sort-az"   aria-pressed="false">A–Z</button>
+    </div>
+  </div>
+
+  <p class="ci-summary" id="ci-summary"></p>
+  <div id="cost-noresult">No place matches that search.</div>
+
+  <table class="index-table">
+    <colgroup><col class="cw-rank"><col class="cw-place"><col class="cw-band"><col class="cw-bar"></colgroup>
+    <thead><tr>
+      <th aria-label="Rank"></th>
+      <th>Place</th>
+      <th class="col-band">Cost of living</th>
+      <th>Cheap to very expensive</th>
+    </tr></thead>
+    <tbody id="cost-tbody"></tbody>
+  </table>
 
   <p class="note" id="ci-note"></p>
 </div>
@@ -417,68 +590,273 @@ var CI=[
 var N_NAME=0, N_SLUG=1, N_COUNTRY=2, N_FLAG=3, N_IDX=4, N_BAND=5, N_VIA=6,
     N_RESOLVED=7, N_EV=8;
 
-/* The same cut points build_cost_page.py BANDS uses. Coins go on the
-   SECTION header once, not per place — see the CSS comment above
-   .ci-group-coins for why. */
+var BAND_FAM = { 'Cheap':'fam-green', 'Moderate':'fam-blue',
+                 'Expensive':'fam-orange', 'Very expensive':'fam-purple' };
+function bandClass(b) { return 'ci-c-' + b.toLowerCase().replace(/ /g, '-'); }
+/* The same cut points build_cost_page.py BANDS uses — kept in step by hand in
+   exactly one place, here, and only because the sub-readings inside an opened
+   row are tagged client-side. */
 var BAND_COINS = { 'Cheap':1, 'Moderate':2, 'Expensive':3, 'Very expensive':4 };
 function coins(band) {
-  var out = '', i;
+  var out = '<span class="ci-coins">', i;
   for (i = 0; i < BAND_COINS[band]; i++) {
     out += '<svg viewBox="0.10 0.10 23.81 23.81" aria-hidden="true"><use href="#gm-i-coin"></use></svg>';
   }
-  return out;
+  return out + '</span>';
+}
+function tag(band) {
+  return '<span class="badge ' + BAND_FAM[band] + '">' + coins(band) + band + '</span>';
+}
+function bandOf(n) {
+  return n < 35 ? 'Cheap' : n < 50 ? 'Moderate' : n < 70 ? 'Expensive' : 'Very expensive';
 }
 
-var BANDS = ['Cheap', 'Moderate', 'Expensive', 'Very expensive'];
-var state = { q: '' };
+/* Percentile against the whole fleet — a statistic, never a named city
+   (owner rule 2026-08-22 / 2026-08-23). Runs on the full dataset, not the
+   current filter, so the number means the same thing regardless of what
+   the reader has searched or filtered to. */
+function percentileCheaperThan(idx) {
+  var below = 0, i;
+  for (i = 0; i < CI.length; i++) { if (CI[i][N_IDX] < idx) below++; }
+  return Math.round(below / (CI.length - 1) * 100);
+}
+
+var state = { band:'all', sort:'asc', q:'' };
+var MAX = 100;
+
+function visible() {
+  var q = state.q;
+  return CI.filter(function (r) {
+    if (state.band !== 'all' && r[N_BAND] !== state.band) return false;
+    if (!q) return true;
+    return (r[N_NAME] + ' ' + r[N_COUNTRY]).toLowerCase().indexOf(q) !== -1;
+  });
+}
+
+function sorted(list) {
+  var a = list.slice();
+  if (state.sort === 'asc')  return a.sort(function (x, y) { return x[N_IDX] - y[N_IDX]; });
+  if (state.sort === 'desc') return a.sort(function (x, y) { return y[N_IDX] - x[N_IDX]; });
+  return a.sort(function (x, y) { return x[N_NAME].localeCompare(y[N_NAME]); });
+}
 
 function guideURL(r) { return '/guides/' + r[N_SLUG] + '.html'; }
 
-function chipHTML(r) {
-  return '<a class="ci-chip" href="' + guideURL(r) + '">' +
-    '<span class="ci-flag">' + TVE.flag.html(r[N_FLAG]) + '</span>' + r[N_NAME] +
-    '<span class="ci-chip-country">' + r[N_COUNTRY] + '</span></a>';
+/* The four band tints, laid on the track at the cut points bandOf() splits on,
+   so the track itself is the scale and where the fill stops is the reading. */
+function trackStyle() {
+  var a = 35 / MAX * 100, b = 50 / MAX * 100, c = 70 / MAX * 100;
+  return 'background:linear-gradient(to right,' +
+    'var(--fam-green-bg) 0 '  + a.toFixed(1) + '%,' +
+    'var(--fam-blue-bg) '     + a.toFixed(1) + '% ' + b.toFixed(1) + '%,' +
+    'var(--fam-orange-bg) '   + b.toFixed(1) + '% ' + c.toFixed(1) + '%,' +
+    'var(--fam-purple-bg) '   + c.toFixed(1) + '% 100%)';
+}
+
+function bar(idx, band, label) {
+  var pct = Math.max(2, Math.round(idx / MAX * 100));
+  /* No number and no benchmark city — owner rule 2026-08-22: "lets not base in
+     a place specific … use cheap, expensive etc like hotels". The bar is a
+     relative shape against the dearest place on the page, which needs no name;
+     the tag is the answer. A bare index with nothing to measure it against
+     would have meant nothing anyway. The <em> is a small ringed dot marking
+     exactly where the fill stops — a reading point you can find on the track,
+     not just an edge to eyeball. */
+  return '<span class="ci-bar ' + bandClass(band) + '" style="' + trackStyle() +
+         '" role="img" aria-label="' + label + '"><i style="width:' + pct + '%"></i>' +
+         '<em style="left:' + pct + '%"></em></span>';
+}
+
+function barCell(idx, band) {
+  return '<td class="ci-bar-cell"><span class="ci-bar-wrap">' + bar(idx, band, band) +
+         '<svg class="ci-open" viewBox="0 0 24 24" fill="none" stroke="currentColor" ' +
+         'stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">' +
+         '<polyline points="9 6 15 12 9 18"></polyline></svg></span></td>';
+}
+
+/* Sets the row's local --row-ink/--row-bg/--row-bd from that row's own band
+   family — the rank chip and the hover accent bar both read these, so a
+   Cheap row glows green and a Very expensive one glows purple, with no new
+   hardcoded colour anywhere on the page. */
+function rowVars(band) {
+  var fam = BAND_FAM[band];
+  return 'style="--row-ink:var(--' + fam + '-ink);--row-bg:var(--' + fam + '-bg);--row-bd:var(--' + fam + '-bd)"';
+}
+
+function rowHTML(r, rank) {
+  return '<td class="cw-rank"><span class="ci-rank">' + rank + '</span></td>' +
+         '<td class="ci-name"><a href="' + guideURL(r) + '">' + r[N_NAME] + '</a>' +
+           '<span class="ci-country"><span class="ci-flag">' + TVE.flag.html(r[N_FLAG]) + '</span>' + r[N_COUNTRY] + '</span></td>' +
+         '<td class="col-band">' + tag(r[N_BAND]) + '</td>' +
+         barCell(r[N_IDX], r[N_BAND]);
+}
+
+/* One catalogue icon per basket driver — Rent (house #1217), Eating out
+   (fork & knife #1211), Groceries (fruit bowl #344). The defs live once near
+   the top of <body>; every basket tile just <use>s one of the three. */
+var BASKET_ICON = { 'Rent': 1217, 'Eating out': 1211, 'Groceries': 344 };
+
+function detailHTML(r) {
+  var out = '<td colspan="4">';
+  if (r[N_EV] && r[N_EV].length) {
+    out += '<div class="ci-basket">';
+    r[N_EV].forEach(function (e) {
+      var b = bandOf(e[1]);
+      var icon = BASKET_ICON[e[0]];
+      out += '<div class="ci-basket-tile">' +
+               '<div class="ci-basket-head">' +
+                 (icon ? '<svg class="gm-i" viewBox="0 0 24 24" aria-hidden="true"><use href="#gm-i-' + icon + '"/></svg>' : '') +
+                 '<span class="ci-basket-label">' + e[0] + '</span>' +
+               '</div>' +
+               tag(b) +
+               bar(e[1], b, e[0] + ': ' + b) +
+             '</div>';
+    });
+    out += '</div>';
+  }
+  /* Say whose prices these are. A stand-in that does not name itself is the
+     one thing this page must never do. */
+  var src = { city:     'Measured in ' + r[N_NAME] + ' itself.',
+              nearby:   r[N_NAME] + ' is too small to be measured on its own — this is ' +
+                        r[N_RESOLVED] + ', the nearest place that is.',
+              country:  'No separate reading for ' + r[N_NAME] + ' — this is ' +
+                        r[N_COUNTRY] + ' as a whole.',
+              proxy:    r[N_COUNTRY] + ' is not measured — this is ' + r[N_RESOLVED] +
+                        ', its nearest measured neighbour.',
+              derived:  'Not in the published tables, so this one is worked out from ' +
+                        r[N_RESOLVED] + '&#39;s own prices.' }[r[N_VIA]]
+            || '';
+  /* Plain-English reading of the index — a percentile against the whole
+     fleet, never a named city. Owner rule 2026-08-22: "lets not base in a
+     place specific … use cheap, expensive etc like hotels" — a first draft
+     of this line read "X% of what New York costs" and got called out for
+     exactly that (owner, 2026-08-23: "should never be based in a comparison
+     with any city"). Statistics against the dataset are fine; a benchmark
+     city is not. */
+  var idxNote = r[N_NAME] + ' is cheaper than ' + percentileCheaperThan(r[N_IDX]) +
+    '% of the places on this page.';
+  out += '<p class="ci-detail-note">' + idxNote + ' ' + src +
+    ' <a class="chevron-link-pill" href="' + guideURL(r) + '">Open the ' + r[N_NAME] + ' guide</a></p>';
+  return out + '</td>';
 }
 
 function render() {
-  var q = state.q;
-  var wrap = document.getElementById('ci-groups');
-  wrap.innerHTML = '';
-  var shown = 0;
-  BANDS.forEach(function (band) {
-    var items = CI.filter(function (r) {
-      if (r[N_BAND] !== band) return false;
-      if (!q) return true;
-      return (r[N_NAME] + ' ' + r[N_COUNTRY]).toLowerCase().indexOf(q) !== -1;
-    }).sort(function (a, b) { return a[N_NAME].localeCompare(b[N_NAME]); });
-    if (!items.length) return;
-    shown += items.length;
-    var sec = document.createElement('section');
-    sec.className = 'ci-group';
-    sec.innerHTML =
-      '<div class="ci-group-head">' +
-        '<h2 class="ci-group-title"><span class="ci-group-coins">' + coins(band) + '</span>' + band + '</h2>' +
-        '<span class="ci-group-count">' + items.length + (items.length === 1 ? ' place' : ' places') + '</span>' +
-      '</div>' +
-      '<div class="ci-chips">' + items.map(chipHTML).join('') + '</div>';
-    wrap.appendChild(sec);
+  var list = sorted(visible());
+  var tb = document.getElementById('cost-tbody');
+  tb.innerHTML = '';
+  list.forEach(function (r, i) {
+    var tr = document.createElement('tr');
+    tr.className = 'ci-city';
+    tr.setAttribute('aria-expanded', 'false');
+    tr.setAttribute('style', rowVars(r[N_BAND]));
+    tr.innerHTML = rowHTML(r, i + 1);
+    var dt = document.createElement('tr');
+    dt.className = 'ci-detail';
+    dt.hidden = true;
+    dt.innerHTML = detailHTML(r);
+    tr.addEventListener('click', function (e) {
+      if (e.target.closest('a')) return;   /* the name is the guide link */
+      dt.hidden = !dt.hidden;
+      tr.setAttribute('aria-expanded', dt.hidden ? 'false' : 'true');
+    });
+    tb.appendChild(tr);
+    tb.appendChild(dt);
   });
-  document.getElementById('cost-noresult').style.display = shown ? 'none' : 'block';
+  revealRows();
+
+  document.getElementById('cost-noresult').style.display = list.length ? 'none' : 'block';
+
+  /* NO COUNT. The line opened on "237 places", which is the size of the fleet
+     stated to a reader — Fifty-second non-negotiable, owner 2026-08-23: "i
+     already said to stop showing a number of guides in the site". What it says
+     instead is the only thing on it a traveller could act on: the two ends of
+     whatever is on screen, each one a link into its own guide. */
+  var sum = document.getElementById('ci-summary');
+  if (!list.length) { sum.textContent = ''; return; }
+  var vals = list.map(function (r) { return r[N_IDX]; });
+  var lo = Math.min.apply(null, vals), hi = Math.max.apply(null, vals);
+  var cheapest = list[vals.indexOf(lo)], dearest = list[vals.indexOf(hi)];
+  if (list.length === 1) { sum.innerHTML = 'One match.'; return; }
+  sum.innerHTML = 'Cheapest of these: <a href="' + guideURL(cheapest) + '">' + cheapest[N_NAME] + '</a>' +
+    ' · dearest: <a href="' + guideURL(dearest) + '">' + dearest[N_NAME] + '</a>';
+  /* Only worth saying when a search narrowed the list — with no query the
+     "all" set trivially spans the full range every time. */
+  if (state.q && cheapest[N_BAND] !== dearest[N_BAND]) {
+    sum.innerHTML += ' · spans ' + cheapest[N_BAND] + ' to ' + dearest[N_BAND];
+  }
+}
+
+/* Scroll-reveal for the leaderboard rows. VISIBLE BY DEFAULT — this only
+   opts a row INTO the hidden .pre-reveal state, and only once
+   IntersectionObserver exists and motion isn't reduced. A hard 900ms timeout
+   strips .pre-reveal from every row in this render() pass regardless of
+   whether the observer ever fired, so a stalled observer costs only the
+   fade-in, never the row itself. Same reasoning as the scams page: tested
+   live that IntersectionObserver callbacks can silently never fire in a
+   throttled/automated browser context, and this page re-renders its whole
+   tbody on every filter/sort/search — an opacity:0-by-default row would risk
+   going permanently blank on every single interaction, not just page load. */
+var reduceMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+var revealIO = ('IntersectionObserver' in window && !reduceMotion)
+  ? new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) {
+        if (!entry.isIntersecting) return;
+        entry.target.classList.remove('pre-reveal');
+        revealIO.unobserve(entry.target);
+      });
+    }, { rootMargin: '0px 0px -30px 0px' })
+  : null;
+
+function revealRows() {
+  if (!revealIO) return;
+  var rows = document.querySelectorAll('#cost-tbody tr.ci-city');
+  rows.forEach(function (r) {
+    r.classList.add('pre-reveal');
+    revealIO.observe(r);
+  });
+  setTimeout(function () {
+    rows.forEach(function (r) { r.classList.remove('pre-reveal'); });
+  }, 900);
+}
+
+function bindGroup(sel, apply) {
+  var btns = [].slice.call(document.querySelectorAll(sel));
+  btns.forEach(function (b) {
+    b.addEventListener('click', function () {
+      apply(b);
+      btns.forEach(function (o) {
+        var on = o === b;
+        o.classList.toggle('is-on', on);
+        o.setAttribute('aria-pressed', on ? 'true' : 'false');
+      });
+      render();
+    });
+  });
 }
 
 function writeNote() {
+  /* The note used to end "127 of the 237 are measured in their own right" —
+     the fleet size again, in a second place on the same page. The fact worth
+     keeping is that SOME readings are stand-ins, and an opened row already
+     names which one it is using, so the sentence points there instead. */
   document.getElementById('ci-note').textContent =
     'These are cost-of-living tags, not trip budgets. What you spend somewhere is your ' +
     'choice \u2014 the same place takes a cheap week or an expensive one. What the place ' +
     'itself costs is not, and that is what is tagged here: the price of the everyday ' +
     'things, weighted towards a roof over your head and eating out. Most places are ' +
     'measured in their own right; the smaller ones take their country\u2019s reading or a ' +
-    'named neighbour\u2019s. Figures from Numbeo.';
+    'named neighbour\u2019s \u2014 open a row and it says which, and what is driving the ' +
+    'tag. Figures from Numbeo.';
 }
 
 document.addEventListener('DOMContentLoaded', function () {
+  MAX = CI.reduce(function (m, r) { return Math.max(m, r[N_IDX]); }, 100);
   render();
   writeNote();
+  bindGroup('#band-row .ci-btn', function (b) { state.band = b.dataset.band; });
+  bindGroup('#sort-row .ci-btn', function (b) {
+    state.sort = b.id === 'sort-asc' ? 'asc' : b.id === 'sort-desc' ? 'desc' : 'az';
+  });
   document.getElementById('cost-search').addEventListener('input', function (e) {
     state.q = e.target.value.trim().toLowerCase();
     render();
@@ -487,7 +865,8 @@ document.addEventListener('DOMContentLoaded', function () {
   /* Arriving from a guide's "Cost of Living" pill (/essentials/budget/#{slug}) —
      window.__tveDeep is stashed in <head>. Fills the search the same way the
      reader's own typing would; nothing is preselected on a bare visit to the
-     page. */
+     page (owner's landing/search rules apply here too, since the row list
+     itself never filters to one place on load — only the search box does). */
   if (window.__tveDeep) {
     var deepRow = CI.filter(function (r) { return r[N_SLUG] === window.__tveDeep; })[0];
     if (deepRow) {

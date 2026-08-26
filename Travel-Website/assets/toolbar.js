@@ -5031,7 +5031,7 @@ window.TVE.home = (function () {
     optMaps.type = 'button'; optMaps.className = 'acp-btn';
     optMaps.innerHTML = monoSVG('country-map', 14) + ' Copy Maps link';
     var done = document.createElement('div');
-    done.className = 'addr-copy-done'; done.textContent = '✓ Copied';
+    done.className = 'addr-copy-done'; done.innerHTML = monoSVG('check', 14) + ' Copied';
     pop.appendChild(optAddr); pop.appendChild(optMaps);
     var optApple = null;
     if (/iPhone|iPad|iPod|Macintosh/.test(navigator.userAgent)) {

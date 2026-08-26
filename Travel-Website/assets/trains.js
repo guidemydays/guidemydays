@@ -29,17 +29,28 @@
   var noRes = document.getElementById('train-noresult');
   var nav = document.getElementById('jump-nav');
 
-  /* ---- Card spine colour (2026-08-23 redesign) ----
+  /* ---- Card spine colour (2026-08-23 redesign; Enamel-aware 2026-08-25) ----
      Reads each card's own .type-badge fam-* class and writes --spine, which
      trains.css turns into a 4px inset-shadow bar. Pure presentation, driven
      entirely off markup every card already carries — no HTML change needed
-     on any of the five continent pages for this to take effect. */
+     on any of the five continent pages for this to take effect.
+     The badges themselves were swapped Vibrant -> Enamel on 2026-08-25
+     (fam-orange -> fam-en fam-en-orange); a card's .type-badge no longer
+     carries the bare fam-* class this used to key off, so every spine was
+     silently falling through to the CSS default (--fam-grey-ink) regardless
+     of category. fam-en-* is checked first and maps to the matching
+     --en-*-text token (Enamel's ink-equivalent); the bare fam-* branch stays
+     as a fallback for any card that hasn't migrated. */
   var SPINE_FAM = ['orange', 'red', 'green', 'purple', 'pink', 'yellow', 'grey'];
   function applyCardSpines() {
     document.querySelectorAll('.train-card').forEach(function (card) {
       var badge = card.querySelector('.type-badge');
       if (!badge) return;
       for (var i = 0; i < SPINE_FAM.length; i++) {
+        if (badge.classList.contains('fam-en-' + SPINE_FAM[i])) {
+          card.style.setProperty('--spine', 'var(--en-' + SPINE_FAM[i] + '-text)');
+          return;
+        }
         if (badge.classList.contains('fam-' + SPINE_FAM[i])) {
           card.style.setProperty('--spine', 'var(--fam-' + SPINE_FAM[i] + '-ink)');
           return;

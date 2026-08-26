@@ -5897,7 +5897,10 @@ window.TVE.home = (function () {
       btn.className = 'stop-mark-btn';
       btn.setAttribute('role', 'checkbox');
       btn.setAttribute('tabindex', '0');
-      btn.textContent = '✓'; /* ✓ */
+      /* 1em-sized so the parent's font-size:0 (the .stop-done state, below)
+         collapses this to nothing exactly as the old text glyph did — no CSS
+         change needed for the swap. */
+      btn.innerHTML = monoSVG('check', '1em');
 
       /* Label + tooltip state the action outright — an unlabelled circle gave
          no clue what it did, and the dimmed header alone read as "disabled". */
@@ -10548,9 +10551,9 @@ window.TVE.home = (function () {
       });
       if (navigator.clipboard && navigator.clipboard.writeText) {
         navigator.clipboard.writeText(lines.join('\n')).then(function() {
-          var orig = pcopy.textContent;
-          pcopy.textContent = '✓ Copied';
-          setTimeout(function() { pcopy.textContent = orig; }, 1800);
+          var orig = pcopy.innerHTML;
+          pcopy.innerHTML = monoSVG('check', 13) + ' Copied';
+          setTimeout(function() { pcopy.innerHTML = orig; }, 1800);
         }).catch(function() {});
       }
     });

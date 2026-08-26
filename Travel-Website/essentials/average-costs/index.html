@@ -127,12 +127,16 @@
 .ci-coins svg { width: 1.15em; height: 1.15em; margin-left: -4px; }
 .ci-coins svg:first-child { margin-left: 0; }
 
-.ci-name { font-weight: 600; color: var(--text); }
-.ci-name a { color: var(--text); text-decoration: none; }
+/* One row on desktop: flag+name on the left, country pushed to the right of
+   the same cell — owner: "no need of two rows in the desktop." Mobile reverts
+   to the stacked two-row look further down (not enough width for both ends
+   of a flex row without wrapping mid-name). */
+.ci-name { font-weight: 600; color: var(--text); display: flex; align-items: baseline; justify-content: space-between; gap: 8px; font-size: var(--fs-body-lg,16px); }
+.ci-name a { color: var(--text); text-decoration: none; display: inline-flex; align-items: baseline; gap: 6px; min-width: 0; }
 .ci-name a:visited { color: #3d3a32; }
 .ci-name a:hover { color: var(--rust,#C04E1A); }
-.ci-country { display: block; font-size: var(--fs-sub,12px); font-weight: 400; color: var(--muted,#6a6660); }
-.ci-country .ci-flag { display: inline-block; margin-right: 6px; }
+.ci-country { font-size: var(--fs-body,14px); font-weight: 400; color: var(--muted,#6a6660); flex-shrink: 0; }
+.ci-flag { display: inline-block; }
 
 /* The bar is the whole point of the page — you should be able to see which
    places are dear without reading a single number. Width is the index against
@@ -221,6 +225,11 @@ html { scroll-behavior: smooth; }
   .ci-bar { min-width: 40px; }
   .ci-rank { width: 22px; height: 22px; font-size: 10px; }
   .ci-basket { grid-template-columns: 1fr; }
+  /* Back to two stacked rows — a phone doesn't have room for flag+name+country
+     on one line without wrapping "Zhangjiajie"-length names mid-word. */
+  .ci-name { display: block; }
+  .ci-name a { display: inline-flex; }
+  .ci-country { display: block; }
 }
 @media (prefers-color-scheme: dark) {
   .index-table tbody tr.ci-city:hover td { background: var(--row-bg, rgba(212,102,58,.16)); box-shadow: inset 0 1px 0 var(--row-bd, rgba(212,102,58,.25)), inset 0 -1px 0 var(--row-bd, rgba(212,102,58,.25)); }
@@ -673,8 +682,8 @@ function rowVars(band) {
 
 function rowHTML(r, rank) {
   return '<td class="cw-rank"><span class="ci-rank">' + rank + '</span></td>' +
-         '<td class="ci-name"><a href="' + guideURL(r) + '">' + r[N_NAME] + '</a>' +
-           '<span class="ci-country"><span class="ci-flag">' + TVE.flag.html(r[N_FLAG]) + '</span>' + r[N_COUNTRY] + '</span></td>' +
+         '<td class="ci-name"><a href="' + guideURL(r) + '"><span class="ci-flag">' + TVE.flag.html(r[N_FLAG]) + '</span>' + r[N_NAME] + '</a>' +
+           '<span class="ci-country">' + r[N_COUNTRY] + '</span></td>' +
          '<td class="col-band">' + tag(r[N_BAND]) + '</td>' +
          barCell(r[N_IDX], r[N_BAND]);
 }

@@ -2300,7 +2300,8 @@
 /* 2026-08-25: toolbar.js drawn-checkmark swaps (d0156da9, 36535c5a) need the cache floor raised so returning browsers actually fetch it toolbar.js -> v1082. CACHE to v1566. */
 /* 2026-08-26: guides-index-style.css — the Compare-mode selected-card badge (.dest-card.cmp-sel::after) swapped its raw "✓" CSS content for a mask-image drawing (check_icons_are_drawn_only KEEP-set amendment, Cleanliness Rule 964). guides-index-style.css -> v28. CACHE to v1567. */
 /* 2026-08-26: amusement-parks grid-graphic-adjust lab — backpack, tent, fish (enlarged), and cathedral repositioned via the new grid-ID workflow. web-travel-style.css -> v152. CACHE to v1568. */
-var CACHE = 'travel-cache-v1568';
+/* 2026-08-26: dark-mode contrast fixes (eb-hero bg, undefined --brand/--warn vars, pill is-on/hover backgrounds) toolbar.js -> v1083. CACHE to v1569. */
+var CACHE = 'travel-cache-v1569';
 
 /* The guide-calendar hand-off cache. Written by toolbar.js, read and emptied
    once by the fetch handler below, and EXEMPT from the activate sweep — it is
@@ -2313,7 +2314,7 @@ var ICS_OUTBOX = 'gmd-ics-outbox';
    THIS IS THE ONLY PLACE to bump toolbar.js / guide-style.css versions.
    NEVER bump ?v= inside guide HTML — it breaks HMAC stamps and forces re-validation
    of 230+ guides. Instead, bump MIN_VERSIONS here + increment the CACHE version. */
-var MIN_VERSIONS = { 'guide-style.css': 265,'toolbar.js': 1082, 'mobile.css': 89, 'web-travel-style.css': 152, 'guides-index-style.css': 28, 'read-about.css': 6, 'best-of-features.js': 4, 'best-of-cross-data.js': 24, 'weather.js': 12, 'trains.css': 17, 'trains.js': 5, 'airlines.css': 5, 'airlines.js': 7, 'passport.js': 5, 'search-autocomplete.js': 9, 'flag-render.js': 1 };
+var MIN_VERSIONS = { 'guide-style.css': 265,'toolbar.js': 1083, 'mobile.css': 89, 'web-travel-style.css': 152, 'guides-index-style.css': 28, 'read-about.css': 6, 'best-of-features.js': 4, 'best-of-cross-data.js': 24, 'weather.js': 12, 'trains.css': 17, 'trains.js': 5, 'airlines.css': 5, 'airlines.js': 7, 'passport.js': 5, 'search-autocomplete.js': 9, 'flag-render.js': 1 };
 
 function rewriteAssetUrl(urlStr) {
   var u;

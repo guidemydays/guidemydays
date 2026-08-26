@@ -2293,7 +2293,8 @@
 /* 2026-08-26: mobile audit fixes — .selection-pill/input.pp-input/.pp-search bumped to 16px (iOS auto-zoom on focus) and .toggle-btn given mobile centering (was reading off-center on essentials/packing's "Save for Offline"). mobile.css -> v89. web-travel-style.css -> v148. CACHE to v1559. */
 /* 2026-08-26: Best Of hero icons, amusement-parks — surfboard recolored gold/red (was flat dusty-blue, unreadable as a board against the wave line), boot sole + backpack loop switched from flat solid fills to a gradient (new leather-mid def in the page's own <svg><defs>, matching every other icon's 2-stop treatment), fish/colosseum/balloon/tent enlarged and the .bo-icons-spread cluster re-spread with the colosseum moved into the open middle gap beside the title. web-travel-style.css -> v149. CACHE to v1560. */
 /* 2026-08-26: Enamel/Ink/Stamp — the new approved badge families (spec: selection-pills-badges-pills-to-badge-dots.html §5) land in web-travel-style.css as .fam-en/.fam-ink/.fam-st + their colour tokens, light and dark. Special Trips essentials (cruises, disney, sports-calendar, pickleball) and a fleet of other essentials/ pages already ship fam-en markup depending on this CSS. web-travel-style.css -> v150. CACHE to v1561. */
-var CACHE = 'travel-cache-v1561';
+/* 2026-08-26: airlines.js — 'All alliances' filter chip swapped from fam-yellow to fam-en fam-en-yellow, matching the Enamel badge swap on the 7 continent airline pages; that class change shipped without its own MIN_VERSIONS floor bump. airlines.js -> v7. CACHE to v1562. */
+var CACHE = 'travel-cache-v1562';
 
 /* The guide-calendar hand-off cache. Written by toolbar.js, read and emptied
    once by the fetch handler below, and EXEMPT from the activate sweep — it is
@@ -2306,7 +2307,7 @@ var ICS_OUTBOX = 'gmd-ics-outbox';
    THIS IS THE ONLY PLACE to bump toolbar.js / guide-style.css versions.
    NEVER bump ?v= inside guide HTML — it breaks HMAC stamps and forces re-validation
    of 230+ guides. Instead, bump MIN_VERSIONS here + increment the CACHE version. */
-var MIN_VERSIONS = { 'guide-style.css': 265,'toolbar.js': 1080, 'mobile.css': 89, 'web-travel-style.css': 150, 'guides-index-style.css': 27, 'read-about.css': 6, 'best-of-features.js': 4, 'best-of-cross-data.js': 24, 'weather.js': 12, 'trains.css': 17, 'trains.js': 4, 'airlines.css': 5, 'airlines.js': 6, 'passport.js': 5, 'search-autocomplete.js': 9, 'flag-render.js': 1 };
+var MIN_VERSIONS = { 'guide-style.css': 265,'toolbar.js': 1080, 'mobile.css': 89, 'web-travel-style.css': 150, 'guides-index-style.css': 27, 'read-about.css': 6, 'best-of-features.js': 4, 'best-of-cross-data.js': 24, 'weather.js': 12, 'trains.css': 17, 'trains.js': 4, 'airlines.css': 5, 'airlines.js': 7, 'passport.js': 5, 'search-autocomplete.js': 9, 'flag-render.js': 1 };
 
 function rewriteAssetUrl(urlStr) {
   var u;

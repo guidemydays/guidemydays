@@ -2332,7 +2332,8 @@
 /* 2026-08-26: index.html: REVERTED the 2026-08-26 Saddle+Glow/gold pass on .lp-btn ("Browse over 200 guides") + .lp-hero h1 em + .lp-pick-lead em (owner: "did not like my choices"). All three now use #8a4a2c -- copied verbatim from .bo-title .ln2::first-line (web-travel-style.css), the amusement-parks Best Of page's own muted rust-brown, per explicit "copy the code, do not guess" instruction. .lp-btn filled again (empties on hover), same literal color in dark (no dark variant exists for #8a4a2c anywhere on the site). #cf-submit and the Compare Cities bar / passport picker are untouched. CACHE to v1599. */
 /* 2026-08-26: .cmp-guide-link (Compare cities plug/etc. "Guide" link) was gold text at rest with a broken hover (terracotta border but gold text) -- moved to muted rest + terracotta+beige hover, both themes, dark hover added (none existed). guides-index-style.css -> v32. CACHE to v1600. */
 /* 2026-08-26: index.html: the #8a4a2c revert (.lp-btn/.lp-hero h1 em/.lp-pick-lead em, commit 3b3bf529) landed just after this CACHE floor -- bump to carry it to readers. CACHE to v1601. */
-var CACHE = 'travel-cache-v1601';
+/* 2026-08-26: index.html: .lp-btn/.lp-hero h1 em/.lp-pick-lead em back to Saddle+Glow/gold -- the #8a4a2c amusement-parks pass (commit 3b3bf529) also didn't land, owner: "go back to the first one". CACHE to v1602. */
+var CACHE = 'travel-cache-v1602';
 
 /* The guide-calendar hand-off cache. Written by toolbar.js, read and emptied
    once by the fetch handler below, and EXEMPT from the activate sweep — it is

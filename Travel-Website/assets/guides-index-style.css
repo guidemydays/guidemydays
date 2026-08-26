@@ -747,20 +747,33 @@ body.mode-compare.cmp-full .mosaic-wrap .dest-card:not(.cmp-sel) { opacity: .45;
 .cmp-chip-x:hover { color: #3d3a32; }
 .cmp-hint { font-size: 11px; color: var(--muted); flex-shrink: 0; white-space: nowrap; }
 .cmp-count { font-size: 11px; color: var(--muted); flex-shrink: 0; white-space: nowrap; font-weight: 600; }
+/* Rest/hover match the toolbar's own Saddle+Glow pill, colour for colour
+   (owner rule 2026-08-26) — copied from assets/toolbar.js .tb-links>a /
+   .tb-ddbtn, not reinvented here. Disabled drops to the flat muted treatment
+   #tt-go/#hc-go already use: the old opacity-fade on a filled #C04E1A read as
+   a washed-out pink, which is the thing this replaces. */
 .cmp-go-btn {
   font-family: inherit; font-size: 12px; font-weight: 600;
-  padding: 8px 16px; border-radius: 6px;
-  background: #C04E1A;
-  color: #fff; border: none; cursor: pointer; flex-shrink: 0;
-  transition: opacity .15s; white-space: nowrap;
+  padding: 8px 16px; border-radius: 999px;
+  background: #f7eee5; border: 1px solid rgba(107,68,35,.45);
+  color: #6b4423; cursor: pointer; flex-shrink: 0;
+  transition: box-shadow .15s, border-color .15s; white-space: nowrap;
 }
-.cmp-go-btn:disabled { opacity: .35; cursor: default; }
+.cmp-go-btn:not(:disabled):hover {
+  box-shadow: 0 0 0 6px rgba(107,68,35,.18), 0 0 18px rgba(107,68,35,.35);
+  border-color: #6b4423;
+}
+.cmp-go-btn:disabled { background: var(--border2, #e6e2da); border-color: var(--border2, #e6e2da); color: var(--muted); cursor: default; }
 .cmp-exit-btn {
-  font-family: inherit; font-size: 12px; padding: 8px 14px; border-radius: 6px;
-  background: var(--surface, #ffffff); border: 1px solid var(--border2, #e6e2da);
-  color: var(--muted); cursor: pointer; flex-shrink: 0; white-space: nowrap;
+  font-family: inherit; font-size: 12px; padding: 8px 14px; border-radius: 999px;
+  background: #f7eee5; border: 1px solid rgba(107,68,35,.45);
+  color: #6b4423; cursor: pointer; flex-shrink: 0;
+  transition: box-shadow .15s, border-color .15s; white-space: nowrap;
 }
-.cmp-exit-btn:hover { border-color: #C04E1A; color: var(--accent); }
+.cmp-exit-btn:hover {
+  box-shadow: 0 0 0 6px rgba(107,68,35,.18), 0 0 18px rgba(107,68,35,.35);
+  border-color: #6b4423;
+}
 /* Compare panel */
 /* 24px, not the old 100px: that was a scroll cushion for a table that used to
    be the last thing on the page. It now sits directly under the selection bar
@@ -1041,7 +1054,12 @@ a.pt-open:visited { color: #3d3a32; }
   #guide-pick-search { background: var(--surface, #2a2825); }
   #guide-pick-list { background: var(--surface, #2a2825); }
   #guide-pick-result { background: var(--surface, #2a2825); }
-  .cmp-exit-btn { background: var(--surface, #2a2825); color: var(--muted, #9a9690); }
+  /* Both match the toolbar's dark-mode top-strip pill: no ground at rest,
+     gold wash on hover (assets/toolbar.js's dark .tb-links>a/.tb-ddbtn block). */
+  .cmp-go-btn:not(:disabled) { background: transparent; border-color: rgba(200,160,96,.42); color: #c8a060; }
+  .cmp-go-btn:not(:disabled):hover { background: rgba(200,160,96,.12); border-color: rgba(200,160,96,.62); box-shadow: none; }
+  .cmp-exit-btn { background: transparent; border-color: rgba(200,160,96,.42); color: #c8a060; }
+  .cmp-exit-btn:hover { background: rgba(200,160,96,.12); border-color: rgba(200,160,96,.62); box-shadow: none; }
   #fnoresult button { background: var(--surface, #2a2825); }
   #content-search { background: var(--surface, #2a2825); }
   /* The card is a FILLED object, so it does not flip: a solid terracotta panel

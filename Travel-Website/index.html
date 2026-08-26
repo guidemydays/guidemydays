@@ -2033,22 +2033,27 @@ a.ask-card:focus-visible .ask-name { color: var(--rust, #C04E1A); }
 #tp-compare .cmp-sel-chips:not(:empty) { padding-bottom: 13px; border-bottom: 1px solid var(--border2,#e6e2da); }
 #tp-compare .cmp-chip { border-radius: 999px; font-size: 0.9rem; padding: 0.34em 0.55em 0.34em 0.9em; }
 #tp-compare .cmp-count { order: 1; margin-right: auto; font-size: 0.85rem; font-weight: 400; }
-/* THE SAME PAIR AS THE FINDER, ONE STEP DOWN. Same shapes, same fill/outline
-   split, same hover behaviour — but 0.95rem against the finder's clamp that
-   reaches 1.05rem, and 1.4em of side padding against 1.7em. The finder's CTA
-   sits alone under a card and can carry that weight; this one sits in a bar
-   under five chips, where the full size read as oversized. Both buttons take
-   ONE rule for the box so they cannot drift apart, exactly as .fnd-go and
-   .fnd-reset do. */
+/* REST/HOVER MATCH THE TOOLBAR'S OWN SADDLE+GLOW PILL, colour for colour
+   (owner rule 2026-08-26) — restated at this scope's own specificity so it
+   never silently drifts from the shared base in guides-index-style.css.
+   This SUPERSEDES the old "same pair as the finder" fill/outline CTA split —
+   both buttons now share one look, not a filled/outlined pair. Sizing stays
+   this card's own: 0.95rem against the finder's clamp that reaches 1.05rem,
+   1.4em of side padding against 1.7em — the finder's CTA sits alone under a
+   card and can carry that weight, this one sits in a bar under five chips.
+   Both buttons take ONE rule for the box so they cannot drift apart. */
 #tp-compare .cmp-go-btn, #tp-compare .cmp-exit-btn {
   order: 2; font-size: 0.95rem; border-radius: 999px; padding: 0.72em 1.4em;
+  transition: box-shadow .15s, border-color .15s;
 }
-#tp-compare .cmp-go-btn { border: 1px solid var(--rust, #C04E1A); font-weight: 700; transition: background .15s, color .15s; }
-#tp-compare .cmp-go-btn:not(:disabled):hover { background: transparent; color: var(--rust, #C04E1A); }
-#tp-compare .cmp-exit-btn { border-color: var(--border,#e3ddd2); }
-/* The site's ONE hover: ground goes var(--bg), rim goes terracotta, the font
-   does not move — this button's muted ink is what says "the way out". */
-#tp-compare .cmp-exit-btn:hover { background: var(--bg,#f0ede8); border-color: var(--rust, #C04E1A); color: var(--muted,#6a6660); }
+#tp-compare .cmp-go-btn:not(:disabled), #tp-compare .cmp-exit-btn {
+  background: #f7eee5; border: 1px solid rgba(107,68,35,.45); color: #6b4423;
+}
+#tp-compare .cmp-go-btn:not(:disabled):hover,
+#tp-compare .cmp-exit-btn:hover {
+  box-shadow: 0 0 0 6px rgba(107,68,35,.18), 0 0 18px rgba(107,68,35,.35);
+  border-color: #6b4423;
+}
 
 /* ON A PHONE THE PAIR SHARES A ROW AND THE COUNT TAKES ITS OWN. Left to the
    desktop rule the count's auto margin shoves the CTA to the right edge and the
@@ -2731,6 +2736,18 @@ summary.res-head:focus-visible { outline: 2px solid var(--rust, #C04E1A); outlin
   .lp-btn:hover, .lp-btn:focus-visible { background: transparent; color: #c8a040; }
   #fnd-go.fnd-go:hover,
   #fnd-more.fnd-more:hover, #fnd-more.fnd-more:focus-visible { background: #8A3F18; border-color: #8A3F18; }
+
+  /* #tp-compare's cmp-go-btn/cmp-exit-btn are ID-scoped, so without this the
+     light-mode rule above (background:#f7eee5) would outrank the shared dark
+     rule in guides-index-style.css. Same toolbar dark values, restated here:
+     no ground at rest, gold wash on hover. */
+  #tp-compare .cmp-go-btn:not(:disabled), #tp-compare .cmp-exit-btn {
+    background: transparent; border-color: rgba(200,160,96,.42); color: #c8a060;
+  }
+  #tp-compare .cmp-go-btn:not(:disabled):hover,
+  #tp-compare .cmp-exit-btn:hover {
+    background: rgba(200,160,96,.12); border-color: rgba(200,160,96,.62); box-shadow: none;
+  }
 
   /* The three rules that were html[data-theme="dark"] until the toggle went. */
   .res-sub > summary,

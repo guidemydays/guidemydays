@@ -170,7 +170,7 @@
     <div class="eb-graphic" aria-hidden="true"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#gm-i-plug"/></svg></div>
   </div>
   <div class="hero-ground">
-    <div class="pg-field"><input id="plug-search" type="search" placeholder="Country" aria-label="Search countries" autocomplete="off" spellcheck="false" class="search-input"></div>
+    <div class="pg-field"><input id="plug-search" type="search" placeholder="Country or City" aria-label="Search by country or city" autocomplete="off" spellcheck="false" class="search-input"></div>
   </div>
 
   <!-- Hidden on arrival. There is no default country and no empty card standing
@@ -285,7 +285,27 @@ var PG=[["Austria","Austria","Europe","230V / 50Hz","CF"],["Belgium","Belgium","
          decoration. */
       items.push({name:r[1], sub:r[2]+' \u00b7 '+typeList(r[4])+' \u00b7 '+r[3].split(' / ')[0], anchor:r[0]});
     }
-    TVESearch.attach(input,{items:items,onPick:function(it){ show(it.anchor); }});
+    /* Guide cities are the "or City" half of the placeholder: typing a shipped
+       guide's city (e.g. "Tokyo") must resolve to its own country's plug entry,
+       same country-guides.json source the visa page's guide-link chip already
+       reads. A country with no shipped guide still searches by name only \u2014
+       that is the honest answer, not a gap to fill with invented cities. Fetch
+       runs before attach() so search-autocomplete.js's one-time field build
+       sees the city text, not an empty one it would never re-read. */
+    fetch('/assets/country-guides.json').then(function(r){ return r.json(); }).then(function(map){
+      /* A few keys in country-guides.json are shouted ("SOUTH AFRICA",
+         "PHILIPPINES", "LATVIA", "MALTA" — a known case-split, see visa.html's
+         own fold() workaround for the same file) while PG always uses normal
+         case. Case-fold once here rather than trust every key matches r[1]. */
+      var byUpper={};
+      for(var k in map){ if(k!=='_by_slug') byUpper[k.toUpperCase()]=map[k]; }
+      for(var j=0;j<items.length;j++){
+        var cities=map[items[j].name]||byUpper[items[j].name.toUpperCase()];
+        if(cities&&cities.length) items[j].text=cities.map(function(c){return c.city;}).join(' ');
+      }
+    }).catch(function(){}).then(function(){
+      TVESearch.attach(input,{items:items,onPick:function(it){ show(it.anchor); }});
+    });
   }
 
   /* The ONE thing that may arrive with a country already selected: a #Country

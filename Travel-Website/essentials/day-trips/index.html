@@ -388,11 +388,19 @@ search.addEventListener('input', function () {
   city = hits.length === 1 ? hits[0].city : null;
   if (city) { render(); return; }
   /* Partial text with several matches: narrow the board rather than jumping
-     into one city. */
+     into one city. paintBands() marks the active band 'on' here same as any
+     other view, so the board it lists has to actually honour that band —
+     otherwise the pill claims a filter is in force while every matching
+     city shows regardless of its fastest trip's length. */
   paintHero(); paintBands();
-  summary.innerHTML = '<b>' + hits.length + '</b> departure cit' + (hits.length === 1 ? 'y' : 'ies') + ' matching &ldquo;' + search.value + '&rdquo;';
-  list.innerHTML = hits.length
-    ? board(hits)
+  var b2 = BANDS.filter(function (x) { return x.key === band; })[0] || BANDS[0];
+  var bandedHits = band === 'all' ? hits : hits.filter(function (c) {
+    return ALL.some(function (t) { return t.city === c.city && b2.test(t.mins); });
+  });
+  summary.innerHTML = '<b>' + bandedHits.length + '</b> departure cit' + (bandedHits.length === 1 ? 'y' : 'ies') + ' matching &ldquo;' + search.value + '&rdquo;' +
+    (band !== 'all' ? ' &middot; ' + b2.label.toLowerCase() : '');
+  list.innerHTML = bandedHits.length
+    ? board(bandedHits)
     : '<div class="empty-state"><div class="empty-state-text">No departure city matches that.</div></div>';
 });
 

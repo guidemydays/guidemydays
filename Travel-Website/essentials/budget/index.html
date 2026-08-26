@@ -56,6 +56,24 @@
 .ci-btn[data-band="all"] { background: var(--muted,#6a6660); border-color: var(--muted,#6a6660); color: #fff; }
 @media (prefers-color-scheme: dark) { .ci-btn[data-band="all"] { background: #57524a; border-color: #57524a; } }
 
+/* Badge (tint) (selection-pills-badges-pills-to-badge-dots.html section 2.9)
+   for Sort — a pale wash plus coloured border/text, built from the SAME
+   --ink- tokens (and their -rgb triplets) the Stamp row above already wired
+   in, not the doc's own unwired tint classes (its dark-mode numbers are
+   explicitly "not yet decided" there, and this page ships in both themes).
+   An rgba() wash off the ink-rgb triplet is theme-safe by construction:
+   --ink- already flips at the token level, so the wash and border read
+   correctly in dark mode with no separate override needed — the same
+   reasoning trackStyle() and rowVars() already lean on below. */
+.ci-sort-btn {
+  background: rgba(var(--csb-rgb),.12);
+  border-color: rgba(var(--csb-rgb),.5);
+  color: var(--csb-ink);
+}
+.ci-sort-sand     { --csb-ink: var(--ink-sand);     --csb-rgb: var(--ink-sand-rgb); }
+.ci-sort-clay     { --csb-ink: var(--ink-clay);     --csb-rgb: var(--ink-clay-rgb); }
+.ci-sort-espresso { --csb-ink: var(--ink-espresso); --csb-rgb: var(--ink-espresso-rgb); }
+
 /* The count line sits under the controls that produced it — CLAUDE.md
    Sixty-second non-negotiable. */
 .ci-summary {
@@ -348,20 +366,23 @@ html { scroll-behavior: smooth; }
       <button class="ci-btn pill-badge fam-st fam-st-rust"       data-band="Expensive"      aria-pressed="false"><span class="ci-coins"><svg viewBox="0.10 0.10 23.81 23.81" aria-hidden="true"><use href="#gm-i-coin"></use></svg><svg viewBox="0.10 0.10 23.81 23.81" aria-hidden="true"><use href="#gm-i-coin"></use></svg><svg viewBox="0.10 0.10 23.81 23.81" aria-hidden="true"><use href="#gm-i-coin"></use></svg></span>Expensive</button>
       <button class="ci-btn pill-badge fam-st fam-st-espresso"   data-band="Very expensive" aria-pressed="false"><span class="ci-coins"><svg viewBox="0.10 0.10 23.81 23.81" aria-hidden="true"><use href="#gm-i-coin"></use></svg><svg viewBox="0.10 0.10 23.81 23.81" aria-hidden="true"><use href="#gm-i-coin"></use></svg><svg viewBox="0.10 0.10 23.81 23.81" aria-hidden="true"><use href="#gm-i-coin"></use></svg><svg viewBox="0.10 0.10 23.81 23.81" aria-hidden="true"><use href="#gm-i-coin"></use></svg></span>Very expensive</button>
     </div>
-    <!-- Sort used to share whatever family (Enamel, now Stamp) the
-         Cost-of-living legend above it wears, so the two rows read as one
-         long strip of identical colourful controls — "cheapest first" is
-         not a category with a
-         matching badge anywhere on the page, so tinting it via the
-         pill-to-badge family system was a false match. .legend-key is the
-         shared oval/neutral/terracotta-selected control built for exactly
-         this — a clickable row that must never collide with a fam-* strip
-         next to it (essentials-Page-Format.html §5, §12-types "Filter Pill"). -->
+    <!-- Sort previously sat in a plain neutral .legend-key oval — visually
+         "different" from Cost-of-living, but only by being the one row that
+         never got the earth-tone redo, which read as unfinished rather than
+         deliberate (owner, 2026-08-26: "you will need to redo it ... redesign
+         the logic ... also use 2.9 Badge (tint)"). Both rows now draw from
+         the SAME earth-tone palette — the redesign is one system, not two —
+         but Sort renders it as Badge (tint) (§2.9: pale wash, coloured
+         border+text) where Cost-of-living renders Stamp (solid fill, white
+         text). The rendering, not an unrelated hue, is what keeps a reader
+         able to tell the rows apart at a glance; "cheapest first" still
+         isn't a price band, so it borrows sand/clay/espresso for their tone
+         only, never claiming to BE Cheap/Moderate/Very-expensive. -->
     <div class="ci-row pill-badge-strip" id="sort-row" role="group" aria-label="Sort">
       <span class="ci-row-label">Sort</span>
-      <button class="ci-btn legend-key is-on" id="sort-asc"  aria-pressed="true">Cheapest first</button>
-      <button class="ci-btn legend-key"       id="sort-desc" aria-pressed="false">Most expensive first</button>
-      <button class="ci-btn legend-key"       id="sort-az"   aria-pressed="false">A–Z</button>
+      <button class="ci-btn pill-badge ci-sort-btn ci-sort-sand is-on" id="sort-asc"  aria-pressed="true">Cheapest first</button>
+      <button class="ci-btn pill-badge ci-sort-btn ci-sort-espresso"   id="sort-desc" aria-pressed="false">Most expensive first</button>
+      <button class="ci-btn pill-badge ci-sort-btn ci-sort-clay"       id="sort-az"   aria-pressed="false">A–Z</button>
     </div>
   </div>
 

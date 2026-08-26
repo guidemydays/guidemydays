@@ -2377,7 +2377,20 @@ body.is-searching .hub-top { display:none!important; }
 .bo-title { position: relative; z-index: 3; font-family: var(--font); font-weight: 800; color: #3d2f1f; font-size: clamp(38px,6.6vw,74px); line-height: 1.05; letter-spacing: -.03em; margin: 0 0 14px; width: min(56vw,600px); max-width: 600px; }
 .bo-title .ln { display: block; width: 100%; box-sizing: border-box; text-wrap: balance; }
 .bo-title .ln1 { text-align: left; }
-.bo-title .ln2 { text-align: left; padding-left: 16%; color: #8a4a2c; }
+/* ln2 carries the REST of the title (everything after "Best") as one block
+   that wraps naturally, however many category-name pages have. padding-left
+   is the indent every wrapped line after the first gets; text-indent adds
+   ON TOP of that but ONLY for the first visual line (a plain CSS behavior,
+   not JS) — so line 1 sits at 8%+8%=16% and line 2+ sits at 8%, matching
+   amusement-parks' explicit ln2(16%,red)/ln3(8%,dark) pattern without
+   needing every title hand-split into word-spans. ::first-line colors ONLY
+   that first line red; a one-line title (most categories) is entirely its
+   own first line, so it reads red exactly as before. amusement-parks itself
+   still uses separate ln2/ln3 spans (its own "Amusement"/"Parks" words are
+   short enough to never wrap internally) — this rule doesn't change that
+   page, only pages using the single wrapping ln2 block. */
+.bo-title .ln2 { text-align: left; padding-left: 8%; text-indent: 8%; color: #3d2f1f; }
+.bo-title .ln2::first-line { color: #8a4a2c; }
 .bo-title .ln3 { text-align: left; padding-left: 8%; margin-top: 14px; }
 /* Direct-child selector — .bo-title now sits as a direct sibling of .bo-main
    on all 37 category pages (moved out of the old .bo-main > div wrapper),
@@ -2398,7 +2411,7 @@ body.is-searching .hub-top { display:none!important; }
 
 @media (max-width: 640px) {
   .bo-title { max-width: 100%; }
-  .bo-title .ln2 { padding-left: 8%; }
+  .bo-title .ln2 { padding-left: 4%; text-indent: 4%; }
   .bo-title .ln3 { padding-left: 4%; }
   .bo-main { flex-direction: column; align-items: flex-start; }
 }

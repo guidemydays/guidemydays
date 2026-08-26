@@ -94,26 +94,31 @@
 /* scroll-reveal: rows rise + fade in as they enter view; skipped for reduced-motion */
 .transit-row.tc-reveal { opacity: 0; transform: translateY(14px); }
 .transit-row.tc-reveal.tc-in { opacity: 1; transform: translateY(0); }
-/* contactless ripple — the tap-to-pay badge pulses like a real reader on row hover */
-.tc-tap { position: relative; }
+/* contactless ripple — a small circular pulse like a real NFC reader,
+   fired only when you hover the badge itself (2026-08-25 owner feedback:
+   "tap to pay effect is odd" — it used to trigger on hovering ANYWHERE on
+   the whole card, and sized the ring to 100% of the badge's own oval box,
+   so it rendered as a stretched double outline rather than a tap pulse). */
+.tc-tap { position: relative; display: inline-flex; }
 .tc-tap::before, .tc-tap::after {
   content: ""; position: absolute; left: 50%; top: 50%;
-  width: 100%; height: 100%; border-radius: 999px;
+  width: 14px; height: 14px; margin: -7px 0 0 -7px;
+  border-radius: 50%;
   border: 1.5px solid var(--fam-green-ink); opacity: 0;
-  transform: translate(-50%,-50%) scale(1);
+  transform: scale(1);
   pointer-events: none;
 }
-.transit-row:hover .tc-tap::before { animation: tc-ripple 1.1s ease-out; }
-.transit-row:hover .tc-tap::after { animation: tc-ripple 1.1s ease-out .28s; }
+.tc-tap:hover::before { animation: tc-ripple 1.1s ease-out; }
+.tc-tap:hover::after { animation: tc-ripple 1.1s ease-out .28s; }
 @keyframes tc-ripple {
-  0%   { opacity: .55; transform: translate(-50%,-50%) scale(1); }
-  100% { opacity: 0;   transform: translate(-50%,-50%) scale(1.7); }
+  0%   { opacity: .55; transform: scale(1); }
+  100% { opacity: 0;   transform: scale(3.5); }
 }
 @media (prefers-reduced-motion: reduce) {
   .transit-row { transition: none; }
   .transit-row.tc-reveal { opacity: 1; transform: none; }
   .transit-row::after { transition: none; }
-  .transit-row:hover .tc-tap::before, .transit-row:hover .tc-tap::after { animation: none; }
+  .tc-tap:hover::before, .tc-tap:hover::after { animation: none; }
 }
 /* Card top strip — the chip lives here (::before/::after on the header itself,
    no HTML added to any of the ~40 rows below): an EMV-style gradient
@@ -171,18 +176,18 @@
    ONE badge now survives per card (the card name) plus TAP TO PAY when it
    applies — everything that used to be its own pink pill reads as a plain
    printed line instead, like the network list on the back of a real card.
-   The 381 rows below carry plain <span class="net-chip"> with no badge/fam-*
-   class at all (cleaned up 2026-08-26 — they used to keep the dead
-   badge fam-pink classes for a CSS !important override to fight; since
-   nothing in the markup pairs net-chip with .badge/.fam-* any more,
-   check_badge_pill_one_box no longer treats this rule as badge-anchored,
-   and the style below is now plain first-party CSS, not an override). */
+   Overrides .badge/.fam-pink for JUST this class — no HTML touched on any
+   of the 105 rows below, they're still plain adjacent <span>s. */
 .tc-network {
   padding: 8px 16px 10px;
   font-size: 12.5px; line-height: 1.7; color: var(--muted);
 }
-.net-chip { font-weight: 600; color: var(--text, #1a1917); display: inline; }
-.net-chip:not(:last-child)::after { content: " \00b7 "; color: var(--muted); font-weight: 400; }
+.net-chip {
+  background: none !important; border: none !important; padding: 0 !important;
+  border-radius: 0 !important; font-weight: 600 !important; text-transform: none !important;
+  color: var(--text, #1a1917) !important; display: inline;
+}
+.net-chip:not(:last-child)::after { content: "\00b7"; margin: 0 6px; color: var(--muted); font-weight: 400; }
 /* Info grid */
 .tc-body { padding: 0 16px 0; }
 .tc-grid {
@@ -378,18 +383,18 @@
 
   <!-- ── Europe ── -->
   <div class="section" data-section="europe">
-    <div class="section-head">🇪🇺 Europe</div>
+    <div class="section-head"><svg class="flag-svg" viewBox="0 0 36 36" aria-hidden="true" data-flag="10058"><use href="/assets/flags/sprite.svg#flag-10058"></use></svg> Europe</div>
     <div class="row-list">
 
       <div class="transit-row" data-verified="2026-08" data-tags="europe london uk england contactless" data-guide="London">
         <div class="tc-top">
-          <span class="tc-city">🇬🇧 London</span><a href="/guides/london.html" class="tc-guide">Guide</a>
+          <span class="tc-city"><svg class="flag-svg" viewBox="0 0 36 36" aria-hidden="true" data-flag="10064"><use href="/assets/flags/sprite.svg#flag-10064"></use></svg> London</span><a href="/guides/london.html" class="tc-guide">Guide</a>
           <span class="tc-card-name badge fam-en fam-en-yellow">Oyster Card</span>
           <span class="tc-tap"><span class="badge fam-en fam-en-green">Tap to pay</span></span>
           <a class="tc-site" href="https://tfl.gov.uk/fares/how-to-pay-and-where-to-buy-tickets-and-oyster" target="_blank" rel="noopener">tfl.gov.uk</a>
         </div>
         <div class="tc-network">
-          <span class="net-chip">Underground</span><span class="net-chip">Overground</span><span class="net-chip">Elizabeth line</span><span class="net-chip">DLR</span><span class="net-chip">Bus</span><span class="net-chip">Tram</span><span class="net-chip">National Rail (some)</span>
+          <span class="net-chip badge fam-en fam-en-pink">Underground</span><span class="net-chip badge fam-en fam-en-pink">Overground</span><span class="net-chip badge fam-en fam-en-pink">Elizabeth line</span><span class="net-chip badge fam-en fam-en-pink">DLR</span><span class="net-chip badge fam-en fam-en-pink">Bus</span><span class="net-chip badge fam-en fam-en-pink">Tram</span><span class="net-chip badge fam-en fam-en-pink">National Rail (some)</span>
         </div>
         <div class="tc-body">
           <div class="tc-grid">
@@ -412,12 +417,12 @@
 
       <div class="transit-row" data-verified="2026-08" data-tags="europe paris france" data-guide="Paris">
         <div class="tc-top">
-          <span class="tc-city">🇫🇷 Paris</span><a href="/guides/paris.html" class="tc-guide">Guide</a>
+          <span class="tc-city"><svg class="flag-svg" viewBox="0 0 36 36" aria-hidden="true" data-flag="10062"><use href="/assets/flags/sprite.svg#flag-10062"></use></svg> Paris</span><a href="/guides/paris.html" class="tc-guide">Guide</a>
           <span class="tc-card-name badge fam-en fam-en-yellow">Navigo Easy</span>
           <a class="tc-site" href="https://www.navigo.fr" target="_blank" rel="noopener">navigo.fr</a>
         </div>
         <div class="tc-network">
-          <span class="net-chip">Métro</span><span class="net-chip">RER</span><span class="net-chip">Bus</span><span class="net-chip">Tram</span><span class="net-chip">Transilien</span>
+          <span class="net-chip badge fam-en fam-en-pink">Métro</span><span class="net-chip badge fam-en fam-en-pink">RER</span><span class="net-chip badge fam-en fam-en-pink">Bus</span><span class="net-chip badge fam-en fam-en-pink">Tram</span><span class="net-chip badge fam-en fam-en-pink">Transilien</span>
         </div>
         <div class="tc-body">
           <div class="tc-grid">
@@ -440,13 +445,13 @@
 
       <div class="transit-row" data-verified="2026-08" data-tags="europe amsterdam netherlands holland contactless" data-guide="Amsterdam">
         <div class="tc-top">
-          <span class="tc-city">🇳🇱 Amsterdam</span><a href="/guides/amsterdam.html" class="tc-guide">Guide</a>
+          <span class="tc-city"><svg class="flag-svg" viewBox="0 0 36 36" aria-hidden="true" data-flag="10136"><use href="/assets/flags/sprite.svg#flag-10136"></use></svg> Amsterdam</span><a href="/guides/amsterdam.html" class="tc-guide">Guide</a>
           <span class="tc-card-name badge fam-en fam-en-yellow">OV-chipkaart</span>
           <span class="tc-tap"><span class="badge fam-en fam-en-green">Tap to pay</span></span>
           <a class="tc-site" href="https://www.ov-chipkaart.nl/en/" target="_blank" rel="noopener">ov-chipkaart.nl</a>
         </div>
         <div class="tc-network">
-          <span class="net-chip">GVB Tram</span><span class="net-chip">Metro</span><span class="net-chip">Bus</span><span class="net-chip">NS trains</span><span class="net-chip">Intercity</span>
+          <span class="net-chip badge fam-en fam-en-pink">GVB Tram</span><span class="net-chip badge fam-en fam-en-pink">Metro</span><span class="net-chip badge fam-en fam-en-pink">Bus</span><span class="net-chip badge fam-en fam-en-pink">NS trains</span><span class="net-chip badge fam-en fam-en-pink">Intercity</span>
         </div>
         <div class="tc-body">
           <div class="tc-grid">
@@ -469,13 +474,13 @@
 
       <div class="transit-row" data-verified="2026-08" data-tags="europe rotterdam netherlands holland contactless ret" data-guide="Rotterdam">
         <div class="tc-top">
-          <span class="tc-city">🇳🇱 Rotterdam</span><a href="/guides/rotterdam.html" class="tc-guide">Guide</a>
+          <span class="tc-city"><svg class="flag-svg" viewBox="0 0 36 36" aria-hidden="true" data-flag="10136"><use href="/assets/flags/sprite.svg#flag-10136"></use></svg> Rotterdam</span><a href="/guides/rotterdam.html" class="tc-guide">Guide</a>
           <span class="tc-card-name badge fam-en fam-en-yellow">OV-chipkaart</span>
           <span class="tc-tap"><span class="badge fam-en fam-en-green">Tap to pay</span></span>
           <a class="tc-site" href="https://www.ov-chipkaart.nl/en/" target="_blank" rel="noopener">ov-chipkaart.nl</a>
         </div>
         <div class="tc-network">
-          <span class="net-chip">RET Tram</span><span class="net-chip">Metro</span><span class="net-chip">Bus</span><span class="net-chip">NS trains</span><span class="net-chip">Intercity</span>
+          <span class="net-chip badge fam-en fam-en-pink">RET Tram</span><span class="net-chip badge fam-en fam-en-pink">Metro</span><span class="net-chip badge fam-en fam-en-pink">Bus</span><span class="net-chip badge fam-en fam-en-pink">NS trains</span><span class="net-chip badge fam-en fam-en-pink">Intercity</span>
         </div>
         <div class="tc-body">
           <div class="tc-grid">
@@ -498,12 +503,12 @@
 
       <div class="transit-row" data-verified="2026-08" data-tags="europe berlin germany" data-guide="Berlin">
         <div class="tc-top">
-          <span class="tc-city">🇩🇪 Berlin</span><a href="/guides/berlin.html" class="tc-guide">Guide</a>
+          <span class="tc-city"><svg class="flag-svg" viewBox="0 0 36 36" aria-hidden="true" data-flag="10046"><use href="/assets/flags/sprite.svg#flag-10046"></use></svg> Berlin</span><a href="/guides/berlin.html" class="tc-guide">Guide</a>
           <span class="tc-card-name badge fam-en fam-en-yellow">BVG Ticket / WelcomeCard</span>
           <a class="tc-site" href="https://www.bvg.de/en" target="_blank" rel="noopener">bvg.de</a>
         </div>
         <div class="tc-network">
-          <span class="net-chip">U-Bahn</span><span class="net-chip">S-Bahn</span><span class="net-chip">Bus</span><span class="net-chip">Tram</span><span class="net-chip">Ferry</span>
+          <span class="net-chip badge fam-en fam-en-pink">U-Bahn</span><span class="net-chip badge fam-en fam-en-pink">S-Bahn</span><span class="net-chip badge fam-en fam-en-pink">Bus</span><span class="net-chip badge fam-en fam-en-pink">Tram</span><span class="net-chip badge fam-en fam-en-pink">Ferry</span>
         </div>
         <div class="tc-body">
           <div class="tc-grid">
@@ -526,12 +531,12 @@
 
       <div class="transit-row" data-verified="2026-08" data-tags="europe rome italy" data-guide="Rome">
         <div class="tc-top">
-          <span class="tc-city">🇮🇹 Rome</span><a href="/guides/rome.html" class="tc-guide">Guide</a>
+          <span class="tc-city"><svg class="flag-svg" viewBox="0 0 36 36" aria-hidden="true" data-flag="10087"><use href="/assets/flags/sprite.svg#flag-10087"></use></svg> Rome</span><a href="/guides/rome.html" class="tc-guide">Guide</a>
           <span class="tc-card-name badge fam-en fam-en-yellow">BIT / Time-based passes</span>
           <a class="tc-site" href="https://www.atac.roma.it" target="_blank" rel="noopener">atac.roma.it</a>
         </div>
         <div class="tc-network">
-          <span class="net-chip">Metro</span><span class="net-chip">Bus</span><span class="net-chip">Tram</span>
+          <span class="net-chip badge fam-en fam-en-pink">Metro</span><span class="net-chip badge fam-en fam-en-pink">Bus</span><span class="net-chip badge fam-en fam-en-pink">Tram</span>
         </div>
         <div class="tc-body">
           <div class="tc-grid">
@@ -554,12 +559,12 @@
 
       <div class="transit-row" data-verified="2026-08" data-tags="europe barcelona spain" data-guide="Barcelona">
         <div class="tc-top">
-          <span class="tc-city">🇪🇸 Barcelona</span><a href="/guides/barcelona.html" class="tc-guide">Guide</a>
+          <span class="tc-city"><svg class="flag-svg" viewBox="0 0 36 36" aria-hidden="true" data-flag="10056"><use href="/assets/flags/sprite.svg#flag-10056"></use></svg> Barcelona</span><a href="/guides/barcelona.html" class="tc-guide">Guide</a>
           <span class="tc-card-name badge fam-en fam-en-yellow">T-Casual</span>
           <a class="tc-site" href="https://www.tmb.cat/en/barcelona-fares-metro-bus" target="_blank" rel="noopener">tmb.cat</a>
         </div>
         <div class="tc-network">
-          <span class="net-chip">Metro</span><span class="net-chip">Bus</span><span class="net-chip">Tram</span><span class="net-chip">FGC</span><span class="net-chip">Rodalies</span>
+          <span class="net-chip badge fam-en fam-en-pink">Metro</span><span class="net-chip badge fam-en fam-en-pink">Bus</span><span class="net-chip badge fam-en fam-en-pink">Tram</span><span class="net-chip badge fam-en fam-en-pink">FGC</span><span class="net-chip badge fam-en fam-en-pink">Rodalies</span>
         </div>
         <div class="tc-body">
           <div class="tc-grid">
@@ -582,12 +587,12 @@
 
       <div class="transit-row" data-verified="2026-08" data-tags="europe madrid spain" data-guide="Madrid">
         <div class="tc-top">
-          <span class="tc-city">🇪🇸 Madrid</span><a href="/guides/madrid.html" class="tc-guide">Guide</a>
+          <span class="tc-city"><svg class="flag-svg" viewBox="0 0 36 36" aria-hidden="true" data-flag="10056"><use href="/assets/flags/sprite.svg#flag-10056"></use></svg> Madrid</span><a href="/guides/madrid.html" class="tc-guide">Guide</a>
           <span class="tc-card-name badge fam-en fam-en-yellow">Multi Card / Tourist Travel Pass</span>
           <a class="tc-site" href="https://www.metromadrid.es/en" target="_blank" rel="noopener">metromadrid.es</a>
         </div>
         <div class="tc-network">
-          <span class="net-chip">Metro</span><span class="net-chip">EMT Bus</span><span class="net-chip">Cercanías</span>
+          <span class="net-chip badge fam-en fam-en-pink">Metro</span><span class="net-chip badge fam-en fam-en-pink">EMT Bus</span><span class="net-chip badge fam-en fam-en-pink">Cercanías</span>
         </div>
         <div class="tc-body">
           <div class="tc-grid">
@@ -610,12 +615,12 @@
 
       <div class="transit-row" data-verified="2026-08" data-tags="europe vienna austria" data-guide="Vienna">
         <div class="tc-top">
-          <span class="tc-city">🇦🇹 Vienna</span><a href="/guides/vienna.html" class="tc-guide">Guide</a>
+          <span class="tc-city"><svg class="flag-svg" viewBox="0 0 36 36" aria-hidden="true" data-flag="10009"><use href="/assets/flags/sprite.svg#flag-10009"></use></svg> Vienna</span><a href="/guides/vienna.html" class="tc-guide">Guide</a>
           <span class="tc-card-name badge fam-en fam-en-yellow">Wiener Linien Pass</span>
           <a class="tc-site" href="https://www.wienerlinien.at/web/wl-en" target="_blank" rel="noopener">wienerlinien.at</a>
         </div>
         <div class="tc-network">
-          <span class="net-chip">U-Bahn</span><span class="net-chip">Tram</span><span class="net-chip">Bus</span><span class="net-chip">S-Bahn (Vienna zones)</span>
+          <span class="net-chip badge fam-en fam-en-pink">U-Bahn</span><span class="net-chip badge fam-en fam-en-pink">Tram</span><span class="net-chip badge fam-en fam-en-pink">Bus</span><span class="net-chip badge fam-en fam-en-pink">S-Bahn (Vienna zones)</span>
         </div>
         <div class="tc-body">
           <div class="tc-grid">
@@ -638,12 +643,12 @@
 
       <div class="transit-row" data-verified="2026-08" data-tags="europe lisbon portugal" data-guide="Lisbon">
         <div class="tc-top">
-          <span class="tc-city">🇵🇹 Lisbon</span><a href="/guides/lisbon.html" class="tc-guide">Guide</a>
+          <span class="tc-city"><svg class="flag-svg" viewBox="0 0 36 36" aria-hidden="true" data-flag="10151"><use href="/assets/flags/sprite.svg#flag-10151"></use></svg> Lisbon</span><a href="/guides/lisbon.html" class="tc-guide">Guide</a>
           <span class="tc-card-name badge fam-en fam-en-yellow">Viva Viagem</span>
           <a class="tc-site" href="https://www.metrolisboa.pt/en/travel/viva-viagem-card/" target="_blank" rel="noopener">metrolisboa.pt</a>
         </div>
         <div class="tc-network">
-          <span class="net-chip">Metro</span><span class="net-chip">Carris Bus</span><span class="net-chip">Tram</span><span class="net-chip">Ferry</span><span class="net-chip">Suburban trains (CP)</span>
+          <span class="net-chip badge fam-en fam-en-pink">Metro</span><span class="net-chip badge fam-en fam-en-pink">Carris Bus</span><span class="net-chip badge fam-en fam-en-pink">Tram</span><span class="net-chip badge fam-en fam-en-pink">Ferry</span><span class="net-chip badge fam-en fam-en-pink">Suburban trains (CP)</span>
         </div>
         <div class="tc-body">
           <div class="tc-grid">
@@ -666,12 +671,12 @@
 
       <div class="transit-row" data-verified="2026-08" data-tags="europe prague czech republic" data-guide="Prague">
         <div class="tc-top">
-          <span class="tc-city">🇨🇿 Prague</span><a href="/guides/prague.html" class="tc-guide">Guide</a>
+          <span class="tc-city"><svg class="flag-svg" viewBox="0 0 36 36" aria-hidden="true" data-flag="10045"><use href="/assets/flags/sprite.svg#flag-10045"></use></svg> Prague</span><a href="/guides/prague.html" class="tc-guide">Guide</a>
           <span class="tc-card-name badge fam-en fam-en-yellow">Lítačka / Time tickets</span>
           <a class="tc-site" href="https://www.dpp.cz/en" target="_blank" rel="noopener">dpp.cz</a>
         </div>
         <div class="tc-network">
-          <span class="net-chip">Metro</span><span class="net-chip">Tram</span><span class="net-chip">Bus</span><span class="net-chip">Funicular</span>
+          <span class="net-chip badge fam-en fam-en-pink">Metro</span><span class="net-chip badge fam-en fam-en-pink">Tram</span><span class="net-chip badge fam-en fam-en-pink">Bus</span><span class="net-chip badge fam-en fam-en-pink">Funicular</span>
         </div>
         <div class="tc-body">
           <div class="tc-grid">
@@ -694,13 +699,13 @@
 
       <div class="transit-row" data-verified="2026-08" data-tags="europe athens greece contactless" data-guide="Athens">
         <div class="tc-top">
-          <span class="tc-city">🇬🇷 Athens</span><a href="/guides/athens.html" class="tc-guide">Guide</a>
+          <span class="tc-city"><svg class="flag-svg" viewBox="0 0 36 36" aria-hidden="true" data-flag="10071"><use href="/assets/flags/sprite.svg#flag-10071"></use></svg> Athens</span><a href="/guides/athens.html" class="tc-guide">Guide</a>
           <span class="tc-card-name badge fam-en fam-en-yellow">ATH.ENA Card / Tap2Ride</span>
           <span class="tc-tap"><span class="badge fam-en fam-en-green">Tap to pay</span></span>
           <a class="tc-site" href="https://www.oasa.gr/en/" target="_blank" rel="noopener">oasa.gr</a>
         </div>
         <div class="tc-network">
-          <span class="net-chip">Metro</span><span class="net-chip">Bus</span><span class="net-chip">Tram</span><span class="net-chip">Trolleybus</span>
+          <span class="net-chip badge fam-en fam-en-pink">Metro</span><span class="net-chip badge fam-en fam-en-pink">Bus</span><span class="net-chip badge fam-en fam-en-pink">Tram</span><span class="net-chip badge fam-en fam-en-pink">Trolleybus</span>
         </div>
         <div class="tc-body">
           <div class="tc-grid">
@@ -723,13 +728,13 @@
 
       <div class="transit-row" data-verified="2026-08" data-tags="europe brussels belgium contactless" data-guide="Brussels">
         <div class="tc-top">
-          <span class="tc-city">🇧🇪 Brussels</span><a href="/guides/brussels.html" class="tc-guide">Guide</a>
+          <span class="tc-city"><svg class="flag-svg" viewBox="0 0 36 36" aria-hidden="true" data-flag="10016"><use href="/assets/flags/sprite.svg#flag-10016"></use></svg> Brussels</span><a href="/guides/brussels.html" class="tc-guide">Guide</a>
           <span class="tc-card-name badge fam-en fam-en-yellow">MOBIB / Contactless</span>
           <span class="tc-tap"><span class="badge fam-en fam-en-green">Tap to pay</span></span>
           <a class="tc-site" href="https://www.stib-mivb.be/home" target="_blank" rel="noopener">stib-mivb.be</a>
         </div>
         <div class="tc-network">
-          <span class="net-chip">Metro</span><span class="net-chip">Tram</span><span class="net-chip">Bus (STIB/MIVB)</span>
+          <span class="net-chip badge fam-en fam-en-pink">Metro</span><span class="net-chip badge fam-en fam-en-pink">Tram</span><span class="net-chip badge fam-en fam-en-pink">Bus (STIB/MIVB)</span>
         </div>
         <div class="tc-body">
           <div class="tc-grid">
@@ -752,13 +757,13 @@
 
       <div class="transit-row" data-verified="2026-08" data-tags="europe budapest hungary contactless" data-guide="Budapest">
         <div class="tc-top">
-          <span class="tc-city">🇭🇺 Budapest</span><a href="/guides/budapest.html" class="tc-guide">Guide</a>
+          <span class="tc-city"><svg class="flag-svg" viewBox="0 0 36 36" aria-hidden="true" data-flag="10079"><use href="/assets/flags/sprite.svg#flag-10079"></use></svg> Budapest</span><a href="/guides/budapest.html" class="tc-guide">Guide</a>
           <span class="tc-card-name badge fam-en fam-en-yellow">BudapestGO App / Pay&amp;GO</span>
           <span class="tc-tap"><span class="badge fam-en fam-en-green">Tap to pay</span></span>
           <a class="tc-site" href="https://bkk.hu/en/" target="_blank" rel="noopener">bkk.hu</a>
         </div>
         <div class="tc-network">
-          <span class="net-chip">Metro M1–M4</span><span class="net-chip">Bus</span><span class="net-chip">Tram</span><span class="net-chip">Trolleybus</span><span class="net-chip">HÉV suburban rail</span><span class="net-chip">Danube ferry</span>
+          <span class="net-chip badge fam-en fam-en-pink">Metro M1–M4</span><span class="net-chip badge fam-en fam-en-pink">Bus</span><span class="net-chip badge fam-en fam-en-pink">Tram</span><span class="net-chip badge fam-en fam-en-pink">Trolleybus</span><span class="net-chip badge fam-en fam-en-pink">HÉV suburban rail</span><span class="net-chip badge fam-en fam-en-pink">Danube ferry</span>
         </div>
         <div class="tc-body">
           <div class="tc-grid">
@@ -781,13 +786,13 @@
 
       <div class="transit-row" data-verified="2026-08" data-tags="europe copenhagen denmark apponly" data-guide="Copenhagen">
         <div class="tc-top">
-          <span class="tc-city">🇩🇰 Copenhagen</span><a href="/guides/copenhagen.html" class="tc-guide">Guide</a>
+          <span class="tc-city"><svg class="flag-svg" viewBox="0 0 36 36" aria-hidden="true" data-flag="10048"><use href="/assets/flags/sprite.svg#flag-10048"></use></svg> Copenhagen</span><a href="/guides/copenhagen.html" class="tc-guide">Guide</a>
           <span class="tc-card-name badge fam-en fam-en-yellow">Rejsekort App / Basiskort</span>
           <span class="tc-app-req badge fam-en fam-en-orange">App before arrival</span>
           <a class="tc-site" href="https://www.rejsekort.dk/en" target="_blank" rel="noopener">rejsekort.dk</a>
         </div>
         <div class="tc-network">
-          <span class="net-chip">Metro</span><span class="net-chip">S-tog</span><span class="net-chip">Bus</span><span class="net-chip">Regional rail (DSB)</span><span class="net-chip">Letbane (light rail)</span>
+          <span class="net-chip badge fam-en fam-en-pink">Metro</span><span class="net-chip badge fam-en fam-en-pink">S-tog</span><span class="net-chip badge fam-en fam-en-pink">Bus</span><span class="net-chip badge fam-en fam-en-pink">Regional rail (DSB)</span><span class="net-chip badge fam-en fam-en-pink">Letbane (light rail)</span>
         </div>
         <div class="tc-body">
           <div class="tc-grid">
@@ -810,12 +815,12 @@
 
       <div class="transit-row" data-verified="2026-08" data-tags="europe dublin ireland" data-guide="Dublin">
         <div class="tc-top">
-          <span class="tc-city">🇮🇪 Dublin</span><a href="/guides/dublin.html" class="tc-guide">Guide</a>
+          <span class="tc-city"><svg class="flag-svg" viewBox="0 0 36 36" aria-hidden="true" data-flag="10081"><use href="/assets/flags/sprite.svg#flag-10081"></use></svg> Dublin</span><a href="/guides/dublin.html" class="tc-guide">Guide</a>
           <span class="tc-card-name badge fam-en fam-en-yellow">Leap Card</span>
           <a class="tc-site" href="https://www.leapcard.ie/en" target="_blank" rel="noopener">leapcard.ie</a>
         </div>
         <div class="tc-network">
-          <span class="net-chip">Dublin Bus</span><span class="net-chip">Luas (tram)</span><span class="net-chip">DART</span><span class="net-chip">Irish Rail commuter</span><span class="net-chip">Go-Ahead Ireland</span>
+          <span class="net-chip badge fam-en fam-en-pink">Dublin Bus</span><span class="net-chip badge fam-en fam-en-pink">Luas (tram)</span><span class="net-chip badge fam-en fam-en-pink">DART</span><span class="net-chip badge fam-en fam-en-pink">Irish Rail commuter</span><span class="net-chip badge fam-en fam-en-pink">Go-Ahead Ireland</span>
         </div>
         <div class="tc-body">
           <div class="tc-grid">
@@ -844,7 +849,7 @@
           <a class="tc-site" href="https://www.lothianbuses.com/tickets/" target="_blank" rel="noopener">lothianbuses.com</a>
         </div>
         <div class="tc-network">
-          <span class="net-chip">Lothian Buses</span><span class="net-chip">Edinburgh Trams</span><span class="net-chip">Airlink 100</span>
+          <span class="net-chip badge fam-en fam-en-pink">Lothian Buses</span><span class="net-chip badge fam-en fam-en-pink">Edinburgh Trams</span><span class="net-chip badge fam-en fam-en-pink">Airlink 100</span>
         </div>
         <div class="tc-body">
           <div class="tc-grid">
@@ -867,12 +872,12 @@
 
       <div class="transit-row" data-verified="2026-08" data-tags="europe geneva switzerland" data-guide="Geneva">
         <div class="tc-top">
-          <span class="tc-city">🇨🇭 Geneva</span><a href="/guides/geneva.html" class="tc-guide">Guide</a>
+          <span class="tc-city"><svg class="flag-svg" viewBox="0 0 36 36" aria-hidden="true" data-flag="10034"><use href="/assets/flags/sprite.svg#flag-10034"></use></svg> Geneva</span><a href="/guides/geneva.html" class="tc-guide">Guide</a>
           <span class="tc-card-name badge fam-en fam-en-yellow">unireso / TPG Pass</span>
           <a class="tc-site" href="https://www.tpg.ch/en" target="_blank" rel="noopener">tpg.ch</a>
         </div>
         <div class="tc-network">
-          <span class="net-chip">Tram</span><span class="net-chip">Bus</span><span class="net-chip">Mouettes (lake boats)</span><span class="net-chip">Some suburban rail</span>
+          <span class="net-chip badge fam-en fam-en-pink">Tram</span><span class="net-chip badge fam-en fam-en-pink">Bus</span><span class="net-chip badge fam-en fam-en-pink">Mouettes (lake boats)</span><span class="net-chip badge fam-en fam-en-pink">Some suburban rail</span>
         </div>
         <div class="tc-body">
           <div class="tc-grid">
@@ -901,7 +906,7 @@
           <a class="tc-site" href="https://www.spt.co.uk/subway/" target="_blank" rel="noopener">spt.co.uk</a>
         </div>
         <div class="tc-network">
-          <span class="net-chip">SPT Subway</span><span class="net-chip">First Glasgow buses</span><span class="net-chip">ScotRail (suburban)</span>
+          <span class="net-chip badge fam-en fam-en-pink">SPT Subway</span><span class="net-chip badge fam-en fam-en-pink">First Glasgow buses</span><span class="net-chip badge fam-en fam-en-pink">ScotRail (suburban)</span>
         </div>
         <div class="tc-body">
           <div class="tc-grid">
@@ -923,13 +928,13 @@
 
       <div class="transit-row" data-verified="2026-08" data-tags="europe helsinki finland contactless" data-guide="Helsinki">
         <div class="tc-top">
-          <span class="tc-city">🇫🇮 Helsinki</span><a href="/guides/helsinki.html" class="tc-guide">Guide</a>
+          <span class="tc-city"><svg class="flag-svg" viewBox="0 0 36 36" aria-hidden="true" data-flag="10059"><use href="/assets/flags/sprite.svg#flag-10059"></use></svg> Helsinki</span><a href="/guides/helsinki.html" class="tc-guide">Guide</a>
           <span class="tc-card-name badge fam-en fam-en-yellow">HSL Travel Card</span>
           <span class="tc-tap"><span class="badge fam-en fam-en-green">Tap to pay</span></span>
           <a class="tc-site" href="https://www.hsl.fi/en" target="_blank" rel="noopener">hsl.fi</a>
         </div>
         <div class="tc-network">
-          <span class="net-chip">Metro</span><span class="net-chip">Tram</span><span class="net-chip">Bus</span><span class="net-chip">Commuter rail</span><span class="net-chip">Suomenlinna ferry</span>
+          <span class="net-chip badge fam-en fam-en-pink">Metro</span><span class="net-chip badge fam-en fam-en-pink">Tram</span><span class="net-chip badge fam-en fam-en-pink">Bus</span><span class="net-chip badge fam-en fam-en-pink">Commuter rail</span><span class="net-chip badge fam-en fam-en-pink">Suomenlinna ferry</span>
         </div>
         <div class="tc-body">
           <div class="tc-grid">
@@ -952,12 +957,12 @@
 
       <div class="transit-row" data-verified="2026-08" data-tags="europe istanbul turkey" data-guide="Istanbul">
         <div class="tc-top">
-          <span class="tc-city">🇹🇷 Istanbul</span><a href="/guides/istanbul.html" class="tc-guide">Guide</a>
+          <span class="tc-city"><svg class="flag-svg" viewBox="0 0 36 36" aria-hidden="true" data-flag="10187"><use href="/assets/flags/sprite.svg#flag-10187"></use></svg> Istanbul</span><a href="/guides/istanbul.html" class="tc-guide">Guide</a>
           <span class="tc-card-name badge fam-en fam-en-yellow">İstanbulkart</span>
           <a class="tc-site" href="https://istanbulkart.istanbul/" target="_blank" rel="noopener">istanbulkart.istanbul</a>
         </div>
         <div class="tc-network">
-          <span class="net-chip">Metro</span><span class="net-chip">Tram</span><span class="net-chip">Bus (IETT)</span><span class="net-chip">Metrobus</span><span class="net-chip">Ferry (Şehir Hatları)</span><span class="net-chip">Funicular</span><span class="net-chip">Marmaray</span>
+          <span class="net-chip badge fam-en fam-en-pink">Metro</span><span class="net-chip badge fam-en fam-en-pink">Tram</span><span class="net-chip badge fam-en fam-en-pink">Bus (IETT)</span><span class="net-chip badge fam-en fam-en-pink">Metrobus</span><span class="net-chip badge fam-en fam-en-pink">Ferry (Şehir Hatları)</span><span class="net-chip badge fam-en fam-en-pink">Funicular</span><span class="net-chip badge fam-en fam-en-pink">Marmaray</span>
         </div>
         <div class="tc-body">
           <div class="tc-grid">
@@ -980,12 +985,12 @@
 
       <div class="transit-row" data-verified="2026-08" data-tags="europe krakow kraków poland" data-guide="Krakow">
         <div class="tc-top">
-          <span class="tc-city">🇵🇱 Kraków</span><a href="/guides/krakow.html" class="tc-guide">Guide</a>
+          <span class="tc-city"><svg class="flag-svg" viewBox="0 0 36 36" aria-hidden="true" data-flag="10148"><use href="/assets/flags/sprite.svg#flag-10148"></use></svg> Kraków</span><a href="/guides/krakow.html" class="tc-guide">Guide</a>
           <span class="tc-card-name badge fam-en fam-en-yellow">Krakowska Karta Miejska</span>
           <a class="tc-site" href="https://bilety.mpk.krakow.pl" target="_blank" rel="noopener">bilety.mpk.krakow.pl</a>
         </div>
         <div class="tc-network">
-          <span class="net-chip">Tram (28 lines)</span><span class="net-chip">Bus (city + night)</span>
+          <span class="net-chip badge fam-en fam-en-pink">Tram (28 lines)</span><span class="net-chip badge fam-en fam-en-pink">Bus (city + night)</span>
         </div>
         <div class="tc-body">
           <div class="tc-grid">
@@ -1007,13 +1012,13 @@
 
       <div class="transit-row" data-verified="2026-08" data-tags="europe milan italy contactless" data-guide="Milan">
         <div class="tc-top">
-          <span class="tc-city">🇮🇹 Milan</span><a href="/guides/milan.html" class="tc-guide">Guide</a>
+          <span class="tc-city"><svg class="flag-svg" viewBox="0 0 36 36" aria-hidden="true" data-flag="10087"><use href="/assets/flags/sprite.svg#flag-10087"></use></svg> Milan</span><a href="/guides/milan.html" class="tc-guide">Guide</a>
           <span class="tc-card-name badge fam-en fam-en-yellow">ATM Milan Ticket / Contactless</span>
           <span class="tc-tap"><span class="badge fam-en fam-en-green">Tap to pay</span></span>
           <a class="tc-site" href="https://www.atm.it/en/Pages/default.aspx" target="_blank" rel="noopener">atm.it</a>
         </div>
         <div class="tc-network">
-          <span class="net-chip">Metro M1–M5</span><span class="net-chip">Tram</span><span class="net-chip">Bus</span>
+          <span class="net-chip badge fam-en fam-en-pink">Metro M1–M5</span><span class="net-chip badge fam-en fam-en-pink">Tram</span><span class="net-chip badge fam-en fam-en-pink">Bus</span>
         </div>
         <div class="tc-body">
           <div class="tc-grid">
@@ -1036,13 +1041,13 @@
 
       <div class="transit-row" data-verified="2026-08" data-tags="europe munich germany apponly" data-guide="Munich">
         <div class="tc-top">
-          <span class="tc-city">🇩🇪 Munich</span><a href="/guides/munich.html" class="tc-guide">Guide</a>
+          <span class="tc-city"><svg class="flag-svg" viewBox="0 0 36 36" aria-hidden="true" data-flag="10046"><use href="/assets/flags/sprite.svg#flag-10046"></use></svg> Munich</span><a href="/guides/munich.html" class="tc-guide">Guide</a>
           <span class="tc-card-name badge fam-en fam-en-yellow">MVV / Deutschlandticket</span>
           <span class="tc-app-req badge fam-en fam-en-orange">App before arrival</span>
           <a class="tc-site" href="https://www.mvv-muenchen.de/en/" target="_blank" rel="noopener">mvv-muenchen.de</a>
         </div>
         <div class="tc-network">
-          <span class="net-chip">U-Bahn</span><span class="net-chip">S-Bahn</span><span class="net-chip">Bus</span><span class="net-chip">Tram</span>
+          <span class="net-chip badge fam-en fam-en-pink">U-Bahn</span><span class="net-chip badge fam-en fam-en-pink">S-Bahn</span><span class="net-chip badge fam-en fam-en-pink">Bus</span><span class="net-chip badge fam-en fam-en-pink">Tram</span>
         </div>
         <div class="tc-body">
           <div class="tc-grid">
@@ -1065,13 +1070,13 @@
 
       <div class="transit-row" data-verified="2026-08" data-tags="europe oslo norway apponly" data-guide="Oslo">
         <div class="tc-top">
-          <span class="tc-city">🇳🇴 Oslo</span><a href="/guides/oslo.html" class="tc-guide">Guide</a>
+          <span class="tc-city"><svg class="flag-svg" viewBox="0 0 36 36" aria-hidden="true" data-flag="10137"><use href="/assets/flags/sprite.svg#flag-10137"></use></svg> Oslo</span><a href="/guides/oslo.html" class="tc-guide">Guide</a>
           <span class="tc-card-name badge fam-en fam-en-yellow">Ruter App</span>
           <span class="tc-app-req badge fam-en fam-en-orange">App before arrival</span>
           <a class="tc-site" href="https://ruter.no/en/" target="_blank" rel="noopener">ruter.no</a>
         </div>
         <div class="tc-network">
-          <span class="net-chip">T-bane (Metro)</span><span class="net-chip">Tram</span><span class="net-chip">Bus</span><span class="net-chip">Ferry (within Oslo)</span>
+          <span class="net-chip badge fam-en fam-en-pink">T-bane (Metro)</span><span class="net-chip badge fam-en fam-en-pink">Tram</span><span class="net-chip badge fam-en fam-en-pink">Bus</span><span class="net-chip badge fam-en fam-en-pink">Ferry (within Oslo)</span>
         </div>
         <div class="tc-body">
           <div class="tc-grid">
@@ -1094,12 +1099,12 @@
 
       <div class="transit-row" data-verified="2026-08" data-tags="europe porto portugal" data-guide="Porto">
         <div class="tc-top">
-          <span class="tc-city">🇵🇹 Porto</span><a href="/guides/porto.html" class="tc-guide">Guide</a>
+          <span class="tc-city"><svg class="flag-svg" viewBox="0 0 36 36" aria-hidden="true" data-flag="10151"><use href="/assets/flags/sprite.svg#flag-10151"></use></svg> Porto</span><a href="/guides/porto.html" class="tc-guide">Guide</a>
           <span class="tc-card-name badge fam-en fam-en-yellow">Andante Card</span>
           <a class="tc-site" href="https://www.linhandante.com/en" target="_blank" rel="noopener">linhandante.com</a>
         </div>
         <div class="tc-network">
-          <span class="net-chip">Metro do Porto</span><span class="net-chip">STCP Bus</span><span class="net-chip">Some suburban trains (CP)</span>
+          <span class="net-chip badge fam-en fam-en-pink">Metro do Porto</span><span class="net-chip badge fam-en fam-en-pink">STCP Bus</span><span class="net-chip badge fam-en fam-en-pink">Some suburban trains (CP)</span>
         </div>
         <div class="tc-body">
           <div class="tc-grid">
@@ -1122,13 +1127,13 @@
 
       <div class="transit-row" data-verified="2026-08" data-tags="europe stockholm sweden contactless" data-guide="Stockholm">
         <div class="tc-top">
-          <span class="tc-city">🇸🇪 Stockholm</span><a href="/guides/stockholm.html" class="tc-guide">Guide</a>
+          <span class="tc-city"><svg class="flag-svg" viewBox="0 0 36 36" aria-hidden="true" data-flag="10163"><use href="/assets/flags/sprite.svg#flag-10163"></use></svg> Stockholm</span><a href="/guides/stockholm.html" class="tc-guide">Guide</a>
           <span class="tc-card-name badge fam-en fam-en-yellow">SL Access / Contactless</span>
           <span class="tc-tap"><span class="badge fam-en fam-en-green">Tap to pay</span></span>
           <a class="tc-site" href="https://sl.se/en" target="_blank" rel="noopener">sl.se</a>
         </div>
         <div class="tc-network">
-          <span class="net-chip">Tunnelbana (Metro)</span><span class="net-chip">Pendeltåg (commuter rail)</span><span class="net-chip">Tram</span><span class="net-chip">Bus</span><span class="net-chip">Djurgårdslinjen</span>
+          <span class="net-chip badge fam-en fam-en-pink">Tunnelbana (Metro)</span><span class="net-chip badge fam-en fam-en-pink">Pendeltåg (commuter rail)</span><span class="net-chip badge fam-en fam-en-pink">Tram</span><span class="net-chip badge fam-en fam-en-pink">Bus</span><span class="net-chip badge fam-en fam-en-pink">Djurgårdslinjen</span>
         </div>
         <div class="tc-body">
           <div class="tc-grid">
@@ -1151,13 +1156,13 @@
 
       <div class="transit-row" data-verified="2026-08" data-tags="europe venice italy contactless" data-guide="Venice">
         <div class="tc-top">
-          <span class="tc-city">🇮🇹 Venice</span><a href="/guides/venice.html" class="tc-guide">Guide</a>
+          <span class="tc-city"><svg class="flag-svg" viewBox="0 0 36 36" aria-hidden="true" data-flag="10087"><use href="/assets/flags/sprite.svg#flag-10087"></use></svg> Venice</span><a href="/guides/venice.html" class="tc-guide">Guide</a>
           <span class="tc-card-name badge fam-en fam-en-yellow">ACTV Vaporetto Pass</span>
           <span class="tc-tap"><span class="badge fam-en fam-en-green">Tap to pay</span></span>
           <a class="tc-site" href="https://www.actv.it/en" target="_blank" rel="noopener">actv.it</a>
         </div>
         <div class="tc-network">
-          <span class="net-chip">Vaporetto (water bus)</span><span class="net-chip">Mainland bus (Mestre)</span>
+          <span class="net-chip badge fam-en fam-en-pink">Vaporetto (water bus)</span><span class="net-chip badge fam-en fam-en-pink">Mainland bus (Mestre)</span>
         </div>
         <div class="tc-body">
           <div class="tc-grid">
@@ -1179,13 +1184,13 @@
 
       <div class="transit-row" data-verified="2026-08" data-tags="europe zurich switzerland contactless" data-guide="Zurich">
         <div class="tc-top">
-          <span class="tc-city">🇨🇭 Zurich</span><a href="/guides/zurich.html" class="tc-guide">Guide</a>
+          <span class="tc-city"><svg class="flag-svg" viewBox="0 0 36 36" aria-hidden="true" data-flag="10034"><use href="/assets/flags/sprite.svg#flag-10034"></use></svg> Zurich</span><a href="/guides/zurich.html" class="tc-guide">Guide</a>
           <span class="tc-card-name badge fam-en fam-en-yellow">ZVV Ticket / Swiss Travel Pass</span>
           <span class="tc-tap"><span class="badge fam-en fam-en-green">Tap to pay</span></span>
           <a class="tc-site" href="https://www.zvv.ch/en/home.html" target="_blank" rel="noopener">zvv.ch</a>
         </div>
         <div class="tc-network">
-          <span class="net-chip">Tram</span><span class="net-chip">Bus</span><span class="net-chip">S-Bahn</span><span class="net-chip">Lake boats</span>
+          <span class="net-chip badge fam-en fam-en-pink">Tram</span><span class="net-chip badge fam-en fam-en-pink">Bus</span><span class="net-chip badge fam-en fam-en-pink">S-Bahn</span><span class="net-chip badge fam-en fam-en-pink">Lake boats</span>
         </div>
         <div class="tc-body">
           <div class="tc-grid">
@@ -1208,12 +1213,12 @@
 
       <div class="transit-row" data-verified="2026-08" data-tags="europe bergen norway" data-guide="Bergen">
         <div class="tc-top">
-          <span class="tc-city">🇳🇴 Bergen</span><a href="/guides/bergen.html" class="tc-guide">Guide</a>
+          <span class="tc-city"><svg class="flag-svg" viewBox="0 0 36 36" aria-hidden="true" data-flag="10137"><use href="/assets/flags/sprite.svg#flag-10137"></use></svg> Bergen</span><a href="/guides/bergen.html" class="tc-guide">Guide</a>
           <span class="tc-card-name badge fam-en fam-en-yellow">Skyss Billett</span>
           <a class="tc-site" href="https://www.skyss.no/en/" target="_blank" rel="noopener">skyss.no</a>
         </div>
         <div class="tc-network">
-          <span class="net-chip">Bus</span><span class="net-chip">Light Rail</span><span class="net-chip">Boat (some)</span>
+          <span class="net-chip badge fam-en fam-en-pink">Bus</span><span class="net-chip badge fam-en fam-en-pink">Light Rail</span><span class="net-chip badge fam-en fam-en-pink">Boat (some)</span>
         </div>
         <div class="tc-body">
           <div class="tc-grid">
@@ -1235,12 +1240,12 @@
 
       <div class="transit-row" data-verified="2026-08" data-tags="europe bilbao spain barik" data-guide="Bilbao">
         <div class="tc-top">
-          <span class="tc-city">🇪🇸 Bilbao</span><a href="/guides/bilbao.html" class="tc-guide">Guide</a>
+          <span class="tc-city"><svg class="flag-svg" viewBox="0 0 36 36" aria-hidden="true" data-flag="10056"><use href="/assets/flags/sprite.svg#flag-10056"></use></svg> Bilbao</span><a href="/guides/bilbao.html" class="tc-guide">Guide</a>
           <span class="tc-card-name badge fam-en fam-en-yellow">Barik</span>
           <a class="tc-site" href="https://www.barik.eus" target="_blank" rel="noopener">barik.eus</a>
         </div>
         <div class="tc-network">
-          <span class="net-chip">Metro Bilbao</span><span class="net-chip">EuskoTren</span><span class="net-chip">Bilbobus</span><span class="net-chip">Bizkaibus</span>
+          <span class="net-chip badge fam-en fam-en-pink">Metro Bilbao</span><span class="net-chip badge fam-en fam-en-pink">EuskoTren</span><span class="net-chip badge fam-en fam-en-pink">Bilbobus</span><span class="net-chip badge fam-en fam-en-pink">Bizkaibus</span>
         </div>
         <div class="tc-body">
           <div class="tc-grid">
@@ -1262,12 +1267,12 @@
 
       <div class="transit-row" data-verified="2026-08" data-tags="europe bordeaux france" data-guide="Bordeaux">
         <div class="tc-top">
-          <span class="tc-city">🇫🇷 Bordeaux</span><a href="/guides/bordeaux.html" class="tc-guide">Guide</a>
+          <span class="tc-city"><svg class="flag-svg" viewBox="0 0 36 36" aria-hidden="true" data-flag="10062"><use href="/assets/flags/sprite.svg#flag-10062"></use></svg> Bordeaux</span><a href="/guides/bordeaux.html" class="tc-guide">Guide</a>
           <span class="tc-card-name badge fam-en fam-en-yellow">TBM Ticket</span>
           <a class="tc-site" href="https://www.infotbm.com/en" target="_blank" rel="noopener">infotbm.com</a>
         </div>
         <div class="tc-network">
-          <span class="net-chip">Tram (4 lines)</span><span class="net-chip">Bus</span><span class="net-chip">Bat³ river shuttle</span>
+          <span class="net-chip badge fam-en fam-en-pink">Tram (4 lines)</span><span class="net-chip badge fam-en fam-en-pink">Bus</span><span class="net-chip badge fam-en fam-en-pink">Bat³ river shuttle</span>
         </div>
         <div class="tc-body">
           <div class="tc-grid">
@@ -1289,13 +1294,13 @@
 
       <div class="transit-row" data-verified="2026-08" data-tags="europe gothenburg sweden contactless" data-guide="Gothenburg">
         <div class="tc-top">
-          <span class="tc-city">🇸🇪 Gothenburg</span><a href="/guides/gothenburg.html" class="tc-guide">Guide</a>
+          <span class="tc-city"><svg class="flag-svg" viewBox="0 0 36 36" aria-hidden="true" data-flag="10163"><use href="/assets/flags/sprite.svg#flag-10163"></use></svg> Gothenburg</span><a href="/guides/gothenburg.html" class="tc-guide">Guide</a>
           <span class="tc-card-name badge fam-en fam-en-yellow">Västtrafik / Contactless</span>
           <span class="tc-tap"><span class="badge fam-en fam-en-green">Tap to pay</span></span>
           <a class="tc-site" href="https://www.vasttrafik.se/en/" target="_blank" rel="noopener">vasttrafik.se</a>
         </div>
         <div class="tc-network">
-          <span class="net-chip">Tram</span><span class="net-chip">Bus</span><span class="net-chip">Boat</span><span class="net-chip">Local rail</span>
+          <span class="net-chip badge fam-en fam-en-pink">Tram</span><span class="net-chip badge fam-en fam-en-pink">Bus</span><span class="net-chip badge fam-en fam-en-pink">Boat</span><span class="net-chip badge fam-en fam-en-pink">Local rail</span>
         </div>
         <div class="tc-body">
           <div class="tc-grid">
@@ -1317,12 +1322,12 @@
 
       <div class="transit-row" data-verified="2026-08" data-tags="europe granada spain" data-guide="Granada">
         <div class="tc-top">
-          <span class="tc-city">🇪🇸 Granada</span><a href="/guides/granada.html" class="tc-guide">Guide</a>
+          <span class="tc-city"><svg class="flag-svg" viewBox="0 0 36 36" aria-hidden="true" data-flag="10056"><use href="/assets/flags/sprite.svg#flag-10056"></use></svg> Granada</span><a href="/guides/granada.html" class="tc-guide">Guide</a>
           <span class="tc-card-name badge fam-en fam-en-yellow">Tarjeta de Transporte</span>
           <a class="tc-site" href="https://www.ctgranada.es" target="_blank" rel="noopener">ctgranada.es</a>
         </div>
         <div class="tc-network">
-          <span class="net-chip">LAC urban bus</span><span class="net-chip">Metropolitan area buses</span>
+          <span class="net-chip badge fam-en fam-en-pink">LAC urban bus</span><span class="net-chip badge fam-en fam-en-pink">Metropolitan area buses</span>
         </div>
         <div class="tc-body">
           <div class="tc-grid">
@@ -1344,12 +1349,12 @@
 
       <div class="transit-row" data-verified="2026-08" data-tags="europe lille france" data-guide="Lille">
         <div class="tc-top">
-          <span class="tc-city">🇫🇷 Lille</span><a href="/guides/lille.html" class="tc-guide">Guide</a>
+          <span class="tc-city"><svg class="flag-svg" viewBox="0 0 36 36" aria-hidden="true" data-flag="10062"><use href="/assets/flags/sprite.svg#flag-10062"></use></svg> Lille</span><a href="/guides/lille.html" class="tc-guide">Guide</a>
           <span class="tc-card-name badge fam-en fam-en-yellow">Pass Pass (ilévia)</span>
           <a class="tc-site" href="https://www.ilevia.fr/?lang=en" target="_blank" rel="noopener">ilevia.fr</a>
         </div>
         <div class="tc-network">
-          <span class="net-chip">Métro</span><span class="net-chip">Tram</span><span class="net-chip">Bus</span>
+          <span class="net-chip badge fam-en fam-en-pink">Métro</span><span class="net-chip badge fam-en fam-en-pink">Tram</span><span class="net-chip badge fam-en fam-en-pink">Bus</span>
         </div>
         <div class="tc-body">
           <div class="tc-grid">
@@ -1371,12 +1376,12 @@
 
       <div class="transit-row" data-verified="2026-08" data-tags="europe luxembourg luxembourg" data-guide="Luxembourg">
         <div class="tc-top">
-          <span class="tc-city">🇱🇺 Luxembourg</span><a href="/guides/luxembourg.html" class="tc-guide">Guide</a>
+          <span class="tc-city"><svg class="flag-svg" viewBox="0 0 36 36" aria-hidden="true" data-flag="10110"><use href="/assets/flags/sprite.svg#flag-10110"></use></svg> Luxembourg</span><a href="/guides/luxembourg.html" class="tc-guide">Guide</a>
           <span class="tc-card-name badge fam-en fam-en-yellow">Free Transit</span>
           <a class="tc-site" href="https://www.mobiliteit.lu/en/" target="_blank" rel="noopener">mobiliteit.lu</a>
         </div>
         <div class="tc-network">
-          <span class="net-chip">Bus</span><span class="net-chip">Tram</span><span class="net-chip">Regional trains</span><span class="net-chip">City night bus</span>
+          <span class="net-chip badge fam-en fam-en-pink">Bus</span><span class="net-chip badge fam-en fam-en-pink">Tram</span><span class="net-chip badge fam-en fam-en-pink">Regional trains</span><span class="net-chip badge fam-en fam-en-pink">City night bus</span>
         </div>
         <div class="tc-body">
           <div class="tc-grid">
@@ -1398,12 +1403,12 @@
 
       <div class="transit-row" data-verified="2026-08" data-tags="europe lyon france" data-guide="Lyon">
         <div class="tc-top">
-          <span class="tc-city">🇫🇷 Lyon</span><a href="/guides/lyon.html" class="tc-guide">Guide</a>
+          <span class="tc-city"><svg class="flag-svg" viewBox="0 0 36 36" aria-hidden="true" data-flag="10062"><use href="/assets/flags/sprite.svg#flag-10062"></use></svg> Lyon</span><a href="/guides/lyon.html" class="tc-guide">Guide</a>
           <span class="tc-card-name badge fam-en fam-en-yellow">Oùra Card (TCL)</span>
           <a class="tc-site" href="https://www.tcl.fr/en" target="_blank" rel="noopener">tcl.fr</a>
         </div>
         <div class="tc-network">
-          <span class="net-chip">Métro</span><span class="net-chip">Tram</span><span class="net-chip">Bus</span><span class="net-chip">Funicular</span>
+          <span class="net-chip badge fam-en fam-en-pink">Métro</span><span class="net-chip badge fam-en fam-en-pink">Tram</span><span class="net-chip badge fam-en fam-en-pink">Bus</span><span class="net-chip badge fam-en fam-en-pink">Funicular</span>
         </div>
         <div class="tc-body">
           <div class="tc-grid">
@@ -1425,13 +1430,13 @@
 
       <div class="transit-row" data-verified="2026-08" data-tags="europe malaga spain contactless" data-guide="Malaga">
         <div class="tc-top">
-          <span class="tc-city">🇪🇸 Málaga</span><a href="/guides/malaga.html" class="tc-guide">Guide</a>
+          <span class="tc-city"><svg class="flag-svg" viewBox="0 0 36 36" aria-hidden="true" data-flag="10056"><use href="/assets/flags/sprite.svg#flag-10056"></use></svg> Málaga</span><a href="/guides/malaga.html" class="tc-guide">Guide</a>
           <span class="tc-card-name badge fam-en fam-en-yellow">Tarjeta de Transporte (EMT)</span>
           <span class="tc-tap"><span class="badge fam-en fam-en-green">Tap to pay</span></span>
           <a class="tc-site" href="https://www.emtmalaga.es" target="_blank" rel="noopener">emtmalaga.es</a>
         </div>
         <div class="tc-network">
-          <span class="net-chip">City Bus (EMT)</span><span class="net-chip">Airport Express</span>
+          <span class="net-chip badge fam-en fam-en-pink">City Bus (EMT)</span><span class="net-chip badge fam-en fam-en-pink">Airport Express</span>
         </div>
         <div class="tc-body">
           <div class="tc-grid">
@@ -1453,13 +1458,13 @@
 
       <div class="transit-row" data-verified="2026-08" data-tags="europe marseille france contactless" data-guide="Marseille">
         <div class="tc-top">
-          <span class="tc-city">🇫🇷 Marseille</span><a href="/guides/marseille.html" class="tc-guide">Guide</a>
+          <span class="tc-city"><svg class="flag-svg" viewBox="0 0 36 36" aria-hidden="true" data-flag="10062"><use href="/assets/flags/sprite.svg#flag-10062"></use></svg> Marseille</span><a href="/guides/marseille.html" class="tc-guide">Guide</a>
           <span class="tc-card-name badge fam-en fam-en-yellow">RTM / Contactless</span>
           <span class="tc-tap"><span class="badge fam-en fam-en-green">Tap to pay</span></span>
           <a class="tc-site" href="https://www.rtm.fr" target="_blank" rel="noopener">rtm.fr</a>
         </div>
         <div class="tc-network">
-          <span class="net-chip">Métro</span><span class="net-chip">Bus</span><span class="net-chip">Tram</span><span class="net-chip">Ferry (Vieux-Port)</span>
+          <span class="net-chip badge fam-en fam-en-pink">Métro</span><span class="net-chip badge fam-en fam-en-pink">Bus</span><span class="net-chip badge fam-en fam-en-pink">Tram</span><span class="net-chip badge fam-en fam-en-pink">Ferry (Vieux-Port)</span>
         </div>
         <div class="tc-body">
           <div class="tc-grid">
@@ -1481,12 +1486,12 @@
 
       <div class="transit-row" data-verified="2026-08" data-tags="europe nice france" data-guide="Nice">
         <div class="tc-top">
-          <span class="tc-city">🇫🇷 Nice</span><a href="/guides/nice.html" class="tc-guide">Guide</a>
+          <span class="tc-city"><svg class="flag-svg" viewBox="0 0 36 36" aria-hidden="true" data-flag="10062"><use href="/assets/flags/sprite.svg#flag-10062"></use></svg> Nice</span><a href="/guides/nice.html" class="tc-guide">Guide</a>
           <span class="tc-card-name badge fam-en fam-en-yellow">La Carte (Lignes d'Azur)</span>
           <a class="tc-site" href="https://www.lignesdazur.com/en" target="_blank" rel="noopener">lignesdazur.com</a>
         </div>
         <div class="tc-network">
-          <span class="net-chip">Bus</span><span class="net-chip">Tram (3 lines)</span><span class="net-chip">Airport Express</span>
+          <span class="net-chip badge fam-en fam-en-pink">Bus</span><span class="net-chip badge fam-en fam-en-pink">Tram (3 lines)</span><span class="net-chip badge fam-en fam-en-pink">Airport Express</span>
         </div>
         <div class="tc-body">
           <div class="tc-grid">
@@ -1508,13 +1513,13 @@
 
       <div class="transit-row" data-verified="2026-08" data-tags="europe san-sebastian spain contactless" data-guide="San-Sebastian">
         <div class="tc-top">
-          <span class="tc-city">🇪🇸 San Sebastián</span><a href="/guides/san-sebastian.html" class="tc-guide">Guide</a>
+          <span class="tc-city"><svg class="flag-svg" viewBox="0 0 36 36" aria-hidden="true" data-flag="10056"><use href="/assets/flags/sprite.svg#flag-10056"></use></svg> San Sebastián</span><a href="/guides/san-sebastian.html" class="tc-guide">Guide</a>
           <span class="tc-card-name badge fam-en fam-en-yellow">Dbus Contactless / MUGI</span>
           <span class="tc-tap"><span class="badge fam-en fam-en-green">Tap to pay</span></span>
           <a class="tc-site" href="https://dbus.eus" target="_blank" rel="noopener">dbus.eus</a>
         </div>
         <div class="tc-network">
-          <span class="net-chip">Dbus (city bus)</span><span class="net-chip">EuskoTren</span><span class="net-chip">Lurraldebus</span>
+          <span class="net-chip badge fam-en fam-en-pink">Dbus (city bus)</span><span class="net-chip badge fam-en fam-en-pink">EuskoTren</span><span class="net-chip badge fam-en fam-en-pink">Lurraldebus</span>
         </div>
         <div class="tc-body">
           <div class="tc-grid">
@@ -1536,12 +1541,12 @@
 
       <div class="transit-row" data-verified="2026-08" data-tags="europe salzburg austria" data-guide="Salzburg">
         <div class="tc-top">
-          <span class="tc-city">🇦🇹 Salzburg</span><a href="/guides/salzburg.html" class="tc-guide">Guide</a>
+          <span class="tc-city"><svg class="flag-svg" viewBox="0 0 36 36" aria-hidden="true" data-flag="10009"><use href="/assets/flags/sprite.svg#flag-10009"></use></svg> Salzburg</span><a href="/guides/salzburg.html" class="tc-guide">Guide</a>
           <span class="tc-card-name badge fam-en fam-en-yellow">Salzburg Card</span>
           <a class="tc-site" href="https://www.salzburgcard.com/en/" target="_blank" rel="noopener">salzburgcard.com</a>
         </div>
         <div class="tc-network">
-          <span class="net-chip">Trolleybus</span><span class="net-chip">Bus (Albus)</span><span class="net-chip">S-Train</span>
+          <span class="net-chip badge fam-en fam-en-pink">Trolleybus</span><span class="net-chip badge fam-en fam-en-pink">Bus (Albus)</span><span class="net-chip badge fam-en fam-en-pink">S-Train</span>
         </div>
         <div class="tc-body">
           <div class="tc-grid">
@@ -1563,13 +1568,13 @@
 
       <div class="transit-row" data-verified="2026-08" data-tags="europe seville spain contactless" data-guide="Seville">
         <div class="tc-top">
-          <span class="tc-city">🇪🇸 Seville</span><a href="/guides/seville.html" class="tc-guide">Guide</a>
+          <span class="tc-city"><svg class="flag-svg" viewBox="0 0 36 36" aria-hidden="true" data-flag="10056"><use href="/assets/flags/sprite.svg#flag-10056"></use></svg> Seville</span><a href="/guides/seville.html" class="tc-guide">Guide</a>
           <span class="tc-card-name badge fam-en fam-en-yellow">Tarjeta Multiviaje</span>
           <span class="tc-tap"><span class="badge fam-en fam-en-green">Tap to pay</span></span>
           <a class="tc-site" href="https://www.tussam.es" target="_blank" rel="noopener">tussam.es</a>
         </div>
         <div class="tc-network">
-          <span class="net-chip">Bus (TUSSAM)</span><span class="net-chip">Metro</span><span class="net-chip">Tram (T1)</span>
+          <span class="net-chip badge fam-en fam-en-pink">Bus (TUSSAM)</span><span class="net-chip badge fam-en fam-en-pink">Metro</span><span class="net-chip badge fam-en fam-en-pink">Tram (T1)</span>
         </div>
         <div class="tc-body">
           <div class="tc-grid">
@@ -1591,12 +1596,12 @@
 
       <div class="transit-row" data-verified="2026-08" data-tags="europe strasbourg france" data-guide="Strasbourg">
         <div class="tc-top">
-          <span class="tc-city">🇫🇷 Strasbourg</span><a href="/guides/strasbourg.html" class="tc-guide">Guide</a>
+          <span class="tc-city"><svg class="flag-svg" viewBox="0 0 36 36" aria-hidden="true" data-flag="10062"><use href="/assets/flags/sprite.svg#flag-10062"></use></svg> Strasbourg</span><a href="/guides/strasbourg.html" class="tc-guide">Guide</a>
           <span class="tc-card-name badge fam-en fam-en-yellow">CTS Ticket</span>
           <a class="tc-site" href="https://www.cts-strasbourg.eu/en/" target="_blank" rel="noopener">cts-strasbourg.eu</a>
         </div>
         <div class="tc-network">
-          <span class="net-chip">Tram (6 lines)</span><span class="net-chip">Bus</span>
+          <span class="net-chip badge fam-en fam-en-pink">Tram (6 lines)</span><span class="net-chip badge fam-en fam-en-pink">Bus</span>
         </div>
         <div class="tc-body">
           <div class="tc-grid">
@@ -1618,12 +1623,12 @@
 
       <div class="transit-row" data-verified="2026-08" data-tags="europe stuttgart germany" data-guide="Stuttgart">
         <div class="tc-top">
-          <span class="tc-city">🇩🇪 Stuttgart</span><a href="/guides/stuttgart.html" class="tc-guide">Guide</a>
+          <span class="tc-city"><svg class="flag-svg" viewBox="0 0 36 36" aria-hidden="true" data-flag="10046"><use href="/assets/flags/sprite.svg#flag-10046"></use></svg> Stuttgart</span><a href="/guides/stuttgart.html" class="tc-guide">Guide</a>
           <span class="tc-card-name badge fam-en fam-en-yellow">VVS Ticket</span>
           <a class="tc-site" href="https://www.vvs.de/en/" target="_blank" rel="noopener">vvs.de</a>
         </div>
         <div class="tc-network">
-          <span class="net-chip">U-Bahn</span><span class="net-chip">S-Bahn</span><span class="net-chip">Bus</span><span class="net-chip">Regional rail</span>
+          <span class="net-chip badge fam-en fam-en-pink">U-Bahn</span><span class="net-chip badge fam-en fam-en-pink">S-Bahn</span><span class="net-chip badge fam-en fam-en-pink">Bus</span><span class="net-chip badge fam-en fam-en-pink">Regional rail</span>
         </div>
         <div class="tc-body">
           <div class="tc-grid">
@@ -1645,13 +1650,13 @@
 
       <div class="transit-row" data-verified="2026-08" data-tags="europe tallinn estonia contactless" data-guide="Tallinn">
         <div class="tc-top">
-          <span class="tc-city">🇪🇪 Tallinn</span><a href="/guides/tallinn.html" class="tc-guide">Guide</a>
+          <span class="tc-city"><svg class="flag-svg" viewBox="0 0 36 36" aria-hidden="true" data-flag="10053"><use href="/assets/flags/sprite.svg#flag-10053"></use></svg> Tallinn</span><a href="/guides/tallinn.html" class="tc-guide">Guide</a>
           <span class="tc-card-name badge fam-en fam-en-yellow">Ühiskaart</span>
           <span class="tc-tap"><span class="badge fam-en fam-en-green">Tap to pay</span></span>
           <a class="tc-site" href="https://www.tallinn.ee/en/transport" target="_blank" rel="noopener">tallinn.ee</a>
         </div>
         <div class="tc-network">
-          <span class="net-chip">Tram</span><span class="net-chip">Bus</span><span class="net-chip">Trolleybus</span>
+          <span class="net-chip badge fam-en fam-en-pink">Tram</span><span class="net-chip badge fam-en fam-en-pink">Bus</span><span class="net-chip badge fam-en fam-en-pink">Trolleybus</span>
         </div>
         <div class="tc-body">
           <div class="tc-grid">
@@ -1673,13 +1678,13 @@
 
       <div class="transit-row" data-verified="2026-08" data-tags="europe tenerife spain canary-islands contactless" data-guide="Tenerife">
         <div class="tc-top">
-          <span class="tc-city">🇪🇸 Tenerife</span><a href="/guides/tenerife.html" class="tc-guide">Guide</a>
+          <span class="tc-city"><svg class="flag-svg" viewBox="0 0 36 36" aria-hidden="true" data-flag="10056"><use href="/assets/flags/sprite.svg#flag-10056"></use></svg> Tenerife</span><a href="/guides/tenerife.html" class="tc-guide">Guide</a>
           <span class="tc-card-name badge fam-en fam-en-yellow">ten+ Card / Contactless</span>
           <span class="tc-tap"><span class="badge fam-en fam-en-green">Tap to pay</span></span>
           <a class="tc-site" href="https://www.titsa.com" target="_blank" rel="noopener">titsa.com</a>
         </div>
         <div class="tc-network">
-          <span class="net-chip">TITSA intercity bus</span><span class="net-chip">MetroTenerife (tram)</span>
+          <span class="net-chip badge fam-en fam-en-pink">TITSA intercity bus</span><span class="net-chip badge fam-en fam-en-pink">MetroTenerife (tram)</span>
         </div>
         <div class="tc-body">
           <div class="tc-grid">
@@ -1701,13 +1706,13 @@
 
       <div class="transit-row" data-verified="2026-08" data-tags="europe turin italy contactless" data-guide="Turin">
         <div class="tc-top">
-          <span class="tc-city">🇮🇹 Turin</span><a href="/guides/turin.html" class="tc-guide">Guide</a>
+          <span class="tc-city"><svg class="flag-svg" viewBox="0 0 36 36" aria-hidden="true" data-flag="10087"><use href="/assets/flags/sprite.svg#flag-10087"></use></svg> Turin</span><a href="/guides/turin.html" class="tc-guide">Guide</a>
           <span class="tc-card-name badge fam-en fam-en-yellow">GTT / Tap &amp; Go</span>
           <span class="tc-tap"><span class="badge fam-en fam-en-green">Tap to pay</span></span>
           <a class="tc-site" href="https://www.gtt.to.it/cms/en/" target="_blank" rel="noopener">gtt.to.it</a>
         </div>
         <div class="tc-network">
-          <span class="net-chip">Metro</span><span class="net-chip">Tram</span><span class="net-chip">Bus</span>
+          <span class="net-chip badge fam-en fam-en-pink">Metro</span><span class="net-chip badge fam-en fam-en-pink">Tram</span><span class="net-chip badge fam-en fam-en-pink">Bus</span>
         </div>
         <div class="tc-body">
           <div class="tc-grid">
@@ -1729,13 +1734,13 @@
 
       <div class="transit-row" data-verified="2026-08" data-tags="europe valletta malta contactless" data-guide="Valletta">
         <div class="tc-top">
-          <span class="tc-city">🇲🇹 Valletta</span><a href="/guides/valletta.html" class="tc-guide">Guide</a>
+          <span class="tc-city"><svg class="flag-svg" viewBox="0 0 36 36" aria-hidden="true" data-flag="10125"><use href="/assets/flags/sprite.svg#flag-10125"></use></svg> Valletta</span><a href="/guides/valletta.html" class="tc-guide">Guide</a>
           <span class="tc-card-name badge fam-en fam-en-yellow">Tallinja Card / Explore Card</span>
           <span class="tc-tap"><span class="badge fam-en fam-en-green">Tap to pay</span></span>
           <a class="tc-site" href="https://www.publictransport.com.mt" target="_blank" rel="noopener">publictransport.com.mt</a>
         </div>
         <div class="tc-network">
-          <span class="net-chip">Bus (Malta + Gozo)</span><span class="net-chip">Ferry (Valletta–Sliema · Three Cities)</span>
+          <span class="net-chip badge fam-en fam-en-pink">Bus (Malta + Gozo)</span><span class="net-chip badge fam-en fam-en-pink">Ferry (Valletta–Sliema · Three Cities)</span>
         </div>
         <div class="tc-body">
           <div class="tc-grid">
@@ -1765,12 +1770,12 @@
 
       <div class="transit-row" data-verified="2026-08" data-tags="asia tokyo japan" data-guide="Tokyo">
         <div class="tc-top">
-          <span class="tc-city">🇯🇵 Tokyo</span><a href="/guides/tokyo.html" class="tc-guide">Guide</a>
+          <span class="tc-city"><svg class="flag-svg" viewBox="0 0 36 36" aria-hidden="true" data-flag="10090"><use href="/assets/flags/sprite.svg#flag-10090"></use></svg> Tokyo</span><a href="/guides/tokyo.html" class="tc-guide">Guide</a>
           <span class="tc-card-name badge fam-en fam-en-yellow">Suica / Pasmo</span>
           <a class="tc-site" href="https://www.jreast.co.jp/e/products/iccard/suica/" target="_blank" rel="noopener">jreast.co.jp</a>
         </div>
         <div class="tc-network">
-          <span class="net-chip">JR lines</span><span class="net-chip">Tokyo Metro</span><span class="net-chip">Toei Subway</span><span class="net-chip">Bus</span><span class="net-chip">Monorail</span><span class="net-chip">Convenience stores</span><span class="net-chip">Taxis</span>
+          <span class="net-chip badge fam-en fam-en-pink">JR lines</span><span class="net-chip badge fam-en fam-en-pink">Tokyo Metro</span><span class="net-chip badge fam-en fam-en-pink">Toei Subway</span><span class="net-chip badge fam-en fam-en-pink">Bus</span><span class="net-chip badge fam-en fam-en-pink">Monorail</span><span class="net-chip badge fam-en fam-en-pink">Convenience stores</span><span class="net-chip badge fam-en fam-en-pink">Taxis</span>
         </div>
         <div class="tc-body">
           <div class="tc-grid">
@@ -1793,12 +1798,12 @@
 
       <div class="transit-row" data-verified="2026-08" data-tags="asia osaka kyoto japan" data-guide="Osaka Kyoto">
         <div class="tc-top">
-          <span class="tc-city">🇯🇵 Osaka / Kyoto</span><a class="ext-arrow tc-guide" href="/guides/osaka.html">Osaka</a><a class="ext-arrow tc-guide" href="/guides/kyoto.html">Kyoto</a>
+          <span class="tc-city"><svg class="flag-svg" viewBox="0 0 36 36" aria-hidden="true" data-flag="10090"><use href="/assets/flags/sprite.svg#flag-10090"></use></svg> Osaka / Kyoto</span><a class="ext-arrow tc-guide" href="/guides/osaka.html">Osaka</a><a class="ext-arrow tc-guide" href="/guides/kyoto.html">Kyoto</a>
           <span class="tc-card-name badge fam-en fam-en-yellow">ICOCA</span>
           <a class="tc-site" href="https://www.westjr.co.jp/travel-information/en/tickets-passes/" target="_blank" rel="noopener">westjr.co.jp</a>
         </div>
         <div class="tc-network">
-          <span class="net-chip">JR West</span><span class="net-chip">Osaka Metro</span><span class="net-chip">Keihan</span><span class="net-chip">Hankyu</span><span class="net-chip">Kintetsu</span><span class="net-chip">Most local transit</span>
+          <span class="net-chip badge fam-en fam-en-pink">JR West</span><span class="net-chip badge fam-en fam-en-pink">Osaka Metro</span><span class="net-chip badge fam-en fam-en-pink">Keihan</span><span class="net-chip badge fam-en fam-en-pink">Hankyu</span><span class="net-chip badge fam-en fam-en-pink">Kintetsu</span><span class="net-chip badge fam-en fam-en-pink">Most local transit</span>
         </div>
         <div class="tc-body">
           <div class="tc-grid">
@@ -1820,12 +1825,12 @@
 
       <div class="transit-row" data-verified="2026-08" data-tags="asia hiroshima japan" data-guide="Hiroshima">
         <div class="tc-top">
-          <span class="tc-city">🇯🇵 Hiroshima</span>
+          <span class="tc-city"><svg class="flag-svg" viewBox="0 0 36 36" aria-hidden="true" data-flag="10090"><use href="/assets/flags/sprite.svg#flag-10090"></use></svg> Hiroshima</span>
           <span class="tc-card-name badge fam-en fam-en-yellow">ICOCA / Suica</span>
           <a class="tc-site" href="https://www.hiroden.co.jp" target="_blank" rel="noopener">hiroden.co.jp</a>
         </div>
         <div class="tc-network">
-          <span class="net-chip">Hiroden Streetcar</span><span class="net-chip">JR West (local lines)</span><span class="net-chip">City bus</span>
+          <span class="net-chip badge fam-en fam-en-pink">Hiroden Streetcar</span><span class="net-chip badge fam-en fam-en-pink">JR West (local lines)</span><span class="net-chip badge fam-en fam-en-pink">City bus</span>
         </div>
         <div class="tc-body">
           <div class="tc-grid">
@@ -1847,12 +1852,12 @@
 
       <div class="transit-row" data-verified="2026-08" data-tags="asia hong kong" data-guide="Hong-Kong">
         <div class="tc-top">
-          <span class="tc-city">🇭🇰 Hong Kong</span><a href="/guides/hong-kong.html" class="tc-guide">Guide</a>
+          <span class="tc-city"><svg class="flag-svg" viewBox="0 0 36 36" aria-hidden="true" data-flag="10075"><use href="/assets/flags/sprite.svg#flag-10075"></use></svg> Hong Kong</span><a href="/guides/hong-kong.html" class="tc-guide">Guide</a>
           <span class="tc-card-name badge fam-en fam-en-yellow">Octopus Card</span>
           <a class="tc-site" href="https://www.octopus.com.hk/en/consumer/index.html" target="_blank" rel="noopener">octopus.com.hk</a>
         </div>
         <div class="tc-network">
-          <span class="net-chip">MTR</span><span class="net-chip">Bus</span><span class="net-chip">Tram</span><span class="net-chip">Ferry</span><span class="net-chip">Light Rail</span><span class="net-chip">Airport Express</span><span class="net-chip">7-Eleven</span>
+          <span class="net-chip badge fam-en fam-en-pink">MTR</span><span class="net-chip badge fam-en fam-en-pink">Bus</span><span class="net-chip badge fam-en fam-en-pink">Tram</span><span class="net-chip badge fam-en fam-en-pink">Ferry</span><span class="net-chip badge fam-en fam-en-pink">Light Rail</span><span class="net-chip badge fam-en fam-en-pink">Airport Express</span><span class="net-chip badge fam-en fam-en-pink">7-Eleven</span>
         </div>
         <div class="tc-body">
           <div class="tc-grid">
@@ -1875,13 +1880,13 @@
 
       <div class="transit-row" data-verified="2026-08" data-tags="asia singapore contactless" data-guide="Singapore">
         <div class="tc-top">
-          <span class="tc-city">🇸🇬 Singapore</span><a href="/guides/singapore.html" class="tc-guide">Guide</a>
+          <span class="tc-city"><svg class="flag-svg" viewBox="0 0 36 36" aria-hidden="true" data-flag="10164"><use href="/assets/flags/sprite.svg#flag-10164"></use></svg> Singapore</span><a href="/guides/singapore.html" class="tc-guide">Guide</a>
           <span class="tc-card-name badge fam-en fam-en-yellow">EZ-Link / Contactless</span>
           <span class="tc-tap"><span class="badge fam-en fam-en-green">Tap to pay</span></span>
           <a class="tc-site" href="https://www.ezlink.com.sg" target="_blank" rel="noopener">ezlink.com.sg</a>
         </div>
         <div class="tc-network">
-          <span class="net-chip">MRT</span><span class="net-chip">LRT</span><span class="net-chip">Bus</span>
+          <span class="net-chip badge fam-en fam-en-pink">MRT</span><span class="net-chip badge fam-en fam-en-pink">LRT</span><span class="net-chip badge fam-en fam-en-pink">Bus</span>
         </div>
         <div class="tc-body">
           <div class="tc-grid">
@@ -1904,12 +1909,12 @@
 
       <div class="transit-row" data-verified="2026-08" data-tags="asia seoul south korea" data-guide="Seoul">
         <div class="tc-top">
-          <span class="tc-city">🇰🇷 Seoul</span><a href="/guides/seoul.html" class="tc-guide">Guide</a>
+          <span class="tc-city"><svg class="flag-svg" viewBox="0 0 36 36" aria-hidden="true" data-flag="10098"><use href="/assets/flags/sprite.svg#flag-10098"></use></svg> Seoul</span><a href="/guides/seoul.html" class="tc-guide">Guide</a>
           <span class="tc-card-name badge fam-en fam-en-yellow">T-money</span>
           <a class="tc-site" href="https://www.t-money.co.kr/ncs/pct/bnfmGuideEngInfo/ReadBnfmGuideEngInfo.dev" target="_blank" rel="noopener">t-money.co.kr</a>
         </div>
         <div class="tc-network">
-          <span class="net-chip">Metro</span><span class="net-chip">Bus</span><span class="net-chip">Some taxis</span><span class="net-chip">Convenience stores</span>
+          <span class="net-chip badge fam-en fam-en-pink">Metro</span><span class="net-chip badge fam-en fam-en-pink">Bus</span><span class="net-chip badge fam-en fam-en-pink">Some taxis</span><span class="net-chip badge fam-en fam-en-pink">Convenience stores</span>
         </div>
         <div class="tc-body">
           <div class="tc-grid">
@@ -1932,12 +1937,12 @@
 
       <div class="transit-row" data-verified="2026-08" data-tags="asia busan south korea" data-guide="Busan">
         <div class="tc-top">
-          <span class="tc-city">🇰🇷 Busan</span><a href="/guides/busan.html" class="tc-guide">Guide</a>
+          <span class="tc-city"><svg class="flag-svg" viewBox="0 0 36 36" aria-hidden="true" data-flag="10098"><use href="/assets/flags/sprite.svg#flag-10098"></use></svg> Busan</span><a href="/guides/busan.html" class="tc-guide">Guide</a>
           <span class="tc-card-name badge fam-en fam-en-yellow">T-money</span>
           <a class="tc-site" href="https://www.klook.com/en-US/activity/6459-t-money-card-korea/" target="_blank" rel="noopener">Klook — T-money</a>
         </div>
         <div class="tc-network">
-          <span class="net-chip">Metro</span><span class="net-chip">Bus</span><span class="net-chip">Some taxis</span><span class="net-chip">Convenience stores</span>
+          <span class="net-chip badge fam-en fam-en-pink">Metro</span><span class="net-chip badge fam-en fam-en-pink">Bus</span><span class="net-chip badge fam-en fam-en-pink">Some taxis</span><span class="net-chip badge fam-en fam-en-pink">Convenience stores</span>
         </div>
         <div class="tc-body">
           <div class="tc-grid">
@@ -1960,12 +1965,12 @@
 
       <div class="transit-row" data-verified="2026-08" data-tags="asia taipei taiwan" data-guide="Taipei">
         <div class="tc-top">
-          <span class="tc-city">🇹🇼 Taipei</span><a href="/guides/taipei.html" class="tc-guide">Guide</a>
+          <span class="tc-city"><svg class="flag-svg" viewBox="0 0 36 36" aria-hidden="true" data-flag="10190"><use href="/assets/flags/sprite.svg#flag-10190"></use></svg> Taipei</span><a href="/guides/taipei.html" class="tc-guide">Guide</a>
           <span class="tc-card-name badge fam-en fam-en-yellow">EasyCard</span>
           <a class="tc-site" href="https://www.easycard.com.tw/en/" target="_blank" rel="noopener">easycard.com.tw</a>
         </div>
         <div class="tc-network">
-          <span class="net-chip">MRT</span><span class="net-chip">Bus</span><span class="net-chip">Taiwan Railways</span><span class="net-chip">YouBike</span><span class="net-chip">Convenience stores</span>
+          <span class="net-chip badge fam-en fam-en-pink">MRT</span><span class="net-chip badge fam-en fam-en-pink">Bus</span><span class="net-chip badge fam-en fam-en-pink">Taiwan Railways</span><span class="net-chip badge fam-en fam-en-pink">YouBike</span><span class="net-chip badge fam-en fam-en-pink">Convenience stores</span>
         </div>
         <div class="tc-body">
           <div class="tc-grid">
@@ -1987,12 +1992,12 @@
 
       <div class="transit-row" data-verified="2026-08" data-tags="asia bangkok thailand" data-guide="Bangkok">
         <div class="tc-top">
-          <span class="tc-city">🇹🇭 Bangkok</span><a href="/guides/bangkok.html" class="tc-guide">Guide</a>
+          <span class="tc-city"><svg class="flag-svg" viewBox="0 0 36 36" aria-hidden="true" data-flag="10181"><use href="/assets/flags/sprite.svg#flag-10181"></use></svg> Bangkok</span><a href="/guides/bangkok.html" class="tc-guide">Guide</a>
           <span class="tc-card-name badge fam-en fam-en-yellow">Rabbit Card (BTS) + Contactless (MRT)</span>
           <a class="tc-site" href="https://www.bts.co.th/eng/tickets/ticket-rabbit.html" target="_blank" rel="noopener">bts.co.th</a>
         </div>
         <div class="tc-network">
-          <span class="net-chip">BTS Skytrain</span><span class="net-chip">MRT Blue/Purple</span><span class="net-chip">Red Line</span><span class="net-chip">Airport Rail Link</span><span class="net-chip">BRT bus</span>
+          <span class="net-chip badge fam-en fam-en-pink">BTS Skytrain</span><span class="net-chip badge fam-en fam-en-pink">MRT Blue/Purple</span><span class="net-chip badge fam-en fam-en-pink">Red Line</span><span class="net-chip badge fam-en fam-en-pink">Airport Rail Link</span><span class="net-chip badge fam-en fam-en-pink">BRT bus</span>
         </div>
         <div class="tc-body">
           <div class="tc-grid">
@@ -2015,12 +2020,12 @@
 
       <div class="transit-row" data-verified="2026-08" data-tags="asia beijing china" data-guide="Beijing">
         <div class="tc-top">
-          <span class="tc-city">🇨🇳 Beijing</span><a href="/guides/beijing.html" class="tc-guide">Guide</a>
+          <span class="tc-city"><svg class="flag-svg" viewBox="0 0 36 36" aria-hidden="true" data-flag="10038"><use href="/assets/flags/sprite.svg#flag-10038"></use></svg> Beijing</span><a href="/guides/beijing.html" class="tc-guide">Guide</a>
           <span class="tc-card-name badge fam-en fam-en-yellow">Yikatong (一卡通)</span>
           <a class="tc-site" href="https://english.beijing.gov.cn/livinginbeijing/transportation/" target="_blank" rel="noopener">beijing.gov.cn</a>
         </div>
         <div class="tc-network">
-          <span class="net-chip">All 29 Subway lines</span><span class="net-chip">City bus</span><span class="net-chip">Airport Express</span><span class="net-chip">Suburban rail S2</span>
+          <span class="net-chip badge fam-en fam-en-pink">All 29 Subway lines</span><span class="net-chip badge fam-en fam-en-pink">City bus</span><span class="net-chip badge fam-en fam-en-pink">Airport Express</span><span class="net-chip badge fam-en fam-en-pink">Suburban rail S2</span>
         </div>
         <div class="tc-body">
           <div class="tc-grid">
@@ -2042,12 +2047,12 @@
 
       <div class="transit-row" data-verified="2026-08" data-tags="asia shanghai china" data-guide="Shanghai">
         <div class="tc-top">
-          <span class="tc-city">🇨🇳 Shanghai</span><a href="/guides/shanghai.html" class="tc-guide">Guide</a>
+          <span class="tc-city"><svg class="flag-svg" viewBox="0 0 36 36" aria-hidden="true" data-flag="10038"><use href="/assets/flags/sprite.svg#flag-10038"></use></svg> Shanghai</span><a href="/guides/shanghai.html" class="tc-guide">Guide</a>
           <span class="tc-card-name badge fam-en fam-en-yellow">Shanghai Jiaotong Card (交通卡)</span>
           <a class="tc-site" href="https://www.sptcc.com" target="_blank" rel="noopener">sptcc.com</a>
         </div>
         <div class="tc-network">
-          <span class="net-chip">All Metro lines</span><span class="net-chip">Bus</span><span class="net-chip">Ferry</span><span class="net-chip">Tram</span><span class="net-chip">Maglev (Pudong Airport)</span>
+          <span class="net-chip badge fam-en fam-en-pink">All Metro lines</span><span class="net-chip badge fam-en fam-en-pink">Bus</span><span class="net-chip badge fam-en fam-en-pink">Ferry</span><span class="net-chip badge fam-en fam-en-pink">Tram</span><span class="net-chip badge fam-en fam-en-pink">Maglev (Pudong Airport)</span>
         </div>
         <div class="tc-body">
           <div class="tc-grid">
@@ -2069,13 +2074,13 @@
 
       <div class="transit-row" data-verified="2026-08" data-tags="asia doha qatar middle east contactless" data-guide="Doha">
         <div class="tc-top">
-          <span class="tc-city">🇶🇦 Doha</span><a href="/guides/doha.html" class="tc-guide">Guide</a>
+          <span class="tc-city"><svg class="flag-svg" viewBox="0 0 36 36" aria-hidden="true" data-flag="10154"><use href="/assets/flags/sprite.svg#flag-10154"></use></svg> Doha</span><a href="/guides/doha.html" class="tc-guide">Guide</a>
           <span class="tc-card-name badge fam-en fam-en-yellow">Doha Metro Travel Card</span>
           <span class="tc-tap"><span class="badge fam-en fam-en-green">Tap to pay</span></span>
           <a class="tc-site" href="https://www.qr.com.qa/en/doha-metro" target="_blank" rel="noopener">qr.com.qa</a>
         </div>
         <div class="tc-network">
-          <span class="net-chip">Red Line</span><span class="net-chip">Green Line</span><span class="net-chip">Gold Line</span><span class="net-chip">Lusail Tram</span>
+          <span class="net-chip badge fam-en fam-en-pink">Red Line</span><span class="net-chip badge fam-en fam-en-pink">Green Line</span><span class="net-chip badge fam-en fam-en-pink">Gold Line</span><span class="net-chip badge fam-en fam-en-pink">Lusail Tram</span>
         </div>
         <div class="tc-body">
           <div class="tc-grid">
@@ -2098,12 +2103,12 @@
 
       <div class="transit-row" data-verified="2026-08" data-tags="asia abu-dhabi uae" data-guide="Abu-Dhabi">
         <div class="tc-top">
-          <span class="tc-city">🇦🇪 Abu Dhabi</span><a href="/guides/abu-dhabi.html" class="tc-guide">Guide</a>
+          <span class="tc-city"><svg class="flag-svg" viewBox="0 0 36 36" aria-hidden="true" data-flag="10002"><use href="/assets/flags/sprite.svg#flag-10002"></use></svg> Abu Dhabi</span><a href="/guides/abu-dhabi.html" class="tc-guide">Guide</a>
           <span class="tc-card-name badge fam-en fam-en-yellow">Hafilat Card</span>
           <a class="tc-site" href="https://hafilat.gov.ae/en/" target="_blank" rel="noopener">hafilat.gov.ae</a>
         </div>
         <div class="tc-network">
-          <span class="net-chip">City Bus</span><span class="net-chip">Inter-Emirate routes</span>
+          <span class="net-chip badge fam-en fam-en-pink">City Bus</span><span class="net-chip badge fam-en fam-en-pink">Inter-Emirate routes</span>
         </div>
         <div class="tc-body">
           <div class="tc-grid">
@@ -2125,12 +2130,12 @@
 
       <div class="transit-row" data-verified="2026-08" data-tags="asia cairo egypt" data-guide="Cairo">
         <div class="tc-top">
-          <span class="tc-city">🇪🇬 Cairo</span><a href="/guides/cairo.html" class="tc-guide">Guide</a>
+          <span class="tc-city"><svg class="flag-svg" viewBox="0 0 36 36" aria-hidden="true" data-flag="10054"><use href="/assets/flags/sprite.svg#flag-10054"></use></svg> Cairo</span><a href="/guides/cairo.html" class="tc-guide">Guide</a>
           <span class="tc-card-name badge fam-en fam-en-yellow">Cairo Metro Smart Card</span>
           <a class="tc-site" href="https://cairometro.gov.eg" target="_blank" rel="noopener">cairometro.gov.eg</a>
         </div>
         <div class="tc-network">
-          <span class="net-chip">Metro Line 1</span><span class="net-chip">Metro Line 2</span><span class="net-chip">Metro Line 3</span>
+          <span class="net-chip badge fam-en fam-en-pink">Metro Line 1</span><span class="net-chip badge fam-en fam-en-pink">Metro Line 2</span><span class="net-chip badge fam-en fam-en-pink">Metro Line 3</span>
         </div>
         <div class="tc-body">
           <div class="tc-grid">
@@ -2152,12 +2157,12 @@
 
       <div class="transit-row" data-verified="2026-08" data-tags="asia chongqing china" data-guide="Chongqing">
         <div class="tc-top">
-          <span class="tc-city">🇨🇳 Chongqing</span><a href="/guides/chongqing.html" class="tc-guide">Guide</a>
+          <span class="tc-city"><svg class="flag-svg" viewBox="0 0 36 36" aria-hidden="true" data-flag="10038"><use href="/assets/flags/sprite.svg#flag-10038"></use></svg> Chongqing</span><a href="/guides/chongqing.html" class="tc-guide">Guide</a>
           <span class="tc-card-name badge fam-en fam-en-yellow">Yikatong Card</span>
           <a class="tc-site" href="https://cqmetro.cn" target="_blank" rel="noopener">cqmetro.cn</a>
         </div>
         <div class="tc-network">
-          <span class="net-chip">Rail Transit (10 lines)</span><span class="net-chip">Bus</span><span class="net-chip">Yangtze cable car</span>
+          <span class="net-chip badge fam-en fam-en-pink">Rail Transit (10 lines)</span><span class="net-chip badge fam-en fam-en-pink">Bus</span><span class="net-chip badge fam-en fam-en-pink">Yangtze cable car</span>
         </div>
         <div class="tc-body">
           <div class="tc-grid">
@@ -2179,12 +2184,12 @@
 
       <div class="transit-row" data-verified="2026-08" data-tags="asia dubai uae" data-guide="Dubai">
         <div class="tc-top">
-          <span class="tc-city">🇦🇪 Dubai</span><a href="/guides/dubai.html" class="tc-guide">Guide</a>
+          <span class="tc-city"><svg class="flag-svg" viewBox="0 0 36 36" aria-hidden="true" data-flag="10002"><use href="/assets/flags/sprite.svg#flag-10002"></use></svg> Dubai</span><a href="/guides/dubai.html" class="tc-guide">Guide</a>
           <span class="tc-card-name badge fam-en fam-en-yellow">Nol Silver Card</span>
           <a class="tc-site" href="https://www.nol.ae" target="_blank" rel="noopener">nol.ae</a>
         </div>
         <div class="tc-network">
-          <span class="net-chip">Metro (Red &amp; Green)</span><span class="net-chip">Bus</span><span class="net-chip">Tram</span><span class="net-chip">Water Bus</span><span class="net-chip">Palm Monorail</span>
+          <span class="net-chip badge fam-en fam-en-pink">Metro (Red &amp; Green)</span><span class="net-chip badge fam-en fam-en-pink">Bus</span><span class="net-chip badge fam-en fam-en-pink">Tram</span><span class="net-chip badge fam-en fam-en-pink">Water Bus</span><span class="net-chip badge fam-en fam-en-pink">Palm Monorail</span>
         </div>
         <div class="tc-body">
           <div class="tc-grid">
@@ -2207,13 +2212,13 @@
 
       <div class="transit-row" data-verified="2026-08" data-tags="asia hanoi vietnam contactless" data-guide="Hanoi">
         <div class="tc-top">
-          <span class="tc-city">🇻🇳 Hanoi</span><a href="/guides/hanoi.html" class="tc-guide">Guide</a>
+          <span class="tc-city"><svg class="flag-svg" viewBox="0 0 36 36" aria-hidden="true" data-flag="10201"><use href="/assets/flags/sprite.svg#flag-10201"></use></svg> Hanoi</span><a href="/guides/hanoi.html" class="tc-guide">Guide</a>
           <span class="tc-card-name badge fam-en fam-en-yellow">Hanoi Metro Card</span>
           <span class="tc-tap"><span class="badge fam-en fam-en-green">Tap to pay</span></span>
           <a class="tc-site" href="https://hanoimetro.net.vn" target="_blank" rel="noopener">hanoimetro.net.vn</a>
         </div>
         <div class="tc-network">
-          <span class="net-chip">Metro Line 2A (Cát Linh–Hà Đông)</span><span class="net-chip">Line 3 (Nhổn–Hà Nội Station)</span>
+          <span class="net-chip badge fam-en fam-en-pink">Metro Line 2A (Cát Linh–Hà Đông)</span><span class="net-chip badge fam-en fam-en-pink">Line 3 (Nhổn–Hà Nội Station)</span>
         </div>
         <div class="tc-body">
           <div class="tc-grid">
@@ -2235,12 +2240,12 @@
 
       <div class="transit-row" data-verified="2026-08" data-tags="asia tbilisi georgia" data-guide="Tbilisi">
         <div class="tc-top">
-          <span class="tc-city">🇬🇪 Tbilisi</span><a href="/guides/tbilisi.html" class="tc-guide">Guide</a>
+          <span class="tc-city"><svg class="flag-svg" viewBox="0 0 36 36" aria-hidden="true" data-flag="10066"><use href="/assets/flags/sprite.svg#flag-10066"></use></svg> Tbilisi</span><a href="/guides/tbilisi.html" class="tc-guide">Guide</a>
           <span class="tc-card-name badge fam-en fam-en-yellow">Metromoney</span>
           <a class="tc-site" href="https://ttc.com.ge/en/" target="_blank" rel="noopener">ttc.com.ge</a>
         </div>
         <div class="tc-network">
-          <span class="net-chip">Metro</span><span class="net-chip">Bus</span><span class="net-chip">Minibus</span><span class="net-chip">Cable car</span>
+          <span class="net-chip badge fam-en fam-en-pink">Metro</span><span class="net-chip badge fam-en fam-en-pink">Bus</span><span class="net-chip badge fam-en fam-en-pink">Minibus</span><span class="net-chip badge fam-en fam-en-pink">Cable car</span>
         </div>
         <div class="tc-body">
           <div class="tc-grid">
@@ -2270,13 +2275,13 @@
 
       <div class="transit-row" data-verified="2026-08" data-tags="americas new york nyc usa contactless" data-guide="New-York">
         <div class="tc-top">
-          <span class="tc-city">🇺🇸 New York</span><a href="/guides/new-york.html" class="tc-guide">Guide</a>
+          <span class="tc-city"><svg class="flag-svg" viewBox="0 0 36 36" aria-hidden="true" data-flag="10194"><use href="/assets/flags/sprite.svg#flag-10194"></use></svg> New York</span><a href="/guides/new-york.html" class="tc-guide">Guide</a>
           <span class="tc-card-name badge fam-en fam-en-yellow">OMNY (tap to pay)</span>
           <span class="tc-tap"><span class="badge fam-en fam-en-green">Tap to pay</span></span>
           <a class="tc-site" href="https://omny.mta.info" target="_blank" rel="noopener">omny.mta.info</a>
         </div>
         <div class="tc-network">
-          <span class="net-chip">Subway</span><span class="net-chip">Local Bus</span><span class="net-chip">Express Bus</span><span class="net-chip">Staten Island Railway</span>
+          <span class="net-chip badge fam-en fam-en-pink">Subway</span><span class="net-chip badge fam-en fam-en-pink">Local Bus</span><span class="net-chip badge fam-en fam-en-pink">Express Bus</span><span class="net-chip badge fam-en fam-en-pink">Staten Island Railway</span>
         </div>
         <div class="tc-body">
           <div class="tc-grid">
@@ -2299,13 +2304,13 @@
 
       <div class="transit-row" data-verified="2026-08" data-tags="americas washington dc usa contactless" data-guide="Washington-DC">
         <div class="tc-top">
-          <span class="tc-city">🇺🇸 Washington DC</span><a href="/guides/washington-dc.html" class="tc-guide">Guide</a>
+          <span class="tc-city"><svg class="flag-svg" viewBox="0 0 36 36" aria-hidden="true" data-flag="10194"><use href="/assets/flags/sprite.svg#flag-10194"></use></svg> Washington DC</span><a href="/guides/washington-dc.html" class="tc-guide">Guide</a>
           <span class="tc-card-name badge fam-en fam-en-yellow">SmarTrip</span>
           <span class="tc-tap"><span class="badge fam-en fam-en-green">Tap to pay</span></span>
           <a class="tc-site" href="https://www.wmata.com/fares/smartrip/" target="_blank" rel="noopener">wmata.com</a>
         </div>
         <div class="tc-network">
-          <span class="net-chip">Metro</span><span class="net-chip">Metrobus</span><span class="net-chip">DC Circulator</span><span class="net-chip">MARC</span><span class="net-chip">VRE</span>
+          <span class="net-chip badge fam-en fam-en-pink">Metro</span><span class="net-chip badge fam-en fam-en-pink">Metrobus</span><span class="net-chip badge fam-en fam-en-pink">DC Circulator</span><span class="net-chip badge fam-en fam-en-pink">MARC</span><span class="net-chip badge fam-en fam-en-pink">VRE</span>
         </div>
         <div class="tc-body">
           <div class="tc-grid">
@@ -2328,13 +2333,13 @@
 
       <div class="transit-row" data-verified="2026-08" data-tags="americas chicago usa contactless" data-guide="Chicago">
         <div class="tc-top">
-          <span class="tc-city">🇺🇸 Chicago</span><a href="/guides/chicago.html" class="tc-guide">Guide</a>
+          <span class="tc-city"><svg class="flag-svg" viewBox="0 0 36 36" aria-hidden="true" data-flag="10194"><use href="/assets/flags/sprite.svg#flag-10194"></use></svg> Chicago</span><a href="/guides/chicago.html" class="tc-guide">Guide</a>
           <span class="tc-card-name badge fam-en fam-en-yellow">Ventra</span>
           <span class="tc-tap"><span class="badge fam-en fam-en-green">Tap to pay</span></span>
           <a class="tc-site" href="https://www.ventrachicago.com" target="_blank" rel="noopener">ventrachicago.com</a>
         </div>
         <div class="tc-network">
-          <span class="net-chip">CTA El (train)</span><span class="net-chip">CTA Bus</span>
+          <span class="net-chip badge fam-en fam-en-pink">CTA El (train)</span><span class="net-chip badge fam-en fam-en-pink">CTA Bus</span>
         </div>
         <div class="tc-body">
           <div class="tc-grid">
@@ -2357,12 +2362,12 @@
 
       <div class="transit-row" data-verified="2026-08" data-tags="americas sao paulo brazil bilhete unico" data-guide="Sao-Paulo">
         <div class="tc-top">
-          <span class="tc-city">🇧🇷 São Paulo</span><a href="/guides/sao-paulo.html" class="tc-guide">Guide</a>
+          <span class="tc-city"><svg class="flag-svg" viewBox="0 0 36 36" aria-hidden="true" data-flag="10024"><use href="/assets/flags/sprite.svg#flag-10024"></use></svg> São Paulo</span><a href="/guides/sao-paulo.html" class="tc-guide">Guide</a>
           <span class="tc-card-name badge fam-en fam-en-yellow">Bilhete Único</span>
           <a class="tc-site" href="https://www.sptrans.com.br/" target="_blank" rel="noopener">sptrans.com.br</a>
         </div>
         <div class="tc-network">
-          <span class="net-chip">SP Metro</span><span class="net-chip">CPTM</span><span class="net-chip">SPTrans Bus</span>
+          <span class="net-chip badge fam-en fam-en-pink">SP Metro</span><span class="net-chip badge fam-en fam-en-pink">CPTM</span><span class="net-chip badge fam-en fam-en-pink">SPTrans Bus</span>
         </div>
         <div class="tc-body">
           <div class="tc-grid">
@@ -2384,12 +2389,12 @@
 
       <div class="transit-row" data-verified="2026-08" data-tags="americas porto alegre brazil" data-guide="Porto-Alegre">
         <div class="tc-top">
-          <span class="tc-city">🇧🇷 Porto Alegre</span><a href="/guides/porto-alegre.html" class="tc-guide">Guide</a>
+          <span class="tc-city"><svg class="flag-svg" viewBox="0 0 36 36" aria-hidden="true" data-flag="10024"><use href="/assets/flags/sprite.svg#flag-10024"></use></svg> Porto Alegre</span><a href="/guides/porto-alegre.html" class="tc-guide">Guide</a>
           <span class="tc-card-name badge fam-en fam-en-yellow">TRI Card</span>
           <a class="tc-site" href="https://www.eptc.com.br" target="_blank" rel="noopener">eptc.com.br</a>
         </div>
         <div class="tc-network">
-          <span class="net-chip">EPTC Bus</span><span class="net-chip">Trensurb Metro</span>
+          <span class="net-chip badge fam-en fam-en-pink">EPTC Bus</span><span class="net-chip badge fam-en fam-en-pink">Trensurb Metro</span>
         </div>
         <div class="tc-body">
           <div class="tc-grid">
@@ -2411,12 +2416,12 @@
 
       <div class="transit-row" data-verified="2026-08" data-tags="americas curitiba brazil brt" data-guide="Curitiba">
         <div class="tc-top">
-          <span class="tc-city">🇧🇷 Curitiba</span><a href="/guides/curitiba.html" class="tc-guide">Guide</a>
+          <span class="tc-city"><svg class="flag-svg" viewBox="0 0 36 36" aria-hidden="true" data-flag="10024"><use href="/assets/flags/sprite.svg#flag-10024"></use></svg> Curitiba</span><a href="/guides/curitiba.html" class="tc-guide">Guide</a>
           <span class="tc-card-name badge fam-en fam-en-yellow">RIT Card</span>
           <a class="tc-site" href="https://www.urbs.curitiba.pr.gov.br" target="_blank" rel="noopener">urbs.curitiba.pr.gov.br</a>
         </div>
         <div class="tc-network">
-          <span class="net-chip">Ligeirinho BRT</span><span class="net-chip">Expresso Bus</span><span class="net-chip">Interbairros</span><span class="net-chip">Convencional</span>
+          <span class="net-chip badge fam-en fam-en-pink">Ligeirinho BRT</span><span class="net-chip badge fam-en fam-en-pink">Expresso Bus</span><span class="net-chip badge fam-en fam-en-pink">Interbairros</span><span class="net-chip badge fam-en fam-en-pink">Convencional</span>
         </div>
         <div class="tc-body">
           <div class="tc-grid">
@@ -2438,13 +2443,13 @@
 
       <div class="transit-row" data-verified="2026-08" data-tags="americas boston usa contactless" data-guide="Boston">
         <div class="tc-top">
-          <span class="tc-city">🇺🇸 Boston</span><a href="/guides/boston.html" class="tc-guide">Guide</a>
+          <span class="tc-city"><svg class="flag-svg" viewBox="0 0 36 36" aria-hidden="true" data-flag="10194"><use href="/assets/flags/sprite.svg#flag-10194"></use></svg> Boston</span><a href="/guides/boston.html" class="tc-guide">Guide</a>
           <span class="tc-card-name badge fam-en fam-en-yellow">CharlieCard (MBTA)</span>
           <span class="tc-tap"><span class="badge fam-en fam-en-green">Tap to pay</span></span>
           <a class="tc-site" href="https://www.mbta.com/fares/charliecard" target="_blank" rel="noopener">mbta.com</a>
         </div>
         <div class="tc-network">
-          <span class="net-chip">Red/Orange/Blue/Green/Silver Line</span><span class="net-chip">MBTA Bus</span><span class="net-chip">Ferry</span>
+          <span class="net-chip badge fam-en fam-en-pink">Red/Orange/Blue/Green/Silver Line</span><span class="net-chip badge fam-en fam-en-pink">MBTA Bus</span><span class="net-chip badge fam-en fam-en-pink">Ferry</span>
         </div>
         <div class="tc-body">
           <div class="tc-grid">
@@ -2467,13 +2472,13 @@
 
       <div class="transit-row" data-verified="2026-08" data-tags="americas buenos aires argentina contactless" data-guide="Buenos-Aires">
         <div class="tc-top">
-          <span class="tc-city">🇦🇷 Buenos Aires</span><a href="/guides/buenos-aires.html" class="tc-guide">Guide</a>
+          <span class="tc-city"><svg class="flag-svg" viewBox="0 0 36 36" aria-hidden="true" data-flag="10008"><use href="/assets/flags/sprite.svg#flag-10008"></use></svg> Buenos Aires</span><a href="/guides/buenos-aires.html" class="tc-guide">Guide</a>
           <span class="tc-card-name badge fam-en fam-en-yellow">SUBE</span>
           <span class="tc-tap"><span class="badge fam-en fam-en-green">Tap to pay</span></span>
           <a class="tc-site" href="https://www.sube.gob.ar" target="_blank" rel="noopener">sube.gob.ar</a>
         </div>
         <div class="tc-network">
-          <span class="net-chip">Subte (A–F+H)</span><span class="net-chip">City bus (colectivos)</span><span class="net-chip">Suburban commuter trains</span>
+          <span class="net-chip badge fam-en fam-en-pink">Subte (A–F+H)</span><span class="net-chip badge fam-en fam-en-pink">City bus (colectivos)</span><span class="net-chip badge fam-en fam-en-pink">Suburban commuter trains</span>
         </div>
         <div class="tc-body">
           <div class="tc-grid">
@@ -2495,13 +2500,13 @@
 
       <div class="transit-row" data-verified="2026-08" data-tags="americas los angeles usa contactless" data-guide="Los-Angeles">
         <div class="tc-top">
-          <span class="tc-city">🇺🇸 Los Angeles</span><a href="/guides/los-angeles.html" class="tc-guide">Guide</a>
+          <span class="tc-city"><svg class="flag-svg" viewBox="0 0 36 36" aria-hidden="true" data-flag="10194"><use href="/assets/flags/sprite.svg#flag-10194"></use></svg> Los Angeles</span><a href="/guides/los-angeles.html" class="tc-guide">Guide</a>
           <span class="tc-card-name badge fam-en fam-en-yellow">TAP Card</span>
           <span class="tc-tap"><span class="badge fam-en fam-en-green">Tap to pay</span></span>
           <a class="tc-site" href="https://www.taptogo.net" target="_blank" rel="noopener">taptogo.net</a>
         </div>
         <div class="tc-network">
-          <span class="net-chip">LA Metro Rail (A/B/C/D/E/G/K)</span><span class="net-chip">Metro Bus</span><span class="net-chip">26 partner agencies (Big Blue Bus, Culver CityBus…)</span>
+          <span class="net-chip badge fam-en fam-en-pink">LA Metro Rail (A/B/C/D/E/G/K)</span><span class="net-chip badge fam-en fam-en-pink">Metro Bus</span><span class="net-chip badge fam-en fam-en-pink">26 partner agencies (Big Blue Bus, Culver CityBus…)</span>
         </div>
         <div class="tc-body">
           <div class="tc-grid">
@@ -2524,12 +2529,12 @@
 
       <div class="transit-row" data-verified="2026-08" data-tags="americas montreal canada" data-guide="Montreal">
         <div class="tc-top">
-          <span class="tc-city">🇨🇦 Montreal</span><a href="/guides/montreal.html" class="tc-guide">Guide</a>
+          <span class="tc-city"><svg class="flag-svg" viewBox="0 0 36 36" aria-hidden="true" data-flag="10030"><use href="/assets/flags/sprite.svg#flag-10030"></use></svg> Montreal</span><a href="/guides/montreal.html" class="tc-guide">Guide</a>
           <span class="tc-card-name badge fam-en fam-en-yellow">OPUS Card (STM)</span>
           <a class="tc-site" href="https://www.stm.info/en/info/fares/opus-cards" target="_blank" rel="noopener">stm.info</a>
         </div>
         <div class="tc-network">
-          <span class="net-chip">Métro (4 lines)</span><span class="net-chip">STM Bus</span><span class="net-chip">exo commuter rail</span><span class="net-chip">REM</span>
+          <span class="net-chip badge fam-en fam-en-pink">Métro (4 lines)</span><span class="net-chip badge fam-en fam-en-pink">STM Bus</span><span class="net-chip badge fam-en fam-en-pink">exo commuter rail</span><span class="net-chip badge fam-en fam-en-pink">REM</span>
         </div>
         <div class="tc-body">
           <div class="tc-grid">
@@ -2552,13 +2557,13 @@
 
       <div class="transit-row" data-verified="2026-08" data-tags="americas philadelphia usa contactless" data-guide="Philadelphia">
         <div class="tc-top">
-          <span class="tc-city">🇺🇸 Philadelphia</span><a href="/guides/philadelphia.html" class="tc-guide">Guide</a>
+          <span class="tc-city"><svg class="flag-svg" viewBox="0 0 36 36" aria-hidden="true" data-flag="10194"><use href="/assets/flags/sprite.svg#flag-10194"></use></svg> Philadelphia</span><a href="/guides/philadelphia.html" class="tc-guide">Guide</a>
           <span class="tc-card-name badge fam-en fam-en-yellow">SEPTA Key</span>
           <span class="tc-tap"><span class="badge fam-en fam-en-green">Tap to pay</span></span>
           <a class="tc-site" href="https://septakey.org" target="_blank" rel="noopener">septakey.org</a>
         </div>
         <div class="tc-network">
-          <span class="net-chip">Market-Frankford El</span><span class="net-chip">Broad Street Subway</span><span class="net-chip">Trolley</span><span class="net-chip">Bus</span><span class="net-chip">Regional Rail</span>
+          <span class="net-chip badge fam-en fam-en-pink">Market-Frankford El</span><span class="net-chip badge fam-en fam-en-pink">Broad Street Subway</span><span class="net-chip badge fam-en fam-en-pink">Trolley</span><span class="net-chip badge fam-en fam-en-pink">Bus</span><span class="net-chip badge fam-en fam-en-pink">Regional Rail</span>
         </div>
         <div class="tc-body">
           <div class="tc-grid">
@@ -2580,12 +2585,12 @@
 
       <div class="transit-row" data-verified="2026-08" data-tags="americas rio de janeiro brazil" data-guide="Rio-de-Janeiro">
         <div class="tc-top">
-          <span class="tc-city">🇧🇷 Rio de Janeiro</span><a href="/guides/rio-de-janeiro.html" class="tc-guide">Guide</a>
+          <span class="tc-city"><svg class="flag-svg" viewBox="0 0 36 36" aria-hidden="true" data-flag="10024"><use href="/assets/flags/sprite.svg#flag-10024"></use></svg> Rio de Janeiro</span><a href="/guides/rio-de-janeiro.html" class="tc-guide">Guide</a>
           <span class="tc-card-name badge fam-en fam-en-yellow">RioCard Mais + Jaé</span>
           <a class="tc-site" href="https://www.riocard.com.br" target="_blank" rel="noopener">riocard.com.br</a>
         </div>
         <div class="tc-network">
-          <span class="net-chip">MetrôRio</span><span class="net-chip">SuperVia commuter trains</span><span class="net-chip">BRT corridors</span><span class="net-chip">VLT light rail</span><span class="net-chip">City bus</span>
+          <span class="net-chip badge fam-en fam-en-pink">MetrôRio</span><span class="net-chip badge fam-en fam-en-pink">SuperVia commuter trains</span><span class="net-chip badge fam-en fam-en-pink">BRT corridors</span><span class="net-chip badge fam-en fam-en-pink">VLT light rail</span><span class="net-chip badge fam-en fam-en-pink">City bus</span>
         </div>
         <div class="tc-body">
           <div class="tc-grid">
@@ -2607,13 +2612,13 @@
 
       <div class="transit-row" data-verified="2026-08" data-tags="americas san francisco usa contactless" data-guide="San-Francisco">
         <div class="tc-top">
-          <span class="tc-city">🇺🇸 San Francisco</span><a href="/guides/san-francisco.html" class="tc-guide">Guide</a>
+          <span class="tc-city"><svg class="flag-svg" viewBox="0 0 36 36" aria-hidden="true" data-flag="10194"><use href="/assets/flags/sprite.svg#flag-10194"></use></svg> San Francisco</span><a href="/guides/san-francisco.html" class="tc-guide">Guide</a>
           <span class="tc-card-name badge fam-en fam-en-yellow">Clipper Card</span>
           <span class="tc-tap"><span class="badge fam-en fam-en-green">Tap to pay</span></span>
           <a class="tc-site" href="https://www.clippercard.com" target="_blank" rel="noopener">clippercard.com</a>
         </div>
         <div class="tc-network">
-          <span class="net-chip">Muni (all lines + cable cars)</span><span class="net-chip">BART</span><span class="net-chip">Caltrain</span><span class="net-chip">AC Transit</span><span class="net-chip">Golden Gate Transit</span><span class="net-chip">WETA Ferry</span>
+          <span class="net-chip badge fam-en fam-en-pink">Muni (all lines + cable cars)</span><span class="net-chip badge fam-en fam-en-pink">BART</span><span class="net-chip badge fam-en fam-en-pink">Caltrain</span><span class="net-chip badge fam-en fam-en-pink">AC Transit</span><span class="net-chip badge fam-en fam-en-pink">Golden Gate Transit</span><span class="net-chip badge fam-en fam-en-pink">WETA Ferry</span>
         </div>
         <div class="tc-body">
           <div class="tc-grid">
@@ -2636,12 +2641,12 @@
 
       <div class="transit-row" data-verified="2026-08" data-tags="americas santiago chile" data-guide="Santiago">
         <div class="tc-top">
-          <span class="tc-city">🇨🇱 Santiago</span><a href="/guides/santiago.html" class="tc-guide">Guide</a>
+          <span class="tc-city"><svg class="flag-svg" viewBox="0 0 36 36" aria-hidden="true" data-flag="10036"><use href="/assets/flags/sprite.svg#flag-10036"></use></svg> Santiago</span><a href="/guides/santiago.html" class="tc-guide">Guide</a>
           <span class="tc-card-name badge fam-en fam-en-yellow">Tarjeta bip!</span>
           <a class="tc-site" href="https://www.metro.cl" target="_blank" rel="noopener">metro.cl</a>
         </div>
         <div class="tc-network">
-          <span class="net-chip">Metro (7 lines)</span><span class="net-chip">Red Movilidad bus</span><span class="net-chip">MetroTren Nos</span>
+          <span class="net-chip badge fam-en fam-en-pink">Metro (7 lines)</span><span class="net-chip badge fam-en fam-en-pink">Red Movilidad bus</span><span class="net-chip badge fam-en fam-en-pink">MetroTren Nos</span>
         </div>
         <div class="tc-body">
           <div class="tc-grid">
@@ -2663,13 +2668,13 @@
 
       <div class="transit-row" data-verified="2026-08" data-tags="americas seattle usa contactless" data-guide="Seattle">
         <div class="tc-top">
-          <span class="tc-city">🇺🇸 Seattle</span><a href="/guides/seattle.html" class="tc-guide">Guide</a>
+          <span class="tc-city"><svg class="flag-svg" viewBox="0 0 36 36" aria-hidden="true" data-flag="10194"><use href="/assets/flags/sprite.svg#flag-10194"></use></svg> Seattle</span><a href="/guides/seattle.html" class="tc-guide">Guide</a>
           <span class="tc-card-name badge fam-en fam-en-yellow">ORCA Card</span>
           <span class="tc-tap"><span class="badge fam-en fam-en-green">Tap to pay</span></span>
           <a class="tc-site" href="https://www.myorca.com" target="_blank" rel="noopener">myorca.com</a>
         </div>
         <div class="tc-network">
-          <span class="net-chip">Link Light Rail</span><span class="net-chip">King County Metro Bus</span><span class="net-chip">ST Express</span><span class="net-chip">Sounder commuter rail</span><span class="net-chip">WA State Ferries (select)</span>
+          <span class="net-chip badge fam-en fam-en-pink">Link Light Rail</span><span class="net-chip badge fam-en fam-en-pink">King County Metro Bus</span><span class="net-chip badge fam-en fam-en-pink">ST Express</span><span class="net-chip badge fam-en fam-en-pink">Sounder commuter rail</span><span class="net-chip badge fam-en fam-en-pink">WA State Ferries (select)</span>
         </div>
         <div class="tc-body">
           <div class="tc-grid">
@@ -2692,13 +2697,13 @@
 
       <div class="transit-row" data-verified="2026-08" data-tags="americas toronto canada contactless" data-guide="Toronto">
         <div class="tc-top">
-          <span class="tc-city">🇨🇦 Toronto</span><a href="/guides/toronto.html" class="tc-guide">Guide</a>
+          <span class="tc-city"><svg class="flag-svg" viewBox="0 0 36 36" aria-hidden="true" data-flag="10030"><use href="/assets/flags/sprite.svg#flag-10030"></use></svg> Toronto</span><a href="/guides/toronto.html" class="tc-guide">Guide</a>
           <span class="tc-card-name badge fam-en fam-en-yellow">PRESTO Card</span>
           <span class="tc-tap"><span class="badge fam-en fam-en-green">Tap to pay</span></span>
           <a class="tc-site" href="https://www.prestocard.ca" target="_blank" rel="noopener">prestocard.ca</a>
         </div>
         <div class="tc-network">
-          <span class="net-chip">TTC (subway/streetcar/bus)</span><span class="net-chip">GO Transit</span><span class="net-chip">UP Express (airport)</span><span class="net-chip">Brampton/MiWay/YRT</span>
+          <span class="net-chip badge fam-en fam-en-pink">TTC (subway/streetcar/bus)</span><span class="net-chip badge fam-en fam-en-pink">GO Transit</span><span class="net-chip badge fam-en fam-en-pink">UP Express (airport)</span><span class="net-chip badge fam-en fam-en-pink">Brampton/MiWay/YRT</span>
         </div>
         <div class="tc-body">
           <div class="tc-grid">
@@ -2721,13 +2726,13 @@
 
       <div class="transit-row" data-verified="2026-08" data-tags="americas vancouver canada contactless" data-guide="Vancouver">
         <div class="tc-top">
-          <span class="tc-city">🇨🇦 Vancouver</span><a href="/guides/vancouver.html" class="tc-guide">Guide</a>
+          <span class="tc-city"><svg class="flag-svg" viewBox="0 0 36 36" aria-hidden="true" data-flag="10030"><use href="/assets/flags/sprite.svg#flag-10030"></use></svg> Vancouver</span><a href="/guides/vancouver.html" class="tc-guide">Guide</a>
           <span class="tc-card-name badge fam-en fam-en-yellow">Compass Card</span>
           <span class="tc-tap"><span class="badge fam-en fam-en-green">Tap to pay</span></span>
           <a class="tc-site" href="https://www.compasscard.ca" target="_blank" rel="noopener">compasscard.ca</a>
         </div>
         <div class="tc-network">
-          <span class="net-chip">SkyTrain (Expo/Millennium/Canada)</span><span class="net-chip">SeaBus</span><span class="net-chip">TransLink Bus</span><span class="net-chip">West Coast Express</span>
+          <span class="net-chip badge fam-en fam-en-pink">SkyTrain (Expo/Millennium/Canada)</span><span class="net-chip badge fam-en fam-en-pink">SeaBus</span><span class="net-chip badge fam-en fam-en-pink">TransLink Bus</span><span class="net-chip badge fam-en fam-en-pink">West Coast Express</span>
         </div>
         <div class="tc-body">
           <div class="tc-grid">
@@ -2750,13 +2755,13 @@
 
       <div class="transit-row" data-verified="2026-08" data-tags="americas atlanta usa contactless" data-guide="Atlanta">
         <div class="tc-top">
-          <span class="tc-city">🇺🇸 Atlanta</span><a href="/guides/atlanta.html" class="tc-guide">Guide</a>
+          <span class="tc-city"><svg class="flag-svg" viewBox="0 0 36 36" aria-hidden="true" data-flag="10194"><use href="/assets/flags/sprite.svg#flag-10194"></use></svg> Atlanta</span><a href="/guides/atlanta.html" class="tc-guide">Guide</a>
           <span class="tc-card-name badge fam-en fam-en-yellow">Better Breeze Card</span>
           <span class="tc-tap"><span class="badge fam-en fam-en-green">Tap to pay</span></span>
           <a class="tc-site" href="https://www.itsmarta.com" target="_blank" rel="noopener">itsmarta.com</a>
         </div>
         <div class="tc-network">
-          <span class="net-chip">Rail (4 lines)</span><span class="net-chip">Bus</span><span class="net-chip">Streetcar</span>
+          <span class="net-chip badge fam-en fam-en-pink">Rail (4 lines)</span><span class="net-chip badge fam-en fam-en-pink">Bus</span><span class="net-chip badge fam-en fam-en-pink">Streetcar</span>
         </div>
         <div class="tc-body">
           <div class="tc-grid">
@@ -2779,13 +2784,13 @@
 
       <div class="transit-row" data-verified="2026-08" data-tags="americas austin usa contactless" data-guide="Austin">
         <div class="tc-top">
-          <span class="tc-city">🇺🇸 Austin</span><a href="/guides/austin.html" class="tc-guide">Guide</a>
+          <span class="tc-city"><svg class="flag-svg" viewBox="0 0 36 36" aria-hidden="true" data-flag="10194"><use href="/assets/flags/sprite.svg#flag-10194"></use></svg> Austin</span><a href="/guides/austin.html" class="tc-guide">Guide</a>
           <span class="tc-card-name badge fam-en fam-en-yellow">CapMetro Q Card</span>
           <span class="tc-tap"><span class="badge fam-en fam-en-green">Tap to pay</span></span>
           <a class="tc-site" href="https://www.capmetro.org" target="_blank" rel="noopener">capmetro.org</a>
         </div>
         <div class="tc-network">
-          <span class="net-chip">Bus</span><span class="net-chip">MetroRail (Red Line)</span><span class="net-chip">MetroExpress</span>
+          <span class="net-chip badge fam-en fam-en-pink">Bus</span><span class="net-chip badge fam-en fam-en-pink">MetroRail (Red Line)</span><span class="net-chip badge fam-en fam-en-pink">MetroExpress</span>
         </div>
         <div class="tc-body">
           <div class="tc-grid">
@@ -2807,12 +2812,12 @@
 
       <div class="transit-row" data-verified="2026-08" data-tags="americas charlotte usa" data-guide="Charlotte">
         <div class="tc-top">
-          <span class="tc-city">🇺🇸 Charlotte</span><a href="/guides/charlotte.html" class="tc-guide">Guide</a>
+          <span class="tc-city"><svg class="flag-svg" viewBox="0 0 36 36" aria-hidden="true" data-flag="10194"><use href="/assets/flags/sprite.svg#flag-10194"></use></svg> Charlotte</span><a href="/guides/charlotte.html" class="tc-guide">Guide</a>
           <span class="tc-card-name badge fam-en fam-en-yellow">EZ Rider Card</span>
           <a class="tc-site" href="https://charlottenc.gov/CATS" target="_blank" rel="noopener">charlottenc.gov/CATS</a>
         </div>
         <div class="tc-network">
-          <span class="net-chip">Bus</span><span class="net-chip">LYNX Blue Line (light rail)</span><span class="net-chip">CityLYNX Gold Line (free streetcar)</span>
+          <span class="net-chip badge fam-en fam-en-pink">Bus</span><span class="net-chip badge fam-en fam-en-pink">LYNX Blue Line (light rail)</span><span class="net-chip badge fam-en fam-en-pink">CityLYNX Gold Line (free streetcar)</span>
         </div>
         <div class="tc-body">
           <div class="tc-grid">
@@ -2834,13 +2839,13 @@
 
       <div class="transit-row" data-verified="2026-08" data-tags="americas dallas usa contactless" data-guide="Dallas">
         <div class="tc-top">
-          <span class="tc-city">🇺🇸 Dallas</span><a href="/guides/dallas.html" class="tc-guide">Guide</a>
+          <span class="tc-city"><svg class="flag-svg" viewBox="0 0 36 36" aria-hidden="true" data-flag="10194"><use href="/assets/flags/sprite.svg#flag-10194"></use></svg> Dallas</span><a href="/guides/dallas.html" class="tc-guide">Guide</a>
           <span class="tc-card-name badge fam-en fam-en-yellow">GoPass / Contactless</span>
           <span class="tc-tap"><span class="badge fam-en fam-en-green">Tap to pay</span></span>
           <a class="tc-site" href="https://www.dart.org" target="_blank" rel="noopener">dart.org</a>
         </div>
         <div class="tc-network">
-          <span class="net-chip">Light Rail (DART)</span><span class="net-chip">Bus</span><span class="net-chip">Dallas Streetcar</span><span class="net-chip">TRE Commuter Rail</span>
+          <span class="net-chip badge fam-en fam-en-pink">Light Rail (DART)</span><span class="net-chip badge fam-en fam-en-pink">Bus</span><span class="net-chip badge fam-en fam-en-pink">Dallas Streetcar</span><span class="net-chip badge fam-en fam-en-pink">TRE Commuter Rail</span>
         </div>
         <div class="tc-body">
           <div class="tc-grid">
@@ -2862,12 +2867,12 @@
 
       <div class="transit-row" data-verified="2026-08" data-tags="americas denver usa" data-guide="Denver">
         <div class="tc-top">
-          <span class="tc-city">🇺🇸 Denver</span><a href="/guides/denver.html" class="tc-guide">Guide</a>
+          <span class="tc-city"><svg class="flag-svg" viewBox="0 0 36 36" aria-hidden="true" data-flag="10194"><use href="/assets/flags/sprite.svg#flag-10194"></use></svg> Denver</span><a href="/guides/denver.html" class="tc-guide">Guide</a>
           <span class="tc-card-name badge fam-en fam-en-yellow">RTD MyRide</span>
           <a class="tc-site" href="https://www.rtd-denver.com" target="_blank" rel="noopener">rtd-denver.com</a>
         </div>
         <div class="tc-network">
-          <span class="net-chip">Light Rail</span><span class="net-chip">Bus Rapid Transit</span><span class="net-chip">Bus</span><span class="net-chip">Commuter rail (A/B/G Lines)</span>
+          <span class="net-chip badge fam-en fam-en-pink">Light Rail</span><span class="net-chip badge fam-en fam-en-pink">Bus Rapid Transit</span><span class="net-chip badge fam-en fam-en-pink">Bus</span><span class="net-chip badge fam-en fam-en-pink">Commuter rail (A/B/G Lines)</span>
         </div>
         <div class="tc-body">
           <div class="tc-grid">
@@ -2890,13 +2895,13 @@
 
       <div class="transit-row" data-verified="2026-08" data-tags="americas las-vegas usa contactless" data-guide="Las-Vegas">
         <div class="tc-top">
-          <span class="tc-city">🇺🇸 Las Vegas</span><a href="/guides/las-vegas.html" class="tc-guide">Guide</a>
+          <span class="tc-city"><svg class="flag-svg" viewBox="0 0 36 36" aria-hidden="true" data-flag="10194"><use href="/assets/flags/sprite.svg#flag-10194"></use></svg> Las Vegas</span><a href="/guides/las-vegas.html" class="tc-guide">Guide</a>
           <span class="tc-card-name badge fam-en fam-en-yellow">RTC Tap &amp; GO</span>
           <span class="tc-tap"><span class="badge fam-en fam-en-green">Tap to pay</span></span>
           <a class="tc-site" href="https://www.rtcsnv.com" target="_blank" rel="noopener">rtcsnv.com</a>
         </div>
         <div class="tc-network">
-          <span class="net-chip">Deuce (Strip bus)</span><span class="net-chip">Downtown Express (SDX)</span><span class="net-chip">Local bus</span>
+          <span class="net-chip badge fam-en fam-en-pink">Deuce (Strip bus)</span><span class="net-chip badge fam-en fam-en-pink">Downtown Express (SDX)</span><span class="net-chip badge fam-en fam-en-pink">Local bus</span>
         </div>
         <div class="tc-body">
           <div class="tc-grid">
@@ -2918,12 +2923,12 @@
 
       <div class="transit-row" data-verified="2026-08" data-tags="americas lima peru" data-guide="Lima">
         <div class="tc-top">
-          <span class="tc-city">🇵🇪 Lima</span><a href="/guides/lima.html" class="tc-guide">Guide</a>
+          <span class="tc-city"><svg class="flag-svg" viewBox="0 0 36 36" aria-hidden="true" data-flag="10143"><use href="/assets/flags/sprite.svg#flag-10143"></use></svg> Lima</span><a href="/guides/lima.html" class="tc-guide">Guide</a>
           <span class="tc-card-name badge fam-en fam-en-yellow">Lima Metro Card</span>
           <a class="tc-site" href="https://www.lineauno.pe" target="_blank" rel="noopener">lineauno.pe</a>
         </div>
         <div class="tc-network">
-          <span class="net-chip">Metro Line 1 (26 stations)</span>
+          <span class="net-chip badge fam-en fam-en-pink">Metro Line 1 (26 stations)</span>
         </div>
         <div class="tc-body">
           <div class="tc-grid">
@@ -2945,13 +2950,13 @@
 
       <div class="transit-row" data-verified="2026-08" data-tags="americas miami usa contactless" data-guide="Miami">
         <div class="tc-top">
-          <span class="tc-city">🇺🇸 Miami</span><a href="/guides/miami.html" class="tc-guide">Guide</a>
+          <span class="tc-city"><svg class="flag-svg" viewBox="0 0 36 36" aria-hidden="true" data-flag="10194"><use href="/assets/flags/sprite.svg#flag-10194"></use></svg> Miami</span><a href="/guides/miami.html" class="tc-guide">Guide</a>
           <span class="tc-card-name badge fam-en fam-en-yellow">EASY Card</span>
           <span class="tc-tap"><span class="badge fam-en fam-en-green">Tap to pay</span></span>
           <a class="tc-site" href="https://www.miamidade.gov/transit" target="_blank" rel="noopener">miamidade.gov/transit</a>
         </div>
         <div class="tc-network">
-          <span class="net-chip">Metrorail</span><span class="net-chip">Metrobus</span><span class="net-chip">Metromover (free)</span><span class="net-chip">Tri-Rail (some)</span>
+          <span class="net-chip badge fam-en fam-en-pink">Metrorail</span><span class="net-chip badge fam-en fam-en-pink">Metrobus</span><span class="net-chip badge fam-en fam-en-pink">Metromover (free)</span><span class="net-chip badge fam-en fam-en-pink">Tri-Rail (some)</span>
         </div>
         <div class="tc-body">
           <div class="tc-grid">
@@ -2974,12 +2979,12 @@
 
       <div class="transit-row" data-verified="2026-08" data-tags="americas montevideo uruguay" data-guide="Montevideo">
         <div class="tc-top">
-          <span class="tc-city">🇺🇾 Montevideo</span><a href="/guides/montevideo.html" class="tc-guide">Guide</a>
+          <span class="tc-city"><svg class="flag-svg" viewBox="0 0 36 36" aria-hidden="true" data-flag="10195"><use href="/assets/flags/sprite.svg#flag-10195"></use></svg> Montevideo</span><a href="/guides/montevideo.html" class="tc-guide">Guide</a>
           <span class="tc-card-name badge fam-en fam-en-yellow">STM Card</span>
           <a class="tc-site" href="https://www.stm.com.uy" target="_blank" rel="noopener">stm.com.uy</a>
         </div>
         <div class="tc-network">
-          <span class="net-chip">City Bus (all lines)</span>
+          <span class="net-chip badge fam-en fam-en-pink">City Bus (all lines)</span>
         </div>
         <div class="tc-body">
           <div class="tc-grid">
@@ -3001,13 +3006,13 @@
 
       <div class="transit-row" data-verified="2026-08" data-tags="americas nashville usa contactless" data-guide="Nashville">
         <div class="tc-top">
-          <span class="tc-city">🇺🇸 Nashville</span><a href="/guides/nashville.html" class="tc-guide">Guide</a>
+          <span class="tc-city"><svg class="flag-svg" viewBox="0 0 36 36" aria-hidden="true" data-flag="10194"><use href="/assets/flags/sprite.svg#flag-10194"></use></svg> Nashville</span><a href="/guides/nashville.html" class="tc-guide">Guide</a>
           <span class="tc-card-name badge fam-en fam-en-yellow">QuickTicket / Contactless</span>
           <span class="tc-tap"><span class="badge fam-en fam-en-green">Tap to pay</span></span>
           <a class="tc-site" href="https://www.quicktickettn.com" target="_blank" rel="noopener">quicktickettn.com</a>
         </div>
         <div class="tc-network">
-          <span class="net-chip">WeGo Bus (all local + express)</span><span class="net-chip">WeGo Star (commuter rail)</span>
+          <span class="net-chip badge fam-en fam-en-pink">WeGo Bus (all local + express)</span><span class="net-chip badge fam-en fam-en-pink">WeGo Star (commuter rail)</span>
         </div>
         <div class="tc-body">
           <div class="tc-grid">
@@ -3029,12 +3034,12 @@
 
       <div class="transit-row" data-verified="2026-08" data-tags="americas oahu usa" data-guide="Oahu">
         <div class="tc-top">
-          <span class="tc-city">🇺🇸 Oahu</span><a href="/guides/oahu.html" class="tc-guide">Guide</a>
+          <span class="tc-city"><svg class="flag-svg" viewBox="0 0 36 36" aria-hidden="true" data-flag="10194"><use href="/assets/flags/sprite.svg#flag-10194"></use></svg> Oahu</span><a href="/guides/oahu.html" class="tc-guide">Guide</a>
           <span class="tc-card-name badge fam-en fam-en-yellow">Holo Card</span>
           <a class="tc-site" href="https://www.holocard.net" target="_blank" rel="noopener">holocard.net</a>
         </div>
         <div class="tc-network">
-          <span class="net-chip">TheBus (all routes)</span><span class="net-chip">Skyline Rail</span>
+          <span class="net-chip badge fam-en fam-en-pink">TheBus (all routes)</span><span class="net-chip badge fam-en fam-en-pink">Skyline Rail</span>
         </div>
         <div class="tc-body">
           <div class="tc-grid">
@@ -3056,12 +3061,12 @@
 
       <div class="transit-row" data-verified="2026-08" data-tags="americas phoenix usa" data-guide="Phoenix">
         <div class="tc-top">
-          <span class="tc-city">🇺🇸 Phoenix</span><a href="/guides/phoenix.html" class="tc-guide">Guide</a>
+          <span class="tc-city"><svg class="flag-svg" viewBox="0 0 36 36" aria-hidden="true" data-flag="10194"><use href="/assets/flags/sprite.svg#flag-10194"></use></svg> Phoenix</span><a href="/guides/phoenix.html" class="tc-guide">Guide</a>
           <span class="tc-card-name badge fam-en fam-en-yellow">Copper Card</span>
           <a class="tc-site" href="https://www.valleymetro.org" target="_blank" rel="noopener">valleymetro.org</a>
         </div>
         <div class="tc-network">
-          <span class="net-chip">Light Rail (Valley Metro Rail)</span><span class="net-chip">Bus (local + express)</span><span class="net-chip">Streetcar (Tempe)</span>
+          <span class="net-chip badge fam-en fam-en-pink">Light Rail (Valley Metro Rail)</span><span class="net-chip badge fam-en fam-en-pink">Bus (local + express)</span><span class="net-chip badge fam-en fam-en-pink">Streetcar (Tempe)</span>
         </div>
         <div class="tc-body">
           <div class="tc-grid">
@@ -3083,12 +3088,12 @@
 
       <div class="transit-row" data-verified="2026-08" data-tags="americas portland usa" data-guide="Portland">
         <div class="tc-top">
-          <span class="tc-city">🇺🇸 Portland</span><a href="/guides/portland.html" class="tc-guide">Guide</a>
+          <span class="tc-city"><svg class="flag-svg" viewBox="0 0 36 36" aria-hidden="true" data-flag="10194"><use href="/assets/flags/sprite.svg#flag-10194"></use></svg> Portland</span><a href="/guides/portland.html" class="tc-guide">Guide</a>
           <span class="tc-card-name badge fam-en fam-en-yellow">Hop Fastpass</span>
           <a class="tc-site" href="https://myhopcard.com" target="_blank" rel="noopener">myhopcard.com</a>
         </div>
         <div class="tc-network">
-          <span class="net-chip">MAX Light Rail</span><span class="net-chip">Bus (TriMet)</span><span class="net-chip">Portland Streetcar</span><span class="net-chip">WES Commuter Rail</span>
+          <span class="net-chip badge fam-en fam-en-pink">MAX Light Rail</span><span class="net-chip badge fam-en fam-en-pink">Bus (TriMet)</span><span class="net-chip badge fam-en fam-en-pink">Portland Streetcar</span><span class="net-chip badge fam-en fam-en-pink">WES Commuter Rail</span>
         </div>
         <div class="tc-body">
           <div class="tc-grid">
@@ -3110,12 +3115,12 @@
 
       <div class="transit-row" data-verified="2026-08" data-tags="americas quebec-city canada" data-guide="Quebec-City">
         <div class="tc-top">
-          <span class="tc-city">🇨🇦 Québec City</span><a href="/guides/quebec-city.html" class="tc-guide">Guide</a>
+          <span class="tc-city"><svg class="flag-svg" viewBox="0 0 36 36" aria-hidden="true" data-flag="10030"><use href="/assets/flags/sprite.svg#flag-10030"></use></svg> Québec City</span><a href="/guides/quebec-city.html" class="tc-guide">Guide</a>
           <span class="tc-card-name badge fam-en fam-en-yellow">RTC Pass</span>
           <a class="tc-site" href="https://www.rtcquebec.ca/en" target="_blank" rel="noopener">rtcquebec.ca</a>
         </div>
         <div class="tc-network">
-          <span class="net-chip">City Bus</span>
+          <span class="net-chip badge fam-en fam-en-pink">City Bus</span>
         </div>
         <div class="tc-body">
           <div class="tc-grid">
@@ -3137,13 +3142,13 @@
 
       <div class="transit-row" data-verified="2026-08" data-tags="americas san-diego usa contactless" data-guide="San-Diego">
         <div class="tc-top">
-          <span class="tc-city">🇺🇸 San Diego</span><a href="/guides/san-diego.html" class="tc-guide">Guide</a>
+          <span class="tc-city"><svg class="flag-svg" viewBox="0 0 36 36" aria-hidden="true" data-flag="10194"><use href="/assets/flags/sprite.svg#flag-10194"></use></svg> San Diego</span><a href="/guides/san-diego.html" class="tc-guide">Guide</a>
           <span class="tc-card-name badge fam-en fam-en-yellow">PRONTO</span>
           <span class="tc-tap"><span class="badge fam-en fam-en-green">Tap to pay</span></span>
           <a class="tc-site" href="https://www.sdmts.com/pronto" target="_blank" rel="noopener">sdmts.com/pronto</a>
         </div>
         <div class="tc-network">
-          <span class="net-chip">Trolley (Blue/Orange/UC San Diego)</span><span class="net-chip">Bus (MTS)</span><span class="net-chip">Rapid Bus</span>
+          <span class="net-chip badge fam-en fam-en-pink">Trolley (Blue/Orange/UC San Diego)</span><span class="net-chip badge fam-en fam-en-pink">Bus (MTS)</span><span class="net-chip badge fam-en fam-en-pink">Rapid Bus</span>
         </div>
         <div class="tc-body">
           <div class="tc-grid">
@@ -3165,13 +3170,13 @@
 
       <div class="transit-row" data-verified="2026-08" data-tags="americas san-jose usa contactless" data-guide="San-Jose">
         <div class="tc-top">
-          <span class="tc-city">🇺🇸 San José</span><a href="/guides/san-jose.html" class="tc-guide">Guide</a>
+          <span class="tc-city"><svg class="flag-svg" viewBox="0 0 36 36" aria-hidden="true" data-flag="10194"><use href="/assets/flags/sprite.svg#flag-10194"></use></svg> San José</span><a href="/guides/san-jose.html" class="tc-guide">Guide</a>
           <span class="tc-card-name badge fam-en fam-en-yellow">Clipper Card</span>
           <span class="tc-tap"><span class="badge fam-en fam-en-green">Tap to pay</span></span>
           <a class="tc-site" href="https://www.vta.org" target="_blank" rel="noopener">vta.org</a>
         </div>
         <div class="tc-network">
-          <span class="net-chip">VTA Light Rail</span><span class="net-chip">VTA Bus</span><span class="net-chip">Caltrain</span><span class="net-chip">BART (Milpitas / Berryessa)</span>
+          <span class="net-chip badge fam-en fam-en-pink">VTA Light Rail</span><span class="net-chip badge fam-en fam-en-pink">VTA Bus</span><span class="net-chip badge fam-en fam-en-pink">Caltrain</span><span class="net-chip badge fam-en fam-en-pink">BART (Milpitas / Berryessa)</span>
         </div>
         <div class="tc-body">
           <div class="tc-grid">
@@ -3193,13 +3198,13 @@
 
       <div class="transit-row" data-verified="2026-08" data-tags="americas victoria canada contactless" data-guide="Victoria">
         <div class="tc-top">
-          <span class="tc-city">🇨🇦 Victoria</span><a href="/guides/victoria.html" class="tc-guide">Guide</a>
+          <span class="tc-city"><svg class="flag-svg" viewBox="0 0 36 36" aria-hidden="true" data-flag="10030"><use href="/assets/flags/sprite.svg#flag-10030"></use></svg> Victoria</span><a href="/guides/victoria.html" class="tc-guide">Guide</a>
           <span class="tc-card-name badge fam-en fam-en-yellow">Umo Card / Contactless</span>
           <span class="tc-tap"><span class="badge fam-en fam-en-green">Tap to pay</span></span>
           <a class="tc-site" href="https://www.bctransit.com/victoria" target="_blank" rel="noopener">bctransit.com/victoria</a>
         </div>
         <div class="tc-network">
-          <span class="net-chip">City Bus</span>
+          <span class="net-chip badge fam-en fam-en-pink">City Bus</span>
         </div>
         <div class="tc-body">
           <div class="tc-grid">
@@ -3224,18 +3229,18 @@
 
   <!-- ── Oceania ── -->
   <div class="section" data-section="oceania">
-    <div class="section-head">🇦🇺 Oceania</div>
+    <div class="section-head"><svg class="flag-svg" viewBox="0 0 36 36" aria-hidden="true" data-flag="10010"><use href="/assets/flags/sprite.svg#flag-10010"></use></svg> Oceania</div>
     <div class="row-list">
 
       <div class="transit-row" data-verified="2026-08" data-tags="oceania sydney australia contactless" data-guide="Sydney">
         <div class="tc-top">
-          <span class="tc-city">🇦🇺 Sydney</span><a href="/guides/sydney.html" class="tc-guide">Guide</a>
+          <span class="tc-city"><svg class="flag-svg" viewBox="0 0 36 36" aria-hidden="true" data-flag="10010"><use href="/assets/flags/sprite.svg#flag-10010"></use></svg> Sydney</span><a href="/guides/sydney.html" class="tc-guide">Guide</a>
           <span class="tc-card-name badge fam-en fam-en-yellow">Opal Card</span>
           <span class="tc-tap"><span class="badge fam-en fam-en-green">Tap to pay</span></span>
           <a class="tc-site" href="https://www.opal.com.au" target="_blank" rel="noopener">opal.com.au</a>
         </div>
         <div class="tc-network">
-          <span class="net-chip">Train</span><span class="net-chip">Bus</span><span class="net-chip">Ferry</span><span class="net-chip">Light Rail</span>
+          <span class="net-chip badge fam-en fam-en-pink">Train</span><span class="net-chip badge fam-en fam-en-pink">Bus</span><span class="net-chip badge fam-en fam-en-pink">Ferry</span><span class="net-chip badge fam-en fam-en-pink">Light Rail</span>
         </div>
         <div class="tc-body">
           <div class="tc-grid">
@@ -3258,13 +3263,13 @@
 
       <div class="transit-row" data-verified="2026-08" data-tags="oceania melbourne australia contactless" data-guide="Melbourne">
         <div class="tc-top">
-          <span class="tc-city">🇦🇺 Melbourne</span><a href="/guides/melbourne.html" class="tc-guide">Guide</a>
+          <span class="tc-city"><svg class="flag-svg" viewBox="0 0 36 36" aria-hidden="true" data-flag="10010"><use href="/assets/flags/sprite.svg#flag-10010"></use></svg> Melbourne</span><a href="/guides/melbourne.html" class="tc-guide">Guide</a>
           <span class="tc-card-name badge fam-en fam-en-yellow">Myki</span>
           <span class="tc-tap"><span class="badge fam-en fam-en-green">Tap to pay</span></span>
           <a class="tc-site" href="https://www.ptv.vic.gov.au/tickets/myki/" target="_blank" rel="noopener">ptv.vic.gov.au</a>
         </div>
         <div class="tc-network">
-          <span class="net-chip">Train</span><span class="net-chip">Tram</span><span class="net-chip">Bus</span>
+          <span class="net-chip badge fam-en fam-en-pink">Train</span><span class="net-chip badge fam-en fam-en-pink">Tram</span><span class="net-chip badge fam-en fam-en-pink">Bus</span>
         </div>
         <div class="tc-body">
           <div class="tc-grid">
@@ -3287,13 +3292,13 @@
 
       <div class="transit-row" data-verified="2026-08" data-tags="oceania wellington new-zealand contactless" data-guide="Wellington">
         <div class="tc-top">
-          <span class="tc-city">🇳🇿 Wellington</span><a href="/guides/wellington.html" class="tc-guide">Guide</a>
+          <span class="tc-city"><svg class="flag-svg" viewBox="0 0 36 36" aria-hidden="true" data-flag="10140"><use href="/assets/flags/sprite.svg#flag-10140"></use></svg> Wellington</span><a href="/guides/wellington.html" class="tc-guide">Guide</a>
           <span class="tc-card-name badge fam-en fam-en-yellow">Snapper</span>
           <span class="tc-tap"><span class="badge fam-en fam-en-green">Tap to pay</span></span>
           <a class="tc-site" href="https://www.snapper.co.nz" target="_blank" rel="noopener">snapper.co.nz</a>
         </div>
         <div class="tc-network">
-          <span class="net-chip">Bus (Metlink)</span><span class="net-chip">Commuter train</span>
+          <span class="net-chip badge fam-en fam-en-pink">Bus (Metlink)</span><span class="net-chip badge fam-en fam-en-pink">Commuter train</span>
         </div>
         <div class="tc-body">
           <div class="tc-grid">
@@ -3323,12 +3328,12 @@
 
       <div class="transit-row" data-verified="2026-08" data-tags="africa cape-town south-africa" data-guide="Cape-Town">
         <div class="tc-top">
-          <span class="tc-city">🇿🇦 Cape Town</span><a href="/guides/cape-town.html" class="tc-guide">Guide</a>
+          <span class="tc-city"><svg class="flag-svg" viewBox="0 0 36 36" aria-hidden="true" data-flag="10206"><use href="/assets/flags/sprite.svg#flag-10206"></use></svg> Cape Town</span><a href="/guides/cape-town.html" class="tc-guide">Guide</a>
           <span class="tc-card-name badge fam-en fam-en-yellow">myconnect Card</span>
           <a class="tc-site" href="https://www.myciti.org.za" target="_blank" rel="noopener">myciti.org.za</a>
         </div>
         <div class="tc-network">
-          <span class="net-chip">MyCiTi BRT bus</span>
+          <span class="net-chip badge fam-en fam-en-pink">MyCiTi BRT bus</span>
         </div>
         <div class="tc-body">
           <div class="tc-grid">

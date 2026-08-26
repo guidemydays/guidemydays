@@ -187,12 +187,29 @@ tr.ci-city[aria-expanded="true"] .ci-open { transform: rotate(90deg); color: var
 .ci-detail > td { background: var(--surface2,#f0ede8); padding: 16px !important;
   box-shadow: inset 0 1px 0 var(--border,#d8d4cc), inset 0 -1px 0 var(--border,#d8d4cc) !important; }
 .ci-basket { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin: 0 0 12px; max-width: 620px; }
+/* Was a flat white box — the one plain card left on a page that otherwise
+   earns its keep with colour. --tile-ink/--tile-bg are set inline per tile
+   from that DRIVER's own band (not the row's overall band — see tileVars()),
+   the same --fam-*-ink/-bg tokens the bar/rank chip already read, so a tile
+   whose own driver is dear reads dear even inside a cheap-tagged row. Hover
+   lift reuses .best-of-card's exact shadow/translateY — the site's one
+   card-hover idiom, not a new one. */
 .ci-basket-tile {
   background: var(--surface,#fff); border: 1px solid var(--border2,#e6e2da); border-radius: 12px;
-  padding: 10px 12px; display: flex; flex-direction: column; gap: 6px;
+  padding: 12px; display: flex; flex-direction: column; gap: 6px;
+  position: relative; overflow: hidden;
+  transition: box-shadow .15s, border-color .15s, transform .15s;
 }
-.ci-basket-head { display: flex; align-items: center; gap: 7px; }
-.ci-basket-head .gm-i { width: 18px; height: 18px; flex: none; }
+.ci-basket-tile::before { content: ""; position: absolute; top: 0; left: 0; right: 0; height: 3px; background: var(--tile-ink, var(--border2)); }
+.ci-basket-tile:hover { box-shadow: 0 3px 10px rgba(92,61,17,.10); border-color: var(--tile-ink, var(--accent)); transform: translateY(-2px); }
+.ci-basket-head { display: flex; align-items: center; gap: 8px; }
+/* Icon sits in a soft tinted halo instead of bare on white — same "chip"
+   treatment as the rank number, sized off the same tile tint. */
+.ci-basket-icon-chip {
+  display: inline-flex; align-items: center; justify-content: center; flex: none;
+  width: 26px; height: 26px; border-radius: 50%; background: var(--tile-bg, var(--surface2));
+}
+.ci-basket-head .gm-i { width: 16px; height: 16px; flex: none; }
 .ci-basket-label {
   font-size: var(--fs-label,11px); font-weight: 700; letter-spacing: .06em;
   text-transform: uppercase; color: var(--muted,#6a6660);
@@ -317,11 +334,19 @@ html { scroll-behavior: smooth; }
       <button class="ci-btn pill-badge fam-en fam-en-orange"     data-band="Expensive"      aria-pressed="false"><span class="ci-coins"><svg viewBox="0.10 0.10 23.81 23.81" aria-hidden="true"><use href="#gm-i-coin"></use></svg><svg viewBox="0.10 0.10 23.81 23.81" aria-hidden="true"><use href="#gm-i-coin"></use></svg><svg viewBox="0.10 0.10 23.81 23.81" aria-hidden="true"><use href="#gm-i-coin"></use></svg></span>Expensive</button>
       <button class="ci-btn pill-badge fam-en fam-en-purple"     data-band="Very expensive" aria-pressed="false"><span class="ci-coins"><svg viewBox="0.10 0.10 23.81 23.81" aria-hidden="true"><use href="#gm-i-coin"></use></svg><svg viewBox="0.10 0.10 23.81 23.81" aria-hidden="true"><use href="#gm-i-coin"></use></svg><svg viewBox="0.10 0.10 23.81 23.81" aria-hidden="true"><use href="#gm-i-coin"></use></svg><svg viewBox="0.10 0.10 23.81 23.81" aria-hidden="true"><use href="#gm-i-coin"></use></svg></span>Very expensive</button>
     </div>
+    <!-- Sort used the same fam-en gradient pills as the Cost-of-living legend
+         above it, so the two rows read as one long strip of identical
+         colourful controls — "cheapest first" is not a category with a
+         matching badge anywhere on the page, so tinting it via the
+         pill-to-badge family system was a false match. .legend-key is the
+         shared oval/neutral/terracotta-selected control built for exactly
+         this — a clickable row that must never collide with a fam-* strip
+         next to it (essentials-Page-Format.html §5, §12-types "Filter Pill"). -->
     <div class="ci-row pill-badge-strip" id="sort-row" role="group" aria-label="Sort">
       <span class="ci-row-label">Sort</span>
-      <button class="ci-btn pill-badge fam-en fam-en-green is-on" id="sort-asc"  aria-pressed="true">Cheapest first</button>
-      <button class="ci-btn pill-badge fam-en fam-en-red"   id="sort-desc" aria-pressed="false">Most expensive first</button>
-      <button class="ci-btn pill-badge fam-en fam-en-grey"  id="sort-az"   aria-pressed="false">A–Z</button>
+      <button class="ci-btn legend-key is-on" id="sort-asc"  aria-pressed="true">Cheapest first</button>
+      <button class="ci-btn legend-key"       id="sort-desc" aria-pressed="false">Most expensive first</button>
+      <button class="ci-btn legend-key"       id="sort-az"   aria-pressed="false">A–Z</button>
     </div>
   </div>
 
@@ -604,8 +629,15 @@ function coins(band) {
   }
   return out + '</span>';
 }
+/* Enamel — matches the top filter-pill row's gradient family exactly
+   (selection-pills-badges-pills-to-badge-dots.html §5, shipped 2026-08-26).
+   BAND_FAM above is left Vibrant: it also feeds rowVars()/trackStyle() for
+   the bar, rank chip and row hover glow, which are page chrome, not
+   badges, and were never part of that swap. */
+var BAND_FAM_EN = { 'Cheap':'fam-en-green', 'Moderate':'fam-en-blue',
+                     'Expensive':'fam-en-orange', 'Very expensive':'fam-en-purple' };
 function tag(band) {
-  return '<span class="badge ' + BAND_FAM[band] + '">' + coins(band) + band + '</span>';
+  return '<span class="badge fam-en ' + BAND_FAM_EN[band] + '">' + coins(band) + band + '</span>';
 }
 function bandOf(n) {
   return n < 35 ? 'Cheap' : n < 50 ? 'Moderate' : n < 70 ? 'Expensive' : 'Very expensive';
@@ -696,6 +728,14 @@ function rowHTML(r, rank) {
    the top of <body>; every basket tile just <use>s one of the three. */
 var BASKET_ICON = { 'Rent': 1217, 'Eating out': 1211, 'Groceries': 344 };
 
+/* Tints a tile by its OWN driver's band, not the row's overall band — a
+   place tagged Moderate can still have a dear driver, and that is the one
+   thing this breakdown exists to show. */
+function tileVars(band) {
+  var fam = BAND_FAM[band];
+  return 'style="--tile-ink:var(--' + fam + '-ink);--tile-bg:var(--' + fam + '-bg)"';
+}
+
 function detailHTML(r) {
   var out = '<td colspan="4">';
   if (r[N_EV] && r[N_EV].length) {
@@ -703,9 +743,9 @@ function detailHTML(r) {
     r[N_EV].forEach(function (e) {
       var b = bandOf(e[1]);
       var icon = BASKET_ICON[e[0]];
-      out += '<div class="ci-basket-tile">' +
+      out += '<div class="ci-basket-tile" ' + tileVars(b) + '>' +
                '<div class="ci-basket-head">' +
-                 (icon ? '<svg class="gm-i" viewBox="0 0 24 24" aria-hidden="true"><use href="#gm-i-' + icon + '"/></svg>' : '') +
+                 (icon ? '<span class="ci-basket-icon-chip"><svg class="gm-i" viewBox="0 0 24 24" aria-hidden="true"><use href="#gm-i-' + icon + '"/></svg></span>' : '') +
                  '<span class="ci-basket-label">' + e[0] + '</span>' +
                '</div>' +
                tag(b) +

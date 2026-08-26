@@ -2345,7 +2345,8 @@
 /* 2026-08-26: forced cache bump, no code change -- owner asked for a fresh deploy/push cycle to rule out a caching gap after repeated reports that tonight's pill/hover/badge pass wasn't showing live. CACHE to v1612. */
 /* 2026-08-26: before-you-go: .byg-link's 21 literal typed arrow characters replaced with the shared ::after chevron -- page precached, no shared asset moved. CACHE to v1613. */
 /* 2026-08-26: trips: .tsa-link same literal-arrow fix, plus gold hover -> terracotta -- page precached, no shared asset moved. CACHE to v1614. */
-var CACHE = 'travel-cache-v1614';
+/* 2026-08-26: essentials/average-costs: .ci-summary/.ci-name link hovers, gold -> terracotta -- page precached, no shared asset moved. CACHE to v1615. */
+var CACHE = 'travel-cache-v1615';
 
 /* The guide-calendar hand-off cache. Written by toolbar.js, read and emptied
    once by the fetch handler below, and EXEMPT from the activate sweep — it is

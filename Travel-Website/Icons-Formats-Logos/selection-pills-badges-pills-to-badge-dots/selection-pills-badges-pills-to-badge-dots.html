@@ -1,0 +1,1377 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Selection Pills · Pill-to-Badge · Badges · Vibrant · Dots — All Pills, Single Source</title>
+<style>
+:root{
+  --bg:#f5f4f0; --surface:#ffffff; --surface2:#f0ede8; --border:#e6e2da; --border-strong:#d8d4cc;
+  --text:#3d3a32; --muted:#6a6660; --font:'Public Sans',-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif;
+
+  --fam-yellow-bg: #fff8e0; --fam-yellow-bd: rgba(122,88,0,0.85);   --fam-yellow-ink: #8a6524; --fam-yellow-bar: #f5c518;
+  --fam-green-bg:  #e8f5e8; --fam-green-bd:  rgba(26,90,26,0.85);   --fam-green-ink:  #1a5a1a; --fam-green-bar:  #5eb833;
+  --fam-red-bg:    #fdf0e8; --fam-red-bd:    rgba(122,58,26,0.85);  --fam-red-ink:    #7a1414; --fam-red-bar:    #e01818;
+  --fam-blue-bg:   #e8f0fb; --fam-blue-bd:   rgba(26,58,139,0.85);  --fam-blue-ink:   #1a3a8b; --fam-blue-bar:   #4a90e2;
+  --fam-purple-bg: #f2e6ff; --fam-purple-bd: rgba(124,58,237,0.85); --fam-purple-ink: #6425c4; --fam-purple-bar: #a05be8;
+  --fam-orange-bg: #fdf8f0; --fam-orange-bd: rgba(184,134,90,0.85); --fam-orange-ink: #6b4423; --fam-orange-bar: #f5a623; --fam-orange-border: #5c3208;
+  --fam-pink-bg:   rgba(160,40,110,0.08); --fam-pink-bd: rgba(160,40,110,0.85); --fam-pink-ink: #6b1950; --fam-pink-bar: #f688b8;
+  --fam-grey-bg:   rgba(138,108,26,0.07); --fam-grey-bd: rgba(106,102,96,0.85); --fam-grey-ink: #6a6660; --fam-grey-bar: #3a3632;
+
+
+  /* Border RGB triplets — one source for BOTH alphas in the ladder.
+     This is the owner's own pattern from pill-mockups: rgba(var(--x-bd),.4)
+     at rest, rgba(var(--x-bd),.85) when selected. */
+  --fam-yellow-rgb:122,88,0;   --fam-green-rgb:26,90,26;   --fam-red-rgb:122,58,26;
+  --fam-blue-rgb:26,58,139;    --fam-purple-rgb:124,58,237; --fam-orange-rgb:184,134,90;
+  --fam-pink-rgb:160,40,110;   --fam-grey-rgb:106,102,96;
+  --fam-radius: 4px; --fam-gap: 10px;
+
+  /* ---- NEW APPROVED FAMILIES, added 2026-08-25 — see § 5 below.
+     Enamel/Ink/Stamp are ADDITIONAL options, not a replacement for the
+     8 families above; nothing above changed. Enamel is wired into
+     web-travel-style.css and shipped 2026-08-26 on every essentials/
+     page's badges/pill-badges (~3,190 instances across 35 pages, 1:1
+     swap of fam-X → fam-en fam-en-X, same hue per family, no meaning
+     lost) — chosen over Stamp because Stamp's 8 tones are all earth/brown
+     and read as near-identical on a multi-category legend (verified live
+     on the essentials/scams filter row), where Enamel keeps every
+     category visually distinct. Ink/Stamp remain unwired, reference only,
+     until a crib is told to ship one somewhere. */
+  --en-yellow-top:#fff6de; --en-yellow-bot:#fbe4a0; --en-yellow-rim:#c89432; --en-yellow-rimrgb:200,148,50; --en-yellow-text:#7a5a12;
+  --en-green-top:#e9f6e4;  --en-green-bot:#c6e8bc;  --en-green-rim:#4e9350;  --en-green-rimrgb:78,147,80;  --en-green-text:#2c5c2e;
+  --en-red-top:#fde9e1;    --en-red-bot:#f7c3ae;    --en-red-rim:#d06a45;    --en-red-rimrgb:208,106,69;   --en-red-text:#8a3a22;
+  --en-blue-top:#e6f0fc;   --en-blue-bot:#bfdcf5;   --en-blue-rim:#4e85c4;   --en-blue-rimrgb:78,133,196;  --en-blue-text:#24507e;
+  --en-purple-top:#f1e7fb; --en-purple-bot:#d8c2f2; --en-purple-rim:#8b5fc7; --en-purple-rimrgb:139,95,199; --en-purple-text:#593a88;
+  --en-orange-top:#fdefdc; --en-orange-bot:#f7ce9c; --en-orange-rim:#db8e3b; --en-orange-rimrgb:219,142,59; --en-orange-text:#8a551a;
+  --en-pink-top:#fce8f1;   --en-pink-bot:#f3bfda;   --en-pink-rim:#c767a0;   --en-pink-rimrgb:199,103,160; --en-pink-text:#832f5e;
+  --en-grey-top:#f1efea;   --en-grey-bot:#d9d5cb;   --en-grey-rim:#8b8576;   --en-grey-rimrgb:139,133,118; --en-grey-text:#4f4a3e;
+  --en-teal-top:#dff4ef;   --en-teal-bot:#ade0d5;   --en-teal-rim:#3d9a89;   --en-teal-rimrgb:61,154,137;  --en-teal-text:#1c594e;
+  --en-sand-top:#f2e7d6;   --en-sand-bot:#dfc29d;   --en-sand-rim:#a87a48;   --en-sand-rimrgb:168,122,72;  --en-sand-text:#654321;
+
+  --ink-terracotta:#c04e1a; --ink-rust:#8a3f18; --ink-clay:#a8632b; --ink-espresso:#4a2e1a;
+  --ink-saddle:#6b4423;     --ink-beige:#7a6547; --ink-sand:#8f6a3e; --ink-cream:#6b5b3e;
+
+  /* Stamp fills are FIXED — same in both themes, since white text needs a
+     consistently dark-enough ground; see § 5.3. */
+  --st-terracotta:#c04e1a; --st-rust:#8a3f18; --st-clay:#a8632b; --st-espresso:#4a2e1a;
+  --st-saddle:#6b4423;     --st-beige:#7a6547; --st-sand:#8f6a3e; --st-cream:#6b5b3e;
+
+  /* ---- § 2 Selection Pills — 10 approved tones, added 2026-08-25 ----
+     tint-as-rest: --sp-*-ink is border+text, --sp-*-wash is the rest
+     background (a pale tint, never white). Terracotta was tried and
+     dropped — too orange. Dark-mode values not yet decided; light-mode
+     numbers repeated below rather than invented. */
+  --sp-rust-ink:#8a3f18;      --sp-rust-rgb:138,63,24;      --sp-rust-wash:#faf1ea;
+  --sp-clay-ink:#8c6b47;      --sp-clay-rgb:140,107,71;     --sp-clay-wash:#fcf1e7;
+  --sp-espresso-ink:#4a2e1a;  --sp-espresso-rgb:74,46,26;   --sp-espresso-wash:#f5ede6;
+  --sp-saddle-ink:#6b4423;    --sp-saddle-rgb:107,68,35;    --sp-saddle-wash:#f7eee5;
+  --sp-beige-ink:#7a6547;     --sp-beige-rgb:122,101,71;    --sp-beige-wash:#f5f0e7;
+  --sp-sand-ink:#8f6a3e;      --sp-sand-rgb:143,106,62;     --sp-sand-wash:#f8f0e4;
+  --sp-cream-ink:#6b5b3e;     --sp-cream-rgb:107,91,62;     --sp-cream-wash:#f4f0e5;
+  --sp-butter-ink:#7a5c0e;    --sp-butter-rgb:122,92,14;    --sp-butter-wash:#fdf8ee;
+  --sp-amber-ink:#8a6c1a; --sp-amber-rgb:138,108,26; --sp-amber-wash:#fbf3df;
+  --sp-yellow-ink:#8a6524;    --sp-yellow-rgb:138,101,36;   --sp-yellow-wash:#fff8e0;
+}
+@media (prefers-color-scheme: dark){
+  :root{
+    --bg:#1a1917; --surface:#232120; --surface2:#1e1c1a; --border:#332f2a; --border-strong:#3a3730;
+    --text:#e8e5e0; --muted:#9a9690;
+
+    --fam-yellow-bg: #281f00; --fam-yellow-bd: rgba(212,168,48,0.85);  --fam-yellow-ink: #d4a830; --fam-yellow-bar: #f5d040;
+    --fam-green-bg:  #0d200d; --fam-green-bd:  rgba(90,170,94,0.85);   --fam-green-ink:  #5aaa5e; --fam-green-bar:  #7cd050;
+    --fam-red-bg:    #2a1408; --fam-red-bd:    rgba(232,168,128,0.85); --fam-red-ink:    #e8a880; --fam-red-bar:    #ff4a4a;
+    --fam-blue-bg:   #0a1a3a; --fam-blue-bd:   rgba(147,180,255,0.85); --fam-blue-ink:   #93b4ff; --fam-blue-bar:   #7ab0f0;
+    --fam-purple-bg: #2d1b5e; --fam-purple-bd: rgba(192,132,252,0.85); --fam-purple-ink: #c084fc; --fam-purple-bar: #b880f5;
+    --fam-orange-bg: #2a1808; --fam-orange-bd: rgba(220,150,80,0.85);  --fam-orange-ink: #f5a860; --fam-orange-bar: #ffb85a; --fam-orange-border: #f5a860;
+    --fam-pink-bg:   rgba(255,80,155,0.10);  --fam-pink-bd: rgba(255,138,192,0.85); --fam-pink-ink: #ff8ac0; --fam-pink-bar: #ff9ac8;
+    --fam-grey-bg:   rgba(180,175,168,0.10); --fam-grey-bd: rgba(180,175,168,0.85); --fam-grey-ink: #b4afa8; --fam-grey-bar: #b4afa8;
+    --fam-yellow-rgb:212,168,48; --fam-green-rgb:90,170,94;   --fam-red-rgb:232,168,128;
+    --fam-blue-rgb:147,180,255;  --fam-purple-rgb:192,132,252; --fam-orange-rgb:220,150,80;
+    --fam-pink-rgb:255,138,192;  --fam-grey-rgb:180,175,168;
+
+    /* Enamel + Ink dark variants — Stamp fills are fixed, see :root above */
+    --en-yellow-top:#4a3a0e; --en-yellow-bot:#2b2006; --en-yellow-rim:#e8b84a; --en-yellow-rimrgb:232,184,74; --en-yellow-text:#ffe9a8;
+    --en-green-top:#142b15;  --en-green-bot:#0c1b0d;  --en-green-rim:#6bc46e;  --en-green-rimrgb:107,196,110; --en-green-text:#b8eab4;
+    --en-red-top:#3a180d;    --en-red-bot:#221007;    --en-red-rim:#f08659;    --en-red-rimrgb:240,134,89;    --en-red-text:#ffc7a8;
+    --en-blue-top:#10203e;   --en-blue-bot:#0a1526;   --en-blue-rim:#6fa6e8;   --en-blue-rimrgb:111,166,232;  --en-blue-text:#b9d8ff;
+    --en-purple-top:#251638; --en-purple-bot:#170d22; --en-purple-rim:#b084ee; --en-purple-rimrgb:176,132,238; --en-purple-text:#e3cdff;
+    --en-orange-top:#3a2308; --en-orange-bot:#221404; --en-orange-rim:#f5a34e; --en-orange-rimrgb:245,163,78; --en-orange-text:#ffce94;
+    --en-pink-top:#351023;   --en-pink-bot:#200a15;   --en-pink-rim:#ee84be;   --en-pink-rimrgb:238,132,190; --en-pink-text:#ffb9dc;
+    --en-grey-top:#232220;   --en-grey-bot:#161514;   --en-grey-rim:#ada69a;   --en-grey-rimrgb:173,166,154; --en-grey-text:#e4e0d6;
+    --en-teal-top:#0c2823;   --en-teal-bot:#071813;   --en-teal-rim:#4fc2ac;   --en-teal-rimrgb:79,194,172;  --en-teal-text:#a8ebdd;
+    --en-sand-top:#2c2010;   --en-sand-bot:#1a1309;   --en-sand-rim:#c99a5f;   --en-sand-rimrgb:201,154,95;  --en-sand-text:#ead1a4;
+
+    --ink-terracotta:#e0703c; --ink-rust:#c97a4a; --ink-clay:#e8a868; --ink-espresso:#c9a883;
+    --ink-saddle:#d19a61;     --ink-beige:#c7b08a; --ink-sand:#d9bd8c; --ink-cream:#e4d2a8;
+  }
+}
+*{box-sizing:border-box}
+body{margin:0; background:var(--bg); color:var(--text); font:15px/1.6 var(--font); padding:0 0 6rem}
+.wrap{max-width:920px; margin:0 auto; padding:0 clamp(1rem,4vw,2.5rem)}
+
+.top{background:var(--surface2); color:var(--text); border-bottom:1px solid var(--border); padding:2.2rem clamp(1rem,4vw,2.5rem) 1.8rem; margin-bottom:2.5rem}
+.top .eyebrow{font-size:11px; font-weight:700; letter-spacing:.14em; text-transform:uppercase; opacity:.85; margin:0 0 .5rem}
+.top h1{font-size:26px; font-weight:700; margin:0 0 .5rem; max-width:920px; margin-left:auto; margin-right:auto; padding:0 clamp(1rem,4vw,2.5rem)}
+.top p{max-width:70ch; font-size:14px; line-height:1.6; opacity:.92; margin:0 auto; padding:0 clamp(1rem,4vw,2.5rem)}
+.top code{background:var(--surface); border:1px solid var(--border); padding:1px 6px; border-radius:3px; font-family:ui-monospace,SFMono-Regular,Menlo,monospace; font-size:12.5px}
+
+h2{font-size:12px; font-weight:700; letter-spacing:.08em; text-transform:uppercase; color:var(--text); margin:3rem 0 1rem; padding-top:1.5rem; border-top:1px solid var(--border)}
+h2:first-of-type{margin-top:0; padding-top:0; border-top:none}
+h3{font-size:14px; font-weight:700; margin:1.6rem 0 .6rem}
+p.lead{color:var(--muted); font-size:13.5px; line-height:1.65; max-width:70ch; margin:0 0 1.2rem}
+code{font-family:ui-monospace,SFMono-Regular,Menlo,monospace; font-size:12px; background:var(--surface2); padding:1px 6px; border-radius:3px}
+
+.panel{background:var(--surface); border:1px solid var(--border); border-radius:10px; padding:1.4rem 1.6rem; margin-bottom:1rem}
+/* Pills in the same strip share ONE width — the widest label's own
+   width, not each pill shrinking to its own content. CSS Grid 1fr
+   auto-columns on an intrinsically-sized container does NOT equalize
+   to the widest item in practice (verified empirically — it was a
+   wrong assumption, not a working trick) — each column still sizes to
+   its own content. Measuring the widest pill in JS and setting that
+   width on every sibling is the only reliable fix. */
+/* NO overflow here. outline-offset draws OUTSIDE the element box, and
+   any overflow value other than visible creates a clipping context
+   that slices the selection ring into a stray arc fragment. The
+   4px padding gives the ring room to sit without being cut. */
+.strip{display:flex; flex-wrap:wrap; gap:var(--fam-gap); align-items:center; padding:4px 0}
+.stateLabel{font-size:10.5px; font-weight:700; letter-spacing:.06em; text-transform:uppercase; color:var(--muted); margin:0 0 .55rem}
+.stateLabel:not(:first-child){margin-top:1.1rem}
+
+/* the real shared classes — byte-identical to web-travel-style.css */
+/* CENTERING IS LOCKED, both axes, always (owner rule 2026-08-24) — verified
+   with real getBoundingClientRect measurements, not eyeballed: every pill's
+   text sits at topGap === bottomGap exactly (measured 4.00px / 4.00px, diff
+   0.00). Horizontal centering is guaranteed by symmetric left/right padding
+   inside a justify-content:center flex box. line-height MUST stay 1 — at 1.5
+   the line box adds uneven leading around a single line of all-caps text
+   (no descenders), so align-items:center centers the wrong box and the
+   label reads visibly high. Never reintroduce line-height:1.5 here or in
+   web-travel-style.css's matching rule, and never let padding go asymmetric
+   (e.g. "4px 9px 5px 9px") — either one breaks true centering again. */
+.badge, .pillbadge{
+  position:relative; display:inline-flex; align-items:center; justify-content:center; gap:5px; border:1px solid;
+  border-radius:var(--fam-radius); white-space:nowrap; line-height:1;
+  font-weight:700; letter-spacing:.04em;
+  flex-shrink:0;
+}
+/* SIZE IS NO LONGER SHARED — owner rule 2026-08-24, reversing the
+   2026-08-18 "both are the same size, always" rule below in § 4 (that rule
+   text is corrected in place, not left to contradict this). A .pillbadge is
+   a clickable control, usually the only content in its row, so it keeps a
+   fixed size. A .badge sits INLINE, next to other text it is labeling — a
+   table-cell tag next to a 14px place name, a card tag next to a headline —
+   and a fixed 11px/12px badge could be bigger OR smaller than that text
+   depending on the page, which is backwards: "the badge can't be bigger
+   than the text it refers to" was the 2026-08-23 size-split rationale, and
+   a fixed px still doesn't guarantee that on every page. font-size:inherit
+   guarantees it by construction — the badge is always exactly the size of
+   whatever text sits next to it, never a mismatch either direction. Padding
+   is in em so it scales with the inherited size instead of going tiny at a
+   big inherited size or oversized at a small one. */
+.pillbadge{font-size:12px; padding:4px 9px;}
+.badge{font-size:min(1em,12px); padding:3px 8px;}
+/* Badge and pill-to-badge share EVERYTHING ELSE — box, colour AND case.
+   Both are ALL CAPS (owner rule 2026-08-20). BEHAVIOUR (and now size) are
+   the only differences. */
+.badge,.pillbadge{text-transform:uppercase}
+.pillbadge{cursor:pointer; user-select:none}
+/* The approved selected state, verbatim from the owner's own mockup
+   (pill-mockups/01-four-cases-in-order.html): outline + outline-offset.
+   Modern browsers make an outline follow the element's border-radius, so
+   the ring stays proportionate to the pill. A hand-rolled ::after ring at
+   a FIXED small radius is sharper than the 4px pill inside it, which makes
+   the pill itself read as oval by comparison — that was the bug. */
+.badge.is-on,.pillbadge.is-on{outline:1.5px solid currentColor; outline-offset:1px}
+/* Rest-state border is now FULLY OPAQUE (border-color = the family's own ink,
+   or --fam-orange-border for the renamed Brown family) — owner rule
+   2026-08-24, after "border still not dark enough" through two translucency
+   passes (0.4 -> 0.65 -> 0.85 alpha, still not enough). Opaque border-color
+   equal to ink is as dark as a border can read. Selection is carried ENTIRELY
+   by the outline ring above — there is no darker step left to give it, so
+   the old per-family ".is-on{border-color:rgba(...,.85)}" overrides are
+   deleted, not just left in place: they pointed at the PRE-rename ink colors
+   via --fam-*-rgb (never updated when the inks changed) and would have
+   quietly painted a stale, lighter, wrong-toned border on every selected
+   pill the moment it was clicked. */
+
+.fam-yellow{background:var(--fam-yellow-bg); border-color:var(--fam-yellow-ink); color:var(--fam-yellow-ink); font-weight:800}
+.fam-green {background:var(--fam-green-bg);  border-color:var(--fam-green-ink);  color:var(--fam-green-ink)}
+.fam-red   {background:var(--fam-red-bg);    border-color:var(--fam-red-ink);    color:var(--fam-red-ink)}
+.fam-blue  {background:var(--fam-blue-bg);   border-color:var(--fam-blue-ink);   color:var(--fam-blue-ink)}
+.fam-purple{background:var(--fam-purple-bg); border-color:var(--fam-purple-ink); color:var(--fam-purple-ink); font-weight:800}
+/* Brown (site class stays fam-orange — CSS class rename is a separate,
+   larger site-wide migration, not done here; see the renamed-family note
+   near the top of this doc). Border is intentionally its OWN darker token,
+   not the ink — owner wanted the border darker than the text specifically. */
+.fam-orange{background:var(--fam-orange-bg); border-color:var(--fam-orange-border); color:var(--fam-orange-ink)}
+.fam-pink  {background:var(--fam-pink-bg);   border-color:var(--fam-pink-ink);   color:var(--fam-pink-ink)}
+.fam-grey  {background:var(--fam-grey-bg);   border-color:var(--fam-grey-ink);   color:var(--fam-grey-ink); font-weight:800}
+
+/* ============ § 5 NEW APPROVED FAMILIES, added 2026-08-25 ============
+   Enamel/Ink/Stamp reuse the exact same shared .badge/.pillbadge box
+   above (size, radius, gap, case) — only background/border/colour differ. */
+.fam-en{
+  background:linear-gradient(168deg, var(--top) 0%, var(--bot) 100%);
+  border-color:var(--rim); color:var(--text);
+  box-shadow:inset 0 1.25px 0 rgba(255,255,255,.7), inset 0 -2.5px 4px rgba(0,0,0,.10), 0 1px 1px rgba(15,10,5,.10), 0 6px 12px -6px rgba(var(--rimrgb),.5);
+}
+.fam-en-yellow{ --top:var(--en-yellow-top); --bot:var(--en-yellow-bot); --rim:var(--en-yellow-rim); --rimrgb:var(--en-yellow-rimrgb); --text:var(--en-yellow-text); }
+.fam-en-green { --top:var(--en-green-top);  --bot:var(--en-green-bot);  --rim:var(--en-green-rim);  --rimrgb:var(--en-green-rimrgb);  --text:var(--en-green-text); }
+.fam-en-red   { --top:var(--en-red-top);    --bot:var(--en-red-bot);    --rim:var(--en-red-rim);    --rimrgb:var(--en-red-rimrgb);    --text:var(--en-red-text); }
+.fam-en-blue  { --top:var(--en-blue-top);   --bot:var(--en-blue-bot);   --rim:var(--en-blue-rim);   --rimrgb:var(--en-blue-rimrgb);   --text:var(--en-blue-text); }
+.fam-en-purple{ --top:var(--en-purple-top); --bot:var(--en-purple-bot); --rim:var(--en-purple-rim); --rimrgb:var(--en-purple-rimrgb); --text:var(--en-purple-text); }
+.fam-en-orange{ --top:var(--en-orange-top); --bot:var(--en-orange-bot); --rim:var(--en-orange-rim); --rimrgb:var(--en-orange-rimrgb); --text:var(--en-orange-text); }
+.fam-en-pink  { --top:var(--en-pink-top);   --bot:var(--en-pink-bot);   --rim:var(--en-pink-rim);   --rimrgb:var(--en-pink-rimrgb);   --text:var(--en-pink-text); }
+.fam-en-grey  { --top:var(--en-grey-top);   --bot:var(--en-grey-bot);   --rim:var(--en-grey-rim);   --rimrgb:var(--en-grey-rimrgb);   --text:var(--en-grey-text); }
+.fam-en-teal  { --top:var(--en-teal-top);   --bot:var(--en-teal-bot);   --rim:var(--en-teal-rim);   --rimrgb:var(--en-teal-rimrgb);   --text:var(--en-teal-text); }
+.fam-en-sand  { --top:var(--en-sand-top);   --bot:var(--en-sand-bot);   --rim:var(--en-sand-rim);   --rimrgb:var(--en-sand-rimrgb);   --text:var(--en-sand-text); }
+
+.fam-ink{ background:transparent; border-color:transparent; color:var(--ink); }
+.fam-ink.pillbadge{ text-decoration:underline dotted transparent; text-underline-offset:3px; }
+.fam-ink.pillbadge:hover{ text-decoration-color:currentColor; }
+.fam-ink.pillbadge.is-on{ outline:none; text-decoration:underline solid currentColor; }
+.fam-ink-terracotta{ --ink:var(--ink-terracotta); } .fam-ink-rust  { --ink:var(--ink-rust); }
+.fam-ink-clay      { --ink:var(--ink-clay); }       .fam-ink-espresso{ --ink:var(--ink-espresso); }
+.fam-ink-saddle    { --ink:var(--ink-saddle); }     .fam-ink-beige { --ink:var(--ink-beige); }
+.fam-ink-sand      { --ink:var(--ink-sand); }       .fam-ink-cream { --ink:var(--ink-cream); }
+
+.fam-st{ background:var(--fill); border-color:var(--fill); color:#ffffff; box-shadow:0 1px 2px rgba(20,12,5,.14); }
+.fam-st.pillbadge.is-on{ outline:1.5px solid #ffffff; outline-offset:1px; }
+.fam-st-terracotta{ --fill:var(--st-terracotta); } .fam-st-rust  { --fill:var(--st-rust); }
+.fam-st-clay      { --fill:var(--st-clay); }       .fam-st-espresso{ --fill:var(--st-espresso); }
+.fam-st-saddle    { --fill:var(--st-saddle); }     .fam-st-beige { --fill:var(--st-beige); }
+.fam-st-sand      { --fill:var(--st-sand); }       .fam-st-cream { --fill:var(--st-cream); }
+
+/* §§ 5.1-5.3 dots — the legend-key marker for Enamel/Ink/Stamp, same tokens
+   as the badge above it, drawn round instead of rectangular. Combine with a
+   .fam-en-*, .fam-ink-*, .fam-st-* class, e.g. class="dot-e fam-en-yellow". */
+.dot-e, .dot-i, .dot-s{ width:15px; height:15px; border-radius:50%; display:inline-block; }
+.dot-e{
+  background:linear-gradient(160deg, var(--top) 0%, var(--bot) 100%);
+  border:1px solid var(--rim);
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.65), inset 0 -1.5px 2px rgba(0,0,0,.12), 0 2px 4px -1px rgba(var(--rimrgb),.45);
+}
+.dot-i{ background:transparent; border:2px solid var(--ink); }
+.dot-s{ background:var(--fill); border:1.5px solid #ffffff; box-shadow:0 0 0 1px rgba(0,0,0,.15); }
+/* Dot for § 2 Selection Pills — solid fill in the tone's own ink (the
+   wash is too pale to read at 15px), same white edge as Stamp's dot.
+   Combine with a .sp-* class, e.g. class="dot-sp sp-rust". */
+.dot-sp{ width:15px; height:15px; border-radius:50%; display:inline-block; background:var(--sp-ink); border:1.5px solid #ffffff; box-shadow:0 0 0 1px rgba(0,0,0,.15); }
+.dot-strip{ display:flex; flex-wrap:wrap; gap:14px; align-items:center; }
+.dot-strip .dot-item{ display:flex; flex-direction:column; align-items:center; gap:5px; font-size:10px; color:var(--muted); }
+
+/* ============ § 2 SELECTION PILLS — a 999px shape, added 2026-08-25 ============
+   Genuinely different from .badge/.pillbadge: fully rounded, not
+   family-coloured, not badge-anchored. Rest is a pale tint of the tone
+   (never white) — the toolbar's own white-bg spec is exempt from this
+   entirely (Nineteenth non-negotiable) and was tried as the anchor here
+   first; it made every hover read as too subtle, so this pass starts from
+   the tint instead. Only 4 hovers are approved: Darken, Lift, Press, Glow. */
+.selection-pill{
+  box-sizing:border-box; display:inline-flex; align-items:center; line-height:1.2;
+  font-family:inherit; font-weight:600; border-radius:999px;
+  border:1px solid rgba(var(--sp-rgb),.45); background:var(--sp-wash); color:var(--sp-ink);
+  transition:filter .15s ease, box-shadow .15s ease, transform .15s ease, border-color .15s ease;
+}
+.selection-pill{ font-size:14px; padding:8px 18px; cursor:pointer; }
+.selection-pill-sm{
+  box-sizing:border-box; display:inline-flex; align-items:center; line-height:1.2;
+  font-family:inherit; font-weight:600; border-radius:999px;
+  border:1px solid rgba(var(--sp-rgb),.45); background:var(--sp-wash); color:var(--sp-ink);
+  font-size:12px; padding:5px 12px; cursor:pointer;
+  transition:filter .15s ease, box-shadow .15s ease, transform .15s ease, border-color .15s ease;
+}
+.selection-pill.hov-darken:hover{ filter:brightness(.82); border-color:var(--sp-ink); }
+.selection-pill.hov-lift:hover{ transform:translateY(-2px); box-shadow:0 10px 18px -7px rgba(var(--sp-rgb),.45); }
+.selection-pill.hov-press:hover{ filter:brightness(.94); }
+.selection-pill.hov-press:active{ transform:translateY(1px) scale(.98); filter:brightness(.85); box-shadow:inset 0 2px 4px rgba(var(--sp-rgb),.4); }
+.selection-pill.hov-glow:hover{ box-shadow:0 0 0 6px rgba(var(--sp-rgb),.18), 0 0 18px rgba(var(--sp-rgb),.35); border-color:var(--sp-ink); }
+/* Small size only ever gets Darken or Press — the other two stay standard-size only. */
+.selection-pill-sm.hov-darken:hover{ filter:brightness(.82); border-color:var(--sp-ink); }
+.selection-pill-sm.hov-press:hover{ filter:brightness(.94); }
+.selection-pill-sm.hov-press:active{ transform:translateY(1px) scale(.98); filter:brightness(.85); box-shadow:inset 0 2px 4px rgba(var(--sp-rgb),.4); }
+
+/* Same 10 tones, on the existing 4px .badge/.pillbadge rectangle instead —
+   new territory distinct from Enamel/Ink/Stamp's own treatments. */
+.badge-tint, .pillbadge-tint{ background:var(--sp-wash); border-color:rgba(var(--sp-rgb),.45); color:var(--sp-ink); }
+.pillbadge-tint.hov-darken:hover{ filter:brightness(.82); border-color:var(--sp-ink); }
+.pillbadge-tint.hov-lift:hover{ transform:translateY(-2px); box-shadow:0 10px 18px -7px rgba(var(--sp-rgb),.45); }
+.pillbadge-tint.hov-press:hover{ filter:brightness(.94); }
+.pillbadge-tint.hov-press:active{ transform:translateY(1px) scale(.98); filter:brightness(.85); box-shadow:inset 0 2px 4px rgba(var(--sp-rgb),.4); }
+.pillbadge-tint.hov-glow:hover{ box-shadow:0 0 0 6px rgba(var(--sp-rgb),.18), 0 0 18px rgba(var(--sp-rgb),.35); border-color:var(--sp-ink); }
+
+.sp-rust      { --sp-ink:var(--sp-rust-ink);      --sp-rgb:var(--sp-rust-rgb);      --sp-wash:var(--sp-rust-wash); }
+.sp-clay      { --sp-ink:var(--sp-clay-ink);      --sp-rgb:var(--sp-clay-rgb);      --sp-wash:var(--sp-clay-wash); }
+.sp-espresso  { --sp-ink:var(--sp-espresso-ink);  --sp-rgb:var(--sp-espresso-rgb);  --sp-wash:var(--sp-espresso-wash); }
+.sp-saddle    { --sp-ink:var(--sp-saddle-ink);    --sp-rgb:var(--sp-saddle-rgb);    --sp-wash:var(--sp-saddle-wash); }
+.sp-beige     { --sp-ink:var(--sp-beige-ink);     --sp-rgb:var(--sp-beige-rgb);     --sp-wash:var(--sp-beige-wash); }
+.sp-sand      { --sp-ink:var(--sp-sand-ink);      --sp-rgb:var(--sp-sand-rgb);      --sp-wash:var(--sp-sand-wash); }
+.sp-cream     { --sp-ink:var(--sp-cream-ink);     --sp-rgb:var(--sp-cream-rgb);     --sp-wash:var(--sp-cream-wash); }
+.sp-butter    { --sp-ink:var(--sp-butter-ink);    --sp-rgb:var(--sp-butter-rgb);    --sp-wash:var(--sp-butter-wash); }
+.sp-amber { --sp-ink:var(--sp-amber-ink); --sp-rgb:var(--sp-amber-rgb); --sp-wash:var(--sp-amber-wash); }
+.sp-yellow    { --sp-ink:var(--sp-yellow-ink);    --sp-rgb:var(--sp-yellow-rgb);    --sp-wash:var(--sp-yellow-wash); }
+
+table{width:100%; border-collapse:collapse; font-size:12.5px; margin-top:.4rem}
+th{text-align:left; font-weight:700; font-size:10.5px; letter-spacing:.05em; text-transform:uppercase; color:var(--muted); border-bottom:1px solid var(--border); padding:8px 12px 8px 0}
+td{padding:7px 12px 7px 0; border-bottom:1px solid var(--border); vertical-align:middle}
+tr:last-child td{border-bottom:none}
+.sw{display:inline-block; width:20px; height:13px; border-radius:3px; border:1px solid var(--border-strong); vertical-align:-2px; margin-right:7px}
+/* Sizing wrapper for the real catalogue dot icons (defs embedded in <body>
+   above, ids gm-i-dot-*) — the icons themselves are unchanged from
+   Site-Icons.html specimens 856/857/858/859/861/862/863/866, just made to
+   resolve standalone here instead of depending on the live site's sprite. */
+.dot-ic{width:10px; height:10px; display:inline-block; vertical-align:1px; margin-right:4px}
+
+a{color:var(--text); text-decoration:underline}
+
+/* Left bar must actually READ. --border-strong (#d8d4cc) on --surface2
+   (#f0ede8) is nearly the same tone — the bar vanished. --muted is the
+   neutral that carries contrast without reintroducing terracotta. */
+.rule{background:var(--surface2); border-left:4px solid var(--muted); border-radius:8px; padding:.9rem 1.2rem; font-size:13px; line-height:1.6; margin:1rem 0}
+.rule strong{display:block; font-size:11px; letter-spacing:.05em; text-transform:uppercase; color:var(--text); margin-bottom:.3rem}
+.hint{font-size:11.5px; color:var(--muted); margin-top:.7rem}
+.no{color:#c0261a; font-weight:800}
+@media (prefers-color-scheme: dark){ .no{color:#ff8f7a} }
+</style>
+</head>
+<body>
+
+<!-- Real icon-catalogue dot symbols (Site-Icons.html specimens 868/869/870/871/873/874/875/878,
+     the MATTE variants) — flat radial shading, no highlight-ellipse "light reflex." Corrected
+     2026-08-25: this doc originally embedded the glossy-sphere variants (856-867), which DO
+     carry a light-reflex highlight ellipse by catalogue design — wrong pick for a flat legend-key
+     dot. Owner: "these are the wrong dots the right ones do not have the light reflex on top."
+     Embedded locally so <use> resolves standalone — the live site pulls these from a shared
+     sprite this doc doesn't have access to on its own. Ids renamed to the doc's existing
+     semantic names (gm-i-dot-*) rather than the catalogue's numeric ones. -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+<defs>
+<symbol id="gm-i-dot-yellow" viewBox="0 0 24 24"><defs>
+  <radialGradient id="mdot-yellow" cx="40%" cy="34%" r="82%"><stop offset="0%" stop-color="#ffe886"/><stop offset="46%" stop-color="#f3c02e"/><stop offset="100%" stop-color="#a2740a"/></radialGradient>
+  <radialGradient id="mdot-yellow-b" cx="50%" cy="90%" r="42%"><stop offset="0%" stop-color="#ffe886" stop-opacity="0.34"/><stop offset="100%" stop-color="#ffe886" stop-opacity="0"/></radialGradient>
+</defs>
+<circle cx="12" cy="12" r="10.8" fill="url(#mdot-yellow)"/><circle cx="12" cy="12" r="10.8" fill="url(#mdot-yellow-b)"/></symbol>
+<symbol id="gm-i-dot-green" viewBox="0 0 24 24"><defs>
+  <radialGradient id="mdot-green" cx="40%" cy="34%" r="82%"><stop offset="0%" stop-color="#a6e473"/><stop offset="46%" stop-color="#57b334"/><stop offset="100%" stop-color="#2a6a17"/></radialGradient>
+  <radialGradient id="mdot-green-b" cx="50%" cy="90%" r="42%"><stop offset="0%" stop-color="#a6e473" stop-opacity="0.34"/><stop offset="100%" stop-color="#a6e473" stop-opacity="0"/></radialGradient>
+</defs>
+<circle cx="12" cy="12" r="10.8" fill="url(#mdot-green)"/><circle cx="12" cy="12" r="10.8" fill="url(#mdot-green-b)"/></symbol>
+<symbol id="gm-i-dot-red" viewBox="0 0 24 24"><defs>
+  <radialGradient id="mdot-red" cx="40%" cy="34%" r="82%"><stop offset="0%" stop-color="#ff8878"/><stop offset="46%" stop-color="#e03a2b"/><stop offset="100%" stop-color="#8a1a11"/></radialGradient>
+  <radialGradient id="mdot-red-b" cx="50%" cy="90%" r="42%"><stop offset="0%" stop-color="#ff8878" stop-opacity="0.34"/><stop offset="100%" stop-color="#ff8878" stop-opacity="0"/></radialGradient>
+</defs>
+<circle cx="12" cy="12" r="10.8" fill="url(#mdot-red)"/><circle cx="12" cy="12" r="10.8" fill="url(#mdot-red-b)"/></symbol>
+<symbol id="gm-i-dot-blue" viewBox="0 0 24 24"><defs>
+  <radialGradient id="mdot-blue" cx="40%" cy="34%" r="82%"><stop offset="0%" stop-color="#95cbf2"/><stop offset="46%" stop-color="#2c80c9"/><stop offset="100%" stop-color="#123f68"/></radialGradient>
+  <radialGradient id="mdot-blue-b" cx="50%" cy="90%" r="42%"><stop offset="0%" stop-color="#95cbf2" stop-opacity="0.34"/><stop offset="100%" stop-color="#95cbf2" stop-opacity="0"/></radialGradient>
+</defs>
+<circle cx="12" cy="12" r="10.8" fill="url(#mdot-blue)"/><circle cx="12" cy="12" r="10.8" fill="url(#mdot-blue-b)"/></symbol>
+<symbol id="gm-i-dot-purple" viewBox="0 0 24 24"><defs>
+  <radialGradient id="mdot-plum" cx="40%" cy="34%" r="82%"><stop offset="0%" stop-color="#d8abe4"/><stop offset="46%" stop-color="#9a58b6"/><stop offset="100%" stop-color="#523067"/></radialGradient>
+  <radialGradient id="mdot-plum-b" cx="50%" cy="90%" r="42%"><stop offset="0%" stop-color="#d8abe4" stop-opacity="0.34"/><stop offset="100%" stop-color="#d8abe4" stop-opacity="0"/></radialGradient>
+</defs>
+<circle cx="12" cy="12" r="10.8" fill="url(#mdot-plum)"/><circle cx="12" cy="12" r="10.8" fill="url(#mdot-plum-b)"/></symbol>
+<symbol id="gm-i-dot-orange" viewBox="0 0 24 24"><defs>
+  <radialGradient id="mdot-orange" cx="40%" cy="34%" r="82%"><stop offset="0%" stop-color="#ffb75f"/><stop offset="46%" stop-color="#ef7d18"/><stop offset="100%" stop-color="#8f4408"/></radialGradient>
+  <radialGradient id="mdot-orange-b" cx="50%" cy="90%" r="42%"><stop offset="0%" stop-color="#ffb75f" stop-opacity="0.34"/><stop offset="100%" stop-color="#ffb75f" stop-opacity="0"/></radialGradient>
+</defs>
+<circle cx="12" cy="12" r="10.8" fill="url(#mdot-orange)"/><circle cx="12" cy="12" r="10.8" fill="url(#mdot-orange-b)"/></symbol>
+<symbol id="gm-i-dot-pink" viewBox="0 0 24 24"><defs>
+  <radialGradient id="mdot-pink" cx="40%" cy="34%" r="82%"><stop offset="0%" stop-color="#ffadc7"/><stop offset="46%" stop-color="#e76890"/><stop offset="100%" stop-color="#88304e"/></radialGradient>
+  <radialGradient id="mdot-pink-b" cx="50%" cy="90%" r="42%"><stop offset="0%" stop-color="#ffadc7" stop-opacity="0.34"/><stop offset="100%" stop-color="#ffadc7" stop-opacity="0"/></radialGradient>
+</defs>
+<circle cx="12" cy="12" r="10.8" fill="url(#mdot-pink)"/><circle cx="12" cy="12" r="10.8" fill="url(#mdot-pink-b)"/></symbol>
+<symbol id="gm-i-dot-black" viewBox="0 0 24 24"><defs>
+  <radialGradient id="mdot-black" cx="40%" cy="34%" r="82%"><stop offset="0%" stop-color="#7a7a7a"/><stop offset="46%" stop-color="#2c2c2c"/><stop offset="100%" stop-color="#040404"/></radialGradient>
+  <radialGradient id="mdot-black-b" cx="50%" cy="90%" r="42%"><stop offset="0%" stop-color="#7a7a7a" stop-opacity="0.34"/><stop offset="100%" stop-color="#7a7a7a" stop-opacity="0"/></radialGradient>
+</defs>
+<circle cx="12" cy="12" r="10.8" fill="url(#mdot-black)"/><circle cx="12" cy="12" r="10.8" fill="url(#mdot-black-b)"/></symbol>
+</defs>
+</svg>
+
+
+<div class="top">
+  <div class="eyebrow">Brain / Reference / Formatting</div>
+  <h1>Selection Pills · Pill-to-Badge · Badges · Vibrant · Dots — all pills, the single source</h1>
+  <p>Every badge colour, every pill shape, every hover and selected state on the site, in one place. Colours live as CSS custom properties in <code>Travel-Website/assets/web-travel-style.css</code> — this doc mirrors those values exactly, so it never has to be re-derived. Owner rules 2026-08-18.</p>
+</div>
+
+<div class="wrap">
+
+<div class="panel" style="border-left:4px solid #c0261a">
+  <p style="margin:0 0 .6rem; font-size:13.5px; line-height:1.65;"><strong>THIS DOC IS THE SINGLE SOURCE OF TRUTH FOR EVERY NUMBER IN THIS SYSTEM — read it BEFORE changing any font-size, padding, or shape here or in <code>web-travel-style.css</code>, never after.</strong> On 2026-08-24 a crib, working from the owner's live frustration that pages "still look unchanged," unilaterally unified <code>.badge</code> and <code>.pill-badge</code> to a single invented 11px/3px 8px — without opening this doc first. It shipped, the owner caught it from the live site ("no way this was the height i chose"), and the crib had to trace ~11 same-day commits by hand to reconstruct what had actually been agreed here. Owner: <em>"if you dont have all the rules we talled about 100% right it is not point. the validator will enforce the wrong code."</em> · <em>"measure the one i approved and enforce. it is not like whatever."</em></p>
+  <p style="margin:0; font-size:13.5px; line-height:1.65;"><strong>The rule going forward:</strong> (1) open this doc and read it before touching a shared size/padding/shape value — never re-derive from what "reads smaller" on one page, never guess. (2) After shipping, verify the LIVE site with real <code>getComputedStyle()</code> reads on the actual deployed page — done by the assistant itself, directly, not delegated to a subagent and not assumed from having pushed. (3) A push is not "done" until <code>curl</code>'d CSS/asset bytes match the local file — CDN propagation lags the push by up to a minute or two; report status, not intent. (4) When more items need a colour than the 8 families provide, or a row would collide in colour with another row nearby, give it a genuinely different shape (oval <code>.legend-key</code>, neutral, not <code>fam-*</code>) instead of reusing a family colour for a second meaning.</p>
+</div>
+
+<div class="panel" style="border-left:4px solid var(--fam-orange-ink)">
+  <p style="margin:0; font-size:13.5px; line-height:1.65;"><strong>The family formerly called Orange is now BROWN</strong> (owner rule 2026-08-24) — its ink drifted from a warm burnt-orange toward a neutral brown over several rounds of "make it more brown / less orange" tuning, and the display name was updated to match what the colour actually reads as. <strong>The CSS class stays <code>fam-orange</code></strong> everywhere on the live site (<code>class="pill-badge fam-orange"</code>, <code>data-icon="dot-orange"</code>, the <code>--fam-orange-*</code> tokens) — renaming the class itself would be a separate, much larger site-wide sweep across every page that carries it, not done as part of this colour tuning pass. When you see "Brown" in this doc or in <code>Formatting.html#sec-badges</code>, it means this same family.</p>
+</div>
+
+<div class="panel" style="border-left:4px solid var(--muted)">
+  <p style="margin:0; font-size:13.5px; line-height:1.65;"><strong>How this doc is laid out.</strong> § 1 Desktop Pill Format (the toolbar/control-strip shape), then § 2 Selection Pills — the two newest, most actively-worked components lead. Badges come next as one continuous block, § 3 through § 6: what a badge is, its shape (border, padding, radius, gap — shared by <strong>all four</strong> badge families, never changes between them), then the families themselves, Enamel · Ink · Stamp (§ 5) and Vibrant (§ 6, last — least favorite). Only the fill/border/text <strong>colour</strong> differs between families; the shape in § 4 never does. Pill-to-badge (§ 7) comes after Badge is fully explained, since it's the clickable version of the same thing. §§ 8–10 are the deep production-spec reference (full badge rules, filled-vs-outlined, the complete pill/chip/button system); §§ 11–13 are the appendix (scope, source files, an unbuilt concept).</p>
+</div>
+
+<h2 id="sec-desktop-pill-format">1 · Desktop Pill Format (toolbar / control strips, ≥601px)</h2>
+<p class="lead">Canonical spec for desktop pill/button strips. First reference implementation: Guides-Index toolbar (Trips · Stats · Compare cities · Trip Type · When to go · Language · Flight time · Continent · Trip Length · Country · Best of · Also Recommended). Applies to any horizontal control/filter strip on the desktop site.</p>
+
+<div class="rule"><strong>Owner exception — Time Zones, 2026-08-17.</strong> The region + sort strips on <code>time-zones/index.html</code> do NOT follow this squared glued format — the owner found six short region labels reading as a row of boxes, with "All" a big empty square. Both strips instead take the desktop toolbar tab's pill: white ground, <code>999px</code> radius, <code>8px 18px</code>, <code>gap:8px</code>, rim ladder <code>.30</code> rest → <code>.55</code> hover → <code>.85</code> active with warm <code>#fdf4ed</code> fill on the last two and terracotta ink on the selected pill. <strong>This is not drift and must never be "restored" to the squared strip</strong> — the deviation lives inside a <code>min-width:601px</code> media block, which the pill-rest-state check strips before scanning, so a validator run stays clean either way. The page's base <code>.pill</code> rule keeps the standard rest shape; only the media-query override differs.</div>
+
+<h3>1 · The strip</h3>
+<p>Every button in the strip is a peer in a single flex row. Buttons stretch to fill the row width, but not to equal widths — each starts at its intrinsic content width, then grows proportionally.</p>
+<pre>.strip { display:flex; align-items:center; flex-wrap:wrap; }
+.strip-item {
+  flex: 1 1 auto;
+  display: inline-flex; align-items:center; justify-content:center; gap:6px;
+  height: 36px; padding: 0 14px;
+  font-size: 13px; font-weight: 500; line-height: 1;
+  background: var(--surface, #ffffff);
+  border: 1.5px solid var(--border2, #e6e2da);
+  border-radius: 0;                 /* squared corners */
+  cursor: pointer; white-space: nowrap; box-sizing: border-box;
+  margin-left: 0;                   /* NO overlap trick */
+}</pre>
+
+<h3>2 · Dimensions &amp; typography</h3>
+<table>
+<tr><th>Property</th><th>Value</th></tr>
+<tr><td>Height</td><td><code>36px</code></td></tr>
+<tr><td>Padding</td><td><code>0 14px</code> uniform</td></tr>
+<tr><td>Font</td><td><code>inherit</code> family · <code>13px</code> · weight <code>500</code> · line-height <code>1</code></td></tr>
+<tr><td>Icon/emoji gap</td><td><code>6px</code></td></tr>
+</table>
+
+<h3>3 · Borders &amp; spacing</h3>
+<p>Every button carries a full <strong>1.5px border on all four sides</strong>, white interior. Adjacent buttons <strong>touch edge-to-edge</strong> — the visible divider between neighbors is two 1.5px borders side-by-side, rendering as one continuous 3px line. The outer perimeter of the whole strip stays a single 1.5px line.</p>
+<div class="rule"><strong>Do not</strong> use <code>margin-left:-1.5px</code> or any negative-margin overlap — the legacy glue trick produced inconsistent borders when mixed with wrapped items, because a wrapper never inherited the overlap. Kill the overlap on every item, direct or wrapped, and let borders touch naturally. <strong>Do not</strong> set <code>column-gap</code>, add <code>margin-right</code>, or otherwise inject spacing — the spec says touch; the page background must not show through anywhere between adjacent buttons.</div>
+
+<h3>4 · Text color — two variants (per-strip, not per-button)</h3>
+<p><strong>Variant A — GOLD, scope-locked to the Guides-Index toolbar only.</strong> <code>color:#8a6c1a</code>. Every other desktop pill strip on the site uses Variant B — do not extend gold to essentials/Best-Of/any in-page filter or nav strip.</p>
+<p><strong>Variant B — BLACK, used everywhere else</strong> (in-page filter rows, section-nav grids, tab strips). <code>color:#3d3a32</code> — matches <code>.days-jump-item</code>, <code>.lang-menu-item</code>, <code>.gtag</code>, <code>#country-select</code>.</p>
+
+<h3>5 · States</h3>
+<table>
+<tr><th>State</th><th>Background</th><th>Border</th><th>Text</th></tr>
+<tr><td>Rest</td><td><code>var(--surface, #fff)</code></td><td><code>1.5px var(--border2, #e6e2da)</code></td><td>gold <code>#8a6c1a</code> or black <code>#1a1917</code> (§ 4)</td></tr>
+<tr><td>Hover</td><td><code>var(--surface)</code></td><td><code>1.5px #C04E1A</code></td><td><code>#C04E1A</code></td></tr>
+<tr><td>Selected / expanded / <strong>pushed-down</strong> (<code>.on</code>, <code>[aria-expanded="true"]</code>)</td><td><code>#f0ede8</code> — LOCKED</td><td><code>1.5px var(--border)</code></td><td>muted <code>#6a6660</code></td></tr>
+</table>
+<p>The pushed-down look is the signature interactive-feedback state — a subtle pressed-in "well," not a bright highlight, so it must look identical everywhere a user learns to recognize it. Use it for <code>.on</code>/<code>[aria-expanded="true"]</code> on toolbar/control pills with a state; for <code>:hover</code> on navigation/jump pills without a selected state (essentials <code>.jump-pill</code>, Best-Of nav strips); and for <code>:focus-visible</code> everywhere, for keyboard users.</p>
+<div class="rule"><strong>LOCKED — never change:</strong> the pushed-down background must be hard-coded <code>#f0ede8</code>. Never <code>var(--surface2)</code>, never white, never terracotta. Hard-fail validated. <strong>No terracotta-gradient <code>:active</code> flash</strong> either — don't add an <code>:active</code> rule that swaps to the bright gradient; the momentary flash reads as jarring and hover/pushed-down already carry the feedback. Let the click just navigate.</div>
+
+<h3>6 · Icons / emoji</h3>
+<p>Emoji in the label render as OS-colored characters on both variants — that's the accepted look. Don't wrap them in a span to force a color; the icon-color-vs-text-color contrast is intentional.</p>
+
+<h3>7 · What this replaces</h3>
+<p>The old <code>margin-left:-1.5px</code> overlap trick, the old <code>border-radius:6px</code> pill shape, and the old equal-width <code>flex:1 1 0</code> stretch (now content-proportional <code>flex:1 1 auto</code>) — all killed on desktop only. Mobile pill format is unchanged and lives in <code>mobile.css</code> (Form A / Form B, § 10 below).</p>
+
+<h2>2 · Selection Pills, Badge (tint) &amp; Pill-to-Badge (tint) — approved 2026-08-25</h2>
+<p class="lead">10 tones, tint-as-rest (a pale tint at rest, never white), 4 approved hovers — worked out in its own review session after the toolbar's own white-bg spec was tried as the anchor first and dropped as too subtle. Applies across three shapes: the new <strong>Selection Pills</strong> 999px pill, and the same tones dropped onto the existing <strong>Badge</strong> / <strong>Pill-to-Badge</strong> 4px rectangle from § 3 and § 7 — new territory there too, distinct from Enamel/Ink/Stamp's own treatments.</p>
+
+<h3>2.1 · The 10 tones</h3>
+<div class="panel">
+  <div class="strip" id="sp-demo">
+    <span class="selection-pill hov-darken sp-rust" data-sp>OLD TOWN</span>
+    <span class="selection-pill hov-darken sp-clay" data-sp>ARTISAN</span>
+    <span class="selection-pill hov-darken sp-espresso" data-sp>SLOW TRAVEL</span>
+    <span class="selection-pill hov-darken sp-saddle" data-sp>HOMESTYLE</span>
+    <span class="selection-pill hov-darken sp-beige" data-sp>MARKET FIND</span>
+    <span class="selection-pill hov-darken sp-sand" data-sp>LOCAL TIP</span>
+    <span class="selection-pill hov-darken sp-cream" data-sp>VINTAGE</span>
+    <span class="selection-pill hov-darken sp-butter" data-sp>RESET ALL</span>
+    <span class="selection-pill hov-darken sp-amber" data-sp>HIGHLIGHTS</span>
+    <span class="selection-pill hov-darken sp-yellow" data-sp>OVERCHARGE</span>
+  </div>
+  <table>
+    <tr><th>Tone</th><th>Ink (border+text)</th><th>Wash (rest bg)</th><th>Source</th></tr>
+    <tr><td>Rust</td><td><span class="sw" style="background:var(--sp-rust-ink)"></span><code>--sp-rust-ink</code></td><td><code>--sp-rust-wash</code></td><td>new</td></tr>
+    <tr><td>Clay</td><td><span class="sw" style="background:var(--sp-clay-ink)"></span><code>--sp-clay-ink</code></td><td><code>--sp-clay-wash</code></td><td>new</td></tr>
+    <tr><td>Espresso</td><td><span class="sw" style="background:var(--sp-espresso-ink)"></span><code>--sp-espresso-ink</code></td><td><code>--sp-espresso-wash</code></td><td>new</td></tr>
+    <tr><td>Saddle</td><td><span class="sw" style="background:var(--sp-saddle-ink)"></span><code>--sp-saddle-ink</code></td><td><code>--sp-saddle-wash</code></td><td>new</td></tr>
+    <tr><td>Beige</td><td><span class="sw" style="background:var(--sp-beige-ink)"></span><code>--sp-beige-ink</code></td><td><code>--sp-beige-wash</code></td><td>new</td></tr>
+    <tr><td>Sand</td><td><span class="sw" style="background:var(--sp-sand-ink)"></span><code>--sp-sand-ink</code></td><td><code>--sp-sand-wash</code></td><td>new</td></tr>
+    <tr><td>Cream</td><td><span class="sw" style="background:var(--sp-cream-ink)"></span><code>--sp-cream-ink</code></td><td><code>--sp-cream-wash</code></td><td>new</td></tr>
+    <tr><td>Butter</td><td><span class="sw" style="background:var(--sp-butter-ink)"></span><code>--sp-butter-ink</code></td><td><code>--sp-butter-wash</code></td><td>real — <code>.reset-btn</code> in essentials/packing/index.html</td></tr>
+    <tr><td>Amber</td><td><span class="sw" style="background:var(--sp-amber-ink)"></span><code>--sp-amber-ink</code></td><td><code>--sp-amber-wash</code></td><td>new</td></tr>
+    <tr><td>Yellow</td><td><span class="sw" style="background:var(--sp-yellow-ink)"></span><code>--sp-yellow-ink</code></td><td><code>--sp-yellow-wash</code></td><td>real — the canonical <code>--fam-yellow-ink</code>, further below in § 6</td></tr>
+  </table>
+  <p class="hint">Terracotta was tried and dropped — too orange, and too close to the toolbar's own colour. Sky/Sage/Lavender/Blush were tried and dropped too — not what was wanted; gold/earth tones only. Dark-mode values are not yet decided — do not invent them from these light-mode numbers.</p>
+</div>
+
+<h3>2.2 · Selection Pills — the 999px shape</h3>
+<p class="lead">A genuinely different shape from Badge/Pill-to-Badge: fully rounded, not family-coloured. <strong>The toolbar's own version of this pill is exempt from everything here</strong> — it can look like anything the owner wants, at any time, and a crib never restructures it (Nineteenth non-negotiable); that exemption belongs to the toolbar alone and does not license any other pill on the site to invent its own shape or hover.</p>
+<div class="rule"><strong>The toolbar itself, as of 2026-08-25/26 — reference only, not a rule.</strong> The owner tried this doc's Saddle tone (<code>sp-saddle</code>, "HOMESTYLE" in § 2.1) with the Glow hover (§ 2.6) directly on the live desktop toolbar (<code>assets/toolbar.js</code> — <code>.tb-links>a</code>/<code>.tb-ddbtn</code> and their hover/active/open-dropdown states) and kept it, replacing the retired terracotta rim-ladder (<code>rgba(192,78,26,…)</code> .30/.55/.85, <code>#fdf4ed</code> fill) that the old <code>check_no_hand_rolled_selection_pill</code> (Cleanliness rule 954) description still names as "the toolbar's canonical definition" — that description is now historical, not current. Current toolbar values: rest <code>background:#f7eee5</code> / <code>border:1px solid rgba(107,68,35,.45)</code> / <code>color:#6b4423</code>; hover adds the Glow halo (<code>box-shadow:0 0 0 6px rgba(107,68,35,.18), 0 0 18px rgba(107,68,35,.35)</code>) and a solid <code>#6b4423</code> border, no fill change; active/open takes the same wash with a solid <code>#6b4423</code> border. Shipped commit <code>6058eedc9</code>; protected against an unnoticed revert by <code>brain_check.py check_toolbar_pill_saddle_glow</code> (Cleanliness rule 963); full state table in <code>Brain/Reference/Toolbar-Nav/Toolbar.html § 5</code>. <strong>None of this is a rule for any other pill</strong> — it documents what the exempt toolbar currently looks like, nothing more, and the owner can change it again at any time without touching this doc's own approved formats.</div>
+<div class="panel">
+  <table>
+    <tr><th>Property</th><th>Value</th></tr>
+    <tr><td>Shape</td><td><code>border-radius: 999px</code>, <code>border: 1px solid rgba(ink-rgb, .45)</code></td></tr>
+    <tr><td>Rest</td><td>background = the tone's wash (pale tint, never white), colour = the tone's ink</td></tr>
+    <tr><td>Standard size</td><td><code>font-size: 14px</code>, <code>padding: 8px 18px</code> — a reference point, scale up/down as context calls for</td></tr>
+    <tr><td>Small size</td><td><code>.selection-pill-sm</code> — <code>font-size: 12px</code>, <code>padding: 5px 12px</code>, static by default; only Darken and Press get small-size interactivity</td></tr>
+    <tr><td>Hover: Darken</td><td><code>filter: brightness(.82)</code> — tint deepens toward the solid ink. No <code>saturate()</code> boost — that pushed the hover colour toward orange and was removed.</td></tr>
+    <tr><td>Hover: Lift</td><td>colour unchanged, <code>translateY(-2px)</code> + a tinted shadow raises the pill</td></tr>
+    <tr><td>Hover: Press</td><td>hover dims (<code>brightness(.94)</code>), <code>:active</code> pushes the pill down 1px with an inset shadow</td></tr>
+    <tr><td>Hover: Glow</td><td>an ambient halo (<code>box-shadow</code> ring + blur) instead of a directional shadow</td></tr>
+  </table>
+  <p class="hint">Class names: <code>.selection-pill</code> + a <code>.sp-*</code> tone class + a <code>.hov-*</code> hover class, e.g. <code>&lt;span class="selection-pill hov-darken sp-rust"&gt;OLD TOWN&lt;/span&gt;</code>. Hover any pill below live to feel each one — every strip is the full 10 tones.</p>
+</div>
+
+<h3>2.3 · Selection Pills — Darken, all 10 tones</h3>
+<div class="panel"><div class="strip">
+  <span class="selection-pill hov-darken sp-rust">OLD TOWN</span>
+  <span class="selection-pill hov-darken sp-clay">ARTISAN</span>
+  <span class="selection-pill hov-darken sp-espresso">SLOW TRAVEL</span>
+  <span class="selection-pill hov-darken sp-saddle">HOMESTYLE</span>
+  <span class="selection-pill hov-darken sp-beige">MARKET FIND</span>
+  <span class="selection-pill hov-darken sp-sand">LOCAL TIP</span>
+  <span class="selection-pill hov-darken sp-cream">VINTAGE</span>
+  <span class="selection-pill hov-darken sp-butter">RESET ALL</span>
+  <span class="selection-pill hov-darken sp-amber">HIGHLIGHTS</span>
+  <span class="selection-pill hov-darken sp-yellow">OVERCHARGE</span>
+</div></div>
+
+<h3>2.4 · Selection Pills — Lift, all 10 tones</h3>
+<div class="panel"><div class="strip">
+  <span class="selection-pill hov-lift sp-rust">OLD TOWN</span>
+  <span class="selection-pill hov-lift sp-clay">ARTISAN</span>
+  <span class="selection-pill hov-lift sp-espresso">SLOW TRAVEL</span>
+  <span class="selection-pill hov-lift sp-saddle">HOMESTYLE</span>
+  <span class="selection-pill hov-lift sp-beige">MARKET FIND</span>
+  <span class="selection-pill hov-lift sp-sand">LOCAL TIP</span>
+  <span class="selection-pill hov-lift sp-cream">VINTAGE</span>
+  <span class="selection-pill hov-lift sp-butter">RESET ALL</span>
+  <span class="selection-pill hov-lift sp-amber">HIGHLIGHTS</span>
+  <span class="selection-pill hov-lift sp-yellow">OVERCHARGE</span>
+</div></div>
+
+<h3>2.5 · Selection Pills — Press, all 10 tones</h3>
+<p class="lead">Hover to anticipate, click and hold to feel it push in.</p>
+<div class="panel"><div class="strip">
+  <span class="selection-pill hov-press sp-rust">OLD TOWN</span>
+  <span class="selection-pill hov-press sp-clay">ARTISAN</span>
+  <span class="selection-pill hov-press sp-espresso">SLOW TRAVEL</span>
+  <span class="selection-pill hov-press sp-saddle">HOMESTYLE</span>
+  <span class="selection-pill hov-press sp-beige">MARKET FIND</span>
+  <span class="selection-pill hov-press sp-sand">LOCAL TIP</span>
+  <span class="selection-pill hov-press sp-cream">VINTAGE</span>
+  <span class="selection-pill hov-press sp-butter">RESET ALL</span>
+  <span class="selection-pill hov-press sp-amber">HIGHLIGHTS</span>
+  <span class="selection-pill hov-press sp-yellow">OVERCHARGE</span>
+</div></div>
+
+<h3>2.6 · Selection Pills — Glow, all 10 tones</h3>
+<div class="panel"><div class="strip">
+  <span class="selection-pill hov-glow sp-rust">OLD TOWN</span>
+  <span class="selection-pill hov-glow sp-clay">ARTISAN</span>
+  <span class="selection-pill hov-glow sp-espresso">SLOW TRAVEL</span>
+  <span class="selection-pill hov-glow sp-saddle">HOMESTYLE</span>
+  <span class="selection-pill hov-glow sp-beige">MARKET FIND</span>
+  <span class="selection-pill hov-glow sp-sand">LOCAL TIP</span>
+  <span class="selection-pill hov-glow sp-cream">VINTAGE</span>
+  <span class="selection-pill hov-glow sp-butter">RESET ALL</span>
+  <span class="selection-pill hov-glow sp-amber">HIGHLIGHTS</span>
+  <span class="selection-pill hov-glow sp-yellow">OVERCHARGE</span>
+</div></div>
+
+<h3>2.7 · Selection Pills — Small size, all 10 tones</h3>
+<p class="lead">Static by default (<code>.selection-pill-sm</code>, no hover class) — the reference point for the smaller, quieter contexts these show up in sometimes. Standard and Small are both reference points, not the only two sizes; scale up or down from either as context calls for, the same way <code>.badge</code> scales with the text it sits beside.</p>
+<div class="panel"><div class="strip">
+  <span class="selection-pill-sm sp-rust">OLD TOWN</span>
+  <span class="selection-pill-sm sp-clay">ARTISAN</span>
+  <span class="selection-pill-sm sp-espresso">SLOW TRAVEL</span>
+  <span class="selection-pill-sm sp-saddle">HOMESTYLE</span>
+  <span class="selection-pill-sm sp-beige">MARKET FIND</span>
+  <span class="selection-pill-sm sp-sand">LOCAL TIP</span>
+  <span class="selection-pill-sm sp-cream">VINTAGE</span>
+  <span class="selection-pill-sm sp-butter">RESET ALL</span>
+  <span class="selection-pill-sm sp-amber">HIGHLIGHTS</span>
+  <span class="selection-pill-sm sp-yellow">OVERCHARGE</span>
+</div></div>
+
+<h3>2.8 · Selection Pills — Small, Darken &amp; Press, all 10 tones</h3>
+<p class="lead">Only these two get small-size interactivity — Lift and Glow stay standard-size only.</p>
+<div class="panel">
+  <div class="stateLabel">Small, Darken</div>
+  <div class="strip">
+    <span class="selection-pill-sm hov-darken sp-rust">OLD TOWN</span>
+    <span class="selection-pill-sm hov-darken sp-clay">ARTISAN</span>
+    <span class="selection-pill-sm hov-darken sp-espresso">SLOW TRAVEL</span>
+    <span class="selection-pill-sm hov-darken sp-saddle">HOMESTYLE</span>
+    <span class="selection-pill-sm hov-darken sp-beige">MARKET FIND</span>
+    <span class="selection-pill-sm hov-darken sp-sand">LOCAL TIP</span>
+    <span class="selection-pill-sm hov-darken sp-cream">VINTAGE</span>
+    <span class="selection-pill-sm hov-darken sp-butter">RESET ALL</span>
+    <span class="selection-pill-sm hov-darken sp-amber">HIGHLIGHTS</span>
+    <span class="selection-pill-sm hov-darken sp-yellow">OVERCHARGE</span>
+  </div>
+  <div class="stateLabel">Small, Press</div>
+  <div class="strip">
+    <span class="selection-pill-sm hov-press sp-rust">OLD TOWN</span>
+    <span class="selection-pill-sm hov-press sp-clay">ARTISAN</span>
+    <span class="selection-pill-sm hov-press sp-espresso">SLOW TRAVEL</span>
+    <span class="selection-pill-sm hov-press sp-saddle">HOMESTYLE</span>
+    <span class="selection-pill-sm hov-press sp-beige">MARKET FIND</span>
+    <span class="selection-pill-sm hov-press sp-sand">LOCAL TIP</span>
+    <span class="selection-pill-sm hov-press sp-cream">VINTAGE</span>
+    <span class="selection-pill-sm hov-press sp-butter">RESET ALL</span>
+    <span class="selection-pill-sm hov-press sp-amber">HIGHLIGHTS</span>
+    <span class="selection-pill-sm hov-press sp-yellow">OVERCHARGE</span>
+  </div>
+</div>
+
+<h3>2.9 · Badge (tint) — static, all 10 tones</h3>
+<p class="lead">The same tint-as-rest colours dropped onto the shared <code>.badge</code> box from § 3 — same 4px radius, same size rule, only the fill/border/text tokens are new. Static like every other badge, no click, no hover.</p>
+<div class="panel"><div class="strip">
+  <span class="badge badge-tint sp-rust">OLD TOWN</span>
+  <span class="badge badge-tint sp-clay">ARTISAN</span>
+  <span class="badge badge-tint sp-espresso">SLOW TRAVEL</span>
+  <span class="badge badge-tint sp-saddle">HOMESTYLE</span>
+  <span class="badge badge-tint sp-beige">MARKET FIND</span>
+  <span class="badge badge-tint sp-sand">LOCAL TIP</span>
+  <span class="badge badge-tint sp-cream">VINTAGE</span>
+  <span class="badge badge-tint sp-butter">RESET ALL</span>
+  <span class="badge badge-tint sp-amber">HIGHLIGHTS</span>
+  <span class="badge badge-tint sp-yellow">OVERCHARGE</span>
+</div></div>
+
+<h3>2.10 · Pill-to-Badge (tint) — Darken shown, all 10 tones</h3>
+<p class="lead">The clickable, bigger counterpart from § 7 — same box, same size rule. Darken is shown here; Lift, Press and Glow all work the same way as they do on Selection Pills.</p>
+<div class="panel"><div class="strip">
+  <span class="pillbadge pillbadge-tint hov-darken sp-rust" data-spb>OLD TOWN</span>
+  <span class="pillbadge pillbadge-tint hov-darken sp-clay" data-spb>ARTISAN</span>
+  <span class="pillbadge pillbadge-tint hov-darken sp-espresso" data-spb>SLOW TRAVEL</span>
+  <span class="pillbadge pillbadge-tint hov-darken sp-saddle" data-spb>HOMESTYLE</span>
+  <span class="pillbadge pillbadge-tint hov-darken sp-beige" data-spb>MARKET FIND</span>
+  <span class="pillbadge pillbadge-tint hov-darken sp-sand" data-spb>LOCAL TIP</span>
+  <span class="pillbadge pillbadge-tint hov-darken sp-cream" data-spb>VINTAGE</span>
+  <span class="pillbadge pillbadge-tint hov-darken sp-butter" data-spb>RESET ALL</span>
+  <span class="pillbadge pillbadge-tint hov-darken sp-amber" data-spb>HIGHLIGHTS</span>
+  <span class="pillbadge pillbadge-tint hov-darken sp-yellow" data-spb>OVERCHARGE</span>
+</div>
+<p class="hint">Same class pattern throughout § 2: <code>.selection-pill</code>/<code>.selection-pill-sm</code>, <code>.badge-tint</code>, or <code>.pillbadge-tint</code> + a <code>.sp-*</code> tone class (+ a <code>.hov-*</code> class where the shape is clickable).</p>
+</div>
+
+<h3>2.11 · Dots — Selection Pills, all 10 tones</h3>
+<p class="lead">The legend-key marker this section didn't have yet — solid fill in the tone's own ink (the pale wash is too faint to read at dot size), same white edge as Stamp's dot in § 5.3. Combine <code>.dot-sp</code> with a <code>.sp-*</code> class.</p>
+<div class="panel">
+  <div class="dot-strip">
+    <span class="dot-item"><span class="dot-sp sp-rust"></span>Rust</span>
+    <span class="dot-item"><span class="dot-sp sp-clay"></span>Clay</span>
+    <span class="dot-item"><span class="dot-sp sp-espresso"></span>Espresso</span>
+    <span class="dot-item"><span class="dot-sp sp-saddle"></span>Saddle</span>
+    <span class="dot-item"><span class="dot-sp sp-beige"></span>Beige</span>
+    <span class="dot-item"><span class="dot-sp sp-sand"></span>Sand</span>
+    <span class="dot-item"><span class="dot-sp sp-cream"></span>Cream</span>
+    <span class="dot-item"><span class="dot-sp sp-butter"></span>Butter</span>
+    <span class="dot-item"><span class="dot-sp sp-amber"></span>Amber</span>
+    <span class="dot-item"><span class="dot-sp sp-yellow"></span>Yellow</span>
+  </div>
+</div>
+
+<h2>3 · Badge — the static label</h2>
+<p class="lead">Labels what something <strong>is</strong>. Never clickable — rest is the only state it has. <strong>Border, colour, case, radius, gap all match § 7's pill-to-badge exactly — SIZE does not</strong> (owner rule 2026-08-24, reversing the 2026-08-18 "always the same size" rule). A badge's font-size is <code>inherit</code>: it always matches the text it sits beside, whatever size that text is on that page.</p>
+<div class="panel">
+  <div class="stateLabel">Rest — the only state a badge has</div>
+  <div class="strip">
+    <span class="badge fam-blue">OVERCHARGE</span>
+    <span class="badge fam-red">OVERCHARGE</span>
+    <span class="badge fam-green">OVERCHARGE</span>
+  </div>
+  <div class="stateLabel">The point: font-size:inherit, next to real text at three different sizes</div>
+  <p style="font-size:13px; margin:.4rem 0;">A table-cell row at 13px reads <span class="badge fam-yellow">OVERCHARGE</span> — same size as this sentence.</p>
+  <p style="font-size:16px; margin:.4rem 0;">A card headline at 16px reads <span class="badge fam-purple">OVERCHARGE</span> — same size as this sentence.</p>
+  <p style="font-size:20px; margin:.4rem 0;">A big stat number at 20px reads <span class="badge fam-red">OVERCHARGE</span> — same size as this sentence.</p>
+  <table>
+    <tr><th>Property</th><th>Value</th></tr>
+    <tr><td>Font size</td><td><code>min(1em, 12px)</code> — matches the surrounding text, plus the border/box, and nothing else (owner, 2026-08-24: <em>"the rule is matches the text next to it plus border. nothing else the rest you invented."</em>), capped at a ceiling that isn't invented: <code>.pill-badge</code>'s own fixed 12px, the clickable control this whole family is sized around (owner: <em>"ceiling is the one on the doc i gave you"</em>). A bare uncapped <code>inherit</code> was tried the same day and read as large as a filter button at this site's 15px running text — no floor, only this one ceiling.</td></tr>
+    <tr><td>Weight</td><td><code>700</code></td></tr>
+    <tr><td>Letter-spacing</td><td><code>0.04em</code></td></tr>
+    <tr><td>Case</td><td><code>text-transform: uppercase</code></td></tr>
+    <tr><td>Padding</td><td><code>3px 8px</code> — fixed px, not em (owner, 2026-08-24: <em>"the font does not change sizes so why the padding would"</em> — a badge's inherited font-size is a fixed value on any given instance, so scaling padding with it added complexity for no benefit; an em-based <code>0.3em 0.65em</code> was tried and reverted the same day)</td></tr>
+    <tr><td>Border</td><td><code>1px solid</code>, family border colour — <strong>same as the pill-to-badge</strong></td></tr>
+    <tr><td>Radius</td><td><code>4px</code> (<code>var(--fam-radius)</code>) <span class="no">(NOT OVAL — never <code>999px</code> or <code>50%</code>. NOT SQUARE — never <code>0</code>.)</span></td></tr>
+    <tr><td>Background</td><td>the family fill</td></tr>
+    <tr><td>Space to the next one</td><td><code>10px</code> minimum (<code>var(--fam-gap)</code>), equal vertically and horizontally</td></tr>
+  </table>
+  <p class="hint"><strong>Everything except font-size and padding is the shared box, and this table is the only copy of those numbers.</strong> § 7 uses border/colour/case/radius/gap unchanged; § 4 states the rule without restating them. Two copies is exactly how <code>13px / 500</code> at <code>6px 14px</code> survived in § 7 for two days after the box became one — don't reopen that by pasting these values elsewhere.</p>
+</div>
+
+<h2>4 · Shape rules — the non-negotiables</h2>
+<p class="lead">Each rule states what the thing <strong>is</strong>. What it must never be sits in parentheses — an aside naming the drift, never the rule itself. A rule written as a list of bans tells a crib what to avoid and never what to build.</p>
+<div class="panel">
+  <div class="rule"><strong>ONLY THE FORMATS SHOWN IN THIS DOC ARE APPROVED</strong> — every pill and badge shipped anywhere on the site is one of the exact shapes, families, sizes and states demonstrated in this file, built with the exact classes shown. This is a closed list, not inspiration: a page never invents a new radius, a new colour, a new size, or a new variant because it "looks close enough" or "reads better here." <span class="no">(If the format a page needs isn't already demonstrated below, that's a gap — flag it to Open Recommendations. It is never a reason to build one in-page.)</span></div>
+  <div class="rule"><strong>SAME CASE always; SIZE now deliberately differs</strong> — border, colour, radius, gap and ALL CAPS are the § 3 box, unchanged, for the badge and the pill-to-badge alike; a page never gives either its own value for those. <strong>Size is the one exception (owner rule 2026-08-24, reversing the 2026-08-18 "always the same size" rule):</strong> a pill-to-badge keeps a fixed <code>12px / 4px 9px</code> (it's a clickable control, usually alone in its row); a badge uses <code>font-size:inherit</code> + em-based padding so it always matches the text it's labeling, never a fixed px that could read bigger or smaller than that text depending on the page. (Still not two DIFFERENT boxes in the old sense — the retired <code>13px / 500</code> at <code>6px 14px</code> was a badge with its own unrelated hand-picked size; <code>inherit</code> is not a hand-picked size, it's "whatever the context already is." A page-local class hard-coding a badge to a fixed px — <code>12px</code> at <code>2px 8px</code>, as some page-local classes still carry — is still drift.)</div>
+  <div class="rule"><strong>The shape is a 4px rounded rectangle</strong> — <code>border-radius: 4px</code> (<code>var(--fam-radius)</code>), the one value for every badge and every pill-to-badge, light and dark, at every size. <span class="no">(NOT OVAL — <code>999px</code> / <code>50%</code>. NOT SQUARE — <code>0</code>. Both have shipped, repeatedly, for months — 4px is the only approved radius, full stop.)</span></div>
+  <div class="rule"><strong>Minimum <code>10px</code> between them — the same <code>10px</code> vertically and horizontally</strong> (<code>gap: var(--fam-gap)</code>, which sets both). A floor, not a fixed value: a strip may space them further apart where the layout wants it, but a wrapping strip never takes one value between columns and a different one between rows. Measured off the lounge-page legend row, which is the reference (it lived on <code>lounges-us</code> until the two regional pages merged into <code>essentials/lounges/</code> on 2026-08-22). (Below <code>10px</code> the two borders start reading as one merged hairline. The old <code>5px</code> token and the <code>8px</code> phone override on the retired lounges-us page are both under the floor.)</div>
+  <div class="rule"><strong>The fill is the family background</strong> — that colour is what carries the meaning. (Not white — <code>var(--surface)</code> / <code>#fff</code> flattens it to a bordered label saying nothing.)</div>
+  <div class="rule"><strong>The label is text</strong> — a badge or pill-to-badge carries <strong>words only</strong>. No decorative character, no icon character, inside the label itself. The eight family colour-circle dots (<svg class="dot-ic" viewBox="0 0 24 24" aria-hidden="true"><use href="#gm-i-dot-yellow"/></svg><svg class="dot-ic" viewBox="0 0 24 24" aria-hidden="true"><use href="#gm-i-dot-green"/></svg><svg class="dot-ic" viewBox="0 0 24 24" aria-hidden="true"><use href="#gm-i-dot-red"/></svg><svg class="dot-ic" viewBox="0 0 24 24" aria-hidden="true"><use href="#gm-i-dot-blue"/></svg><svg class="dot-ic" viewBox="0 0 24 24" aria-hidden="true"><use href="#gm-i-dot-purple"/></svg><svg class="dot-ic" viewBox="0 0 24 24" aria-hidden="true"><use href="#gm-i-dot-orange"/></svg><svg class="dot-ic" viewBox="0 0 24 24" aria-hidden="true"><use href="#gm-i-dot-pink"/></svg><svg class="dot-ic" viewBox="0 0 24 24" aria-hidden="true"><use href="#gm-i-dot-black"/></svg>) belong on jump-nav pills that identify a family at a glance, never inside a badge's own label. A badge reads <code>SEARCH</code>. (Never a dot icon plus <code>SEARCH</code> — the family is already carried by the bg + border + ink trio, so the icon is redundant and makes the badge noisy.)</div>
+  <div class="rule"><strong>The colour comes from an approved family — Vibrant (§ 6, the live default) or, where a crib is told to ship one, Enamel / Ink / Stamp (§ 5)</strong> — all of that family's values, light and dark, never mixed with another family's. <span class="no">(Not a new hex — a near-miss, as shipped on cruises and cards-atm, is drift. If none of the approved families fits, that's a gap for Open Recommendations, never a ninth family invented in-page.)</span></div>
+  <div class="rule"><strong>GREY IS RESERVED FOR "ALL" — owner rule 2026-08-24.</strong> Grey never labels a specific category on any page; it is only ever the "show everything / no filter applied" pill. The other seven families are a free choice per page — whichever crib builds a filter/legend row picks which family means what on THAT page — with one hard requirement below.</div>
+  <div class="rule"><strong>A PILL'S COLOUR MATCHES EVERY BADGE IT'S ANCHORED TO — owner rule 2026-08-24.</strong> If a filter pill is <code>fam-red</code> for "Pickpocket", every per-row badge/tag reading "Pickpocket" on that same page must ALSO be <code>fam-red</code> — not a different hardcoded hex that happens to look close, and not a different family picked independently for the content badges. The pill and the thing it filters/labels are the same category and must be the same class. This is the single most common drift found in the 2026-08-24 audit: legend pill and content badge for the same category built by different passes, in different colours, on the same page.</div>
+  <div class="rule"><strong>ALL PILLS IN THE SAME ROW/GROUP ARE THE SAME SIZE</strong> — guaranteed by construction if every pill uses the shared <code>--fam-fs</code>/<code>--fam-pad</code> tokens (never a page-local override); this is the same rule as "the box in § 3 is the only copy of these numbers," restated because a page-local font-size/padding override on one filter pill and not its siblings is exactly the kind of drift the audit is checking for.</div>
+  <div class="rule"><strong>NO TWO PILLS IN THE SAME ROW SHARE A COLOUR — owner rule 2026-08-24.</strong> Every sibling in one filter/legend row is a DIFFERENT family, no exceptions, not just for grey. Found live on essentials/sims: "All" (grey) and "By region" (also grey) sitting in the same row — two different meanings reading as the same button. The test is mechanical: list every <code>fam-X</code> class in one <code>.pills</code>/filter row; if any value repeats, it is drift, full stop. (Grey gets its own extra rule above only because it additionally has a fixed MEANING — "all" — that the other seven don't; the no-duplicates rule applies to all eight regardless.)</div>
+</div>
+
+<h2>5 · New approved families — Enamel · Ink · Stamp (2026-08-25)</h2>
+<p class="lead">Three additional colour options, approved by the owner 2026-08-25, mockup-reviewed and picked in a Claude Code session — <strong>additive, not a replacement.</strong> The 8 Vibrant families (§ 6) are unchanged and remain the default everywhere except Plan Essentials (see below). These three exist so a crib building a new badge/pill on a page that wants a different finish has real, specified options instead of inventing one. <strong>Enamel shipped 2026-08-26</strong> — wired into <code>web-travel-style.css</code> and swapped in on every badge/pill-badge across all 35 <code>essentials/</code> pages that carry one (~3,190 instances, 1:1 <code>fam-X → fam-en fam-en-X</code>, same hue per family). Picked over Stamp after a live side-by-side on the essentials/scams filter legend: Stamp's 8 tones are all earth/brown and read as near-identical across 7 different categories, where Enamel's gradient-plus-rim keeps every category distinct at a glance — the same reason Vibrant used 8 separate hues in the first place. <strong>Ink and Stamp remain unwired</strong> — reference only, until a crib is told to ship one somewhere specific. Same shared box as § 3 (Badge) and § 4 (Shape rules) throughout: <code>4px</code> radius, <code>10px</code> gap, badge <code>font-size:inherit</code> capped at 12px / pill-to-badge fixed <code>12px, 4px 9px</code>, ALL CAPS. <strong>Every colour below works identically as a static <code>.badge</code> or a clickable <code>.pillbadge</code></strong> — swap the class and nothing else changes; the two forms render pixel-identical at rest (see § 3's note on the only real difference between them). Each family below shows both forms, every colour, so a crib never has to guess which classes combine.</p>
+
+<h3>5.1 · Enamel — pastel gradient fill, 10 colours</h3>
+<p class="lead">A gradient-plus-rim finish matching the site's icon-quality depth (gradient fill, a rim in a deeper shade of the same hue, an inset sheen + soft colour-tinted drop shadow) instead of a flat bg — toned-down pastel, not the vivid dot colours. Extends the 8-family hue set with two new ones, Teal and Sand.</p>
+<div class="panel">
+  <div class="stateLabel">Badge (static) — same colours, same shape, never clickable</div>
+  <div class="strip">
+    <span class="badge fam-en fam-en-yellow">BEACH DAY</span>
+    <span class="badge fam-en fam-en-green">HIKING</span>
+    <span class="badge fam-en fam-en-red">LOCAL EATS</span>
+    <span class="badge fam-en fam-en-blue">FAMILY TRIP</span>
+    <span class="badge fam-en fam-en-purple">LUXURY</span>
+    <span class="badge fam-en fam-en-orange">ADVENTURE</span>
+    <span class="badge fam-en fam-en-pink">NIGHTLIFE</span>
+    <span class="badge fam-en fam-en-grey">BUDGET TIP</span>
+    <span class="badge fam-en fam-en-teal">COASTAL</span>
+    <span class="badge fam-en fam-en-sand">HISTORIC</span>
+  </div>
+  <div class="stateLabel">Pill-to-badge (clickable) — all 10 colours</div>
+  <div class="strip" id="en-demo">
+    <span class="pillbadge fam-en fam-en-yellow" data-en>BEACH DAY</span>
+    <span class="pillbadge fam-en fam-en-green" data-en>HIKING</span>
+    <span class="pillbadge fam-en fam-en-red" data-en>LOCAL EATS</span>
+    <span class="pillbadge fam-en fam-en-blue" data-en>FAMILY TRIP</span>
+    <span class="pillbadge fam-en fam-en-purple" data-en>LUXURY</span>
+    <span class="pillbadge fam-en fam-en-orange" data-en>ADVENTURE</span>
+    <span class="pillbadge fam-en fam-en-pink" data-en>NIGHTLIFE</span>
+    <span class="pillbadge fam-en fam-en-grey" data-en>BUDGET TIP</span>
+    <span class="pillbadge fam-en fam-en-teal" data-en>COASTAL</span>
+    <span class="pillbadge fam-en fam-en-sand" data-en>HISTORIC</span>
+  </div>
+  <table>
+    <tr><th>Family</th><th>bg (top→bot)</th><th>rim / shadow tint</th><th>text</th></tr>
+    <tr><td>Beach Day</td><td><span class="sw" style="background:var(--en-yellow-top)"></span><code>--en-yellow-top/-bot</code></td><td><code>--en-yellow-rim</code></td><td><code>--en-yellow-text</code></td></tr>
+    <tr><td>Hiking</td><td><span class="sw" style="background:var(--en-green-top)"></span><code>--en-green-top/-bot</code></td><td><code>--en-green-rim</code></td><td><code>--en-green-text</code></td></tr>
+    <tr><td>Local Eats</td><td><span class="sw" style="background:var(--en-red-top)"></span><code>--en-red-top/-bot</code></td><td><code>--en-red-rim</code></td><td><code>--en-red-text</code></td></tr>
+    <tr><td>Family Trip</td><td><span class="sw" style="background:var(--en-blue-top)"></span><code>--en-blue-top/-bot</code></td><td><code>--en-blue-rim</code></td><td><code>--en-blue-text</code></td></tr>
+    <tr><td>Luxury</td><td><span class="sw" style="background:var(--en-purple-top)"></span><code>--en-purple-top/-bot</code></td><td><code>--en-purple-rim</code></td><td><code>--en-purple-text</code></td></tr>
+    <tr><td>Adventure</td><td><span class="sw" style="background:var(--en-orange-top)"></span><code>--en-orange-top/-bot</code></td><td><code>--en-orange-rim</code></td><td><code>--en-orange-text</code></td></tr>
+    <tr><td>Nightlife</td><td><span class="sw" style="background:var(--en-pink-top)"></span><code>--en-pink-top/-bot</code></td><td><code>--en-pink-rim</code></td><td><code>--en-pink-text</code></td></tr>
+    <tr><td>Budget Tip</td><td><span class="sw" style="background:var(--en-grey-top)"></span><code>--en-grey-top/-bot</code></td><td><code>--en-grey-rim</code></td><td><code>--en-grey-text</code></td></tr>
+    <tr><td>Coastal <em>(new)</em></td><td><span class="sw" style="background:var(--en-teal-top)"></span><code>--en-teal-top/-bot</code></td><td><code>--en-teal-rim</code></td><td><code>--en-teal-text</code></td></tr>
+    <tr><td>Historic <em>(new)</em></td><td><span class="sw" style="background:var(--en-sand-top)"></span><code>--en-sand-top/-bot</code></td><td><code>--en-sand-rim</code></td><td><code>--en-sand-text</code></td></tr>
+  </table>
+  <div class="stateLabel">Dots — 10 colours</div>
+  <div class="dot-strip">
+    <span class="dot-item"><span class="dot-e fam-en-yellow"></span>Beach Day</span>
+    <span class="dot-item"><span class="dot-e fam-en-green"></span>Hiking</span>
+    <span class="dot-item"><span class="dot-e fam-en-red"></span>Local Eats</span>
+    <span class="dot-item"><span class="dot-e fam-en-blue"></span>Family Trip</span>
+    <span class="dot-item"><span class="dot-e fam-en-purple"></span>Luxury</span>
+    <span class="dot-item"><span class="dot-e fam-en-orange"></span>Adventure</span>
+    <span class="dot-item"><span class="dot-e fam-en-pink"></span>Nightlife</span>
+    <span class="dot-item"><span class="dot-e fam-en-grey"></span>Budget Tip</span>
+    <span class="dot-item"><span class="dot-e fam-en-teal"></span>Coastal</span>
+    <span class="dot-item"><span class="dot-e fam-en-sand"></span>Historic</span>
+  </div>
+  <p class="hint">A dot is never a fourth colour choice — the exact same custom properties as the badge above it, just painted onto a circle instead of a rectangle. Enamel's dot (<code>.dot-e</code> + a <code>.fam-en-*</code> class) keeps the gradient-and-rim, so it still reads as the glossier family.</p>
+</div>
+
+<h3>5.2 · Ink — no fill, no border, 8 earth tones</h3>
+<p class="lead">Cream, terracotta, rust and espresso — colour and weight are the only signal, nothing boxed. Quieter than Enamel; closer to a kicker than a control. <strong>Badge only</strong> in practice (a label carries no border to omit); shown here as a pill-to-badge too since the class supports it — selected state is an underline, not a ring, since there's no box to ring.</p>
+<div class="panel">
+  <div class="stateLabel">Badge (static) — same colours, same shape, never clickable</div>
+  <div class="strip">
+    <span class="badge fam-ink fam-ink-terracotta">HERITAGE</span>
+    <span class="badge fam-ink fam-ink-rust">OLD TOWN</span>
+    <span class="badge fam-ink fam-ink-clay">ARTISAN</span>
+    <span class="badge fam-ink fam-ink-espresso">SLOW TRAVEL</span>
+    <span class="badge fam-ink fam-ink-saddle">HOMESTYLE</span>
+    <span class="badge fam-ink fam-ink-beige">MARKET FIND</span>
+    <span class="badge fam-ink fam-ink-sand">LOCAL TIP</span>
+    <span class="badge fam-ink fam-ink-cream">VINTAGE</span>
+  </div>
+  <div class="stateLabel">Pill-to-badge (clickable) — all 8 colours</div>
+  <div class="strip" id="ink-demo">
+    <span class="pillbadge fam-ink fam-ink-terracotta" data-ink>HERITAGE</span>
+    <span class="pillbadge fam-ink fam-ink-rust" data-ink>OLD TOWN</span>
+    <span class="pillbadge fam-ink fam-ink-clay" data-ink>ARTISAN</span>
+    <span class="pillbadge fam-ink fam-ink-espresso" data-ink>SLOW TRAVEL</span>
+    <span class="pillbadge fam-ink fam-ink-saddle" data-ink>HOMESTYLE</span>
+    <span class="pillbadge fam-ink fam-ink-beige" data-ink>MARKET FIND</span>
+    <span class="pillbadge fam-ink fam-ink-sand" data-ink>LOCAL TIP</span>
+    <span class="pillbadge fam-ink fam-ink-cream" data-ink>VINTAGE</span>
+  </div>
+  <table>
+    <tr><th>Family</th><th>Ink (text + selected underline)</th></tr>
+    <tr><td>Terracotta</td><td><span class="sw" style="background:var(--ink-terracotta)"></span><code>--ink-terracotta</code></td></tr>
+    <tr><td>Rust</td><td><span class="sw" style="background:var(--ink-rust)"></span><code>--ink-rust</code></td></tr>
+    <tr><td>Clay</td><td><span class="sw" style="background:var(--ink-clay)"></span><code>--ink-clay</code></td></tr>
+    <tr><td>Espresso</td><td><span class="sw" style="background:var(--ink-espresso)"></span><code>--ink-espresso</code></td></tr>
+    <tr><td>Saddle</td><td><span class="sw" style="background:var(--ink-saddle)"></span><code>--ink-saddle</code></td></tr>
+    <tr><td>Beige</td><td><span class="sw" style="background:var(--ink-beige)"></span><code>--ink-beige</code></td></tr>
+    <tr><td>Sand</td><td><span class="sw" style="background:var(--ink-sand)"></span><code>--ink-sand</code></td></tr>
+    <tr><td>Cream</td><td><span class="sw" style="background:var(--ink-cream)"></span><code>--ink-cream</code></td></tr>
+  </table>
+  <div class="stateLabel">Dots — 8 colours (hollow ring)</div>
+  <div class="dot-strip">
+    <span class="dot-item"><span class="dot-i fam-ink-terracotta"></span>Heritage</span>
+    <span class="dot-item"><span class="dot-i fam-ink-rust"></span>Old Town</span>
+    <span class="dot-item"><span class="dot-i fam-ink-clay"></span>Artisan</span>
+    <span class="dot-item"><span class="dot-i fam-ink-espresso"></span>Slow Travel</span>
+    <span class="dot-item"><span class="dot-i fam-ink-saddle"></span>Homestyle</span>
+    <span class="dot-item"><span class="dot-i fam-ink-beige"></span>Market Find</span>
+    <span class="dot-item"><span class="dot-i fam-ink-sand"></span>Local Tip</span>
+    <span class="dot-item"><span class="dot-i fam-ink-cream"></span>Vintage</span>
+  </div>
+  <p class="hint">Ink's dot (<code>.dot-i</code> + a <code>.fam-ink-*</code> class) is a hollow ring, because Ink never fills anything.</p>
+</div>
+
+<h3>5.3 · Stamp — solid fill, white text, 8 earth tones</h3>
+<p class="lead">The same 8 Ink tones as a solid fill with plain white text on top — simpler and more legible than an outlined letter. <strong>Fill is fixed, not theme-swapped</strong> (white text needs a consistently dark-enough ground in both page themes, so these don't lighten in dark mode the way Enamel and Ink do).</p>
+<div class="panel">
+  <div class="stateLabel">Badge (static) — same colours, same shape, never clickable</div>
+  <div class="strip">
+    <span class="badge fam-st fam-st-terracotta">HERITAGE</span>
+    <span class="badge fam-st fam-st-rust">OLD TOWN</span>
+    <span class="badge fam-st fam-st-clay">ARTISAN</span>
+    <span class="badge fam-st fam-st-espresso">SLOW TRAVEL</span>
+    <span class="badge fam-st fam-st-saddle">HOMESTYLE</span>
+    <span class="badge fam-st fam-st-beige">MARKET FIND</span>
+    <span class="badge fam-st fam-st-sand">LOCAL TIP</span>
+    <span class="badge fam-st fam-st-cream">VINTAGE</span>
+  </div>
+  <div class="stateLabel">Pill-to-badge (clickable) — all 8 colours</div>
+  <div class="strip" id="st-demo">
+    <span class="pillbadge fam-st fam-st-terracotta" data-st>HERITAGE</span>
+    <span class="pillbadge fam-st fam-st-rust" data-st>OLD TOWN</span>
+    <span class="pillbadge fam-st fam-st-clay" data-st>ARTISAN</span>
+    <span class="pillbadge fam-st fam-st-espresso" data-st>SLOW TRAVEL</span>
+    <span class="pillbadge fam-st fam-st-saddle" data-st>HOMESTYLE</span>
+    <span class="pillbadge fam-st fam-st-beige" data-st>MARKET FIND</span>
+    <span class="pillbadge fam-st fam-st-sand" data-st>LOCAL TIP</span>
+    <span class="pillbadge fam-st fam-st-cream" data-st>VINTAGE</span>
+  </div>
+  <table>
+    <tr><th>Family</th><th>Fill (fixed, both themes)</th><th>Text</th></tr>
+    <tr><td>Terracotta</td><td><span class="sw" style="background:var(--st-terracotta)"></span><code>--st-terracotta</code></td><td>#ffffff</td></tr>
+    <tr><td>Rust</td><td><span class="sw" style="background:var(--st-rust)"></span><code>--st-rust</code></td><td>#ffffff</td></tr>
+    <tr><td>Clay</td><td><span class="sw" style="background:var(--st-clay)"></span><code>--st-clay</code></td><td>#ffffff</td></tr>
+    <tr><td>Espresso</td><td><span class="sw" style="background:var(--st-espresso)"></span><code>--st-espresso</code></td><td>#ffffff</td></tr>
+    <tr><td>Saddle</td><td><span class="sw" style="background:var(--st-saddle)"></span><code>--st-saddle</code></td><td>#ffffff</td></tr>
+    <tr><td>Beige</td><td><span class="sw" style="background:var(--st-beige)"></span><code>--st-beige</code></td><td>#ffffff</td></tr>
+    <tr><td>Sand</td><td><span class="sw" style="background:var(--st-sand)"></span><code>--st-sand</code></td><td>#ffffff</td></tr>
+    <tr><td>Cream</td><td><span class="sw" style="background:var(--st-cream)"></span><code>--st-cream</code></td><td>#ffffff</td></tr>
+  </table>
+  <div class="stateLabel">Dots — 8 colours (solid, white edge)</div>
+  <div class="dot-strip">
+    <span class="dot-item"><span class="dot-s fam-st-terracotta"></span>Heritage</span>
+    <span class="dot-item"><span class="dot-s fam-st-rust"></span>Old Town</span>
+    <span class="dot-item"><span class="dot-s fam-st-clay"></span>Artisan</span>
+    <span class="dot-item"><span class="dot-s fam-st-espresso"></span>Slow Travel</span>
+    <span class="dot-item"><span class="dot-s fam-st-saddle"></span>Homestyle</span>
+    <span class="dot-item"><span class="dot-s fam-st-beige"></span>Market Find</span>
+    <span class="dot-item"><span class="dot-s fam-st-sand"></span>Local Tip</span>
+    <span class="dot-item"><span class="dot-s fam-st-cream"></span>Vintage</span>
+  </div>
+  <p class="hint">Stamp's dot (<code>.dot-s</code> + a <code>.fam-st-*</code> class) is a solid disc with a thin white edge, echoing its white text on a solid fill.</p>
+</div>
+
+<p class="hint" style="margin:0 0 2.5rem;">None of the three need a top pill — every one is a standalone <code>.badge</code>/<code>.pillbadge</code>, droppable into a sentence, a card, or a filter row on its own, exactly like §§ 1–4 above. Full interactive mockup (dots, sizing demo, copy-ready spec) built during the 2026-08-25 review session.</p>
+
+<h2>6 · Vibrant (least favorite) — the eight families</h2>
+<p class="lead">Every badge and pill-to-badge on the site draws from one of these. Click any pill below to select it — several go on at once, exactly like the scams legend.</p>
+<div class="panel">
+  <div class="stateLabel">Badge (static) — same colours, same shape, never clickable</div>
+  <div class="strip">
+    <span class="badge fam-yellow">OVERCHARGE</span>
+    <span class="badge fam-green">OVERCHARGE</span>
+    <span class="badge fam-red">OVERCHARGE</span>
+    <span class="badge fam-blue">OVERCHARGE</span>
+    <span class="badge fam-purple">OVERCHARGE</span>
+    <span class="badge fam-orange">OVERCHARGE</span>
+    <span class="badge fam-pink">OVERCHARGE</span>
+    <span class="badge fam-grey">OVERCHARGE</span>
+  </div>
+  <div class="stateLabel">Pill-to-badge (clickable) — click any to select, several go on at once</div>
+  <div class="strip" id="fam-demo">
+    <span class="pillbadge fam-yellow" data-fam>OVERCHARGE</span>
+    <span class="pillbadge fam-green" data-fam>OVERCHARGE</span>
+    <span class="pillbadge fam-red" data-fam>OVERCHARGE</span>
+    <span class="pillbadge fam-blue" data-fam>OVERCHARGE</span>
+    <span class="pillbadge fam-purple" data-fam>OVERCHARGE</span>
+    <span class="pillbadge fam-orange" data-fam>OVERCHARGE</span>
+    <span class="pillbadge fam-pink" data-fam>OVERCHARGE</span>
+    <span class="pillbadge fam-grey" data-fam>OVERCHARGE</span>
+  </div>
+  <table>
+    <tr><th>Family</th><th>Background</th><th>Border</th><th>Text</th><th>Bar (4px accent, where used)</th><th>Selected</th></tr>
+    <tr><td><svg class="dot-ic" viewBox="0 0 24 24" aria-hidden="true"><use href="#gm-i-dot-yellow"/></svg>Yellow</td><td><span class="sw" style="background:var(--fam-yellow-bg)"></span><code>#fff8e0</code></td><td><code>rgba(122,88,0,0.85)</code></td><td><span class="sw" style="background:var(--fam-yellow-ink)"></span><code>#8a6524</code></td><td><code>#f5c518</code></td><td><span class="pillbadge fam-yellow is-on" style="width:auto;margin:5px 0 0 0">OVERCHARGE</span></td></tr>
+    <tr><td><svg class="dot-ic" viewBox="0 0 24 24" aria-hidden="true"><use href="#gm-i-dot-green"/></svg>Green</td><td><span class="sw" style="background:var(--fam-green-bg)"></span><code>#e8f5e8</code></td><td><code>rgba(26,90,26,0.85)</code></td><td><span class="sw" style="background:var(--fam-green-ink)"></span><code>#1a5a1a</code></td><td><code>#5eb833</code></td><td><span class="pillbadge fam-green is-on" style="width:auto;margin:5px 0 0 0">OVERCHARGE</span></td></tr>
+    <tr><td><svg class="dot-ic" viewBox="0 0 24 24" aria-hidden="true"><use href="#gm-i-dot-red"/></svg>Red</td><td><span class="sw" style="background:var(--fam-red-bg)"></span><code>#fdf0e8</code></td><td><code>rgba(122,58,26,0.85)</code></td><td><span class="sw" style="background:var(--fam-red-ink)"></span><code>#7a1414</code></td><td><code>#e01818</code></td><td><span class="pillbadge fam-red is-on" style="width:auto;margin:5px 0 0 0">OVERCHARGE</span></td></tr>
+    <tr><td><svg class="dot-ic" viewBox="0 0 24 24" aria-hidden="true"><use href="#gm-i-dot-blue"/></svg>Blue</td><td><span class="sw" style="background:var(--fam-blue-bg)"></span><code>#e8f0fb</code></td><td><code>rgba(26,58,139,0.85)</code></td><td><span class="sw" style="background:var(--fam-blue-ink)"></span><code>#1a3a8b</code></td><td><code>#4a90e2</code></td><td><span class="pillbadge fam-blue is-on" style="width:auto;margin:5px 0 0 0">OVERCHARGE</span></td></tr>
+    <tr><td><svg class="dot-ic" viewBox="0 0 24 24" aria-hidden="true"><use href="#gm-i-dot-purple"/></svg>Purple</td><td><span class="sw" style="background:var(--fam-purple-bg)"></span><code>#f2e6ff</code></td><td><code>rgba(124,58,237,0.85)</code></td><td><span class="sw" style="background:var(--fam-purple-ink)"></span><code>#6425c4</code></td><td><code>#a05be8</code></td><td><span class="pillbadge fam-purple is-on" style="width:auto;margin:5px 0 0 0">OVERCHARGE</span></td></tr>
+    <tr><td><svg class="dot-ic" viewBox="0 0 24 24" aria-hidden="true"><use href="#gm-i-dot-orange"/></svg>Brown</td><td><span class="sw" style="background:var(--fam-orange-bg)"></span><code>#fdf8f0</code></td><td><code>rgba(184,134,90,0.85)</code></td><td><span class="sw" style="background:var(--fam-orange-ink)"></span><code>#6b4423</code></td><td><code>#f5a623</code></td><td><span class="pillbadge fam-orange is-on" style="width:auto;margin:5px 0 0 0">OVERCHARGE</span></td></tr>
+    <tr><td><svg class="dot-ic" viewBox="0 0 24 24" aria-hidden="true"><use href="#gm-i-dot-pink"/></svg>Pink</td><td><span class="sw" style="background:var(--fam-pink-bg)"></span><code>rgba(160,40,110,.08)</code></td><td><code>rgba(160,40,110,0.85)</code></td><td><span class="sw" style="background:var(--fam-pink-ink)"></span><code>#6b1950</code></td><td><code>#f688b8</code></td><td><span class="pillbadge fam-pink is-on" style="width:auto;margin:5px 0 0 0">OVERCHARGE</span></td></tr>
+    <tr><td><svg class="dot-ic" viewBox="0 0 24 24" aria-hidden="true"><use href="#gm-i-dot-black"/></svg>Grey</td><td><span class="sw" style="background:var(--fam-grey-bg)"></span><code>rgba(138,108,26,.07)</code></td><td><code>rgba(106,102,96,0.85)</code></td><td><span class="sw" style="background:var(--fam-grey-ink)"></span><code>#6a6660</code></td><td><code>#3a3632</code></td><td><span class="pillbadge fam-grey is-on" style="width:auto;margin:5px 0 0 0">OVERCHARGE</span></td></tr>
+  </table>
+  <p class="hint">Toggle your OS dark mode to see the dark tokens — every family redefines all four values, never just the text colour.</p>
+</div>
+
+<h2>7 · Pill-to-badge — the clickable control</h2>
+<p class="lead">Links or filters to the thing a badge labels. <strong>Same border, colour, case, radius, gap</strong> as § 3's badge — <strong>size is the one thing that now differs</strong> (a pill-to-badge is usually the only content in its row, so it keeps a fixed size instead of inheriting from context) — plus <strong>behaviour</strong>: a badge sits there, a pill-to-badge clicks and can carry <code>.is-on</code>. The class is <code>.pill-badge</code> in the CSS.</p>
+<div class="panel">
+  <div class="stateLabel">Rest</div>
+  <div class="strip" id="ptb-demo">
+    <span class="pillbadge fam-red" data-ptb>OVERCHARGE</span>
+    <span class="pillbadge fam-blue" data-ptb>OVERCHARGE</span>
+    <span class="pillbadge fam-purple" data-ptb>OVERCHARGE</span>
+  </div>
+  <div class="stateLabel">Selected — the currentColor ring, click above to try</div>
+  <div class="strip">
+    <span class="pillbadge fam-purple is-on">OVERCHARGE</span>
+  </div>
+  <table>
+    <tr><th>Property</th><th>Value</th></tr>
+    <tr><td>Border, colour, case, radius, gap</td><td><strong>the § 3 table, unchanged.</strong> Nothing here is its own value, and the numbers are deliberately not repeated — that is what drifted last time.</td></tr>
+    <tr><td>Font size / padding</td><td><strong>its own fixed values</strong> — <code>12px</code> / <code>4px 9px</code> — unlike the badge, which inherits. A pill-to-badge is a clickable control, usually alone in its row; there is no "surrounding text" for it to match.</td></tr>
+    <tr><td>Hover</td><td><strong>none</strong> — no colour or border change on mouse-over or focus</td></tr>
+    <tr><td>Selected (<code>.is-on</code>)</td><td><code>outline: 1.5px solid currentColor; outline-offset: 1px</code> — the ring is the <strong>entire</strong> selected state. The border does <strong>not</strong> darken further: rest-state border is already fully opaque (<code>border-color</code> = the family's own ink), so there is no darker step left to give it on select. The old per-family <code>.is-on{border-color:rgba(...,.85)}</code> alpha-ladder override was deleted 2026-08-24 (see § 4's shape rules) — this row previously described that removed behaviour; corrected to match the shipped CSS.</td></tr>
+  </table>
+</div>
+
+<h3>Two ways .is-on gets used</h3>
+<div class="rule"><strong>Multi-select filter (scams)</strong> — several pills can carry <code>.is-on</code> at once. Clicking one toggles only itself.</div>
+<div class="rule"><strong>Single-select (train-passes eligibility, selection-pill pattern)</strong> — clicking one clears <code>.is-on</code> from every sibling first, then sets it on the clicked pill. Never navigates, never reorders, never anchors to another section.</div>
+
+<h2 id="sec-badge-full-spec">8 · Badge System — Complete Production Spec (merged 2026-08-25)</h2>
+<p class="lead">The full production badge system — every rule, color, and shape a badge or pill-to-badge follows anywhere on the site. This file is the single source of truth: no other pill/badge formatting doc exists.</p>
+
+<div class="rule"><strong>The rectangle is always present</strong> — every badge renders as a full rectangle: colored <em>background</em> + matching <em>border</em> + family <em>text</em>. Never render a badge as bare colored text with no box. Even the shortest label ("GE") gets the full trio.</div>
+
+<h3>What is a badge</h3>
+<p>A badge is a small colored rectangle that <strong>classifies what a content item IS</strong> — static, non-interactive, never responds to hover or click. It has three parts locked together from the same color family: background, border, text. Badges appear in three shapes:</p>
+<table>
+<tr><th>Shape</th><th>What it is</th></tr>
+<tr><td>Pill</td><td>The primary form — small rounded rectangle, single line. Example: <code>GLOBAL ENTRY</code> / <code>CLEAR</code> on Trusted-Traveler.</td></tr>
+<tr><td>Inline tag</td><td>A shorter pill sitting inline inside a paragraph. Example: <code>GE KIOSK</code>.</td></tr>
+<tr><td>Card wrapper</td><td>A full section header + tinted card. Example: the BOTH / HUBBY / WIFEY / SOLO cards on the Trips page.</td></tr>
+</table>
+
+<h3>When to use a badge (all four must be true)</h3>
+<ol>
+<li>You are classifying what something IS — its type, status, or category.</li>
+<li>The same categories repeat across many content items (so color becomes scannable).</li>
+<li>Color carries distinct semantic meaning per category.</li>
+<li>The element is non-interactive (no click behavior). If it needs to be clickable, keep the badge colors for the rest state and layer a terracotta hover on top (this becomes a pill-to-badge, § 10) — both are correct together.</li>
+</ol>
+
+<h3>Badges without pills — the most common pattern</h3>
+<p class="lead">Badges are very often used <strong>alone</strong>, with no matching jump-nav pills. The badge classifies the card; that is the complete job. Jump-nav pills are an optional add-on, only needed when there are distinct sections a reader would want to jump to from the top of the page — e.g. a page with SEARCH / CHAIN / AGGREGATOR badges scattered under plain section headers ("HOTEL CHAINS", "RENTALS") needs no pills, because the section headers already separate the groups. Add jump-nav pills only when: (1) the page has distinct named sections, (2) the sections are long enough that a reader would need to jump rather than scroll, and (3) each section's badge family is the logical anchor. Example where pills ARE warranted: Digital-Nomad-Visas — EUROPE / AMERICAS / ASIA-PACIFIC are each long enough to justify a jump pill.</p>
+
+<div class="rule"><strong>The dot-echo rule</strong> — a dot belongs inside a badge <strong>only when</strong> matching jump-nav pills-to-badge exist at the top of the same page and also carry the dot. The dot's job is to create a visual echo: the pill at the top shows <svg class="dot-ic" viewBox="0 0 24 24" aria-hidden="true"><use href="#gm-i-dot-blue"/></svg><code>Europe</code>, the badge on the card shows <svg class="dot-ic" viewBox="0 0 24 24" aria-hidden="true"><use href="#gm-i-dot-blue"/></svg><code>EUROPE</code> — the matching dot tells the reader "this card belongs to the section that pill jumps to." Without pills at the top the echo has nothing to connect to (the bg+border+text trio already communicates the family) and the dot is just noise. <strong>No pills at top → no dot in the badge.</strong> When a dot IS used, it is always the real catalogue icon (Site-Icons.html § Dots / <code>data-icon="dot-*"</code>) — never an emoji typed in markup, never a CSS flat disc.</div>
+
+<h3>Typography · badge text</h3>
+<table>
+<tr><th>Element</th><th>Size</th><th>Weight</th><th>Letter-spacing</th><th>Case</th><th>Color</th></tr>
+<tr><td>Pill label</td><td class="mono">see rule below — never a fixed px on a badge</td><td>700 (800 for Yellow/Purple/Grey)</td><td>0.04em</td><td>UPPERCASE</td><td>family text</td></tr>
+<tr><td>Inline tag</td><td class="mono">10px</td><td>700</td><td>0.04em</td><td>UPPERCASE</td><td>family text</td></tr>
+<tr><td>Card wrapper header</td><td class="mono">11px</td><td>600 (700 for Pink)</td><td>0.18em</td><td>UPPERCASE</td><td>family text</td></tr>
+<tr><td>Card wrapper section label (after <code>|</code>)</td><td class="mono">11px</td><td>400</td><td>0.18em</td><td>UPPERCASE</td><td>family text @ 0.7 opacity</td></tr>
+<tr><td>Divider <code>|</code></td><td class="mono">11px</td><td>300</td><td>—</td><td>—</td><td>family text @ 0.4 opacity</td></tr>
+<tr><td>Family dot (before label)</td><td class="mono">7×7px</td><td>—</td><td>—</td><td>—</td><td>fill = family text</td></tr>
+</table>
+
+<h3>Shape and effect · badge box</h3>
+<table>
+<tr><th>Property</th><th>Pill</th><th>Inline tag</th><th>Card wrapper</th></tr>
+<tr><td>font-weight</td><td>700</td><td>700</td><td>600 (700 for Pink)</td></tr>
+<tr><td>letter-spacing</td><td>0.04em</td><td>0.04em</td><td>0.18em</td></tr>
+<tr><td>line-height</td><td colspan="3"><code>1</code> — collapses the leading so a single line of all-caps text centers on the box's true vertical middle</td></tr>
+<tr><td>padding</td><td><code>3px 8px</code></td><td><code>1px 5px</code></td><td><code>12px 16px 11px</code> (header) · <code>10px</code> around inner content</td></tr>
+<tr><td>border</td><td><code>1px solid</code> family-border</td><td><code>1px solid</code> family-border</td><td><code>1px solid</code> family-border on inner · outer card <code>1px solid var(--border)</code></td></tr>
+<tr><td>border-radius</td><td><code>4px</code></td><td><code>3px</code></td><td><code>6px</code> outer, <code>4px</code> inner</td></tr>
+<tr><td>width</td><td colspan="3"><strong>content-driven — the badge wraps to the word</strong>. No fixed width, no min-width, no max-width. Longer words = wider badge; height stays the same.</td></tr>
+<tr><td>white-space</td><td><code>nowrap</code></td><td><code>nowrap</code></td><td>wraps normally</td></tr>
+<tr><td>display</td><td><code>inline-block</code> (in a flex wrap)</td><td><code>inline-block</code></td><td><code>block</code></td></tr>
+<tr><td>gap between pills</td><td colspan="3"><code>5px</code> via <code>.badge-wrap</code> flex gap</td></tr>
+<tr><td>shadow / effect</td><td colspan="3">None. Flat only — no box-shadow, no gradient, no hover fill change.</td></tr>
+</table>
+
+<h3>Rules</h3>
+<div class="rule"><strong>The badge label can never render bigger than the text it sits beside</strong> (owner correction 2026-08-24, re-emphasized 2026-08-25 — this supersedes any older "canonical 11px, reduce as a last resort" model). Badge and pill-to-badge stopped sharing one fixed size on 2026-08-24: a static row label was reading heavier than the row it labelled at the pill's own full size. The two roles now behave differently:
+<ul>
+<li><strong>A static label</strong> (Pill / Inline tag / Card-wrapper header — anything that is NOT a clickable filter/tab) is <code>.badge</code>: <code>font-size: min(1em, 12px)</code>, padding <code>3px 8px</code>. It inherits from whatever text it sits beside — a 13px table row, a 16px card headline — capped at a 12px ceiling, so it can never read bigger than the text beside it. <strong>Never hard-code a fixed px on a badge</strong> — a number that "looks right" beside one piece of text becomes bigger than the text beside it the moment that class sits next to something smaller elsewhere.</li>
+<li><strong>A clickable control</strong> (a filter pill, a tab, a jump-nav button — a pill-to-badge) is <code>.pill-badge</code>: a fixed <code>12px</code> / <code>4px 9px</code>. It is usually the only thing in its row, so there is no surrounding text to match — a fixed size is correct for it, and only it.</li>
+<li>Colors are absolute for both roles — no substitution, no approximation.</li>
+<li>ALL CAPS is absolute for both roles — no exceptions, every page.</li>
+<li>Within a page, every pill-to-badge in the same row/group is the same height — guaranteed by construction if every one uses the shared tokens rather than a page-local override. A badge has no equivalent "same height" rule.</li>
+<li>Only font-size and padding differ by role. font-weight (700), letter-spacing (0.04em), UPPERCASE, border (1px solid), border-radius (4px), line-height (1), and the color trio stay locked and shared. Never override height directly — let it compute.</li>
+</ul>
+Enforced: <code>brain_check.check_badge_pill_one_box</code> — for a badge subject, a fixed font-size is rejected even if the number happens to be 12px.</div>
+
+<div class="rule"><strong>PINK and RED are separate families</strong> (since 2026-07-28). RED is the peachy-salmon pill used by CLEAR/WIFEY. PINK is the distinct magenta pill (<code>rgba(160,40,110,.08) / #8a2168 (or #6b1950) / rgba(160,40,110,.4)</code>) used for European-Train-Guide Private-operator, so RED and PINK can coexist on the same card (High-Speed = RED, Private = PINK). Never use the words as synonyms.</div>
+
+<div class="rule"><strong>One canonical hex per family</strong> — every badge instance across the site pulls from the tokens in the palette table below. No page-specific variant, no "close enough" hex, no ad-hoc override.</div>
+
+<div class="rule"><strong>Background, border, and text stay locked as a trio</strong> — never mix families (never RED text on a YELLOW background, never a GREEN border around a BLUE fill). Font color is especially easy to swap by accident when copying markup between pages — always verify the text color matches the background family. A new color role needs a new family added to §§ 5–6 first — flagged via Open Recommendations — never invented in-page.</div>
+
+<div class="rule"><strong>Hotel name / body text inside a card wrapper is always dark <code>--text</code></strong> — only the meta line (city + dates) and the label take the family's text color. This keeps content readable across all 8 families.</div>
+
+<div class="rule"><strong>Dot icons — all 8 families drawn from the catalogue, never an emoji typed in markup and never a CSS sphere</strong> (owner rule 2026-08-20, "use our dots not emojis" — supersedes any older per-family emoji-character convention). Use <code>data-icon="dot-*"</code> in markup, drawn per Site-Icons.html § Dots, for all 8 families including Pink (specimen 863 — Pink genuinely has a real catalogue dot; a stale note claiming otherwise has been retired).</div>
+
+<div class="rule"><strong>Bar-accent rule</strong> — a 4px left bar on a card (dest-cards, callouts, tinted wrappers) uses the vivid mid-shade from the family's dot icon, not the muted text color, so the bar reads coherent with the dot at a glance. Card body tint: <code>rgba(&lt;bar-rgb&gt;, .06–.08)</code>. Text stays the family's canonical text color. See § Left Bars below for the full component.</div>
+
+<div class="rule"><strong>No dots inside badge text</strong> — dot icons belong on jump-nav pills-to-badge, which identify the family at a glance. They do not go inside the badge label itself: a badge reads <code>SEARCH</code>, never <svg class="dot-ic" viewBox="0 0 24 24" aria-hidden="true"><use href="#gm-i-dot-blue"/></svg><code>SEARCH</code>. The family is already communicated by the bg+border+text trio; the dot inside the label is redundant and makes the badge noisy.</div>
+
+<div class="rule"><strong>Two pill rows serving different purposes must look visually distinct</strong> — when a page shows two separate pill rows that categorize/navigate different things (e.g. metric filter pills + region jump-nav), the rows must use different visual styles — shape, border treatment, color, or a combination. Acceptable: (A) glued/squared desktop filter pills + rounded gold-bordered site-resource pills; (B) neutral filter pills + colored pills-to-badge. Forbidden: two rows of identical-looking neutral grey pills serving different conceptual roles placed close together.</div>
+
+<div class="rule"><strong>Dark-mode tokens ship with every family</strong> — never define a light-only badge; every page respects <code>prefers-color-scheme: dark</code>.</div>
+
+<h3>Color palette · Vibrant, the 8 families — light + dark tokens</h3>
+<table>
+<tr><th>Dot</th><th>Family</th><th>BG (light)</th><th>Border (light)</th><th>Text (light)</th><th>BG (dark)</th><th>Border (dark)</th><th>Text (dark)</th><th>Bar (both modes)</th></tr>
+<tr><td><svg class="dot-ic" viewBox="0 0 24 24" aria-hidden="true"><use href="#gm-i-dot-yellow"/></svg></td><td>YELLOW</td><td><code>#fff8e0</code></td><td><code>#8a6524</code> (opaque, = text)</td><td><code>#8a6524</code> · <code>fw:800</code></td><td><code>#281f00</code></td><td><code>#d4a830</code></td><td><code>#d4a830</code></td><td><code>#f5c518</code> · dark <code>#f5d040</code></td></tr>
+<tr><td><svg class="dot-ic" viewBox="0 0 24 24" aria-hidden="true"><use href="#gm-i-dot-green"/></svg></td><td>GREEN</td><td><code>#e8f5e8</code></td><td><code>#1a5a1a</code></td><td><code>#1a5a1a</code></td><td><code>#0d200d</code></td><td><code>#5aaa5e</code></td><td><code>#5aaa5e</code></td><td><code>#5eb833</code> · dark <code>#7cd050</code></td></tr>
+<tr><td><svg class="dot-ic" viewBox="0 0 24 24" aria-hidden="true"><use href="#gm-i-dot-red"/></svg></td><td>RED</td><td><code>#fdf0e8</code></td><td><code>#7a1414</code></td><td><code>#7a1414</code></td><td><code>#2a1408</code></td><td><code>#e8a880</code></td><td><code>#e8a880</code></td><td><code>#e01818</code> · dark <code>#ff4a4a</code></td></tr>
+<tr><td><svg class="dot-ic" viewBox="0 0 24 24" aria-hidden="true"><use href="#gm-i-dot-blue"/></svg></td><td>BLUE</td><td><code>#e8f0fb</code></td><td><code>#1a3a8b</code></td><td><code>#1a3a8b</code></td><td><code>#0a1a3a</code></td><td><code>#93b4ff</code></td><td><code>#93b4ff</code></td><td><code>#4a90e2</code> · dark <code>#7ab0f0</code></td></tr>
+<tr><td><svg class="dot-ic" viewBox="0 0 24 24" aria-hidden="true"><use href="#gm-i-dot-purple"/></svg></td><td>PURPLE</td><td><code>#f2e6ff</code></td><td><code>#6425c4</code></td><td><code>#6425c4</code> · <code>fw:800</code></td><td><code>#2d1b5e</code></td><td><code>#c084fc</code></td><td><code>#c084fc</code></td><td><code>#a05be8</code> · dark <code>#b880f5</code></td></tr>
+<tr><td><svg class="dot-ic" viewBox="0 0 24 24" aria-hidden="true"><use href="#gm-i-dot-orange"/></svg></td><td>BROWN (CSS class stays <code>fam-orange</code>; formerly ORANGE, formerly BEIGE)</td><td><code>#fdf8f0</code></td><td><code>#5c3208</code> — own darker token, not the ink (the one family where border ≠ ink)</td><td><code>#6b4423</code></td><td><code>#2a1808</code></td><td><code>#f5a860</code></td><td><code>#f5a860</code></td><td><code>#f5a623</code> · dark <code>#ffb85a</code></td></tr>
+<tr><td><svg class="dot-ic" viewBox="0 0 24 24" aria-hidden="true"><use href="#gm-i-dot-pink"/></svg></td><td>PINK</td><td><code>rgba(160,40,110,.08)</code></td><td><code>#6b1950</code></td><td><code>#6b1950</code> · <code>fw:700</code> on card wrappers (lighter hue reads thin at 600)</td><td><code>rgba(255,80,155,.10)</code></td><td><code>#ff8ac0</code></td><td><code>#ff8ac0</code></td><td><code>#f688b8</code> · dark <code>#ff9ac8</code> — heart-mid <code>radial-gradient(#ffcce0 0%, #f688b8 55%, #c02870 100%)</code></td></tr>
+<tr><td><svg class="dot-ic" viewBox="0 0 24 24" aria-hidden="true"><use href="#gm-i-dot-black"/></svg></td><td>GREY</td><td><code>rgba(138,108,26,.07)</code></td><td><code>#6a6660</code></td><td><code>#6a6660</code> · <code>fw:800</code></td><td><code>rgba(180,175,168,.10)</code></td><td><code>#b4afa8</code></td><td><code>#b4afa8</code></td><td><code>#3a3632</code> · dark <code>#b4afa8</code></td></tr>
+</table>
+<p class="hint">The two absolutes: (1) colors match the family exactly, never approximate/substitute; (2) text is ALL CAPS on every badge, every page, every size — this is a badge rule, never a pill rule (§ 10 covers pill casing). Scope: essentials, Best-Of, Maps, site root, hub pages. Validator: <code>Brain/scripts/brain_check.py</code>.</p>
+
+<h3>Pages that use badges — live usage inventory</h3>
+<p class="hint">Extend this table whenever a badge family goes live or moves on a page — this is the map a crib checks before touching any essentials page's badges.</p>
+<table>
+<tr><th>Page</th><th>Families in use</th><th>Notes</th></tr>
+<tr><td><code>essentials/trusted-traveler/</code></td><td>RED (<code>.badge-clear</code>) · GREEN (<code>.badge-eoa</code>) · BLUE (<code>.badge-ge</code>) · BROWN (<code>.apt-loc-label</code> inline)</td><td>—</td></tr>
+<tr><td><code>essentials/nomad-visas/</code></td><td>PURPLE (<code>.etype.eu</code>) · GREEN (<code>.etype.am</code>) · YELLOW (<code>.etype.ap</code>)</td><td>Base <code>.etype</code> shape props canonical. Registered in <code>brain_check.py BADGE_PAGES</code>.</td></tr>
+<tr><td><code>essentials/entry/</code></td><td>GREEN (<code>.status-live</code>) · YELLOW (<code>.status-coming</code>)</td><td>Base <code>.status-badge</code> shape canonical. Registered in <code>BADGE_PAGES</code>.</td></tr>
+<tr><td><code>essentials/packing/</code></td><td>RED (<code>.qty</code> "PACK=N")</td><td>—</td></tr>
+<tr><td><code>essentials/insurance/</code></td><td>BROWN (<code>.rec-skip</code>) · YELLOW (<code>.rec-card</code>) · GREEN (<code>.rec-standalone</code>)</td><td>Canonical reference page for these three families. Base <code>.rec-badge</code> matches canonical shape spec.</td></tr>
+</table>
+
+<h3>Left bars — 4px accent</h3>
+<p class="lead">A 4px solid left border on a card or content block signals which color family the card belongs to, without needing a full badge. The bar color is always the vivid mid-shade of the family — the same "Bar" column value in the palette table above.</p>
+<div class="rule"><strong>Bar + badge on the same card must be the same family.</strong> A green bar with a YELLOW badge is wrong, in either direction. When you pick a family for a card, every element that refers to that category uses that family: the bar, the badge, and the jump-nav pill-to-badge that links to it.</div>
+<div class="rule"><strong>A bar can appear without a badge</strong> — it simply signals category without printing a label. The bar color must still be one of the 8 approved family colors, never a custom hex, never terracotta.</div>
+
+<h3>Site indicators — outside the 8 families</h3>
+<p class="lead">The <strong>NEW</strong> indicator is a single canonical design used in exactly two places on the site — both share identical colors and visual identity (the same icon, not two designs that happen to look similar). Never create a third surface; if something new needs to say "new," reuse this exactly.</p>
+<table>
+<tr><th>Token</th><th>Value</th><th>Role</th></tr>
+<tr><td>Background</td><td><code>#fdecc8</code></td><td>—</td></tr>
+<tr><td>Border (default)</td><td><code>#e8c97a</code> · 1.5px</td><td>—</td></tr>
+<tr><td>Border (pill active, <code>aria-pressed=true</code>)</td><td><code>#C04E1A</code> · 1.5px</td><td>—</td></tr>
+<tr><td>Text</td><td><code>#7a4d00</code></td><td>—</td></tr>
+</table>
+<table>
+<tr><th>Surface</th><th>Element</th><th>Location</th></tr>
+<tr><td>1 — guide card badge</td><td><code>.dest-new-badge</code>, an <code>&lt;img src="./assets/new-guide-badge.svg"&gt;</code>. Appended by JS to any <code>a.dest-card[data-shipped]</code> shipped ≤21 days ago.</td><td><code>Travel-Website/index.html</code> badge script + <code>assets/new-guide-badge.svg</code></td></tr>
+<tr><td>2 — guides-index filter pill</td><td><code>#btn-new-filter</code>. Toolbar pill filtering the guide mosaic to new-only; contains the same SVG. Neutral disc-btn wrapper; <code>aria-pressed</code> for state; background shifts to <code>#f0ede8</code> + terracotta border when active.</td><td><code>Travel-Website/index.html</code> pill-row + <code>guides-index-style.css #btn-new-filter</code></td></tr>
+</table>
+<p class="hint">Rules: (1) both surfaces stay in sync because colors live only in <code>new-guide-badge.svg</code> — edit the SVG and both propagate; (2) text is always uppercase ("NEW"/"new") for visual consistency, even though this is an indicator, not a badge label; (3) this is outside the 8 canonical families — do not apply the family badge rules (dot, bar-accent) to it; (4) the "21 days" window lives in one place, the injection script in <code>index.html</code> — the filter pill JS mirrors it, change both together.</p>
+
+<h2 id="sec-fill-outline">9 · Filled is a Button, Outlined is Selected</h2>
+<p class="lead"><strong>Owner decision, 2026-08-18.</strong> "i want that button full fill and selection outline." The 2026-08-11 sweep moved every selected chip to outlined and left six rules filled as a list of exceptions. A list cannot be enforced and cannot settle the next case — this principle replaces it.</p>
+<table>
+<tr><th>Treatment</th><th>Means</th><th>Where</th></tr>
+<tr><td>Filled <code>#C04E1A</code>, at rest</td><td>An <strong>action</strong></td><td><code>a.apply-btn</code> · <code>a.apply-link</code> · <code>.cmp-btn</code></td></tr>
+<tr><td>Outlined — white fill, terracotta rim + label</td><td><strong>Selected</strong></td><td>Every chip, filter pill, month button</td></tr>
+<tr><td>Filled, at rest</td><td>Borderline — kept</td><td><code>a.badge</code>: filled like a button, and it links</td></tr>
+<tr><td>Filled</td><td><strong>Outside the rule</strong></td><td><code>.wx-bar.on</code> — a chart bar, not a chip</td></tr>
+</table>
+<p><strong>Why a call to action stays filled:</strong> filled is the only thing separating it from the outlined chips around it — an outlined "Apply" on the Visas page would sit in a column of outlined entry-type chips and become just one more chip. <strong>Why <code>.wx-bar.on</code> is exempt:</strong> outlined, the selected bar becomes a hollow box among solid ones and reads as <em>missing data</em>, not <em>selected</em> — a data bar should look like a bar.</p>
+<h3>Hover is not covered by this, deliberately</h3>
+<p><code>a.city-row</code> on Safety/Budget/Tipping is white at rest and fills solid terracotta <strong>on hover</strong> — that looks like a breach and is not, because a hover does not persist. Chips were outlined because a <em>selected</em> chip sits on screen while the reader reads the rest of the page, several at once, all shouting; a hover is one row, for as long as the pointer is on it. On a 237-row table the filled bar is the strongest "you are here," and a 1.5px rim disappears into the hairline grid already between rows.</p>
+<div class="rule"><strong>Never "fix" <code>a.city-row</code>'s filled hover to match the chip rule</strong> — it was measured against an outlined version and kept on purpose. Pinned by <code>brain_check.check_fill_means_action</code>.</div>
+<h2 id="sec-pills-full-spec">10 · Pills, Chips &amp; Buttons — Complete Production Spec (merged 2026-08-25)</h2>
+<p class="lead">Every interactive pill/chip/button on the site, with states, colors, and when-to-use rules.</p>
+
+<h3>Terminology</h3>
+<table>
+<tr><th>Term</th><th>Meaning</th></tr>
+<tr><td>Badge</td><td>A static, non-interactive colored label that classifies what something IS. Always ALL CAPS. Never responds to hover/click. See § 8.</td></tr>
+<tr><td>Pill</td><td>An interactive UI element. Background is white at rest and never changes on hover for a standard pill — only border and text shift (terracotta). Pills come in several types, below.</td></tr>
+<tr><td>Pills-to-badge</td><td>Jump-nav pills at the top of a page whose sections are labeled with matching badges. The pill's rest-state colors match the badge family it links to — "Europe" uses PURPLE, "Americas" uses GREEN, "Asia-Pacific" uses YELLOW — so the reader instantly sees which pill jumps to which section. They form a touching cluster ("the board"). See Type C below. Example: <code>essentials/nomad-visas/</code> — EUROPE (purple) · AMERICAS (green) · ASIA-PACIFIC (yellow).</td></tr>
+</table>
+
+<h3>Universal pill rules</h3>
+
+<div class="rule"><strong>Background never changes on hover — standard pills.</strong> Only border and text shift to terracotta <code>#C04E1A</code>. Hover must never fill a pill with gold, beige, terracotta, or any color as a background on a standard filter/jump-nav pill.</div>
+
+<div class="rule"><strong>Pills-to-badge — desktop vs mobile hover split.</strong> Rest background is the badge family tint. <strong>Mobile hover</strong>: terracotta gradient, white text, white dot halo — same as every other pill. <strong>Desktop hover (≥601px)</strong>: background → <code>var(--bg, #f5f4f0)</code> page background (not the family tint, not terracotta) · border → terracotta · text → terracotta · dot reverts to its family color, no white halo. The desktop rule exists to kill the gradient flash that reads poorly on a pill that already has a colored background. Canonical implementation: <code>essentials/visas/</code> visa-status strip (Visa-free / Free arrival card / Travel authorization / eVisa / Visa on arrival / Visa required).</div>
+
+<div class="rule"><strong>ALL CAPS is a BADGE rule — never a pill rule, even for pills-to-badge.</strong> A pill-to-badge shares its badge family's colors but never its casing: the badge reads <code>EUROPE</code>, the pill that jumps to it reads <code>Europe</code>. They share colors, not case — the badge labels what a card IS, the pill is a link that navigates.</div>
+
+<div class="rule"><strong>Font color: body text <code>#3d3a32</code> everywhere, except the Guides-Index toolbar and Selection Pills.</strong> Every pill on every page uses body text at rest. Two exceptions: the Guides-Index big-menu toolbar (Type A below), which uses gold <code>#8a6c1a</code>; and Selection Pills, Badge (tint), and Pill-to-Badge (tint) (§ 2), which use their own per-tone ink color by design — not body text, not drift. If you are building any other pill, the rest text is <code>#3d3a32</code>.</div>
+
+<div class="rule"><strong>Cluster / board — pills in a strip always touch,</strong> <code>gap:0</code>. Adjacent pill borders merge into a shared hairline. Never add gap or padding between pills in the same strip — jump-nav, filter strips, big-menu bars, and pills-to-badge all follow this.</div>
+
+<div class="rule"><strong>Width — stretch full-width or center as a compact cluster,</strong> decided by pill count, not a fixed threshold. <strong>Full-width stretch:</strong> when enough pills exist to fill the content area naturally, use a grid with equal columns; wraps to more rows as needed, every row fills full width. Example: 8 pills on a stats page → full-width stretch. <strong>Centered cluster:</strong> when only a few pills exist, stretching would oversize each one — center the cluster instead, pills still touch. Example: 3 region pills on Digital-Nomad-Visas → centered. Use visual judgment; when in doubt, check 390px mobile too.
+<ul>
+<li><strong>All rows must be consistent — never mix stretch and center in the same strip.</strong> If a strip wraps to two rows, both use the same layout — never row 1 stretched full-width and row 2 dangling left with 2 pills. If a grid wraps, use <code>grid-template-columns: repeat(N, 1fr)</code> so every row fills equally.</li>
+<li><strong>Two pill rows serving different purposes must look visually distinct</strong> — see § 8's identical rule; it applies to every pill row on the site, not just badge-adjacent ones.</li>
+</ul>
+</div>
+
+<div class="rule"><strong>Rest state = WHITE, never beige — the most recurring drift on the site.</strong> The rest (unselected) state of every boxed link/button pill is white <code>#ffffff</code> (or <code>var(--surface)</code>). A pill/button must never ship a beige/cream fill: never <code>#fdf3e0</code> or siblings (<code>#fdf6ec</code>, <code>#fef3e0</code>, <code>#fdf4e3</code>, <code>#faf5ec</code>). <code>#fdf8f0</code> (<code>--c-warm-bg</code>/<code>--warm</code>) is a <strong>card token, not a pill token</strong> — legitimate for section cards/boxes/banners, never a pill/button background. Pills are white; cards are warm; never the reverse.
+<p style="margin:.6rem 0 0;"><strong>Exception — Selection Pills, Badge (tint), and Pill-to-Badge (tint) (§ 2).</strong> Their whole approved design is a pale color tint at rest, never white — worked out deliberately after an earlier white-rest pass made the hover options read as too subtle to matter (§ 2's own history). A Selection Pill's tinted rest state is the approved design, not this drift — never "fix" it to white.</p>
+</div>
+
+<h3>Pill types</h3>
+
+<h4>Type A — Big Menu Pills (Guides-Index toolbar only)</h4>
+<p>The main navigation pills across the top of Guides-Index (Trip Length, Country, Best of, etc.) — the only pills site-wide using gold text at rest.</p>
+<table>
+<tr><th>State</th><th>Background</th><th>Border</th><th>Text</th></tr>
+<tr><td>Rest</td><td><code>#fff</code></td><td><code>var(--border)</code></td><td><code>#8a6c1a</code> gold — INDEX ONLY</td></tr>
+<tr><td>Hover</td><td><code>#fff</code></td><td><code>#C04E1A</code></td><td><code>#C04E1A</code></td></tr>
+<tr><td>Open / pressed-down</td><td><code>#f0ede8</code></td><td>darker neutral</td><td><code>#6a6660</code> muted</td></tr>
+</table>
+<div class="rule"><strong>Dropdown list items are NOT bold and NOT all-caps.</strong> Cribs constantly set <code>font-weight:700</code> and <code>text-transform:uppercase</code> on dropdown items — both wrong. List items: <code>font-weight:400</code>, regular case, body text color <code>#3d3a32</code>.</div>
+
+<h4>Type B — Filter Pill / Filter Chip (pressed-down while active)</h4>
+<p>Used when a pill filters content that stays visible on the page — the filtered results tie to the pill and the pill itself stays in view. Classes: <code>.mchip</code> · <code>.tchip</code> · <code>.fchip</code> · <code>.lchip</code> · <code>.pill</code> (generic).</p>
+<p><strong>Decision rule — pressed-down or not?</strong> Ask "after I click this pill, will I still be looking at it?" If content filters in place and the pill stays visible → pressed-down (Type B). If you scroll away or the page jumps → no pressed-down (Type C).</p>
+<pre>.mychip { padding:6px 12px; border-radius:6px; font-size:13px; border:1px solid var(--border2); background:#fff; color:#3d3a32; }
+.pill.active { background:#f0ede8; border-color:#b0aca6; color:#6a6660; }  /* literal hex, not var() */</pre>
+<div class="rule"><strong>The active state is ALWAYS pressed-down (muted beige) — solid terracotta fill is absolutely wrong here.</strong> <code>background:#f0ede8; color:#6a6660; border:1.5px solid var(--border)</code>. A solid terracotta gradient fill with white text for an active filter pill is wrong behavior — that treatment (Type H) is reserved for permanently-highlighted elements, never a reversible filter selection.</div>
+
+<h4>Type C — Jump-Nav / Pills-to-Badge (no pressed-down)</h4>
+<p>Used when clicking the pill jumps to a section or a different page — the pill scrolls out of view, so a pressed-down state would be confusing. It always returns to rest immediately.</p>
+<pre>.jump-pill { background:#fff; border:1px solid var(--border2); color:#3d3a32; }
+.jump-pill:hover { border-color:#C04E1A; color:#C04E1A; }
+
+/* pills-to-badge — rest uses badge family colors */
+.region-pill.europe   { background:#f3e8ff; border:1px solid rgba(124,58,237,.5); color:#7c3aed; }
+.region-pill.americas { background:#e8f5e8; border:1px solid rgba(26,90,26,.4);   color:#1a5a1a; }
+.region-pill.apac     { background:#fff8e0; border:1px solid rgba(122,88,0,.4);   color:#7a5800; }</pre>
+<div class="rule"><strong>If pills exist at the top, they MUST anchor to sections below — every time.</strong> The most common crib failure: pills added but the matching <code>id</code> is missing from the section header below, so clicking does nothing. Every pill needs a matching <code>id</code> on the section it jumps to.</div>
+<p class="hint">Examples — jump-nav (no active): Vaccines · Lounges-US/Europe · Digital-Nomad-Visas · Stats-Across-Canada. Canonical pills-to-badge with the desktop hover rule: <code>essentials/visas/</code>.</p>
+
+<h4>Type D — Disclosure Button / Dropdown Toggle</h4>
+<p>The <code>.disc-btn</code> class. Opens/closes a content panel; pressed-down while the panel is open, returns to rest when closed.</p>
+<table>
+<tr><th>Property</th><th>Value</th></tr>
+<tr><td>Height</td><td><code>32px</code> or <code>40px</code></td></tr>
+<tr><td>Padding</td><td><code>0 12px</code> (or <code>0 14px</code>)</td></tr>
+<tr><td>Border</td><td><code>1.5px solid var(--border2)</code></td></tr>
+<tr><td>Border radius</td><td><code>6px</code></td></tr>
+<tr><td>Font size</td><td><code>12px</code> or <code>13px</code></td></tr>
+<tr><td>Open/active bg / text</td><td><code>#f0ede8</code> / <code>#6a6660</code></td></tr>
+</table>
+<p class="hint">Also applies to <code>.seg-btn</code> (segmented controls) and <code>.stab</code> (status/view tabs).</p>
+
+<h4>Type E — Chevron Link Pill (outbound source card link)</h4>
+<p>The site standard for a card/list link to an external source: a named platform shown as its own bordered pill with a trailing <code>›</code> chevron. Being swapped in incrementally wherever a plain-text/invisible-styling <code>&lt;a&gt;</code> currently links to a third party — existing plain-text outbound links are pending migration, not an alternate approved style.</p>
+<pre>/* lives in assets/web-travel-style.css — apply the class, never redeclare */
+.chevron-link-pill {
+  display: inline-block;
+  color: var(--muted);
+  border: 1px solid var(--border2);
+  border-radius: 10px;         /* rounder than the 6px filter pill — a card link, not a filter chip */
+  padding: 8px 14px;
+  font-weight: 600;
+  font-size: 14px;
+  transition: border-color .15s, color .15s;
+  text-decoration: none;
+}
+.chevron-link-pill::after { content: '\203A'; }   /* › U+203A — NEVER hardcode the character in HTML */
+.chevron-link-pill:hover { color:#C04E1A; border-color:#C04E1A; }  /* border+text only, background stays white */
+a.chevron-link-pill:visited { color: var(--muted); }</pre>
+<div class="rule"><strong>The <code>›</code> comes from CSS <code>::after</code> — never type it in HTML.</strong> Typing it directly doubles the chevron and breaks the shared CSS. The element contains only the platform name: <code>&lt;a class="chevron-link-pill"&gt;Viator&lt;/a&gt;</code>. This is a <em>different</em> component from <code>.ext-arrow</code>/<code>.apply-btn</code> (the 45°-rotated CSS border arrow used inline in body copy) — don't substitute one for the other.</div>
+<p><strong>Size variant:</strong> <code>best-of/</code>'s 34 "Explore" cards use a smaller size of the same family — <code>.best-of-link</code>, <code>8px</code> radius, <code>5px 10px</code> padding, <code>11px</code> font — kept as its own class since it predates and suits the denser Best-Of grid. <code>:visited</code> lock: <code>var(--muted)</code>.</p>
+<p class="hint">Applied: <code>essentials/resources/</code> (8 cards) · <code>essentials/tours/</code> (7 cards) · <code>best-of/</code> (34 cards, small variant).</p>
+
+<h4>Type F — Site Resource Pill (Also on this site · Best Of · Nearby Guides)</h4>
+<p>Used at the bottom of every guide in three rows, and inline mid-page on some essentials pages. Classes: <code>.also-on-this-site-pill</code> · <code>.nearby-guide-pill</code> · <code>.also-in-country-pill</code> · <code>.overview-extras .overview-extra-link</code>.</p>
+<table>
+<tr><th>Property</th><th>Value</th></tr>
+<tr><td>Background (rest)</td><td><code>#fff</code> / <code>var(--c-card-bg)</code> — white, never warm-cream</td></tr>
+<tr><td>Border</td><td><strong><code>0.5px solid #c8a44a</code> — half-pixel, not 1px.</strong> This is the most common crib mistake on this pill type; the gold hairline at 0.5px is what gives the light, delicate look.</td></tr>
+<tr><td>Text (rest)</td><td><code>#8a6c1a</code> dark gold</td></tr>
+<tr><td>Font size / radius / padding</td><td><code>13px</code> / <code>6px</code> / <code>6px 12px</code></td></tr>
+<tr><td>Gap between pills</td><td><code>0</code> when many (touching board) · <code>8px</code> acceptable for just 2–3</td></tr>
+<tr><td>Labels</td><td>Title Case. Icon+name locked as a pair in <code>brain_check.py _CANONICAL_PAIRS</code>.</td></tr>
+</table>
+<div class="rule"><strong>Hover fills terracotta and turns text white — it does NOT stay white like a standard pill.</strong> This is the other common crib mistake: applying the standard white-stays-white hover instead. <code>a.also-on-this-site-pill:hover { background:#C04E1A; color:#fff !important; border-color:#C04E1A; box-shadow:0 3px 10px rgba(192,78,26,.18); }</code>. Never reintroduce a white label on any interaction state here — the injected theme-toggle CSS collision that caused white-text-on-white-pill is documented in the guide-style.css comments near this rule; scope any theme selector with <code>:not(:hover):not(:active):not(:focus-visible)</code>, never with <code>!important</code>.</div>
+<p><strong>Why gold matters for layout, not just decoration:</strong> on stat pages a full-width grey filter strip covers categories (Population, Happiness…). Below it, "Also in this page" appears in gold pills. The color difference tells the reader the two clusters do different things — grey filters within this data set, gold jumps to a different region's section.</p>
+<p><strong>Mobile (≤600px) — verified live CSS, 2026-08-25:</strong> the container is <code>display:flex; flex-wrap:wrap; gap:0; width:100%</code>; each pill is <code>flex:1 1 28%; height:46px; padding:4px 6px; border:0.5px solid #c8a44a; border-radius:6px; background:var(--c-float-bg); font-size:12px; display:flex; align-items:center; justify-content:center; text-align:center; white-space:normal; line-height:1.15</code>. Pills flow ~3-across at typical label lengths; a lone last pill grows full-width automatically — no JS, no <code>grid-column</code> span, no <code>:nth-child</code> override. Ported 2026-08-08 from an earlier <code>repeat(6,1fr)</code> grid + span-2/span-3/span-6 <code>:nth-child</code> overrides — iOS Safari silently drops <code>grid-column</code> set via <code>:nth-child</code>, stacking pills. <strong>Do not reintroduce any grid-based approach for these two selectors</strong> — a stale doc describing the old grid approach as current has already caused this exact regression once. <code>.also-in-country-pills</code> alone still legitimately uses grid with a <code>_fixPillGridOrphans</code> JS helper; don't port that helper to these two.</p>
+<p class="hint">Classes live in <code>assets/guide-style.css</code>. Examples: any guide's "Also on this site" + "Nearby Guides" rows · any Best-Of page.</p>
+
+<h4>Type G — Solid-Fill Terracotta Pill (persistent-highlight jump variant)</h4>
+<p>An alternative treatment for a pill that jumps to another page/section: instead of white-with-terracotta-hover, it is <em>always</em> shown filled. Used for the selected/pinned guide card on Guides-Index, day-header strips in guide pages, and other contexts needing a permanently-highlighted look.</p>
+<pre>.selected-pill { background:#C04E1A; color:#ffffff; border:none; font-weight:600; }  /* font is WHITE — cribs miss this */</pre>
+<div class="rule"><strong>Pressed-down (Type B) is the default for an active filter. Solid-fill is the exception, never the default.</strong> When a filter pill is active — user clicked it, content filters in place, pill stays visible — the correct state is always Type B pressed-down, not this. Use this type only when: (1) the pill jumps away (same rule as Type C) AND (2) the element needs a persistent highlighted look even before clicking, and is not an active/inactive toggle.</div>
+<p class="hint">Examples: Guides-Index selected/pinned guide card · guide day-header strips ("Day 2 – Buda Castle · Matthias Church · Fisherman's Bastion").</p>
+<h3>Mobile behavior — two approved forms (≤600px)</h3>
+
+<h4>Form A · Compact rounded pill</h4>
+<p>Applied automatically to short pill rows (mobile.css) — Before You Go, SIM, Delta, Visas, Time-Zones, etc.</p>
+<pre>font-size: 13px !important;
+padding: 8px 14px !important;
+border-radius: 6px !important;
+min-height: auto !important;   /* cancels the 40px tap-target inherited from the mobile baseline a/button rule */
+line-height: 1 !important;</pre>
+
+<h4>Form B · Full-width glued-grid tile</h4>
+<p>Used on full filter panels and section-nav grids: guides-index <code>.fchip</code>/<code>.tchip</code>/<code>.lchip</code>, <code>.stats-nav</code>/<code>.jump-nav</code>, European Train Guide filter strip.</p>
+<table>
+<tr><th>Property</th><th>Value</th></tr>
+<tr><td>Tile</td><td><code>width:100%; height:46px; border-radius:0; background:#ffffff; border:1px solid #e6e2da</code></td></tr>
+<tr><td>Text</td><td><code>color:#6a6660</code> (muted warm grey — matches <code>.jump-pill</code>/<code>.stats-nav a</code> rest) · <code>font-size:12px; font-weight:600</code></td></tr>
+<tr><td>Layout</td><td><code>display:flex; align-items:center; justify-content:center; text-align:center</code> — centers on both axes, wraps to two lines when needed</td></tr>
+<tr><td>Label case</td><td><strong>Sentence case, first word only</strong> — "Flight records", "Winter escapes", never Title Case, never ALL CAPS. Proper nouns keep their cap ("By region — Europe").</td></tr>
+<tr><td>Container</td><td><code>display:grid; grid-template-columns:repeat(3,1fr)</code> (or <code>repeat(2,1fr)</code>) with <code>minmax(0,1fr)</code> columns, not bare <code>1fr</code> — a bare <code>1fr</code> floors at content min-width and can push the grid wider than its container on a long label. <code>gap:0</code>, no inner horizontal padding on the container.</td></tr>
+<tr><td>Hover/active</td><td>Flips to standard terracotta gradient + white text</td></tr>
+</table>
+<div class="rule"><strong>The seam is the shared <code>.tve-glue</code> utility — never a <code>:nth-child</code> rule.</strong> Collapsing adjacent borders means pulling every tile one border-width up/left; a position selector spares the wrong cell the moment a hidden sibling, a reordered DOM, or iOS Safari's silent <code>:nth-child</code> grid-column bug is in play. Put <code>tve-glue</code> (or <code>tve-glue-m</code> for mobile-glued/desktop-flex) on the container and write no margin rules. Defined in <code>web-travel-style.css</code> § Form B glued grid. Enforced: <code>brain_check.check_form_b_glue_is_shared</code>.</div>
+<p class="hint">Enforced: <code>brain_check check_form_b_pill_labels</code> — <code>.jump-nav</code> must carry <code>padding-left:0!important; padding-right:0!important</code> inside its mobile media block, and every label inside a <code>.jump-nav</code>/<code>.stats-nav</code> must be sentence case (acronyms GDP/HDI/UNESCO stay caps).</p>
+
+<h3>Guide-page exceptions to Form B</h3>
+<p class="lead">Exceptions to Form B live <strong>only on guide pages</strong> — every non-guide page (Guides-Index, essentials, site root) follows the standard Form B rule with no exceptions.</p>
+
+<h4>Category 1 — Site-resource pills (rounded gold)</h4>
+<p>Three classes share Form B's stretched full-width mobile <em>behavior</em> but keep Type F's rounded-gold <em>visual identity</em> (§ 10 Type F above) rather than Form B's square grey tile — this is deliberate, not a Form B violation.</p>
+<table>
+<tr><th>Class</th><th>Where</th><th>Mobile container</th><th>Labels</th><th>Enforcement</th></tr>
+<tr><td><code>.also-on-this-site-pill</code></td><td>Every guide, near the bottom</td><td>Flex row, <code>flex:1 1 28%</code> per pill (see Type F above for the verified CSS)</td><td>14 canonical Title Case labels — <code>_CANONICAL_PAIRS</code> in <code>brain_check.py</code></td><td><code>check_also_on_site_pill_labels</code> · <code>check_mobile_design_system</code> · <code>check_guide_pill_css_canonical</code></td></tr>
+<tr><td><code>.nearby-guide-pill</code></td><td>Every guide, right after Also-on-this-site</td><td>Same flex pattern</td><td>City names — no capitalization rule</td><td><code>check_mobile_design_system</code> · <code>check_guide_pill_css_canonical</code></td></tr>
+<tr><td><code>.overview-extras .overview-extra-link</code></td><td>Every guide, Trip Overview extras row</td><td>Mobile: <code>display:grid !important; grid-template-columns:repeat(3,1fr) !important; gap:6px !important</code> — every tile the same size (owner rule 2026-08-08: no orphan-stretch, a lone trailing chip does not widen). Desktop: <code>display:flex; flex-wrap:wrap; gap:8px</code></td><td>14 canonical Title Case labels — <code>_OVERVIEW_PILL_CANONICAL_LABELS</code> in <code>validate_itinerary.py</code></td><td><code>validate_itinerary</code> overview-pill-canonical-label check · <code>check_mobile_design_system</code> · <code>check_guide_pill_css_canonical</code></td></tr>
+</table>
+<p class="hint">CSS source of truth: <code>assets/guide-style.css</code> — verified live 2026-08-25 (a prior doc's claim of a unified <code>repeat(auto-fill,minmax(168px,1fr))</code> grid at all widths does not match the shipped CSS and was not carried forward). Trip Overview chips are theme-sorted at runtime by <code>toolbar.js _extrasThemeOrder()</code> into Eat & Drink / Get Around / Plan & Do / Elsewhere — order only, no DOM/label/CSS change; full spec <code>Brain/Reference/Toolbar-Nav/Toolbar.html § 29</code>.</p>
+<div class="rule"><strong>Mobile-only pills (owner rule 2026-08-04).</strong> Three <code>.also-on-this-site-pill</code>s — Time Zones · Plug Adapter · Currency — are hidden on desktop (≥601px) and shown mobile-only, because the toolbar + hamburger already surface them on desktop. They stay in guide HTML for all guides; the hide is one CSS rule matching the destination href inside a <code>min-width:601px</code> media block. <strong>Do not delete them from guide HTML to "clean up" desktop</strong> — that breaks mobile and trips the label validator.</div>
+
+<h4>Category 2 — Action-button IDs (square gold)</h4>
+<p>Standard Form B layout (stretched, glued, square corners) but with gold text instead of Form B's muted grey.</p>
+<table>
+<tr><th>Pill</th><th>Element</th><th>Injected by</th></tr>
+<tr><td>Export to Calendar</td><td><code>#ics-cal-pill</code></td><td><code>toolbar.js _injectICSExport()</code></td></tr>
+<tr><td>All Stops Map</td><td><code>#ics-map-pill</code></td><td>Guide HTML + <code>toolbar.js</code> repackages</td></tr>
+<tr><td>Save for Offline</td><td><code>#tve-offline-btn</code></td><td><code>toolbar.js _injectOfflineBtn()</code> — builds a self-contained file the reader picks a folder for. There is no persistent "Saved" state — it described a service-worker cache entry the reader had no way to find.</td></tr>
+<tr><td>Preview Optimized</td><td>Injected <code>.overview-extra-link</code></td><td><code>toolbar.js</code> route-optimizer preview</td></tr>
+<tr><td>READ ABOUT {CITY}</td><td>Standalone <code>.overview-extra-link</code>, outside <code>.overview-extras</code></td><td>Per-guide injection script</td></tr>
+</table>
+<pre>#ics-pill-row > .overview-extra-link { border:1px solid var(--c-index-border); background:var(--c-warm-bg); color:var(--c-text-primary); font-weight:500; }
+#ics-cal-pill, #ics-map-pill, #tve-offline-btn, #tve-visited-btn { color: var(--c-text-primary); }
+#ics-cal-pill:hover { background: var(--c-pill-hover); }  /* #faefd8 warm cream */</pre>
+<p class="hint">Updated 2026-08-15: the row now sits above the Trip Overview card (between the QF strip and the card) so it must visually match the QF strip beside it — neutral chrome, not the older dark-brown gold-only text. Enforced: <code>brain_check check_gold_font_form_b_pills</code>. Label capitalization is owner-set Title Case, not currently validator-locked.</p>
+<p><strong>What's NOT an exception:</strong> every other Form B tile row — <code>.jump-nav</code>, <code>.stats-nav</code>, <code>.tchip</code>, <code>.fchip</code>, <code>.lchip</code>, <code>.mchip</code>, <code>.cf-mon</code>, <code>.filter-btn</code>, <code>.filter-chip-row</code>, <code>.sibling-pill</code> — uses the standard Form B rule (muted grey, sentence case, square corners, glued edges). <code>.filter-chip-row</code> is a mobile auto-fit utility (children become equal-width grid cells, ~2–3 across on a 390px phone) without imposing Form B's fixed height/radius/font-size — those still come from the per-chip class.</p>
+
+<h3>Special cases — exempt from the standard</h3>
+<p>Intentionally non-standard, flagged as warnings not errors by <code>validate_pill_standard.py</code>: <strong>Stat pills</strong> (<code>.stat-pill</code>) · <strong>Compare mode</strong> (<code>.cmp-chip</code>, <code>.cmp-go-btn</code>, <code>.cmp-exit-btn</code>) · <strong>Unit toggles</strong> (<code>.utab</code>) · <strong>Counter pills</strong> (<code>.pill-count</code>, <code>.pill-num</code>, <code>.pill-label</code>) · <strong>Specialized content</strong> (<code>.pkl-pill</code>, <code>.pkl-chip</code>, <code>.net-chip</code>) · <strong>Containers</strong> (<code>.pills</code>, <code>.legend-pills</code>, <code>.controls</code>, <code>.filter-bar</code> — layout wrappers, not styled directly).</p>
+
+<h3>Quick reference — which type is this?</h3>
+<table>
+<tr><th>Scenario</th><th>Type</th><th>Pressed-down?</th></tr>
+<tr><td>Filtering on the Guides-Index main toolbar</td><td>A — Big Menu</td><td>Yes, while dropdown open</td></tr>
+<tr><td>Filtering content that stays visible on the same page</td><td>B — Filter Pill</td><td>Yes, while active</td></tr>
+<tr><td>Jumping to a section / pill scrolls out of view after click</td><td>C — Jump-Nav</td><td>No — returns to rest</td></tr>
+<tr><td>Matching a section that carries a colored badge</td><td>C — Pills-to-badge</td><td>No — returns to rest</td></tr>
+<tr><td>Toggling a disclosure panel open/closed</td><td>D — Disclosure</td><td>Yes, while open</td></tr>
+<tr><td>Linking out to a named external source</td><td>E — Chevron Link Pill</td><td>No — outbound link</td></tr>
+<tr><td>"Also on this site" / "Nearby guides" row on a guide</td><td>F — Site Resource Pill</td><td>No — link row</td></tr>
+<tr><td>Needs to always show highlighted AND jumps to a page/section</td><td>G — Solid-Fill Terracotta</td><td>No — already filled; only if pressed-down doesn't qualify</td></tr>
+<tr><td>A static label classifying what something IS</td><td>Badge — pick a color family (§ 8)</td><td>N/A — non-interactive</td></tr>
+</table>
+
+<h3>What NOT to do</h3>
+<ul>
+<li><strong>Icon on an h1 / intro-card heading.</strong> Every essentials/guide h1 is ALL CAPS, <code>700</code>, <code>#3d3a32</code>, text only — no icon, no emoji, no flag before or after, ever. Same for intro-card headings.</li>
+<li><strong>Gold text on a non-Guides-Index pill.</strong> Gold is Type A only.</li>
+<li><strong>Bold ALL-CAPS dropdown items.</strong> Dropdown items are <code>font-weight:400</code>, regular case.</li>
+<li><strong>Pressed-down on a jump-nav pill.</strong> If you scroll away after clicking, the pill returns to rest — it never stays pressed.</li>
+<li><strong>Beige/cream background on a pill.</strong> Pills are always white at rest (see rule above).</li>
+<li><strong>Title Case on a badge.</strong> Badges are always ALL CAPS.</li>
+<li><strong>An arrow character appended to a button or pill label</strong> (<code>Compare →</code>). The button's shape is already the affordance; the external-link classes already draw an arrow via CSS. Hardcoding one doubles it, ignores CSS color, and breaks the shared standard. Never put <code>→</code>, <code>↗</code>, or <code>►</code> inside a button/pill label.</li>
+</ul>
+
+<h3>Validator index for this section</h3>
+<p class="hint"><code>validate_pill_standard.py</code> (site-wide pill/chip/button standard) · <code>check_no_beige_pill_button</code> · <code>check_badge_pill_one_box</code> · <code>check_fill_means_action</code> · <code>check_form_b_pill_labels</code> · <code>check_form_b_glue_is_shared</code> · <code>check_also_on_site_pill_labels</code> · <code>check_mobile_design_system</code> · <code>check_guide_pill_css_canonical</code> · <code>check_gold_font_form_b_pills</code> · <code>check_theme_override_not_state_blind</code> · <code>validate_itinerary</code> overview-pill-canonical-label check · <code>check_no_visited_color_change</code> / <code>check_no_visited_color_bleed</code>.</p>
+
+<h3>Implementation landmines (folded in from essentials-Page-Format.html, 2026-08-25)</h3>
+<div class="rule"><strong>Only 7 of the 8 families can be used on a PILL — ORANGE cannot.</strong> ORANGE's badge background is <code>#fdf8f0</code> — identical to the canonical warm card token <code>var(--warm)</code>. <code>brain_check.check_no_beige_pill_button</code> hard-fails that value on any selector matching <code>pill|btn|button|chip|cta</code>, because pills are white-or-family-tinted and warm tokens are for cards only. A pills-to-badge row may use YELLOW · GREEN · RED · BLUE · PURPLE · PINK · GREY at rest, never ORANGE — the ORANGE <em>badge</em> itself is still fine (badge selectors don't match the pill pattern). If a page has 6+ categories and reaches for ORANGE on a pill, re-map that category to GREY or GREEN instead and move the dot with it, so pill and badge stay the same family. Learned on First-Timer-Mistakes 2026-08-07, which hard-failed with <code>.pill[data-filter="distance"]</code> on ORANGE.</div>
+<div class="rule"><strong>Detection rule for pills-to-badge — mandatory, not optional.</strong> If a page has a badge legend AND jump-nav or region/category pills, those pills MUST use badge family colors — assign one family per pill. Plain neutral styling (<code>var(--surface)</code>/<code>var(--border)</code>) is wrong on any page with a badge legend.</div>
+<div class="rule"><strong>Form B mobile grid — a one-word label orphans its leading dot when the pill also carries a count badge.</strong> A pill in the 3-across mobile grid is only ~120px wide. When it carries a <code>.pill-count</code> badge, that reserves width first, and a single unbreakable word (<code>Distances</code>, <code>Moderate</code>) can no longer share the line with a leading dot/emoji — the dot wraps onto its own line, reading as a bare dot stacked above the word. Two-word labels hide the bug (they wrap after the first word, dot still attached). Fix: <code>.pill-count { display: none !important; }</code> inside <code>@media (max-width: 600px)</code> — desktop already hides the counts, so this also makes both breakpoints consistent. Shrinking the font instead does not reliably fix it; the badge is what's taking the space. Seen on First-Timer-Mistakes and Airport-Connection-Times, 2026-08-07.</div>
+<div class="rule"><strong>A status badge inline in a wrapping flex header lands on a different line row to row — pin it.</strong> When a row header is <code>display:flex; flex-wrap:wrap</code> and ends with a badge pushed right by <code>margin-left:auto</code>, the badge stays inline on rows with a short title and wraps below on rows with a long one, so the header changes shape down the page. Force the break on every row instead of letting content decide: <code>.row-header::after { content:""; flex-basis:100%; height:0; order:98; }</code> plus <code>.row-badge { order:99; flex:0 0 auto; margin-left:0; }</code>. Don't put <code>flex-basis:100%</code> on the badge itself — that stretches its background across the full row width. Seen on Airport-Connection-Times, 2026-08-07.</div>
+<div class="rule"><strong>Badge legend strips with unequal label lengths need <code>min-width</code> on the short ones.</strong> When a legend bar uses <code>flex: 0 1 auto</code> (natural/centered width, not full-stretch), a pill with a short label becomes a tiny sliver next to long ones — set an explicit <code>min-width</code> on every short-label pill inside the <code>@media (min-width: 601px)</code> block so the bar reads balanced.</div>
+<div class="rule"><strong>A pill's <code>.dot</code> must stay visible at full color in every interactive state — <code>background:revert</code> or <code>background:initial</code> silently kill it.</strong> The dot's color comes from a class rule like <code>.d-vf{background:#5eb833}</code>; either value reverts it to transparent. The only permitted dot modification on hover is a white halo when the pill background goes to the terracotta gradient: <code>box-shadow:0 0 0 2px rgba(255,255,255,.5)</code>. When the hover state is family-colored rather than gradient (e.g. a desktop legend strip), leave the dot completely unstyled in the hover rule.
+<pre>/* CORRECT */ .legend a.pill:hover .dot { box-shadow: none !important; }
+/* WRONG   */ .legend a.pill:hover .dot { box-shadow: none !important; background: revert !important; }</pre>
+</div>
+
+<h2>11 · What's out of scope</h2>
+<div class="panel">
+  <table>
+    <tr><th>Surface</th><th>Why</th></tr>
+    <tr><td>Guide HTML</td><td>Guides use no badges at all — different spec entirely.</td></tr>
+    <tr><td>"Also on this site" / nearby-guide / gold pills</td><td>Anchor-link pills that navigate to another page. No colour, ever — a different, separate pill family.</td></tr>
+    <tr><td>Toolbar top strip</td><td>Navigates on click; owner-only surface (Nineteenth non-negotiable in <code>CLAUDE.md</code>).</td></tr>
+    <tr><td>Sort / toggle buttons with no badge counterpart</td><td>e.g. <code>.sort-btn</code>, <code>.toggle-btn</code> — nothing to anchor a family colour to.</td></tr>
+    <tr><td>Best Of pills/chips</td><td>Explicitly excluded from this pass — separate scope.</td></tr>
+  </table>
+</div>
+
+<h2>12 · Selection pill — defined, not yet built</h2>
+<p class="lead">A distinct pattern from pill-to-badge: mutually exclusive within its group, but with <strong>no family colour</strong> — it's a mode/filter switch, not a label for anything. Owner definition, 2026-08-18.</p>
+<div class="rule"><strong>Click one → every other in the group loses selection.</strong> No <code>href</code>, never an <code>&lt;a&gt;</code> — a <code>&lt;button&gt;</code> or <code>role="button"</code>.</div>
+<div class="rule"><strong>Does not navigate</strong> — no page change, no section jump.</div>
+<div class="rule"><strong>Does not reorder</strong> — it is not a sort control.</div>
+<div class="rule"><strong>Does not anchor</strong> — no <code>#id</code> scroll target.</div>
+<p class="hint">CSS class: <code>.pill-select</code> (not yet added to <code>web-travel-style.css</code> — awaiting a real control to apply it to).</p>
+
+<h2>13 · Source files</h2>
+<div class="panel">
+  <table>
+    <tr><th>What</th><th>Where</th></tr>
+    <tr><td>Tokens + shared classes (canonical)</td><td><code>Travel-Website/assets/web-travel-style.css</code> — search <code>--fam-</code></td></tr>
+    <tr><td>This doc — the single source of truth for every badge, pill, and pill-to-badge</td><td><code>Travel-Website/Icons-Formats-Logos/selection-pills-badges-pills-to-badge-dots/selection-pills-badges-pills-to-badge-dots.html</code> (moved from <code>Brain/Reference/Formatting/Badge-Pill-System/</code>, renamed 2026-08-25)</td></tr>
+  </table>
+</div>
+
+</div>
+
+<script>
+(function(){
+  document.getElementById('fam-demo').addEventListener('click', function(e){
+    var el = e.target.closest('[data-fam]');
+    if (!el) return;
+    el.classList.toggle('is-on');
+  });
+  var ptbGroup = document.getElementById('ptb-demo');
+  ptbGroup.addEventListener('click', function(e){
+    var el = e.target.closest('[data-ptb]');
+    if (!el) return;
+    [].slice.call(ptbGroup.querySelectorAll('[data-ptb]')).forEach(function(x){ x.classList.remove('is-on'); });
+    el.classList.add('is-on');
+  });
+
+  ['en-demo','ink-demo','st-demo'].forEach(function(id){
+    var group = document.getElementById(id);
+    if (!group) return;
+    group.addEventListener('click', function(e){
+      var el = e.target.closest('[data-en],[data-ink],[data-st]');
+      if (!el) return;
+      el.classList.toggle('is-on');
+    });
+  });
+
+  // Equalise pill width within each .strip to the widest pill's own
+  // natural width — verified the CSS-only 1fr-column trick does not
+  // actually do this, so it is measured and set directly.
+  [].slice.call(document.querySelectorAll('.strip')).forEach(function(strip){
+    var items = [].slice.call(strip.children).filter(function(el){
+      return el.classList.contains('badge') || el.classList.contains('pillbadge');
+    });
+    if (items.length < 2) return;
+    items.forEach(function(el){ el.style.width = ''; });
+    var max = 0;
+    items.forEach(function(el){ max = Math.max(max, el.getBoundingClientRect().width); });
+    items.forEach(function(el){ el.style.width = max + 'px'; });
+  });
+})();
+</script>
+
+
+</body>
+</html>
+

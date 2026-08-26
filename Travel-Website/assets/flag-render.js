@@ -1,6 +1,6 @@
 /* TVE.flag — every country flag on the site is a numbered symbol in
    /assets/flags/sprite.svg (208 flat, gradient-free Twemoji flags, one
-   <symbol id="flag-N"> per country — see Brain/Reference/Formatting/
+   <symbol id="flag-N"> per country — see Travel-Website/Icons-Formats-Logos/
    Flags.html for the full number table). No page stores or renders a raw
    flag emoji character; every data source keeps the NUMBER only, exactly
    like every other icon on the site is referenced by its catalogue id. */

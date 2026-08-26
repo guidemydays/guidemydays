@@ -441,20 +441,35 @@
 #lp-guide-wrap #lp-guide-search { margin-bottom: 0; max-width: 100%; }
 #lp-guide-wrap .sa-suggest { left: 0; right: 0; top: calc(100% + 8px); text-align: left; }
 
+/* Rest/hover match the toolbar's own Saddle+Glow pill, colour for colour
+   (owner rule 2026-08-26, same treatment as the Compare Cities bar and the
+   passport picker) — copied from assets/toolbar.js .tb-links>a/.tb-ddbtn. */
 .lp-btn {
   display: inline-flex; align-items: center; gap: 0.45em;
   font: inherit; font-size: clamp(0.87rem, 1vw, 0.96rem); font-weight: 600;
   padding: 0.72em 1.5em;
   border-radius: 999px;
-  border: 1.5px solid var(--rust, #C04E1A);
-  background: var(--rust, #C04E1A);
-  color: rgb(253, 248, 240);
+  border: 1px solid rgba(107,68,35,.45);
+  background: #f7eee5;
+  color: #6b4423;
   text-decoration: none; cursor: pointer;
-  transition: background .18s ease, color .18s ease;
+  transition: box-shadow .15s ease, border-color .15s ease;
 }
-a.lp-btn:visited { color: rgb(253, 248, 240); }
+a.lp-btn:visited { color: #6b4423; }
 .lp-btn:hover, .lp-btn:focus-visible, a.lp-btn:hover:visited {
-  background: transparent; color: #8a6c1a;
+  box-shadow: 0 0 0 6px rgba(107,68,35,.18), 0 0 18px rgba(107,68,35,.35);
+  border-color: #6b4423;
+}
+/* #cf-submit's ONLY class is .lp-btn (no second class), so it rode along on
+   whatever .lp-btn meant. It stays filled-terracotta in BOTH themes — the
+   dark-mode block already forces this explicitly; light needs the same
+   explicit restate now that plain .lp-btn no longer means "filled". Never
+   fold this away when editing .lp-btn — Send message is not the hero CTA. */
+#cf-submit.lp-btn {
+  background: var(--rust, #C04E1A); border-color: var(--rust, #C04E1A); color: rgb(253, 248, 240);
+}
+#cf-submit.lp-btn:hover, #cf-submit.lp-btn:focus-visible {
+  background: transparent; color: var(--rust, #C04E1A); box-shadow: none;
 }
 /* .lp-wtg and .lp-btn.ghost were removed 2026-08-15 with the When to Go block —
    see the note at the hero markup. .ghost had no other caller on this page. */
@@ -2739,13 +2754,26 @@ summary.res-head:focus-visible { outline: 2px solid var(--rust, #C04E1A); outlin
 
   /* A filled CTA takes #C04E1A in dark, not --rust. Cream on #D4663A measures
      3.45:1 — under AA — and on #C04E1A it is 4.57:1. Same call, same reason, as
-     the guides-index intro CTA (Forty-sixth non-negotiable). */
-  .lp-btn, #cf-submit.lp-btn, #fnd-go.fnd-go, #fnd-more.fnd-more {
+     the guides-index intro CTA (Forty-sixth non-negotiable). .lp-btn is NOT
+     in this list any more — it moved to the toolbar's Saddle treatment below,
+     which is its own colour grammar, not a filled CTA taking a dark partner. */
+  #cf-submit.lp-btn, #fnd-go.fnd-go, #fnd-more.fnd-more {
     background: #C04E1A; border-color: #C04E1A; color: #fdf8f0;
   }
-  .lp-btn:hover, .lp-btn:focus-visible { background: transparent; color: #c8a040; }
   #fnd-go.fnd-go:hover,
   #fnd-more.fnd-more:hover, #fnd-more.fnd-more:focus-visible { background: #8A3F18; border-color: #8A3F18; }
+
+  /* .lp-btn's dark twin: no ground at rest, gold WASH on hover (a flat
+     background, not the light-mode glow ring) — the toolbar's own dark
+     .tb-links>a/.tb-ddbtn mechanism, same as the Compare Cities bar's dark
+     mode. Dark and light deliberately use different hover mechanisms; this
+     is not a simplification, it is what toolbar.js itself does. */
+  .lp-btn, a.lp-btn:visited {
+    background: transparent; border-color: rgba(200,160,96,.42); color: #c8a060;
+  }
+  .lp-btn:hover, .lp-btn:focus-visible, a.lp-btn:hover:visited {
+    background: rgba(200,160,96,.12); border-color: rgba(200,160,96,.62);
+  }
 
   /* #tp-compare's cmp-go-btn/cmp-exit-btn are ID-scoped, so without this the
      light-mode rule above (background:#f7eee5) would outrank the shared dark

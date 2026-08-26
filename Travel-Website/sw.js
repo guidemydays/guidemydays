@@ -2323,7 +2323,8 @@
 /* 2026-08-26: guides-index-style.css/index.html: Compare Cities bar (.cmp-go-btn/.cmp-exit-btn, both the guides-index toolbar copy and the landing #tp-compare copy) rest/hover recolored to match the desktop toolbar's own Saddle+Glow pill (owner rule) — fixes the disabled "Pick 2-5 cities" opacity-fade-on-terracotta reading as washed-out pink. guides-index-style.css -> v31. CACHE to v1590. */
 /* 2026-08-26: web-travel-style.css: .pp-btn (passport picker, "Entry Rules For") hover was a bespoke flat background+border shift matching none of the 4 approved pill hovers -- now Glow (ambient halo, no fill change), the same mechanism as the toolbar's own .tb-ddbtn:hover, same tan tone as the control's existing --c-search-focus-border. Dropdown-Collapse.html item 1 resolved. web-travel-style.css -> v169. CACHE to v1591. */
 /* 2026-08-26: toolbar.js: RES_GROUPS essentials/budget/ -> essentials/average-costs/, label "Budget Guide" -> "Average Costs" (owner-called page rename — folder/nav-label/title had drifted to three different names). toolbar.js -> v1086. CACHE to v1592. */
-var CACHE = 'travel-cache-v1592';
+/* 2026-08-26: index.html: .lp-btn ("Browse over 200 guides" hero CTA) rest/hover recolored to match the toolbar's own Saddle+Glow pill, same treatment as the Compare Cities bar and passport picker (owner rule). #cf-submit ("Send message") keeps the filled-terracotta CTA look explicitly in both themes -- it shares the bare .lp-btn class with no theme of its own, so it needed the light-mode restate the dark block already had. CACHE to v1593. */
+var CACHE = 'travel-cache-v1593';
 
 /* The guide-calendar hand-off cache. Written by toolbar.js, read and emptied
    once by the fetch handler below, and EXEMPT from the activate sweep — it is

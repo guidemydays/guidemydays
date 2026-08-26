@@ -134,11 +134,19 @@ html { scroll-behavior: smooth; }
   line-height: 1.5;
   margin: 0 0 14px;
 }
-/* ── City grid ── */
+/* ── City list — rebuilt as a dense directory/index, not a pill grid ──
+   owner rule 2026-08-26: the old pill-grid had no overflow handling at
+   all, so a single long unbroken word ("Luxembourg") had nowhere to wrap
+   and fractured mid-letter, while multi-word names wrapped inconsistently
+   — no two rows shared a height. Multi-column flow (not CSS grid) reads
+   as a real printed index; every row is forced single-line with a proper
+   ellipsis so nothing can ever crack open again, on any name at any width.
+   Underlying markup (a.city-row/.city-dot/.city-name/.city-country) is
+   untouched — same 239 rows, same data-city/data-verified, same JS
+   filter/search contract; this only restyles them. */
 .city-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-  gap: 8px;
+  columns: 230px 5;
+  column-gap: 0;
 }
 /* Scroll-reveal, applied to the four .level-panel cards only (not the 300+
    individual chips inside them — a much smaller surface, and the same
@@ -152,30 +160,41 @@ a.city-row {
   position: relative;
   display: flex;
   align-items: center;
-  gap: 8px;
-  padding: 8px 12px 8px 11px;
-  background: var(--bg);
-  border: 1px solid var(--border2);
-  border-radius: 999px;
-  font-size: 13px;
+  gap: 9px;
+  padding: 9px 6px 9px 2px;
+  border-bottom: 1px solid var(--border2);
+  font-size: 13.5px;
+  color: var(--text);
   text-decoration: none;
-  transition: background .12s, border-color .15s, box-shadow .18s, color .12s, transform .12s;
+  min-width: 0;
+  break-inside: avoid;
+  -webkit-column-break-inside: avoid;
+  transition: background .12s, color .12s, padding-left .15s;
 }
-a.city-row:hover  { background: #C04E1A; border-color: var(--rust); box-shadow: 0 6px 16px -6px rgba(192,78,26,.45); color: #fff; transform: translateY(-1px); }
-a.city-row:hover .city-name,
-a.city-row:hover .city-country { color: #fff !important; }
-a.city-row:hover .city-dot { box-shadow: 0 0 0 2px rgba(255,255,255,.6); }
-a.city-row:active { background: #8A3F18; border-color: var(--rust); box-shadow: 0 1px 3px rgba(192,78,26,.12); color: #fff; transform: scale(.97) translateY(1px); }
-/* The glossy dot replaces the old flat border-left colour bar — same three
-   values (#22c55e / #eab308 / #b3402a) plus --text for Level 4, just drawn
-   as a small filled circle instead of a straight edge. */
-.city-dot { flex: none; width: 9px; height: 9px; border-radius: 50%; background: var(--dot-c, #ccc); transition: box-shadow .15s ease; }
+/* Solid fill on hover, not an outline/tint — kept on purpose (Formatting.html
+   #sec-fill-vs-outline): on a 237-row table a light tint disappears into the
+   row grid the instant the cursor moves on, so the filled bar is what says
+   "you are here." Radius 4px since these are rectangular rows now, not pills. */
+a.city-row:hover { background: #C04E1A; color: #fff; border-radius: 4px; }
+a.city-row:active { background: #8A3F18; color: #fff; border-radius: 4px; }
+a.city-row:hover .city-country, a.city-row:active .city-country { color: rgba(255,255,255,.85); }
+a.city-row:visited { color: var(--text); }
+/* Same three level values (#22c55e / #eab308 / #b3402a) plus --text for
+   Level 4 — unchanged from before, this is a structural rebuild only. */
+.city-dot { flex: none; width: 7px; height: 7px; border-radius: 50%; background: var(--dot-c, #ccc); transition: box-shadow .15s ease; }
 #grid-l1 .city-dot { --dot-c: #22c55e; }
 #grid-l2 .city-dot { --dot-c: #eab308; }
 #grid-l3 .city-dot { --dot-c: #b3402a; }
 #grid-l4 .city-dot { --dot-c: var(--text, #1a1917); }
-.city-name { font-weight: 500; color: var(--text); }
-.city-country { font-size: var(--fs-sub,12px); color: var(--muted); margin-left: auto; }
+.city-name {
+  font-weight: 600; flex: 1 1 auto; min-width: 0;
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+}
+.city-country {
+  font-size: 12px; color: var(--muted); margin-left: auto; flex: 0 1 auto; max-width: 44%;
+  display: inline-flex; align-items: center; gap: 4px;
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+}
 a.city-row.hidden { display: none; }
 /* ── Sources ── */
 .sources {
@@ -246,7 +265,7 @@ a.city-row.hidden { display: none; }
   padding: 5px 10px;
 }
 @media (max-width: 600px) and (pointer: coarse) {
-  .city-grid { grid-template-columns: 1fr 1fr; }
+  .city-grid { columns: 2; }
   .legend { display: flex !important; flex-direction: column !important; gap: var(--search-gap, 32px) !important; padding: var(--search-gap, 32px) 0 !important; margin: 0 0 12px !important; justify-content: flex-start !important; align-items: center !important; }
   /* Level pills — Form B glued 2×2 grid, matching Vaccines and Tap-Water. */
   .pills { display: flex !important; flex-wrap: wrap !important; gap: 8px !important; width: 100% !important; justify-content: center !important; }

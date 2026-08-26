@@ -34,245 +34,45 @@
 .budget-title-staggered .ln2 { padding-left: 16%; color: #8a4a2c; margin-top: 6px; }
 @media (max-width: 640px) { .budget-title-staggered .ln2 { padding-left: 8%; } }
 
-/* Two control rows: filter by cost level, then sort. Both are .pill-badge
-   strips — box, colour, case and the selected state all come from the shared
-   .pill-badge + .fam-* classes. A page carries NO colour of its own; never
-   re-add a box or a border here. */
-/* CENTRED UNDER THE BAR, AND A FULL GAP CLEAR OF IT. Both were owner calls
-   (2026-08-23): the rows were flush left while the search bar above them was
-   centred — "why there are all packed on the left" — and they sat directly on
-   the band's own 32px, close enough that the typeahead card landed on top of
-   them. `align-items: center` shrink-wraps each row to its pills and centres
-   it, which is the same shape every other pill strip on the site has (scams,
-   tap-water, tipping). The `!important` overrides the shared
-   `.hero-band + .hero-ground + *` reset, which zeroes this margin so the band's
-   padding is the only distance — here the owner asked for the pills to sit
-   "way lower", so it is the band's gap AGAIN, the same token twice rather than
-   a new number. */
-.index-section .ci-controls {
-  margin: var(--search-gap,32px) 0 0 !important;
-  display: flex; flex-direction: column; align-items: center; gap: 18px;
-}
-.ci-row { display: flex; flex-wrap: wrap; gap: 12px; align-items: center; justify-content: center; }
-/* The label sits ABOVE its row, not inline before the first pill — inline put
-   "COST OF LIVING" and the grey "ALL" pill right next to each other at the
-   same muted grey, and at a glance they read as one blurred label instead of
-   a caption over a control (owner: "the top and all lose together"). A block
-   label with its own line clears that; the row below still centres under it. */
-.ci-row-label {
-  display: block; width: 100%; text-align: center;
-  font-size: var(--fs-sub,12px); font-weight: 700; color: var(--muted,#6a6660);
-  letter-spacing: .1em; text-transform: uppercase; margin: 0 0 8px;
-}
-/* THE SIZE IS NOT SET HERE. This page carried a page-scoped upsize to 15px /
-   7px 14px while every other pill strip on the site sat at 11px / 3px 8px —
-   two extremes of the same control, which is exactly what the owner ended on
-   2026-08-23. The one size now lives in --fam-fs / --fam-pad in
-   web-travel-style.css and every page reads it. All this rule does is give a
-   <button> the page font, which a button does not inherit. Never re-add a
-   font-size or a padding here. The coin icons are sized in em (.ci-coins svg),
-   so they follow the token on their own. */
-.ci-btn { font-family: inherit; }
-/* "All" isn't a price band, so it takes no Stamp earth tone of its own —
-   it gets the same solid-fill-plus-white-text WEIGHT as its four Stamp
-   siblings (never a lone soft/neutral pill dropped into a row of bold
-   ones), just in neutral charcoal instead of an earth hue. */
-.ci-btn[data-band="all"] { background: var(--muted,#6a6660); border-color: var(--muted,#6a6660); color: #fff; }
-@media (prefers-color-scheme: dark) { .ci-btn[data-band="all"] { background: #57524a; border-color: #57524a; } }
-
-/* Badge (tint) (selection-pills-badges-pills-to-badge-dots.html section 2.9)
-   for Sort — a pale wash plus coloured border/text, built from the SAME
-   --ink- tokens (and their -rgb triplets) the Stamp row above already wired
-   in, not the doc's own unwired tint classes (its dark-mode numbers are
-   explicitly "not yet decided" there, and this page ships in both themes).
-   An rgba() wash off the ink-rgb triplet is theme-safe by construction:
-   --ink- already flips at the token level, so the wash and border read
-   correctly in dark mode with no separate override needed — the same
-   reasoning trackStyle() and rowVars() already lean on below. */
-.ci-sort-btn {
-  background: rgba(var(--csb-rgb),.12);
-  border-color: rgba(var(--csb-rgb),.5);
-  color: var(--csb-ink);
-}
-.ci-sort-sand     { --csb-ink: var(--ink-sand);     --csb-rgb: var(--ink-sand-rgb); }
-.ci-sort-clay     { --csb-ink: var(--ink-clay);     --csb-rgb: var(--ink-clay-rgb); }
-.ci-sort-espresso { --csb-ink: var(--ink-espresso); --csb-rgb: var(--ink-espresso-rgb); }
-
-/* The count line sits under the controls that produced it — CLAUDE.md
-   Sixty-second non-negotiable. */
-.ci-summary {
-  margin: 14px 0 var(--search-gap,32px); text-align: center;
-  font-size: var(--fs-sub,12px); color: var(--muted,#6a6660);
-}
-.ci-summary strong { color: var(--text); font-weight: 700; }
-.ci-summary a { color: var(--text); font-weight: 700; text-decoration: none; border-bottom: 1px solid var(--border,#d8d4cc); }
-.ci-summary a:hover { color: var(--accent,#8a6c1a); border-bottom-color: currentColor; }
-
 /* ═══════════════════════════════════════════════════════════════════
-   LEADERBOARD REDESIGN — 2026-08-24. Owner: "do modern... surprise me"
-   (same brief as the scams/passport/disney/storage passes this session).
-   Background and .hero-band untouched; the controls (filter/sort pills,
-   search) are the site's shared, already-current pattern and stay as
-   they are. Everything below is new: the plain table becomes a ranked
-   leaderboard — a live rank number per row, a gauge-style bar with an
-   end-cap marker, and the expanded "what drives it" panel becomes three
-   bento tiles instead of a mini table. Structure stays a real <table>
-   (colgroup/thead/tbody, screen-reader semantics, the phone's declared-
-   width-drop trick) — only how it's painted changes. No gradient paints
-   the terracotta family (Thirty-fifth non-negotiable); the track tint
-   gradient below is the Ink earth-tone family (2026-08-26 recolour, see
-   BAND_TONE near the JS data — was fam-green/blue/orange/purple). */
-.index-table { width: 100%; border-collapse: collapse; border: 1px solid var(--border,#d8d4cc); border-radius: 14px; overflow: hidden; }
-/* THE WIDTHS ARE ON CLASSES BECAUSE THE PHONE HIDES THE MIDDLE COLUMN, and a
-   <col> does not follow. `display:none` on a th/td removes the COLUMN but
-   leaves the <colgroup> three entries long, so on a phone the entries stop
-   lining up with the columns they were written for: the bar cell inherited the
-   band's width and the detail row's colspan="4" still asked for a fourth column,
-   which took the difference — every two-cell row stopped 58px short of the
-   panel underneath it. So the phone drops the declared widths entirely and lets
-   the table size itself (.ci-bar-cell already claims width:100%, which is the
-   whole remainder). `table-layout: fixed` is NOT the fix here — it makes the
-   mis-mapping worse, collapsing the bar column to nothing. */
-.index-table .cw-rank  { width: 44px; }
-.index-table .cw-place { width: 32%; }
-.index-table .cw-band  { width: 18%; }
-.index-table .cw-bar   { width: 44%; }
-.index-table thead th {
-  background: var(--surface2, #f0ede8); border-bottom: 2px solid var(--border, #d8d4cc);
-  padding: 10px 14px; text-align: left;
-  font-size: var(--fs-label, 11px); font-weight: 700; color: var(--muted, #6a6660);
-  letter-spacing: 0.1em; text-transform: uppercase;
+   GROUPED-INDEX REBUILD — 2026-08-26. Owner: "entire page throw all
+   away" / "not the colours... this is a detail" — three rounds of
+   recolouring the same ranked-table-plus-pill-filter shape never landed;
+   the shape is what's gone, not just its palette. Cheap / Moderate /
+   Expensive / Very expensive are now four plain sections in that order,
+   each a flat wrap of chip links straight to the guide. The SECTION a
+   place sits under IS its price tag — there is no badge, no filter-pill
+   row, no per-row colour, nothing left to get wrong a fourth time. The
+   old rank/bar/expand-to-see-drivers mechanics are retired with it (the
+   Rent/Eating out/Groceries breakdown data still lives in CI, unused for
+   now — a later pass can surface it differently if it's wanted back). */
+.ci-groups { margin: var(--search-gap,32px) 0 0; }
+.ci-group { margin: 0 0 40px; }
+.ci-group:last-child { margin-bottom: 0; }
+.ci-group-head { display: flex; align-items: baseline; gap: 10px; margin: 0 0 14px; padding-bottom: 10px; border-bottom: 1px solid var(--border2,#e6e2da); }
+.ci-group-title { font-size: 20px; font-weight: 800; color: var(--text,#3d3a32); margin: 0; display: flex; align-items: center; gap: 8px; }
+/* Same 1-2-3-4 coin ladder as before (catalogue sprite #381, registered
+   as 'coin' by toolbar.js) — CLAUDE.md Twenty-eighth non-negotiable, reuse
+   never a second coin. Sits on the SECTION now, once, not on every chip —
+   the section-header-only pattern this site already uses for grouped
+   lists (essentials-Page-Format.html §13 never-do: "repeat the category
+   dot on every item when the group header already carries it"). */
+.ci-group-coins { display: inline-flex; align-items: center; }
+.ci-group-coins svg { width: 19px; height: 19px; margin-left: -6px; }
+.ci-group-coins svg:first-child { margin-left: 0; }
+.ci-group-count { font-size: var(--fs-sub,12px); color: var(--muted,#6a6660); }
+.ci-chips { display: flex; flex-wrap: wrap; gap: 8px; }
+.ci-chip {
+  display: inline-flex; align-items: center; gap: 7px;
+  padding: 8px 14px; border-radius: 20px;
+  border: 1px solid var(--border2,#e6e2da); background: var(--surface,#fff);
+  color: var(--text,#3d3a32); font-size: 13.5px; font-weight: 600;
+  text-decoration: none; transition: border-color .15s, color .15s, transform .15s, box-shadow .15s;
 }
-.index-table th.num, .index-table td.num { text-align: right; font-variant-numeric: tabular-nums; }
-.index-table tbody td { font-size: var(--fs-body,14px); box-shadow: inset 0 -1px 0 var(--border2,#e6e2da); padding: 9px 14px; }
-.index-table tbody tr.ci-city { cursor: pointer; background: var(--surface,#fff); transition: background .15s ease, box-shadow .15s ease, opacity .4s ease; }
-/* Scroll-reveal, same visible-by-default / opt-into-hidden pattern as the
-   scams redesign this session: a row is only ever hidden if JS explicitly
-   adds .pre-reveal (and only once IntersectionObserver exists and motion
-   isn't reduced), and a hard timeout strips it regardless — see revealRows()
-   below. transform doesn't animate reliably on a real <tr> in every engine,
-   so this is opacity-only, not the slide-in the card pages use. */
-.index-table tbody tr.ci-city.pre-reveal { opacity: 0; }
-@media (prefers-reduced-motion: reduce) {
-  .index-table tbody tr.ci-city.pre-reveal { opacity: 1; transition: none; }
-}
-.index-table tbody tr.ci-city:hover td { background: #FAE8DE; box-shadow: inset 3px 0 0 var(--row-ink, #C04E1A), inset 0 1px 0 rgba(192,78,26,.15), inset 0 -1px 0 rgba(192,78,26,.15); }
-.index-table tbody tr.ci-city:active td { background: #f2d0bb; box-shadow: inset 3px 0 0 var(--row-ink, #C04E1A), inset 0 2px 0 #C04E1A, inset 0 -2px 0 #C04E1A; }
-
-/* Rank chip — the leaderboard number, recomputed on every render() from the
-   CURRENT sorted/filtered order (so "#1" always means "cheapest of what's on
-   screen right now," never a fixed fleet-wide position). Tinted from the same
-   --fam-*-ink the row's own band uses, via --row-ink set inline per row. */
-.ci-rank {
-  display: inline-flex; align-items: center; justify-content: center;
-  width: 26px; height: 26px; border-radius: 50%;
-  font-size: 11px; font-weight: 800; font-variant-numeric: tabular-nums;
-  color: var(--row-ink, var(--muted)); background: var(--row-bg, var(--surface2));
-  border: 1px solid var(--row-bd, var(--border2));
-}
-
-/* The 1-2-3-4 coin ladder, the same one the guides' Hotel Recommendations
-   tier heads carry (.hr-coins in guide-style.css) drawing the same registered
-   catalogue sprite #381 — owner rule 2026-08-22, "use these". A reuse, never a
-   second coin: CLAUDE.md Twenty-eighth non-negotiable. The WORDS stay Cheap /
-   Moderate / Expensive / Very expensive rather than the hotels' Budget / Mid /
-   Luxury, because this rates a PLACE and those rate a room. */
-.ci-coins { display: inline-flex; align-items: center; flex: none; }
-.ci-coins svg { width: 1.15em; height: 1.15em; margin-left: -4px; }
-.ci-coins svg:first-child { margin-left: 0; }
-
-.ci-name { font-weight: 600; color: var(--text); }
-.ci-name a { color: var(--text); text-decoration: none; }
-.ci-name a:visited { color: #3d3a32; }
-.ci-name a:hover { color: var(--accent,#8a6c1a); }
-.ci-country { display: block; font-size: var(--fs-sub,12px); font-weight: 400; color: var(--muted,#6a6660); }
-.ci-country .ci-flag { display: inline-block; margin-right: 6px; }
-
-/* The bar is the whole point of the page — you should be able to see which
-   places are dear without reading a single number. Width is the index against
-   the dearest place in the fleet, so the scale never shifts with the filter. */
-.ci-bar-cell { width: 100%; }
-.ci-bar-wrap { display: flex; align-items: center; gap: 10px; }
-/* THE TRACK IS THE SCALE. A bar with a plain grey track said only "longer than
-   that one" — you could not see whether a place sat at the top of Moderate or
-   the bottom of it, which is the whole question once two places carry the same
-   tag. The track is now painted in the four band tints at the very cut points
-   the tags are decided on, so where the fill STOPS is the reading. It names no
-   benchmark city, so the owner's 2026-08-22 rule stands. The stops are written
-   from JS because they depend on the dearest place on the page. */
-.ci-bar {
-  position: relative;
-  flex: 1 1 auto; height: 9px; border-radius: 5px; min-width: 60px;
-  background: var(--surface2,#f0ede8); overflow: visible;
-}
-.ci-bar i { display: block; height: 100%; border-radius: 5px; background: currentColor; overflow: hidden; }
-/* Gauge end-cap — a small ringed dot sitting exactly where the fill stops, so
-   the reading point on the track is a mark you can find, not just an edge. */
-.ci-bar em {
-  position: absolute; top: 50%; width: 11px; height: 11px; margin: -5.5px 0 0 -5.5px;
-  border-radius: 50%; background: currentColor; border: 2px solid var(--surface,#fff);
-  box-shadow: 0 0 0 1px currentColor, 0 1px 3px rgba(26,25,23,.25);
-  font-style: normal;
-}
-/* A row opens. Nothing said so before — the pointer cursor was the only hint,
-   and it reads as "this is a link to the guide", which the name beside it
-   already is. */
-.ci-open {
-  flex: none; width: 16px; height: 16px; color: var(--muted,#6a6660);
-  transition: transform .15s ease;
-}
-tr.ci-city[aria-expanded="true"] .ci-open { transform: rotate(90deg); color: var(--accent,#8a6c1a); }
-/* Ink, not Stamp — this is a FOREGROUND colour (bar fill, rank ring, hover
-   accent via currentColor), and Stamp's fills are fixed-both-themes so they
-   go muddy as text/lines on a dark page. Ink is the same 4 earth tones with
-   a real dark-mode brightening, and its LIGHT value is byte-identical to
-   Stamp's fill (--ink-sand:#8f6a3e === --st-sand:#8f6a3e) — so a Cheap row's
-   bar and its badge are the exact same hue in light mode, and Ink only
-   diverges from Stamp once dark mode needs the lift Stamp can't give it. */
-.ci-c-cheap          { color: var(--ink-sand,#8f6a3e); }
-.ci-c-moderate       { color: var(--ink-clay,#a8632b); }
-.ci-c-expensive      { color: var(--ink-rust,#8a3f18); }
-.ci-c-very-expensive { color: var(--ink-espresso,#4a2e1a); }
-
-/* The expanded row: what is driving the tag. Was a mini <table>; is now three
-   bento tiles — Rent / Eating out / Groceries, each with its own catalogue
-   icon, its own band tag, and its own mini gauge on the same scale as the
-   headline bar, so you can see WHICH driver is carrying the tag at a glance —
-   a place whose rent is cheap and whose restaurants are dear is a different
-   trip from one where both are dear, and three tags alone never said that. */
-.ci-detail > td { background: var(--surface2,#f0ede8); padding: 16px !important;
-  box-shadow: inset 0 1px 0 var(--border,#d8d4cc), inset 0 -1px 0 var(--border,#d8d4cc) !important; }
-.ci-basket { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin: 0 0 12px; max-width: 620px; }
-/* Was a flat white box — the one plain card left on a page that otherwise
-   earns its keep with colour. --tile-ink/--tile-bg are set inline per tile
-   from that DRIVER's own band (not the row's overall band — see tileVars()),
-   the same --fam-*-ink/-bg tokens the bar/rank chip already read, so a tile
-   whose own driver is dear reads dear even inside a cheap-tagged row. Hover
-   lift reuses .best-of-card's exact shadow/translateY — the site's one
-   card-hover idiom, not a new one. */
-.ci-basket-tile {
-  background: var(--surface,#fff); border: 1px solid var(--border2,#e6e2da); border-radius: 12px;
-  padding: 12px; display: flex; flex-direction: column; gap: 6px;
-  position: relative; overflow: hidden;
-  transition: box-shadow .15s, border-color .15s, transform .15s;
-}
-.ci-basket-tile::before { content: ""; position: absolute; top: 0; left: 0; right: 0; height: 3px; background: var(--tile-ink, var(--border2)); }
-.ci-basket-tile:hover { box-shadow: 0 3px 10px rgba(92,61,17,.10); border-color: var(--tile-ink, var(--accent)); transform: translateY(-2px); }
-.ci-basket-head { display: flex; align-items: center; gap: 8px; }
-/* Icon sits in a soft tinted halo instead of bare on white — same "chip"
-   treatment as the rank number, sized off the same tile tint. */
-.ci-basket-icon-chip {
-  display: inline-flex; align-items: center; justify-content: center; flex: none;
-  width: 26px; height: 26px; border-radius: 50%; background: var(--tile-bg, var(--surface2));
-}
-.ci-basket-head .gm-i { width: 16px; height: 16px; flex: none; }
-.ci-basket-label {
-  font-size: var(--fs-label,11px); font-weight: 700; letter-spacing: .06em;
-  text-transform: uppercase; color: var(--muted,#6a6660);
-}
-.ci-basket-tile .ci-bar { display: block; height: 7px; }
-.ci-detail-note { font-size: var(--fs-sub,12px); color: var(--muted,#6a6660); margin: 0; }
-.ci-detail-note a { color: var(--accent,#8a6c1a); }
+.ci-chip:visited { color: #3d3a32; }
+.ci-chip:hover { border-color: var(--rust,#C04E1A); color: var(--rust,#C04E1A); transform: translateY(-1px); box-shadow: 0 3px 8px rgba(92,61,17,.10); }
+.ci-chip-country { color: var(--muted,#6a6660); font-weight: 400; }
+.ci-flag { display: inline-flex; }
 
 #cost-search { margin-bottom: 0; }
 #cost-noresult { display: none; padding: 12px 4px; font-size: var(--fs-body,14px); color: var(--muted,#6a6660); }
@@ -281,28 +81,7 @@ html { scroll-behavior: smooth; }
 .note a { color: var(--accent,#8a6c1a); }
 @media (max-width: 600px) and (pointer: coarse) {
   .index-section { padding: 0 12px; }
-  /* No phone override on the search gap: one token at every viewport. */
-  .index-table td, .index-table th { font-size: var(--fs-sub,12px) !important; padding: 6px 8px !important; }
-  /* Only the RANK and PLACE <col>s still map to the columns they were written
-     for once the middle one is hidden, so those two are the only ones that
-     keep a width — 87px of auto-sized name column broke "Zhangjiajie" across
-     two lines. */
-  .index-table .cw-rank  { width: 30px; }
-  .index-table .cw-place { width: 38%; }
-  .index-table .cw-band,
-  .index-table .cw-bar { width: auto; }
-  .ci-row { justify-content: center; gap: 6px; }
-  .index-section .ci-controls { margin: var(--search-gap,32px) 0 0 !important; }
-  /* The badge repeats what the bar's colour already says; the bar and the
-     number are what a phone keeps. */
-  .index-table th.col-band, .index-table td.col-band { display: none; }
-  .ci-bar { min-width: 40px; }
-  .ci-rank { width: 22px; height: 22px; font-size: 10px; }
-  .ci-basket { grid-template-columns: 1fr; }
-}
-@media (prefers-color-scheme: dark) {
-  .index-table tbody tr.ci-city:hover td { background: rgba(212,102,58,.16); box-shadow: inset 0 1px 0 rgba(212,102,58,.25), inset 0 -1px 0 rgba(212,102,58,.25); }
-  .index-table tbody tr.ci-city:active td { background: rgba(212,102,58,.28); }
+  .ci-group-title { font-size: 17px; }
 }
 </style>
 <link rel="stylesheet" href="/assets/mobile.css?v=53">
@@ -383,48 +162,8 @@ html { scroll-behavior: smooth; }
     <input id="cost-search" type="search" placeholder="City or country" aria-label="Search by city or country" autocomplete="off" spellcheck="false" class="search-input">
   </div>
 
-  <div class="ci-controls">
-    <div class="ci-row pill-badge-strip" id="band-row" role="group" aria-label="Filter by cost of living">
-      <span class="ci-row-label">Cost of living</span>
-      <button class="ci-btn pill-badge is-on"                    data-band="all"            aria-pressed="true">All</button>
-      <button class="ci-btn pill-badge fam-st fam-st-sand"       data-band="Cheap"          aria-pressed="false"><span class="ci-coins"><svg viewBox="0.10 0.10 23.81 23.81" aria-hidden="true"><use href="#gm-i-coin"></use></svg></span>Cheap</button>
-      <button class="ci-btn pill-badge fam-st fam-st-clay"       data-band="Moderate"       aria-pressed="false"><span class="ci-coins"><svg viewBox="0.10 0.10 23.81 23.81" aria-hidden="true"><use href="#gm-i-coin"></use></svg><svg viewBox="0.10 0.10 23.81 23.81" aria-hidden="true"><use href="#gm-i-coin"></use></svg></span>Moderate</button>
-      <button class="ci-btn pill-badge fam-st fam-st-rust"       data-band="Expensive"      aria-pressed="false"><span class="ci-coins"><svg viewBox="0.10 0.10 23.81 23.81" aria-hidden="true"><use href="#gm-i-coin"></use></svg><svg viewBox="0.10 0.10 23.81 23.81" aria-hidden="true"><use href="#gm-i-coin"></use></svg><svg viewBox="0.10 0.10 23.81 23.81" aria-hidden="true"><use href="#gm-i-coin"></use></svg></span>Expensive</button>
-      <button class="ci-btn pill-badge fam-st fam-st-espresso"   data-band="Very expensive" aria-pressed="false"><span class="ci-coins"><svg viewBox="0.10 0.10 23.81 23.81" aria-hidden="true"><use href="#gm-i-coin"></use></svg><svg viewBox="0.10 0.10 23.81 23.81" aria-hidden="true"><use href="#gm-i-coin"></use></svg><svg viewBox="0.10 0.10 23.81 23.81" aria-hidden="true"><use href="#gm-i-coin"></use></svg><svg viewBox="0.10 0.10 23.81 23.81" aria-hidden="true"><use href="#gm-i-coin"></use></svg></span>Very expensive</button>
-    </div>
-    <!-- Sort previously sat in a plain neutral .legend-key oval — visually
-         "different" from Cost-of-living, but only by being the one row that
-         never got the earth-tone redo, which read as unfinished rather than
-         deliberate (owner, 2026-08-26: "you will need to redo it ... redesign
-         the logic ... also use 2.9 Badge (tint)"). Both rows now draw from
-         the SAME earth-tone palette — the redesign is one system, not two —
-         but Sort renders it as Badge (tint) (§2.9: pale wash, coloured
-         border+text) where Cost-of-living renders Stamp (solid fill, white
-         text). The rendering, not an unrelated hue, is what keeps a reader
-         able to tell the rows apart at a glance; "cheapest first" still
-         isn't a price band, so it borrows sand/clay/espresso for their tone
-         only, never claiming to BE Cheap/Moderate/Very-expensive. -->
-    <div class="ci-row pill-badge-strip" id="sort-row" role="group" aria-label="Sort">
-      <span class="ci-row-label">Sort</span>
-      <button class="ci-btn pill-badge ci-sort-btn ci-sort-sand is-on" id="sort-asc"  aria-pressed="true">Cheapest first</button>
-      <button class="ci-btn pill-badge ci-sort-btn ci-sort-espresso"   id="sort-desc" aria-pressed="false">Most expensive first</button>
-      <button class="ci-btn pill-badge ci-sort-btn ci-sort-clay"       id="sort-az"   aria-pressed="false">A–Z</button>
-    </div>
-  </div>
-
-  <p class="ci-summary" id="ci-summary"></p>
+  <div class="ci-groups" id="ci-groups"></div>
   <div id="cost-noresult">No place matches that search.</div>
-
-  <table class="index-table">
-    <colgroup><col class="cw-rank"><col class="cw-place"><col class="cw-band"><col class="cw-bar"></colgroup>
-    <thead><tr>
-      <th aria-label="Rank"></th>
-      <th>Place</th>
-      <th class="col-band">Cost of living</th>
-      <th>Cheap to very expensive</th>
-    </tr></thead>
-    <tbody id="cost-tbody"></tbody>
-  </table>
 
   <p class="note" id="ci-note"></p>
 </div>
@@ -677,294 +416,68 @@ var CI=[
 var N_NAME=0, N_SLUG=1, N_COUNTRY=2, N_FLAG=3, N_IDX=4, N_BAND=5, N_VIA=6,
     N_RESOLVED=7, N_EV=8;
 
-/* Earth tones (selection-pills-badges-pills-to-badge-dots.html §5.2/5.3),
-   not the four-hue Vibrant/Enamel rainbow this page shipped with — owner
-   rule 2026-08-26: "use Badge (tint) 10 tones, or earth tones... redo the
-   page." Picked Stamp+Ink over Tint: Tint's own doc note says "dark-mode
-   values not yet decided," and this page is read in both themes — shipping
-   an undecided half would be worse than the drift this replaces. Stamp/Ink
-   are both fully wired, both light+dark, and share the same 8 tones by
-   design: Stamp is the solid fill (BADGES — top pill, table tag, tile tag,
-   always white text, fixed both themes) and Ink is the same hue as a
-   FOREGROUND colour (bar fill, rank ring, hover accent, all via
-   currentColor) that brightens correctly in dark mode where a fixed fill
-   would go muddy as text. Four of the eight, ordered light-to-dark so the
-   badge itself reads as a rough price gauge before you even open the bar:
-   sand (lightest) -> clay -> rust -> espresso (near-black, priciest). */
-var BAND_TONE = { 'Cheap':'sand', 'Moderate':'clay', 'Expensive':'rust', 'Very expensive':'espresso' };
-function bandClass(b) { return 'ci-c-' + b.toLowerCase().replace(/ /g, '-'); }
-/* The same cut points build_cost_page.py BANDS uses — kept in step by hand in
-   exactly one place, here, and only because the sub-readings inside an opened
-   row are tagged client-side. */
+/* The same cut points build_cost_page.py BANDS uses. Coins go on the
+   SECTION header once, not per place — see the CSS comment above
+   .ci-group-coins for why. */
 var BAND_COINS = { 'Cheap':1, 'Moderate':2, 'Expensive':3, 'Very expensive':4 };
 function coins(band) {
-  var out = '<span class="ci-coins">', i;
+  var out = '', i;
   for (i = 0; i < BAND_COINS[band]; i++) {
     out += '<svg viewBox="0.10 0.10 23.81 23.81" aria-hidden="true"><use href="#gm-i-coin"></use></svg>';
   }
-  return out + '</span>';
-}
-function tag(band) {
-  return '<span class="badge fam-st fam-st-' + BAND_TONE[band] + '">' + coins(band) + band + '</span>';
-}
-function bandOf(n) {
-  return n < 35 ? 'Cheap' : n < 50 ? 'Moderate' : n < 70 ? 'Expensive' : 'Very expensive';
+  return out;
 }
 
-/* Percentile against the whole fleet — a statistic, never a named city
-   (owner rule 2026-08-22 / 2026-08-23). Runs on the full dataset, not the
-   current filter, so the number means the same thing regardless of what
-   the reader has searched or filtered to. */
-function percentileCheaperThan(idx) {
-  var below = 0, i;
-  for (i = 0; i < CI.length; i++) { if (CI[i][N_IDX] < idx) below++; }
-  return Math.round(below / (CI.length - 1) * 100);
-}
-
-var state = { band:'all', sort:'asc', q:'' };
-var MAX = 100;
-
-function visible() {
-  var q = state.q;
-  return CI.filter(function (r) {
-    if (state.band !== 'all' && r[N_BAND] !== state.band) return false;
-    if (!q) return true;
-    return (r[N_NAME] + ' ' + r[N_COUNTRY]).toLowerCase().indexOf(q) !== -1;
-  });
-}
-
-function sorted(list) {
-  var a = list.slice();
-  if (state.sort === 'asc')  return a.sort(function (x, y) { return x[N_IDX] - y[N_IDX]; });
-  if (state.sort === 'desc') return a.sort(function (x, y) { return y[N_IDX] - x[N_IDX]; });
-  return a.sort(function (x, y) { return x[N_NAME].localeCompare(y[N_NAME]); });
-}
+var BANDS = ['Cheap', 'Moderate', 'Expensive', 'Very expensive'];
+var state = { q: '' };
 
 function guideURL(r) { return '/guides/' + r[N_SLUG] + '.html'; }
 
-/* The four band tints, laid on the track at the cut points bandOf() splits on,
-   so the track itself is the scale and where the fill stops is the reading. */
-function trackStyle() {
-  var a = 35 / MAX * 100, b = 50 / MAX * 100, c = 70 / MAX * 100;
-  return 'background:linear-gradient(to right,' +
-    'rgba(var(--ink-sand-rgb),.20) 0 '      + a.toFixed(1) + '%,' +
-    'rgba(var(--ink-clay-rgb),.20) '        + a.toFixed(1) + '% ' + b.toFixed(1) + '%,' +
-    'rgba(var(--ink-rust-rgb),.20) '        + b.toFixed(1) + '% ' + c.toFixed(1) + '%,' +
-    'rgba(var(--ink-espresso-rgb),.20) '    + c.toFixed(1) + '% 100%)';
-}
-
-function bar(idx, band, label) {
-  var pct = Math.max(2, Math.round(idx / MAX * 100));
-  /* No number and no benchmark city — owner rule 2026-08-22: "lets not base in
-     a place specific … use cheap, expensive etc like hotels". The bar is a
-     relative shape against the dearest place on the page, which needs no name;
-     the tag is the answer. A bare index with nothing to measure it against
-     would have meant nothing anyway. The <em> is a small ringed dot marking
-     exactly where the fill stops — a reading point you can find on the track,
-     not just an edge to eyeball. */
-  return '<span class="ci-bar ' + bandClass(band) + '" style="' + trackStyle() +
-         '" role="img" aria-label="' + label + '"><i style="width:' + pct + '%"></i>' +
-         '<em style="left:' + pct + '%"></em></span>';
-}
-
-function barCell(idx, band) {
-  return '<td class="ci-bar-cell"><span class="ci-bar-wrap">' + bar(idx, band, band) +
-         '<svg class="ci-open" viewBox="0 0 24 24" fill="none" stroke="currentColor" ' +
-         'stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">' +
-         '<polyline points="9 6 15 12 9 18"></polyline></svg></span></td>';
-}
-
-/* Sets the row's local --row-ink/--row-bg/--row-bd from that row's own band
-   tone — the rank chip and the hover accent bar both read these, so a
-   Cheap row glows sand and a Very expensive one glows espresso, with no new
-   hardcoded colour anywhere on the page. */
-function rowVars(band) {
-  var t = BAND_TONE[band];
-  return 'style="--row-ink:var(--ink-' + t + ');--row-bg:rgba(var(--ink-' + t + '-rgb),.12);--row-bd:rgba(var(--ink-' + t + '-rgb),.4)"';
-}
-
-function rowHTML(r, rank) {
-  return '<td class="cw-rank"><span class="ci-rank">' + rank + '</span></td>' +
-         '<td class="ci-name"><a href="' + guideURL(r) + '">' + r[N_NAME] + '</a>' +
-           '<span class="ci-country"><span class="ci-flag">' + TVE.flag.html(r[N_FLAG]) + '</span>' + r[N_COUNTRY] + '</span></td>' +
-         '<td class="col-band">' + tag(r[N_BAND]) + '</td>' +
-         barCell(r[N_IDX], r[N_BAND]);
-}
-
-/* One catalogue icon per basket driver — Rent (house #1217), Eating out
-   (fork & knife #1211), Groceries (fruit bowl #344). The defs live once near
-   the top of <body>; every basket tile just <use>s one of the three. */
-var BASKET_ICON = { 'Rent': 1217, 'Eating out': 1211, 'Groceries': 344 };
-
-/* Tints a tile by its OWN driver's band, not the row's overall band — a
-   place tagged Moderate can still have a dear driver, and that is the one
-   thing this breakdown exists to show. */
-function tileVars(band) {
-  var t = BAND_TONE[band];
-  return 'style="--tile-ink:var(--ink-' + t + ');--tile-bg:rgba(var(--ink-' + t + '-rgb),.12)"';
-}
-
-function detailHTML(r) {
-  var out = '<td colspan="4">';
-  if (r[N_EV] && r[N_EV].length) {
-    out += '<div class="ci-basket">';
-    r[N_EV].forEach(function (e) {
-      var b = bandOf(e[1]);
-      var icon = BASKET_ICON[e[0]];
-      out += '<div class="ci-basket-tile" ' + tileVars(b) + '>' +
-               '<div class="ci-basket-head">' +
-                 (icon ? '<span class="ci-basket-icon-chip"><svg class="gm-i" viewBox="0 0 24 24" aria-hidden="true"><use href="#gm-i-' + icon + '"/></svg></span>' : '') +
-                 '<span class="ci-basket-label">' + e[0] + '</span>' +
-               '</div>' +
-               tag(b) +
-               bar(e[1], b, e[0] + ': ' + b) +
-             '</div>';
-    });
-    out += '</div>';
-  }
-  /* Say whose prices these are. A stand-in that does not name itself is the
-     one thing this page must never do. */
-  var src = { city:     'Measured in ' + r[N_NAME] + ' itself.',
-              nearby:   r[N_NAME] + ' is too small to be measured on its own — this is ' +
-                        r[N_RESOLVED] + ', the nearest place that is.',
-              country:  'No separate reading for ' + r[N_NAME] + ' — this is ' +
-                        r[N_COUNTRY] + ' as a whole.',
-              proxy:    r[N_COUNTRY] + ' is not measured — this is ' + r[N_RESOLVED] +
-                        ', its nearest measured neighbour.',
-              derived:  'Not in the published tables, so this one is worked out from ' +
-                        r[N_RESOLVED] + '&#39;s own prices.' }[r[N_VIA]]
-            || '';
-  /* Plain-English reading of the index — a percentile against the whole
-     fleet, never a named city. Owner rule 2026-08-22: "lets not base in a
-     place specific … use cheap, expensive etc like hotels" — a first draft
-     of this line read "X% of what New York costs" and got called out for
-     exactly that (owner, 2026-08-23: "should never be based in a comparison
-     with any city"). Statistics against the dataset are fine; a benchmark
-     city is not. */
-  var idxNote = r[N_NAME] + ' is cheaper than ' + percentileCheaperThan(r[N_IDX]) +
-    '% of the places on this page.';
-  out += '<p class="ci-detail-note">' + idxNote + ' ' + src +
-    ' <a class="chevron-link-pill" href="' + guideURL(r) + '">Open the ' + r[N_NAME] + ' guide</a></p>';
-  return out + '</td>';
+function chipHTML(r) {
+  return '<a class="ci-chip" href="' + guideURL(r) + '">' +
+    '<span class="ci-flag">' + TVE.flag.html(r[N_FLAG]) + '</span>' + r[N_NAME] +
+    '<span class="ci-chip-country">' + r[N_COUNTRY] + '</span></a>';
 }
 
 function render() {
-  var list = sorted(visible());
-  var tb = document.getElementById('cost-tbody');
-  tb.innerHTML = '';
-  list.forEach(function (r, i) {
-    var tr = document.createElement('tr');
-    tr.className = 'ci-city';
-    tr.setAttribute('aria-expanded', 'false');
-    tr.setAttribute('style', rowVars(r[N_BAND]));
-    tr.innerHTML = rowHTML(r, i + 1);
-    var dt = document.createElement('tr');
-    dt.className = 'ci-detail';
-    dt.hidden = true;
-    dt.innerHTML = detailHTML(r);
-    tr.addEventListener('click', function (e) {
-      if (e.target.closest('a')) return;   /* the name is the guide link */
-      dt.hidden = !dt.hidden;
-      tr.setAttribute('aria-expanded', dt.hidden ? 'false' : 'true');
-    });
-    tb.appendChild(tr);
-    tb.appendChild(dt);
+  var q = state.q;
+  var wrap = document.getElementById('ci-groups');
+  wrap.innerHTML = '';
+  var shown = 0;
+  BANDS.forEach(function (band) {
+    var items = CI.filter(function (r) {
+      if (r[N_BAND] !== band) return false;
+      if (!q) return true;
+      return (r[N_NAME] + ' ' + r[N_COUNTRY]).toLowerCase().indexOf(q) !== -1;
+    }).sort(function (a, b) { return a[N_NAME].localeCompare(b[N_NAME]); });
+    if (!items.length) return;
+    shown += items.length;
+    var sec = document.createElement('section');
+    sec.className = 'ci-group';
+    sec.innerHTML =
+      '<div class="ci-group-head">' +
+        '<h2 class="ci-group-title"><span class="ci-group-coins">' + coins(band) + '</span>' + band + '</h2>' +
+        '<span class="ci-group-count">' + items.length + (items.length === 1 ? ' place' : ' places') + '</span>' +
+      '</div>' +
+      '<div class="ci-chips">' + items.map(chipHTML).join('') + '</div>';
+    wrap.appendChild(sec);
   });
-  revealRows();
-
-  document.getElementById('cost-noresult').style.display = list.length ? 'none' : 'block';
-
-  /* NO COUNT. The line opened on "237 places", which is the size of the fleet
-     stated to a reader — Fifty-second non-negotiable, owner 2026-08-23: "i
-     already said to stop showing a number of guides in the site". What it says
-     instead is the only thing on it a traveller could act on: the two ends of
-     whatever is on screen, each one a link into its own guide. */
-  var sum = document.getElementById('ci-summary');
-  if (!list.length) { sum.textContent = ''; return; }
-  var vals = list.map(function (r) { return r[N_IDX]; });
-  var lo = Math.min.apply(null, vals), hi = Math.max.apply(null, vals);
-  var cheapest = list[vals.indexOf(lo)], dearest = list[vals.indexOf(hi)];
-  if (list.length === 1) { sum.innerHTML = 'One match.'; return; }
-  sum.innerHTML = 'Cheapest of these: <a href="' + guideURL(cheapest) + '">' + cheapest[N_NAME] + '</a>' +
-    ' · dearest: <a href="' + guideURL(dearest) + '">' + dearest[N_NAME] + '</a>';
-  /* Only worth saying when a search narrowed the list — with no query the
-     "all" set trivially spans the full range every time. */
-  if (state.q && cheapest[N_BAND] !== dearest[N_BAND]) {
-    sum.innerHTML += ' · spans ' + cheapest[N_BAND] + ' to ' + dearest[N_BAND];
-  }
-}
-
-/* Scroll-reveal for the leaderboard rows. VISIBLE BY DEFAULT — this only
-   opts a row INTO the hidden .pre-reveal state, and only once
-   IntersectionObserver exists and motion isn't reduced. A hard 900ms timeout
-   strips .pre-reveal from every row in this render() pass regardless of
-   whether the observer ever fired, so a stalled observer costs only the
-   fade-in, never the row itself. Same reasoning as the scams page: tested
-   live that IntersectionObserver callbacks can silently never fire in a
-   throttled/automated browser context, and this page re-renders its whole
-   tbody on every filter/sort/search — an opacity:0-by-default row would risk
-   going permanently blank on every single interaction, not just page load. */
-var reduceMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-var revealIO = ('IntersectionObserver' in window && !reduceMotion)
-  ? new IntersectionObserver(function (entries) {
-      entries.forEach(function (entry) {
-        if (!entry.isIntersecting) return;
-        entry.target.classList.remove('pre-reveal');
-        revealIO.unobserve(entry.target);
-      });
-    }, { rootMargin: '0px 0px -30px 0px' })
-  : null;
-
-function revealRows() {
-  if (!revealIO) return;
-  var rows = document.querySelectorAll('#cost-tbody tr.ci-city');
-  rows.forEach(function (r) {
-    r.classList.add('pre-reveal');
-    revealIO.observe(r);
-  });
-  setTimeout(function () {
-    rows.forEach(function (r) { r.classList.remove('pre-reveal'); });
-  }, 900);
-}
-
-function bindGroup(sel, apply) {
-  var btns = [].slice.call(document.querySelectorAll(sel));
-  btns.forEach(function (b) {
-    b.addEventListener('click', function () {
-      apply(b);
-      btns.forEach(function (o) {
-        var on = o === b;
-        o.classList.toggle('is-on', on);
-        o.setAttribute('aria-pressed', on ? 'true' : 'false');
-      });
-      render();
-    });
-  });
+  document.getElementById('cost-noresult').style.display = shown ? 'none' : 'block';
 }
 
 function writeNote() {
-  /* The note used to end "127 of the 237 are measured in their own right" —
-     the fleet size again, in a second place on the same page. The fact worth
-     keeping is that SOME readings are stand-ins, and an opened row already
-     names which one it is using, so the sentence points there instead. */
   document.getElementById('ci-note').textContent =
     'These are cost-of-living tags, not trip budgets. What you spend somewhere is your ' +
     'choice \u2014 the same place takes a cheap week or an expensive one. What the place ' +
     'itself costs is not, and that is what is tagged here: the price of the everyday ' +
     'things, weighted towards a roof over your head and eating out. Most places are ' +
     'measured in their own right; the smaller ones take their country\u2019s reading or a ' +
-    'named neighbour\u2019s \u2014 open a row and it says which, and what is driving the ' +
-    'tag. Figures from Numbeo.';
+    'named neighbour\u2019s. Figures from Numbeo.';
 }
 
 document.addEventListener('DOMContentLoaded', function () {
-  MAX = CI.reduce(function (m, r) { return Math.max(m, r[N_IDX]); }, 100);
   render();
   writeNote();
-  bindGroup('#band-row .ci-btn', function (b) { state.band = b.dataset.band; });
-  bindGroup('#sort-row .ci-btn', function (b) {
-    state.sort = b.id === 'sort-asc' ? 'asc' : b.id === 'sort-desc' ? 'desc' : 'az';
-  });
   document.getElementById('cost-search').addEventListener('input', function (e) {
     state.q = e.target.value.trim().toLowerCase();
     render();
@@ -973,8 +486,7 @@ document.addEventListener('DOMContentLoaded', function () {
   /* Arriving from a guide's "Cost of Living" pill (/essentials/budget/#{slug}) —
      window.__tveDeep is stashed in <head>. Fills the search the same way the
      reader's own typing would; nothing is preselected on a bare visit to the
-     page (owner's landing/search rules apply here too, since the row list
-     itself never filters to one place on load — only the search box does). */
+     page. */
   if (window.__tveDeep) {
     var deepRow = CI.filter(function (r) { return r[N_SLUG] === window.__tveDeep; })[0];
     if (deepRow) {

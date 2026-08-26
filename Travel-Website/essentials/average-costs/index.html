@@ -50,15 +50,6 @@
    so they follow the token on their own. */
 .ci-btn { font-family: inherit; }
 
-/* The count line sits under the controls that produced it — CLAUDE.md
-   Sixty-second non-negotiable. */
-.ci-summary {
-  margin: 14px 0 var(--search-gap,32px); text-align: center;
-  font-size: var(--fs-sub,12px); color: var(--muted,#6a6660);
-}
-.ci-summary strong { color: var(--text); font-weight: 700; }
-.ci-summary a { color: var(--text); font-weight: 700; text-decoration: none; border-bottom: 1px solid var(--border,#d8d4cc); }
-.ci-summary a:hover { color: var(--rust,#C04E1A); border-bottom-color: currentColor; }
 
 /* ═══════════════════════════════════════════════════════════════════
    LEADERBOARD REDESIGN — 2026-08-24. Owner: "do modern... surprise me"
@@ -313,19 +304,12 @@ html { scroll-behavior: smooth; }
       <span class="ci-row-label">Cost of living</span>
       <button class="ci-btn pill-badge fam-en fam-en-grey is-on" data-band="all"            aria-pressed="true">All</button>
       <button class="ci-btn pill-badge fam-en fam-en-green"      data-band="Cheap"          aria-pressed="false"><span class="ci-coins"><svg viewBox="0.10 0.10 23.81 23.81" aria-hidden="true"><use href="#gm-i-coin"></use></svg></span>Cheap</button>
-      <button class="ci-btn pill-badge fam-en fam-en-blue"       data-band="Moderate"       aria-pressed="false"><span class="ci-coins"><svg viewBox="0.10 0.10 23.81 23.81" aria-hidden="true"><use href="#gm-i-coin"></use></svg><svg viewBox="0.10 0.10 23.81 23.81" aria-hidden="true"><use href="#gm-i-coin"></use></svg></span>Moderate</button>
+      <button class="ci-btn pill-badge fam-en fam-en-yellow"       data-band="Moderate"       aria-pressed="false"><span class="ci-coins"><svg viewBox="0.10 0.10 23.81 23.81" aria-hidden="true"><use href="#gm-i-coin"></use></svg><svg viewBox="0.10 0.10 23.81 23.81" aria-hidden="true"><use href="#gm-i-coin"></use></svg></span>Moderate</button>
       <button class="ci-btn pill-badge fam-en fam-en-orange"     data-band="Expensive"      aria-pressed="false"><span class="ci-coins"><svg viewBox="0.10 0.10 23.81 23.81" aria-hidden="true"><use href="#gm-i-coin"></use></svg><svg viewBox="0.10 0.10 23.81 23.81" aria-hidden="true"><use href="#gm-i-coin"></use></svg><svg viewBox="0.10 0.10 23.81 23.81" aria-hidden="true"><use href="#gm-i-coin"></use></svg></span>Expensive</button>
-      <button class="ci-btn pill-badge fam-en fam-en-purple"     data-band="Very expensive" aria-pressed="false"><span class="ci-coins"><svg viewBox="0.10 0.10 23.81 23.81" aria-hidden="true"><use href="#gm-i-coin"></use></svg><svg viewBox="0.10 0.10 23.81 23.81" aria-hidden="true"><use href="#gm-i-coin"></use></svg><svg viewBox="0.10 0.10 23.81 23.81" aria-hidden="true"><use href="#gm-i-coin"></use></svg><svg viewBox="0.10 0.10 23.81 23.81" aria-hidden="true"><use href="#gm-i-coin"></use></svg></span>Very expensive</button>
-    </div>
-    <div class="ci-row pill-badge-strip" id="sort-row" role="group" aria-label="Sort">
-      <span class="ci-row-label">Sort</span>
-      <button class="ci-btn pill-badge fam-en fam-en-green is-on" id="sort-asc"  aria-pressed="true">Cheapest first</button>
-      <button class="ci-btn pill-badge fam-en fam-en-purple"   id="sort-desc" aria-pressed="false">Most expensive first</button>
-      <button class="ci-btn pill-badge fam-en fam-en-grey"  id="sort-az"   aria-pressed="false">A–Z</button>
+      <button class="ci-btn pill-badge fam-en fam-en-red"     data-band="Very expensive" aria-pressed="false"><span class="ci-coins"><svg viewBox="0.10 0.10 23.81 23.81" aria-hidden="true"><use href="#gm-i-coin"></use></svg><svg viewBox="0.10 0.10 23.81 23.81" aria-hidden="true"><use href="#gm-i-coin"></use></svg><svg viewBox="0.10 0.10 23.81 23.81" aria-hidden="true"><use href="#gm-i-coin"></use></svg><svg viewBox="0.10 0.10 23.81 23.81" aria-hidden="true"><use href="#gm-i-coin"></use></svg></span>Very expensive</button>
     </div>
   </div>
 
-  <p class="ci-summary" id="ci-summary"></p>
   <div id="cost-noresult">No place matches that search.</div>
 
   <table class="index-table">
@@ -590,8 +574,8 @@ var CI=[
 var N_NAME=0, N_SLUG=1, N_COUNTRY=2, N_FLAG=3, N_IDX=4, N_BAND=5, N_VIA=6,
     N_RESOLVED=7, N_EV=8;
 
-var BAND_FAM = { 'Cheap':'green', 'Moderate':'blue',
-                 'Expensive':'orange', 'Very expensive':'purple' };
+var BAND_FAM = { 'Cheap':'green', 'Moderate':'yellow',
+                 'Expensive':'orange', 'Very expensive':'red' };
 function bandClass(b) { return 'ci-c-' + b.toLowerCase().replace(/ /g, '-'); }
 /* The same cut points build_cost_page.py BANDS uses — kept in step by hand in
    exactly one place, here, and only because the sub-readings inside an opened
@@ -765,25 +749,6 @@ function render() {
   revealRows();
 
   document.getElementById('cost-noresult').style.display = list.length ? 'none' : 'block';
-
-  /* NO COUNT. The line opened on "237 places", which is the size of the fleet
-     stated to a reader — Fifty-second non-negotiable, owner 2026-08-23: "i
-     already said to stop showing a number of guides in the site". What it says
-     instead is the only thing on it a traveller could act on: the two ends of
-     whatever is on screen, each one a link into its own guide. */
-  var sum = document.getElementById('ci-summary');
-  if (!list.length) { sum.textContent = ''; return; }
-  var vals = list.map(function (r) { return r[N_IDX]; });
-  var lo = Math.min.apply(null, vals), hi = Math.max.apply(null, vals);
-  var cheapest = list[vals.indexOf(lo)], dearest = list[vals.indexOf(hi)];
-  if (list.length === 1) { sum.innerHTML = 'One match.'; return; }
-  sum.innerHTML = 'Cheapest of these: <a href="' + guideURL(cheapest) + '">' + cheapest[N_NAME] + '</a>' +
-    ' · dearest: <a href="' + guideURL(dearest) + '">' + dearest[N_NAME] + '</a>';
-  /* Only worth saying when a search narrowed the list — with no query the
-     "all" set trivially spans the full range every time. */
-  if (state.q && cheapest[N_BAND] !== dearest[N_BAND]) {
-    sum.innerHTML += ' · spans ' + cheapest[N_BAND] + ' to ' + dearest[N_BAND];
-  }
 }
 
 /* Scroll-reveal for the leaderboard rows. VISIBLE BY DEFAULT — this only
@@ -854,9 +819,6 @@ document.addEventListener('DOMContentLoaded', function () {
   render();
   writeNote();
   bindGroup('#band-row .ci-btn', function (b) { state.band = b.dataset.band; });
-  bindGroup('#sort-row .ci-btn', function (b) {
-    state.sort = b.id === 'sort-asc' ? 'asc' : b.id === 'sort-desc' ? 'desc' : 'az';
-  });
   document.getElementById('cost-search').addEventListener('input', function (e) {
     state.q = e.target.value.trim().toLowerCase();
     render();

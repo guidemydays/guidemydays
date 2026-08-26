@@ -5,6 +5,9 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link rel="stylesheet" href="/assets/web-travel-style.css">
 <title>Where to Stay — Neighborhoods, Hotels and Where to Book | Guide My Days</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@500;700;800;900&family=Work+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
 /* Page-specific styles only — base, colors and pills come from web-travel-style.css */
 
@@ -14,44 +17,82 @@
    (align-items center -> flex-start, sub 12.5px -> 13px) that copy silently
    pinned this one page to the old look. Do not paste it back. */
 
-/* ── Search ── */
+/* New tokens for this page's redesign, same earth-tone family already
+   shipped on Festival Atlas and the Disney timing page — everything else
+   (--surface, --border2, --rust, .sibling-pill, .badge, .fam-en-*,
+   .also-on-this-site-pill, input[type=search]) stays exactly as
+   web-travel-style.css already defines it. */
+:root {
+  --ws-disp: 'Unbounded', var(--font);
+  --ws-ink: #201a14; --ws-ink-soft: #5b5248; --ws-line: #d8d0c2;
+  --ws-paper: #fbf7ee;
+  --ws-sand-ink: #8f6a3e; --ws-sand-rgb: 143,106,62; --ws-sand-wash: #f8f0e4;
+}
+@media (prefers-color-scheme: dark) {
+  :root {
+    --ws-ink: #f2ece0; --ws-ink-soft: #b8ac9c; --ws-line: #3a352c;
+    --ws-paper: #221f1a;
+    --ws-sand-ink: #c2a37c; --ws-sand-rgb: 194,163,124; --ws-sand-wash: #2a251d;
+  }
+}
+
+/* -- Search -- */
 .an-search-wrap { display: flex; justify-content: center; margin: 0 0 18px; }
 
-/* ── Sibling pills (shape comes from shared .sibling-pill) ── */
-.an-siblings { display: flex; flex-wrap: wrap; gap: 7px; margin: 0 0 18px; justify-content: center; }
+/* -- Sibling pills (shape comes from shared .sibling-pill; colours are the
+   already-approved fam-* per-link variant — untouched) -- */
+.an-siblings { display: flex; flex-wrap: wrap; gap: 7px; margin: 0 0 22px; justify-content: center; }
 
-/* ── Region divider between city blocks ── */
+/* -- The price-gap callout — one real fact pulled from the booking-sites
+   copy below, not a second banner (Disney's redesign tried that and it
+   was one banner too many). Just bold inline typography, sitting in the
+   page's own flow. -- */
+.ws-callout { font-size: 15px; line-height: 1.6; color: var(--ws-ink-soft); max-width: 700px; margin: 0 0 24px; }
+.ws-callout b { font-family: var(--ws-disp); font-weight: 800; font-size: 1.7em; color: var(--ws-sand-ink); letter-spacing: -.02em; }
+
+/* -- Region divider between city blocks -- */
 .an-region-head {
-  font-size: var(--fs-label); text-transform: uppercase; letter-spacing: .08em;
-  color: var(--muted); font-weight: 700; margin: 30px 0 0; padding-bottom: 6px;
+  font-family: var(--ws-disp); font-size: 13px; font-weight: 700; text-transform: uppercase; letter-spacing: .1em;
+  color: var(--ws-ink); margin: 44px 0 0; padding-bottom: 10px; border-bottom: 2px solid var(--ws-line);
 }
 
-/* ── City section header ── */
+/* -- City section header -- */
 .an-city-head {
   display: flex; align-items: center; gap: 10px; flex-wrap: wrap;
-  margin: 20px 0 14px; padding-bottom: 9px; border-bottom: 2px solid var(--border2);
+  margin: 28px 0 16px; padding-bottom: 0; border-bottom: none;
 }
-.an-city-title { font-size: 15px; font-weight: 700; color: var(--text); }
-.an-city-meta { font-size: 11.5px; color: var(--muted); letter-spacing: .02em; }
-.an-city-head .also-on-this-site-pill { margin-left: auto; }
+.an-city-title { font-family: var(--ws-disp); font-size: 17px; font-weight: 700; color: var(--ws-ink); letter-spacing: -.01em; }
+.an-city-meta { font-size: 12px; color: var(--ws-ink-soft); letter-spacing: .02em; }
+/* Rest-colour only, scoped to this page's city headers — the shared class
+   itself (web-travel-style.css) is guide-linked and its hover is a
+   validator-pinned reference shape (check_pill_hover_option_b,
+   check_pills_to_badge_hover), so that stays untouched; only the resting
+   gold border/text becomes this page's own earth tone. */
+.an-city-head .also-on-this-site-pill {
+  margin-left: auto; color: var(--ws-sand-ink); border-color: rgba(var(--ws-sand-rgb),.55);
+}
+.an-city-head .also-on-this-site-pill:visited { color: var(--ws-sand-ink); }
 
-/* ── District cards ── */
-.an-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(330px, 1fr)); gap: 12px; }
+/* -- District cards -- */
+.an-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(330px, 1fr)); gap: 14px; }
 .an-card {
-  background: var(--surface); border: 1px solid var(--border2); border-radius: 11px;
-  padding: 15px 16px; box-shadow: 0 1px 6px rgba(92,61,17,.05);
+  background: var(--ws-paper); border: 1.5px solid var(--ws-line); border-radius: 12px;
+  padding: 18px 20px; box-shadow: none;
   display: flex; flex-direction: column;
+  border-left: 3px solid var(--cell-accent, var(--ws-line));
+  transition: transform .18s ease, border-color .18s ease, box-shadow .18s ease;
 }
-.an-name { font-size: var(--fs-body); font-weight: 700; color: var(--text); margin-bottom: 7px; }
-.an-tags { display: flex; gap: 4px; flex-wrap: wrap; margin-bottom: 9px; }
-.an-desc { font-size: var(--fs-sub); color: var(--text); line-height: 1.55; margin-bottom: 11px; }
-.an-row { display: flex; gap: 8px; font-size: 12px; line-height: 1.5; padding-top: 8px; border-top: 1px solid #efece6; }
+.an-card:hover { transform: translateY(-2px); box-shadow: 0 10px 22px -12px rgba(0,0,0,.22); }
+.an-name { font-family: var(--ws-disp); font-size: 16px; font-weight: 700; color: var(--ws-ink); margin-bottom: 8px; letter-spacing: -.005em; }
+.an-tags { display: flex; gap: 4px; flex-wrap: wrap; margin-bottom: 10px; }
+.an-desc { font-size: var(--fs-sub); color: var(--ws-ink); line-height: 1.55; margin-bottom: 12px; }
+.an-row { display: flex; gap: 8px; font-size: 12px; line-height: 1.5; padding-top: 8px; border-top: 1px solid var(--ws-line); }
 .an-row-label {
   flex: 0 0 82px; font-size: 10px; font-weight: 700; letter-spacing: .06em;
-  text-transform: uppercase; color: var(--muted); padding-top: 2px;
+  text-transform: uppercase; color: var(--ws-ink-soft); padding-top: 2px;
 }
-.an-row-val { color: var(--text); flex: 1; }
-.an-days { color: var(--rust); font-weight: 600; }
+.an-row-val { color: var(--ws-ink); flex: 1; }
+.an-days { color: var(--ws-sand-ink); font-weight: 700; }
 
 @media (max-width: 600px) and (pointer: coarse) {
   .an-grid { grid-template-columns: 1fr; }
@@ -60,104 +101,94 @@
   .an-city-head .also-on-this-site-pill { margin-left: 0; }
 }
 
-@media (prefers-color-scheme: dark) {
-  .an-days { color: var(--text); }
-}
-
-/* ── The two halves of the page ────────────────────────────────────────────
+/* -- The two halves of the page --
    Merged 2026-08-22 (owner: "combine this page ... with this page ... make it
    work"). essentials/hotels/ and essentials/neighborhoods/ answered two halves
-   of one question and neither said so — a reader who had picked a district
-   still had to leave to find out where to book it, and the hotels page named
-   districts it could not show. One page, one title, two sections in the order
-   a reader meets them: WHICH AREA first (city-specific, and the only place on
-   the site that answers it), then WHERE TO BOOK (universal, and the same
-   twenty cards whatever city you picked).
-
-   The city half stays the page's default view. The booking half sits below it
-   because it does not change with the city — and because the district results
-   collapse to a handful the moment anyone searches or filters, which is what
-   a reader on this page does, the split is one screen down rather than 651
-   cards down. For the unfiltered browse state there is the jump link beside
-   the result count; it is a line of text in the page's own flow, never a
-   floating pill (Forty-fourth non-negotiable). ── */
+   of one question and neither said so. WHICH AREA first, then WHERE TO BOOK. */
 .ws-split {
-  margin: 46px 0 0; padding-top: 26px; border-top: 2px solid var(--border2);
+  margin: 56px 0 0; padding-top: 30px; border-top: 2px solid var(--ws-line);
 }
 .ws-split-title {
-  font-family: var(--font); font-size: 24px; font-weight: 700;
-  color: var(--text); letter-spacing: -.01em; line-height: 1.15; margin: 0 0 8px;
+  font-family: var(--ws-disp); font-size: 26px; font-weight: 800;
+  color: var(--ws-ink); letter-spacing: -.02em; line-height: 1.15; margin: 0 0 10px;
 }
 .ws-split-sub {
-  font-size: 13.5px; color: var(--muted); line-height: 1.6; margin: 0 0 22px;
+  font-size: 13.5px; color: var(--ws-ink-soft); line-height: 1.6; margin: 0 0 16px;
   max-width: 760px;
 }
 
-/* The jump link sits alone in its row, right-aligned by margin-left:auto so
-   it stays at the rail edge. */
 .an-count-row { display: flex; align-items: baseline; gap: 12px; margin: 0 0 4px; }
 .an-jump {
-  margin-left: auto; font-size: 12px; font-weight: 600; color: var(--accent);
+  margin-left: auto; font-size: 12px; font-weight: 600; color: var(--ws-sand-ink);
   white-space: nowrap;
 }
-a.an-jump:visited { color: var(--accent); }
+a.an-jump:visited { color: var(--ws-sand-ink); }
 .an-jump:hover { color: var(--rust, #C04E1A); }
 
 @media (max-width: 600px) and (pointer: coarse) {
-  .ws-split { margin-top: 34px; padding-top: 20px; }
-  .ws-split-title { font-size: 21px; }
+  .ws-split { margin-top: 40px; padding-top: 24px; }
+  .ws-split-title { font-size: 22px; }
 }
+
+/* -- Booking / chain / rental cards — same card family as the district
+   cards above, so the two halves of the page read as one system. -- */
 .hs-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
-  gap: 16px;
-  margin-top: 20px;
+  gap: 14px;
+  margin-top: 22px;
 }
 .hs-section-label {
   grid-column: 1 / -1;
-  font-size: 11.5px;
+  font-family: var(--ws-disp);
+  font-size: 12.5px;
   font-weight: 700;
-  color: var(--muted);
+  color: var(--ws-ink);
   text-transform: uppercase;
-  letter-spacing: 0.06em;
-  padding-bottom: 6px;
-  border-bottom: 1px solid var(--border2);
-  margin-top: 8px;
+  letter-spacing: 0.08em;
+  padding-bottom: 8px;
+  border-bottom: 2px solid var(--ws-line);
+  margin-top: 12px;
 }
 .hs-section-label:first-child { margin-top: 0; }
 .hs-section-note {
   grid-column: 1 / -1;
-  font-size: 12.5px;
-  color: var(--muted);
-  line-height: 1.55;
-  margin: -6px 0 2px;
+  font-size: 13px;
+  color: var(--ws-ink-soft);
+  line-height: 1.6;
+  margin: -8px 0 4px;
   max-width: 720px;
 }
 .hs-card {
-  background: var(--surface);
-  border: 1px solid var(--border2);
-  border-radius: 10px;
-  padding: 18px 18px 20px;
+  background: var(--ws-paper);
+  border: 1.5px solid var(--ws-line);
+  border-radius: 12px;
+  padding: 18px 20px 20px;
+  border-left: 3px solid var(--cell-accent, var(--ws-line));
+  transition: transform .18s ease, box-shadow .18s ease;
 }
+.hs-card:hover { transform: translateY(-2px); box-shadow: 0 10px 22px -12px rgba(0,0,0,.22); }
 .hs-card-head {
   display: flex;
   align-items: flex-start;
   gap: 10px;
   margin-bottom: 10px;
   padding-bottom: 10px;
-  border-bottom: 1px solid #efece6;
+  border-bottom: 1px solid var(--ws-line);
 }
 .hs-name {
-  font-size: 14px;
+  font-family: var(--ws-disp);
+  font-size: 15px;
   font-weight: 700;
-  color: var(--text);
+  color: var(--ws-ink);
   line-height: 1.25;
-  margin-bottom: 4px;
+  margin-bottom: 5px;
+  letter-spacing: -.005em;
 }
 .hs-name a {
   color: inherit;
 }
-.hs-name a:hover { color: var(--accent); }
+.hs-name a:hover { color: var(--ws-sand-ink); }
 .hs-tags { display: flex; gap: 4px; flex-wrap: wrap; }
 .hs-badge {
   /* hook only — the box is the shared .badge (markup writes badge fam-*).
@@ -166,39 +197,24 @@ a.an-jump:visited { color: var(--accent); }
 }
 .hs-desc {
   font-size: 13px;
-  color: var(--text);
-  line-height: 1.5;
+  color: var(--ws-ink);
+  line-height: 1.55;
 }
 .hs-family {
   display: block;
-  margin-top: 8px;
+  margin-top: 9px;
   font-size: 12px;
-  color: var(--muted);
-  line-height: 1.45;
+  color: var(--ws-ink-soft);
+  line-height: 1.5;
 }
 @media (max-width: 600px) and (pointer: coarse) {
   .hs-grid { grid-template-columns: 1fr; }
 }
 
-/* ── Color + glass + motion pass (owner: "do this one" after the same
-   treatment on Passport) ─────────────────────────────────────────────
-   Every district/booking card already carries its own badge family
-   (fam-green CENTRAL, fam-blue TRANSIT HUB, fam-orange Chain, …) — this
-   reads that FIRST badge with :has() and tints the card's own accent from
-   it. No new colors invented, no JS/data touched: same 8-family palette
-   every badge on the site already uses. */
-.an-card, .hs-card {
-  --cell-accent: var(--border2);
-  background: color-mix(in srgb, var(--surface) 82%, transparent);
-  backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
-  border-left: 3px solid var(--cell-accent);
-  box-shadow: 0 1px 2px rgba(0,0,0,0.03), 0 8px 18px -14px rgba(0,0,0,0.14);
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
-}
-.an-card:hover, .hs-card:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 1px 2px rgba(0,0,0,0.05), 0 14px 24px -16px rgba(0,0,0,0.20);
-}
+/* -- Accent colour, read off the card's own first badge family — no new
+   colours invented, the same 8-family palette every badge on the site
+   already uses. Flat solid card now, no glass/blur (cliché at this
+   scale — hundreds of cards — and heavier to render). -- */
 .an-card:has(.an-tags > .fam-green:first-child),
 .hs-card:has(.hs-tags > .fam-green:first-child)   { --cell-accent: var(--en-green-rim); }
 .an-card:has(.an-tags > .fam-blue:first-child),
@@ -223,37 +239,39 @@ a.an-jump:visited { color: var(--accent); }
   .an-card:hover, .hs-card:hover { transform: none; }
 }
 
-/* ── Chain vs. boutique — a real head-to-head split instead of one long
-   paragraph block. Scoped to THIS page only (adds to, never edits, the
-   shared .alert-banner class other pages still use plain). ── */
-.ws-vs-banner { padding: 0; border-left: none; background: none; border: none; overflow: hidden; border-radius: 10px; }
-.ws-vs-grid { display: grid; grid-template-columns: 1fr 1fr; }
+/* -- Chain vs. boutique — an editorial head-to-head instead of a soft
+   glass panel. Bold VS typography, flat earth-tone sides, no blur. -- */
+.ws-vs-banner { padding: 0; border-left: none; background: none; border: none; overflow: visible; border-radius: 0; }
+/* Two real children (chain, boutique) — matches the actual markup. The
+   "VS" label is a separate element below (.ws-vs-mid), not a third
+   grid column; forcing it into the grid squeezed the chain side into
+   an "auto" track sized to nothing, wrapping every word onto its own
+   line. Fixed to a plain 2-up split. */
+.ws-vs-grid { display: grid; grid-template-columns: 1fr 1fr; align-items: stretch; gap: 0; position: relative; }
 .ws-vs-side {
-  padding: 16px 18px; background: color-mix(in srgb, var(--surface) 85%, transparent);
-  backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
-  border: 1px solid var(--border2); font-size: 13px; line-height: 1.55; color: var(--text);
+  padding: 22px 24px; background: var(--ws-paper);
+  border: 1.5px solid var(--ws-line); font-size: 13.5px; line-height: 1.6; color: var(--ws-ink);
 }
-.ws-vs-side.chain    { border-radius: 10px 0 0 10px; border-right: none; border-top: 3px solid var(--en-blue-rim); }
-.ws-vs-side.boutique { border-radius: 0 10px 10px 0; border-top: 3px solid var(--en-purple-rim); }
+.ws-vs-side.chain    { border-radius: 12px 0 0 12px; border-right: none; }
+.ws-vs-side.boutique { border-radius: 0 12px 12px 0; }
 .ws-vs-label {
-  display: inline-block; font-size: 10.5px; font-weight: 800; letter-spacing: 0.08em;
-  text-transform: uppercase; margin-bottom: 8px; padding: 2px 9px; border-radius: 20px;
+  display: block; font-family: var(--ws-disp); font-size: 12px; font-weight: 800; letter-spacing: 0.06em;
+  text-transform: uppercase; margin-bottom: 10px; color: var(--ws-sand-ink);
 }
-.ws-vs-side.chain .ws-vs-label    { color: var(--en-blue-text);   background: var(--en-blue-top); }
-.ws-vs-side.boutique .ws-vs-label { color: var(--en-purple-text); background: var(--en-purple-top); }
 .ws-vs-mid {
-  text-align: center; font-size: 10px; font-weight: 800; letter-spacing: 0.1em;
-  color: var(--muted); margin: 12px 0 -4px;
+  text-align: center; font-family: var(--ws-disp); font-size: 11px; font-weight: 800; letter-spacing: 0.14em;
+  text-transform: uppercase; color: var(--ws-ink-soft); margin: 18px 0 -4px;
 }
 .ws-vs-split {
-  margin-top: 12px; padding: 14px 16px; background: color-mix(in srgb, var(--surface) 85%, transparent);
-  border: 1px solid var(--border2); border-top: 3px solid var(--accent); border-radius: 10px;
-  font-size: 13px; line-height: 1.55; color: var(--text);
+  margin-top: 14px; padding: 18px 20px; background: var(--ws-paper);
+  border: 1.5px solid var(--ws-line); border-left: 3px solid var(--ws-sand-ink); border-radius: 12px;
+  font-size: 13.5px; line-height: 1.6; color: var(--ws-ink);
 }
+
 @media (max-width: 600px) and (pointer: coarse) {
   .ws-vs-grid { grid-template-columns: 1fr; }
-  .ws-vs-side.chain    { border-radius: 10px 10px 0 0; border-right: 1px solid var(--border2); border-bottom: none; }
-  .ws-vs-side.boutique { border-radius: 0 0 10px 10px; border-top: none; }
+  .ws-vs-side.chain    { border-radius: 12px 12px 0 0; border-right: 1.5px solid var(--ws-line); border-bottom: none; }
+  .ws-vs-side.boutique { border-radius: 0 0 12px 12px; }
 }
 </style>
 <link rel="stylesheet" href="/assets/mobile.css?v=53">
@@ -294,9 +312,7 @@ a.an-jump:visited { color: var(--accent); }
       <h1 class="eb-title">Which district, <em>and which platform.</em></h1>
       <p class="eb-intro">Two questions, one page: which district of the city to book in and which platform — each listed with transit, guide day coverage and who it suits. Each district also lists what you give up, the route in from the airport &mdash; then the booking sites, hotel groups and rental platforms, and what each one is better at. Day numbers refer to the guide itinerary, not to dates.</p>
     </div>
-    <div class="eb-graphic" aria-hidden="true"><svg viewBox="0 0 200 140">
-      <path d="M100 28c-22 0-34 16-34 34 0 24 34 50 34 50s34-26 34-50c0-18-12-34-34-34z" fill="none" stroke="#C04E1A" stroke-width="2.4"/><path d="M86 66l14-10 14 10v16H86z" fill="#C04E1A" opacity=".85"/>
-    </svg></div>
+    <div class="eb-graphic" aria-hidden="true"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#gm-i-hotel"/></svg></div>
   </div>
 
 <div class="wrap">
@@ -322,6 +338,7 @@ a.an-jump:visited { color: var(--accent); }
   <div class="ws-split" id="booking">
     <h2 class="ws-split-title">Booking sites, chains &amp; rentals</h2>
     <p class="ws-split-sub">The district above decides the address. This decides what you book there and on which channel &mdash; and the same room can carry a different price on each one.</p>
+    <p class="ws-callout">No two booking sites show the same price for the same room — a gap of <b>5&ndash;15%</b> on an identical booking is normal. Search one broad site to see what exists, then check the winner on a second before paying.</p>
   </div>
 
 <div class="alert-banner ws-vs-banner reveal">

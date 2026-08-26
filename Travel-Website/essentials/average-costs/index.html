@@ -172,11 +172,11 @@
   flex: none; width: 16px; height: 16px; color: var(--muted,#6a6660);
   transition: transform .15s ease;
 }
-tr.ci-city[aria-expanded="true"] .ci-open { transform: rotate(90deg); color: var(--accent,#8a6c1a); }
-.ci-c-cheap          { color: var(--fam-green-ink,#1a5a1a); }
-.ci-c-moderate       { color: var(--fam-blue-ink,#1a3a8b); }
-.ci-c-expensive      { color: var(--fam-orange-ink,#8a4a10); }
-.ci-c-very-expensive { color: var(--fam-purple-ink,#7c3aed); }
+tr.ci-city[aria-expanded="true"] .ci-open { transform: rotate(90deg); color: var(--rust,#C04E1A); }
+.ci-c-cheap          { color: var(--en-green-text,#2c5c2e); }
+.ci-c-moderate       { color: var(--en-blue-text,#24507e); }
+.ci-c-expensive      { color: var(--en-orange-text,#8a551a); }
+.ci-c-very-expensive { color: var(--en-purple-text,#593a88); }
 
 /* The expanded row: what is driving the tag. Was a mini <table>; is now three
    bento tiles — Rent / Eating out / Groceries, each with its own catalogue
@@ -590,8 +590,8 @@ var CI=[
 var N_NAME=0, N_SLUG=1, N_COUNTRY=2, N_FLAG=3, N_IDX=4, N_BAND=5, N_VIA=6,
     N_RESOLVED=7, N_EV=8;
 
-var BAND_FAM = { 'Cheap':'fam-green', 'Moderate':'fam-blue',
-                 'Expensive':'fam-orange', 'Very expensive':'fam-purple' };
+var BAND_FAM = { 'Cheap':'green', 'Moderate':'blue',
+                 'Expensive':'orange', 'Very expensive':'purple' };
 function bandClass(b) { return 'ci-c-' + b.toLowerCase().replace(/ /g, '-'); }
 /* The same cut points build_cost_page.py BANDS uses — kept in step by hand in
    exactly one place, here, and only because the sub-readings inside an opened
@@ -605,7 +605,7 @@ function coins(band) {
   return out + '</span>';
 }
 function tag(band) {
-  return '<span class="badge ' + BAND_FAM[band] + '">' + coins(band) + band + '</span>';
+  return '<span class="badge fam-en fam-en-' + BAND_FAM[band] + '">' + coins(band) + band + '</span>';
 }
 function bandOf(n) {
   return n < 35 ? 'Cheap' : n < 50 ? 'Moderate' : n < 70 ? 'Expensive' : 'Very expensive';
@@ -647,10 +647,10 @@ function guideURL(r) { return '/guides/' + r[N_SLUG] + '.html'; }
 function trackStyle() {
   var a = 35 / MAX * 100, b = 50 / MAX * 100, c = 70 / MAX * 100;
   return 'background:linear-gradient(to right,' +
-    'var(--fam-green-bg) 0 '  + a.toFixed(1) + '%,' +
-    'var(--fam-blue-bg) '     + a.toFixed(1) + '% ' + b.toFixed(1) + '%,' +
-    'var(--fam-orange-bg) '   + b.toFixed(1) + '% ' + c.toFixed(1) + '%,' +
-    'var(--fam-purple-bg) '   + c.toFixed(1) + '% 100%)';
+    'var(--en-green-top) 0 '  + a.toFixed(1) + '%,' +
+    'var(--en-blue-top) '     + a.toFixed(1) + '% ' + b.toFixed(1) + '%,' +
+    'var(--en-orange-top) '   + b.toFixed(1) + '% ' + c.toFixed(1) + '%,' +
+    'var(--en-purple-top) '   + c.toFixed(1) + '% 100%)';
 }
 
 function bar(idx, band, label) {
@@ -680,7 +680,7 @@ function barCell(idx, band) {
    hardcoded colour anywhere on the page. */
 function rowVars(band) {
   var fam = BAND_FAM[band];
-  return 'style="--row-ink:var(--' + fam + '-ink);--row-bg:var(--' + fam + '-bg);--row-bd:var(--' + fam + '-bd)"';
+  return 'style="--row-ink:var(--en-' + fam + '-text);--row-bg:var(--en-' + fam + '-top);--row-bd:var(--en-' + fam + '-rim)"';
 }
 
 function rowHTML(r, rank) {

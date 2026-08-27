@@ -2556,7 +2556,16 @@
    the 2026-08-26 "Muted, not gold" pass converted every .fnd-ctl select
    beside it ("should not be gold fonts!" on a picked airport value) -- now
    var(--muted) to match. Page-local HTML, precached. CACHE to v1683. */
-var CACHE = 'travel-cache-v1683';
+/* 2026-08-27: new validator pill_color_family_audit.py (Cleanliness Rule 977)
+   found 19 real invented cp-* color combinations after two false-positive
+   categories were excluded -- every one fixed: essentials/tipping,
+   time-zones, sports-calendar, visa, transit-cards, scams, passport,
+   safety, airline-networks, baggage, pickleball, day-trips, packing. Each
+   had reused a real cp-* wash as a background but paired it with a
+   hand-picked saturated border (sometimes ink too) instead of that
+   family's own rgba(0,0,0,.1) rim. Page-local HTML, precached (13 pages).
+   CACHE to v1684. */
+var CACHE = 'travel-cache-v1684';
 /* 2026-08-27: airlines.css's .card-tags align-items fix changed a shared
    asset without raising its own floor -- MIN_VERSIONS['airlines.css'] to
    6, CACHE to v1662. */

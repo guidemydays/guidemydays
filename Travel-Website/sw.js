@@ -2463,7 +2463,11 @@
    .rc-card's own white -- fixed to var(--warm). Ships via
    worldwide-car-rental/index.html's <link> bump (v=3 -> v=4). CACHE to
    v1678. */
-var CACHE = 'travel-cache-v1678';
+/* 2026-08-27: cars.css's .rc-index .jump-btn rebuilt to the established
+   jump-nav shape (height:34px + padding:0 14px, matching .jump-pill/.pill)
+   instead of its own bespoke 32px box. Ships via worldwide-car-rental/
+   index.html's <link> bump (v=4 -> v=5). CACHE to v1679. */
+var CACHE = 'travel-cache-v1679';
 /* 2026-08-27: airlines.css's .card-tags align-items fix changed a shared
    asset without raising its own floor -- MIN_VERSIONS['airlines.css'] to
    6, CACHE to v1662. */

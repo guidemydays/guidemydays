@@ -2426,7 +2426,10 @@
    :visited. index.html's .fnd-reset hover split off .fnd-ctl's shared rule,
    neutral instead of terracotta. MIN_VERSIONS['web-travel-style.css'] to
    188. CACHE to v1670. */
-var CACHE = 'travel-cache-v1670';
+/* 2026-08-27: essentials/insurance's .jump-pill row stops force-uppercasing
+   (stale 2026-08-23 rule reversed) -- page-local, no shared asset changed.
+   CACHE to v1671. */
+var CACHE = 'travel-cache-v1671';
 /* 2026-08-27: airlines.css's .card-tags align-items fix changed a shared
    asset without raising its own floor -- MIN_VERSIONS['airlines.css'] to
    6, CACHE to v1662. */

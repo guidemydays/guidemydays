@@ -2386,7 +2386,11 @@
 /* 2026-08-27: trains.css: .filter-btn.active (the generic All-pill rule) recoloured from terracotta to grey, matching Non-Negotiable 96 -- covers americas/african/asian/european/oceania-trains toolbar.js -> v1092. CACHE to v1659. */
 /* 2026-08-27: airlines.css: .card-tags gets align-items:flex-start -- the row's default stretch was inflating every borderless .sb-* type chip 2px taller to match its bordered .cp-* alliance-chip sibling, across all 7 regional airline pages toolbar.js -> v1093. CACHE to v1661. */
 /* 2026-08-27: toolbar.js WMO weathercode 1 (Mainly clear) now maps to wx-clear instead of wx-partly -- fixes sunny days rendering the cloud icon toolbar.js -> v1094. CACHE to v1663. */
-var CACHE = 'travel-cache-v1663';
+/* 2026-08-27: trains.css's .filter-btn type chips (high-speed/intercity/
+   regional/night/private/pass/scenic) get a faint per-family rgba wash at
+   rest instead of literal white (Non-Negotiable 104) -- MIN_VERSIONS
+   ['trains.css'] to 20, CACHE to v1664. */
+var CACHE = 'travel-cache-v1664';
 /* 2026-08-27: airlines.css's .card-tags align-items fix changed a shared
    asset without raising its own floor -- MIN_VERSIONS['airlines.css'] to
    6, CACHE to v1662. */
@@ -2426,7 +2430,7 @@ var ICS_OUTBOX = 'gmd-ics-outbox';
    THIS IS THE ONLY PLACE to bump toolbar.js / guide-style.css versions.
    NEVER bump ?v= inside guide HTML — it breaks HMAC stamps and forces re-validation
    of 230+ guides. Instead, bump MIN_VERSIONS here + increment the CACHE version. */
-var MIN_VERSIONS = { 'guide-style.css': 267,'toolbar.js': 1094, 'mobile.css': 90, 'web-travel-style.css': 185, 'guides-index-style.css': 32, 'read-about.css': 6, 'best-of-features.js': 4, 'best-of-cross-data.js': 24, 'weather.js': 12, 'trains.css': 19, 'trains.js': 5, 'airlines.css': 6, 'airlines.js': 7, 'passport.js': 5, 'search-autocomplete.js': 9, 'flag-render.js': 2 };
+var MIN_VERSIONS = { 'guide-style.css': 267,'toolbar.js': 1094, 'mobile.css': 90, 'web-travel-style.css': 185, 'guides-index-style.css': 32, 'read-about.css': 6, 'best-of-features.js': 4, 'best-of-cross-data.js': 24, 'weather.js': 12, 'trains.css': 20, 'trains.js': 5, 'airlines.css': 6, 'airlines.js': 7, 'passport.js': 5, 'search-autocomplete.js': 9, 'flag-render.js': 2 };
 
 function rewriteAssetUrl(urlStr) {
   var u;

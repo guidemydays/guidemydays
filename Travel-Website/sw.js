@@ -2458,7 +2458,12 @@
    worldwide-car-rental/index.html's own <link> bump (v=2 -> v=3), not a
    floor raise. CACHE to v1677 so the page's own cache-first HTML picks up
    the new ?v=3 reference at all. */
-var CACHE = 'travel-cache-v1677';
+/* 2026-08-27: cars.css's .rc-site (each rental company's website/Reviews
+   link buttons) had no background set at all, showing through to
+   .rc-card's own white -- fixed to var(--warm). Ships via
+   worldwide-car-rental/index.html's <link> bump (v=3 -> v=4). CACHE to
+   v1678. */
+var CACHE = 'travel-cache-v1678';
 /* 2026-08-27: airlines.css's .card-tags align-items fix changed a shared
    asset without raising its own floor -- MIN_VERSIONS['airlines.css'] to
    6, CACHE to v1662. */

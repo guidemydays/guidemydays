@@ -312,7 +312,7 @@ a.cf-card:hover { border-color: var(--rust); box-shadow: 0 3px 10px rgba(192,78,
   background: var(--bg, #f5f4f0); padding: 4px 6px 4px 11px; }
 .cf-tray-x { border: none; background: none; padding: 0; width: 18px; height: 18px; cursor: pointer;
   font-size: 14px; line-height: 1; color: var(--muted, #6a6660); font-family: inherit; border-radius: 50%; }
-.cf-tray-x:hover { color: var(--rust, #C04E1A); background: var(--surface, #fff); }
+.cf-tray-x:hover { color: #6a6660; background: var(--surface, #fff); }
 .cf-tray-vs { font-size: 12px; color: var(--muted, #6a6660); flex-shrink: 0; }
 .cf-tray-hint { font-size: 13px; color: var(--muted, #6a6660); }
 .cf-tray-clear { margin-left: auto; border: none; background: none; cursor: pointer;
@@ -367,12 +367,15 @@ a.cf-card:hover { border-color: var(--rust); box-shadow: 0 3px 10px rgba(192,78,
    under the 4.5:1 AA floor. On --bg (#1a1917) the same ink measures 4.82:1.
    The fix is the ground, never the ink: #D4663A is the one dark terracotta
    (Thirty-fifth non-negotiable) and is not ours to nudge. */
-/* The terracotta stadium box (border-radius:999px + rgba(192,78,26,…) border) comes
-   from the shared .selection-pill class (web-travel-style.css, added to the markup
-   alongside .cf-guide-pill) — this rule only overrides size/background for this
-   page's static card pill. check_no_hand_rolled_selection_pill (Cleanliness rule 954). */
-.cf-guide-pill { display: inline-flex; align-items: center; gap: 4px; font-size: 11px; font-weight: 600; padding: 3px 9px; margin-top: 6px; background: var(--bg, #f5f4f0); pointer-events: none; transition: border-color .15s; }
-.cf-guide-pill::after { content: '\203A'; font-size: 14px; line-height: 1; }
+/* Was riding the shared .selection-pill class (oval, border-radius:999px) —
+   wrong component: a "links out to another page/section" chevron pill is
+   .chevron-link-pill (10px rounded rect), same shape as every other "X ›"
+   pill on the site (essentials/resources, essentials/tours, best-of). Now
+   carries .chevron-link-pill in the markup; this rule only overrides size
+   and background for this page's smaller, static (pointer-events:none)
+   card pill -- shape/border/color/hover all come from the shared class. */
+.cf-guide-pill { font-size: 11px; padding: 3px 9px; margin-top: 6px; background: var(--bg, #f5f4f0); pointer-events: none; }
+.cf-guide-pill::after { font-size: 13px; }
 a.cf-card:hover .cf-guide-pill { border-color: #b0aca6; }
 /* Rainfall dry/wet badges — Solid Badge gold/blue (sb-* from web-travel-style.css) */
 @media (prefers-color-scheme: dark) {
@@ -1215,7 +1218,7 @@ a.cf-card:hover .cf-guide-pill { border-color: #b0aca6; }
           '" title="' + (cmpSel ? 'Remove from compare' : 'Compare') +
           '" aria-label="' + esc(cmpSel ? 'Remove ' + cmpName + ' from compare' : 'Compare ' + cmpName) +
           '">' + (cmpSel ? '' : '+') + '</button>';
-        var guidePill = href ? '<span class="cf-guide-pill selection-pill">Guide</span>' : '';
+        var guidePill = href ? '<span class="cf-guide-pill chevron-link-pill">Guide</span>' : '';
         return '<' + tag + attrs + '>' + cmpBtn +
           '<div class="cf-city"><span>' + (rec.city || k) + '</span>' + rightSlot + '</div>' +
           '<div class="cf-temps">' +

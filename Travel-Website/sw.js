@@ -2467,7 +2467,23 @@
    jump-nav shape (height:34px + padding:0 14px, matching .jump-pill/.pill)
    instead of its own bespoke 32px box. Ships via worldwide-car-rental/
    index.html's <link> bump (v=4 -> v=5). CACHE to v1679. */
-var CACHE = 'travel-cache-v1679';
+/* 2026-08-27: trains.css's .jump-btn (essentials/asian-trains' region
+   jump-nav row) was terracotta+white in three separate rule blocks (base
+   rest/hover/active, desktop-scoped rest/hover/active) -- a shared file
+   this session's earlier terracotta sweeps never touched. Neutralized to
+   match every other jump-nav (var(--warm) rest, #f0ede8/#b0aca6 hover).
+   MIN_VERSIONS['trains.css'] to 22.
+   Same pass: essentials/insurance's .jump-pill was the only jump-nav
+   site-wide colouring each item a different hue (gold/blue/green/orange)
+   instead of one uniform neutral tone -- per-href overrides removed,
+   moved var(--warm) onto the base rule, font-weight 700 -> 600 to match
+   entry.html's .pill reference. Page-local HTML, precached.
+   Same pass: essentials/private-transfers' .pt-actions a (the
+   blacklane.com/Reviews link buttons) had an explicit white background
+   and terracotta hover, diverging from its own stated .chevron-link-pill
+   reference -- var(--warm) rest, #f0ede8/#b0aca6 hover, same as cars.css's
+   .rc-site fix. Page-local HTML, precached. CACHE to v1680. */
+var CACHE = 'travel-cache-v1680';
 /* 2026-08-27: airlines.css's .card-tags align-items fix changed a shared
    asset without raising its own floor -- MIN_VERSIONS['airlines.css'] to
    6, CACHE to v1662. */
@@ -2507,7 +2523,7 @@ var ICS_OUTBOX = 'gmd-ics-outbox';
    THIS IS THE ONLY PLACE to bump toolbar.js / guide-style.css versions.
    NEVER bump ?v= inside guide HTML — it breaks HMAC stamps and forces re-validation
    of 230+ guides. Instead, bump MIN_VERSIONS here + increment the CACHE version. */
-var MIN_VERSIONS = { 'guide-style.css': 267,'toolbar.js': 1094, 'mobile.css': 90, 'web-travel-style.css': 190, 'guides-index-style.css': 34, 'read-about.css': 6, 'best-of-features.js': 4, 'best-of-cross-data.js': 24, 'weather.js': 12, 'trains.css': 21, 'trains.js': 5, 'airlines.css': 6, 'airlines.js': 7, 'passport.js': 5, 'search-autocomplete.js': 9, 'flag-render.js': 2 };
+var MIN_VERSIONS = { 'guide-style.css': 267,'toolbar.js': 1094, 'mobile.css': 90, 'web-travel-style.css': 190, 'guides-index-style.css': 34, 'read-about.css': 6, 'best-of-features.js': 4, 'best-of-cross-data.js': 24, 'weather.js': 12, 'trains.css': 22, 'trains.js': 5, 'airlines.css': 6, 'airlines.js': 7, 'passport.js': 5, 'search-autocomplete.js': 9, 'flag-render.js': 2 };
 
 function rewriteAssetUrl(urlStr) {
   var u;

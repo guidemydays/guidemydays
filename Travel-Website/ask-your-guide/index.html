@@ -112,13 +112,17 @@
    per the Eighty-ninth non-negotiable), not just a coloured word. Trip cost and
    currency stay the neutral box: two inks doing one job is enough contrast
    without becoming the "several fonts and colors" mess this replaced. */
-/* 2026-08-26: repointed to Calm Pastel hex -- was hardcoded to Enamel tokens. */
-.ag-fact.is-good { background: #7fc4b0; border-color: #2a7a66; }
-.ag-fact.is-good b { color: #123d32; }
-.ag-fact.is-mid   { background: #fdf3d3; border-color: #d4b06a; }
-.ag-fact.is-mid  b { color: #8a6a28; }
-.ag-fact.is-warn  { background: #d9985f; border-color: #9a5220; }
-.ag-fact.is-warn b { color: #4a2610; }
+/* 2026-08-27: repointed onto the real .cp-dark-teal/.cp-gold/.cp-terracotta
+   token classes -- was hand-rolled hex that happened to exactly duplicate
+   those three (a fresh copy of the shared system, not a use of it), and the
+   duplicate never carried the label text's own ink, only the bold value's,
+   leaving "Safety" muted-grey on a saturated green fill. var(--sp-ink) now
+   colours the whole pill (label + value alike) via inheritance; only the
+   bold weight, not a separate ink, is what still needs restating. */
+.ag-fact.cp-dark-teal, .ag-fact.cp-gold, .ag-fact.cp-terracotta {
+  background: var(--sp-wash); border-color: var(--sp-ink); color: var(--sp-ink);
+}
+.ag-fact.cp-dark-teal b, .ag-fact.cp-gold b, .ag-fact.cp-terracotta b { color: var(--sp-ink); }
 
 /* THE VERDICT, before any number — now a tinted callout instead of a plain
    border-left line, the loudest single element on the page short of the trio. */
@@ -535,6 +539,22 @@ var AGMO=["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec
     if(cf[2]) fh+='<span class="ag-fact">Trip cost <b>'+esc(cf[2])+'</b></span>';
     if(cf[3]) fh+='<span class="ag-fact">Currency <b>'+esc(cf[3])+'</b></span>';
     document.getElementById('ag-facts').innerHTML=fh;
+    /* Same group, same size (NN100) -- .ag-fact isn't .pill-badge, so
+       toolbar.js's shared _equalizePillRows() never reaches it. Measure the
+       widest of this render's facts, apply to the rest. Deferred one frame:
+       measured live, the results panel this sits in isn't laid out yet in
+       the same synchronous tick as the innerHTML write -- every fact's
+       getBoundingClientRect() reads 0 right here, so minWidth silently
+       computed to 0px for all three. rAF runs after the browser's next
+       layout/paint, when the real widths exist. */
+    requestAnimationFrame(function(){
+      var facts=[].slice.call(document.querySelectorAll('#ag-facts .ag-fact'));
+      if(facts.length<2) return;
+      facts.forEach(function(f){ f.style.minWidth=''; });
+      var max=0;
+      facts.forEach(function(f){ max=Math.max(max, f.getBoundingClientRect().width); });
+      facts.forEach(function(f){ f.style.minWidth=max+'px'; });
+    });
 
     /* City cost: the index, its band, and the three sub-indices. The SCOPE is
        printed rather than assumed — a row measured for the country, or off a

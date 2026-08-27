@@ -49,10 +49,9 @@
    font-size or a padding here. The coin icons are sized in em (.ci-coins svg),
    so they follow the token on their own. */
 .ci-btn { font-family: inherit; }
-/* Flat pastel, not the shared .fam-en glossy gradient — owner: "go to pastel
-   colors". Scoped to this page's control pills only, not the shared Enamel
-   definition every other badge/pill site-wide still uses. */
-.ci-controls .ci-btn.fam-en { background: var(--en-top); box-shadow: none; }
+/* 2026-08-26: retired — these buttons moved from Enamel (glossy gradient,
+   needed this override to go flat pastel) to Solid Badge (sb-*), which is
+   already flat by design. Nothing left for this rule to override. */
 
 
 /* ═══════════════════════════════════════════════════════════════════
@@ -172,10 +171,13 @@
   transition: transform .15s ease;
 }
 tr.ci-city[aria-expanded="true"] .ci-open { transform: rotate(90deg); color: var(--rust,#C04E1A); }
+/* 2026-08-26: fixed drift -- moderate/very-expensive were still blue/purple
+   here after BAND_FAM itself moved to yellow/red during the summer's
+   simplification pass; these three never got updated to match. */
 .ci-c-cheap          { color: var(--en-green-text,#2c5c2e); }
-.ci-c-moderate       { color: var(--en-blue-text,#24507e); }
+.ci-c-moderate       { color: var(--en-yellow-text,#7a5a12); }
 .ci-c-expensive      { color: var(--en-orange-text,#8a551a); }
-.ci-c-very-expensive { color: var(--en-purple-text,#593a88); }
+.ci-c-very-expensive { color: var(--en-red-text,#7a1414); }
 
 /* The expanded row: what is driving the tag. Was a mini <table>; is now three
    bento tiles — Rent / Eating out / Groceries, each with its own catalogue
@@ -315,11 +317,11 @@ html { scroll-behavior: smooth; }
   <div class="ci-controls">
     <div class="ci-row pill-badge-strip" id="band-row" role="group" aria-label="Filter by cost of living">
       <span class="ci-row-label">Cost of living</span>
-      <button class="ci-btn pill-badge fam-en fam-en-grey is-on" data-band="all"            aria-pressed="true">All</button>
-      <button class="ci-btn pill-badge fam-en fam-en-green"      data-band="Cheap"          aria-pressed="false"><span class="ci-coins"><svg viewBox="0.10 0.10 23.81 23.81" aria-hidden="true"><use href="#gm-i-coin"></use></svg></span>Cheap</button>
-      <button class="ci-btn pill-badge fam-en fam-en-yellow"       data-band="Moderate"       aria-pressed="false"><span class="ci-coins"><svg viewBox="0.10 0.10 23.81 23.81" aria-hidden="true"><use href="#gm-i-coin"></use></svg><svg viewBox="0.10 0.10 23.81 23.81" aria-hidden="true"><use href="#gm-i-coin"></use></svg></span>Moderate</button>
-      <button class="ci-btn pill-badge fam-en fam-en-orange"     data-band="Expensive"      aria-pressed="false"><span class="ci-coins"><svg viewBox="0.10 0.10 23.81 23.81" aria-hidden="true"><use href="#gm-i-coin"></use></svg><svg viewBox="0.10 0.10 23.81 23.81" aria-hidden="true"><use href="#gm-i-coin"></use></svg><svg viewBox="0.10 0.10 23.81 23.81" aria-hidden="true"><use href="#gm-i-coin"></use></svg></span>Expensive</button>
-      <button class="ci-btn pill-badge fam-en fam-en-red"     data-band="Very expensive" aria-pressed="false"><span class="ci-coins"><svg viewBox="0.10 0.10 23.81 23.81" aria-hidden="true"><use href="#gm-i-coin"></use></svg><svg viewBox="0.10 0.10 23.81 23.81" aria-hidden="true"><use href="#gm-i-coin"></use></svg><svg viewBox="0.10 0.10 23.81 23.81" aria-hidden="true"><use href="#gm-i-coin"></use></svg><svg viewBox="0.10 0.10 23.81 23.81" aria-hidden="true"><use href="#gm-i-coin"></use></svg></span>Very expensive</button>
+      <button class="ci-btn pill-badge sb-dark-grey is-on" data-band="all"            aria-pressed="true">All</button>
+      <button class="ci-btn pill-badge sb-green"      data-band="Cheap"          aria-pressed="false"><span class="ci-coins"><svg viewBox="0.10 0.10 23.81 23.81" aria-hidden="true"><use href="#gm-i-coin"></use></svg></span>Cheap</button>
+      <button class="ci-btn pill-badge sb-gold"       data-band="Moderate"       aria-pressed="false"><span class="ci-coins"><svg viewBox="0.10 0.10 23.81 23.81" aria-hidden="true"><use href="#gm-i-coin"></use></svg><svg viewBox="0.10 0.10 23.81 23.81" aria-hidden="true"><use href="#gm-i-coin"></use></svg></span>Moderate</button>
+      <button class="ci-btn pill-badge sb-tan-orange"     data-band="Expensive"      aria-pressed="false"><span class="ci-coins"><svg viewBox="0.10 0.10 23.81 23.81" aria-hidden="true"><use href="#gm-i-coin"></use></svg><svg viewBox="0.10 0.10 23.81 23.81" aria-hidden="true"><use href="#gm-i-coin"></use></svg><svg viewBox="0.10 0.10 23.81 23.81" aria-hidden="true"><use href="#gm-i-coin"></use></svg></span>Expensive</button>
+      <button class="ci-btn pill-badge sb-red"     data-band="Very expensive" aria-pressed="false"><span class="ci-coins"><svg viewBox="0.10 0.10 23.81 23.81" aria-hidden="true"><use href="#gm-i-coin"></use></svg><svg viewBox="0.10 0.10 23.81 23.81" aria-hidden="true"><use href="#gm-i-coin"></use></svg><svg viewBox="0.10 0.10 23.81 23.81" aria-hidden="true"><use href="#gm-i-coin"></use></svg><svg viewBox="0.10 0.10 23.81 23.81" aria-hidden="true"><use href="#gm-i-coin"></use></svg></span>Very expensive</button>
     </div>
   </div>
 
@@ -601,8 +603,13 @@ function coins(band) {
   }
   return out + '</span>';
 }
+/* 2026-08-26: badge moved from Enamel to Solid Badge (sb-*). BAND_FAM itself
+   stays plain colour names (green/yellow/orange/red) since rowVars()/
+   trackStyle() below still read the matching --en-{color} tokens for the
+   row wash and gradient bar -- only the badge's own look changed. */
+var TAG_FAM = { green:'sb-green', yellow:'sb-gold', orange:'sb-tan-orange', red:'sb-red' };
 function tag(band) {
-  return '<span class="badge fam-en fam-en-' + BAND_FAM[band] + '">' + coins(band) + band + '</span>';
+  return '<span class="badge ' + TAG_FAM[BAND_FAM[band]] + '">' + coins(band) + band + '</span>';
 }
 function bandOf(n) {
   return n < 35 ? 'Cheap' : n < 50 ? 'Moderate' : n < 70 ? 'Expensive' : 'Very expensive';

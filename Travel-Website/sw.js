@@ -2504,7 +2504,27 @@
    to an sb-gold sibling (Rule 12 cp-family/sb-family mix, no sb-purple exists) --
    sb-dark-brown, matching the same substitution already used for Delta
    One's premium badge on airline-networks. CACHE to v1681. */
-var CACHE = 'travel-cache-v1681';
+/* 2026-08-27: toolbar.js's _equalizePairButtons() is now exposed as
+   window.TVE.equalizePairButtons -- index.html's Compare bar calls it after
+   every text-content rewrite, since the bar is grafted in well after
+   load/DOMContentLoaded/resize all fire and its own auto-run never once
+   caught it (confirmed live: no inline min-width on either button at all).
+   MIN_VERSIONS['toolbar.js'] to 1095.
+   Same pass: #tp-compare .cmp-exit-btn's hover never visibly did anything in
+   either theme -- its own ID-scoped rest rule always outranked the shared
+   .paired-reset:hover class selector regardless of :hover state, so the
+   comment claiming the shared rule supplied it was never true. Restated at
+   the same ID scope, light + dark. .cmpx-mini ("Surprise me") neutralized
+   from the same stale terracotta hover pattern, plus a dark hover it never
+   had. Page-local HTML, precached.
+   Same pass, when-to-go/index.html: .cf-mon (MONTH grid) and .cf-seg/.cf-sort
+   (unit toggle + sort dropdown) rest fills were literal white (NN104) --
+   var(--warm). Desktop .cf-mon.on used var(--border) (#d8d4cc, plain grey)
+   instead of #b0aca6 for its border. .cf-spill-pill (Weather by city / When
+   to go / Daylight by month) had the same stale terracotta hover retired
+   everywhere else this session, plus its missing dark counterpart.
+   Page-local HTML, precached. CACHE to v1682. */
+var CACHE = 'travel-cache-v1682';
 /* 2026-08-27: airlines.css's .card-tags align-items fix changed a shared
    asset without raising its own floor -- MIN_VERSIONS['airlines.css'] to
    6, CACHE to v1662. */
@@ -2544,7 +2564,7 @@ var ICS_OUTBOX = 'gmd-ics-outbox';
    THIS IS THE ONLY PLACE to bump toolbar.js / guide-style.css versions.
    NEVER bump ?v= inside guide HTML — it breaks HMAC stamps and forces re-validation
    of 230+ guides. Instead, bump MIN_VERSIONS here + increment the CACHE version. */
-var MIN_VERSIONS = { 'guide-style.css': 267,'toolbar.js': 1094, 'mobile.css': 90, 'web-travel-style.css': 190, 'guides-index-style.css': 35, 'read-about.css': 6, 'best-of-features.js': 4, 'best-of-cross-data.js': 24, 'weather.js': 12, 'trains.css': 22, 'trains.js': 5, 'airlines.css': 7, 'airlines.js': 7, 'passport.js': 5, 'search-autocomplete.js': 9, 'flag-render.js': 2 };
+var MIN_VERSIONS = { 'guide-style.css': 267,'toolbar.js': 1095, 'mobile.css': 90, 'web-travel-style.css': 190, 'guides-index-style.css': 35, 'read-about.css': 6, 'best-of-features.js': 4, 'best-of-cross-data.js': 24, 'weather.js': 12, 'trains.css': 22, 'trains.js': 5, 'airlines.css': 7, 'airlines.js': 7, 'passport.js': 5, 'search-autocomplete.js': 9, 'flag-render.js': 2 };
 
 function rewriteAssetUrl(urlStr) {
   var u;

@@ -2451,7 +2451,14 @@
    region summaries, 70 instances) gains has-icon -- last instance of the
    pattern site-wide, pill_row_equalize_audit.py now passes clean across all
    109 pages. Page-local, no shared asset changed. CACHE to v1676. */
-var CACHE = 'travel-cache-v1676';
+/* 2026-08-27: cars.css's .rc-index .jump-btn (essentials/worldwide-car-
+   rental's jump-nav row) was white-rest/terracotta-hover, retired to
+   neutral. cars.css isn't in MIN_VERSIONS -- it's referenced with its own
+   frozen ?v= query string instead -- so the fix ships via
+   worldwide-car-rental/index.html's own <link> bump (v=2 -> v=3), not a
+   floor raise. CACHE to v1677 so the page's own cache-first HTML picks up
+   the new ?v=3 reference at all. */
+var CACHE = 'travel-cache-v1677';
 /* 2026-08-27: airlines.css's .card-tags align-items fix changed a shared
    asset without raising its own floor -- MIN_VERSIONS['airlines.css'] to
    6, CACHE to v1662. */

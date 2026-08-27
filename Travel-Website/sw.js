@@ -2390,7 +2390,27 @@
    regional/night/private/pass/scenic) get a faint per-family rgba wash at
    rest instead of literal white (Non-Negotiable 104) -- MIN_VERSIONS
    ['trains.css'] to 20, CACHE to v1664. */
-var CACHE = 'travel-cache-v1664';
+/* 2026-08-27: site audit (ace014af) -- guides-index-style.css .cmp-guide-link
+   :hover/:visited fixes + web-travel-style.css :visited literal-hex locks for
+   all 22 cp-* / sp-* badge families and CSS comment bug fix shipped without
+   MIN_VERSIONS bumps; raising guides-index-style.css to 33 and
+   web-travel-style.css to 186. CACHE to v1665. */
+/* 2026-08-27: site audit -- web-travel-style.css: fixed a comment whose prose accidentally
+   put an asterisk directly before a slash mid-sentence (the cp-* and sb- family names
+   written back to back), closing the comment early and silently dropping the
+   .legend-key.cp-* rule (12 selectors); added :visited locks for all 22 cp- and sp-
+   badge families. guides-index-style.css: .cmp-guide-link:hover stopped changing font
+   ink on hover, its :visited rule switched off var() (browsers don't apply custom
+   properties inside :visited) -- MIN_VERSIONS['web-travel-style.css'] to 187,
+   ['guides-index-style.css'] to 34, CACHE to v1666. */
+/* 2026-08-27: pages are cache-first, so a page-local (non-shared-asset) fix
+   still needs a bump for returning readers -- these 7 shipped without one:
+   essentials/baggage (region jump-strip real fills), essentials/insurance
+   (cp-purple -> sb-teal), essentials/airline-networks (cp-purple ->
+   sb-dark-brown), essentials/day-trips + best-of (All pill grey, dt-band
+   padding), essentials/sports-calendar (.sc-mon -> .selection-pill). CACHE
+   to v1667. */
+var CACHE = 'travel-cache-v1667';
 /* 2026-08-27: airlines.css's .card-tags align-items fix changed a shared
    asset without raising its own floor -- MIN_VERSIONS['airlines.css'] to
    6, CACHE to v1662. */
@@ -2430,7 +2450,7 @@ var ICS_OUTBOX = 'gmd-ics-outbox';
    THIS IS THE ONLY PLACE to bump toolbar.js / guide-style.css versions.
    NEVER bump ?v= inside guide HTML — it breaks HMAC stamps and forces re-validation
    of 230+ guides. Instead, bump MIN_VERSIONS here + increment the CACHE version. */
-var MIN_VERSIONS = { 'guide-style.css': 267,'toolbar.js': 1094, 'mobile.css': 90, 'web-travel-style.css': 185, 'guides-index-style.css': 32, 'read-about.css': 6, 'best-of-features.js': 4, 'best-of-cross-data.js': 24, 'weather.js': 12, 'trains.css': 20, 'trains.js': 5, 'airlines.css': 6, 'airlines.js': 7, 'passport.js': 5, 'search-autocomplete.js': 9, 'flag-render.js': 2 };
+var MIN_VERSIONS = { 'guide-style.css': 267,'toolbar.js': 1094, 'mobile.css': 90, 'web-travel-style.css': 187, 'guides-index-style.css': 34, 'read-about.css': 6, 'best-of-features.js': 4, 'best-of-cross-data.js': 24, 'weather.js': 12, 'trains.css': 20, 'trains.js': 5, 'airlines.css': 6, 'airlines.js': 7, 'passport.js': 5, 'search-autocomplete.js': 9, 'flag-render.js': 2 };
 
 function rewriteAssetUrl(urlStr) {
   var u;

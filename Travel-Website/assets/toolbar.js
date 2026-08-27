@@ -3112,6 +3112,19 @@ window.TVE.home = (function () {
   }
   window.addEventListener('load', _equalizePairButtons);
   window.addEventListener('resize', _equalizePairButtons);
+  /* index.html's Compare bar is grafted into the DOM well after load fires
+     (it waits on the mosaic bootstrap), and its CTA's own label keeps
+     changing after that ("Pick 2–5 cities" <-> "Compare N cities" as
+     picks change) -- neither event this is wired to ever fires again for
+     it, so the pair was never actually equalized: no inline min-width
+     landed on either button, load/DOMContentLoaded/resize all having
+     already passed by the time .paired-btn existed in the DOM at all.
+     Exposed so a page's own selection-update code can re-run this after
+     it rewrites a paired button's text, the same way window._cmpxSync
+     lets index.html's compare engine call back into that page's own
+     picker sync. */
+  window.TVE = window.TVE || {};
+  window.TVE.equalizePairButtons = _equalizePairButtons;
 
   /* ── Guide-page back-strip — REMOVED (owner rule 2026-08-15) ──────────────
      The mobile-only #tve-back-guides strip ('🖨 Print Guide' · 'Before You Go' ·

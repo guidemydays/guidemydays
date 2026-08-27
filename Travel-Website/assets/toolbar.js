@@ -3010,9 +3010,24 @@ window.TVE.home = (function () {
       if (pills.length < 2) return;
       pills.forEach(function (p) { p.style.minWidth = ''; });
       row.style.flexWrap = '';
+      /* The grey "All"/reset pill is never part of the scale it resets --
+         Rule 10 (selection-pills-badges-pills-to-badge-dots.html),
+         Non-Negotiable 96 ("the ALL pill is always the grey one, and grey
+         is never used for anything else" -- a site-wide guarantee, so this
+         check needs no page-specific class name). It keeps its own natural
+         width instead of matching the widest sibling; owner correction
+         2026-08-27 after average-costs' "All" rendered stretched to
+         "Very expensive"'s width for no reason -- its minWidth reset above
+         still applies, so it always falls back to fit-content, "always
+         smaller". */
+      var GREY = ['sb-dark-grey', 'sb-light-grey', 'cp-dark-grey', 'cp-light-grey'];
+      var sized = pills.filter(function (p) {
+        return !GREY.some(function (g) { return p.classList.contains(g); });
+      });
+      if (sized.length < 2) return;
       var max = 0;
-      pills.forEach(function (p) { max = Math.max(max, p.getBoundingClientRect().width); });
-      pills.forEach(function (p) { p.style.minWidth = max + 'px'; });
+      sized.forEach(function (p) { max = Math.max(max, p.getBoundingClientRect().width); });
+      sized.forEach(function (p) { p.style.minWidth = max + 'px'; });
       /* Several of these rows are hard-coded flex-wrap:nowrap on desktop (a
          page author's "keep it on one line" — it fit before every pill grew
          to match the widest). A nowrap flex row with a width:auto container

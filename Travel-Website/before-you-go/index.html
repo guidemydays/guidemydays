@@ -82,18 +82,16 @@ body { padding-bottom: calc(24px + env(safe-area-inset-bottom, 0px)) !important;
 .byg-rain-row { display: flex; gap: 14px; margin-top: 4px; }
 .byg-rain-val { font-size: 14px; font-weight: 700; color: var(--c-rain); }
 .byg-rain-lbl { font-size: 11px; color: var(--muted,#6a6660); }
-.byg-link { display: inline-flex; align-items: center; gap: 4px; font-size: 13px;
-  color: var(--muted,#6a6660); padding: 6px 12px; border: 1px solid var(--border2,#e6e2da);
-  border-radius: 8px; background: #fff;
-  transition: background .15s, border-color .15s, color .15s; margin-top: 8px; }
-/* Was a literal " →" typed into every label — the shared chevron every other
-   link-pill draws via ::after (.chevron-link-pill etc.), never a character in
-   the text. Same class of fix as the banned-arrow rule. */
-.byg-link::after { content: '\203A'; font-size: 16px; vertical-align: -1px; margin-left: 2px; }
-/* Matches the canonical .chevron-link-pill hover (web-travel-style.css) —
-   beige ground + terracotta border/text, never grey-only or white-only. */
-.byg-link:hover { background: #fdf4ed; border-color: var(--rust); color: var(--rust); }
-a.byg-link:visited { color: var(--muted,#6a6660); }
+/* .byg-link is the shared .chevron-link-pill component (assets/
+   web-travel-style.css) -- was a hand-rolled duplicate whose own comment
+   claimed to match "the canonical .chevron-link-pill hover ... beige ground
+   + terracotta border/text", which was true when written but went stale the
+   day terracotta was retired from pill fonts/hover sitewide (owner rule
+   2026-08-26) and .chevron-link-pill's own hover moved to the neutral
+   #f0ede8/#b0aca6/#6a6660 pairing -- this page's copy never followed. Only
+   margin-top stays page-local; shape/hover/visited all now come from the
+   shared class. */
+.byg-link { margin-top: 8px; }
 .byg-links-row { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 10px; }
 /* Result badges — canonical family palette (selection-pills-badges-pills-to-badge-dots.html#sec-badge-full-spec).
    Border stays neutral (var(--border2)) per the Tap-Water / Safety-Guide
@@ -195,10 +193,9 @@ a.byg-link:visited { color: var(--muted,#6a6660); }
 @media (prefers-color-scheme: dark) {
   #byg-find.search-input { background: var(--surface, #2a2825) var(--search-icon, none) no-repeat 13px center; color: var(--text, #e8e2d9); }
   .byg-month-select      { background-color: var(--surface, #2a2825); color: var(--text, #e8e2d9); }
-  /* #fdf4ed never flips for dark mode (Non-Negotiable 35) — same rgba
-     substitute used by .chevron-link-pill's own dark override. */
-  .byg-mchip:hover, .byg-link:hover { background: rgba(212,102,58,.16); border-color: #D4663A; color: #D4663A; }
-  .byg-mchip.on { color: #D4663A; border-color: #D4663A; background: var(--surface, #2a2825); }
+  /* .byg-link's own dark-mode hover deleted -- .chevron-link-pill (now
+     applied via the shared class) already supplies the correct neutral
+     dark-mode hover treatment. */
 }
 
 /* ── Hero (2026-08-14, owner-directed) ──────────────────────────────────────
@@ -267,18 +264,18 @@ a.byg-link:visited { color: var(--muted,#6a6660); }
    reads as a mistake, and the point of the chips is seeing the whole year. */
 .byg-months { display: flex; flex-wrap: wrap; justify-content: center; gap: 4px;
   max-width: 840px; margin: var(--search-gap, 32px) auto 0; }
-.byg-mchip { font: inherit; font-size: .82rem; font-weight: 600; letter-spacing: .03em;
-  text-transform: uppercase; color: var(--muted, #6a6660); background: transparent;
-  border: 1.5px solid transparent; border-radius: 999px; padding: .5em 1.05em;
-  cursor: pointer; transition: color .15s ease, background .15s ease, border-color .15s ease; }
-/* Option B (grey hover, owner rule 2026-07-30) reversed 2026-08-26 — every
-   terracotta hover on the site pairs the border with a shift to the warm
-   beige ground, plus a text-color change (owner rule, same date). Selected
-   state was a filled solid terracotta chip — "filled is a button, outlined
-   is selected" (Non-Negotiable, Twenty-fourth) means selected stays outlined. */
-.byg-mchip:hover { background: #fdf4ed; border-color: #C04E1A; color: #C04E1A; }
-.byg-mchip.on { color: var(--rust, #C04E1A); background: var(--surface, #fff); border-color: var(--rust, #C04E1A); }
-.byg-mchip:focus-visible { outline: 2px solid var(--rust, #C04E1A); outline-offset: 2px; }
+/* .byg-mchip is the shared .selection-pill component (one month picked from
+   12 otherwise-equal options, no per-item family colour — assets/
+   web-travel-style.css) tagged .cp-brown for its wash/ink (matching
+   this page's own rust accent, same recipe already shipped on essentials/
+   festival-finder's .fa-spoke-btn with .cp-brown and when-to-go's .cf-preset
+   with .cp-brown) plus .hov-darken for its hover. The two comments this
+   replaced (below, and the dark-mode twin above) disagreed with each other
+   about whether the selected state should stay terracotta-outlined or move
+   to the shared class's neutral #f0ede8/#6a6660 pressed-down look — both
+   dated the same day, 2026-08-26 — resolved 2026-08-27, owner: "we don't
+   have white with terracotta." Only page-specific size stays local. */
+.byg-mchip { font-size: .82rem; padding: .5em 1.05em; }
 @media (max-width: 700px) {
   .byg-hero { padding-top: 1.5rem; }
   .byg-search { padding-left: 16px; gap: 6px; }
@@ -288,8 +285,7 @@ a.byg-link:visited { color: var(--muted,#6a6660); }
   /* 2-row grid of 6 — cleaner than a flex row that wraps unpredictably */
   .byg-months { display: grid; grid-template-columns: repeat(6, 1fr); gap: 6px;
     max-width: 420px; margin-top: var(--search-gap, 32px); }
-  .byg-mchip { font-size: .74rem; padding: .55em 0; text-align: center; width: 100%;
-    border-color: rgba(192, 78, 26, .22); }
+  .byg-mchip { font-size: .74rem; padding: .55em 0; text-align: center; width: 100%; }
 }
 </style>
 <link rel="stylesheet" href="/assets/mobile.css?v=53">
@@ -679,11 +675,11 @@ a.byg-link:visited { color: var(--muted,#6a6660); }
     function paintMonths() {
       if (!monthsEl) return;
       var cur = String(parseInt(monthEl.value, 10));
-      [].forEach.call(monthsEl.children, function (b) { b.classList.toggle('on', b.dataset.m === cur); });
+      [].forEach.call(monthsEl.children, function (b) { b.classList.toggle('is-on', b.dataset.m === cur); });
     }
     if (monthsEl) {
       monthsEl.innerHTML = MONTHS.map(function (m, i) {
-        return '<button type="button" class="byg-mchip" data-m="' + i + '" aria-pressed="' +
+        return '<button type="button" class="byg-mchip selection-pill cp-brown hov-darken" data-m="' + i + '" aria-pressed="' +
           (i === curMonth ? 'true' : 'false') + '">' + m.slice(0, 3) + '</button>';
       }).join('');
       monthsEl.addEventListener('click', function (e) {
@@ -913,7 +909,7 @@ a.byg-link:visited { color: var(--muted,#6a6660); }
       }
       html += '<div class="byg-chart-wrap">' + strip(rec, m) + '</div>';
       html += '<div class="byg-links-row">' +
-        '<a href="/weather/#' + encodeURIComponent(k) + '" class="byg-link">Full forecast</a>' +
+        '<a href="/weather/#' + encodeURIComponent(k) + '" class="byg-link chevron-link-pill">Full forecast</a>' +
       '</div></div>';
 
       var tz = CITY_TZ[k] || null;
@@ -926,7 +922,7 @@ a.byg-link:visited { color: var(--muted,#6a6660); }
           '<div class="byg-card-head"><span class="byg-card-title">Local Time</span></div>' +
           '<div id="byg-clock" style="font-size:32px;font-weight:700;color:var(--text,#1a1917);letter-spacing:-.01em;margin:6px 0 2px;">' + initTime + '</div>' +
           '<div id="byg-clock-tz" style="font-size:11px;color:var(--muted,#6a6660);text-transform:uppercase;letter-spacing:.05em;">' + initTzLabel + '</div>' +
-          '<div class="byg-links-row"><a href="/time-zones/" class="byg-link">All time zones</a></div>' +
+          '<div class="byg-links-row"><a href="/time-zones/" class="byg-link chevron-link-pill">All time zones</a></div>' +
           '</div>';
       }
       // Sunrise & Sunset card (col 1, below Local Time)
@@ -940,7 +936,7 @@ a.byg-link:visited { color: var(--muted,#6a6660); }
             '<div class="byg-row"><span class="byg-row-label">Sunset</span><span class="byg-row-value" style="font-weight:600;">' + sunFmtTime(sunR.ss) + '</span></div>' +
             '<div class="byg-row"><span class="byg-row-label">Day length</span><span class="byg-row-value" style="font-weight:600;">' + sunFmtLen(sunR.len) + '</span></div>' +
             '<div class="byg-row"><span class="byg-row-label" style="color:#a06020;">Golden hour · eve</span><span class="byg-row-value" style="font-weight:600;color:#a06020;">' + sunFmtTime(sunR.ss-0.5) + ' – ' + sunFmtTime(sunR.ss) + '</span></div>' +
-            '<div class="byg-links-row"><a href="/sunrise-sunset/" class="byg-link">All sun times</a></div>' +
+            '<div class="byg-links-row"><a href="/sunrise-sunset/" class="byg-link chevron-link-pill">All sun times</a></div>' +
             '</div>';
         } else if (sunR.type === 'sun') {
           html += '<div class="byg-card">' +
@@ -965,7 +961,7 @@ a.byg-link:visited { color: var(--muted,#6a6660); }
         if (safetyData.note) {
           html += '<div class="byg-row"><span class="byg-row-label">Note</span><span class="byg-row-value byg-safety-note" style="font-weight:400;font-size:12px;">' + safetyData.note + '</span></div>';
         }
-        html += '<div class="byg-links-row"><a href="/essentials/safety/" class="byg-link">All safety</a></div></div>';
+        html += '<div class="byg-links-row"><a href="/essentials/safety/" class="byg-link chevron-link-pill">All safety</a></div></div>';
         // Tap Water — standalone card below Safety
         var ws = waterStatus(country);
         if (ws) {
@@ -973,7 +969,7 @@ a.byg-link:visited { color: var(--muted,#6a6660); }
           html += '<div class="byg-card byg-card-fixed-sm">' +
             '<div class="byg-card-head"><span class="byg-card-title">Tap Water</span></div>' +
             '<div class="byg-row"><span class="byg-row-label">Status</span><span class="byg-safety-badge byg-water-' + ws + '">' + wsLabel + '</span></div>' +
-            '<div class="byg-links-row"><a href="/essentials/tap-water/" class="byg-link">All regions</a></div>' +
+            '<div class="byg-links-row"><a href="/essentials/tap-water/" class="byg-link chevron-link-pill">All regions</a></div>' +
             '</div>';
         }
         // Vaccines — standalone card with status
@@ -981,14 +977,14 @@ a.byg-link:visited { color: var(--muted,#6a6660); }
         html += '<div class="byg-card byg-card-fixed-sm">' +
           '<div class="byg-card-head"><span class="byg-card-title">Vaccines</span></div>' +
           (vs ? '<div class="byg-row"><span class="byg-row-label">For ' + country + '</span><span class="byg-safety-badge ' + (vs === 'routine' ? 'byg-water-safe' : 'byg-water-varies') + '">' + (vs === 'routine' ? 'Routine only' : 'Recommended') + '</span></div>' : '') +
-          '<div class="byg-links-row"><a href="/essentials/vaccines/" class="byg-link">All vaccines</a></div>' +
+          '<div class="byg-links-row"><a href="/essentials/vaccines/" class="byg-link chevron-link-pill">All vaccines</a></div>' +
           '</div>';
       }
       // Essentials — each as its own standalone card
       function essCard(icon, title, linkLabel, href) {
         return '<div class="byg-card byg-card-fixed-sm">' +
           '<div class="byg-card-head"><span class="byg-card-icon">' + icon + '</span><span class="byg-card-title">' + title + '</span></div>' +
-          '<div class="byg-links-row"><a href="' + href + '" class="byg-link">' + linkLabel + '</a></div>' +
+          '<div class="byg-links-row"><a href="' + href + '" class="byg-link chevron-link-pill">' + linkLabel + '</a></div>' +
           '</div>';
       }
       var cityParam = encodeURIComponent(CLIM[k].city || k);
@@ -1013,7 +1009,7 @@ a.byg-link:visited { color: var(--muted,#6a6660); }
         plugHtml += '<div class="byg-card-head" style="justify-content:space-between;">' +
           '<span style="display:inline-flex;align-items:center;gap:8px;"><span class="byg-card-title">Plug Adapter</span> ' +
           '<span class="byg-voltage" style="display:inline-block;margin:0 0 0 8px;">' + plugInfo.v + '</span></span>' +
-          '<a href="' + plugHref + '" class="byg-link" style="margin-top:0;">All plugs</a>' +
+          '<a href="' + plugHref + '" class="byg-link chevron-link-pill" style="margin-top:0;">All plugs</a>' +
           '</div>';
         plugHtml += '<div class="byg-plug-row">';
         for (var pi = 0; pi < plugInfo.types.length; pi++) {
@@ -1038,7 +1034,7 @@ a.byg-link:visited { color: var(--muted,#6a6660); }
       } else {
         plugHtml += '<div class="byg-card byg-plug-card"><div class="byg-card-head" style="justify-content:space-between;">' +
           '<span style="display:inline-flex;align-items:center;gap:8px;"><span class="byg-card-title">Plug Adapter</span></span>' +
-          '<a href="' + plugHref + '" class="byg-link" style="margin-top:0;">All plugs</a></div></div>';
+          '<a href="' + plugHref + '" class="byg-link chevron-link-pill" style="margin-top:0;">All plugs</a></div></div>';
       }
 
       // Col 3: Cost & Currency + Visa & Entry stacked
@@ -1074,7 +1070,7 @@ a.byg-link:visited { color: var(--muted,#6a6660); }
           '<div class="byg-row"><span class="byg-row-label">Cost level</span><span class="byg-cost-badge ' + costClass(costData.tier) + '">' + costData.tier + '</span></div>' +
           '<div class="byg-row"><span class="byg-row-label">Currency</span><span class="byg-row-value">' + costData.currency + '</span></div>' +
           symHtml +
-          '<div class="byg-links-row"><a href="' + currHref + '" class="byg-link">All currencies</a></div>' +
+          '<div class="byg-links-row"><a href="' + currHref + '" class="byg-link chevron-link-pill">All currencies</a></div>' +
           '</div>';
       }
       // Visa & Entry card (col 3)
@@ -1089,7 +1085,7 @@ a.byg-link:visited { color: var(--muted,#6a6660); }
         if (visaInfo.days) { html += '<div class="byg-row"><span class="byg-row-label">Duration</span><span class="byg-row-value">' + visaInfo.days + '</span></div>'; }
         if (visaInfo.note) { html += '<div class="byg-row"><span class="byg-row-label">Note</span><span class="byg-row-value" style="font-weight:400;font-size:12px;">' + visaInfo.note + '</span></div>'; }
         if (!isUS) {
-          html += '<div class="byg-links-row"><a href="/essentials/visa/" class="byg-link">Visas</a><a href="/essentials/entry/" class="byg-link">Entry requirements</a></div>';
+          html += '<div class="byg-links-row"><a href="/essentials/visa/" class="byg-link chevron-link-pill">Visas</a><a href="/essentials/entry/" class="byg-link chevron-link-pill">Entry requirements</a></div>';
         }
         html += '</div>';
       }
@@ -1099,7 +1095,7 @@ a.byg-link:visited { color: var(--muted,#6a6660); }
         geHtml += '<div class="byg-row"><span class="byg-row-label">Airport</span><span class="byg-row-value" style="font-size:12px;font-weight:500;">' + airInfo.name + ' (' + airInfo.iata + ')</span></div>' +
           '<div class="byg-row"><span class="byg-row-label">Status</span><span class="byg-safety-badge ' + (airInfo.ge ? 'byg-water-safe' : 'byg-water-unsafe') + '">' + (airInfo.ge ? 'Available' : 'Not available') + '</span></div>';
       }
-      geHtml += '<div class="byg-links-row"><a href="/essentials/trusted-traveler/?q=' + cityParam + '" class="byg-link">Find airports</a></div></div>';
+      geHtml += '<div class="byg-links-row"><a href="/essentials/trusted-traveler/?q=' + cityParam + '" class="byg-link chevron-link-pill">Find airports</a></div></div>';
       html += geHtml;
 
       html += '</div>'; // end col 3 stack
@@ -1110,11 +1106,11 @@ a.byg-link:visited { color: var(--muted,#6a6660); }
         var trafficHref = 'https://www.google.com/maps/dir/?api=1&destination=' + encodeURIComponent(airInfo.name);
         html += '<div class="byg-card byg-card-fixed-sm"><div class="byg-card-head"><span class="byg-card-title">Traffic to Airport</span></div>' +
           '<div class="byg-row"><span class="byg-row-label">Airport</span><span class="byg-row-value" style="font-size:12px;font-weight:500;">' + airInfo.name + ' (' + airInfo.iata + ')</span></div>' +
-          '<div class="byg-links-row"><a href="' + trafficHref + '" class="byg-link" target="_blank" rel="noopener">Traffic</a></div></div>';
+          '<div class="byg-links-row"><a href="' + trafficHref + '" class="byg-link chevron-link-pill" target="_blank" rel="noopener">Traffic</a></div></div>';
         if (isUS) {
           html += '<div class="byg-card byg-card-fixed-sm"><div class="byg-card-head"><span class="byg-card-title">TSA Wait Times</span></div>' +
             '<div class="byg-row"><span class="byg-row-label">Airport</span><span class="byg-row-value" style="font-size:12px;font-weight:500;">' + airInfo.name + ' (' + airInfo.iata + ')</span></div>' +
-            '<div class="byg-links-row"><a href="https://www.tsawaittimes.com/" class="byg-link" target="_blank" rel="noopener">Check wait</a></div></div>';
+            '<div class="byg-links-row"><a href="https://www.tsawaittimes.com/" class="byg-link chevron-link-pill" target="_blank" rel="noopener">Check wait</a></div></div>';
         }
       }
       /* The detail rows come from LOUNGE_DATA, which does not cover every
@@ -1144,7 +1140,7 @@ a.byg-link:visited { color: var(--muted,#6a6660); }
             }
           }
         }
-        loungeCardHtml += '<div class="byg-links-row"><a href="' + loungeLink + '?q=' + cityParam + '" class="byg-link">All lounges</a></div></div>';
+        loungeCardHtml += '<div class="byg-links-row"><a href="' + loungeLink + '?q=' + cityParam + '" class="byg-link chevron-link-pill">All lounges</a></div></div>';
         html += loungeCardHtml;
       } else {
         html += essCard('', 'Lounges', 'Lounge guide', loungeLink);
@@ -1174,11 +1170,11 @@ a.byg-link:visited { color: var(--muted,#6a6660); }
           /* Named for the city because the href carries #City and the page
              opens filtered on it — and because a link reading exactly its own
              card heading says nothing about where it goes. */
-          '<a href="' + anHref + '" class="byg-link">Where to Stay in ' + stayCity + '</a>' +
-          '<a href="/best-of/most-luxurious-hotels/" class="byg-link">Luxury hotels</a>' +
-          '<a href="/best-of/unique-hotels/" class="byg-link">Unique hotels</a>' +
-          '<a href="/best-of/resorts/" class="byg-link">Resorts</a>' +
-          '<a href="/best-of/ultra-luxurious-resorts/" class="byg-link">Ultra-luxury resorts</a>' +
+          '<a href="' + anHref + '" class="byg-link chevron-link-pill">Where to Stay in ' + stayCity + '</a>' +
+          '<a href="/best-of/most-luxurious-hotels/" class="byg-link chevron-link-pill">Luxury hotels</a>' +
+          '<a href="/best-of/unique-hotels/" class="byg-link chevron-link-pill">Unique hotels</a>' +
+          '<a href="/best-of/resorts/" class="byg-link chevron-link-pill">Resorts</a>' +
+          '<a href="/best-of/ultra-luxurious-resorts/" class="byg-link chevron-link-pill">Ultra-luxury resorts</a>' +
         '</div></div>';
 
       html += '</div>'; // end col 4 stack

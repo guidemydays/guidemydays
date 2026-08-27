@@ -1104,13 +1104,19 @@ function norm(n) {
 
 function buildStatBar() {
   var labels = {expected:'Expected', appreciated:'Appreciated', check:'Check Bill', skip:'Not Customary'};
-  /* Owner: "these need to match 100% the look" — the legend uses the exact
-     same badge classes as the per-country chip (renderCard() below).
-     2026-08-26: moved from Enamel to Solid Badge (sb-*). */
+  /* Owner: "these need to match 100% the look" — same sb-* tone as the
+     per-country chip (renderCard() below), which is what actually carries
+     the colour. Not the same CLASS: .legend-key.sb-* already renders the
+     identical colour independently (see web-travel-style.css), so this
+     never needed .badge in its own class list -- adding it (2026-08-26,
+     chasing the "match the look" note literally) silently gave every stat
+     pill .badge's smaller padding on top of .legend-key's, one line above
+     the exact "never re-add ... padding beyond the shared .legend-key
+     default" warning this same comment block already carried. */
   var STAT_FAM = {expected:'sb-green', appreciated:'sb-gold', check:'sb-tan-orange', skip:'sb-dark-grey'};
   var html = '';
   ['expected','appreciated','check','skip'].forEach(function(k) {
-    html += '<div class="stat-pill legend-key badge ' + STAT_FAM[k] + '">' +
+    html += '<div class="stat-pill legend-key ' + STAT_FAM[k] + '">' +
       '<span class="stat-label">' + labels[k] + '</span>' +
     '</div>';
   });

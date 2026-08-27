@@ -9656,7 +9656,7 @@ window.TVE.home = (function () {
        of its own and takes overcast, which is what fog looks like from inside
        it; that is a reuse, not a new mark. */
     var WMO = {
-      0:'wx-clear', 1:'wx-partly', 2:'wx-partly', 3:'wx-overcast',
+      0:'wx-clear', 1:'wx-clear', 2:'wx-partly', 3:'wx-overcast',
       45:'wx-overcast', 48:'wx-overcast',
       51:'wx-rain', 53:'wx-rain', 55:'wx-rain',
       56:'wx-rain', 57:'wx-rain',

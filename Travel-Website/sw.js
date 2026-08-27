@@ -2447,7 +2447,11 @@
    gain the has-icon modifier (NN 103) -- same root cause as the earlier
    airline-networks fix, 17 more instances across 6 pages. Page-local, no
    shared asset changed. CACHE to v1675. */
-var CACHE = 'travel-cache-v1675';
+/* 2026-08-27: essentials/airline-networks' .tier-badge (Nonstop/1 Connection
+   region summaries, 70 instances) gains has-icon -- last instance of the
+   pattern site-wide, pill_row_equalize_audit.py now passes clean across all
+   109 pages. Page-local, no shared asset changed. CACHE to v1676. */
+var CACHE = 'travel-cache-v1676';
 /* 2026-08-27: airlines.css's .card-tags align-items fix changed a shared
    asset without raising its own floor -- MIN_VERSIONS['airlines.css'] to
    6, CACHE to v1662. */

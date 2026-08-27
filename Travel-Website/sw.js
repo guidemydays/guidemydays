@@ -2385,7 +2385,10 @@
 /* 2026-08-27: toolbar.js: new shared _equalizePairButtons() width-matches any CTA+reset button pair opted in via .paired-btn (index.html's Compare bar cmp-go-btn/cmp-exit-btn); web-travel-style.css: new .paired-reset shared hover class, light+dark toolbar.js -> v1091. CACHE to v1657. */
 /* 2026-08-27: trains.css: .filter-btn.active (the generic All-pill rule) recoloured from terracotta to grey, matching Non-Negotiable 96 -- covers americas/african/asian/european/oceania-trains toolbar.js -> v1092. CACHE to v1659. */
 /* 2026-08-27: airlines.css: .card-tags gets align-items:flex-start -- the row's default stretch was inflating every borderless .sb-* type chip 2px taller to match its bordered .cp-* alliance-chip sibling, across all 7 regional airline pages toolbar.js -> v1093. CACHE to v1661. */
-var CACHE = 'travel-cache-v1661';
+var CACHE = 'travel-cache-v1662';
+/* 2026-08-27: airlines.css's .card-tags align-items fix changed a shared
+   asset without raising its own floor -- MIN_VERSIONS['airlines.css'] to
+   6, CACHE to v1662. */
 /* 2026-08-27: trains.css's .filter-btn.active grey-All fix changed a
    shared asset without raising its own floor -- MIN_VERSIONS['trains.css']
    to 19, CACHE to v1660. */
@@ -2422,7 +2425,7 @@ var ICS_OUTBOX = 'gmd-ics-outbox';
    THIS IS THE ONLY PLACE to bump toolbar.js / guide-style.css versions.
    NEVER bump ?v= inside guide HTML — it breaks HMAC stamps and forces re-validation
    of 230+ guides. Instead, bump MIN_VERSIONS here + increment the CACHE version. */
-var MIN_VERSIONS = { 'guide-style.css': 267,'toolbar.js': 1093, 'mobile.css': 90, 'web-travel-style.css': 185, 'guides-index-style.css': 32, 'read-about.css': 6, 'best-of-features.js': 4, 'best-of-cross-data.js': 24, 'weather.js': 12, 'trains.css': 19, 'trains.js': 5, 'airlines.css': 5, 'airlines.js': 7, 'passport.js': 5, 'search-autocomplete.js': 9, 'flag-render.js': 2 };
+var MIN_VERSIONS = { 'guide-style.css': 267,'toolbar.js': 1093, 'mobile.css': 90, 'web-travel-style.css': 185, 'guides-index-style.css': 32, 'read-about.css': 6, 'best-of-features.js': 4, 'best-of-cross-data.js': 24, 'weather.js': 12, 'trains.css': 19, 'trains.js': 5, 'airlines.css': 6, 'airlines.js': 7, 'passport.js': 5, 'search-autocomplete.js': 9, 'flag-render.js': 2 };
 
 function rewriteAssetUrl(urlStr) {
   var u;

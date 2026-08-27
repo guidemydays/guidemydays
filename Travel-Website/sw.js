@@ -2432,7 +2432,12 @@
 /* 2026-08-27: web-travel-style.css's .legend-key fix (ebe120b4f) changed a
    shared asset without raising its own floor -- MIN_VERSIONS
    ['web-travel-style.css'] to 189, CACHE to v1672. */
-var CACHE = 'travel-cache-v1672';
+/* 2026-08-27: essentials/airline-networks: .tier-pill badges (Delta One/
+   Polaris/Flagship/Year-round/Seasonal/New/Winter/Summer) gain the has-icon
+   modifier -- real 14.39px SVG dot icons were classed as plain pill-badge,
+   missing the extra vertical room NN 103 requires. Page-local, no shared
+   asset changed. CACHE to v1673. */
+var CACHE = 'travel-cache-v1673';
 /* 2026-08-27: airlines.css's .card-tags align-items fix changed a shared
    asset without raising its own floor -- MIN_VERSIONS['airlines.css'] to
    6, CACHE to v1662. */

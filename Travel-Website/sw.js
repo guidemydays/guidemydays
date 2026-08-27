@@ -2366,7 +2366,8 @@
 /* 2026-08-26: essentials/scams: legend + scam cards recolored to Calm Pastel, replacing 7 hand-copied .scam.fam-* rules with one generic .scam rule reading --sp-wash/--sp-rgb/--sp-ink -- page precached, no shared asset moved. CACHE to v1633. */
 /* 2026-08-26: essentials/visa-times: speed-ladder badges, node colors and the Visa-free row recolored to Calm Pastel, replacing 8 hardcoded Enamel-token rules with 2 generic ones reading --sp-ink/--sp-rgb -- page precached, no shared asset moved. CACHE to v1634. */
 /* 2026-08-26: full-site badge rollout batch -- disney, storage, average-costs, tipping, and 24 more essentials/ pages recolored from Enamel to Solid Badge/Calm Pastel (28 pages total). Also fixed several secondary decorative accents (app icon gradients, lounges access-cards, transit-cards section borders + ripple, connections tier tokens, insurance :has() selectors, train-passes card tint, safety advisory box) that were still hardcoded to the old Enamel tokens and would have mismatched the badges they were designed to match -- pages precached, no shared asset moved. CACHE to v1635. */
-var CACHE = 'travel-cache-v1635';
+/* 2026-08-26: essentials/visa (ancestor-cascade badge system rebuilt onto direct sb- and cp-purple classes), ask-your-guide + before-you-go (card-tint systems), essentials/day-trips + passport + sports-calendar + tours (remaining hardcoded Enamel-token filters/accents), plus recovered uncommitted work from earlier this session (essentials/restaurants badges + link hover, trips link hover, when-to-go preset pills + dry/wet badges, time-zones filter pills -- all on the approved white-rest/terracotta-hover pill standard) -- pages precached, no shared asset moved. CACHE to v1636. */
+var CACHE = 'travel-cache-v1636';
 
 /* The guide-calendar hand-off cache. Written by toolbar.js, read and emptied
    once by the fetch handler below, and EXEMPT from the activate sweep — it is

@@ -251,9 +251,18 @@ a.cf-card:hover { border-color: var(--rust); box-shadow: 0 3px 10px rgba(192,78,
 .cf-try-label { font-size: 11.5px; font-weight: 700; color: var(--muted);
   text-transform: uppercase; letter-spacing: 0.06em; margin: 14px 0 5px; }
 .cf-presets { display: flex; flex-wrap: wrap; gap: 6px; margin: 0 0 12px; }
-.cf-preset { padding: 5px 12px; border: 1px solid rgba(192,78,26,.30); border-radius: 14px; background: var(--surface, #fff); font-size: 12px; cursor: pointer; color: var(--rust, #C04E1A); font-family: inherit; transition: border-color .15s, color .15s, background .15s; }
-.cf-preset:hover { border-color: rgba(192,78,26,.55); background: #fdf4ed; color: var(--rust, #C04E1A); }
-.cf-preset.on { border-color: rgba(192,78,26,.85); background: #fdf4ed; color: var(--rust, #C04E1A); }
+/* .cf-preset is the shared .selection-pill component (one weather preset
+   picked from 4 otherwise-equal options, no per-item family colour, "this
+   one is chosen" carried by .is-on — assets/web-travel-style.css) tagged
+   .cp-terracotta for its wash/ink (closest approved Calm Pastel tone to this
+   page's rust accent; same recipe already shipped on essentials/festival-
+   finder's .fa-spoke-btn month picker with .cp-brown) plus .hov-darken for
+   its hover. Was a hand-rolled rgba(192,78,26,…) pill — the exact banned
+   pattern check_no_hand_rolled_selection_pill exists to catch — with
+   border-radius:14px, which at this box's ~25px height already clips to a
+   full stadium, i.e. visually identical to the shared class's 999px. Only
+   this page's smaller footprint stays page-local now. */
+.cf-preset { font-size: 12px; padding: 5px 12px; }
 /* City search */
 .cf-city-search { width: 200px; padding: 7px 10px; border: 1.5px solid var(--border2); border-radius: 6px; font-family: inherit; font-size: 16px; color: var(--text); background: var(--bg); }
 .cf-city-search::placeholder { color: var(--muted); }
@@ -382,7 +391,7 @@ a.cf-card:hover .cf-guide-pill { border-color: #b0aca6; }
   .cf-mon.on { background: var(--surface2, #1e1c1a); border-color: var(--rust, #D4663A); color: var(--rust, #D4663A); }
   /* #fdf4ed is a light-only hex (Non-Negotiable 35) — same rgba substitute
      used by every other terracotta hover fixed on the site tonight. */
-  .cf-mon:hover, .cf-preset:hover, .cf-compare-btn:hover { background: rgba(212,102,58,.16); border-color: #D4663A; color: #D4663A; }
+  .cf-mon:hover, .cf-compare-btn:hover { background: rgba(212,102,58,.16); border-color: #D4663A; color: #D4663A; }
   .cf-compare-btn.selected { background: var(--surface, #2a2825); border-color: #D4663A; color: #D4663A; }
   /* The selected UNIT chip gets the same ground as the selected MONTH chip
      directly above, and for the measured reason that rule already encodes:
@@ -498,10 +507,10 @@ a.cf-card:hover .cf-guide-pill { border-color: #b0aca6; }
        "from here down i like it" (Month and everything below untouched). -->
   <p class="cf-try-label">Try</p>
   <div class="cf-presets" id="cf-presets">
-    <button type="button" class="cf-preset" data-preset="beach">Beach weather</button>
-    <button type="button" class="cf-preset" data-preset="spring">Mild spring</button>
-    <button type="button" class="cf-preset" data-preset="winter">Winter escape</button>
-    <button type="button" class="cf-preset" data-preset="autumn">Cool autumn</button>
+    <button type="button" class="cf-preset selection-pill cp-terracotta hov-darken" data-preset="beach">Beach weather</button>
+    <button type="button" class="cf-preset selection-pill cp-terracotta hov-darken" data-preset="spring">Mild spring</button>
+    <button type="button" class="cf-preset selection-pill cp-terracotta hov-darken" data-preset="winter">Winter escape</button>
+    <button type="button" class="cf-preset selection-pill cp-terracotta hov-darken" data-preset="autumn">Cool autumn</button>
   </div>
 <div class="cf-controls">
     <div class="cf-block">
@@ -650,7 +659,7 @@ a.cf-card:hover .cf-guide-pill { border-color: #b0aca6; }
     var activePreset = null;
     function paintPresets() {
       [].forEach.call(document.querySelectorAll('.cf-preset'), function (b) {
-        b.classList.toggle('on', b.dataset.preset === activePreset);
+        b.classList.toggle('is-on', b.dataset.preset === activePreset);
       });
     }
     function readSlider(e) {

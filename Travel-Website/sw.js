@@ -2364,7 +2364,8 @@
 /* 2026-08-26: essentials/scenic-trains, essentials/lounges, essentials/train-passes, currencies: region/sort filter pills recolored from white+terracotta to distinct Calm Pastel colors, using the newly-wired .cp-* classes -- pages precached, no shared asset moved beyond the CSS bump above. CACHE to v1631. */
 /* 2026-08-26: web-travel-style.css: fixed .pillbadge -> .pill-badge mismatch so the cp- and sb- tone classes (and the pre-existing sp- ones) actually reach real pill-badge elements; essentials/entry status badges (Required now/Delayed) recolored to Solid Badge -- MIN_VERSIONS['web-travel-style.css'] to 174, CACHE to v1632. */
 /* 2026-08-26: essentials/scams: legend + scam cards recolored to Calm Pastel, replacing 7 hand-copied .scam.fam-* rules with one generic .scam rule reading --sp-wash/--sp-rgb/--sp-ink -- page precached, no shared asset moved. CACHE to v1633. */
-var CACHE = 'travel-cache-v1633';
+/* 2026-08-26: essentials/visa-times: speed-ladder badges, node colors and the Visa-free row recolored to Calm Pastel, replacing 8 hardcoded Enamel-token rules with 2 generic ones reading --sp-ink/--sp-rgb -- page precached, no shared asset moved. CACHE to v1634. */
+var CACHE = 'travel-cache-v1634';
 
 /* The guide-calendar hand-off cache. Written by toolbar.js, read and emptied
    once by the fetch handler below, and EXEMPT from the activate sweep — it is

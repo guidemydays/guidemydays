@@ -2413,7 +2413,12 @@
 /* 2026-08-27: trains.css filter-btn rest-state borders switched from
    alpha-blended to solid 1.5px (high-speed/intercity were reading as the
    same colour) -- MIN_VERSIONS['trains.css'] to 21, CACHE to v1668. */
-var CACHE = 'travel-cache-v1668';
+/* 2026-08-27: mobile-ux-fix crib: 7 page-local fixes shipped without a
+   CACHE bump -- tours (H-OVERFLOW at 393px), festival-finder/where-to-stay/
+   baggage/day-trips/safety/pickleball (var() inside :visited rules replaced
+   with literal hex, browsers silently drop custom properties in :visited).
+   No shared asset changed. CACHE to v1669. */
+var CACHE = 'travel-cache-v1669';
 /* 2026-08-27: airlines.css's .card-tags align-items fix changed a shared
    asset without raising its own floor -- MIN_VERSIONS['airlines.css'] to
    6, CACHE to v1662. */

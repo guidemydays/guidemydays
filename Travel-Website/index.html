@@ -1271,7 +1271,14 @@ a.land-cta:hover:visited {
    1px clear top and bottom, icon midpoint dead level with the text. */
 .fnd-ctl input {
   flex: 1 1 auto; min-width: 0; border: 0; outline: none; background: transparent;
-  font: inherit; font-weight: normal; color: var(--accent); padding: 0; cursor: text; height: 100%;
+  font: inherit; font-weight: normal;
+  /* Muted, not gold — missed in the 2026-08-26 "Muted, not gold" pass three
+     rules up: that fix only touched `.fnd-ctl select`, and the airport field
+     is this card's one `.fnd-ctl input`, so it kept the old gold value alone
+     (owner, live, on a screenshot of a picked airport in gold: "should not be
+     gold fonts!"). Same token as its sibling selects and the site's search
+     inputs generally — one ink for every filled-in value in this card. */
+  color: var(--muted, #6a6660); padding: 0; cursor: text; height: 100%;
   margin: 0;
   /* The sitewide `input[type="text"]` search-bar rule (web-travel-style.css
      § 14) also sets `box-shadow: 0 1px 6px rgba(32,33,36,.28)`, and nothing
@@ -1436,17 +1443,22 @@ a.land-cta:hover:visited {
    inverts on hover by its own grammar. .fnd-more joined it on 2026-08-22, when
    the owner asked for that button to match Find My Destinations — a filled
    button that tinted to var(--bg) on hover would be a third behaviour again. ── */
-/* REVERSED 2026-08-26 (owner rule, live) — supersedes the 2026-07-30/2026-08-19
-   "Option B" comment above this block, which deliberately chose var(--bg) grey
-   over beige. The owner has now flagged the grey+terracotta pairing itself as
-   wrong: every other terracotta hover on the site (.selection-pill,
-   .sibling-pill, .chevron-link-pill) pairs it with the warm #fdf4ed ground, and
-   this finder's own controls should not be the one surface still on grey. The
-   "same hover for every filter" unification this rule exists for is kept —
-   only which colour that shared hover uses has changed. */
+/* REVERSED AGAIN 2026-08-27 (owner, live, on a screenshot of this exact
+   border: "terracota is not in the list of approval"). The 2026-08-26 comment
+   below this justified the terracotta+#fdf4ed pairing by matching
+   .selection-pill / .sibling-pill / .chevron-link-pill — every one of which
+   has SINCE moved to the neutral #f0ede8/#b0aca6/#6a6660 pressed-down pairing
+   under the sitewide "remove all terracotta fonts or pills hover" sweep this
+   same day. This rule was the one surface still quoting a standard that no
+   longer exists anywhere else on the site. Now matches .fnd-reset:hover
+   exactly, one rule below — every outlined control in this card really does
+   share one hover again. Historical note, kept for the date trail: 2026-07-30/
+   2026-08-19 "Option B" chose var(--bg) grey; 2026-08-26 moved it to
+   terracotta+#fdf4ed; this is not that grey either — it is the neutral
+   #f0ede8 wash every pill on the site uses now. */
 .fnd-ctl:hover:not(:has(select:disabled)) {
-  background: #fdf4ed;
-  border-color: var(--rust, #C04E1A);
+  background: #f0ede8;
+  border-color: #b0aca6;
 }
 /* .fnd-reset is a plain button, not a .fnd-ctl dropdown/select -- it never
    qualified for that field's filter-selection exemption, it just shared this
@@ -2015,17 +2027,19 @@ a.ask-card:focus-visible .ask-name { color: var(--rust, #C04E1A); }
    belongs: on secondary lines nobody has to act on. */
 .cmpx-count { margin: 0 auto 0 0; font-size: 0.95rem; font-weight: 600; color: var(--text,#3d3a32); }
 .cmpx-count b { color: var(--text,#3d3a32); font-weight: 700; }
-/* Smaller than .fnd-reset because they sit above the list rather than under the
-   card, but the same grammar: outlined, muted ink, and the site's ONE hover —
-   ground goes var(--bg), rim goes terracotta, THE FONT DOES NOT MOVE (owner
-   rule 2026-07-30 / 2026-08-19). */
+/* Smaller than .fnd-reset because they sit above the list rather than under
+   the card, but the same grammar: outlined, muted ink, THE FONT DOES NOT
+   MOVE (owner rule 2026-07-30 / 2026-08-19). Hover was terracotta rim/ground
+   var(--bg) -- retired along with every other pill hover sitewide (pills
+   doc Rule 13, added this session); now the same neutral #f0ede8/#b0aca6
+   every other reset-grammar control on the site uses. */
 .cmpx-mini {
   display: inline-flex; align-items: center; gap: 0.4rem;
   border: 1px solid var(--border,#e3ddd2); background: transparent;
   color: var(--muted,#6a6660); font: inherit; font-size: 0.85rem;
   border-radius: 999px; padding: 0.45em 1.1em; cursor: pointer;
 }
-.cmpx-mini:not(:disabled):hover, .cmpx-mini:focus-visible { background: var(--bg,#f0ede8); border-color: var(--rust, #C04E1A); }
+.cmpx-mini:not(:disabled):hover, .cmpx-mini:focus-visible { background: #f0ede8; border-color: #b0aca6; }
 /* Surprise me needs two cities to shuffle between; below that it is disabled,
    and it dims the same .45 as a row the five-city cap has locked out, so one
    "you cannot press this" reading serves the whole card. */
@@ -2120,8 +2134,17 @@ a.ask-card:focus-visible .ask-name { color: var(--rust, #C04E1A); }
 }
 /* .cmp-exit-btn's own glow-shadow hover deleted (owner rule 2026-08-27:
    "not sure hover is right either") -- it never matched any other reset
-   button on the site; .paired-reset (assets/web-travel-style.css) now
-   supplies the shared neutral hover every other reset control uses. */
+   button on the site; .paired-reset (assets/web-travel-style.css) was meant
+   to supply the shared neutral hover every other reset control uses, but
+   never actually could: the ID-scoped rest rule above (#tp-compare
+   .cmp-exit-btn, specificity 1,1,0) always outranks a two-class hover
+   selector (.paired-reset:hover, 0,2,0), ID or no :hover, so the shared
+   rule silently lost on every hover and the button never visibly changed
+   at all. Restated at this rule's own ID scope instead of relying on the
+   shared class to win a specificity fight it structurally can't. */
+#tp-compare .cmp-exit-btn:hover {
+  background: #f0ede8; border-color: #b0aca6; color: #6a6660;
+}
 
 /* ON A PHONE THE PAIR SHARES A ROW AND THE COUNT TAKES ITS OWN. Left to the
    desktop rule the count's auto margin shoves the CTA to the right edge and the
@@ -2824,7 +2847,20 @@ summary.res-head:focus-visible { outline: 2px solid var(--rust, #C04E1A); outlin
     background: rgba(200,160,96,.12); border-color: rgba(200,160,96,.62); box-shadow: none;
   }
   /* .cmp-exit-btn's own dark-mode hover deleted -- .paired-reset's shared
-     dark-mode hover (assets/web-travel-style.css) supplies it now. */
+     dark-mode hover (assets/web-travel-style.css) was meant to supply it,
+     but the same ID-vs-two-class specificity fight as the light-mode rule
+     above means the rest rule at line 2831 always won and the button never
+     visibly changed on hover in dark mode either. Restated at this rule's
+     own ID scope, same values .paired-reset:hover uses in dark mode. */
+  #tp-compare .cmp-exit-btn:hover {
+    background: var(--surface2, #1e1c1a); border-color: #4a453e; color: var(--muted, #9a9690);
+  }
+  /* .cmpx-mini ("Surprise me") had no dark-mode hover at all -- the light-mode
+     #f0ede8/#b0aca6 fix above is a literal hex, not a token, so it does not
+     adapt on its own. Same dark neutral hover as .fnd-reset/.cmp-exit-btn. */
+  .cmpx-mini:not(:disabled):hover, .cmpx-mini:focus-visible {
+    background: var(--surface2, #1e1c1a); border-color: #4a453e;
+  }
 
   /* The three rules that were html[data-theme="dark"] until the toggle went. */
   .res-sub > summary,
@@ -2840,11 +2876,10 @@ summary.res-head:focus-visible { outline: 2px solid var(--rust, #C04E1A); outlin
      --warm, still under AA at this size, so the heading takes the dark ink and
      the terracotta stays on the "+" affordance. */
   .contact-q { color: var(--text); }
-  /* #fdf4ed is owner-locked and never flips (Non-Negotiable 35) — the finder's
-     unified hover (added 2026-08-26, see the rule itself above) needs its own
-     dark value, same translucent-terracotta tint used everywhere else on the
-     site for this exact problem. */
-  .fnd-ctl:hover:not(:has(select:disabled)) { background: rgba(212,102,58,.16); border-color: #D4663A; }
+  /* Terracotta reversed again 2026-08-27 (see the light-mode rule above) —
+     .fnd-ctl:hover now matches .fnd-reset:hover directly below it, same as
+     .selection-pill's own dark treatment (terracotta retired). */
+  .fnd-ctl:hover:not(:has(select:disabled)) { background: var(--surface2, #1e1c1a); border-color: #4a453e; }
   /* .fnd-reset: plain button, not the .fnd-ctl dropdown -- neutral dark hover,
      matching .selection-pill's own dark treatment (terracotta retired). */
   .fnd-reset:hover { background: var(--surface2, #1e1c1a); border-color: #4a453e; }
@@ -7335,6 +7370,11 @@ function render() {
       selBar.querySelector('.cmp-sel-chips').innerHTML = chips;
       goBtn.disabled = sel.length < 2;
       goBtn.textContent = sel.length >= 2 ? 'Compare ' + sel.length + ' cities' : 'Pick 2–5 cities';
+      /* .paired-btn's own width-match (toolbar.js _equalizePairButtons) only
+         auto-runs on load/DOMContentLoaded/resize -- this bar is grafted in
+         later than all three, and the label above changes on every pick, so
+         nothing ever re-measures it after the first (nonexistent) pass. */
+      if (window.TVE && window.TVE.equalizePairButtons) window.TVE.equalizePairButtons();
       if (countEl) countEl.textContent = sel.length ? sel.length + ' of ' + MAX : '';
       selBar.classList.toggle('cmp-visible', document.body.classList.contains('mode-compare'));
       document.body.classList.toggle('cmp-full', sel.length >= MAX);

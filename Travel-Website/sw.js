@@ -2381,7 +2381,14 @@
 /* 2026-08-27: web-travel-style.css .has-icon comment: added the measured 130x22/188x30 proportion check and clarified "same group" means shared purpose (the cost-tier scale) not shared row -- average-costs' All reset pill is NOT in that group and does not get has-icon; comment-only, no rule changed -- MIN_VERSIONS['web-travel-style.css'] to 180, CACHE to v1650. */
 /* 2026-08-27: toolbar.js: _equalizePillRows() now excludes the grey All/reset pill from width-matching (Non-Negotiable 96 -- grey is always and only the All pill) so it keeps its own natural width instead of stretching to match its widest sibling toolbar.js -> v1089. CACHE to v1652. */
 /* 2026-08-27: toolbar.js: _equalizePillRows() now equalizes HEIGHT too (every pill in a row, no exception) alongside its existing width-matching, so every .pill-badge filter row site-wide holds equal height regardless of container class toolbar.js -> v1090. CACHE to v1653. */
-var CACHE = 'travel-cache-v1654';
+var CACHE = 'travel-cache-v1655';
+/* 2026-08-27: web-travel-style.css's shared .legend-key rule never set
+   line-height, unlike .badge/.pill-badge which both do -- essentials/
+   train-passes' .elig-badge.legend-key (a <span role="button">, fully
+   inherits the page's line-height:1.6) rendered 29.2px tall against
+   essentials/vaccines' .rpill.legend-key (a <button>, mostly escapes it)
+   at 24px, same --fam-pad token, same intended size -- MIN_VERSIONS
+   ['web-travel-style.css'] to 183, CACHE to v1655. */
 /* 2026-08-27: web-travel-style.css's shared --fam-pad/--badge-pad tokens
    (the plain .badge/.pill-badge reference) and .has-icon both bumped +2px
    vertical -- the "very short" complaint on essentials/cards-atm and
@@ -2404,7 +2411,7 @@ var ICS_OUTBOX = 'gmd-ics-outbox';
    THIS IS THE ONLY PLACE to bump toolbar.js / guide-style.css versions.
    NEVER bump ?v= inside guide HTML — it breaks HMAC stamps and forces re-validation
    of 230+ guides. Instead, bump MIN_VERSIONS here + increment the CACHE version. */
-var MIN_VERSIONS = { 'guide-style.css': 267,'toolbar.js': 1090, 'mobile.css': 90, 'web-travel-style.css': 182, 'guides-index-style.css': 32, 'read-about.css': 6, 'best-of-features.js': 4, 'best-of-cross-data.js': 24, 'weather.js': 12, 'trains.css': 18, 'trains.js': 5, 'airlines.css': 5, 'airlines.js': 7, 'passport.js': 5, 'search-autocomplete.js': 9, 'flag-render.js': 2 };
+var MIN_VERSIONS = { 'guide-style.css': 267,'toolbar.js': 1090, 'mobile.css': 90, 'web-travel-style.css': 183, 'guides-index-style.css': 32, 'read-about.css': 6, 'best-of-features.js': 4, 'best-of-cross-data.js': 24, 'weather.js': 12, 'trains.css': 18, 'trains.js': 5, 'airlines.css': 5, 'airlines.js': 7, 'passport.js': 5, 'search-autocomplete.js': 9, 'flag-render.js': 2 };
 
 function rewriteAssetUrl(urlStr) {
   var u;

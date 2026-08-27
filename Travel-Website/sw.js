@@ -2373,7 +2373,8 @@
 /* 2026-08-26: essentials/packing -- Reset All/Print List/Save for Offline moved fully off the bespoke gold theme onto the sitewide white-pill/terracotta-hover standard (the v1639 fix only patched the gold hover to be visible; this replaces the color scheme itself); page precached, no shared asset moved. CACHE to v1640. Correction, same day: terracotta itself was then retired from pill fonts/hover sitewide (owner rule "remove all terracotta fonts or pills hover") -- packing's Reset All/Print List/Save for Offline reverted to their exact owner-locked resting hex with a brightness-filter-only hover (no color at all), and web-travel-style.css's .selection-pill (the canonical shared pill base) plus 16 more standalone pill/chip hover rules moved to the neutral #f0ede8/#6a6660 pairing -- MIN_VERSIONS['web-travel-style.css'] to 176, CACHE to v1641. */
 /* 2026-08-26: when-to-go -- .cf-guide-pill's hover-on-card-hover border was a page-local override left on terracotta after the shared .selection-pill fix (found during live verification); page precached, no shared asset moved. CACHE to v1642. */
 /* 2026-08-26: when-to-go -- cf-guide-pill switched from .selection-pill (oval) to .chevron-link-pill (rounded rect), the correct shared component for an outbound-style "X >" link; cf-tray-x remove-button hover also moved off terracotta; page precached, no shared asset moved. CACHE to v1643. */
-var CACHE = 'travel-cache-v1643';
+/* 2026-08-26: carry the .pp-input box-shadow leak fix (Trip Escape / Help Me Choose airport picker) to returning browsers toolbar.js -> v1088. CACHE to v1644. */
+var CACHE = 'travel-cache-v1644';
 
 /* The guide-calendar hand-off cache. Written by toolbar.js, read and emptied
    once by the fetch handler below, and EXEMPT from the activate sweep — it is
@@ -2386,7 +2387,7 @@ var ICS_OUTBOX = 'gmd-ics-outbox';
    THIS IS THE ONLY PLACE to bump toolbar.js / guide-style.css versions.
    NEVER bump ?v= inside guide HTML — it breaks HMAC stamps and forces re-validation
    of 230+ guides. Instead, bump MIN_VERSIONS here + increment the CACHE version. */
-var MIN_VERSIONS = { 'guide-style.css': 267,'toolbar.js': 1087, 'mobile.css': 90, 'web-travel-style.css': 176, 'guides-index-style.css': 32, 'read-about.css': 6, 'best-of-features.js': 4, 'best-of-cross-data.js': 24, 'weather.js': 12, 'trains.css': 18, 'trains.js': 5, 'airlines.css': 5, 'airlines.js': 7, 'passport.js': 5, 'search-autocomplete.js': 9, 'flag-render.js': 2 };
+var MIN_VERSIONS = { 'guide-style.css': 267,'toolbar.js': 1088, 'mobile.css': 90, 'web-travel-style.css': 176, 'guides-index-style.css': 32, 'read-about.css': 6, 'best-of-features.js': 4, 'best-of-cross-data.js': 24, 'weather.js': 12, 'trains.css': 18, 'trains.js': 5, 'airlines.css': 5, 'airlines.js': 7, 'passport.js': 5, 'search-autocomplete.js': 9, 'flag-render.js': 2 };
 
 function rewriteAssetUrl(urlStr) {
   var u;

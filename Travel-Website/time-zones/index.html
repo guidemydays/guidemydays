@@ -144,34 +144,32 @@ input.search:focus { border-color: var(--c-search-focus-border); box-shadow: non
    that block — it keeps the rounded form so the two read as different kinds of
    control. Written unconditionally rather than inside the desktop media query,
    which is the trap that leaves it a 6px white box on a phone.
-   Same three-state ladder as the toolbar tab (Thirty-fifth non-negotiable): white
-   ground, .30 rim at rest, .85 rim + #fdf4ed fill + terracotta ink when selected,
+   Same three-state ladder the toolbar tab used to carry: white ground, .30
+   rim at rest, .85 rim + #f0ede8 fill + neutral #6a6660 ink when selected,
    and THE BOX IS IDENTICAL IN BOTH STATES so the row cannot shift under a tap. */
 /* Selection Pills audit 2026-08-23 (owner: "sometimes the hove is wrong
-   sometimes is the font") — this block's own comment above already says
-   "terracotta ink when selected" implying grey otherwise, but the toolbar
-   ladder it claims to follow keeps the ink terracotta in EVERY state, rest
-   and hover included; only the fill/border darken. Rest/hover were #3d3a32
-   (body text). Fixed here and in the dark-mode override below. */
+   sometimes is the font") — superseded 2026-08-26 (owner: "remove all
+   terracotta fonts or pills hover"): rest/hover/active are now the neutral
+   #f0ede8/#6a6660 pairing in every state, never terracotta. */
 .reference-bar .pill {
-  background: var(--surface, #ffffff); border: 1px solid rgba(192,78,26,.30);
-  color: var(--rust, #C04E1A);
+  background: var(--surface, #ffffff); border: 1px solid var(--border2, #e6e2da);
+  color: var(--muted, #6a6660);
 }
-.reference-bar .pill:hover { background: #fdf4ed; border-color: rgba(192,78,26,.55); color: var(--rust, #C04E1A); }
+.reference-bar .pill:hover { background: #f0ede8; border-color: #b0aca6; color: #6a6660; }
 .reference-bar .pill.active,
 .reference-bar .pill.active:hover,
 .reference-bar .pill.active:focus {
-  background: #fdf4ed; border: 1px solid rgba(192,78,26,.85);
-  color: var(--rust, #C04E1A); font-weight: 600;
+  background: #f0ede8; border: 1px solid #b0aca6;
+  color: #6a6660; font-weight: 600;
 }
 @media (prefers-color-scheme: dark) {
-  .reference-bar .pill { background: transparent; border-color: rgba(212,102,58,.34); color: var(--rust, #D4663A); }
-  .reference-bar .pill:hover { background: rgba(212,102,58,.12); border-color: rgba(212,102,58,.58); color: var(--rust, #D4663A); }
+  .reference-bar .pill { background: transparent; border-color: var(--border2, #332f2a); color: var(--muted, #9a9690); }
+  .reference-bar .pill:hover { background: var(--surface2, #1e1c1a); border-color: #4a453e; color: var(--muted, #9a9690); }
   .reference-bar .pill.active,
   .reference-bar .pill.active:hover,
   .reference-bar .pill.active:focus {
-    background: rgba(212,102,58,.16); border: 1px solid rgba(212,102,58,.85);
-    color: var(--rust, #D4663A);
+    background: var(--surface2, #1e1c1a); border: 1px solid #4a453e;
+    color: var(--muted, #9a9690);
   }
   /* A FILLED CTA TAKES #C04E1A IN DARK, NOT --rust — the landing page's own
      dark filled-CTA rule (#fnd-go / #fnd-more), for the reason written there:
@@ -216,12 +214,12 @@ input.search:focus { border-color: var(--c-search-focus-border); box-shadow: non
 .pills { font-family: inherit; display: flex; gap: 4px; flex-wrap: wrap; }
 .pill {
   display: inline-flex; align-items: center; justify-content: center;
-  padding: 6px 12px; border-radius: 6px; border: 1px solid rgba(192,78,26,.30);
-  background: #fff; font-family: inherit; font-size: 13px; font-weight: 400; line-height: 1; color: var(--rust, #C04E1A);
+  padding: 6px 12px; border-radius: 6px; border: 1px solid var(--border2, #e6e2da);
+  background: #fff; font-family: inherit; font-size: 13px; font-weight: 400; line-height: 1; color: var(--muted, #6a6660);
   cursor: pointer; transition: all .15s; white-space: nowrap;
 }
-.pill:hover { font-family: inherit; background: #fdf4ed; border-color: rgba(192,78,26,.55); color: var(--rust, #C04E1A); }
-.pill.active { font-family: inherit; background: #fdf4ed; border-color: rgba(192,78,26,.85); color: var(--rust, #C04E1A); font-weight: 600; }
+.pill:hover { font-family: inherit; background: #f0ede8; border-color: #b0aca6; color: #6a6660; }
+.pill.active { font-family: inherit; background: #f0ede8; border-color: #b0aca6; color: #6a6660; font-weight: 600; }
 /* THERE IS NO DISABLED PILL ON THIS PAGE. The distance sort cannot work before a
    city is named, so before then it is not drawn at all — the page says what a
    search does in words instead. A greyed control that answers nothing reads as a
@@ -238,8 +236,9 @@ a.pill:visited { color: #6a6660; }
 
    Values are the desktop toolbar tab's, field for field (Thirty-fifth non-negotiable
    / Toolbar.html § 5): white ground, 999px radius, 8px 18px, and the rim ladder
-   .30 rest → .55 hover → .85 active with the warm #fdf4ed fill on the last two.
-   Terracotta INK on the selected pill, never a filled gradient.
+   .30 rest → .55 hover → .85 active with the neutral #f0ede8 fill on the last two.
+   Neutral #6a6660 ink on the selected pill (terracotta retired 2026-08-26 — owner:
+   "remove all terracotta fonts or pills hover"), never a filled gradient.
    THE BOX IS IDENTICAL IN ALL THREE STATES — same border width, same padding, same
    radius; colour alone differs. Otherwise the row's width tracks which pill is
    selected and the strip shifts under the pointer. */
@@ -255,7 +254,7 @@ a.pill:visited { color: #6a6660; }
   .pills { justify-content: center; gap: 6px; }
   .pills .pill {
     flex: 0 0 auto; box-sizing: border-box; height: 34px; padding: 0 18px; min-width: 96px;
-    font-size: 13px; font-weight: 500; line-height: 1; color: var(--rust, #C04E1A);
+    font-size: 13px; font-weight: 500; line-height: 1; color: var(--muted, #6a6660);
     border-radius: 999px; margin-left: 0;
     background: var(--surface, #ffffff);
   }
@@ -263,17 +262,17 @@ a.pill:visited { color: #6a6660; }
      into its own rule, not merged into the block above, because this control has a
      DIFFERENT box at each breakpoint (mobile: 6px-radius square, desktop: 999px pill)
      and unconditionally applying .selection-pill's box would win at both. Splitting
-     keeps border-radius:999px and this rgba border out of the same declaration block
+     keeps border-radius:999px and this border color out of the same declaration block
      so check_no_hand_rolled_selection_pill reads them as what they are — the shared
      rim color, laid over this page's own responsive shape — not a fresh hand-rolled
      copy of the whole box (Cleanliness rule 954). */
-  .pills .pill { border: 1px solid rgba(192,78,26,.30); }
-  .pills .pill:hover { background: #fdf4ed; border-color: rgba(192,78,26,.55); color: var(--rust, #C04E1A); }
+  .pills .pill { border: 1px solid var(--border2, #e6e2da); }
+  .pills .pill:hover { background: #f0ede8; border-color: #b0aca6; color: #6a6660; }
   .pills .pill.active,
   .pills .pill.active:hover,
   .pills .pill.active:focus {
-    background: #fdf4ed; border: 1px solid rgba(192,78,26,.85);
-    color: var(--rust, #C04E1A); font-weight: 600;
+    background: #f0ede8; border: 1px solid #b0aca6;
+    color: #6a6660; font-weight: 600;
   }
   /* The sort pill lives under the search, not in this row, but it is the same
      component — it inherits the ladder above by carrying .pill. */
@@ -452,24 +451,23 @@ a.pill:visited { color: #6a6660; }
    above hardcodes white, which on a dark phone left light text on a white chip.
    Correctness, not styling: it is set on every viewport. */
 @media (prefers-color-scheme: dark) {
-  .pills .pill       { color: var(--rust); background: var(--surface, #2a2825); }
-  .pills .pill.active { color: var(--rust); }
+  .pills .pill       { color: var(--muted, #9a9690); background: var(--surface, #2a2825); }
+  .pills .pill.active { color: var(--muted, #9a9690); }
   .vs-sea.ahead  { background: #0d200d; color: #5aaa5e; border-color: #5aaa5e; }
   .vs-sea.behind { background: #2a1408; color: #e8a880; border-color: #e8a880; }
   .vs-sea.same   { background: rgba(180,175,168,.10); color: #b4afa8; border-color: #b4afa8; }
 }
-/* The desktop three-step ladder, redrawn in the dark terracotta. The light
-   #fdf4ed fill is a cream card on a dark page, so hover and active become
-   translucent tints of #D4663A at the same .30 / .55 / .85 rim ordering. Doubled
-   condition because the desktop scope above is an OR list, which cannot be
-   `and`-ed in one query. */
+/* The desktop three-step ladder, redrawn neutral in dark mode (terracotta
+   retired 2026-08-26 — owner: "remove all terracotta fonts or pills hover").
+   Doubled condition because the desktop scope above is an OR list, which
+   cannot be `and`-ed in one query. */
 @media (prefers-color-scheme: dark) and (min-width: 601px),
        (prefers-color-scheme: dark) and (pointer: fine) {
-  .pills .pill { background: transparent; border-color: rgba(212,102,58,.34); }
-  .pills .pill:hover { background: rgba(212,102,58,.12); border-color: rgba(212,102,58,.58); color: var(--rust, #D4663A); }
+  .pills .pill { background: transparent; border-color: var(--border2, #332f2a); }
+  .pills .pill:hover { background: var(--surface2, #1e1c1a); border-color: #4a453e; color: var(--muted, #9a9690); }
   .pills .pill.active,
   .pills .pill.active:hover,
-  .pills .pill.active:focus { background: rgba(212,102,58,.16); border: 1px solid rgba(212,102,58,.85); color: var(--rust, #D4663A); }
+  .pills .pill.active:focus { background: var(--surface2, #1e1c1a); border: 1px solid #4a453e; color: var(--muted, #9a9690); }
 }
 @media (min-width: 601px), (pointer: fine) {
 }

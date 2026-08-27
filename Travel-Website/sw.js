@@ -2376,7 +2376,8 @@
 /* 2026-08-26: carry the .pp-input box-shadow leak fix (Trip Escape / Help Me Choose airport picker) to returning browsers -- CACHE to v1644. Correction, same pass: web-travel-style.css itself changed and its own MIN_VERSIONS floor was left untouched, which is exactly the stale-fetch bug this file exists to prevent -- MIN_VERSIONS['web-travel-style.css'] to 177, CACHE to v1645. */
 /* 2026-08-26: time-zones -- sort pill + region filter pills (mobile/desktop, light/dark) moved off terracotta to the neutral #f0ede8/#6a6660 pairing; page precached, no shared asset moved. CACHE to v1646. */
 /* 2026-08-26: web-travel-style.css: input.pp-input (Trip Escape / Compare airport field) corrected to match the site's one search bar -- oval (999px, was 8px rounded-rect) plus the shared magnifier icon -- MIN_VERSIONS['web-travel-style.css'] to 178, CACHE to v1647. */
-var CACHE = 'travel-cache-v1647';
+/* 2026-08-26: index.html -- #tp-compare .cmp-go-btn's disabled state no longer falls back to guides-index-style.css's flat-grey :disabled treatment; it now shares cmp-exit-btn's cream/border/font-weight at rest, in both light and dark mode -- the two pills read as different sizes because the borderless grey disabled fill had no defined edge next to the bordered cream one, even though the boxes were already identical; page precached, no shared asset moved. CACHE to v1648. */
+var CACHE = 'travel-cache-v1648';
 
 /* The guide-calendar hand-off cache. Written by toolbar.js, read and emptied
    once by the fetch handler below, and EXEMPT from the activate sweep — it is

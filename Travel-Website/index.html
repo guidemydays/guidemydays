@@ -2077,13 +2077,20 @@ a.ask-card:focus-visible .ask-name { color: var(--rust, #C04E1A); }
    this card's own: 0.95rem against the finder's clamp that reaches 1.05rem,
    1.4em of side padding against 1.7em — the finder's CTA sits alone under a
    card and can carry that weight, this one sits in a bar under five chips.
-   Both buttons take ONE rule for the box so they cannot drift apart. */
+   Both buttons take ONE rule for the box AND the fill so they cannot drift
+   apart — this now covers cmp-go-btn's disabled state too: the shared base
+   in guides-index-style.css still carries an older flat-grey `:disabled`
+   treatment (built for the guides index's own compare bar, a different
+   context), and without `:disabled` folded in here that grey leaks through
+   only on THIS card, next to an exit button that never carries `disabled`
+   — two pills that read as different sizes even though their boxes were
+   already identical, because a borderless grey fill has no defined edge
+   next to a bordered cream one. font-weight is spelled out too: the base
+   .cmp-go-btn carries a leftover 600 that .cmp-exit-btn never had. */
 #tp-compare .cmp-go-btn, #tp-compare .cmp-exit-btn {
-  order: 2; font-size: 0.95rem; border-radius: 999px; padding: 0.72em 1.4em;
-  transition: box-shadow .15s, border-color .15s;
-}
-#tp-compare .cmp-go-btn:not(:disabled), #tp-compare .cmp-exit-btn {
+  order: 2; font-size: 0.95rem; font-weight: 400; border-radius: 999px; padding: 0.72em 1.4em;
   background: #f7eee5; border: 1px solid rgba(107,68,35,.45); color: #6b4423;
+  transition: box-shadow .15s, border-color .15s;
 }
 #tp-compare .cmp-go-btn:not(:disabled):hover,
 #tp-compare .cmp-exit-btn:hover {
@@ -2785,7 +2792,7 @@ summary.res-head:focus-visible { outline: 2px solid var(--rust, #C04E1A); outlin
      light-mode rule above (background:#f7eee5) would outrank the shared dark
      rule in guides-index-style.css. Same toolbar dark values, restated here:
      no ground at rest, gold wash on hover. */
-  #tp-compare .cmp-go-btn:not(:disabled), #tp-compare .cmp-exit-btn {
+  #tp-compare .cmp-go-btn, #tp-compare .cmp-exit-btn {
     background: transparent; border-color: rgba(200,160,96,.42); color: #c8a060;
   }
   #tp-compare .cmp-go-btn:not(:disabled):hover,

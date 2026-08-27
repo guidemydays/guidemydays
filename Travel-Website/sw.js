@@ -2381,7 +2381,8 @@
 /* 2026-08-27: web-travel-style.css .has-icon comment: added the measured 130x22/188x30 proportion check and clarified "same group" means shared purpose (the cost-tier scale) not shared row -- average-costs' All reset pill is NOT in that group and does not get has-icon; comment-only, no rule changed -- MIN_VERSIONS['web-travel-style.css'] to 180, CACHE to v1650. */
 /* 2026-08-27: toolbar.js: _equalizePillRows() now excludes the grey All/reset pill from width-matching (Non-Negotiable 96 -- grey is always and only the All pill) so it keeps its own natural width instead of stretching to match its widest sibling toolbar.js -> v1089. CACHE to v1652. */
 /* 2026-08-27: toolbar.js: _equalizePillRows() now equalizes HEIGHT too (every pill in a row, no exception) alongside its existing width-matching, so every .pill-badge filter row site-wide holds equal height regardless of container class toolbar.js -> v1090. CACHE to v1653. */
-var CACHE = 'travel-cache-v1655';
+/* 2026-08-27: web-travel-style.css: input.pp-input / input.pp-input::placeholder (Trip Escape / Compare airport field) font-weight 700 -> 400, matching the other DOM shape of the same TVE.home question (index.html's #fnd-home-in, a plain .fnd-ctl input, already font-weight: normal) -- owner, on a Trip Escape screenshot: "this font seems wrong" -- MIN_VERSIONS['web-travel-style.css'] to 184, CACHE to v1656. */
+var CACHE = 'travel-cache-v1656';
 /* 2026-08-27: web-travel-style.css's shared .legend-key rule never set
    line-height, unlike .badge/.pill-badge which both do -- essentials/
    train-passes' .elig-badge.legend-key (a <span role="button">, fully

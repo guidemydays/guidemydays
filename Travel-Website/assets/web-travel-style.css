@@ -807,6 +807,34 @@ a.also-on-this-site-pill:active {
 .pill-badge.sp-amber, .pill-badge.sp-yellow {
   background: var(--sp-wash); border-color: rgba(var(--sp-rgb),.45); color: var(--sp-ink);
 }
+/* :visited locks for every cp- and sp- badge family (owner rule 2026-07-28:
+   no font-color change after a click, ever). Literal hex per family, never
+   var(--sp-ink) — browsers do not apply custom properties inside :visited
+   at all (a real restriction, not just a getComputedStyle privacy shim), so
+   a var()-based rule here would silently do nothing. Each value is that
+   family's own --sp-ink, read from its cp- / sp- rule above. */
+a.badge.cp-dark-grey:visited, a.pill-badge.cp-dark-grey:visited { color: #14161a; }
+a.badge.cp-light-grey:visited, a.pill-badge.cp-light-grey:visited { color: #4a483f; }
+a.badge.cp-blue:visited, a.pill-badge.cp-blue:visited { color: #163a5c; }
+a.badge.cp-dark-teal:visited, a.pill-badge.cp-dark-teal:visited { color: #123d32; }
+a.badge.cp-light-teal:visited, a.pill-badge.cp-light-teal:visited { color: #2a5a4e; }
+a.badge.cp-gold:visited, a.pill-badge.cp-gold:visited { color: #8a6a28; }
+a.badge.cp-brown:visited, a.pill-badge.cp-brown:visited { color: #2a1f14; }
+a.badge.cp-pink:visited, a.pill-badge.cp-pink:visited { color: #6b2515; }
+a.badge.cp-dark-pink:visited, a.pill-badge.cp-dark-pink:visited { color: #6b2c48; }
+a.badge.cp-purple:visited, a.pill-badge.cp-purple:visited { color: #33195c; }
+a.badge.cp-terracotta:visited, a.pill-badge.cp-terracotta:visited { color: #4a2610; }
+a.badge.cp-bright-red:visited, a.pill-badge.cp-bright-red:visited { color: #4a1108; }
+a.badge.sp-rust:visited, a.pill-badge.sp-rust:visited { color: #8a3f18; }
+a.badge.sp-clay:visited, a.pill-badge.sp-clay:visited { color: #8c6b47; }
+a.badge.sp-espresso:visited, a.pill-badge.sp-espresso:visited { color: #4a2e1a; }
+a.badge.sp-saddle:visited, a.pill-badge.sp-saddle:visited { color: #6b4423; }
+a.badge.sp-beige:visited, a.pill-badge.sp-beige:visited { color: #7a6547; }
+a.badge.sp-sand:visited, a.pill-badge.sp-sand:visited { color: #8f6a3e; }
+a.badge.sp-cream:visited, a.pill-badge.sp-cream:visited { color: #6b5b3e; }
+a.badge.sp-butter:visited, a.pill-badge.sp-butter:visited { color: #7a5c0e; }
+a.badge.sp-amber:visited, a.pill-badge.sp-amber:visited { color: #8a6c1a; }
+a.badge.sp-yellow:visited, a.pill-badge.sp-yellow:visited { color: #8a6524; }
 /* Only 4 approved hovers (doc § 2): Darken, Lift, Press, Glow. A tone-bearing
    pill picks ONE via .hov-{name}; a bare .selection-pill keeps its own
    existing beige hover above, untouched. */
@@ -3367,14 +3395,21 @@ body > .hero-ground {
   gap: 8px;
   align-items: center;
 }
-/* A legend-key that ALSO carries a cp-*/sb-* tone (essentials/tipping's
+/* A legend-key that ALSO carries a cp- or sb- tone (essentials/tipping's
    stat-bar: markup writes stat-pill legend-key badge sb-*) needs to win over
    the plain .legend-key neutral rule above — both are single-class selectors
    tied at specificity 0,1,0, so .legend-key (defined later in the file) was
    winning on source order alone and silently erasing the color. Compound
-   .legend-key.cp-*/.legend-key.sb-* selectors below are 0,2,0 and settle it
-   regardless of order. cp-* needs one shared rule (reads --sp-wash/--sp-ink,
-   already set by the paired .cp-* class); sb-* is literal hex per tone. */
+   .legend-key.cp-* / .legend-key.sb-* selectors below are 0,2,0 and settle
+   it regardless of order. cp-* needs one shared rule (reads --sp-wash and
+   --sp-ink, already set by the paired .cp-* class); sb-* is literal hex per
+   tone. NOTE 2026-08-27: this comment previously wrote the cp- and sb-
+   family names back to back separated only by a slash, which put an
+   asterisk immediately before that slash mid-sentence — an accidental
+   comment terminator that closed it early and left everything after as
+   live, invalid top-level CSS text, silently dropping the .legend-key.cp-*
+   rule below in real browsers. Never let an asterisk land directly before
+   a slash anywhere inside a CSS comment's own prose. */
 .legend-key.cp-dark-grey, .legend-key.cp-light-grey, .legend-key.cp-blue, .legend-key.cp-dark-teal,
 .legend-key.cp-light-teal, .legend-key.cp-gold, .legend-key.cp-brown, .legend-key.cp-pink,
 .legend-key.cp-dark-pink, .legend-key.cp-purple, .legend-key.cp-terracotta, .legend-key.cp-bright-red {

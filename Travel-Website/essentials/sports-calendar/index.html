@@ -76,24 +76,15 @@ a.sc-card:hover { border-color: var(--rust); box-shadow: 0 3px 10px rgba(192,78,
 .sc-city { font-size: var(--fs-body); font-weight: 700; color: var(--text); }
 a.sc-card:hover .sc-city { color: var(--rust); }
 .sc-flag-country { font-size: 10.5px; color: var(--muted); text-align: right; line-height: 1.5; flex-shrink: 0; }
-/* Was a single hand-rolled terracotta tint for every sport — no approved
-   family, no category meaning (Cycling/Tennis/Marathon/F1 all read
-   identical), and terracotta text on a pill/badge is banned outright (owner
-   rule 2026-08-26). Now matches each sport's own family colour, same
-   assignment as .sc-sport-btn above it (the pill and the badge it labels
-   must share a colour). */
-.sc-sport-tag {
-  display: inline-block; font-size: 10px; font-weight: 700; letter-spacing: .04em;
-  padding: 2px 7px; border-radius: 4px; margin-bottom: 6px;
-  background: #e2e1de; color: #4a483f; border: 1px solid #a3a29c;
-}
-.sc-sport-tag[data-sport="tennis"]   { background: #7fc4b0;  color: #123d32;  border-color: #2a7a66; }
-.sc-sport-tag[data-sport="f1"]       { background: #d97268;    color: #4a1108;    border-color: #9a2f22; }
-.sc-sport-tag[data-sport="football"] { background: #bfdcf5;   color: #163a5c;   border-color: #4e85c4; }
-.sc-sport-tag[data-sport="rugby"]    { background: #cbb8ec; color: #33195c; border-color: #6a3fb0; }
-.sc-sport-tag[data-sport="marathon"] { background: #d9985f; color: #4a2610; border-color: #9a5220; }
-.sc-sport-tag[data-sport="cycling"]  { background: #e8a8c0;   color: #6b2c48;   border-color: #b0507a; }
-.sc-sport-tag[data-sport="other"]    { background: #a68968;   color: #2a1f14;   border-color: #5c4530; }
+/* .sc-sport-tag is the shared .badge component (assets/web-travel-style.css)
+   plus the approved Calm Pastel family (.cp-*) — was a page-local hand-roll
+   of the identical shape (border-radius:4px, font-weight:700,
+   letter-spacing:.04em all matched .badge exactly) whose per-sport hex
+   values were byte-for-byte copies of .cp-dark-teal/.cp-bright-red/.cp-blue/
+   .cp-purple/.cp-terracotta/.cp-dark-pink/.cp-brown/.cp-light-grey. Colour
+   is now assigned via SPORT_CP_CLASS in the script below; only page-specific
+   layout stays here. */
+.sc-sport-tag { margin-bottom: 6px; }
 .sc-event-name { font-size: 13px; font-weight: 700; color: var(--rust); margin-bottom: 3px; }
 .sc-dates { font-size: 11px; color: var(--muted); margin-bottom: 6px; letter-spacing: .02em; }
 .sc-desc { font-size: var(--fs-sub); color: var(--text); line-height: 1.5; }
@@ -449,6 +440,9 @@ const SE_EVENTS = [
 /* ── Sport types ──────────────────────────────────────────────── */
 const SPORT_TYPES = ['All','Tennis','F1','Football','Rugby','Marathon','Cycling','Other'];
 const SPORT_ICONS = { All:'', Tennis:'', F1:'', Football:'', Rugby:'', Marathon:'', Cycling:'', Other:'' };
+/* .sc-sport-tag colour — the approved Calm Pastel family (.cp-*), matched to
+   the closest colour this page was already hand-rolling per sport. */
+const SPORT_CP_CLASS = { Tennis:'cp-dark-teal', F1:'cp-bright-red', Football:'cp-blue', Rugby:'cp-purple', Marathon:'cp-terracotta', Cycling:'cp-dark-pink', Other:'cp-brown' };
 
 const MONTHS = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
 const MONTH_FULL = ['January','February','March','April','May','June','July','August','September','October','November','December'];
@@ -527,7 +521,7 @@ function cardHTML(e, labelOverride) {
       <span class="sc-city">${displayCity}</span>
       <span class="sc-flag-country">${TVE.flag.html(e.flag)}<br>${e.country}</span>
     </div>
-    <div class="sc-sport-tag" data-sport="${e.sport.toLowerCase()}">${SPORT_ICONS[e.sport] || ''} ${e.sport}</div>
+    <div class="sc-sport-tag badge ${SPORT_CP_CLASS[e.sport] || 'cp-light-grey'}" data-sport="${e.sport.toLowerCase()}">${SPORT_ICONS[e.sport] || ''} ${e.sport}</div>
     <div class="sc-event-name">${e.name}</div>
     <div class="sc-dates">${e.dates}</div>
     <div class="sc-desc">${e.desc}</div>

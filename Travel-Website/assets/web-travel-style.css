@@ -934,6 +934,38 @@ a.badge.sp-yellow:visited, a.pill-badge.sp-yellow:visited { color: #8a6524; }
 .selection-pill.sb-dark-brown:active, .selection-pill.sb-pink:active, .selection-pill.sb-light-blue:active,
 .selection-pill.sb-green:active, .selection-pill.sb-red:active, .selection-pill.sb-gold:active { filter: brightness(.82); }
 
+/* SELECTED beats any tone wash. .cp-*/.sb-*/.sp-* combo rules above are the
+   same (0,2,0) specificity as .selection-pill.is-on / [aria-pressed="true"]
+   above them, so whichever is declared LATER in this file silently wins for
+   every tagged pill — permanently, since a tone class (cp-brown, etc.) never
+   comes off, unlike .is-on. Regression found 2026-08-27: three toggleable
+   pickers migrated onto "selection-pill cp-brown" this session (before-you-go
+   month chips, festival-finder month spokes, when-to-go presets) and every
+   option rendered in the identical cp-brown wash with no visual difference
+   for the one actually selected — .is-on was firing, just always losing the
+   cascade tie to cp-brown. [class*="…"] matches the whole family in one rule
+   instead of re-listing every current tone name (and covers ones added
+   later), and the extra attribute selector's specificity (0,3,0) wins outright
+   regardless of source order. */
+.selection-pill.is-on[class*="cp-"], .selection-pill[aria-pressed="true"][class*="cp-"],
+.selection-pill-sm.is-on[class*="cp-"], .selection-pill-sm[aria-pressed="true"][class*="cp-"],
+.selection-pill.is-on[class*="sb-"], .selection-pill[aria-pressed="true"][class*="sb-"],
+.selection-pill-sm.is-on[class*="sb-"], .selection-pill-sm[aria-pressed="true"][class*="sb-"],
+.selection-pill.is-on[class*="sp-"], .selection-pill[aria-pressed="true"][class*="sp-"],
+.selection-pill-sm.is-on[class*="sp-"], .selection-pill-sm[aria-pressed="true"][class*="sp-"] {
+  background: #f0ede8; border: 1px solid #b0aca6; color: #6a6660; font-weight: 600;
+}
+@media (prefers-color-scheme: dark) {
+  .selection-pill.is-on[class*="cp-"], .selection-pill[aria-pressed="true"][class*="cp-"],
+  .selection-pill-sm.is-on[class*="cp-"], .selection-pill-sm[aria-pressed="true"][class*="cp-"],
+  .selection-pill.is-on[class*="sb-"], .selection-pill[aria-pressed="true"][class*="sb-"],
+  .selection-pill-sm.is-on[class*="sb-"], .selection-pill-sm[aria-pressed="true"][class*="sb-"],
+  .selection-pill.is-on[class*="sp-"], .selection-pill[aria-pressed="true"][class*="sp-"],
+  .selection-pill-sm.is-on[class*="sp-"], .selection-pill-sm[aria-pressed="true"][class*="sp-"] {
+    background: var(--surface2, #1e1c1a); border: 1px solid #4a453e; color: var(--muted, #9a9690);
+  }
+}
+
 /* ── Form B glued grid — `.tve-glue` ────────────────────────────────────────
    THE one way to collapse adjacent cell borders into a single seam. Put
    `.tve-glue` on the grid container; the cells need nothing. Never hand-roll
@@ -1210,13 +1242,22 @@ input[type="text"]:focus,
 .sa-row:hover, .sa-row.active { background: var(--bg, #f5f3ef); }
 .sa-empty { padding: 12px; font-size: 13px; color: var(--muted, #6a6660); text-align: center; }
 
-/* Gold clear (✕) button on every search box — replaces the browser's default
-   blue macOS cancel button. One place; every input[type=search] gets it. */
+/* Clear (✕) button on every search box — replaces the browser's default blue
+   macOS cancel button. One place; every input[type=search] gets it.
+   currentColor, not var(--accent) — was gold on every search box site-wide
+   (owner, live, on a screenshot of a typed query with a gold ✕: "it should not
+   be gold and x should also follow the font"), which contradicted the § 14
+   search-bar standard this same rule sits under: icon, typed text and
+   placeholder are one muted ink, never gold (TVESearch.html § 0). currentColor
+   makes the ✕ inherit whatever colour this specific input's typed text
+   already is — muted grey on the standard bar, and automatically correct in
+   dark mode and on any page whose text colour is locally overridden — rather
+   than repeating one hardcoded value that can drift from the text again. */
 input[type="search"]::-webkit-search-cancel-button,
 .search-input::-webkit-search-cancel-button {
   -webkit-appearance: none; appearance: none;
   width: 13px; height: 13px; cursor: pointer;
-  background-color: var(--accent);
+  background-color: currentColor;
   -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 14 14'%3E%3Cpath d='M3 3l8 8M11 3l-8 8' stroke='black' stroke-width='2' stroke-linecap='round'/%3E%3C/svg%3E") no-repeat center / contain;
   mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 14 14'%3E%3Cpath d='M3 3l8 8M11 3l-8 8' stroke='black' stroke-width='2' stroke-linecap='round'/%3E%3C/svg%3E") no-repeat center / contain;
 }

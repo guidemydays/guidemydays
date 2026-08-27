@@ -2524,7 +2524,39 @@
    to go / Daylight by month) had the same stale terracotta hover retired
    everywhere else this session, plus its missing dark counterpart.
    Page-local HTML, precached. CACHE to v1682. */
-var CACHE = 'travel-cache-v1682';
+/* 2026-08-27: two stale-gold/stale-terracotta leftovers the ongoing sweep
+   hadn't reached yet, both flagged live by the owner off screenshots.
+   web-travel-style.css: (1) the shared search clear (X)
+   (::-webkit-search-cancel-button) was hardcoded gold var(--accent) site-wide
+   -- REVERSED to background-color:currentColor so the X follows whatever ink
+   colour its own input's typed text already uses, muted grey on the standard
+   bar and dark mode's lighter grey alike, instead of one fixed value that can
+   drift from the text again ("it should not be gold and x should also follow
+   the font"). check_search_clear_button_gold (brain_check.py) updated to
+   match -- the gold lock it enforced was itself a 2026-07-28 owner rule, now
+   superseded. (2) .selection-pill.is-on and .selection-pill.cp-brown (etc.)
+   are the same (0,2,0) specificity, so whichever is declared later in the
+   file always won -- cp-brown comes after is-on here, so every cp-, sb- and
+   sp- toggle picker on the site rendered all options in the identical tone
+   wash with the selected one indistinguishable from the rest (before-you-go's
+   month chips, festival-finder's month spokes, when-to-go's presets --
+   "this broke when crib touch the pills below this was not like that").
+   New [class*="cp-"/"sb-"/"sp-"] combo rule at (0,3,0) wins outright so
+   .is-on's neutral #f0ede8/#6a6660 always shows through any tone family.
+   MIN_VERSIONS['web-travel-style.css'] to 191.
+   index.html: .fnd-ctl:hover (light + dark) still quoted the 2026-08-26
+   terracotta+#fdf4ed pairing as matching .selection-pill/.sibling-pill/
+   .chevron-link-pill -- all three have since moved to the neutral
+   #f0ede8/#b0aca6/#6a6660 pairing under the same-day "remove all terracotta
+   fonts or pills hover" sweep, so this was the one surface left quoting a
+   standard that no longer exists ("terracota is not in the list of approval
+   pretty sure this boarder is wrong"). Now matches .fnd-reset:hover exactly.
+   Separately, .fnd-ctl input (the airport field) was the one <input> in a
+   card of otherwise-<select> fields and kept color:var(--accent) gold after
+   the 2026-08-26 "Muted, not gold" pass converted every .fnd-ctl select
+   beside it ("should not be gold fonts!" on a picked airport value) -- now
+   var(--muted) to match. Page-local HTML, precached. CACHE to v1683. */
+var CACHE = 'travel-cache-v1683';
 /* 2026-08-27: airlines.css's .card-tags align-items fix changed a shared
    asset without raising its own floor -- MIN_VERSIONS['airlines.css'] to
    6, CACHE to v1662. */
@@ -2564,7 +2596,7 @@ var ICS_OUTBOX = 'gmd-ics-outbox';
    THIS IS THE ONLY PLACE to bump toolbar.js / guide-style.css versions.
    NEVER bump ?v= inside guide HTML — it breaks HMAC stamps and forces re-validation
    of 230+ guides. Instead, bump MIN_VERSIONS here + increment the CACHE version. */
-var MIN_VERSIONS = { 'guide-style.css': 267,'toolbar.js': 1095, 'mobile.css': 90, 'web-travel-style.css': 190, 'guides-index-style.css': 35, 'read-about.css': 6, 'best-of-features.js': 4, 'best-of-cross-data.js': 24, 'weather.js': 12, 'trains.css': 22, 'trains.js': 5, 'airlines.css': 7, 'airlines.js': 7, 'passport.js': 5, 'search-autocomplete.js': 9, 'flag-render.js': 2 };
+var MIN_VERSIONS = { 'guide-style.css': 267,'toolbar.js': 1095, 'mobile.css': 90, 'web-travel-style.css': 191, 'guides-index-style.css': 35, 'read-about.css': 6, 'best-of-features.js': 4, 'best-of-cross-data.js': 24, 'weather.js': 12, 'trains.css': 22, 'trains.js': 5, 'airlines.css': 7, 'airlines.js': 7, 'passport.js': 5, 'search-autocomplete.js': 9, 'flag-render.js': 2 };
 
 function rewriteAssetUrl(urlStr) {
   var u;

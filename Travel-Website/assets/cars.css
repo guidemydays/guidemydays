@@ -52,10 +52,16 @@
   max-width: 720px;
 }
 /* CONTINENT INDEX — Form B pills (individual, 6px gap) in the locked section-pill
-   shape: 1px border, 6px radius, surface fill. .jump-btn carries no base shape in
+   shape: 1px border, 6px radius, warm fill. .jump-btn carries no base shape in
    web-travel-style.css (only the :visited colour and the no-underline rule), so
-   the shape is set here. Hover is OUTLINED — the fill stays, border and label go
-   terracotta. Never a filled terracotta gradient, never color:#fff. */
+   the shape is set here.
+   REVERSED 2026-08-27 (owner rule, live sweep) — this page's own jump-btn
+   inherited the same white-rest/terracotta-hover pattern already retired from
+   .cont-nav/.cont-btn (the strip this component explicitly replaced, per the
+   comment above .rc-index in the page's own markup) and from every other pill
+   hover sitewide (Rule 13). Neutral throughout now, matching
+   essentials/entry's already-fixed jump-nav pills: --warm not --surface at
+   rest, #f0ede8/#b0aca6 on hover instead of terracotta. */
 .rc-index {
   display: flex;
   flex-wrap: wrap;
@@ -67,13 +73,21 @@
   font-weight: 600;
   line-height: 1;
   color: var(--muted, #6a6660);
-  background: var(--surface);
+  background: var(--warm, #fdf8f0);
   border: 1px solid var(--border2);
   border-radius: 6px;
   padding: 8px 11px;
   transition: color .12s, border-color .12s;
 }
-.rc-index .jump-btn:hover { color: var(--rust, #C04E1A); border-color: var(--rust, #C04E1A); }
+.rc-index .jump-btn:hover { color: #6a6660; background: #f0ede8; border-color: #b0aca6; }
+/* This file carries no dark-mode block anywhere else, so a light-only hex
+   hover would go stale/wrong in dark mode with nothing to catch it --
+   matching .selection-pill's own dark hover exactly (--surface2/--border2
+   don't have a matching pre-built "hover border" token, hence literal hex
+   here too, not a forced var() that doesn't actually match). */
+@media (prefers-color-scheme: dark) {
+  .rc-index .jump-btn:hover { color: var(--muted, #9a9690); background: var(--surface2, #1e1c1a); border-color: #4a453e; }
+}
 .rc-card {
   background: var(--surface);
   border: 1px solid var(--border2);

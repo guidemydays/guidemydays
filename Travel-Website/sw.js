@@ -2483,7 +2483,28 @@
    and terracotta hover, diverging from its own stated .chevron-link-pill
    reference -- var(--warm) rest, #f0ede8/#b0aca6 hover, same as cars.css's
    .rc-site fix. Page-local HTML, precached. CACHE to v1680. */
-var CACHE = 'travel-cache-v1680';
+/* 2026-08-27: owner correction -- a "*-name a:hover { color: var(--rust) }"
+   pattern found on 12+ pages was NOT an established site convention, just
+   unswept drift from before this session's terracotta retirement. Deleted
+   every hand-rolled hover-color override outright rather than picking a
+   replacement color: airlines.css .al-pass-name, cars.css .rc-name (was
+   var(--accent)), guides-index-style.css .gpr-name -- MIN_VERSIONS
+   ['airlines.css'] to 7, ['guides-index-style.css'] to 35; cars.css ships
+   via worldwide-car-rental/index.html's <link> bump (v=5 -> v=6). Same
+   pass, page-local HTML (precached): average-costs .ci-name, cards-atm
+   .card-name, cruises .card-name, day-trips .dt-stop-links, lounges
+   .side-rail, private-transfers .pt-card-name, restaurants .res-name,
+   scams .source-list, storage .ls-prim-card, where-to-stay .hs-name (was
+   var(--ws-sand-ink)), nomad-visas .page-intro-sub -- all deleted, same
+   reasoning. Two exceptions investigated and left alone: lounges'
+   .side-rail a.current (a real active-state fill, not a hover hack) and
+   nomad-visas' .dnv-jump (a documented 2026-07-29 owner-ratified
+   exception, region-color hover with a terracotta rim per NN35).
+   Also this pass: private-transfers' "PREMIUM" badge was cp-purple next
+   to an sb-gold sibling (Rule 12 cp-family/sb-family mix, no sb-purple exists) --
+   sb-dark-brown, matching the same substitution already used for Delta
+   One's premium badge on airline-networks. CACHE to v1681. */
+var CACHE = 'travel-cache-v1681';
 /* 2026-08-27: airlines.css's .card-tags align-items fix changed a shared
    asset without raising its own floor -- MIN_VERSIONS['airlines.css'] to
    6, CACHE to v1662. */
@@ -2523,7 +2544,7 @@ var ICS_OUTBOX = 'gmd-ics-outbox';
    THIS IS THE ONLY PLACE to bump toolbar.js / guide-style.css versions.
    NEVER bump ?v= inside guide HTML — it breaks HMAC stamps and forces re-validation
    of 230+ guides. Instead, bump MIN_VERSIONS here + increment the CACHE version. */
-var MIN_VERSIONS = { 'guide-style.css': 267,'toolbar.js': 1094, 'mobile.css': 90, 'web-travel-style.css': 190, 'guides-index-style.css': 34, 'read-about.css': 6, 'best-of-features.js': 4, 'best-of-cross-data.js': 24, 'weather.js': 12, 'trains.css': 22, 'trains.js': 5, 'airlines.css': 6, 'airlines.js': 7, 'passport.js': 5, 'search-autocomplete.js': 9, 'flag-render.js': 2 };
+var MIN_VERSIONS = { 'guide-style.css': 267,'toolbar.js': 1094, 'mobile.css': 90, 'web-travel-style.css': 190, 'guides-index-style.css': 35, 'read-about.css': 6, 'best-of-features.js': 4, 'best-of-cross-data.js': 24, 'weather.js': 12, 'trains.css': 22, 'trains.js': 5, 'airlines.css': 7, 'airlines.js': 7, 'passport.js': 5, 'search-autocomplete.js': 9, 'flag-render.js': 2 };
 
 function rewriteAssetUrl(urlStr) {
   var u;

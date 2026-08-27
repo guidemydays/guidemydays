@@ -130,13 +130,16 @@ a.chip-link:hover {
 .legend-pills { display: flex; flex-wrap: wrap; justify-content: center; gap: 7px; }
 .legend .pill { display: inline-flex; align-items: center; gap: 6px; padding: 6px 12px;
   background: #fff; border: 1px solid var(--border); border-radius: 6px; font-size: 13px; line-height: 1; }
-.legend .pill-vf    { background: var(--en-green-top); border-color: var(--en-green-rim); color: var(--en-green-text); }
-.legend .pill-card  { background: var(--en-blue-top); border-color: var(--en-blue-rim); color: var(--en-blue-text); }
-.legend .pill-eta   { background: var(--en-yellow-top); border-color: var(--en-yellow-rim); color: var(--en-yellow-text); }
-.legend .pill-evisa { background: var(--en-purple-top); border-color: var(--en-purple-rim); color: var(--en-purple-text); }
-.legend .pill-voa   { background: var(--en-orange-top); border-color: var(--en-orange-rim); color: var(--en-orange-text); }
-.legend .pill-visa  { background: var(--en-red-top);  border-color: var(--en-red-rim);  color: var(--en-red-text); }
-.legend .pill-none  { background: var(--en-grey-top); border-color: var(--en-grey-rim); color: var(--en-grey-text); }
+/* 2026-08-26: repointed to match the sb-*/cp-purple badges (Calm Pastel wash
+   version of the same hues, since this legend is a bordered pill not a solid
+   badge). */
+.legend .pill-vf    { background: #7fc4b0; border-color: #2a7a66; color: #123d32; }
+.legend .pill-card  { background: #bfdcf5; border-color: #4e85c4; color: #163a5c; }
+.legend .pill-eta   { background: #fdf3d3; border-color: #d4b06a; color: #8a6a28; }
+.legend .pill-evisa { background: #cbb8ec; border-color: #6a3fb0; color: #33195c; }
+.legend .pill-voa   { background: #d9985f; border-color: #9a5220; color: #4a2610; }
+.legend .pill-visa  { background: #d97268; border-color: #9a2f22; color: #4a1108; }
+.legend .pill-none  { background: #e2e1de; border-color: #a3a29c; color: #4a483f; }
 
 /* Desktop: full-width stretch, squared corners, touching borders */
 @media (min-width: 601px), (pointer: fine) {
@@ -157,18 +160,12 @@ html { scroll-behavior: smooth; }
 .etype.none  { --ec: #3a3632; }  /* GREY dot-grey */
 .etype-head { display: flex; align-items: center; flex-wrap: wrap; gap: 8px; margin-bottom: 6px; }
 .etype-title { font-size: 15px; font-weight: 700; color: var(--text, #1a1917); }
-/* .etype-type is a .badge .fam-en — Enamel family (2026-08-26 swap). Each
-   ancestor only sets the --en-* custom props .fam-en consumes; the shared
-   .fam-en rule in web-travel-style.css supplies the gradient/rim/shadow. */
+/* 2026-08-26: .etype-type now carries its own sb-*/cp-purple class directly
+   (set in JS alongside g.badgeCls) instead of relying on this ancestor
+   cascade to feed --en-* into a shared .fam-en gradient renderer -- same
+   pattern as every other page's badges. Nothing left for the old per-.etype
+   custom-property rules to do. */
 .etype-type { margin-left: auto; }
-.etype.vf .etype-type    { --en-top:var(--en-green-top);  --en-bot:var(--en-green-bot);  --en-rim:var(--en-green-rim);  --en-rimrgb:var(--en-green-rimrgb);  --en-text:var(--en-green-text); }
-.etype.card .etype-type  { --en-top:var(--en-blue-top);   --en-bot:var(--en-blue-bot);   --en-rim:var(--en-blue-rim);   --en-rimrgb:var(--en-blue-rimrgb);   --en-text:var(--en-blue-text); }
-.etype.eta .etype-type   { --en-top:var(--en-yellow-top); --en-bot:var(--en-yellow-bot); --en-rim:var(--en-yellow-rim); --en-rimrgb:var(--en-yellow-rimrgb); --en-text:var(--en-yellow-text); }
-.etype.evisa .etype-type { --en-top:var(--en-purple-top); --en-bot:var(--en-purple-bot); --en-rim:var(--en-purple-rim); --en-rimrgb:var(--en-purple-rimrgb); --en-text:var(--en-purple-text); }
-.etype.voa .etype-type   { --en-top:var(--en-orange-top); --en-bot:var(--en-orange-bot); --en-rim:var(--en-orange-rim); --en-rimrgb:var(--en-orange-rimrgb); --en-text:var(--en-orange-text); }
-.etype.visa .etype-type  { --en-top:var(--en-red-top);    --en-bot:var(--en-red-bot);    --en-rim:var(--en-red-rim);    --en-rimrgb:var(--en-red-rimrgb);    --en-text:var(--en-red-text); }
-.etype.none .etype-type  { --en-top:var(--en-grey-top);   --en-bot:var(--en-grey-bot);   --en-rim:var(--en-grey-rim);   --en-rimrgb:var(--en-grey-rimrgb);   --en-text:var(--en-grey-text); }
-/* en-* tokens (above) handle dark mode for the .etype-type badge colors */
 /* The :root[data-theme="light"] twins that stood here are deleted: the manual
    theme toggle went on 2026-08-18, nothing stamps data-theme, and these only
    ever existed so the toggle could force light back on. The plain default
@@ -201,15 +198,10 @@ html { scroll-behavior: smooth; }
 .row:hover  { border-color: var(--rust); box-shadow: 0 3px 10px rgba(192,78,26,.12); }
 .row:active { border-color: var(--rust); box-shadow: 0 1px 3px rgba(192,78,26,.10); }
 .row .cty { font-size: 14px; font-weight: 600; min-width: 0; overflow-wrap: anywhere; }
-/* .row .lim is a .badge .fam-en too — same Enamel swap as .etype-type above. */
+/* 2026-08-26: .row .lim now carries its own sb-*/cp-purple class directly
+   (set in JS), same as .etype-type above -- the ancestor-cascade rules are
+   gone. */
 .row .lim { vertical-align: middle; }
-.etype.vf    .row .lim { --en-top:var(--en-green-top);  --en-bot:var(--en-green-bot);  --en-rim:var(--en-green-rim);  --en-rimrgb:var(--en-green-rimrgb);  --en-text:var(--en-green-text); }
-.etype.card  .row .lim { --en-top:var(--en-blue-top);   --en-bot:var(--en-blue-bot);   --en-rim:var(--en-blue-rim);   --en-rimrgb:var(--en-blue-rimrgb);   --en-text:var(--en-blue-text); }
-.etype.eta   .row .lim { --en-top:var(--en-yellow-top); --en-bot:var(--en-yellow-bot); --en-rim:var(--en-yellow-rim); --en-rimrgb:var(--en-yellow-rimrgb); --en-text:var(--en-yellow-text); }
-.etype.evisa .row .lim { --en-top:var(--en-purple-top); --en-bot:var(--en-purple-bot); --en-rim:var(--en-purple-rim); --en-rimrgb:var(--en-purple-rimrgb); --en-text:var(--en-purple-text); }
-.etype.voa   .row .lim { --en-top:var(--en-orange-top); --en-bot:var(--en-orange-bot); --en-rim:var(--en-orange-rim); --en-rimrgb:var(--en-orange-rimrgb); --en-text:var(--en-orange-text); }
-.etype.visa  .row .lim { --en-top:var(--en-red-top);    --en-bot:var(--en-red-bot);    --en-rim:var(--en-red-rim);    --en-rimrgb:var(--en-red-rimrgb);    --en-text:var(--en-red-text); }
-.etype.none  .row .lim { --en-top:var(--en-grey-top);   --en-bot:var(--en-grey-bot);   --en-rim:var(--en-grey-rim);   --en-rimrgb:var(--en-grey-rimrgb);   --en-text:var(--en-grey-text); }
 .row .cty-guides { flex: 1 1 100%; margin-top: 3px; }
 .row .rnote { flex: 1 1 100%; font-size: 13px; color: var(--muted); line-height: 1.5; }
 /* Search (inside .legend row) */
@@ -304,12 +296,12 @@ a.apply-link:hover { background: #C04E1A; color: #fff; border-color: var(--rust)
   .row.s-hidden { display: none; }
   .schengen-expanded .row.s-hidden { display: flex; }
 }
-/* en-* tokens handle dark mode for all legend pill colors (converted from
-   fam-* 2026-08-26 — Enamel is now the live default); the etype-type
-   badge/row-limit chips read var(--en-*) via .fam-en's
-   custom props (also dark-mode-aware). --ec is the one
-   holdout: it is a literal hex (there is no live --badge-*-bar custom
-   property on the site to var() against — those tokens exist only as
+/* Legend pill colors are literal hex now (Calm Pastel wash values, matching
+   the etype-type/row-limit badges' sb-*/cp-purple classes by hue) -- no
+   dark-mode variant exists yet for that family, same as everywhere else it
+   ships. --ec is the other holdout: it is a literal hex (there is no live
+   --badge-*-bar custom property on the site to var() against — those tokens
+   exist only as
    documented values in selection-pills-badges-pills-to-badge-dots.html), so it needs its own dark override
    or the accent bar stays lit for a light background under a dark page.
    Values below are that doc's own documented dark set — used as
@@ -511,18 +503,22 @@ a.apply-link:hover { background: #C04E1A; color: #fff; border-color: var(--rust)
   /* ── Group definitions — one bucket per requirement token, same site
      vocabulary as TVE.passport.WORD so a reader learns it once and meets it
      everywhere (Compare's Entry row uses the identical words). ── */
+  /* 2026-08-26: badge class per group -- moved off the .etype ancestor-cascade
+     custom-property trick (.etype.{cls} feeding --en-* into a shared .fam-en
+     gradient) onto the shared sb-*/cp-* classes directly, same as every other
+     page's badges. */
   var GROUPS = [
-    { key: 'vf',    cls: 'vf',    title: 'Visa-free',                     badge: 'Visa-free',       desc: 'No visa needed for a stay of the length shown.',
+    { key: 'vf',    cls: 'vf',    badgeCls: 'sb-green',      title: 'Visa-free',                     badge: 'Visa-free',       desc: 'No visa needed for a stay of the length shown.',
       test: function (t) { return t === 'F' || t === 'H' || /^\d+$/.test(t); } },
-    { key: 'voa',   cls: 'voa',   title: 'Visa on arrival',                badge: 'Visa on arrival', desc: 'No advance application — the visa is issued at the border or airport on arrival.',
+    { key: 'voa',   cls: 'voa',   badgeCls: 'sb-tan-orange', title: 'Visa on arrival',                badge: 'Visa on arrival', desc: 'No advance application — the visa is issued at the border or airport on arrival.',
       test: function (t) { return t === 'A'; } },
-    { key: 'eta',   cls: 'eta',   title: 'Travel authorization (ETA)',     badge: 'ETA required',    desc: 'Not a visa — a short online pre-travel authorization, approved automatically in most cases.',
+    { key: 'eta',   cls: 'eta',   badgeCls: 'sb-gold',       title: 'Travel authorization (ETA)',     badge: 'ETA required',    desc: 'Not a visa — a short online pre-travel authorization, approved automatically in most cases.',
       test: function (t) { return t === 'T'; } },
-    { key: 'evisa', cls: 'evisa', title: 'eVisa',                          badge: 'eVisa required',  desc: 'A visa applied for online before departure, without a consulate visit.',
+    { key: 'evisa', cls: 'evisa', badgeCls: 'cp-purple',     title: 'eVisa',                          badge: 'eVisa required',  desc: 'A visa applied for online before departure, without a consulate visit.',
       test: function (t) { return t === 'E'; } },
-    { key: 'visa',  cls: 'visa',  title: 'Visa required',                  badge: 'Visa required',   desc: 'A full visa application is required in advance, typically through a consulate or embassy.',
+    { key: 'visa',  cls: 'visa',  badgeCls: 'sb-red',        title: 'Visa required',                  badge: 'Visa required',   desc: 'A full visa application is required in advance, typically through a consulate or embassy.',
       test: function (t) { return t === 'V'; } },
-    { key: 'none',  cls: 'none',  title: 'Entry not currently permitted',  badge: 'Not permitted',   desc: 'Entry is not currently open to this passport.',
+    { key: 'none',  cls: 'none',  badgeCls: 'sb-dark-grey',  title: 'Entry not currently permitted',  badge: 'Not permitted',   desc: 'Entry is not currently open to this passport.',
       test: function (t) { return t === 'N'; } }
   ];
 
@@ -601,7 +597,10 @@ a.apply-link:hover { background: #C04E1A; color: #fff; border-color: var(--rust)
             etypeEl.classList.add(g.cls);
             etypeEl.id = 'section-' + g.key;
             node.querySelector('.etype-title').textContent = g.title;
-            node.querySelector('.etype-type').textContent = g.badge;
+            var etypeTypeEl = node.querySelector('.etype-type');
+            etypeTypeEl.classList.remove('fam-en');
+            etypeTypeEl.classList.add(g.badgeCls);
+            etypeTypeEl.textContent = g.badge;
             node.querySelector('.etype-desc').textContent = g.desc;
 
             /* The Schengen calculator answers "how many of my 90 free days are
@@ -632,7 +631,7 @@ a.apply-link:hover { background: #C04E1A; color: #fff; border-color: var(--rust)
 
               if (/^\d+$/.test(it.token)) {
                 var lim = document.createElement('span');
-                lim.className = 'lim badge fam-en';
+                lim.className = 'lim badge ' + g.badgeCls;
                 lim.textContent = it.token + ' days';
                 div.appendChild(lim);
               }

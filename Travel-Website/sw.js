@@ -2361,7 +2361,8 @@
 /* 2026-08-26: essentials/tipping: region pills use the doc's actual sp-sand ink/wash + approved Press hover instead of hardcoded terracotta font, dark-mode variant added, stale dark .stat-label override removed -- page precached, no shared asset moved. CACHE to v1628. */
 /* 2026-08-26: essentials/tipping: region pills recolored from one uniform sp-sand tint to six distinct Calm Pastel colors (one per region: All/Americas/Caribbean/Europe/Asia-Pacific/M.E.&Africa), replacing the last sp-* remnant on this page -- page precached, no shared asset moved. CACHE to v1629. */
 /* 2026-08-26: web-travel-style.css gained the Calm Pastel (.cp-*) and Solid Badge (.sb-*) families, 24 owner-approved colors replacing the too-similar sp-* wash -- MIN_VERSIONS['web-travel-style.css'] to 173, CACHE to v1630. */
-var CACHE = 'travel-cache-v1630';
+/* 2026-08-26: essentials/scenic-trains, essentials/lounges, essentials/train-passes, currencies: region/sort filter pills recolored from white+terracotta to distinct Calm Pastel colors, using the newly-wired .cp-* classes -- pages precached, no shared asset moved beyond the CSS bump above. CACHE to v1631. */
+var CACHE = 'travel-cache-v1631';
 
 /* The guide-calendar hand-off cache. Written by toolbar.js, read and emptied
    once by the fetch handler below, and EXEMPT from the activate sweep — it is

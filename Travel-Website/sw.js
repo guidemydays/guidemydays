@@ -2382,7 +2382,8 @@
 /* 2026-08-27: toolbar.js: _equalizePillRows() now excludes the grey All/reset pill from width-matching (Non-Negotiable 96 -- grey is always and only the All pill) so it keeps its own natural width instead of stretching to match its widest sibling toolbar.js -> v1089. CACHE to v1652. */
 /* 2026-08-27: toolbar.js: _equalizePillRows() now equalizes HEIGHT too (every pill in a row, no exception) alongside its existing width-matching, so every .pill-badge filter row site-wide holds equal height regardless of container class toolbar.js -> v1090. CACHE to v1653. */
 /* 2026-08-27: web-travel-style.css: input.pp-input / input.pp-input::placeholder (Trip Escape / Compare airport field) font-weight 700 -> 400, matching the other DOM shape of the same TVE.home question (index.html's #fnd-home-in, a plain .fnd-ctl input, already font-weight: normal) -- owner, on a Trip Escape screenshot: "this font seems wrong" -- MIN_VERSIONS['web-travel-style.css'] to 184, CACHE to v1656. */
-var CACHE = 'travel-cache-v1656';
+/* 2026-08-27: toolbar.js: new shared _equalizePairButtons() width-matches any CTA+reset button pair opted in via .paired-btn (index.html's Compare bar cmp-go-btn/cmp-exit-btn); web-travel-style.css: new .paired-reset shared hover class, light+dark toolbar.js -> v1091. CACHE to v1657. */
+var CACHE = 'travel-cache-v1657';
 /* 2026-08-27: web-travel-style.css's shared .legend-key rule never set
    line-height, unlike .badge/.pill-badge which both do -- essentials/
    train-passes' .elig-badge.legend-key (a <span role="button">, fully
@@ -2412,7 +2413,7 @@ var ICS_OUTBOX = 'gmd-ics-outbox';
    THIS IS THE ONLY PLACE to bump toolbar.js / guide-style.css versions.
    NEVER bump ?v= inside guide HTML — it breaks HMAC stamps and forces re-validation
    of 230+ guides. Instead, bump MIN_VERSIONS here + increment the CACHE version. */
-var MIN_VERSIONS = { 'guide-style.css': 267,'toolbar.js': 1090, 'mobile.css': 90, 'web-travel-style.css': 184, 'guides-index-style.css': 32, 'read-about.css': 6, 'best-of-features.js': 4, 'best-of-cross-data.js': 24, 'weather.js': 12, 'trains.css': 18, 'trains.js': 5, 'airlines.css': 5, 'airlines.js': 7, 'passport.js': 5, 'search-autocomplete.js': 9, 'flag-render.js': 2 };
+var MIN_VERSIONS = { 'guide-style.css': 267,'toolbar.js': 1091, 'mobile.css': 90, 'web-travel-style.css': 184, 'guides-index-style.css': 32, 'read-about.css': 6, 'best-of-features.js': 4, 'best-of-cross-data.js': 24, 'weather.js': 12, 'trains.css': 18, 'trains.js': 5, 'airlines.css': 5, 'airlines.js': 7, 'passport.js': 5, 'search-autocomplete.js': 9, 'flag-render.js': 2 };
 
 function rewriteAssetUrl(urlStr) {
   var u;

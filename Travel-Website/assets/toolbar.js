@@ -3070,6 +3070,49 @@ window.TVE.home = (function () {
   window.addEventListener('load', _equalizePillRows);
   window.addEventListener('resize', _equalizePillRows);
 
+  /* ── CTA + reset button pairs — same width, no exception ──────────────────
+     Owner rule 2026-08-27, on index.html's Compare bar ("Pick 2-5 cities" /
+     "Clear everything" sitting at two different widths, no mechanism ever
+     matched them) and its own sibling pair (Find My Destinations' .fnd-go /
+     .fnd-reset, unified on HEIGHT only, years before, never on width):
+     "create a shared something? they need to be fixed and kept in check" ·
+     "give the treatment to all."
+
+     This is _equalizePillRows()'s exact technique (measure the widest,
+     apply min-width to the rest) generalized to any primary-CTA + reset
+     pair, opted in via .paired-btn instead of keyed to .pill-badge -- these
+     buttons are deliberately NOT .pill-badge (their font-size/padding is
+     each page's own, a finder CTA and a compare-bar button don't share a
+     size), so the shared filter-row equalizer was never going to reach
+     them. Add .paired-btn to every button in a pair; the group is
+     everything with that class sharing a parent, exactly like the pill-row
+     grouping above. */
+  function _equalizePairButtons() {
+    var buttons = [].slice.call(document.querySelectorAll('.paired-btn'));
+    var rows = [];
+    buttons.forEach(function (b) {
+      var row = b.parentElement;
+      if (rows.indexOf(row) === -1) rows.push(row);
+    });
+    rows.forEach(function (row) {
+      var pair = [].slice.call(row.children).filter(function (c) {
+        return buttons.indexOf(c) !== -1;
+      });
+      if (pair.length < 2) return;
+      pair.forEach(function (b) { b.style.minWidth = ''; });
+      var max = 0;
+      pair.forEach(function (b) { max = Math.max(max, b.getBoundingClientRect().width); });
+      pair.forEach(function (b) { b.style.minWidth = max + 'px'; });
+    });
+  }
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', _equalizePairButtons);
+  } else {
+    _equalizePairButtons();
+  }
+  window.addEventListener('load', _equalizePairButtons);
+  window.addEventListener('resize', _equalizePairButtons);
+
   /* ── Guide-page back-strip — REMOVED (owner rule 2026-08-15) ──────────────
      The mobile-only #tve-back-guides strip ('🖨 Print Guide' · 'Before You Go' ·
      '‹ All Guides', and the '‹ {City}' variant on stops-map) is gone with the

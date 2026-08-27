@@ -2106,11 +2106,14 @@ a.ask-card:focus-visible .ask-name { color: var(--rust, #C04E1A); }
   background: #f7eee5; border: 1px solid rgba(107,68,35,.45); color: #6b4423;
   transition: box-shadow .15s, border-color .15s;
 }
-#tp-compare .cmp-go-btn:not(:disabled):hover,
-#tp-compare .cmp-exit-btn:hover {
+#tp-compare .cmp-go-btn:not(:disabled):hover {
   box-shadow: 0 0 0 6px rgba(107,68,35,.18), 0 0 18px rgba(107,68,35,.35);
   border-color: #6b4423;
 }
+/* .cmp-exit-btn's own glow-shadow hover deleted (owner rule 2026-08-27:
+   "not sure hover is right either") -- it never matched any other reset
+   button on the site; .paired-reset (assets/web-travel-style.css) now
+   supplies the shared neutral hover every other reset control uses. */
 
 /* ON A PHONE THE PAIR SHARES A ROW AND THE COUNT TAKES ITS OWN. Left to the
    desktop rule the count's auto margin shoves the CTA to the right edge and the
@@ -2809,10 +2812,11 @@ summary.res-head:focus-visible { outline: 2px solid var(--rust, #C04E1A); outlin
   #tp-compare .cmp-go-btn, #tp-compare .cmp-exit-btn {
     background: transparent; border-color: rgba(200,160,96,.42); color: #c8a060;
   }
-  #tp-compare .cmp-go-btn:not(:disabled):hover,
-  #tp-compare .cmp-exit-btn:hover {
+  #tp-compare .cmp-go-btn:not(:disabled):hover {
     background: rgba(200,160,96,.12); border-color: rgba(200,160,96,.62); box-shadow: none;
   }
+  /* .cmp-exit-btn's own dark-mode hover deleted -- .paired-reset's shared
+     dark-mode hover (assets/web-travel-style.css) supplies it now. */
 
   /* The three rules that were html[data-theme="dark"] until the toggle went. */
   .res-sub > summary,
@@ -6612,13 +6616,23 @@ function render() {
     selBar.innerHTML =
       '<div class="cmp-sel-chips"></div>' +
       '<span class="cmp-count" id="cmp-count"></span>' +
-      '<button class="cmp-go-btn" id="cmp-go" disabled>Pick 2–5 cities</button>' +
+      '<button class="cmp-go-btn paired-btn" id="cmp-go" disabled>Pick 2–5 cities</button>' +
       /* "Clear everything", not "Exit" — the finder's own second control, word
          for word (owner, 2026-08-23: make it cohesive with Help Me Choose).
          It is also the truer label: the button drops every picked city and
          closes the table, which is what clearing is; "Exit" reads like a way
-         out of a mode the reader never knowingly entered. */
-      '<button class="cmp-exit-btn" id="cmp-exit">Clear everything</button>';
+         out of a mode the reader never knowingly entered.
+
+         paired-btn on both (owner rule 2026-08-27: "compare cities not the
+         same size" / "create a shared something... they need to be fixed
+         and kept in check") — assets/toolbar.js's _equalizePairButtons()
+         measures the widest of the two and matches them, same technique
+         _equalizePillRows() already uses for filter rows. paired-reset on
+         this one only: the shared neutral hover (assets/web-travel-style.css)
+         replaces the page-local glow-shadow hover below, which was this
+         button's own one-off and never matched any other reset control on
+         the site. */
+      '<button class="cmp-exit-btn paired-btn paired-reset" id="cmp-exit">Clear everything</button>';
     (document.getElementById('compare-mount') || document.body).appendChild(selBar);
 
     var goBtn   = document.getElementById('cmp-go');

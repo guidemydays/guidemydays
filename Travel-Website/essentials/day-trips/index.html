@@ -51,8 +51,15 @@
 .dt-search { position: relative; display: flex; align-items: center; gap: 10px; max-width: 460px; margin: 0;
   background: var(--surface, #fff); border: 1.5px solid var(--border2, #e6e2da); border-radius: 999px;
   padding: 6px 22px; box-shadow: 0 6px 26px rgba(92, 61, 17, .07); transition: border-color .18s ease, box-shadow .18s ease; }
-.dt-search:focus-within { border-color: var(--rust, #C04E1A); box-shadow: 0 8px 30px rgba(192, 78, 26, .16); }
-.dt-search-icon { line-height: 0; flex-shrink: 0; color: var(--rust, #C04E1A); }
+/* Muted, not terracotta -- this page's box SHAPE is an authorized exception
+   (FORMAT_EXCEPTION_PAGES, owner rule 2026-08-14), but its icon/focus color
+   never was: only guides-index/before-you-go/sunrise-sunset/weather are
+   locked to a terracotta search icon (check_hero_pill_search_icon_terracotta,
+   Rule 971), and this page copied that look wholesale during its 2026-08-14
+   rebuild with no comment ever authorizing the color specifically. Matches
+   the standard bar's own focus token/behavior (border-color only, no glow). */
+.dt-search:focus-within { border-color: var(--c-search-focus-border, #C8B99A); box-shadow: none; }
+.dt-search-icon { line-height: 0; flex-shrink: 0; color: var(--muted, #6a6660); }
 .dt-search #dt-search { flex: 1; min-width: 0; width: 100% !important; height: var(--search-h, 56px); margin: 0; padding: 0 4px;
   font-family: inherit; font-size: clamp(1rem, 1.5vw, 1.18rem); font-weight: 500; color: var(--text, #17150f);
   background: transparent; border: none; border-radius: 0; outline: none; box-shadow: none; }
@@ -74,11 +81,13 @@
 .dt-band[data-band="30-60"] { background:#bfdcf5;   border-color:rgba(0,0,0,.1);   color:#163a5c; }
 .dt-band[data-band="1-2"]   { background:#cbb8ec; border-color:rgba(0,0,0,.1); color:#33195c; }
 .dt-band[data-band="2plus"] { background:#d9985f; border-color:rgba(0,0,0,.1); color:#4a2610; }
-.dt-band[data-band="all"].on   { border-color: rgba(106,102,96,.85); }
-.dt-band[data-band="u30"].on   { border-color: rgba(42,122,102,.85); }
-.dt-band[data-band="30-60"].on { border-color: rgba(191,220,245,.85); }
-.dt-band[data-band="1-2"].on   { border-color: rgba(203,184,236,.85); }
-.dt-band[data-band="2plus"].on { border-color: rgba(217,152,95,.85); }
+/* Selected state used to darken each band's own border via a hand-picked
+   rgba() per band (5 separate rules) -- replaced by wiring .dt-band into
+   the shared .pill-badge system (class added in paintBands()), so the
+   universal .pill-badge.is-on { outline: 1.5px solid currentColor; } rule
+   now carries selection here exactly like every other pill-badge row on
+   the site, instead of a bespoke per-page mechanism. */
+.dt-band.cp-light-grey.is-on { outline-offset: 0; }
 
 .dt-summary { text-align: center; font-size: 13px; color: var(--muted, #6a6660); margin: 22px 0 18px; }
 .dt-summary b { color: var(--text, #3d3a32); font-weight: 650; }
@@ -346,7 +355,7 @@ function paintBands() {
   bandsEl.innerHTML = BANDS.map(function (b) {
     var pool = city ? ALL.filter(function (t) { return t.city === city; }) : ALL;
     var n = pool.filter(function (t) { return b.test(t.mins); }).length;
-    return '<button type="button" class="dt-band' + (b.key === band ? ' on' : '') + '" data-band="' + b.key +
+    return '<button type="button" class="dt-band pill-badge' + (b.key === 'all' ? ' cp-light-grey' : '') + (b.key === band ? ' is-on' : '') + '" data-band="' + b.key +
       '"' + (n ? '' : ' disabled style="opacity:.35;cursor:default"') + '>' + b.label +
       '</button>';
   }).join('');

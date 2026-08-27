@@ -232,8 +232,8 @@ input.search:focus { border-color: var(--c-search-focus-border); box-shadow: non
 .pill[data-region="europe"]    { background: #d9985f; border-color: #9a5220; color: #4a2610; }
 .pill[data-region="asiapac"]   { background: #cbb8ec; border-color: #6a3fb0; color: #33195c; }
 .pill[data-region="other"]     { background: #fdf3d3; border-color: #d4b06a; color: #8a6a28; }
-.pill[data-region]:not([data-region="all"]):hover { filter: brightness(.94); background: inherit; border-color: inherit; color: inherit; }
-.pill[data-region]:not([data-region="all"]).active { filter: brightness(.88); background: inherit; border-color: inherit; color: inherit; font-weight: 600; }
+.pill[data-region]:not([data-region="all"]):hover { filter: brightness(.94); }
+.pill[data-region]:not([data-region="all"]).active { filter: brightness(.88); font-weight: 600; }
 /* THERE IS NO DISABLED PILL ON THIS PAGE. The distance sort cannot work before a
    city is named, so before then it is not drawn at all — the page says what a
    search does in words instead. A greyed control that answers nothing reads as a
@@ -281,15 +281,45 @@ a.pill:visited { color: #6a6660; }
      rim color, laid over this page's own responsive shape — not a fresh hand-rolled
      copy of the whole box (Cleanliness rule 954). */
   .pills .pill { border: 1px solid var(--border2, #e6e2da); }
-  .pills .pill:hover { background: #f0ede8; border-color: #b0aca6; color: #6a6660; }
-  .pills .pill.active,
-  .pills .pill.active:hover,
-  .pills .pill.active:focus {
+  /* Scoped off actual region pills (americas/caribbean/europe/asiapac/other) --
+     unscoped, this neutral grey tied with `.pill[data-region="x"]` on
+     specificity and a real click leaves the button :focus'd, which pulls in
+     the higher-specificity `.active:focus` variant below and repaints a
+     selected region pill grey/white instead of its own colour. "All" (whose
+     own data-region value is literally "all") and the sort pill (no
+     data-region at all) still take this neutral treatment via the two
+     :not() clauses. */
+  .pills .pill:not([data-region="americas"]):not([data-region="caribbean"]):not([data-region="europe"]):not([data-region="asiapac"]):not([data-region="other"]):hover {
+    background: #f0ede8; border-color: #b0aca6; color: #6a6660;
+  }
+  .pills .pill:not([data-region="americas"]):not([data-region="caribbean"]):not([data-region="europe"]):not([data-region="asiapac"]):not([data-region="other"]).active,
+  .pills .pill:not([data-region="americas"]):not([data-region="caribbean"]):not([data-region="europe"]):not([data-region="asiapac"]):not([data-region="other"]).active:hover,
+  .pills .pill:not([data-region="americas"]):not([data-region="caribbean"]):not([data-region="europe"]):not([data-region="asiapac"]):not([data-region="other"]).active:focus {
     background: #f0ede8; border: 1px solid #b0aca6;
     color: #6a6660; font-weight: 600;
   }
   /* The sort pill lives under the search, not in this row, but it is the same
      component — it inherits the ladder above by carrying .pill. */
+  /* Re-declared at this breakpoint: `.pills .pill`'s own white background/grey
+     .active two rules up are the SAME specificity as `.pill[data-region="x"]`
+     above and load later, so without this they silently won on every
+     (pointer:fine) viewport (i.e. every desktop, and any real device with a
+     mouse/trackpad) -- region pills rendered plain white regardless of
+     viewport width, the touch/coarse-pointer branch was the only one that
+     ever showed the real per-region colour. NN104. */
+  .pills .pill[data-region="americas"]  { background: #bfdcf5; border-color: #4e85c4; color: #163a5c; }
+  .pills .pill[data-region="caribbean"] { background: #7fc4b0; border-color: #2a7a66; color: #123d32; }
+  .pills .pill[data-region="europe"]    { background: #d9985f; border-color: #9a5220; color: #4a2610; }
+  .pills .pill[data-region="asiapac"]   { background: #cbb8ec; border-color: #6a3fb0; color: #33195c; }
+  .pills .pill[data-region="other"]     { background: #fdf3d3; border-color: #d4b06a; color: #8a6a28; }
+  .pills .pill[data-region]:not([data-region="all"]):hover {
+    filter: brightness(.94);
+  }
+  .pills .pill[data-region]:not([data-region="all"]).active,
+  .pills .pill[data-region]:not([data-region="all"]).active:hover,
+  .pills .pill[data-region]:not([data-region="all"]).active:focus {
+    filter: brightness(.88); font-weight: 600;
+  }
 }
 /* ── Grid ── */
 .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(196px, 1fr)); gap: 10px; min-height: 300px; }
@@ -467,6 +497,24 @@ a.pill:visited { color: #6a6660; }
 @media (prefers-color-scheme: dark) {
   .pills .pill       { color: var(--muted, #9a9690); background: var(--surface, #2a2825); }
   .pills .pill.active { color: var(--muted, #9a9690); }
+  /* Same equal-specificity trap as the light desktop block above: without a
+     re-declaration here, the two rules just above silently win over
+     `.pill[data-region="x"]` in EVERY dark-mode context (touch included,
+     not just pointer:fine) since dark mode is unconditional here. No
+     dark-specific tint exists site-wide for these regions (essentials/tipping's
+     #region-pills carries the same light pastel straight into dark mode too,
+     unaltered) so this repeats the identical light values on purpose. NN104. */
+  .pills .pill[data-region="americas"]  { background: #bfdcf5; border-color: #4e85c4; color: #163a5c; }
+  .pills .pill[data-region="caribbean"] { background: #7fc4b0; border-color: #2a7a66; color: #123d32; }
+  .pills .pill[data-region="europe"]    { background: #d9985f; border-color: #9a5220; color: #4a2610; }
+  .pills .pill[data-region="asiapac"]   { background: #cbb8ec; border-color: #6a3fb0; color: #33195c; }
+  .pills .pill[data-region="other"]     { background: #fdf3d3; border-color: #d4b06a; color: #8a6a28; }
+  .pills .pill[data-region]:not([data-region="all"]):hover {
+    filter: brightness(.85);
+  }
+  .pills .pill[data-region]:not([data-region="all"]).active {
+    filter: brightness(.78); font-weight: 600;
+  }
   .vs-sea.ahead  { background: #0d200d; color: #5aaa5e; border-color: #5aaa5e; }
   .vs-sea.behind { background: #2a1408; color: #e8a880; border-color: #e8a880; }
   .vs-sea.same   { background: rgba(180,175,168,.10); color: #b4afa8; border-color: #b4afa8; }
@@ -478,10 +526,14 @@ a.pill:visited { color: #6a6660; }
 @media (prefers-color-scheme: dark) and (min-width: 601px),
        (prefers-color-scheme: dark) and (pointer: fine) {
   .pills .pill { background: transparent; border-color: var(--border2, #332f2a); }
-  .pills .pill:hover { background: var(--surface2, #1e1c1a); border-color: #4a453e; color: var(--muted, #9a9690); }
-  .pills .pill.active,
-  .pills .pill.active:hover,
-  .pills .pill.active:focus { background: var(--surface2, #1e1c1a); border: 1px solid #4a453e; color: var(--muted, #9a9690); }
+  .pills .pill:not([data-region="americas"]):not([data-region="caribbean"]):not([data-region="europe"]):not([data-region="asiapac"]):not([data-region="other"]):hover {
+    background: var(--surface2, #1e1c1a); border-color: #4a453e; color: var(--muted, #9a9690);
+  }
+  .pills .pill:not([data-region="americas"]):not([data-region="caribbean"]):not([data-region="europe"]):not([data-region="asiapac"]):not([data-region="other"]).active,
+  .pills .pill:not([data-region="americas"]):not([data-region="caribbean"]):not([data-region="europe"]):not([data-region="asiapac"]):not([data-region="other"]).active:hover,
+  .pills .pill:not([data-region="americas"]):not([data-region="caribbean"]):not([data-region="europe"]):not([data-region="asiapac"]):not([data-region="other"]).active:focus {
+    background: var(--surface2, #1e1c1a); border: 1px solid #4a453e; color: var(--muted, #9a9690);
+  }
 }
 @media (min-width: 601px), (pointer: fine) {
 }

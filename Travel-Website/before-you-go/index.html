@@ -102,26 +102,27 @@ body { padding-bottom: calc(24px + env(safe-area-inset-bottom, 0px)) !important;
   font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: .04em;
   line-height: 1.5; border: 1px solid var(--border2, #e6e2da);
 }
-/* GREEN — safe / low / budget / verylow / verysafe */
-.byg-safety-verylow,
-.byg-safety-low,
-/* 2026-08-26: repointed to Calm Pastel hex -- was hardcoded to Enamel tokens. */
-.byg-safety-safe,
-.byg-safety-verysafe,
-.byg-water-safe,
-.byg-cost-budget           { background: #7fc4b0; color: #123d32; }
-/* YELLOW — moderate / varies / expensive */
-.byg-safety-moderate,
-.byg-water-varies,
-.byg-cost-expensive        { background: #fdf3d3; color: #8a6a28; }
-/* RED — caution / unsafe / premium / luxury */
-.byg-safety-caution,
-.byg-water-unsafe,
-.byg-cost-premium,
-.byg-cost-luxury           { background: #d97268; color: #4a1108; }
-/* BLUE — moderate cost */
-.byg-cost-moderate,
-.byg-cost-mid-range        { background: #bfdcf5; color: #163a5c; }
+/* 2026-08-27: color now reads the real .cp-* family classes (Calm Pastel --
+   selection-pills-badges-pills-to-badge-dots.html §6) instead of duplicating
+   their hex here. safetyClass()/costClass() and the water/vaccine/Global-
+   Entry template strings below (inline script) pair this shape class with
+   the matching cp-* token on the same element -- .cp-dark-teal/.cp-gold/
+   .cp-bright-red/.cp-blue supply --sp-wash/--sp-ink, this rule just reads
+   them, so a palette change upstream now reaches this page automatically.
+   Shape (padding/font-size/line-height/border) stays entirely in the rule
+   above and is untouched by this repoint -- it deliberately does not match
+   .badge's shared shape (Tap-Water/Safety-Guide inline-result-tag pattern).
+   GREEN=cp-dark-teal (safe/low/budget/verysafe), YELLOW=cp-gold (moderate/
+   varies/expensive), RED=cp-bright-red (caution/unsafe/premium), BLUE=
+   cp-blue (moderate cost). byg-safety-verylow/-low and byg-cost-luxury/
+   -mid-range were unreachable (never emitted by safetyClass()/costClass())
+   and are retired along with their old hex rules. */
+.byg-safety-badge.cp-dark-teal, .byg-cost-badge.cp-dark-teal,
+.byg-safety-badge.cp-gold, .byg-cost-badge.cp-gold,
+.byg-safety-badge.cp-bright-red, .byg-cost-badge.cp-bright-red,
+.byg-cost-badge.cp-blue {
+  background: var(--sp-wash); color: var(--sp-ink);
+}
 .byg-strip { display: flex; align-items: flex-end; gap: 2px; height: 40px; margin-top: 8px; }
 .byg-bar { flex: 1; position: relative; height: 40px; }
 .byg-bar > span { position: absolute; left: 50%; transform: translateX(-50%); width: 5px; border-radius: 3px; }
@@ -159,14 +160,15 @@ body { padding-bottom: calc(24px + env(safe-area-inset-bottom, 0px)) !important;
 .byg-plug-divider { border: none; border-top: 1px solid var(--border2,#e6e2da); margin: 10px 0 0; }
 .byg-voltage { font-size: 11px; color: var(--muted,#6a6660); margin-bottom: 8px; }
 .byg-visa-badge { display: inline-block; font-size: 11px; font-weight: 700; padding: 3px 8px; border-radius: 4px; letter-spacing: .04em; text-transform: uppercase; line-height: 1.5; border: 1px solid var(--border2, #e6e2da); }
-/* 2026-08-26: repointed to Calm Pastel hex, matching .byg-safety-badge above. */
-.byg-visa-domestic { background: #7fc4b0;  color: #123d32; }
-.byg-visa-free     { background: #7fc4b0;  color: #123d32; }
-.byg-visa-card     { background: #d9985f; color: #4a2610; }
-.byg-visa-eta      { background: #d9985f; color: #4a2610; }
-.byg-visa-evisa    { background: #d9985f; color: #4a2610; }
-.byg-visa-voa      { background: #d9985f; color: #4a2610; }
-.byg-visa-required { background: #d97268;    color: #4a1108; }
+/* 2026-08-27: color now reads the real .cp-* family classes, same repoint as
+   .byg-safety-badge/.byg-cost-badge above -- visaTypeCss (inline script)
+   pairs this shape class with the matching cp-* token on the same element.
+   Shape stays exactly as it was. GREEN=cp-dark-teal (domestic/visa-free),
+   TAN=cp-terracotta (arrival-card/eta/evisa/voa), RED=cp-bright-red
+   (visa-required). */
+.byg-visa-badge.cp-dark-teal, .byg-visa-badge.cp-terracotta, .byg-visa-badge.cp-bright-red {
+  background: var(--sp-wash); color: var(--sp-ink);
+}
 .byg-visa-note { font-size: 11px; color: var(--muted,#6a6660); line-height: 1.4; margin-top: 6px; margin-bottom: 6px; }
 .byg-guide-pill { display: inline-flex; align-items: center; justify-content: center; gap: 6px; font-size: 14px;
   font-weight: 600; color: var(--gold,#c8961a); text-decoration: none; padding: 0 16px; height: 40px; box-sizing: border-box;
@@ -790,19 +792,23 @@ body { padding-bottom: calc(24px + env(safe-area-inset-bottom, 0px)) !important;
       "Maldives":{"type":"voa","days":"30 days","note":"Free visa on arrival"}
     };
 
+    // 2026-08-27: each branch now returns the shape class PLUS the matching
+    // .cp-* family token (selection-pills-badges-pills-to-badge-dots.html §6)
+    // -- CSS reads --sp-wash/--sp-ink off that token instead of duplicating
+    // hex. See the .byg-safety-badge/.byg-cost-badge compound rule above.
     function safetyClass(level) {
       var l = (level + '').toLowerCase().replace(/\s+/g, '');
-      if (l === 'verysafe') return 'byg-safety-verysafe';
-      if (l === 'safe' || l === 'low') return 'byg-safety-safe';
-      if (l === 'moderate' || l === '1' || l === '2') return 'byg-safety-moderate';
-      return 'byg-safety-caution';
+      if (l === 'verysafe') return 'byg-safety-verysafe cp-dark-teal';
+      if (l === 'safe' || l === 'low') return 'byg-safety-safe cp-dark-teal';
+      if (l === 'moderate' || l === '1' || l === '2') return 'byg-safety-moderate cp-gold';
+      return 'byg-safety-caution cp-bright-red';
     }
     function costClass(tier) {
       var t = (tier + '').toLowerCase().replace(/[\s-]+/g, '');
-      if (t === 'budget') return 'byg-cost-budget';
-      if (t === 'moderate' || t === 'midrange' || t === 'mid') return 'byg-cost-moderate';
-      if (t === 'expensive') return 'byg-cost-expensive';
-      return 'byg-cost-premium';
+      if (t === 'budget') return 'byg-cost-budget cp-dark-teal';
+      if (t === 'moderate' || t === 'midrange' || t === 'mid') return 'byg-cost-moderate cp-blue';
+      if (t === 'expensive') return 'byg-cost-expensive cp-gold';
+      return 'byg-cost-premium cp-bright-red';
     }
 
     function strip(rec, m) {
@@ -968,7 +974,7 @@ body { padding-bottom: calc(24px + env(safe-area-inset-bottom, 0px)) !important;
           var wsLabel = ws === 'safe' ? 'Safe to drink' : ws === 'varies' ? 'Varies by area' : 'Avoid tap water';
           html += '<div class="byg-card byg-card-fixed-sm">' +
             '<div class="byg-card-head"><span class="byg-card-title">Tap Water</span></div>' +
-            '<div class="byg-row"><span class="byg-row-label">Status</span><span class="byg-safety-badge byg-water-' + ws + '">' + wsLabel + '</span></div>' +
+            '<div class="byg-row"><span class="byg-row-label">Status</span><span class="byg-safety-badge byg-water-' + ws + ' ' + (ws === 'safe' ? 'cp-dark-teal' : ws === 'varies' ? 'cp-gold' : 'cp-bright-red') + '">' + wsLabel + '</span></div>' +
             '<div class="byg-links-row"><a href="/essentials/tap-water/" class="byg-link chevron-link-pill">All regions</a></div>' +
             '</div>';
         }
@@ -976,7 +982,7 @@ body { padding-bottom: calc(24px + env(safe-area-inset-bottom, 0px)) !important;
         var vs = vaccineStatus(country);
         html += '<div class="byg-card byg-card-fixed-sm">' +
           '<div class="byg-card-head"><span class="byg-card-title">Vaccines</span></div>' +
-          (vs ? '<div class="byg-row"><span class="byg-row-label">For ' + country + '</span><span class="byg-safety-badge ' + (vs === 'routine' ? 'byg-water-safe' : 'byg-water-varies') + '">' + (vs === 'routine' ? 'Routine only' : 'Recommended') + '</span></div>' : '') +
+          (vs ? '<div class="byg-row"><span class="byg-row-label">For ' + country + '</span><span class="byg-safety-badge ' + (vs === 'routine' ? 'byg-water-safe cp-dark-teal' : 'byg-water-varies cp-gold') + '">' + (vs === 'routine' ? 'Routine only' : 'Recommended') + '</span></div>' : '') +
           '<div class="byg-links-row"><a href="/essentials/vaccines/" class="byg-link chevron-link-pill">All vaccines</a></div>' +
           '</div>';
       }
@@ -1076,9 +1082,11 @@ body { padding-bottom: calc(24px + env(safe-area-inset-bottom, 0px)) !important;
       // Visa & Entry card (col 3)
       if (visaInfo) {
         var visaTypeLabels = {"domestic":"Domestic","visa-free":"Visa-free","arrival-card":"Arrival Card","eta":"ETA Required","evisa":"eVisa Required","voa":"Visa on Arrival","visa-required":"Visa Required"};
-        var visaTypeCss = {"domestic":"byg-visa-domestic","visa-free":"byg-visa-free","arrival-card":"byg-visa-card","eta":"byg-visa-eta","evisa":"byg-visa-evisa","voa":"byg-visa-voa","visa-required":"byg-visa-required"};
+        // 2026-08-27: each value pairs the shape class with the matching
+        // .cp-* family token -- see the .byg-visa-badge compound rule above.
+        var visaTypeCss = {"domestic":"byg-visa-domestic cp-dark-teal","visa-free":"byg-visa-free cp-dark-teal","arrival-card":"byg-visa-card cp-terracotta","eta":"byg-visa-eta cp-terracotta","evisa":"byg-visa-evisa cp-terracotta","voa":"byg-visa-voa cp-terracotta","visa-required":"byg-visa-required cp-bright-red"};
         var vLabel = visaTypeLabels[visaInfo.type] || visaInfo.type;
-        var vCss = visaTypeCss[visaInfo.type] || 'byg-visa-domestic';
+        var vCss = visaTypeCss[visaInfo.type] || 'byg-visa-domestic cp-dark-teal';
         html += '<div class="byg-card">';
         html += '<div class="byg-card-head"><span class="byg-card-title">Visa &amp; Entry</span></div>';
         html += '<div class="byg-row"><span class="byg-row-label">Type</span><span class="byg-visa-badge ' + vCss + '">' + vLabel + '</span></div>';
@@ -1093,7 +1101,7 @@ body { padding-bottom: calc(24px + env(safe-area-inset-bottom, 0px)) !important;
       var geHtml = '<div class="byg-card byg-card-fixed-sm"><div class="byg-card-head"><span class="byg-card-title">Global Entry</span></div>';
       if (airInfo) {
         geHtml += '<div class="byg-row"><span class="byg-row-label">Airport</span><span class="byg-row-value" style="font-size:12px;font-weight:500;">' + airInfo.name + ' (' + airInfo.iata + ')</span></div>' +
-          '<div class="byg-row"><span class="byg-row-label">Status</span><span class="byg-safety-badge ' + (airInfo.ge ? 'byg-water-safe' : 'byg-water-unsafe') + '">' + (airInfo.ge ? 'Available' : 'Not available') + '</span></div>';
+          '<div class="byg-row"><span class="byg-row-label">Status</span><span class="byg-safety-badge ' + (airInfo.ge ? 'byg-water-safe cp-dark-teal' : 'byg-water-unsafe cp-bright-red') + '">' + (airInfo.ge ? 'Available' : 'Not available') + '</span></div>';
       }
       geHtml += '<div class="byg-links-row"><a href="/essentials/trusted-traveler/?q=' + cityParam + '" class="byg-link chevron-link-pill">Find airports</a></div></div>';
       html += geHtml;

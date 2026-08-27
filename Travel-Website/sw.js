@@ -2619,7 +2619,13 @@
    Fixed dark neutral (rgba(0,0,0,.55)) added for the 11 affected families,
    verified live via injection before shipping. MIN_VERSIONS
    ['web-travel-style.css'] to 194. CACHE to v1689. */
-var CACHE = 'travel-cache-v1689';
+/* 2026-08-27: ask-your-guide's Safety pill never actually rendered colored
+   -- a same-day CSS repoint onto .cp-dark-teal/.cp-gold/.cp-terracotta was
+   never matched by the JS, which still emitted the old is-good/is-mid/
+   is-warn class names. Remapped. Also border-color: var(--sp-ink) (the
+   family's own saturated ink) -> rgba(0,0,0,.1), matching every other
+   cp-*-wash pill on the site. Page-local HTML, precached. CACHE to v1690. */
+var CACHE = 'travel-cache-v1690';
 /* 2026-08-27: airlines.css's .card-tags align-items fix changed a shared
    asset without raising its own floor -- MIN_VERSIONS['airlines.css'] to
    6, CACHE to v1662. */

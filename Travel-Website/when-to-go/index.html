@@ -71,7 +71,10 @@
    injected icon, and is drawn as a white boxy chip — restyling it here would
    change the row below and every other page that uses it. Outlined round pill,
    #c8bfb0 rather than --border so it reads as clickable against the hero wash.
-   Hover follows the site rule: outline goes terracotta, fill stays empty. */
+   Hover used to go terracotta outline+text -- retired along with every other
+   pill hover sitewide (pills doc Rule 13, added this session, no exception
+   for this class); now the same neutral #f0ede8/#b0aca6 every other outlined
+   pill on the site uses. */
 .cf-spill-pill {
   display: inline-flex; align-items: center;
   font: inherit; font-size: clamp(0.86rem, 0.95vw, 0.94rem); font-weight: 600;
@@ -79,11 +82,11 @@
   border: 1.5px solid #c8bfb0; border-radius: 999px;
   background: transparent; color: var(--text, #3d3a32);
   text-decoration: none;
-  transition: border-color .18s ease, color .18s ease;
+  transition: background .18s ease, border-color .18s ease, color .18s ease;
 }
 a.cf-spill-pill:visited { color: #3d3a32; }  /* literal: var() is inert in :visited */
 .cf-spill-pill:hover, .cf-spill-pill:focus-visible, a.cf-spill-pill:hover:visited {
-  border-color: var(--rust, #C04E1A); color: var(--rust, #C04E1A);
+  background: #f0ede8; border-color: #b0aca6; color: #6a6660;
 }
 /* One column below 62rem: the spill sits under the lede rather than beside
    it, and shortens so it never pushes the month row below the fold. */
@@ -117,7 +120,7 @@ a.cf-spill-pill:visited { color: #3d3a32; }  /* literal: var() is inert in :visi
 .cf-months { font-family: inherit; display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); gap: 6px; }
 .cf-mon { display: inline-flex; align-items: center; justify-content: center; border: 1px solid var(--border2,#e6e2da); border-radius: 6px; cursor: pointer;
   padding: 10px 0; font-family: inherit; font-size: 13px; font-weight: 400; color: var(--muted,#6a6660);
-  background: var(--surface,#fff); transition: background .12s,color .12s,border-color .12s; }
+  background: var(--warm,#fdf8f0); transition: background .12s,color .12s,border-color .12s; }
 .cf-mon:hover { font-family: inherit; border-color: #b0aca6; background: #f0ede8; color: #6a6660; font-weight: 600; }
 .cf-mon.on { font-family: inherit; background: #f0ede8; color: #6a6660; border-color: #b0aca6; }
 
@@ -168,7 +171,7 @@ a.cf-spill-pill:visited { color: #3d3a32; }  /* literal: var() is inert in :visi
   .cf-months { gap: 0; }
   .cf-mon { height: 36px; padding: 0 14px; font-size: 13px; font-weight: 500; line-height: 1; color: var(--text, #3d3a32); border: 1.5px solid var(--border2, #e6e2da); border-radius: 0; background: var(--surface, #ffffff); }
   .cf-mon:hover { background: #f0ede8; border-color: #b0aca6; font-weight: 500; color: #6a6660; }
-  .cf-mon.on { background: #f0ede8; border: 1.5px solid var(--border); color: var(--muted); }
+  .cf-mon.on { background: #f0ede8; border: 1.5px solid #b0aca6; color: var(--muted); }
 }
 /* Range row */
 .cf-rangerow { display: flex; align-items: center; flex-wrap: wrap; gap: 10px; }
@@ -181,10 +184,10 @@ a.cf-spill-pill:visited { color: #3d3a32; }  /* literal: var() is inert in :visi
 /* °C/°F + sort */
 .cf-seg { display: inline-flex; border: 1px solid var(--border2,#e6e2da); border-radius: 6px; overflow: hidden; }
 .cf-seg button { border: none; cursor: pointer; padding: 8px 13px; font-family: var(--font);
-  font-size: var(--fs-sub,12px); font-weight: 600; background: var(--surface,#fff); color: var(--muted,#6a6660); }
+  font-size: var(--fs-sub,12px); font-weight: 600; background: var(--warm,#fdf8f0); color: var(--muted,#6a6660); }
 .cf-seg button.on { background: #f0ede8; color: #6a6660; }
 .cf-sort { height: 36px; padding: 0 28px 0 10px; border: 1px solid var(--border2,#e6e2da); border-radius: 6px;
-  font-family: var(--font); font-size: var(--fs-sub,12px); color: var(--text,#1a1917); background-color: var(--surface,#ffffff); cursor: pointer; }
+  font-family: var(--font); font-size: var(--fs-sub,12px); color: var(--text,#1a1917); background-color: var(--warm,#fdf8f0); cursor: pointer; }
 /* Summary */
 .cf-summary { font-size: var(--fs-sub,12px); color: var(--muted,#6a6660); margin: 4px 2px 12px;
   text-transform: uppercase; letter-spacing: .05em; }
@@ -400,6 +403,12 @@ a.cf-card:hover .cf-guide-pill { border-color: #b0aca6; }
      same token pair, and the same treatment .cont-btn.on uses site-wide. */
   .cf-seg button.on { background: var(--surface2, #1e1c1a); }
   .cf-sliderrow input[type=range] { background: transparent; }
+  /* .cf-spill-pill's hover was a literal light hex (#f0ede8/#b0aca6, just
+     fixed from terracotta above) -- doesn't adapt on its own, needs its own
+     dark value same as every other retired-terracotta pill hover this pass. */
+  .cf-spill-pill:hover, .cf-spill-pill:focus-visible, a.cf-spill-pill:hover:visited {
+    background: var(--surface2, #1e1c1a); border-color: #4a453e; color: var(--muted, #9a9690);
+  }
 }
 /* The four :root[data-theme="dark"] twins that stood here are deleted. The
    manual theme toggle went on 2026-08-18 and nothing stamps data-theme any

@@ -174,10 +174,10 @@ tr.ci-city[aria-expanded="true"] .ci-open { transform: rotate(90deg); color: var
 /* 2026-08-26: fixed drift -- moderate/very-expensive were still blue/purple
    here after BAND_FAM itself moved to yellow/red during the summer's
    simplification pass; these three never got updated to match. */
-.ci-c-cheap          { color: var(--en-green-text,#2c5c2e); }
-.ci-c-moderate       { color: var(--en-yellow-text,#7a5a12); }
-.ci-c-expensive      { color: var(--en-orange-text,#8a551a); }
-.ci-c-very-expensive { color: var(--en-red-text,#7a1414); }
+.ci-c-cheap          { color: #123d32; }
+.ci-c-moderate       { color: #8a6a28; }
+.ci-c-expensive      { color: #4a2610; }
+.ci-c-very-expensive { color: #4a1108; }
 
 /* The expanded row: what is driving the tag. Was a mini <table>; is now three
    bento tiles — Rent / Eating out / Groceries, each with its own catalogue
@@ -651,10 +651,10 @@ function guideURL(r) { return '/guides/' + r[N_SLUG] + '.html'; }
 function trackStyle() {
   var a = 35 / MAX * 100, b = 50 / MAX * 100, c = 70 / MAX * 100;
   return 'background:linear-gradient(to right,' +
-    'var(--en-green-top) 0 '  + a.toFixed(1) + '%,' +
-    'var(--en-yellow-top) '   + a.toFixed(1) + '% ' + b.toFixed(1) + '%,' +
-    'var(--en-orange-top) '   + b.toFixed(1) + '% ' + c.toFixed(1) + '%,' +
-    'var(--en-red-top) '      + c.toFixed(1) + '% 100%)';
+    '#7fc4b0 0 '  + a.toFixed(1) + '%,' +
+    '#fdf3d3 '   + a.toFixed(1) + '% ' + b.toFixed(1) + '%,' +
+    '#d9985f '   + b.toFixed(1) + '% ' + c.toFixed(1) + '%,' +
+    '#d97268 '      + c.toFixed(1) + '% 100%)';
 }
 
 function bar(idx, band, label) {
@@ -682,9 +682,15 @@ function barCell(idx, band) {
    family — the rank chip and the hover accent bar both read these, so a
    Cheap row glows green and a Very expensive one glows purple, with no new
    hardcoded colour anywhere on the page. */
+var ROW_FAM_HEX = {
+  green:  { ink:'#123d32', bg:'#7fc4b0', bd:'#2a7a66' },
+  yellow: { ink:'#8a6a28', bg:'#fdf3d3', bd:'#d4b06a' },
+  orange: { ink:'#4a2610', bg:'#d9985f', bd:'#9a5220' },
+  red:    { ink:'#4a1108', bg:'#d97268', bd:'#9a2f22' }
+};
 function rowVars(band) {
-  var fam = BAND_FAM[band];
-  return 'style="--row-ink:var(--en-' + fam + '-text);--row-bg:var(--en-' + fam + '-top);--row-bd:var(--en-' + fam + '-rim)"';
+  var c = ROW_FAM_HEX[BAND_FAM[band]];
+  return 'style="--row-ink:' + c.ink + ';--row-bg:' + c.bg + ';--row-bd:' + c.bd + '"';
 }
 
 function rowHTML(r, rank) {

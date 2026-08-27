@@ -121,28 +121,24 @@
 .sun-months {
   display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); gap: 6px;
 }
+/* .sun-mon is the shared .selection-pill component (assets/web-travel-style.css)
+   -- one month picked from 12 otherwise-equal options, no per-item family
+   colour, "this one is chosen" carried by aria-pressed (already set by the
+   JS below on every click, so the shared [aria-pressed="true"] rule drives
+   selection with no JS change needed) -- was hand-built at the exact same
+   999px shape instead of using the class, plus a terracotta rest/selected
+   override the Twenty-fourth non-negotiable and the 2026-08-26 "no
+   terracotta pill text/hover" owner rule both retired sitewide. No .sp-*/
+   .cp-* tone is applied: this pill never carried a colour identity of its
+   own (rest state was already plain neutral), so the bare class's own
+   neutral wash / #f0ede8 selected pairing is the correct match, not a
+   substitution. Only the compact sizing for this dense 6-across/4-across
+   grid stays page-local -- same carve-out .fa-spoke-btn kept for Festival
+   Finder's Year Wheel. */
 .sun-mon {
-  font: inherit; font-size: 13px; font-weight: 600;
-  padding: 9px 14px; min-width: 52px;
-  border: 1.5px solid var(--border2, #e6e2da); border-radius: 999px;
-  background: var(--surface, #fff); color: var(--text, #3d3a32);
-  cursor: pointer; transition: border-color .16s ease, color .16s ease;
-}
-.sun-mon:hover { border-color: var(--rust, #C04E1A); color: var(--rust, #C04E1A); }
-.sun-mon.on {
-  border-color: var(--rust, #C04E1A); color: var(--rust, #C04E1A);
-  background: var(--surface, #fff);
+  font-size: 13px; font-weight: 600; padding: 9px 14px; min-width: 52px;
 }
 .sun-mon:focus-visible { outline: 2px solid var(--c-search-focus-border); outline-offset: 2px; }
-/* Dark mode: the SELECTED pill drops to the darker ground. The dark terracotta
-   #D4663A on --surface (#2a2825) measures 4.03:1 — under the 4.5 a 13px label
-   needs — and on --surface2 (#1e1c1a) it measures 4.7. No new colour is
-   introduced: it is the same token pair .cont-btn.on already uses for a
-   selected chip in dark. Light mode keeps the white fill the outlined-chip
-   standard asks for, so this rule stays inside the media query. */
-@media (prefers-color-scheme: dark) {
-  .sun-mon.on { background: var(--surface2, #1e1c1a); }
-}
 /* Four across on phones rather than six — at 393px a six-column row gives each
    pill ~56px, which is under the 44px tap target once the 4px gaps and the
    1.5px rims are taken out of it. */
@@ -952,7 +948,7 @@ function render() {
     ABBR.forEach(function (label, i) {
       var b = document.createElement('button');
       b.type = 'button';
-      b.className = 'sun-mon';
+      b.className = 'sun-mon selection-pill';
       b.textContent = label;
       b.setAttribute('aria-pressed', 'false');
       b.addEventListener('click', function () {

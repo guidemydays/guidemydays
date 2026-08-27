@@ -2597,7 +2597,19 @@
    state on the site is border-color only with box-shadow:none. Same
    stray-gold family as the search clear (X) and .fnd-ctl input fixes earlier
    this pass. MIN_VERSIONS['web-travel-style.css'] to 193. CACHE to v1687. */
-var CACHE = 'travel-cache-v1687';
+/* 2026-08-27: essentials/day-trips (commit 35315cbda) shipped two changes
+   under one message that only names the first: the search icon/focus
+   retiring from terracotta to muted, AND .dt-band (Any length/Under 30 min/
+   30-60 min/1-2 hr/2 hr+) never carrying .pill-badge at all -- so
+   toolbar.js's shared width-equalizer never touched it (owner: "wrong
+   border and size! one"). Added .pill-badge to its buttons, renamed the
+   bespoke ".on" selected-class to the shared ".is-on" so the universal
+   outline-ring selection mechanism applies instead of 5 hand-picked rgba()
+   border-darken rules, and tagged "All length" cp-light-grey so the
+   equalizer's grey-exclusion (Non-Negotiable 96) recognizes it. Confirmed
+   live: all 4 non-grey pills now equal width (122.98px). Page-local HTML,
+   precached. CACHE to v1688. */
+var CACHE = 'travel-cache-v1688';
 /* 2026-08-27: airlines.css's .card-tags align-items fix changed a shared
    asset without raising its own floor -- MIN_VERSIONS['airlines.css'] to
    6, CACHE to v1662. */

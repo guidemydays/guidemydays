@@ -2442,7 +2442,12 @@
    "check height by NUMBER") -- MIN_VERSIONS['web-travel-style.css'] to 190.
    essentials/tipping's buildStatBar() also drops a stale 'badge' class that
    was fighting .legend-key's own padding. CACHE to v1674. */
-var CACHE = 'travel-cache-v1674';
+/* 2026-08-27: essentials/sims + connections/tap-water/safety/vaccines/
+   lounges: pill-badge/badge instances carrying a real 14.39px SVG dot icon
+   gain the has-icon modifier (NN 103) -- same root cause as the earlier
+   airline-networks fix, 17 more instances across 6 pages. Page-local, no
+   shared asset changed. CACHE to v1675. */
+var CACHE = 'travel-cache-v1675';
 /* 2026-08-27: airlines.css's .card-tags align-items fix changed a shared
    asset without raising its own floor -- MIN_VERSIONS['airlines.css'] to
    6, CACHE to v1662. */

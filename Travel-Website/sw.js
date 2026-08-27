@@ -2437,7 +2437,12 @@
    modifier -- real 14.39px SVG dot icons were classed as plain pill-badge,
    missing the extra vertical room NN 103 requires. Page-local, no shared
    asset changed. CACHE to v1673. */
-var CACHE = 'travel-cache-v1673';
+/* 2026-08-27: .legend-key padding 6px9px -> 11px16px (was reading squished
+   next to the 37px Selection Pill row it sits under, owner: "too short!" /
+   "check height by NUMBER") -- MIN_VERSIONS['web-travel-style.css'] to 190.
+   essentials/tipping's buildStatBar() also drops a stale 'badge' class that
+   was fighting .legend-key's own padding. CACHE to v1674. */
+var CACHE = 'travel-cache-v1674';
 /* 2026-08-27: airlines.css's .card-tags align-items fix changed a shared
    asset without raising its own floor -- MIN_VERSIONS['airlines.css'] to
    6, CACHE to v1662. */
@@ -2477,7 +2482,7 @@ var ICS_OUTBOX = 'gmd-ics-outbox';
    THIS IS THE ONLY PLACE to bump toolbar.js / guide-style.css versions.
    NEVER bump ?v= inside guide HTML — it breaks HMAC stamps and forces re-validation
    of 230+ guides. Instead, bump MIN_VERSIONS here + increment the CACHE version. */
-var MIN_VERSIONS = { 'guide-style.css': 267,'toolbar.js': 1094, 'mobile.css': 90, 'web-travel-style.css': 189, 'guides-index-style.css': 34, 'read-about.css': 6, 'best-of-features.js': 4, 'best-of-cross-data.js': 24, 'weather.js': 12, 'trains.css': 21, 'trains.js': 5, 'airlines.css': 6, 'airlines.js': 7, 'passport.js': 5, 'search-autocomplete.js': 9, 'flag-render.js': 2 };
+var MIN_VERSIONS = { 'guide-style.css': 267,'toolbar.js': 1094, 'mobile.css': 90, 'web-travel-style.css': 190, 'guides-index-style.css': 34, 'read-about.css': 6, 'best-of-features.js': 4, 'best-of-cross-data.js': 24, 'weather.js': 12, 'trains.css': 21, 'trains.js': 5, 'airlines.css': 6, 'airlines.js': 7, 'passport.js': 5, 'search-autocomplete.js': 9, 'flag-render.js': 2 };
 
 function rewriteAssetUrl(urlStr) {
   var u;

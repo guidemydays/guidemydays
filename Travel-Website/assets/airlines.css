@@ -51,7 +51,23 @@
   .al-pass-name a:hover { color: var(--rust, #C04E1A); }
   .al-pass-sub { font-size: 11.5px; color: var(--muted); letter-spacing: .02em; }
 
-  /* .card-tags / .card-tag / .badge / .fam-* → web-travel-style.css, unchanged */
+  /* .card-tags / .card-tag / .badge / .fam-* → web-travel-style.css, unchanged,
+     EXCEPT align-items below. tagsHTML() (airlines.js) always renders the
+     alliance chip (Star Alliance/SkyTeam/oneworld/Independent — bordered
+     .cp-* colours, 24px canonical) next to the type chip(s) (Full-service/
+     Low-cost/Regional/Leisure/Long-haul — borderless .sb-* colours, 22px
+     canonical by design, web-travel-style.css ~line 879) as two SIBLING
+     .card-tag spans in the same .card-tags flex row. web-travel-style.css's
+     .card-tags never sets align-items, so it defaults to stretch — the
+     shorter borderless .sb-* chip was being stretched 2px taller to match
+     its bordered .cp-* sibling's own natural height, which is exactly what
+     pill_row_equalize_audit.py's PROPORTION check flagged (~230 elements
+     across these 7 pages, "expected ~22px" but measuring 24px). This is the
+     one page-group where a bordered and a borderless card-tag badge are
+     genuine SIBLINGS in one row; fixed here rather than in the shared rule
+     (never touched per instructions) so no other .card-tags page is
+     affected. */
+  .card-tags { align-items: flex-start; }
   .al-pass-desc { font-size: 12.6px; line-height: 1.55; color: var(--text); margin: 0; }
 
   .al-pass-stats { display: flex; gap: 16px; flex-wrap: wrap; padding-top: 2px; }

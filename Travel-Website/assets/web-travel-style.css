@@ -3360,6 +3360,7 @@ body > .hero-ground {
 .legend-key {
   display: inline-flex;
   align-items: center;
+  justify-content: center;
   gap: 5px;
   font-family: inherit;
   font-size: var(--fam-fs, 12px);
@@ -3371,7 +3372,9 @@ body > .hero-ground {
   padding: var(--fam-pad, 4px 9px);
   border-radius: 999px;
   border: 1px solid var(--border2, #e6e2da);
-  background: var(--surface, #fff);
+  /* --warm, not --surface -- literal white at rest (NN104); see .selection-pill's
+     own identical fix above. */
+  background: var(--warm, #fdf8f0);
   color: var(--muted, #6a6660);
 }
 /* line-height: 1 added 2026-08-27 -- .badge/.pill-badge both set this
@@ -3385,20 +3388,21 @@ body > .hero-ground {
 /* Some .legend-key rows are clickable filters, not just a static key
    (essentials/train-passes' elig-badge row toggles .is-on same as any
    .pill-badge). .legend-key has no fam-* color to darken on selection, so
-   it borrows the site's other neutral "selected" signal — the terracotta
-   .selection-pill treatment — instead of a colored ring. */
+   it borrows the site's other neutral "selected" signal — the same neutral
+   #f0ede8 pressed-down .selection-pill now uses (2026-08-27: this rule still
+   read "borrows the terracotta .selection-pill treatment" -- true when
+   written, but f54cc6c5f retired terracotta from .selection-pill's own is-on
+   state and this comment, and the rule below it, were never updated to
+   match, leaving .legend-key alone still terracotta). */
 .legend-key.is-on,
 .legend-key[aria-pressed="true"] {
-  background: #fdf4ed;
-  border-color: rgba(192,78,26,.85);
-  color: var(--rust, #C04E1A);
+  background: #f0ede8;
+  border-color: #b0aca6;
+  color: #6a6660;
 }
-/* Owner-locked #fdf4ed (Non-Negotiable 35) never flips for dark mode — same
-   fix as .selection-pill's is-on state above (rgba tint, never --warm —
-   pills/buttons can't take the card-only token, check_no_beige_pill_button). */
 @media (prefers-color-scheme: dark) {
   .legend-key.is-on,
-  .legend-key[aria-pressed="true"] { background: rgba(212,102,58,.16); }
+  .legend-key[aria-pressed="true"] { background: var(--surface2, #1e1c1a); border-color: #4a453e; color: var(--muted, #9a9690); }
 }
 .legend-key-row {
   display: flex;

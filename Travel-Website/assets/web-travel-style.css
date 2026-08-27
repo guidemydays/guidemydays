@@ -3341,6 +3341,21 @@ body > .hero-ground {
   outline: 1.5px solid currentColor;
   outline-offset: 1px;
 }
+/* currentColor is invisible on every sb-* family except sb-tan-orange: 11 of
+   the 12 solid-badge families set color:#fff, so their selected-state ring
+   was drawing a WHITE 1.5px outline that vanishes against the page ground --
+   the pill LOOKED unselected regardless of .is-on actually being applied.
+   Confirmed live on essentials/connections (owner: "this one has it then
+   the rest does not!" -- .sb-tan-orange's dark #3d2812 text produced a
+   visible ring, every other family's white text produced nothing). A fixed
+   dark neutral outline works identically against every one of these
+   saturated fills, in both themes, since sb-* backgrounds are literal hex,
+   not tokens that flip for dark mode. */
+.sb-dark-grey.is-on, .sb-light-grey.is-on, .sb-blue.is-on, .sb-teal.is-on,
+.sb-rust.is-on, .sb-dark-brown.is-on, .sb-pink.is-on, .sb-light-blue.is-on,
+.sb-green.is-on, .sb-red.is-on, .sb-gold.is-on {
+  outline-color: rgba(0,0,0,.55);
+}
 
 /* SELECTED BORDER-DARKENING IS RETIRED — owner rule 2026-08-24. Rest-state
    border is now fully opaque (border-color = the family ink, or

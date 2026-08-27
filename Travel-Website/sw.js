@@ -2590,7 +2590,14 @@
    ("border problem so why does not catch all?" -- pill_color_family_audit.py
    had wrongly excluded the whole component; exclusion removed, border fixed.
    CACHE to v1686. */
-var CACHE = 'travel-cache-v1686';
+/* 2026-08-27: web-travel-style.css's .pp-pop .pp-search:focus (the passport
+   picker's country search, essentials/visa + essentials/passport) carried a
+   box-shadow of rgba(184,134,11,…) -- a goldenrod glow that did not even
+   match its own #C8B99A focus border, and every other search input's focus
+   state on the site is border-color only with box-shadow:none. Same
+   stray-gold family as the search clear (X) and .fnd-ctl input fixes earlier
+   this pass. MIN_VERSIONS['web-travel-style.css'] to 193. CACHE to v1687. */
+var CACHE = 'travel-cache-v1687';
 /* 2026-08-27: airlines.css's .card-tags align-items fix changed a shared
    asset without raising its own floor -- MIN_VERSIONS['airlines.css'] to
    6, CACHE to v1662. */
@@ -2630,7 +2637,7 @@ var ICS_OUTBOX = 'gmd-ics-outbox';
    THIS IS THE ONLY PLACE to bump toolbar.js / guide-style.css versions.
    NEVER bump ?v= inside guide HTML — it breaks HMAC stamps and forces re-validation
    of 230+ guides. Instead, bump MIN_VERSIONS here + increment the CACHE version. */
-var MIN_VERSIONS = { 'guide-style.css': 267,'toolbar.js': 1095, 'mobile.css': 90, 'web-travel-style.css': 192, 'guides-index-style.css': 35, 'read-about.css': 6, 'best-of-features.js': 4, 'best-of-cross-data.js': 24, 'weather.js': 12, 'trains.css': 22, 'trains.js': 5, 'airlines.css': 7, 'airlines.js': 8, 'passport.js': 5, 'search-autocomplete.js': 9, 'flag-render.js': 2 };
+var MIN_VERSIONS = { 'guide-style.css': 267,'toolbar.js': 1095, 'mobile.css': 90, 'web-travel-style.css': 193, 'guides-index-style.css': 35, 'read-about.css': 6, 'best-of-features.js': 4, 'best-of-cross-data.js': 24, 'weather.js': 12, 'trains.css': 22, 'trains.js': 5, 'airlines.css': 7, 'airlines.js': 8, 'passport.js': 5, 'search-autocomplete.js': 9, 'flag-render.js': 2 };
 
 function rewriteAssetUrl(urlStr) {
   var u;

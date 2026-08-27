@@ -3008,10 +3008,26 @@ window.TVE.home = (function () {
         return clickable.indexOf(c) !== -1;
       });
       if (pills.length < 2) return;
-      pills.forEach(function (p) { p.style.minWidth = ''; });
+      pills.forEach(function (p) { p.style.minWidth = ''; p.style.minHeight = ''; });
       row.style.flexWrap = '';
-      /* The grey "All"/reset pill is never part of the scale it resets --
-         Rule 10 (selection-pills-badges-pills-to-badge-dots.html),
+      /* HEIGHT — every pill in the row, no exception (owner rule 2026-08-27:
+         "they all need to have the same height always"). Unlike width below,
+         this does NOT exclude the grey All/reset pill: a plain pill next to
+         a .has-icon one (average-costs' All vs. Cheap/Moderate/Expensive/
+         Very-expensive) has a genuinely different natural height (20px vs
+         27.8px) since .has-icon's padding is taller — set directly on each
+         pill via minHeight rather than relying on the row's own
+         align-items, so this holds regardless of what container class a
+         given page happens to use (the shared .pill-badge-strip's own
+         align-items: stretch covers the same case for that one class, but
+         this is the version that works on EVERY row, matching this
+         function's own "group by behaviour, not by container class" rule
+         above). */
+      var maxH = 0;
+      pills.forEach(function (p) { maxH = Math.max(maxH, p.getBoundingClientRect().height); });
+      pills.forEach(function (p) { p.style.minHeight = maxH + 'px'; });
+      /* WIDTH — the grey "All"/reset pill is never part of the scale it
+         resets -- Rule 10 (selection-pills-badges-pills-to-badge-dots.html),
          Non-Negotiable 96 ("the ALL pill is always the grey one, and grey
          is never used for anything else" -- a site-wide guarantee, so this
          check needs no page-specific class name). It keeps its own natural

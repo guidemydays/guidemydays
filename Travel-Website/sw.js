@@ -2609,7 +2609,17 @@
    equalizer's grey-exclusion (Non-Negotiable 96) recognizes it. Confirmed
    live: all 4 non-grey pills now equal width (122.98px). Page-local HTML,
    precached. CACHE to v1688. */
-var CACHE = 'travel-cache-v1688';
+/* 2026-08-27: web-travel-style.css's shared .pill-badge.is-on selected-ring
+   (outline: 1.5px solid currentColor) was invisible on 11 of the 12 sb-*
+   families -- all white text except sb-tan-orange, so a white outline
+   vanished against every one of those saturated fills. Owner, off a
+   screenshot of essentials/connections: "this one has it then the rest
+   does not!" -- confirmed live (sb-green's ring measured pure white,
+   sb-tan-orange's measured dark and was the only one actually visible).
+   Fixed dark neutral (rgba(0,0,0,.55)) added for the 11 affected families,
+   verified live via injection before shipping. MIN_VERSIONS
+   ['web-travel-style.css'] to 194. CACHE to v1689. */
+var CACHE = 'travel-cache-v1689';
 /* 2026-08-27: airlines.css's .card-tags align-items fix changed a shared
    asset without raising its own floor -- MIN_VERSIONS['airlines.css'] to
    6, CACHE to v1662. */
@@ -2649,7 +2659,7 @@ var ICS_OUTBOX = 'gmd-ics-outbox';
    THIS IS THE ONLY PLACE to bump toolbar.js / guide-style.css versions.
    NEVER bump ?v= inside guide HTML — it breaks HMAC stamps and forces re-validation
    of 230+ guides. Instead, bump MIN_VERSIONS here + increment the CACHE version. */
-var MIN_VERSIONS = { 'guide-style.css': 267,'toolbar.js': 1095, 'mobile.css': 90, 'web-travel-style.css': 193, 'guides-index-style.css': 35, 'read-about.css': 6, 'best-of-features.js': 4, 'best-of-cross-data.js': 24, 'weather.js': 12, 'trains.css': 22, 'trains.js': 5, 'airlines.css': 7, 'airlines.js': 8, 'passport.js': 5, 'search-autocomplete.js': 9, 'flag-render.js': 2 };
+var MIN_VERSIONS = { 'guide-style.css': 267,'toolbar.js': 1095, 'mobile.css': 90, 'web-travel-style.css': 194, 'guides-index-style.css': 35, 'read-about.css': 6, 'best-of-features.js': 4, 'best-of-cross-data.js': 24, 'weather.js': 12, 'trains.css': 22, 'trains.js': 5, 'airlines.css': 7, 'airlines.js': 8, 'passport.js': 5, 'search-autocomplete.js': 9, 'flag-render.js': 2 };
 
 function rewriteAssetUrl(urlStr) {
   var u;

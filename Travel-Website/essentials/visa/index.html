@@ -160,11 +160,6 @@ html { scroll-behavior: smooth; }
 .etype.none  { --ec: #3a3632; }  /* GREY dot-grey */
 .etype-head { display: flex; align-items: center; flex-wrap: wrap; gap: 8px; margin-bottom: 6px; }
 .etype-title { font-size: 15px; font-weight: 700; color: var(--text, #1a1917); }
-/* 2026-08-26: .etype-type now carries its own sb-* / cp-purple class directly
-   (set in JS alongside g.badgeCls) instead of relying on this ancestor
-   cascade to feed --en-* into a shared .fam-en gradient renderer -- same
-   pattern as every other page's badges. Nothing left for the old per-.etype
-   custom-property rules to do. */
 .etype-type { margin-left: auto; }
 /* The :root[data-theme="light"] twins that stood here are deleted: the manual
    theme toggle went on 2026-08-18, nothing stamps data-theme, and these only
@@ -477,7 +472,7 @@ a.apply-link:hover { background: #C04E1A; color: #fff; border-color: var(--rust)
     <div class="etype" id="section-TOKEN">
       <div class="etype-head">
         <span class="etype-title">TITLE</span>
-        <span class="etype-type badge fam-en">TYPE</span>
+        <span class="etype-type badge">TYPE</span>
       </div>
       <div class="etype-desc">DESC</div>
       <div class="calc-slot"></div>
@@ -509,13 +504,9 @@ a.apply-link:hover { background: #C04E1A; color: #fff; border-color: var(--rust)
 <script src="/assets/passport.js"></script>
 <script>
 (function () {
-  /* ── Group definitions — one bucket per requirement token, same site
+  /* Group definitions — one bucket per requirement token, same site
      vocabulary as TVE.passport.WORD so a reader learns it once and meets it
-     everywhere (Compare's Entry row uses the identical words). ── */
-  /* 2026-08-26: badge class per group -- moved off the .etype ancestor-cascade
-     custom-property trick (.etype.{cls} feeding --en-* into a shared .fam-en
-     gradient) onto the shared sb-* / cp-* classes directly, same as every other
-     page's badges. */
+     everywhere (Compare's Entry row uses the identical words). */
   var GROUPS = [
     { key: 'vf',    cls: 'vf',    badgeCls: 'sb-green',      title: 'Visa-free',                     badge: 'Visa-free',       desc: 'No visa needed for a stay of the length shown.',
       test: function (t) { return t === 'F' || t === 'H' || /^\d+$/.test(t); } },
@@ -607,7 +598,6 @@ a.apply-link:hover { background: #C04E1A; color: #fff; border-color: var(--rust)
             etypeEl.id = 'section-' + g.key;
             node.querySelector('.etype-title').textContent = g.title;
             var etypeTypeEl = node.querySelector('.etype-type');
-            etypeTypeEl.classList.remove('fam-en');
             etypeTypeEl.classList.add(g.badgeCls);
             etypeTypeEl.textContent = g.badge;
             node.querySelector('.etype-desc').textContent = g.desc;

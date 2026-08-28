@@ -774,6 +774,16 @@ a.also-on-this-site-pill:active {
   --sp-butter-ink:#7a5c0e;    --sp-butter-rgb:122,92,14;    --sp-butter-wash:#fdf8ee;
   --sp-amber-ink:#8a6c1a;     --sp-amber-rgb:138,108,26;    --sp-amber-wash:#fbf3df;
   --sp-yellow-ink:#8a6524;    --sp-yellow-rgb:138,101,36;   --sp-yellow-wash:#fff8e0;
+  /* Neutral (nt-*) — named globally, same reason as the sp-* tones above:
+     local page CSS (e.g. a :hover rule that can't apply a class) can read
+     these directly via var() instead of re-declaring the literal. */
+  --nt-paper-ink:#3d3a32;  --nt-paper-rgb:61,58,50;    --nt-paper-wash:#fbfaf8;
+  --nt-fog-ink:#4a483f;    --nt-fog-rgb:74,72,63;      --nt-fog-wash:#e2e1de;
+  --nt-grey-ink:#6a6660;   --nt-grey-rgb:106,102,96;   --nt-grey-wash:#f0ede8;
+  --nt-linen-ink:#5b5248;  --nt-linen-rgb:91,82,72;    --nt-linen-wash:#f3efe8;
+  --nt-cream-ink:#6a6660;  --nt-cream-rgb:106,102,96;  --nt-cream-wash:#fdf8f0;
+  --nt-tan-ink:#7a6547;    --nt-tan-rgb:122,101,71;    --nt-tan-wash:#f5f0e7;
+  --nt-brown-ink:#8f6a3e;  --nt-brown-rgb:143,106,62;  --nt-brown-wash:#f8f0e4;
 }
 @media (prefers-color-scheme: dark) {
   :root {
@@ -787,6 +797,13 @@ a.also-on-this-site-pill:active {
     --sp-butter-ink:#7a5c0e;    --sp-butter-rgb:122,92,14;    --sp-butter-wash:#fdf8ee;
     --sp-amber-ink:#8a6c1a;     --sp-amber-rgb:138,108,26;    --sp-amber-wash:#fbf3df;
     --sp-yellow-ink:#8a6524;    --sp-yellow-rgb:138,101,36;   --sp-yellow-wash:#fff8e0;
+    --nt-paper-ink:#3d3a32;  --nt-paper-rgb:61,58,50;    --nt-paper-wash:#fbfaf8;
+    --nt-fog-ink:#4a483f;    --nt-fog-rgb:74,72,63;      --nt-fog-wash:#e2e1de;
+    --nt-grey-ink:#6a6660;   --nt-grey-rgb:106,102,96;   --nt-grey-wash:#f0ede8;
+    --nt-linen-ink:#5b5248;  --nt-linen-rgb:91,82,72;    --nt-linen-wash:#f3efe8;
+    --nt-cream-ink:#6a6660;  --nt-cream-rgb:106,102,96;  --nt-cream-wash:#fdf8f0;
+    --nt-tan-ink:#7a6547;    --nt-tan-rgb:122,101,71;    --nt-tan-wash:#f5f0e7;
+    --nt-brown-ink:#8f6a3e;  --nt-brown-rgb:143,106,62;  --nt-brown-wash:#f8f0e4;
   }
 }
 .sp-rust      { --sp-ink:var(--sp-rust-ink);      --sp-rgb:var(--sp-rust-rgb);      --sp-wash:var(--sp-rust-wash); }
@@ -940,6 +957,70 @@ a.badge.sp-yellow:visited, a.pill-badge.sp-yellow:visited { color: #8a6524; }
 .selection-pill.sb-dark-brown:active, .selection-pill.sb-pink:active, .selection-pill.sb-light-blue:active,
 .selection-pill.sb-green:active, .selection-pill.sb-red:active, .selection-pill.sb-gold:active { filter: brightness(.82); }
 
+/* ── Neutral (.nt-*) — added 2026-08-28. A family for pills/links that carry
+   NO category meaning at all: a jump-nav chip, an "Apply"/"Visit provider"
+   outbound link, a filter row's own hover state. Dozens of essentials/
+   pages had each hand-built this exact look themselves (some literally
+   copying #f0ede8/#b0aca6/#6a6660 -- the SAME formula the SELECTED state
+   two rules below already uses -- one page at a time). Same --sp-ink/
+   --sp-rgb/--sp-wash mechanism cp-*/sp-* use above, so it drops straight
+   into .selection-pill / .badge(-tint) / .pillbadge(-tint) / .hov-* for
+   free -- no new box or hover CSS needed, only the tone declarations below.
+   Seven tones, coolest/palest to warmest/deepest -- reused values wherever
+   an existing approved tone already sat at the right depth, rather than
+   inventing a fresh hex for each rung:
+     paper (off-white) -> fog (cool grey) -> grey (warm grey, the site's
+     existing de-facto "selected" look) -> linen (palest warm neutral) ->
+     cream (warm off-white) -> tan (deeper beige) -> brown (light brown).
+   nt-paper stands in for "white": no pill on this site is ever literal
+   white (Hundred-and-fourth non-negotiable) -- it's the palest off-white
+   short of that. nt-fog reuses cp-light-grey's own ink/wash verbatim (a
+   cooler grey than nt-grey). nt-tan reuses sp-beige verbatim. nt-brown
+   reuses sp-sand verbatim -- that exact light-brown was independently
+   reinvented on at least two pages before this family existed; reusing it
+   here is the point, not a coincidence. */
+.nt-paper { --sp-ink:var(--nt-paper-ink); --sp-rgb:var(--nt-paper-rgb); --sp-wash:var(--nt-paper-wash); }
+.nt-fog   { --sp-ink:var(--nt-fog-ink);   --sp-rgb:var(--nt-fog-rgb);   --sp-wash:var(--nt-fog-wash); }
+.nt-grey  { --sp-ink:var(--nt-grey-ink);  --sp-rgb:var(--nt-grey-rgb);  --sp-wash:var(--nt-grey-wash); }
+.nt-linen { --sp-ink:var(--nt-linen-ink); --sp-rgb:var(--nt-linen-rgb); --sp-wash:var(--nt-linen-wash); }
+.nt-cream { --sp-ink:var(--nt-cream-ink); --sp-rgb:var(--nt-cream-rgb); --sp-wash:var(--nt-cream-wash); }
+.nt-tan   { --sp-ink:var(--nt-tan-ink);   --sp-rgb:var(--nt-tan-rgb);   --sp-wash:var(--nt-tan-wash); }
+.nt-brown { --sp-ink:var(--nt-brown-ink); --sp-rgb:var(--nt-brown-rgb); --sp-wash:var(--nt-brown-wash); }
+/* nt-grey excluded on purpose -- it stands in for the site's existing,
+   highly-visible "selected" border (#b0aca6, not a soft pastel rim), so it
+   keeps the DEFAULT .selection-pill formula (rgba(var(--sp-rgb),.45)) below
+   instead of this flatter Calm-Pastel-style override. */
+.selection-pill.nt-paper, .selection-pill.nt-fog, .selection-pill.nt-linen,
+.selection-pill.nt-cream, .selection-pill.nt-tan, .selection-pill.nt-brown,
+.selection-pill-sm.nt-paper, .selection-pill-sm.nt-fog, .selection-pill-sm.nt-linen,
+.selection-pill-sm.nt-cream, .selection-pill-sm.nt-tan, .selection-pill-sm.nt-brown {
+  border-color: rgba(0,0,0,.1);
+}
+a.badge.nt-paper:visited, a.pill-badge.nt-paper:visited { color: #3d3a32; }
+a.badge.nt-fog:visited,   a.pill-badge.nt-fog:visited   { color: #4a483f; }
+a.badge.nt-grey:visited,  a.pill-badge.nt-grey:visited  { color: #6a6660; }
+a.badge.nt-linen:visited, a.pill-badge.nt-linen:visited { color: #5b5248; }
+a.badge.nt-cream:visited, a.pill-badge.nt-cream:visited { color: #6a6660; }
+a.badge.nt-tan:visited,   a.pill-badge.nt-tan:visited   { color: #7a6547; }
+a.badge.nt-brown:visited, a.pill-badge.nt-brown:visited { color: #8f6a3e; }
+
+/* ── .hov-rust — added 2026-08-28. A neutral-rest pill/link's hover state
+   going to the site's one terracotta accent -- NOT the Neutral family above
+   (nt-* is for pills with no brand accent at all; this IS the brand accent,
+   on hover only). At least 6 essentials/ pages (apps .jchip, entry
+   .ctry-chip summary, insurance .prov-link, visa-times .apply-btn,
+   trusted-traveler .program-link) had each independently hand-built this
+   exact rule, including the same light-only-hex-needs-a-dark-substitute
+   fix (Non-Negotiable 35) every single time. Box/rest-state stay page-local
+   (they genuinely differ in size/weight); only the hover formula, which
+   was byte-identical everywhere, is shared. Add class="… hov-rust" to any
+   outlined neutral pill/link that should light up terracotta on hover. */
+.hov-rust:hover { background: #fdf4ed; border-color: var(--rust, #C04E1A); color: var(--rust, #C04E1A); }
+@media (prefers-color-scheme: dark) {
+  /* #fdf4ed is a light-only hex (Non-Negotiable 35) -- rgba substitute. */
+  .hov-rust:hover { background: rgba(212,102,58,.16); border-color: #D4663A; color: #D4663A; }
+}
+
 /* SELECTED beats any tone wash. .cp-*/.sb-*/.sp-* combo rules above are the
    same (0,2,0) specificity as .selection-pill.is-on / [aria-pressed="true"]
    above them, so whichever is declared LATER in this file silently wins for
@@ -958,7 +1039,9 @@ a.badge.sp-yellow:visited, a.pill-badge.sp-yellow:visited { color: #8a6524; }
 .selection-pill.is-on[class*="sb-"], .selection-pill[aria-pressed="true"][class*="sb-"],
 .selection-pill-sm.is-on[class*="sb-"], .selection-pill-sm[aria-pressed="true"][class*="sb-"],
 .selection-pill.is-on[class*="sp-"], .selection-pill[aria-pressed="true"][class*="sp-"],
-.selection-pill-sm.is-on[class*="sp-"], .selection-pill-sm[aria-pressed="true"][class*="sp-"] {
+.selection-pill-sm.is-on[class*="sp-"], .selection-pill-sm[aria-pressed="true"][class*="sp-"],
+.selection-pill.is-on[class*="nt-"], .selection-pill[aria-pressed="true"][class*="nt-"],
+.selection-pill-sm.is-on[class*="nt-"], .selection-pill-sm[aria-pressed="true"][class*="nt-"] {
   background: #f0ede8; border: 1px solid #b0aca6; color: #6a6660; font-weight: 600;
 }
 @media (prefers-color-scheme: dark) {
@@ -967,7 +1050,9 @@ a.badge.sp-yellow:visited, a.pill-badge.sp-yellow:visited { color: #8a6524; }
   .selection-pill.is-on[class*="sb-"], .selection-pill[aria-pressed="true"][class*="sb-"],
   .selection-pill-sm.is-on[class*="sb-"], .selection-pill-sm[aria-pressed="true"][class*="sb-"],
   .selection-pill.is-on[class*="sp-"], .selection-pill[aria-pressed="true"][class*="sp-"],
-  .selection-pill-sm.is-on[class*="sp-"], .selection-pill-sm[aria-pressed="true"][class*="sp-"] {
+  .selection-pill-sm.is-on[class*="sp-"], .selection-pill-sm[aria-pressed="true"][class*="sp-"],
+  .selection-pill.is-on[class*="nt-"], .selection-pill[aria-pressed="true"][class*="nt-"],
+  .selection-pill-sm.is-on[class*="nt-"], .selection-pill-sm[aria-pressed="true"][class*="nt-"] {
     background: var(--surface2, #1e1c1a); border: 1px solid #4a453e; color: var(--muted, #9a9690);
   }
 }
@@ -1604,7 +1689,10 @@ input[type="text"]::placeholder,
   padding: 5px 10px;
   border: 1px solid var(--border2);
   border-radius: 8px;
-  background: var(--surface);
+  /* var(--surface) resolves to literal white -- no pill on this site is ever
+     white (Hundred-and-fourth non-negotiable), same bug .chevron-link-pill
+     itself had. Neutral pill family's own nt-cream wash instead. */
+  background: var(--nt-cream-wash, #fdf8f0);
   white-space: nowrap;
   display: inline-block;
 }
@@ -1857,7 +1945,10 @@ a.bo-x-hit-cat:hover { border-color: #b0aca6; background: #f0ede8; text-decorati
   display: inline-flex; align-items: center; justify-content: center;
   font-size: 11.5px; font-weight: 500; color: var(--muted, #6a6660); text-decoration: none;
   padding: 5px 12px; border: 1.5px solid var(--border2); border-radius: 6px;
-  background: var(--surface); white-space: nowrap;
+  /* var(--surface) resolves to literal white -- no pill on this site is ever
+     white (Hundred-and-fourth non-negotiable). Neutral pill family's own
+     nt-cream wash instead. */
+  background: var(--nt-cream-wash, #fdf8f0); white-space: nowrap;
 }
 .showcase-links a:hover { border-color: #b0aca6; background: #f0ede8; color: #6a6660; }
 @media (max-width: 600px) and (pointer: coarse) {
@@ -2024,12 +2115,19 @@ select:focus-visible,
 }
 .pill.active .pill-count { background: rgba(255,255,255,.25); }
 
-/* ── Active (selected) filter chip — inverted terracotta state ── */
+/* ── Active (selected) filter chip — inverted terracotta state ──
+   var(--surface) resolved to literal white -- no pill on this site is ever
+   white (Hundred-and-fourth non-negotiable), selected or not. Pale
+   terracotta tint instead, same #fdf4ed/rgba(212,102,58,.16) light/dark
+   pair every other terracotta accent on the site already uses. */
 .filter-btn.active {
-  background: var(--surface);
+  background: #fdf4ed;
   border: 2px solid #C04E1A;
   color: #C04E1A;
   font-weight: 700;
+}
+@media (prefers-color-scheme: dark) {
+  .filter-btn.active { background: rgba(212,102,58,.16); border-color: #D4663A; color: #D4663A; }
 }
 /* Search/text inputs use border-color on :focus — no extra outline ring */
 input[type="search"]:focus-visible,
@@ -2093,13 +2191,19 @@ a.lounge-guide-link:visited { color: #6a6660; }  /* literal hex — browsers don
   align-items: center;
   justify-content: center;
   color: var(--muted);
+  /* No background was ever set here -- against a white card wrapper
+     (.ag-pack, guide sidebar cards, etc.) that reads as a literal white
+     pill, exactly what the Hundred-and-fourth non-negotiable bans. Now the
+     Neutral pill family's own nt-cream wash (web-travel-style.css) instead
+     of a bare literal. */
+  background: var(--nt-cream-wash, #fdf8f0);
   text-decoration: none;
   border: 1px solid var(--border2);
   border-radius: 8px;
   padding: 5px 8px;
   font-weight: 400;
   font-size: 14px;
-  transition: border-color .15s, color .15s;
+  transition: border-color .15s, color .15s, background .15s;
 }
 .chevron-link-pill::after { content: '\203A'; font-size: 17px; vertical-align: -1px; margin-left: 5px; }
 /* Neutral pressed-down hover -- terracotta is retired from pill fonts/hover
@@ -2375,10 +2479,13 @@ body.is-searching .hub-top { display:none!important; }
 .guide-pill {
   display: inline-flex; align-items: center; justify-content: center;
   font-family: inherit; padding: 6px 14px; border-radius: 6px; border: 1.5px solid var(--border);
-  background: var(--surface); font-size: 13px; font-weight: 400; color: var(--muted, #6a6660);
+  /* var(--surface) resolves to literal white -- no pill on this site is ever
+     white (Hundred-and-fourth non-negotiable). Neutral pill family's own
+     nt-cream wash instead. */
+  background: var(--nt-cream-wash, #fdf8f0); font-size: 13px; font-weight: 400; color: var(--muted, #6a6660);
   text-decoration: none; cursor: pointer; transition: all .15s; white-space: nowrap;
 }
-.guide-pill:hover { border-color: #b0aca6; background: #f0ede8; }
+.guide-pill:hover { border-color: rgba(var(--nt-grey-rgb),.75); background: var(--nt-grey-wash); }
 .guide-pill:visited { color: #6a6660; }  /* literal hex — browsers don't resolve var() in :visited */
 .guide-pill-chev { margin-left: 4px; color: currentColor; font-weight: 700; }
 

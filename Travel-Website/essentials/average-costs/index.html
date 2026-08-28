@@ -190,10 +190,7 @@ tr.ci-city[aria-expanded="true"] .ci-open { transform: rotate(90deg); color: var
 /* 2026-08-26: fixed drift -- moderate/very-expensive were still blue/purple
    here after BAND_FAM itself moved to yellow/red during the summer's
    simplification pass; these three never got updated to match. */
-.ci-c-cheap          { color: #123d32; }
-.ci-c-moderate       { color: #8a6a28; }
-.ci-c-expensive      { color: #4a2610; }
-.ci-c-very-expensive { color: #4a1108; }
+.ci-c-cheap, .ci-c-moderate, .ci-c-expensive, .ci-c-very-expensive { color: var(--sp-ink); }
 
 /* The expanded row: what is driving the tag. Was a mini <table>; is now three
    bento tiles — Rent / Eating out / Groceries, each with its own catalogue
@@ -608,7 +605,8 @@ var N_NAME=0, N_SLUG=1, N_COUNTRY=2, N_FLAG=3, N_IDX=4, N_BAND=5, N_VIA=6,
 
 var BAND_FAM = { 'Cheap':'green', 'Moderate':'yellow',
                  'Expensive':'orange', 'Very expensive':'red' };
-function bandClass(b) { return 'ci-c-' + b.toLowerCase().replace(/ /g, '-'); }
+var CI_C_CP={cheap:'cp-dark-teal',moderate:'cp-gold',expensive:'cp-terracotta','very-expensive':'cp-bright-red'};
+function bandClass(b) { var s=b.toLowerCase().replace(/ /g, '-'); return 'ci-c-'+s+' '+(CI_C_CP[s]||''); }
 /* The same cut points build_cost_page.py BANDS uses — kept in step by hand in
    exactly one place, here, and only because the sub-readings inside an opened
    row are tagged client-side. */

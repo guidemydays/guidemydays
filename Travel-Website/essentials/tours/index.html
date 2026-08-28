@@ -73,13 +73,7 @@
 }
 .ti-label { display: block; font-size: 13px; font-weight: 700; color: var(--text); line-height: 1.3; }
 a.tt-index-item:visited .ti-label { color: #3d3a32; }
-.tt-index-item.ti-yellow.active, .tt-index-item.ti-yellow:hover { border-left-color: #8a6a28; }
-.tt-index-item.ti-blue.active,   .tt-index-item.ti-blue:hover   { border-left-color: #163a5c; }
-.tt-index-item.ti-green.active,  .tt-index-item.ti-green:hover  { border-left-color: #123d32; }
-.tt-index-item.ti-orange.active, .tt-index-item.ti-orange:hover { border-left-color: #4a2610; }
-.tt-index-item.ti-purple.active, .tt-index-item.ti-purple:hover { border-left-color: #33195c; }
-.tt-index-item.ti-pink.active,   .tt-index-item.ti-pink:hover   { border-left-color: #6b2c48; }
-.tt-index-item.ti-grey.active,   .tt-index-item.ti-grey:hover   { border-left-color: #4a483f; }
+.tt-index-item[class*="cp-"].active, .tt-index-item[class*="cp-"]:hover { border-left-color: var(--sp-ink); }
 
 /* ── Chapters — each section is its own grid, its own gradient rim, its own
    ghost numeral. This is where the family color actually shows up on the
@@ -204,13 +198,19 @@ a.tt-index-item:visited .ti-label { color: #3d3a32; }
 }
 .tt-feature .tt-name { font-size: 21px; letter-spacing: -.01em; margin-bottom: 4px; }
 .tt-feature .tt-desc { font-size: 13px; }
-.tt-chapter.tc-yellow { --ci: #8a6a28; --cbg: #fdf3d3; --cbd: #d4b06a; }
-.tt-chapter.tc-blue   { --ci: #163a5c;   --cbg: #bfdcf5;   --cbd: #4e85c4; }
-.tt-chapter.tc-green  { --ci: #123d32;  --cbg: #7fc4b0;  --cbd: #2a7a66; }
-.tt-chapter.tc-orange { --ci: #4a2610; --cbg: #d9985f; --cbd: #9a5220; }
-.tt-chapter.tc-purple { --ci: #33195c; --cbg: #cbb8ec; --cbd: #6a3fb0; }
-.tt-chapter.tc-pink    { --ci: #6b2c48;   --cbg: #e8a8c0;   --cbd: #b0507a; }
-.tt-chapter.tc-grey   { --ci: #4a483f;   --cbg: #e2e1de;   --cbd: #a3a29c; }
+/* --ci/--cbg now just alias the real .cp-* wash/ink that markup carries
+   alongside .tc-* (2026-08-28) -- no more hex duplicate of a family that
+   already matched one exactly. --cbd stays its own per-family value: it's
+   a third, distinct gradient-rim tone with no shared token to read (none
+   of the seven match a cp-*/sb-*/sp-* value), used only for .tt-card's
+   border-image, page-specific decoration the badge system doesn't cover. */
+.tt-chapter.tc-yellow { --ci: var(--sp-ink); --cbg: var(--sp-wash); --cbd: #d4b06a; }
+.tt-chapter.tc-blue   { --ci: var(--sp-ink); --cbg: var(--sp-wash); --cbd: #4e85c4; }
+.tt-chapter.tc-green  { --ci: var(--sp-ink); --cbg: var(--sp-wash); --cbd: #2a7a66; }
+.tt-chapter.tc-orange { --ci: var(--sp-ink); --cbg: var(--sp-wash); --cbd: #9a5220; }
+.tt-chapter.tc-purple { --ci: var(--sp-ink); --cbg: var(--sp-wash); --cbd: #6a3fb0; }
+.tt-chapter.tc-pink    { --ci: var(--sp-ink); --cbg: var(--sp-wash); --cbd: #b0507a; }
+.tt-chapter.tc-grey   { --ci: var(--sp-ink); --cbg: var(--sp-wash); --cbd: #a3a29c; }
 
 @media (max-width: 860px) {
   .tt-layout { grid-template-columns: minmax(0, 1fr); }
@@ -225,13 +225,7 @@ a.tt-index-item:visited .ti-label { color: #3d3a32; }
   }
   .tt-index-item:hover, .tt-index-item.active { background: var(--warm); }
   .ti-num { display: none; }
-  .tt-index-item.ti-yellow.active, .tt-index-item.ti-yellow:hover { border-color: #8a6a28; }
-  .tt-index-item.ti-blue.active,   .tt-index-item.ti-blue:hover   { border-color: #163a5c; }
-  .tt-index-item.ti-green.active,  .tt-index-item.ti-green:hover  { border-color: #123d32; }
-  .tt-index-item.ti-orange.active, .tt-index-item.ti-orange:hover { border-color: #4a2610; }
-  .tt-index-item.ti-purple.active, .tt-index-item.ti-purple:hover { border-color: #33195c; }
-  .tt-index-item.ti-pink.active,   .tt-index-item.ti-pink:hover   { border-color: #6b2c48; }
-  .tt-index-item.ti-grey.active,   .tt-index-item.ti-grey:hover   { border-color: #4a483f; }
+  .tt-index-item[class*="cp-"].active, .tt-index-item[class*="cp-"]:hover { border-color: var(--sp-ink); }
 }
 /* Width-only safety net (no pointer gate): a nested auto-fill grid inside the
    .tt-layout column can under-measure its own available width and squeeze a
@@ -336,17 +330,17 @@ a.tt-index-item:visited .ti-label { color: #3d3a32; }
 
   <div class="tt-layout">
     <nav class="tt-index" aria-label="Jump to a section">
-      <a class="tt-index-item ti-yellow" href="#sec-worldwide" data-sec="sec-worldwide"><span class="ti-num">01</span><span class="ti-label">Worldwide</span></a>
-      <a class="tt-index-item ti-blue" href="#sec-regional" data-sec="sec-regional"><span class="ti-num">02</span><span class="ti-label">Regional</span></a>
-      <a class="tt-index-item ti-green" href="#sec-multiday" data-sec="sec-multiday"><span class="ti-num">03</span><span class="ti-label">Multi-day tours</span></a>
-      <a class="tt-index-item ti-orange" href="#sec-passes" data-sec="sec-passes"><span class="ti-num">04</span><span class="ti-label">Passes</span></a>
-      <a class="tt-index-item ti-purple" href="#sec-primary-tickets" data-sec="sec-primary-tickets"><span class="ti-num">05</span><span class="ti-label">Tickets</span></a>
-      <a class="tt-index-item ti-pink" href="#sec-resale" data-sec="sec-resale"><span class="ti-num">06</span><span class="ti-label">Resale</span></a>
-      <a class="tt-index-item ti-grey" href="#sec-whats-on" data-sec="sec-whats-on"><span class="ti-num">07</span><span class="ti-label">What's on</span></a>
+      <a class="tt-index-item ti-yellow cp-gold" href="#sec-worldwide" data-sec="sec-worldwide"><span class="ti-num">01</span><span class="ti-label">Worldwide</span></a>
+      <a class="tt-index-item ti-blue cp-blue" href="#sec-regional" data-sec="sec-regional"><span class="ti-num">02</span><span class="ti-label">Regional</span></a>
+      <a class="tt-index-item ti-green cp-dark-teal" href="#sec-multiday" data-sec="sec-multiday"><span class="ti-num">03</span><span class="ti-label">Multi-day tours</span></a>
+      <a class="tt-index-item ti-orange cp-terracotta" href="#sec-passes" data-sec="sec-passes"><span class="ti-num">04</span><span class="ti-label">Passes</span></a>
+      <a class="tt-index-item ti-purple cp-purple" href="#sec-primary-tickets" data-sec="sec-primary-tickets"><span class="ti-num">05</span><span class="ti-label">Tickets</span></a>
+      <a class="tt-index-item ti-pink cp-dark-pink" href="#sec-resale" data-sec="sec-resale"><span class="ti-num">06</span><span class="ti-label">Resale</span></a>
+      <a class="tt-index-item ti-grey cp-light-grey" href="#sec-whats-on" data-sec="sec-whats-on"><span class="ti-num">07</span><span class="ti-label">What's on</span></a>
     </nav>
 
     <div class="tt-content">
-  <div class="tt-chapter tc-yellow">
+  <div class="tt-chapter tc-yellow cp-gold">
     <div class="tt-section-label" id="sec-worldwide" data-n="01"><span class="tt-section-icon-wrap"><svg class="gm-i" viewBox="0 0 24 24" aria-hidden="true"><use href="#gm-i-10"/></svg></span>Tours &amp; Attractions — Worldwide</div>
     <div class="tt-section-note">These four cover most of the planet and compete on the same inventory, so the practical difference is price, cancellation terms and how the voucher works on the day. Two of them share a warehouse: TripAdvisor owns Viator, and the experiences you book on TripAdvisor are Viator's listings.</div>
     <div class="tt-grid">
@@ -486,7 +480,7 @@ a.tt-index-item:visited .ti-label { color: #3d3a32; }
     </div><!-- /tt-grid -->
   </div><!-- /tt-chapter -->
 
-  <div class="tt-chapter tc-blue">
+  <div class="tt-chapter tc-blue cp-blue">
     <div class="tt-section-label" id="sec-regional" data-n="02"><span class="tt-section-icon-wrap"><svg class="gm-i" viewBox="0 0 24 24" aria-hidden="true"><use href="#gm-i-4"/></svg></span>Tours &amp; Attractions — Regional Specialists</div>
     <div class="tt-section-note">Outside Western Europe and North America, a regional platform usually has inventory the global ones simply do not carry — local operators list where their customers already are. These are also where you find the things that are not tours at all: transport passes, SIM cards, airport transfers and theme-park tickets bundled into the same checkout.</div>
     <div class="tt-grid">
@@ -606,7 +600,7 @@ a.tt-index-item:visited .ti-label { color: #3d3a32; }
     </div><!-- /tt-grid -->
   </div><!-- /tt-chapter -->
 
-  <div class="tt-chapter tc-green">
+  <div class="tt-chapter tc-green cp-dark-teal">
     <div class="tt-section-label" id="sec-multiday" data-n="03"><span class="tt-section-icon-wrap"><svg class="gm-i" viewBox="0 0 24 24" aria-hidden="true"><use href="#gm-i-954"/></svg></span>Multi-Day &amp; Small-Group Tours</div>
     <div class="tt-section-note">Different product, different companies. These sell an entire trip — transport, accommodation, guide, most meals — over days or weeks, and most of them operate what they sell rather than reselling it. The decision here is style, not price: group size, average age, how much of each day is scheduled, and whether accommodation is a hostel, a three-star or a converted monastery. Read the day-by-day itinerary and the single-supplement charge before comparing headline prices.</div>
     <div class="tt-grid">
@@ -696,7 +690,7 @@ a.tt-index-item:visited .ti-label { color: #3d3a32; }
     </div><!-- /tt-grid -->
   </div><!-- /tt-chapter -->
 
-  <div class="tt-chapter tc-orange">
+  <div class="tt-chapter tc-orange cp-terracotta">
     <div class="tt-section-label" id="sec-passes" data-n="04"><span class="tt-section-icon-wrap"><svg class="gm-i" viewBox="0 0 24 24" aria-hidden="true"><use href="#gm-i-576"/></svg></span>Attraction Passes</div>
     <div class="tt-section-note">A pass is a bet: you pay once and it pays off only above a certain number of paid attractions per day. Two things decide whether it works — whether the sights you actually want are on the list, and whether the pass still requires a separate timed reservation at the busiest ones. Do the arithmetic against the individual ticket prices before buying; for a two-sight-a-day trip it usually loses.</div>
     <div class="tt-grid">
@@ -766,7 +760,7 @@ a.tt-index-item:visited .ti-label { color: #3d3a32; }
     </div><!-- /tt-grid -->
   </div><!-- /tt-chapter -->
 
-  <div class="tt-chapter tc-purple">
+  <div class="tt-chapter tc-purple cp-purple">
     <div class="tt-section-label" id="sec-primary-tickets" data-n="05"><span class="tt-section-icon-wrap"><svg class="gm-i" viewBox="0 0 24 24" aria-hidden="true"><use href="#gm-i-527"/></svg></span>Shows, Concerts &amp; Sport — Primary Tickets</div>
     <div class="tt-section-note">Primary means the ticket is issued by the event, at face value plus fees, and which company holds a given event is decided by the venue's contract — not by you. So the practical approach is the reverse of shopping around: find the event, see which platform the venue uses, and create the account before tickets go on sale. Popular events sell out in minutes and a queue is no place to be typing card details for the first time.</div>
     <div class="tt-grid">
@@ -936,7 +930,7 @@ a.tt-index-item:visited .ti-label { color: #3d3a32; }
     </div><!-- /tt-grid -->
   </div><!-- /tt-chapter -->
 
-  <div class="tt-chapter tc-pink">
+  <div class="tt-chapter tc-pink cp-dark-pink">
     <div class="tt-section-label" id="sec-resale" data-n="06"><span class="tt-section-icon-wrap"><svg class="gm-i" viewBox="0 0 24 24" aria-hidden="true"><use href="#gm-i-407"/></svg></span>Resale</div>
     <div class="tt-section-note">Resale is where sold-out events go, and where the money is lost. Prices float with demand and can sit far above or below face value — the same seat is often cheaper an hour before doors than it was a week earlier. Check the resale rules where you are going before paying a markup: several countries cap resale prices or ban above-face resale outright, and in the United Kingdom and much of the European Union a capped, face-value platform usually has the same ticket for less.</div>
     <div class="tt-grid">
@@ -1026,7 +1020,7 @@ a.tt-index-item:visited .ti-label { color: #3d3a32; }
     </div><!-- /tt-grid -->
   </div><!-- /tt-chapter -->
 
-  <div class="tt-chapter tc-grey">
+  <div class="tt-chapter tc-grey cp-light-grey">
     <div class="tt-section-label" id="sec-whats-on" data-n="07"><span class="tt-section-icon-wrap"><svg class="gm-i" viewBox="0 0 24 24" aria-hidden="true"><use href="#gm-i-46"/></svg></span>Finding Out What's On</div>
     <div class="tt-section-note">Half the problem is not buying a ticket but knowing an event exists. These are the tools for pointing at a city and a set of dates and seeing what is actually happening while you are there — often the difference between a good trip and a memorable one, and they cost nothing to check.</div>
     <div class="tt-grid">

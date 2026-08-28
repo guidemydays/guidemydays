@@ -2625,7 +2625,25 @@
    is-warn class names. Remapped. Also border-color: var(--sp-ink) (the
    family's own saturated ink) -> rgba(0,0,0,.1), matching every other
    cp-*-wash pill on the site. Page-local HTML, precached. CACHE to v1690. */
-var CACHE = 'travel-cache-v1690';
+/* 2026-08-27: sitewide hardcode-removal pass, owner: "remove all hard code
+   everywhere" / "why are they not using the shared CSS?" 13 pages'
+   cp-family/sb-family pills (fixed earlier this session for wrong borders) now carry
+   their real family class instead of a page-local hex duplicate --
+   essentials/{tipping,time-zones,sports-calendar,visa,transit-cards,scams,
+   airline-networks,baggage,pickleball,day-trips,packing,passport,safety}.
+   Two real bugs found in the process: essentials/visa's legend pill was
+   completely disconnected from GROUPS' own g.badgeCls (same visa category
+   showed a different color in the legend than in its etype/day-limit
+   badges); essentials/packing's "all done" state hardcoded cp-dark-teal's
+   hex on top of a sb-gold base pill, a Rule 12 mixing violation hiding on
+   one element. essentials/pickleball's .pb-nav turned out to be a genuine
+   jump-nav wearing a colored family + a literal white/terracotta active
+   state -- rebuilt to the standard neutral jump-nav treatment.
+   airlines.js: "All alliances" moved fam-en-grey -> cp-dark-grey (Enamel
+   is paused; that pill was ALSO mixing families with its 4 cp-* siblings).
+   MIN_VERSIONS['airlines.js'] to 9.
+   Page-local HTML, precached. CACHE to v1691. */
+var CACHE = 'travel-cache-v1691';
 /* 2026-08-27: airlines.css's .card-tags align-items fix changed a shared
    asset without raising its own floor -- MIN_VERSIONS['airlines.css'] to
    6, CACHE to v1662. */
@@ -2665,7 +2683,7 @@ var ICS_OUTBOX = 'gmd-ics-outbox';
    THIS IS THE ONLY PLACE to bump toolbar.js / guide-style.css versions.
    NEVER bump ?v= inside guide HTML — it breaks HMAC stamps and forces re-validation
    of 230+ guides. Instead, bump MIN_VERSIONS here + increment the CACHE version. */
-var MIN_VERSIONS = { 'guide-style.css': 267,'toolbar.js': 1095, 'mobile.css': 90, 'web-travel-style.css': 194, 'guides-index-style.css': 35, 'read-about.css': 6, 'best-of-features.js': 4, 'best-of-cross-data.js': 24, 'weather.js': 12, 'trains.css': 22, 'trains.js': 5, 'airlines.css': 7, 'airlines.js': 8, 'passport.js': 5, 'search-autocomplete.js': 9, 'flag-render.js': 2 };
+var MIN_VERSIONS = { 'guide-style.css': 267,'toolbar.js': 1095, 'mobile.css': 90, 'web-travel-style.css': 194, 'guides-index-style.css': 35, 'read-about.css': 6, 'best-of-features.js': 4, 'best-of-cross-data.js': 24, 'weather.js': 12, 'trains.css': 22, 'trains.js': 5, 'airlines.css': 7, 'airlines.js': 9, 'passport.js': 5, 'search-autocomplete.js': 9, 'flag-render.js': 2 };
 
 function rewriteAssetUrl(urlStr) {
   var u;

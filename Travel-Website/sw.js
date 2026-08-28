@@ -2715,7 +2715,14 @@
 /* 2026-08-28: Trip Escape: restore How different?/When/What/Language/Safety fields (owner reversal 2026-08-28) + new how-different sprite icon toolbar.js -> v1099. CACHE to v1715. */
 /* 2026-08-28: Cultural Faux Pas & Taboos nav link added to toolbar.js RES_GROUPS toolbar.js -> v1100. CACHE to v1717. */
 /* 2026-08-28: commit 4ebae8e17 wired the new Cultural Faux Pas page into toolbar.js's hamburger menu without bumping the cache floor toolbar.js -> v1101. CACHE to v1718. */
-var CACHE = 'travel-cache-v1719';
+/* 2026-08-28: Compare Cities -- guides/index.html's Compare panel gained the
+   Plug/voltage row the landing page's copy has carried since 2026-08-23 (the
+   two engines had drifted); both copies gained three new rows -- Population,
+   Life expectancy, Sunshine -- read from the new assets/world-stats.json
+   (built by Brain/scripts/build/build_world_stats.py from the same
+   Ask Your Guide dataset, fetched lazily like assets/quick-facts.json). No
+   shared JS/CSS asset moved, but both PAGES are precached. CACHE to v1720. */
+var CACHE = 'travel-cache-v1720';
 /* 2026-08-27: airlines.css's .card-tags align-items fix changed a shared
    asset without raising its own floor -- MIN_VERSIONS['airlines.css'] to
    6, CACHE to v1662. */

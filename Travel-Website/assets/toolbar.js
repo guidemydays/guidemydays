@@ -2676,6 +2676,7 @@ window.TVE.home = (function () {
       ['essentials/oceania-trains/',    'Oceania Train Guide'],
       ['essentials/train-passes/',      'Train Passes'],
       ['essentials/scenic-trains/',     'Scenic Trains'],
+      ['essentials/train-station-guide/', 'Train Station Survival Guide'],
       ['essentials/day-trips/',         'Day Trips']
     ] },
     { name: 'Getting around', links: [

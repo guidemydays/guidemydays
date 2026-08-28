@@ -2701,7 +2701,8 @@
    exceptions". .also-on-this-site-pill:active and .bo-compare-go:hover now
    read the token. MIN_VERSIONS['web-travel-style.css'] to 200. CACHE to
    v1701. */
-var CACHE = 'travel-cache-v1705';
+/* 2026-08-28: Add Train Station Survival Guide page + toolbar Trains entry toolbar.js -> v1096. CACHE to v1706. */
+var CACHE = 'travel-cache-v1706';
 /* 2026-08-27: airlines.css's .card-tags align-items fix changed a shared
    asset without raising its own floor -- MIN_VERSIONS['airlines.css'] to
    6, CACHE to v1662. */
@@ -2741,7 +2742,7 @@ var ICS_OUTBOX = 'gmd-ics-outbox';
    THIS IS THE ONLY PLACE to bump toolbar.js / guide-style.css versions.
    NEVER bump ?v= inside guide HTML — it breaks HMAC stamps and forces re-validation
    of 230+ guides. Instead, bump MIN_VERSIONS here + increment the CACHE version. */
-var MIN_VERSIONS = { 'guide-style.css': 270,'toolbar.js': 1095, 'mobile.css': 91, 'web-travel-style.css': 204, 'guides-index-style.css': 37, 'read-about.css': 7, 'best-of-features.js': 4, 'best-of-cross-data.js': 24, 'weather.js': 12, 'trains.css': 27, 'trains.js': 5, 'airlines.css': 8, 'airlines.js': 9, 'passport.js': 5, 'search-autocomplete.js': 9, 'flag-render.js': 2 };
+var MIN_VERSIONS = { 'guide-style.css': 270,'toolbar.js': 1096, 'mobile.css': 91, 'web-travel-style.css': 204, 'guides-index-style.css': 37, 'read-about.css': 7, 'best-of-features.js': 4, 'best-of-cross-data.js': 24, 'weather.js': 12, 'trains.css': 27, 'trains.js': 5, 'airlines.css': 8, 'airlines.js': 9, 'passport.js': 5, 'search-autocomplete.js': 9, 'flag-render.js': 2 };
 
 function rewriteAssetUrl(urlStr) {
   var u;

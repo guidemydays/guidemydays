@@ -2643,7 +2643,16 @@
    is paused; that pill was ALSO mixing families with its 4 cp-* siblings).
    MIN_VERSIONS['airlines.js'] to 9.
    Page-local HTML, precached. CACHE to v1691. */
-var CACHE = 'travel-cache-v1691';
+/* 2026-08-27: web-travel-style.css's .cont-btn:focus-visible (shared continent
+   index, 5 train guides + 7 airline directories) was the one state an earlier
+   terracotta-retirement pass on this component missed -- still var(--accent)
+   gold, no other role in the rule block. Now #b0aca6, matching its own
+   hover/.on border. Same pass, page-local: airline-networks' 4 carrier-strip
+   tabs (All three/Delta/United/American) had no shared width -- min-width:89px
+   added (NN100). essentials/apps' .jchip used background:var(--surface)
+   (literal white, NN104) -- now var(--warm).
+   MIN_VERSIONS['web-travel-style.css'] to 195. CACHE to v1692. */
+var CACHE = 'travel-cache-v1692';
 /* 2026-08-27: airlines.css's .card-tags align-items fix changed a shared
    asset without raising its own floor -- MIN_VERSIONS['airlines.css'] to
    6, CACHE to v1662. */
@@ -2683,7 +2692,7 @@ var ICS_OUTBOX = 'gmd-ics-outbox';
    THIS IS THE ONLY PLACE to bump toolbar.js / guide-style.css versions.
    NEVER bump ?v= inside guide HTML — it breaks HMAC stamps and forces re-validation
    of 230+ guides. Instead, bump MIN_VERSIONS here + increment the CACHE version. */
-var MIN_VERSIONS = { 'guide-style.css': 267,'toolbar.js': 1095, 'mobile.css': 90, 'web-travel-style.css': 194, 'guides-index-style.css': 35, 'read-about.css': 6, 'best-of-features.js': 4, 'best-of-cross-data.js': 24, 'weather.js': 12, 'trains.css': 22, 'trains.js': 5, 'airlines.css': 7, 'airlines.js': 9, 'passport.js': 5, 'search-autocomplete.js': 9, 'flag-render.js': 2 };
+var MIN_VERSIONS = { 'guide-style.css': 267,'toolbar.js': 1095, 'mobile.css': 90, 'web-travel-style.css': 195, 'guides-index-style.css': 35, 'read-about.css': 6, 'best-of-features.js': 4, 'best-of-cross-data.js': 24, 'weather.js': 12, 'trains.css': 22, 'trains.js': 5, 'airlines.css': 7, 'airlines.js': 9, 'passport.js': 5, 'search-autocomplete.js': 9, 'flag-render.js': 2 };
 
 function rewriteAssetUrl(urlStr) {
   var u;

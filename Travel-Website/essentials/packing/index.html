@@ -7,13 +7,12 @@
 <title>Travel Packing Checklist | Guide My Days</title>
 <style>
 .progress-track { background: var(--border2); border-radius: 2px; height: 3px; }
-.progress-fill { height: 3px; border-radius: 2px; background: #7a5c0e; transition: width 0.35s ease; width: 0%; }
-/* Owner-set look, reverted 2026-08-26 after an Enamel-Grey pass changed it:
-   "the button on rest was right and i made sure to be that look." Do not
-   re-convert this to a family token again. */
-.reset-btn { margin-top: 14px; font-size: 12px; letter-spacing: 0.18em; color: #7a5c0e; text-transform: uppercase; display: inline-flex; align-items: center; justify-content: center; font-family: inherit; font-weight: 700; background: #fdf8ee; border: 1.5px solid #d8c080; border-radius: 999px; padding: 5px 13px; cursor: pointer; transition: filter 0.15s, transform 0.1s; }
-.reset-btn:hover { filter: brightness(.94); }
-.reset-btn:active { filter: brightness(.85); transform: translateY(1px) scale(.98); }
+.progress-fill { height: 3px; border-radius: 2px; background: var(--sp-ink); transition: width 0.35s ease; width: 0%; }
+/* 2026-08-27: box, colour, and hover/active all come from the shared
+   .selection-pill-sm + .sp-beige + .hov-press classes now (markup below).
+   This local rule is a layout hook only -- letter-spacing/case/margin, the
+   parts .selection-pill-sm doesn't already set. */
+.reset-btn { margin-top: 14px; letter-spacing: 0.18em; text-transform: uppercase; }
 .section-card, .critical-card {
  border: 1px solid var(--border);
  border-top: 3px solid var(--gold);
@@ -27,8 +26,8 @@
  align-items: center;
  gap: 12px;
  padding: 12px 18px;
- border-bottom: 1px solid #e8d8a0;
- background: #fdf8ee;
+ border-bottom: 1px solid rgba(var(--sp-rgb),.45);
+ background: var(--sp-wash);
 }
 .card-icon { font-size: 18px; line-height: 1; flex-shrink: 0; }
 /* ── PACKING CATEGORY ICONS ────────────────────────────────────────────────
@@ -54,7 +53,7 @@
 .card-title {
  font-size: 12px;
  letter-spacing: 0.18em;
- color: #7a5c0e;
+ color: var(--sp-ink);
  text-transform: uppercase;
  flex: 1;
  font-weight: 700;
@@ -69,7 +68,7 @@
 .sub-label {
  font-size: 12px;
  letter-spacing: 0.16em;
- color: #7a5c0e;
+ color: var(--sp-ink);
  text-transform: uppercase;
  padding: 16px 0 8px;
  border-bottom: 1px solid var(--border2);
@@ -87,7 +86,7 @@
 .item input[type="checkbox"] {
  appearance: none; -webkit-appearance: none;
  width: 18px; height: 18px; min-width: 18px;
- border: 1.5px solid #d8c080;
+ border: 1.5px solid rgba(var(--sp-rgb),.45);
  border-radius: 3px;
  background: var(--surface);
  cursor: pointer;
@@ -96,8 +95,8 @@
  flex-shrink: 0;
  transition: background 0.15s, border-color 0.15s;
 }
-.item input[type="checkbox"]:hover { border-color: #7a5c0e; }
-.item input[type="checkbox"]:checked { background: #7a5c0e; border-color: #7a5c0e; }
+.item input[type="checkbox"]:hover { border-color: var(--sp-ink); }
+.item input[type="checkbox"]:checked { background: var(--sp-ink); border-color: var(--sp-ink); }
 .item input[type="checkbox"]:checked::after {
  content: '';
  position: absolute;
@@ -120,8 +119,8 @@
  background: var(--bg);
  border-radius: 0 3px 3px 0;
 }
-.callout.amber { border-left-color: var(--accent); background: #fdf8ee; color: #7a5c0e; }
-.callout.amber strong { color: #7a5c0e; font-weight: 600; }
+.callout.amber { border-left-color: var(--accent); background: var(--sp-wash); color: var(--sp-ink); }
+.callout.amber strong { color: var(--sp-ink); font-weight: 600; }
 .callout strong { color: #3a3530; font-weight: 600; }
 @media (max-width: 600px) and (pointer: coarse) {
  .card-header { padding: 13px 14px; }
@@ -134,9 +133,9 @@ html { scroll-behavior: smooth; }
 .section-card:hover  { box-shadow: 0 4px 14px rgba(0,0,0,0.07); transform: translateY(-1px); }
 .critical-card { transition: box-shadow .18s, transform .18s; }
 .critical-card:hover { box-shadow: 0 4px 14px rgba(0,0,0,0.07); transform: translateY(-1px); }
-.print-btn { margin-top: 14px; margin-left: 8px; font-size: 12px; letter-spacing: 0.18em; color: #7a5c0e; text-transform: uppercase; display: inline-flex; align-items: center; justify-content: center; font-family: inherit; font-weight: 700; background: #fdf8ee; border: 1.5px solid #d8c080; border-radius: 999px; padding: 5px 13px; cursor: pointer; transition: filter 0.15s, transform 0.1s; }
-.print-btn:hover { filter: brightness(.94); }
-.print-btn:active { filter: brightness(.85); transform: translateY(1px) scale(.98); }
+/* Same layout-hook-only pattern as .reset-btn above -- box/colour/hover
+   come from .selection-pill-sm + .sp-beige + .hov-press. */
+.print-btn { margin-top: 14px; margin-left: 8px; letter-spacing: 0.18em; text-transform: uppercase; }
 .summary {
  display: flex; align-items: center; gap: 20px;
  margin-top: 22px; padding: 16px 20px;
@@ -146,16 +145,16 @@ html { scroll-behavior: smooth; }
 .ring svg { transform: rotate(-90deg); display: block; }
 .ring-bg { fill: none; stroke: var(--border2); stroke-width: 9; }
 .ring-fg {
- fill: none; stroke: #7a5c0e; stroke-width: 9; stroke-linecap: round;
+ fill: none; stroke: var(--sp-ink); stroke-width: 9; stroke-linecap: round;
  stroke-dasharray: 326.726; stroke-dashoffset: 326.726;
 }
 .ring-pct {
  position: absolute; inset: 0; display: flex; align-items: center; justify-content: center;
- font-size: 21px; font-weight: 700; color: #7a5c0e; letter-spacing: -0.02em;
+ font-size: 21px; font-weight: 700; color: var(--sp-ink); letter-spacing: -0.02em;
 }
 .summary-stats { flex: 1; min-width: 0; }
 .summary-big { font-size: 18px; font-weight: 400; color: var(--muted); margin-bottom: 3px; }
-.summary-big b { color: #7a5c0e; font-weight: 700; }
+.summary-big b { color: var(--sp-ink); font-weight: 700; }
 .summary-sub { font-size: 18px; color: var(--muted); margin-bottom: 11px; line-height: 1.5; }
 .summary-sub b { color: #3d3a32; font-weight: 600; }
 .summary .progress-track { margin: 0; }
@@ -164,23 +163,23 @@ html { scroll-behavior: smooth; }
 .trip-setup {
  display: flex; align-items: center; flex-wrap: wrap; gap: 8px 16px;
  margin-top: 16px; padding: 14px 20px;
- background: #fdf8ee; border: 1px solid #e8d8a0; border-radius: 8px;
+ background: var(--sp-wash); border: 1px solid rgba(var(--sp-rgb),.45); border-radius: 8px;
 }
-.setup-label { font-size: 12px; letter-spacing: 0.16em; text-transform: uppercase; font-weight: 700; color: #7a5c0e; }
+.setup-label { font-size: 12px; letter-spacing: 0.16em; text-transform: uppercase; font-weight: 700; color: var(--sp-ink); }
 .day-stepper { display: flex; align-items: center; gap: 4px; }
 .day-stepper button {
- width: 30px; height: 30px; font-size: 18px; line-height: 1; color: #7a5c0e;
- background: var(--surface); border: 1px solid #d8c080; border-radius: 999px; cursor: pointer;
+ width: 30px; height: 30px; font-size: 18px; line-height: 1; color: var(--sp-ink);
+ background: var(--surface); border: 1px solid rgba(var(--sp-rgb),.45); border-radius: 999px; cursor: pointer;
  display: flex; align-items: center; justify-content: center; transition: background .15s, border-color .15s;
 }
 .day-stepper button:hover { background: var(--bg, #f5f4f0); border-color: var(--rust); }
 .day-stepper input {
  width: 50px; height: 30px; text-align: center; font-size: 16px; font-weight: 700; color: #3d3a32;
- border: 1px solid #d8c080; border-radius: 6px; background: var(--surface); -moz-appearance: textfield;
+ border: 1px solid rgba(var(--sp-rgb),.45); border-radius: 6px; background: var(--surface); -moz-appearance: textfield;
 }
 .day-stepper input::-webkit-outer-spin-button, .day-stepper input::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
-.day-unit { font-size: 13px; color: #7a5c0e; font-weight: 600; }
-.setup-note { font-size: 12px; color: #7a5c0e; flex: 1; min-width: 180px; }
+.day-unit { font-size: 13px; color: var(--sp-ink); font-weight: 600; }
+.setup-note { font-size: 12px; color: var(--sp-ink); flex: 1; min-width: 180px; }
 /* Readout, not a badge: a circular number chip (same size/weight as the
    earlier bold-number treatment) followed by a plain phrase naming what's
    being counted, so the row reads as a computed result on its own. */
@@ -188,7 +187,7 @@ html { scroll-behavior: smooth; }
 .qty-circle {
  display: inline-flex; align-items: center; justify-content: center;
  min-width: 22px; height: 22px; padding: 0 4px; border-radius: 999px;
- background: #fdf8ee; border: 1px solid #d8c080; color: #7a5c0e;
+ background: var(--sp-wash); border: 1px solid rgba(var(--sp-rgb),.45); color: var(--sp-ink);
  font-size: 13px; font-weight: 700; font-variant-numeric: tabular-nums; flex-shrink: 0;
 }
 .qty-phrase { font-size: 14px; color: var(--muted); }
@@ -211,25 +210,13 @@ html { scroll-behavior: smooth; }
 .extras-phrase { font-size: 14px; color: var(--muted); }
 .item.checked .extras-circle { background: var(--surface2); border-color: var(--border); color: #b0aaa2; }
 .item.checked .extras-phrase { color: #b0aaa2; }
-/* Shared resting look for the action-row's non-text-button controls (currently
-   just the toolbar.js-injected "Save for Offline") — same shape, caps and
-   owner-locked gold as .reset-btn/.print-btn so the row reads as one set.
-   Terracotta is NOT an approved pill color (locked to .sibling-pill alone)
-   and this resting look is owner-locked (see the comment above .reset-btn)
-   -- never re-add var(--rust)/#C04E1A or re-convert to a family token here.
-   Hover/active use the approved "press" treatment (brightness filter only,
-   selection-pills-badges-pills-to-badge-dots.html § hov-press) so the box
-   never needs its own hover hex. */
-.toggle-btn {
- font-size: 12px; font-weight: 700; letter-spacing: 0.18em; color: #7a5c0e; text-transform: uppercase;
- background: #fdf8ee; border: 1.5px solid #d8c080; border-radius: 999px; padding: 5px 13px;
- cursor: pointer; transition: filter .15s, transform .1s;
-}
-.toggle-btn:hover { filter: brightness(.94); }
-.toggle-btn:active { filter: brightness(.85); transform: translateY(1px) scale(.98); }
+/* Same layout-hook-only pattern as .reset-btn/.print-btn -- box/colour/
+   hover come from .selection-pill-sm + .sp-beige + .hov-press (markup on
+   the toolbar.js-injected "Save for Offline" control). */
+.toggle-btn { letter-spacing: 0.18em; text-transform: uppercase; }
 .collapsible-card { border: 1px solid var(--border); border-top: 3px solid var(--gold); border-radius: 6px; overflow: hidden; margin-bottom: 16px; background: var(--surface); }
-.collapsible-card .card-header { display: flex; align-items: center; gap: 12px; padding: 12px 18px; border-bottom: 1px solid #e8d8a0; background: #fdf8ee; cursor: pointer; user-select: none; }
-.collapsible-card .card-header:hover { background: #faf3e2; }
+.collapsible-card .card-header { display: flex; align-items: center; gap: 12px; padding: 12px 18px; border-bottom: 1px solid rgba(var(--sp-rgb),.45); background: var(--sp-wash); cursor: pointer; user-select: none; }
+.collapsible-card .card-header:hover { background: color-mix(in srgb, var(--sp-wash), black 4%); }
 .collapsible-chevron { margin-left: auto; font-size: 13px; color: var(--muted); transition: transform 0.2s; flex-shrink: 0; }
 .collapsible-card.open .collapsible-chevron { transform: rotate(180deg); }
 .collapsible-card .card-body { display: none; padding: 10px 18px; }
@@ -253,7 +240,7 @@ html { scroll-behavior: smooth; }
 @media (prefers-color-scheme: dark) {
   .day-stepper button { color: #c8a060; border-color: var(--border); }
   .day-stepper input { color: var(--text); border-color: var(--border); }
-  .qty-circle { background: var(--surface2); border-color: #7a5c0e; color: #c8a060; }
+  .qty-circle { background: var(--surface2); border-color: var(--sp-ink); color: #c8a060; }
   .item.checked .qty-circle { color: var(--muted); border-color: var(--border); }
   .item.checked .qty-phrase { color: var(--muted); }
   .item.checked .extras-circle { color: var(--muted); border-color: var(--border); }
@@ -271,10 +258,8 @@ html { scroll-behavior: smooth; }
   .summary-big { color: var(--text); }
   .summary-sub b { color: var(--text); }
   .card-title { color: #c8a060; }
-  .reset-btn, .print-btn, .toggle-btn { color: #d4a830; background: var(--surface, #2a2825); border-color: rgba(212,168,48,.4); }
-  .reset-btn:hover, .print-btn:hover, .toggle-btn:hover { filter: brightness(1.25); }
   .sub-label { color: #c8a060; }
-  .item input[type="checkbox"] { border-color: #7a5c0e; }
+  .item input[type="checkbox"] { border-color: var(--sp-ink); }
   .item input[type="checkbox"]:checked { background: #c8a060; border-color: #c8a060; }
   .ring-fg, .ring-pct, .summary-big b, .progress-fill { color: #c8a060; stroke: #c8a060; }
   .progress-fill { background: #c8a060; }
@@ -307,7 +292,7 @@ html { scroll-behavior: smooth; }
 <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"WebPage","@id":"https://guidemydays.com/essentials/packing/#page","name":"Travel Packing Checklist","description":"A packing checklist that scales to trip length: set the days and clothing quantities update — covering tasks, what to charge, documents, toiletries and gear.","url":"https://guidemydays.com/essentials/packing/","inLanguage":"en","isPartOf":{"@id":"https://guidemydays.com/#website"}},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://guidemydays.com/"},{"@type":"ListItem","position":2,"name":"Travel Packing Checklist","item":"https://guidemydays.com/essentials/packing/"}]}]}</script>
 <!-- seo:end -->
 </head>
-<body>
+<body class="sp-beige">
 
 <div id="toolbar-mount" data-depth="2" data-maxwidth="940" data-updated="2026-06-18"></div>
 <script src="/assets/toolbar.js?v=127"></script>
@@ -361,8 +346,8 @@ html { scroll-behavior: smooth; }
  </div>
  </div>
  <div class="action-row">
- <button class="reset-btn" onclick="resetAll()">↺ &nbsp;Reset all</button>
- <button data-icon="896" class="print-btn" onclick="window.print()"><svg data-fill="0.90" viewBox="0 0 24 24"><rect x="6.4" y="2.2" width="11.2" height="5.2" rx="0.6" fill="url(#gm-cream)" stroke="var(--c-rim-warm)" stroke-width="0.6"/><rect x="2.4" y="7.2" width="19.2" height="9.4" rx="2" fill="url(#gm-navy)" stroke="var(--c-navy-rim)" stroke-width="0.5"/><rect x="4.4" y="9.4" width="3.6" height="1.8" rx="0.9" fill="url(#gm-sky)" stroke="var(--c-sky-rim)" stroke-width="0.5"/><circle cx="18.6" cy="10.3" r="1.2" fill="url(#gm-green)" stroke="var(--c-green-rim)" stroke-width="0.5"/><rect x="6.4" y="14.2" width="11.2" height="7.6" rx="0.6" fill="url(#gm-paper)" stroke="var(--c-rim-cool)" stroke-width="0.6"/><rect x="8.4" y="16.6" width="7.2" height="1.3" rx="0.65" fill="url(#gm-stone)" stroke="var(--c-stone-rim)" stroke-width="0.5"/><rect x="8.4" y="19" width="4.6" height="1.3" rx="0.65" fill="url(#gm-stone)" stroke="var(--c-stone-rim)" stroke-width="0.5"/></svg>&nbsp;Print list</button>
+ <button class="reset-btn selection-pill-sm sp-beige hov-press" onclick="resetAll()">↺ &nbsp;Reset all</button>
+ <button data-icon="896" class="print-btn selection-pill-sm sp-beige hov-press" onclick="window.print()"><svg data-fill="0.90" viewBox="0 0 24 24"><rect x="6.4" y="2.2" width="11.2" height="5.2" rx="0.6" fill="url(#gm-cream)" stroke="var(--c-rim-warm)" stroke-width="0.6"/><rect x="2.4" y="7.2" width="19.2" height="9.4" rx="2" fill="url(#gm-navy)" stroke="var(--c-navy-rim)" stroke-width="0.5"/><rect x="4.4" y="9.4" width="3.6" height="1.8" rx="0.9" fill="url(#gm-sky)" stroke="var(--c-sky-rim)" stroke-width="0.5"/><circle cx="18.6" cy="10.3" r="1.2" fill="url(#gm-green)" stroke="var(--c-green-rim)" stroke-width="0.5"/><rect x="6.4" y="14.2" width="11.2" height="7.6" rx="0.6" fill="url(#gm-paper)" stroke="var(--c-rim-cool)" stroke-width="0.6"/><rect x="8.4" y="16.6" width="7.2" height="1.3" rx="0.65" fill="url(#gm-stone)" stroke="var(--c-stone-rim)" stroke-width="0.5"/><rect x="8.4" y="19" width="4.6" height="1.3" rx="0.65" fill="url(#gm-stone)" stroke="var(--c-stone-rim)" stroke-width="0.5"/></svg>&nbsp;Print list</button>
  </div>
 
  <div class="section-card">

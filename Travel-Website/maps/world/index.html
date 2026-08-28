@@ -87,52 +87,38 @@
   #region-nav { display:flex; flex-direction:column; gap:4px; }
   .rn { padding:5px 14px; border-radius:20px; border:1.5px solid #d8d4cc; background:var(--bg, #f5f4f0); color:#6b4422; font-size: 12px; font-weight:600; text-decoration:none; white-space:nowrap; display:flex; align-items:center; gap:5px; transition:background .12s,border-color .12s; cursor:pointer; }
   .rn::before { content:''; width:7px; height:7px; border-radius:50%; flex-shrink:0; }
-/* Each .rn-{region} sets its own bg/border/color with !important, so a plain
-   background/border-color hover here never actually shows — dead code that
-   read as "no hover at all". filter isn't fought over by anything, so this
-   is the one property that can darken every region's own color on hover
-   without touching any of its identity. */
+/* 2026-08-27: every .rn-{region} used to hand-pick its own bg/border/ink —
+   9 invented triplets, none of them a real .cp-*/.sb-* family. Site carries
+   exactly 2 approved families (owner rule) -- every region now maps to a
+   distinct .cp-* hue (markup below), box/colour come from the shared
+   [class*="cp-"] rule right after, and !important is gone with it (nothing
+   left to out-rank). filter isn't fought over by anything, so this is the
+   one property that can darken every region's own colour on hover without
+   touching any of its identity. */
 .rn:hover { filter: brightness(.97); }
-  .rn-wd  { background:#eee9e2 !important; border-color:#c4bcae !important; color:#5a5446 !important; }
-  .rn-wd::before  { background:#C04E1A; }
-  .rn-eu  { background:#fde8e8 !important; border-color:#f0a0a0 !important; color:var(--red, #a02020) !important; }
-  .rn-eu::before  { background:#C04E1A; }
-  .rn-na  { background:#fdf0e4 !important; border-color:#f0b878 !important; color:#8a3a08 !important; }
-  .rn-na::before  { background:#C04E1A; }
-  .rn-cb  { background:#d8efe9 !important; border-color:#7fcabd !important; color:#0c6b5d !important; }
-  .rn-cb::before  { background:#C04E1A; }
-  .rn-as  { background:#fdf5d8 !important; border-color:#e8d060 !important; color:#7a5000 !important; }
-  .rn-as::before  { background:#C04E1A; }
-  .rn-af  { background:#e4f5e8 !important; border-color:#90d0a0 !important; color:#1a6030 !important; }
-  .rn-af::before  { background:#C04E1A; }
-  .rn-sa  { background:#e4eef8 !important; border-color:#90b8e8 !important; color:var(--navy, #1a3a8b) !important; }
-  .rn-sa::before  { background:#C04E1A; }
-  .rn-oc  { background:#f0e8f8 !important; border-color:#c090e0 !important; color:#4a1880 !important; }
-  .rn-oc::before  { background:#C04E1A; }
-  .rn-vs  { background:#fdf5d8 !important; border-color:#d8c87a !important; color:#7a6000 !important; -webkit-appearance:none; appearance:none; box-sizing:border-box; line-height:19.2px; }
-  .rn-vs::before  { background:#c8940a; }
+.rn[class*="cp-"] { background: var(--sp-wash); border-color: rgba(0,0,0,.1); color: var(--sp-ink); }
+.rn[class*="cp-"]::before { background: var(--sp-ink); }
   /* Outlined, not filled — selected is never a solid terracotta fill (Twenty-
      fourth non-negotiable: filled is for true CTAs only). Was
-     background:#C04E1A + light text, the banned pattern. */
-  .rn-vs.rn-on { background:var(--surface,#fff) !important; color:var(--rust) !important; border-color:var(--rust) !important; }
+     background:#C04E1A + light text, the banned pattern.
+     .rn-vs no longer exists in markup (the mobile Visited pill is
+     #visited-pill-mobile now) -- the dead .rn-vs.rn-on copy of this exact
+     rule is gone with it. */
   .rn.rn-on { background:var(--surface,#fff) !important; color:var(--rust) !important; border-color:var(--rust) !important; }
   .rn.rn-on::before { background:var(--rust); }
 
-  /* Dark mode for the mobile Visited pill. Its colours are hardcoded twice — once in
-     the button's own style="" attribute and again by toggleVisitedMobile(), which
-     assigns btn.style.background/color/borderColor on every tap. CSS !important beats
-     an inline style that has none, so these rules win in both cases without touching
-     the markup or the handler; keying on [data-on] keeps the off/on states distinct
-     (the handler sets that attribute too). Cream #fdf5d8 read as a bright chip on a
-     dark map. */
-  @media (prefers-color-scheme: dark) {
-    #visited-pill-mobile:not([data-on="1"]) { background:var(--surface,#2a2825) !important; border-color:var(--accent,#8a6c1a) !important; color:#e8c97a !important; }
-    #visited-pill-mobile:not([data-on="1"]) span { background:#c8a040 !important; }
-    #visited-pill-mobile[data-on="1"] { background:var(--accent,#8a6c1a) !important; border-color:#c8a040 !important; color:#fff !important; }
-  }
-  :root[data-theme="dark"] #visited-pill-mobile:not([data-on="1"]) { background:var(--surface,#2a2825) !important; border-color:var(--accent,#8a6c1a) !important; color:#e8c97a !important; }
-  :root[data-theme="dark"] #visited-pill-mobile:not([data-on="1"]) span { background:#c8a040 !important; }
-  :root[data-theme="dark"] #visited-pill-mobile[data-on="1"] { background:var(--accent,#8a6c1a) !important; border-color:#c8a040 !important; color:#fff !important; }
+  /* 2026-08-27: the mobile Visited pill's colours were hardcoded THREE times —
+     the button's own inline style="", toggleVisitedMobile()'s JS (which set
+     btn.style.background/color/borderColor on every tap), and a dark-mode
+     override that existed only because !important was the sole way to beat
+     an inline style that had none. All three are gone: the button now carries
+     .cp-brown, [data-on] alone drives the two states below, and .cp-* is the
+     same value in both themes (no dark-mode copy needed — every other pill
+     on the site works this way). */
+  #visited-pill-mobile { border: 1.5px solid; background: var(--sp-wash); border-color: rgba(0,0,0,.1); color: var(--sp-ink); }
+  #visited-pill-mobile .vp-dot { background: var(--sp-ink); }
+  #visited-pill-mobile[data-on="1"] { background: var(--sp-ink); border-color: var(--sp-ink); color: #fff; }
+  #visited-pill-mobile[data-on="1"] .vp-dot { background: rgba(255,255,255,.7); }
 
   /* Uniform pill width so no label sizes the panel differently. */
   #left-panel .rn { width: 100%; }
@@ -279,10 +265,10 @@ function beenPaintCount() {
 function toggleVisitedMobile(btn) {
   var on = btn.getAttribute('data-on') !== '1';
   btn.setAttribute('data-on', on ? '1' : '0');
-  btn.style.background = on ? '#c8940a' : '#fdf5d8';
-  btn.style.color = on ? '#fff' : '#7a6000';
-  btn.style.borderColor = on ? '#a07000' : '#d8c87a';
-  btn.querySelector('span').style.background = on ? 'rgba(255,255,255,0.7)' : '#c8940a';
+  /* Colour was set here as inline style, on top of a matching CSS block that
+     existed only to !important its way past this exact JS. [data-on] alone
+     now drives both states (CSS above) -- nothing left for this function to
+     paint. */
   if (window.applyVisitedFilter) window.applyVisitedFilter(on);
   /* The bar rides this toggle — see minePaintBar. applyVisitedFilter already
      calls beenPaintCount, but not on the pages where it has not been defined
@@ -443,8 +429,8 @@ function clearMine() {
              style="display:none;width:100%;box-sizing:border-box;border:1px solid #e6e2da;border-radius:8px;padding:5px 8px;font:inherit;font-size:11px;color:#6a6660;background:#faf8f4;">
     </div>
     <div style="display:flex;align-items:center;gap:8px;">
-      <button id="visited-pill-mobile" onclick="toggleVisitedMobile(this)" style="background:#fdf5d8;border:1.5px solid #d8c87a;border-radius:20px;height:28px;padding:0 16px;font-size:12px;font-weight:600;color:#7a6000;cursor:pointer;font-family:inherit;align-items:center;gap:7px;box-shadow:0 2px 10px rgba(0,0,0,0.15);white-space:nowrap;" aria-label="Show the cities you have marked">
-        <span style="width:8px;height:8px;border-radius:50%;background:#c8940a;flex-shrink:0;display:inline-block;"></span> <span id="visited-pill-count">Visited</span>
+      <button id="visited-pill-mobile" class="cp-brown" onclick="toggleVisitedMobile(this)" style="border-radius:20px;height:28px;padding:0 16px;font-size:12px;font-weight:600;cursor:pointer;font-family:inherit;align-items:center;gap:7px;box-shadow:0 2px 10px rgba(0,0,0,0.15);white-space:nowrap;" aria-label="Show the cities you have marked">
+        <span class="vp-dot" style="width:8px;height:8px;border-radius:50%;flex-shrink:0;display:inline-block;"></span> <span id="visited-pill-count">Visited</span>
       </button>
     </div>
   </div>
@@ -473,14 +459,14 @@ function clearMine() {
     <div id="left-panel">
       <span class="panel-section-label">Guides</span>
       <div id="region-nav">
-        <a class="rn rn-wd rn-on" data-region="world" href="#">World</a>
-        <a class="rn rn-eu" data-region="eu" href="#">Europe</a>
-        <a class="rn rn-na" data-region="na" href="#">N. America</a>
-        <a class="rn rn-cb" data-region="cb" href="#">Caribbean</a>
-        <a class="rn rn-as" data-region="as" href="#">Asia</a>
-        <a class="rn rn-af" data-region="af" href="#">Africa</a>
-        <a class="rn rn-sa" data-region="sa" href="#">S. America</a>
-        <a class="rn rn-oc" data-region="oc" href="#">Oceania</a>
+        <a class="rn rn-wd rn-on cp-light-grey" data-region="world" href="#">World</a>
+        <a class="rn rn-eu cp-bright-red" data-region="eu" href="#">Europe</a>
+        <a class="rn rn-na cp-terracotta" data-region="na" href="#">N. America</a>
+        <a class="rn rn-cb cp-dark-teal" data-region="cb" href="#">Caribbean</a>
+        <a class="rn rn-as cp-gold" data-region="as" href="#">Asia</a>
+        <a class="rn rn-af cp-light-teal" data-region="af" href="#">Africa</a>
+        <a class="rn rn-sa cp-blue" data-region="sa" href="#">S. America</a>
+        <a class="rn rn-oc cp-purple" data-region="oc" href="#">Oceania</a>
       </div>
     </div>
   </div>
@@ -1465,10 +1451,9 @@ function buildPins() {
   if (restored) {
     window.applyVisitedFilter(true);
     const vm = document.getElementById('visited-pill-mobile');
+    /* [data-on="1"] alone drives colour now (CSS, .cp-brown) -- no inline
+       style left to set here, same as toggleVisitedMobile(). */
     if (vm) vm.setAttribute('data-on', '1');
-    if (vm) { vm.style.background = '#c8940a'; vm.style.color = '#fff'; vm.style.borderColor = '#a07000'; }
-    const dot = vm && vm.querySelector('span');
-    if (dot) dot.style.background = 'rgba(255,255,255,0.7)';
     beenPaintCount();
     mineSay('Restored ' + restored + ' place' + (restored === 1 ? '' : 's') + ' to this browser.');
   }

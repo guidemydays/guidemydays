@@ -5,18 +5,12 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link rel="stylesheet" href="/assets/web-travel-style.css">
 <title>Tipping Customs by Country | Guide My Days</title>
-<style>/* ── Tipping norm palette ── */
-:root {
-  /* 2026-08-26: repointed at live Enamel tokens (paused Vibrant --fam-*-ink
-     retired). Also swapped appreciated blue -> yellow and check yellow ->
-     orange: green/blue/gold/grey read as four unrelated hues, not a scale —
-     green -> yellow -> orange -> grey reads strongest-expectation to
-     doesn't-apply, matching the heat-scale fix on essentials/average-costs. */
-  --c-expected:    #123d32;
-  --c-appreciated: #8a6a28;
-  --c-check:       #4a2610;
-  --c-skip:        #4a483f;
-}
+<style>/* ── Tipping norm palette — 2026-08-27: the local --c-* hex quad is gone.
+   .country-row now also carries the real .cp-dark-teal/.cp-gold/
+   .cp-terracotta/.cp-light-grey class (assigned in renderCard()'s NORM_CP
+   map), so .norm-*::before below reads --sp-ink straight from
+   web-travel-style.css. Ordering intent (strongest-expectation to
+   doesn't-apply) is unchanged, just no longer a hand-picked hex per step. */
 /* ── Stat bar ── */
 .stat-bar { display: flex; flex-wrap: wrap; gap: 8px; margin: 28px 0 14px; justify-content: center; }
 .stat-pill {
@@ -96,10 +90,7 @@
   position: absolute; top: 0; left: 0; bottom: 0;
   width: 4px; border-radius: 0;
 }
-.country-row.norm-expected::before    { background: var(--c-expected); }
-.country-row.norm-appreciated::before { background: var(--c-appreciated); }
-.country-row.norm-check::before       { background: var(--c-check); }
-.country-row.norm-skip::before        { background: var(--c-skip); }
+.country-row[class*="cp-"]::before { background: var(--sp-ink); }
 .country-row:hover { background: var(--surface-alt,#F7F4EE); }
 .country-left { display: flex; flex-direction: column; justify-content: flex-start; }
 /* .country-name canonical place+color+size+font now shared in web-travel-style.css + mobile.css (owner rule 2026-07-29) */
@@ -1138,11 +1129,12 @@ function equalizeStatPills() {
 }
 window.addEventListener('resize', equalizeStatPills);
 
+var NORM_CP = { expected: 'cp-dark-teal', appreciated: 'cp-gold', check: 'cp-terracotta', skip: 'cp-light-grey' };
 function renderCard(c) {
   var tipRows = c.tips.map(function(t) {
     return '<div class="tip-row"><span class="tip-label">' + t.label + '</span><span class="tip-value">' + t.value + '</span></div>';
   }).join('');
-  return '<div class="country-row norm-' + c.norm + '">' +
+  return '<div class="country-row norm-' + c.norm + ' ' + NORM_CP[c.norm] + '">' +
     '<div class="country-left">' +
       '<div class="country-name"><span class="country-flag">' + TVE.flag.html(c.flag) + '</span>' + c.name + '</div>' +
       '<div class="country-cities">' + c.cities + '</div>' +

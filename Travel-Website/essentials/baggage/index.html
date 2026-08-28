@@ -42,30 +42,19 @@
 /* Region jump-strip — dot-chip variant (rounded, catalogue dot per family)
    in place of the old squared region-tab row. */
 .jump-strip { display: flex; flex-wrap: wrap; gap: 6px; justify-content: center; margin-top: 16px; margin-bottom: 8px; }
-.jchip {
-  display: inline-flex; align-items: center; gap: 6px;
-  font-family: inherit; font-size: 12px; font-weight: 600; line-height: 1.3;
-  border: 1px solid; border-radius: 999px;
-  padding: 5px 12px; cursor: pointer; transition: filter .12s;
-}
+/* .jchip is a layout hook only (icon gap) — box, colour and case come from
+   the shared .selection-pill-sm + .cp-* classes (web-travel-style.css). Was
+   a hand-rolled box duplicating .selection-pill-sm's own shape, with each
+   region's wash/ink hardcoded as a literal hex that happened to already
+   equal a real cp-* family (cp-light-grey/cp-blue/cp-purple/cp-gold/
+   cp-dark-teal/cp-dark-pink) — but the border color was hand-picked
+   separately (matched a retired Enamel rim token, not cp-*'s own
+   rgba(0,0,0,.1) formula), so it was never a true instance of any one
+   shared family. Markup now carries the real cp-* class per region and
+   .is-on for the selected state, so a family color change in the shared
+   CSS reaches this page automatically instead of drifting again. */
+.jchip { gap: 6px; }
 .jchip .gm-icon { width: 10px; height: 10px; flex: none; }
-/* No pill is ever white (Non-Negotiable 104, Rule 11) -- every region gets
-   its own real fill, not a colored dot on a blank background. Same Calm
-   Pastel wash/ink pairing as everywhere else on the site, one family
-   throughout (Rule 12) -- "All" stays the neutral grey (Rule 3/Non-
-   Negotiable 96), never terracotta (retired from pill hover sitewide;
-   .jchip.is-on/:hover used to go var(--rust), the exact banned pattern).
-   Hover/selected both use hov-darken's own mechanism (brightness dim on
-   the pill's own colour, Rule 13) instead of switching to a different
-   colour. */
-.jchip[data-region="all"]           { background: #e2e1de; border-color: rgba(106,102,96,.45); color: #4a483f; }
-.jchip[data-region="north-america"] { background: #bfdcf5; border-color: rgba(78,133,196,.45); color: #163a5c; }
-.jchip[data-region="europe"]        { background: #cbb8ec; border-color: rgba(106,63,176,.45); color: #33195c; }
-.jchip[data-region="middle-east"]   { background: #fdf3d3; border-color: rgba(212,176,106,.45); color: #8a6a28; }
-.jchip[data-region="asia-oceania"]  { background: #7fc4b0; border-color: rgba(42,122,102,.45); color: #123d32; }
-.jchip[data-region="latin-america"] { background: #e8a8c0; border-color: rgba(176,80,122,.45); color: #6b2c48; }
-.jchip:hover { filter: brightness(.94); }
-.jchip.is-on { filter: brightness(.82); font-weight: 700; }
 
 /* Region sections */
 .bag-region { margin-top: 28px; }
@@ -101,11 +90,12 @@
 }
 .bag-row:hover { box-shadow: 0 6px 18px rgba(92,61,17,.14); transform: translateX(2px); }
 .bag-row.hidden { display: none; }
-.bag-row[data-region="north-america"]  { background: #bfdcf5;   border-left-color: #4e85c4; }
-.bag-row[data-region="europe"]         { background: #cbb8ec; border-left-color: #6a3fb0; }
-.bag-row[data-region="middle-east"]    { background: #d9985f; border-left-color: #9a5220; }
-.bag-row[data-region="asia-oceania"]   { background: #7fc4b0;  border-left-color: #2a7a66; }
-.bag-row[data-region="latin-america"]  { background: #e8a8c0;   border-left-color: #b0507a; }
+/* Region colour comes from the shared .cp-* classes (web-travel-style.css) —
+   markup carries both data-region (behaviour) and a cp-* class (colour).
+   Was 15 rules across 3 element types, each repeating the SAME region's hex
+   a 2nd/3rd time with a hand-picked (and inconsistent) border shade; now one
+   formula, reused, reading straight from --sp-wash/--sp-ink. */
+.bag-row[class*="cp-"] { background: var(--sp-wash); border-left-color: var(--sp-ink); }
 
 /* Grommet lives on .bag-head (fixed height), not .bag-row (which grows when
    a card opens) — top:50% on the row itself would drift the "hole" down
@@ -116,11 +106,7 @@
   width: 9px; height: 9px; border-radius: 50%;
   background: var(--bg); border: 2px solid var(--border2);
 }
-.bag-row[data-region="north-america"] .bag-head::before  { border-color: #4e85c4; }
-.bag-row[data-region="europe"] .bag-head::before         { border-color: #6a3fb0; }
-.bag-row[data-region="middle-east"] .bag-head::before    { border-color: #9a5220; }
-.bag-row[data-region="asia-oceania"] .bag-head::before   { border-color: #2a7a66; }
-.bag-row[data-region="latin-america"] .bag-head::before  { border-color: #b0507a; }
+.bag-row[class*="cp-"] .bag-head::before { border-color: var(--sp-ink); }
 
 .bag-head {
   all: unset; box-sizing: border-box; cursor: pointer; width: 100%; position: relative;
@@ -133,11 +119,7 @@
   background: var(--surface); border: 1px solid var(--border2); color: var(--muted);
   box-shadow: 0 1px 2px rgba(92,61,17,.08);
 }
-.bag-row[data-region="north-america"] .bag-mark { border-color: #4e85c4;   color: #163a5c; }
-.bag-row[data-region="europe"] .bag-mark        { border-color: #6a3fb0; color: #33195c; }
-.bag-row[data-region="middle-east"] .bag-mark   { border-color: #9a5220; color: #4a2610; }
-.bag-row[data-region="asia-oceania"] .bag-mark  { border-color: #2a7a66;  color: #123d32; }
-.bag-row[data-region="latin-america"] .bag-mark { border-color: #b0507a;   color: #6b2c48; }
+.bag-row[class*="cp-"] .bag-mark { border-color: var(--sp-ink); color: var(--sp-ink); }
 .bag-name { font-size: 14.5px; font-weight: 700; color: var(--text); flex: 1 1 auto; min-width: 130px; }
 .bag-sub { display: block; font-weight: 400; color: var(--muted); font-size: 12px; margin-top: 1px; }
 .bag-chips { display: flex; gap: 6px; flex-wrap: wrap; justify-content: flex-end; max-width: 55%; }
@@ -267,12 +249,12 @@
   </div>
 
   <div class="jump-strip">
-    <button class="jchip is-on" data-region="all"><svg class="gm-icon" data-icon="dot-grey" data-role="dot" viewBox="0 0 24 24" aria-hidden="true"><use href="#gm-i-dot-grey"/></svg>All regions</button>
-    <button class="jchip" data-region="north-america"><svg class="gm-icon" data-icon="dot-blue" data-role="dot" viewBox="0 0 24 24" aria-hidden="true"><use href="#gm-i-dot-blue"/></svg>North America</button>
-    <button class="jchip" data-region="europe"><svg class="gm-icon" data-icon="dot-purple" data-role="dot" viewBox="0 0 24 24" aria-hidden="true"><use href="#gm-i-dot-purple"/></svg>Europe</button>
-    <button class="jchip" data-region="middle-east"><svg class="gm-icon" data-icon="dot-orange" data-role="dot" viewBox="0 0 24 24" aria-hidden="true"><use href="#gm-i-dot-orange"/></svg>Middle East</button>
-    <button class="jchip" data-region="asia-oceania"><svg class="gm-icon" data-icon="dot-green" data-role="dot" viewBox="0 0 24 24" aria-hidden="true"><use href="#gm-i-dot-green"/></svg>Asia · Oceania</button>
-    <button class="jchip" data-region="latin-america"><svg class="gm-icon" data-icon="dot-pink" data-role="dot" viewBox="0 0 24 24" aria-hidden="true"><use href="#gm-i-dot-pink"/></svg>Latin America</button>
+    <button class="jchip selection-pill-sm cp-light-grey is-on" data-region="all"><svg class="gm-icon" data-icon="dot-grey" data-role="dot" viewBox="0 0 24 24" aria-hidden="true"><use href="#gm-i-dot-grey"/></svg>All regions</button>
+    <button class="jchip selection-pill-sm cp-blue" data-region="north-america"><svg class="gm-icon" data-icon="dot-blue" data-role="dot" viewBox="0 0 24 24" aria-hidden="true"><use href="#gm-i-dot-blue"/></svg>North America</button>
+    <button class="jchip selection-pill-sm cp-purple" data-region="europe"><svg class="gm-icon" data-icon="dot-purple" data-role="dot" viewBox="0 0 24 24" aria-hidden="true"><use href="#gm-i-dot-purple"/></svg>Europe</button>
+    <button class="jchip selection-pill-sm cp-gold" data-region="middle-east"><svg class="gm-icon" data-icon="dot-orange" data-role="dot" viewBox="0 0 24 24" aria-hidden="true"><use href="#gm-i-dot-orange"/></svg>Middle East</button>
+    <button class="jchip selection-pill-sm cp-dark-teal" data-region="asia-oceania"><svg class="gm-icon" data-icon="dot-green" data-role="dot" viewBox="0 0 24 24" aria-hidden="true"><use href="#gm-i-dot-green"/></svg>Asia · Oceania</button>
+    <button class="jchip selection-pill-sm cp-dark-pink" data-region="latin-america"><svg class="gm-icon" data-icon="dot-pink" data-role="dot" viewBox="0 0 24 24" aria-hidden="true"><use href="#gm-i-dot-pink"/></svg>Latin America</button>
   </div>
 
   <div id="no-results" class="empty-state">Nothing matches your search.</div>
@@ -280,7 +262,7 @@
   <div class="bag-region" data-region-section="north-america">
     <div class="region-head"><h2>North America</h2><span>8 carriers</span></div>
     <div class="row-list">
-    <div class="bag-row" data-airline="delta" data-region="north-america">
+    <div class="bag-row cp-blue" data-airline="delta" data-region="north-america">
       <button class="bag-head" type="button">
         <span class="bag-mark">DA</span>
         <span class="bag-name">Delta Air Lines</span>
@@ -306,7 +288,7 @@
         <div class="bag-sitelink"><a class="ext-arrow" href="https://www.delta.com" target="_blank" rel="noopener">Official site</a></div>
       </div>
     </div>
-    <div class="bag-row" data-airline="united" data-region="north-america">
+    <div class="bag-row cp-blue" data-airline="united" data-region="north-america">
       <button class="bag-head" type="button">
         <span class="bag-mark">UA</span>
         <span class="bag-name">United Airlines</span>
@@ -332,7 +314,7 @@
         <div class="bag-sitelink"><a class="ext-arrow" href="https://www.united.com" target="_blank" rel="noopener">Official site</a></div>
       </div>
     </div>
-    <div class="bag-row" data-airline="american" data-region="north-america">
+    <div class="bag-row cp-blue" data-airline="american" data-region="north-america">
       <button class="bag-head" type="button">
         <span class="bag-mark">AA</span>
         <span class="bag-name">American Airlines</span>
@@ -358,7 +340,7 @@
         <div class="bag-sitelink"><a class="ext-arrow" href="https://www.aa.com" target="_blank" rel="noopener">Official site</a></div>
       </div>
     </div>
-    <div class="bag-row" data-airline="southwest" data-region="north-america">
+    <div class="bag-row cp-blue" data-airline="southwest" data-region="north-america">
       <button class="bag-head" type="button">
         <span class="bag-mark">SA</span>
         <span class="bag-name">Southwest Airlines</span>
@@ -384,7 +366,7 @@
         <div class="bag-sitelink"><a class="ext-arrow" href="https://www.southwest.com" target="_blank" rel="noopener">Official site</a></div>
       </div>
     </div>
-    <div class="bag-row" data-airline="alaska" data-region="north-america">
+    <div class="bag-row cp-blue" data-airline="alaska" data-region="north-america">
       <button class="bag-head" type="button">
         <span class="bag-mark">AL</span>
         <span class="bag-name">Alaska Airlines</span>
@@ -410,7 +392,7 @@
         <div class="bag-sitelink"><a class="ext-arrow" href="https://www.alaskaair.com" target="_blank" rel="noopener">Official site</a></div>
       </div>
     </div>
-    <div class="bag-row" data-airline="jetblue" data-region="north-america">
+    <div class="bag-row cp-blue" data-airline="jetblue" data-region="north-america">
       <button class="bag-head" type="button">
         <span class="bag-mark">JE</span>
         <span class="bag-name">JetBlue</span>
@@ -436,7 +418,7 @@
         <div class="bag-sitelink"><a class="ext-arrow" href="https://www.jetblue.com" target="_blank" rel="noopener">Official site</a></div>
       </div>
     </div>
-    <div class="bag-row" data-airline="frontier" data-region="north-america">
+    <div class="bag-row cp-blue" data-airline="frontier" data-region="north-america">
       <button class="bag-head" type="button">
         <span class="bag-mark">FR</span>
         <span class="bag-name">Frontier<span class="bag-sub">— US ultra-low cost · Spirit Airlines shut down May 2026</span></span>
@@ -462,7 +444,7 @@
         <div class="bag-sitelink"><a class="ext-arrow" href="https://www.flyfrontier.com" target="_blank" rel="noopener">Official site</a></div>
       </div>
     </div>
-    <div class="bag-row" data-airline="aircanada" data-region="north-america">
+    <div class="bag-row cp-blue" data-airline="aircanada" data-region="north-america">
       <button class="bag-head" type="button">
         <span class="bag-mark">AC</span>
         <span class="bag-name">Air Canada</span>
@@ -494,7 +476,7 @@
   <div class="bag-region" data-region-section="europe">
     <div class="region-head"><h2>Europe</h2><span>17 carriers</span></div>
     <div class="row-list">
-    <div class="bag-row" data-airline="lufthansa" data-region="europe">
+    <div class="bag-row cp-purple" data-airline="lufthansa" data-region="europe">
       <button class="bag-head" type="button">
         <span class="bag-mark">LS</span>
         <span class="bag-name">Lufthansa / Swiss / Austrian</span>
@@ -520,7 +502,7 @@
         <div class="bag-sitelink"><a class="ext-arrow" href="https://www.lufthansa.com" target="_blank" rel="noopener">Official site</a></div>
       </div>
     </div>
-    <div class="bag-row" data-airline="airfrance" data-region="europe">
+    <div class="bag-row cp-purple" data-airline="airfrance" data-region="europe">
       <button class="bag-head" type="button">
         <span class="bag-mark">AF</span>
         <span class="bag-name">Air France / KLM</span>
@@ -546,7 +528,7 @@
         <div class="bag-sitelink"><a class="ext-arrow" href="https://www.airfrance.us" target="_blank" rel="noopener">Official site</a></div>
       </div>
     </div>
-    <div class="bag-row" data-airline="british" data-region="europe">
+    <div class="bag-row cp-purple" data-airline="british" data-region="europe">
       <button class="bag-head" type="button">
         <span class="bag-mark">BA</span>
         <span class="bag-name">British Airways</span>
@@ -572,7 +554,7 @@
         <div class="bag-sitelink"><a class="ext-arrow" href="https://www.britishairways.com" target="_blank" rel="noopener">Official site</a></div>
       </div>
     </div>
-    <div class="bag-row" data-airline="iberia" data-region="europe">
+    <div class="bag-row cp-purple" data-airline="iberia" data-region="europe">
       <button class="bag-head" type="button">
         <span class="bag-mark">IB</span>
         <span class="bag-name">Iberia</span>
@@ -598,7 +580,7 @@
         <div class="bag-sitelink"><a class="ext-arrow" href="https://www.iberia.com" target="_blank" rel="noopener">Official site</a></div>
       </div>
     </div>
-    <div class="bag-row" data-airline="aerlingus" data-region="europe">
+    <div class="bag-row cp-purple" data-airline="aerlingus" data-region="europe">
       <button class="bag-head" type="button">
         <span class="bag-mark">AE</span>
         <span class="bag-name">Aer Lingus</span>
@@ -625,7 +607,7 @@
         <div class="bag-sitelink"><a class="ext-arrow" href="https://www.aerlingus.com" target="_blank" rel="noopener">Official site</a></div>
       </div>
     </div>
-    <div class="bag-row" data-airline="tap" data-region="europe">
+    <div class="bag-row cp-purple" data-airline="tap" data-region="europe">
       <button class="bag-head" type="button">
         <span class="bag-mark">TA</span>
         <span class="bag-name">TAP Air Portugal</span>
@@ -651,7 +633,7 @@
         <div class="bag-sitelink"><a class="ext-arrow" href="https://www.flytap.com" target="_blank" rel="noopener">Official site</a></div>
       </div>
     </div>
-    <div class="bag-row" data-airline="ita" data-region="europe">
+    <div class="bag-row cp-purple" data-airline="ita" data-region="europe">
       <button class="bag-head" type="button">
         <span class="bag-mark">IA</span>
         <span class="bag-name">ITA Airways</span>
@@ -677,7 +659,7 @@
         <div class="bag-sitelink"><a class="ext-arrow" href="https://www.ita-airways.com" target="_blank" rel="noopener">Official site</a></div>
       </div>
     </div>
-    <div class="bag-row" data-airline="finnair" data-region="europe">
+    <div class="bag-row cp-purple" data-airline="finnair" data-region="europe">
       <button class="bag-head" type="button">
         <span class="bag-mark">FI</span>
         <span class="bag-name">Finnair</span>
@@ -703,7 +685,7 @@
         <div class="bag-sitelink"><a class="ext-arrow" href="https://www.finnair.com" target="_blank" rel="noopener">Official site</a></div>
       </div>
     </div>
-    <div class="bag-row" data-airline="sas" data-region="europe">
+    <div class="bag-row cp-purple" data-airline="sas" data-region="europe">
       <button class="bag-head" type="button">
         <span class="bag-mark">SS</span>
         <span class="bag-name">SAS Scandinavian Airlines</span>
@@ -729,7 +711,7 @@
         <div class="bag-sitelink"><a class="ext-arrow" href="https://www.flysas.com" target="_blank" rel="noopener">Official site</a></div>
       </div>
     </div>
-    <div class="bag-row" data-airline="norwegian" data-region="europe">
+    <div class="bag-row cp-purple" data-airline="norwegian" data-region="europe">
       <button class="bag-head" type="button">
         <span class="bag-mark">NO</span>
         <span class="bag-name">Norwegian</span>
@@ -755,7 +737,7 @@
         <div class="bag-sitelink"><a class="ext-arrow" href="https://www.norwegian.com" target="_blank" rel="noopener">Official site</a></div>
       </div>
     </div>
-    <div class="bag-row" data-airline="lot" data-region="europe">
+    <div class="bag-row cp-purple" data-airline="lot" data-region="europe">
       <button class="bag-head" type="button">
         <span class="bag-mark">LP</span>
         <span class="bag-name">LOT Polish Airlines</span>
@@ -781,7 +763,7 @@
         <div class="bag-sitelink"><a class="ext-arrow" href="https://www.lot.com" target="_blank" rel="noopener">Official site</a></div>
       </div>
     </div>
-    <div class="bag-row" data-airline="aegean" data-region="europe">
+    <div class="bag-row cp-purple" data-airline="aegean" data-region="europe">
       <button class="bag-head" type="button">
         <span class="bag-mark">AEG</span>
         <span class="bag-name">Aegean Airlines</span>
@@ -807,7 +789,7 @@
         <div class="bag-sitelink"><a class="ext-arrow" href="https://en.aegeanair.com" target="_blank" rel="noopener">Official site</a></div>
       </div>
     </div>
-    <div class="bag-row" data-airline="vueling" data-region="europe">
+    <div class="bag-row cp-purple" data-airline="vueling" data-region="europe">
       <button class="bag-head" type="button">
         <span class="bag-mark">VU</span>
         <span class="bag-name">Vueling</span>
@@ -833,7 +815,7 @@
         <div class="bag-sitelink"><a class="ext-arrow" href="https://www.vueling.com" target="_blank" rel="noopener">Official site</a></div>
       </div>
     </div>
-    <div class="bag-row" data-airline="transavia" data-region="europe">
+    <div class="bag-row cp-purple" data-airline="transavia" data-region="europe">
       <button class="bag-head" type="button">
         <span class="bag-mark">TR</span>
         <span class="bag-name">Transavia</span>
@@ -859,7 +841,7 @@
         <div class="bag-sitelink"><a class="ext-arrow" href="https://www.transavia.com" target="_blank" rel="noopener">Official site</a></div>
       </div>
     </div>
-    <div class="bag-row" data-airline="eurowings" data-region="europe">
+    <div class="bag-row cp-purple" data-airline="eurowings" data-region="europe">
       <button class="bag-head" type="button">
         <span class="bag-mark">EU</span>
         <span class="bag-name">Eurowings</span>
@@ -885,7 +867,7 @@
         <div class="bag-sitelink"><a class="ext-arrow" href="https://www.eurowings.com" target="_blank" rel="noopener">Official site</a></div>
       </div>
     </div>
-    <div class="bag-row" data-airline="wizzair" data-region="europe">
+    <div class="bag-row cp-purple" data-airline="wizzair" data-region="europe">
       <button class="bag-head" type="button">
         <span class="bag-mark">WA</span>
         <span class="bag-name">Wizz Air</span>
@@ -911,7 +893,7 @@
         <div class="bag-sitelink"><a class="ext-arrow" href="https://wizzair.com" target="_blank" rel="noopener">Official site</a></div>
       </div>
     </div>
-    <div class="bag-row" data-airline="budget" data-region="europe">
+    <div class="bag-row cp-purple" data-airline="budget" data-region="europe">
       <button class="bag-head" type="button">
         <span class="bag-mark">RE</span>
         <span class="bag-name">Ryanair / easyJet<span class="bag-sub">— European budget</span></span>
@@ -943,7 +925,7 @@
   <div class="bag-region" data-region-section="middle-east">
     <div class="region-head"><h2>Middle East</h2><span>5 carriers</span></div>
     <div class="row-list">
-    <div class="bag-row" data-airline="pegasus" data-region="middle-east">
+    <div class="bag-row cp-gold" data-airline="pegasus" data-region="middle-east">
       <button class="bag-head" type="button">
         <span class="bag-mark">PA</span>
         <span class="bag-name">Pegasus Airlines</span>
@@ -969,7 +951,7 @@
         <div class="bag-sitelink"><a class="ext-arrow" href="https://www.flypgs.com" target="_blank" rel="noopener">Official site</a></div>
       </div>
     </div>
-    <div class="bag-row" data-airline="turkish" data-region="middle-east">
+    <div class="bag-row cp-gold" data-airline="turkish" data-region="middle-east">
       <button class="bag-head" type="button">
         <span class="bag-mark">TU</span>
         <span class="bag-name">Turkish Airlines</span>
@@ -995,7 +977,7 @@
         <div class="bag-sitelink"><a class="ext-arrow" href="https://www.turkishairlines.com" target="_blank" rel="noopener">Official site</a></div>
       </div>
     </div>
-    <div class="bag-row" data-airline="emirates" data-region="middle-east">
+    <div class="bag-row cp-gold" data-airline="emirates" data-region="middle-east">
       <button class="bag-head" type="button">
         <span class="bag-mark">EM</span>
         <span class="bag-name">Emirates</span>
@@ -1021,7 +1003,7 @@
         <div class="bag-sitelink"><a class="ext-arrow" href="https://www.emirates.com" target="_blank" rel="noopener">Official site</a></div>
       </div>
     </div>
-    <div class="bag-row" data-airline="qatar" data-region="middle-east">
+    <div class="bag-row cp-gold" data-airline="qatar" data-region="middle-east">
       <button class="bag-head" type="button">
         <span class="bag-mark">QA</span>
         <span class="bag-name">Qatar Airways</span>
@@ -1047,7 +1029,7 @@
         <div class="bag-sitelink"><a class="ext-arrow" href="https://www.qatarairways.com" target="_blank" rel="noopener">Official site</a></div>
       </div>
     </div>
-    <div class="bag-row" data-airline="etihad" data-region="middle-east">
+    <div class="bag-row cp-gold" data-airline="etihad" data-region="middle-east">
       <button class="bag-head" type="button">
         <span class="bag-mark">EA</span>
         <span class="bag-name">Etihad Airways</span>
@@ -1079,7 +1061,7 @@
   <div class="bag-region" data-region-section="asia-oceania">
     <div class="region-head"><h2>Asia · Oceania</h2><span>5 carriers</span></div>
     <div class="row-list">
-    <div class="bag-row" data-airline="jal" data-region="asia-oceania">
+    <div class="bag-row cp-dark-teal" data-airline="jal" data-region="asia-oceania">
       <button class="bag-head" type="button">
         <span class="bag-mark">JA</span>
         <span class="bag-name">Japan Airlines / ANA</span>
@@ -1105,7 +1087,7 @@
         <div class="bag-sitelink"><a class="ext-arrow" href="https://www.jal.co.jp/en/" target="_blank" rel="noopener">Official site</a></div>
       </div>
     </div>
-    <div class="bag-row" data-airline="singapore" data-region="asia-oceania">
+    <div class="bag-row cp-dark-teal" data-airline="singapore" data-region="asia-oceania">
       <button class="bag-head" type="button">
         <span class="bag-mark">SI</span>
         <span class="bag-name">Singapore Airlines</span>
@@ -1131,7 +1113,7 @@
         <div class="bag-sitelink"><a class="ext-arrow" href="https://www.singaporeair.com" target="_blank" rel="noopener">Official site</a></div>
       </div>
     </div>
-    <div class="bag-row" data-airline="cathay" data-region="asia-oceania">
+    <div class="bag-row cp-dark-teal" data-airline="cathay" data-region="asia-oceania">
       <button class="bag-head" type="button">
         <span class="bag-mark">CP</span>
         <span class="bag-name">Cathay Pacific</span>
@@ -1157,7 +1139,7 @@
         <div class="bag-sitelink"><a class="ext-arrow" href="https://www.cathaypacific.com" target="_blank" rel="noopener">Official site</a></div>
       </div>
     </div>
-    <div class="bag-row" data-airline="korean" data-region="asia-oceania">
+    <div class="bag-row cp-dark-teal" data-airline="korean" data-region="asia-oceania">
       <button class="bag-head" type="button">
         <span class="bag-mark">KA</span>
         <span class="bag-name">Korean Air</span>
@@ -1183,7 +1165,7 @@
         <div class="bag-sitelink"><a class="ext-arrow" href="https://www.koreanair.com" target="_blank" rel="noopener">Official site</a></div>
       </div>
     </div>
-    <div class="bag-row" data-airline="qantas" data-region="asia-oceania">
+    <div class="bag-row cp-dark-teal" data-airline="qantas" data-region="asia-oceania">
       <button class="bag-head" type="button">
         <span class="bag-mark">QAN</span>
         <span class="bag-name">Qantas</span>
@@ -1215,7 +1197,7 @@
   <div class="bag-region" data-region-section="latin-america">
     <div class="region-head"><h2>Latin America</h2><span>9 carriers</span></div>
     <div class="row-list">
-    <div class="bag-row" data-airline="latam" data-region="latin-america">
+    <div class="bag-row cp-dark-pink" data-airline="latam" data-region="latin-america">
       <button class="bag-head" type="button">
         <span class="bag-mark">LA</span>
         <span class="bag-name">LATAM Airlines</span>
@@ -1241,7 +1223,7 @@
         <div class="bag-sitelink"><a class="ext-arrow" href="https://www.latamairlines.com" target="_blank" rel="noopener">Official site</a></div>
       </div>
     </div>
-    <div class="bag-row" data-airline="avianca" data-region="latin-america">
+    <div class="bag-row cp-dark-pink" data-airline="avianca" data-region="latin-america">
       <button class="bag-head" type="button">
         <span class="bag-mark">AV</span>
         <span class="bag-name">Avianca</span>
@@ -1267,7 +1249,7 @@
         <div class="bag-sitelink"><a class="ext-arrow" href="https://www.avianca.com" target="_blank" rel="noopener">Official site</a></div>
       </div>
     </div>
-    <div class="bag-row" data-airline="copa" data-region="latin-america">
+    <div class="bag-row cp-dark-pink" data-airline="copa" data-region="latin-america">
       <button class="bag-head" type="button">
         <span class="bag-mark">CA</span>
         <span class="bag-name">Copa Airlines</span>
@@ -1293,7 +1275,7 @@
         <div class="bag-sitelink"><a class="ext-arrow" href="https://www.copaair.com" target="_blank" rel="noopener">Official site</a></div>
       </div>
     </div>
-    <div class="bag-row" data-airline="aeromexico" data-region="latin-america">
+    <div class="bag-row cp-dark-pink" data-airline="aeromexico" data-region="latin-america">
       <button class="bag-head" type="button">
         <span class="bag-mark">AER</span>
         <span class="bag-name">Aeromexico</span>
@@ -1319,7 +1301,7 @@
         <div class="bag-sitelink"><a class="ext-arrow" href="https://www.aeromexico.com" target="_blank" rel="noopener">Official site</a></div>
       </div>
     </div>
-    <div class="bag-row" data-airline="gol" data-region="latin-america">
+    <div class="bag-row cp-dark-pink" data-airline="gol" data-region="latin-america">
       <button class="bag-head" type="button">
         <span class="bag-mark">GL</span>
         <span class="bag-name">GOL Linhas Aéreas</span>
@@ -1345,7 +1327,7 @@
         <div class="bag-sitelink"><a class="ext-arrow" href="https://www.voegol.com.br/en" target="_blank" rel="noopener">Official site</a></div>
       </div>
     </div>
-    <div class="bag-row" data-airline="azul" data-region="latin-america">
+    <div class="bag-row cp-dark-pink" data-airline="azul" data-region="latin-america">
       <button class="bag-head" type="button">
         <span class="bag-mark">AB</span>
         <span class="bag-name">Azul Brazilian Airlines</span>
@@ -1371,7 +1353,7 @@
         <div class="bag-sitelink"><a class="ext-arrow" href="https://www.voeazul.com.br/en" target="_blank" rel="noopener">Official site</a></div>
       </div>
     </div>
-    <div class="bag-row" data-airline="aerolineas" data-region="latin-america">
+    <div class="bag-row cp-dark-pink" data-airline="aerolineas" data-region="latin-america">
       <button class="bag-head" type="button">
         <span class="bag-mark">AERO</span>
         <span class="bag-name">Aerolíneas Argentinas</span>
@@ -1397,7 +1379,7 @@
         <div class="bag-sitelink"><a class="ext-arrow" href="https://www.aerolineas.com.ar/en" target="_blank" rel="noopener">Official site</a></div>
       </div>
     </div>
-    <div class="bag-row" data-airline="sky" data-region="latin-america">
+    <div class="bag-row cp-dark-pink" data-airline="sky" data-region="latin-america">
       <button class="bag-head" type="button">
         <span class="bag-mark">SK</span>
         <span class="bag-name">Sky Airline</span>
@@ -1423,7 +1405,7 @@
         <div class="bag-sitelink"><a class="ext-arrow" href="https://www.skyairline.com" target="_blank" rel="noopener">Official site</a></div>
       </div>
     </div>
-    <div class="bag-row" data-airline="jetsmart" data-region="latin-america">
+    <div class="bag-row cp-dark-pink" data-airline="jetsmart" data-region="latin-america">
       <button class="bag-head" type="button">
         <span class="bag-mark">JET</span>
         <span class="bag-name">JetSMART</span>

@@ -1,3 +1,4 @@
+/* 2026-08-28: Retired the terracotta-type-on-paper pill exception site-wide (owner rule -- "REMOVE EXCEPTION!" / "i have no expectation on the entire site this need to end! remove all of them! review all pages"). Non-Negotiable 89 no longer carves out "paper ground, terracotta rim, terracotta label" as legal -- three live instances found and fixed. web-travel-style.css: .sibling-pill:not([class*="fam-"]) (When to Go's 6 weather-tool links) now takes --sp-sand-ink/--sp-sand-wash/--sp-sand-rgb instead of --rust/#C04E1A. guide-style.css: #tve-visited-btn.tve-been / #tve-offline-btn.tve-saved / #tve-cur-pill.tve-cur-on (the guide title card's Been-here / Saved-offline / Currently-here toggle pills) now take that file's own --c-action-text / --c-next-border pairing instead of a hardcoded #C04E1A -- as a side effect these now respond to dark mode, which the old hardcoded hex never did. The toolbar tabs, named in the original NN89 text as drawing this same combination, were checked live and do NOT -- .tb-links>a / .tb-ddbtn / .tb a.tb-active already use --sp-saddle-ink (#6b4423); that line in the doc was stale and is now corrected. MIN_VERSIONS['web-travel-style.css'] to 204, MIN_VERSIONS['guide-style.css'] to 270, CACHE to v1705. */
 /* 2026-08-28: three UX/Desktop report fixes -- web-travel-style.css: .showcase-grid gained max-width:1180px (was an unbounded auto-fill grid, ballooning to 6-8 narrow columns at 1920px+) and .showcase-card:hover .showcase-photo img now scales 1.04x on hover; guide-style.css: --content-max moved from none to 920px so guide prose no longer runs unbounded (~160 chars/line) at wide viewports. MIN_VERSIONS['web-travel-style.css'] to 203, MIN_VERSIONS['guide-style.css'] to 269, CACHE to v1704. */
 /* 2026-08-28: web-travel-style.css's own comment-cleanup commit landed one push later than its siblings (shared-asset hook conflict, resolved via a worktree commit) -- MIN_VERSIONS['web-travel-style.css'] to 202, CACHE to v1703. */
 /* 2026-08-28: Site-wide CSS comment cleanup (owner: "rules should not be written in CSS. rules should be in a doc and i make docs... they are wrong outdated full of errors that cause me problems all the time"). Every long-form rule-documenting comment across all 10 site CSS files was compressed to a one-line NOTE pointer -- "read (source) before changing this" where a comment already named an external doc, validator or non-negotiable, or "deliberate, read the commit history" where no doc existed to point to. No CSS declarations, selectors, or values touched -- comments only. Totals: web-travel-style.css 3928 to 2579 lines, guide-style.css 4973 to 3246, guides-index-style.css 1222 to 1012, mobile.css 712 to 461, trains.css 615 to 470, plus cars.css, Core Rules Style.css, airlines.css, read-about.css, stops-map-style.css done by hand. guide-style.css to v268, mobile.css to v91, web-travel-style.css to v201, guides-index-style.css to v37, read-about.css to v7, trains.css to v27, airlines.css to v8. CACHE to v1702. */
@@ -2700,7 +2701,7 @@
    exceptions". .also-on-this-site-pill:active and .bo-compare-go:hover now
    read the token. MIN_VERSIONS['web-travel-style.css'] to 200. CACHE to
    v1701. */
-var CACHE = 'travel-cache-v1704';
+var CACHE = 'travel-cache-v1705';
 /* 2026-08-27: airlines.css's .card-tags align-items fix changed a shared
    asset without raising its own floor -- MIN_VERSIONS['airlines.css'] to
    6, CACHE to v1662. */
@@ -2740,7 +2741,7 @@ var ICS_OUTBOX = 'gmd-ics-outbox';
    THIS IS THE ONLY PLACE to bump toolbar.js / guide-style.css versions.
    NEVER bump ?v= inside guide HTML — it breaks HMAC stamps and forces re-validation
    of 230+ guides. Instead, bump MIN_VERSIONS here + increment the CACHE version. */
-var MIN_VERSIONS = { 'guide-style.css': 269,'toolbar.js': 1095, 'mobile.css': 91, 'web-travel-style.css': 203, 'guides-index-style.css': 37, 'read-about.css': 7, 'best-of-features.js': 4, 'best-of-cross-data.js': 24, 'weather.js': 12, 'trains.css': 27, 'trains.js': 5, 'airlines.css': 8, 'airlines.js': 9, 'passport.js': 5, 'search-autocomplete.js': 9, 'flag-render.js': 2 };
+var MIN_VERSIONS = { 'guide-style.css': 270,'toolbar.js': 1095, 'mobile.css': 91, 'web-travel-style.css': 204, 'guides-index-style.css': 37, 'read-about.css': 7, 'best-of-features.js': 4, 'best-of-cross-data.js': 24, 'weather.js': 12, 'trains.css': 27, 'trains.js': 5, 'airlines.css': 8, 'airlines.js': 9, 'passport.js': 5, 'search-autocomplete.js': 9, 'flag-render.js': 2 };
 
 function rewriteAssetUrl(urlStr) {
   var u;

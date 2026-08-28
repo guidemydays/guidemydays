@@ -2664,6 +2664,7 @@ window.TVE.home = (function () {
       ['essentials/baggage/',           'Baggage'],
       ['essentials/connections/',       'Airport Connections'],
       ['essentials/lounges/',           'Lounges'],
+      ['essentials/lounge-access/',     'Lounge Access Methods'],
       ['essentials/airline-networks/',  'US Airline Networks']
     ] },
     /* The four regional train guides reach the nav for the first time here —

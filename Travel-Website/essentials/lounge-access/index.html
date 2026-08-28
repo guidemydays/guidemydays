@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="/assets/web-travel-style.css">
+<title>Lounge Access Methods Compared | Guide My Days</title>
+<style>
+/* Companion to essentials/lounges/ (the worldwide airport-by-airport directory).
+   That page answers "which lounges exist here and what does THIS ONE take";
+   this page answers "which access method is worth paying for" — pricing,
+   what each major travel card actually gives you, and the rules that catch
+   people out. Kept as its own page rather than folded into the directory:
+   the directory's own "How to Access" legend is hidden on mobile entirely
+   (essentials/lounges/index.html — `.wrap > .legend:first-of-type{display:none}`),
+   so comparison-depth content living only inside it would be invisible on a
+   phone. This page is linked FROM the lounges page instead.
+
+   No pill, badge, dot, dropdown or search component appears anywhere below —
+   read against selection-pills-badges-pills-to-badge-dots.html and
+   dropdown-collapse.html / tvesearch.html before writing this page, and
+   those specs' rules simply don't apply to plain content cards and tables. */
+
+.section-block { margin-top: 56px; }
+.section-block:first-of-type { margin-top: 8px; }
+.section-head {
+  display: flex; align-items: center; gap: 14px;
+  padding-bottom: 16px; margin-bottom: 22px;
+  border-bottom: 3px solid var(--rust, #C04E1A);
+}
+.section-head .gm-icon {
+  width: 1.4em; height: 1.4em; flex-shrink: 0; padding: 8px; box-sizing: content-box;
+  border-radius: 50%;
+  background: color-mix(in srgb, var(--rust, #C04E1A) 10%, transparent);
+}
+.la-sh-title { font-size: 19px; font-weight: 800; color: var(--text); letter-spacing: -.01em; }
+.la-sh-sub { font-size: 13px; color: var(--muted); margin-top: 2px; }
+
+/* Four-card recap of the access families — same visual language as the
+   lounges directory's own How-to-Access block (access-grid/access-card),
+   copied page-local since that page's <style> is not a shared sheet. */
+.access-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;}
+.access-card{background:var(--surface,#fff);border:1px solid var(--border);border-top:4px solid var(--card-c,var(--rust));border-radius:8px;padding:13px 14px 14px;}
+.access-card .access-lbl{font-size:13px;font-weight:700;color:var(--text,#1a1917);}
+.access-card p{margin:6px 0 0;font-size:12.5px;line-height:1.55;color:var(--muted);}
+.access-card.airline{--card-c:var(--sp-ink);}
+.access-card.pay{--card-c:var(--sp-ink);}
+.access-card.pp{--card-c:#2f7a6c;}
+.access-card.card{--card-c:#9a5030;}
+@media (max-width:600px) and (pointer:coarse){ .access-grid{grid-template-columns:1fr 1fr;} }
+
+.la-directory-link {
+  display: block; margin-top: 16px; padding: 14px 18px;
+  background: var(--surface, #fff); border: 1px solid var(--border); border-radius: 8px;
+  font-size: 13.5px; color: var(--text); text-decoration: none;
+}
+.la-directory-link strong { color: var(--rust, #C04E1A); font-weight: 700; }
+.la-directory-link:hover { border-color: var(--rust, #C04E1A); }
+.la-directory-link:visited { color: var(--text); }
+
+/* Card rows — lifted from essentials/cards-atm/index.html's proven pattern
+   (.card-row/.card-name/.card-type/.card-note), single-column here since
+   three cards read better stacked than crammed into an auto-fill grid. */
+.la-grid { display: flex; flex-direction: column; gap: 16px; }
+.card-row {
+  background: color-mix(in srgb, var(--surface) 94%, transparent);
+  border: 1px solid var(--border); border-radius: 14px;
+  border-top: 3px solid var(--text);
+  padding: 20px 22px 19px;
+}
+.card-row > div:first-child {
+  padding-bottom: 11px; margin-bottom: 11px; border-bottom: 1px solid var(--border2);
+}
+.card-name { font-size: 19px; font-weight: 700; color: var(--text); line-height: 1.2; }
+.card-type {
+  display: inline-block; font-size: 11.5px; font-weight: 700; color: var(--muted);
+  text-transform: uppercase; letter-spacing: .05em; margin-top: 7px;
+  padding-left: 9px; border-left: 2px solid var(--rust, #C04E1A);
+}
+.card-note { font-size: 13.5px; color: var(--text); line-height: 1.65; }
+.card-note ul { margin: 8px 0 0 18px; padding: 0; }
+.card-note li { margin-bottom: 4px; }
+.card-note strong { color: var(--text); }
+
+.mini-table-wrap { overflow-x: auto; margin-top: 4px; border: 1px solid var(--border2); border-radius: 8px; }
+.mini-table { width: 100%; border-collapse: collapse; font-size: 12.5px; }
+.mini-table th {
+  text-align: left; color: var(--text); font-weight: 700; padding: 8px 10px;
+  background: var(--surface2, #f0ede8); border-bottom: 1px solid var(--border2); white-space: nowrap;
+}
+.mini-table td { padding: 7px 10px; border-bottom: 1px solid var(--border2); color: var(--muted); vertical-align: top; }
+.mini-table tr:last-child td { border-bottom: none; }
+
+.la-rules-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 14px; }
+.la-rule-card {
+  background: var(--surface, #fff); border: 1px solid var(--border); border-radius: 10px;
+  padding: 15px 17px; border-left: 3px solid var(--rust, #C04E1A);
+}
+.la-rule-card .la-rule-h { font-size: 13.5px; font-weight: 700; color: var(--text); margin-bottom: 5px; }
+.la-rule-card p { margin: 0; font-size: 12.5px; line-height: 1.6; color: var(--muted); }
+
+@media (max-width: 600px) and (pointer: coarse) {
+  .mini-table { font-size: 11px; }
+  .la-rules-grid { grid-template-columns: 1fr; }
+}
+</style>
+<link rel="stylesheet" href="/assets/mobile.css?v=53">
+<!-- seo:start — generated by Brain/scripts/build/build_seo.py · do not hand-edit -->
+<meta name="description" content="Four ways into an airport lounge — flying business, paying at the door, carrying a membership, or carrying the right credit card — and what each one actually…">
+<link rel="canonical" href="https://guidemydays.com/essentials/lounge-access/">
+<meta name="robots" content="index,follow,max-image-preview:large">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Guide My Days">
+<meta property="og:locale" content="en_US">
+<meta property="og:title" content="Lounge Access Methods Compared">
+<meta property="og:description" content="Four ways into an airport lounge — flying business, paying at the door, carrying a membership, or carrying the right credit card — and what each one actually…">
+<meta property="og:url" content="https://guidemydays.com/essentials/lounge-access/">
+<meta property="og:image" content="https://guidemydays.com/assets/og/default.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Guide My Days — Travel guides, planned day by day">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Lounge Access Methods Compared">
+<meta name="twitter:description" content="Four ways into an airport lounge — flying business, paying at the door, carrying a membership, or carrying the right credit card — and what each one actually…">
+<meta name="twitter:image" content="https://guidemydays.com/assets/og/default.png">
+<link rel="icon" href="/assets/icons/favicon-32.png" sizes="32x32" type="image/png">
+<link rel="apple-touch-icon" href="/assets/icons/apple-touch-icon.png">
+<link rel="manifest" href="/manifest.webmanifest">
+<meta name="theme-color" content="#f5f4f0" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#1a1917" media="(prefers-color-scheme: dark)">
+<script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"WebPage","@id":"https://guidemydays.com/essentials/lounge-access/#page","name":"Lounge Access Methods Compared","description":"Four ways into an airport lounge — flying business, paying at the door, carrying a membership, or carrying the right credit card — and what each one actually…","url":"https://guidemydays.com/essentials/lounge-access/","inLanguage":"en","isPartOf":{"@id":"https://guidemydays.com/#website"}},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://guidemydays.com/"},{"@type":"ListItem","position":2,"name":"Lounge Access Methods Compared","item":"https://guidemydays.com/essentials/lounge-access/"}]}]}</script>
+<!-- seo:end -->
+</head>
+<body>
+<div class="wrap">
+
+  <div id="toolbar-mount" data-depth="2" data-maxwidth="800" data-updated="2026-08-28"></div>
+<script src="/assets/toolbar.js?v=127"></script>
+
+  <div class="hero-band eb-hero">
+    <span class="eb-kicker">Lounge Access Methods</span>
+    <div class="eb-copy">
+      <h1 class="eb-title">Lounge access, <em>every way in — compared.</em></h1>
+      <p class="eb-intro">Four ways into an airport lounge — flying business, paying at the door, carrying a membership, or carrying the right credit card — and what each one actually costs once you look past the headline benefit. Priority Pass pricing tier by tier, what Amex Platinum, Chase Sapphire Reserve and Capital One Venture X really give you, the same-day-boarding-pass rules that turn people away at the desk, and which option is worth it depending on how often you fly.</p>
+    </div>
+    <!-- Same composed icon as essentials/lounges/ (no 'lounge' key in the
+         Site-Icons.html catalogue or GM_SPRITE registry) — reused verbatim
+         for visual continuity between the two companion pages rather than
+         drawing a second one, per the owner's "library for inspiration"
+         allowance on that page. -->
+    <div class="eb-graphic" aria-hidden="true"><svg viewBox="0 0 24 24" aria-hidden="true">
+      <path d="M4.4 3.4h15.2c-.4 4.8-1.7 8-3.9 9.6a5.4 5.4 0 0 1-6.6 0c-2.2-1.6-3.5-4.8-3.9-9.6z" fill="url(#gm-sun)" stroke="var(--c-sun-rim)" stroke-width="0.5"/>
+      <path d="M4.4 3.4h15.2c-.4 4.8-1.7 8-3.9 9.6a5.4 5.4 0 0 1-6.6 0c-2.2-1.6-3.5-4.8-3.9-9.6z" fill="url(#gm-gloss)"/>
+      <path d="M7.2 5.6h9.6c-.4 3-1.5 5-3.2 6.2a2.9 2.9 0 0 1-3.2 0c-1.7-1.2-2.8-3.2-3.2-6.2z" fill="url(#gm-cream)" stroke="var(--c-rim-warm)" stroke-width="0.4" opacity=".85"/>
+      <circle cx="10.4" cy="8.4" r="0.55" fill="url(#gm-cream)" opacity=".9"/>
+      <circle cx="13.2" cy="9.6" r="0.4" fill="url(#gm-cream)" opacity=".8"/>
+      <path d="M12 5.6 12.5 6.7 13.7 6.9 12.85 7.7 13.05 8.9 12 8.35 10.95 8.9 11.15 7.7 10.3 6.9 11.5 6.7Z" fill="url(#gm-cream)" opacity="0.85"/>
+      <rect x="11.2" y="13.4" width="1.6" height="6" rx="0.8" fill="url(#gm-stone)" stroke="var(--c-stone-rim)" stroke-width="0.5"/>
+      <rect x="7.6" y="19.4" width="8.8" height="1.8" rx="0.9" fill="url(#gm-stone)" stroke="var(--c-stone-rim)" stroke-width="0.5"/>
+    </svg></div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════
+       THE FOUR WAYS IN — recap only
+  ═══════════════════════════════════════════ -->
+  <div class="section-block" data-section="ways-in">
+    <div class="section-head">
+      <svg class="gm-icon" data-icon="flight-nav" viewBox="0 0 24 24" aria-hidden="true"><use href="#gm-i-flight-nav"/></svg>
+      <div><div class="la-sh-title">The Four Ways In</div><div class="la-sh-sub">Same four families as the lounge directory — here's what each actually costs</div></div>
+    </div>
+    <div class="access-grid">
+      <div class="access-card airline"><div class="access-lbl">Airline &amp; alliance</div>
+      <p>Your cabin on the day, or your alliance status. Costs nothing extra once you have the ticket or the status — the trade-off is that a membership card never opens these doors, no matter which one you carry.</p>
+      </div>
+      <div class="access-card pay"><div class="access-lbl">Pay at the door</div>
+      <p>No ticket class, no card, no membership — anyone can buy in. About $25–$100 for two to three hours, and booking online through the lounge's own site or an app is reliably cheaper than paying at the desk.</p>
+      </div>
+      <div class="access-card pp"><div class="access-lbl">Membership</div>
+      <p>Priority Pass is the widest network; LoungeKey and DragonPass cover many of the same rooms under a different bank's branding. Priced below. Busy lounges turn members away before ticketed passengers.</p>
+      </div>
+      <div class="access-card card"><div class="access-lbl">Credit card</div>
+      <p>A network the issuer owns outright (Amex Centurion) or a bundled Priority Pass membership (most other cards). Almost always needs a same-day boarding pass — see Rules below.</p>
+      </div>
+    </div>
+    <a class="la-directory-link" href="/essentials/lounges/">See every lounge we cover, airport by airport, worldwide → <strong>/essentials/lounges/</strong></a>
+  </div>
+
+  <!-- ═══════════════════════════════════════════
+       PRIORITY PASS PRICING
+  ═══════════════════════════════════════════ -->
+  <div class="section-block" data-section="priority-pass">
+    <div class="section-head">
+      <svg class="gm-icon" data-icon="ticket" viewBox="0 0 24 24" aria-hidden="true"><use href="#gm-i-ticket"/></svg>
+      <div><div class="la-sh-title">Priority Pass — What Membership Costs</div><div class="la-sh-sub">Bought standalone, not bundled into a card</div></div>
+    </div>
+    <div class="mini-table-wrap"><table class="mini-table">
+      <tr><th>Tier</th><th>Annual fee</th><th>Visits included</th><th>After that</th></tr>
+      <tr><td>Standard</td><td>$99/year</td><td>None</td><td>$35 per visit, every visit</td></tr>
+      <tr><td>Standard Plus</td><td>$329/year</td><td>10 visits</td><td>$35 per visit</td></tr>
+      <tr><td>Prestige</td><td>$469/year</td><td>Unlimited</td><td>—</td></tr>
+    </table></div>
+    <p style="font-size:12.5px;color:var(--muted);line-height:1.65;margin-top:14px;">A guest costs $35 a visit on every tier — the fee is per person through the door, not per member. <strong>LoungeKey</strong> and <strong>DragonPass</strong> run separate, overlapping networks; which one (if any) your credit card bundles depends on the bank that issued it, not on you choosing one over Priority Pass.</p>
+  </div>
+
+  <!-- ═══════════════════════════════════════════
+       WHAT THE MAJOR TRAVEL CARDS GIVE YOU
+  ═══════════════════════════════════════════ -->
+  <div class="section-block" data-section="cards">
+    <div class="section-head">
+      <svg class="gm-icon" data-icon="credit-card" viewBox="0 0 24 24" aria-hidden="true"><use href="#gm-i-credit-card"/></svg>
+      <div><div class="la-sh-title">What the Major Travel Cards Actually Give You</div><div class="la-sh-sub">Beyond the headline "lounge access included" line</div></div>
+    </div>
+    <div class="la-grid">
+
+      <div class="card-row">
+        <div>
+          <div class="card-name">American Express Platinum</div>
+          <div class="card-type">Centurion Lounge + Global Lounge Collection + Delta Sky Club</div>
+        </div>
+        <div class="card-note">
+          Entry needs the physical card, a same-day boarding pass, and government ID. <strong>Delta Sky Club:</strong> access on same-day Delta-operated flights, capped at 10 visits a year unless you spend $75,000 or more on the card in a calendar year (then unlimited on eligible days); a guest costs $50 ($25 at Grab and Go locations), a child age 2–17 costs $30. <strong>Centurion Lounges:</strong> a guest costs $50 ($30 for a child, free under 2); hitting the same $75,000 threshold unlocks two complimentary guests per visit instead.
+          <ul>
+            <li>Since July 8, 2026: you must arrive within 3 hours of departure on a single flight, or within 5 hours of a connecting flight's departure — and any guest must be booked on the same flight as you.</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="card-row">
+        <div>
+          <div class="card-name">Chase Sapphire Reserve</div>
+          <div class="card-type">Priority Pass Select + Chase Sapphire Lounges by The Club</div>
+        </div>
+        <div class="card-note">
+          Priority Pass Select — 1,300+ lounges worldwide — activates automatically for the primary cardholder and every authorized user, alongside Chase's own branded Sapphire Lounges, select Air Canada Maple Leaf Lounges &amp; Cafés, and the Etihad Lounge at Washington Dulles (IAD). Most locations admit two guests; Maple Leaf admits one. A layover stop at a Chase Sapphire Lounge is good for up to 5 hours before your connecting flight (raised from 3).
+          <ul>
+            <li>As of August 15, 2026, Chase Sapphire Lounges stopped accepting outside Priority Pass and LoungeKey members — a standalone Priority Pass card no longer gets a non-Chase cardholder through that specific door. This does not change anything for a Sapphire Reserve cardholder: your own access to Chase Sapphire Lounges and your own Priority Pass Select membership for every other lounge in the network are both unaffected.</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="card-row">
+        <div>
+          <div class="card-name">Capital One Venture X</div>
+          <div class="card-type">Unlimited entries — Capital One Lounges, Capital One Landings &amp; Priority Pass network</div>
+        </div>
+        <div class="card-note">
+          The cardholder and every authorized user get unlimited visits, on the card alone, to Capital One's own Lounges and Landings plus the full Priority Pass network — no separate membership fee.
+          <ul>
+            <li>Since February 1, 2026, guests are no longer complimentary in Priority Pass lounges on this card — a $35-per-visit guest fee now applies there. Spending $75,000 or more on the card in a calendar year unlocks two complimentary guests, but only at Capital One's own Lounges and Landings; Priority Pass lounges still charge $35 a guest regardless of spend.</li>
+            <li>The Venture X <strong>Business</strong> card is the exception: it still brings two guests into Priority Pass lounges free.</li>
+          </ul>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════
+       RULES THAT CATCH PEOPLE OUT
+  ═══════════════════════════════════════════ -->
+  <div class="section-block" data-section="rules">
+    <div class="section-head">
+      <svg class="gm-icon" data-icon="warn" viewBox="0 0 24 24" aria-hidden="true"><use href="#gm-i-warn"/></svg>
+      <div><div class="la-sh-title">Rules That Catch People Out</div><div class="la-sh-sub">The fine print behind "lounge access included"</div></div>
+    </div>
+    <div class="la-rules-grid">
+      <div class="la-rule-card">
+        <div class="la-rule-h">Delta Sky Club needs a same-day boarding pass — always</div>
+        <p>Every access method — Delta status, a membership, or a co-branded card — requires a same-day boarding pass on a Delta-operated or eligible SkyTeam partner flight. Entry runs from up to 3 hours before departure, or during a same-day connection. There is no walk-in option, membership or not.</p>
+      </div>
+      <div class="la-rule-card">
+        <div class="la-rule-h">Basic Economy is excluded from Delta Sky Club</div>
+        <p>A Basic Economy ticket is turned away at Delta Sky Club regardless of status, membership, or card — the fare class itself is the block, not the access method.</p>
+      </div>
+      <div class="la-rule-card">
+        <div class="la-rule-h">Amex now checks your arrival time and your guest's flight</div>
+        <p>Since July 8, 2026: Centurion Lounges and Delta Sky Clubs (via the Platinum Card) require arrival within 3 hours of a single flight's departure, or 5 hours of a connecting flight — and any guest must be ticketed on the same flight as you.</p>
+      </div>
+      <div class="la-rule-card">
+        <div class="la-rule-h">Guest fees moved, they didn't disappear</div>
+        <p>Capital One Venture X guests stopped being free in Priority Pass lounges on February 1, 2026 ($35/visit now). Amex's $75,000 spend threshold buys complimentary guests at Centurion Lounges and Delta Sky Club — but they're two separate thresholds, not one.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════
+       WHICH ONE'S WORTH IT
+  ═══════════════════════════════════════════ -->
+  <div class="section-block" data-section="recommendation">
+    <div class="section-head">
+      <svg class="gm-icon" data-icon="compass" viewBox="0 0 24 24" aria-hidden="true"><use href="#gm-i-compass"/></svg>
+      <div><div class="la-sh-title">Which One's Worth It, by How Often You Fly</div><div class="la-sh-sub">A rough frequency guide — not a recommendation to open a card for lounge access alone</div></div>
+    </div>
+    <div class="mini-table-wrap"><table class="mini-table">
+      <tr><th>Roughly how often you fly</th><th>What tends to pay off</th><th>Why</th></tr>
+      <tr><td>1–2 trips a year</td><td>Pay at the door</td><td>An annual membership fee never earns itself back at that pace — two or three door visits a year costs less than any Priority Pass tier.</td></tr>
+      <tr><td>3–6 trips a year</td><td>Priority Pass Standard Plus, or a card that already bundles Priority Pass Select</td><td>10 included visits roughly matches this range; if you'd carry a card like Chase Sapphire Reserve anyway for its other benefits, its bundled membership costs nothing extra.</td></tr>
+      <tr><td>7–15 trips a year</td><td>Priority Pass Prestige, or Capital One Venture X</td><td>Unlimited visits stop being a luxury once per-visit fees would otherwise add up past the annual fee; Venture X gives the same unlimited entry as a card perk rather than a separate membership.</td></tr>
+      <tr><td>15+ trips a year, or you want the widest premium network</td><td>American Express Platinum</td><td>Centurion Lounges are the largest lounge network any single card owns outright, plus Delta Sky Club on Delta flights — at the cost of the same-day-boarding-pass rule and per-guest fees below the $75,000 spend threshold.</td></tr>
+    </table></div>
+  </div>
+
+</div>
+</body>
+</html>

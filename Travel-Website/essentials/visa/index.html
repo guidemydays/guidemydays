@@ -133,13 +133,13 @@ a.chip-link:hover {
 /* 2026-08-26: repointed to match the sb-* / cp-purple badges (Calm Pastel wash
    version of the same hues, since this legend is a bordered pill not a solid
    badge). */
-.legend .pill-vf    { background: #7fc4b0; border-color: rgba(0,0,0,.1); color: #123d32; }
-.legend .pill-card  { background: #bfdcf5; border-color: rgba(0,0,0,.1); color: #163a5c; }
-.legend .pill-eta   { background: #fdf3d3; border-color: rgba(0,0,0,.1); color: #8a6a28; }
-.legend .pill-evisa { background: #cbb8ec; border-color: rgba(0,0,0,.1); color: #33195c; }
-.legend .pill-voa   { background: #d9985f; border-color: rgba(0,0,0,.1); color: #4a2610; }
-.legend .pill-visa  { background: #d97268; border-color: rgba(0,0,0,.1); color: #4a1108; }
-.legend .pill-none  { background: #e2e1de; border-color: rgba(0,0,0,.1); color: #4a483f; }
+/* 2026-08-27: the 7 .legend .pill-KEY rules (one, .pill-card, was dead --
+   no GROUPS entry ever used key "card") each hardcoded a hex that had
+   drifted from g.badgeCls, the field already used for this same category's
+   etype badge and day-limit badge elsewhere on this page. The legend pill
+   now carries g.badgeCls directly (see paintResults() above), so the
+   shared .pill-badge.sb-*/.cp-* rules in web-travel-style.css style it --
+   nothing left here to duplicate or drift. */
 
 /* Desktop: full-width stretch, squared corners, touching borders */
 @media (min-width: 601px), (pointer: fine) {
@@ -672,7 +672,13 @@ a.apply-link:hover { background: #C04E1A; color: #fff; border-color: var(--rust)
 
             var pill = document.createElement('a');
             pill.href = '#section-' + g.key;
-            pill.className = 'pill pill-' + g.key;
+            /* Was its own pill-KEY class with its own hardcoded hex,
+               disconnected from g.badgeCls -- the exact same visa category
+               showed one color here and a DIFFERENT one on the etype badge
+               and day-limit badge below (both already use g.badgeCls). Now
+               all three draw from the same field, so they can never drift
+               apart again. */
+            pill.className = 'pill pill-badge ' + g.badgeCls;
             pill.textContent = g.badge + ' (' + items.length + ')';
             legendPills.appendChild(pill);
           });

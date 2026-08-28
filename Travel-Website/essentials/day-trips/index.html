@@ -76,11 +76,11 @@
    fill using the gradient's own top stop rather than the full gradient,
    since these bind through a page-local class (.dt-band) rather than the
    shared .badge/.pillbadge box Enamel's gradient+shadow was designed for. */
-.dt-band[data-band="all"]   { background:#e2e1de; border-color:rgba(0,0,0,.1); color:#4a483f; }
-.dt-band[data-band="u30"]   { background:#7fc4b0;  border-color:rgba(0,0,0,.1);  color:#123d32; }
-.dt-band[data-band="30-60"] { background:#bfdcf5;   border-color:rgba(0,0,0,.1);   color:#163a5c; }
-.dt-band[data-band="1-2"]   { background:#cbb8ec; border-color:rgba(0,0,0,.1); color:#33195c; }
-.dt-band[data-band="2plus"] { background:#d9985f; border-color:rgba(0,0,0,.1); color:#4a2610; }
+/* 2026-08-27: was 5 [data-band] rules each duplicating a real cp-* wash/ink
+   as literal hex. Each button now carries its own cp-* class directly
+   (BANDS' own cp field, above), one generic rule pulls wash/ink from that
+   class's --sp-wash/--sp-ink -- nothing left here to drift. */
+.dt-band[class*="cp-"] { background: var(--sp-wash); border-color: rgba(0,0,0,.1); color: var(--sp-ink); }
 /* Selected state used to darken each band's own border via a hand-picked
    rgba() per band (5 separate rules) -- replaced by wiring .dt-band into
    the shared .pill-badge system (class added in paintBands()), so the
@@ -269,11 +269,11 @@ function toMinutes(t) {
 }
 
 var BANDS = [
-  { key: 'all',  label: 'Any length', test: function () { return true; } },
-  { key: 'u30',  label: 'Under 30 min', test: function (v) { return v !== null && v < 30; } },
-  { key: '30-60',label: '30–60 min',    test: function (v) { return v !== null && v >= 30 && v <= 60; } },
-  { key: '1-2',  label: '1–2 hr',       test: function (v) { return v !== null && v > 60 && v <= 120; } },
-  { key: '2plus',label: '2 hr +',       test: function (v) { return v !== null && v > 120; } }
+  { key: 'all',  label: 'Any length', cp: 'cp-light-grey', test: function () { return true; } },
+  { key: 'u30',  label: 'Under 30 min', cp: 'cp-dark-teal', test: function (v) { return v !== null && v < 30; } },
+  { key: '30-60',label: '30–60 min',    cp: 'cp-blue',      test: function (v) { return v !== null && v >= 30 && v <= 60; } },
+  { key: '1-2',  label: '1–2 hr',       cp: 'cp-purple',    test: function (v) { return v !== null && v > 60 && v <= 120; } },
+  { key: '2plus',label: '2 hr +',       cp: 'cp-terracotta',test: function (v) { return v !== null && v > 120; } }
 ];
 
 /* Flatten once: the band view needs every trip with its departure city attached,
@@ -355,7 +355,7 @@ function paintBands() {
   bandsEl.innerHTML = BANDS.map(function (b) {
     var pool = city ? ALL.filter(function (t) { return t.city === city; }) : ALL;
     var n = pool.filter(function (t) { return b.test(t.mins); }).length;
-    return '<button type="button" class="dt-band pill-badge' + (b.key === 'all' ? ' cp-light-grey' : '') + (b.key === band ? ' is-on' : '') + '" data-band="' + b.key +
+    return '<button type="button" class="dt-band pill-badge ' + b.cp + (b.key === band ? ' is-on' : '') + '" data-band="' + b.key +
       '"' + (n ? '' : ' disabled style="opacity:.35;cursor:default"') + '>' + b.label +
       '</button>';
   }).join('');

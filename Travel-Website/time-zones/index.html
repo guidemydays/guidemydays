@@ -227,11 +227,14 @@ input.search:focus { border-color: var(--c-search-focus-border); box-shadow: non
    the neutral #f0ede8/#6a6660 pairing above. Hover/active darken via filter,
    matching the shared .selection-pill.cp-* convention, so no fill color changes
    are ever needed beyond the rest-state tint already set. */
-.pill[data-region="americas"]  { background: #bfdcf5; border-color: rgba(0,0,0,.1); color: #163a5c; }
-.pill[data-region="caribbean"] { background: #7fc4b0; border-color: rgba(0,0,0,.1); color: #123d32; }
-.pill[data-region="europe"]    { background: #d9985f; border-color: rgba(0,0,0,.1); color: #4a2610; }
-.pill[data-region="asiapac"]   { background: #cbb8ec; border-color: rgba(0,0,0,.1); color: #33195c; }
-.pill[data-region="other"]     { background: #fdf3d3; border-color: rgba(0,0,0,.1); color: #8a6a28; }
+/* 2026-08-27: was 5 separate [data-region] rules each duplicating a real
+   cp-* wash/ink pair as literal hex -- this comment already said "matching
+   the shared .selection-pill.cp-* convention" without actually using it, so
+   the hex could (and did) drift from the real thing. Each button now
+   carries its own cp-* class directly; one generic rule pulls wash/ink from
+   that class's own --sp-wash/--sp-ink custom properties, so there is
+   nothing left here to fall out of sync with web-travel-style.css. */
+.pill[class*="cp-"] { background: var(--sp-wash); border-color: rgba(0,0,0,.1); color: var(--sp-ink); }
 .pill[data-region]:not([data-region="all"]):hover { filter: brightness(.94); }
 .pill[data-region]:not([data-region="all"]).active { filter: brightness(.88); font-weight: 600; }
 /* THERE IS NO DISABLED PILL ON THIS PAGE. The distance sort cannot work before a
@@ -307,11 +310,7 @@ a.pill:visited { color: #6a6660; }
      mouse/trackpad) -- region pills rendered plain white regardless of
      viewport width, the touch/coarse-pointer branch was the only one that
      ever showed the real per-region colour. NN104. */
-  .pills .pill[data-region="americas"]  { background: #bfdcf5; border-color: rgba(0,0,0,.1); color: #163a5c; }
-  .pills .pill[data-region="caribbean"] { background: #7fc4b0; border-color: rgba(0,0,0,.1); color: #123d32; }
-  .pills .pill[data-region="europe"]    { background: #d9985f; border-color: rgba(0,0,0,.1); color: #4a2610; }
-  .pills .pill[data-region="asiapac"]   { background: #cbb8ec; border-color: rgba(0,0,0,.1); color: #33195c; }
-  .pills .pill[data-region="other"]     { background: #fdf3d3; border-color: rgba(0,0,0,.1); color: #8a6a28; }
+  .pills .pill[class*="cp-"] { background: var(--sp-wash); border-color: rgba(0,0,0,.1); color: var(--sp-ink); }
   .pills .pill[data-region]:not([data-region="all"]):hover {
     filter: brightness(.94);
   }
@@ -504,11 +503,7 @@ a.pill:visited { color: #6a6660; }
      dark-specific tint exists site-wide for these regions (essentials/tipping's
      #region-pills carries the same light pastel straight into dark mode too,
      unaltered) so this repeats the identical light values on purpose. NN104. */
-  .pills .pill[data-region="americas"]  { background: #bfdcf5; border-color: rgba(0,0,0,.1); color: #163a5c; }
-  .pills .pill[data-region="caribbean"] { background: #7fc4b0; border-color: rgba(0,0,0,.1); color: #123d32; }
-  .pills .pill[data-region="europe"]    { background: #d9985f; border-color: rgba(0,0,0,.1); color: #4a2610; }
-  .pills .pill[data-region="asiapac"]   { background: #cbb8ec; border-color: rgba(0,0,0,.1); color: #33195c; }
-  .pills .pill[data-region="other"]     { background: #fdf3d3; border-color: rgba(0,0,0,.1); color: #8a6a28; }
+  .pills .pill[class*="cp-"] { background: var(--sp-wash); border-color: rgba(0,0,0,.1); color: var(--sp-ink); }
   .pills .pill[data-region]:not([data-region="all"]):hover {
     filter: brightness(.85);
   }
@@ -654,11 +649,11 @@ a.pill:visited { color: #6a6660; }
   <div class="controls">
     <div class="pills" id="region-pills" role="group" aria-label="Filter by region">
       <button class="pill active" data-region="all">All</button>
-      <button class="pill" data-region="americas">Americas</button>
-      <button class="pill" data-region="caribbean">Caribbean</button>
-      <button class="pill" data-region="europe">Europe</button>
-      <button class="pill" data-region="asiapac">Asia · Pacific</button>
-      <button class="pill" data-region="other">M.E. &amp; Africa</button>
+      <button class="pill cp-blue" data-region="americas">Americas</button>
+      <button class="pill cp-dark-teal" data-region="caribbean">Caribbean</button>
+      <button class="pill cp-terracotta" data-region="europe">Europe</button>
+      <button class="pill cp-purple" data-region="asiapac">Asia · Pacific</button>
+      <button class="pill cp-gold" data-region="other">M.E. &amp; Africa</button>
     </div>
   </div>
 

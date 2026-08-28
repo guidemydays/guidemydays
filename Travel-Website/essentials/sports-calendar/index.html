@@ -43,14 +43,14 @@
   white-space: nowrap;
   box-shadow: inset 0 1.25px 0 rgba(255,255,255,.7), inset 0 -2.5px 4px rgba(0,0,0,.10), 0 1px 1px rgba(15,10,5,.10), 0 6px 12px -6px var(--sc-sport-shadow, transparent);
 }
-.sc-sport-btn[data-sport="all"]      { background: linear-gradient(168deg, #e2e1de 0%, #e2e1de 100%); border-color: rgba(0,0,0,.1); color: #4a483f; --sc-sport-shadow: rgba(226,225,222,.5); }
-.sc-sport-btn[data-sport="tennis"]   { background: linear-gradient(168deg, #7fc4b0 0%, #7fc4b0 100%);  border-color: rgba(0,0,0,.1);  color: #123d32;  --sc-sport-shadow: rgba(42,122,102,.5); }
-.sc-sport-btn[data-sport="f1"]       { background: linear-gradient(168deg, #d97268 0%, #d97268 100%);    border-color: rgba(0,0,0,.1);    color: #4a1108;    --sc-sport-shadow: rgba(217,114,104,.5); }
-.sc-sport-btn[data-sport="football"] { background: linear-gradient(168deg, #bfdcf5 0%, #bfdcf5 100%);   border-color: rgba(0,0,0,.1);   color: #163a5c;   --sc-sport-shadow: rgba(191,220,245,.5); }
-.sc-sport-btn[data-sport="rugby"]    { background: linear-gradient(168deg, #cbb8ec 0%, #cbb8ec 100%); border-color: rgba(0,0,0,.1); color: #33195c; --sc-sport-shadow: rgba(203,184,236,.5); }
-.sc-sport-btn[data-sport="marathon"] { background: linear-gradient(168deg, #d9985f 0%, #d9985f 100%); border-color: rgba(0,0,0,.1); color: #4a2610; --sc-sport-shadow: rgba(217,152,95,.5); }
-.sc-sport-btn[data-sport="cycling"]  { background: linear-gradient(168deg, #e8a8c0 0%, #e8a8c0 100%);   border-color: rgba(0,0,0,.1);   color: #6b2c48;   --sc-sport-shadow: rgba(232,168,192,.5); }
-.sc-sport-btn[data-sport="other"]    { background: linear-gradient(168deg, #a68968 0%, #a68968 100%);   border-color: rgba(0,0,0,.1);   color: #2a1f14;   --sc-sport-shadow: rgba(166,137,104,.5); }
+/* 2026-08-27: was 8 separate [data-sport] rules each duplicating a real
+   cp-* wash/ink as literal hex, plus a --sc-sport-shadow tint duplicating
+   the same hue again as a third hardcoded value. Each button now carries
+   its own cp-* class (SPORT_CP map above); one generic rule pulls wash/ink
+   AND the shadow tint from that class's own --sp-wash/--sp-ink/--sp-rgb
+   custom properties, so there is nothing left here that can drift from
+   web-travel-style.css. */
+.sc-sport-btn[class*="cp-"] { background: linear-gradient(168deg, var(--sp-wash) 0%, var(--sp-wash) 100%); border-color: rgba(0,0,0,.1); color: var(--sp-ink); --sc-sport-shadow: rgba(var(--sp-rgb),.5); }
 /* Outlined-in-own-colour, not a generic terracotta override — was
    background/border/color all forced to terracotta regardless of which
    sport's own colour was selected (owner rule 2026-08-26: no terracotta
@@ -437,6 +437,8 @@ const SE_EVENTS = [
 
 /* ── Sport types ──────────────────────────────────────────────── */
 const SPORT_TYPES = ['All','Tennis','F1','Football','Rugby','Marathon','Cycling','Other'];
+const SPORT_CP = { All:'cp-light-grey', Tennis:'cp-dark-teal', F1:'cp-bright-red', Football:'cp-blue',
+                    Rugby:'cp-purple', Marathon:'cp-terracotta', Cycling:'cp-dark-pink', Other:'cp-brown' };
 const SPORT_ICONS = { All:'', Tennis:'', F1:'', Football:'', Rugby:'', Marathon:'', Cycling:'', Other:'' };
 /* .sc-sport-tag colour — the approved Calm Pastel family (.cp-*), matched to
    the closest colour this page was already hand-rolling per sport. */
@@ -487,7 +489,7 @@ function initSportFilter() {
   const row = document.getElementById('sc-sport-row');
   SPORT_TYPES.forEach(s => {
     const btn = document.createElement('button');
-    btn.className = 'sc-sport-btn' + (s === 'All' ? ' on' : '');
+    btn.className = 'sc-sport-btn ' + SPORT_CP[s] + (s === 'All' ? ' on' : '');
     btn.setAttribute('data-sport', s.toLowerCase());
     btn.textContent = (SPORT_ICONS[s] || '') + ' ' + s;
     btn.setAttribute('aria-label', 'Filter: ' + s);

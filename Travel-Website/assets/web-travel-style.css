@@ -587,7 +587,10 @@ a.apply-btn, a.apply-btn:hover, .apply-btn, .apply-btn:hover,
 .sibling-pill { font-family: inherit;
   box-sizing: border-box; display: inline-flex; align-items: center; line-height: 1.2;
   font-size: 14px; font-weight: 600; padding: 8px 18px;
-  border: 1px solid rgba(192,78,26,.30); border-radius: 999px; background: var(--surface, #fff);
+  /* var(--warm), not var(--surface) -- surface resolves to literal #fff and no
+     pill on the site is ever white (NN104); the terracotta border/text above
+     stay -- .sibling-pill is the one documented terracotta exception (Rule 13). */
+  border: 1px solid rgba(192,78,26,.30); border-radius: 999px; background: var(--warm, #fdf8f0);
   text-decoration: none;
 }
 .sibling-pill:not([class*="fam-"]) { color: var(--rust, #C04E1A); }
@@ -640,7 +643,10 @@ a.sibling-pill.fam-grey, a.sibling-pill.fam-grey:visited { color: #4a483f; borde
    nor mobile.css. */
 a.also-on-this-site-pill {
   display: inline-flex; align-items: center; gap: 4px;
-  font-size: 13px; color: var(--accent, #8a6c1a); background: var(--surface, #ffffff);
+  /* Muted, not gold; var(--warm), not var(--surface) -- surface is literal
+     white (NN104), and gold has no role here (terracotta retired sitewide
+     from pill fonts except .sibling-pill). */
+  font-size: 13px; color: var(--muted, #6a6660); background: var(--warm, #fdf8f0);
   border: 0.5px solid var(--c-float-bd, #c8a44a); border-radius: 6px;
   padding: 6px 12px; text-decoration: none;
   transition: background .15s, box-shadow .15s, border-color .15s, color .15s, transform .08s;
@@ -1073,7 +1079,13 @@ a.bucket-name:visited, a.bar-country:visited { color: #3d3a32; }
 /* .stats-nav a is a descendant selector, needs its own line */
 .stats-nav a:visited { color: #6a6660; }
 /* Site-resource pill exception (gold) — inherits the rest gold color */
-a.also-on-this-site-pill:visited, a.nearby-guide-pill:visited { color: #8a6c1a; }
+/* Split 2026-08-27: .also-on-this-site-pill's rest color moved off gold to
+   var(--muted) (#6a6660) in this file -- its :visited must match exactly
+   (owner rule 2026-07-28, no color change after visit) and literal hex is
+   required here regardless, since :visited cannot read var(). .nearby-
+   guide-pill is untouched -- its own rest color lives in guide-style.css. */
+a.also-on-this-site-pill:visited { color: #6a6660; }
+a.nearby-guide-pill:visited { color: #8a6c1a; }
 /* Overview extras link (guide Trip Overview extras row) — brand color */
 a.overview-extra-link:visited { color: #8a6c1a; }  /* literal hex — Chrome doesn't resolve var() in :visited */
 /* Colored inline link classes on essentials pages */
@@ -1699,7 +1711,7 @@ input[type="text"]::placeholder,
   color: var(--rust, #C04E1A);
   border: 1px solid rgba(192,78,26,.30);
   border-radius: 999px;
-  background: var(--surface, #ffffff);
+  background: var(--warm, #fdf8f0);
   cursor: pointer;
   transition: all .15s;
 }
@@ -1719,11 +1731,12 @@ input[type="text"]::placeholder,
   font-family: inherit;
   font-size: 12.5px;
   font-weight: 600;
-  color: var(--accent, #8a6c1a);
+  /* Muted, not gold -- this is the way out (a Clear button), not a value. */
+  color: var(--muted, #6a6660);
   padding: 5px 12px;
   border: 1px solid var(--border2, #e6e2da);
   border-radius: 8px;
-  background: var(--surface, #ffffff);
+  background: var(--warm, #fdf8f0);
   cursor: pointer;
 }
 .bo-x-clear:hover { background: var(--bg, #f5f4f0); border-color: #b0aca6; }
@@ -1915,8 +1928,8 @@ a.bo-x-hit-cat:hover { border-color: #b0aca6; background: #f0ede8; text-decorati
   padding: 0 14px;
   border: 1.5px solid var(--border2, #e6e2da);
   border-radius: 6px;
-  background: var(--surface, #ffffff);
-  color: var(--accent, #8a6c1a);
+  background: var(--warm, #fdf8f0);
+  color: var(--muted, #6a6660);
   cursor: pointer;
   white-space: nowrap;
   transition: all .15s;
@@ -1983,6 +1996,12 @@ select {
    below close that gap for every current and future instance, tag
    notwithstanding — a page should never need its own focus-visible rule
    for a pill/badge again. */
+/* Muted, not gold -- this is the SITEWIDE focus-visible ring for every link,
+   button, select, pill and badge on the site (found in a 2026-08-27 drift
+   sweep: gold has no role in a focus indicator, and this one rule is why
+   the gold ring kept resurfacing across dozens of otherwise-fixed
+   components). #b0aca6 matches every other neutral focus/hover state this
+   same sweep converted (.cont-btn, .disc-btn, .filter-clear, etc). */
 a:focus-visible,
 button:focus-visible,
 select:focus-visible,
@@ -1990,7 +2009,7 @@ select:focus-visible,
 .filter-btn:focus-visible,
 .pill-badge:focus-visible,
 .badge:focus-visible,
-.sibling-pill:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; border-radius: 4px; }
+.sibling-pill:focus-visible { outline: 2px solid #b0aca6; outline-offset: 2px; border-radius: 4px; }
 
 /* ── Filter-pill count badge ──────────────────────────────────────────────
    The small tally inside a filter pill (dot-green icon, "Safe 12"). Byte-identical inline
@@ -2142,7 +2161,7 @@ a.chevron-link-pill:visited { color: #6a6660; }  /* literal hex — browsers don
 .bar-row { display: flex; align-items: center; gap: 8px; margin-bottom: 4px; padding: 0 18px; }
 .bar-track { flex: 1; height: 5px; background: var(--track); border-radius: 3px; overflow: hidden; }
 .controls-row { display: flex; justify-content: center; align-items: center; gap: 10px; margin-bottom: 14px; }
-.country-chip { background: var(--surface); border: 1px solid var(--border); border-radius: 6px; padding: 5px 11px; font-size: 12px; color: var(--text); cursor: pointer; white-space: nowrap; transition: border-color .15s, background .15s, color .15s; }
+.country-chip { background: var(--warm, #fdf8f0); border: 1px solid var(--border); border-radius: 6px; padding: 5px 11px; font-size: 12px; color: var(--text); cursor: pointer; white-space: nowrap; transition: border-color .15s, background .15s, color .15s; }
 .country-chips { display: none !important; }
 .country-select-wrap { display: block !important; }
 .decision-table { width: 100%; border-collapse: collapse; }
@@ -2152,7 +2171,7 @@ a.chevron-link-pill:visited { color: #6a6660; }  /* literal hex — browsers don
 .dot-gold { background: var(--gold); box-shadow: 0 0 0 1px var(--gold); }
 .dot-green { background: var(--green); box-shadow: 0 0 0 1px var(--green); }
 .dot-navy { background: var(--navy); box-shadow: 0 0 0 1px var(--navy); }
-.filter-clear { padding: 7px 10px;font-size: var(--fs-body,14px);border:1.5px solid var(--border2, #e6e2da);border-radius:8px;background:#fff;color:#7A5C2E;cursor:pointer;white-space:nowrap; }
+.filter-clear { padding: 7px 10px;font-size: var(--fs-body,14px);border:1.5px solid var(--border2, #e6e2da);border-radius:8px;background:var(--warm, #fdf8f0);color:var(--muted, #6a6660);cursor:pointer;white-space:nowrap; }
 .hub-top { display:none; }
 .index-table { width: 100%; border-collapse: collapse; border-radius: 0 0 6px 6px; overflow: hidden; box-shadow: 0 2px 12px rgba(92,61,17,0.10); }
 .legend-group { display: flex; flex-direction: column; gap: 7px; }
@@ -2231,7 +2250,7 @@ html[data-theme="dark"] .sun-c6 { background: #4a1e00 !important; color: #ff9860
 .sun-table td { padding: 6px 8px; border: 1px solid var(--border2); text-align: center; font-weight: 600; font-size: 11px; white-space: nowrap; }
 .fact-table td.fact-left { text-align: left; font-weight: 600; }
 #country-select { width: 100%; box-sizing: border-box; font-family: inherit; font-size: 16px; color: #3d3a32; background: var(--surface, #ffffff); border: 1px solid #c8a44a; border-radius: 6px; padding: 11px 28px 11px 14px; cursor: pointer; }
-#country-select:focus, #country-select:focus-visible { outline: none; border-color: var(--accent); }
+#country-select:focus, #country-select:focus-visible { outline: none; border-color: var(--c-search-focus-border, #C8B99A); }
 .country-chip:hover { border-color: #b0aca6; background: #f0ede8; }
 .country-chip.active { border-color: #C04E1A; color: var(--rust,#C04E1A); background: var(--surface,#ffffff); }
 #search-results { display: none; background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 16px; margin-bottom: 20px; }
@@ -2282,7 +2301,7 @@ a.nav-link:visited { color: #3d3a32; }
    the "Seasonal" tag's live background/ink matched neither sb-gold's real
    values nor anything else in the approved palette. */
 .tag.partner { background: var(--c1bg); color: var(--c1); }
-.filter-clear:hover { border-color:#B8860B;color:var(--accent, #8a6c1a); }
+.filter-clear:hover { border-color:#b0aca6;color:var(--text, #3d3a32); }
 body.is-searching #route-nav { display:none !important; }
 body.is-searching .tier-legend { display:none !important; }
 body.is-searching .hub-strength { display:none !important; }
@@ -2842,7 +2861,7 @@ body > .hero-ground {
 #regionJump .disc-btn {
   border-radius: 999px;
   border-color: var(--border2, #e6e2da);
-  background: var(--surface, #fff);
+  background: var(--warm, #fdf8f0);
   color: var(--text, #3d3a32);
   font-weight: 600;
   font-size: 13px;
@@ -2852,8 +2871,8 @@ body > .hero-ground {
 .bo-feat-toolbar .disc-btn:hover,
 #regionJump .disc-btn:hover { border-color: #b0aca6; background: #f0ede8; color: var(--text, #3d3a32); }
 .bo-feat-toolbar .disc-btn.has-active,
-#regionJump .disc-btn.has-active { color: #C04E1A; border-color: #C04E1A; background: var(--surface, #fff); }
-.bo-favs-pill { padding: 5px 14px; border-radius: 999px; font-size: 13px; font-weight: 600; cursor: pointer; background: var(--surface,#fff); color: var(--text,#3d3a32); border: 1.5px solid var(--border2,#e6e2da); transition: background .15s, color .15s, border-color .15s; }
+#regionJump .disc-btn.has-active { color: #C04E1A; border-color: #C04E1A; background: var(--warm, #fdf8f0); }
+.bo-favs-pill { padding: 5px 14px; border-radius: 999px; font-size: 13px; font-weight: 600; cursor: pointer; background: var(--warm, #fdf8f0); color: var(--text,#3d3a32); border: 1.5px solid var(--border2,#e6e2da); transition: background .15s, color .15s, border-color .15s; }
 .bo-favs-pill.bo-active { background: #fff5f5; color: #c0392b; border-color: #c0392b; }
 .bo-card-overlay { position: absolute; top: 8px; right: 8px; display: flex; gap: 5px; z-index: 2; }
 .bo-fav-btn, .bo-cmp-btn { width: 30px; height: 30px; border-radius: 50%; border: none; background: rgba(255,255,255,.88); color: var(--muted,#6a6660); font-size: 16px; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: background .15s, color .15s; }

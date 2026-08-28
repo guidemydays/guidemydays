@@ -2660,7 +2660,19 @@
    .disc-btn, .country-chip, .filter-clear(+hover), #country-select:focus,
    #region-filters>span, .bo-chip, .bo-feat-toolbar/#regionJump .disc-btn,
    .bo-favs-pill. MIN_VERSIONS['web-travel-style.css'] to 196. CACHE to v1693. */
-var CACHE = 'travel-cache-v1693';
+/* 2026-08-28: the fetch handler's "network-first" navigation path never
+   forced cache:'reload', so it silently answered from the browser's own HTTP
+   cache within Fastly's Cache-Control: max-age=600 window instead of the
+   network -- any page fix could ship to origin and still read unchanged for
+   up to 10 minutes to anyone who'd loaded that URL before, reload included,
+   because a page reload's cache-busting headers never reach this worker's
+   own internal fetch() call. Caught live chasing a reports/ "View mockup"
+   target=_blank fix that was confirmed live via curl but still served stale
+   by this exact worker with an active controller. Now forces reload only for
+   req.mode==='navigate', leaving sub-resource fetches on default caching.
+   No MIN_VERSIONS floor moves -- this is the worker's own fetch logic, not a
+   tracked asset. CACHE to v1694. */
+var CACHE = 'travel-cache-v1694';
 /* 2026-08-27: airlines.css's .card-tags align-items fix changed a shared
    asset without raising its own floor -- MIN_VERSIONS['airlines.css'] to
    6, CACHE to v1662. */
@@ -2789,7 +2801,20 @@ self.addEventListener('fetch', function (e) {
   var rewrittenUrl = rewriteAssetUrl(req.url);
   var fetchReq = (rewrittenUrl !== req.url)
     ? new Request(rewrittenUrl, { cache: 'reload' })
-    : req;
+    /* 2026-08-28: a plain navigation request carries no cache override, so
+       fetch(fetchReq) below was letting the BROWSER's own HTTP cache answer
+       it -- honoring Fastly's Cache-Control: max-age=600 -- instead of truly
+       reaching the network. "Network-first" only fixed a page the instant it
+       shipped for a visitor who had never loaded that URL before; anyone who
+       had (including the owner, mid-bug-report) kept the pre-fix HTML for up
+       to 10 minutes, and a page reload doesn't help -- the reload's own
+       cache-busting headers never reach this worker's OWN internal fetch()
+       call. Caught live: /reports/'s target=_blank mockup-link fix was
+       confirmed fixed at origin (curl, no cache) but still served stale by
+       this exact code path with an active controller. Forcing 'reload' only
+       for req.mode==='navigate' fixes every full-page load without forcing
+       it for every image/sub-resource fetch too. */
+    : (req.mode === 'navigate' ? new Request(req.url, { cache: 'reload' }) : req);
 
   // Network-first: try the network, cache the fresh copy, and only fall back to
   // the cache when the network fails (offline). Navigations fall back to the

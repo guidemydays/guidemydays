@@ -2677,7 +2677,15 @@
    var(--sp-ink) off the .cp-light-grey class now on that markup -- carrying
    this to returning browsers. MIN_VERSIONS['trains.css'] to 25. CACHE to
    v1697. */
-var CACHE = 'travel-cache-v1697';
+/* 2026-08-28: web-travel-style.css: new Neutral pill family (.nt-*, 7 tones)
+   + .hov-rust hover utility, replacing dozens of page-local pill
+   reimplementations essentials/ pages had each hand-built independently;
+   plus 5 pills (.chevron-link-pill, .guide-pill, .best-of-links/
+   .best-of-related a, .showcase-links a, .filter-btn.active) that read as
+   literal white against a white card (var(--surface) or no background at
+   all) -- carrying this to returning browsers. MIN_VERSIONS
+   ['web-travel-style.css'] to 197. CACHE to v1698. */
+var CACHE = 'travel-cache-v1698';
 /* 2026-08-27: airlines.css's .card-tags align-items fix changed a shared
    asset without raising its own floor -- MIN_VERSIONS['airlines.css'] to
    6, CACHE to v1662. */
@@ -2717,7 +2725,7 @@ var ICS_OUTBOX = 'gmd-ics-outbox';
    THIS IS THE ONLY PLACE to bump toolbar.js / guide-style.css versions.
    NEVER bump ?v= inside guide HTML — it breaks HMAC stamps and forces re-validation
    of 230+ guides. Instead, bump MIN_VERSIONS here + increment the CACHE version. */
-var MIN_VERSIONS = { 'guide-style.css': 267,'toolbar.js': 1095, 'mobile.css': 90, 'web-travel-style.css': 196, 'guides-index-style.css': 35, 'read-about.css': 6, 'best-of-features.js': 4, 'best-of-cross-data.js': 24, 'weather.js': 12, 'trains.css': 25, 'trains.js': 5, 'airlines.css': 7, 'airlines.js': 9, 'passport.js': 5, 'search-autocomplete.js': 9, 'flag-render.js': 2 };
+var MIN_VERSIONS = { 'guide-style.css': 267,'toolbar.js': 1095, 'mobile.css': 90, 'web-travel-style.css': 197, 'guides-index-style.css': 35, 'read-about.css': 6, 'best-of-features.js': 4, 'best-of-cross-data.js': 24, 'weather.js': 12, 'trains.css': 25, 'trains.js': 5, 'airlines.css': 7, 'airlines.js': 9, 'passport.js': 5, 'search-autocomplete.js': 9, 'flag-render.js': 2 };
 
 function rewriteAssetUrl(urlStr) {
   var u;

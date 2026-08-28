@@ -62,6 +62,43 @@
   /* ── DOM helper ── */
   function el(tag, cls, txt) { var e = document.createElement(tag); if (cls) e.className = cls; if (txt !== undefined) e.textContent = txt; return e; }
 
+  /* ── Favorite heart icon (catalogue ids 1454/1455, Site-Icons.html) ──
+     Self-contained sprite injected once at runtime: best-of-features.js is a
+     shared asset loaded on all 37 Best-Of pages, most of which don't already
+     embed these gradients, so the defs use their own bofav-* ids and literal
+     hex colours rather than the site's shared gm- / --c- tokens. Never text
+     glyphs (heart-filled or heart-outline) -- every icon comes from the
+     catalogue (CLAUDE.md, Twenty-eighth non-negotiable). */
+  var HEART_PATH = 'M12 21.2 10.55 19.9C5.4 15.2 2 12.1 2 8.3 2 5.2 4.4 2.8 7.5 2.8c1.75 0 3.4.8 4.5 2.1 1.1-1.3 2.75-2.1 4.5-2.1 3.1 0 5.5 2.4 5.5 5.5 0 3.8-3.4 6.9-8.55 11.6z';
+  function ensureHeartSprite() {
+    if (document.getElementById('bofav-sprite')) return;
+    var wrap = document.createElement('div');
+    wrap.id = 'bofav-sprite';
+    wrap.style.cssText = 'position:absolute;width:0;height:0;overflow:hidden';
+    wrap.innerHTML =
+      '<style>.bo-heart{width:1.2em;height:1.2em;vertical-align:-.2em;display:inline-block}</style>' +
+      '<svg width="0" height="0" aria-hidden="true"><defs>' +
+      '<linearGradient id="bofav-rose" x1="0" y1="0" x2="0" y2="1">' +
+        '<stop offset="0" stop-color="#ff3d7a"/><stop offset="1" stop-color="#bf2e5b"/></linearGradient>' +
+      '<linearGradient id="bofav-cream" x1="0" y1="0" x2="0" y2="1">' +
+        '<stop offset="0" stop-color="#f6ecdb"/><stop offset="1" stop-color="#e0d7c7"/></linearGradient>' +
+      '<linearGradient id="bofav-gloss" x1="0" y1="0" x2="0.55" y2="1">' +
+        '<stop offset="0" stop-color="#fff" stop-opacity="0.46"/><stop offset="0.42" stop-color="#fff" stop-opacity="0.14"/>' +
+        '<stop offset="1" stop-color="#fff" stop-opacity="0"/></linearGradient>' +
+      '<symbol id="bofav-heart-filled" viewBox="0 0 24 24">' +
+        '<path d="' + HEART_PATH + '" fill="url(#bofav-rose)" stroke="#a82851" stroke-width="0.5" stroke-linejoin="round"/>' +
+        '<path d="' + HEART_PATH + '" fill="url(#bofav-gloss)"/></symbol>' +
+      '<symbol id="bofav-heart-outline" viewBox="0 0 24 24">' +
+        '<path d="' + HEART_PATH + '" fill="url(#bofav-cream)" stroke="#a89c8e" stroke-width="1.3" stroke-linejoin="round"/></symbol>' +
+      '</defs></svg>';
+    document.body.appendChild(wrap);
+  }
+  function heartIconHTML(active) {
+    ensureHeartSprite();
+    return '<svg class="bo-heart" viewBox="0 0 24 24" aria-hidden="true"><use href="#' +
+      (active ? 'bofav-heart-filled' : 'bofav-heart-outline') + '"/></svg>';
+  }
+
   /* ── Compare state ── */
   var compareIds = [];
   var compareBarEl, compareNamesEl, compareModalEl, compareModalGrid;
@@ -277,11 +314,12 @@
     sortJump.appendChild(sortList);
     row.appendChild(sortJump);
 
-    var favPill = el('span', 'bo-favs-pill', '♡ Saved');
+    var favPill = el('span', 'bo-favs-pill');
+    favPill.innerHTML = heartIconHTML(false) + ' Saved';
     favPill.addEventListener('click', function () {
       showFavsOnly = !showFavsOnly;
       favPill.classList.toggle('bo-active', showFavsOnly);
-      favPill.textContent = showFavsOnly ? '♥ Saved' : '♡ Saved';
+      favPill.innerHTML = heartIconHTML(showFavsOnly) + ' Saved';
       applyFilters(sections);
     });
     row.appendChild(favPill);
@@ -366,7 +404,8 @@
   var noFavsEl;
   function ensureNoFavs() {
     if (noFavsEl) return;
-    noFavsEl = el('div', 'bo-no-favs', 'No saved places yet — click ♡ on a card to save it.');
+    noFavsEl = el('div', 'bo-no-favs');
+    noFavsEl.innerHTML = 'No saved places yet — click ' + heartIconHTML(false) + ' on a card to save it.';
     noFavsEl.style.display = 'none';
     grid.appendChild(noFavsEl);
   }
@@ -384,13 +423,14 @@
     /* Action overlay (top-right of photo area) */
     var overlay = el('div', 'bo-card-overlay');
 
-    var favBtn = el('button', 'bo-fav-btn', isFav(id) ? '♥' : '♡');
+    var favBtn = el('button', 'bo-fav-btn');
+    favBtn.innerHTML = heartIconHTML(isFav(id));
     favBtn.title = 'Save to favorites';
     if (isFav(id)) favBtn.classList.add('bo-active');
     favBtn.addEventListener('click', function (e) {
       e.stopPropagation();
       var active = toggleFav(id);
-      favBtn.textContent = active ? '♥' : '♡';
+      favBtn.innerHTML = heartIconHTML(active);
       favBtn.classList.toggle('bo-active', active);
     });
     overlay.appendChild(favBtn);

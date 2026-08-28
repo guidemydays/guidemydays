@@ -1243,6 +1243,48 @@ input[type="search"]:focus,
 input[type="text"]:focus,
 .search-input:focus { border-color: var(--c-search-focus-border); box-shadow: none; }
 
+/* ── Shared hero-pill search (owner rule 2026-08-28: "change ALL to share
+   right now") ──────────────────────────────────────────────────────────
+   ONE definition for the search field wrapper used on every hero-pill
+   exception page (guides index, before-you-go, weather, essentials/
+   day-trips) — this used to be four independently-declared, byte-identical
+   copies (.gx-search / .byg-search / .wx-search / .dt-search, each in its
+   own page's inline <style>) of the same 680px pill: same position/flex/
+   gap, same border/radius/shadow, same focus ring, same icon color, same
+   input font/color/placeholder, same mobile padding-left/gap override. A
+   future look change to this pill now needs one edit here, not four.
+
+   Max-width is the one property that genuinely varies per page (680px on
+   three of them, 460px on day-trips) — every page still sets its own
+   max-width as a page-local override on the SAME .hero-search class,
+   because a page-specific override on a shared class is normal CSS, not a
+   hand-rolled duplicate the way restating the whole box was.
+
+   Sunrise & Sunset is NOT on this class: .sun-search bakes its magnifier
+   directly into the input's own background-image (no separate wrapper +
+   icon span), a different markup shape from the other four, and folding it
+   in would mean rebuilding its markup, not just repointing a class name —
+   tracked separately, not silently left out. */
+.hero-search {
+  position: relative; display: flex; align-items: center; gap: 10px;
+  max-width: 680px; margin: 0 auto; background: var(--surface, #fff);
+  border: 1.5px solid var(--border2, #e6e2da); border-radius: 999px;
+  padding: 6px 22px; box-shadow: 0 6px 26px rgba(92, 61, 17, .07);
+  transition: border-color .18s ease, box-shadow .18s ease;
+}
+.hero-search:focus-within { border-color: var(--c-search-focus-border, #C8B99A); box-shadow: none; }
+.hero-search-icon { line-height: 0; flex-shrink: 0; color: var(--muted, #6a6660); }
+.hero-search .search-input {
+  flex: 1; min-width: 0; height: var(--search-h, 56px); margin: 0; padding: 0 4px;
+  font-family: inherit; font-size: clamp(1rem, 1.5vw, 1.18rem); font-weight: 500;
+  color: var(--text, #17150f); background: transparent; border: none; border-radius: 0;
+  outline: none; box-shadow: none;
+}
+.hero-search .search-input::placeholder { color: #a8a29a; font-weight: 400; }
+.hero-search .search-input:focus, .hero-search .search-input:focus-visible { border: none !important; box-shadow: none !important; }
+.hero-search .sa-suggest { left: 0; right: 0; top: calc(100% + 14px); border-radius: 14px; text-align: left; }
+@media (max-width: 700px) { .hero-search { padding-left: 16px; gap: 6px; } }
+
 /* ── Shared search autocomplete dropdown (TVESearch, search-autocomplete.js) ──
    Floating "City · Country" typeahead card. One definition; every page that
    calls TVESearch.attach() gets this look — never restyle per page. */

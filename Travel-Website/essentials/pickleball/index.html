@@ -34,12 +34,19 @@ html { scroll-behavior: smooth; }
    entirely for a jump-nav) and a literal white/terracotta active state
    (NN104 + Rule 13, both already retired everywhere else this session).
    Rebuilt to the same neutral rest/hover/active every other jump-nav on
-   the site uses. */
+   the site uses. 2026-08-28: rest state keeps the theme-aware --warm/
+   --border2/--muted tokens (already correct, already shared -- not
+   duplication). Hover/active now reads the Neutral pill family's .nt-grey
+   tokens (web-travel-style.css) instead of the literal #f0ede8/#b0aca6/
+   #6a6660 this used to hardcode -- via var() since this row keeps its own
+   compact box sizing rather than switching to .selection-pill. nt-grey
+   isn't theme-aware (same values both themes, matching the sp-* family's
+   own "not yet decided" precedent), which is why the dark-mode override
+   two rules below still exists and still wins for dark mode. */
 .pb-nav a { display: inline-flex; align-items: center; justify-content: center; font-family: inherit; font-size: 13px; font-weight: 600; line-height: 1; padding: 9px 20px; border-width: 1px; border-style: solid; border-radius: 999px; white-space: nowrap; text-decoration: none; background: var(--warm, #fdf8f0); border-color: var(--border2); color: var(--muted, #6a6660); }
-.pb-nav a:not(.active):hover { background: #f0ede8; border-color: #b0aca6; }
-.pb-nav a.active { background: #f0ede8; border-width: 1.5px; border-color: #b0aca6; color: #6a6660; }
-.pb-nav a:visited { color: var(--muted, #6a6660); }
-.pb-nav a.active:visited { color: #6a6660; }
+.pb-nav a:not(.active):hover { background: var(--nt-grey-wash); border-color: rgba(var(--nt-grey-rgb),.75); }
+.pb-nav a.active { background: var(--nt-grey-wash); border-width: 1.5px; border-color: rgba(var(--nt-grey-rgb),.75); color: var(--nt-grey-ink); }
+.pb-nav a:visited, .pb-nav a.active:visited { color: #6a6660; }  /* literal hex -- :visited can't resolve var() */
 
 /* ============ SCOREBOARD STRIP ============ */
 .pb-scoreboard { background: #22201c; border-radius: 12px; padding: 4px; margin-bottom: 24px; overflow-x: auto; -webkit-overflow-scrolling: touch; }

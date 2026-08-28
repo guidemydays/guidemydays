@@ -805,7 +805,7 @@ document.getElementById('best-of-search').addEventListener('input', function() {
   });
   // Reset region filter when searching
     var rc = document.getElementById('region-filters');
-    if (rc) { var rchips = rc.children; for (var i=0;i<rchips.length;i++) { rchips[i].style.cssText = (i===0) ? 'display:inline-block;padding:4px 12px;border-radius:6px;font-size:12px;cursor:pointer;border:1px solid #C04E1A;color:#fff;background:#C04E1A;transition:all 0.2s' : 'display:inline-block;padding:4px 12px;border-radius:6px;font-size:12px;cursor:pointer;border:1px solid var(--border);color:var(--text);background:var(--warm,#fdf8f0);transition:all 0.2s'; if (i===0) rchips[i].classList.add('bo-active'); else rchips[i].classList.remove('bo-active'); } }
+    if (rc) { var rchips = rc.children; for (var i=0;i<rchips.length;i++) { rchips[i].classList.toggle('bo-active', i===0); } }
   labels.forEach(function(l) {
     var next = l.nextElementSibling;
     var anyVisible = false;
@@ -826,14 +826,10 @@ document.getElementById('best-of-search').addEventListener('input', function() {
   var labels = document.querySelectorAll('.best-of-section-label');
   if (labels.length < 2) { container.style.display = 'none'; return; }
 
-  var chipStyle = 'display:inline-flex;align-items:center;justify-content:center;text-align:center;padding:4px 12px;border-radius:6px;font-size:12px;font-weight:400;cursor:pointer;border:1px solid var(--border);color:var(--muted,#6a6660);background:var(--warm,#fdf8f0);transition:all 0.2s';
-  var activeStyle = 'display:inline-flex;align-items:center;justify-content:center;text-align:center;padding:4px 12px;border-radius:6px;font-size:12px;cursor:pointer;border:1px solid #6a6660;color:#4a483f;background:#e2e1de;transition:all 0.2s';
-
   // Build "All" chip
   var allChip = document.createElement('span');
   allChip.textContent = 'All';
-  allChip.style.cssText = activeStyle;
-  allChip.classList.add('bo-active');
+  allChip.classList.add('bo-chip', 'bo-active');
   allChip.onclick = function() { filterRegion(null); };
   container.appendChild(allChip);
 
@@ -843,7 +839,7 @@ document.getElementById('best-of-search').addEventListener('input', function() {
     if (label.getAttribute('data-no-filter')) return;
     var chip = document.createElement('span');
     chip.textContent = label.textContent;
-    chip.style.cssText = chipStyle;
+    chip.classList.add('bo-chip');
     chip.onclick = function() { filterRegion(label.textContent); };
     container.appendChild(chip);
     chips.push(chip);
@@ -856,13 +852,7 @@ document.getElementById('best-of-search').addEventListener('input', function() {
 
     // Update chip styles
     chips.forEach(function(c, i) {
-      if ((!region && i === 0) || (region && c.textContent === region)) {
-        c.style.cssText = activeStyle;
-        c.classList.add('bo-active');
-      } else {
-        c.style.cssText = chipStyle;
-        c.classList.remove('bo-active');
-      }
+      c.classList.toggle('bo-active', (!region && i === 0) || (region && c.textContent === region));
     });
 
     if (!region) {

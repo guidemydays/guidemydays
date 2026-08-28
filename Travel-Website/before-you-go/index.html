@@ -33,17 +33,15 @@ body { padding-bottom: calc(24px + env(safe-area-inset-bottom, 0px)) !important;
 .byg-unit { display: inline-flex; border: 1px solid var(--border2,#e6e2da); border-radius: 6px; overflow: hidden; }
 .byg-unit button { border: none; cursor: pointer; padding: 7px 11px; font-size: 12px; font-weight: 600;
   font-family: var(--font); background: transparent; color: var(--muted,#6a6660); }
-.byg-unit button.on { background: #f0ede8; color: var(--muted); }
+.byg-unit button.on { background: var(--nt-grey-wash); color: var(--muted); }
 .byg-empty { text-align: center; color: var(--muted,#6a6660); font-size: var(--fs-body,14px);
   padding: 40px 10px; line-height: 1.6; }
-/* Search input (replaces the city dropdown) */
-#byg-find { width: 100%; min-width: 0; height: 40px; box-sizing: border-box; margin: 0; font-family: var(--font);
-  font-size: 15px; color: var(--text,#1a1917); padding: 0 18px 0 36px;
-  border: 1.5px solid var(--border2,#e6e2da); border-radius: 6px; background: #fff; outline: none; }
-#byg-find::placeholder { color: var(--c-search-placeholder); }
-#byg-find:focus, #byg-find:focus-visible { outline: none !important; border-color: var(--c-search-focus-border); box-shadow: none; }
-/* Autocomplete dropdown — uses shared TVESearch (.sa-suggest / .sa-row from web-travel-style.css) */
-.byg-find-wrap { position: relative; grid-column: 2; }
+/* .byg-pick/.byg-find-wrap/.byg-select/.byg-find-icon/.byg-month-row above are
+   dead -- superseded by the .byg-search hero pill below; no HTML references
+   them. The old #byg-find rule that lived here (pre-hero-pill, background:#fff,
+   height:40px) is deleted rather than left dead: it shares the #byg-find ID
+   with the live rule below, and removing only the live rule while leaving this
+   one would have silently revived it. */
 .byg-cards { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; align-items: start; max-width: 1440px; }
 /* Plug Adapter is a full-width strip above the grid — socket types laid out horizontally */
 .byg-plug-card { max-width: 1440px; margin-bottom: 14px; }
@@ -78,8 +76,11 @@ body { padding-bottom: calc(24px + env(safe-area-inset-bottom, 0px)) !important;
 .byg-row-label { font-size: 12px; color: var(--muted,#6a6660); }
 .byg-row-value { font-size: 14px; font-weight: 600; color: var(--text,#1a1917); text-align: right; }
 .byg-unit-inline { display: inline-flex; border: 1px solid var(--border2,#e6e2da); border-radius: 6px; overflow: hidden; flex-shrink: 0; }
-.byg-unit-inline button { border: none; cursor: pointer; padding: 5px 9px; font-size: 11px; font-weight: 600; background: var(--surface,#fff); color: var(--text,#1a1917); }
-.byg-unit-inline button.on { background: #f0ede8; color: var(--muted); }
+/* background was var(--surface), literal white in light mode -- no pill on
+   this site is ever white (Hundred-and-fourth non-negotiable). var(--warm),
+   matching the sibling .cf-seg segmented control on when-to-go. */
+.byg-unit-inline button { border: none; cursor: pointer; padding: 5px 9px; font-size: 11px; font-weight: 600; background: var(--warm,#fdf8f0); color: var(--text,#1a1917); }
+.byg-unit-inline button.on { background: var(--nt-grey-wash); color: var(--muted); }
 .byg-temps { display: flex; gap: 20px; margin: 8px 0 6px; }
 .byg-hi { color: var(--c-temp-hi); font-size: 32px; font-weight: 700; }
 .byg-lo { color: var(--c-temp-lo); font-size: 32px; font-weight: 700; }
@@ -197,7 +198,6 @@ body { padding-bottom: calc(24px + env(safe-area-inset-bottom, 0px)) !important;
 }
 
 @media (prefers-color-scheme: dark) {
-  #byg-find.search-input { background: var(--surface, #2a2825) var(--search-icon, none) no-repeat 13px center; color: var(--text, #e8e2d9); }
   .byg-month-select      { background-color: var(--surface, #2a2825); color: var(--text, #e8e2d9); }
   /* .byg-link's own dark-mode hover deleted -- .chevron-link-pill (now
      applied via the shared class) already supplies the correct neutral
@@ -234,26 +234,16 @@ body { padding-bottom: calc(24px + env(safe-area-inset-bottom, 0px)) !important;
 .byg-hero-h em { font-style: normal; color: var(--rust, #C04E1A); }
 .byg-hero-sub { font-size: clamp(.95rem, 1.25vw, 1.1rem); line-height: 1.6; color: var(--muted, #6a6660);
   max-width: 56ch; margin: 0 auto var(--search-gap, 32px); }
-/* The field: one control, deliberately oversized — it is the whole page. */
-.byg-search { position: relative; display: flex; align-items: center; gap: 10px;
-  max-width: 680px; margin: 0 auto; background: var(--surface, #fff);
-  border: 1.5px solid var(--border2, #e6e2da); border-radius: 999px;
-  padding: 6px 6px 6px 22px; box-shadow: 0 6px 26px rgba(92, 61, 17, .07);
-  transition: border-color .18s ease, box-shadow .18s ease; }
-/* Terracotta retired 2026-08-27 (owner, live: "No exception to terracotta") --
-   matches every other search input on the site now: muted icon,
-   var(--c-search-focus-border) on focus, no glow. */
-.byg-search:focus-within { border-color: var(--c-search-focus-border, #C8B99A); box-shadow: none; }
-.byg-search-icon { line-height: 0; flex-shrink: 0; color: var(--muted, #6a6660); }
-#byg-find, .byg-search #byg-find.search-input {
-  flex: 1; min-width: 0; height: var(--search-h, 56px); margin: 0; padding: 0 4px;
-  font-family: var(--font); font-size: clamp(1rem, 1.5vw, 1.18rem); font-weight: 500;
-  color: var(--text, #17150f); background: transparent; border: none; border-radius: 0;
-  outline: none; box-shadow: none; }
-#byg-find::placeholder, .byg-search #byg-find.search-input::placeholder { color: #a8a29a; font-weight: 400; }
-#byg-find:focus, #byg-find:focus-visible { border: none !important; box-shadow: none !important; }
+/* The field: one control, deliberately oversized — it is the whole page.
+   Box/icon/input/placeholder/focus rules come from the shared .hero-search /
+   .hero-search-icon component in web-travel-style.css (2026-08-28
+   consolidation -- owner: "No exception change ALL to share"). Only this
+   page's two genuine variances stay local: tighter right padding (the
+   terracotta Guide pill sits flush inside the field) and a closer
+   autocomplete-panel offset. */
+.byg-search.hero-search { padding-right: 6px; }
 /* Autocomplete panel is positioned against the field, not the page. */
-.byg-search .sa-suggest { left: 0; right: 0; top: calc(100% + 8px); border-radius: 14px; text-align: left; }
+.byg-search .sa-suggest { top: calc(100% + 8px); }
 .byg-hero #byg-guide-slot { flex-shrink: 0; }
 .byg-hero .byg-guide-pill { height: 46px; border-radius: 999px; padding: 0 22px; font-size: .95rem;
   background: var(--rust, #C04E1A); border-color: var(--rust, #C04E1A); color: #fff; }
@@ -287,7 +277,6 @@ body { padding-bottom: calc(24px + env(safe-area-inset-bottom, 0px)) !important;
 .byg-mchip { font-size: .82rem; padding: .5em 1.05em; }
 @media (max-width: 700px) {
   .byg-hero { padding-top: 1.5rem; }
-  .byg-search { padding-left: 16px; gap: 6px; }
   /* No phone shrink: one search height at every viewport (--search-h,
      owner rule 2026-08-17). */
   .byg-hero .byg-guide-pill { height: 40px; padding: 0 16px; font-size: .88rem; }
@@ -335,8 +324,8 @@ body { padding-bottom: calc(24px + env(safe-area-inset-bottom, 0px)) !important;
     <p class="byg-kicker">Before you go</p>
     <h1 class="byg-hero-h" id="byg-hero-h">Everything worth checking <em>before you book</em>.</h1>
     <p class="byg-hero-sub" id="byg-hero-sub">One city, one month — the weather you'll get, whether you need a visa, how safe it is, what a day costs, and which plug to pack.</p>
-    <div class="byg-search">
-      <span class="byg-search-icon"><svg style="display:block" width="19" height="19" viewBox="0 0 13 13" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="5.5" cy="5.5" r="4.5" stroke="currentColor" stroke-width="1.5"/><line x1="9.35" y1="9.35" x2="12" y2="12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></span>
+    <div class="byg-search hero-search">
+      <span class="byg-search-icon hero-search-icon"><svg style="display:block" width="19" height="19" viewBox="0 0 13 13" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="5.5" cy="5.5" r="4.5" stroke="currentColor" stroke-width="1.5"/><line x1="9.35" y1="9.35" x2="12" y2="12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></span>
       <input type="search" class="search-input" id="byg-find" placeholder="City or country" aria-label="Search by city or country" autocomplete="off">
       <span id="byg-guide-slot"></span>
     </div>

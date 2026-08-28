@@ -2686,7 +2686,13 @@
    literal white against a white card (var(--surface) or no background at
    all) -- carrying this to returning browsers. MIN_VERSIONS
    ['web-travel-style.css'] to 197. CACHE to v1698. */
-var CACHE = 'travel-cache-v1699';
+/* 2026-08-28: web-travel-style.css: new shared .hero-search / .hero-search-icon
+   component consolidating the 4 duplicated hero-pill search bars (guides
+   index, before-you-go, weather, essentials/day-trips) onto one definition --
+   owner: "No exception change ALL to share right now". Carrying this to
+   returning browsers. MIN_VERSIONS['web-travel-style.css'] to 199. CACHE to
+   v1700. */
+var CACHE = 'travel-cache-v1700';
 /* 2026-08-27: airlines.css's .card-tags align-items fix changed a shared
    asset without raising its own floor -- MIN_VERSIONS['airlines.css'] to
    6, CACHE to v1662. */
@@ -2726,7 +2732,7 @@ var ICS_OUTBOX = 'gmd-ics-outbox';
    THIS IS THE ONLY PLACE to bump toolbar.js / guide-style.css versions.
    NEVER bump ?v= inside guide HTML — it breaks HMAC stamps and forces re-validation
    of 230+ guides. Instead, bump MIN_VERSIONS here + increment the CACHE version. */
-var MIN_VERSIONS = { 'guide-style.css': 267,'toolbar.js': 1095, 'mobile.css': 90, 'web-travel-style.css': 198, 'guides-index-style.css': 36, 'read-about.css': 6, 'best-of-features.js': 4, 'best-of-cross-data.js': 24, 'weather.js': 12, 'trains.css': 26, 'trains.js': 5, 'airlines.css': 7, 'airlines.js': 9, 'passport.js': 5, 'search-autocomplete.js': 9, 'flag-render.js': 2 };
+var MIN_VERSIONS = { 'guide-style.css': 267,'toolbar.js': 1095, 'mobile.css': 90, 'web-travel-style.css': 199, 'guides-index-style.css': 36, 'read-about.css': 6, 'best-of-features.js': 4, 'best-of-cross-data.js': 24, 'weather.js': 12, 'trains.css': 26, 'trains.js': 5, 'airlines.css': 7, 'airlines.js': 9, 'passport.js': 5, 'search-autocomplete.js': 9, 'flag-render.js': 2 };
 
 function rewriteAssetUrl(urlStr) {
   var u;

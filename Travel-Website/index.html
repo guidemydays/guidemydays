@@ -7065,6 +7065,18 @@ function render() {
       });
       out += '</tr>';
 
+      /* Population row — same World Bank/UN figures Ask Your Guide already
+         publishes per place (WORLD_STATS, fetched once and shared by every
+         row below that reads it). A guide with no stats record at all prints
+         the same em-dash every other row's missing cell prints. */
+      out += '<tr><td class="cmp-row-label">Population</td>';
+      sel.forEach(function(c) {
+        var slugP = String(c.href || '').split('/').pop().replace(/\.html$/, '');
+        var wsP = (WORLD_STATS && WORLD_STATS[slugP]) || null;
+        out += '<td class="cmp-col">' + (wsP && wsP.population ? '<span class="cmp-v">' + esc(wsP.population) + '</span>' : '<span class="cmp-sub">—</span>') + '</td>';
+      });
+      out += '</tr>';
+
       /* Time zone row */
       var TZ_NOW = new Date();
       /* The offset is against the READER'S OWN clock — never Seattle's (owner
@@ -7188,6 +7200,23 @@ function render() {
       });
       out += '</tr>';
 
+      /* Sunshine row — annual total, city-level where Ask Your Guide's own
+         per-city sunshine table has one, else the country's. Hours everywhere
+         except the US region, which reads sunny days instead — the unit is
+         printed rather than assumed, same reasoning as the Currency row. */
+      out += '<tr><td class="cmp-row-label">Sunshine<br><span style="font-weight:400;letter-spacing:0;text-transform:none">annual total</span></td>';
+      sel.forEach(function(c) {
+        var slugS = String(c.href || '').split('/').pop().replace(/\.html$/, '');
+        var wsS = (WORLD_STATS && WORLD_STATS[slugS]) || null;
+        if (wsS && wsS.sun_annual) {
+          out += '<td class="cmp-col"><span class="cmp-v">' + wsS.sun_annual.toLocaleString() + '</span>'
+            + '<span class="cmp-sub">' + (wsS.sun_unit === 'days' ? 'sunny days a year' : 'hours a year') + '</span></td>';
+        } else {
+          out += '<td class="cmp-col"><span class="cmp-sub">—</span></td>';
+        }
+      });
+      out += '</tr>';
+
       /* Type row */
       var THEMES = window._THEME_DATA || {};
       out += '<tr class="cmp-group-start"><td class="cmp-row-label">Type</td>';
@@ -7260,6 +7289,18 @@ function render() {
         } else {
           out += '<td class="cmp-col" style="vertical-align:top;padding-top:14px"><span class="cmp-sub">—</span></td>';
         }
+      });
+      out += '</tr>';
+
+      /* Life expectancy row — WHO/World Bank, same figure Ask Your Guide
+         reads. Absent for every Canadian guide (its region catalogue does
+         not publish it), same "—" the row already prints for any city with
+         no record. */
+      out += '<tr><td class="cmp-row-label">Life<br>expectancy</td>';
+      sel.forEach(function(c) {
+        var slugL = String(c.href || '').split('/').pop().replace(/\.html$/, '');
+        var wsL = (WORLD_STATS && WORLD_STATS[slugL]) || null;
+        out += '<td class="cmp-col">' + (wsL && wsL.life ? '<span class="cmp-v">' + esc(wsL.life) + '</span><span class="cmp-sub">years</span>' : '<span class="cmp-sub">—</span>') + '</td>';
       });
       out += '</tr>';
 
@@ -7401,9 +7442,23 @@ function render() {
         .catch(function () { FACTS = {}; then(); });
     }
 
+    /* Population / Life expectancy / Sunshine — the same World Bank/WHO/UN
+       figures Ask Your Guide already publishes per place, joined here rather
+       than reworking that page's own guide-to-place resolution a second
+       time. Keyed by bare slug ("paris", not "paris.html"). */
+    var WORLD_STATS = null;
+    function loadWorldStats(then) {
+      if (WORLD_STATS) { then(); return; }
+      fetch('/assets/world-stats.json')
+        .then(function (r) { return r.ok ? r.json() : null; })
+        .then(function (j) { WORLD_STATS = (j && j.stats) || {}; then(); })
+        .catch(function () { WORLD_STATS = {}; then(); });
+    }
+
     function showPanel() {
       if (!compareView || sel.length < 2) return;
       loadFacts(function () {
+      loadWorldStats(function () {
       loadVisa(function () {
       loadAirports(function () {
       loadClimate(function() {
@@ -7438,6 +7493,7 @@ function render() {
         });
         /* scroll table into view */
         compareView.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      });
       });
       });
       });

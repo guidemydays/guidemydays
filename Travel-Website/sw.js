@@ -2738,7 +2738,8 @@
 /* 2026-08-29: weather.js — Mumbai climate data added (fleet validator fix). weather.js -> v17. CACHE to v1729. */
 /* 2026-08-29: guide-style.css -> v275, web-travel-style.css -> v213 — Best-Of CSS drift fixes (border-left, font-size, aspect-ratio). CACHE to v1730. */
 /* 2026-08-29: Mumbai (BOM): add to CHIP_DATA and LOUNGE_IATAS toolbar.js -> v1104. CACHE to v1731. */
-var CACHE = 'travel-cache-v1731';
+/* 2026-08-29: lagos-nigeria guide 243 ship toolbar.js -> v1105. CACHE to v1732. */
+var CACHE = 'travel-cache-v1732';
 /* 2026-08-27: airlines.css's .card-tags align-items fix changed a shared
    asset without raising its own floor -- MIN_VERSIONS['airlines.css'] to
    6, CACHE to v1662. */
@@ -2778,7 +2779,7 @@ var ICS_OUTBOX = 'gmd-ics-outbox';
    THIS IS THE ONLY PLACE to bump toolbar.js / guide-style.css versions.
    NEVER bump ?v= inside guide HTML — it breaks HMAC stamps and forces re-validation
    of 230+ guides. Instead, bump MIN_VERSIONS here + increment the CACHE version. */
-var MIN_VERSIONS = { 'guide-style.css': 275,'toolbar.js': 1104, 'mobile.css': 92, 'web-travel-style.css': 214, 'guides-index-style.css': 38, 'read-about.css': 8, 'best-of-features.js': 5, 'best-of-cross-data.js': 24, 'weather.js': 17, 'trains.css': 28, 'trains.js': 5, 'airlines.css': 9, 'airlines.js': 9, 'passport.js': 5, 'search-autocomplete.js': 9, 'flag-render.js': 2 };
+var MIN_VERSIONS = { 'guide-style.css': 275,'toolbar.js': 1105, 'mobile.css': 92, 'web-travel-style.css': 214, 'guides-index-style.css': 38, 'read-about.css': 8, 'best-of-features.js': 5, 'best-of-cross-data.js': 24, 'weather.js': 17, 'trains.css': 28, 'trains.js': 5, 'airlines.css': 9, 'airlines.js': 9, 'passport.js': 5, 'search-autocomplete.js': 9, 'flag-render.js': 2 };
 
 function rewriteAssetUrl(urlStr) {
   var u;

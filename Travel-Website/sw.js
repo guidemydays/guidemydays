@@ -2726,7 +2726,8 @@
    with a real catalogue SVG heart (Site-Icons.html ids 1454/1455, injected
    at runtime) -- no emoji anywhere on the site, owner rule 2026-08-28.
    best-of-features.js -> v5. CACHE to v1721. */
-var CACHE = 'travel-cache-v1721';
+/* 2026-08-28: Retire fabricated NN96 grey-All-pill citation from toolbar.js's width-equalize comment (behavior unchanged) toolbar.js -> v1102. CACHE to v1722. */
+var CACHE = 'travel-cache-v1722';
 /* 2026-08-27: airlines.css's .card-tags align-items fix changed a shared
    asset without raising its own floor -- MIN_VERSIONS['airlines.css'] to
    6, CACHE to v1662. */
@@ -2766,7 +2767,7 @@ var ICS_OUTBOX = 'gmd-ics-outbox';
    THIS IS THE ONLY PLACE to bump toolbar.js / guide-style.css versions.
    NEVER bump ?v= inside guide HTML — it breaks HMAC stamps and forces re-validation
    of 230+ guides. Instead, bump MIN_VERSIONS here + increment the CACHE version. */
-var MIN_VERSIONS = { 'guide-style.css': 273,'toolbar.js': 1101, 'mobile.css': 92, 'web-travel-style.css': 212, 'guides-index-style.css': 38, 'read-about.css': 8, 'best-of-features.js': 5, 'best-of-cross-data.js': 24, 'weather.js': 12, 'trains.css': 28, 'trains.js': 5, 'airlines.css': 9, 'airlines.js': 9, 'passport.js': 5, 'search-autocomplete.js': 9, 'flag-render.js': 2 };
+var MIN_VERSIONS = { 'guide-style.css': 273,'toolbar.js': 1102, 'mobile.css': 92, 'web-travel-style.css': 212, 'guides-index-style.css': 38, 'read-about.css': 8, 'best-of-features.js': 5, 'best-of-cross-data.js': 24, 'weather.js': 12, 'trains.css': 28, 'trains.js': 5, 'airlines.css': 9, 'airlines.js': 9, 'passport.js': 5, 'search-autocomplete.js': 9, 'flag-render.js': 2 };
 
 function rewriteAssetUrl(urlStr) {
   var u;

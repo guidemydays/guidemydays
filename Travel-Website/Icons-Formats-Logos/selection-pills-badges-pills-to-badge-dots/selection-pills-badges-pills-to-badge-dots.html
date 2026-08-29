@@ -103,6 +103,8 @@ code{font-family:ui-monospace,SFMono-Regular,Menlo,monospace; font-size:12px; ba
 .family-title.second{margin-top:2.5rem; padding-top:1.5rem; border-top:1px solid var(--border)}
 .family-title.f1{color:#8a6a28}
 .family-title.f2{color:#9a5030}
+.family-title.f3{color:#5b5248}
+.no-caps .badge{text-transform:none}
 
 /* the real shared classes — byte-identical to web-travel-style.css */
 /* CENTERING IS LOCKED, both axes, always (owner rule 2026-08-24) — verified
@@ -148,7 +150,7 @@ code{font-family:ui-monospace,SFMono-Regular,Menlo,monospace; font-size:12px; ba
    the ring stays proportionate to the pill. A hand-rolled ::after ring at
    a FIXED small radius is sharper than the 4px pill inside it, which makes
    the pill itself read as oval by comparison — that was the bug. */
-.badge.is-on,.pillbadge.is-on{outline:3px solid currentColor; outline-offset:1px}
+.badge.is-on,.pillbadge.is-on{outline:3px solid currentColor; outline-offset:3px}
 /* Rest-state border is now FULLY OPAQUE (border-color = the family's own ink,
    or --fam-orange-border for the renamed Brown family) — owner rule
    2026-08-24, after "border still not dark enough" through two translucency
@@ -170,6 +172,18 @@ code{font-family:ui-monospace,SFMono-Regular,Menlo,monospace; font-size:12px; ba
    wash is too pale to read at 15px), same white edge as Stamp's dot.
    Combine with a .sp-* class, e.g. class="dot-sp sp-rust". */
 .dot-sp{ width:15px; height:15px; border-radius:50%; display:inline-block; background:var(--sp-ink); border:1.5px solid #ffffff; box-shadow:0 0 0 1px rgba(0,0,0,.15); }
+/* .dot-e was referenced by every § Dots swatch below but never had a rule
+   anywhere in this file or web-travel-style.css -- every dot in that section
+   was rendering blank. Rebuilt from the section's own description: gradient
+   fill (--top to --bot), a rim in a deeper shade (--rim/--rimrgb), inset
+   sheen, colour-tinted drop shadow. */
+.dot-e{
+  width:15px; height:15px; border-radius:50%; display:inline-block;
+  background:
+    radial-gradient(circle at 35% 25%, rgba(255,255,255,.55), rgba(255,255,255,0) 45%),
+    radial-gradient(circle at 40% 34%, var(--top), var(--bot) 70%);
+  box-shadow: inset 0 0 0 1.5px var(--rim), 0 2px 4px rgba(var(--rimrgb),.45);
+}
 .dot-strip{ display:flex; flex-wrap:wrap; gap:14px; align-items:center; }
 .dot-strip .dot-item{ display:flex; flex-direction:column; align-items:center; gap:5px; font-size:10px; color:var(--muted); }
 
@@ -314,9 +328,9 @@ a{color:var(--text); text-decoration:underline}
 <div class="rule"><span class="rule-num">1</span><div class="rule-body"><strong>Guides are exempted — this doc never governs a guide page.</strong> A guide page (<code>Travel-Website/guides/{city_slug}.html</code>) and its Read-About/stops-map pair run their own separate rule set end to end — <code>assets/guide-style.css</code>, <code>Guide Structure.html</code>, <code>Stops Structure.html</code>, and the rest of <code>Brain/CORE RULES/</code>. A pill, badge, or dot that happens to appear inside a guide is governed by the guide's own doc set, never by this one.</div></div>
 <div class="rule"><span class="rule-num">2</span><div class="rule-body"><strong>No two pills in the same row/group share a color.</strong> Every sibling in one filter/legend/badge row is a different color, no exceptions — two different meanings reading as the same pill is drift, full stop. If a row is running out of distinct colors, that's a signal to re-check the grouping, never a reason to repeat one.</div></div>
 <div class="rule"><span class="rule-num">3</span><div class="rule-body"><strong>An icon-bearing pill needs more vertical room than the plain-text reference — use the shared <code>has-icon</code> modifier (<code>padding:7px 14px</code>), never a page-local override.</strong> <code>web-travel-style.css</code>'s <code>--fam-pad</code> (<code>4px 9px</code>) is sized for text alone; an icon taller than the text line reads squished at that padding. <code>has-icon</code> isn't an arbitrary bump — measured live, the plain reference renders <code>130×22px</code> (a <code>5.91:1</code> width:height ratio) and the <code>has-icon</code> version renders <code>188×30px</code> (<code>6.32:1</code>) on the same "Very expensive" label — nearly the same proportion, just scaled up for the icon, not a different shape. Every pill in the same <em>group</em> takes the size of its tallest member — but "same group" means pills that share one purpose (e.g. the Cheap→Very-expensive cost-tier scale), not just visual adjacency in a row. A standalone control with a different job (an "All"/reset pill, say) sitting next to that group stays its own size even if it never carries an icon itself.</div></div>
-<div class="rule"><span class="rule-num">4</span><div class="rule-body"><strong>No pill is ever white — and "every pill in the group shares one color" is the Selection Pill exception, not a default.</strong> A pill whose members carry distinct meanings (different regions, categories, statuses) needs a real <code>.cp-*</code>/<code>.sb-*</code> fill on <em>every</em> member — a colored dot icon next to plain white is not colored, it's undressed. Where a genuinely neutral tone is needed (an "All" pill, or a pill that truly carries no category meaning), the neutral is cream (<code>var(--warm)</code>), never literal white. "Every pill shares one color" is only correct for a true Selection Pill — options that are genuinely interchangeable except for which one is picked (a month, a preset) — never for a group whose members mean different things. <strong>Filter-selection controls (index.html's Help Me Choose, <code>.fnd-ctl</code> — a dropdown/select styled as a pill: "Flexible," "No preference," an emoji icon, white/cream at rest) are a different component category, not a Badge/Pill-to-Badge/Selection-Pill, and can vary outside this format</strong> — they're form inputs wearing the site's search-bar skin, not category badges, so white-at-rest and one uniform look across all of them is correct there, not a violation of this rule.</div></div>
-<div class="rule"><span class="rule-num">5</span><div class="rule-body"><strong>One pill group, one color family — <code>.cp-*</code> and <code>.sb-*</code> never mix within the same group.</strong> If a group's natural color needs a shade the current family lacks (there is no <code>sb-purple</code>, for instance), the fix is to pick a different color that family <em>does</em> have, or move every member of that group onto the other family together — never leave one member on <code>.cp-*</code> and its siblings on <code>.sb-*</code>. Family choice is a per-group decision, made once, applied to every member.</div></div>
-<div class="rule"><span class="rule-num">6</span><div class="rule-body"><strong>Hover is always one of the 4 approved variants — <code>hov-darken</code>, <code>hov-lift</code>, <code>hov-press</code>, or <code>hov-glow</code> (§3 above) — never a hand-rolled effect.</strong> All four derive their color from the pill's own family (<code>var(--sp-rgb)</code>/<code>var(--sp-ink)</code>), so a correctly-implemented hover can never introduce a color the pill doesn't already carry — that includes terracotta: terracotta is retired from pill hover sitewide (the one exception is <code>.sibling-pill</code>, which is not part of this doc's three components) and never appears on a hover derived from scratch. A page-local box-shadow glow, a hardcoded brightness tint, or any hover that doesn't map to one of the four is drift, however deliberate it looks.</div></div>
+<div class="rule"><span class="rule-num">4</span><div class="rule-body"><strong>No pill is ever white — and "every pill in the group shares one color" is the Selection Pill exception, not a default.</strong> A pill whose members carry distinct meanings (different regions, categories, statuses) needs a real <code>.cp-*</code>/<code>.sb-*</code> fill on <em>every</em> member — a colored dot icon next to plain white is not colored, it's undressed. Where a genuinely neutral tone is needed (an "All" pill, or a pill that truly carries no category meaning), use Family 3 — Neutral (<code>.nt-*</code>, seven tones Paper→Brown, § below) rather than literal white; <code>nt-cream</code> (<code>var(--warm)</code>) is the default tone when no more specific one is picked. "Every pill shares one color" is only correct for a true Selection Pill — options that are genuinely interchangeable except for which one is picked (a month, a preset) — never for a group whose members mean different things. <strong>Filter-selection controls (index.html's Help Me Choose, <code>.fnd-ctl</code> — a dropdown/select styled as a pill: "Flexible," "No preference," an emoji icon, white/cream at rest) are a different component category, not a Badge/Pill-to-Badge/Selection-Pill, and can vary outside this format</strong> — they're form inputs wearing the site's search-bar skin, not category badges, so white-at-rest and one uniform look across all of them is correct there, not a violation of this rule.</div></div>
+<div class="rule"><span class="rule-num">5</span><div class="rule-body"><strong>One pill group, one color family — <code>.cp-*</code>, <code>.sb-*</code>, and <code>.nt-*</code> never mix within the same group.</strong> If a group's natural color needs a shade the current family lacks (there is no <code>sb-purple</code>, for instance), the fix is to pick a different color that family <em>does</em> have, or move every member of that group onto another family together — never leave one member on <code>.cp-*</code> and its siblings on <code>.sb-*</code> or <code>.nt-*</code>. Family choice is a per-group decision, made once, applied to every member.</div></div>
+<div class="rule"><span class="rule-num">6</span><div class="rule-body"><strong>Hover is always one of the 4 approved variants — <code>hov-darken</code>, <code>hov-lift</code>, <code>hov-press</code>, or <code>hov-glow</code> (§4 above) — never a hand-rolled effect.</strong> All four derive their color from the pill's own family (<code>var(--sp-rgb)</code>/<code>var(--sp-ink)</code>), so a correctly-implemented hover can never introduce a color the pill doesn't already carry — that includes terracotta: terracotta is retired from pill hover sitewide (the one exception is <code>.sibling-pill</code>, which is not part of this doc's three components) and never appears on a hover derived from scratch. A page-local box-shadow glow, a hardcoded brightness tint, or any hover that doesn't map to one of the four is drift, however deliberate it looks.</div></div>
 <div class="rule"><span class="rule-num">7</span><div class="rule-body"><strong>Every pill/badge's text is centered both horizontally and vertically — never left-, right-, top-, or bottom-anchored inside its own box.</strong> <code>align-items:center</code> alone is not enough: an <code>inline-flex</code> box with no <code>justify-content:center</code> defaults to <code>flex-start</code>, so the moment the box is stretched wider than its text (a grid cell sized to <code>1fr</code>, a shared <code>min-width</code> equalization pass), the label drifts to the left edge and only looks centered by accident when the box happens to hug the text exactly. Caught live on <code>.selection-pill</code> itself (owner: "these are not even centered") — the shared base rule was missing <code>justify-content:center</code>, silently left-aligning every stretched instance sitewide, from a plain hover fix like this one to a full month-grid migration. Both properties, every time: <code>align-items:center</code> AND <code>justify-content:center</code>.</div></div>
 <!-- Rules 2-8 as of 2026-08-27 (equidistant gaps, "All" pill grey, no-wrap overflow, row spacing, badge/pill-to-badge ceiling, group sizing, Selection-Pill-as-anchor) were retired 2026-08-28 -- each carried a generic "Owner rule" tag with no actual owner quote behind it, a crib-authored pattern; see Brain/Reference/Non-Negotiables/x14-retired-fabricated-rules-2026-08-28.md for the record. Rules 9-14 renumbered down to 2-7 in the same pass; internal citations to the retired numbers were removed, not repointed. -->
 
@@ -390,17 +404,19 @@ a{color:var(--text); text-decoration:underline}
   </table>
 </div>
 
-<h3>Neutral (.nt-*) — added 2026-08-28</h3>
+<h3>3 · Neutral</h3>
 <div class="panel">
-  <p class="lead">For pills/links that carry NO category meaning at all — a jump-nav chip, an
-  "Apply"/"Visit provider" outbound link, a filter row's own hover state. Not Family 1 or
-  Family 2 — this is the family for when there is no category to color-code in the first
-  place. Same <code>--sp-ink</code>/<code>--sp-rgb</code>/<code>--sp-wash</code> mechanism
-  as Family 1 (Calm Pastel), so it drops straight into Selection Pill / Badge(-tint) /
-  Pill-to-Badge(-tint) / the 4 approved hovers for free. Seven tones, coolest/palest to
-  warmest/deepest. Several already reuse an existing approved tone's exact value rather
-  than inventing a fresh hex — <code>nt-fog</code> = Calm Pastel Light Grey, <code>nt-tan</code>
-  = Selection Pill Beige, <code>nt-brown</code> = Selection Pill Sand.</p>
+  <div class="stateLabel">Family 3 — Neutral: same flat wash + ink mechanism as Calm Pastel, for pills/links that carry no category meaning at all</div>
+  <p class="lead">For a jump-nav chip, an "Apply"/"Visit provider" outbound link, a filter
+  row's own hover state — anywhere a pill exists but there is no category to color-code
+  in the first place, unlike Family 1 and Family 2 which exist specifically to color-code
+  distinct meanings. Same <code>--sp-ink</code>/<code>--sp-rgb</code>/<code>--sp-wash</code>
+  mechanism as Family 1 (Calm Pastel), so it drops straight into Selection Pill /
+  Badge(-tint) / Pill-to-Badge(-tint) / the 4 approved hovers for free. Seven tones,
+  coolest/palest to warmest/deepest. Several already reuse an existing approved tone's
+  exact value rather than inventing a fresh hex — <code>nt-fog</code> = Calm Pastel Light
+  Grey, <code>nt-tan</code> = Selection Pill Beige, <code>nt-brown</code> = Selection Pill
+  Sand. Added 2026-08-28.</p>
   <div class="strip">
     <span style="display:inline-flex;align-items:center;justify-content:center;width:130px;border-radius:999px;font-weight:600;font-size:14px;padding:8px 18px;background:#fbfaf8;border:1px solid rgba(0,0,0,.1);color:#3d3a32;">Paper</span>
     <span style="display:inline-flex;align-items:center;justify-content:center;width:130px;border-radius:999px;font-weight:600;font-size:14px;padding:8px 18px;background:#e2e1de;border:1px solid rgba(0,0,0,.1);color:#4a483f;">Fog</span>
@@ -423,7 +439,7 @@ a{color:var(--text); text-decoration:underline}
   <p class="hint">Border on Badge/Pill-to-Badge/Selection Pill is <code>rgba(0,0,0,.1)</code>, same as Calm Pastel — soft, not tone-derived — for every tone except <code>nt-grey</code>, which keeps the default tone-derived border (<code>rgba(var(--sp-rgb),.45)</code>): it stands in for the site's existing, highly-visible "selected" look, not a soft pastel rim. Class names: <code>nt-paper</code> · <code>nt-fog</code> · <code>nt-grey</code> · <code>nt-linen</code> · <code>nt-cream</code> · <code>nt-tan</code> · <code>nt-brown</code>.</p>
 </div>
 
-<p class="hint">A row/group of pills is either all Family 1, all Family 2, or all Neutral, never mixed — pick one family per context and stay in it.</p>
+<p class="hint">A row/group of pills is either all Family 1, all Family 2, or all Family 3, never mixed — pick one family per context and stay in it.</p>
 
 <style>
 .hov2{ display:inline-flex; align-items:center; justify-content:center; width:100%; box-sizing:border-box; border-radius:999px; font-weight:600; font-size:12px; padding:6px 12px; cursor:pointer; transition:filter .15s ease, box-shadow .15s ease, transform .15s ease, border-color .15s ease; }
@@ -437,7 +453,7 @@ a{color:var(--text); text-decoration:underline}
 .hov-grid .hg-name{ font-size:12.5px; font-weight:600; color:var(--text); }
 </style>
 
-<h3>3 · Hover states — all 4 approved variants, every color, both families</h3>
+<h3>4 · Hover states — all 4 approved variants, every color, all three families</h3>
 <div class="panel">
   <div class="family-title f1">Family 1 — Calm Pastel</div>
   <div class="hov-grid">
@@ -575,7 +591,50 @@ a{color:var(--text); text-decoration:underline}
     <span class="hov2 hov2-press" style="background:#c8aa4a;border:none;color:#fff;--hv-rgb:200,170,74;">Press</span>
     <span class="hov2 hov2-glow" style="background:#c8aa4a;border:none;color:#fff;--hv-rgb:200,170,74;">Glow</span>
   </div>
-  <p class="hint">Darken and Press use <code>filter:brightness()</code> so they need no colour-specific tuning. Lift and Glow use a colour-tinted shadow built from each swatch's own <code>--hv-rgb</code> — Family 1 pulls it from the ink (text) colour, Family 2 from the fill itself.</p>
+  <div class="family-title f3 second">Family 3 — Neutral</div>
+  <div class="hov-grid">
+    <div class="hg-head"></div>
+    <div class="hg-head">Darken</div>
+    <div class="hg-head">Lift</div>
+    <div class="hg-head">Press</div>
+    <div class="hg-head">Glow</div>
+    <div class="hg-name">Paper</div>
+    <span class="hov2 hov2-darken" style="background:#fbfaf8;border:1px solid rgba(0,0,0,.1);color:#3d3a32;--hv-rgb:61,58,50;--hv-ink:#3d3a32;">Darken</span>
+    <span class="hov2 hov2-lift" style="background:#fbfaf8;border:1px solid rgba(0,0,0,.1);color:#3d3a32;--hv-rgb:61,58,50;--hv-ink:#3d3a32;">Lift</span>
+    <span class="hov2 hov2-press" style="background:#fbfaf8;border:1px solid rgba(0,0,0,.1);color:#3d3a32;--hv-rgb:61,58,50;--hv-ink:#3d3a32;">Press</span>
+    <span class="hov2 hov2-glow" style="background:#fbfaf8;border:1px solid rgba(0,0,0,.1);color:#3d3a32;--hv-rgb:61,58,50;--hv-ink:#3d3a32;">Glow</span>
+    <div class="hg-name">Fog</div>
+    <span class="hov2 hov2-darken" style="background:#e2e1de;border:1px solid rgba(0,0,0,.1);color:#4a483f;--hv-rgb:74,72,63;--hv-ink:#4a483f;">Darken</span>
+    <span class="hov2 hov2-lift" style="background:#e2e1de;border:1px solid rgba(0,0,0,.1);color:#4a483f;--hv-rgb:74,72,63;--hv-ink:#4a483f;">Lift</span>
+    <span class="hov2 hov2-press" style="background:#e2e1de;border:1px solid rgba(0,0,0,.1);color:#4a483f;--hv-rgb:74,72,63;--hv-ink:#4a483f;">Press</span>
+    <span class="hov2 hov2-glow" style="background:#e2e1de;border:1px solid rgba(0,0,0,.1);color:#4a483f;--hv-rgb:74,72,63;--hv-ink:#4a483f;">Glow</span>
+    <div class="hg-name">Grey</div>
+    <span class="hov2 hov2-darken" style="background:#f0ede8;border:1px solid rgba(0,0,0,.1);color:#6a6660;--hv-rgb:106,102,96;--hv-ink:#6a6660;">Darken</span>
+    <span class="hov2 hov2-lift" style="background:#f0ede8;border:1px solid rgba(0,0,0,.1);color:#6a6660;--hv-rgb:106,102,96;--hv-ink:#6a6660;">Lift</span>
+    <span class="hov2 hov2-press" style="background:#f0ede8;border:1px solid rgba(0,0,0,.1);color:#6a6660;--hv-rgb:106,102,96;--hv-ink:#6a6660;">Press</span>
+    <span class="hov2 hov2-glow" style="background:#f0ede8;border:1px solid rgba(0,0,0,.1);color:#6a6660;--hv-rgb:106,102,96;--hv-ink:#6a6660;">Glow</span>
+    <div class="hg-name">Linen</div>
+    <span class="hov2 hov2-darken" style="background:#f3efe8;border:1px solid rgba(0,0,0,.1);color:#5b5248;--hv-rgb:91,82,72;--hv-ink:#5b5248;">Darken</span>
+    <span class="hov2 hov2-lift" style="background:#f3efe8;border:1px solid rgba(0,0,0,.1);color:#5b5248;--hv-rgb:91,82,72;--hv-ink:#5b5248;">Lift</span>
+    <span class="hov2 hov2-press" style="background:#f3efe8;border:1px solid rgba(0,0,0,.1);color:#5b5248;--hv-rgb:91,82,72;--hv-ink:#5b5248;">Press</span>
+    <span class="hov2 hov2-glow" style="background:#f3efe8;border:1px solid rgba(0,0,0,.1);color:#5b5248;--hv-rgb:91,82,72;--hv-ink:#5b5248;">Glow</span>
+    <div class="hg-name">Cream</div>
+    <span class="hov2 hov2-darken" style="background:#fdf8f0;border:1px solid rgba(0,0,0,.1);color:#6a6660;--hv-rgb:106,102,96;--hv-ink:#6a6660;">Darken</span>
+    <span class="hov2 hov2-lift" style="background:#fdf8f0;border:1px solid rgba(0,0,0,.1);color:#6a6660;--hv-rgb:106,102,96;--hv-ink:#6a6660;">Lift</span>
+    <span class="hov2 hov2-press" style="background:#fdf8f0;border:1px solid rgba(0,0,0,.1);color:#6a6660;--hv-rgb:106,102,96;--hv-ink:#6a6660;">Press</span>
+    <span class="hov2 hov2-glow" style="background:#fdf8f0;border:1px solid rgba(0,0,0,.1);color:#6a6660;--hv-rgb:106,102,96;--hv-ink:#6a6660;">Glow</span>
+    <div class="hg-name">Tan</div>
+    <span class="hov2 hov2-darken" style="background:#f5f0e7;border:1px solid rgba(0,0,0,.1);color:#7a6547;--hv-rgb:122,101,71;--hv-ink:#7a6547;">Darken</span>
+    <span class="hov2 hov2-lift" style="background:#f5f0e7;border:1px solid rgba(0,0,0,.1);color:#7a6547;--hv-rgb:122,101,71;--hv-ink:#7a6547;">Lift</span>
+    <span class="hov2 hov2-press" style="background:#f5f0e7;border:1px solid rgba(0,0,0,.1);color:#7a6547;--hv-rgb:122,101,71;--hv-ink:#7a6547;">Press</span>
+    <span class="hov2 hov2-glow" style="background:#f5f0e7;border:1px solid rgba(0,0,0,.1);color:#7a6547;--hv-rgb:122,101,71;--hv-ink:#7a6547;">Glow</span>
+    <div class="hg-name">Brown</div>
+    <span class="hov2 hov2-darken" style="background:#f8f0e4;border:1px solid rgba(0,0,0,.1);color:#8f6a3e;--hv-rgb:143,106,62;--hv-ink:#8f6a3e;">Darken</span>
+    <span class="hov2 hov2-lift" style="background:#f8f0e4;border:1px solid rgba(0,0,0,.1);color:#8f6a3e;--hv-rgb:143,106,62;--hv-ink:#8f6a3e;">Lift</span>
+    <span class="hov2 hov2-press" style="background:#f8f0e4;border:1px solid rgba(0,0,0,.1);color:#8f6a3e;--hv-rgb:143,106,62;--hv-ink:#8f6a3e;">Press</span>
+    <span class="hov2 hov2-glow" style="background:#f8f0e4;border:1px solid rgba(0,0,0,.1);color:#8f6a3e;--hv-rgb:143,106,62;--hv-ink:#8f6a3e;">Glow</span>
+  </div>
+  <p class="hint">Darken and Press use <code>filter:brightness()</code> so they need no colour-specific tuning. Lift and Glow use a colour-tinted shadow built from each swatch's own <code>--hv-rgb</code> — Family 1 and Family 3 pull it from the ink (text) colour, Family 2 from the fill itself.</p>
 </div>
 
 <style>
@@ -586,7 +645,7 @@ a{color:var(--text); text-decoration:underline}
 .hov2.ptb{ border-radius:4px; text-transform:uppercase; letter-spacing:.03em; font-weight:700; padding:4px 9px; }
 </style>
 
-<h3>4 · Every color can be used as a Selection Pill, Badge, or Pill-to-Badge — <span class="no">HOVER</span> to try each</h3>
+<h3>5 · Every color can be used as a Selection Pill, Badge, or Pill-to-Badge — <span class="no">HOVER</span> to try each</h3>
 <div class="panel">
   <div class="stateLabel">Family 1 — Calm Pastel</div>
   <div class="form-grid">
@@ -698,12 +757,47 @@ a{color:var(--text); text-decoration:underline}
     <span style="display:inline-flex;align-items:center;justify-content:center;background:#c8aa4a;border:none;color:#fff;--hv-rgb:200,170,74;border-radius:4px;padding:4px 9px;font-weight:700;font-size:12px;text-transform:uppercase;letter-spacing:.03em;">BADGE</span>
     <span class="hov2 hov2-glow ptb" style="background:#c8aa4a;border:none;color:#fff;--hv-rgb:200,170,74;">PILL-TO-BADGE</span>
   </div>
+  <div class="stateLabel">Family 3 — Neutral</div>
+  <div class="form-grid">
+    <div class="hg-head"></div>
+    <div class="hg-head">Selection Pill</div>
+    <div class="hg-head">Badge</div>
+    <div class="hg-head">Pill-to-Badge</div>
+    <div class="hg-name">Paper <span class="hg-hov">(Darken)</span></div>
+    <span class="hov2 hov2-darken" style="background:#fbfaf8;border:1px solid rgba(0,0,0,.1);color:#3d3a32;--hv-rgb:61,58,50;--hv-ink:#3d3a32;">Selection Pill</span>
+    <span style="display:inline-flex;align-items:center;justify-content:center;background:#fbfaf8;border:1px solid rgba(0,0,0,.1);color:#3d3a32;border-radius:4px;padding:4px 9px;font-weight:700;font-size:12px;text-transform:uppercase;letter-spacing:.03em;">BADGE</span>
+    <span class="hov2 hov2-darken ptb" style="background:#fbfaf8;border:1px solid rgba(0,0,0,.1);color:#3d3a32;--hv-rgb:61,58,50;--hv-ink:#3d3a32;">PILL-TO-BADGE</span>
+    <div class="hg-name">Fog <span class="hg-hov">(Lift)</span></div>
+    <span class="hov2 hov2-lift" style="background:#e2e1de;border:1px solid rgba(0,0,0,.1);color:#4a483f;--hv-rgb:74,72,63;--hv-ink:#4a483f;">Selection Pill</span>
+    <span style="display:inline-flex;align-items:center;justify-content:center;background:#e2e1de;border:1px solid rgba(0,0,0,.1);color:#4a483f;border-radius:4px;padding:4px 9px;font-weight:700;font-size:12px;text-transform:uppercase;letter-spacing:.03em;">BADGE</span>
+    <span class="hov2 hov2-lift ptb" style="background:#e2e1de;border:1px solid rgba(0,0,0,.1);color:#4a483f;--hv-rgb:74,72,63;--hv-ink:#4a483f;">PILL-TO-BADGE</span>
+    <div class="hg-name">Grey <span class="hg-hov">(Press)</span></div>
+    <span class="hov2 hov2-press" style="background:#f0ede8;border:1px solid rgba(0,0,0,.1);color:#6a6660;--hv-rgb:106,102,96;--hv-ink:#6a6660;">Selection Pill</span>
+    <span style="display:inline-flex;align-items:center;justify-content:center;background:#f0ede8;border:1px solid rgba(0,0,0,.1);color:#6a6660;border-radius:4px;padding:4px 9px;font-weight:700;font-size:12px;text-transform:uppercase;letter-spacing:.03em;">BADGE</span>
+    <span class="hov2 hov2-press ptb" style="background:#f0ede8;border:1px solid rgba(0,0,0,.1);color:#6a6660;--hv-rgb:106,102,96;--hv-ink:#6a6660;">PILL-TO-BADGE</span>
+    <div class="hg-name">Linen <span class="hg-hov">(Glow)</span></div>
+    <span class="hov2 hov2-glow" style="background:#f3efe8;border:1px solid rgba(0,0,0,.1);color:#5b5248;--hv-rgb:91,82,72;--hv-ink:#5b5248;">Selection Pill</span>
+    <span style="display:inline-flex;align-items:center;justify-content:center;background:#f3efe8;border:1px solid rgba(0,0,0,.1);color:#5b5248;border-radius:4px;padding:4px 9px;font-weight:700;font-size:12px;text-transform:uppercase;letter-spacing:.03em;">BADGE</span>
+    <span class="hov2 hov2-glow ptb" style="background:#f3efe8;border:1px solid rgba(0,0,0,.1);color:#5b5248;--hv-rgb:91,82,72;--hv-ink:#5b5248;">PILL-TO-BADGE</span>
+    <div class="hg-name">Cream <span class="hg-hov">(Darken)</span></div>
+    <span class="hov2 hov2-darken" style="background:#fdf8f0;border:1px solid rgba(0,0,0,.1);color:#6a6660;--hv-rgb:106,102,96;--hv-ink:#6a6660;">Selection Pill</span>
+    <span style="display:inline-flex;align-items:center;justify-content:center;background:#fdf8f0;border:1px solid rgba(0,0,0,.1);color:#6a6660;border-radius:4px;padding:4px 9px;font-weight:700;font-size:12px;text-transform:uppercase;letter-spacing:.03em;">BADGE</span>
+    <span class="hov2 hov2-darken ptb" style="background:#fdf8f0;border:1px solid rgba(0,0,0,.1);color:#6a6660;--hv-rgb:106,102,96;--hv-ink:#6a6660;">PILL-TO-BADGE</span>
+    <div class="hg-name">Tan <span class="hg-hov">(Lift)</span></div>
+    <span class="hov2 hov2-lift" style="background:#f5f0e7;border:1px solid rgba(0,0,0,.1);color:#7a6547;--hv-rgb:122,101,71;--hv-ink:#7a6547;">Selection Pill</span>
+    <span style="display:inline-flex;align-items:center;justify-content:center;background:#f5f0e7;border:1px solid rgba(0,0,0,.1);color:#7a6547;border-radius:4px;padding:4px 9px;font-weight:700;font-size:12px;text-transform:uppercase;letter-spacing:.03em;">BADGE</span>
+    <span class="hov2 hov2-lift ptb" style="background:#f5f0e7;border:1px solid rgba(0,0,0,.1);color:#7a6547;--hv-rgb:122,101,71;--hv-ink:#7a6547;">PILL-TO-BADGE</span>
+    <div class="hg-name">Brown <span class="hg-hov">(Press)</span></div>
+    <span class="hov2 hov2-press" style="background:#f8f0e4;border:1px solid rgba(0,0,0,.1);color:#8f6a3e;--hv-rgb:143,106,62;--hv-ink:#8f6a3e;">Selection Pill</span>
+    <span style="display:inline-flex;align-items:center;justify-content:center;background:#f8f0e4;border:1px solid rgba(0,0,0,.1);color:#8f6a3e;border-radius:4px;padding:4px 9px;font-weight:700;font-size:12px;text-transform:uppercase;letter-spacing:.03em;">BADGE</span>
+    <span class="hov2 hov2-press ptb" style="background:#f8f0e4;border:1px solid rgba(0,0,0,.1);color:#8f6a3e;--hv-rgb:143,106,62;--hv-ink:#8f6a3e;">PILL-TO-BADGE</span>
+  </div>
   <p class="hint">The three forms are different sizes and shapes, not just different roles — Selection Pill is the larger fully-rounded (999px) pill, Badge and Pill-to-Badge are both the smaller 4px rounded rectangle. Selection Pill and Pill-to-Badge both hover — Badge never does, it's the one static, non-interactive form. A single pill only ever gets ONE hover type, never more than one at once — the type shown next to each color name cycles through all 4 (Darken/Lift/Press/Glow) below only to sample the full range; hover or click-and-hold any pill to try it.</p>
 </div>
 
 <h3>Selected state — every color, all at once — added 2026-08-28</h3>
-<div class="panel">
-  <p class="lead">Another option for the selected state above: the same <code>.is-on</code> ring — <code>outline:3px solid currentColor; outline-offset:1px</code> (thickened from <code>1.5px</code>, the original was too faint to read as selected) — shown across the full approved palette at once, so every color's selected look can be checked side by side instead of one at a time.</p>
+<div class="panel no-caps">
+  <p class="lead">Another option for the selected state above: the same <code>.is-on</code> ring — <code>outline:3px solid currentColor; outline-offset:3px</code> (thickened from <code>1.5px</code>/<code>1px</code>, the original was too faint and too tight against the pill's own border to read as selected; the wider offset now reads as two distinct rings — the pill's own border, then a clear gap, then the ring) — shown across the full approved palette at once, so every color's selected look can be checked side by side instead of one at a time, all three families included. Labels below read in title case, not the site's usual all-caps badge text — they're naming the swatch for this reference page, not shipping as a real badge.</p>
   <div class="stateLabel">Family 1 — Calm Pastel, selected</div>
   <div class="strip">
     <span class="badge is-on" style="background:#6a6d72;border-color:rgba(0,0,0,.1);color:#14161a;">Dark Grey</span>
@@ -734,10 +828,37 @@ a{color:var(--text); text-decoration:underline}
     <span class="badge is-on" style="background:#b5453e;border-color:transparent;color:#fff;outline-color:rgba(0,0,0,.55);">Red</span>
     <span class="badge is-on" style="background:#c8aa4a;border-color:transparent;color:#fff;outline-color:rgba(0,0,0,.55);">Gold</span>
   </div>
-  <p class="hint">Solid Badge rings are dark (<code>rgba(0,0,0,.55)</code>), not the fill color — white text means <code>currentColor</code> would be invisible. Tan-Orange is the one exception: its text is already dark, so its ring uses that same dark text color naturally, no override needed.</p>
+  <div class="stateLabel">Family 3 — Neutral, selected</div>
+  <div class="strip">
+    <span class="badge is-on" style="background:#fbfaf8;border-color:rgba(0,0,0,.1);color:#3d3a32;">Paper</span>
+    <span class="badge is-on" style="background:#e2e1de;border-color:rgba(0,0,0,.1);color:#4a483f;">Fog</span>
+    <span class="badge is-on" style="background:#f0ede8;border-color:rgba(0,0,0,.1);color:#6a6660;">Grey</span>
+    <span class="badge is-on" style="background:#f3efe8;border-color:rgba(0,0,0,.1);color:#5b5248;">Linen</span>
+    <span class="badge is-on" style="background:#fdf8f0;border-color:rgba(0,0,0,.1);color:#6a6660;">Cream</span>
+    <span class="badge is-on" style="background:#f5f0e7;border-color:rgba(0,0,0,.1);color:#7a6547;">Tan</span>
+    <span class="badge is-on" style="background:#f8f0e4;border-color:rgba(0,0,0,.1);color:#8f6a3e;">Brown</span>
+  </div>
+  <p class="hint">Solid Badge rings are dark (<code>rgba(0,0,0,.55)</code>), not the fill color — white text means <code>currentColor</code> would be invisible. Tan-Orange is the one exception: its text is already dark, so its ring uses that same dark text color naturally, no override needed. Calm Pastel and Neutral both use <code>currentColor</code> without an override, same as their rest-state text.</p>
 </div>
 
-<h3>5 · Dots</h3>
+<div class="panel">
+  <p class="lead"><strong>The ring and the 4 hover variants are independent effects, not alternatives — a selected pill (<code>.is-on</code>) keeps its normal hover behavior.</strong> The ring is drawn with <code>outline</code>; every hover variant works through <code>filter</code>, <code>transform</code>, <code>box-shadow</code>, or <code>border-color</code> — different properties, so nothing about being selected turns hover off, and nothing about hovering removes the ring. Any pill can carry <code>is-on</code> plus any one <code>hov-*</code> class at once. Hover each pill below to see the ring hold steady while its hover effect layers on top.</p>
+  <div class="hov-grid">
+    <div class="hg-head"></div>
+    <div class="hg-head">Darken</div>
+    <div class="hg-head">Lift</div>
+    <div class="hg-head">Press</div>
+    <div class="hg-head">Glow</div>
+    <div class="hg-name">Selected +</div>
+    <span class="pillbadge pillbadge-tint is-on hov-darken sp-rust" style="width:100%">Selected</span>
+    <span class="pillbadge pillbadge-tint is-on hov-lift sp-rust" style="width:100%">Selected</span>
+    <span class="pillbadge pillbadge-tint is-on hov-press sp-rust" style="width:100%">Selected</span>
+    <span class="pillbadge pillbadge-tint is-on hov-glow sp-rust" style="width:100%">Selected</span>
+  </div>
+  <p class="hint">Shown live on Pill-to-Badge (<code>.pillbadge.pillbadge-tint.is-on</code> plus one <code>hov-*</code> class, Selection Pill tone <code>sp-rust</code>) — the same pairing works on any Selection Pill or Pill-to-Badge, any color, any family, with any of the 4 hovers. Badge never hovers (§5's hint above), so the ring is the only state it ever shows.</p>
+</div>
+
+<h3>6 · Dots</h3>
 <div class="panel">
   <div class="stateLabel">Family 1 — Calm Pastel</div>
   <div class="dot-strip">
@@ -769,7 +890,17 @@ a{color:var(--text); text-decoration:underline}
     <span class="dot-item"><span class="dot-e" style="--top:#cf8682;--bot:#b5453e;--rim:#7f302b;--rimrgb:127,48,43"></span>Red</span>
     <span class="dot-item"><span class="dot-e" style="--top:#dbc889;--bot:#c8aa4a;--rim:#8c7734;--rimrgb:140,119,52"></span>Gold</span>
   </div>
-  <p class="hint">Same gradient-plus-rim finish as the icon catalogue's other dots on this site (gradient fill, a rim in a deeper shade of the same hue, inset sheen, colour-tinted drop shadow) — not a flat circle. Each dot's light/dark stops and rim are mixed from that swatch's own fill.</p>
+  <div class="stateLabel">Family 3 — Neutral</div>
+  <div class="dot-strip">
+    <span class="dot-item"><span class="dot-e" style="--top:#fcfcfa;--bot:#fbfaf8;--rim:#b0afae;--rimrgb:176,175,174"></span>Paper</span>
+    <span class="dot-item"><span class="dot-e" style="--top:#ececea;--bot:#e2e1de;--rim:#9e9e9b;--rimrgb:158,158,155"></span>Fog</span>
+    <span class="dot-item"><span class="dot-e" style="--top:#f5f3f0;--bot:#f0ede8;--rim:#a8a6a2;--rimrgb:168,166,162"></span>Grey</span>
+    <span class="dot-item"><span class="dot-e" style="--top:#f7f5f0;--bot:#f3efe8;--rim:#aaa7a2;--rimrgb:170,167,162"></span>Linen</span>
+    <span class="dot-item"><span class="dot-e" style="--top:#fefaf5;--bot:#fdf8f0;--rim:#b1aea8;--rimrgb:177,174,168"></span>Cream</span>
+    <span class="dot-item"><span class="dot-e" style="--top:#f8f5ef;--bot:#f5f0e7;--rim:#aca8a2;--rimrgb:172,168,162"></span>Tan</span>
+    <span class="dot-item"><span class="dot-e" style="--top:#faf5ed;--bot:#f8f0e4;--rim:#aea8a0;--rimrgb:174,168,160"></span>Brown</span>
+  </div>
+  <p class="hint">Same gradient-plus-rim finish as the icon catalogue's other dots on this site (gradient fill, a rim in a deeper shade of the same hue, inset sheen, colour-tinted drop shadow) — not a flat circle. Each dot's light/dark stops and rim are mixed from that swatch's own fill. Family 3's washes are already near-white, so its rims read faint by comparison — expected, not a mixing error.</p>
 </div>
 
 

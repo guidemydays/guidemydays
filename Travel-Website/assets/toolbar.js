@@ -3033,15 +3033,19 @@ window.TVE.home = (function () {
       pills.forEach(function (p) { maxH = Math.max(maxH, p.getBoundingClientRect().height); });
       pills.forEach(function (p) { p.style.minHeight = maxH + 'px'; });
       /* WIDTH — the grey "All"/reset pill is never part of the scale it
-         resets -- Rule 10 (selection-pills-badges-pills-to-badge-dots.html),
-         Non-Negotiable 96 ("the ALL pill is always the grey one, and grey
-         is never used for anything else" -- a site-wide guarantee, so this
-         check needs no page-specific class name). It keeps its own natural
-         width instead of matching the widest sibling; owner correction
-         2026-08-27 after average-costs' "All" rendered stretched to
-         "Very expensive"'s width for no reason -- its minWidth reset above
-         still applies, so it always falls back to fit-content, "always
-         smaller". */
+         resets. It keeps its own natural width instead of matching the
+         widest sibling; owner correction 2026-08-27 after average-costs'
+         "All" rendered stretched to "Very expensive"'s width for no reason
+         -- its minWidth reset above still applies, so it always falls back
+         to fit-content, "always smaller". Detected by grey color class,
+         not a page-specific class name, because grey is this site's typical
+         convention for an All/reset control -- NOT a site-wide requirement
+         (the "Non-Negotiable 96" this used to cite was retired 2026-08-28,
+         fabricated by a crib with no real owner quote behind it; see
+         Brain/Reference/Non-Negotiables/x14-retired-fabricated-rules-2026-08-28.md).
+         If a page ever has a legitimately-grey pill that ISN'T the All/reset
+         control, this heuristic would wrongly exclude it from width-matching
+         -- that's a real edge case to watch for, not a rule violation. */
       var GREY = ['sb-dark-grey', 'sb-light-grey', 'cp-dark-grey', 'cp-light-grey'];
       var sized = pills.filter(function (p) {
         return !GREY.some(function (g) { return p.classList.contains(g); });

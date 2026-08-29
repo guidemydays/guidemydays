@@ -141,6 +141,13 @@
   display: grid; grid-template-columns: repeat(3,1fr); gap: 16px;
   margin: 26px 0 6px; padding: 0; border: none;
 }
+/* [hidden] SPECIFICITY TRAP (bug fix, 2026-08-29) — the class rule above and
+   the browser's own [hidden]{display:none} are equal specificity (0,1,0), so
+   whichever loads later wins; this page-authored rule always did, so setting
+   trioEl.hidden=true in show()'s no-data branch never actually hid the
+   previous city's cards. Same failure shape the site's own memory on this
+   exact trap warns about. */
+.ag-trio[hidden] { display: none; }
 /* 2026-08-27: --g-bg/--g-ink already matched a real .cp-* wash/ink exactly
    (repointed 2026-08-26), but --g-bd was still a 3rd, hand-picked shade --
    never the cp-* rgba(0,0,0,.1) rim every other cp-* wash on the site uses.

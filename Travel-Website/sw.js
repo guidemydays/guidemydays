@@ -2730,7 +2730,8 @@
    commit 1eeb1d17a without a MIN_VERSIONS bump; also restoring toolbar.js floor to
    1102 (reverted to 1101 on disk by a concurrent crib). CACHE to v1723. */
 /* 2026-08-29: idp-guide PAGE_ICON entries toolbar.js -> v1103. CACHE to v1724. */
-var CACHE = 'travel-cache-v1724';
+/* 2026-08-29: Delhi guide (#241) — weather.js baked CLIMATE block updated with Delhi city data. weather.js -> v13. CACHE to v1725. */
+var CACHE = 'travel-cache-v1725';
 /* 2026-08-27: airlines.css's .card-tags align-items fix changed a shared
    asset without raising its own floor -- MIN_VERSIONS['airlines.css'] to
    6, CACHE to v1662. */
@@ -2770,7 +2771,7 @@ var ICS_OUTBOX = 'gmd-ics-outbox';
    THIS IS THE ONLY PLACE to bump toolbar.js / guide-style.css versions.
    NEVER bump ?v= inside guide HTML — it breaks HMAC stamps and forces re-validation
    of 230+ guides. Instead, bump MIN_VERSIONS here + increment the CACHE version. */
-var MIN_VERSIONS = { 'guide-style.css': 274,'toolbar.js': 1103, 'mobile.css': 92, 'web-travel-style.css': 212, 'guides-index-style.css': 38, 'read-about.css': 8, 'best-of-features.js': 5, 'best-of-cross-data.js': 24, 'weather.js': 12, 'trains.css': 28, 'trains.js': 5, 'airlines.css': 9, 'airlines.js': 9, 'passport.js': 5, 'search-autocomplete.js': 9, 'flag-render.js': 2 };
+var MIN_VERSIONS = { 'guide-style.css': 274,'toolbar.js': 1103, 'mobile.css': 92, 'web-travel-style.css': 212, 'guides-index-style.css': 38, 'read-about.css': 8, 'best-of-features.js': 5, 'best-of-cross-data.js': 24, 'weather.js': 13, 'trains.css': 28, 'trains.js': 5, 'airlines.css': 9, 'airlines.js': 9, 'passport.js': 5, 'search-autocomplete.js': 9, 'flag-render.js': 2 };
 
 function rewriteAssetUrl(urlStr) {
   var u;

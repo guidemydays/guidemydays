@@ -1,3 +1,4 @@
+/* 2026-08-29: web-travel-style.css -- owner feedback on the shipped #241f1a focus ring: "i dint see any difrence" (from pure #000000) -- correct, RGB(36,31,26) vs RGB(0,0,0) is imperceptible at 1.5px. --c-search-focus-border light-mode value changed to #3d3a32 (the site's own --text ink token, RGB 61,58,50) -- a genuinely distinguishable shade, still reads as dark/black rather than a colour. Dark-mode value (#e8e5e0) untouched. index.html, currencies/index.html fallbacks updated to match. MIN_VERSIONS['web-travel-style.css'] to 216, CACHE to v1734. */
 /* 2026-08-29: web-travel-style.css -- owner feedback on the shipped black focus ring: "too dark" -- --c-search-focus-border light-mode value softened from pure #000000 to #241f1a (the site's warm near-black ink tone), still reads as black, less stark against the white pill/cream page. Dark-mode value (#e8e5e0) untouched -- the complaint was about light-mode contrast only. index.html, currencies/index.html fallbacks updated to match. MIN_VERSIONS['web-travel-style.css'] to 215, CACHE to v1733. */
 /* 2026-08-29: web-travel-style.css -- owner rule: "SHOULD not be gold nowhere ... change to black" -- --c-search-focus-border (the search-bar focus ring, everywhere it's read: standard bars, the hero-pill, the companion select/passport-picker, page-local fallbacks) is now #000000 light / #e8e5e0 dark, was #c8b99a / #7a6a5a gold. index.html, currencies/index.html and Icons-Formats-Logos/Icons Library.html's own hardcoded fallbacks/literals updated to match; page-local HTML, precached. MIN_VERSIONS['web-travel-style.css'] to 214, CACHE to v1731. */
 /* 2026-08-28: web-travel-style.css -- owner reversal: reverted the .badge hover extension (commit ab9beba8) -- .badge stays static/non-interactive, no hover, per the doc's own rule. .pill-badge keeps its hover (that earlier, separate fix stands). MIN_VERSIONS['web-travel-style.css'] to 212, CACHE to v1719. */
@@ -2740,7 +2741,7 @@
 /* 2026-08-29: guide-style.css -> v275, web-travel-style.css -> v213 — Best-Of CSS drift fixes (border-left, font-size, aspect-ratio). CACHE to v1730. */
 /* 2026-08-29: Mumbai (BOM): add to CHIP_DATA and LOUNGE_IATAS toolbar.js -> v1104. CACHE to v1731. */
 /* 2026-08-29: lagos-nigeria guide 243 ship toolbar.js -> v1105. CACHE to v1732. */
-var CACHE = 'travel-cache-v1733';
+var CACHE = 'travel-cache-v1734';
 /* 2026-08-27: airlines.css's .card-tags align-items fix changed a shared
    asset without raising its own floor -- MIN_VERSIONS['airlines.css'] to
    6, CACHE to v1662. */
@@ -2780,7 +2781,7 @@ var ICS_OUTBOX = 'gmd-ics-outbox';
    THIS IS THE ONLY PLACE to bump toolbar.js / guide-style.css versions.
    NEVER bump ?v= inside guide HTML — it breaks HMAC stamps and forces re-validation
    of 230+ guides. Instead, bump MIN_VERSIONS here + increment the CACHE version. */
-var MIN_VERSIONS = { 'guide-style.css': 275,'toolbar.js': 1105, 'mobile.css': 92, 'web-travel-style.css': 215, 'guides-index-style.css': 38, 'read-about.css': 8, 'best-of-features.js': 5, 'best-of-cross-data.js': 24, 'weather.js': 17, 'trains.css': 28, 'trains.js': 5, 'airlines.css': 9, 'airlines.js': 9, 'passport.js': 5, 'search-autocomplete.js': 9, 'flag-render.js': 2 };
+var MIN_VERSIONS = { 'guide-style.css': 275,'toolbar.js': 1105, 'mobile.css': 92, 'web-travel-style.css': 216, 'guides-index-style.css': 38, 'read-about.css': 8, 'best-of-features.js': 5, 'best-of-cross-data.js': 24, 'weather.js': 17, 'trains.css': 28, 'trains.js': 5, 'airlines.css': 9, 'airlines.js': 9, 'passport.js': 5, 'search-autocomplete.js': 9, 'flag-render.js': 2 };
 
 function rewriteAssetUrl(urlStr) {
   var u;

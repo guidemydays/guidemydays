@@ -2784,7 +2784,7 @@ var ICS_OUTBOX = 'gmd-ics-outbox';
    THIS IS THE ONLY PLACE to bump toolbar.js / guide-style.css versions.
    NEVER bump ?v= inside guide HTML — it breaks HMAC stamps and forces re-validation
    of 230+ guides. Instead, bump MIN_VERSIONS here + increment the CACHE version. */
-var MIN_VERSIONS = { 'guide-style.css': 275,'toolbar.js': 1107, 'mobile.css': 92, 'web-travel-style.css': 217, 'guides-index-style.css': 38, 'read-about.css': 8, 'best-of-features.js': 5, 'best-of-cross-data.js': 24, 'weather.js': 17, 'trains.css': 28, 'trains.js': 5, 'airlines.css': 9, 'airlines.js': 9, 'passport.js': 5, 'search-autocomplete.js': 9, 'flag-render.js': 2 };
+var MIN_VERSIONS = { 'guide-style.css': 275,'toolbar.js': 1107, 'mobile.css': 92, 'web-travel-style.css': 217, 'guides-index-style.css': 38, 'read-about.css': 8, 'best-of-features.js': 5, 'best-of-cross-data.js': 24, 'weather.js': 18,'trains.css': 28, 'trains.js': 5, 'airlines.css': 9, 'airlines.js': 9, 'passport.js': 5, 'search-autocomplete.js': 9, 'flag-render.js': 2 };
 
 function rewriteAssetUrl(urlStr) {
   var u;

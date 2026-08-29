@@ -141,6 +141,11 @@
   font-weight: 700; color: var(--text, #17150f); margin: 0 auto clamp(1.4rem, 3vw, 2rem);
   max-width: 20ch; text-wrap: balance; }
 .gx-hero-h em { font-style: normal; color: var(--rust, #C04E1A); }
+/* Surprise me — the one live control this banner adds beyond the search box.
+   .topbar (and every .disc-btn in it) is hidden site-wide on this page since
+   2026-08-14, so this reuses the .disc-btn look but sits in the hero, the
+   only part of the page that stayed a real control surface. */
+.gx-surprise { margin-top: 14px; }
 /* .gx-search box/icon/input/placeholder/focus/suggest rules moved to the
    shared .hero-search / .hero-search-icon component in web-travel-style.css
    (2026-08-28 consolidation -- owner: "No exception change ALL to share").
@@ -506,6 +511,7 @@
       <input type="search" id="guide-search" class="search-input" placeholder="City or country" aria-label="Search guides" autocomplete="off">
     </div>
   </div>
+  <button type="button" id="btn-surprise-me" class="disc-btn gx-surprise" title="Jump to a random guide — within your current filters, if any are on"><svg viewBox="0 0 24 24" width="14" height="14" aria-hidden="true" style="vertical-align:middle;flex-shrink:0"><use href="#gm-i-dice"/></svg> Surprise me</button>
 </header>
 <div class="topbar">
   <!-- The search moved into the hero below (owner 2026-08-14). Same input, same
@@ -2936,6 +2942,21 @@
       if (window._clearContinentFilter) window._clearContinentFilter();
       if (window._exitCompareMode) window._exitCompareMode();
       applyMosaicFilter();
+    });
+  }
+
+  /* Surprise me — jumps to a random guide. visibleCards() already reflects
+     search + every active filter, so a filtered reader gets a random match
+     from that set rather than the whole site; it also empties out under
+     Compare mode (.mosaic-wrap is hidden there), where the button is a
+     harmless no-op rather than a mis-navigate. */
+  var surpriseBtn = document.getElementById('btn-surprise-me');
+  if (surpriseBtn) {
+    surpriseBtn.addEventListener('click', function () {
+      var cards = visibleCards();
+      if (!cards.length) return;
+      var card = cards[Math.floor(Math.random() * cards.length)];
+      if (card && card.href) window.location.href = card.href;
     });
   }
 

@@ -10239,6 +10239,7 @@ window.TVE.home = (function () {
       'visa': 'visas', 'visa-times': 'clock-hourglass', 'nomad-visas': 'laptop',
       'entry': 'entry-req', 'passport': 'passport', 'trusted': 'trusted',
       'trusted-traveler': 'trusted', 'vaccines': 'vaccines',
+      'idp-guide': 'id-card-check',
       /* Timing and weather */
       'weather': 'sun', 'when-to-go': 'calendar', 'sports-calendar': 'calendar',
       'sunrise-sunset': 'sunset', 'time-zones': 'clock',
@@ -10247,7 +10248,8 @@ window.TVE.home = (function () {
       'currencies': 'money', 'budget': 'budget', 'cards-atm': 'card',
       'tipping': 'tipping',
       /* On the ground */
-      'cars': 'rental-cars', 'restaurants': 'restaurants', 'tours': 'tours-tickets',
+      'cars': 'rental-cars', 'worldwide-car-rental': 'rental-cars',
+      'restaurants': 'restaurants', 'tours': 'tours-tickets',
       'day-trips': 'compass', 'cruises': 'ship', 'maps': 'globe', 'world': 'globe',
       /* Practical */
       'plugs': 'plug', 'sims': 'sim', 'apps': 'travel-apps',

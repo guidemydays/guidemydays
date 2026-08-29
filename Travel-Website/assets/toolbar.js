@@ -4376,7 +4376,7 @@ window.TVE.home = (function () {
     'copenhagen':'Europe/Copenhagen','corfu':'Europe/Athens',
     'crete':'Europe/Athens','curacao':'America/Curacao',
     'curitiba':'America/Sao_Paulo','cusco':'America/Lima',
-    'dallas':'America/Chicago','denver':'America/Denver',
+    'dallas':'America/Chicago','delhi':'Asia/Kolkata','denver':'America/Denver',
     'doha':'Asia/Qatar','dubai':'Asia/Dubai',
     'dublin':'Europe/Dublin','dubrovnik':'Europe/Zagreb',
     'edinburgh':'Europe/London','florence':'Europe/Rome',
@@ -5956,6 +5956,66 @@ window.TVE.home = (function () {
     _injectVisitedToggle();
   }
 
+  /* ── Continue where you left off — a dismissible card between the title
+     card and Trip Overview offering "Continue at Day N" when a saved scroll
+     position exists. Scrolls away with the page like every other guide
+     block — never fixed/sticky (Forty-fourth and Seventy-fourth
+     non-negotiables ban a pinned control here). A scrollspy-style
+     IntersectionObserver on each .day-block records the day most recently
+     scrolled into the top band of the viewport to localStorage as
+     tve-lastday-{folder}, debounced so a fast scroll doesn't thrash writes. ── */
+  function _injectContinueBanner() {
+    if (!isRealGuide) return;
+    var dayBlocks = document.querySelectorAll('.day-block[id^="day"]');
+    var totalDays = dayBlocks.length;
+    if (totalDays < 2) return;
+
+    var parts = location.pathname.split('/');
+    var gi = parts.findIndex(function (x) { return x.toLowerCase() === 'guides'; });
+    if (gi < 0 || !parts[gi + 1]) return;
+    var cityFolder = parts[gi + 1].toLowerCase();
+    var storageKey = 'tve-lastday-' + cityFolder;
+
+    var saved = parseInt(localStorage.getItem(storageKey), 10);
+    var overview = document.querySelector('.overview-section');
+    if (saved > 1 && saved <= totalDays && overview && overview.parentNode &&
+        document.getElementById('day' + saved)) {
+      var banner = document.createElement('div');
+      banner.className = 'tve-continue-banner';
+      banner.innerHTML =
+        '<div class="tve-continue-body">' +
+          '<a href="#day' + saved + '" class="tve-continue-link">Continue at Day ' + saved + '</a>' +
+          '<div class="tve-continue-track"><div class="tve-continue-fill" style="width:' +
+            Math.round(saved / totalDays * 100) + '%"></div></div>' +
+        '</div>' +
+        '<button type="button" class="tve-continue-x" aria-label="Dismiss">✕</button>';
+      overview.parentNode.insertBefore(banner, overview);
+      function dismiss() { if (banner.parentNode) banner.parentNode.removeChild(banner); }
+      banner.querySelector('.tve-continue-link').addEventListener('click', dismiss);
+      banner.querySelector('.tve-continue-x').addEventListener('click', dismiss);
+    }
+
+    if (!('IntersectionObserver' in window)) return;
+    var pending = null;
+    var observer = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) {
+        if (!entry.isIntersecting) return;
+        var m = /^day(\d+)$/.exec(entry.target.id);
+        if (!m) return;
+        clearTimeout(pending);
+        pending = setTimeout(function () {
+          try { localStorage.setItem(storageKey, m[1]); } catch (e) {}
+        }, 400);
+      });
+    }, { threshold: 0, rootMargin: '0px 0px -70% 0px' });
+    dayBlocks.forEach(function (block) { observer.observe(block); });
+  }
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', _injectContinueBanner);
+  } else {
+    _injectContinueBanner();
+  }
+
   /* ── Mark Stops — per-stop checkbox on every .stop-block. The circle carries
      a faint ✓ when unchecked so the affordance is legible; clicking marks the
      stop as visited: the circle fills solid terracotta with a white ✓ and the
@@ -6722,6 +6782,15 @@ window.TVE.home = (function () {
       { name: 'Rosewood Mansion on Turtle Creek', note: 'Rosewood brand — 1925 Tudor mansion in Uptown, outdoor heated pool and terrace, acclaimed Restaurant at Rosewood Mansion, full-service spa · 9.0 Booking.com' , url: 'https://www.booking.com/hotel/us/rosewood-mansion-on-turtle-creek.html', tier: 'luxury' },
       { name: 'The Ritz-Carlton, Dallas', note: "Ritz-Carlton brand — Uptown at McKinney and Maple, indoor pool, Ellie's Restaurant and Lounge, 24-hour butler · 8.8 Booking.com" , url: 'https://www.booking.com/hotel/us/the-ritz-carlton-dallas.html', tier: 'luxury' }
     ], price: { budget: '$150–200', mid: '$200–300', expensive: '$300–600', luxury: '$600+' } },
+    'delhi': { h: [
+      { name: 'Bloomrooms @ New Delhi Railway Station', note: 'Independent — Paharganj, near New Delhi Railway Station, 24h reception · 7.8 Booking.com', url: 'https://www.booking.com/hotel/in/bloomrooms-new-delhi-railway-station.html', tier: 'budget' },
+      { name: 'The Delhi Dreams', note: 'Independent — Desh Bandhu Gupta Road near Chandni Chowk, restaurant, bar, 24h reception · 9.1 Booking.com', url: 'https://www.booking.com/hotel/in/delhi-dreams.html', tier: 'mid' },
+      { name: 'Novotel New Delhi City Centre', note: 'Novotel first-tier brand — Community Centre, Jhandewalan, outdoor pool, spa · 8.5 Booking.com', url: 'https://www.booking.com/hotel/in/novotel-new-delhi-city-centre.html', tier: 'mid' },
+      { name: 'Le Méridien New Delhi', note: 'Marriott Le Méridien brand — Windsor Place, Connaught Place, outdoor pool, spa · 8.4 Booking.com', url: 'https://www.booking.com/hotel/in/le-ma-c-ridien-new-delhi.html', tier: 'expensive' },
+      { name: 'Shangri-La Eros New Delhi', note: 'Independent — 19 Ashoka Road, Connaught Place, outdoor pool, spa · 8.8 Booking.com', url: 'https://www.booking.com/hotel/in/shangri-la-new-delhi.html', tier: 'expensive' },
+      { name: 'The Oberoi New Delhi', note: 'Independent — Dr. Zakir Hussain Marg, near India Gate, outdoor pool, spa · 9.5 Booking.com', url: 'https://www.booking.com/hotel/in/the-oberoi-new-delhi.html', tier: 'luxury' },
+      { name: 'The Lodhi', note: 'Independent — Lodhi Road, New Delhi, outdoor pool, spa, butler service · 8.9 Booking.com', url: 'https://www.booking.com/hotel/in/the-lodhi.html', tier: 'luxury' }
+    ], price: { budget: '₹2,500–4,500', mid: '₹6,000–14,500', expensive: '₹19,000–26,000', luxury: '₹32,000–37,000' } },
     'denver': { h: [
       { name: 'Hampton Inn & Suites Denver Downtown Convention Center', note: 'Hilton Hampton brand — 550 15th Street two blocks from the convention centre, indoor pool, breakfast included, 24h reception · 8.6 Booking.com', url: 'https://www.booking.com/hotel/us/hamptoninnampsuitesdenverdowntownconventioncenter.html', tier: 'budget' },
       { name: 'Hilton Garden Inn Denver Downtown', note: 'Hilton Garden Inn brand — 1400 Welton Street in the downtown core, restaurant and bar, 24h reception · 8.1 Booking.com', url: 'https://www.booking.com/hotel/us/hilton-garden-inn-denver-downtown.html', tier: 'budget' },
@@ -6891,6 +6960,16 @@ window.TVE.home = (function () {
       { name: 'Lotte Hotel Hanoi', note: 'Lotte brand — Ba Dinh District, Top of Hanoi observation deck on 65th floor, indoor pool, La Seine French restaurant · 8.8 Booking.com', url: 'https://www.booking.com/hotel/vn/lotte-hotel-hanoi.html', tier: 'expensive' },
       { name: 'JW Marriott Hotel Hanoi', note: 'Marriott brand — award-winning curved tower by Carlos Zapata Studio on Do Duc Dan Lake, outdoor pool, full-service spa · 8.8 Booking.com', url: 'https://www.booking.com/hotel/vn/jw-marriott-hotel-hanoi.html', tier: 'luxury' }
     ], price: { budget: 'VND 700,000–1,500,000', mid: 'VND 1,500,000–3,000,000', expensive: 'VND 3,000,000–6,000,000', luxury: 'VND 6,000,000+' } },
+    'havana': { h: [
+      { name: 'Casa Vitrales Bed & Breakfast Boutique', note: 'Independent boutique B&B — Old Havana, private rooms, terrace, 24h reception · 4.6 TripAdvisor', url: 'https://www.booking.com/hotel/cu/casa-vitrales-bed-breakfast-boutique.html', tier: 'budget' },
+      { name: 'Hostal Balcones Muralla', note: 'Independent hostal — Old Havana, rooftop terrace with harbor views, private rooms · 4.9 TripAdvisor', url: 'https://www.booking.com/hotel/cu/hostal-balcones-muralla.html', tier: 'budget' },
+      { name: 'Hotel Parque Central', note: 'Independent — Old Havana at Parque Central, rooftop pool, 24h reception · 4.5 TripAdvisor', url: 'https://www.booking.com/hotel/cu/parque-central-habana.html', tier: 'mid' },
+      { name: 'NH Capri La Habana', note: 'NH Hotels brand — Vedado, rooftop pool with city views, 24h reception · 4.3 TripAdvisor', url: 'https://www.booking.com/hotel/cu/nh-capri.html', tier: 'mid' },
+      { name: 'Meliá Cohiba', note: 'Meliá brand — Vedado on the Malecón, marina views, indoor pool, 24h reception', url: 'https://www.booking.com/hotel/cu/melia-cohiba.html', tier: 'expensive' },
+      { name: 'Hotel Nacional de Cuba', note: 'Independent landmark — Vedado 1930 Art Deco clifftop hotel, historic gardens, 24h reception · 4.0 TripAdvisor', url: 'https://www.booking.com/hotel/cu/nacional.html', tier: 'expensive' },
+      { name: 'Gran Hotel Manzana Kempinski La Habana', note: 'Kempinski brand — Calle Obispo, Old Havana, restored 19th-century arcade building, rooftop pool, spa · 4.3 TripAdvisor', url: 'https://www.booking.com/hotel/cu/gran-manzana-kempinski.html', tier: 'luxury' },
+      { name: 'Iberostar Grand Packard', note: 'Iberostar Grand brand — Old Havana on the Prado, harbor views, rooftop pool, spa, 24h reception · 4.9 TripAdvisor', url: 'https://www.booking.com/hotel/cu/iberostar-grand-packard.html', tier: 'luxury' }
+    ], price: { budget: 'USD 50–90', mid: 'USD 90–160', expensive: 'USD 160–280', luxury: 'USD 280+' } },
     'helsinki': { h: [
       { name: 'Marski by Scandic', note: 'Scandic brand — prime Mannerheimintie address opposite Esplanade Park, 365 rooms, renovated 2019, rooftop sauna, 24h reception · 8.5 Booking.com', url: 'https://www.booking.com/hotel/fi/marski-by-scandic.html', tier: 'budget' },
       { name: 'Klaus K Hotel', note: 'Design Hotels member — 1908 Art Nouveau building on Bulevardi, Finnish mythology-themed interiors, wine bar, 24h reception · 9.0 Booking.com', url: 'https://www.booking.com/hotel/fi/klausku.html', tier: 'mid' },
@@ -11640,6 +11719,7 @@ window.TVE.home = (function () {
       'curitiba':          {iata:'CWB', name:'Curitiba Afonso Pena'},
       'cusco':             {iata:'CUZ', name:'Alejandro Velasco Astete International'},
       'dallas':            {iata:'DFW', name:'Dallas/Fort Worth International'},
+      'delhi':             {iata:'DEL', name:'Indira Gandhi International'},
       'denver':            {iata:'DEN', name:'Denver International'},
       'doha':              {iata:'DOH', name:'Hamad International'},
       'dubai':             {iata:'DXB', name:'Dubai International'},
@@ -11660,6 +11740,7 @@ window.TVE.home = (function () {
       'granada':           {iata:'GRX', name:'Federico García Lorca Granada–Jaén'},
       'hamburg':           {iata:'HAM', name:'Hamburg Airport'},
       'hanoi':             {iata:'HAN', name:'Noi Bai International'},
+      'havana':            {iata:'HAV', name:'José Martí International'},
       'helsinki':          {iata:'HEL', name:'Helsinki-Vantaa'},
       'hilton-head-island': {iata:'HHH', name:'Hilton Head Airport'},
       'hiroshima':         {iata:'HIJ', name:'Hiroshima Airport'},
@@ -11708,6 +11789,7 @@ window.TVE.home = (function () {
       'monaco':            {iata:'NCE', name:'Nice Côte d\'Azur'},
       'montevideo':        {iata:'MVD', name:'Carrasco International'},
       'montreal':          {iata:'YUL', name:'Montréal-Trudeau International'},
+      'mumbai':            {iata:'BOM', name:'Chhatrapati Shivaji Maharaj International'},
       'munich':            {iata:'MUC', name:'Munich International'},
       'muscat':            {iata:'MCT', name:'Muscat International'},
       'mykonos':           {iata:'JMK', name:'Mykonos Island National Airport'},
@@ -11828,19 +11910,19 @@ window.TVE.home = (function () {
        its airport. */
     var LOUNGE_IATAS = [
       'ABQ','AES','AGP','AJU','AMM','AMS','ANC','ARN','ATH','ATL','AUA','AUH','AUS','BCN','BDS','BER',
-      'BGI','BGO','BIO','BKK','BLQ','BNA','BOB','BOD','BOS','BRU','BSL','BUD','CAE','CAI','CDG','CFU',
-      'CGN','CKG','CLT','CMB','CNX','CPH','CPT','CTA','CUN','CUR','CUZ','CWB','DAD','DBV','DCA','DEN',
+      'BGI','BGO','BIO','BKK','BLQ','BNA','BOB','BOD','BOM','BOS','BRU','BSL','BUD','CAE','CAI','CDG','CFU',
+      'CGN','CKG','CLT','CMB','CNX','CPH','CPT','CTA','CUN','CUR','CUZ','CWB','DAD','DBV','DCA','DEL','DEN',
       'DFW','DOH','DPS','DTW','DUB','DUS','DXB','DYG','EDI','EYW','EZE','FAO','FCA','FCO','FHR','FLN',
-      'FLR','FNC','FOR','FRA','GCM','GEG','GIG','GLA','GOT','GPS','GRU','GRX','GVA','HAM','HAN','HEL',
-      'HER','HHH','HIJ','HKG','HKT','HND','HNL','IAD','IAH','ICN','IGU','IST','JFK','JMK','JPA','JTR',
-      'KEF','KIX','KOA','KRK','KTM','LAS','LAX','LGA','LGW','LHR','LIH','LIM','LIS','LJU','LPQ','LUX',
-      'LYS','MAD','MAN','MCO','MCT','MCZ','MEL','MIA','MLA','MLE','MRS','MSP','MSY','MUC','MVD','MXP',
-      'NAP','NAS','NAT','NCE','OAX','OGG','OLB','OPO','ORD','ORS','ORY','OSL','PBH','PDL','PDX','PEK',
-      'PHL','PHX','PLS','PMI','PNS','POA','PPS','PRG','PSA','PSP','PUS','PVG','PVR','RAK','RDM','REC',
-      'RHO','RIX','RNO','RSW','SAN','SCL','SEA','SEZ','SFO','SIN','SJC','SJD','SJO','SJU','SKG','SLC',
-      'SLZ','SPU','SRQ','SSA','STR','STT','SVQ','SXB','SXM','SYD','SZG','TBS','TFS','TIV','TLL','TOS',
-      'TPE','TRN','VCE','VIE','VLC','VNO','VRN','WLG','YQB','YUL','YVR','YYC','YYZ','ZAG','ZQN','ZRH',
-      'ZTH'
+      'FLR','FNC','FOR','FRA','GCM','GEG','GIG','GLA','GOT','GPS','GRU','GRX','GVA','HAM','HAN','HAV',
+      'HEL','HER','HHH','HIJ','HKG','HKT','HND','HNL','IAD','IAH','ICN','IGU','IST','JFK','JMK','JPA',
+      'JTR','KEF','KIX','KOA','KRK','KTM','LAS','LAX','LGA','LGW','LHR','LIH','LIM','LIS','LJU','LPQ',
+      'LUX','LYS','MAD','MAN','MCO','MCT','MCZ','MEL','MIA','MLA','MLE','MRS','MSP','MSY','MUC','MVD',
+      'MXP','NAP','NAS','NAT','NCE','OAX','OGG','OLB','OPO','ORD','ORS','ORY','OSL','PBH','PDL','PDX',
+      'PEK','PHL','PHX','PLS','PMI','PNS','POA','PPS','PRG','PSA','PSP','PUS','PVG','PVR','RAK','RDM',
+      'REC','RHO','RIX','RNO','RSW','SAN','SCL','SEA','SEZ','SFO','SIN','SJC','SJD','SJO','SJU','SKG',
+      'SLC','SLZ','SPU','SRQ','SSA','STR','STT','SVQ','SXB','SXM','SYD','SZG','TBS','TFS','TIV','TLL',
+      'TOS','TPE','TRN','VCE','VIE','VLC','VNO','VRN','WLG','YQB','YUL','YVR','YYC','YYZ','ZAG','ZQN',
+      'ZRH','ZTH'
     ];
 
     function _inject() {

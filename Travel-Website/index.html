@@ -6754,7 +6754,18 @@ function render() {
     /* passesTT() drops this one card: a reader in Lisbon is not offered Lisbon
        as an escape from Lisbon. */
     matchedCard = homeCard();
-    var relaxed = relaxTT(ref, ttState());
+    var st = ttState();
+    /* THE FULL SET IS TRIED FIRST — bug fix, 2026-08-29. relaxTT() on its own
+       always drops at least one filter (its loop starts at k=1, never tries
+       k=0), so calling it unconditionally meant ANY single filter set alone —
+       Language, Activity, Safety, or the new Crowds field — was reported as
+       "set aside" and silently never applied, even when it would have
+       returned real results on its own. Same shape as the finder's own run():
+       matches() first, relax() only if that comes back empty. Verified: this
+       bug predates the crowd filter — "Which language? = English" alone hit
+       it too, on the unmodified 2026-08-28 baseline. */
+    var full = rankTT(ref, st);
+    var relaxed = full.length ? { hits: full, dropped: [] } : relaxTT(ref, st);
     var top = relaxed.hits;
 
     function escTE(t) { return String(t).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }

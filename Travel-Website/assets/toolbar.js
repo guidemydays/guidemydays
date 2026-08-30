@@ -3034,23 +3034,29 @@ window.TVE.home = (function () {
       var maxH = 0;
       pills.forEach(function (p) { maxH = Math.max(maxH, p.getBoundingClientRect().height); });
       pills.forEach(function (p) { p.style.minHeight = maxH + 'px'; });
-      /* WIDTH — the grey "All"/reset pill is never part of the scale it
-         resets. It keeps its own natural width instead of matching the
-         widest sibling; owner correction 2026-08-27 after average-costs'
-         "All" rendered stretched to "Very expensive"'s width for no reason
-         -- its minWidth reset above still applies, so it always falls back
-         to fit-content, "always smaller". Detected by grey color class,
-         not a page-specific class name, because grey is this site's typical
-         convention for an All/reset control -- NOT a site-wide requirement
-         (the "Non-Negotiable 96" this used to cite was retired 2026-08-28,
-         fabricated by a crib with no real owner quote behind it; see
-         Brain/Reference/Non-Negotiables/x14-retired-fabricated-rules-2026-08-28.md).
-         If a page ever has a legitimately-grey pill that ISN'T the All/reset
-         control, this heuristic would wrongly exclude it from width-matching
-         -- that's a real edge case to watch for, not a rule violation. */
-      var GREY = ['sb-dark-grey', 'sb-light-grey', 'cp-dark-grey', 'cp-light-grey'];
+      /* WIDTH — the "All"/reset pill is never part of the scale it resets.
+         It keeps its own natural width instead of matching the widest
+         sibling; owner correction 2026-08-27 after average-costs' "All"
+         rendered stretched to "Very expensive"'s width for no reason --
+         its minWidth reset above still applies, so it always falls back
+         to fit-content, "always smaller". This is now a real, numbered
+         rule (selection-pills-badges-pills-to-badge-dots.html Rule 8,
+         added 2026-08-30), not just a convention -- and that same pass
+         amended Rule 4 so the All pill's color moved from grey to
+         nt-brown (the deep end of the Neutral scale, "the darker pill of
+         the group"). Detected by color class, not a page-specific class
+         name, since a page is free to invent its own row/container names
+         (see the function comment above). nt-brown is the live target;
+         the sb-/cp-dark-grey and cp-light-grey entries stay as a
+         transitional fallback for any page not yet recolored to match --
+         drop them once a sweep confirms no page still uses grey for its
+         All pill. If a page ever has a legitimately-grey or -brown pill
+         that ISN'T the All/reset control, this heuristic would wrongly
+         exclude it from width-matching -- that's a real edge case to
+         watch for, not a rule violation. */
+      var ALL_PILL = ['nt-brown', 'nt-grey', 'sb-dark-grey', 'sb-light-grey', 'cp-dark-grey', 'cp-light-grey'];
       var sized = pills.filter(function (p) {
-        return !GREY.some(function (g) { return p.classList.contains(g); });
+        return !ALL_PILL.some(function (g) { return p.classList.contains(g); });
       });
       if (sized.length < 2) return;
       var max = 0;

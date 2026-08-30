@@ -243,16 +243,25 @@ body.is-searching #route-nav.filter-bar { display:flex !important; }
      own hubs, its own legend (Delta One / Polaris / Flagship are three
      different cabins) and its own booking links. */
   .carrier-strip { display: flex; flex-wrap: nowrap; align-items: center; justify-content: center; gap: 8px; margin: var(--search-gap,32px) auto 0; padding: 0 32px; }
-  /* Each button carries its own cp-* class directly (markup below); these
+  /* Each button carries its own cp-*/nt-* class directly (markup below); these
      two generic rules pull wash/ink/rgb from that class's own --sp-wash/
      --sp-ink/--sp-rgb custom properties. */
-  /* min-width 89px -- measured live: "All three" 83.3px, "Delta" 62.8px, "United"
-     70.6px, "American" 88.8px (the longest) at this same padding/font-size. Every
-     pill in the group shares ONE size, driven by the longest content (NN100) --
-     they were rendering at their own natural width with no equalization. */
-  .carrier-strip .hub-chip { border-radius: var(--fam-radius,4px); border: 1px solid; height: 34px; min-width: 89px; padding: 0 14px; font-size: 13px; font-weight: 600; letter-spacing: 0; line-height: 1; cursor: pointer; font-family: inherit; white-space: nowrap; text-align: center; }
-  .carrier-strip .hub-chip[class*="cp-"] { background: var(--sp-wash); color: var(--sp-ink); border-color: rgba(0,0,0,.1); }
-  .carrier-strip .hub-chip[class*="cp-"].is-on { outline: 3px solid currentColor; outline-offset: 3px; }
+  /* min-width 89px -- measured live: "Delta" 62.8px, "United" 70.6px, "American"
+     88.8px (the longest) at this same padding/font-size. Every pill in the REAL
+     group (the three carriers) shares ONE size, driven by the longest content.
+     "All three" is excluded from this min-width, per selection-pills-badges-
+     pills-to-badge-dots.html Rule 8 (added 2026-08-30) -- it's a different
+     control resetting the group, not a member of it, and keeps its own natural
+     width (83.3px). Corrected 2026-08-30: this used to force all 4 chips
+     including "All three" to 89px, citing "NN100" -- that non-negotiable was
+     retired 2026-08-28 as fabricated (no real owner quote behind it; see
+     Brain/Reference/Non-Negotiables/x14-retired-fabricated-rules-2026-08-28.md),
+     and forcing the reset chip to match the group is exactly what Rule 8 now
+     says NOT to do. */
+  .carrier-strip .hub-chip { border-radius: var(--fam-radius,4px); border: 1px solid; height: 34px; padding: 0 14px; font-size: 13px; font-weight: 600; letter-spacing: 0; line-height: 1; cursor: pointer; font-family: inherit; white-space: nowrap; text-align: center; }
+  .carrier-strip .hub-chip:not([data-carrier="all"]) { min-width: 89px; }
+  .carrier-strip .hub-chip[class*="cp-"], .carrier-strip .hub-chip[class*="nt-"] { background: var(--sp-wash); color: var(--sp-ink); border-color: rgba(0,0,0,.1); }
+  .carrier-strip .hub-chip[class*="cp-"].is-on, .carrier-strip .hub-chip[class*="nt-"].is-on { outline: 3px solid currentColor; outline-offset: 3px; }
   .carrier-block { scroll-margin-top: 14px; }
   .carrier-block[hidden] { display: none; }
   .carrier-head {
@@ -322,7 +331,7 @@ body.is-searching #route-nav.filter-bar { display:flex !important; }
        and preselecting one makes it the old page again. -->
   <div class="carrier-strip" id="carrierStrip">
     <span class="zone-ew">Carrier</span>
-    <button type="button" class="hub-chip cp-gold is-on" data-carrier="all">All three</button>
+    <button type="button" class="hub-chip nt-brown is-on" data-carrier="all">All three</button>
     <button type="button" class="hub-chip cp-bright-red" data-carrier="dl">Delta</button>
     <button type="button" class="hub-chip cp-blue" data-carrier="ua">United</button>
     <button type="button" class="hub-chip cp-purple" data-carrier="aa">American</button>

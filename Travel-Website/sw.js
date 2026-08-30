@@ -1,3 +1,24 @@
+/* 2026-08-30: hardcoded-pill-CSS sweep (per owner ask "make sure all the pills have
+   the share css not hard code") -- web-travel-style.css's .legend-key.sb-* (12 tones)
+   collapsed from individually hardcoded hex duplicating --sb-fill/--sb-text into one
+   compound rule reading the tokens, matching how .legend-key.cp-* already worked.
+   guides-index-style.css: .cmp-go-btn/.cmp-exit-btn's hardcoded #f7eee5/rgba(107,68,35,*)/
+   #6b4423 (an exact byte-for-byte copy of --sp-saddle-wash/-rgb/-ink) now read those
+   tokens; .gtag and .pt-city-pill's leftover literal color:#3d3a32 (their background
+   already read --nt-paper-wash) now reads --nt-paper-ink; .cmp-tag's leftover literal
+   color:#3d3a32 now reads --text (its background is --warm, not nt-paper, so the
+   sitewide base ink token is the semantically correct match, not nt-paper-ink).
+   Zero visual change -- every var() resolves to the exact hex it replaced. Left alone,
+   flagged for an owner ruling rather than auto-fixed: several bespoke pill colors with
+   no exact cp-/sb-/nt- match (Lounges legend-item navy/green/gold, trains.css .ctag
+   origin/cross/stop, guides-index-style.css's "New" guide badge, Best Of's favorited/
+   compare red, guide-style.css's lounge-arrival-chip); and a large, repeated pattern of
+   hardcoded amber/terracotta ink (#8a6c1a/#C04E1A) across guides-index-style.css's
+   .mchip/.tchip/.fchip/.lchip/.disc-btn/etc. selection-state chips, which read closer
+   to the already-carved-out .fnd-ctl form-input category than to a colored badge and
+   need an explicit scope ruling before touching, not a mechanical token swap.
+   MIN_VERSIONS['web-travel-style.css'] to 225, MIN_VERSIONS['guides-index-style.css']
+   to 41, CACHE to v1757. */
 /* 2026-08-30: the pills-doc Rule 8/4 compliance commit (24a008c18) landed its real
    toolbar.js/web-travel-style.css code content after the version floor had already
    been raised by an earlier, now-absorbed edit -- re-raising here so the floor
@@ -2790,7 +2811,7 @@
 /* 2026-08-30: Cartagena: CHIP_DATA CTG, HOTEL_ALT_DATA 4 tiers, LOUNGE_IATAS CTG; KL: HOTEL_ALT_DATA 4 tiers; All-pill width logic update to nt-brown + Rule 8 toolbar.js -> v1111. CACHE to v1753. */
 /* 2026-08-30: Compare table (index.html + guides/index.html) — Safety row's Very Safe and Safe stop sharing dot-green/cmp-good; Safe now draws dot-teal/cmp-good2, and a new "Interesting Facts" title row groups Safety/Life Expectancy/Currency/Plug. guides-index-style.css -> 40. */
 /* 2026-08-30: toolbar.js -> 1113, web-travel-style.css -> 224. CACHE to v1756. */
-var CACHE = 'travel-cache-v1756';
+var CACHE = 'travel-cache-v1757';
 /* 2026-08-27: airlines.css's .card-tags align-items fix changed a shared
    asset without raising its own floor -- MIN_VERSIONS['airlines.css'] to
    6, CACHE to v1662. */
@@ -2832,7 +2853,7 @@ var ICS_OUTBOX = 'gmd-ics-outbox';
    of 230+ guides. Instead, bump MIN_VERSIONS here + increment the CACHE version. */
 /* 2026-08-30: weather.js: Punta Cana climate normals added (244 cities). MIN_VERSIONS["weather.js"] to 19, CACHE to v1748. */
 /* 2026-08-30: search-autocomplete.js — reverted ARIA combobox pattern (role=listbox/option caused side-by-side layout regression). MIN_VERSIONS['search-autocomplete.js'] to 11, CACHE to v1749. */
-var MIN_VERSIONS = { 'guide-style.css': 276,'toolbar.js': 1113, 'mobile.css': 93, 'web-travel-style.css': 224, 'guides-index-style.css': 40, 'read-about.css': 8, 'best-of-features.js': 5, 'best-of-cross-data.js': 24, 'weather.js': 20,'trains.css': 30, 'trains.js': 5, 'airlines.css': 9, 'airlines.js': 9, 'passport.js': 5, 'search-autocomplete.js': 12, 'flag-render.js': 2 };
+var MIN_VERSIONS = { 'guide-style.css': 276,'toolbar.js': 1113, 'mobile.css': 93, 'web-travel-style.css': 225, 'guides-index-style.css': 41, 'read-about.css': 8, 'best-of-features.js': 5, 'best-of-cross-data.js': 24, 'weather.js': 20,'trains.css': 30, 'trains.js': 5, 'airlines.css': 9, 'airlines.js': 9, 'passport.js': 5, 'search-autocomplete.js': 12, 'flag-render.js': 2 };
 
 function rewriteAssetUrl(urlStr) {
   var u;

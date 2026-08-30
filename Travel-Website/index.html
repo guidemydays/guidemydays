@@ -7346,13 +7346,24 @@ function render() {
       });
       out += '</tr>';
 
+      /* Interesting Facts — a title row, not a data row. Safety, life
+         expectancy, currency and plug are general facts about the place
+         rather than something the reader is planning around, so they group
+         under their own heading instead of running on silently under Cost. */
+      out += '<tr class="cmp-section-title"><td colspan="' + (sel.length + 1) + '">Interesting Facts</td></tr>';
+
       /* Safety row */
       var SAFE_LEVELS = {'Very Safe':1,'Safe':2,'Moderate':3,'Caution':4,'High Risk':5};
-      var SAFE_DOT = {'Very Safe':'dot-green','Safe':'dot-green','Moderate':'dot-yellow',
+      /* Very Safe and Safe used to share dot-green/cmp-good, so the two safest
+         levels were visually identical in the table — the dot only started
+         reading as a scale once the color stopped repeating. Safe now draws
+         dot-teal / cmp-good2, still a "good" family color, never confusable
+         with Moderate's gold (cmp-mid) two rows down. */
+      var SAFE_DOT = {'Very Safe':'dot-green','Safe':'dot-teal','Moderate':'dot-yellow',
                     'Caution':'dot-orange','High Risk':'dot-red'};
       var SAFE_LEGEND = [
         {lvl:1,label:'Very Safe', col:'#2a7a2a'},
-        {lvl:2,label:'Safe',      col:'#4a8a2a'},
+        {lvl:2,label:'Safe',      col:'#0f5f58'},
         {lvl:3,label:'Moderate',  col:'#8a6c1a'},
         {lvl:4,label:'Caution',   col:'#c06000'},
         {lvl:5,label:'High Risk', col:'#b00000'}
@@ -7362,7 +7373,7 @@ function render() {
             return '<span style="font-size:11px;color:var(--muted)">Level ' + s.lvl + ' = <span style="color:' + s.col + '">' + s.label + '</span></span>';
           }).join('')
         + '</div>';
-      var SAFE_CLASS = {'Very Safe':'cmp-good','Safe':'cmp-good','Moderate':'cmp-mid','Caution':'cmp-warn','High Risk':'cmp-bad'};
+      var SAFE_CLASS = {'Very Safe':'cmp-good','Safe':'cmp-good2','Moderate':'cmp-mid','Caution':'cmp-warn','High Risk':'cmp-bad'};
       out += '<tr><td class="cmp-row-label" style="vertical-align:top;padding-top:14px">Safety</td>';
       sel.forEach(function(c) {
         var si = SAFETY_DATA[c.climateKey] || SAFETY_DATA[c.name] || null;

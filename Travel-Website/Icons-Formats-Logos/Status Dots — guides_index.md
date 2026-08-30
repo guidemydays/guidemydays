@@ -234,6 +234,9 @@ in `Guides-Index.html` instead.
 ### Luxembourg
 - [x] luxembourg
 
+### Malaysia
+- [x] kuala-lumpur
+
 ### Maldives
 - [ ] maldives
 

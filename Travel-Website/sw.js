@@ -2746,7 +2746,8 @@
 /* 2026-08-29: weather.js v18: Lagos Nigeria climate normals added (climate.json 243 cities, bake 2026-08-29) toolbar.js -> v1107. CACHE to v1737. */
 /* 2026-08-30: mobile-ux-fix: .jchip flex centering — added inline-flex+align-items+justify-content+min-height-auto to mobile.css @393px exemption block; fixes OFF-CENTER pills on baggage + budget-airline-guide pages. mobile.css -> v93. CACHE to v1738. */
 /* 2026-08-30: essentials/day-trips — its page-local .dt-hero background still carried the dot-grid radial-gradient layer that web-travel-style.css's own .eb-hero/.bo-hero dropped on 2026-08-29 (commit dd3d938d3); this page-local copy was never touched by that pass and was the one hero on the site still showing dots (owner: "hero beige was damaged"). Dropped the radial-gradient layer, page now matches every other eb-hero page. Page is precached — CACHE to v1739. */
-var CACHE = 'travel-cache-v1739';
+/* 2026-08-30: toolbar.js — Lagos Nigeria guide ship: HOTEL_ALT_DATA NGN price format fixed (₦70k→₦70,000), Lagos Nigeria added to CITY_BEST_OF_MAP and guides fleet. toolbar.js -> v1108. CACHE to v1740. */
+var CACHE = 'travel-cache-v1740';
 /* 2026-08-27: airlines.css's .card-tags align-items fix changed a shared
    asset without raising its own floor -- MIN_VERSIONS['airlines.css'] to
    6, CACHE to v1662. */
@@ -2786,7 +2787,7 @@ var ICS_OUTBOX = 'gmd-ics-outbox';
    THIS IS THE ONLY PLACE to bump toolbar.js / guide-style.css versions.
    NEVER bump ?v= inside guide HTML — it breaks HMAC stamps and forces re-validation
    of 230+ guides. Instead, bump MIN_VERSIONS here + increment the CACHE version. */
-var MIN_VERSIONS = { 'guide-style.css': 275,'toolbar.js': 1107, 'mobile.css': 93, 'web-travel-style.css': 217, 'guides-index-style.css': 38, 'read-about.css': 8, 'best-of-features.js': 5, 'best-of-cross-data.js': 24, 'weather.js': 18,'trains.css': 28, 'trains.js': 5, 'airlines.css': 9, 'airlines.js': 9, 'passport.js': 5, 'search-autocomplete.js': 9, 'flag-render.js': 2 };
+var MIN_VERSIONS = { 'guide-style.css': 275,'toolbar.js': 1108, 'mobile.css': 93, 'web-travel-style.css': 217, 'guides-index-style.css': 38, 'read-about.css': 8, 'best-of-features.js': 5, 'best-of-cross-data.js': 24, 'weather.js': 18,'trains.css': 28, 'trains.js': 5, 'airlines.css': 9, 'airlines.js': 9, 'passport.js': 5, 'search-autocomplete.js': 9, 'flag-render.js': 2 };
 
 function rewriteAssetUrl(urlStr) {
   var u;

@@ -3031,3 +3031,77 @@ a.neigh-name:visited { color: #3d3a32; }
   html { scroll-behavior: auto !important; }
 }
 
+/* ═══════════════════════════════════════════════════════════════════════════
+   NEARBY FROM HERE — on the last stop of a day, a disclosure offering nearby
+   stops/restaurants/shows anywhere else in the guide, by shared neighbourhood
+   text (no geocoding — restaurants and shows carry no pins). Each card is a
+   name + address and a Google Maps DIRECTIONS link with no origin set, so
+   Maps resolves the reader's real location itself; no distance is shown or
+   guessed here. Injected by toolbar.js's _injectNearbyFromHere. Owner rule
+   2026-08-30.
+   ═══════════════════════════════════════════════════════════════════════════ */
+.wn-trigger {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  width: 100%;
+  margin: 6px 0 0;
+  padding: 8px 12px;
+  background: none;
+  border: 1.5px dashed var(--c-next-border);
+  border-radius: 4px;
+  cursor: pointer;
+  font-family: inherit;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--c-brand);
+  text-align: left;
+  transition: background .12s, border-color .12s;
+}
+.wn-trigger:hover { background: var(--c-warm-bg); border-color: var(--c-brand); }
+.wn-chevron {
+  width: 9px; height: 9px;
+  border-right: 2px solid currentColor;
+  border-bottom: 2px solid currentColor;
+  transform: rotate(45deg);
+  transition: transform .18s;
+  flex-shrink: 0;
+  margin-left: auto;
+}
+.wn-trigger[aria-expanded="true"] .wn-chevron { transform: rotate(-135deg); }
+
+.wn-panel { display: grid; grid-template-rows: 0fr; transition: grid-template-rows .22s ease; }
+.wn-panel[data-open="true"] { grid-template-rows: 1fr; }
+.wn-panel-inner { overflow: hidden; }
+.wn-panel-body { padding-top: 12px; display: flex; flex-direction: column; gap: 14px; }
+
+.wn-group { display: flex; flex-direction: column; gap: 6px; }
+.wn-group-title {
+  display: flex; align-items: center; gap: 7px;
+  font-size: 11px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase;
+  padding-left: 9px; border-left: 3px solid var(--gcolor, var(--c-brand));
+}
+.wn-group-title .gm-ic-mono { width: 15px; height: 15px; }
+.wn-pill {
+  display: flex; align-items: center; gap: 10px;
+  background: var(--c-card-bg);
+  border-radius: 7px;
+  box-shadow: var(--c-card-shadow);
+  padding: 8px 12px;
+  text-decoration: none;
+  color: inherit;
+  transition: box-shadow .12s, transform .08s;
+}
+.wn-pill:hover { box-shadow: 0 3px 12px rgba(0,0,0,.12); }
+.wn-pill:active { transform: scale(.99); }
+.wn-pill-icon { width: 20px; height: 20px; flex-shrink: 0; }
+.wn-pill-body { min-width: 0; flex: 1; }
+.wn-pill-name { font-size: 14px; font-weight: 600; color: var(--c-text-primary); }
+.wn-pill-addr {
+  font-size: 12px; color: var(--c-text-muted);
+  display: flex; align-items: center; gap: 5px; margin-top: 2px;
+}
+.wn-pill-addr .gm-ic-mono { width: 12px; height: 12px; flex-shrink: 0; }
+.wn-pill-go { margin-left: auto; flex-shrink: 0; font-size: 11px; font-weight: 600; color: var(--c-brand); white-space: nowrap; }
+.wn-footnote { font-size: 11.5px; color: var(--c-text-muted); margin-top: 2px; }
+

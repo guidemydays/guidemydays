@@ -8511,6 +8511,177 @@ window.TVE.home = (function () {
     _injectHotelAlternatives();
   }
 
+  /* ── Nearby From Here — on the LAST stop of each day (the one whose .next
+     banner reads "→ hotel"), offer stops/restaurants/shows anywhere else in
+     the guide that share that stop's own neighbourhood. Stops, restaurants
+     and shows all already print their address as "... · Neighbourhood" and
+     link it to a Google Maps SEARCH pin — this reuses both directly, so
+     there is no geocoding step and no distance is computed or shown: each
+     card is just a name, that same address, and the SAME link upgraded from
+     a place search to a DIRECTIONS request with no origin, so Maps supplies
+     the reader's real current location itself (or asks, if none is shared).
+     Owner rule 2026-08-30. */
+  function _injectNearbyFromHere() {
+    if (!isRealGuide || isReadAbout || isStopsMap) return;
+    var dayBlocks = document.querySelectorAll('.day-block');
+    if (!dayBlocks.length) return;
+
+    function neighborhoodOf(addrText) {
+      var parts = (addrText || '').split('·');
+      return parts.length > 1 ? parts[parts.length - 1].replace(/\s+/g, ' ').trim() : '';
+    }
+    function addrLinkOf(scope) {
+      return scope.querySelector('a[href*="maps/search"]');
+    }
+    function toDirections(href) {
+      return href.replace('/maps/search/?api=1&query=', '/maps/dir/?api=1&destination=');
+    }
+
+    /* Every stop, every day, so a later day can surface a stop from an
+       earlier (or later) one — restaurants and shows are guide-wide
+       sections already and were never day-scoped to begin with. */
+    var allStops = [];
+    dayBlocks.forEach(function (day) {
+      day.querySelectorAll('.stop-block').forEach(function (sb) {
+        var nameEl = sb.querySelector('.stop-name');
+        var addrA = addrLinkOf(sb);
+        if (!nameEl || !addrA) return;
+        var addrText = (addrA.textContent || '').trim();
+        var neigh = neighborhoodOf(addrText);
+        if (!neigh) return;
+        allStops.push({ name: nameEl.textContent.trim(), addr: addrText, neigh: neigh, href: addrA.getAttribute('href'), day: day });
+      });
+    });
+
+    function collectExtras(sectionId) {
+      var out = [];
+      var sec = document.getElementById(sectionId);
+      if (!sec) return out;
+      sec.querySelectorAll('.extras-sub').forEach(function (sub) {
+        var body = sub.nextElementSibling;
+        if (!body) return;
+        var addrA = addrLinkOf(body);
+        if (!addrA) return;
+        var addrText = (addrA.textContent || '').trim();
+        var neigh = neighborhoodOf(addrText);
+        if (!neigh) return;
+        var nameClone = sub.cloneNode(true);
+        var ratingLink = nameClone.querySelector('a');
+        if (ratingLink) ratingLink.parentNode.removeChild(ratingLink);
+        var name = (nameClone.textContent || '').replace(/[·\s]+$/, '').trim();
+        if (!name) return;
+        out.push({ name: name, addr: addrText, neigh: neigh, href: addrA.getAttribute('href') });
+      });
+      return out;
+    }
+    var restaurants = collectExtras('restaurants').concat(collectExtras('downtown'));
+    var shows = collectExtras('shows');
+
+    function pill(item, iconKey) {
+      var a = document.createElement('a');
+      a.className = 'wn-pill';
+      a.href = toDirections(item.href);
+      a.target = '_blank';
+      a.rel = 'noopener';
+      var iconSpan = document.createElement('span');
+      iconSpan.className = 'wn-pill-icon';
+      iconSpan.innerHTML = monoSVG(iconKey, 20);
+      var body = document.createElement('span');
+      body.className = 'wn-pill-body';
+      var nameEl = document.createElement('span');
+      nameEl.className = 'wn-pill-name';
+      nameEl.textContent = item.name;
+      var addrEl = document.createElement('span');
+      addrEl.className = 'wn-pill-addr';
+      addrEl.innerHTML = monoSVG('pin', 12);
+      var addrText = document.createElement('span');
+      addrText.textContent = item.addr;
+      addrEl.appendChild(addrText);
+      body.appendChild(nameEl);
+      body.appendChild(addrEl);
+      var go = document.createElement('span');
+      go.className = 'wn-pill-go';
+      go.textContent = 'Directions ›';
+      a.appendChild(iconSpan);
+      a.appendChild(body);
+      a.appendChild(go);
+      return a;
+    }
+
+    function group(label, iconKey, colorVar, items) {
+      if (!items.length) return null;
+      var g = document.createElement('div');
+      g.className = 'wn-group';
+      g.style.setProperty('--gcolor', colorVar);
+      var h = document.createElement('div');
+      h.className = 'wn-group-title';
+      h.style.color = colorVar;
+      h.innerHTML = monoSVG(iconKey, 15) + ' ' + label;
+      g.appendChild(h);
+      items.slice(0, 3).forEach(function (it) { g.appendChild(pill(it, iconKey)); });
+      return g;
+    }
+
+    var uid = 0;
+    dayBlocks.forEach(function (day) {
+      var stopBlocks = day.querySelectorAll('.stop-block');
+      if (!stopBlocks.length) return;
+      var lastStop = stopBlocks[stopBlocks.length - 1];
+      var addrA = addrLinkOf(lastStop);
+      if (!addrA) return;
+      var neigh = neighborhoodOf(addrA.textContent);
+      if (!neigh) return;
+
+      var nexts = day.querySelectorAll('.next, .next-tram, .next-metro');
+      if (!nexts.length) return;
+      var lastNext = nexts[nexts.length - 1];
+      if (!/hotel/i.test(lastNext.textContent || '')) return;
+
+      var nearbyStops = allStops.filter(function (s) { return s.day !== day && s.neigh === neigh; });
+      var nearbyEats  = restaurants.filter(function (r) { return r.neigh === neigh; });
+      var nearbyShows = shows.filter(function (s) { return s.neigh === neigh; });
+      if (!nearbyStops.length && !nearbyEats.length && !nearbyShows.length) return;
+
+      uid++;
+      var trigger = document.createElement('button');
+      trigger.type = 'button';
+      trigger.className = 'wn-trigger';
+      trigger.setAttribute('aria-expanded', 'false');
+      trigger.setAttribute('aria-controls', 'wn-panel-' + uid);
+      trigger.innerHTML = 'Not ready to head back? See what’s nearby<span class="wn-chevron"></span>';
+
+      var panel = document.createElement('div');
+      panel.className = 'wn-panel';
+      panel.id = 'wn-panel-' + uid;
+      panel.setAttribute('data-open', 'false');
+      var inner = document.createElement('div');
+      inner.className = 'wn-panel-inner';
+      var body = document.createElement('div');
+      body.className = 'wn-panel-body';
+      [
+        group('Stops', 'pin', 'var(--c-brand)', nearbyStops),
+        group('Restaurants', 'restaurants', 'var(--c-nearhotel-border)', nearbyEats),
+        group('Shows', 'theatre', 'var(--c-shows-border)', nearbyShows)
+      ].forEach(function (g) { if (g) body.appendChild(g); });
+      inner.appendChild(body);
+      panel.appendChild(inner);
+
+      trigger.addEventListener('click', function () {
+        var open = trigger.getAttribute('aria-expanded') === 'true';
+        trigger.setAttribute('aria-expanded', String(!open));
+        panel.setAttribute('data-open', String(!open));
+      });
+
+      lastNext.insertAdjacentElement('afterend', trigger);
+      trigger.insertAdjacentElement('afterend', panel);
+    });
+  }
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', _injectNearbyFromHere);
+  } else {
+    _injectNearbyFromHere();
+  }
+
   /* ── _injectGAGrid — RETIRED 2026-08-19 (owner rule: "they need to match the
      rest of the sections — i changed my mind on the side by sides thing").
 

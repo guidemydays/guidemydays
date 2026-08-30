@@ -2811,7 +2811,8 @@
 /* 2026-08-30: Cartagena: CHIP_DATA CTG, HOTEL_ALT_DATA 4 tiers, LOUNGE_IATAS CTG; KL: HOTEL_ALT_DATA 4 tiers; All-pill width logic update to nt-brown + Rule 8 toolbar.js -> v1111. CACHE to v1753. */
 /* 2026-08-30: Compare table (index.html + guides/index.html) — Safety row's Very Safe and Safe stop sharing dot-green/cmp-good; Safe now draws dot-teal/cmp-good2, and a new "Interesting Facts" title row groups Safety/Life Expectancy/Currency/Plug. guides-index-style.css -> 40. */
 /* 2026-08-30: toolbar.js -> 1113, web-travel-style.css -> 224. CACHE to v1756. */
-var CACHE = 'travel-cache-v1757';
+/* 2026-08-30: kuala-lumpur guide ship — toolbar.js: CHIP_DATA KUL + LOUNGE_IATAS KUL. weather.js: Kuala Lumpur climate normals. MIN_VERSIONS['toolbar.js'] to 1114, MIN_VERSIONS['weather.js'] to 21, CACHE to v1758. */
+var CACHE = 'travel-cache-v1758';
 /* 2026-08-27: airlines.css's .card-tags align-items fix changed a shared
    asset without raising its own floor -- MIN_VERSIONS['airlines.css'] to
    6, CACHE to v1662. */
@@ -2853,7 +2854,7 @@ var ICS_OUTBOX = 'gmd-ics-outbox';
    of 230+ guides. Instead, bump MIN_VERSIONS here + increment the CACHE version. */
 /* 2026-08-30: weather.js: Punta Cana climate normals added (244 cities). MIN_VERSIONS["weather.js"] to 19, CACHE to v1748. */
 /* 2026-08-30: search-autocomplete.js — reverted ARIA combobox pattern (role=listbox/option caused side-by-side layout regression). MIN_VERSIONS['search-autocomplete.js'] to 11, CACHE to v1749. */
-var MIN_VERSIONS = { 'guide-style.css': 276,'toolbar.js': 1113, 'mobile.css': 93, 'web-travel-style.css': 225, 'guides-index-style.css': 41, 'read-about.css': 8, 'best-of-features.js': 5, 'best-of-cross-data.js': 24, 'weather.js': 20,'trains.css': 30, 'trains.js': 5, 'airlines.css': 9, 'airlines.js': 9, 'passport.js': 5, 'search-autocomplete.js': 12, 'flag-render.js': 2 };
+var MIN_VERSIONS = { 'guide-style.css': 276,'toolbar.js': 1114, 'mobile.css': 93, 'web-travel-style.css': 225, 'guides-index-style.css': 41, 'read-about.css': 8, 'best-of-features.js': 5, 'best-of-cross-data.js': 24, 'weather.js': 21,'trains.css': 30, 'trains.js': 5, 'airlines.css': 9, 'airlines.js': 9, 'passport.js': 5, 'search-autocomplete.js': 12, 'flag-render.js': 2 };
 
 function rewriteAssetUrl(urlStr) {
   var u;

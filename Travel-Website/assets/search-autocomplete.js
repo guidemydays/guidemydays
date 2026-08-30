@@ -188,12 +188,12 @@
         })
         .slice(0, limit);
       if (!cur.length) {
-        dd.innerHTML = '<div class=”sa-empty”>No matches for “' + esc(input.value.trim()) + '”.</div>';
+        dd.innerHTML = '<div class="sa-empty">No matches for “' + esc(input.value.trim()) + '”.</div>';
         dd.hidden = false; active = -1; return;
       }
       dd.innerHTML = cur.map(function (it, i) {
-        return '<button type=”button” class=”sa-row” data-i=”' + i + '”>' +
-          esc(it.name) + (it.sub ? '<span class=”sa-sub”> · ' + esc(it.sub) + '</span>' : '') +
+        return '<button type="button" class="sa-row" data-i="' + i + '">' +
+          esc(it.name) + (it.sub ? '<span class="sa-sub"> · ' + esc(it.sub) + '</span>' : '') +
           '</button>';
       }).join('');
       dd.hidden = false; active = -1;

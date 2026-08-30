@@ -7661,6 +7661,16 @@ window.TVE.home = (function () {
       { name: 'Four Seasons Resort Punta Mita', note: 'Four Seasons — Punta Mita peninsula, two golf courses, Apuane Spa, private beach · 9.5 Booking.com', url: 'https://www.booking.com/hotel/mx/four-seasons-resort-punta-mita.html', tier: 'luxury' },
       { name: 'Grand Velas Riviera Nayarit', note: 'Velas Resorts — Nuevo Vallarta beachfront all-inclusive, nine restaurants, Se Spa, three pools · 9.3 Booking.com', url: 'https://www.booking.com/hotel/mx/grand-velas-riviera-nayarit.html', tier: 'luxury' }
     ], price: { budget: '$60–120', mid: '$120–220', expensive: '$220–380', luxury: '$380+' } },
+    'punta-cana': { h: [
+      { name: 'Catalonia Bávaro Beach', note: 'Catalonia Hotels & Resorts — all-inclusive on Bávaro beach, 5 pools, swim-up bar, free cancellation · 8.6 Booking.com', url: 'https://www.booking.com/hotel/do/cataloniabavaro.html', tier: 'budget' },
+      { name: 'Majestic Colonial Punta Cana', note: 'Independent all-inclusive — Bávaro beach, 9 pools, casino, free cancellation, 24h reception · 8.7 Booking.com', url: 'https://www.booking.com/hotel/do/majestic-colonial-punta-cana.html', tier: 'budget' },
+      { name: 'Hard Rock Hotel & Casino Punta Cana', note: 'Hard Rock brand all-inclusive — Macao beach, casino, 13 pools, spa, 24h reception · 8.8 Booking.com', url: 'https://www.booking.com/hotel/do/hard-rock-hotel-and-casino-punta-cana.html', tier: 'mid' },
+      { name: 'Dreams Royal Beach Punta Cana', note: 'Dreams all-inclusive — Bávaro beachfront, unlimited premium dining, spa, adults-only Sky Lounge · 9.0 Booking.com', url: 'https://www.booking.com/hotel/do/now-garden-punta-cana.html', tier: 'mid' },
+      { name: 'Excellence Punta Cana', note: 'Excellence Resorts — adults-only all-inclusive on Uvero Alto beach, spa, 11 restaurants, butler service available · 9.1 Booking.com', url: 'https://www.booking.com/hotel/do/excellence-punta-cana.html', tier: 'expensive' },
+      { name: 'Secrets Cap Cana Resort & Spa', note: 'Secrets all-inclusive — Cap Cana marina district, adults-only, swim-out suites, spa with outdoor rain showers · 9.2 Booking.com', url: 'https://www.booking.com/hotel/do/secrets-cap-cana-resort-spa.html', tier: 'expensive' },
+      { name: 'Sanctuary Cap Cana, a Luxury Collection All-Inclusive Resort', note: 'Marriott Luxury Collection all-inclusive — Cap Cana on a private beach, butler service, 12 restaurants, spa · 9.3 Booking.com', url: 'https://www.booking.com/hotel/do/sanctuary-cap-cana.html', tier: 'luxury' },
+      { name: 'Tortuga Bay Hotel', note: 'Puntacana Resort & Club — Oscar de la Renta–designed boutique, 30 suites on private Juanillo beach, butler service, access to full resort amenities · 9.4 Booking.com', url: 'https://www.booking.com/hotel/do/tortuga-bay-hotel.html', tier: 'luxury' }
+    ], price: { budget: 'DOP 13,000–25,000', mid: 'DOP 25,000–45,000', expensive: 'DOP 45,000–80,000', luxury: 'DOP 80,000+' } },
     'quebec-city': { h: [
       { name: 'Hôtel PUR, Trademark Collection by Wyndham', note: 'Wyndham brand — Saint-Roch district, modern design, rooftop terrace, steps from Old Quebec · 8.7 Booking.com', url: 'https://www.booking.com/hotel/ca/hotel-pur.html', tier: 'budget' },
       { name: 'Le Saint-Pierre Hotel', note: 'Independent boutique — Old Quebec Petit-Champlain district, 18th-century heritage, courtyard garden · 9.2 Booking.com', url: 'https://www.booking.com/hotel/ca/saint-pierre.html', tier: 'mid' },
@@ -11840,6 +11850,7 @@ window.TVE.home = (function () {
       'prague':            {iata:'PRG', name:'Václav Havel Airport Prague'},
       'puerto-rico':       {iata:'SJU', name:'Luis Muñoz Marín International'},
       'puerto-vallarta':   {iata:'PVR', name:'Puerto Vallarta Licenciado Gustavo Díaz Ordaz'},
+      'punta-cana':       {iata:'PUJ', name:'Punta Cana International'},
       'quebec-city':       {iata:'YQB', name:'Québec City Jean Lesage'},
       'queenstown':        {iata:'ZQN', name:'Queenstown Airport'},
       'recife':            {iata:'REC', name:'Recife Guararapes–Gilberto Freyre'},
@@ -11931,7 +11942,7 @@ window.TVE.home = (function () {
       'JTR','KEF','KIX','KOA','KRK','KTM','LAS','LAX','LGA','LGW','LHR','LIH','LIM','LIS','LJU','LOS','LPQ',
       'LUX','LYS','MAD','MAN','MCO','MCT','MCZ','MEL','MIA','MLA','MLE','MRS','MSP','MSY','MUC','MVD',
       'MXP','NAP','NAS','NAT','NCE','OAX','OGG','OLB','OPO','ORD','ORS','ORY','OSL','PBH','PDL','PDX',
-      'PEK','PHL','PHX','PLS','PMI','PNS','POA','PPS','PRG','PSA','PSP','PUS','PVG','PVR','RAK','RDM',
+      'PEK','PHL','PHX','PLS','PMI','PNS','POA','PPS','PRG','PSA','PSP','PUS','PVG','PVR','PUJ','RAK','RDM',
       'REC','RHO','RIX','RNO','RSW','SAN','SCL','SEA','SEZ','SFO','SIN','SJC','SJD','SJO','SJU','SKG',
       'SLC','SLZ','SPU','SRQ','SSA','STR','STT','SVQ','SXB','SXM','SYD','SZG','TBS','TFS','TIV','TLL',
       'TOS','TPE','TRN','VCE','VIE','VLC','VNO','VRN','WLG','YQB','YUL','YVR','YYC','YYZ','ZAG','ZQN',

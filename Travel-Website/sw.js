@@ -2745,7 +2745,8 @@
 /* 2026-08-29: toolbar.js: add 'dice' icon (Site-Icons #577) for guides-index Surprise Me button toolbar.js -> v1106. CACHE to v1735. */
 /* 2026-08-29: weather.js v18: Lagos Nigeria climate normals added (climate.json 243 cities, bake 2026-08-29) toolbar.js -> v1107. CACHE to v1737. */
 /* 2026-08-30: mobile-ux-fix: .jchip flex centering — added inline-flex+align-items+justify-content+min-height-auto to mobile.css @393px exemption block; fixes OFF-CENTER pills on baggage + budget-airline-guide pages. mobile.css -> v93. CACHE to v1738. */
-var CACHE = 'travel-cache-v1738';
+/* 2026-08-30: essentials/day-trips — its page-local .dt-hero background still carried the dot-grid radial-gradient layer that web-travel-style.css's own .eb-hero/.bo-hero dropped on 2026-08-29 (commit dd3d938d3); this page-local copy was never touched by that pass and was the one hero on the site still showing dots (owner: "hero beige was damaged"). Dropped the radial-gradient layer, page now matches every other eb-hero page. Page is precached — CACHE to v1739. */
+var CACHE = 'travel-cache-v1739';
 /* 2026-08-27: airlines.css's .card-tags align-items fix changed a shared
    asset without raising its own floor -- MIN_VERSIONS['airlines.css'] to
    6, CACHE to v1662. */

@@ -7102,7 +7102,7 @@ window.TVE.home = (function () {
       { name: 'Mövenpick Hotel Ikoyi Lagos', note: 'Mövenpick brand — Alfred Rewane Road, Ikoyi, outdoor pool, spa, gym, rooftop bar, 24h reception · 8.5 Booking.com', url: 'https://www.booking.com/hotel/ng/movenpick-hotel-ikoyi-lagos.html', tier: 'expensive' },
       { name: 'Lagos Continental Hotel', note: 'IHG InterContinental brand — Kofo Abayomi Street, Victoria Island, outdoor pool, multiple restaurants, spa, gym, 24h reception · 9.2 Booking.com', url: 'https://www.booking.com/hotel/ng/intercontinental-lagos.html', tier: 'luxury' },
       { name: 'Nordic Hotel Lagos', note: 'Independent — Adeyemi Lawson Street, Ikoyi, outdoor pool, rooftop restaurant, gym, AC throughout, 24h reception · 9.0 Booking.com', url: 'https://www.booking.com/hotel/ng/nordic-hotel-lagos.html', tier: 'luxury' }
-    ], price: { budget: '₦70k–170k', mid: '₦170k–290k', expensive: '₦290k–380k', luxury: '₦380k+' } },
+    ], price: { budget: '₦70,000–170,000', mid: '₦170,000–290,000', expensive: '₦290,000–380,000', luxury: '₦380,000+' } },
     'lake-como': { h: [
       { name: 'Il Sereno Lago di Como', note: 'Independent — Patricia Urquiola-designed lakefront in Torno, infinity pool over the water, private beach area, 24h reception · 9.7 Booking.com', url: 'https://www.booking.com/hotel/it/il-sereno-lago-di-como.html', tier: 'luxury' },
       { name: 'Mandarin Oriental, Lago di Como', note: 'Mandarin Oriental brand — 19th-century lakeside estate in Blevio, indoor and outdoor pools, The Spa at Mandarin Oriental, 24h reception · 9.5 Booking.com', url: 'https://www.booking.com/hotel/it/mandarin-oriental-lago-di-como.html', tier: 'luxury' },

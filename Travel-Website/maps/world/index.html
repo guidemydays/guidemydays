@@ -388,6 +388,31 @@ function clearMine() {
   beenPaintCount();
 }
 
+/* ── Cross-page freshness ─────────────────────────────────────────────────
+   The ONLY place a reader marks or unmarks a city is the I've Been pill on
+   that city's guide (see the note above beenPaintCount) — always a
+   DIFFERENT page from this one. Without this block the count and the gold
+   pins only ever reflect whatever was true the moment THIS page last
+   actually ran its own load script:
+   - a same-tab Back into this map restores it from bfcache (pageshow,
+     e.persisted) exactly as it was left, mark or unmark included;
+   - a second tab already sitting on this map never re-runs anything when
+     localStorage changes in a different tab (storage event) — and gets no
+     signal for it at all on some mobile browsers, where visibilitychange is
+     the backstop.
+   This was the reported bug: marking "I've Been" on a guide didn't add to
+   the map, and un-marking left the count unchanged either way — both are
+   the same root cause, this page never repainting itself. */
+function repaintVisited() {
+  var pill = document.getElementById('visited-pill-mobile');
+  var on = pill && pill.getAttribute('data-on') === '1';
+  if (on && window.applyVisitedFilter) window.applyVisitedFilter(true);
+  else beenPaintCount();
+}
+window.addEventListener('pageshow', function (e) { if (e.persisted) repaintVisited(); });
+window.addEventListener('storage', function (e) { if (!e.key || e.key.indexOf(BEEN_PREFIX) === 0) repaintVisited(); });
+document.addEventListener('visibilitychange', function () { if (document.visibilityState === 'visible') repaintVisited(); });
+
 /* NO HARDCODED LIST OF PLACES LIVES ON THIS PAGE (owner rule 2026-08-17:
    "i am not doing hardcode anymore").
 

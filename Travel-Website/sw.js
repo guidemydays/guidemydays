@@ -1,3 +1,28 @@
+/* 2026-08-30: pills doc gained Rule 8 (same-control pills share one width, "All"/reset
+   pill wraps to its own width) and an amended Rule 4 (the All/reset pill's tone moves
+   from grey to nt-brown -- "the darker pill of the group"). This pass audited and fixed
+   every live "All"/reset pill found against both: toolbar.js's _equalizePillRows() width
+   carve-out (was keyed on grey classes only, now keyed on nt-brown, with the old grey
+   entries kept as a transitional fallback) and web-travel-style.css's .legend-key
+   compound rule (gained .legend-key.nt-brown -- it never had one, same "not wired up"
+   bug class Round 5 of the 2026-08-30 pill-compliance audit found for .sb-* and .nt-* on
+   .badge/.pill-badge/.selection-pill). Recolored ~20 essentials pages' All/reset pills
+   (pickleball x2, cruises, storage, trusted-traveler, sims, transit-cards, cards-atm,
+   pet-travel, idp-guide, apps, average-costs, insurance, airport-fast-track, asian-trains,
+   european-trains, scenic-trains, cultural-etiquette, tipping, lounges, train-passes,
+   vaccines, baggage, day-trips) from sb-/cp-dark-grey, cp-light-grey, or nt-grey to
+   nt-brown. airline-networks' "All three" chip also recolored and its hardcoded
+   min-width:89px forced-equalization removed (it applied even to the All chip, citing a
+   "NN100" that was retired 2026-08-28 as fabricated -- now only the three real carrier
+   chips share that min-width, matching Rule 8). Flagged, not fixed, pending a dedicated
+   pass: time-zones' region row (recoloring risks a documented, heavily-specificity-tuned
+   active-state cascade -- see NN104 citations in that file), guides/index.html's Duration/
+   Region fchip filters (read-gated, NN37, not opened this pass), and the fact that
+   .selection-pill filter rows have no width-equalization mechanism at all sitewide (only
+   .pill-badge does) -- Rule 8's width-matching half is unenforced there, though its
+   All-pill-stays-natural-width half is trivially satisfied since nothing stretches
+   anything in those rows yet. MIN_VERSIONS['toolbar.js'] to 1112,
+   MIN_VERSIONS['web-travel-style.css'] to 223, CACHE to v1754. */
 /* 2026-08-30: Nearby From Here (owner-designed, this session) -- new toolbar.js function _injectNearbyFromHere runs on every real guide page: on the LAST stop of each day (the one whose .next banner reads "-> hotel"), it offers a disclosure of stops/restaurants/shows anywhere else in the guide that share that stop's own neighbourhood (parsed from the address text already on the page, e.g. "... - Celio"). No geocoding, no distance shown -- each card reuses the entry's existing Google Maps SEARCH link, upgraded to a DIRECTIONS link with no origin, so Maps supplies the reader's real current location. New CSS (.wn-trigger/.wn-panel/.wn-group/.wn-pill/...) added to guide-style.css. MIN_VERSIONS['toolbar.js'] to 1109, MIN_VERSIONS['guide-style.css'] to 276, CACHE to v1745. */
 /* 2026-08-29: web-travel-style.css -- remove the dot-grid texture from .hero-band.bo-hero and .hero-band.eb-hero (owner: looked like a defect on the beige hero backgrounds) -- .bo-dots (37 Best Of category pages) neutralized to display:none, .eb-hero's baked-in radial-gradient dot layer (47+ essentials pages + ask-your-guide) dropped from its background shorthand. Gradient itself untouched. MIN_VERSIONS['web-travel-style.css'] to 217, CACHE to v1736. */
 /* 2026-08-29: web-travel-style.css -- owner feedback on the shipped #241f1a focus ring: "i dint see any difrence" (from pure #000000) -- correct, RGB(36,31,26) vs RGB(0,0,0) is imperceptible at 1.5px. --c-search-focus-border light-mode value changed to #3d3a32 (the site's own --text ink token, RGB 61,58,50) -- a genuinely distinguishable shade, still reads as dark/black rather than a colour. Dark-mode value (#e8e5e0) untouched. index.html, currencies/index.html fallbacks updated to match. MIN_VERSIONS['web-travel-style.css'] to 216, CACHE to v1734. */
@@ -2758,7 +2783,7 @@
 /* 2026-08-30: search-autocomplete.js — fixed curly-quote HTML attributes in the sa-row/sa-empty markup left behind by the ARIA-combobox revert (6cd175de4); class=”sa-row”/type=”button” used typographic quotes instead of straight ones, which is not a valid HTML attribute delimiter, so .sa-row/.sa-empty CSS never matched and every search dropdown site-wide rendered as unstyled default buttons. Restored the exact pre-regression markup. MIN_VERSIONS['search-autocomplete.js'] to 12, CACHE to v1751. */
 /* 2026-08-30: toolbar.js: rename 'Special trips' nav group to 'Trips planned by themes' toolbar.js -> v1110. CACHE to v1752. */
 /* 2026-08-30: Cartagena: CHIP_DATA CTG, HOTEL_ALT_DATA 4 tiers, LOUNGE_IATAS CTG; KL: HOTEL_ALT_DATA 4 tiers; All-pill width logic update to nt-brown + Rule 8 toolbar.js -> v1111. CACHE to v1753. */
-var CACHE = 'travel-cache-v1753';
+var CACHE = 'travel-cache-v1754';
 /* 2026-08-27: airlines.css's .card-tags align-items fix changed a shared
    asset without raising its own floor -- MIN_VERSIONS['airlines.css'] to
    6, CACHE to v1662. */
@@ -2800,7 +2825,7 @@ var ICS_OUTBOX = 'gmd-ics-outbox';
    of 230+ guides. Instead, bump MIN_VERSIONS here + increment the CACHE version. */
 /* 2026-08-30: weather.js: Punta Cana climate normals added (244 cities). MIN_VERSIONS["weather.js"] to 19, CACHE to v1748. */
 /* 2026-08-30: search-autocomplete.js — reverted ARIA combobox pattern (role=listbox/option caused side-by-side layout regression). MIN_VERSIONS['search-autocomplete.js'] to 11, CACHE to v1749. */
-var MIN_VERSIONS = { 'guide-style.css': 276,'toolbar.js': 1111, 'mobile.css': 93, 'web-travel-style.css': 222, 'guides-index-style.css': 39, 'read-about.css': 8, 'best-of-features.js': 5, 'best-of-cross-data.js': 24, 'weather.js': 20,'trains.css': 30, 'trains.js': 5, 'airlines.css': 9, 'airlines.js': 9, 'passport.js': 5, 'search-autocomplete.js': 12, 'flag-render.js': 2 };
+var MIN_VERSIONS = { 'guide-style.css': 276,'toolbar.js': 1112, 'mobile.css': 93, 'web-travel-style.css': 223, 'guides-index-style.css': 39, 'read-about.css': 8, 'best-of-features.js': 5, 'best-of-cross-data.js': 24, 'weather.js': 20,'trains.css': 30, 'trains.js': 5, 'airlines.css': 9, 'airlines.js': 9, 'passport.js': 5, 'search-autocomplete.js': 12, 'flag-render.js': 2 };
 
 function rewriteAssetUrl(urlStr) {
   var u;

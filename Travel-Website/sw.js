@@ -2754,7 +2754,8 @@
 /* 2026-08-30: web-travel-style.css + trains.css -- pill compliance round 2: de-hardcoded .cont-btn, #region-filters/.bo-chip, .filter-btn[data-ftype], .trains-end-cta onto the shared nt-cream/nt-grey tokens (terracotta hover/selected retired, pills doc Rule 6); fixed .selection-pill.is-on[class*="cp-/sb-/sp-/nt-"] replacing a selected pill's own fill with a near-invisible flat grey (1.06:1 against the page background) instead of adding an outline ring on top. MIN_VERSIONS['web-travel-style.css'] to 220, MIN_VERSIONS['trains.css'] to 29, CACHE to v1744. */
 /* 2026-08-30: web-travel-style.css, trains.css, guides-index-style.css, index.html, guides/index.html, reports/index.html -- de-hardcoded every literal white/beige background onto the shared surface/warm/bg/nt-* tokens (owner: "if i want to change the color later we dont have to get lost"). ~35 duplicated "#f0ede8/#b0aca6/#6a6660 neutral hover/selected" rules now read var(--nt-grey-*); guides-index-style.css's literal-white .mchip/.tchip/.lchip/.gtag/.pt-city-pill/.pt-open pills now take nt-paper (Rule 4: no pill is ever white). Zero visual change -- every fallback matches the value it replaced. MIN_VERSIONS['web-travel-style.css'] to 221, MIN_VERSIONS['trains.css'] to 30, MIN_VERSIONS['guides-index-style.css'] to 39, CACHE to v1746. */
 /* 2026-08-30: web-travel-style.css -- root-cause fix: .sb-* and .nt-* badge/pill-badge families never set background/color at a specificity that survives a same-specificity wrapper class (e.g. trains.css's .filter-btn) loaded later in the cascade -- .sb-* now reads --sb-fill/--sb-text at the 2-class compound selector, .nt-* gains the .badge.nt-X/.pill-badge.nt-X/.selection-pill.nt-X rule it never had at all (every nt-* badge/pill-badge sitewide was rendering fully transparent since the family shipped 2026-08-28). MIN_VERSIONS['web-travel-style.css'] to 222, CACHE to v1747. */
-var CACHE = 'travel-cache-v1749';
+/* 2026-08-30: weather.js v20 — Punta Cana climate normals added (244 cities). MIN_VERSIONS['weather.js'] to 20, CACHE to v1750. */
+var CACHE = 'travel-cache-v1750';
 /* 2026-08-27: airlines.css's .card-tags align-items fix changed a shared
    asset without raising its own floor -- MIN_VERSIONS['airlines.css'] to
    6, CACHE to v1662. */
@@ -2796,7 +2797,7 @@ var ICS_OUTBOX = 'gmd-ics-outbox';
    of 230+ guides. Instead, bump MIN_VERSIONS here + increment the CACHE version. */
 /* 2026-08-30: weather.js: Punta Cana climate normals added (244 cities). MIN_VERSIONS["weather.js"] to 19, CACHE to v1748. */
 /* 2026-08-30: search-autocomplete.js — reverted ARIA combobox pattern (role=listbox/option caused side-by-side layout regression). MIN_VERSIONS['search-autocomplete.js'] to 11, CACHE to v1749. */
-var MIN_VERSIONS = { 'guide-style.css': 276,'toolbar.js': 1109, 'mobile.css': 93, 'web-travel-style.css': 222, 'guides-index-style.css': 39, 'read-about.css': 8, 'best-of-features.js': 5, 'best-of-cross-data.js': 24, 'weather.js': 19,'trains.css': 30, 'trains.js': 5, 'airlines.css': 9, 'airlines.js': 9, 'passport.js': 5, 'search-autocomplete.js': 11, 'flag-render.js': 2 };
+var MIN_VERSIONS = { 'guide-style.css': 276,'toolbar.js': 1109, 'mobile.css': 93, 'web-travel-style.css': 222, 'guides-index-style.css': 39, 'read-about.css': 8, 'best-of-features.js': 5, 'best-of-cross-data.js': 24, 'weather.js': 20,'trains.css': 30, 'trains.js': 5, 'airlines.css': 9, 'airlines.js': 9, 'passport.js': 5, 'search-autocomplete.js': 11, 'flag-render.js': 2 };
 
 function rewriteAssetUrl(urlStr) {
   var u;

@@ -2748,7 +2748,8 @@
 /* 2026-08-30: essentials/day-trips — its page-local .dt-hero background still carried the dot-grid radial-gradient layer that web-travel-style.css's own .eb-hero/.bo-hero dropped on 2026-08-29 (commit dd3d938d3); this page-local copy was never touched by that pass and was the one hero on the site still showing dots (owner: "hero beige was damaged"). Dropped the radial-gradient layer, page now matches every other eb-hero page. Page is precached — CACHE to v1739. */
 /* 2026-08-30: search-autocomplete.js — add ARIA combobox/listbox/option roles, aria-expanded, aria-activedescendant for screen reader support. MIN_VERSIONS['search-autocomplete.js'] to 10, CACHE to v1741. */
 /* 2026-08-30: toolbar.js — Lagos Nigeria guide ship: HOTEL_ALT_DATA NGN price format fixed (₦70k→₦70,000), Lagos Nigeria added to CITY_BEST_OF_MAP and guides fleet. toolbar.js -> v1108. CACHE to v1740. */
-var CACHE = 'travel-cache-v1741';
+/* 2026-08-30: web-travel-style.css -- REVERTED dd3d938d3 (2026-08-29's dot-grid removal from .hero-band.bo-hero/.eb-hero): owner reversal after comparing live against the 2026-08-26/27 recipe -- the dots were the intended texture, not a defect, and without them the beige gradient itself reads as flat. .bo-dots restored from display:none to its drawn radial-gradient texture; .eb-hero's background shorthand regains its baked-in dot layer. essentials/day-trips' page-local .dt-hero (which had briefly caught up to the dot-less version in the same pass this session) restored to match. MIN_VERSIONS['web-travel-style.css'] to 218, CACHE to v1742. */
+var CACHE = 'travel-cache-v1742';
 /* 2026-08-27: airlines.css's .card-tags align-items fix changed a shared
    asset without raising its own floor -- MIN_VERSIONS['airlines.css'] to
    6, CACHE to v1662. */
@@ -2788,7 +2789,7 @@ var ICS_OUTBOX = 'gmd-ics-outbox';
    THIS IS THE ONLY PLACE to bump toolbar.js / guide-style.css versions.
    NEVER bump ?v= inside guide HTML — it breaks HMAC stamps and forces re-validation
    of 230+ guides. Instead, bump MIN_VERSIONS here + increment the CACHE version. */
-var MIN_VERSIONS = { 'guide-style.css': 275,'toolbar.js': 1108, 'mobile.css': 93, 'web-travel-style.css': 217, 'guides-index-style.css': 38, 'read-about.css': 8, 'best-of-features.js': 5, 'best-of-cross-data.js': 24, 'weather.js': 18,'trains.css': 28, 'trains.js': 5, 'airlines.css': 9, 'airlines.js': 9, 'passport.js': 5, 'search-autocomplete.js': 10, 'flag-render.js': 2 };
+var MIN_VERSIONS = { 'guide-style.css': 275,'toolbar.js': 1108, 'mobile.css': 93, 'web-travel-style.css': 218, 'guides-index-style.css': 38, 'read-about.css': 8, 'best-of-features.js': 5, 'best-of-cross-data.js': 24, 'weather.js': 18,'trains.css': 28, 'trains.js': 5, 'airlines.css': 9, 'airlines.js': 9, 'passport.js': 5, 'search-autocomplete.js': 10, 'flag-render.js': 2 };
 
 function rewriteAssetUrl(urlStr) {
   var u;

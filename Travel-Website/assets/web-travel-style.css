@@ -560,18 +560,30 @@ a.badge.sp-yellow:visited, a.pill-badge.sp-yellow:visited { color: #8a6524; }
   background: var(--sp-wash); border-color: rgba(0,0,0,.1); color: var(--sp-ink);
 }
 
-.sb-dark-grey  { background:#3a3b3c; color:#fff; }
-.sb-light-grey { background:#8a867a; color:#fff; }
-.sb-blue       { background:#3f6fa8; color:#fff; }
-.sb-teal       { background:#2f7a6c; color:#fff; }
-.sb-rust       { background:#9a5030; color:#fff; }
-.sb-tan-orange { background:#c4914f; color:#3d2812; }
-.sb-dark-brown { background:#6b4017; color:#fff; }
-.sb-pink       { background:#b5527e; color:#fff; }
-.sb-light-blue { background:#7fa8cc; color:#fff; }
-.sb-green      { background:#7cb384; color:#fff; }
-.sb-red        { background:#b5453e; color:#fff; }
-.sb-gold       { background:#c8aa4a; color:#fff; }
+.sb-dark-grey  { --sb-fill:#3a3b3c; --sb-text:#fff; }
+.sb-light-grey { --sb-fill:#8a867a; --sb-text:#fff; }
+.sb-blue       { --sb-fill:#3f6fa8; --sb-text:#fff; }
+.sb-teal       { --sb-fill:#2f7a6c; --sb-text:#fff; }
+.sb-rust       { --sb-fill:#9a5030; --sb-text:#fff; }
+.sb-tan-orange { --sb-fill:#c4914f; --sb-text:#3d2812; }
+.sb-dark-brown { --sb-fill:#6b4017; --sb-text:#fff; }
+.sb-pink       { --sb-fill:#b5527e; --sb-text:#fff; }
+.sb-light-blue { --sb-fill:#7fa8cc; --sb-text:#fff; }
+.sb-green      { --sb-fill:#7cb384; --sb-text:#fff; }
+.sb-red        { --sb-fill:#b5453e; --sb-text:#fff; }
+.sb-gold       { --sb-fill:#c8aa4a; --sb-text:#fff; }
+/* 2026-08-30: background/color moved from the bare single-class .sb-X rule
+   above (specificity 0,1,0) into THIS compound rule (0,2,0) via --sb-fill/
+   --sb-text, matching how .cp-* already reads var(--sp-wash)/var(--sp-ink)
+   at the same compound specificity. The bare rule alone tied with any other
+   single-class wrapper a page put around the pill (e.g. trains.css's
+   .filter-btn, itself background:var(--surface)) and LOST whenever that
+   wrapper's rule happened to load later in the cascade -- the pill kept its
+   sb-* class but rendered with .filter-btn's plain white/cream background
+   instead of its own color (owner screenshots: european/asian-trains' type
+   filter row rendering all-white; "this is everywhere"). Any other page
+   pairing an sb-* pill with a same-specificity wrapper class had the same
+   latent bug, whether or not it had shown up visibly yet. */
 .badge.sb-dark-grey, .badge.sb-light-grey, .badge.sb-blue, .badge.sb-teal, .badge.sb-rust,
 .badge.sb-tan-orange, .badge.sb-dark-brown, .badge.sb-pink, .badge.sb-light-blue,
 .badge.sb-green, .badge.sb-red, .badge.sb-gold,
@@ -582,7 +594,7 @@ a.badge.sp-yellow:visited, a.pill-badge.sp-yellow:visited { color: #8a6524; }
 .selection-pill.sb-teal, .selection-pill.sb-rust, .selection-pill.sb-tan-orange,
 .selection-pill.sb-dark-brown, .selection-pill.sb-pink, .selection-pill.sb-light-blue,
 .selection-pill.sb-green, .selection-pill.sb-red, .selection-pill.sb-gold {
-  border: none;
+  background: var(--sb-fill); color: var(--sb-text); border: none;
 }
 .selection-pill.sb-dark-grey:hover, .selection-pill.sb-light-grey:hover, .selection-pill.sb-blue:hover,
 .selection-pill.sb-teal:hover, .selection-pill.sb-rust:hover, .selection-pill.sb-tan-orange:hover,
@@ -608,15 +620,32 @@ a.badge.sp-yellow:visited, a.pill-badge.sp-yellow:visited { color: #8a6524; }
 .nt-cream { --sp-ink:var(--nt-cream-ink); --sp-rgb:var(--nt-cream-rgb); --sp-wash:var(--nt-cream-wash); }
 .nt-tan   { --sp-ink:var(--nt-tan-ink);   --sp-rgb:var(--nt-tan-rgb);   --sp-wash:var(--nt-tan-wash); }
 .nt-brown { --sp-ink:var(--nt-brown-ink); --sp-rgb:var(--nt-brown-rgb); --sp-wash:var(--nt-brown-wash); }
-/* nt-grey excluded on purpose -- it stands in for the site's existing,
-   highly-visible "selected" border (#b0aca6, not a soft pastel rim), so it
-   keeps the DEFAULT .selection-pill formula (rgba(var(--sp-rgb),.45)) below
-   instead of this flatter Calm-Pastel-style override. */
+/* 2026-08-30: NONE of the 7 nt-* tones ever had a .badge.nt-X/.pill-badge.nt-X
+   rule actually setting background/color -- only the :visited overrides
+   below existed, and .selection-pill.nt-X (right below) only ever
+   overrode border-color. .badge/.pill-badge's own base rule sets no
+   background or color at all (relies entirely on a family compound rule),
+   so every nt-* badge/pill-badge sitewide has been rendering with a fully
+   TRANSPARENT fill -- invisible unless some other same-or-higher-specificity
+   rule happened to also supply one (e.g. .filter-btn.active's var(--sp-wash)
+   read, which is why an nt-grey "All" filter button paired with .active
+   looked fine while the same class alone, or on a .pill-badge with no
+   .active, did not). Same root cause as the .sb-* fix above: the doc's
+   own worked example already covers cp-*, this closes the matching gap
+   for nt-*. Border split matches the doc exactly: soft rgba(0,0,0,.1) for
+   six tones, nt-grey alone keeps the tone-derived rgba(var(--sp-rgb),.45)
+   because it stands in for the site's existing highly-visible "selected"
+   look, not a soft pastel rim. */
+.badge.nt-paper, .badge.nt-fog, .badge.nt-linen, .badge.nt-cream, .badge.nt-tan, .badge.nt-brown,
+.pill-badge.nt-paper, .pill-badge.nt-fog, .pill-badge.nt-linen, .pill-badge.nt-cream, .pill-badge.nt-tan, .pill-badge.nt-brown,
 .selection-pill.nt-paper, .selection-pill.nt-fog, .selection-pill.nt-linen,
 .selection-pill.nt-cream, .selection-pill.nt-tan, .selection-pill.nt-brown,
 .selection-pill-sm.nt-paper, .selection-pill-sm.nt-fog, .selection-pill-sm.nt-linen,
 .selection-pill-sm.nt-cream, .selection-pill-sm.nt-tan, .selection-pill-sm.nt-brown {
-  border-color: rgba(0,0,0,.1);
+  background: var(--sp-wash); border-color: rgba(0,0,0,.1); color: var(--sp-ink);
+}
+.badge.nt-grey, .pill-badge.nt-grey {
+  background: var(--sp-wash); border-color: rgba(var(--sp-rgb),.45); color: var(--sp-ink);
 }
 a.badge.nt-paper:visited, a.pill-badge.nt-paper:visited { color: #3d3a32; }
 a.badge.nt-fog:visited,   a.pill-badge.nt-fog:visited   { color: #4a483f; }

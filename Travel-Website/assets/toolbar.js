@@ -2730,7 +2730,7 @@ window.TVE.home = (function () {
       ['essentials/tours/',             'Tours & Tickets'],
       ['essentials/resources/',         'More Resources']
     ] },
-    { name: 'Special trips', links: [
+    { name: 'Trips planned by themes', links: [
       ['essentials/cruises/',           'Best Cruise Lines'],
       ['essentials/disney/',            'Best of Disney Parks'],
       ['essentials/sports-calendar/',   'Sports & Major Events Calendar'],

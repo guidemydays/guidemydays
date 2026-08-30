@@ -139,13 +139,10 @@
       .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
   }
 
-  var _uid = 0;
-
   function attach(input, opts) {
     if (!input || input._tveAttached) return null;
     input._tveAttached = true;
     opts = opts || {};
-    var uid = 'tve-' + (++_uid);
     var items = (opts.items || []).slice();
     var minChars = opts.minChars || 1;
     var limit = opts.limit || 60;
@@ -168,19 +165,12 @@
     if (wrap && getComputedStyle(wrap).position === 'static') wrap.style.position = 'relative';
     var dd = document.createElement('div');
     dd.className = 'sa-suggest';
-    dd.setAttribute('role', 'listbox');
-    dd.setAttribute('id', uid + '-dd');
     dd.hidden = true;
     (wrap || document.body).appendChild(dd);
-    input.setAttribute('role', 'combobox');
-    input.setAttribute('aria-autocomplete', 'list');
-    input.setAttribute('aria-haspopup', 'listbox');
-    input.setAttribute('aria-expanded', 'false');
-    input.setAttribute('aria-controls', uid + '-dd');
 
     var active = -1, cur = [], justPicked = false;
 
-    function hide() { dd.hidden = true; dd.innerHTML = ''; active = -1; input.setAttribute('aria-expanded', 'false'); input.removeAttribute('aria-activedescendant'); }
+    function hide() { dd.hidden = true; dd.innerHTML = ''; active = -1; }
 
     function render() {
       // A pick fires a native 'input' (to run the page filter); don't re-open on it.
@@ -199,29 +189,20 @@
         .slice(0, limit);
       if (!cur.length) {
         dd.innerHTML = '<div class=”sa-empty”>No matches for “' + esc(input.value.trim()) + '”.</div>';
-        dd.hidden = false; input.setAttribute('aria-expanded', 'true'); active = -1; return;
+        dd.hidden = false; active = -1; return;
       }
       dd.innerHTML = cur.map(function (it, i) {
-        return '<button type=”button” class=”sa-row” role=”option” id=”' + uid + '-opt-' + i + '” aria-selected=”false” data-i=”' + i + '”>' +
+        return '<button type=”button” class=”sa-row” data-i=”' + i + '”>' +
           esc(it.name) + (it.sub ? '<span class=”sa-sub”> · ' + esc(it.sub) + '</span>' : '') +
           '</button>';
       }).join('');
-      dd.hidden = false; input.setAttribute('aria-expanded', 'true'); active = -1;
+      dd.hidden = false; active = -1;
     }
 
     function paint() {
       var rows = dd.querySelectorAll('.sa-row');
-      for (var i = 0; i < rows.length; i++) {
-        var sel = i === active;
-        rows[i].classList.toggle('active', sel);
-        rows[i].setAttribute('aria-selected', sel ? 'true' : 'false');
-      }
-      if (active >= 0 && rows[active]) {
-        rows[active].scrollIntoView({ block: 'nearest' });
-        input.setAttribute('aria-activedescendant', uid + '-opt-' + active);
-      } else {
-        input.removeAttribute('aria-activedescendant');
-      }
+      for (var i = 0; i < rows.length; i++) rows[i].classList.toggle('active', i === active);
+      if (active >= 0 && rows[active]) rows[active].scrollIntoView({ block: 'nearest' });
     }
 
     function pick(i) {

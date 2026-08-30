@@ -6646,6 +6646,12 @@ window.TVE.home = (function () {
       { name: 'J.K. Place Capri', note: 'Independent boutique — Marina Grande, 22 rooms, infinity sea-view pool, Forbes Five-Star-rated sun terraces · 9.6 Booking.com', url: 'https://www.booking.com/hotel/it/j-k-place-capri.html', tier: 'luxury' },
       { name: 'Capri Palace Jumeirah', note: 'Jumeirah brand — Anacapri hilltop, two Michelin-star L\'Olivo, Olympic pool · 9.3 Booking.com', url: 'https://www.booking.com/hotel/it/capri-palace.html', tier: 'luxury' }
     ], price: { budget: '€150–300', mid: '€300–600', expensive: '€600–1,200', luxury: '€1,200+' } },
+    'cartagena': { h: [
+      { name: 'Holiday Inn Cartagena Morros', note: 'IHG Holiday Inn — Bocagrande beachfront, outdoor pool, sea-view rooms, 24h front desk, complimentary breakfast · 8.4 Booking.com', url: 'https://www.booking.com/hotel/co/holiday-inn-cartagena-morros.html', tier: 'budget' },
+      { name: 'Radisson Cartagena Ocean Pavillon Hotel', note: 'Radisson brand — Bocagrande on the beach, direct ocean views, outdoor pool, 24h reception · 8.6 Booking.com', url: 'https://www.booking.com/hotel/co/radisson-cartagena-ocean-pavillon.html', tier: 'mid' },
+      { name: 'Charleston Cartagena Santa Teresa', note: 'Independent boutique — Old City colonial mansion, converted 17th-century convent, rooftop pool, full-service spa · 9.1 Booking.com', url: 'https://www.booking.com/hotel/co/charleston-cartagena-santa-teresa.html', tier: 'expensive' },
+      { name: 'Sofitel Legend Santa Clara Cartagena', note: 'Accor Sofitel Legend — Old City, former 17th-century convent, outdoor pool, spa, gourmet dining, UNESCO setting · 9.4 Booking.com', url: 'https://www.booking.com/hotel/co/sofitel-santa-clara.html', tier: 'luxury' }
+    ], price: { budget: 'COP 300,000–600,000', mid: 'COP 600,000–1,100,000', expensive: 'COP 1,100,000–1,900,000', luxury: 'COP 1,900,000+' } },
     'carmel-by-the-sea': { h: [
       { name: 'Tradewinds Carmel', note: 'Independent — Asian garden retreat in the village, koi pond, two outdoor hot tubs · 9.6 Booking.com', url: 'https://www.booking.com/hotel/us/tradewinds.html', tier: 'budget' },
       { name: 'Quail Lodge & Golf Club', note: 'Independent — Carmel Valley, 18-hole golf, Edgar\'s Restaurant, pool and hot tub · 8.7 Booking.com', url: 'https://www.booking.com/hotel/us/quail-lodge-golf-club.html', tier: 'mid' },
@@ -7064,6 +7070,12 @@ window.TVE.home = (function () {
       { name: 'Qubus Hotel Kraków', note: 'Qubus Hotels — Wisła Riverfront opposite Wawel Castle, riverside views, outdoor terrace, modern amenities · 8.7 Booking.com' , url: 'https://www.booking.com/hotel/pl/qubus-krakow.html', tier: 'mid' },
       { name: 'Hotel Wit Stwosz Kraków', note: 'Independent — 15th-century townhouse in Old Town two minutes from the Main Market Square, compact rooms, 24h reception · 8.5 Booking.com' , url: 'https://www.booking.com/hotel/pl/wit-stwosz.html', tier: 'budget' }
     ], price: { budget: 'PLN 250–400', mid: 'PLN 500–800', expensive: 'PLN 900–1400', luxury: 'PLN 2000+' } },
+    'kuala-lumpur': { h: [
+      { name: 'Hotel Stripes KL Autograph Collection', note: 'Marriott Autograph Collection — 25 Jalan Kamunting in Chow Kit, boutique Art Deco hotel, rooftop pool, 24h reception · 8.9 Booking.com', url: 'https://www.booking.com/hotel/my/stripes-kuala-lumpur-autograph-collection.html', tier: 'expensive' },
+      { name: 'Shangri-La Kuala Lumpur', note: 'Shangri-La brand — Jalan Sultan Ismail in KLCC, 5-star, Chi Spa, two pools, 24h reception · 9.0 Booking.com', url: 'https://www.booking.com/hotel/my/shangri-la-kuala-lumpur.html', tier: 'luxury' },
+      { name: 'Mercure Kuala Lumpur Shaw Parade', note: 'Accor Mercure brand — Changkat Raja Chulan, rooftop pool, fitness centre, 24h reception · 8.7 Booking.com', url: 'https://www.booking.com/hotel/my/mercure-kuala-lumpur-shaw-parade.html', tier: 'mid' },
+      { name: 'Moxy Kuala Lumpur Chinatown', note: 'Marriott Moxy brand — Jalan Maharajalela near Chinatown, bar, fitness centre, 24h reception · 8.8 Booking.com', url: 'https://www.booking.com/hotel/my/moxy-kuala-lumpur-chinatown.html', tier: 'budget' }
+    ], price: { budget: 'MYR 220–270', mid: 'MYR 280–320', expensive: 'MYR 370–420', luxury: 'MYR 520–600' } },
     'kyoto': { h: [
       { name: 'THE THOUSAND KYOTO', note: 'Independent — Shimogyo Ward beside Kyoto Station, 5-star, spa and wellness centre, 24h reception · 9.4 Booking.com', url: 'https://www.booking.com/hotel/jp/the-thousand-kyoto.html', tier: 'expensive' },
       { name: 'The Royal Park Hotel Iconic Kyoto', note: 'Royal Park Hotels — Nakagyo Ward on Kawaramachi, 5-star, public bath, 24h reception · 9.2 Booking.com', url: 'https://www.booking.com/hotel/jp/za-roirupakuhoteru-aikonitukujing-du.html', tier: 'expensive' },
@@ -11893,6 +11905,7 @@ window.TVE.home = (function () {
       'cape-town':         {iata:'CPT', name:'Cape Town International'},
       'capri':             {iata:'NAP', name:'Naples International'},
       'carmel-by-the-sea': {iata:'SFO', name:'San Francisco International'},
+      'cartagena':         {iata:'CTG', name:'Rafael Núñez International'},
       'cascais':           {iata:'LIS', name:'Lisbon Humberto Delgado'},
       'cayman-islands':    {iata:'GCM', name:'Owen Roberts International'},
       'charlotte':         {iata:'CLT', name:'Charlotte Douglas International'},
@@ -12105,19 +12118,19 @@ window.TVE.home = (function () {
        its airport. */
     var LOUNGE_IATAS = [
       'ABQ','AES','AGP','AJU','AMM','AMS','ANC','ARN','ATH','ATL','AUA','AUH','AUS','BCN','BDS','BER',
-      'BGI','BGO','BIO','BKK','BLQ','BNA','BOB','BOD','BOM','BOS','BRU','BSL','BUD','CAE','CAI','CDG','CFU',
-      'CGN','CKG','CLT','CMB','CNX','CPH','CPT','CTA','CUN','CUR','CUZ','CWB','DAD','DBV','DCA','DEL','DEN',
-      'DFW','DOH','DPS','DTW','DUB','DUS','DXB','DYG','EDI','EYW','EZE','FAO','FCA','FCO','FHR','FLN',
-      'FLR','FNC','FOR','FRA','GCM','GEG','GIG','GLA','GOT','GPS','GRU','GRX','GVA','HAM','HAN','HAV',
-      'HEL','HER','HHH','HIJ','HKG','HKT','HND','HNL','IAD','IAH','ICN','IGU','IST','JFK','JMK','JPA',
-      'JTR','KEF','KIX','KOA','KRK','KTM','LAS','LAX','LGA','LGW','LHR','LIH','LIM','LIS','LJU','LOS','LPQ',
-      'LUX','LYS','MAD','MAN','MCO','MCT','MCZ','MEL','MIA','MLA','MLE','MRS','MSP','MSY','MUC','MVD',
-      'MXP','NAP','NAS','NAT','NCE','OAX','OGG','OLB','OPO','ORD','ORS','ORY','OSL','PBH','PDL','PDX',
-      'PEK','PHL','PHX','PLS','PMI','PNS','POA','PPS','PRG','PSA','PSP','PUS','PVG','PVR','PUJ','RAK','RDM',
-      'REC','RHO','RIX','RNO','RSW','SAN','SCL','SEA','SEZ','SFO','SIN','SJC','SJD','SJO','SJU','SKG',
-      'SLC','SLZ','SPU','SRQ','SSA','STR','STT','SVQ','SXB','SXM','SYD','SZG','TBS','TFS','TIV','TLL',
-      'TOS','TPE','TRN','VCE','VIE','VLC','VNO','VRN','WLG','YQB','YUL','YVR','YYC','YYZ','ZAG','ZQN',
-      'ZRH','ZTH'
+      'BGI','BGO','BIO','BKK','BLQ','BNA','BOB','BOD','BOM','BOS','BRU','BSL','BUD','CAE','CAI','CDG',
+      'CFU','CGN','CKG','CLT','CMB','CNX','CPH','CPT','CTA','CTG','CUN','CUR','CUZ','CWB','DAD','DBV',
+      'DCA','DEL','DEN','DFW','DOH','DPS','DTW','DUB','DUS','DXB','DYG','EDI','EYW','EZE','FAO','FCA',
+      'FCO','FHR','FLN','FLR','FNC','FOR','FRA','GCM','GEG','GIG','GLA','GOT','GPS','GRU','GRX','GVA',
+      'HAM','HAN','HAV','HEL','HER','HHH','HIJ','HKG','HKT','HND','HNL','IAD','IAH','ICN','IGU','IST',
+      'JFK','JMK','JPA','JTR','KEF','KIX','KOA','KRK','KTM','LAS','LAX','LGA','LGW','LHR','LIH','LIM',
+      'LIS','LJU','LOS','LPQ','LUX','LYS','MAD','MAN','MCO','MCT','MCZ','MEL','MIA','MLA','MLE','MRS',
+      'MSP','MSY','MUC','MVD','MXP','NAP','NAS','NAT','NCE','OAX','OGG','OLB','OPO','ORD','ORS','ORY',
+      'OSL','PBH','PDL','PDX','PEK','PHL','PHX','PLS','PMI','PNS','POA','PPS','PRG','PSA','PSP','PUJ',
+      'PUS','PVG','PVR','RAK','RDM','REC','RHO','RIX','RNO','RSW','SAN','SCL','SEA','SEZ','SFO','SIN',
+      'SJC','SJD','SJO','SJU','SKG','SLC','SLZ','SPU','SRQ','SSA','STR','STT','SVQ','SXB','SXM','SYD',
+      'SZG','TBS','TFS','TIV','TLL','TOS','TPE','TRN','VCE','VIE','VLC','VNO','VRN','WLG','YQB','YUL',
+      'YVR','YYC','YYZ','ZAG','ZQN','ZRH','ZTH'
     ];
 
     function _inject() {

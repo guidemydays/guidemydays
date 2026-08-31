@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>CONCEPT: Train Station Guide — Dispatcher's View Redesign</title>
+<style>
+/* ── Design tokens (site values, dark-palette variant for this concept) ── */
+:root {
+  --rust: #C04E1A;
+  --rust-dim: rgba(192,78,26,.18);
+  --text: #f0ede6;
+  --muted: #9a9488;
+  --surface: #16140f;
+  --surface2: #1e1c16;
+  --border: rgba(240,237,230,.09);
+  --border2: rgba(240,237,230,.14);
+  --panel-bg: #1a1812;
+  --panel-border: rgba(192,78,26,.25);
+  --amber: #d4a035;
+  --font: 'Georgia', serif;
+  --mono: 'Courier New', Courier, monospace;
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { font-size: 14px; }
+body { background: #0e0d09; color: var(--text); font-family: var(--font); min-height: 100vh; }
+
+/* concept badge */
+.concept-badge {
+  position: fixed; top: 14px; right: 14px; z-index: 100;
+  background: var(--rust); color: #fff;
+  font: 700 10px/1 var(--mono); letter-spacing: .12em; text-transform: uppercase;
+  padding: 6px 10px; border-radius: 4px;
+}
+
+/* page header */
+.page-header {
+  padding: 56px 48px 32px;
+  border-bottom: 1px solid var(--border2);
+  display: grid; grid-template-columns: 1fr auto; align-items: end; gap: 24px;
+  max-width: 1280px; margin: 0 auto;
+}
+.ph-kicker { font: 700 10.5px/1 var(--mono); letter-spacing: .2em; text-transform: uppercase; color: var(--rust); margin-bottom: 14px; }
+.ph-title { font-size: clamp(2rem, 5vw, 3.6rem); font-weight: 700; line-height: 1.02; letter-spacing: -.04em; color: var(--text); }
+.ph-title em { font-style: normal; color: var(--rust); }
+.ph-sub { margin-top: 14px; font-size: 14px; line-height: 1.65; color: var(--muted); max-width: 52ch; }
+.ph-count { font: 700 10px/1 var(--mono); letter-spacing: .12em; text-transform: uppercase; color: var(--muted); text-align: right; }
+.ph-count span { display: block; font-size: 48px; font-weight: 800; color: var(--text); letter-spacing: -.04em; line-height: 1; margin-bottom: 6px; }
+@keyframes pulse { 0%,100%{opacity:1} 50%{opacity:.25} }
+.live-dot { display: inline-block; width: 7px; height: 7px; border-radius: 50%; background: var(--rust); animation: pulse 1.8s ease-in-out infinite; vertical-align: middle; margin-right: 6px; }
+
+/* station grid */
+.stations-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(480px, 1fr)); gap: 2px; max-width: 1280px; margin: 0 auto; padding: 2px 0 64px; }
+
+/* station panel */
+.station-panel {
+  position: relative; background: var(--panel-bg); border: 1px solid var(--border); overflow: hidden;
+  padding: 28px 30px 30px; transition: border-color .2s, background .2s; cursor: default;
+}
+.station-panel:hover { border-color: var(--panel-border); background: #1e1c15; }
+/* ghost rank number */
+.station-panel::before {
+  content: attr(data-rank); position: absolute; top: -12px; right: 16px;
+  font: 800 180px/1 var(--mono); color: rgba(240,237,230,.025); letter-spacing: -.06em;
+  pointer-events: none; user-select: none;
+}
+
+/* station header */
+.sp-header { display: flex; align-items: flex-start; gap: 14px; margin-bottom: 18px; }
+.sp-meta { flex: 1; min-width: 0; }
+.sp-name { font-size: 22px; font-weight: 700; color: var(--text); letter-spacing: -.02em; line-height: 1.1; display: flex; align-items: center; gap: 10px; }
+.sp-city { font: 400 12px/1 var(--mono); color: var(--muted); letter-spacing: .06em; text-transform: uppercase; margin-top: 5px; }
+.sp-rank { font: 700 10px/1 var(--mono); letter-spacing: .12em; text-transform: uppercase; color: var(--rust); margin-top: 3px; flex-shrink: 0; }
+.sp-guide { font: 600 11px/1 var(--mono); letter-spacing: .08em; text-transform: uppercase; color: var(--rust); text-decoration: none; flex-shrink: 0; margin-top: 2px; border-bottom: 1px solid rgba(192,78,26,.4); padding-bottom: 1px; }
+.sp-guide:hover { border-color: var(--rust); }
+
+/* stat readouts */
+.sp-stats { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 1px; background: var(--border); border: 1px solid var(--border); border-radius: 6px; overflow: hidden; margin-bottom: 16px; }
+.sp-stat { background: var(--surface2); padding: 10px 14px; }
+.sp-stat-val { font: 700 18px/1 var(--mono); color: var(--amber); letter-spacing: -.02em; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.sp-stat-label { font: 400 10px/1.4 var(--mono); color: var(--muted); margin-top: 4px; letter-spacing: .04em; text-transform: uppercase; }
+
+/* alert */
+@keyframes alert-pulse { 0%,100%{opacity:1} 50%{opacity:.7} }
+.sp-alert { display: flex; align-items: flex-start; gap: 12px; padding: 11px 14px; border-left: 3px solid var(--rust); background: var(--rust-dim); border-radius: 4px; margin-bottom: 16px; }
+.sp-alert-label { font: 700 9px/1 var(--mono); letter-spacing: .18em; text-transform: uppercase; color: var(--rust); flex-shrink: 0; padding-top: 2px; animation: alert-pulse 2.2s ease-in-out infinite; }
+.sp-alert-text { font-size: 12.5px; line-height: 1.55; color: var(--text); }
+
+/* body */
+.sp-body { font-size: 13px; line-height: 1.65; color: rgba(240,237,230,.75); }
+.sp-body p + p { margin-top: 8px; }
+.sp-body a { color: var(--rust); text-decoration: none; }
+.sp-body a:hover { text-decoration: underline; }
+
+/* footer */
+.page-footer { max-width: 1280px; margin: 0 auto; padding: 28px 48px 56px; font: 400 13px/1.7 var(--font); color: var(--muted); border-top: 1px solid var(--border2); }
+.page-footer a { color: var(--rust); text-decoration: none; }
+
+/* mobile */
+@media (max-width: 600px) {
+  .page-header { padding: 36px 20px 24px; grid-template-columns: 1fr; }
+  .stations-grid { grid-template-columns: 1fr; padding-bottom: 36px; }
+  .station-panel { padding: 20px 18px 22px; }
+  .station-panel::before { font-size: 100px; }
+  .sp-stats { grid-template-columns: repeat(2, 1fr); }
+  .sp-name { font-size: 18px; }
+}
+</style>
+</head>
+<body>
+
+<div class="concept-badge">Concept — not live</div>
+
+<header class="page-header">
+  <div>
+    <div class="ph-kicker"><span class="live-dot"></span>Station Dispatch · 5 Critical Stations</div>
+    <h1 class="ph-title">You bought the ticket.<br><em>Now find the platform.</em></h1>
+    <p class="ph-sub">Five stations that break schedules — not because of the trains, but because of the building. Multiple operators, platforms posted at the last minute, track numbers that only make sense once you know the code.</p>
+  </div>
+  <div class="ph-count"><span>05</span>stations under<br>dispatch control</div>
+</header>
+
+<div class="stations-grid">
+
+  <div class="station-panel" data-rank="01">
+    <div class="sp-header">
+      <div class="sp-meta">
+        <div class="sp-name">🇫🇷 Gare du Nord</div>
+        <div class="sp-city">Paris, France</div>
+      </div>
+      <a href="/guides/paris.html" class="sp-guide">Guide</a>
+    </div>
+    <div class="sp-stats">
+      <div class="sp-stat"><div class="sp-stat-val">30 min</div><div class="sp-stat-label">Eurostar gate cutoff</div></div>
+      <div class="sp-stat"><div class="sp-stat-val">~15 min</div><div class="sp-stat-label">Platform posted before departure</div></div>
+      <div class="sp-stat"><div class="sp-stat-val">2026</div><div class="sp-stat-label">EU Entry/Exit System kiosk added</div></div>
+    </div>
+    <div class="sp-alert">
+      <div class="sp-alert-label">Critical</div>
+      <div class="sp-alert-text">Platforms aren't posted until 15–20 minutes before departure. The entire departure hall moves at once when the board updates — go when it shows, not before.</div>
+    </div>
+    <div class="sp-body">
+      <p>Eurostar runs from its own international terminal — separate security screening, passport control, and departure lounge. Find that entrance before any queue.</p>
+      <p>2026's EU Entry/Exit System adds a fingerprint-and-photo kiosk step for first non-EU/UK crossings. Arrive on the early end of the check-in window, not the minimum.</p>
+    </div>
+  </div>
+
+  <div class="station-panel" data-rank="02">
+    <div class="sp-header">
+      <div class="sp-meta">
+        <div class="sp-name">🇯🇵 Shinjuku Station</div>
+        <div class="sp-city">Tokyo, Japan</div>
+      </div>
+      <a href="/guides/tokyo.html" class="sp-guide">Guide</a>
+    </div>
+    <div class="sp-stats">
+      <div class="sp-stat"><div class="sp-stat-val">200+</div><div class="sp-stat-label">Exits — busiest station on earth</div></div>
+      <div class="sp-stat"><div class="sp-stat-val">5</div><div class="sp-stat-label">Rail operators share the building</div></div>
+      <div class="sp-stat"><div class="sp-stat-val">36</div><div class="sp-stat-label">Platforms across all lines</div></div>
+    </div>
+    <div class="sp-alert">
+      <div class="sp-alert-label">Critical</div>
+      <div class="sp-alert-text">Switching operators (JR East → Odakyu → Tokyo Metro) means exiting one company's ticket gates and re-entering another's — not just walking to a different platform.</div>
+    </div>
+    <div class="sp-body">
+      <p>Note the exit number printed near your ticket gate before going underground. Retracing without it loses the better part of an hour — East, West, South and New South exits surface blocks apart.</p>
+      <p>IC card top-ups inside one company's gates don't help once you've crossed to another's. Build extra minutes into any transfer.</p>
+    </div>
+  </div>
+
+  <div class="station-panel" data-rank="03">
+    <div class="sp-header">
+      <div class="sp-meta">
+        <div class="sp-name">🇮🇹 Roma Termini</div>
+        <div class="sp-city">Rome, Italy</div>
+      </div>
+      <a href="/guides/rome.html" class="sp-guide">Guide</a>
+    </div>
+    <div class="sp-stats">
+      <div class="sp-stat"><div class="sp-stat-val">2</div><div class="sp-stat-label">Levels — galleria above platforms</div></div>
+      <div class="sp-stat"><div class="sp-stat-val">24</div><div class="sp-stat-label">Platforms, high-speed + regional mixed</div></div>
+      <div class="sp-stat"><div class="sp-stat-val">1</div><div class="sp-stat-label">Metro entrance, underground only</div></div>
+    </div>
+    <div class="sp-alert">
+      <div class="sp-alert-label">Critical</div>
+      <div class="sp-alert-text">The Metro entrance isn't visible from the main departure hall — it's down a separate staircase off the underground concourse. The departure boards won't point you to it.</div>
+    </div>
+    <div class="sp-body">
+      <p>The upper Galleria level (shops and food) sits a full floor above platforms — track access is always one level down.</p>
+      <p>Trenitalia / RFI staff wear branded uniforms. Unsolicited help with bags at platform level is worth waving off without engaging.</p>
+    </div>
+  </div>
+
+  <div class="station-panel" data-rank="04">
+    <div class="sp-header">
+      <div class="sp-meta">
+        <div class="sp-name">🇩🇪 Berlin Hauptbahnhof</div>
+        <div class="sp-city">Berlin, Germany</div>
+      </div>
+      <a href="/guides/berlin.html" class="sp-guide">Guide</a>
+    </div>
+    <div class="sp-stats">
+      <div class="sp-stat"><div class="sp-stat-val">5</div><div class="sp-stat-label">Levels in one glass building</div></div>
+      <div class="sp-stat"><div class="sp-stat-val">Gleis 1–8</div><div class="sp-stat-label">Underground, north–south</div></div>
+      <div class="sp-stat"><div class="sp-stat-val">11–16</div><div class="sp-stat-label">Elevated, east–west</div></div>
+    </div>
+    <div class="sp-alert">
+      <div class="sp-alert-label">Critical</div>
+      <div class="sp-alert-text">The track (Gleis) number tells you the level — 1 to 8 are underground, 11 to 16 are up top. Read it first; it stops a wrong-level dash to the escalators.</div>
+    </div>
+    <div class="sp-body">
+      <p>The glass design lets you see across the whole building, which is deceptive — the two rail lines cross at right angles on different levels. Close by sight can still be two escalators away.</p>
+      <p>Check the Wagenstandsanzeiger board for your carriage sector (A–G), not just the platform number, especially with a reserved seat.</p>
+    </div>
+  </div>
+
+  <div class="station-panel" data-rank="05">
+    <div class="sp-header">
+      <div class="sp-meta">
+        <div class="sp-name">🇬🇧 King's Cross / St Pancras</div>
+        <div class="sp-city">London, United Kingdom</div>
+      </div>
+      <a href="/guides/london.html" class="sp-guide">Guide</a>
+    </div>
+    <div class="sp-stats">
+      <div class="sp-stat"><div class="sp-stat-val">2</div><div class="sp-stat-label">Separate mainline stations, different operators</div></div>
+      <div class="sp-stat"><div class="sp-stat-val">~250 m</div><div class="sp-stat-label">Apart — about 3–4 min walk</div></div>
+      <div class="sp-stat"><div class="sp-stat-val">St Pancras</div><div class="sp-stat-label">Only — Eurostar never departs from King's Cross</div></div>
+    </div>
+    <div class="sp-alert">
+      <div class="sp-alert-label">Critical</div>
+      <div class="sp-alert-text">King's Cross and St Pancras are two different stations — not two entrances to one building. Eurostar departs only from St Pancras International. Showing up at the wrong one is a repeated, real mistake.</div>
+    </div>
+    <div class="sp-body">
+      <p>The two share an Underground station wedged between them — which is exactly why people conflate them. The walk between street-level entrances is about 3–4 minutes.</p>
+      <p>Arriving on a domestic train into King's Cross to catch a Eurostar from St Pancras is not "already at the station" — budget the walk as its own step.</p>
+    </div>
+  </div>
+
+</div>
+
+<footer class="page-footer">
+  This page covers the building, not the ticket. For who runs the line you're booking: <a href="/essentials/european-trains/">European Train Guide</a> · <a href="/essentials/asian-trains/">Asia</a> · <a href="/essentials/americas-trains/">the Americas</a>. For tapping in and out: <a href="/essentials/transit-cards/">City Transit Cards</a>. For bag storage: <a href="/essentials/storage/">Luggage Storage</a>. For station scams: <a href="/essentials/scams/">Common Scams</a>.
+</footer>
+
+</body>
+</html>

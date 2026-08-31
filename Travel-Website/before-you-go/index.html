@@ -332,8 +332,8 @@ body { padding-bottom: calc(24px + env(safe-area-inset-bottom, 0px)) !important;
     <div class="byg-months" id="byg-months" aria-label="Month"></div>
     <select class="byg-month-select" id="byg-month" hidden aria-hidden="true" tabindex="-1"></select>
     <div id="byg-unit" style="display:none;">
-      <button type="button" data-u="C" aria-label="Celsius">°C</button>
-      <button type="button" data-u="F" aria-label="Fahrenheit">°F</button>
+      <button type="button" data-u="C" aria-label="Celsius" aria-pressed="false">°C</button>
+      <button type="button" data-u="F" aria-label="Fahrenheit" aria-pressed="false">°F</button>
     </div>
   </header>
 
@@ -654,7 +654,11 @@ body { padding-bottom: calc(24px + env(safe-area-inset-bottom, 0px)) !important;
       }).join('');
 
     function paintUnit() {
-      [].forEach.call(unitEl.children, function (b) { b.classList.toggle('on', b.dataset.u === unit()); });
+      [].forEach.call(unitEl.children, function (b) {
+        var sel = b.dataset.u === unit();
+        b.classList.toggle('on', sel);
+        b.setAttribute('aria-pressed', String(sel));
+      });
     }
     unitEl.addEventListener('click', function (e) {
       var b = e.target.closest('button'); if (!b) return;
@@ -891,8 +895,8 @@ body { padding-bottom: calc(24px + env(safe-area-inset-bottom, 0px)) !important;
       html += '<div class="byg-col-stack">';
       var u = unit();
       var unitToggleHtml = '<div class="byg-unit byg-unit-inline" id="byg-unit-card">' +
-        '<button type="button" data-u="C" aria-label="Celsius" class="' + (u==='C'?'on':'') + '">°C</button>' +
-        '<button type="button" data-u="F" aria-label="Fahrenheit" class="' + (u==='F'?'on':'') + '">°F</button>' +
+        '<button type="button" data-u="C" aria-label="Celsius" aria-pressed="' + (u==='C'?'true':'false') + '" class="' + (u==='C'?'on':'') + '">°C</button>' +
+        '<button type="button" data-u="F" aria-label="Fahrenheit" aria-pressed="' + (u==='F'?'true':'false') + '" class="' + (u==='F'?'on':'') + '">°F</button>' +
         '</div>';
       html += '<div class="byg-card byg-card-fixed">' +
         '<div class="byg-card-head" style="display:flex;align-items:center;justify-content:space-between;">' +

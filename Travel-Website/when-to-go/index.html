@@ -516,10 +516,10 @@ a.cf-card:hover .cf-guide-pill { border-color: rgba(var(--nt-grey-rgb),.75); }
        "from here down i like it" (Month and everything below untouched). -->
   <p class="cf-try-label">Try</p>
   <div class="cf-presets" id="cf-presets">
-    <button type="button" class="cf-preset selection-pill cp-brown hov-darken" data-preset="beach">Beach weather</button>
-    <button type="button" class="cf-preset selection-pill cp-brown hov-darken" data-preset="spring">Mild spring</button>
-    <button type="button" class="cf-preset selection-pill cp-brown hov-darken" data-preset="winter">Winter escape</button>
-    <button type="button" class="cf-preset selection-pill cp-brown hov-darken" data-preset="autumn">Cool autumn</button>
+    <button type="button" class="cf-preset selection-pill cp-brown hov-darken" data-preset="beach" aria-pressed="false">Beach weather</button>
+    <button type="button" class="cf-preset selection-pill cp-brown hov-darken" data-preset="spring" aria-pressed="false">Mild spring</button>
+    <button type="button" class="cf-preset selection-pill cp-brown hov-darken" data-preset="winter" aria-pressed="false">Winter escape</button>
+    <button type="button" class="cf-preset selection-pill cp-brown hov-darken" data-preset="autumn" aria-pressed="false">Cool autumn</button>
   </div>
 <div class="cf-controls">
     <div class="cf-block">
@@ -528,7 +528,7 @@ a.cf-card:hover .cf-guide-pill { border-color: rgba(var(--nt-grey-rgb),.75); }
     </div>
     <div class="cf-block">
       <div class="cf-label">Search city</div>
-      <input type="text" id="cf-city-search" class="cf-city-search" placeholder="City name" autocomplete="off">
+      <input type="text" id="cf-city-search" class="cf-city-search" placeholder="City name" autocomplete="off" aria-label="Search by city name">
     </div>
     <div class="cf-block">
       <div class="cf-label">Typical daytime high</div>
@@ -543,13 +543,13 @@ a.cf-card:hover .cf-guide-pill { border-color: rgba(var(--nt-grey-rgb),.75); }
         <div>
           <div class="cf-label">Units</div>
           <div id="cf-unit" class="cf-seg">
-            <button type="button" data-u="C" aria-label="Celsius">°C</button>
-            <button type="button" data-u="F" aria-label="Fahrenheit">°F</button>
+            <button type="button" data-u="C" aria-label="Celsius" aria-pressed="false">°C</button>
+            <button type="button" data-u="F" aria-label="Fahrenheit" aria-pressed="false">°F</button>
           </div>
         </div>
         <div>
           <div class="cf-label">Sort</div>
-          <select id="cf-sort" class="cf-sort">
+          <select id="cf-sort" class="cf-sort" aria-label="Sort order">
             <option value="cool">Coolest first</option>
             <option value="warm">Warmest first</option>
             <option value="az">A–Z</option>
@@ -558,9 +558,9 @@ a.cf-card:hover .cf-guide-pill { border-color: rgba(var(--nt-grey-rgb),.75); }
         <div>
           <div class="cf-label">Rainfall</div>
           <div id="cf-rain-filter" class="cf-seg">
-            <button type="button" data-rf="all">All</button>
-            <button type="button" data-rf="dry">Dry</button>
-            <button type="button" data-rf="wet">Wet</button>
+            <button type="button" data-rf="all" aria-pressed="true">All</button>
+            <button type="button" data-rf="dry" aria-pressed="false">Dry</button>
+            <button type="button" data-rf="wet" aria-pressed="false">Wet</button>
           </div>
         </div>
       </div>
@@ -645,11 +645,13 @@ a.cf-card:hover .cf-guide-pill { border-color: rgba(var(--nt-grey-rgb),.75); }
     /* Month pills */
     var monthsEl = document.getElementById('cf-months');
     monthsEl.innerHTML = MONTHS.map(function (m, i) {
-      return '<button type="button" class="cf-mon" data-m="' + i + '">' + m + '</button>';
+      return '<button type="button" class="cf-mon" data-m="' + i + '" aria-pressed="false">' + m + '</button>';
     }).join('');
     function paintMonths() {
       [].forEach.call(monthsEl.children, function (b, i) {
-        b.classList.toggle('on', i === month);
+        var sel = i === month;
+        b.classList.toggle('on', sel);
+        b.setAttribute('aria-pressed', String(sel));
       });
     }
     monthsEl.addEventListener('click', function (e) {
@@ -668,7 +670,9 @@ a.cf-card:hover .cf-guide-pill { border-color: rgba(var(--nt-grey-rgb),.75); }
     var activePreset = null;
     function paintPresets() {
       [].forEach.call(document.querySelectorAll('.cf-preset'), function (b) {
-        b.classList.toggle('is-on', b.dataset.preset === activePreset);
+        var sel = b.dataset.preset === activePreset;
+        b.classList.toggle('is-on', sel);
+        b.setAttribute('aria-pressed', String(sel));
       });
     }
     function readSlider(e) {
@@ -688,7 +692,11 @@ a.cf-card:hover .cf-guide-pill { border-color: rgba(var(--nt-grey-rgb),.75); }
     /* Unit toggle */
     var unitEl = document.getElementById('cf-unit');
     function paintUnit() {
-      [].forEach.call(unitEl.children, function (b) { b.classList.toggle('on', b.dataset.u === unit()); });
+      [].forEach.call(unitEl.children, function (b) {
+        var sel = b.dataset.u === unit();
+        b.classList.toggle('on', sel);
+        b.setAttribute('aria-pressed', String(sel));
+      });
     }
     unitEl.addEventListener('click', function (e) {
       var b = e.target.closest('button'); if (!b) return;
@@ -705,7 +713,11 @@ a.cf-card:hover .cf-guide-pill { border-color: rgba(var(--nt-grey-rgb),.75); }
     /* Rainfall filter */
     var rainFilterEl = document.getElementById('cf-rain-filter');
     function paintRainFilter() {
-      [].forEach.call(rainFilterEl.children, function (b) { b.classList.toggle('on', b.dataset.rf === rainFilter); });
+      [].forEach.call(rainFilterEl.children, function (b) {
+        var sel = b.dataset.rf === rainFilter;
+        b.classList.toggle('on', sel);
+        b.setAttribute('aria-pressed', String(sel));
+      });
     }
     rainFilterEl.addEventListener('click', function (e) {
       var b = e.target.closest('button'); if (!b) return;

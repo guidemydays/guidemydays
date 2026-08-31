@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Mockup — desktop-card-hover-missing-hover-media-query</title>
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<style>
+:root {
+  --bg: #f5f3ef; --surface: #ffffff; --text: #3d3a32; --muted: #6a6660;
+  --accent: #c8a44a; --rust: #C04E1A; --border: #e6e2da; --border2: #ddd8cf;
+  font-family: 'Roboto', Arial, sans-serif;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { background: var(--bg); color: var(--text); padding: 24px; font-size: 15px; line-height: 1.5; }
+.header { max-width: 940px; margin: 0 auto 28px; }
+.header h1 { font-size: 18px; font-weight: 700; color: var(--rust); margin-bottom: 6px; }
+.header p { font-size: 13px; color: var(--muted); }
+.panels { display: flex; gap: 24px; max-width: 940px; margin: 0 auto; flex-wrap: wrap; }
+.panel { flex: 1; min-width: 300px; background: var(--surface); border: 1px solid var(--border); border-radius: 8px; overflow: hidden; }
+.panel-label { padding: 10px 18px; font-size: 11px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); border-bottom: 1px solid var(--border); background: #f9f7f3; }
+.panel-label.after { background: #fef8f0; color: var(--rust); border-bottom-color: #f0d9c0; }
+.panel-body { padding: 24px 20px; }
+.demo-card {
+  background: var(--surface); border: 1px solid var(--border2);
+  border-left: 3px solid var(--accent); border-radius: 6px;
+  padding: 14px 18px; margin-bottom: 10px; cursor: pointer;
+  transition: box-shadow .15s, border-color .15s, transform .15s;
+}
+.card-name { font-size: 15px; font-weight: 700; color: var(--text); margin-bottom: 4px; }
+.card-sub { font-size: 13px; color: var(--muted); }
+/* BEFORE: ungated hover fires on all pointer types */
+.before-card:hover { box-shadow: 0 3px 10px rgba(92,61,17,.10); border-color: var(--rust); transform: translateY(-2px); }
+.before-card:active { transform: translateY(-1px); box-shadow: 0 1px 4px rgba(0,0,0,.12); }
+/* AFTER: guarded hover — only fires on real hover-capable devices */
+@media (hover:hover) {
+  .after-card:hover { box-shadow: 0 3px 10px rgba(92,61,17,.10); border-color: var(--rust); transform: translateY(-2px); }
+}
+.after-card:active { transform: translateY(-1px); box-shadow: 0 1px 4px rgba(0,0,0,.12); }
+.note { font-size: 12px; color: var(--muted); margin-top: 14px; border-top: 1px solid var(--border); padding-top: 10px; }
+code { font-family: monospace; font-size: 11px; background: rgba(200,164,74,.12); padding: 1px 4px; border-radius: 3px; }
+</style>
+</head>
+<body>
+<div class="header">
+  <h1>.best-of-card and .showcase-card hover not guarded by @media (hover:hover)</h1>
+  <p>Finding: desktop-card-hover-missing-hover-media-query · 2026-08-31 · Target: Travel-Website/assets/web-travel-style.css lines 1036–1043, 1280–1283</p>
+</div>
+<div class="panels">
+  <div class="panel">
+    <div class="panel-label">BEFORE — <code>.best-of-card:hover</code> ungated</div>
+    <div class="panel-body">
+      <div class="demo-card before-card">
+        <div class="card-name">Best Beaches in Europe</div>
+        <div class="card-sub">20 destinations · Mediterranean focus</div>
+      </div>
+      <div class="demo-card before-card">
+        <div class="card-name">Best Historic City Centres</div>
+        <div class="card-sub">25 destinations · UNESCO and heritage sites</div>
+      </div>
+      <div class="note">Lines 1036–1040: <code>.best-of-card:hover { box-shadow:…; border-color:var(--rust); transform:translateY(-2px); }</code> — no <code>@media (hover:hover)</code> guard. On touch devices a tap triggers :hover; the raised state persists until the next interaction, making the card appear stuck or "selected." Lines 1280–1283: <code>.showcase-card:hover</code> has the same issue. Contrast: <code>.sibling-pill:hover</code> (line 383) and <code>.also-on-this-site-pill:hover</code> (line 397) ARE guarded — the pattern already exists on this site.</div>
+    </div>
+  </div>
+  <div class="panel">
+    <div class="panel-label after">AFTER — hover wrapped in <code>@media (hover:hover)</code></div>
+    <div class="panel-body">
+      <div class="demo-card after-card">
+        <div class="card-name">Best Beaches in Europe</div>
+        <div class="card-sub">20 destinations · Mediterranean focus</div>
+      </div>
+      <div class="demo-card after-card">
+        <div class="card-name">Best Historic City Centres</div>
+        <div class="card-sub">25 destinations · UNESCO and heritage sites</div>
+      </div>
+      <div class="note">Fix: wrap <code>.best-of-card:hover { … }</code> in <code>@media (hover:hover) { }</code>. Do the same for <code>.showcase-card:hover</code>. Keep <code>.best-of-card:active</code> and <code>.showcase-card:active</code> ungated — active is correct for touch tap feedback. On hover-capable desktop devices behavior is identical. On touch, the stuck-hover bug is eliminated.</div>
+    </div>
+  </div>
+</div>
+</body>
+</html>

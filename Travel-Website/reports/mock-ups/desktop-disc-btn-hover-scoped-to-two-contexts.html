@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Mockup — desktop-disc-btn-hover-scoped-to-two-contexts</title>
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<style>
+:root {
+  --bg: #f5f3ef; --surface: #ffffff; --text: #3d3a32; --muted: #6a6660;
+  --accent: #c8a44a; --rust: #C04E1A; --border: #e6e2da; --border2: #ddd8cf;
+  --warm: #fdf8f0; --nt-grey-wash: #f0ede8;
+  font-family: 'Roboto', Arial, sans-serif;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { background: var(--bg); color: var(--text); padding: 24px; font-size: 15px; line-height: 1.5; }
+.header { max-width: 940px; margin: 0 auto 28px; }
+.header h1 { font-size: 18px; font-weight: 700; color: var(--rust); margin-bottom: 6px; }
+.header p { font-size: 13px; color: var(--muted); }
+.panels { display: flex; gap: 24px; max-width: 940px; margin: 0 auto; flex-wrap: wrap; }
+.panel { flex: 1; min-width: 300px; background: var(--surface); border: 1px solid var(--border); border-radius: 8px; overflow: hidden; }
+.panel-label { padding: 10px 18px; font-size: 11px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); border-bottom: 1px solid var(--border); background: #f9f7f3; }
+.panel-label.after { background: #fef8f0; color: var(--rust); border-bottom-color: #f0d9c0; }
+.panel-body { padding: 24px 20px; }
+.disc-btn {
+  display: inline-flex; align-items: center; gap: 6px;
+  height: 34px; font-size: 14px; font-weight: 500; padding: 0 14px;
+  border: 1.5px solid var(--border2); border-radius: 6px;
+  background: var(--warm); color: var(--muted); cursor: pointer;
+  white-space: nowrap; transition: all .15s; font-family: inherit;
+  margin: 0;
+}
+.after-btn:hover { color: var(--text); border-color: rgba(106,102,96,.75); background: var(--nt-grey-wash); }
+.filter-row { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 14px; }
+.hint { font-size: 12px; color: var(--muted); font-style: italic; margin-top: 10px; }
+.note { font-size: 12px; color: var(--muted); margin-top: 16px; border-top: 1px solid var(--border); padding-top: 10px; }
+code { font-family: monospace; font-size: 11px; background: rgba(200,164,74,.12); padding: 1px 4px; border-radius: 3px; }
+</style>
+</head>
+<body>
+<div class="header">
+  <h1>.disc-btn:hover visual state scoped to two contexts only — move to base rule</h1>
+  <p>Finding: desktop-disc-btn-hover-scoped-to-two-contexts · 2026-08-31 · Target: Travel-Website/assets/web-travel-style.css lines 1370, 1954–1955</p>
+</div>
+<div class="panels">
+  <div class="panel">
+    <div class="panel-label">BEFORE — hover only in <code>.bo-feat-toolbar</code> + <code>#regionJump</code></div>
+    <div class="panel-body">
+      <div class="filter-row">
+        <button class="disc-btn">Best Time to Visit ▾</button>
+        <button class="disc-btn">Cost Tier ▾</button>
+        <button class="disc-btn">Region ▾</button>
+      </div>
+      <div class="hint">↑ Hover over buttons — no visual change. The cursor changes to pointer but the button itself looks identical at rest and on hover.</div>
+      <div class="note">Line 1370: <code>.disc-btn:hover { text-decoration: none; }</code> — this is the only base hover rule; it makes no visual change since text-decoration is already none. The visual treatment (grey-wash background, darker border, text color shift) only fires for <code>.bo-feat-toolbar .disc-btn:hover</code> and <code>#regionJump .disc-btn:hover</code> (lines 1954–1955). Any disc-btn outside those two selectors gets no hover feedback — including disc-btns on future pages or contexts.</div>
+    </div>
+  </div>
+  <div class="panel">
+    <div class="panel-label after">AFTER — hover on base <code>.disc-btn:hover</code></div>
+    <div class="panel-body">
+      <div class="filter-row">
+        <button class="disc-btn after-btn">Best Time to Visit ▾</button>
+        <button class="disc-btn after-btn">Cost Tier ▾</button>
+        <button class="disc-btn after-btn">Region ▾</button>
+      </div>
+      <div class="hint">↑ Hover over buttons — border darkens, background shifts to grey-wash, text shifts to main text color. Immediate feedback in any context.</div>
+      <div class="note">Fix: move <code>color: var(--text); border-color: rgba(var(--nt-grey-rgb),.75); background: var(--nt-grey-wash);</code> into the base <code>.disc-btn:hover</code> rule at line 1370. The scoped selectors at lines 1954–1955 can then be simplified or removed (they'll be redundant). Evidence: Booking.com, G Adventures — all filter/sort controls give consistent hover feedback site-wide, not context-dependent.</div>
+    </div>
+  </div>
+</div>
+</body>
+</html>

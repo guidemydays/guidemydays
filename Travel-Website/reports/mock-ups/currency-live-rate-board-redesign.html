@@ -1,0 +1,478 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Mock-up — Currency Converter: Live Rate Board Redesign</title>
+<style>
+/* ── Site design tokens (inlined — no external CSS in mock-ups) ───────── */
+:root {
+  --font: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+  --bg:        #f5f2ec;
+  --surface:   #ffffff;
+  --surface2:  #f0ede8;
+  --surface3:  #e8e4dc;
+  --text:      #3d3a32;
+  --muted:     #6a6660;
+  --border:    #eae6de;
+  --border2:   #e6e2da;
+  --accent:    #C04E1A;   /* terracotta */
+  --navy:      #1d2c4b;
+  --sand:      #d8c8a8;
+
+  /* Calm Pastel badge families (only two approved site-wide) */
+  --cp-teal-bg: #d4ede9; --cp-teal-ink: #1a5c56;
+  --cp-sky-bg:  #d4e4ed; --cp-sky-ink:  #1a445c;
+  --cp-sage-bg: #dce9d4; --cp-sage-ink: #2a5c22;
+  --cp-dust-bg: #e9e4d4; --cp-dust-ink: #5c4e2a;
+  --cp-rose-bg: #ede4e4; --cp-rose-ink: #5c2a2a;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  font-family: var(--font);
+  background: var(--bg);
+  color: var(--text);
+  min-height: 100vh;
+}
+
+/* ── Annotation banner ────────────────────────────────────────────────── */
+.mock-banner {
+  background: var(--navy);
+  color: #fff;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-align: center;
+  padding: 10px 24px;
+  text-transform: uppercase;
+}
+.mock-banner span { opacity: .7; font-weight: 400; text-transform: none; }
+
+/* ── Topbar stub ─────────────────────────────────────────────────────── */
+.topbar {
+  display: flex; align-items: center; justify-content: center;
+  padding: 18px 40px; gap: 40px;
+  background: var(--bg);
+  border-bottom: 1px solid var(--border);
+}
+.logo { font-size: 22px; font-weight: 800; color: var(--navy); letter-spacing: -0.02em; }
+.logo em { color: var(--accent); font-style: normal; }
+.nav-pills { display: flex; gap: 10px; }
+.nav-pill {
+  font-size: 13px; padding: 7px 16px;
+  border: 1px solid var(--border2);
+  border-radius: 999px; color: var(--muted);
+  background: var(--surface); cursor: pointer;
+  white-space: nowrap;
+}
+.nav-pill.active {
+  background: var(--text); color: #fff; border-color: var(--text);
+}
+
+/* ── Hero band (UNCHANGED from current design) ───────────────────────── */
+.hero-band {
+  margin: 28px 40px 0;
+  background: #e8dfc8;
+  background-image: radial-gradient(circle, #b8a878 1px, transparent 1px);
+  background-size: 18px 18px;
+  border-radius: 16px;
+  padding: 44px 52px;
+  display: grid;
+  grid-template-columns: 1fr auto;
+  align-items: center;
+  gap: 40px;
+  position: relative;
+}
+.hero-kicker {
+  position: absolute; top: 20px; right: 20px;
+  font-size: 10px; font-weight: 700; letter-spacing: 0.1em;
+  text-transform: uppercase; color: #7a6840;
+  border: 1.5px solid #b8a878; border-radius: 4px;
+  padding: 4px 10px; background: rgba(255,255,255,.4);
+}
+.hero-h1 {
+  font-size: clamp(28px, 3.5vw, 42px);
+  font-weight: 800; line-height: 1.15;
+  color: var(--text); letter-spacing: -0.02em;
+}
+.hero-h1 em { color: var(--accent); font-style: normal; }
+.hero-sub {
+  margin-top: 14px; font-size: 15px;
+  color: var(--muted); line-height: 1.6; max-width: 540px;
+}
+.hero-icon { width: 140px; height: 140px; flex-shrink: 0; opacity: .9; }
+
+/* ──────────────────────────────────────────────────────────────────────
+   NEW BELOW-HERO DESIGN — "Live Rate Board"
+   ────────────────────────────────────────────────────────────────────── */
+
+.converter-shell {
+  max-width: 940px;
+  margin: 40px auto 0;
+  padding: 0 40px;
+}
+
+/* ── The Big Conversion Stage ─────────────────────────────────────────── */
+.rate-stage {
+  display: grid;
+  grid-template-columns: 1fr 56px 1fr;
+  align-items: stretch;
+  gap: 0;
+  background: var(--surface);
+  border-radius: 20px;
+  border: 1px solid var(--border2);
+  overflow: hidden;
+  box-shadow: 0 2px 12px rgba(0,0,0,.06);
+}
+
+.rate-side {
+  padding: 36px 40px;
+  display: flex; flex-direction: column; gap: 10px;
+}
+.rate-side.from { border-right: 1px solid var(--border); }
+.rate-side.to   { border-left: 1px solid var(--border); }
+
+.rate-side-label {
+  font-size: 10px; font-weight: 700; letter-spacing: 0.12em;
+  text-transform: uppercase; color: var(--muted);
+}
+
+/* Currency selector card */
+.currency-card {
+  display: flex; align-items: center; gap: 14px;
+  padding: 14px 18px;
+  border: 1.5px solid var(--border2);
+  border-radius: 12px; cursor: pointer;
+  background: var(--surface2);
+}
+.currency-card.chosen { border-color: var(--accent); background: #fff7f4; }
+
+.cc-symbol {
+  width: 48px; height: 48px; border-radius: 50%;
+  font-size: 22px; font-weight: 800;
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0;
+}
+.cc-symbol.teal { background: var(--cp-teal-bg); color: var(--cp-teal-ink); }
+.cc-symbol.sky  { background: var(--cp-sky-bg);  color: var(--cp-sky-ink); }
+.cc-symbol.dust { background: var(--cp-dust-bg); color: var(--cp-dust-ink); }
+
+.cc-info { flex: 1; min-width: 0; }
+.cc-country { font-size: 15px; font-weight: 700; color: var(--text); }
+.cc-name    { font-size: 12px; color: var(--muted); margin-top: 2px; }
+.cc-change  { font-size: 11px; color: var(--accent); font-weight: 600; }
+
+/* Amount field */
+.amount-field {
+  font-size: 48px; font-weight: 800;
+  font-variant-numeric: tabular-nums;
+  color: var(--text); border: none; outline: none;
+  background: transparent; letter-spacing: -0.02em;
+  width: 100%; line-height: 1;
+  margin-top: 6px;
+}
+.amount-sub { font-size: 12px; color: var(--muted); margin-top: 4px; }
+
+/* Result display */
+.result-value {
+  font-size: 52px; font-weight: 800;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: -0.02em;
+  color: var(--text); line-height: 1;
+  margin-top: 6px;
+}
+.result-breakdown {
+  font-size: 13px; color: var(--muted); margin-top: 8px; line-height: 1.5;
+}
+.result-breakdown strong { color: var(--text); }
+
+/* Middle swap column */
+.swap-col {
+  display: flex; align-items: center; justify-content: center;
+  background: var(--surface2);
+}
+.swap-btn {
+  width: 40px; height: 40px; border-radius: 50%;
+  border: 1.5px solid var(--border2);
+  background: var(--surface); cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  color: var(--muted); font-size: 16px;
+}
+
+/* ── Rate strip (scrollable) ──────────────────────────────────────────── */
+.strip-head {
+  display: flex; align-items: baseline; justify-content: space-between;
+  margin-top: 40px; margin-bottom: 16px;
+}
+.strip-title {
+  font-size: 13px; font-weight: 700; color: var(--muted);
+  text-transform: uppercase; letter-spacing: 0.08em;
+}
+.strip-sub { font-size: 12px; color: var(--muted); }
+
+.rate-strip {
+  display: flex; gap: 12px;
+  overflow-x: auto; padding-bottom: 4px; scrollbar-width: none;
+}
+.rate-strip::-webkit-scrollbar { display: none; }
+
+.rate-chip {
+  flex-shrink: 0;
+  background: var(--surface);
+  border: 1px solid var(--border2);
+  border-radius: 14px;
+  padding: 18px 20px;
+  width: 140px; cursor: pointer;
+}
+.rc-iso {
+  font-size: 10px; font-weight: 700; letter-spacing: 0.1em;
+  text-transform: uppercase; color: var(--muted);
+}
+.rc-country { font-size: 13px; font-weight: 600; color: var(--text); margin-top: 4px; }
+.rc-rate {
+  font-size: 22px; font-weight: 800;
+  font-variant-numeric: tabular-nums;
+  color: var(--text); margin-top: 10px; letter-spacing: -0.02em; line-height: 1;
+}
+.rc-sym { font-size: 14px; color: var(--muted); font-weight: 600; }
+
+/* ── Worth-more section ───────────────────────────────────────────────── */
+.ask-row {
+  margin-top: 40px;
+  display: flex; align-items: center; gap: 20px;
+  padding: 24px 32px;
+  background: var(--surface);
+  border-radius: 16px;
+  border: 1px solid var(--border2);
+}
+.ask-text { flex: 1; font-size: 15px; color: var(--text); line-height: 1.5; }
+.ask-text strong { display: block; font-size: 16px; margin-bottom: 4px; }
+.ask-btn {
+  padding: 12px 24px;
+  border-radius: 999px;
+  background: var(--accent);
+  color: #fff; font-size: 14px; font-weight: 700;
+  border: none; cursor: pointer; white-space: nowrap;
+}
+
+/* Sort pills — Option B: outlined when selected, never filled */
+.sort-row {
+  display: flex; align-items: center; gap: 10px; margin: 24px 0 16px;
+}
+.sort-label { font-size: 12px; color: var(--muted); font-weight: 600; }
+.sort-pill {
+  padding: 6px 14px; border-radius: 999px;
+  font-size: 12px; font-weight: 600;
+  border: 1.5px solid var(--border2);
+  background: var(--surface); color: var(--muted); cursor: pointer;
+}
+/* selected: outline layered on top (per doc spec) */
+.sort-pill.is-on {
+  outline: 3px solid var(--accent); outline-offset: 2px;
+  color: var(--text); border-color: var(--border2);
+}
+
+/* Worth-more card grid */
+.worth-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 10px;
+}
+.wg-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 12px; padding: 16px 18px; cursor: pointer;
+}
+.wg-rank {
+  font-size: 10px; font-weight: 700; letter-spacing: 0.1em;
+  text-transform: uppercase; color: var(--muted);
+}
+.wg-country { font-size: 14px; font-weight: 700; color: var(--text); margin-top: 4px; }
+.wg-currency { font-size: 11px; color: var(--muted); }
+.wg-rate {
+  font-size: 20px; font-weight: 800;
+  font-variant-numeric: tabular-nums;
+  color: var(--accent); margin-top: 8px; letter-spacing: -0.01em;
+}
+
+/* ── Footer ──────────────────────────────────────────────────────────── */
+.rates-note {
+  margin-top: 24px; padding-bottom: 48px;
+  font-size: 12px; color: var(--muted); text-align: center;
+}
+
+/* ── Annotation callouts ─────────────────────────────────────────────── */
+.note {
+  margin: 12px 0;
+  padding: 10px 16px;
+  background: #fffbf0;
+  border-left: 3px solid #e8c44a;
+  border-radius: 0 8px 8px 0;
+  font-size: 12px; color: #5c4a10; line-height: 1.5;
+}
+
+/* ── Mobile ──────────────────────────────────────────────────────────── */
+@media (max-width: 640px) {
+  .topbar { padding: 14px 16px; }
+  .nav-pills { display: none; }
+  .hero-band { margin: 16px 14px 0; padding: 28px 22px; grid-template-columns: 1fr; }
+  .hero-icon { display: none; }
+  .converter-shell { padding: 0 14px; }
+  .rate-stage { grid-template-columns: 1fr; }
+  .rate-side.from { border-right: none; border-bottom: 1px solid var(--border); }
+  .rate-side.to   { border-left: none; }
+  .swap-col { padding: 16px; border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); }
+  .amount-field { font-size: 36px; }
+  .result-value { font-size: 36px; }
+  .worth-grid { grid-template-columns: 1fr 1fr; }
+  .ask-row { flex-direction: column; align-items: stretch; text-align: center; }
+}
+</style>
+</head>
+<body>
+
+<div class="mock-banner">
+  MOCK-UP ONLY — concept proposal, never shipped &nbsp;·&nbsp;
+  <span>currency-audit · 2026-08-31 · "Live Rate Board" redesign concept</span>
+</div>
+
+<div class="topbar">
+  <div class="logo">Guide<em>My</em>Days</div>
+  <div class="nav-pills">
+    <div class="nav-pill">Guides</div>
+    <div class="nav-pill">When to Go</div>
+    <div class="nav-pill">Before You Go</div>
+    <div class="nav-pill">Packing Checklist</div>
+    <div class="nav-pill">Your World Map</div>
+    <div class="nav-pill">What Plug Adapter?</div>
+    <div class="nav-pill active">What Your Money Is Worth</div>
+    <div class="nav-pill">Time Zones</div>
+  </div>
+</div>
+
+<!-- Hero band — UNCHANGED from current design -->
+<div class="hero-band">
+  <div class="hero-kicker">WHAT YOUR MONEY IS WORTH</div>
+  <div>
+    <h1 class="hero-h1">What your money<br>is worth,<br><em>in 58 currencies</em><br>at once.</h1>
+    <p class="hero-sub">Convert any currency into any other at exchange rates refreshed monthly — then see the same money in all 58 at once, ranked by where it goes furthest.</p>
+  </div>
+  <svg class="hero-icon" viewBox="0 0 200 180" xmlns="http://www.w3.org/2000/svg">
+    <circle cx="80" cy="80" r="60" fill="#c8907a" opacity=".9"/>
+    <circle cx="80" cy="80" r="52" fill="#d4a090" opacity=".5"/>
+    <text x="80" y="92" font-family="system-ui" font-size="38" font-weight="800" text-anchor="middle" fill="#fff">$</text>
+    <circle cx="130" cy="110" r="50" fill="#7a9ab8" opacity=".85"/>
+    <circle cx="130" cy="110" r="43" fill="#90aac4" opacity=".5"/>
+    <text x="130" y="122" font-family="system-ui" font-size="32" font-weight="800" text-anchor="middle" fill="#fff">€</text>
+  </svg>
+</div>
+
+<div class="converter-shell">
+
+  <div class="note">
+    <strong>Concept: "Live Rate Board"</strong> — The result is the hero of the page, displayed in 52px type, not a card that appears after filling a form. FROM and TO are large selector cards, not plain text inputs. A scrollable rate strip below shows the FROM currency vs all destinations at a glance. The worth-more table is redesigned as a card grid. Empty state: both cards read "Choose a currency," result side shows "—" — no default pair, no sample conversion, page opens on nothing.
+  </div>
+
+  <!-- ── The Big Conversion Stage ──────────────────────────────────── -->
+  <div class="rate-stage">
+
+    <div class="rate-side from">
+      <div class="rate-side-label">From</div>
+      <div class="currency-card chosen">
+        <div class="cc-symbol teal">$</div>
+        <div class="cc-info">
+          <div class="cc-country">United States</div>
+          <div class="cc-name">US Dollar · USD</div>
+        </div>
+        <div class="cc-change">▾</div>
+      </div>
+      <input class="amount-field" type="number" value="100" inputmode="numeric" aria-label="Amount">
+      <div class="amount-sub">USD · enter any amount</div>
+    </div>
+
+    <div class="swap-col">
+      <button class="swap-btn" aria-label="Swap currencies">⇄</button>
+    </div>
+
+    <div class="rate-side to">
+      <div class="rate-side-label">To</div>
+      <div class="currency-card chosen">
+        <div class="cc-symbol sky">¥</div>
+        <div class="cc-info">
+          <div class="cc-country">Japan</div>
+          <div class="cc-name">Japanese Yen · JPY</div>
+        </div>
+        <div class="cc-change">▾</div>
+      </div>
+      <div class="result-value">¥ 16,004</div>
+      <div class="result-breakdown">
+        1 USD = <strong>160.04 JPY</strong><br>
+        Rate as of 31 Aug 2026 · Source: exchangerate-api.com
+      </div>
+    </div>
+
+  </div>
+
+  <!-- ── Rate strip ─────────────────────────────────────────────────── -->
+  <div class="strip-head">
+    <div class="strip-title">100 USD converts to</div>
+    <div class="strip-sub">Tap any to set as destination →</div>
+  </div>
+
+  <div class="rate-strip">
+    <div class="rate-chip"><div class="rc-iso">EUR</div><div class="rc-country">Europe</div><div class="rc-rate"><span class="rc-sym">€</span> 86.22</div></div>
+    <div class="rate-chip"><div class="rc-iso">GBP</div><div class="rc-country">United Kingdom</div><div class="rc-rate"><span class="rc-sym">£</span> 73.82</div></div>
+    <div class="rate-chip"><div class="rc-iso">CAD</div><div class="rc-country">Canada</div><div class="rc-rate"><span class="rc-sym">C$</span> 138.91</div></div>
+    <div class="rate-chip"><div class="rc-iso">AUD</div><div class="rc-country">Australia</div><div class="rc-rate"><span class="rc-sym">A$</span> 139.59</div></div>
+    <div class="rate-chip"><div class="rc-iso">JPY</div><div class="rc-country">Japan</div><div class="rc-rate"><span class="rc-sym">¥</span> 16,004</div></div>
+    <div class="rate-chip"><div class="rc-iso">THB</div><div class="rc-country">Thailand</div><div class="rc-rate"><span class="rc-sym">฿</span> 3,311</div></div>
+    <div class="rate-chip"><div class="rc-iso">MXN</div><div class="rc-country">Mexico</div><div class="rc-rate"><span class="rc-sym">$</span> 1,703</div></div>
+    <div class="rate-chip"><div class="rc-iso">INR</div><div class="rc-country">India</div><div class="rc-rate"><span class="rc-sym">₹</span> 9,558</div></div>
+    <div class="rate-chip"><div class="rc-iso">BRL</div><div class="rc-country">Brazil</div><div class="rc-rate"><span class="rc-sym">R$</span> 517.97</div></div>
+    <div class="rate-chip"><div class="rc-iso">SGD</div><div class="rc-country">Singapore</div><div class="rc-rate"><span class="rc-sym">S$</span> 127.38</div></div>
+    <div class="rate-chip"><div class="rc-iso">ZAR</div><div class="rc-country">South Africa</div><div class="rc-rate"><span class="rc-sym">R</span> 1,613</div></div>
+    <div class="rate-chip"><div class="rc-iso">TRY</div><div class="rc-country">Turkey</div><div class="rc-rate"><span class="rc-sym">₺</span> 4,825</div></div>
+  </div>
+
+  <div class="note">
+    <strong>Rate strip:</strong> Horizontally scrollable. Shows FROM currency vs every destination. Tapping a chip instantly sets it as "To" and updates the big result. Only appears after a FROM currency is selected. Cards are scrollable beyond the viewport — the cut-off edge shows there is more. No badge item-count (rule 92).
+  </div>
+
+  <!-- ── Worth-more section ─────────────────────────────────────────── -->
+  <div class="ask-row">
+    <div class="ask-text">
+      <strong>Where does your money go furthest?</strong>
+      See all 82 countries ranked by how far 100 USD goes — from most value to least.
+    </div>
+    <button class="ask-btn">Show ranking ↓</button>
+  </div>
+
+  <div class="sort-row">
+    <div class="sort-label">Sort:</div>
+    <div class="sort-pill is-on" aria-pressed="true">Most value</div>
+    <div class="sort-pill" aria-pressed="false">Least value</div>
+  </div>
+
+  <div class="worth-grid">
+    <div class="wg-card"><div class="wg-rank">#1</div><div class="wg-country">Argentina</div><div class="wg-currency">Argentine Peso · ARS</div><div class="wg-rate">AR$ 151,303</div></div>
+    <div class="wg-card"><div class="wg-rank">#2</div><div class="wg-country">Vietnam</div><div class="wg-currency">Vietnamese Dong · VND</div><div class="wg-rate">₫ 2,600,637</div></div>
+    <div class="wg-card"><div class="wg-rank">#3</div><div class="wg-country">Indonesia</div><div class="wg-currency">Indonesian Rupiah · IDR</div><div class="wg-rate">Rp 1,773,361</div></div>
+    <div class="wg-card"><div class="wg-rank">#4</div><div class="wg-country">Colombia</div><div class="wg-currency">Colombian Peso · COP</div><div class="wg-rate">COP 317,024</div></div>
+    <div class="wg-card"><div class="wg-rank">#5</div><div class="wg-country">Turkey</div><div class="wg-currency">Turkish Lira · TRY</div><div class="wg-rate">₺ 4,825</div></div>
+    <div class="wg-card"><div class="wg-rank">#6</div><div class="wg-country">Nigeria</div><div class="wg-currency">Nigerian Naira · NGN</div><div class="wg-rate">₦ 133,883</div></div>
+    <div class="wg-card"><div class="wg-rank">#7</div><div class="wg-country">Japan</div><div class="wg-currency">Japanese Yen · JPY</div><div class="wg-rate">¥ 16,005</div></div>
+    <div class="wg-card"><div class="wg-rank">#8</div><div class="wg-country">South Korea</div><div class="wg-currency">South Korean Won · KRW</div><div class="wg-rate">₩ 137,760</div></div>
+  </div>
+
+  <div class="note">
+    <strong>Worth-more grid:</strong> Cards instead of table rows. Rank visible at top-left. Tapping a card sets that country as "To." Sort pills use the approved Option B pattern: outlined at rest, outlined when selected (outline: 3px solid var(--accent)), never a filled swap.
+  </div>
+
+  <div class="rates-note">
+    Rates as of 31 August 2026 · 82 countries · Source: exchangerate-api.com
+  </div>
+</div>
+
+</body>
+</html>

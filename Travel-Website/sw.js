@@ -2814,7 +2814,8 @@
 /* 2026-08-30: kuala-lumpur guide ship — toolbar.js: CHIP_DATA KUL + LOUNGE_IATAS KUL. weather.js: Kuala Lumpur climate normals. MIN_VERSIONS['toolbar.js'] to 1114, MIN_VERSIONS['weather.js'] to 21, CACHE to v1758. */
 /* 2026-08-31: web-travel-style.css — dark mode override for .hero-band.eb-hero a/:visited (was #3d2f1f, invisible at 1.36:1 on dark bg; now #c8a060, 7.3:1). MIN_VERSIONS['web-travel-style.css'] to 226, CACHE to v1759. */
 /* 2026-08-31: web-travel-style.css — type scale locked to pinned values (--fs-h2 20→18px, --fs-h3 18→16px); badge.sb-* and pill-badge.sb-* :visited literal hex rules; .cont-btn:visited var()→literal. guide-style.css — AOSP/NGP/AICP hover: var(--c-action-text)→var(--rust,#C04E1A), border-color literal→var(--rust,#C04E1A). MIN_VERSIONS['web-travel-style.css'] to 227, MIN_VERSIONS['guide-style.css'] to 277, CACHE to v1760. */
-var CACHE = 'travel-cache-v1760';
+/* 2026-08-31: PAGE_ICON entries: european-airlines, airport-fast-track toolbar.js -> v1115. CACHE to v1761. */
+var CACHE = 'travel-cache-v1761';
 /* 2026-08-27: airlines.css's .card-tags align-items fix changed a shared
    asset without raising its own floor -- MIN_VERSIONS['airlines.css'] to
    6, CACHE to v1662. */
@@ -2856,7 +2857,7 @@ var ICS_OUTBOX = 'gmd-ics-outbox';
    of 230+ guides. Instead, bump MIN_VERSIONS here + increment the CACHE version. */
 /* 2026-08-30: weather.js: Punta Cana climate normals added (244 cities). MIN_VERSIONS["weather.js"] to 19, CACHE to v1748. */
 /* 2026-08-30: search-autocomplete.js — reverted ARIA combobox pattern (role=listbox/option caused side-by-side layout regression). MIN_VERSIONS['search-autocomplete.js'] to 11, CACHE to v1749. */
-var MIN_VERSIONS = { 'guide-style.css': 277,'toolbar.js': 1114, 'mobile.css': 93, 'web-travel-style.css': 227, 'guides-index-style.css': 41, 'read-about.css': 8, 'best-of-features.js': 5, 'best-of-cross-data.js': 24, 'weather.js': 21,'trains.css': 30, 'trains.js': 5, 'airlines.css': 9, 'airlines.js': 9, 'passport.js': 5, 'search-autocomplete.js': 12, 'flag-render.js': 2 };
+var MIN_VERSIONS = { 'guide-style.css': 277,'toolbar.js': 1115, 'mobile.css': 93, 'web-travel-style.css': 227, 'guides-index-style.css': 41, 'read-about.css': 8, 'best-of-features.js': 5, 'best-of-cross-data.js': 24, 'weather.js': 21,'trains.css': 30, 'trains.js': 5, 'airlines.css': 9, 'airlines.js': 9, 'passport.js': 5, 'search-autocomplete.js': 12, 'flag-render.js': 2 };
 
 function rewriteAssetUrl(urlStr) {
   var u;

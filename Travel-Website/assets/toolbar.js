@@ -10501,6 +10501,12 @@ window.TVE.home = (function () {
       'connections': 'hourglass', 'lounges': 'coffee',
       'delta-routes': 'flight-nav', 'united-routes': 'flight-nav',
       'airline-networks': 'flight-nav', 'airlines': 'flight-nav',
+      'european-airlines': 'flight-nav',
+      /* Airport Fast Track & Priority Security — closest existing catalogue
+         concept is the trusted-traveler badge (expedited-lane programs are
+         what fast track actually sells); reuses the key 'trusted' already
+         wired for 'trusted'/'trusted-traveler' rather than adding a new one. */
+      'airport-fast-track': 'trusted',
       /* Stats — every regional page plus the overview and the records page */
       'stats': 'chart', 'africa': 'chart', 'asia': 'chart', 'canada': 'chart',
       'caribbean': 'chart', 'europe': 'chart', 'oceania': 'chart',

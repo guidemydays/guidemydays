@@ -1,0 +1,430 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Time Zones — Daylight River Redesign</title>
+<style>
+/* Site design tokens (inline — no CDN) */
+:root {
+  --surface:#fdf8f0; --surface2:#f7f2ea; --text:#3d3a32; --muted:#6a6660;
+  --border:#e6e2da; --accent:#a87f0b; --tc:#C04E1A;
+  --night:#1a2140; --day-warm:#fce8c5; --day-mid:#f8d060;
+  --home-line:#2e6a7a; --rail:32px;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif;
+     background:var(--surface);color:var(--text);font-size:1rem;}
+
+/* Mockup frame */
+.mockup-bar{background:#2a2420;color:#d8d0c8;font-size:.78rem;
+  padding:10px 20px;display:flex;align-items:center;gap:12px;}
+.mockup-bar strong{color:#f5efe8;}
+.tag{background:#4a3d32;color:#c8b898;font-size:.7rem;padding:2px 8px;
+  border-radius:99px;margin-left:auto;}
+
+/* Hero band — carried over unchanged */
+.hero-band{background:var(--tc);color:#fff;padding:28px var(--rail) 24px;
+  display:flex;align-items:center;justify-content:space-between;gap:24px;}
+.hero-text .kicker{font-size:.72rem;letter-spacing:.14em;text-transform:uppercase;
+  opacity:.75;margin-bottom:6px;}
+.hero-text h1{font-size:2.1rem;font-weight:700;letter-spacing:-.025em;line-height:1.1;}
+.hero-graphic svg{width:72px;height:72px;}
+
+/* Wrap */
+.wrap{max-width:1200px;margin:0 auto;padding:0 var(--rail);}
+
+/* Controls */
+.controls{padding:22px 0 0;display:flex;align-items:center;gap:12px;flex-wrap:wrap;}
+.search-pill{height:52px;width:340px;border-radius:999px;border:none;
+  box-shadow:0 2px 16px rgba(0,0,0,.09);padding:0 20px 0 48px;font-size:1rem;
+  color:var(--text);outline:none;cursor:text;
+  background:#fff url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='18' height='18' fill='none' stroke='%236a6660' stroke-width='2' viewBox='0 0 24 24'%3E%3Ccircle cx='11' cy='11' r='8'/%3E%3Cpath d='M21 21l-4.35-4.35'/%3E%3C/svg%3E") no-repeat 16px center;}
+.home-tag{display:flex;align-items:center;gap:7px;font-size:.82rem;
+  background:var(--surface2);border:1px solid var(--border);border-radius:999px;
+  padding:7px 14px 7px 10px;color:var(--muted);}
+.home-dot{width:10px;height:10px;border-radius:50%;background:var(--home-line);flex-shrink:0;}
+
+/* Hour ruler */
+.ruler-wrap{padding:24px 0 0;}
+.ruler-label{font-size:.68rem;letter-spacing:.1em;text-transform:uppercase;
+  color:var(--muted);margin-bottom:6px;}
+.ruler-row{display:grid;grid-template-columns:170px 1fr 92px;gap:0;}
+.hour-labels{display:flex;justify-content:space-between;padding-right:0;}
+.hour-labels span{font-size:.67rem;color:var(--muted);}
+
+/* Legend */
+.legend{display:flex;gap:18px;padding:8px 0 18px;font-size:.74rem;color:var(--muted);flex-wrap:wrap;}
+.leg{display:flex;align-items:center;gap:6px;}
+.leg-swatch{width:22px;height:9px;border-radius:3px;}
+.s-day{background:linear-gradient(90deg,#fce8c5,#f8d060);}
+.s-night{background:#1a2140;}
+.s-dawn{background:linear-gradient(90deg,#1a2140,#e8813a 60%,#f8d060);}
+.s-dusk{background:linear-gradient(90deg,#f8d060,#e8813a 40%,#1a2140);}
+.leg-dot{width:10px;height:10px;border-radius:50%;background:var(--tc);
+  border:2px solid white;box-shadow:0 0 0 2px var(--tc);}
+.leg-line{width:16px;height:3px;background:var(--home-line);border-radius:2px;opacity:.6;}
+
+/* Region */
+.region{margin-bottom:20px;}
+.region-head{display:grid;grid-template-columns:170px 1fr 92px;
+  font-size:.69rem;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);
+  font-weight:600;border-bottom:1px solid var(--border);padding-bottom:6px;margin-bottom:3px;}
+.region-head-right{text-align:right;}
+
+/* City row */
+.city-row{display:grid;grid-template-columns:170px 1fr 92px;
+  align-items:center;padding:3px 0;border-radius:5px;transition:background .12s;cursor:default;}
+.city-row:hover{background:rgba(192,78,26,.05);}
+.city-id{display:flex;align-items:center;gap:8px;padding-right:12px;min-width:0;}
+.flag{font-size:1.1rem;line-height:1;flex-shrink:0;}
+.city-meta{min-width:0;}
+.city-name{font-size:.87rem;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.city-country{font-size:.69rem;color:var(--muted);}
+
+/* Daylight bar */
+.daybar{position:relative;height:26px;border-radius:5px;overflow:visible;margin-right:10px;}
+.db-bg{position:absolute;inset:0;border-radius:5px;overflow:hidden;display:flex;}
+/* Now-dot */
+.now-dot{position:absolute;top:50%;transform:translate(-50%,-50%);
+  width:12px;height:12px;border-radius:50%;background:var(--tc);
+  border:2.5px solid white;box-shadow:0 0 0 2.5px var(--tc),0 2px 5px rgba(192,78,26,.35);z-index:3;}
+/* Home-base line */
+.hb-line{position:absolute;top:-4px;bottom:-4px;width:2.5px;
+  background:var(--home-line);border-radius:2px;opacity:.5;z-index:2;}
+/* Tooltip */
+.daybar:hover .tip{opacity:1;}
+.tip{position:absolute;bottom:calc(100%+6px);left:50%;transform:translateX(-50%);
+  background:#2a2420;color:#f0ebe4;font-size:.72rem;padding:4px 10px;
+  border-radius:6px;white-space:nowrap;opacity:0;transition:opacity .12s;
+  pointer-events:none;z-index:10;}
+
+/* Time display */
+.city-time{text-align:right;}
+.t-time{font-size:.93rem;font-weight:700;font-variant-numeric:tabular-nums;letter-spacing:-.01em;}
+.t-diff{font-size:.69rem;color:var(--muted);}
+.t-tmrw{font-size:.67rem;color:var(--tc);font-weight:500;}
+
+.sep{border:none;border-top:1px solid var(--border);margin:24px 0 16px;}
+.footer-note{font-size:.77rem;color:var(--muted);padding-bottom:28px;}
+.footer-note a{color:var(--tc);text-decoration:none;}
+
+/* ── PHONE FRAME ── */
+.phone-section{background:var(--surface2);padding:36px var(--rail);margin-top:32px;}
+.phone-label{font-size:.69rem;letter-spacing:.1em;text-transform:uppercase;
+  color:var(--muted);margin-bottom:10px;}
+.phone-outer{background:#1e1c1a;border-radius:40px;padding:14px;display:inline-block;}
+.phone-screen{width:375px;border-radius:26px;overflow:hidden;background:var(--surface);}
+.p-hero{background:var(--tc);color:#fff;padding:16px 14px 14px;}
+.p-hero .kicker{font-size:.62rem;letter-spacing:.1em;text-transform:uppercase;opacity:.7;margin-bottom:3px;}
+.p-hero h1{font-size:1.15rem;font-weight:700;letter-spacing:-.02em;}
+.p-search{padding:10px 14px 8px;}
+.p-search input{width:100%;height:38px;border-radius:999px;border:none;
+  box-shadow:0 1px 6px rgba(0,0,0,.09);padding:0 14px 0 36px;font-size:.86rem;
+  color:var(--muted);outline:none;
+  background:#fff url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='13' height='13' fill='none' stroke='%236a6660' stroke-width='2' viewBox='0 0 24 24'%3E%3Ccircle cx='11' cy='11' r='8'/%3E%3Cpath d='M21 21l-4.35-4.35'/%3E%3C/svg%3E") no-repeat 11px center;}
+.p-region{font-size:.64rem;letter-spacing:.1em;text-transform:uppercase;
+  color:var(--muted);font-weight:600;padding:6px 14px 4px;border-bottom:1px solid var(--border);}
+.p-row{display:flex;flex-direction:column;padding:8px 14px;border-bottom:1px solid var(--border);}
+.p-top{display:flex;align-items:center;gap:8px;}
+.p-flag{font-size:1.1rem;line-height:1;}
+.p-info{flex:1;min-width:0;}
+.p-name{font-size:.87rem;font-weight:600;}
+.p-ctry{font-size:.68rem;color:var(--muted);}
+.p-right{text-align:right;flex-shrink:0;}
+.p-time{font-size:.98rem;font-weight:700;font-variant-numeric:tabular-nums;}
+.p-diff{font-size:.68rem;color:var(--muted);}
+.p-bar{height:7px;border-radius:4px;margin-top:6px;width:100%;position:relative;overflow:hidden;}
+.p-bar-inner{display:flex;height:100%;border-radius:4px;overflow:hidden;}
+.p-dot{position:absolute;top:-2.5px;width:12px;height:12px;border-radius:50%;
+  background:var(--tc);border:2px solid white;transform:translateX(-50%);}
+.p-more{padding:10px 14px;font-size:.73rem;color:var(--muted);text-align:center;}
+
+/* Design notes */
+.notes{background:#2a2420;color:#c8b898;font-size:.77rem;
+  padding:18px var(--rail);display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:20px;}
+.notes strong{color:#f0ebe4;display:block;margin-bottom:3px;}
+</style>
+</head>
+<body>
+
+<div class="mockup-bar">
+  <strong>REDESIGN CONCEPT — /time-zones/ · Daylight River</strong>
+  <span>Research: Dribbble world-clock / Godly daylight-strip patterns · 2026-08-31</span>
+  <span class="tag">PROPOSAL ONLY — not live</span>
+</div>
+
+<!-- ═══════════════════ DESKTOP ═══════════════════ -->
+
+<!-- Hero band — carried over unchanged -->
+<div class="hero-band">
+  <div class="hero-text">
+    <div class="kicker">Live local time</div>
+    <h1>The world's clocks,<br>all at once.</h1>
+  </div>
+  <div class="hero-graphic">
+    <svg viewBox="0 0 72 72" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <circle cx="36" cy="36" r="12" fill="rgba(255,255,255,.92)"/>
+      <circle cx="36" cy="36" r="12" fill="none" stroke="rgba(255,255,255,.35)" stroke-width="5"/>
+      <g stroke="rgba(255,255,255,.6)" stroke-width="2.2" stroke-linecap="round">
+        <line x1="36" y1="6" x2="36" y2="13"/><line x1="36" y1="59" x2="36" y2="66"/>
+        <line x1="6" y1="36" x2="13" y2="36"/><line x1="59" y1="36" x2="66" y2="36"/>
+        <line x1="14" y1="14" x2="19" y2="19"/><line x1="53" y1="53" x2="58" y2="58"/>
+        <line x1="58" y1="14" x2="53" y2="19"/><line x1="19" y1="53" x2="14" y2="58"/>
+      </g>
+    </svg>
+  </div>
+</div>
+
+<!-- ─── REDESIGNED SECTION (everything below the hero) ─── -->
+<div class="wrap">
+
+  <div class="controls">
+    <input class="search-pill" type="text" placeholder="Set your home city…" />
+    <div class="home-tag">
+      <div class="home-dot"></div>
+      Home base: New York
+    </div>
+  </div>
+
+  <div class="ruler-wrap">
+    <div class="ruler-label">24-HOUR LOCAL VIEW — ALL CITIES</div>
+    <div class="ruler-row">
+      <div></div>
+      <div class="hour-labels">
+        <span>12 am</span><span>3 am</span><span>6 am</span><span>9 am</span>
+        <span>12 pm</span><span>3 pm</span><span>6 pm</span><span>9 pm</span><span>12 am</span>
+      </div>
+      <div></div>
+    </div>
+  </div>
+
+  <div class="legend">
+    <div class="leg"><div class="leg-swatch s-day"></div> Daytime</div>
+    <div class="leg"><div class="leg-swatch s-night"></div> Nighttime</div>
+    <div class="leg"><div class="leg-swatch s-dawn"></div> Dawn</div>
+    <div class="leg"><div class="leg-swatch s-dusk"></div> Dusk</div>
+    <div class="leg"><div class="leg-dot"></div> Now (local)</div>
+    <div class="leg"><div class="leg-line"></div> Your home base</div>
+  </div>
+
+  <!-- AMERICAS -->
+  <div class="region">
+    <div class="region-head">
+      <span>AMERICAS</span><span></span>
+      <span class="region-head-right">LOCAL TIME</span>
+    </div>
+    <!-- Rows built in JS -->
+    <div id="rows-americas"></div>
+  </div>
+
+  <!-- EUROPE -->
+  <div class="region">
+    <div class="region-head">
+      <span>EUROPE</span><span></span>
+      <span class="region-head-right">LOCAL TIME</span>
+    </div>
+    <div id="rows-europe"></div>
+  </div>
+
+  <!-- ASIA PACIFIC -->
+  <div class="region">
+    <div class="region-head">
+      <span>ASIA PACIFIC</span><span></span>
+      <span class="region-head-right">LOCAL TIME</span>
+    </div>
+    <div id="rows-asiapac"></div>
+  </div>
+
+  <hr class="sep">
+  <p class="footer-note">Showing 11 of 245 destinations · <a href="#">View all</a></p>
+
+</div>
+
+<!-- ═══════════════════ MOBILE ═══════════════════ -->
+<div class="phone-section">
+  <p class="phone-label">MOBILE — 375px</p>
+  <div class="phone-outer">
+    <div class="phone-screen">
+      <div class="p-hero">
+        <div class="kicker" style="font-size:.62rem;letter-spacing:.1em;text-transform:uppercase;opacity:.7;margin-bottom:3px;color:#fff;">Live local time</div>
+        <h1 style="font-size:1.12rem;font-weight:700;letter-spacing:-.02em;color:#fff;">The world's clocks,<br>all at once.</h1>
+      </div>
+      <div class="p-search">
+        <input type="text" placeholder="Set your home city…">
+      </div>
+      <div class="p-region">AMERICAS</div>
+      <div id="m-rows-americas"></div>
+      <div class="p-region">EUROPE</div>
+      <div id="m-rows-europe"></div>
+      <div class="p-region">ASIA PACIFIC</div>
+      <div id="m-rows-asiapac"></div>
+      <div class="p-more">+ 234 more destinations</div>
+    </div>
+  </div>
+</div>
+
+<div class="notes">
+  <div><strong>CONCEPT: Daylight River</strong>
+    Each city is a horizontal 24h bar. Amber = day, navy = night, gradients = transitions. One scan shows who's asleep while you're awake — the core question of any time-zone page.</div>
+  <div><strong>HOME BASE LINE</strong>
+    A teal vertical line marks the user's own current time across every row simultaneously. At a glance: which cities share your working hours, which are at breakfast, which are asleep.</div>
+  <div><strong>WOW FACTOR</strong>
+    The bars are real-time — the terracotta dot ticks forward live. Hovering a bar shows a tooltip ("3 hrs behind"). The pattern across all cities makes "time difference" visceral, not arithmetic.</div>
+  <div><strong>PRESERVED</strong>
+    Hero band, background, type scale, #C04E1A, --surface. All 245 cities, search, region grouping, city links. No content removed — only the grid cards replaced with the river visualization.</div>
+</div>
+
+<script>
+// Daylight bar: segment colors by local hour (approximate 6am–8pm daylight model)
+function segColor(h) {
+  if (h === 5 || h === 6)  return 'linear-gradient(90deg,#1a2140,#e8813a)';   // dawn
+  if (h >= 7  && h <= 18) return 'linear-gradient(180deg,#fce8c5,#f8d060)';  // day
+  if (h === 19 || h === 20) return 'linear-gradient(90deg,#e8813a,#1a2140)'; // dusk
+  return '#1a2140'; // night
+}
+
+function pct(h, m) { return ((h * 60 + m) / 1440) * 100; }
+
+function fmt(h, m) {
+  const ap = h < 12 ? 'AM' : 'PM';
+  const h12 = h === 0 ? 12 : (h > 12 ? h - 12 : h);
+  return `${h12}:${String(m).padStart(2,'0')} ${ap}`;
+}
+
+function buildBar(barEl, dotEl, hlEl, h, m, homeP) {
+  // segments
+  barEl.innerHTML = '';
+  for (let i = 0; i < 24; i++) {
+    const s = document.createElement('div');
+    s.style.cssText = `width:${100/24}%;height:100%;flex-shrink:0;background:${segColor(i)};`;
+    barEl.appendChild(s);
+  }
+  // dots & lines
+  if (dotEl) dotEl.style.left = pct(h, m) + '%';
+  if (hlEl)  hlEl.style.left  = homeP + '%';
+}
+
+const CITIES = {
+  americas: [
+    {flag:'🇺🇸', name:'New York',    country:'United States', tz:'America/New_York',    home:true},
+    {flag:'🇺🇸', name:'Los Angeles', country:'United States', tz:'America/Los_Angeles'},
+    {flag:'🇧🇷', name:'São Paulo',   country:'Brazil',        tz:'America/Sao_Paulo'},
+    {flag:'🇲🇽', name:'Mexico City', country:'Mexico',        tz:'America/Mexico_City'},
+  ],
+  europe: [
+    {flag:'🇬🇧', name:'London', country:'United Kingdom', tz:'Europe/London'},
+    {flag:'🇫🇷', name:'Paris',  country:'France',         tz:'Europe/Paris'},
+    {flag:'🇩🇪', name:'Berlin', country:'Germany',         tz:'Europe/Berlin'},
+  ],
+  asiapac: [
+    {flag:'🇮🇳', name:'Mumbai',    country:'India',       tz:'Asia/Kolkata'},
+    {flag:'🇯🇵', name:'Tokyo',     country:'Japan',       tz:'Asia/Tokyo'},
+    {flag:'🇸🇬', name:'Singapore', country:'Singapore',   tz:'Asia/Singapore'},
+    {flag:'🇦🇺', name:'Sydney',    country:'Australia',   tz:'Australia/Sydney'},
+  ],
+};
+
+function makeRow(city, homeP) {
+  const id = city.name.replace(/\s/g,'').toLowerCase();
+  const row = document.createElement('div');
+  row.className = 'city-row';
+  row.innerHTML = `
+    <div class="city-id">
+      <span class="flag">${city.flag}</span>
+      <div class="city-meta">
+        <div class="city-name">${city.name}</div>
+        <div class="city-country">${city.country}</div>
+      </div>
+    </div>
+    <div class="daybar">
+      <div class="db-bg" id="bg-${id}"></div>
+      <div class="now-dot" id="dot-${id}"></div>
+      <div class="hb-line" id="hl-${id}"></div>
+      <div class="tip" id="tip-${id}"></div>
+    </div>
+    <div class="city-time">
+      <div class="t-time" id="tt-${id}">—</div>
+      <div class="t-diff" id="td-${id}">${city.home ? 'home base' : ''}</div>
+    </div>`;
+  return row;
+}
+
+function makeMRow(city) {
+  const id = 'm-' + city.name.replace(/\s/g,'').toLowerCase();
+  const row = document.createElement('div');
+  row.className = 'p-row';
+  row.innerHTML = `
+    <div class="p-top">
+      <span class="p-flag">${city.flag}</span>
+      <div class="p-info"><div class="p-name">${city.name}</div><div class="p-ctry">${city.country}</div></div>
+      <div class="p-right"><div class="p-time" id="mt-${id}">—</div><div class="p-diff" id="md-${id}">${city.home?'home':''}</div></div>
+    </div>
+    <div class="p-bar"><div class="p-bar-inner" id="mbar-${id}"></div><div class="p-dot" id="mdot-${id}"></div></div>`;
+  return row;
+}
+
+// Build DOM
+const now = new Date();
+const homeH = +new Intl.DateTimeFormat('en',{timeZone:'America/New_York',hour:'numeric',hour12:false}).format(now) % 24;
+const homeM = +new Intl.DateTimeFormat('en',{timeZone:'America/New_York',minute:'numeric'}).format(now);
+const homeP = pct(homeH, homeM);
+
+Object.entries(CITIES).forEach(([region, cities]) => {
+  const cont  = document.getElementById('rows-' + region);
+  const mcont = document.getElementById('m-rows-' + region);
+  cities.forEach(city => {
+    cont.appendChild(makeRow(city, homeP));
+    if (mcont) mcont.appendChild(makeMRow(city));
+  });
+});
+
+function tick() {
+  const now = new Date();
+  const homeH2 = +new Intl.DateTimeFormat('en',{timeZone:'America/New_York',hour:'numeric',hour12:false}).format(now) % 24;
+  const homeM2 = +new Intl.DateTimeFormat('en',{timeZone:'America/New_York',minute:'numeric'}).format(now);
+  const homeP2 = pct(homeH2, homeM2);
+
+  Object.values(CITIES).flat().forEach(city => {
+    const h = +new Intl.DateTimeFormat('en',{timeZone:city.tz,hour:'numeric',hour12:false}).format(now) % 24;
+    const m = +new Intl.DateTimeFormat('en',{timeZone:city.tz,minute:'numeric'}).format(now);
+    const id = city.name.replace(/\s/g,'').toLowerCase();
+    const mid = 'm-' + id;
+
+    buildBar(
+      document.getElementById('bg-'+id),
+      document.getElementById('dot-'+id),
+      document.getElementById('hl-'+id),
+      h, m, homeP2
+    );
+
+    const tt = document.getElementById('tt-'+id);
+    if (tt) tt.textContent = fmt(h, m);
+    const td = document.getElementById('td-'+id);
+    if (td && !city.home) {
+      const diffMins = (h * 60 + m) - (homeH2 * 60 + homeM2);
+      const diffH = Math.round(diffMins / 60);
+      td.textContent = diffH === 0 ? 'same time' : (diffH > 0 ? `+${diffH} hr` : `${diffH} hr`);
+    }
+
+    // Mobile
+    const mt = document.getElementById('mt-'+mid);
+    if (mt) mt.textContent = fmt(h, m);
+    const mbar = document.getElementById('mbar-'+mid);
+    if (mbar) {
+      mbar.innerHTML = '';
+      for (let i = 0; i < 24; i++) {
+        const s = document.createElement('div');
+        s.style.cssText = `width:${100/24}%;height:100%;flex-shrink:0;background:${segColor(i)};`;
+        mbar.appendChild(s);
+      }
+    }
+    const mdot = document.getElementById('mdot-'+mid);
+    if (mdot) mdot.style.left = pct(h, m) + '%';
+  });
+}
+
+tick();
+setInterval(tick, 30000);
+</script>
+</body>
+</html>

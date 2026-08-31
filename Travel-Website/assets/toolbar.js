@@ -10744,23 +10744,25 @@ window.TVE.home = (function () {
       '@media (prefers-color-scheme:dark){.tve-wl-btn{color:#D4663A;}}' +
       '.tve-wl-btn:focus-visible{outline:2px solid ' + STAR_COLOR + ';outline-offset:2px;border-radius:3px;}' +
 
-      /* Floating FAB — sits directly above the day-jump pill (bottom:24px+36px+8px=68px).
-         It used to clear the scroll-top FAB at 116px; that FAB is mobile-only from
-         2026-08-10 (owner: no nav arrows on desktop), so 116px left this button
-         hanging in mid-air with a 56px hole under it. Mobile keeps its own stack
-         below — the FAB is still there at ≤600px. */
-      '#tve-wl-fab{position:fixed;bottom:68px;right:24px;z-index:1398;display:none;align-items:center;' +
-      'gap:6px;background:#231f1b;color:#f6f2ec;border:none;border-radius:20px;' +
-      'padding:8px 13px 8px 10px;font-size:13px;font-weight:600;cursor:pointer;' +
-      'box-shadow:0 4px 16px rgba(0,0,0,.22);font-family:inherit;white-space:nowrap;' +
-      'transition:transform .12s,box-shadow .12s;}' +
-      '#tve-wl-fab:hover{transform:translateY(-1px);box-shadow:0 6px 20px rgba(0,0,0,.28);}' +
-      '#tve-wl-fab.tve-wl-fab-on{display:inline-flex;}' +
+      /* Wishlist trigger — an .overview-extra-link pill inside the guide's own
+         controls block (.overview-extras / #ics-pill-row), the same family as
+         Save for Offline and I've Been. It was a position:fixed FAB until
+         2026-08-31: built 2026-08-10 under the (then-current, desktop-only)
+         floating-pill ban, it was never revisited when the Forty-fourth
+         non-negotiable closed the family everywhere on 2026-08-18, so it sat
+         as the ONLY door to this feature, floating over mobile content, until
+         a sitewide audit caught it. Fixed per owner instruction by moving the
+         trigger into the row instead of deleting it. */
+      '#tve-wl-fab{font-family:inherit;}' +
       '#tve-wl-fab-cnt{background:' + STAR_COLOR + ';color:#C04E1A;border-radius:10px;' +
-      'font-size:11px;font-weight:700;padding:0 6px;min-width:18px;text-align:center;line-height:18px;}' +
+      'font-size:11px;font-weight:700;padding:0 6px;min-width:18px;text-align:center;line-height:18px;margin-left:4px;}' +
 
-      /* Panel — anchored above the FAB (68px + 36px FAB + 16px gap) */
-      '#tve-wl-panel{position:fixed;bottom:120px;right:24px;z-index:1397;width:296px;' +
+      /* Panel — a dropdown positioned from the pill's own rect at open time
+         (_positionPanel), the same mechanism as the toolbar's .tb-menu
+         dropdowns above. A click-triggered dropdown is exempt from the
+         Seventy-fourth non-negotiable's sticky-bar ban, which names dropdown
+         panels as deliberately not covered. */
+      '#tve-wl-panel{position:fixed;z-index:1397;width:296px;' +
       'max-width:calc(100vw - 32px);background:#fff;border:1px solid #e4ddd4;border-radius:10px;' +
       'box-shadow:0 8px 32px rgba(0,0,0,.16);overflow:hidden;display:none;}' +
       '#tve-wl-panel.tve-wl-open{display:block;}' +
@@ -10795,18 +10797,7 @@ window.TVE.home = (function () {
       'font-family:inherit;transition:background .12s,color .12s;}' +
       '.tve-wl-copy:hover{background:#C04E1A;color:#fff;}' +
       '.tve-wl-empty{padding:24px 14px;text-align:center;color:#a8a09a;' +
-      'font-size:13px;line-height:1.6;font-family:inherit;}' +
-      /* Mobile: align with scroll-top FAB (bottom:62px+36px+10px=108px) */
-      '@media (max-width: 600px) and (pointer: coarse) {' +
-      '#tve-wl-fab{bottom:108px;right:16px;}' +
-      '#tve-wl-panel{bottom:160px;right:16px;}' +
-      '}' +
-      /* OWNER RULE 2026-08-10: no floating pill shows on desktop — this one goes
-         with the ↑ FAB and the day-jump pill (both hidden ≥601px in
-         guide-style.css). The star buttons in the stop headers are unaffected,
-         so saving still works at any width; only the floating review panel is
-         mobile-only. */
-      '@media (min-width: 601px), (pointer: fine) {#tve-wl-fab,#tve-wl-panel{display:none!important;}}';
+      'font-size:13px;line-height:1.6;font-family:inherit;}';
     (document.head || document.documentElement).appendChild(_wlCss);
 
     /* ── SVG templates ───────────────────────────────────────────────────── */
@@ -10826,10 +10817,12 @@ window.TVE.home = (function () {
         '<line x1="10" y1="3" x2="3" y2="10" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>' +
       '</svg>';
 
-    /* ── Build FAB ───────────────────────────────────────────────────────── */
+    /* ── Build trigger pill ──────────────────────────────────────────────── */
     var fab = document.createElement('button');
     fab.type = 'button';
     fab.id   = 'tve-wl-fab';
+    fab.className = 'overview-extra-link';
+    fab.style.display = 'none';
     fab.setAttribute('aria-label', 'Open wishlist');
 
     var fabStar = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
@@ -10849,7 +10842,62 @@ window.TVE.home = (function () {
     fab.appendChild(fabStar);
     fab.appendChild(fabLabel);
     fab.appendChild(fabCnt);
-    document.body.appendChild(fab);
+
+    /* Same controls-block placement as Save for Offline / I've Been: join the
+       #ics-cal-pill quick-actions row when the guide has one, else take a
+       spot in .overview-extras before the last day's extras row. Never
+       document.body — that is what made it float in the first place.
+
+       Deferred to run alongside _setup() below, NOT here inline: this whole
+       function is invoked unconditionally, immediately, while the parser is
+       often still mid-document (document.readyState is 'loading' the entire
+       time a normal blocking <script> executes) — .overview-day/.overview-
+       extras/#ics-cal-pill don't exist yet at that point. document.body does
+       (it's the first thing after <body>), which is exactly why the old FAB
+       used it and nothing else. _setup() already waits for DOMContentLoaded
+       for the same reason (the stop headers it wires up don't exist yet
+       either), so placing the pill there reuses timing that is already
+       proven safe on every guide. */
+    function _placeFab() {
+      var wlIcsCalPill = document.getElementById('ics-cal-pill');
+      if (wlIcsCalPill) {
+        var wlPillRow = wlIcsCalPill.parentNode;
+        fab.style.setProperty('flex', '1 1 0', 'important');
+        fab.style.setProperty('min-width', '0', 'important');
+        fab.style.setProperty('align-items', 'center', 'important');
+        fab.style.setProperty('justify-content', 'center', 'important');
+        fab.style.setProperty('text-align', 'center', 'important');
+        wlPillRow.appendChild(fab);
+        fab.addEventListener('touchstart', function () {
+          fab.classList.add('tve-pressed');
+          fab.style.setProperty('color', '#fff', 'important');
+          fab.style.setProperty('-webkit-text-fill-color', '#fff', 'important');
+        }, { passive: true });
+        fab.addEventListener('touchend', function () {
+          setTimeout(function () {
+            fab.classList.remove('tve-pressed');
+            fab.style.removeProperty('color');
+            fab.style.removeProperty('-webkit-text-fill-color');
+          }, 300);
+        }, { passive: true });
+        fab.addEventListener('touchcancel', function () {
+          fab.classList.remove('tve-pressed');
+          fab.style.removeProperty('color');
+          fab.style.removeProperty('-webkit-text-fill-color');
+        }, { passive: true });
+      } else {
+        var wlDays = document.querySelectorAll('.overview-day');
+        if (wlDays.length) {
+          var wlLast = wlDays[wlDays.length - 1];
+          var wlExtras = wlLast.parentNode.querySelector('.overview-extras');
+          if (wlExtras) {
+            wlExtras.parentNode.insertBefore(fab, wlExtras);
+          } else {
+            wlLast.parentNode.appendChild(fab);
+          }
+        }
+      }
+    }
 
     /* ── Build panel ─────────────────────────────────────────────────────── */
     var panel = document.createElement('div');
@@ -10878,7 +10926,7 @@ window.TVE.home = (function () {
       var n   = arr.length;
       ptitle.textContent  = n === 1 ? 'Wishlist · 1 stop' : 'Wishlist · ' + n + ' stops';
       fabCnt.textContent  = n;
-      fab.classList.toggle('tve-wl-fab-on', n > 0);
+      fab.style.display   = n > 0 ? '' : 'none';
 
       pbody.innerHTML = '';
       if (n === 0) {
@@ -10965,9 +11013,23 @@ window.TVE.home = (function () {
       _renderPanel();
     }
 
-    /* ── FAB / panel toggle ──────────────────────────────────────────────── */
+    /* ── Trigger / panel toggle ────────────────────────────────────────────
+       The panel is a dropdown anchored to the pill's live position, not a
+       hardcoded corner offset — it has to work wherever .overview-extras or
+       #ics-pill-row lands the pill on a given guide/viewport. Mirrors
+       .tb-menu's positionMenu() in the toolbar dropdowns above. ── */
     var _panelOpen = false;
-    function _openPanel()  { _panelOpen = true;  panel.classList.add('tve-wl-open'); }
+    function _positionPanel() {
+      var r  = fab.getBoundingClientRect();
+      var pw = panel.offsetWidth || 296;
+      var lo = 12, hi = window.innerWidth - pw - 12;
+      var left = Math.min(Math.max(r.left, lo), Math.max(lo, hi));
+      var top  = r.bottom + 8;
+      panel.style.left      = Math.round(left) + 'px';
+      panel.style.top       = Math.round(top) + 'px';
+      panel.style.maxHeight = Math.max(160, window.innerHeight - top - 16) + 'px';
+    }
+    function _openPanel()  { _panelOpen = true;  panel.classList.add('tve-wl-open'); _positionPanel(); }
     function _closePanel() { _panelOpen = false; panel.classList.remove('tve-wl-open'); }
 
     fab.addEventListener('click', function() {
@@ -10977,6 +11039,8 @@ window.TVE.home = (function () {
     document.addEventListener('click', function(e) {
       if (_panelOpen && !panel.contains(e.target) && !fab.contains(e.target)) { _closePanel(); }
     });
+    window.addEventListener('resize', function() { if (_panelOpen) _positionPanel(); });
+    window.addEventListener('scroll', function() { if (_panelOpen) _closePanel(); }, { passive: true, capture: true });
 
     pclear.addEventListener('click', function() {
       _save([]);
@@ -11016,6 +11080,7 @@ window.TVE.home = (function () {
 
     /* ── Inject star buttons into every .stop-header ─────────────────────── */
     function _setup() {
+      _placeFab();
       var arr      = _load();
       var cityEl   = document.querySelector('.title-city');
       var guideName = document.title || (cityEl ? _toTitleCase(cityEl.textContent.trim()) : '');

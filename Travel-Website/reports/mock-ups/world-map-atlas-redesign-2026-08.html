@@ -1,0 +1,740 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>World Map — Atlas Layout Redesign Concept</title>
+<style>
+/* ── Design tokens from web-travel-style.css ── */
+:root {
+  --font: 'Inter', 'Helvetica Neue', Arial, sans-serif;
+  --rust: #C04E1A;
+  --warm: #fdf8f0;
+  --surface: #ffffff;
+  --bg: #f5f4f0;
+  --text: #3d3a32;
+  --muted: #6a6660;
+  --border: #d8d4cc;
+  --accent: #8a6c1a;
+
+  /* Atlas concept palette */
+  --atlas-ocean: #1a2744;
+  --atlas-land: #e8dfc8;
+  --atlas-land-highlight: #d4c7a8;
+  --atlas-panel-bg: #f9f5ed;
+  --atlas-panel-border: #e2d8c4;
+  --atlas-pin: #C04E1A;
+  --atlas-pin-glow: rgba(192,78,26,.25);
+  --atlas-visited: #c8a040;
+  --fs-hero: clamp(2.4rem, 5vw, 4rem);
+  --fs-stat: clamp(1.8rem, 3vw, 2.6rem);
+  --fs-label: 0.7rem;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  font-family: var(--font);
+  background: #14181f;
+  color: var(--text);
+}
+
+/* ── Presentation wrapper ── */
+.section-label {
+  text-align: center;
+  padding: 28px 0 12px;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,.3);
+}
+
+/* ── Desktop frame ── */
+.desktop-frame {
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 40px 120px rgba(0,0,0,.6);
+  margin: 0 40px;
+  border: 1px solid rgba(255,255,255,.08);
+  height: 680px;
+  display: flex;
+  flex-direction: column;
+}
+
+.tb-stub {
+  background: var(--warm);
+  border-bottom: 1px solid var(--border);
+  padding: 0 24px;
+  height: 52px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-shrink: 0;
+}
+.tb-logo { font-size: 17px; font-weight: 800; letter-spacing: -0.03em; color: var(--rust); }
+.tb-nav { display: flex; gap: 22px; }
+.tb-nav a { color: var(--muted); text-decoration: none; font-weight: 500; font-size: 13px; }
+.tb-nav a.active { color: var(--rust); border-bottom: 2px solid var(--rust); }
+
+.atlas-layout {
+  display: flex;
+  flex: 1;
+  min-height: 0;
+  overflow: hidden;
+}
+
+/* ── LEFT PANEL ── */
+.atlas-panel {
+  width: 320px;
+  flex-shrink: 0;
+  background: var(--atlas-panel-bg);
+  border-right: 1px solid var(--atlas-panel-border);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.panel-header {
+  padding: 24px 24px 18px;
+  border-bottom: 1px solid var(--atlas-panel-border);
+}
+.panel-eyebrow {
+  font-size: var(--fs-label);
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--rust);
+  margin-bottom: 6px;
+}
+.panel-hero-title {
+  font-size: var(--fs-hero);
+  font-weight: 900;
+  line-height: 1.0;
+  color: var(--text);
+  letter-spacing: -0.04em;
+  margin-bottom: 14px;
+}
+.panel-hero-title em { color: var(--rust); font-style: normal; }
+
+.panel-stats { display: flex; gap: 18px; }
+.stat-number {
+  font-size: var(--fs-stat);
+  font-weight: 900;
+  color: var(--text);
+  letter-spacing: -0.03em;
+  line-height: 1;
+}
+.stat-label {
+  font-size: var(--fs-label);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--muted);
+  margin-top: 3px;
+}
+
+/* Region selector */
+.region-strip {
+  padding: 14px 24px 10px;
+  border-bottom: 1px solid var(--atlas-panel-border);
+}
+.strip-label {
+  font-size: var(--fs-label);
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-bottom: 9px;
+}
+.region-chips { display: flex; flex-wrap: wrap; gap: 5px; }
+/* Uses cp-* token convention for approved families */
+.rchip {
+  padding: 5px 11px;
+  border-radius: 20px;
+  border: 1.5px solid var(--atlas-panel-border);
+  background: var(--surface);
+  color: var(--text);
+  font-size: 11.5px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all .14s;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+.rchip::before {
+  content: '';
+  width: 6px; height: 6px;
+  border-radius: 50%;
+  background: var(--muted);
+  flex-shrink: 0;
+}
+.rchip:hover { border-color: var(--rust); color: var(--rust); }
+.rchip:hover::before { background: var(--rust); }
+.rchip.active { background: var(--warm); border-color: var(--rust); color: var(--rust); }
+.rchip.active::before { background: var(--rust); }
+
+/* Guide list */
+.guide-list {
+  flex: 1;
+  overflow-y: auto;
+  padding: 14px 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+}
+.guide-list-label {
+  font-size: var(--fs-label);
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-bottom: 3px;
+}
+.guide-card {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 9px 12px;
+  border-radius: 10px;
+  background: var(--surface);
+  border: 1px solid var(--atlas-panel-border);
+  text-decoration: none;
+  color: var(--text);
+  transition: all .14s;
+}
+.guide-card:hover {
+  border-color: var(--rust);
+  background: #fff8f5;
+  transform: translateX(3px);
+}
+.guide-card-dot {
+  width: 9px; height: 9px;
+  border-radius: 50%;
+  background: var(--rust);
+  flex-shrink: 0;
+  box-shadow: 0 0 0 3px var(--atlas-pin-glow);
+}
+.guide-card.visited .guide-card-dot {
+  background: var(--atlas-visited);
+  box-shadow: 0 0 0 3px rgba(200,160,64,.22);
+}
+.guide-card-city { font-size: 13px; font-weight: 700; flex: 1; }
+.guide-card-country { font-size: 11px; color: var(--muted); font-weight: 500; }
+.guide-card-arrow { font-size: 11px; color: var(--border); transition: color .14s, transform .14s; }
+.guide-card:hover .guide-card-arrow { color: var(--rust); transform: translateX(3px); }
+
+.panel-footer {
+  padding: 10px 24px 14px;
+  border-top: 1px solid var(--atlas-panel-border);
+}
+.visited-toggle {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  padding: 9px 18px;
+  border-radius: 24px;
+  background: var(--surface);
+  border: 1.5px solid var(--atlas-panel-border);
+  cursor: pointer;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text);
+  transition: all .14s;
+  width: 100%;
+  justify-content: center;
+}
+.visited-toggle:hover { border-color: var(--atlas-visited); color: var(--accent); }
+.vdot { width: 8px; height: 8px; border-radius: 50%; background: var(--atlas-visited); }
+
+/* ── MAP CANVAS ── */
+.atlas-map {
+  flex: 1;
+  position: relative;
+  overflow: hidden;
+  background: var(--atlas-ocean);
+}
+
+.atlas-map svg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+
+/* Country fills */
+.ocean { fill: #1a2744; }
+.country { stroke: rgba(255,255,255,.18); stroke-width: 0.6px; }
+.na  { fill: #dfd7be; }
+.sa  { fill: #d8d0b7; }
+.eu  { fill: #d5cdb6; }
+.af  { fill: #d4ccb3; }
+.as  { fill: #dbd3bb; }
+.oc  { fill: #d8d2ba; }
+.ru  { fill: #d9d2bc; }
+.gl  { fill: #c8c2ad; } /* Greenland */
+
+/* Vignette */
+.vignette {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: radial-gradient(ellipse 80% 60% at 50% 50%, transparent 55%, rgba(26,39,68,.45) 100%);
+}
+
+/* Region label overlays */
+.map-rlabel {
+  position: absolute;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.13em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,.28);
+  pointer-events: none;
+  white-space: nowrap;
+  transform: translate(-50%,-50%);
+}
+
+/* Cluster bubbles */
+.map-cluster {
+  position: absolute;
+  transform: translate(-50%,-50%);
+  border-radius: 50%;
+  background: radial-gradient(circle at 35% 30%, #c9743a 0%, #C04E1A 55%, #7a3b1e 100%);
+  border: 2.5px solid rgba(253,248,240,.88);
+  box-shadow: 0 0 0 5px rgba(192,78,26,.18), 0 4px 14px rgba(0,0,0,.4);
+  display: flex; align-items: center; justify-content: center;
+  color: #fff;
+  font-weight: 800;
+  cursor: pointer;
+  transition: transform .14s, box-shadow .14s;
+}
+.map-cluster:hover {
+  transform: translate(-50%,-50%) scale(1.15);
+  box-shadow: 0 0 0 8px rgba(192,78,26,.22), 0 6px 22px rgba(192,78,26,.4);
+}
+.map-cluster.sm  { width: 32px; height: 32px; font-size: 11px; }
+.map-cluster.md  { width: 40px; height: 40px; font-size: 13px; }
+.map-cluster.lg  { width: 52px; height: 52px; font-size: 15px; }
+
+/* Individual pins */
+.map-pin {
+  position: absolute;
+  width: 12px; height: 12px;
+  border-radius: 50%;
+  background: var(--rust);
+  border: 2px solid rgba(253,248,240,.9);
+  box-shadow: 0 0 0 4px var(--atlas-pin-glow), 0 2px 7px rgba(0,0,0,.45);
+  transform: translate(-50%,-50%);
+  cursor: pointer;
+  transition: transform .14s, box-shadow .14s;
+}
+.map-pin:hover {
+  transform: translate(-50%,-50%) scale(1.5);
+  box-shadow: 0 0 0 7px var(--atlas-pin-glow), 0 4px 14px rgba(192,78,26,.45);
+}
+.map-pin.visited {
+  background: var(--atlas-visited);
+  box-shadow: 0 0 0 4px rgba(200,160,64,.22), 0 2px 7px rgba(0,0,0,.45);
+}
+
+/* Hover tooltip */
+.map-tooltip {
+  position: absolute;
+  background: rgba(255,255,255,.97);
+  border-radius: 10px;
+  padding: 11px 15px 10px;
+  box-shadow: 0 8px 32px rgba(0,0,0,.22);
+  pointer-events: none;
+  border: 1px solid var(--border);
+  min-width: 150px;
+}
+.tt-city { font-size: 14px; font-weight: 800; color: var(--text); margin-bottom: 3px; }
+.tt-country { font-size: 11px; color: var(--muted); font-weight: 500; margin-bottom: 9px; }
+.tt-link { font-size: 12px; font-weight: 700; color: var(--rust); display: flex; align-items: center; gap: 5px; }
+.tt-notch {
+  position: absolute;
+  bottom: -7px; left: 50%;
+  transform: translateX(-50%);
+  width: 14px; height: 7px;
+  background: rgba(255,255,255,.97);
+  clip-path: polygon(0 0, 100% 0, 50% 100%);
+}
+
+/* Zoom controls */
+.zoom-ctrls {
+  position: absolute;
+  right: 14px; bottom: 54px;
+  display: flex; flex-direction: column; gap: 4px;
+}
+.zoom-btn {
+  width: 34px; height: 34px;
+  border-radius: 7px;
+  background: rgba(255,255,255,.11);
+  border: 1px solid rgba(255,255,255,.18);
+  color: rgba(255,255,255,.65);
+  font-size: 19px;
+  display: flex; align-items: center; justify-content: center;
+  cursor: pointer;
+  backdrop-filter: blur(6px);
+  transition: all .14s;
+  font-weight: 300;
+  line-height: 1;
+}
+.zoom-btn:hover { background: rgba(255,255,255,.2); color: rgba(255,255,255,.95); }
+.map-attr {
+  position: absolute;
+  bottom: 8px; right: 10px;
+  font-size: 10px;
+  color: rgba(255,255,255,.22);
+}
+
+/* ── MOBILE FRAME ── */
+.mobile-section {
+  display: flex;
+  justify-content: center;
+  padding: 40px 0 60px;
+}
+.mobile-frame {
+  width: 375px;
+  height: 780px;
+  border: 2px solid rgba(255,255,255,.15);
+  border-radius: 40px;
+  overflow: hidden;
+  box-shadow: 0 40px 120px rgba(0,0,0,.6);
+  background: var(--atlas-ocean);
+  display: flex;
+  flex-direction: column;
+}
+.mobile-tb {
+  background: var(--warm);
+  padding: 14px 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-shrink: 0;
+  border-bottom: 1px solid var(--border);
+}
+.mobile-logo { font-size: 14px; font-weight: 800; color: var(--rust); }
+.mobile-map { flex: 1; position: relative; overflow: hidden; }
+.mobile-map svg { position: absolute; inset: 0; width: 100%; height: 100%; }
+.mobile-sheet {
+  background: var(--atlas-panel-bg);
+  border-radius: 20px 20px 0 0;
+  padding: 14px 20px 26px;
+  box-shadow: 0 -8px 32px rgba(0,0,0,.22);
+  flex-shrink: 0;
+}
+.sheet-handle {
+  width: 36px; height: 4px;
+  border-radius: 2px;
+  background: var(--border);
+  margin: 0 auto 12px;
+}
+.sheet-title {
+  font-size: 22px;
+  font-weight: 900;
+  letter-spacing: -0.03em;
+  margin-bottom: 3px;
+}
+.sheet-title em { color: var(--rust); font-style: normal; }
+.sheet-sub { font-size: 12px; color: var(--muted); font-weight: 500; margin-bottom: 12px; }
+.sheet-chips {
+  display: flex;
+  gap: 7px;
+  overflow-x: auto;
+  margin: 0 -20px;
+  padding: 0 20px 2px;
+  scrollbar-width: none;
+}
+.sheet-chips::-webkit-scrollbar { display: none; }
+.mchip {
+  flex-shrink: 0;
+  padding: 7px 13px;
+  border-radius: 20px;
+  border: 1.5px solid var(--atlas-panel-border);
+  background: var(--surface);
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--text);
+  white-space: nowrap;
+}
+.mchip.active {
+  background: var(--warm);
+  border-color: var(--rust);
+  color: var(--rust);
+}
+</style>
+</head>
+<body>
+
+  <!-- DESKTOP -->
+  <div class="section-label">Desktop — 1440px concept</div>
+
+  <div class="desktop-frame">
+    <div class="tb-stub">
+      <span class="tb-logo">Guide My Days</span>
+      <div class="tb-nav">
+        <a href="#">Guides</a>
+        <a href="#">When to Go</a>
+        <a href="#" class="active">Your World Map</a>
+        <a href="#">Essentials</a>
+      </div>
+    </div>
+
+    <div class="atlas-layout">
+
+      <!-- LEFT PANEL -->
+      <div class="atlas-panel">
+        <div class="panel-header">
+          <div class="panel-eyebrow">Your World</div>
+          <div class="panel-hero-title">Every<br>Guide<br><em>Pinned.</em></div>
+          <div class="panel-stats">
+            <div>
+              <div class="stat-number">246</div>
+              <div class="stat-label">Guides</div>
+            </div>
+            <div>
+              <div class="stat-number">72</div>
+              <div class="stat-label">Countries</div>
+            </div>
+            <div>
+              <div class="stat-number">14</div>
+              <div class="stat-label">Visited</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="region-strip">
+          <div class="strip-label">Filter by region</div>
+          <div class="region-chips">
+            <div class="rchip active">World</div>
+            <div class="rchip">Europe</div>
+            <div class="rchip">N. America</div>
+            <div class="rchip">Asia</div>
+            <div class="rchip">Caribbean</div>
+            <div class="rchip">Africa</div>
+            <div class="rchip">S. America</div>
+            <div class="rchip">Oceania</div>
+          </div>
+        </div>
+
+        <div class="guide-list">
+          <div class="guide-list-label">All Guides — 246</div>
+          <a class="guide-card visited" href="#">
+            <div class="guide-card-dot"></div>
+            <div>
+              <div class="guide-card-city">Paris</div>
+              <div class="guide-card-country">France · Europe</div>
+            </div>
+            <div class="guide-card-arrow">→</div>
+          </a>
+          <a class="guide-card visited" href="#">
+            <div class="guide-card-dot"></div>
+            <div>
+              <div class="guide-card-city">Rome</div>
+              <div class="guide-card-country">Italy · Europe</div>
+            </div>
+            <div class="guide-card-arrow">→</div>
+          </a>
+          <a class="guide-card" href="#">
+            <div class="guide-card-dot"></div>
+            <div>
+              <div class="guide-card-city">Tokyo</div>
+              <div class="guide-card-country">Japan · Asia</div>
+            </div>
+            <div class="guide-card-arrow">→</div>
+          </a>
+          <a class="guide-card visited" href="#">
+            <div class="guide-card-dot"></div>
+            <div>
+              <div class="guide-card-city">Barcelona</div>
+              <div class="guide-card-country">Spain · Europe</div>
+            </div>
+            <div class="guide-card-arrow">→</div>
+          </a>
+          <a class="guide-card" href="#">
+            <div class="guide-card-dot"></div>
+            <div>
+              <div class="guide-card-city">New York</div>
+              <div class="guide-card-country">United States · N. America</div>
+            </div>
+            <div class="guide-card-arrow">→</div>
+          </a>
+          <a class="guide-card" href="#">
+            <div class="guide-card-dot"></div>
+            <div>
+              <div class="guide-card-city">Sydney</div>
+              <div class="guide-card-country">Australia · Oceania</div>
+            </div>
+            <div class="guide-card-arrow">→</div>
+          </a>
+          <a class="guide-card" href="#">
+            <div class="guide-card-dot"></div>
+            <div>
+              <div class="guide-card-city">Cape Town</div>
+              <div class="guide-card-country">South Africa · Africa</div>
+            </div>
+            <div class="guide-card-arrow">→</div>
+          </a>
+          <a class="guide-card visited" href="#">
+            <div class="guide-card-dot"></div>
+            <div>
+              <div class="guide-card-city">Lisbon</div>
+              <div class="guide-card-country">Portugal · Europe</div>
+            </div>
+            <div class="guide-card-arrow">→</div>
+          </a>
+          <a class="guide-card" href="#">
+            <div class="guide-card-dot"></div>
+            <div>
+              <div class="guide-card-city">Bali</div>
+              <div class="guide-card-country">Indonesia · Asia</div>
+            </div>
+            <div class="guide-card-arrow">→</div>
+          </a>
+        </div>
+
+        <div class="panel-footer">
+          <div class="visited-toggle">
+            <div class="vdot"></div>
+            Show Visited (14)
+          </div>
+        </div>
+      </div>
+
+      <!-- MAP -->
+      <div class="atlas-map">
+        <svg viewBox="0 0 900 628" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice">
+          <rect class="ocean" width="900" height="628"/>
+          <!-- North America -->
+          <polygon class="country na" points="60,55 200,38 285,52 300,88 288,138 238,178 196,220 164,262 134,282 96,262 68,218 52,170 48,118 56,78"/>
+          <!-- Greenland -->
+          <polygon class="country gl" points="322,8 384,6 398,28 382,54 350,58 320,42 312,26"/>
+          <!-- Central America -->
+          <polygon class="country na" points="188,232 242,220 256,248 228,276 196,272 182,252"/>
+          <!-- Caribbean island hint -->
+          <ellipse class="country na" cx="258" cy="252" rx="16" ry="8"/>
+          <!-- South America -->
+          <polygon class="country sa" points="196,280 278,264 332,290 352,342 340,414 308,462 268,492 228,480 198,440 188,380 184,332 192,302"/>
+          <!-- Europe -->
+          <polygon class="country eu" points="396,46 494,38 524,62 512,100 480,120 448,116 418,132 398,112 388,82 392,60"/>
+          <!-- Africa -->
+          <polygon class="country af" points="396,132 494,126 534,148 548,204 542,284 510,344 470,382 428,372 398,330 382,262 388,192 392,152"/>
+          <!-- Russia -->
+          <polygon class="country ru" points="488,28 704,18 766,38 784,78 740,108 678,122 616,102 566,88 528,78 498,58"/>
+          <!-- Middle East -->
+          <polygon class="country as" points="510,140 572,130 604,156 592,202 556,216 520,202 504,176"/>
+          <!-- South Asia -->
+          <polygon class="country as" points="578,118 682,112 732,140 742,192 700,232 648,242 598,220 568,186 562,150"/>
+          <!-- East Asia -->
+          <polygon class="country as" points="662,68 762,62 804,86 812,132 792,172 748,178 698,162 662,130 648,100"/>
+          <!-- SE Asia islands -->
+          <polygon class="country as" points="698,208 762,198 792,226 772,256 730,250 704,228"/>
+          <!-- Australia -->
+          <polygon class="country oc" points="716,326 802,308 844,338 852,392 820,432 768,452 718,432 698,390 702,352"/>
+          <!-- New Zealand -->
+          <polygon class="country oc" points="838,432 864,422 868,448 854,468 838,456 834,440"/>
+          <!-- Japan -->
+          <polygon class="country as" points="778,96 800,92 816,114 806,136 786,130 774,114"/>
+        </svg>
+
+        <!-- Region labels -->
+        <div class="map-rlabel" style="left:18%;top:35%">N. America</div>
+        <div class="map-rlabel" style="left:26%;top:68%">S. America</div>
+        <div class="map-rlabel" style="left:48%;top:25%">Europe</div>
+        <div class="map-rlabel" style="left:47%;top:58%">Africa</div>
+        <div class="map-rlabel" style="left:69%;top:34%">Asia</div>
+        <div class="map-rlabel" style="left:84%;top:66%">Oceania</div>
+
+        <!-- Clusters -->
+        <div class="map-cluster lg" style="left:47%;top:26%">27</div>
+        <div class="map-cluster md" style="left:19%;top:37%">14</div>
+        <div class="map-cluster sm" style="left:26%;top:64%">8</div>
+        <div class="map-cluster md" style="left:67%;top:37%">18</div>
+        <div class="map-cluster sm" style="left:47%;top:54%">6</div>
+        <div class="map-cluster sm" style="left:84%;top:62%">4</div>
+        <div class="map-cluster sm" style="left:24%;top:46%">11</div>
+
+        <!-- Individual pins -->
+        <div class="map-pin visited" style="left:41%;top:20%"></div>
+        <div class="map-pin" style="left:85%;top:58%"></div>
+        <div class="map-pin visited" style="left:9%;top:30%"></div>
+        <div class="map-pin" style="left:47%;top:63%"></div>
+        <div class="map-pin visited" style="left:89%;top:38%"></div>
+
+        <!-- Tooltip demo -->
+        <div class="map-tooltip" style="left:46%;top:10%">
+          <div class="tt-city">Tromsø</div>
+          <div class="tt-country">Norway · Europe</div>
+          <div class="tt-link">Open Guide →</div>
+          <div class="tt-notch"></div>
+        </div>
+
+        <div class="vignette"></div>
+
+        <div class="zoom-ctrls">
+          <div class="zoom-btn">+</div>
+          <div class="zoom-btn">−</div>
+        </div>
+        <div class="map-attr">© OpenStreetMap · Leaflet</div>
+      </div>
+
+    </div>
+  </div><!-- /desktop-frame -->
+
+  <!-- MOBILE -->
+  <div class="section-label" style="padding-top:48px">Mobile — 375px concept</div>
+  <div class="mobile-section">
+    <div class="mobile-frame">
+      <div class="mobile-tb">
+        <span style="font-size:22px;color:var(--muted)">☰</span>
+        <span class="mobile-logo">Guide My Days</span>
+        <span style="width:22px"></span>
+      </div>
+
+      <div class="mobile-map">
+        <svg viewBox="0 0 375 440" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice">
+          <rect class="ocean" width="375" height="440"/>
+          <polygon class="country na"  points="10,30 80,18 118,32 126,68 116,108 88,134 70,158 48,180 26,162 10,128 6,88 8,56"/>
+          <polygon class="country gl"  points="128,4 158,2 164,14 156,26 142,28 128,20 122,10"/>
+          <polygon class="country sa"  points="60,198 108,186 130,206 138,252 130,306 110,342 86,360 66,352 52,316 50,272 56,232"/>
+          <polygon class="country eu"  points="162,24 206,18 220,40 214,68 198,82 180,80 166,90 156,72 152,48 158,30"/>
+          <polygon class="country af"  points="158,92 204,88 220,106 226,154 222,214 206,254 182,274 160,268 146,236 142,172 146,120"/>
+          <polygon class="country ru"  points="208,18 310,12 340,30 352,62 330,82 290,90 258,78 232,62 212,44"/>
+          <polygon class="country as"  points="232,96 286,90 308,114 306,154 280,170 250,166 230,144 226,116"/>
+          <polygon class="country as"  points="292,56 342,48 362,66 366,100 350,120 318,124 296,108 286,82"/>
+          <polygon class="country oc"  points="294,268 340,252 365,272 368,312 348,336 316,346 294,328 282,302 286,278"/>
+        </svg>
+
+        <!-- Mobile clusters -->
+        <div class="map-cluster lg" style="position:absolute;left:52%;top:39%;transform:translate(-50%,-50%)">27</div>
+        <div class="map-cluster md" style="position:absolute;left:22%;top:41%;transform:translate(-50%,-50%)">14</div>
+        <div class="map-cluster md" style="position:absolute;left:68%;top:38%;transform:translate(-50%,-50%)">18</div>
+        <div class="map-cluster sm" style="position:absolute;left:24%;top:65%;transform:translate(-50%,-50%)">8</div>
+        <div class="map-pin visited" style="position:absolute;left:47%;top:20%;transform:translate(-50%,-50%)"></div>
+        <div class="map-pin" style="position:absolute;left:82%;top:70%;transform:translate(-50%,-50%)"></div>
+        <div class="map-pin visited" style="position:absolute;left:8%;top:34%;transform:translate(-50%,-50%)"></div>
+
+        <div class="vignette"></div>
+      </div>
+
+      <div class="mobile-sheet">
+        <div class="sheet-handle"></div>
+        <div class="sheet-title">Every Guide <em>Pinned.</em></div>
+        <div class="sheet-sub">246 destinations · 14 visited</div>
+        <div class="sheet-chips">
+          <div class="mchip active">🌍 World</div>
+          <div class="mchip">Europe</div>
+          <div class="mchip">N. America</div>
+          <div class="mchip">Asia</div>
+          <div class="mchip">Caribbean</div>
+          <div class="mchip">Africa</div>
+          <div class="mchip">Oceania</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</body>
+</html>

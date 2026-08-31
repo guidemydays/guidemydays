@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Safety Guide — Advisory Heat-Map Redesign Mockup</title>
+<style>
+  :root {
+    --ink: #2a2420;
+    --paper: #f7f4ef;
+    --cream: #f0ede8;
+    --tc: #C04E1A;
+    --l1-clr: #2e7d32; --l1-lt: #e8f5e9; --l1-bdg: #388e3c;
+    --l2-clr: #e65100; --l2-lt: #fff3e0; --l2-bdg: #f57c00;
+    --l3-clr: #b71c1c; --l3-lt: #ffebee; --l3-bdg: #c62828;
+    --l4-clr: #1a1a1a; --l4-lt: #f5f5f5; --l4-bdg: #333;
+    --rail: clamp(16px, 5vw, 72px);
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Georgia', serif; background: var(--paper); color: var(--ink); }
+
+  .mockup-badge {
+    position: fixed; top: 12px; right: 12px; z-index: 999;
+    background: var(--tc); color: #fff;
+    font-family: 'Helvetica Neue', sans-serif; font-size: 10px; font-weight: 600;
+    letter-spacing: .06em; text-transform: uppercase;
+    padding: 5px 10px; border-radius: 4px;
+  }
+
+  /* ── Hero ── */
+  .hero {
+    background: var(--ink);
+    padding: 56px var(--rail) 0;
+    display: grid; grid-template-columns: 1fr 1fr; gap: 48px; align-items: end;
+    min-height: 280px;
+  }
+  .hero-left { padding-bottom: 40px; }
+  .hero-kicker {
+    font-family: 'Helvetica Neue', sans-serif; font-size: 11px; font-weight: 700;
+    letter-spacing: .14em; text-transform: uppercase; color: var(--tc);
+    margin-bottom: 16px;
+  }
+  .hero-title {
+    font-size: clamp(32px, 5vw, 52px); font-weight: 700; line-height: 1.1;
+    color: #fff; margin-bottom: 20px;
+  }
+  .hero-title em { font-style: normal; color: #f57c00; }
+  .hero-desc {
+    font-family: 'Helvetica Neue', sans-serif; font-size: 15px; line-height: 1.6;
+    color: rgba(255,255,255,.7); max-width: 400px;
+  }
+  .hero-legend { padding-bottom: 0; display: flex; flex-direction: column; align-self: end; }
+  .legend-item { display: flex; align-items: stretch; border-top: 1px solid rgba(255,255,255,.08); }
+  .legend-item:last-child { border-bottom: 1px solid rgba(255,255,255,.08); }
+  .legend-bar { width: 6px; flex-shrink: 0; }
+  .legend-bar.l1 { background: var(--l1-clr); }
+  .legend-bar.l2 { background: var(--l2-clr); }
+  .legend-bar.l3 { background: var(--l3-clr); }
+  .legend-bar.l4 { background: var(--l4-bdg); }
+  .legend-text { padding: 14px 20px; font-family: 'Helvetica Neue', sans-serif; }
+  .legend-level { font-size: 10px; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; color: rgba(255,255,255,.5); margin-bottom: 2px; }
+  .legend-name { font-size: 14px; font-weight: 600; color: #fff; }
+  .legend-count { margin-left: auto; padding: 14px 20px 14px 0; font-family: 'Helvetica Neue', sans-serif; font-size: 24px; font-weight: 700; color: rgba(255,255,255,.22); align-self: center; }
+
+  /* ── Scan bar ── */
+  .scan-bar {
+    position: sticky; top: 0; z-index: 50;
+    background: var(--ink); border-bottom: 2px solid var(--tc);
+    padding: 10px var(--rail);
+    display: flex; gap: 20px; align-items: center;
+    font-family: 'Helvetica Neue', sans-serif;
+  }
+  .scan-label { font-size: 11px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: rgba(255,255,255,.4); }
+  .scan-pill { font-size: 12px; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; padding: 5px 12px; border-radius: 3px; color: #fff; cursor: pointer; }
+  .scan-pill.l1 { background: var(--l1-bdg); }
+  .scan-pill.l2 { background: var(--l2-bdg); }
+  .scan-pill.l3 { background: var(--l3-bdg); }
+  .scan-pill.l4 { background: var(--l4-bdg); }
+  .scan-sep { color: rgba(255,255,255,.15); }
+  .scan-search { margin-left: auto; background: rgba(255,255,255,.08); border: 1px solid rgba(255,255,255,.15); border-radius: 4px; padding: 6px 14px; font-family: 'Helvetica Neue', sans-serif; font-size: 13px; color: #fff; width: 200px; }
+  .scan-search::placeholder { color: rgba(255,255,255,.35); }
+
+  /* ── Main ── */
+  .main { padding: 0 var(--rail) 80px; }
+
+  /* ── Notices ── */
+  .notices-block { margin-top: 48px; padding: 28px 32px; background: #fff; border: 1px solid #e8e0d8; border-left: 6px solid var(--tc); border-radius: 0 6px 6px 0; }
+  .notices-head { font-family: 'Helvetica Neue', sans-serif; font-size: 11px; font-weight: 700; letter-spacing: .14em; text-transform: uppercase; color: var(--tc); margin-bottom: 14px; }
+  .notice-row { display: flex; gap: 16px; align-items: baseline; padding: 10px 0; border-bottom: 1px solid #f0ede8; font-family: 'Helvetica Neue', sans-serif; font-size: 14px; }
+  .notice-row:last-child { border-bottom: none; }
+  .notice-country { font-weight: 700; min-width: 100px; }
+  .notice-text { color: #555; line-height: 1.5; }
+  .notice-badge { margin-left: auto; flex-shrink: 0; font-size: 10px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; padding: 3px 8px; border-radius: 3px; }
+  .notice-badge.l3 { background: var(--l3-lt); color: var(--l3-bdg); border: 1px solid #ffcdd2; }
+  .notice-badge.l4 { background: var(--l4-lt); color: #333; border: 1px solid #ccc; }
+
+  /* ── Advisory section ── */
+  .adv-section { margin-top: 48px; }
+  .adv-section-head { display: flex; align-items: baseline; gap: 16px; padding: 0 0 16px; border-bottom: 3px solid currentColor; margin-bottom: 24px; }
+  .adv-section-head.l1 { color: var(--l1-clr); }
+  .adv-section-head.l2 { color: var(--l2-clr); }
+  .adv-section-head.l3 { color: var(--l3-clr); }
+  .adv-section-head.l4 { color: var(--l4-clr); border-color: var(--l4-bdg); }
+  .adv-level-num { font-family: 'Helvetica Neue', sans-serif; font-size: 40px; font-weight: 800; line-height: 1; opacity: .18; }
+  .adv-level-text { font-family: 'Helvetica Neue', sans-serif; }
+  .adv-level-tag { font-size: 11px; font-weight: 700; letter-spacing: .14em; text-transform: uppercase; opacity: .6; margin-bottom: 4px; }
+  .adv-level-name { font-size: 22px; font-weight: 700; }
+  .adv-level-count { margin-left: auto; font-family: 'Helvetica Neue', sans-serif; font-size: 13px; opacity: .5; }
+
+  /* ── Country grid ── */
+  .country-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 12px; }
+  .country-card { border-radius: 6px; padding: 16px 18px; display: flex; flex-direction: column; gap: 6px; position: relative; overflow: hidden; transition: transform .15s; }
+  .country-card:hover { transform: translateY(-2px); }
+  .country-card.l1 { background: var(--l1-lt); border: 1px solid #c8e6c9; }
+  .country-card.l2 { background: var(--l2-lt); border: 1px solid #ffe0b2; }
+  .country-card.l3 { background: var(--l3-lt); border: 1px solid #ffcdd2; }
+  .country-card.l4 { background: var(--l4-lt); border: 1px solid #e0e0e0; }
+  .country-card-bar { position: absolute; left: 0; top: 0; bottom: 0; width: 4px; }
+  .country-card.l1 .country-card-bar { background: var(--l1-clr); }
+  .country-card.l2 .country-card-bar { background: var(--l2-clr); }
+  .country-card.l3 .country-card-bar { background: var(--l3-clr); }
+  .country-card.l4 .country-card-bar { background: var(--l4-bdg); }
+  .country-name { font-family: 'Helvetica Neue', sans-serif; font-size: 14px; font-weight: 700; color: var(--ink); padding-left: 2px; }
+  .country-city { font-family: 'Helvetica Neue', sans-serif; font-size: 11px; color: #888; padding-left: 2px; }
+  .country-guide-link { margin-top: 6px; padding-left: 2px; font-family: 'Helvetica Neue', sans-serif; font-size: 11px; font-weight: 600; letter-spacing: .04em; text-transform: uppercase; text-decoration: none; }
+  .country-card.l1 .country-guide-link { color: var(--l1-clr); }
+  .country-card.l2 .country-guide-link { color: var(--l2-clr); }
+  .country-card.l3 .country-guide-link { color: var(--l3-clr); }
+  .country-card.l4 .country-guide-link { color: #555; }
+
+  .source-note { margin-top: 40px; padding-top: 20px; border-top: 1px solid #e0dbd4; font-family: 'Helvetica Neue', sans-serif; font-size: 12px; color: #888; line-height: 1.6; }
+
+  @media (max-width: 700px) {
+    .hero { grid-template-columns: 1fr; gap: 32px; }
+    .hero-legend { display: none; }
+    .country-grid { grid-template-columns: 1fr 1fr; gap: 10px; }
+    .scan-bar { gap: 12px; flex-wrap: wrap; }
+    .scan-search { width: 100%; }
+  }
+</style>
+</head>
+<body>
+
+<div class="mockup-badge">✦ Mockup — Safety Guide advisory heat-map redesign · 2026-08-31</div>
+
+<div class="hero">
+  <div class="hero-left">
+    <div class="hero-kicker">Health &amp; Safety</div>
+    <h1 class="hero-title">Every city,<br>placed on the<br><em>advisory scale.</em></h1>
+    <p class="hero-desc">Every city with a guide on this site, placed on the four US State Department advisory levels. Levels move with events — check travel.state.gov before you book or fly.</p>
+  </div>
+  <div class="hero-legend">
+    <div class="legend-item"><div class="legend-bar l1"></div><div class="legend-text"><div class="legend-level">Level 1</div><div class="legend-name">Normal Precautions</div></div><div class="legend-count">180</div></div>
+    <div class="legend-item"><div class="legend-bar l2"></div><div class="legend-text"><div class="legend-level">Level 2</div><div class="legend-name">Increased Caution</div></div><div class="legend-count">42</div></div>
+    <div class="legend-item"><div class="legend-bar l3"></div><div class="legend-text"><div class="legend-level">Level 3</div><div class="legend-name">Reconsider Travel</div></div><div class="legend-count">18</div></div>
+    <div class="legend-item"><div class="legend-bar l4"></div><div class="legend-text"><div class="legend-level">Level 4</div><div class="legend-name">Do Not Travel</div></div><div class="legend-count">6</div></div>
+  </div>
+</div>
+
+<div class="scan-bar">
+  <span class="scan-label">Jump to</span>
+  <span class="scan-pill l1">L1 — Normal</span>
+  <span class="scan-sep">·</span>
+  <span class="scan-pill l2">L2 — Caution</span>
+  <span class="scan-sep">·</span>
+  <span class="scan-pill l3">L3 — Reconsider</span>
+  <span class="scan-sep">·</span>
+  <span class="scan-pill l4">L4 — Do Not Travel</span>
+  <input type="text" class="scan-search" placeholder="Search a city…">
+</div>
+
+<div class="main">
+  <div class="notices-block">
+    <div class="notices-head">Standing notices — active right now</div>
+    <div class="notice-row"><div class="notice-country">Middle East</div><div class="notice-text">Regional conflict situation ongoing since Feb 2026 — Lebanon, Israel, Jordan, Egypt elevated. Check individual guide pages before any booking in this region.</div><div class="notice-badge l3">L3 Region</div></div>
+    <div class="notice-row"><div class="notice-country">Port Sudan</div><div class="notice-text">Civil conflict ongoing — no humanitarian corridor. Embassy advises against all travel.</div><div class="notice-badge l4">L4 Active</div></div>
+    <div class="notice-row"><div class="notice-country">Haiti</div><div class="notice-text">Gang activity and civil unrest at critical levels in Port-au-Prince and surrounding areas.</div><div class="notice-badge l4">L4 Active</div></div>
+  </div>
+
+  <div class="adv-section">
+    <div class="adv-section-head l1"><div class="adv-level-num">1</div><div class="adv-level-text"><div class="adv-level-tag">Level 1</div><div class="adv-level-name">Normal Precautions</div></div><div class="adv-level-count">180 guides</div></div>
+    <div class="country-grid">
+      <div class="country-card l1"><div class="country-card-bar"></div><div class="country-name">Japan</div><div class="country-city">Tokyo · Kyoto · Osaka</div><a class="country-guide-link" href="#">3 guides →</a></div>
+      <div class="country-card l1"><div class="country-card-bar"></div><div class="country-name">France</div><div class="country-city">Paris</div><a class="country-guide-link" href="#">View guide →</a></div>
+      <div class="country-card l1"><div class="country-card-bar"></div><div class="country-name">Spain</div><div class="country-city">Madrid · Barcelona · Seville</div><a class="country-guide-link" href="#">3 guides →</a></div>
+      <div class="country-card l1"><div class="country-card-bar"></div><div class="country-name">Italy</div><div class="country-city">Rome · Florence · Venice</div><a class="country-guide-link" href="#">3 guides →</a></div>
+      <div class="country-card l1"><div class="country-card-bar"></div><div class="country-name">Germany</div><div class="country-city">Berlin · Munich</div><a class="country-guide-link" href="#">2 guides →</a></div>
+      <div class="country-card l1"><div class="country-card-bar"></div><div class="country-name">United States</div><div class="country-city">NYC · Chicago · Miami · LA</div><a class="country-guide-link" href="#">8 guides →</a></div>
+    </div>
+  </div>
+
+  <div class="adv-section">
+    <div class="adv-section-head l2"><div class="adv-level-num">2</div><div class="adv-level-text"><div class="adv-level-tag">Level 2</div><div class="adv-level-name">Exercise Increased Caution</div></div><div class="adv-level-count">42 guides</div></div>
+    <div class="country-grid">
+      <div class="country-card l2"><div class="country-card-bar"></div><div class="country-name">Thailand</div><div class="country-city">Bangkok · Chiang Mai · Phuket</div><a class="country-guide-link" href="#">3 guides →</a></div>
+      <div class="country-card l2"><div class="country-card-bar"></div><div class="country-name">India</div><div class="country-city">Delhi · Mumbai · Jaipur</div><a class="country-guide-link" href="#">4 guides →</a></div>
+      <div class="country-card l2"><div class="country-card-bar"></div><div class="country-name">Morocco</div><div class="country-city">Marrakech · Fes</div><a class="country-guide-link" href="#">2 guides →</a></div>
+      <div class="country-card l2"><div class="country-card-bar"></div><div class="country-name">Colombia</div><div class="country-city">Cartagena · Bogotá · Medellín</div><a class="country-guide-link" href="#">3 guides →</a></div>
+    </div>
+  </div>
+
+  <div class="adv-section">
+    <div class="adv-section-head l3"><div class="adv-level-num">3</div><div class="adv-level-text"><div class="adv-level-tag">Level 3</div><div class="adv-level-name">Reconsider Travel</div></div><div class="adv-level-count">18 guides</div></div>
+    <div class="country-grid">
+      <div class="country-card l3"><div class="country-card-bar"></div><div class="country-name">Israel</div><div class="country-city">Tel Aviv · Jerusalem</div><a class="country-guide-link" href="#">2 guides →</a></div>
+      <div class="country-card l3"><div class="country-card-bar"></div><div class="country-name">Jordan</div><div class="country-city">Amman · Petra</div><a class="country-guide-link" href="#">2 guides →</a></div>
+      <div class="country-card l3"><div class="country-card-bar"></div><div class="country-name">Egypt</div><div class="country-city">Cairo · Luxor</div><a class="country-guide-link" href="#">2 guides →</a></div>
+      <div class="country-card l3"><div class="country-card-bar"></div><div class="country-name">Lebanon</div><div class="country-city">Beirut</div><a class="country-guide-link" href="#">View guide →</a></div>
+    </div>
+  </div>
+
+  <div class="source-note">Advisory levels sourced from the US State Department (travel.state.gov). Levels are verified monthly by the safety-audit routine and stamped on each guide's toolbar-mount. Not a substitute for the live advisory page — always check before booking.</div>
+</div>
+
+</body>
+</html>

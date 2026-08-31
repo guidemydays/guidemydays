@@ -1,0 +1,469 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sports Calendar — Seasonal Heartbeat Redesign Mockup</title>
+<style>
+/* ── Site tokens (inline — no external CSS) ── */
+:root {
+  --bg: #f5f4f0; --surface: #fff; --border: #e3ddd2; --ink: #2a2820;
+  --muted: #6a6660; --accent: #C04E1A; --warm: #fdf6f0;
+  --rail: 1040px; --gutter: 32px;
+  --font: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+
+  /* Sport accent palette — muted, never vibrant */
+  --tennis:    #3d6b4a; --tennis-bg:    #eaf2ed;
+  --f1:        #8c3232; --f1-bg:        #f4eaea;
+  --football:  #2c4080; --football-bg:  #eaeefc;
+  --rugby:     #5c3070; --rugby-bg:     #f0eaf6;
+  --marathon:  #C04E1A; --marathon-bg:  #f6ede8;
+  --cycling:   #445c28; --cycling-bg:   #edf2e6;
+  --other:     #5c4428; --other-bg:     #f2ece4;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #1a1916; --surface: #242220; --border: #3a352c; --ink: #f0ece4;
+    --muted: #9a9690; --warm: #1e1c18;
+    --tennis-bg: #1e2e22; --f1-bg: #2a1e1e; --football-bg: #1c2040;
+    --rugby-bg: #261a30; --marathon-bg: #2c1e16; --cycling-bg: #1c2414; --other-bg: #261e16;
+    --tennis: #6aad80; --f1: #d46060; --football: #6080d0;
+    --rugby: #a060d0; --marathon: #e07040; --cycling: #80a040; --other: #b08040;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #1a1916; --surface: #242220; --border: #3a352c; --ink: #f0ece4;
+  --muted: #9a9690; --warm: #1e1c18;
+  --tennis-bg: #1e2e22; --f1-bg: #2a1e1e; --football-bg: #1c2040;
+  --rugby-bg: #261a30; --marathon-bg: #2c1e16; --cycling-bg: #1c2414; --other-bg: #261e16;
+  --tennis: #6aad80; --f1: #d46060; --football: #6080d0;
+  --rugby: #a060d0; --marathon: #e07040; --cycling: #80a040; --other: #b08040;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { background: var(--bg); color: var(--ink); font-family: var(--font); font-size: 16px; }
+
+/* ── Mockup chrome ── */
+.mock-header {
+  background: var(--surface); border-bottom: 1px solid var(--border);
+  padding: 12px var(--gutter); display: flex; align-items: center; gap: 12px;
+  font-size: 11px; letter-spacing: .12em; text-transform: uppercase; color: var(--muted);
+}
+.mock-badge {
+  background: var(--accent); color: #fff; border-radius: 4px;
+  padding: 2px 8px; font-size: 10px; font-weight: 700; letter-spacing: .08em;
+}
+.mock-note {
+  background: #fffbf4; border: 1px solid #f0d8c0; border-radius: 6px;
+  max-width: var(--rail); margin: 20px auto; padding: 10px 16px;
+  font-size: 13px; color: var(--muted); line-height: 1.6;
+}
+
+/* ── Hero (carried from current page, unchanged) ── */
+.hero-band {
+  background: var(--accent); color: #fff;
+  padding: clamp(32px,5vw,64px) var(--gutter) clamp(28px,4vw,56px);
+}
+.hero-inner { max-width: var(--rail); margin: 0 auto; }
+.hero-kicker { font-size: 11px; letter-spacing: .18em; text-transform: uppercase;
+  opacity: .8; margin-bottom: 12px; }
+.hero-title { font-size: clamp(28px,4.5vw,52px); font-weight: 800; line-height: 1.08;
+  letter-spacing: -0.02em; margin-bottom: 12px; }
+.hero-sub { font-size: clamp(15px,1.6vw,18px); opacity: .88; max-width: 620px; line-height: 1.6; }
+
+/* ── Page rail ── */
+.sc-page { max-width: var(--rail); margin: 0 auto; padding: 0 var(--gutter) 64px; }
+
+/* ── SECTION 1: Year Rhythm ── */
+.yr-section { margin: 44px 0 0; }
+.yr-label {
+  font-size: 11px; letter-spacing: .16em; text-transform: uppercase;
+  color: var(--muted); margin-bottom: 18px;
+}
+.yr-grid {
+  display: grid; grid-template-columns: repeat(12, 1fr); gap: 4px;
+  background: var(--surface); border-radius: 14px; padding: 20px;
+  border: 1px solid var(--border);
+}
+.yr-col { display: flex; flex-direction: column; align-items: center; gap: 3px; }
+.yr-mon {
+  font-size: 10px; letter-spacing: .06em; color: var(--muted); margin-bottom: 6px;
+  font-weight: 600; text-transform: uppercase;
+}
+.yr-dot {
+  width: 8px; height: 8px; border-radius: 50%; opacity: .85; flex-shrink: 0;
+}
+.yr-dot.tennis   { background: var(--tennis); }
+.yr-dot.f1       { background: var(--f1); }
+.yr-dot.football { background: var(--football); }
+.yr-dot.rugby    { background: var(--rugby); }
+.yr-dot.marathon { background: var(--marathon); }
+.yr-dot.cycling  { background: var(--cycling); }
+.yr-dot.other    { background: var(--other); }
+.yr-legend { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 14px; }
+.yr-legend-item { display: flex; align-items: center; gap: 5px; font-size: 11px; color: var(--muted); }
+.yr-legend-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
+
+/* ── SECTION 2: Sport tabs ── */
+.sc-tabs-wrap { margin: 40px 0 0; border-bottom: 1px solid var(--border); }
+.sc-tabs { display: flex; gap: 0; overflow-x: auto; scrollbar-width: none; }
+.sc-tabs::-webkit-scrollbar { display: none; }
+.sc-tab {
+  background: none; border: none; padding: 12px 20px;
+  font-family: var(--font); font-size: 13px; font-weight: 600; color: var(--muted);
+  cursor: pointer; white-space: nowrap; position: relative; letter-spacing: .02em;
+  border-bottom: 2px solid transparent; margin-bottom: -1px; transition: color .15s;
+}
+.sc-tab:hover { color: var(--ink); }
+.sc-tab.is-on { color: var(--accent); border-bottom-color: var(--accent); }
+
+/* ── SECTION 3: Event card grid ── */
+.sc-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px; margin-top: 28px;
+}
+@media (max-width: 900px) { .sc-grid { grid-template-columns: repeat(2, 1fr); } }
+@media (max-width: 600px) { .sc-grid { grid-template-columns: 1fr; } }
+
+/* ── Event card ── */
+.sc-card {
+  background: var(--surface); border-radius: 14px; overflow: hidden;
+  border: 1px solid var(--border);
+  display: flex; flex-direction: column; position: relative;
+  cursor: pointer; transition: box-shadow .2s, transform .15s;
+  min-height: 200px;
+}
+.sc-card:hover { box-shadow: 0 8px 32px rgba(0,0,0,.1); transform: translateY(-2px); }
+.sc-card::before {
+  content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 3px;
+  background: var(--sport-color, var(--muted));
+}
+.sc-card.tennis   { background: var(--tennis-bg);   --sport-color: var(--tennis); }
+.sc-card.f1       { background: var(--f1-bg);       --sport-color: var(--f1); }
+.sc-card.football { background: var(--football-bg); --sport-color: var(--football); }
+.sc-card.rugby    { background: var(--rugby-bg);    --sport-color: var(--rugby); }
+.sc-card.marathon { background: var(--marathon-bg); --sport-color: var(--marathon); }
+.sc-card.cycling  { background: var(--cycling-bg);  --sport-color: var(--cycling); }
+.sc-card.other    { background: var(--other-bg);    --sport-color: var(--other); }
+.sc-card-badge {
+  position: absolute; top: 12px; right: 12px;
+  font-size: 9px; font-weight: 700; letter-spacing: .12em; text-transform: uppercase;
+  color: var(--sport-color, var(--muted));
+  background: var(--surface); border: 1px solid currentColor;
+  border-radius: 4px; padding: 2px 6px; opacity: .85;
+}
+.sc-card-inner {
+  padding: 20px 20px 16px 23px;
+  flex: 1; display: flex; flex-direction: column; justify-content: space-between;
+}
+.sc-card-name {
+  font-size: clamp(1.05rem, 2.5vw, 1.35rem); font-weight: 800;
+  letter-spacing: -0.03em; line-height: 1.12; color: var(--ink);
+  padding-right: 60px;
+}
+.sc-card-meta { margin-top: 14px; display: flex; flex-direction: column; gap: 4px; }
+.sc-card-date {
+  font-size: 12px; font-weight: 600; letter-spacing: .04em;
+  color: var(--sport-color, var(--muted)); text-transform: uppercase;
+}
+.sc-card-city { font-size: 13px; color: var(--muted); line-height: 1.4; }
+.sc-card-desc {
+  font-size: 12px; color: var(--muted); line-height: 1.55; margin-top: 10px;
+  display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+.sc-card-link {
+  display: inline-flex; align-items: center; gap: 4px;
+  font-size: 11px; font-weight: 600; color: var(--sport-color);
+  text-decoration: none; margin-top: 12px;
+}
+.sc-card-link::after { content: '→'; }
+.sc-card-link:hover { opacity: .75; }
+
+/* FIFA World Cup — featured 2-col card */
+.sc-card.featured { grid-column: span 2; min-height: 160px; flex-direction: row; }
+@media (max-width: 600px) { .sc-card.featured { grid-column: span 1; flex-direction: column; } }
+.sc-card.featured .sc-card-name { font-size: clamp(1.3rem, 3.5vw, 2rem); padding-right: 80px; }
+
+/* Annotation */
+.sc-annotation {
+  background: var(--surface); border: 1px dashed var(--border);
+  border-radius: 8px; padding: 12px 16px; margin: 28px 0 0;
+  font-size: 12px; color: var(--muted); line-height: 1.6;
+}
+.sc-annotation strong { color: var(--ink); }
+
+/* ── Mobile frame ── */
+.mobile-section { margin: 48px 0 0; }
+.mobile-section-label {
+  font-size: 11px; letter-spacing: .16em; text-transform: uppercase;
+  color: var(--muted); margin-bottom: 20px;
+}
+.mobile-frame {
+  width: 375px; background: var(--bg);
+  border-radius: 32px; overflow: hidden;
+  border: 8px solid var(--border); box-shadow: 0 12px 48px rgba(0,0,0,.12);
+}
+.mobile-frame .hero-band { padding: 20px 16px 18px; }
+.mobile-frame .hero-title { font-size: 22px; }
+.mobile-frame .hero-sub { font-size: 13px; }
+.mobile-frame .sc-page { padding: 0 14px 32px; }
+.mobile-frame .sc-tabs-wrap { margin: 20px 0 0; }
+.mobile-frame .sc-grid { grid-template-columns: 1fr; gap: 10px; margin-top: 16px; }
+.mobile-frame .sc-card.featured { grid-column: span 1; flex-direction: column; }
+.mobile-frame .yr-grid { grid-template-columns: repeat(6, 1fr); padding: 14px 12px; gap: 6px; }
+.mobile-frame .yr-dot { width: 6px; height: 6px; }
+</style>
+</head>
+<body>
+
+<div class="mock-header">
+  <span class="mock-badge">MOCKUP</span>
+  Sports Calendar — "Seasonal Heartbeat" Redesign Concept · themed-trips-audit · 2026-08-31
+</div>
+
+<div style="max-width:var(--rail);margin:16px auto;padding:0 var(--gutter)">
+  <div class="mock-note">
+    <strong>Concept: Seasonal Heartbeat.</strong> Three changes below the hero: (1) a year-rhythm visualization — 12 month columns, dots colored by sport, showing instantly where the sporting year clusters (July-September fires, January quiet); (2) bold underline sport-category tabs replacing filter pills; (3) editorial poster-style card grid — each card carries a muted sport-tone background, bold condensed event name as the dominant visual, left-edge sport color bar, and a guide link. All 62 events, all content, all guide links preserved — only presentation changes.
+  </div>
+</div>
+
+<!-- Hero (unchanged) -->
+<div class="hero-band">
+  <div class="hero-inner">
+    <div class="hero-kicker">Trip Resources</div>
+    <div class="hero-title">Sports Calendar</div>
+    <div class="hero-sub">The year's great sporting events, by city — plan a trip around a race, a final, or a marathon.</div>
+  </div>
+</div>
+
+<div class="sc-page">
+
+  <!-- Year Rhythm -->
+  <div class="yr-section">
+    <div class="yr-label">When the sporting year fires — events by month</div>
+    <div class="yr-grid">
+      <div class="yr-col"><div class="yr-mon">Jan</div><div class="yr-dot tennis"></div></div>
+      <div class="yr-col"><div class="yr-mon">Feb</div><div class="yr-dot rugby"></div><div class="yr-dot rugby"></div><div class="yr-dot other"></div></div>
+      <div class="yr-col"><div class="yr-mon">Mar</div><div class="yr-dot f1"></div><div class="yr-dot f1"></div><div class="yr-dot f1"></div><div class="yr-dot marathon"></div><div class="yr-dot rugby"></div><div class="yr-dot tennis"></div><div class="yr-dot other"></div></div>
+      <div class="yr-col"><div class="yr-mon">Apr</div><div class="yr-dot marathon"></div><div class="yr-dot marathon"></div><div class="yr-dot marathon"></div><div class="yr-dot f1"></div><div class="yr-dot cycling"></div><div class="yr-dot cycling"></div><div class="yr-dot tennis"></div><div class="yr-dot other"></div></div>
+      <div class="yr-col"><div class="yr-mon">May</div><div class="yr-dot f1"></div><div class="yr-dot f1"></div><div class="yr-dot f1"></div><div class="yr-dot tennis"></div><div class="yr-dot cycling"></div><div class="yr-dot football"></div><div class="yr-dot other"></div><div class="yr-dot other"></div></div>
+      <div class="yr-col"><div class="yr-mon">Jun</div><div class="yr-dot tennis"></div><div class="yr-dot f1"></div><div class="yr-dot f1"></div><div class="yr-dot football"></div><div class="yr-dot other"></div><div class="yr-dot other"></div></div>
+      <div class="yr-col"><div class="yr-mon">Jul</div><div class="yr-dot tennis"></div><div class="yr-dot f1"></div><div class="yr-dot f1"></div><div class="yr-dot f1"></div><div class="yr-dot cycling"></div><div class="yr-dot football"></div><div class="yr-dot other"></div><div class="yr-dot other"></div></div>
+      <div class="yr-col"><div class="yr-mon">Aug</div><div class="yr-dot tennis"></div><div class="yr-dot f1"></div><div class="yr-dot football"></div><div class="yr-dot marathon"></div></div>
+      <div class="yr-col"><div class="yr-mon">Sep</div><div class="yr-dot f1"></div><div class="yr-dot f1"></div><div class="yr-dot f1"></div><div class="yr-dot marathon"></div><div class="yr-dot football"></div><div class="yr-dot cycling"></div></div>
+      <div class="yr-col"><div class="yr-mon">Oct</div><div class="yr-dot marathon"></div><div class="yr-dot marathon"></div><div class="yr-dot f1"></div><div class="yr-dot f1"></div></div>
+      <div class="yr-col"><div class="yr-mon">Nov</div><div class="yr-dot marathon"></div><div class="yr-dot f1"></div><div class="yr-dot f1"></div><div class="yr-dot f1"></div><div class="yr-dot other"></div></div>
+      <div class="yr-col"><div class="yr-mon">Dec</div><div class="yr-dot f1"></div></div>
+    </div>
+    <div class="yr-legend">
+      <div class="yr-legend-item"><div class="yr-legend-dot" style="background:var(--tennis)"></div>Tennis</div>
+      <div class="yr-legend-item"><div class="yr-legend-dot" style="background:var(--f1)"></div>F1</div>
+      <div class="yr-legend-item"><div class="yr-legend-dot" style="background:var(--football)"></div>Football</div>
+      <div class="yr-legend-item"><div class="yr-legend-dot" style="background:var(--rugby)"></div>Rugby</div>
+      <div class="yr-legend-item"><div class="yr-legend-dot" style="background:var(--marathon)"></div>Marathon</div>
+      <div class="yr-legend-item"><div class="yr-legend-dot" style="background:var(--cycling)"></div>Cycling</div>
+      <div class="yr-legend-item"><div class="yr-legend-dot" style="background:var(--other)"></div>Other</div>
+    </div>
+  </div>
+
+  <!-- Sport tabs -->
+  <div class="sc-tabs-wrap">
+    <div class="sc-tabs">
+      <button class="sc-tab is-on">All</button>
+      <button class="sc-tab">Tennis</button>
+      <button class="sc-tab">F1</button>
+      <button class="sc-tab">Football</button>
+      <button class="sc-tab">Rugby</button>
+      <button class="sc-tab">Marathon</button>
+      <button class="sc-tab">Cycling</button>
+      <button class="sc-tab">Other</button>
+    </div>
+  </div>
+
+  <!-- Event card grid -->
+  <div class="sc-grid">
+
+    <div class="sc-card football featured">
+      <div class="sc-card-badge">Football</div>
+      <div class="sc-card-inner">
+        <div class="sc-card-name">FIFA World Cup 2026</div>
+        <div class="sc-card-meta">
+          <div class="sc-card-date">June 11 – July 19</div>
+          <div class="sc-card-city">United States · Mexico · Canada — 16 host cities</div>
+        </div>
+        <div class="sc-card-desc">The largest World Cup in history — 48 teams, 104 matches. Final at MetLife Stadium, New York. Host cities include Los Angeles, Dallas, Miami, Toronto, and Mexico City.</div>
+        <a class="sc-card-link" href="/guides/new-york.html">New York guide</a>
+      </div>
+    </div>
+
+    <div class="sc-card tennis">
+      <div class="sc-card-badge">Tennis</div>
+      <div class="sc-card-inner">
+        <div class="sc-card-name">Wimbledon</div>
+        <div class="sc-card-meta">
+          <div class="sc-card-date">Late June – Early July</div>
+          <div class="sc-card-city">London, England</div>
+        </div>
+        <div class="sc-card-desc">The oldest and most prestigious tennis tournament — grass courts, strawberries and cream, and the strict all-white dress code at the All England Club.</div>
+        <a class="sc-card-link" href="/guides/london.html">London guide</a>
+      </div>
+    </div>
+
+    <div class="sc-card f1">
+      <div class="sc-card-badge">F1</div>
+      <div class="sc-card-inner">
+        <div class="sc-card-name">Monaco Grand Prix</div>
+        <div class="sc-card-meta">
+          <div class="sc-card-date">Late May</div>
+          <div class="sc-card-city">Monaco</div>
+        </div>
+        <div class="sc-card-desc">The jewel of the F1 calendar — street-level barriers inches from the cars at Casino Square. Every driver's ultimate ambition since 1929.</div>
+        <a class="sc-card-link" href="/guides/monaco.html">Monaco guide</a>
+      </div>
+    </div>
+
+    <div class="sc-card cycling">
+      <div class="sc-card-badge">Cycling</div>
+      <div class="sc-card-inner">
+        <div class="sc-card-name">Tour de France — Champs-Élysées Finale</div>
+        <div class="sc-card-meta">
+          <div class="sc-card-date">Third Sunday of July</div>
+          <div class="sc-card-city">Paris, France</div>
+        </div>
+        <div class="sc-card-desc">The world's greatest cycling race — the peloton's sprint past the Arc de Triomphe, watched by half a million people lining the avenue.</div>
+        <a class="sc-card-link" href="/guides/paris.html">Paris guide</a>
+      </div>
+    </div>
+
+    <div class="sc-card rugby">
+      <div class="sc-card-badge">Rugby</div>
+      <div class="sc-card-inner">
+        <div class="sc-card-name">Six Nations — Twickenham</div>
+        <div class="sc-card-meta">
+          <div class="sc-card-date">February – March</div>
+          <div class="sc-card-city">London, England</div>
+        </div>
+        <div class="sc-card-desc">England's Six Nations home matches at Twickenham (82,000) — among the loudest afternoons in English sport, centuries of rivalry.</div>
+        <a class="sc-card-link" href="/guides/london.html">London guide</a>
+      </div>
+    </div>
+
+    <div class="sc-card marathon">
+      <div class="sc-card-badge">Marathon</div>
+      <div class="sc-card-inner">
+        <div class="sc-card-name">TCS New York City Marathon</div>
+        <div class="sc-card-meta">
+          <div class="sc-card-date">First Sunday of November</div>
+          <div class="sc-card-city">New York, United States</div>
+        </div>
+        <div class="sc-card-desc">The world's largest marathon — 55,000 runners cross all five boroughs, watched by 2 million spectators from the Verrazzano-Narrows Bridge to Central Park.</div>
+        <a class="sc-card-link" href="/guides/new-york.html">New York guide</a>
+      </div>
+    </div>
+
+    <div class="sc-card tennis">
+      <div class="sc-card-badge">Tennis</div>
+      <div class="sc-card-inner">
+        <div class="sc-card-name">Australian Open</div>
+        <div class="sc-card-meta">
+          <div class="sc-card-date">Mid-January (2 weeks)</div>
+          <div class="sc-card-city">Melbourne, Australia</div>
+        </div>
+        <div class="sc-card-desc">The year's first Grand Slam — 800,000 spectators make this the most-attended tennis tournament on earth, played under Melbourne's summer sun.</div>
+        <a class="sc-card-link" href="/guides/melbourne.html">Melbourne guide</a>
+      </div>
+    </div>
+
+    <div class="sc-card other">
+      <div class="sc-card-badge">Other</div>
+      <div class="sc-card-inner">
+        <div class="sc-card-name">The Masters</div>
+        <div class="sc-card-meta">
+          <div class="sc-card-date">Second week of April</div>
+          <div class="sc-card-city">Augusta, United States</div>
+        </div>
+        <div class="sc-card-desc">The first men's major of the golf season — Augusta National's undulating greens and blooming azaleas along Amen Corner, the sport's most recognisable prize.</div>
+      </div>
+    </div>
+
+    <div class="sc-card f1">
+      <div class="sc-card-badge">F1</div>
+      <div class="sc-card-inner">
+        <div class="sc-card-name">Formula 1 British Grand Prix</div>
+        <div class="sc-card-meta">
+          <div class="sc-card-date">Early July</div>
+          <div class="sc-card-city">Silverstone, ~90 min from London</div>
+        </div>
+        <div class="sc-card-desc">The spiritual home of Formula 1 — Maggotts, Becketts, Chapel, 150,000 fans, and the British GP held every year since the first F1 championship in 1950.</div>
+        <a class="sc-card-link" href="/guides/london.html">London guide</a>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="sc-annotation">
+    <strong>What changed vs. the current page:</strong> (1) The search box and month pills are replaced by the Year Rhythm visualization — sport dots by month communicate the year's structure immediately. (2) Filter pills → clean underline text tabs. (3) List rows → poster cards with muted sport-tone backgrounds, bold condensed event names as the dominant visual, and left-edge sport color bars. All 62 events, all content, all guide links are preserved — only presentation changes. The hero, background, and site navigation are carried unchanged.
+  </div>
+
+  <!-- Mobile frame -->
+  <div class="mobile-section">
+    <div class="mobile-section-label">Mobile view (375px)</div>
+    <div class="mobile-frame">
+      <div class="hero-band">
+        <div class="hero-inner">
+          <div class="hero-kicker">Trip Resources</div>
+          <div class="hero-title">Sports Calendar</div>
+          <div class="hero-sub">The year's great sporting events, by city.</div>
+        </div>
+      </div>
+      <div class="sc-page">
+        <div class="yr-section" style="margin-top:20px">
+          <div class="yr-label">Events by month</div>
+          <div class="yr-grid">
+            <div class="yr-col"><div class="yr-mon">Jan</div><div class="yr-dot tennis"></div></div>
+            <div class="yr-col"><div class="yr-mon">Feb</div><div class="yr-dot rugby"></div><div class="yr-dot other"></div></div>
+            <div class="yr-col"><div class="yr-mon">Mar</div><div class="yr-dot f1"></div><div class="yr-dot marathon"></div><div class="yr-dot other"></div></div>
+            <div class="yr-col"><div class="yr-mon">Apr</div><div class="yr-dot marathon"></div><div class="yr-dot f1"></div><div class="yr-dot cycling"></div><div class="yr-dot other"></div></div>
+            <div class="yr-col"><div class="yr-mon">May</div><div class="yr-dot f1"></div><div class="yr-dot tennis"></div><div class="yr-dot other"></div></div>
+            <div class="yr-col"><div class="yr-mon">Jun</div><div class="yr-dot tennis"></div><div class="yr-dot football"></div><div class="yr-dot f1"></div></div>
+          </div>
+        </div>
+        <div class="sc-tabs-wrap" style="margin-top:16px">
+          <div class="sc-tabs">
+            <button class="sc-tab is-on" style="font-size:12px;padding:10px 14px">All</button>
+            <button class="sc-tab" style="font-size:12px;padding:10px 14px">Tennis</button>
+            <button class="sc-tab" style="font-size:12px;padding:10px 14px">F1</button>
+          </div>
+        </div>
+        <div class="sc-grid">
+          <div class="sc-card football" style="min-height:160px">
+            <div class="sc-card-badge">Football</div>
+            <div class="sc-card-inner">
+              <div class="sc-card-name" style="font-size:1.15rem;padding-right:70px">FIFA World Cup 2026</div>
+              <div class="sc-card-meta">
+                <div class="sc-card-date">June 11 – July 19</div>
+                <div class="sc-card-city">USA · Mexico · Canada</div>
+              </div>
+            </div>
+          </div>
+          <div class="sc-card f1" style="min-height:140px">
+            <div class="sc-card-badge">F1</div>
+            <div class="sc-card-inner">
+              <div class="sc-card-name" style="font-size:1.15rem">Monaco Grand Prix</div>
+              <div class="sc-card-meta">
+                <div class="sc-card-date">Late May</div>
+                <div class="sc-card-city">Monaco</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+</body>
+</html>

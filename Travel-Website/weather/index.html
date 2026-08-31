@@ -160,8 +160,8 @@
       <input type="search" class="search-input" id="wx-city-search" placeholder="City or country" aria-label="Search for a city" autocomplete="off">
     </div>
     <div class="wx-unit" id="wx-unit">
-      <button data-u="C" aria-label="Celsius">°C</button>
-      <button data-u="F" aria-label="Fahrenheit">°F</button>
+      <button data-u="C" aria-label="Celsius" aria-pressed="false">°C</button>
+      <button data-u="F" aria-label="Fahrenheit" aria-pressed="false">°F</button>
     </div>
   </div>
 </div>
@@ -210,7 +210,9 @@
   function paintUnit() {
     var u = unit();
     document.querySelectorAll('#wx-unit button').forEach(function (b) {
-      b.classList.toggle('on', b.dataset.u === u);
+      var sel = b.dataset.u === u;
+      b.classList.toggle('on', sel);
+      b.setAttribute('aria-pressed', String(sel));
     });
   }
 
@@ -237,7 +239,7 @@
     }
 
     var grid = MONTHS.map(function (mo, k) {
-      return '<button class="wx-mon' + (k === selMonth ? ' on' : '') + '" data-mon="' + k + '">' + mo + '</button>';
+      return '<button class="wx-mon' + (k === selMonth ? ' on' : '') + '" data-mon="' + k + '" aria-pressed="' + (k === selMonth ? 'true' : 'false') + '">' + mo + '</button>';
     }).join('');
 
     var rainRow = '';

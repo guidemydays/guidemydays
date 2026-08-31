@@ -906,6 +906,33 @@ a{color:var(--text); text-decoration:underline}
   <p class="hint">Sources: <a href="https://blog.logrocket.com/ux-design/designing-button-states/">LogRocket — Designing button states</a> · <a href="https://www.figma.com/resource-library/button-states/">Figma — Understanding Button States</a> · <a href="https://www.nngroup.com/articles/button-states-communicate-interaction/">NN/G — Button States: Communicate Interaction</a> · <a href="https://www.geeksforgeeks.org/css/how-to-add-a-pressed-effect-on-button-click-in-css/">GeeksforGeeks — Pressed Effect on Button Click</a>.</p>
 </div>
 
+<h3>The ring — what it's actually for — added 2026-08-31</h3>
+<div class="panel no-caps">
+  <p class="lead"><strong>Researched, not guessed:</strong> across other design systems, the outline ring is a <strong>focus</strong> indicator — "you can activate this now via keyboard" — not a <strong>selected</strong> one. Focus is transient (fires on <code>:focus-visible</code>, keyboard nav only) and accessibility-critical; selected is a persistent condition, normally shown with a fill, colour, or icon change instead. The section below (§ "Selected state — every color, all at once") is this site's old <code>.is-on</code> ring — a focus-ring pattern applied to mean "selected," which is why it never quite matched either job cleanly. It's kept below for the record, not as the current approach; Darken/Lift/Glow/Press above all use the filled + checkmark treatment instead.</p>
+
+  <div class="stateLabel">How other systems draw an actual focus ring</div>
+  <div class="strip">
+    <span style="display:inline-flex;align-items:center;border-radius:999px;font-weight:600;font-size:14px;padding:8px 18px;background:#fff;border:1px solid #e6e2da;color:#3d3a32;outline:2px solid #2684ff;outline-offset:2px;">Native default</span>
+    <span style="display:inline-flex;align-items:center;border-radius:999px;font-weight:600;font-size:14px;padding:8px 18px;background:#fff;border:1px solid #e6e2da;color:#3d3a32;box-shadow:0 0 0 2px #fff,0 0 0 4px #3b82f6;">Tailwind ring</span>
+    <span style="display:inline-flex;align-items:center;border-radius:999px;font-weight:600;font-size:14px;padding:8px 18px;background:#fff;border:1px solid #e6e2da;color:#3d3a32;outline:3px solid #6750a4;outline-offset:0px;">Material Design</span>
+  </div>
+  <p class="hint">All three trigger on keyboard focus only — never on click, hover, or a persisted "chosen" state.</p>
+
+  <div class="stateLabel">This site's old .is-on ring — two rings with a gap, kept for the record</div>
+  <div class="strip">
+    <span style="display:inline-flex;align-items:center;border-radius:999px;font-weight:600;font-size:14px;padding:8px 18px;background:#6a6d72;color:#14161a;border:1px solid #14161a;outline:3px solid #14161a;outline-offset:3px;">Dark Grey</span>
+    <span style="display:inline-flex;align-items:center;border-radius:999px;font-weight:600;font-size:14px;padding:8px 18px;background:#3f6fa8;color:#fff;outline:3px solid rgba(0,0,0,.55);outline-offset:3px;">Blue</span>
+  </div>
+  <table>
+    <tr><th>Property</th><th>Value</th></tr>
+    <tr><td>Inner ring</td><td>the pill's own <code>border</code>, flush against the edge</td></tr>
+    <tr><td>Gap</td><td><code>outline-offset:3px</code></td></tr>
+    <tr><td>Outer ring</td><td><code>outline:3px solid currentColor</code> (Calm Pastel/Neutral) or <code>rgba(0,0,0,.55)</code> (Solid Badge, since <code>currentColor</code> is white)</td></tr>
+    <tr><td>Trigger</td><td>the <code>.is-on</code> class — applied on selection, not on keyboard focus</td></tr>
+  </table>
+  <p class="hint">Sources: <a href="https://iknowdavehouse.medium.com/focusing-on-focus-states-7c64089d805c">Medium — Focusing on focus states</a> · <a href="https://designsystemproblems.com/accessibility-compliance/focus-ring-customization/">DSP — Focus Ring Customization Best Practices</a> · <a href="https://designsystems.surf/blueprints/chip">Chip Component — Anatomy, States, and Usage</a> · <a href="https://www.72technologies.com/blog/focus-rings-visible-focus-guide">72Technologies — Visible Focus Rings</a> · <a href="https://www.nngroup.com/articles/button-states-communicate-interaction/">NN/G — Button States: Communicate Interaction</a>.</p>
+</div>
+
 <h3>Selected state — every color, all at once — added 2026-08-28</h3>
 <div class="panel no-caps">
   <p class="lead">Another option for the selected state above: the same <code>.is-on</code> ring — <code>outline:3px solid currentColor; outline-offset:3px</code> (thickened from <code>1.5px</code>/<code>1px</code>, the original was too faint and too tight against the pill's own border to read as selected; the wider offset now reads as two distinct rings — the pill's own border, then a clear gap, then the ring) — shown across the full approved palette at once, so every color's selected look can be checked side by side instead of one at a time, all three families included. Labels below read in title case, not the site's usual all-caps badge text — they're naming the swatch for this reference page, not shipping as a real badge.</p>

@@ -1,3 +1,6 @@
+/* 2026-09-01: rule-compliance-audit: db31f69ed fixed a comment-close parse bug in
+   web-travel-style.css; sw.js bump was missing.
+   MIN_VERSIONS['web-travel-style.css'] to 236, CACHE to v1773. */
 /* 2026-09-01: pending-fixes-sweep: chevron-link-pill background reverted to white
    var(--surface) — check_no_beige_pill_button hard-failed on the cream wash that
    4678d6d4c clobbered back in; fix committed in b265c0b5f without an sw.js bump.
@@ -2870,7 +2873,7 @@
    MIN_VERSIONS['web-travel-style.css'] to 231, CACHE to v1767. */
 /* 2026-09-01: essentials/packing pill audit: Save for Offline button now carries the shared pill classes toolbar.js -> v1118. CACHE to v1770. */
 /* 2026-09-01: chevron-link-pill background now references the shared cream token toolbar.js -> v1119. CACHE to v1771. */
-var CACHE = 'travel-cache-v1772';
+var CACHE = 'travel-cache-v1773';
 /* 2026-08-27: airlines.css's .card-tags align-items fix changed a shared
    asset without raising its own floor -- MIN_VERSIONS['airlines.css'] to
    6, CACHE to v1662. */
@@ -2912,7 +2915,7 @@ var ICS_OUTBOX = 'gmd-ics-outbox';
    of 230+ guides. Instead, bump MIN_VERSIONS here + increment the CACHE version. */
 /* 2026-08-30: weather.js: Punta Cana climate normals added (244 cities). MIN_VERSIONS["weather.js"] to 19, CACHE to v1748. */
 /* 2026-08-30: search-autocomplete.js — reverted ARIA combobox pattern (role=listbox/option caused side-by-side layout regression). MIN_VERSIONS['search-autocomplete.js'] to 11, CACHE to v1749. */
-var MIN_VERSIONS = { 'guide-style.css': 278,'toolbar.js': 1119, 'mobile.css': 93, 'web-travel-style.css': 235, 'guides-index-style.css': 42, 'read-about.css': 8, 'best-of-features.js': 5, 'best-of-cross-data.js': 24, 'weather.js': 21,'trains.css': 30, 'trains.js': 5, 'airlines.css': 9, 'airlines.js': 9, 'passport.js': 5, 'search-autocomplete.js': 12, 'flag-render.js': 2 };
+var MIN_VERSIONS = { 'guide-style.css': 278,'toolbar.js': 1119, 'mobile.css': 93, 'web-travel-style.css': 236, 'guides-index-style.css': 42, 'read-about.css': 8, 'best-of-features.js': 5, 'best-of-cross-data.js': 24, 'weather.js': 21,'trains.css': 30, 'trains.js': 5, 'airlines.css': 9, 'airlines.js': 9, 'passport.js': 5, 'search-autocomplete.js': 12, 'flag-render.js': 2 };
 
 function rewriteAssetUrl(urlStr) {
   var u;

@@ -34,19 +34,44 @@
 #region-pills .pill.selection-pill:hover { filter: brightness(.94); }
 #region-pills .pill.selection-pill.is-on,
 #region-pills .pill.selection-pill[aria-pressed="true"] { filter: brightness(.82); }
-/* ── Norm filter pills (2026-09-01) — replaces the old static stat-bar
-   legend. Same shape/size as the region pills (.pill.selection-pill), same
-   approved sb-* Solid Badge family the per-country norm badge already uses
-   (so the color a reader learns from one card carries straight into the
-   filter), multi-select (each button toggles independently — no "All"
-   pill needed, zero selected = no norm filter applied). Scoped is-on/hover
-   mirrors #region-pills immediately above; the shared generic
-   .selection-pill.is-on rule never wins against a family colour class
-   (cascade order), so brightness() carries the selected state instead. */
-.norm-pills { margin-top: 10px; }
-#norm-pills .pill.selection-pill:hover { filter: brightness(.94); }
-#norm-pills .pill.selection-pill.is-on,
-#norm-pills .pill.selection-pill[aria-pressed="true"] { filter: brightness(.82); }
+/* ── Norm strip (2026-09-01) — this is the mock-up's legend-strip
+   (Travel-Website/reports/mock-ups/tipping-region-radar-redesign.html):
+   a thin banded row of dot+label keys, never a second row of oval pill
+   buttons stacked under the region row. A second .selection-pill row read
+   as two equally-loud, same-shaped filter bars piled on each other, forced
+   an artificial equal-width match against six differently-worded region
+   pills, and needed .hov-darken removed to stop it mixing each sb-* color
+   toward muddy black on hover (--sp-ink is flat #000 for every sb-* family
+   — it was only ever meant for badge text-on-wash, never a hover mix).
+   The banded strip sidesteps all three: dots don't need equal widths, the
+   background tint makes it read as one distinct group at a glance, and its
+   hover/selected state is a plain background tint, not a color-mix. Still
+   a real filter — click a key, same multi-select model as before. */
+.norm-strip {
+  max-width: var(--rail); margin: 16px auto 0; padding: 10px 18px;
+  background: var(--surface2); border: 1px solid var(--border);
+  border-radius: 10px;
+  display: flex; flex-wrap: wrap; gap: 6px 16px; align-items: center;
+  justify-content: center;
+}
+.norm-strip-label {
+  font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: .08em;
+  color: var(--muted);
+}
+.norm-key {
+  display: inline-flex; align-items: center; gap: 7px;
+  font-family: inherit; font-size: 12.5px; font-weight: 600; color: var(--text);
+  background: transparent; border: 1px solid transparent; border-radius: 999px;
+  padding: 5px 12px 5px 9px; cursor: pointer; line-height: 1;
+}
+.norm-key:hover { background: var(--surface); border-color: var(--border2,#e6e2da); }
+.norm-key.is-on,
+.norm-key[aria-pressed="true"] {
+  background: color-mix(in srgb, var(--sb-fill) 16%, var(--surface));
+  border-color: color-mix(in srgb, var(--sb-fill) 45%, var(--surface));
+  font-weight: 800;
+}
+.norm-dot { width: 10px; height: 10px; border-radius: 50%; background: var(--sb-fill); flex-shrink: 0; }
 /* ── Region headers (B — hairline rule) ── */
 .region-header {
   display: flex; align-items: center; gap: 12px;
@@ -139,9 +164,7 @@
   #region-pills .pill.selection-pill:hover { filter: brightness(.9); }
   #region-pills .pill.selection-pill.is-on,
   #region-pills .pill.selection-pill[aria-pressed="true"] { filter: brightness(.8); }
-  #norm-pills .pill.selection-pill:hover { filter: brightness(.9); }
-  #norm-pills .pill.selection-pill.is-on,
-  #norm-pills .pill.selection-pill[aria-pressed="true"] { filter: brightness(.8); }
+  .norm-key:hover { background: var(--surface2); border-color: #4a453e; }
   .region-header { color: var(--muted); }
 }
 
@@ -210,12 +233,14 @@
       <button class="pill selection-pill cp-purple hov-darken" data-region="asiapac" aria-pressed="false">Asia · Pacific</button>
       <button class="pill selection-pill cp-gold hov-darken" data-region="other" aria-pressed="false">M.E. &amp; Africa</button>
     </div>
-    <div class="pills norm-pills" id="norm-pills">
-      <button class="pill selection-pill sb-green hov-darken" data-norm="expected" aria-pressed="false">Expected</button>
-      <button class="pill selection-pill sb-gold hov-darken" data-norm="appreciated" aria-pressed="false">Appreciated</button>
-      <button class="pill selection-pill sb-blue hov-darken" data-norm="check" aria-pressed="false">Check Bill</button>
-      <button class="pill selection-pill sb-dark-grey hov-darken" data-norm="skip" aria-pressed="false">Not Customary</button>
-    </div>
+  </div>
+
+  <div class="norm-strip" id="norm-strip">
+    <span class="norm-strip-label">Norm:</span>
+    <button type="button" class="norm-key sb-green" data-norm="expected" aria-pressed="false"><span class="norm-dot"></span>Expected</button>
+    <button type="button" class="norm-key sb-gold" data-norm="appreciated" aria-pressed="false"><span class="norm-dot"></span>Appreciated</button>
+    <button type="button" class="norm-key sb-blue" data-norm="check" aria-pressed="false"><span class="norm-dot"></span>Check the bill</button>
+    <button type="button" class="norm-key sb-dark-grey" data-norm="skip" aria-pressed="false"><span class="norm-dot"></span>Not customary</button>
   </div>
 
   <div class="country-list" id="list"></div>
@@ -1215,8 +1240,8 @@ document.getElementById('region-pills').addEventListener('click', function(e) {
   render();
 });
 
-document.getElementById('norm-pills').addEventListener('click', function(e) {
-  var btn = e.target.closest('.pill');
+document.getElementById('norm-strip').addEventListener('click', function(e) {
+  var btn = e.target.closest('.norm-key');
   if (!btn) return;
   var n = btn.dataset.norm;
   var idx = activeNorms.indexOf(n);
@@ -1237,7 +1262,21 @@ document.getElementById('search').addEventListener('input', function(e) {
   render();
 });
 
+/* Region pills match the width of the widest one (measure-the-widest-then-
+   match-min-width). The norm strip is dot+label, not pills — it sizes to
+   its own content like the mock-up's legend-strip does. */
+function equalizePills() {
+  var pills = [].slice.call(document.querySelectorAll('#region-pills .pill'));
+  if (pills.length < 2) return;
+  pills.forEach(function (p) { p.style.minWidth = ''; });
+  var max = 0;
+  pills.forEach(function (p) { max = Math.max(max, p.getBoundingClientRect().width); });
+  pills.forEach(function (p) { p.style.minWidth = max + 'px'; });
+}
+window.addEventListener('resize', equalizePills);
+
 render();
+equalizePills();
 </script>
 
 <script src="/assets/search-autocomplete.js?v=8"></script>

@@ -1,0 +1,475 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cruises — Voyage Deck Redesign Concept</title>
+<style>
+/* ── Site tokens (inline subset from web-travel-style.css) ── */
+:root {
+  --bg: #f5f4f0; --surface: #ffffff; --text: #1a1917; --muted: #6a6660;
+  --border: #e2ded8; --border2: #d0ccc5; --rust: #C04E1A;
+  --rail: 1040px; --gutter: 32px;
+  --font: 'Georgia', system-ui, serif;
+  --font-sans: system-ui, -apple-system, sans-serif;
+  /* Calm Pastel tokens (cp-*) */
+  --cp-teal-wash:#e0f2f1; --cp-teal-ink:#1b5e57;
+  --cp-blue-wash:#e3eaf7; --cp-blue-ink:#1a3a6e;
+  --cp-gold-wash:#fdf3dc; --cp-gold-ink:#7a5a00;
+  --cp-green-wash:#e8f5e9; --cp-green-ink:#1b5e20;
+  --cp-light-grey-wash:#f1f0ef; --cp-light-grey-ink:#4a4845;
+  --cp-brown-wash:#f2ebe1; --cp-brown-ink:#5c3d1e;
+  /* Solid Badge tokens (sb-*) */
+  --sb-blue-bg:#1e3a5f; --sb-blue-fg:#ffffff;
+  --sb-gold-bg:#b8860b; --sb-gold-fg:#ffffff;
+  --sb-teal-bg:#006064; --sb-teal-fg:#ffffff;
+  /* Ocean theme (this concept only) */
+  --oc-deep:#0d2137; --oc-mid:#1a3a5c; --oc-horizon:#2a5f8a;
+  --oc-wave:#5b9fc5; --oc-foam:#c8e8f5; --oc-sand:#f2e8d5;
+  --oc-rope:#c4a265; --oc-brass:#b8860b;
+  --oc-paper:#faf6ef; --oc-chart:#e8dfc5;
+  --oc-ink:#1a1410; --oc-ink-soft:#5c4f3a;
+}
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg:#1a1917; --surface:#23211e; --text:#f0ece4;
+    --muted:#9a9690; --border:#3a3731; --border2:#4a4742;
+    --oc-paper:#1e1c18; --oc-chart:#2a271f; --oc-sand:#2e2920;
+    --oc-ink:#f0ece4; --oc-ink-soft:#b0a898;
+  }
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { background: var(--bg); color: var(--text); font-family: var(--font-sans); line-height: 1.5; }
+.concept-wrap { max-width: 1100px; margin: 0 auto; padding: 32px 24px 80px; }
+.concept-hdr { background: var(--oc-deep); color: #fff; padding: 18px 22px; border-radius: 10px; margin-bottom: 36px; }
+.concept-hdr h2 { font-family: var(--font); font-size: 20px; font-weight: 700; margin-bottom: 3px; }
+.concept-hdr p { font-size: 12px; color: rgba(255,255,255,.6); }
+.frame-label { font-size: 10px; text-transform: uppercase; letter-spacing: .1em; color: var(--muted); font-weight: 700; margin-bottom: 14px; }
+hr.divider { border: none; border-top: 2px solid var(--border); margin: 52px 0 36px; }
+
+/* ── HERO — unchanged per redesign rules ── */
+.mock-hero {
+  background: var(--oc-deep); color: #fff;
+  padding: 44px 32px 38px;
+}
+.mock-hero-kicker { font-size: 10px; font-weight: 700; letter-spacing: .18em; text-transform: uppercase; color: rgba(255,255,255,.5); margin-bottom: 12px; }
+.mock-hero h1 { font-family: var(--font); font-size: clamp(26px,4vw,46px); font-weight: 700; line-height: 1.18; color: #fff; margin-bottom: 12px; }
+.mock-hero h1 em { font-style: italic; color: #c8e8f5; }
+.mock-hero p { font-size: 15px; max-width: 580px; color: rgba(255,255,255,.72); }
+
+/* ── REDESIGN: everything below the hero ── */
+.vd-wrap { max-width: var(--rail); margin: 0 auto; padding: 0 var(--gutter); }
+
+/* Stats bar */
+.vd-horizon {
+  display: grid; grid-template-columns: repeat(4, 1fr);
+  border: 1px solid var(--border2); border-radius: 12px; overflow: hidden;
+  margin: 34px 0 36px; background: var(--oc-paper);
+}
+.vd-stat { padding: 18px 20px; border-right: 1px solid var(--border); }
+.vd-stat:last-child { border-right: none; }
+.vd-stat-num {
+  font-size: clamp(24px,3.5vw,38px); font-weight: 800; font-family: var(--font);
+  letter-spacing: -.02em; color: var(--oc-ink); line-height: 1; margin-bottom: 4px;
+}
+.vd-stat-num span { font-size: .55em; font-weight: 600; }
+.vd-stat-label { font-size: 10.5px; text-transform: uppercase; letter-spacing: .09em; color: var(--oc-ink-soft); font-weight: 600; line-height: 1.45; }
+
+/* Departure board widget */
+.vd-board {
+  background: var(--oc-deep); border-radius: 14px; padding: 24px 26px;
+  margin: 0 0 36px; color: #fff; overflow: hidden; position: relative;
+}
+.vd-board::after {
+  content: ''; position: absolute; right: -60px; top: -60px;
+  width: 240px; height: 240px; border: 1.5px solid rgba(255,255,255,.05);
+  border-radius: 50%; pointer-events: none;
+}
+.vd-board-eyebrow { font-size: 10px; letter-spacing: .15em; text-transform: uppercase; color: rgba(255,255,255,.4); font-weight: 700; margin-bottom: 14px; }
+.vd-board-title { font-family: var(--font); font-size: clamp(18px,3vw,28px); font-weight: 700; line-height: 1.2; margin-bottom: 5px; }
+.vd-board-sub { font-size: 13px; color: rgba(255,255,255,.55); margin-bottom: 20px; }
+.vd-departures { display: flex; flex-direction: column; gap: 4px; }
+.vd-departure {
+  display: grid; grid-template-columns: 76px 1fr auto; gap: 12px; align-items: center;
+  padding: 10px 14px; background: rgba(255,255,255,.06); border-radius: 8px;
+  border: 1px solid rgba(255,255,255,.07);
+}
+.vd-dep-month { font-size: 10.5px; font-weight: 700; text-transform: uppercase; letter-spacing: .09em; color: var(--oc-foam); }
+.vd-dep-route { font-size: 13px; font-weight: 600; color: #fff; line-height: 1.3; }
+.vd-dep-line { font-size: 11px; color: rgba(255,255,255,.45); margin-top: 2px; }
+.vd-dep-price { font-size: 11.5px; font-weight: 700; color: #ffd27a; text-align: right; white-space: nowrap; }
+.vd-dep-from { font-size: 9px; color: rgba(255,255,255,.4); display: block; }
+
+/* Budget + Region nav */
+.vd-nav-row { display: flex; align-items: center; gap: 6px; margin-bottom: 10px; flex-wrap: wrap; }
+.vd-nav-label { font-size: 10.5px; text-transform: uppercase; letter-spacing: .09em; color: var(--muted); font-weight: 700; margin-right: 6px; }
+/* These use the site's approved .cp-* family tokens — nav buttons read as
+   Calm Pastel rest/hover, same as .selection-pill pattern */
+.vd-nav-btn {
+  display: inline-flex; align-items: center; gap: 5px;
+  padding: 8px 16px; border: 1px solid var(--border2); border-radius: 999px;
+  background: var(--surface); cursor: pointer; font-size: 12px; font-weight: 600;
+  color: var(--muted); white-space: nowrap; transition: all .15s; font-family: inherit;
+}
+.vd-nav-btn:hover { border-color: var(--oc-wave); color: var(--oc-mid); }
+.vd-nav-btn.is-on { background: var(--oc-deep); color: #fff; border-color: var(--oc-deep); }
+
+/* Tier header */
+.vd-tier-head {
+  display: flex; align-items: center; gap: 12px;
+  margin: 36px 0 16px; padding-bottom: 10px;
+  border-bottom: 2px solid var(--oc-chart); position: relative;
+}
+.vd-tier-accent { position: absolute; bottom: -2px; left: 0; height: 2px; width: 44px; background: var(--rust); }
+.vd-tier-icon {
+  width: 34px; height: 34px; border-radius: 8px; background: var(--oc-deep);
+  display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+}
+.vd-tier-icon svg { width: 16px; height: 16px; }
+.vd-tier-name { font-size: 18px; font-weight: 700; color: var(--text); font-family: var(--font); }
+.vd-tier-note { font-size: 12.5px; color: var(--muted); margin-left: auto; }
+
+/* Cards grid */
+.vd-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(330px,1fr)); gap: 14px; margin-bottom: 8px; }
+
+/* Boarding-pass card */
+.vd-card {
+  background: var(--oc-paper); border: 1px solid var(--border2); border-radius: 13px;
+  overflow: hidden; display: flex; flex-direction: column; position: relative;
+  transition: box-shadow .2s, transform .18s;
+}
+.vd-card:hover { box-shadow: 0 8px 26px rgba(0,0,0,.09); transform: translateY(-2px); }
+.vd-card::before {
+  content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 4px;
+  background: var(--vd-accent, var(--oc-deep)); border-radius: 13px 0 0 13px;
+}
+.vd-card-head { padding: 16px 16px 13px 20px; display: flex; align-items: flex-start; gap: 11px; border-bottom: 1px dashed var(--border); }
+.vd-card-circle {
+  width: 40px; height: 40px; border-radius: 50%; background: var(--vd-accent, var(--oc-deep));
+  display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+  color: #fff; font-size: 16px; font-weight: 800; font-family: var(--font);
+}
+.vd-card-title { flex: 1; }
+.vd-card-name { font-size: 15px; font-weight: 700; color: var(--text); line-height: 1.25; }
+.vd-card-name a { color: inherit; text-decoration: none; }
+.vd-card-name a:hover { color: var(--rust); }
+.vd-card-tags { display: flex; gap: 4px; margin-top: 5px; flex-wrap: wrap; }
+/* Tags use the site's approved sb-* and cp-* families via the shared .badge class pattern */
+.vd-tag {
+  display: inline-flex; align-items: center; justify-content: center;
+  font-size: 9.5px; font-weight: 700; text-transform: uppercase; letter-spacing: .06em;
+  padding: 2px 7px; border-radius: 4px;
+}
+.vd-tag-ocean { background: var(--sb-blue-bg); color: var(--sb-blue-fg); }
+.vd-tag-river { background: var(--cp-teal-wash); color: var(--cp-teal-ink); border: 1px solid rgba(27,94,87,.2); }
+.vd-tag-expedition { background: var(--cp-green-wash); color: var(--cp-green-ink); border: 1px solid rgba(27,94,32,.2); }
+.vd-tag-luxury { background: var(--sb-gold-bg); color: var(--sb-gold-fg); }
+.vd-tag-premium { background: var(--cp-gold-wash); color: var(--cp-gold-ink); }
+.vd-tag-midrange { background: var(--cp-light-grey-wash); color: var(--cp-light-grey-ink); }
+.vd-tag-budget { background: var(--cp-brown-wash); color: var(--cp-brown-ink); }
+.vd-card-body { padding: 13px 16px 13px 20px; flex: 1; }
+.vd-desc { font-size: 12.5px; color: var(--text); line-height: 1.6; margin-bottom: 10px; }
+/* Route strip — the key visual differentiator */
+.vd-route { display: flex; align-items: center; gap: 0; margin-bottom: 9px; overflow-x: auto; scrollbar-width: none; }
+.vd-route::-webkit-scrollbar { display: none; }
+.vd-port { font-size: 9.5px; font-weight: 700; color: var(--oc-ink-soft); text-transform: uppercase; letter-spacing: .05em; white-space: nowrap; background: var(--oc-chart); border-radius: 3px; padding: 3px 7px; flex-shrink: 0; }
+.vd-dash { height: 1px; flex: 1; min-width: 10px; border-top: 1.5px dashed var(--border2); flex-shrink: 0; }
+.vd-dot { width: 5px; height: 5px; background: var(--oc-rope); border-radius: 50%; flex-shrink: 0; }
+.vd-known { font-size: 11px; color: var(--muted); }
+.vd-known strong { color: var(--oc-ink-soft); font-weight: 600; }
+.vd-card-foot { padding: 11px 16px 13px 20px; border-top: 1px dashed var(--border); display: flex; align-items: center; justify-content: space-between; gap: 8px; }
+.vd-price { font-size: 12px; color: var(--muted); }
+.vd-price strong { font-size: 14.5px; font-weight: 700; color: var(--text); display: block; }
+.vd-book {
+  display: inline-flex; align-items: center; gap: 4px; background: var(--oc-deep);
+  color: #fff; border: none; border-radius: 7px; padding: 8px 14px;
+  font-size: 12px; font-weight: 700; text-decoration: none; transition: background .15s;
+  white-space: nowrap;
+}
+.vd-book:hover { background: var(--oc-horizon); }
+
+/* Mobile frame */
+.mobile-frame {
+  width: 393px; border: 2px solid var(--border2); border-radius: 22px; overflow: hidden;
+  box-shadow: 0 16px 48px rgba(0,0,0,.11); background: var(--bg); margin: 0 auto;
+}
+.mobile-frame .vd-grid { grid-template-columns: 1fr; }
+.mobile-frame .vd-horizon { grid-template-columns: repeat(2,1fr); margin: 20px 0; }
+.mobile-frame .vd-stat:nth-child(2) { border-right: none; }
+.mobile-frame .vd-stat:nth-child(3),
+.mobile-frame .vd-stat:nth-child(4) { border-top: 1px solid var(--border); }
+.mobile-frame .vd-stat:nth-child(4) { border-right: none; }
+.mobile-frame .vd-wrap { padding: 0 14px; }
+.mobile-frame .mock-hero { padding: 28px 18px 22px; }
+.mobile-frame .vd-departure { grid-template-columns: 60px 1fr auto; gap: 8px; padding: 9px 12px; }
+</style>
+</head>
+<body>
+<div class="concept-wrap">
+
+  <div class="concept-hdr">
+    <h2>Cruises — Voyage Deck Redesign Concept</h2>
+    <p>Concept only — for owner review at guidemydays.com/reports/ · proposed by: themed-trips-audit · mockup: themed-trips-cruises-voyage-deck-redesign.html</p>
+  </div>
+
+  <div class="frame-label">Desktop view (1040px)</div>
+
+  <!-- ── HERO — unchanged per redesign rules ── -->
+  <div class="mock-hero">
+    <div class="mock-hero-kicker">Best Cruise Lines</div>
+    <h1>Find your line.<br><em>Every ocean, every budget.</em></h1>
+    <p>Ocean giants, intimate river barges, polar expedition ships — every major cruise line compared by region, style, and price so you can match the right ship to the right trip.</p>
+  </div>
+
+  <!-- ── REDESIGN BELOW HERO ── -->
+  <div style="background:var(--bg);">
+    <div class="vd-wrap">
+
+      <!-- Stats bar replaces the standard search bar -->
+      <div class="vd-horizon">
+        <div class="vd-stat">
+          <div class="vd-stat-num">32<span>+</span></div>
+          <div class="vd-stat-label">Major cruise lines<br>compared</div>
+        </div>
+        <div class="vd-stat">
+          <div class="vd-stat-num">$75<span>/night</span></div>
+          <div class="vd-stat-label">Lowest entry<br>price (budget)</div>
+        </div>
+        <div class="vd-stat">
+          <div class="vd-stat-num">7</div>
+          <div class="vd-stat-label">Ocean & river<br>regions covered</div>
+        </div>
+        <div class="vd-stat">
+          <div class="vd-stat-num">365</div>
+          <div class="vd-stat-label">Days a year ships<br>are sailing</div>
+        </div>
+      </div>
+
+      <!-- Departure board — editorial widget showing high-demand routes -->
+      <div class="vd-board">
+        <div class="vd-board-eyebrow">📋 Peak sailings worth planning around</div>
+        <div class="vd-board-title">Routes that book months ahead</div>
+        <div class="vd-board-sub">High-demand itineraries — plan early or choose an alternative season</div>
+        <div class="vd-departures">
+          <div class="vd-departure">
+            <div class="vd-dep-month">Jan–Feb</div>
+            <div><div class="vd-dep-route">Caribbean — Eastern islands loop</div><div class="vd-dep-line">Royal Caribbean · Carnival · Norwegian</div></div>
+            <div class="vd-dep-price"><span class="vd-dep-from">from</span>$90/nt</div>
+          </div>
+          <div class="vd-departure">
+            <div class="vd-dep-month">May–Sep</div>
+            <div><div class="vd-dep-route">Mediterranean — Rome to Athens</div><div class="vd-dep-line">MSC · Celebrity · Princess · Costa</div></div>
+            <div class="vd-dep-price"><span class="vd-dep-from">from</span>$130/nt</div>
+          </div>
+          <div class="vd-departure">
+            <div class="vd-dep-month">Jun–Aug</div>
+            <div><div class="vd-dep-route">Alaska — Inside Passage</div><div class="vd-dep-line">Princess · Holland America · Norwegian</div></div>
+            <div class="vd-dep-price"><span class="vd-dep-from">from</span>$140/nt</div>
+          </div>
+          <div class="vd-departure">
+            <div class="vd-dep-month">Nov–Mar</div>
+            <div><div class="vd-dep-route">Antarctica — Expedition season</div><div class="vd-dep-line">Hurtigruten · Quark · Lindblad</div></div>
+            <div class="vd-dep-price"><span class="vd-dep-from">from</span>$600/nt</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Budget nav -->
+      <div class="vd-nav-row" style="margin-bottom:8px;">
+        <span class="vd-nav-label">Budget</span>
+        <button class="vd-nav-btn is-on">All</button>
+        <button class="vd-nav-btn">Under $110</button>
+        <button class="vd-nav-btn">$110–$200</button>
+        <button class="vd-nav-btn">$200–$400</button>
+        <button class="vd-nav-btn">$400+</button>
+      </div>
+      <!-- Region nav -->
+      <div class="vd-nav-row">
+        <span class="vd-nav-label">Region</span>
+        <button class="vd-nav-btn is-on">🌍 All</button>
+        <button class="vd-nav-btn">🌊 Caribbean</button>
+        <button class="vd-nav-btn">🏛 Mediterranean</button>
+        <button class="vd-nav-btn">🧊 Alaska</button>
+        <button class="vd-nav-btn">🛶 River</button>
+        <button class="vd-nav-btn">🐧 Expedition</button>
+      </div>
+
+      <!-- MAINSTREAM tier -->
+      <div class="vd-tier-head">
+        <div class="vd-tier-accent"></div>
+        <div class="vd-tier-icon">
+          <svg viewBox="0 0 24 24" fill="none"><path d="M3 17l4-8 5 5 4-6 5 9H3z" fill="#fff" opacity=".8"/><path d="M2 19h20" stroke="#fff" stroke-width="1.5" stroke-linecap="round"/></svg>
+        </div>
+        <div class="vd-tier-name">Mainstream Ocean</div>
+        <div class="vd-tier-note">Best value · Largest ships · Most routes</div>
+      </div>
+      <div class="vd-grid">
+
+        <div class="vd-card" style="--vd-accent:#1e3a5f;">
+          <div class="vd-card-head">
+            <div class="vd-card-circle" style="background:#1e3a5f;">RC</div>
+            <div class="vd-card-title">
+              <div class="vd-card-name"><a href="https://www.royalcaribbean.com" target="_blank" rel="noopener">Royal Caribbean International</a></div>
+              <div class="vd-card-tags"><span class="vd-tag vd-tag-midrange">Mid-Range</span><span class="vd-tag vd-tag-ocean">Ocean</span></div>
+            </div>
+          </div>
+          <div class="vd-card-body">
+            <p class="vd-desc">The world's largest cruise ships — Icon of the Seas (7,600 passengers), built around entertainment mega-complexes: FlowRider, ice rinks, Broadway shows, and CocoCay private island.</p>
+            <div class="vd-route"><span class="vd-port">Caribbean</span><div class="vd-dash"></div><div class="vd-dot"></div><div class="vd-dash"></div><span class="vd-port">Bahamas</span><div class="vd-dash"></div><div class="vd-dot"></div><div class="vd-dash"></div><span class="vd-port">Europe</span><div class="vd-dash"></div><div class="vd-dot"></div><div class="vd-dash"></div><span class="vd-port">Alaska</span></div>
+            <div class="vd-known"><strong>Known for:</strong> Icon of the Seas · CocoCay private island · Perfect Day</div>
+          </div>
+          <div class="vd-card-foot">
+            <div class="vd-price"><span>From</span><strong>~$100/night</strong></div>
+            <a href="https://www.royalcaribbean.com" target="_blank" rel="noopener" class="vd-book">Book →</a>
+          </div>
+        </div>
+
+        <div class="vd-card" style="--vd-accent:#C04E1A;">
+          <div class="vd-card-head">
+            <div class="vd-card-circle" style="background:#C04E1A;">CL</div>
+            <div class="vd-card-title">
+              <div class="vd-card-name"><a href="https://www.carnival.com" target="_blank" rel="noopener">Carnival Cruise Line</a></div>
+              <div class="vd-card-tags"><span class="vd-tag vd-tag-budget">Budget</span><span class="vd-tag vd-tag-ocean">Ocean</span></div>
+            </div>
+          </div>
+          <div class="vd-card-body">
+            <p class="vd-desc">North America's most-sailed cruise brand — affordable Caribbean getaways, short 3–4 day Bahamas runs, and family-centric ships with water parks and lively entertainment.</p>
+            <div class="vd-route"><span class="vd-port">Caribbean</span><div class="vd-dash"></div><div class="vd-dot"></div><div class="vd-dash"></div><span class="vd-port">Bahamas</span><div class="vd-dash"></div><div class="vd-dot"></div><div class="vd-dash"></div><span class="vd-port">Mexico</span></div>
+            <div class="vd-known"><strong>Known for:</strong> Short Caribbean runs · Mardi Gras ship · Celebration Key island</div>
+          </div>
+          <div class="vd-card-foot">
+            <div class="vd-price"><span>From</span><strong>~$75/night</strong></div>
+            <a href="https://www.carnival.com" target="_blank" rel="noopener" class="vd-book">Book →</a>
+          </div>
+        </div>
+
+        <div class="vd-card" style="--vd-accent:#006064;">
+          <div class="vd-card-head">
+            <div class="vd-card-circle" style="background:#006064;">NC</div>
+            <div class="vd-card-title">
+              <div class="vd-card-name"><a href="https://www.ncl.com" target="_blank" rel="noopener">Norwegian Cruise Line</a></div>
+              <div class="vd-card-tags"><span class="vd-tag vd-tag-midrange">Mid-Range</span><span class="vd-tag vd-tag-ocean">Ocean</span></div>
+            </div>
+          </div>
+          <div class="vd-card-body">
+            <p class="vd-desc">Pioneer of Freestyle Cruising — no assigned dining times, no dress codes. The Haven (ship-within-a-ship luxury enclave) delivers butler service inside a mainstream ship.</p>
+            <div class="vd-route"><span class="vd-port">Caribbean</span><div class="vd-dash"></div><div class="vd-dot"></div><div class="vd-dash"></div><span class="vd-port">Bermuda</span><div class="vd-dash"></div><div class="vd-dot"></div><div class="vd-dash"></div><span class="vd-port">Europe</span><div class="vd-dash"></div><div class="vd-dot"></div><div class="vd-dash"></div><span class="vd-port">Alaska</span></div>
+            <div class="vd-known"><strong>Known for:</strong> Freestyle dining · The Haven suites · Great Stirrup Cay</div>
+          </div>
+          <div class="vd-card-foot">
+            <div class="vd-price"><span>From</span><strong>~$110/night</strong></div>
+            <a href="https://www.ncl.com" target="_blank" rel="noopener" class="vd-book">Book →</a>
+          </div>
+        </div>
+
+      </div><!-- /mainstream grid -->
+
+      <!-- PREMIUM tier (abbreviated for the mockup) -->
+      <div class="vd-tier-head">
+        <div class="vd-tier-accent"></div>
+        <div class="vd-tier-icon" style="background:var(--oc-brass);">
+          <svg viewBox="0 0 24 24" fill="none"><path d="M12 3l2.5 6.5H21l-5.5 4 2 6.5L12 16l-5.5 4 2-6.5L3 9.5h6.5L12 3z" fill="#fff" opacity=".9"/></svg>
+        </div>
+        <div class="vd-tier-name">Premium Ocean</div>
+        <div class="vd-tier-note">Elevated service · Better dining · Included extras</div>
+      </div>
+      <div class="vd-grid">
+        <div class="vd-card" style="--vd-accent:var(--oc-brass);">
+          <div class="vd-card-head">
+            <div class="vd-card-circle" style="background:var(--oc-brass);">Cx</div>
+            <div class="vd-card-title">
+              <div class="vd-card-name"><a href="https://www.celebritycruises.com" target="_blank" rel="noopener">Celebrity Cruises</a></div>
+              <div class="vd-card-tags"><span class="vd-tag vd-tag-premium">Premium</span><span class="vd-tag vd-tag-ocean">Ocean</span></div>
+            </div>
+          </div>
+          <div class="vd-card-body">
+            <p class="vd-desc">Royal Caribbean Group's upscale brand — outstanding culinary programs, Galapagos sailings, and the adults-only Edge Villas. Elevated service without full luxury pricing.</p>
+            <div class="vd-route"><span class="vd-port">Caribbean</span><div class="vd-dash"></div><div class="vd-dot"></div><div class="vd-dash"></div><span class="vd-port">Europe</span><div class="vd-dash"></div><div class="vd-dot"></div><div class="vd-dash"></div><span class="vd-port">Galápagos</span><div class="vd-dash"></div><div class="vd-dot"></div><div class="vd-dash"></div><span class="vd-port">Alaska</span></div>
+            <div class="vd-known"><strong>Known for:</strong> Edge class ships · Le Voyage restaurant · Galapagos expeditions</div>
+          </div>
+          <div class="vd-card-foot">
+            <div class="vd-price"><span>From</span><strong>~$150/night</strong></div>
+            <a href="https://www.celebritycruises.com" target="_blank" rel="noopener" class="vd-book" style="background:var(--oc-brass);">Book →</a>
+          </div>
+        </div>
+        <div class="vd-card" style="--vd-accent:var(--oc-brass);">
+          <div class="vd-card-head">
+            <div class="vd-card-circle" style="background:var(--oc-brass);">Pr</div>
+            <div class="vd-card-title">
+              <div class="vd-card-name"><a href="https://www.princess.com" target="_blank" rel="noopener">Princess Cruises</a></div>
+              <div class="vd-card-tags"><span class="vd-tag vd-tag-premium">Premium</span><span class="vd-tag vd-tag-ocean">Ocean</span></div>
+            </div>
+          </div>
+          <div class="vd-card-body">
+            <p class="vd-desc">The leading Alaska specialist, known for MedallionClass RFID wearable technology: keyless cabin entry, food delivery anywhere onboard, and personalized service at every touchpoint.</p>
+            <div class="vd-route"><span class="vd-port">Alaska</span><div class="vd-dash"></div><div class="vd-dot"></div><div class="vd-dash"></div><span class="vd-port">Caribbean</span><div class="vd-dash"></div><div class="vd-dot"></div><div class="vd-dash"></div><span class="vd-port">Panama Canal</span><div class="vd-dash"></div><div class="vd-dot"></div><div class="vd-dash"></div><span class="vd-port">Europe</span></div>
+            <div class="vd-known"><strong>Known for:</strong> MedallionClass tech · Alaska Denali land tours · Grand Princess ships</div>
+          </div>
+          <div class="vd-card-foot">
+            <div class="vd-price"><span>From</span><strong>~$140/night</strong></div>
+            <a href="https://www.princess.com" target="_blank" rel="noopener" class="vd-book" style="background:var(--oc-brass);">Book →</a>
+          </div>
+        </div>
+      </div>
+
+      <p style="font-size:13px;color:var(--muted);text-align:center;padding:20px 0 8px;">[Luxury Ocean, River, and Expedition tiers continue below — same card format, different accent colors]</p>
+
+    </div><!-- /vd-wrap -->
+  </div><!-- /redesign area -->
+
+  <hr class="divider">
+
+  <!-- MOBILE FRAME -->
+  <div class="frame-label">Mobile view (393px)</div>
+  <div class="mobile-frame">
+    <div class="mock-hero" style="padding:26px 18px 22px;">
+      <div style="font-size:9.5px;letter-spacing:.15em;text-transform:uppercase;color:rgba(255,255,255,.5);font-weight:700;margin-bottom:10px;">Best Cruise Lines</div>
+      <h1 style="font-size:24px;color:#fff;font-family:Georgia,serif;font-weight:700;margin-bottom:10px;line-height:1.2;">Find your line.<br><em style="color:#c8e8f5;">Every ocean.</em></h1>
+      <p style="font-size:13px;color:rgba(255,255,255,.72);">Every major cruise line by region, style and price.</p>
+    </div>
+    <div style="background:var(--bg);">
+      <div class="vd-wrap">
+        <div class="vd-horizon">
+          <div class="vd-stat" style="border-right:1px solid var(--border);"><div class="vd-stat-num" style="font-size:26px;">32<span>+</span></div><div class="vd-stat-label">Lines</div></div>
+          <div class="vd-stat"><div class="vd-stat-num" style="font-size:26px;">$75<span>/nt</span></div><div class="vd-stat-label">Starting from</div></div>
+          <div class="vd-stat" style="border-right:1px solid var(--border);border-top:1px solid var(--border);"><div class="vd-stat-num" style="font-size:26px;">7</div><div class="vd-stat-label">Regions</div></div>
+          <div class="vd-stat" style="border-top:1px solid var(--border);"><div class="vd-stat-num" style="font-size:26px;">365</div><div class="vd-stat-label">Days sailing</div></div>
+        </div>
+        <div class="vd-nav-row" style="margin-bottom:6px;gap:5px;">
+          <button class="vd-nav-btn is-on" style="font-size:11px;padding:7px 12px;">All</button>
+          <button class="vd-nav-btn" style="font-size:11px;padding:7px 12px;">Budget</button>
+          <button class="vd-nav-btn" style="font-size:11px;padding:7px 12px;">Mid</button>
+          <button class="vd-nav-btn" style="font-size:11px;padding:7px 12px;">Premium</button>
+        </div>
+        <div class="vd-nav-row" style="gap:5px;margin-bottom:16px;">
+          <button class="vd-nav-btn is-on" style="font-size:11px;padding:7px 12px;">🌍 All</button>
+          <button class="vd-nav-btn" style="font-size:11px;padding:7px 12px;">🌊 Caribbean</button>
+          <button class="vd-nav-btn" style="font-size:11px;padding:7px 12px;">🏛 Med</button>
+        </div>
+        <div class="vd-grid">
+          <div class="vd-card" style="--vd-accent:#1e3a5f;">
+            <div class="vd-card-head">
+              <div class="vd-card-circle" style="background:#1e3a5f;width:36px;height:36px;font-size:14px;">RC</div>
+              <div class="vd-card-title">
+                <div class="vd-card-name" style="font-size:14px;">Royal Caribbean International</div>
+                <div class="vd-card-tags"><span class="vd-tag vd-tag-midrange">Mid-Range</span><span class="vd-tag vd-tag-ocean">Ocean</span></div>
+              </div>
+            </div>
+            <div class="vd-card-body">
+              <p class="vd-desc" style="font-size:12px;">Largest ships, biggest entertainment — Icon of the Seas, FlowRider, CocoCay private island.</p>
+              <div class="vd-route" style="margin-bottom:8px;"><span class="vd-port">Caribbean</span><div class="vd-dash"></div><div class="vd-dot"></div><div class="vd-dash"></div><span class="vd-port">Bahamas</span><div class="vd-dash"></div><div class="vd-dot"></div><div class="vd-dash"></div><span class="vd-port">Europe</span></div>
+            </div>
+            <div class="vd-card-foot">
+              <div class="vd-price"><span style="font-size:11px;">From</span><strong style="font-size:13.5px;">~$100/night</strong></div>
+              <a href="https://www.royalcaribbean.com" target="_blank" rel="noopener" class="vd-book" style="padding:7px 12px;font-size:11.5px;">Book →</a>
+            </div>
+          </div>
+        </div>
+        <p style="font-size:12px;color:var(--muted);text-align:center;padding:16px 0;">— more cruise lines below —</p>
+      </div>
+    </div>
+  </div><!-- /mobile-frame -->
+
+</div><!-- /concept-wrap -->
+</body>
+</html>

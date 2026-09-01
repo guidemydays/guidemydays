@@ -122,10 +122,12 @@
   font-size: 19px; font-weight: 700; color: var(--rust, #C04E1A); white-space: nowrap; text-align: right; }
 .dt-board-time .u { font-size: 10px; font-weight: 700; letter-spacing: .05em; text-transform: uppercase; color: var(--muted, #6a6660); margin-left: 2px; }
 .dt-board-dot { width: 8px; height: 8px; border-radius: 50%; justify-self: end; }
-.dt-board-dot[data-band="u30"]   { background: #2a7a66; }
-.dt-board-dot[data-band="30-60"] { background: #4e85c4; }
-.dt-board-dot[data-band="1-2"]   { background: #6a3fb0; }
-.dt-board-dot[data-band="2plus"] { background: #9a5220; }
+/* Leftover from the 2026-08-27 .dt-band cleanup -- that pass moved the filter
+   pills onto real cp-* classes but missed this dot, which duplicated four
+   invented hex values instead of reading the bands' own cp-* class (now added
+   to the dot's markup in boardRow() via bandCp()). Board dot and filter pill
+   for the same band now read as one system, not two. */
+.dt-board-dot[class*="cp-"] { background: var(--sp-ink); }
 
 @keyframes dt-flap { from { opacity: 0; transform: rotateX(-90deg) translateY(-6px); } to { opacity: 1; transform: none; } }
 @media (prefers-reduced-motion: reduce) { .dt-board-row { animation: none; opacity: 1; } }
@@ -302,6 +304,11 @@ function bandKeyFor(mins) {
   return '2plus';
 }
 
+function bandCp(key) {
+  var b = BANDS.filter(function (x) { return x.key === key; })[0];
+  return b ? b.cp : '';
+}
+
 function bookLinks(book) {
   if (!book || !book.length) return '';
   return '<div class="dt-stop-links">' + book.map(function (b) {
@@ -333,7 +340,7 @@ function boardRow(c, i) {
   return '<button type="button" class="dt-board-row" style="animation-delay:' + Math.min(i * 0.025, 0.5) + 's" data-city="' + c.city.replace(/"/g, '&quot;') + '">' +
       '<span class="dt-board-name">' + c.city + (fast ? '<span>' + best.dest + '</span>' : '') + '</span>' +
       (fast ? '<span class="dt-board-time">' + fast.n + '<span class="u">' + (fast.u || '') + '</span></span>' : '<span></span>') +
-      '<span class="dt-board-dot" data-band="' + (best ? bandKeyFor(best.mins) : '') + '"></span>' +
+      '<span class="dt-board-dot ' + (best ? bandCp(bandKeyFor(best.mins)) : '') + '" data-band="' + (best ? bandKeyFor(best.mins) : '') + '"></span>' +
     '</button>';
 }
 

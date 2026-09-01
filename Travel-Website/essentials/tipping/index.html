@@ -11,33 +11,13 @@
    map), so .norm-*::before below reads --sp-ink straight from
    web-travel-style.css. Ordering intent (strongest-expectation to
    doesn't-apply) is unchanged, just no longer a hand-picked hex per step. */
-/* ── Stat bar ── */
-.stat-bar { display: flex; flex-wrap: wrap; gap: 8px; margin: 28px 0 14px; justify-content: center; }
-.stat-pill {
-  /* hook — box, case and colour from the shared .legend-key (the JS writes
-     stat-pill legend-key). Was .badge fam-* until 2026-08-24: this row sits
-     directly under the region filter pills above it, which already claim
-     every fam-* colour for a different label (fam-grey = "All" up there,
-     "Not Customary" down here) — .legend-key is oval and neutral so it can
-     never collide with a fam-* row, and the dot icon alone still carries
-     the real colour. Never re-add a fam-* class or padding beyond the
-     shared .legend-key default. 2026-08-24: flex:1 1 auto (stretch-to-fill-row)
-     is RETIRED — owner: "the longest text dictates the size of the rest...
-     don't pad tons around, these are crazy." These are static legend
-     labels, so the shared _equalizePillRows() in toolbar.js (which only
-     equalizes clickable .pill-badge rows) does not touch them; equalizeStatPills()
-     below does the same measure-the-widest-then-match trick, scoped to
-     just this row, instead of stretching each pill to fill available
-     space with padding. */
-  flex: 0 0 auto; justify-content: center;
-}
 /* ── Filter pills ── */
 .controls { margin: var(--search-gap,32px) 0 20px; }
 .pills { display: flex; gap: var(--fam-gap,10px); flex-wrap: nowrap; justify-content: center; }
 /* .pill is a layout hook — box, colour, case and the selected state come from
    the shared .pill-badge + .fam-* classes (markup writes pill pill-badge fam-*;
    selection is .is-on). Never re-add a box or a colour here.
-   Spec: Travel-Website/Icons-Formats-Logos/selection-pills-badges-pills-to-badge-dots/. */
+   Spec: Brain/Reference/Icons-Formats-Logos/selection-pills-badges-pills-to-badge-dots/. */
 .pill { font-family: inherit; }
 /* Owner: "these are click action pills choose earth tones for these" / "we do
    not have ANY terracotta fonts in the doc" — superseded 2026-08-26: the
@@ -54,6 +34,19 @@
 #region-pills .pill.selection-pill:hover { filter: brightness(.94); }
 #region-pills .pill.selection-pill.is-on,
 #region-pills .pill.selection-pill[aria-pressed="true"] { filter: brightness(.82); }
+/* ── Norm filter pills (2026-09-01) — replaces the old static stat-bar
+   legend. Same shape/size as the region pills (.pill.selection-pill), same
+   approved sb-* Solid Badge family the per-country norm badge already uses
+   (so the color a reader learns from one card carries straight into the
+   filter), multi-select (each button toggles independently — no "All"
+   pill needed, zero selected = no norm filter applied). Scoped is-on/hover
+   mirrors #region-pills immediately above; the shared generic
+   .selection-pill.is-on rule never wins against a family colour class
+   (cascade order), so brightness() carries the selected state instead. */
+.norm-pills { margin-top: 10px; }
+#norm-pills .pill.selection-pill:hover { filter: brightness(.94); }
+#norm-pills .pill.selection-pill.is-on,
+#norm-pills .pill.selection-pill[aria-pressed="true"] { filter: brightness(.82); }
 /* ── Region headers (B — hairline rule) ── */
 .region-header {
   display: flex; align-items: center; gap: 12px;
@@ -134,7 +127,6 @@
   /* No phone override: the gap above and below the search is one token
      (--search-gap) at every viewport — owner rule 2026-08-17. */
   .pills { flex-wrap: wrap !important; gap: var(--fam-gap,10px) !important; }
-  .stat-bar { display: grid; grid-template-columns: repeat(2, 1fr); }
   .country-grid { grid-template-columns: 1fr; }
   .country-card { padding: 13px 14px 13px 18px; }
   .tip-label { width: 120px; }
@@ -147,6 +139,9 @@
   #region-pills .pill.selection-pill:hover { filter: brightness(.9); }
   #region-pills .pill.selection-pill.is-on,
   #region-pills .pill.selection-pill[aria-pressed="true"] { filter: brightness(.8); }
+  #norm-pills .pill.selection-pill:hover { filter: brightness(.9); }
+  #norm-pills .pill.selection-pill.is-on,
+  #norm-pills .pill.selection-pill[aria-pressed="true"] { filter: brightness(.8); }
   .region-header { color: var(--muted); }
 }
 
@@ -215,9 +210,14 @@
       <button class="pill selection-pill cp-purple hov-darken" data-region="asiapac" aria-pressed="false">Asia · Pacific</button>
       <button class="pill selection-pill cp-gold hov-darken" data-region="other" aria-pressed="false">M.E. &amp; Africa</button>
     </div>
+    <div class="pills norm-pills" id="norm-pills">
+      <button class="pill selection-pill sb-green hov-darken" data-norm="expected" aria-pressed="false">Expected</button>
+      <button class="pill selection-pill sb-gold hov-darken" data-norm="appreciated" aria-pressed="false">Appreciated</button>
+      <button class="pill selection-pill sb-blue hov-darken" data-norm="check" aria-pressed="false">Check Bill</button>
+      <button class="pill selection-pill sb-dark-grey hov-darken" data-norm="skip" aria-pressed="false">Not Customary</button>
+    </div>
   </div>
 
-  <div class="stat-bar" id="stat-bar"></div>
   <div class="country-list" id="list"></div>
 
 </div>
@@ -1133,6 +1133,7 @@ var COUNTRIES = [
 ];
 
 var activeRegion = 'all';
+var activeNorms  = [];   // multi-select — empty = no norm filter applied
 var searchVal    = '';
 
 var REGION_LABELS = {
@@ -1148,42 +1149,6 @@ function norm(n) {
   var map = {expected:'Expected', appreciated:'Appreciated', check:'Check Bill', skip:'Not Customary'};
   return map[n] || n;
 }
-
-function buildStatBar() {
-  var labels = {expected:'Expected', appreciated:'Appreciated', check:'Check Bill', skip:'Not Customary'};
-  /* Owner: "these need to match 100% the look" — same sb-* tone as the
-     per-country chip (renderCard() below), which is what actually carries
-     the colour. Not the same CLASS: .legend-key.sb-* already renders the
-     identical colour independently (see web-travel-style.css), so this
-     never needed .badge in its own class list -- adding it (2026-08-26,
-     chasing the "match the look" note literally) silently gave every stat
-     pill .badge's smaller padding on top of .legend-key's, one line above
-     the exact "never re-add ... padding beyond the shared .legend-key
-     default" warning this same comment block already carried. */
-  var STAT_FAM = {expected:'sb-green', appreciated:'sb-gold', check:'sb-blue', skip:'sb-dark-grey'};
-  var html = '';
-  ['expected','appreciated','check','skip'].forEach(function(k) {
-    html += '<div class="stat-pill legend-key ' + STAT_FAM[k] + '">' +
-      '<span class="stat-label">' + labels[k] + '</span>' +
-    '</div>';
-  });
-  document.getElementById('stat-bar').innerHTML = html;
-  equalizeStatPills();
-}
-
-/* Same measure-the-widest-then-match-min-width trick as toolbar.js's
-   _equalizePillRows(), scoped to just #stat-bar — that shared function only
-   touches clickable .pill-badge rows, and these four are static .badge
-   legend items, not buttons. Width comes from content, never from padding. */
-function equalizeStatPills() {
-  var pills = [].slice.call(document.querySelectorAll('#stat-bar .stat-pill'));
-  if (pills.length < 2) return;
-  pills.forEach(function (p) { p.style.minWidth = ''; });
-  var max = 0;
-  pills.forEach(function (p) { max = Math.max(max, p.getBoundingClientRect().width); });
-  pills.forEach(function (p) { p.style.minWidth = max + 'px'; });
-}
-window.addEventListener('resize', equalizeStatPills);
 
 var NORM_CP = { expected: 'cp-dark-teal', appreciated: 'cp-gold', check: 'cp-terracotta', skip: 'cp-light-grey' };
 var NORM_SB = { expected: 'sb-green', appreciated: 'sb-gold', check: 'sb-blue', skip: 'sb-dark-grey' };
@@ -1208,11 +1173,12 @@ function render() {
   var list = document.getElementById('list');
   var filtered = COUNTRIES.filter(function(c) {
     if (activeRegion !== 'all' && c.region !== activeRegion) return false;
+    if (activeNorms.length && activeNorms.indexOf(c.norm) === -1) return false;
     if (searchVal && (c.name + ' ' + c.cities).toLowerCase().indexOf(searchVal) === -1) return false;
     return true;
   });
   if (filtered.length === 0) {
-    list.innerHTML = '<div class="empty-state">No results for "' + searchVal + '"</div>';
+    list.innerHTML = '<div class="empty-state">' + (searchVal ? 'No results for "' + searchVal + '"' : 'No countries match this filter') + '</div>';
     return;
   }
 
@@ -1243,9 +1209,26 @@ document.getElementById('region-pills').addEventListener('click', function(e) {
   var btn = e.target.closest('.pill');
   if (!btn) return;
   activeRegion = btn.dataset.region;
-  document.querySelectorAll('.pill').forEach(function(p) { p.classList.remove('is-on'); p.setAttribute('aria-pressed', 'false'); });
+  document.querySelectorAll('#region-pills .pill').forEach(function(p) { p.classList.remove('is-on'); p.setAttribute('aria-pressed', 'false'); });
   btn.classList.add('is-on');
   btn.setAttribute('aria-pressed', 'true');
+  render();
+});
+
+document.getElementById('norm-pills').addEventListener('click', function(e) {
+  var btn = e.target.closest('.pill');
+  if (!btn) return;
+  var n = btn.dataset.norm;
+  var idx = activeNorms.indexOf(n);
+  if (idx === -1) {
+    activeNorms.push(n);
+    btn.classList.add('is-on');
+    btn.setAttribute('aria-pressed', 'true');
+  } else {
+    activeNorms.splice(idx, 1);
+    btn.classList.remove('is-on');
+    btn.setAttribute('aria-pressed', 'false');
+  }
   render();
 });
 
@@ -1254,7 +1237,6 @@ document.getElementById('search').addEventListener('input', function(e) {
   render();
 });
 
-buildStatBar();
 render();
 </script>
 

@@ -1,0 +1,458 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Mock-up — Tipping: Region Radar Redesign</title>
+<style>
+/* ── Site design tokens (inlined — no external CSS in mock-ups) ───────── */
+:root {
+  --font: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+  --bg:        #f5f2ec;
+  --surface:   #ffffff;
+  --surface2:  #f0ede8;
+  --surface3:  #e8e4dc;
+  --text:      #3d3a32;
+  --muted:     #6a6660;
+  --border:    #eae6de;
+  --border2:   #e6e2da;
+  --accent:    #C04E1A;
+  --rail:      min(900px, 100%);
+  --gutter:    32px;
+
+  /* Solid Badge (sb-*) families — only cp-* and sb-* are approved site-wide */
+  --sb-red-bg:    #b72b1a; --sb-red-ink:    #fff;
+  --sb-orange-bg: #bf5420; --sb-orange-ink: #fff;
+  --sb-gold-bg:   #9a6b14; --sb-gold-ink:   #fff;
+  --sb-green-bg:  #2a6e3a; --sb-green-ink:  #fff;
+  --sb-grey-bg:   #6a6660; --sb-grey-ink:   #fff;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #1a1917; --surface: #232120; --surface2: #1e1c1a;
+    --text: #e8e5e0; --muted: #9a9690; --border: #332f2a; --border2: #3a3732;
+    --sb-red-bg:    #c93a27; --sb-red-ink:    #fff;
+    --sb-orange-bg: #cc6030; --sb-orange-ink: #fff;
+    --sb-gold-bg:   #aa791a; --sb-gold-ink:   #fff;
+    --sb-green-bg:  #2e7a40; --sb-green-ink:  #fff;
+    --sb-grey-bg:   #7a7470; --sb-grey-ink:   #fff;
+  }
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: var(--font); background: var(--bg); color: var(--text); font-size: 15px; line-height: 1.5; }
+
+/* ── Mock-up label ── */
+.mockup-label {
+  background: #fff3cd; border-bottom: 2px solid #f0c040; padding: 8px 20px;
+  font-size: 12px; font-weight: 600; color: #7a5f00; text-align: center;
+  letter-spacing: .04em; text-transform: uppercase;
+}
+
+/* ── Hero ── */
+.hero {
+  background: var(--accent); color: #fff;
+  padding: 44px var(--gutter) 40px;
+}
+.hero-kicker { font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: .12em; opacity: .75; margin-bottom: 8px; }
+.hero-title { font-size: clamp(28px,5vw,40px); font-weight: 700; line-height: 1.15; margin-bottom: 10px; }
+.hero-intro { font-size: 16px; opacity: .88; max-width: 580px; line-height: 1.55; }
+
+/* ── Norm legend ── */
+.legend-strip {
+  background: var(--surface2); border-bottom: 1px solid var(--border);
+  padding: 10px var(--gutter);
+  display: flex; flex-wrap: wrap; gap: 14px; align-items: center;
+}
+.legend-label { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: .08em; color: var(--muted); margin-right: 4px; }
+.legend-item { display: flex; align-items: center; gap: 6px; font-size: 12px; font-weight: 600; }
+.norm-dot { width: 10px; height: 10px; border-radius: 50%; }
+.norm-dot.expected    { background: var(--sb-red-bg); }
+.norm-dot.appreciated { background: var(--sb-orange-bg); }
+.norm-dot.check       { background: var(--sb-gold-bg); }
+.norm-dot.skip        { background: var(--sb-green-bg); }
+
+/* ── Controls ── */
+.controls {
+  max-width: var(--rail); margin: 0 auto; padding: 24px var(--gutter) 0;
+  display: flex; flex-wrap: wrap; gap: 12px; align-items: flex-start;
+}
+.search-wrap {
+  flex: 1 1 240px; position: relative;
+}
+.search-wrap input[type="search"] {
+  width: 100%; padding: 10px 16px 10px 40px;
+  border: 1.5px solid var(--border2); border-radius: 10px;
+  background: var(--surface); font-size: 14px; color: var(--text);
+  outline: none; font-family: var(--font);
+  -webkit-appearance: none; appearance: none;
+}
+.search-icon {
+  position: absolute; left: 13px; top: 50%; transform: translateY(-50%);
+  color: var(--muted); pointer-events: none; font-size: 17px; line-height: 1;
+}
+.region-tabs { display: flex; flex-wrap: wrap; gap: 8px; }
+.rtab {
+  padding: 7px 14px; border-radius: 8px; font-size: 13px; font-weight: 600;
+  cursor: pointer; border: 1.5px solid var(--border2); background: var(--surface);
+  color: var(--text); font-family: var(--font);
+  transition: background .12s, color .12s, border-color .12s;
+}
+.rtab.active, .rtab:hover {
+  background: var(--accent); color: #fff; border-color: var(--accent);
+}
+
+/* ── Country grid ── */
+.grid-wrap {
+  max-width: var(--rail); margin: 0 auto; padding: 20px var(--gutter) 60px;
+}
+.region-header {
+  font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: .1em;
+  color: var(--muted); margin: 28px 0 10px; padding-bottom: 6px;
+  border-bottom: 1px solid var(--border);
+}
+.country-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 10px;
+}
+.country-card {
+  background: var(--surface); border: 1.5px solid var(--border2); border-radius: 12px;
+  padding: 14px 16px; display: flex; flex-direction: column; gap: 8px;
+  transition: box-shadow .15s, transform .15s, border-color .15s;
+}
+.country-card:hover {
+  box-shadow: 0 6px 18px rgba(0,0,0,.09); transform: translateY(-2px);
+  border-color: var(--accent);
+}
+.card-top { display: flex; align-items: center; gap: 10px; }
+.card-flag { font-size: 26px; line-height: 1; }
+.card-name { font-size: 15px; font-weight: 700; }
+.card-region-tag { font-size: 11px; color: var(--muted); }
+
+/* Norm indicator */
+.norm-bar { display: flex; align-items: center; gap: 8px; }
+.norm-badge {
+  font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: .05em;
+  padding: 2px 8px; border-radius: 4px; white-space: nowrap;
+}
+.norm-badge.expected    { background: var(--sb-red-bg);    color: var(--sb-red-ink); }
+.norm-badge.appreciated { background: var(--sb-orange-bg); color: var(--sb-orange-ink); }
+.norm-badge.check       { background: var(--sb-gold-bg);   color: var(--sb-gold-ink); }
+.norm-badge.skip        { background: var(--sb-green-bg);  color: var(--sb-green-ink); }
+
+/* Tipping intensity spectrum */
+.spectrum {
+  flex: 1; height: 5px; border-radius: 3px; background: var(--border2); position: relative; overflow: hidden;
+}
+.spectrum-fill { position: absolute; left: 0; top: 0; height: 100%; border-radius: 3px; }
+.spectrum-fill.expected    { width: 90%; background: var(--sb-red-bg); }
+.spectrum-fill.appreciated { width: 60%; background: var(--sb-orange-bg); }
+.spectrum-fill.check       { width: 35%; background: var(--sb-gold-bg); }
+.spectrum-fill.skip        { width: 10%; background: var(--sb-green-bg); }
+
+.card-tip { font-size: 12px; color: var(--muted); line-height: 1.45; }
+
+/* ── Design notes ── */
+.design-notes {
+  background: #f0f6ff; border: 1.5px solid #a0b8d8; border-radius: 12px;
+  padding: 20px 24px; margin: 40px auto 0; max-width: calc(var(--rail) - 2 * var(--gutter));
+}
+.design-notes h2 { font-size: 13px; text-transform: uppercase; letter-spacing: .08em; color: #1a3a5c; margin-bottom: 12px; }
+.design-notes ul { padding-left: 18px; }
+.design-notes li { font-size: 13px; color: #2a4a6c; margin-bottom: 6px; line-height: 1.5; }
+
+/* ── Mobile ── */
+@media (max-width: 600px) {
+  :root { --gutter: 14px; }
+  .hero { padding: 28px var(--gutter) 24px; }
+  .hero-title { font-size: 26px; }
+  .controls { padding-top: 16px; }
+  .country-grid { grid-template-columns: 1fr; }
+  .legend-label { display: none; }
+}
+</style>
+</head>
+<body>
+
+<div class="mockup-label">Mock-up · money-audit · Tipping: Region Radar Redesign · 2026-09-01</div>
+
+<div class="hero">
+  <div class="hero-kicker">Tipping Guide</div>
+  <h1 class="hero-title">What to tip, <em>country by country.</em></h1>
+  <p class="hero-intro">Every destination, one clear signal — whether a tip is expected, appreciated, optional, or unusual. Skip the guesswork, tip like a local.</p>
+</div>
+
+<div class="legend-strip">
+  <span class="legend-label">Norm:</span>
+  <span class="legend-item"><span class="norm-dot expected"></span> Expected</span>
+  <span class="legend-item"><span class="norm-dot appreciated"></span> Appreciated</span>
+  <span class="legend-item"><span class="norm-dot check"></span> Check the bill</span>
+  <span class="legend-item"><span class="norm-dot skip"></span> Skip it</span>
+</div>
+
+<div class="controls">
+  <div class="search-wrap">
+    <span class="search-icon" aria-hidden="true">⌕</span>
+    <input type="search" placeholder="Country or city" autocomplete="off">
+  </div>
+  <div class="region-tabs">
+    <button class="rtab active" onclick="setRegion(this,'all')">All</button>
+    <button class="rtab" onclick="setRegion(this,'americas')">Americas</button>
+    <button class="rtab" onclick="setRegion(this,'europe')">Europe</button>
+    <button class="rtab" onclick="setRegion(this,'asia')">Asia</button>
+    <button class="rtab" onclick="setRegion(this,'mideast')">Middle East</button>
+    <button class="rtab" onclick="setRegion(this,'africa')">Africa</button>
+    <button class="rtab" onclick="setRegion(this,'pacific')">Pacific</button>
+  </div>
+</div>
+
+<div class="grid-wrap" id="grid-wrap">
+
+  <div class="region-header" data-region="americas">🌎 Americas</div>
+  <div class="country-grid" data-region="americas">
+    <div class="country-card">
+      <div class="card-top"><span class="card-flag">🇺🇸</span><div><div class="card-name">United States</div><div class="card-region-tag">Americas</div></div></div>
+      <div class="norm-bar">
+        <span class="norm-badge expected">Expected</span>
+        <div class="spectrum"><div class="spectrum-fill expected"></div></div>
+      </div>
+      <div class="card-tip">15–20% restaurants; 15–20% taxis. Tip via card or cash — servers depend on gratuity.</div>
+    </div>
+    <div class="country-card">
+      <div class="card-top"><span class="card-flag">🇲🇽</span><div><div class="card-name">Mexico</div><div class="card-region-tag">Americas</div></div></div>
+      <div class="norm-bar">
+        <span class="norm-badge expected">Expected</span>
+        <div class="spectrum"><div class="spectrum-fill expected"></div></div>
+      </div>
+      <div class="card-tip">10–15% restaurants; round up taxis. Service charges rarely included.</div>
+    </div>
+    <div class="country-card">
+      <div class="card-top"><span class="card-flag">🇧🇷</span><div><div class="card-name">Brazil</div><div class="card-region-tag">Americas</div></div></div>
+      <div class="norm-bar">
+        <span class="norm-badge check">Check the bill</span>
+        <div class="spectrum"><div class="spectrum-fill check"></div></div>
+      </div>
+      <div class="card-tip">10% taxa de serviço usually included. Skip or add only if service was exceptional.</div>
+    </div>
+    <div class="country-card">
+      <div class="card-top"><span class="card-flag">🇦🇷</span><div><div class="card-name">Argentina</div><div class="card-region-tag">Americas</div></div></div>
+      <div class="norm-bar">
+        <span class="norm-badge appreciated">Appreciated</span>
+        <div class="spectrum"><div class="spectrum-fill appreciated"></div></div>
+      </div>
+      <div class="card-tip">10–15% at restaurants, always in cash — card tips rarely reach servers.</div>
+    </div>
+    <div class="country-card">
+      <div class="card-top"><span class="card-flag">🇨🇴</span><div><div class="card-name">Colombia</div><div class="card-region-tag">Americas</div></div></div>
+      <div class="norm-bar">
+        <span class="norm-badge check">Check the bill</span>
+        <div class="spectrum"><div class="spectrum-fill check"></div></div>
+      </div>
+      <div class="card-tip">10% propina usually on the bill — you can decline. Cash tips appreciated for guides and drivers.</div>
+    </div>
+    <div class="country-card">
+      <div class="card-top"><span class="card-flag">🇨🇺</span><div><div class="card-name">Cuba</div><div class="card-region-tag">Americas</div></div></div>
+      <div class="norm-bar">
+        <span class="norm-badge expected">Expected</span>
+        <div class="spectrum"><div class="spectrum-fill expected"></div></div>
+      </div>
+      <div class="card-tip">CUC/USD tips expected and important — service workers' main income. 10–15% restaurants.</div>
+    </div>
+    <div class="country-card">
+      <div class="card-top"><span class="card-flag">🇩🇴</span><div><div class="card-name">Dominican Republic</div><div class="card-region-tag">Americas</div></div></div>
+      <div class="norm-bar">
+        <span class="norm-badge check">Check the bill</span>
+        <div class="spectrum"><div class="spectrum-fill check"></div></div>
+      </div>
+      <div class="card-tip">10% service charge usually included. Add extra for excellent service; always carry small bills.</div>
+    </div>
+  </div>
+
+  <div class="region-header" data-region="europe">🌍 Europe</div>
+  <div class="country-grid" data-region="europe">
+    <div class="country-card">
+      <div class="card-top"><span class="card-flag">🇫🇷</span><div><div class="card-name">France</div><div class="card-region-tag">Europe</div></div></div>
+      <div class="norm-bar">
+        <span class="norm-badge check">Check the bill</span>
+        <div class="spectrum"><div class="spectrum-fill check"></div></div>
+      </div>
+      <div class="card-tip">Service compris included. Round up or leave change — no percentage expected.</div>
+    </div>
+    <div class="country-card">
+      <div class="card-top"><span class="card-flag">🇩🇪</span><div><div class="card-name">Germany</div><div class="card-region-tag">Europe</div></div></div>
+      <div class="norm-bar">
+        <span class="norm-badge appreciated">Appreciated</span>
+        <div class="spectrum"><div class="spectrum-fill appreciated"></div></div>
+      </div>
+      <div class="card-tip">Round up to nearest euro or add 5–10%. Say the total when paying cash.</div>
+    </div>
+    <div class="country-card">
+      <div class="card-top"><span class="card-flag">🇮🇹</span><div><div class="card-name">Italy</div><div class="card-region-tag">Europe</div></div></div>
+      <div class="norm-bar">
+        <span class="norm-badge appreciated">Appreciated</span>
+        <div class="spectrum"><div class="spectrum-fill appreciated"></div></div>
+      </div>
+      <div class="card-tip">Coperto on the bill. Leave €1–2 per person for good service — cash preferred.</div>
+    </div>
+    <div class="country-card">
+      <div class="card-top"><span class="card-flag">🇪🇸</span><div><div class="card-name">Spain</div><div class="card-region-tag">Europe</div></div></div>
+      <div class="norm-bar">
+        <span class="norm-badge appreciated">Appreciated</span>
+        <div class="spectrum"><div class="spectrum-fill appreciated"></div></div>
+      </div>
+      <div class="card-tip">Round up or leave small change. Not expected, but welcomed at sit-down restaurants.</div>
+    </div>
+    <div class="country-card">
+      <div class="card-top"><span class="card-flag">🇬🇧</span><div><div class="card-name">United Kingdom</div><div class="card-region-tag">Europe</div></div></div>
+      <div class="norm-bar">
+        <span class="norm-badge appreciated">Appreciated</span>
+        <div class="spectrum"><div class="spectrum-fill appreciated"></div></div>
+      </div>
+      <div class="card-tip">10–15% sit-down restaurants; check for service charge first. Pubs: no tip expected.</div>
+    </div>
+  </div>
+
+  <div class="region-header" data-region="asia">🌏 Asia</div>
+  <div class="country-grid" data-region="asia">
+    <div class="country-card">
+      <div class="card-top"><span class="card-flag">🇯🇵</span><div><div class="card-name">Japan</div><div class="card-region-tag">Asia</div></div></div>
+      <div class="norm-bar">
+        <span class="norm-badge skip">Skip it</span>
+        <div class="spectrum"><div class="spectrum-fill skip"></div></div>
+      </div>
+      <div class="card-tip">Tipping can offend — excellent service is the standard, not a reason to pay extra.</div>
+    </div>
+    <div class="country-card">
+      <div class="card-top"><span class="card-flag">🇹🇭</span><div><div class="card-name">Thailand</div><div class="card-region-tag">Asia</div></div></div>
+      <div class="norm-bar">
+        <span class="norm-badge appreciated">Appreciated</span>
+        <div class="spectrum"><div class="spectrum-fill appreciated"></div></div>
+      </div>
+      <div class="card-tip">20–50 THB at restaurants; 10–20% at upscale venues. Not mandatory but always welcome.</div>
+    </div>
+    <div class="country-card">
+      <div class="card-top"><span class="card-flag">🇮🇳</span><div><div class="card-name">India</div><div class="card-region-tag">Asia</div></div></div>
+      <div class="norm-bar">
+        <span class="norm-badge check">Check the bill</span>
+        <div class="spectrum"><div class="spectrum-fill check"></div></div>
+      </div>
+      <div class="card-tip">Service charge often added. Otherwise 10% at restaurants; small cash tips for drivers and porters.</div>
+    </div>
+    <div class="country-card">
+      <div class="card-top"><span class="card-flag">🇸🇬</span><div><div class="card-name">Singapore</div><div class="card-region-tag">Asia</div></div></div>
+      <div class="norm-bar">
+        <span class="norm-badge skip">Skip it</span>
+        <div class="spectrum"><div class="spectrum-fill skip"></div></div>
+      </div>
+      <div class="card-tip">GST + 10% service charge included everywhere. No additional tip expected or needed.</div>
+    </div>
+    <div class="country-card">
+      <div class="card-top"><span class="card-flag">🇲🇾</span><div><div class="card-name">Malaysia</div><div class="card-region-tag">Asia</div></div></div>
+      <div class="norm-bar">
+        <span class="norm-badge appreciated">Appreciated</span>
+        <div class="spectrum"><div class="spectrum-fill appreciated"></div></div>
+      </div>
+      <div class="card-tip">Not customary but increasingly accepted at upscale restaurants. Round up for taxis and delivery.</div>
+    </div>
+    <div class="country-card">
+      <div class="card-top"><span class="card-flag">🇨🇳</span><div><div class="card-name">China</div><div class="card-region-tag">Asia</div></div></div>
+      <div class="norm-bar">
+        <span class="norm-badge skip">Skip it</span>
+        <div class="spectrum"><div class="spectrum-fill skip"></div></div>
+      </div>
+      <div class="card-tip">Not customary and can be refused. High-end hotel staff may accept; tour guides and drivers appreciate it.</div>
+    </div>
+  </div>
+
+  <div class="region-header" data-region="mideast">🕌 Middle East</div>
+  <div class="country-grid" data-region="mideast">
+    <div class="country-card">
+      <div class="card-top"><span class="card-flag">🇦🇪</span><div><div class="card-name">UAE</div><div class="card-region-tag">Middle East</div></div></div>
+      <div class="norm-bar">
+        <span class="norm-badge appreciated">Appreciated</span>
+        <div class="spectrum"><div class="spectrum-fill appreciated"></div></div>
+      </div>
+      <div class="card-tip">10% often included. Additional cash tip for good service is welcome.</div>
+    </div>
+    <div class="country-card">
+      <div class="card-top"><span class="card-flag">🇮🇱</span><div><div class="card-name">Israel</div><div class="card-region-tag">Middle East</div></div></div>
+      <div class="norm-bar">
+        <span class="norm-badge expected">Expected</span>
+        <div class="spectrum"><div class="spectrum-fill expected"></div></div>
+      </div>
+      <div class="card-tip">10–15% restaurants; ask if service included. Tipping culture strong, especially in Tel Aviv.</div>
+    </div>
+  </div>
+
+  <div class="region-header" data-region="africa">🌍 Africa</div>
+  <div class="country-grid" data-region="africa">
+    <div class="country-card">
+      <div class="card-top"><span class="card-flag">🇿🇦</span><div><div class="card-name">South Africa</div><div class="card-region-tag">Africa</div></div></div>
+      <div class="norm-bar">
+        <span class="norm-badge expected">Expected</span>
+        <div class="spectrum"><div class="spectrum-fill expected"></div></div>
+      </div>
+      <div class="card-tip">10–15% restaurants; R5–10 for car guards. Tipping is a major part of service workers' income.</div>
+    </div>
+    <div class="country-card">
+      <div class="card-top"><span class="card-flag">🇲🇦</span><div><div class="card-name">Morocco</div><div class="card-region-tag">Africa</div></div></div>
+      <div class="norm-bar">
+        <span class="norm-badge appreciated">Appreciated</span>
+        <div class="spectrum"><div class="spectrum-fill appreciated"></div></div>
+      </div>
+      <div class="card-tip">10–15% at tourist restaurants; always in cash. Guides and drivers: negotiate beforehand.</div>
+    </div>
+  </div>
+
+  <div class="region-header" data-region="pacific">🌏 Pacific</div>
+  <div class="country-grid" data-region="pacific">
+    <div class="country-card">
+      <div class="card-top"><span class="card-flag">🇦🇺</span><div><div class="card-name">Australia</div><div class="card-region-tag">Pacific</div></div></div>
+      <div class="norm-bar">
+        <span class="norm-badge appreciated">Appreciated</span>
+        <div class="spectrum"><div class="spectrum-fill appreciated"></div></div>
+      </div>
+      <div class="card-tip">Not expected — minimum wages are high. 10% is a genuine compliment, never an obligation.</div>
+    </div>
+    <div class="country-card">
+      <div class="card-top"><span class="card-flag">🇳🇿</span><div><div class="card-name">New Zealand</div><div class="card-region-tag">Pacific</div></div></div>
+      <div class="norm-bar">
+        <span class="norm-badge appreciated">Appreciated</span>
+        <div class="spectrum"><div class="spectrum-fill appreciated"></div></div>
+      </div>
+      <div class="card-tip">Not expected. Rounding up or leaving a few dollars is a genuine compliment.</div>
+    </div>
+  </div>
+
+</div>
+
+<!-- Design notes -->
+<div class="design-notes" style="margin-left: var(--gutter); margin-right: var(--gutter);">
+  <h2>Design Notes — Region Radar concept</h2>
+  <ul>
+    <li><strong>Primary navigation shift:</strong> region tabs + search, not search-only. Readers who don't know a country name can browse by geography first.</li>
+    <li><strong>Norm spectrum bar:</strong> each card pairs a Solid Badge (sb-*) chip with a color-filled bar proportional to tipping intensity — scannable at a glance, confirmed by text.</li>
+    <li><strong>Card density:</strong> 220px min-width grid fills the viewport efficiently. More scannable than the current list on tablet/desktop; collapses to single-column on mobile.</li>
+    <li><strong>Region filter:</strong> shows/hides region sections — no pagination, no page reload. Works alongside search (typing filters cards within the visible region).</li>
+    <li><strong>Legend strip:</strong> persistent below hero, never scrolls away. Anchors the color language the reader needs to decode the cards.</li>
+    <li><strong>What stays:</strong> same search placeholder text, same norm labels (Expected / Appreciated / Check the bill / Skip it), same tip text per country, same data source.</li>
+    <li><strong>What changes:</strong> layout from search-list to grid; region tab navigation; visual norm bar per card. No data edits required to ship this redesign.</li>
+  </ul>
+</div>
+
+<script>
+function setRegion(btn, region) {
+  document.querySelectorAll('.rtab').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  const headers = document.querySelectorAll('.region-header');
+  headers.forEach(h => {
+    const show = (region === 'all') || (h.dataset.region === region);
+    h.style.display = show ? '' : 'none';
+    const grid = h.nextElementSibling;
+    if (grid) grid.style.display = show ? '' : 'none';
+  });
+}
+</script>
+</body>
+</html>

@@ -445,14 +445,24 @@ a.also-on-this-site-pill:active {
   --sp-butter-ink:#7a5c0e;    --sp-butter-rgb:122,92,14;    --sp-butter-wash:#fdf8ee;
   --sp-amber-ink:#8a6c1a;     --sp-amber-rgb:138,108,26;    --sp-amber-wash:#fbf3df;
   --sp-yellow-ink:#8a6524;    --sp-yellow-rgb:138,101,36;   --sp-yellow-wash:#fff8e0;
-  --nt-white-ink:#1a1a1a;  --nt-white-rgb:26,26,26;    --nt-white-wash:#ffffff;
-  --nt-paper-ink:#3d3a32;  --nt-paper-rgb:61,58,50;    --nt-paper-wash:#fbfaf8;
-  --nt-fog-ink:#4a483f;    --nt-fog-rgb:74,72,63;      --nt-fog-wash:#e2e1de;
-  --nt-grey-ink:#6a6660;   --nt-grey-rgb:106,102,96;   --nt-grey-wash:#f0ede8;
-  --nt-linen-ink:#5b5248;  --nt-linen-rgb:91,82,72;    --nt-linen-wash:#f3efe8;
-  --nt-cream-ink:#6a6660;  --nt-cream-rgb:106,102,96;  --nt-cream-wash:#fdf8f0;
-  --nt-tan-ink:#7a6547;    --nt-tan-rgb:122,101,71;    --nt-tan-wash:#f5f0e7;
-  --nt-brown-ink:#8f6a3e;  --nt-brown-rgb:143,106,62;  --nt-brown-wash:#f8f0e4;
+  /* 2026-09-01: all 8 below were their own arbitrary colors, none matching
+     any tone in the pills doc's Family 1 gallery -- this is the single
+     root source every component reading var(--nt-X-ink/-rgb/-wash)
+     directly (bypassing the .nt-X class fix applied elsewhere) inherits
+     from, so fixing it here cascades the real approved color everywhere
+     at once. Mapped onto Family 1 by nearest match: white/paper -> White
+     Slate, fog -> Fog, grey -> Grey, linen/tan -> two different approved
+     beiges (Bronze/Sand) instead of colliding on one, cream -> Amber,
+     brown -> Saddle. Dark-mode copies below intentionally left untouched
+     -- need their own pass, not assumed identical to light. */
+  --nt-white-ink:#555555;  --nt-white-rgb:255,255,255; --nt-white-wash:#ffffff;
+  --nt-paper-ink:#555555;  --nt-paper-rgb:255,255,255; --nt-paper-wash:#ffffff;
+  --nt-fog-ink:#726c60;    --nt-fog-rgb:226,225,222;   --nt-fog-wash:#e2e1de;
+  --nt-grey-ink:#4f4a3e;   --nt-grey-rgb:79,74,62;     --nt-grey-wash:#d9d5cb;
+  --nt-linen-ink:#5a3c0e;  --nt-linen-rgb:245,240,230; --nt-linen-wash:#f5f0e6;
+  --nt-cream-ink:#8a6c1a;  --nt-cream-rgb:253,248,240; --nt-cream-wash:#fdf8f0;
+  --nt-tan-ink:#654321;    --nt-tan-rgb:223,194,157;   --nt-tan-wash:#dfc29d;
+  --nt-brown-ink:#6b4423;  --nt-brown-rgb:247,238,229; --nt-brown-wash:#f7eee5;
 }
 @media (prefers-color-scheme: dark) {
   :root {
@@ -1161,7 +1171,7 @@ input[type="text"]::placeholder,
 .best-of-links a::after,
 .best-of-related a::after { content: ' \203A'; font-size: 14px; vertical-align: -1px; }
 .best-of-links a:hover,
-.best-of-related a:hover { text-decoration: none; border-color: rgba(var(--nt-grey-rgb, 106,102,96), .75); background: var(--nt-grey-wash, #f0ede8); color: var(--nt-grey-ink, #6a6660); }
+.best-of-related a:hover { text-decoration: none; }
 
 @media (min-width: 601px), (pointer: fine) {
   #region-filters { gap: 4px !important; justify-content: center !important; }
@@ -1371,7 +1381,6 @@ a.bo-x-hit-cat:hover { border-color: rgba(var(--nt-grey-rgb, 106,102,96), .75); 
   padding: 5px 12px; border: 1.5px solid var(--border2); border-radius: 6px;
   background: var(--nt-cream-wash, #fdf8f0); white-space: nowrap;
 }
-.showcase-links a:hover { border-color: rgba(var(--nt-grey-rgb, 106,102,96), .75); background: var(--nt-grey-wash, #f0ede8); color: var(--nt-grey-ink, #6a6660); }
 @media (max-width: 600px) and (pointer: coarse) {
   .showcase-grid { grid-template-columns: 1fr; gap: 18px; }
 }
@@ -1541,8 +1550,8 @@ a.lounge-guide-link:visited { color: #6a6660; }
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  color: var(--muted);
-  background: var(--nt-cream-wash, #fdf8f0);
+  color: #8a6c1a;
+  background: #fdf8f0;
   text-decoration: none;
   border: 1px solid var(--border2);
   border-radius: 8px;
@@ -1551,9 +1560,22 @@ a.lounge-guide-link:visited { color: #6a6660; }
   font-size: 14px;
   transition: border-color .15s, color .15s, background .15s;
 }
+/* 2026-09-01: was background:var(--nt-cream-wash) + color:var(--muted) --
+   a wash borrowed from one Family 1 tone (Amber) paired with an unrelated
+   generic grey, not that tone's own ink. Reads as an uncontrolled beige,
+   not an approved color. Now the real Amber pairing (#fdf8f0/#8a6c1a). */
 .chevron-link-pill::after { content: '\203A'; font-size: 17px; vertical-align: -1px; margin-left: 5px; }
-.chevron-link-pill:hover { background: var(--nt-grey-wash, #f0ede8); border-color: rgba(var(--nt-grey-rgb, 106,102,96), .75); color: var(--nt-grey-ink, #6a6660); }
-.paired-reset:hover { background: var(--nt-grey-wash, #f0ede8); border-color: rgba(var(--nt-grey-rgb, 106,102,96), .75); color: var(--nt-grey-ink, #6a6660); }
+/* 2026-09-01: consolidated 5 components that each independently retyped
+   the identical background/border-color/color block (chevron-link-pill,
+   paired-reset, toggle-all, best-of-related, showcase-links -- requested
+   multiple times, never actually done) into this one shared rule. Value
+   itself also fixed: was the stale --nt-grey-wash/-ink root pair
+   (#f0ede8/#6a6660), not any tone in the pills doc's Family 1 gallery --
+   now the real approved Grey (#d9d5cb/#4f4a3e). */
+.chevron-link-pill:hover, .paired-reset:hover, .toggle-all:hover,
+.best-of-related a:hover, .showcase-links a:hover {
+  background: #d9d5cb; border-color: rgba(79,74,62,.75); color: #4f4a3e;
+}
 a.chevron-link-pill:visited { color: #6a6660; }
 
 .agg-link::after,
@@ -1686,7 +1708,6 @@ html[data-theme="dark"] .sun-c6 { background: #4a1e00 !important; color: #ff9860
 .airport-card-header::after { content:'▾'; margin-left:auto; font-size: var(--fs-sub,12px); color:var(--muted); transition:transform .2s; }
 .airport-card.collapsed .airport-card-header::after { transform:rotate(-90deg); }
 .airport-card.collapsed .airport-card-body { max-height:0!important; opacity:0; }
-.toggle-all:hover { color:var(--nt-grey-ink, #6a6660);border-color:rgba(var(--nt-grey-rgb, 106,102,96), .75);background:var(--nt-grey-wash, #f0ede8); }
 a.nav-link:visited { color: #3d3a32; }
 .nav .nav-link.active { color: var(--rust,#C04E1A);border-color:#C04E1A;background:var(--surface,#ffffff); }
 

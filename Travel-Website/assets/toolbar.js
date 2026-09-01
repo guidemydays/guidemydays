@@ -1989,6 +1989,15 @@ window.TVE.home = (function () {
        tab stopped standing out. Colour only — the BOX is identical in all three
        states, per the note above. */
     '.tb a.tb-active{box-sizing:border-box;display:inline-flex;align-items:center;padding:8px 18px;color:#6b4423!important;background:#f7eee5;border:1px solid #6b4423;border-radius:999px;font-weight:600;line-height:1.2}' +
+    /* `.tb a:hover` above already fades the fill to transparent, but it ties
+       in specificity with `.tb a.tb-active` and loses the source-order
+       tiebreak, so the active tab kept its solid fill on hover while every
+       other tab faded. This selector outranks both (3 classes vs 2), so the
+       active tab's hover now fades the same way as the rest.
+       Scoped OUT of dark mode: it would otherwise also outrank the dark-mode
+       block further down, which intentionally gives the active tab a
+       stronger gold wash on hover than a plain tab — untouched here. */
+    '@media not (prefers-color-scheme:dark){.tb a.tb-active:hover{background:transparent}}' +
     /* Dropdown group (e.g. 🚆 Trains) — parent button + absolute flyout menu */
     '.tb-dd{position:relative;display:inline-flex;flex-shrink:0}' +
     /* Same pill as a plain tab (2026-08-17) — it already carried the 1px border

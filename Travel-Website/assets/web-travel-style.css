@@ -525,11 +525,27 @@ a.badge.sp-cream:visited, a.pill-badge.sp-cream:visited { color: #6b5b3e; }
 a.badge.sp-butter:visited, a.pill-badge.sp-butter:visited { color: #7a5c0e; }
 a.badge.sp-amber:visited, a.pill-badge.sp-amber:visited { color: #8a6c1a; }
 a.badge.sp-yellow:visited, a.pill-badge.sp-yellow:visited { color: #8a6524; }
-.selection-pill.hov-darken:hover, .selection-pill-sm.hov-darken:hover, .pill-badge.hov-darken:hover { filter: brightness(.82); border-color: var(--sp-ink); }
+.selection-pill.hov-darken:hover, .selection-pill-sm.hov-darken:hover, .pill-badge.hov-darken:hover { background: color-mix(in srgb, var(--sp-wash) 75%, var(--sp-ink) 25%) !important; }
+/* 2026-09-01: default hover for any coloured pill that never got an
+   explicit hov-* class in its own page's HTML -- this was the actual gap
+   ("none of the pills had hover implemented"): the mechanic system above
+   only ever fires when hov-darken/lift/press/glow is present on the
+   element, and a lot of real pills across the site simply never carry
+   one. Darken is the safest universal default (no transform/larger shadow
+   footprint that could clip in a tight row) -- :not() guards mean a pill
+   that DOES carry an explicit mechanic class keeps that mechanic instead. */
+.selection-pill[class*="cp-"]:not(.hov-darken):not(.hov-lift):not(.hov-press):not(.hov-glow):hover,
+.selection-pill[class*="sp-"]:not(.hov-darken):not(.hov-lift):not(.hov-press):not(.hov-glow):hover,
+.selection-pill[class*="nt-"]:not(.hov-darken):not(.hov-lift):not(.hov-press):not(.hov-glow):hover,
+.pill-badge[class*="cp-"]:not(.hov-darken):not(.hov-lift):not(.hov-press):not(.hov-glow):hover,
+.pill-badge[class*="sp-"]:not(.hov-darken):not(.hov-lift):not(.hov-press):not(.hov-glow):hover,
+.pill-badge[class*="nt-"]:not(.hov-darken):not(.hov-lift):not(.hov-press):not(.hov-glow):hover {
+  background: color-mix(in srgb, var(--sp-wash) 75%, var(--sp-ink) 25%) !important;
+}
 .selection-pill.hov-lift:hover, .pill-badge.hov-lift:hover { transform: translateY(-2px); box-shadow: 0 10px 18px -7px rgba(var(--sp-rgb),.45); }
-.selection-pill.hov-press:hover, .selection-pill-sm.hov-press:hover, .pill-badge.hov-press:hover { filter: brightness(.94); }
-.selection-pill.hov-press:active, .selection-pill-sm.hov-press:active, .pill-badge.hov-press:active { transform: translateY(1px) scale(.98); filter: brightness(.85); box-shadow: inset 0 2px 4px rgba(var(--sp-rgb),.4); }
-.selection-pill.hov-glow:hover, .pill-badge.hov-glow:hover { box-shadow: 0 0 0 6px rgba(var(--sp-rgb),.18), 0 0 18px rgba(var(--sp-rgb),.35); border-color: var(--sp-ink); }
+.selection-pill.hov-press:hover, .selection-pill-sm.hov-press:hover, .pill-badge.hov-press:hover { background: color-mix(in srgb, var(--sp-wash) 88%, white 12%) !important; border-color: var(--sp-ink) !important; }
+.selection-pill.hov-press:active, .selection-pill-sm.hov-press:active, .pill-badge.hov-press:active { transform: translateY(1px) scale(.98); filter: brightness(.95); box-shadow: inset 0 2px 4px rgba(var(--sp-rgb),.4); }
+.selection-pill.hov-glow:hover, .pill-badge.hov-glow:hover { box-shadow: 0 0 0 6px rgba(var(--sp-rgb),.18), 0 0 18px rgba(var(--sp-rgb),.35); }
 
 .cp-dark-grey  { --sp-ink:#14161a; --sp-rgb:106,109,114; --sp-wash:#6a6d72; }
 .cp-light-grey { --sp-ink:#4a483f; --sp-rgb:226,225,222; --sp-wash:#e2e1de; }
@@ -562,18 +578,25 @@ a.badge.sp-yellow:visited, a.pill-badge.sp-yellow:visited { color: #8a6524; }
   background: var(--sp-wash); border-color: rgba(0,0,0,.1); color: var(--sp-ink);
 }
 
-.sb-dark-grey  { --sb-fill:#3a3b3c; --sb-text:#fff; }
-.sb-light-grey { --sb-fill:#8a867a; --sb-text:#fff; }
-.sb-blue       { --sb-fill:#3f6fa8; --sb-text:#fff; }
-.sb-teal       { --sb-fill:#2f7a6c; --sb-text:#fff; }
-.sb-rust       { --sb-fill:#9a5030; --sb-text:#fff; }
-.sb-tan-orange { --sb-fill:#c4914f; --sb-text:#3d2812; }
-.sb-dark-brown { --sb-fill:#6b4017; --sb-text:#fff; }
-.sb-pink       { --sb-fill:#b5527e; --sb-text:#fff; }
-.sb-light-blue { --sb-fill:#7fa8cc; --sb-text:#fff; }
-.sb-green      { --sb-fill:#7cb384; --sb-text:#fff; }
-.sb-red        { --sb-fill:#b5453e; --sb-text:#fff; }
-.sb-gold       { --sb-fill:#c8aa4a; --sb-text:#fff; }
+.sb-dark-grey  { --sb-fill:#3a3b3c; --sb-text:#fff; --sp-wash:var(--sb-fill); --sp-ink:#000; --sp-rgb:58,59,60; }
+.sb-light-grey { --sb-fill:#8a867a; --sb-text:#fff; --sp-wash:var(--sb-fill); --sp-ink:#000; --sp-rgb:138,134,122; }
+.sb-blue       { --sb-fill:#3f6fa8; --sb-text:#fff; --sp-wash:var(--sb-fill); --sp-ink:#000; --sp-rgb:63,111,168; }
+.sb-teal       { --sb-fill:#2f7a6c; --sb-text:#fff; --sp-wash:var(--sb-fill); --sp-ink:#000; --sp-rgb:47,122,108; }
+.sb-rust       { --sb-fill:#9a5030; --sb-text:#fff; --sp-wash:var(--sb-fill); --sp-ink:#000; --sp-rgb:154,80,48; }
+.sb-tan-orange { --sb-fill:#c4914f; --sb-text:#3d2812; --sp-wash:var(--sb-fill); --sp-ink:#000; --sp-rgb:196,145,79; }
+.sb-dark-brown { --sb-fill:#9a5030; --sb-text:#fff; --sp-wash:var(--sb-fill); --sp-ink:#000; --sp-rgb:154,80,48; } /* was #6b4017, too dark to read against most page backgrounds -- remapped to the approved Solid Rust value (2026-09-01). Class name kept as-is since it's live on 5+ pages (african-trains, european-trains, rideshare-apps, cards-atm, storage) -- confirmed sb-rust isn't used alongside it in any of those rows, so no duplicate-color collision */
+.sb-pink       { --sb-fill:#b5527e; --sb-text:#fff; --sp-wash:var(--sb-fill); --sp-ink:#000; --sp-rgb:181,82,126; }
+.sb-light-blue { --sb-fill:#7fa8cc; --sb-text:#fff; --sp-wash:var(--sb-fill); --sp-ink:#000; --sp-rgb:127,168,204; }
+.sb-green      { --sb-fill:#7cb384; --sb-text:#fff; --sp-wash:var(--sb-fill); --sp-ink:#000; --sp-rgb:124,179,132; }
+.sb-red        { --sb-fill:#b5453e; --sb-text:#fff; --sp-wash:var(--sb-fill); --sp-ink:#000; --sp-rgb:181,69,62; }
+.sb-gold       { --sb-fill:#c8aa4a; --sb-text:#fff; --sp-wash:var(--sb-fill); --sp-ink:#000; --sp-rgb:200,170,74; }
+/* 2026-09-01: --sp-wash/--sp-ink/--sp-rgb added so .sb-* pills can consume
+   the SAME shared .hov-darken/.hov-lift/.hov-press/.hov-glow mechanic rules
+   every .cp-*/.sp-* pill already uses -- previously .sb-* had no path into
+   that system at all (those three custom properties were simply undefined
+   on it), so any .sb-* pill carrying an explicit hov-* class silently got
+   nothing from it and fell back to the flat .sb-*:hover{brightness(.9)}
+   rule below regardless of which mechanic it was meant to be. */
 /* 2026-08-30: background/color moved from the bare single-class .sb-X rule
    above (specificity 0,1,0) into THIS compound rule (0,2,0) via --sb-fill/
    --sb-text, matching how .cp-* already reads var(--sp-wash)/var(--sp-ink)
@@ -614,6 +637,20 @@ a.badge.sp-yellow:visited, a.pill-badge.sp-yellow:visited { color: #8a6524; }
 .pill-badge.sb-teal:active, .pill-badge.sb-rust:active, .pill-badge.sb-tan-orange:active,
 .pill-badge.sb-dark-brown:active, .pill-badge.sb-pink:active, .pill-badge.sb-light-blue:active,
 .pill-badge.sb-green:active, .pill-badge.sb-red:active, .pill-badge.sb-gold:active { filter: brightness(.82); }
+/* 2026-09-01: per-mechanic overrides for any .sb-* pill that ALSO carries
+   an explicit hov-* class (Rule 7 requires one on every real pill) -- these
+   come after the flat brightness(.9)/(.82) fallback above on purpose, so
+   a pill with a real mechanic class gets ITS mechanic, while a pill with no
+   hov-* class (there shouldn't be one, but it's not this file's job to
+   enforce that) still gets the old flat fallback rather than nothing.
+   Solid needs a stronger push than Calm Pastel on every mechanic -- an
+   already-saturated fill barely shows a change at Calm Pastel's intensity
+   (verified live in the pills doc, 2026-09-01). */
+[class*="sb-"].hov-darken:hover { background: color-mix(in srgb, var(--sp-wash) 55%, var(--sp-ink) 45%) !important; }
+[class*="sb-"].hov-lift:hover { box-shadow: 0 12px 22px -6px rgba(var(--sp-rgb),.65) !important; transform: translateY(-3px) !important; }
+[class*="sb-"].hov-glow:hover { box-shadow: 0 0 0 8px rgba(var(--sp-rgb),.35), 0 0 24px rgba(var(--sp-rgb),.55) !important; }
+[class*="sb-"].hov-press:hover { background: color-mix(in srgb, var(--sp-wash) 70%, white 30%) !important; }
+[class*="sb-"].hov-press:active { filter: brightness(.8) !important; }
 /* literal hex — Chrome blocks var() in :visited; sb-* text is #fff except sb-tan-orange (#3d2812) */
 a.badge.sb-blue:visited,       a.pill-badge.sb-blue:visited       { color: #fff; }
 a.badge.sb-dark-brown:visited, a.pill-badge.sb-dark-brown:visited { color: #fff; }
@@ -628,14 +665,26 @@ a.badge.sb-rust:visited,       a.pill-badge.sb-rust:visited       { color: #fff;
 a.badge.sb-teal:visited,       a.pill-badge.sb-teal:visited       { color: #fff; }
 a.badge.sb-tan-orange:visited, a.pill-badge.sb-tan-orange:visited { color: #3d2812; }
 
-.nt-white { --sp-ink:var(--nt-white-ink); --sp-rgb:var(--nt-white-rgb); --sp-wash:var(--nt-white-wash); }
-.nt-paper { --sp-ink:var(--nt-paper-ink); --sp-rgb:var(--nt-paper-rgb); --sp-wash:var(--nt-paper-wash); }
-.nt-fog   { --sp-ink:var(--nt-fog-ink);   --sp-rgb:var(--nt-fog-rgb);   --sp-wash:var(--nt-fog-wash); }
-.nt-grey  { --sp-ink:var(--nt-grey-ink);  --sp-rgb:var(--nt-grey-rgb);  --sp-wash:var(--nt-grey-wash); }
-.nt-linen { --sp-ink:var(--nt-linen-ink); --sp-rgb:var(--nt-linen-rgb); --sp-wash:var(--nt-linen-wash); }
-.nt-cream { --sp-ink:var(--nt-cream-ink); --sp-rgb:var(--nt-cream-rgb); --sp-wash:var(--nt-cream-wash); }
-.nt-tan   { --sp-ink:var(--nt-tan-ink);   --sp-rgb:var(--nt-tan-rgb);   --sp-wash:var(--nt-tan-wash); }
-.nt-brown { --sp-ink:var(--nt-brown-ink); --sp-rgb:var(--nt-brown-rgb); --sp-wash:var(--nt-brown-wash); }
+/* 2026-09-01: every one of these 8 had drifted from the pills doc's
+   Family 1 gallery -- each now reads its own literal hex, mapped onto the
+   nearest approved Family 1 tone (White Slate/Fog/Grey/Amber/Bronze/Sand/
+   Saddle) instead of the shared --nt-*-ink root variables it used to read
+   (those stay untouched and still defined -- dozens of unrelated hover
+   states elsewhere in this file, carousel links, chevron pills, toggle
+   buttons, read the same root variables for a generic neutral hover and
+   were never part of this family's drift). No nt-* tone keeps its own
+   uncontrolled white/beige: nt-white and nt-paper (two near-identical
+   near-whites) both now read White Slate; nt-linen and nt-tan (two
+   near-identical beiges) split onto Bronze and Sand instead of colliding
+   on the same tone twice. */
+.nt-white { --sp-ink:#555555; --sp-rgb:255,255,255; --sp-wash:#ffffff; } /* = White Slate */
+.nt-paper { --sp-ink:#555555; --sp-rgb:255,255,255; --sp-wash:#ffffff; } /* = White Slate — was its own near-white (#fbfaf8), no separate "our white" for a second pale-grey */
+.nt-fog   { --sp-ink:#726c60; --sp-rgb:226,225,222; --sp-wash:#e2e1de; }
+.nt-grey  { --sp-ink:#4f4a3e; --sp-rgb:217,213,203; --sp-wash:#d9d5cb; }
+.nt-linen { --sp-ink:#5a3c0e; --sp-rgb:245,240,230; --sp-wash:#f5f0e6; } /* = Bronze — was its own beige (#f3efe8), closest approved beige */
+.nt-cream { --sp-ink:#8a6c1a; --sp-rgb:253,248,240; --sp-wash:#fdf8f0; } /* = Amber */
+.nt-tan   { --sp-ink:#654321; --sp-rgb:223,194,157; --sp-wash:#dfc29d; } /* = Sand — was its own tan (#f5f0e7, nearly identical to Bronze), moved to a genuinely distinct approved beige */
+.nt-brown { --sp-ink:#6b4423; --sp-rgb:247,238,229; --sp-wash:#f7eee5; } /* = Saddle */
 /* 2026-08-30: NONE of the 7 nt-* tones ever had a .badge.nt-X/.pill-badge.nt-X
    rule actually setting background/color -- only the :visited overrides
    below existed, and .selection-pill.nt-X (right below) only ever
@@ -679,19 +728,32 @@ a.badge.nt-brown:visited, a.pill-badge.nt-brown:visited { color: #8f6a3e; }
 /* 2026-08-30: this used to REPLACE a coloured Selection Pill's fill with flat
    neutral grey on selection -- against the page's own --bg (#f5f4f0) that
    grey (#f0ede8) measures 1.06:1, i.e. the "selected" pill was nearly
-   invisible (owner: "we cant even read"). The doc's actual selected-state
-   spec is an outline ring ADDED ON TOP of the pill's own fill (same
-   mechanism .badge.is-on/.pillbadge.is-on already use), not a fill swap --
-   font-weight:600 stays, since is-on is still meant to read heavier. */
+   invisible (owner: "we cant even read"). It was then moved to an outline
+   ring on top of the fill instead.
+   2026-09-01: moved again, off the ring. The pills doc's live-tested
+   research (a full afternoon working through every mechanic against real
+   screenshots) landed on Rule 12 -- the ring is Focus's alone; anywhere
+   else it appears reads as a mixing of two different states into one.
+   Selected is a per-tone color-mix blend of the pill's own wash toward its
+   own ink instead (58/42 for Calm Pastel/neutral-reading tones -- .cp-*/
+   .nt-*/.sp-*; 65/35 toward black for Solid -- .sb-*), which is what
+   actually fixes the original contrast complaint: it darkens FROM the
+   pill's own color rather than replacing it with one flat grey, so it can
+   never land on a near-invisible 1.06:1 the way the old flat fill did.
+   font-weight:600 stays, since selected is still meant to read heavier. */
 .selection-pill.is-on[class*="cp-"], .selection-pill[aria-pressed="true"][class*="cp-"],
 .selection-pill-sm.is-on[class*="cp-"], .selection-pill-sm[aria-pressed="true"][class*="cp-"],
-.selection-pill.is-on[class*="sb-"], .selection-pill[aria-pressed="true"][class*="sb-"],
-.selection-pill-sm.is-on[class*="sb-"], .selection-pill-sm[aria-pressed="true"][class*="sb-"],
 .selection-pill.is-on[class*="sp-"], .selection-pill[aria-pressed="true"][class*="sp-"],
 .selection-pill-sm.is-on[class*="sp-"], .selection-pill-sm[aria-pressed="true"][class*="sp-"],
 .selection-pill.is-on[class*="nt-"], .selection-pill[aria-pressed="true"][class*="nt-"],
 .selection-pill-sm.is-on[class*="nt-"], .selection-pill-sm[aria-pressed="true"][class*="nt-"] {
-  outline: 3px solid currentColor; outline-offset: 3px; font-weight: 600;
+  background: color-mix(in srgb, var(--sp-wash) 58%, var(--sp-ink) 42%) !important;
+  color: var(--sp-ink) !important; font-weight: 600;
+}
+.selection-pill.is-on[class*="sb-"], .selection-pill[aria-pressed="true"][class*="sb-"],
+.selection-pill-sm.is-on[class*="sb-"], .selection-pill-sm[aria-pressed="true"][class*="sb-"] {
+  background: color-mix(in srgb, var(--sp-wash) 65%, black 35%) !important;
+  color: var(--sb-text) !important; font-weight: 600;
 }
 
 .tve-glue.tve-glue.tve-glue {
@@ -2228,15 +2290,19 @@ body > .hero-ground {
 }
 
 
-.badge.is-on,
-.pill-badge.is-on {
-  outline: 1.5px solid currentColor;
-  outline-offset: 1px;
+/* 2026-09-01: was outline:1.5px solid currentColor -- moved to the same
+   color-mix background blend as .selection-pill.is-on above (Rule 12 in
+   the pills doc: the ring is Focus's alone, Selected is a background
+   blend, never an outline, on every component). */
+.badge.is-on[class*="cp-"], .pill-badge.is-on[class*="cp-"],
+.badge.is-on[class*="sp-"], .pill-badge.is-on[class*="sp-"],
+.badge.is-on[class*="nt-"], .pill-badge.is-on[class*="nt-"] {
+  background: color-mix(in srgb, var(--sp-wash) 58%, var(--sp-ink) 42%) !important;
+  color: var(--sp-ink) !important;
 }
-.sb-dark-grey.is-on, .sb-light-grey.is-on, .sb-blue.is-on, .sb-teal.is-on,
-.sb-rust.is-on, .sb-dark-brown.is-on, .sb-pink.is-on, .sb-light-blue.is-on,
-.sb-green.is-on, .sb-red.is-on, .sb-gold.is-on {
-  outline-color: rgba(0,0,0,.55);
+.badge.is-on[class*="sb-"], .pill-badge.is-on[class*="sb-"] {
+  background: color-mix(in srgb, var(--sp-wash) 65%, black 35%) !important;
+  color: var(--sb-text) !important;
 }
 
 

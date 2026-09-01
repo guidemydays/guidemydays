@@ -1,3 +1,15 @@
+/* 2026-09-01: fix root-cause CSS parse bug in web-travel-style.css -- two comments
+   used a star-immediately-followed-by-slash as shorthand for "or" between two class
+   names (e.g. ".cp-" then a star then a slash then ".sp-*"), and that exact two-
+   character sequence is a real comment-close token, so it silently closed the
+   comment early and turned the remaining prose into garbage CSS, corrupting the
+   parser's next rule. This dropped the .badge/.pill-badge/.selection-pill compound
+   rule for the sb- tone family (979b3814d's own fix for sb-/nt- not rendering) and
+   the .selection-pill.is-on Selected-state rule for the cp-/sp-/nt- families
+   entirely from every page's CSSOM -- not a per-page specificity collision, a
+   single shared-file parse error that broke sb- pill colors and cp-/sp-/nt-
+   Selected-state coloring sitewide. Fixed by adding a space so the star and slash
+   never touch. MIN_VERSIONS['web-travel-style.css'] to 232, CACHE to v1768. */
 /* 2026-08-31: nt-white (literal #ffffff, ink #1a1a1a) added to web-travel-style.css as
    an 8th Family 3 Neutral pill tone (owner-approved reversal of the old white ban --
    see NN104's rewrite); guide-style.css's --font-family variable renamed to --font,
@@ -2847,7 +2859,7 @@
    duplicated neutral-hover components consolidated into one shared rule,
    all 8 root --nt-*-ink/-rgb/-wash vars remapped onto real Family 1 tones.
    MIN_VERSIONS['web-travel-style.css'] to 231, CACHE to v1767. */
-var CACHE = 'travel-cache-v1767';
+var CACHE = 'travel-cache-v1768';
 /* 2026-08-27: airlines.css's .card-tags align-items fix changed a shared
    asset without raising its own floor -- MIN_VERSIONS['airlines.css'] to
    6, CACHE to v1662. */
@@ -2889,7 +2901,7 @@ var ICS_OUTBOX = 'gmd-ics-outbox';
    of 230+ guides. Instead, bump MIN_VERSIONS here + increment the CACHE version. */
 /* 2026-08-30: weather.js: Punta Cana climate normals added (244 cities). MIN_VERSIONS["weather.js"] to 19, CACHE to v1748. */
 /* 2026-08-30: search-autocomplete.js — reverted ARIA combobox pattern (role=listbox/option caused side-by-side layout regression). MIN_VERSIONS['search-autocomplete.js'] to 11, CACHE to v1749. */
-var MIN_VERSIONS = { 'guide-style.css': 278,'toolbar.js': 1117, 'mobile.css': 93, 'web-travel-style.css': 231, 'guides-index-style.css': 41, 'read-about.css': 8, 'best-of-features.js': 5, 'best-of-cross-data.js': 24, 'weather.js': 21,'trains.css': 30, 'trains.js': 5, 'airlines.css': 9, 'airlines.js': 9, 'passport.js': 5, 'search-autocomplete.js': 12, 'flag-render.js': 2 };
+var MIN_VERSIONS = { 'guide-style.css': 278,'toolbar.js': 1117, 'mobile.css': 93, 'web-travel-style.css': 232, 'guides-index-style.css': 41, 'read-about.css': 8, 'best-of-features.js': 5, 'best-of-cross-data.js': 24, 'weather.js': 21,'trains.css': 30, 'trains.js': 5, 'airlines.css': 9, 'airlines.js': 9, 'passport.js': 5, 'search-autocomplete.js': 12, 'flag-render.js': 2 };
 
 function rewriteAssetUrl(urlStr) {
   var u;

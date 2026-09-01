@@ -24,12 +24,13 @@
   --b-remote:     #7a6040;
   --b-city:       #5a6838;
 
-  /* Band type-pill tones — calm pastel palette, NN 93 compliant */
-  --b-lagoon-bg:  #e0f0ec;  --b-lagoon-ink: #1d5049;
-  --b-ocean-bg:   #dce7f3;  --b-ocean-ink:  #1a3352;
-  --b-volcanic-bg:#ede0db;  --b-volcanic-ink:#3b201a;
-  --b-remote-bg:  #ede6d8;  --b-remote-ink: #3d2e18;
-  --b-city-bg:    #e6eada;  --b-city-ink:   #263218;
+  /* sp-* selection pill tokens — byte-identical to web-travel-style.css */
+  --sp-sand-ink:#8f6a3e;      --sp-sand-rgb:143,106,62;     --sp-sand-wash:#f8f0e4;
+  --sp-clay-ink:#8c6b47;      --sp-clay-rgb:140,107,71;     --sp-clay-wash:#fcf1e7;
+  --sp-espresso-ink:#4a2e1a;  --sp-espresso-rgb:74,46,26;   --sp-espresso-wash:#f5ede6;
+  --sp-saddle-ink:#6b4423;    --sp-saddle-rgb:107,68,35;    --sp-saddle-wash:#f7eee5;
+  --sp-beige-ink:#7a6547;     --sp-beige-rgb:122,101,71;    --sp-beige-wash:#f5f0e7;
+  --sp-cream-ink:#6b5b3e;     --sp-cream-rgb:107,91,62;     --sp-cream-wash:#f4f0e5;
 }
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme="light"]) {
@@ -45,6 +46,20 @@
 
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 body { background: var(--page-bg); color: var(--ink); font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; font-size: 15px; line-height: 1.5; }
+
+
+/* ── Approved badge/pill classes — matches web-travel-style.css ── */
+.badge, .pillbadge { position:relative; display:inline-flex; align-items:center; justify-content:center; gap:5px; border:1px solid; border-radius:4px; white-space:nowrap; line-height:1; font-weight:700; letter-spacing:.04em; flex-shrink:0; text-transform:uppercase; }
+.badge { font-size:min(1em,12px); padding:3px 8px; }
+.badge-tint, .pillbadge-tint { background:var(--sp-wash); border-color:rgba(var(--sp-rgb),.45); color:var(--sp-ink); }
+.selection-pill-sm { box-sizing:border-box; display:inline-flex; align-items:center; line-height:1.2; font-family:inherit; font-weight:800; border-radius:999px; border:1px solid rgba(var(--sp-rgb),.45); background:var(--sp-wash); color:var(--sp-ink); font-size:12px; padding:5px 12px; cursor:pointer; text-decoration:none; transition:filter .15s ease,box-shadow .15s ease,transform .15s ease,border-color .15s ease; }
+.selection-pill-sm.hov-darken:hover { background:color-mix(in srgb, var(--sp-wash) 75%, var(--sp-ink) 25%) !important; }
+.sp-sand     { --sp-ink:var(--sp-sand-ink);     --sp-rgb:var(--sp-sand-rgb);     --sp-wash:var(--sp-sand-wash); }
+.sp-clay     { --sp-ink:var(--sp-clay-ink);     --sp-rgb:var(--sp-clay-rgb);     --sp-wash:var(--sp-clay-wash); }
+.sp-espresso { --sp-ink:var(--sp-espresso-ink); --sp-rgb:var(--sp-espresso-rgb); --sp-wash:var(--sp-espresso-wash); }
+.sp-saddle   { --sp-ink:var(--sp-saddle-ink);   --sp-rgb:var(--sp-saddle-rgb);   --sp-wash:var(--sp-saddle-wash); }
+.sp-beige    { --sp-ink:var(--sp-beige-ink);    --sp-rgb:var(--sp-beige-rgb);    --sp-wash:var(--sp-beige-wash); }
+.sp-cream    { --sp-ink:var(--sp-cream-ink);    --sp-rgb:var(--sp-cream-rgb);    --sp-wash:var(--sp-cream-wash); }
 
 /* ── Mockup label banner ── */
 .mockup-label {
@@ -110,21 +125,6 @@ body { background: var(--page-bg); color: var(--ink); font-family: -apple-system
   letter-spacing: .06em;
   margin-right: 2px;
 }
-.band-nav a {
-  display: inline-flex;
-  align-items: center;
-  gap: 5px;
-  padding: 4px 11px;
-  border-radius: 20px;
-  border: 1.5px solid var(--border);
-  font-size: 12px;
-  font-weight: 600;
-  text-decoration: none;
-  color: var(--ink-muted);
-  white-space: nowrap;
-  transition: border-color .15s, background .15s;
-}
-.band-nav a:hover { border-color: var(--ink-muted); color: var(--ink); background: var(--card-bg); }
 .dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
 
 /* ── Content rail ── */
@@ -198,11 +198,6 @@ body { background: var(--page-bg); color: var(--ink); font-family: -apple-system
   padding: 2px 7px; border-radius: 10px;
   background: var(--page-bg); border: 1px solid var(--border);
 }
-.card-type-pill {
-  font-size: 10px; font-weight: 700;
-  padding: 2px 8px; border-radius: 10px;
-  text-transform: uppercase; letter-spacing: .05em;
-}
 .card-desc { font-size: 13px; color: var(--ink-muted); line-height: 1.5; }
 .card-links { display: flex; gap: 0; flex-wrap: wrap; margin-top: 2px; }
 .card-links a {
@@ -234,16 +229,16 @@ body { background: var(--page-bg); color: var(--ink); font-family: -apple-system
 
 <nav class="band-nav" aria-label="Jump to water type">
   <span class="band-nav-label">Jump:</span>
-  <a href="#band-lagoon"><span class="dot" style="background:#3d8f7f"></span>Reef &amp; Lagoon</a>
-  <a href="#band-ocean"><span class="dot" style="background:#3a6090"></span>Open Ocean</a>
-  <a href="#band-volcanic"><span class="dot" style="background:#5e3d35"></span>Volcanic &amp; Dramatic</a>
-  <a href="#band-remote"><span class="dot" style="background:#7a6040"></span>Remote Access</a>
-  <a href="#band-city"><span class="dot" style="background:#5a6838"></span>City &amp; Culture</a>
+  <a href="#band-lagoon"   class="selection-pill-sm hov-darken sp-cream"><span class="dot" style="background:#3d8f7f"></span>Reef &amp; Lagoon</a>
+  <a href="#band-ocean"    class="selection-pill-sm hov-darken sp-cream"><span class="dot" style="background:#3a6090"></span>Open Ocean</a>
+  <a href="#band-volcanic" class="selection-pill-sm hov-darken sp-cream"><span class="dot" style="background:#5e3d35"></span>Volcanic &amp; Dramatic</a>
+  <a href="#band-remote"   class="selection-pill-sm hov-darken sp-cream"><span class="dot" style="background:#7a6040"></span>Remote Access</a>
+  <a href="#band-city"     class="selection-pill-sm hov-darken sp-cream"><span class="dot" style="background:#5a6838"></span>City &amp; Culture</a>
 </nav>
 
 <div class="content">
 <div class="concept-note">
-  <strong>Concept:</strong> The 93 beaches are grouped into 5 water-character bands. Each band has a 4px colour-accent header, a count, and a one-line tagline. Each card is a horizontal strip with a type pill — so a reader planning a snorkel trip can go straight to Reef &amp; Lagoon without reading the full grid. Search + country filter work as now (unchanged). No shared CSS changes required — full redesign lives in the page's own style block. Hero and toolbar unchanged.
+  <strong>Concept:</strong> The 93 beaches are grouped into 5 water-character bands. Each band has a 4px colour-accent strip (decorative, not a pill), a count, and a one-line tagline. Each card is a horizontal strip with a type badge (<code>.badge .badge-tint .sp-*</code> — approved earth-tone family, ALL CAPS, non-interactive label). Band-jump nav uses <code>.selection-pill-sm .hov-darken .sp-cream</code> — approved shape, approved hover, approved tone. No hardcoded hex in any pill or search bar. Hero and toolbar unchanged.
 </div>
 
 <!-- ═══ BAND 1: REEF & LAGOON ═══════════════════════════════════ -->
@@ -262,7 +257,7 @@ body { background: var(--page-bg); color: var(--ink); font-family: -apple-system
         <div class="card-top">
           <span class="card-name">Whitehaven Beach</span>
           <span class="card-country">Australia</span>
-          <span class="card-type-pill" style="background:var(--b-lagoon-bg);color:var(--b-lagoon-ink)">Lagoon</span>
+          <span class="badge badge-tint sp-sand">LAGOON</span>
         </div>
         <div class="card-desc">A beach on an uninhabited Whitsunday island known for exceptionally fine, bright silica sand and the swirling sand-and-water patterns of Hill Inlet at its northern end.</div>
         <div class="card-links">
@@ -282,7 +277,7 @@ body { background: var(--page-bg); color: var(--ink); font-family: -apple-system
         <div class="card-top">
           <span class="card-name">Turquoise Bay</span>
           <span class="card-country">Australia</span>
-          <span class="card-type-pill" style="background:var(--b-lagoon-bg);color:var(--b-lagoon-ink)">Reef Snorkel</span>
+          <span class="badge badge-tint sp-sand">REEF SNORKEL</span>
         </div>
         <div class="card-desc">A beach in Cape Range National Park on the Ningaloo Coast. A fringing coral reef sits just offshore and can be reached by snorkellers straight from the sand.</div>
         <div class="card-links">
@@ -302,7 +297,7 @@ body { background: var(--page-bg); color: var(--ink); font-family: -apple-system
         <div class="card-top">
           <span class="card-name">Half Moon Bay</span>
           <span class="card-country">Antigua</span>
-          <span class="card-type-pill" style="background:var(--b-lagoon-bg);color:var(--b-lagoon-ink)">Lagoon</span>
+          <span class="badge badge-tint sp-sand">LAGOON</span>
         </div>
         <div class="card-desc">A crescent-shaped bay on Antigua's remote southeastern coast, enclosed by rocky headlands, with a calmer reef-sheltered end and a more exposed, surf-prone stretch.</div>
         <div class="card-links">
@@ -321,7 +316,7 @@ body { background: var(--page-bg); color: var(--ink); font-family: -apple-system
         <div class="card-top">
           <span class="card-name">Eagle Beach</span>
           <span class="card-country">Aruba</span>
-          <span class="card-type-pill" style="background:var(--b-lagoon-bg);color:var(--b-lagoon-ink)">Lagoon</span>
+          <span class="badge badge-tint sp-sand">LAGOON</span>
         </div>
         <div class="card-desc">A wide, low-density beach on Aruba's western coast, known for its soft white sand, gently shelving water, and the two weathered fofoti trees that stand at its edge.</div>
         <div class="card-links">
@@ -354,7 +349,7 @@ body { background: var(--page-bg); color: var(--ink); font-family: -apple-system
         <div class="card-top">
           <span class="card-name">Bondi Beach</span>
           <span class="card-country">Australia</span>
-          <span class="card-type-pill" style="background:var(--b-ocean-bg);color:var(--b-ocean-ink)">Open Ocean</span>
+          <span class="badge badge-tint sp-clay">OPEN OCEAN</span>
         </div>
         <div class="card-desc">Sydney's best-known ocean beach — a wide sweep of sand in the eastern suburbs backed by a promenade and the start of the coastal walk to Coogee.</div>
         <div class="card-links">
@@ -374,7 +369,7 @@ body { background: var(--page-bg); color: var(--ink); font-family: -apple-system
         <div class="card-top">
           <span class="card-name">Copacabana</span>
           <span class="card-country">Brazil</span>
-          <span class="card-type-pill" style="background:var(--b-ocean-bg);color:var(--b-ocean-ink)">Open Ocean</span>
+          <span class="badge badge-tint sp-clay">OPEN OCEAN</span>
         </div>
         <div class="card-desc">A four-kilometre arc of sand in Rio's South Zone, backed by an undulating mosaic promenade and a constant mix of locals, volleyball games, and beach vendors.</div>
         <div class="card-links">
@@ -394,7 +389,7 @@ body { background: var(--page-bg); color: var(--ink); font-family: -apple-system
         <div class="card-top">
           <span class="card-name">Praia do Camilo</span>
           <span class="card-country">Portugal</span>
-          <span class="card-type-pill" style="background:var(--b-ocean-bg);color:var(--b-ocean-ink)">Atlantic Strand</span>
+          <span class="badge badge-tint sp-clay">ATLANTIC STRAND</span>
         </div>
         <div class="card-desc">A small, sheltered beach near Lagos accessed by a wooden staircase through a cleft in tall ochre cliffs, with calm, clear Atlantic water in a rock-enclosed bowl.</div>
         <div class="card-links">
@@ -427,7 +422,7 @@ body { background: var(--page-bg); color: var(--ink); font-family: -apple-system
         <div class="card-top">
           <span class="card-name">Punalu'u Beach</span>
           <span class="card-country">United States</span>
-          <span class="card-type-pill" style="background:var(--b-volcanic-bg);color:var(--b-volcanic-ink)">Black Sand</span>
+          <span class="badge badge-tint sp-espresso">BLACK SAND</span>
         </div>
         <div class="card-desc">Hawaii's most accessible black-sand beach, formed from basaltic lava fragments on the Big Island's southern coast. Hawaiian green sea turtles regularly rest on the sand.</div>
         <div class="card-links">
@@ -447,7 +442,7 @@ body { background: var(--page-bg); color: var(--ink); font-family: -apple-system
         <div class="card-top">
           <span class="card-name">Papakolea Beach</span>
           <span class="card-country">United States</span>
-          <span class="card-type-pill" style="background:var(--b-volcanic-bg);color:var(--b-volcanic-ink)">Green Sand</span>
+          <span class="badge badge-tint sp-espresso">GREEN SAND</span>
         </div>
         <div class="card-desc">One of only four green-sand beaches in the world, reached by a 5-km round-trip hike on the Big Island's Ka'ū coast. The colour comes from olivine crystals eroded from a lava cone.</div>
         <div class="card-links">
@@ -466,7 +461,7 @@ body { background: var(--page-bg); color: var(--ink); font-family: -apple-system
         <div class="card-top">
           <span class="card-name">Perissa Beach</span>
           <span class="card-country">Greece</span>
-          <span class="card-type-pill" style="background:var(--b-volcanic-bg);color:var(--b-volcanic-ink)">Black Sand</span>
+          <span class="badge badge-tint sp-espresso">BLACK SAND</span>
         </div>
         <div class="card-desc">A long beach on Santorini's southeastern coast, backed by the volcanic mass of Mesa Vouno. Distinctive black volcanic sand with a row of beach bars and tavernas.</div>
         <div class="card-links">
@@ -498,7 +493,7 @@ body { background: var(--page-bg); color: var(--ink); font-family: -apple-system
         <div class="card-top">
           <span class="card-name">Navagio (Shipwreck Beach)</span>
           <span class="card-country">Greece</span>
-          <span class="card-type-pill" style="background:var(--b-remote-bg);color:var(--b-remote-ink)">Boat Only</span>
+          <span class="badge badge-tint sp-saddle">BOAT ONLY</span>
         </div>
         <div class="card-desc">A cove on Zakynthos reachable only by boat, framed by sheer white limestone cliffs and containing the rusting hull of the MV Panagiotis, stranded here in 1980.</div>
         <div class="card-links">
@@ -518,7 +513,7 @@ body { background: var(--page-bg); color: var(--ink); font-family: -apple-system
         <div class="card-top">
           <span class="card-name">Pink Sands Beach</span>
           <span class="card-country">Bahamas</span>
-          <span class="card-type-pill" style="background:var(--b-remote-bg);color:var(--b-remote-ink)">Ferry Required</span>
+          <span class="badge badge-tint sp-saddle">FERRY REQUIRED</span>
         </div>
         <div class="card-desc">A three-kilometre beach on Harbour Island, reached by a short water-taxi crossing from North Eleuthera Airport. The pale pink hue comes from crushed coral and shell fragments.</div>
         <div class="card-links">
@@ -550,7 +545,7 @@ body { background: var(--page-bg); color: var(--ink); font-family: -apple-system
         <div class="card-top">
           <span class="card-name">Ipanema</span>
           <span class="card-country">Brazil</span>
-          <span class="card-type-pill" style="background:var(--b-city-bg);color:var(--b-city-ink)">City Beach</span>
+          <span class="badge badge-tint sp-beige">CITY BEACH</span>
         </div>
         <div class="card-desc">Rio's famous beachfront strip south of Copacabana, with the Two Brothers peaks at its far end, consistently strong surf, and a distinct neighbourhood culture around its postos.</div>
         <div class="card-links">
@@ -570,7 +565,7 @@ body { background: var(--page-bg); color: var(--ink); font-family: -apple-system
         <div class="card-top">
           <span class="card-name">Barceloneta</span>
           <span class="card-country">Spain</span>
-          <span class="card-type-pill" style="background:var(--b-city-bg);color:var(--b-city-ink)">City Beach</span>
+          <span class="badge badge-tint sp-beige">CITY BEACH</span>
         </div>
         <div class="card-desc">Barcelona's central urban beach, rebuilt for the 1992 Olympics. The beach and its promenade are the city's main summer public space.</div>
         <div class="card-links">

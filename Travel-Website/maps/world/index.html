@@ -248,32 +248,13 @@ function beenCount() {
    depending on a mode the reader had set minutes earlier, and it silently took
    away the map's only real job: tap a pin, read the guide.
 
-   So this page now DISPLAYS the list and manages it as a whole (back up,
-   restore, clear). It never edits a single city. */
-/* THE ACTION BAR IS NOT STANDING CHROME (owner rule 2026-08-17).
-   It first shipped visible whenever the reader had anything marked — which,
-   for anyone using the feature, is every visit forever. That parks a
-   destructive "Clear all" over the map permanently, one mis-tap from wiping a
-   list whose only undo is a backup link the reader may not have made yet.
-
-   It now appears only while the gold Visited display is ON. Turning that on is
-   the reader saying "I am looking at my list", which is the one moment backing
-   it up or clearing it makes sense; the rest of the time the map is a map.
-   The count on the pill still shows at all times — that is information, not a
-   control, and it is what tells a reader there is a list to act on at all. */
-function minePaintBar() {
-  var bar = document.getElementById('mine-hint');
-  if (!bar) return;
-  var pill = document.getElementById('visited-pill-mobile');
-  var on = pill && pill.getAttribute('data-on') === '1';
-  bar.style.display = (on && beenCount()) ? 'flex' : 'none';
-}
-
+   The reader's list moves between browsers only through a #mine= backup
+   link generated elsewhere; this page just displays it and restores from
+   one when opened. It never edits a single city. */
 function beenPaintCount() {
   var el = document.getElementById('visited-pill-count');
   var n = beenCount();
   if (el) el.textContent = n ? 'Visited · ' + n : 'Visited';
-  minePaintBar();
 }
 
 function toggleVisitedMobile(btn) {
@@ -284,48 +265,14 @@ function toggleVisitedMobile(btn) {
   btn.style.borderColor = on ? '#a07000' : '#d8c87a';
   btn.querySelector('span').style.background = on ? 'rgba(255,255,255,0.7)' : '#c8940a';
   if (window.applyVisitedFilter) window.applyVisitedFilter(on);
-  /* The bar rides this toggle — see minePaintBar. applyVisitedFilter already
-     calls beenPaintCount, but not on the pages where it has not been defined
-     yet, so paint directly rather than relying on that. */
-  minePaintBar();
 }
 
-/* ── Back up and restore ─────────────────────────────────────────────────────
+/* ── Restore ──────────────────────────────────────────────────────────────
    The list is localStorage: this browser, this device, no account behind it.
-   That is a deliberate trade (no sign-in), but it means the list can go —
-   iOS Safari evicts a site's storage after roughly a week of not opening it
-   unless the site is on the Home Screen, and "Clear History and Website Data"
-   takes it outright. A reader who has marked eighty places has no way back.
-
-   THE BACKUP IS A LINK, NOT A FILE, and that is the whole design. A file has
-   to be saved somewhere and then found again — on a phone that is the worst
-   possible shape for a backup, and it is the same objection the owner raised
-   about the calendar export: "i should not need to save in my disk first."
-   A link is pasted into a note, sent to yourself, or bookmarked, and opening
-   it anywhere restores the list — which also makes it the transfer between
-   two devices, for free. It reuses the #seed-mine hash pattern already here.
-
-   Slugs go in bare and the '.html' is re-added on the way back in, because it
-   is on every one of them and it is a quarter of the length of the URL. */
-function mineSlugs() {
-  var out = [];
-  try {
-    for (var i = 0; i < localStorage.length; i++) {
-      var k = localStorage.key(i) || '';
-      if (k.indexOf(BEEN_PREFIX) === 0) out.push(k.slice(BEEN_PREFIX.length).replace(/\.html$/, ''));
-    }
-  } catch (e) {}
-  return out.sort();
-}
-
-function mineLink() {
-  return location.origin + location.pathname + '#mine=' + mineSlugs().join(',');
-}
-
-/* Restores from a #mine= hash. ADDS to whatever is already marked rather than
-   replacing it — a reader opening their backup on a second device would
-   otherwise lose whatever they had marked on that device. Clear all is there
-   for the reader who actually wants to start over. */
+   A reader who backed up a list elsewhere (a #mine= link) restores it by
+   opening that link here — ADDS to whatever is already marked rather than
+   replacing it, so a reader opening a backup on a second device does not
+   lose whatever they had marked on that device. */
 function restoreMine() {
   var m = /^#mine=(.*)$/.exec(location.hash || '');
   if (!m) return 0;
@@ -338,68 +285,6 @@ function restoreMine() {
   });
   history.replaceState(null, '', location.pathname + location.search);
   return n;
-}
-
-/* Transient only — the slot is empty at rest, so the bar returns to hugging
-   its two buttons rather than holding a sentence nobody needs twice. This
-   governs BOTH the confirmation text AND the link field backupMine() opens
-   below it — a reader who tapped Back up once should not carry an open URL
-   box on every future visit to the map. Unconditional on a flat 5s window,
-   deliberately not gated on focus: a focus-based deferral sounds safer but in
-   practice box.select() below leaves the field focused with nothing to blur
-   it, so the box never closed at all — a regression that shipped looking like
-   a feature. Five seconds is the same window every other toast on this page
-   uses, and tapping Back up again reopens it instantly if more time is needed. */
-function mineSay(msg) {
-  var el = document.getElementById('mine-hint-text');
-  if (!el) return;
-  el.textContent = msg;
-  clearTimeout(mineSay._t);
-  mineSay._t = setTimeout(mineHideLink, 5000);
-}
-
-function mineHideLink() {
-  var el = document.getElementById('mine-hint-text');
-  var box = document.getElementById('mine-link');
-  if (el) el.textContent = '';
-  if (box) box.style.display = 'none';
-}
-
-function backupMine() {
-  var link = mineLink();
-  var n = mineSlugs().length;
-  /* The clipboard API needs a secure context and a permission that a phone
-     may refuse, so the field is filled either way — a reader who gets no
-     clipboard still has the link on screen to copy by hand, rather than a
-     button that silently did nothing. */
-  var box = document.getElementById('mine-link');
-  if (box) { box.value = link; box.style.display = 'block'; box.select(); }
-  /* Short enough to fit beside the two buttons at 393px. The first version read
-     "Link copied — N places. Save it somewhere." and ellipsised mid-word, which
-     reads as a broken control rather than a confirmation. The field below is
-     already the instruction: the link is on screen to copy. */
-  var done = function () { mineSay('Copied — ' + n + ' places'); };
-  var fell = function () { mineSay('Copy this — ' + n + ' places'); };
-  try {
-    if (navigator.clipboard && navigator.clipboard.writeText) {
-      navigator.clipboard.writeText(link).then(done, fell);
-    } else if (box && document.execCommand('copy')) { done(); } else { fell(); }
-  } catch (e) { fell(); }
-}
-
-function clearMine() {
-  /* Clears the shared store, so it also clears the I've Been pill on every
-     guide page — that is the point of one list, not three. */
-  try {
-    var doomed = [];
-    for (var i = 0; i < localStorage.length; i++) {
-      var k = localStorage.key(i) || '';
-      if (k.indexOf(BEEN_PREFIX) === 0) doomed.push(k);
-    }
-    doomed.forEach(function (k) { localStorage.removeItem(k); });
-  } catch (e) {}
-  if (window.applyVisitedFilter) window.applyVisitedFilter(true);
-  beenPaintCount();
 }
 
 /* ── Cross-page freshness ─────────────────────────────────────────────────
@@ -446,27 +331,6 @@ document.addEventListener('visibilitychange', function () { if (document.visibil
 <div id="wrap">
   <div id="map" role="application" aria-label="Interactive world map of guide destinations"></div>
   <div id="map-mine" style="position:fixed;bottom:24px;left:50%;transform:translateX(-50%);z-index:1100;display:flex;flex-direction:column;align-items:center;gap:8px;">
-    <!-- Shows only once something is marked, so a first-time reader sees just
-         the map and the Visited pill. Marking itself is not here — it is the
-         I've Been pill on each guide. -->
-    <!-- The bar HUGS ITS BUTTONS at rest and carries no standing sentence.
-         The instruction that used to sit here — "mark places with I've Been on
-         each guide" — is permanent text explaining a control that is on a
-         different page, and at 393px it pushed the bar to the full width of
-         the map and still ellipsised itself. The left slot is now empty until
-         a confirmation fires, so the bar grows only while it has something to
-         say. Where marking happens is said on the landing tile instead. -->
-    <div id="mine-hint" style="display:none;flex-direction:column;align-items:stretch;gap:6px;background:rgba(255,255,255,0.96);border:1px solid #e6e2da;border-radius:14px;padding:7px 14px;font-size:12px;color:#6a6660;box-shadow:0 2px 10px rgba(0,0,0,0.12);max-width:min(92vw,420px);">
-      <div style="display:flex;align-items:center;gap:12px;white-space:nowrap;justify-content:flex-end;">
-        <span id="mine-hint-text" style="flex:1 1 auto;min-width:0;overflow:hidden;text-overflow:ellipsis;"></span>
-        <button id="mine-backup" onclick="backupMine()" style="border:none;background:none;padding:0;font:inherit;font-size:12px;font-weight:600;color:#C04E1A;cursor:pointer;flex:0 0 auto;">Back up</button>
-        <button id="mine-clear" onclick="clearMine()" style="border:none;background:none;padding:0;font:inherit;font-size:12px;font-weight:600;color:#C04E1A;cursor:pointer;flex:0 0 auto;">Clear all</button>
-      </div>
-      <!-- Filled by Back up. Kept in the DOM so execCommand('copy') has a real
-           field to select when the clipboard API is unavailable. -->
-      <input id="mine-link" type="text" readonly value="" onclick="this.select()"
-             style="display:none;width:100%;box-sizing:border-box;border:1px solid #e6e2da;border-radius:8px;padding:5px 8px;font:inherit;font-size:11px;color:#6a6660;background:#faf8f4;">
-    </div>
     <div style="display:flex;align-items:center;gap:8px;">
       <button id="visited-pill-mobile" onclick="toggleVisitedMobile(this)" style="background:#fdf5d8;border:1.5px solid #d8c87a;border-radius:20px;height:28px;padding:0 16px;font-size:12px;font-weight:600;color:#7a6000;cursor:pointer;font-family:inherit;align-items:center;gap:7px;box-shadow:0 2px 10px rgba(0,0,0,0.15);white-space:nowrap;" aria-label="Show the cities you have marked">
         <span style="width:8px;height:8px;border-radius:50%;background:#c8940a;flex-shrink:0;display:inline-block;"></span> <span id="visited-pill-count">Visited</span>
@@ -1502,7 +1366,6 @@ function buildPins() {
     const dot = vm && vm.querySelector('span');
     if (dot) dot.style.background = 'rgba(255,255,255,0.7)';
     beenPaintCount();
-    mineSay('Restored ' + restored + ' place' + (restored === 1 ? '' : 's') + ' to this browser.');
   }
   beenPaintCount();
 

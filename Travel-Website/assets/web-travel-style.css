@@ -22,6 +22,13 @@ html { overflow-x: clip; scroll-behavior: smooth; }
   --surface2: #f0ede8;
   --border:   #d8d4cc;
   --border2:  #e6e2da;
+  /* Outline for a transparent, border-only pill sitting on a warm hero-wash
+     background (when-to-go's/sunrise-sunset's .cf-spill-pill /
+     .sun-spill-pill) -- --border2 reads too faint against that wash, which
+     is why both pages had independently hardcoded this identical literal.
+     Promoted here per the "reusable across 2+ pages -> shared CSS" rule;
+     value unchanged, purely a de-hardcode. */
+  --hero-pill-border: #c8bfb0;
   --text:     #3d3a32;
   --muted:    #6a6660;
   --accent:   #8a6c1a;
@@ -433,6 +440,40 @@ a.also-on-this-site-pill:active {
   .selection-pill[aria-pressed="true"] { background: var(--surface2, var(--surface2)); color: var(--muted, #9a9690); border-color: #4a453e; }
 }
 :root[data-theme="dark"] .selection-pill { color: var(--muted, #9a9690); }
+
+/* 2026-09-01: .selection-pill-sm never had this base rule -- only the
+   family-color compound rules (.selection-pill-sm.cp-*/.nt-*/.sp-*/.sb-*)
+   and the hover-mechanic compound rules existed, so every page using it
+   (packing's Reset all/Print list/Save for Offline, baggage's and
+   budget-airline-guide's .jchip filter row) rendered as an unstyled native
+   button/link -- 0px padding, 0px border-radius, the browser's own 2px
+   outset bevel -- with only a flat background color painted on top by the
+   family class. Three separate page-local comments claimed the box came
+   from .selection-pill-sm; none of them were true, because this rule never
+   existed to provide it. Mirrors .selection-pill immediately above at the
+   doc's approved small size (12px, 5px 12px padding -- pills doc, Selection
+   Pills section). */
+.selection-pill-sm {
+  font-family: inherit; box-sizing: border-box; display: inline-flex; align-items: center;
+  justify-content: center;
+  line-height: 1.2; font-size: 12px; font-weight: 600; padding: 5px 12px;
+  border: 1px solid var(--border2, var(--border2)); border-radius: 999px; background: var(--warm, #fdf8f0);
+  color: var(--muted, #6a6660); cursor: pointer; text-decoration: none; user-select: none;
+}
+@media (hover: hover) {
+  .selection-pill-sm:hover { background: var(--nt-grey-wash, #f0ede8); border-color: rgba(var(--nt-grey-rgb, 106,102,96), .75); color: var(--nt-grey-ink, #6a6660); }
+}
+.selection-pill-sm.is-on,
+.selection-pill-sm[aria-pressed="true"] {
+  background: var(--nt-grey-wash, #f0ede8); border-color: rgba(var(--nt-grey-rgb, 106,102,96), .75); color: var(--nt-grey-ink, #6a6660); font-weight: 600;
+}
+@media (prefers-color-scheme: dark) {
+  .selection-pill-sm { color: var(--muted, #9a9690); border-color: var(--border2, var(--border2)); }
+  .selection-pill-sm:hover,
+  .selection-pill-sm.is-on,
+  .selection-pill-sm[aria-pressed="true"] { background: var(--surface2, var(--surface2)); color: var(--muted, #9a9690); border-color: #4a453e; }
+}
+:root[data-theme="dark"] .selection-pill-sm { color: var(--muted, #9a9690); }
 
 :root {
   --sp-rust-ink:#8a3f18;      --sp-rust-rgb:138,63,24;      --sp-rust-wash:#faf1ea;
@@ -1550,8 +1591,8 @@ a.lounge-guide-link:visited { color: #6a6660; }
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  color: #8a6c1a;
-  background: #fdf8f0;
+  color: var(--nt-cream-ink, #8a6c1a);
+  background: var(--nt-cream-wash, #fdf8f0);
   text-decoration: none;
   border: 1px solid var(--border2);
   border-radius: 8px;
@@ -1560,10 +1601,10 @@ a.lounge-guide-link:visited { color: #6a6660; }
   font-size: 14px;
   transition: border-color .15s, color .15s, background .15s;
 }
-/* 2026-09-01: was background:var(--nt-cream-wash) + color:var(--muted) --
-   a wash borrowed from one Family 1 tone (Amber) paired with an unrelated
-   generic grey, not that tone's own ink. Reads as an uncontrolled beige,
-   not an approved color. Now the real Amber pairing (#fdf8f0/#8a6c1a). */
+/* 2026-09-01: was a literal #ffffff/#8a6c1a pairing (an uncontrolled white
+   fill next to Amber's own ink) -- now the real var(--nt-cream-*) pairing,
+   same tokens .best-of-related a/.bo-chip already reference (caught
+   auditing when-to-go's .cf-guide-pill, which inherits this class). */
 .chevron-link-pill::after { content: '\203A'; font-size: 17px; vertical-align: -1px; margin-left: 5px; }
 /* 2026-09-01: consolidated 5 components that each independently retyped
    the identical background/border-color/color block (chevron-link-pill,

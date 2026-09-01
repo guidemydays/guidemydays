@@ -2843,7 +2843,11 @@
    changed again, Rust -> Light Blue (owner: prefer a genuinely light tone
    over another dark one, confirmed collision-free across all pages using
    the class). MIN_VERSIONS['web-travel-style.css'] to 230, CACHE to v1766. */
-var CACHE = 'travel-cache-v1766';
+/* 2026-09-01: web-travel-style.css -- chevron-link-pill de-hardcoded, 5
+   duplicated neutral-hover components consolidated into one shared rule,
+   all 8 root --nt-*-ink/-rgb/-wash vars remapped onto real Family 1 tones.
+   MIN_VERSIONS['web-travel-style.css'] to 231, CACHE to v1767. */
+var CACHE = 'travel-cache-v1767';
 /* 2026-08-27: airlines.css's .card-tags align-items fix changed a shared
    asset without raising its own floor -- MIN_VERSIONS['airlines.css'] to
    6, CACHE to v1662. */
@@ -2885,7 +2889,7 @@ var ICS_OUTBOX = 'gmd-ics-outbox';
    of 230+ guides. Instead, bump MIN_VERSIONS here + increment the CACHE version. */
 /* 2026-08-30: weather.js: Punta Cana climate normals added (244 cities). MIN_VERSIONS["weather.js"] to 19, CACHE to v1748. */
 /* 2026-08-30: search-autocomplete.js — reverted ARIA combobox pattern (role=listbox/option caused side-by-side layout regression). MIN_VERSIONS['search-autocomplete.js'] to 11, CACHE to v1749. */
-var MIN_VERSIONS = { 'guide-style.css': 278,'toolbar.js': 1117, 'mobile.css': 93, 'web-travel-style.css': 230, 'guides-index-style.css': 41, 'read-about.css': 8, 'best-of-features.js': 5, 'best-of-cross-data.js': 24, 'weather.js': 21,'trains.css': 30, 'trains.js': 5, 'airlines.css': 9, 'airlines.js': 9, 'passport.js': 5, 'search-autocomplete.js': 12, 'flag-render.js': 2 };
+var MIN_VERSIONS = { 'guide-style.css': 278,'toolbar.js': 1117, 'mobile.css': 93, 'web-travel-style.css': 231, 'guides-index-style.css': 41, 'read-about.css': 8, 'best-of-features.js': 5, 'best-of-cross-data.js': 24, 'weather.js': 21,'trains.css': 30, 'trains.js': 5, 'airlines.css': 9, 'airlines.js': 9, 'passport.js': 5, 'search-autocomplete.js': 12, 'flag-render.js': 2 };
 
 function rewriteAssetUrl(urlStr) {
   var u;

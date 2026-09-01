@@ -770,6 +770,40 @@ a.badge.sb-teal:visited,       a.pill-badge.sb-teal:visited       { color: #fff;
 .nt-cream { --sp-ink:#8a6c1a; --sp-rgb:253,248,240; --sp-wash:#fdf8f0; } /* = Amber */
 .nt-tan   { --sp-ink:#654321; --sp-rgb:223,194,157; --sp-wash:#dfc29d; } /* = Sand — was its own tan (#f5f0e7, nearly identical to Bronze), moved to a genuinely distinct approved beige */
 .nt-brown { --sp-ink:#6b4423; --sp-rgb:247,238,229; --sp-wash:#f7eee5; } /* = Saddle */
+
+/* Dark-mode counterpart for every colored cp-* / nt-* tone (validate_dark_mode.py
+   audit, 2026-08-31) -- --sp-wash used directly as a card/row/chip background
+   read as a BRIGHT SURFACE, and --sp-ink used as text or a border read
+   near-invisible against the dark surface underneath it. One formula for
+   every tone rather than a hand-picked pairing per family: mix the tone's
+   OWN light wash into --surface for the dark fill, and its OWN ink into
+   white for the dark ink -- keeps each tone's hue identity recognizable
+   while landing on a legible dark pairing, same color-mix() mechanism the
+   pill hover states already use (line ~589). The 3 white tones (cp-white-gold,
+   nt-white, nt-paper) are deliberately excluded -- their wash is meant to
+   stay white in both themes (see --nt-white-ink's own light/dark pair
+   above), a different, already-solved case from the colored pastels here. */
+@media (prefers-color-scheme: dark) {
+  .cp-dark-grey  { --sp-wash: color-mix(in srgb, #d9d5cb 22%, var(--surface)); --sp-ink: color-mix(in srgb, #4f4a3e 55%, white); }
+  .cp-light-grey { --sp-wash: color-mix(in srgb, #e2e1de 22%, var(--surface)); --sp-ink: color-mix(in srgb, #4a483f 55%, white); }
+  .cp-blue       { --sp-wash: color-mix(in srgb, #bfdcf5 22%, var(--surface)); --sp-ink: color-mix(in srgb, #163a5c 55%, white); }
+  .cp-dark-teal  { --sp-wash: color-mix(in srgb, #9dc0b3 22%, var(--surface)); --sp-ink: color-mix(in srgb, #274a3d 55%, white); }
+  .cp-light-teal { --sp-wash: color-mix(in srgb, #d9e6e0 22%, var(--surface)); --sp-ink: color-mix(in srgb, #3a5449 55%, white); }
+  .cp-gold       { --sp-wash: color-mix(in srgb, #fff6de 22%, var(--surface)); --sp-ink: color-mix(in srgb, #7a5a12 55%, white); }
+  .cp-brown      { --sp-wash: color-mix(in srgb, #f5f0e6 22%, var(--surface)); --sp-ink: color-mix(in srgb, #5a3c0e 55%, white); }
+  .cp-pink       { --sp-wash: color-mix(in srgb, #e8cec5 22%, var(--surface)); --sp-ink: color-mix(in srgb, #6b3a28 55%, white); }
+  .cp-dark-pink  { --sp-wash: color-mix(in srgb, #d6b0bd 22%, var(--surface)); --sp-ink: color-mix(in srgb, #5c3242 55%, white); }
+  .cp-purple     { --sp-wash: color-mix(in srgb, #c8bcd9 22%, var(--surface)); --sp-ink: color-mix(in srgb, #362350 55%, white); }
+  .cp-terracotta { --sp-wash: color-mix(in srgb, #f7f3ea 22%, var(--surface)); --sp-ink: color-mix(in srgb, #9a5030 55%, white); }
+  .cp-bright-red { --sp-wash: color-mix(in srgb, #d4a190 22%, var(--surface)); --sp-ink: color-mix(in srgb, #63301f 55%, white); }
+  .nt-fog        { --sp-wash: color-mix(in srgb, #e2e1de 22%, var(--surface)); --sp-ink: color-mix(in srgb, #726c60 55%, white); }
+  .nt-grey       { --sp-wash: color-mix(in srgb, #d9d5cb 22%, var(--surface)); --sp-ink: color-mix(in srgb, #4f4a3e 55%, white); }
+  .nt-linen      { --sp-wash: color-mix(in srgb, #f5f0e6 22%, var(--surface)); --sp-ink: color-mix(in srgb, #5a3c0e 55%, white); }
+  .nt-cream      { --sp-wash: color-mix(in srgb, #fdf8f0 22%, var(--surface)); --sp-ink: color-mix(in srgb, #8a6c1a 55%, white); }
+  .nt-tan        { --sp-wash: color-mix(in srgb, #dfc29d 22%, var(--surface)); --sp-ink: color-mix(in srgb, #654321 55%, white); }
+  .nt-brown      { --sp-wash: color-mix(in srgb, #f7eee5 22%, var(--surface)); --sp-ink: color-mix(in srgb, #6b4423 55%, white); }
+}
+
 /* 2026-08-30: NONE of the 7 nt-* tones ever had a .badge.nt-X/.pill-badge.nt-X
    rule actually setting background/color -- only the :visited overrides
    below existed, and .selection-pill.nt-X (right below) only ever

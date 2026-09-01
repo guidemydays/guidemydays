@@ -5694,7 +5694,14 @@ window.TVE.home = (function () {
 
     var btn = document.createElement('a');
     btn.href = 'javascript:void(0)';
-    btn.className = isPacking ? 'toggle-btn' : 'overview-extra-link';
+    /* 2026-09-01: was just 'toggle-btn' -- the comment two screens down says
+       this button "borrows .toggle-btn so it matches its neighbours
+       [Reset all, Print list] exactly," but the class list never actually
+       carried the shared pill classes those neighbours use, so it rendered
+       as bare gold text with no box at all while Reset/Print were real
+       pills. Matches them now, same as the packing page's own <style>
+       comments on .reset-btn/.print-btn already assumed it did. */
+    btn.className = isPacking ? 'toggle-btn selection-pill-sm nt-tan hov-press' : 'overview-extra-link';
     btn.id = 'tve-offline-btn';
     var restLabel = (isPacking
       ? '<svg viewBox="0 0 24 24" aria-hidden="true"><use href="#gm-i-download"/></svg>&nbsp;Save for Offline'

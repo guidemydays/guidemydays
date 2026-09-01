@@ -1,0 +1,968 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>European Trains — Editorial Redesign Concept</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=Inter:wght@300;400;500;600&family=Space+Mono:wght@400;700&display=swap">
+<style>
+/* ─── DESIGN TOKENS ────────────────────────────────────────────── */
+:root {
+  /* grounds */
+  --g-page:      #f5f4f0;
+  --g-sidebar:   #efecea;
+  --g-card:      #ffffff;
+  --g-feature-warm:    #f6efe4;
+  --g-feature-night:   #ebe9f3;
+  --g-feature-private: #f5eaed;
+
+  /* ink */
+  --ink-900: #1a1917;
+  --ink-700: #3c3a37;
+  --ink-500: #6e6b66;
+  --ink-300: #b4b1ab;
+  --ink-100: #ece9e4;
+
+  /* accent */
+  --terracotta: #C04E1A;
+
+  /* type badge tones — in real implementation these map to sb-* families */
+  --badge-hs:         #c4914f;
+  --badge-hs-text:    #3d2812;
+  --badge-night:      #7fa8cc;
+  --badge-night-text: #ffffff;
+  --badge-ic:         #dc524f;
+  --badge-ic-text:    #ffffff;
+  --badge-private:    #c77696;
+  --badge-private-text: #ffffff;
+  --badge-regional:   #5a9a5a;
+  --badge-regional-text: #ffffff;
+  --badge-scenic:     #8a867a;
+  --badge-scenic-text: #ffffff;
+
+  /* structure */
+  --rail: #c8b99a;
+  --radius: 10px;
+  --sidebar-w: 260px;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --g-page:         #1a1917;
+    --g-sidebar:      #201e1c;
+    --g-card:         #252320;
+    --g-feature-warm:    #2a2420;
+    --g-feature-night:   #1e1d26;
+    --g-feature-private: #251c1e;
+    --ink-900: #f0ede8;
+    --ink-700: #c8c4be;
+    --ink-500: #8a867f;
+    --ink-300: #50504a;
+    --ink-100: #2d2b28;
+    --rail: #3d3830;
+  }
+}
+:root[data-theme="dark"] {
+  --g-page:         #1a1917;
+  --g-sidebar:      #201e1c;
+  --g-card:         #252320;
+  --g-feature-warm:    #2a2420;
+  --g-feature-night:   #1e1d26;
+  --g-feature-private: #251c1e;
+  --ink-900: #f0ede8;
+  --ink-700: #c8c4be;
+  --ink-500: #8a867f;
+  --ink-300: #50504a;
+  --ink-100: #2d2b28;
+  --rail: #3d3830;
+}
+
+/* ─── RESET ─────────────────────────────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  background: var(--g-page);
+  color: var(--ink-900);
+  font-family: Inter, system-ui, sans-serif;
+  font-size: 15px;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ─── MOCKUP LABEL ───────────────────────────────────────────────── */
+.mockup-banner {
+  background: var(--terracotta);
+  color: #fff;
+  text-align: center;
+  font-family: Inter, sans-serif;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  padding: 8px 16px;
+}
+
+/* ─── IMPLEMENTATION NOTES PANEL ────────────────────────────────── */
+.impl-notes {
+  background: var(--g-card);
+  border-bottom: 1px solid var(--rail);
+  padding: 16px 32px;
+  font-size: 12px;
+  color: var(--ink-500);
+  display: flex;
+  gap: 24px;
+  flex-wrap: wrap;
+}
+.impl-notes strong { color: var(--ink-900); }
+.impl-note { display: flex; gap: 6px; align-items: baseline; }
+.impl-note::before { content: '→'; color: var(--terracotta); flex-shrink: 0; }
+
+/* ─── HERO (as-is from live page) ──────────────────────────────── */
+.hero-band {
+  background: var(--g-page);
+  border-bottom: 1px solid var(--rail);
+  padding: 56px 32px 48px;
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 32px;
+  max-width: 1100px;
+  margin: 0 auto;
+}
+.eb-kicker {
+  font-family: Inter, sans-serif;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  color: var(--terracotta);
+  display: block;
+  margin-bottom: 14px;
+}
+.eb-title {
+  font-family: 'Playfair Display', Georgia, serif;
+  font-size: 32px;
+  font-weight: 700;
+  line-height: 1.15;
+  color: var(--ink-900);
+  text-wrap: balance;
+  margin-bottom: 18px;
+}
+.eb-title em { font-style: italic; color: var(--terracotta); }
+.eb-intro {
+  font-size: 15px;
+  color: var(--ink-700);
+  max-width: 560px;
+  line-height: 1.7;
+}
+.eb-graphic {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 80px;
+}
+.eb-graphic svg { width: 72px; height: 72px; opacity: .7; }
+
+/* ─── CONT-NAV ────────────────────────────────────────────────────── */
+.cont-nav {
+  display: flex;
+  gap: 0;
+  border-bottom: 1px solid var(--rail);
+  background: var(--g-sidebar);
+  padding: 0 32px;
+}
+.cont-btn {
+  font-family: Inter, sans-serif;
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--ink-500);
+  text-decoration: none;
+  padding: 14px 20px;
+  border-bottom: 2px solid transparent;
+  transition: color .15s, border-color .15s;
+  cursor: pointer;
+  display: inline-block;
+}
+.cont-btn:hover { color: var(--ink-900); }
+.cont-btn.on {
+  color: var(--ink-900);
+  border-bottom-color: var(--terracotta);
+  font-weight: 600;
+}
+
+/* ─── MAIN LAYOUT ──────────────────────────────────────────────── */
+.page-shell {
+  display: grid;
+  grid-template-columns: var(--sidebar-w) 1fr;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+/* ─── SIDEBAR ─────────────────────────────────────────────────────── */
+.sidebar {
+  background: var(--g-sidebar);
+  border-right: 1px solid var(--rail);
+  padding: 28px 20px;
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 28px;
+}
+
+/* Search — real implementation uses TVESearch standard (var(--search-w/h/radius)) */
+.search-wrap input {
+  width: 100%;
+  background: var(--g-card);
+  border: 1px solid var(--ink-100);
+  border-radius: 8px;
+  padding: 10px 14px;
+  font-family: Inter, sans-serif;
+  font-size: 13px;
+  color: var(--ink-900);
+  outline: none;
+}
+.search-wrap input::placeholder { color: var(--ink-300); }
+
+.filter-group-label {
+  font-family: Inter, sans-serif;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  color: var(--ink-500);
+  margin-bottom: 10px;
+}
+
+/* Vertical filter list — key UX differentiator from current horizontal pill row */
+.filter-list {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+.filter-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 9px 12px;
+  border-radius: 7px;
+  cursor: pointer;
+  transition: background .12s;
+  font-family: Inter, sans-serif;
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--ink-700);
+  user-select: none;
+}
+.filter-row:hover { background: var(--ink-100); }
+.filter-row.active {
+  background: var(--ink-900);
+  color: var(--g-page);
+}
+.fr-swatch {
+  width: 12px; height: 12px;
+  border-radius: 3px;
+  border: 1px solid var(--ink-100);
+  flex-shrink: 0;
+}
+.filter-row.active .fr-swatch { border-color: transparent; }
+.fr-count {
+  margin-left: auto;
+  font-size: 11px;
+  color: var(--ink-300);
+}
+.filter-row.active .fr-count { color: rgba(255,255,255,.45); }
+
+/* Mini route-spine */
+.sidebar-spine { border-top: 1px solid var(--rail); padding-top: 20px; }
+.spine-label {
+  font-size: 11px; font-weight: 600; letter-spacing: .1em; text-transform: uppercase;
+  color: var(--ink-500); margin-bottom: 12px;
+}
+.spine-item {
+  display: flex; align-items: flex-start; gap: 10px;
+  padding: 8px 0; border-bottom: 1px solid var(--ink-100);
+  font-size: 11px; color: var(--ink-700); cursor: pointer;
+}
+.spine-item:hover .si-name { color: var(--terracotta); }
+.spine-dot {
+  width: 8px; height: 8px; border-radius: 50%;
+  background: var(--rail); margin-top: 3px; flex-shrink: 0;
+}
+.spine-item.hs  .spine-dot { background: var(--badge-hs); }
+.spine-item.night .spine-dot { background: var(--badge-night); }
+.si-name { font-weight: 600; display: block; }
+.si-route { font-family: 'Space Mono', monospace; font-size: 10px; color: var(--ink-500); margin-top: 2px; display: block; }
+
+/* ─── MAIN CONTENT ────────────────────────────────────────────────── */
+.main-content {
+  padding: 32px 36px;
+  display: flex;
+  flex-direction: column;
+  gap: 48px;
+}
+
+/* ─── DEPARTURE BAND (redesigned rail-band) ───────────────────────── */
+.departure-band {
+  border: 1px solid var(--rail);
+  border-radius: var(--radius);
+  overflow: hidden;
+  background: var(--g-card);
+}
+.db-header {
+  display: flex; align-items: center; gap: 14px;
+  padding: 18px 24px; border-bottom: 1px solid var(--rail);
+  background: var(--g-sidebar);
+}
+.db-header h2 {
+  font-family: 'Playfair Display', Georgia, serif;
+  font-size: 18px; font-weight: 700; color: var(--ink-900);
+}
+.db-header p { font-size: 13px; color: var(--ink-500); margin-left: auto; }
+
+.departure-row {
+  display: grid;
+  grid-template-columns: 28px 1fr 1.4fr auto auto;
+  align-items: center;
+  gap: 0 16px;
+  padding: 14px 24px;
+  border-bottom: 1px solid var(--ink-100);
+  cursor: pointer;
+  transition: background .1s;
+}
+.departure-row:last-child { border-bottom: none; }
+.departure-row:hover { background: var(--g-feature-warm); }
+.dr-flag { font-size: 18px; display: flex; align-items: center; }
+.dr-name {
+  font-family: 'Playfair Display', Georgia, serif;
+  font-size: 15px; font-weight: 700; color: var(--ink-900);
+}
+.dr-route {
+  font-family: 'Space Mono', monospace;
+  font-size: 11px; color: var(--ink-500);
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+}
+.dr-time {
+  font-family: 'Space Mono', monospace;
+  font-size: 13px; color: var(--ink-500);
+  font-variant-numeric: tabular-nums; white-space: nowrap;
+}
+.dr-verdict { font-size: 13px; color: var(--ink-700); max-width: 240px; text-align: right; }
+
+/* ─── COUNTRY SECTION HEADER ─────────────────────────────────────── */
+.country-head {
+  display: flex; align-items: center; gap: 14px;
+  border-bottom: 1px solid var(--rail);
+  padding-bottom: 14px; margin-bottom: 24px;
+}
+.country-head h3 {
+  font-family: 'Playfair Display', Georgia, serif;
+  font-size: 32px; font-weight: 900; color: var(--ink-900); letter-spacing: -.02em;
+}
+.ch-rule { flex: 1; height: 1px; background: var(--rail); }
+
+/* ─── FEATURE CARD (marquee operators) ───────────────────────────── */
+.feature-card {
+  border-radius: var(--radius);
+  overflow: hidden;
+  border: 1px solid var(--rail);
+  display: grid;
+  grid-template-columns: 2fr 3fr;
+  min-height: 220px;
+}
+.fc-left {
+  padding: 28px 24px;
+  display: flex; flex-direction: column; gap: 12px;
+  position: relative;
+}
+.fc-left::after {
+  content: ''; position: absolute;
+  right: 0; top: 16px; bottom: 16px;
+  width: 1px; background: var(--rail);
+}
+.fc-type {
+  font-family: Inter, sans-serif;
+  font-size: 11px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase;
+  padding: 4px 10px; border-radius: 4px;
+  display: inline-flex; align-items: center; width: fit-content;
+  /* Real implementation: use approved sb-* or cp-* class from pills doc */
+}
+.fc-name {
+  font-family: 'Playfair Display', Georgia, serif;
+  font-size: 24px; font-weight: 700; line-height: 1.2;
+  color: var(--ink-900); text-wrap: balance;
+}
+.fc-sub {
+  font-size: 11px; color: var(--ink-500); font-weight: 500;
+  letter-spacing: .03em; text-transform: uppercase;
+}
+.fc-routes { margin-top: auto; display: flex; flex-direction: column; gap: 4px; }
+.fc-route {
+  font-family: 'Space Mono', monospace;
+  font-size: 11px; color: var(--ink-700);
+  display: flex; align-items: center; gap: 8px;
+}
+.fc-route-time { margin-left: auto; color: var(--ink-300); font-variant-numeric: tabular-nums; }
+
+.fc-right {
+  padding: 28px;
+  display: flex; flex-direction: column; gap: 16px;
+  background: var(--g-card);
+}
+.fc-review-label {
+  font-size: 11px; font-weight: 600; letter-spacing: .1em; text-transform: uppercase; color: var(--ink-500);
+}
+.fc-review { font-size: 13px; color: var(--ink-700); line-height: 1.75; flex: 1; }
+.fc-booking {
+  display: flex; flex-wrap: wrap; gap: 8px;
+  padding-top: 16px; border-top: 1px solid var(--ink-100);
+}
+.book-btn {
+  font-family: Inter, sans-serif;
+  font-size: 11px; font-weight: 600;
+  padding: 6px 14px; border-radius: 6px;
+  text-decoration: none; cursor: pointer; border: none;
+  display: inline-block; transition: opacity .12s;
+}
+.book-btn:hover { opacity: .82; }
+.book-btn.primary { background: var(--ink-900); color: var(--g-page); }
+.book-btn.secondary { background: var(--ink-100); color: var(--ink-700); }
+
+.feature-card.hs     .fc-left { background: var(--g-feature-warm); }
+.feature-card.hs     .fc-type { background: var(--badge-hs); color: var(--badge-hs-text); }
+.feature-card.night  .fc-left { background: var(--g-feature-night); }
+.feature-card.night  .fc-type { background: var(--badge-night); color: var(--badge-night-text); }
+.feature-card.private .fc-left { background: var(--g-feature-private); }
+.feature-card.private .fc-type { background: var(--badge-private); color: var(--badge-private-text); }
+
+/* ─── COMPACT OPERATOR TABLE ─────────────────────────────────────── */
+.operator-table {
+  border: 1px solid var(--ink-100);
+  border-radius: var(--radius);
+  overflow: hidden;
+  background: var(--g-card);
+}
+.op-row {
+  display: grid;
+  grid-template-columns: 28px 1fr 1.5fr auto 80px;
+  align-items: center;
+  gap: 12px;
+  padding: 13px 18px;
+  border-bottom: 1px solid var(--ink-100);
+  cursor: pointer;
+  transition: background .1s;
+}
+.op-row:last-child { border-bottom: none; }
+.op-row:hover { background: var(--g-sidebar); }
+.op-flag { font-size: 18px; text-align: center; }
+.op-name { font-weight: 600; color: var(--ink-900); font-size: 14px; }
+.op-org { font-size: 11px; color: var(--ink-500); }
+.op-route {
+  font-family: 'Space Mono', monospace;
+  font-size: 11px; color: var(--ink-500);
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+}
+.op-badge {
+  font-family: Inter, sans-serif;
+  font-size: 10px; font-weight: 700; letter-spacing: .06em; text-transform: uppercase;
+  padding: 3px 8px; border-radius: 4px; white-space: nowrap;
+  /* Real implementation: approved sb-* or cp-* class */
+}
+.op-book {
+  font-size: 11px; color: var(--terracotta); font-weight: 600;
+  text-decoration: none; text-align: right;
+}
+.op-book:hover { text-decoration: underline; }
+
+.section-group { display: flex; flex-direction: column; gap: 20px; }
+
+/* ─── MOBILE NOTE ────────────────────────────────────────────────── */
+.mobile-note {
+  background: var(--g-card); border: 1px solid var(--rail);
+  border-radius: var(--radius); padding: 24px 28px;
+  font-size: 13px; color: var(--ink-700);
+  display: flex; gap: 16px; align-items: flex-start;
+}
+.mobile-note strong { color: var(--ink-900); }
+.mn-icon { font-size: 22px; flex-shrink: 0; margin-top: 2px; }
+
+/* ─── MOBILE PREVIEW ─────────────────────────────────────────────── */
+.mobile-section {
+  background: var(--g-sidebar);
+  border-top: 2px solid var(--rail);
+  padding: 48px 32px;
+  text-align: center;
+}
+.mobile-section h2 {
+  font-family: 'Playfair Display', Georgia, serif;
+  font-size: 24px; color: var(--ink-900); margin-bottom: 8px;
+}
+.mobile-section p { font-size: 13px; color: var(--ink-500); margin-bottom: 36px; }
+
+.mobile-frame {
+  display: inline-block; width: 360px;
+  background: var(--g-page); border-radius: 24px;
+  border: 2px solid var(--rail); overflow: hidden; text-align: left;
+  box-shadow: 0 16px 48px rgba(0,0,0,.10);
+}
+.mf-hero {
+  background: var(--g-sidebar);
+  padding: 20px 18px 16px; border-bottom: 1px solid var(--rail);
+}
+.mf-kicker { font-size: 9px; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; color: var(--terracotta); margin-bottom: 8px; }
+.mf-title { font-family: 'Playfair Display', Georgia, serif; font-size: 18px; font-weight: 700; line-height: 1.25; color: var(--ink-900); margin-bottom: 6px; }
+.mf-intro { font-size: 11px; color: var(--ink-500); line-height: 1.5; }
+
+.mf-nav { display: flex; overflow-x: auto; border-bottom: 1px solid var(--rail); background: var(--g-sidebar); }
+.mf-nav::-webkit-scrollbar { display: none; }
+.mf-nb { font-size: 10px; font-weight: 600; padding: 10px 14px; color: var(--ink-500); white-space: nowrap; border-bottom: 2px solid transparent; }
+.mf-nb.on { color: var(--ink-900); border-bottom-color: var(--terracotta); }
+
+.mf-search { padding: 12px 14px; border-bottom: 1px solid var(--ink-100); }
+.mf-search input {
+  width: 100%; background: var(--g-card); border: 1px solid var(--ink-100);
+  border-radius: 8px; padding: 9px 12px; font-size: 12px; color: var(--ink-700);
+}
+
+/* mobile: horizontal filter chips — real implementation uses approved cp-*/sb-* */
+.mf-chips { display: flex; gap: 6px; padding: 10px 14px; overflow-x: auto; border-bottom: 1px solid var(--ink-100); }
+.mf-chips::-webkit-scrollbar { display: none; }
+.mf-chip { font-size: 10px; font-weight: 700; padding: 4px 10px; border-radius: 4px; white-space: nowrap; }
+.mf-chip.all    { background: var(--ink-900); color: var(--g-page); }
+.mf-chip.hs     { background: var(--badge-hs); color: var(--badge-hs-text); }
+.mf-chip.ni     { background: var(--badge-night); color: var(--badge-night-text); }
+.mf-chip.ic     { background: var(--badge-ic); color: var(--badge-ic-text); }
+
+.mf-feat { border-bottom: 1px solid var(--ink-100); overflow: hidden; }
+.mf-feat-top { background: var(--g-feature-night); padding: 16px 14px 14px; }
+.mf-feat-badge { font-size: 9px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; padding: 3px 8px; border-radius: 3px; background: var(--badge-night); color: #fff; display: inline-block; margin-bottom: 8px; }
+.mf-feat-name { font-family: 'Playfair Display', Georgia, serif; font-size: 17px; font-weight: 700; color: var(--ink-900); line-height: 1.2; margin-bottom: 4px; }
+.mf-feat-sub { font-size: 10px; color: var(--ink-500); text-transform: uppercase; letter-spacing: .06em; }
+.mf-feat-routes { padding: 10px 14px; border-bottom: 1px solid var(--ink-100); }
+.mf-feat-route { font-family: 'Space Mono', monospace; font-size: 10px; color: var(--ink-700); padding: 3px 0; }
+.mf-feat-review { padding: 10px 14px 14px; }
+.mf-feat-review-lbl { font-size: 9px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: var(--ink-500); margin-bottom: 5px; }
+.mf-feat-text { font-size: 11px; color: var(--ink-700); line-height: 1.6; }
+
+.mf-op {
+  display: grid; grid-template-columns: auto 1fr auto;
+  gap: 8px; align-items: center; padding: 11px 14px;
+  border-bottom: 1px solid var(--ink-100);
+}
+.mf-op-flag { font-size: 16px; }
+.mf-op-info { display: flex; flex-direction: column; gap: 2px; }
+.mf-op-name { font-size: 12px; font-weight: 600; color: var(--ink-900); }
+.mf-op-route { font-family: 'Space Mono', monospace; font-size: 9px; color: var(--ink-500); }
+.mf-op-badge { font-size: 9px; font-weight: 700; padding: 3px 7px; border-radius: 3px; }
+</style>
+</head>
+<body>
+
+<div class="mockup-banner">REDESIGN CONCEPT — NOT THE LIVE PAGE — trains-continental-audit · 2026-09-01</div>
+
+<div class="impl-notes">
+  <div class="impl-note"><span><strong>Search:</strong> real implementation uses TVESearch standard (var(--search-w/h/radius)); transparent border + ambient shadow at rest</span></div>
+  <div class="impl-note"><span><strong>Type badges:</strong> map to approved sb-*/cp-* families from pills doc — colors here are concept approximations</span></div>
+  <div class="impl-note"><span><strong>Filter rows (desktop):</strong> structural nav list, not a &lt;select&gt; picker — no dropdown-collapse pattern needed</span></div>
+</div>
+
+<!-- ── HERO (as-is from live page) ─────────────────────────────── -->
+<div class="hero-band">
+  <div>
+    <span class="eb-kicker">European Train Guide</span>
+    <h1 class="eb-title">Who runs this line, <em>and is it the fast one.</em></h1>
+    <p class="eb-intro">Every train operator in Europe and what each one actually runs — high-speed, intercity, regional, night trains, private operators, rail passes and scenic lines. For each: the country it is based in, the countries it crosses and the stops it serves.</p>
+  </div>
+  <div class="eb-graphic" aria-hidden="true">
+    <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <linearGradient id="gm-mid" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#d99a72"/><stop offset="1" stop-color="#8a4a2c"/></linearGradient>
+        <linearGradient id="gm-dark" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#8a4a2c"/><stop offset="1" stop-color="#4a2716"/></linearGradient>
+      </defs>
+      <path d="M2 18V11A7 7 0 0 1 9 4H15A7 7 0 0 1 22 11V18Z" fill="url(#gm-mid)" stroke="#8a4a2c" stroke-width=".5"/>
+      <rect x="5" y="9.6" width="5" height="4.2" rx=".8" fill="#f0d2ba" stroke="#8a4a2c" stroke-width=".4"/>
+      <rect x="14" y="9.6" width="5" height="4.2" rx=".8" fill="#f0d2ba" stroke="#8a4a2c" stroke-width=".4"/>
+      <circle cx="12" cy="16.2" r="1.3" fill="#f0d2ba" stroke="#8a4a2c" stroke-width=".4"/>
+      <rect x="6" y="18.4" width="12" height="1.2" rx=".4" fill="url(#gm-dark)" opacity=".65"/>
+      <circle cx="7" cy="19.6" r="2.1" fill="url(#gm-dark)" stroke="#4a2716" stroke-width=".5"/>
+      <circle cx="17" cy="19.6" r="2.1" fill="url(#gm-dark)" stroke="#4a2716" stroke-width=".5"/>
+    </svg>
+  </div>
+</div>
+
+<!-- ── CONTINENT NAV ───────────────────────────────────────────── -->
+<nav class="cont-nav" aria-label="Train guides by continent">
+  <span class="cont-btn on" aria-current="page">Europe</span>
+  <a class="cont-btn" href="#">Asia</a>
+  <a class="cont-btn" href="#">Americas</a>
+  <a class="cont-btn" href="#">Africa</a>
+  <a class="cont-btn" href="#">Oceania</a>
+</nav>
+
+<!-- ── NEW LAYOUT ─────────────────────────────────────────────── -->
+<div class="page-shell">
+
+  <!-- SIDEBAR -->
+  <aside class="sidebar" aria-label="Filters and navigation">
+
+    <div class="search-wrap">
+      <input type="search" placeholder="Operator, country, city or route…" aria-label="Search operators">
+    </div>
+
+    <!-- Vertical filter list — concept: replaces the current horizontal .filter-btn pill row -->
+    <div>
+      <div class="filter-group-label">Filter by type</div>
+      <div class="filter-list">
+        <div class="filter-row active">
+          <div class="fr-swatch" style="background:var(--ink-900)"></div>
+          All operators
+          <span class="fr-count">45</span>
+        </div>
+        <div class="filter-row">
+          <div class="fr-swatch" style="background:var(--badge-hs)"></div>
+          High-speed
+          <span class="fr-count">12</span>
+        </div>
+        <div class="filter-row">
+          <div class="fr-swatch" style="background:var(--badge-ic)"></div>
+          Intercity
+          <span class="fr-count">14</span>
+        </div>
+        <div class="filter-row">
+          <div class="fr-swatch" style="background:var(--badge-regional)"></div>
+          Regional
+          <span class="fr-count">8</span>
+        </div>
+        <div class="filter-row">
+          <div class="fr-swatch" style="background:var(--badge-night)"></div>
+          Night train
+          <span class="fr-count">6</span>
+        </div>
+        <div class="filter-row">
+          <div class="fr-swatch" style="background:var(--badge-private)"></div>
+          Private operator
+          <span class="fr-count">7</span>
+        </div>
+        <div class="filter-row">
+          <div class="fr-swatch" style="background:var(--badge-scenic)"></div>
+          Scenic
+          <span class="fr-count">4</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Mini route-spine -->
+    <div class="sidebar-spine">
+      <div class="spine-label">The main corridors</div>
+      <div class="spine-item hs">
+        <div class="spine-dot"></div>
+        <div>
+          <span class="si-name">Channel Tunnel</span>
+          <span class="si-route">London → Paris / Brussels</span>
+        </div>
+      </div>
+      <div class="spine-item hs">
+        <div class="spine-dot"></div>
+        <div>
+          <span class="si-name">Italian spine</span>
+          <span class="si-route">Turin → Milan → Rome</span>
+        </div>
+      </div>
+      <div class="spine-item hs">
+        <div class="spine-dot"></div>
+        <div>
+          <span class="si-name">Madrid – Barcelona</span>
+          <span class="si-route">AVE · Iryo · OUIGO compete</span>
+        </div>
+      </div>
+      <div class="spine-item hs">
+        <div class="spine-dot"></div>
+        <div>
+          <span class="si-name">German network</span>
+          <span class="si-route">Frankfurt → Berlin / Hamburg</span>
+        </div>
+      </div>
+      <div class="spine-item night">
+        <div class="spine-dot"></div>
+        <div>
+          <span class="si-name">The night network</span>
+          <span class="si-route">Nightjet · European Sleeper</span>
+        </div>
+      </div>
+    </div>
+
+  </aside>
+
+  <!-- MAIN CONTENT -->
+  <main class="main-content">
+
+    <!-- DEPARTURE BAND — redesigned rail-band with Space Mono route text -->
+    <div class="departure-band">
+      <div class="db-header">
+        <h2>The spine</h2>
+        <p>Where high-speed crosses a border</p>
+      </div>
+      <div class="departure-row">
+        <div class="dr-flag">🇬🇧</div>
+        <div><div class="dr-name">Channel Tunnel</div></div>
+        <div class="dr-route">London ↔ Paris · Brussels · Amsterdam</div>
+        <div class="dr-time">2h 16m</div>
+        <div class="dr-verdict">Eurostar, now including the old Thalys network.</div>
+      </div>
+      <div class="departure-row">
+        <div class="dr-flag">🇮🇹</div>
+        <div><div class="dr-name">The Italian spine</div></div>
+        <div class="dr-route">Turin ↔ Milan ↔ Florence ↔ Rome ↔ Naples</div>
+        <div class="dr-time">~4h 30m</div>
+        <div class="dr-verdict">Trenitalia and Italo on the same track. Compare both.</div>
+      </div>
+      <div class="departure-row">
+        <div class="dr-flag">🇪🇸</div>
+        <div><div class="dr-name">Madrid – Barcelona</div></div>
+        <div class="dr-route">AVE · Iryo · OUIGO — three operators, one corridor</div>
+        <div class="dr-time">2h 30m</div>
+        <div class="dr-verdict">Never book the first fare you see.</div>
+      </div>
+      <div class="departure-row">
+        <div class="dr-flag">🇩🇪</div>
+        <div><div class="dr-name">The German network</div></div>
+        <div class="dr-route">Frankfurt ↔ Berlin · Hamburg · Munich</div>
+        <div class="dr-time">~4h</div>
+        <div class="dr-verdict">ICE, with FlixTrain undercutting it on the big routes.</div>
+      </div>
+      <div class="departure-row">
+        <div class="dr-flag">🇦🇹</div>
+        <div><div class="dr-name">The night network</div></div>
+        <div class="dr-route">Vienna ↔ Hamburg · Amsterdam · Brussels ↔ Prague</div>
+        <div class="dr-time">overnight</div>
+        <div class="dr-verdict">Nightjet and European Sleeper. Book the moment they open.</div>
+      </div>
+    </div>
+
+    <!-- Multi-country feature cards -->
+    <div class="section-group">
+      <div class="country-head">
+        <h3>Multi-Country</h3>
+        <div class="ch-rule"></div>
+      </div>
+
+      <div class="feature-card hs">
+        <div class="fc-left">
+          <div class="fc-type">High-Speed</div>
+          <div class="fc-sub">Eurostar Group · merged Oct 2023</div>
+          <div class="fc-name">Eurostar<br>+ former Thalys</div>
+          <div class="fc-routes">
+            <div class="fc-route">London ↔ Paris (Channel Tunnel) <span class="fc-route-time">2h 16m</span></div>
+            <div class="fc-route">London ↔ Brussels <span class="fc-route-time">2h 01m</span></div>
+            <div class="fc-route">London ↔ Amsterdam <span class="fc-route-time">3h 52m</span></div>
+            <div class="fc-route">Paris ↔ Amsterdam · Cologne <span class="fc-route-time">ex-Thalys</span></div>
+          </div>
+        </div>
+        <div class="fc-right">
+          <div class="fc-review-label">What it is like</div>
+          <p class="fc-review">Fast, civilised and priced like an airline — book months ahead or pay dearly, because walk-up fares are brutal. Treat it as a flight at the London end: check-in closes 30–45 minutes before departure and there is airport-style security and passport control. Standard Premier buys a wider seat and a tray of food rather than a different class of travel; the Thalys merger means one booking system and one loyalty scheme across the old network.</p>
+          <div class="fc-booking">
+            <a class="book-btn primary" href="#">eurostar.com</a>
+            <a class="book-btn secondary" href="#">Trainline</a>
+            <a class="book-btn secondary" href="#">Rail Europe</a>
+            <a class="book-btn secondary" href="#">Omio</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="feature-card night">
+        <div class="fc-left">
+          <div class="fc-type">Night Train</div>
+          <div class="fc-sub">ÖBB Austrian Federal Railways</div>
+          <div class="fc-name">Nightjet</div>
+          <div class="fc-routes">
+            <div class="fc-route">Vienna ↔ Hamburg · Amsterdam <span class="fc-route-time">overnight</span></div>
+            <div class="fc-route">Vienna ↔ Zurich · Venice · Rome <span class="fc-route-time">overnight</span></div>
+            <div class="fc-route">Munich ↔ Rome · Venice <span class="fc-route-time">overnight</span></div>
+            <div class="fc-route">Brussels ↔ Vienna <span class="fc-route-time">overnight</span></div>
+          </div>
+        </div>
+        <div class="fc-right">
+          <div class="fc-review-label">What it is like</div>
+          <p class="fc-review">The best night train in Europe and the reason the whole category came back. The new-generation cars carry single mini-cabins, which finally makes a solo sleeper affordable; couchettes are the value pick and the private sleeper compartments are the ones that sell out first. Book the moment the window opens — popular runs like Vienna–Amsterdam and Vienna–Venice sell out months ahead.</p>
+          <div class="fc-booking">
+            <a class="book-btn primary" href="#">nightjet.com</a>
+            <a class="book-btn primary" href="#">oebb.at</a>
+            <a class="book-btn secondary" href="#">Interrail</a>
+            <a class="book-btn secondary" href="#">Omio</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="feature-card private">
+        <div class="fc-left">
+          <div class="fc-type">Private · Night</div>
+          <div class="fc-sub">Brussels-based startup</div>
+          <div class="fc-name">European Sleeper</div>
+          <div class="fc-routes">
+            <div class="fc-route">Brussels/Amsterdam ↔ Prague via Berlin <span class="fc-route-time">active</span></div>
+            <div class="fc-route">Paris ↔ Berlin ↔ Hamburg via Brussels <span class="fc-route-time">active</span></div>
+            <div class="fc-route">Brussels ↔ Milan via Cologne · Aarau <span class="fc-route-time">from Sep 2026</span></div>
+          </div>
+        </div>
+        <div class="fc-right">
+          <div class="fc-review-label">What it is like</div>
+          <p class="fc-review">A genuinely likeable startup running old, cheap, refurbished stock — this is not Nightjet, and the difference shows in the fittings and the punctuality. Expect delays and a slightly improvised feel. Worth supporting and worth riding if the route suits you, but do not book a tight onward connection off the back of it.</p>
+          <div class="fc-booking">
+            <a class="book-btn primary" href="#">europeansleeper.eu</a>
+            <a class="book-btn secondary" href="#">Trainline</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- France — compact rows -->
+    <div class="section-group">
+      <div class="country-head">
+        <span style="font-size:26px">🇫🇷</span>
+        <h3>France</h3>
+        <div class="ch-rule"></div>
+      </div>
+      <div class="operator-table">
+        <div class="op-row">
+          <div class="op-flag">🇫🇷</div>
+          <div><div class="op-name">TGV / inOui</div><div class="op-org">SNCF</div></div>
+          <div class="op-route">Paris ↔ Lyon · Marseille · Bordeaux · Lille · Strasbourg</div>
+          <div class="op-badge" style="background:var(--badge-hs);color:var(--badge-hs-text)">High-speed</div>
+          <a class="op-book" href="#">sncf-connect.com</a>
+        </div>
+        <div class="op-row">
+          <div class="op-flag">🇫🇷</div>
+          <div><div class="op-name">OUIGO</div><div class="op-org">SNCF low-cost</div></div>
+          <div class="op-route">Paris ↔ Lyon · Nice · Marseille · Barcelona · Madrid</div>
+          <div class="op-badge" style="background:var(--badge-private);color:var(--badge-private-text)">Low-cost</div>
+          <a class="op-book" href="#">ouigo.com</a>
+        </div>
+        <div class="op-row">
+          <div class="op-flag">🇫🇷</div>
+          <div><div class="op-name">Intercités</div><div class="op-org">SNCF intercity</div></div>
+          <div class="op-route">Paris ↔ Clermont-Ferrand · Toulouse · Nantes (non-TGV routes)</div>
+          <div class="op-badge" style="background:var(--badge-ic);color:var(--badge-ic-text)">Intercity</div>
+          <a class="op-book" href="#">sncf-connect.com</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Germany — compact rows -->
+    <div class="section-group">
+      <div class="country-head">
+        <span style="font-size:26px">🇩🇪</span>
+        <h3>Germany</h3>
+        <div class="ch-rule"></div>
+      </div>
+      <div class="operator-table">
+        <div class="op-row">
+          <div class="op-flag">🇩🇪</div>
+          <div><div class="op-name">DB ICE</div><div class="op-org">Deutsche Bahn</div></div>
+          <div class="op-route">Frankfurt ↔ Berlin · Hamburg · Munich · Cologne · Amsterdam</div>
+          <div class="op-badge" style="background:var(--badge-hs);color:var(--badge-hs-text)">High-speed</div>
+          <a class="op-book" href="#">bahn.de</a>
+        </div>
+        <div class="op-row">
+          <div class="op-flag">🇩🇪</div>
+          <div><div class="op-name">FlixTrain</div><div class="op-org">Private · low-cost</div></div>
+          <div class="op-route">Hamburg ↔ Berlin · Cologne · Stuttgart · Munich</div>
+          <div class="op-badge" style="background:var(--badge-private);color:var(--badge-private-text)">Private</div>
+          <a class="op-book" href="#">flixtrain.de</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Mobile note -->
+    <div class="mobile-note">
+      <div class="mn-icon">📱</div>
+      <div>
+        <strong>On mobile:</strong> the sidebar collapses entirely. The filter list becomes a horizontally scrollable chip row pinned below the search bar (same data-ftype= attributes, same JS). Feature cards stack full-width with the tinted header panel above the review. The departure-band becomes a single-column list. Compact operator rows keep their three-column layout — flag, name+route, badge — with the booking link accessible via a tap on the row.
+      </div>
+    </div>
+
+  </main>
+</div>
+
+<!-- ── MOBILE PREVIEW ───────────────────────────────────────── -->
+<div class="mobile-section">
+  <h2>Mobile layout</h2>
+  <p>393 px — sidebar collapses to scrollable chip row; feature cards stack full-width</p>
+
+  <div class="mobile-frame" role="img" aria-label="Mobile layout preview">
+    <div class="mf-hero">
+      <div class="mf-kicker">European Train Guide</div>
+      <div class="mf-title">Who runs this line, <em>and is it the fast one.</em></div>
+      <div class="mf-intro">Every train operator in Europe — high-speed, intercity, night trains, scenic lines.</div>
+    </div>
+    <div class="mf-nav">
+      <span class="mf-nb on">Europe</span>
+      <span class="mf-nb">Asia</span>
+      <span class="mf-nb">Americas</span>
+      <span class="mf-nb">Africa</span>
+      <span class="mf-nb">Oceania</span>
+    </div>
+    <div class="mf-search">
+      <input type="search" placeholder="Operator, country, city or route…" aria-label="Search operators">
+    </div>
+    <div class="mf-chips">
+      <span class="mf-chip all">All</span>
+      <span class="mf-chip hs">High-speed</span>
+      <span class="mf-chip ic">Intercity</span>
+      <span class="mf-chip ni">Night train</span>
+    </div>
+    <div class="mf-feat">
+      <div class="mf-feat-top">
+        <div class="mf-feat-badge">Night Train</div>
+        <div class="mf-feat-name">Nightjet</div>
+        <div class="mf-feat-sub">ÖBB · Austria</div>
+      </div>
+      <div class="mf-feat-routes">
+        <div class="mf-feat-route">Vienna ↔ Hamburg · Amsterdam — overnight</div>
+        <div class="mf-feat-route">Vienna ↔ Venice · Rome — overnight</div>
+        <div class="mf-feat-route">Munich ↔ Rome — overnight</div>
+      </div>
+      <div class="mf-feat-review">
+        <div class="mf-feat-review-lbl">What it is like</div>
+        <div class="mf-feat-text">The best night train in Europe. New-generation cars carry single mini-cabins — finally a solo sleeper that's affordable. Book the moment the window opens; popular runs sell out months ahead.</div>
+      </div>
+    </div>
+    <div class="mf-op">
+      <div class="mf-op-flag">🇫🇷</div>
+      <div class="mf-op-info">
+        <div class="mf-op-name">TGV / inOui</div>
+        <div class="mf-op-route">Paris ↔ Lyon · Marseille · Bordeaux</div>
+      </div>
+      <div class="mf-op-badge" style="background:var(--badge-hs);color:var(--badge-hs-text)">HS</div>
+    </div>
+    <div class="mf-op">
+      <div class="mf-op-flag">🇩🇪</div>
+      <div class="mf-op-info">
+        <div class="mf-op-name">DB ICE</div>
+        <div class="mf-op-route">Frankfurt ↔ Berlin · Hamburg · Munich</div>
+      </div>
+      <div class="mf-op-badge" style="background:var(--badge-hs);color:var(--badge-hs-text)">HS</div>
+    </div>
+    <div class="mf-op">
+      <div class="mf-op-flag">🇩🇪</div>
+      <div class="mf-op-info">
+        <div class="mf-op-name">FlixTrain</div>
+        <div class="mf-op-route">Hamburg ↔ Berlin · Cologne · Munich</div>
+      </div>
+      <div class="mf-op-badge" style="background:var(--badge-private);color:var(--badge-private-text)">Pvt</div>
+    </div>
+    <div class="mf-op">
+      <div class="mf-op-flag">🇪🇸</div>
+      <div class="mf-op-info">
+        <div class="mf-op-name">Renfe AVE</div>
+        <div class="mf-op-route">Madrid ↔ Barcelona · Valencia · Seville</div>
+      </div>
+      <div class="mf-op-badge" style="background:var(--badge-hs);color:var(--badge-hs-text)">HS</div>
+    </div>
+  </div>
+</div>
+
+</body>
+</html>

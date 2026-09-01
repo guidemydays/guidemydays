@@ -1,0 +1,590 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Car Rental Redesign — Coverage Atlas Concept</title>
+<style>
+/* ── Site design tokens (inline, standalone mockup) ── */
+:root {
+  --bg: #f5f4f0; --surface: #ffffff; --text: #1a1917; --muted: #6a6660;
+  --border2: #e6e2da; --warm: #fdf8f0; --rust: #C04E1A;
+  --rail: clamp(16px,4vw,48px);
+  --banner-gradient: linear-gradient(90deg,#c04e1a,#e07a44,#b5892a,#d4ac4a);
+}
+@media (prefers-color-scheme: dark) { :root {
+  --bg:#1a1917; --surface:#26231f; --text:#f0ede8; --muted:#9a958f;
+  --border2:#3a3630; --warm:#1f1d19;
+}}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+body { background: var(--bg); color: var(--text); font-family: -apple-system,BlinkMacSystemFont,'Segoe UI',system-ui,sans-serif; font-size: 14px; line-height: 1.5; }
+a { color: inherit; text-decoration: none; }
+svg { display: block; }
+
+/* ── Hero band (live markup, unchanged) ── */
+.eb-hero {
+  background: linear-gradient(160deg,#f0ede8 0%,#ede8e0 60%,#e8e0d4 100%);
+  border-bottom: 1px solid var(--border2);
+  padding: 36px var(--rail) 32px;
+  display: flex; align-items: center; gap: 24px; flex-wrap: wrap;
+}
+.eb-copy { flex: 1 1 320px; }
+.eb-kicker { display: block; font-size: 11px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted); margin-bottom: 8px; }
+.eb-title { font-size: clamp(22px,3vw,30px); font-weight: 800; color: var(--text); line-height: 1.18; margin-bottom: 12px; }
+.eb-title em { color: var(--rust); font-style: normal; }
+.eb-intro { font-size: 13px; color: var(--muted); line-height: 1.6; max-width: 600px; }
+.eb-graphic { width: 64px; height: 64px; flex-shrink: 0; }
+
+/* ── Page rail ── */
+.wrap { max-width: 1100px; margin: 0 auto; padding: 0 var(--rail); }
+
+/* ══════════════════════════════════════════════════════════════
+   REDESIGN — everything below the hero band
+   ═══════════════════════════════════════════════════════════ */
+
+/* ── Region selector strip ── */
+.atlas-nav {
+  display: flex; gap: 10px; flex-wrap: wrap;
+  padding: 20px 0 18px;
+  border-bottom: 1px solid var(--border2);
+}
+.atlas-tab {
+  display: flex; align-items: center; gap: 8px;
+  padding: 9px 16px; border-radius: 12px;
+  background: var(--surface); border: 1.5px solid var(--border2);
+  cursor: pointer; transition: border-color .15s, background .15s, transform .12s;
+  font-size: 12.5px; font-weight: 600; color: var(--muted);
+  font-family: inherit;
+}
+.atlas-tab:hover { background: var(--warm); border-color: var(--rust); color: var(--rust); transform: translateY(-1px); }
+.atlas-tab.active { border-color: var(--rust); background: #fdf3ee; color: var(--rust); }
+.atlas-tab-count {
+  display: inline-flex; align-items: center; justify-content: center;
+  width: 18px; height: 18px; border-radius: 50%; font-size: 10px; font-weight: 800;
+  background: var(--border2); color: var(--muted);
+}
+.atlas-tab.active .atlas-tab-count { background: var(--rust); color: #fff; }
+
+/* ── Mini globe SVG per card ── */
+.globe-wrap { width: 48px; height: 48px; flex-shrink: 0; margin-top: 6px; }
+
+/* ── Network tier badges (mockup-local, concept only) ── */
+.tier-badge {
+  display: inline-block; font-size: 9px; font-weight: 800;
+  text-transform: uppercase; letter-spacing: 0.08em;
+  padding: 2px 8px; border-radius: 4px; white-space: nowrap; flex-shrink: 0;
+}
+.tier-global   { background: #e0ede8; color: #1a5a40; border: 1px solid #b0d4c4; }
+.tier-europe   { background: #e8e8f4; color: #2a2a8a; border: 1px solid #b0b0d8; }
+.tier-regional { background: #f0eadc; color: #7a4a10; border: 1px solid #d4b880; }
+.tier-value    { background: #e4f0e8; color: #1a6a2a; border: 1px solid #90c490; }
+.tier-p2p      { background: #f0e8f4; color: #6a2a8a; border: 1px solid #c490d4; }
+
+/* ── Coverage bars ── */
+.rating-grid { display: flex; flex-direction: column; gap: 5px; margin-top: 10px; }
+.rating-row { display: flex; align-items: center; gap: 8px; }
+.rating-label { font-size: 10px; text-transform: uppercase; letter-spacing: 0.08em; color: var(--muted); width: 65px; flex-shrink: 0; }
+.rating-track { flex: 1; height: 5px; border-radius: 3px; background: var(--border2); overflow: hidden; }
+.rating-fill { height: 100%; border-radius: 3px; background: linear-gradient(90deg,#c04e1a,#e07a44); }
+
+/* ── Company card ── */
+.atlas-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill,minmax(310px,1fr));
+  gap: 16px; padding: 20px 0 32px;
+}
+.company-card {
+  background: var(--surface); border: 1.5px solid var(--border2);
+  border-radius: 16px; overflow: hidden;
+  display: flex; flex-direction: column;
+  transition: box-shadow .2s, transform .2s;
+}
+.company-card:hover {
+  box-shadow: 0 10px 28px -10px rgba(20,15,5,.18);
+  transform: translateY(-3px);
+}
+.card-stripe { height: 4px; background: var(--stripe-col,var(--border2)); }
+.card-top {
+  display: flex; align-items: flex-start; justify-content: space-between;
+  gap: 10px; padding: 14px 16px 10px;
+}
+.card-identity { display: flex; align-items: flex-start; gap: 12px; flex: 1; min-width: 0; }
+.card-flag-wrap {
+  flex-shrink: 0; width: 36px; height: 36px; border-radius: 8px;
+  background: var(--warm); border: 1px solid var(--border2);
+  display: flex; align-items: center; justify-content: center; font-size: 20px;
+}
+.card-name { font-size: 15px; font-weight: 700; color: var(--text); }
+.card-name a:hover { color: var(--rust); }
+.card-sub { font-size: 11px; color: var(--muted); margin-top: 2px; }
+.card-body { padding: 0 16px 14px; flex: 1; }
+.card-desc {
+  font-size: 12.5px; color: var(--muted); line-height: 1.55;
+  padding-top: 8px; border-top: 1px solid var(--border2); margin-bottom: 10px;
+}
+.card-verdict {
+  font-size: 12px; color: var(--text); line-height: 1.5;
+  padding: 8px 10px; background: var(--warm);
+  border-radius: 8px; margin-bottom: 4px;
+  border-left: 3px solid var(--rust);
+}
+.card-actions {
+  display: flex; gap: 8px; padding: 0 16px 14px;
+}
+.card-btn {
+  display: inline-flex; align-items: center;
+  font-size: 11px; font-weight: 600; color: var(--muted);
+  background: var(--warm); border: 1px solid var(--border2);
+  border-radius: 8px; padding: 5px 12px;
+  transition: color .12s, background .12s;
+  font-family: inherit; cursor: pointer;
+}
+.card-btn:hover { color: var(--rust); background: #fdf3ee; border-color: var(--rust); }
+.card-btn.primary { background: var(--rust); color: #fff; border-color: var(--rust); }
+.card-btn.primary:hover { background: #a0401a; }
+
+/* ── Info panel ── */
+.info-panel {
+  background: var(--surface); border: 1px solid var(--border2);
+  border-radius: 14px; padding: 16px 18px; margin: 16px 0;
+}
+.info-panel-head {
+  font-size: 11px; font-weight: 800; color: var(--rust);
+  text-transform: uppercase; letter-spacing: .05em;
+  padding-bottom: 10px; margin-bottom: 12px;
+  border-bottom: 1px solid var(--border2);
+}
+.cost-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px 24px; }
+.cost-item { display: flex; align-items: flex-start; gap: 10px; }
+.cost-num {
+  flex-shrink: 0; width: 22px; height: 22px; border-radius: 50%;
+  background: var(--rust); color: #fff; font-size: 11px; font-weight: 800;
+  display: flex; align-items: center; justify-content: center; margin-top: 2px;
+}
+.cost-body { font-size: 12.5px; line-height: 1.55; color: var(--text); }
+
+/* ── Region intro strip ── */
+.region-intro {
+  font-size: 12.5px; color: var(--muted); line-height: 1.6;
+  padding: 10px 14px; background: var(--surface);
+  border: 1px solid var(--border2); border-radius: 10px; margin: 4px 0 16px;
+}
+
+/* ── Cross-link note ── */
+.atlas-note {
+  font-size: 13px; color: var(--muted); line-height: 1.6;
+  padding: 12px 16px; background: var(--warm);
+  border: 1px solid var(--border2); border-radius: 10px; margin-top: 20px;
+}
+.atlas-note a { color: var(--rust); text-decoration: underline; }
+
+/* ── Sibling pill area ── */
+.sibling-row { margin: 12px 0 4px; display: flex; gap: 8px; flex-wrap: wrap; }
+.sibling-btn {
+  display: inline-flex; align-items: center;
+  font-size: 11px; font-weight: 600; color: var(--muted);
+  background: var(--warm); border: 1px solid var(--border2);
+  border-radius: 8px; padding: 5px 12px;
+  font-family: inherit; cursor: pointer; transition: color .12s, background .12s;
+}
+.sibling-btn:hover { color: var(--rust); background: #fdf3ee; border-color: var(--rust); }
+
+/* ── Mobile ── */
+@media (max-width: 600px) {
+  .atlas-nav { gap: 7px; }
+  .atlas-tab { padding: 7px 12px; font-size: 12px; }
+  .atlas-grid { grid-template-columns: 1fr; }
+  .cost-grid { grid-template-columns: 1fr; }
+  .globe-wrap { display: none; }
+}
+</style>
+</head>
+<body>
+
+<!-- ── HERO BAND — unchanged from live page ── -->
+<div class="eb-hero">
+  <div class="eb-copy">
+    <span class="eb-kicker">Car Rental Around the World</span>
+    <h1 class="eb-title">Every network worth booking, <em>one region at a time.</em></h1>
+    <p class="eb-intro">The four majors that price on every continent, Europe's own fleets, the US value brands and Turo, Japan and Korea's domestic operators, Latin America's regional giants, and South Africa's airport desks — all on one page.</p>
+  </div>
+  <div class="eb-graphic" aria-hidden="true">
+    <svg viewBox="0 0 24 24"><defs>
+      <linearGradient id="ctm" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#c08078"/><stop offset="1" stop-color="#63362f"/></linearGradient>
+      <linearGradient id="ctl" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#ecd6d0"/><stop offset="1" stop-color="#c08078"/></linearGradient>
+      <linearGradient id="ctd" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#3a332e"/><stop offset="1" stop-color="#171412"/></linearGradient>
+      <linearGradient id="ctg" x1="0" y1="0" x2="0.55" y2="1"><stop offset="0" stop-color="#fff" stop-opacity="0.46"/><stop offset="1" stop-color="#fff" stop-opacity="0"/></linearGradient>
+    </defs>
+      <path d="M4.4 13.6 6.2 8c.4-1 1.3-1.6 2.4-1.6h6.8c1.1 0 2 .6 2.4 1.6l1.8 5.6z" fill="url(#ctm)"/>
+      <path d="M4.4 13.6 6.2 8c.4-1 1.3-1.6 2.4-1.6h6.8c1.1 0 2 .6 2.4 1.6l1.8 5.6z" fill="url(#ctg)"/>
+      <rect x="2" y="13.2" width="20" height="6" rx="2" fill="url(#ctm)"/>
+      <rect x="2" y="13.2" width="20" height="6" rx="2" fill="url(#ctg)"/>
+      <rect x="6" y="8.8" width="4.4" height="2.6" rx="0.6" fill="url(#ctl)"/>
+      <circle cx="6.6" cy="19.2" r="2.2" fill="url(#ctd)"/>
+      <circle cx="17.4" cy="19.2" r="2.2" fill="url(#ctd)"/>
+      <circle cx="6.6" cy="19.2" r="0.9" fill="url(#ctl)"/>
+      <circle cx="17.4" cy="19.2" r="0.9" fill="url(#ctl)"/>
+    </svg>
+  </div>
+</div>
+
+<div class="wrap">
+
+<!-- ═══════════════════════════════════════════════════════════
+     REDESIGN — everything below the hero is new in this concept
+     ══════════════════════════════════════════════════════════ -->
+
+  <!-- Region selector — replaces jump nav -->
+  <nav class="atlas-nav" aria-label="Jump to region">
+    <button class="atlas-tab active">All regions <span class="atlas-tab-count">23</span></button>
+    <button class="atlas-tab">🌐 Worldwide <span class="atlas-tab-count">4</span></button>
+    <button class="atlas-tab">🇪🇺 Europe <span class="atlas-tab-count">3</span></button>
+    <button class="atlas-tab">🇺🇸 North America <span class="atlas-tab-count">5</span></button>
+    <button class="atlas-tab">🇧🇷 Latin America <span class="atlas-tab-count">2</span></button>
+    <button class="atlas-tab">🗾 Asia &amp; Pacific <span class="atlas-tab-count">5</span></button>
+    <button class="atlas-tab">🌍 Africa &amp; ME <span class="atlas-tab-count">3</span></button>
+    <button class="atlas-tab" style="margin-left:auto">🚗 Private transfers</button>
+  </nav>
+
+  <!-- Sibling cross-link -->
+  <div class="sibling-row">
+    <a class="sibling-btn" href="/essentials/idp-guide/">International driving permit guide</a>
+  </div>
+
+  <!-- "Two things" info panel — same content, new horizontal layout -->
+  <div class="info-panel">
+    <div class="info-panel-head">Two things that decide the real cost more than the headline rate</div>
+    <div class="cost-grid">
+      <div class="cost-item">
+        <span class="cost-num">1</span>
+        <div class="cost-body"><strong>Where the desk is.</strong> Inside the terminal or a shuttle ride away — after a long flight, that walk (or wait) is worth more than a few dollars a day on the rate.</div>
+      </div>
+      <div class="cost-item">
+        <span class="cost-num">2</span>
+        <div class="cost-body"><strong>What the excess and the hold come to.</strong> The insurance excess and the card hold on your deposit vary far more between companies than the day rate, and neither shows up until checkout.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── WORLDWIDE ── -->
+  <div class="region-intro"><strong>Worldwide networks</strong> — the four that price and operate on every continent. On an unfamiliar route these are the ones with a desk where you expect one and a car waiting when the flight lands at midnight.</div>
+  <div class="atlas-grid">
+
+    <!-- Hertz -->
+    <article class="company-card" style="--stripe-col:#1a5a40">
+      <div class="card-stripe"></div>
+      <div class="card-top">
+        <div class="card-identity">
+          <div class="card-flag-wrap">🇺🇸</div>
+          <div>
+            <div class="card-name"><a href="https://www.hertz.com" target="_blank" rel="noopener">Hertz</a></div>
+            <div class="card-sub">Also: Dollar · Thrifty</div>
+          </div>
+        </div>
+        <div>
+          <span class="tier-badge tier-global">Global</span>
+          <!-- mini globe: all zones terracotta = worldwide coverage -->
+          <div class="globe-wrap" aria-hidden="true">
+            <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <circle cx="24" cy="24" r="22" fill="#ede8e0"/>
+              <path d="M6 15 L16 13 L18 20 L12 26 L6 22Z" fill="#C04E1A" opacity=".75"/>
+              <path d="M12 28 L20 26 L22 36 L16 40 L10 36Z" fill="#C04E1A" opacity=".7"/>
+              <path d="M20 11 L28 10 L30 17 L24 19 L20 16Z" fill="#C04E1A" opacity=".75"/>
+              <path d="M22 21 L30 19 L32 31 L26 35 L20 31Z" fill="#C04E1A" opacity=".7"/>
+              <path d="M30 9 L42 11 L44 22 L34 24 L28 19Z" fill="#C04E1A" opacity=".75"/>
+              <path d="M36 30 L44 28 L44 36 L38 38 L34 34Z" fill="#C04E1A" opacity=".65"/>
+              <circle cx="24" cy="24" r="22" stroke="rgba(0,0,0,.07)" stroke-width="0.5" fill="none"/>
+              <ellipse cx="24" cy="24" rx="9" ry="22" stroke="rgba(0,0,0,.05)" stroke-width="0.4" fill="none"/>
+              <line x1="2" y1="24" x2="46" y2="24" stroke="rgba(0,0,0,.05)" stroke-width="0.4"/>
+            </svg>
+          </div>
+        </div>
+      </div>
+      <div class="card-body">
+        <div class="card-desc">Widest in-terminal airport presence — a desk you walk to rather than a shuttle. Gold Plus Rewards skips the counter at most large airports. Group also owns Dollar and Thrifty.</div>
+        <div class="rating-grid">
+          <div class="rating-row"><span class="rating-label">Coverage</span><div class="rating-track"><div class="rating-fill" style="width:95%"></div></div></div>
+          <div class="rating-row"><span class="rating-label">Reliability</span><div class="rating-track"><div class="rating-fill" style="width:82%"></div></div></div>
+          <div class="rating-row"><span class="rating-label">Value</span><div class="rating-track"><div class="rating-fill" style="width:58%"></div></div></div>
+        </div>
+        <div class="card-verdict">In-terminal desk and counter-free loyalty pickup are worth real money on a late landing — the coverage is the product.</div>
+      </div>
+      <div class="card-actions">
+        <a class="card-btn primary" href="https://www.hertz.com" target="_blank" rel="noopener">Book → hertz.com</a>
+        <a class="card-btn" href="https://www.trustpilot.com/review/hertz.com" target="_blank" rel="noopener">Reviews</a>
+      </div>
+    </article>
+
+    <!-- Enterprise -->
+    <article class="company-card" style="--stripe-col:#1a5a40">
+      <div class="card-stripe"></div>
+      <div class="card-top">
+        <div class="card-identity">
+          <div class="card-flag-wrap">🇺🇸</div>
+          <div>
+            <div class="card-name"><a href="https://www.enterprise.com" target="_blank" rel="noopener">Enterprise</a></div>
+            <div class="card-sub">Also: National · Alamo</div>
+          </div>
+        </div>
+        <div>
+          <span class="tier-badge tier-global">Global</span>
+          <div class="globe-wrap" aria-hidden="true">
+            <svg viewBox="0 0 48 48" fill="none">
+              <circle cx="24" cy="24" r="22" fill="#ede8e0"/>
+              <path d="M6 15 L16 13 L18 20 L12 26 L6 22Z" fill="#C04E1A" opacity=".75"/>
+              <path d="M12 28 L20 26 L22 36 L16 40 L10 36Z" fill="#C04E1A" opacity=".7"/>
+              <path d="M20 11 L28 10 L30 17 L24 19 L20 16Z" fill="#C04E1A" opacity=".75"/>
+              <path d="M22 21 L30 19 L32 31 L26 35 L20 31Z" fill="#C04E1A" opacity=".7"/>
+              <path d="M30 9 L42 11 L44 22 L34 24 L28 19Z" fill="#C04E1A" opacity=".75"/>
+              <path d="M36 30 L44 28 L44 36 L38 38 L34 34Z" fill="#C04E1A" opacity=".65"/>
+              <circle cx="24" cy="24" r="22" stroke="rgba(0,0,0,.07)" stroke-width="0.5" fill="none"/>
+              <ellipse cx="24" cy="24" rx="9" ry="22" stroke="rgba(0,0,0,.05)" stroke-width="0.4" fill="none"/>
+              <line x1="2" y1="24" x2="46" y2="24" stroke="rgba(0,0,0,.05)" stroke-width="0.4"/>
+            </svg>
+          </div>
+        </div>
+      </div>
+      <div class="card-body">
+        <div class="card-desc">Largest network by branch count — real depth away from airports with suburban and small-town offices. Owns National (business travellers) and Alamo (leisure). Staffed walk-round at handover.</div>
+        <div class="rating-grid">
+          <div class="rating-row"><span class="rating-label">Coverage</span><div class="rating-track"><div class="rating-fill" style="width:100%"></div></div></div>
+          <div class="rating-row"><span class="rating-label">Reliability</span><div class="rating-track"><div class="rating-fill" style="width:88%"></div></div></div>
+          <div class="rating-row"><span class="rating-label">Value</span><div class="rating-track"><div class="rating-fill" style="width:66%"></div></div></div>
+        </div>
+        <div class="card-verdict">The only global network that works properly for a rental that doesn't start at an airport — the neighbourhood branch density is unique.</div>
+      </div>
+      <div class="card-actions">
+        <a class="card-btn primary" href="https://www.enterprise.com" target="_blank" rel="noopener">Book → enterprise.com</a>
+        <a class="card-btn" href="https://www.trustpilot.com/review/enterprise.com" target="_blank" rel="noopener">Reviews</a>
+      </div>
+    </article>
+
+    <!-- Avis -->
+    <article class="company-card" style="--stripe-col:#1a5a40">
+      <div class="card-stripe"></div>
+      <div class="card-top">
+        <div class="card-identity">
+          <div class="card-flag-wrap">🇺🇸</div>
+          <div>
+            <div class="card-name"><a href="https://www.avis.com" target="_blank" rel="noopener">Avis</a></div>
+            <div class="card-sub">Also: Budget · Payless</div>
+          </div>
+        </div>
+        <div>
+          <span class="tier-badge tier-global">Global</span>
+          <div class="globe-wrap" aria-hidden="true">
+            <svg viewBox="0 0 48 48" fill="none">
+              <circle cx="24" cy="24" r="22" fill="#ede8e0"/>
+              <path d="M6 15 L16 13 L18 20 L12 26 L6 22Z" fill="#C04E1A" opacity=".75"/>
+              <path d="M12 28 L20 26 L22 36 L16 40 L10 36Z" fill="#C04E1A" opacity=".7"/>
+              <path d="M20 11 L28 10 L30 17 L24 19 L20 16Z" fill="#C04E1A" opacity=".75"/>
+              <path d="M22 21 L30 19 L32 31 L26 35 L20 31Z" fill="#C04E1A" opacity=".7"/>
+              <path d="M30 9 L42 11 L44 22 L34 24 L28 19Z" fill="#C04E1A" opacity=".75"/>
+              <path d="M36 30 L44 28 L44 36 L38 38 L34 34Z" fill="#C04E1A" opacity=".65"/>
+              <circle cx="24" cy="24" r="22" stroke="rgba(0,0,0,.07)" stroke-width="0.5" fill="none"/>
+              <ellipse cx="24" cy="24" rx="9" ry="22" stroke="rgba(0,0,0,.05)" stroke-width="0.4" fill="none"/>
+              <line x1="2" y1="24" x2="46" y2="24" stroke="rgba(0,0,0,.05)" stroke-width="0.4"/>
+            </svg>
+          </div>
+        </div>
+      </div>
+      <div class="card-body">
+        <div class="card-desc">Closest substitute for Hertz — strong airport coverage, business-oriented Avis Preferred tier that bypasses the queue. Worth pricing against Hertz on every single booking.</div>
+        <div class="rating-grid">
+          <div class="rating-row"><span class="rating-label">Coverage</span><div class="rating-track"><div class="rating-fill" style="width:90%"></div></div></div>
+          <div class="rating-row"><span class="rating-label">Reliability</span><div class="rating-track"><div class="rating-fill" style="width:78%"></div></div></div>
+          <div class="rating-row"><span class="rating-label">Value</span><div class="rating-track"><div class="rating-fill" style="width:62%"></div></div></div>
+        </div>
+        <div class="card-verdict">A straight substitute for Hertz — same coverage, second source. The two swap rates constantly; run both every time.</div>
+      </div>
+      <div class="card-actions">
+        <a class="card-btn primary" href="https://www.avis.com" target="_blank" rel="noopener">Book → avis.com</a>
+        <a class="card-btn" href="https://www.trustpilot.com/review/avis.com" target="_blank" rel="noopener">Reviews</a>
+      </div>
+    </article>
+
+    <!-- Budget -->
+    <article class="company-card" style="--stripe-col:#3a7a30">
+      <div class="card-stripe"></div>
+      <div class="card-top">
+        <div class="card-identity">
+          <div class="card-flag-wrap">🇺🇸</div>
+          <div>
+            <div class="card-name"><a href="https://www.budget.com" target="_blank" rel="noopener">Budget</a></div>
+            <div class="card-sub">Part of Avis Budget Group</div>
+          </div>
+        </div>
+        <div>
+          <span class="tier-badge tier-value">Value</span>
+          <div class="globe-wrap" aria-hidden="true">
+            <svg viewBox="0 0 48 48" fill="none">
+              <circle cx="24" cy="24" r="22" fill="#ede8e0"/>
+              <path d="M6 15 L16 13 L18 20 L12 26 L6 22Z" fill="#C04E1A" opacity=".75"/>
+              <path d="M12 28 L20 26 L22 36 L16 40 L10 36Z" fill="#C04E1A" opacity=".7"/>
+              <path d="M20 11 L28 10 L30 17 L24 19 L20 16Z" fill="#C04E1A" opacity=".75"/>
+              <path d="M22 21 L30 19 L32 31 L26 35 L20 31Z" fill="#C04E1A" opacity=".7"/>
+              <path d="M30 9 L42 11 L44 22 L34 24 L28 19Z" fill="#C04E1A" opacity=".75"/>
+              <path d="M36 30 L44 28 L44 36 L38 38 L34 34Z" fill="#C04E1A" opacity=".65"/>
+              <circle cx="24" cy="24" r="22" stroke="rgba(0,0,0,.07)" stroke-width="0.5" fill="none"/>
+              <ellipse cx="24" cy="24" rx="9" ry="22" stroke="rgba(0,0,0,.05)" stroke-width="0.4" fill="none"/>
+              <line x1="2" y1="24" x2="46" y2="24" stroke="rgba(0,0,0,.05)" stroke-width="0.4"/>
+            </svg>
+          </div>
+        </div>
+      </div>
+      <div class="card-body">
+        <div class="card-desc">Avis's value brand — lower headline rate, draws on the same fleet. Stricter extras on additional drivers, one-way charges, and fuel. Frequently shares a counter with Avis.</div>
+        <div class="rating-grid">
+          <div class="rating-row"><span class="rating-label">Coverage</span><div class="rating-track"><div class="rating-fill" style="width:88%"></div></div></div>
+          <div class="rating-row"><span class="rating-label">Reliability</span><div class="rating-track"><div class="rating-fill" style="width:68%"></div></div></div>
+          <div class="rating-row"><span class="rating-label">Value</span><div class="rating-track"><div class="rating-fill" style="width:78%"></div></div></div>
+        </div>
+        <div class="card-verdict">Genuinely cheaper on a simple booking — one driver, same-desk return, full-to-full fuel. Add complexity and the saving against Avis disappears.</div>
+      </div>
+      <div class="card-actions">
+        <a class="card-btn primary" href="https://www.budget.com" target="_blank" rel="noopener">Book → budget.com</a>
+        <a class="card-btn" href="https://www.trustpilot.com/review/budget.com" target="_blank" rel="noopener">Reviews</a>
+      </div>
+    </article>
+
+  </div><!-- /atlas-grid worldwide -->
+
+  <!-- ── EUROPE (abbreviated — concept shows shape, not full fleet) ── -->
+  <div class="region-intro"><strong>Europe</strong> — manual is the default almost everywhere; book automatic explicitly. Cross-border travel needs declaring; several eastern and Balkan countries are excluded from standard terms.</div>
+  <div class="atlas-grid">
+
+    <!-- Sixt -->
+    <article class="company-card" style="--stripe-col:#2a2a8a">
+      <div class="card-stripe"></div>
+      <div class="card-top">
+        <div class="card-identity">
+          <div class="card-flag-wrap">🇩🇪</div>
+          <div>
+            <div class="card-name"><a href="https://www.sixt.com" target="_blank" rel="noopener">Sixt</a></div>
+            <div class="card-sub">European premium · independent</div>
+          </div>
+        </div>
+        <div>
+          <span class="tier-badge tier-europe">Premium</span>
+          <!-- Europe highlighted, rest dim -->
+          <div class="globe-wrap" aria-hidden="true">
+            <svg viewBox="0 0 48 48" fill="none">
+              <circle cx="24" cy="24" r="22" fill="#ede8e0"/>
+              <path d="M6 15 L16 13 L18 20 L12 26 L6 22Z" fill="#d4cec6" opacity=".6"/>
+              <path d="M12 28 L20 26 L22 36 L16 40 L10 36Z" fill="#d4cec6" opacity=".5"/>
+              <path d="M20 11 L28 10 L30 17 L24 19 L20 16Z" fill="#C04E1A" opacity=".85"/>
+              <path d="M22 21 L30 19 L32 31 L26 35 L20 31Z" fill="#d4cec6" opacity=".45"/>
+              <path d="M30 9 L42 11 L44 22 L34 24 L28 19Z" fill="#d4cec6" opacity=".4"/>
+              <path d="M36 30 L44 28 L44 36 L38 38 L34 34Z" fill="#d4cec6" opacity=".3"/>
+              <circle cx="24" cy="24" r="22" stroke="rgba(0,0,0,.07)" stroke-width="0.5" fill="none"/>
+              <ellipse cx="24" cy="24" rx="9" ry="22" stroke="rgba(0,0,0,.05)" stroke-width="0.4" fill="none"/>
+              <line x1="2" y1="24" x2="46" y2="24" stroke="rgba(0,0,0,.05)" stroke-width="0.4"/>
+            </svg>
+          </div>
+        </div>
+      </div>
+      <div class="card-body">
+        <div class="card-desc">German, independent. BMW, Mercedes and Audi appear in mid-range categories. Strongest in Germany and continental Europe, thinner in North America and Asia.</div>
+        <div class="rating-grid">
+          <div class="rating-row"><span class="rating-label">Coverage</span><div class="rating-track"><div class="rating-fill" style="width:72%"></div></div></div>
+          <div class="rating-row"><span class="rating-label">Reliability</span><div class="rating-track"><div class="rating-fill" style="width:84%"></div></div></div>
+          <div class="rating-row"><span class="rating-label">Value</span><div class="rating-track"><div class="rating-fill" style="width:55%"></div></div></div>
+        </div>
+        <div class="card-verdict">Most car for the money anywhere in Europe — a mid-size booking regularly arrives as a German saloon.</div>
+      </div>
+      <div class="card-actions">
+        <a class="card-btn primary" href="https://www.sixt.com" target="_blank" rel="noopener">Book → sixt.com</a>
+        <a class="card-btn" href="https://www.trustpilot.com/review/sixt.com" target="_blank" rel="noopener">Reviews</a>
+      </div>
+    </article>
+
+    <!-- Europcar -->
+    <article class="company-card" style="--stripe-col:#2a2a8a">
+      <div class="card-stripe"></div>
+      <div class="card-top">
+        <div class="card-identity">
+          <div class="card-flag-wrap">🇫🇷</div>
+          <div>
+            <div class="card-name"><a href="https://www.europcar.com" target="_blank" rel="noopener">Europcar</a></div>
+            <div class="card-sub">Also: Goldcar · InterRent</div>
+          </div>
+        </div>
+        <div>
+          <span class="tier-badge tier-europe">European</span>
+          <div class="globe-wrap" aria-hidden="true">
+            <svg viewBox="0 0 48 48" fill="none">
+              <circle cx="24" cy="24" r="22" fill="#ede8e0"/>
+              <path d="M6 15 L16 13 L18 20 L12 26 L6 22Z" fill="#d4cec6" opacity=".5"/>
+              <path d="M20 11 L28 10 L30 17 L24 19 L20 16Z" fill="#C04E1A" opacity=".85"/>
+              <path d="M22 21 L30 19 L32 31 L26 35 L20 31Z" fill="#C04E1A" opacity=".45"/>
+              <circle cx="24" cy="24" r="22" stroke="rgba(0,0,0,.07)" stroke-width="0.5" fill="none"/>
+              <ellipse cx="24" cy="24" rx="9" ry="22" stroke="rgba(0,0,0,.05)" stroke-width="0.4" fill="none"/>
+              <line x1="2" y1="24" x2="46" y2="24" stroke="rgba(0,0,0,.05)" stroke-width="0.4"/>
+            </svg>
+          </div>
+        </div>
+      </div>
+      <div class="card-body">
+        <div class="card-desc">Largest European-headquartered network — deeper coverage of small cities and regional airports than the American groups. Owns Goldcar and InterRent for Mediterranean leisure airports.</div>
+        <div class="rating-grid">
+          <div class="rating-row"><span class="rating-label">Coverage</span><div class="rating-track"><div class="rating-fill" style="width:88%"></div></div></div>
+          <div class="rating-row"><span class="rating-label">Reliability</span><div class="rating-track"><div class="rating-fill" style="width:72%"></div></div></div>
+          <div class="rating-row"><span class="rating-label">Value</span><div class="rating-track"><div class="rating-fill" style="width:62%"></div></div></div>
+        </div>
+        <div class="card-verdict">The network for leaving the capitals — coverage of provincial France, Italy, Germany and Spain is unmatched.</div>
+      </div>
+      <div class="card-actions">
+        <a class="card-btn primary" href="https://www.europcar.com" target="_blank" rel="noopener">Book → europcar.com</a>
+        <a class="card-btn" href="https://www.trustpilot.com/review/europcar.com" target="_blank" rel="noopener">Reviews</a>
+      </div>
+    </article>
+
+    <!-- Goldcar -->
+    <article class="company-card" style="--stripe-col:#2a2a8a">
+      <div class="card-stripe"></div>
+      <div class="card-top">
+        <div class="card-identity">
+          <div class="card-flag-wrap">🇪🇸</div>
+          <div>
+            <div class="card-name"><a href="https://www.goldcar.es/en/" target="_blank" rel="noopener">Goldcar</a></div>
+            <div class="card-sub">Europcar Group — Mediterranean</div>
+          </div>
+        </div>
+        <div>
+          <span class="tier-badge tier-value">Value</span>
+          <div class="globe-wrap" aria-hidden="true">
+            <svg viewBox="0 0 48 48" fill="none">
+              <circle cx="24" cy="24" r="22" fill="#ede8e0"/>
+              <path d="M20 11 L28 10 L30 17 L24 19 L20 16Z" fill="#C04E1A" opacity=".85"/>
+              <circle cx="24" cy="24" r="22" stroke="rgba(0,0,0,.07)" stroke-width="0.5" fill="none"/>
+              <ellipse cx="24" cy="24" rx="9" ry="22" stroke="rgba(0,0,0,.05)" stroke-width="0.4" fill="none"/>
+              <line x1="2" y1="24" x2="46" y2="24" stroke="rgba(0,0,0,.05)" stroke-width="0.4"/>
+            </svg>
+          </div>
+        </div>
+      </div>
+      <div class="card-body">
+        <div class="card-desc">Leisure-airport specialist — Málaga, Alicante, Palma, Faro, Lisbon. Low headline rate but aggressive extras at the counter; decline add-ons online in advance.</div>
+        <div class="rating-grid">
+          <div class="rating-row"><span class="rating-label">Coverage</span><div class="rating-track"><div class="rating-fill" style="width:40%"></div></div></div>
+          <div class="rating-row"><span class="rating-label">Reliability</span><div class="rating-track"><div class="rating-fill" style="width:60%"></div></div></div>
+          <div class="rating-row"><span class="rating-label">Value</span><div class="rating-track"><div class="rating-fill" style="width:72%"></div></div></div>
+        </div>
+        <div class="card-verdict">Cheapest at the Mediterranean leisure airports — but only if every extra is declined online before arrival.</div>
+      </div>
+      <div class="card-actions">
+        <a class="card-btn primary" href="https://www.goldcar.es/en/" target="_blank" rel="noopener">Book → goldcar.es</a>
+        <a class="card-btn" href="https://www.trustpilot.com/review/goldcar.es" target="_blank" rel="noopener">Reviews</a>
+      </div>
+    </article>
+
+  </div><!-- /atlas-grid europe -->
+
+  <!-- Cross-link note (replaces existing .wcr-note) -->
+  <div class="atlas-note">
+    Not looking for a car to drive yourself? <a href="/essentials/private-transfers/">Private transfers</a> covers the fixed-price, driver-included alternative — the aggregators, the airport specialists, and what the premium over a taxi actually buys.
+  </div>
+
+</div><!-- /wrap -->
+</body>
+</html>

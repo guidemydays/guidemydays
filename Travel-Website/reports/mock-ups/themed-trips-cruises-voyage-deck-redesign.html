@@ -29,6 +29,8 @@
   --oc-rope:#c4a265; --oc-brass:#b8860b;
   --oc-paper:#faf6ef; --oc-chart:#e8dfc5;
   --oc-ink:#1a1410; --oc-ink-soft:#5c4f3a;
+  /* Selection pill tokens (sp-sand) — from the approved spec */
+  --sp-sand-ink:#8f6a3e; --sp-sand-rgb:143,106,62; --sp-sand-wash:#f8f0e4;
 }
 @media (prefers-color-scheme: dark) {
   :root {
@@ -100,19 +102,21 @@ hr.divider { border: none; border-top: 2px solid var(--border); margin: 52px 0 3
 .vd-dep-price { font-size: 11.5px; font-weight: 700; color: #ffd27a; text-align: right; white-space: nowrap; }
 .vd-dep-from { font-size: 9px; color: rgba(255,255,255,.4); display: block; }
 
-/* Budget + Region nav */
+/* Budget + Region nav — selection-pill pattern (sp-sand tone, press hover) */
 .vd-nav-row { display: flex; align-items: center; gap: 6px; margin-bottom: 10px; flex-wrap: wrap; }
 .vd-nav-label { font-size: 10.5px; text-transform: uppercase; letter-spacing: .09em; color: var(--muted); font-weight: 700; margin-right: 6px; }
-/* These use the site's approved .cp-* family tokens — nav buttons read as
-   Calm Pastel rest/hover, same as .selection-pill pattern */
 .vd-nav-btn {
   display: inline-flex; align-items: center; gap: 5px;
-  padding: 8px 16px; border: 1px solid var(--border2); border-radius: 999px;
-  background: var(--surface); cursor: pointer; font-size: 12px; font-weight: 600;
-  color: var(--muted); white-space: nowrap; transition: all .15s; font-family: inherit;
+  padding: 8px 16px; border: 1px solid rgba(var(--sp-sand-rgb), .45); border-radius: 999px;
+  background: var(--sp-sand-wash); cursor: pointer; font-size: 12px; font-weight: 700;
+  color: var(--sp-sand-ink); white-space: nowrap; font-family: inherit;
+  transition: background .15s, border-color .15s, transform .15s, box-shadow .15s;
 }
-.vd-nav-btn:hover { border-color: var(--oc-wave); color: var(--oc-mid); }
-.vd-nav-btn.is-on { background: var(--oc-deep); color: #fff; border-color: var(--oc-deep); }
+/* Press hover — one of the 4 approved hover variants */
+.vd-nav-btn:hover { background: color-mix(in srgb, var(--sp-sand-wash) 88%, white 12%) !important; border-color: var(--sp-sand-ink) !important; }
+.vd-nav-btn:active { transform: translateY(1px) scale(.98); filter: brightness(.95); box-shadow: inset 0 2px 4px rgba(var(--sp-sand-rgb), .4); }
+/* Selected: outlined state per x05 "OUTLINED IS SELECTED" and line 155 of the pills spec */
+.vd-nav-btn.is-on { outline: 3px solid currentColor; outline-offset: 3px; }
 
 /* Tier header */
 .vd-tier-head {
@@ -155,10 +159,11 @@ hr.divider { border: none; border-top: 2px solid var(--border); margin: 52px 0 3
 .vd-card-name a:hover { color: var(--rust); }
 .vd-card-tags { display: flex; gap: 4px; margin-top: 5px; flex-wrap: wrap; }
 /* Tags use the site's approved sb-* and cp-* families via the shared .badge class pattern */
+/* Inline tags — badge pattern: min(1em,12px) per spec, ALL CAPS, 4px radius */
 .vd-tag {
   display: inline-flex; align-items: center; justify-content: center;
-  font-size: 9.5px; font-weight: 700; text-transform: uppercase; letter-spacing: .06em;
-  padding: 2px 7px; border-radius: 4px;
+  font-size: min(1em, 12px); font-weight: 700; text-transform: uppercase; letter-spacing: .06em;
+  padding: 3px 8px; border-radius: 4px;
 }
 .vd-tag-ocean { background: var(--sb-blue-bg); color: var(--sb-blue-fg); }
 .vd-tag-river { background: var(--cp-teal-wash); color: var(--cp-teal-ink); border: 1px solid rgba(27,94,87,.2); }

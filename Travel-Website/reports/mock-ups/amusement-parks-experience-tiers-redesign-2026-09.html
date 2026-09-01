@@ -1,0 +1,473 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mockup — Amusement Parks Experience Tiers (2026-09)</title>
+<style>
+/* ── Calm-pastel tier tokens (cp-* family approximations for standalone mockup) ── */
+:root {
+  --terracotta: #C04E1A;
+  --paper: #f5f4f0;
+  --ink:  #1a1917;
+  --ink2: #6a6660;
+  --border: #e6e2da;
+  --surface: #ffffff;
+  --rail: clamp(16px, 4vw, 60px);
+
+  /* Tier 1 — Mega-Resort — cp-purple approximation */
+  --t1: #6b56a0; --t1-wash: #f2eef9; --t1-ink: #3e2f70;
+  /* Tier 2 — Thrill Specialist — cp-orange (muted, not vibrant) */
+  --t2: #b05828; --t2-wash: #fdf2eb; --t2-ink: #7a3810;
+  /* Tier 3 — Character & Story — cp-blue approximation */
+  --t3: #2e6e9a; --t3-wash: #eaf4fb; --t3-ink: #1a4468;
+  /* Tier 4 — Discovery & Nature — cp-green approximation */
+  --t4: #3a7a50; --t4-wash: #eaf6ee; --t4-ink: #205534;
+  /* Tier 5 — Classic & Historic — cp-fog approximation */
+  --t5: #7a7060; --t5-wash: #f4f2ee; --t5-ink: #4a4438;
+  /* Commitment pill — always neutral (cp-fog), distinct from type pill (NN 102) */
+  --cp-fog-wash: #f2f0ec; --cp-fog-ink: #5a5450; --cp-fog-border: #c8c4be;
+}
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) {
+  --paper: #1a1917; --ink: #e8e5e0; --ink2: #9a9690;
+  --border: #332f2a; --surface: #242220;
+  --t1: #9070d0; --t1-wash: #22193a; --t1-ink: #d0b8ff;
+  --t2: #e07838; --t2-wash: #2a1a0a; --t2-ink: #ffc090;
+  --t3: #5090c0; --t3-wash: #0e2030; --t3-ink: #a8d0f0;
+  --t4: #5aaa70; --t4-wash: #102218; --t4-ink: #a8e8b8;
+  --t5: #9a9080; --t5-wash: #1e1c18; --t5-ink: #d4d0c8;
+  --cp-fog-wash: #1e1c18; --cp-fog-ink: #a0988e; --cp-fog-border: #4a4440;
+}}
+:root[data-theme="dark"] {
+  --paper: #1a1917; --ink: #e8e5e0; --ink2: #9a9690;
+  --border: #332f2a; --surface: #242220;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { background: var(--paper); color: var(--ink); font: 16px/1.55 -apple-system, system-ui, sans-serif; }
+
+/* ── notice bar ── */
+.mock-notice {
+  background: #1a1917; color: #e0dcd6; text-align: center;
+  padding: 9px 20px; font-size: 13px; letter-spacing: .02em;
+}
+.mock-notice strong { color: #f0ede8; }
+
+/* ── hero (unchanged from live page) ── */
+.hero-band {
+  background: var(--terracotta);
+  padding: 40px var(--rail) 36px;
+}
+.hero-eyebrow {
+  font-size: 11px; font-weight: 700; letter-spacing: .14em; text-transform: uppercase;
+  color: rgba(255,255,255,.65); margin-bottom: 10px;
+}
+.hero-title {
+  font-size: clamp(32px, 6vw, 56px); font-weight: 800;
+  color: #fff; line-height: 1.1; letter-spacing: -.01em;
+  display: flex; flex-direction: column;
+}
+.hero-sub {
+  color: rgba(255,255,255,.88); font-size: 15px; line-height: 1.6;
+  max-width: 600px; margin-top: 14px;
+}
+
+/* ── NEW: sticky tier-jump nav ── */
+.tier-nav {
+  position: sticky; top: 0; z-index: 40;
+  background: var(--surface); border-bottom: 1.5px solid var(--border);
+  padding: 10px var(--rail);
+  display: flex; gap: 8px; flex-wrap: wrap; align-items: center;
+}
+.tier-nav-label { font-size: 12px; color: var(--ink2); font-weight: 600; margin-right: 4px; white-space: nowrap; }
+.tier-pill {
+  display: inline-flex; align-items: center; gap: 5px;
+  padding: 5px 12px; border-radius: 999px; font-size: 13px; font-weight: 600;
+  cursor: pointer; text-decoration: none; white-space: nowrap;
+  border: 1.5px solid transparent; transition: all .15s;
+}
+.tier-pill:hover { filter: brightness(.95); }
+.tp1 { background: var(--t1-wash); color: var(--t1-ink); border-color: var(--t1); }
+.tp2 { background: var(--t2-wash); color: var(--t2-ink); border-color: var(--t2); }
+.tp3 { background: var(--t3-wash); color: var(--t3-ink); border-color: var(--t3); }
+.tp4 { background: var(--t4-wash); color: var(--t4-ink); border-color: var(--t4); }
+.tp5 { background: var(--t5-wash); color: var(--t5-ink); border-color: var(--t5); }
+.tier-dot { width: 7px; height: 7px; border-radius: 50%; background: currentColor; opacity: .7; }
+
+/* ── content rail ── */
+.content { max-width: 1100px; margin: 0 auto; padding: 0 var(--rail) 60px; }
+
+/* ── tier section ── */
+.tier-section { margin-top: 48px; }
+.tier-header {
+  display: flex; align-items: baseline; gap: 12px; flex-wrap: wrap;
+  padding-bottom: 12px; margin-bottom: 8px;
+  border-bottom: 2.5px solid;
+}
+.tier-header.t1 { border-color: var(--t1); }
+.tier-header.t2 { border-color: var(--t2); }
+.tier-header.t3 { border-color: var(--t3); }
+.tier-header.t4 { border-color: var(--t4); }
+.tier-header.t5 { border-color: var(--t5); }
+
+.tier-name { font-size: 20px; font-weight: 800; letter-spacing: -.01em; }
+.tier-count { font-size: 13px; font-weight: 600; color: var(--ink2); }
+.tier-tag-pill {
+  margin-left: auto; font-size: 11px; font-weight: 700; letter-spacing: .08em;
+  text-transform: uppercase; padding: 3px 9px; border-radius: 4px; border: 1px solid;
+}
+.tier-tag-pill.t1 { background: var(--t1-wash); color: var(--t1-ink); border-color: var(--t1); }
+.tier-tag-pill.t2 { background: var(--t2-wash); color: var(--t2-ink); border-color: var(--t2); }
+.tier-tag-pill.t3 { background: var(--t3-wash); color: var(--t3-ink); border-color: var(--t3); }
+.tier-tag-pill.t4 { background: var(--t4-wash); color: var(--t4-ink); border-color: var(--t4); }
+.tier-tag-pill.t5 { background: var(--t5-wash); color: var(--t5-ink); border-color: var(--t5); }
+
+.tier-desc { font-size: 14px; color: var(--ink2); max-width: 640px; margin-bottom: 20px; margin-top: 10px; }
+
+/* ── NEW: horizontal strip card ── */
+.strip-card {
+  display: grid;
+  grid-template-columns: 4px 1fr 200px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  overflow: hidden;
+  margin-bottom: 10px;
+  min-height: 145px;
+  transition: box-shadow .15s;
+}
+.strip-card:hover { box-shadow: 0 2px 12px rgba(0,0,0,.08); }
+
+.strip-bar.t1 { background: var(--t1); }
+.strip-bar.t2 { background: var(--t2); }
+.strip-bar.t3 { background: var(--t3); }
+.strip-bar.t4 { background: var(--t4); }
+.strip-bar.t5 { background: var(--t5); }
+
+.strip-body { padding: 18px 20px; display: flex; flex-direction: column; gap: 5px; }
+.strip-name { font-size: 17px; font-weight: 700; line-height: 1.2; }
+.strip-loc { font-size: 13px; color: var(--ink2); }
+.strip-pills { display: flex; gap: 6px; flex-wrap: wrap; margin-top: 4px; }
+.pill {
+  display: inline-block;
+  /* badge font-size is relative and never bigger than surrounding text per x06 */
+  font-size: min(12px, 0.75em);
+  font-weight: 600;
+  padding: 2px 10px; border-radius: 999px; border: 1px solid;
+}
+/* type pill — matches tier color */
+.pill-t1 { background: var(--t1-wash); color: var(--t1-ink); border-color: var(--t1); }
+.pill-t2 { background: var(--t2-wash); color: var(--t2-ink); border-color: var(--t2); }
+.pill-t3 { background: var(--t3-wash); color: var(--t3-ink); border-color: var(--t3); }
+.pill-t4 { background: var(--t4-wash); color: var(--t4-ink); border-color: var(--t4); }
+.pill-t5 { background: var(--t5-wash); color: var(--t5-ink); border-color: var(--t5); }
+/* commitment pill — always cp-fog, distinct from type pill (NN 102: no two pills same color) */
+.pill-fog { background: var(--cp-fog-wash); color: var(--cp-fog-ink); border-color: var(--cp-fog-border); }
+
+.strip-desc { font-size: 14px; color: var(--ink2); line-height: 1.5; margin-top: 4px; flex: 1; }
+.strip-links { display: flex; gap: 12px; padding-top: 10px; flex-wrap: wrap; }
+.strip-links a {
+  font-size: 12.5px; font-weight: 600; color: var(--terracotta);
+  text-decoration: none; border-bottom: 1px solid rgba(192,78,26,.3); line-height: 1.4;
+}
+.strip-photo {
+  background: var(--border);
+  display: flex; align-items: center; justify-content: center;
+  min-height: 145px; overflow: hidden;
+}
+.photo-placeholder {
+  display: flex; align-items: center; justify-content: center;
+  width: 100%; height: 100%; color: var(--ink2); font-size: 12px; text-align: center;
+  padding: 12px;
+}
+
+/* ── annotation ── */
+.annotation {
+  margin: 28px 0 0; padding: 16px 20px;
+  background: #fff8e6; border: 1.5px solid #e0c060; border-radius: 8px;
+  font-size: 14px; line-height: 1.7; color: #3a2f10;
+}
+.annotation strong { font-weight: 700; }
+.annotation ul { padding-left: 20px; margin-top: 8px; }
+.annotation li { margin-bottom: 4px; }
+
+/* ── divider label ── */
+.sect-label {
+  font-size: 11px; font-weight: 700; letter-spacing: .12em; text-transform: uppercase;
+  color: var(--ink2); text-align: center; margin: 44px 0 0;
+  display: flex; align-items: center; gap: 10px;
+}
+.sect-label::before, .sect-label::after { content: ''; flex: 1; height: 1px; background: var(--border); }
+
+/* ── mobile ── */
+@media (max-width: 640px) {
+  .strip-card { grid-template-columns: 4px 1fr; }
+  .strip-photo { display: none; }
+  .tier-nav { gap: 5px; }
+  .tier-pill { font-size: 11.5px; padding: 4px 9px; }
+}
+</style>
+</head>
+<body>
+
+<div class="mock-notice">
+  <strong>MOCKUP — Amusement Parks: Experience Tiers concept · 2026-09</strong>
+  &nbsp;·&nbsp; Hero unchanged &nbsp;·&nbsp; All pills use approved cp-* palette families
+  &nbsp;·&nbsp; No shared CSS changes &nbsp;·&nbsp; White/paper card backgrounds (NN 94)
+</div>
+
+<!-- HERO — unchanged from live -->
+<div class="hero-band">
+  <div class="hero-eyebrow">Best Of</div>
+  <h1 class="hero-title">
+    <span>Best</span><span>Amusement</span><span>Parks</span>
+  </h1>
+  <p class="hero-sub">The world's best theme parks, from the historic fairgrounds that invented the form to the modern mega-resorts. The thing that decides your day is not the park but the queue.</p>
+</div>
+
+<!-- NEW: sticky tier-jump nav replacing country-dropdown as primary nav -->
+<nav class="tier-nav" aria-label="Jump to experience tier">
+  <span class="tier-nav-label">Experience type:</span>
+  <a href="#t-mega" class="tier-pill tp1"><span class="tier-dot"></span>Mega-Resort</a>
+  <a href="#t-thrill" class="tier-pill tp2"><span class="tier-dot"></span>Thrill Specialist</a>
+  <a href="#t-character" class="tier-pill tp3"><span class="tier-dot"></span>Character &amp; Story</a>
+  <a href="#t-nature" class="tier-pill tp4"><span class="tier-dot"></span>Discovery &amp; Nature</a>
+  <a href="#t-classic" class="tier-pill tp5"><span class="tier-dot"></span>Classic &amp; Historic</a>
+</nav>
+
+<div class="content">
+
+<!-- ───── TIER 1: MEGA-RESORT ───── -->
+<div class="tier-section" id="t-mega">
+  <div class="tier-header t1">
+    <span class="tier-name">Mega-Resort</span>
+    <span class="tier-count">7 parks</span>
+    <span class="tier-tag-pill t1">Multi-day · Resort complex</span>
+  </div>
+  <p class="tier-desc">Full-scale resort complexes where the park itself is the destination. Budget 1–3 days; the queue strategy matters more than the ticket price.</p>
+
+  <div class="strip-card">
+    <div class="strip-bar t1"></div>
+    <div class="strip-body">
+      <div class="strip-name">Tokyo DisneySea</div>
+      <div class="strip-loc">Urayasu, Chiba — Japan</div>
+      <div class="strip-pills">
+        <span class="pill pill-t1">Mega-Resort</span>
+        <span class="pill pill-fog">1–2 days recommended</span>
+      </div>
+      <p class="strip-desc">Consistently rated the finest theme park on earth. Built entirely around a nautical-fantasy world with no recycled attractions from other Disney parks. Alcohol sold; adult atmosphere throughout.</p>
+      <div class="strip-links"><a href="#">Wikipedia</a><a href="#">Official</a><a href="#">Our Tokyo Guide</a><a href="#">Map</a></div>
+    </div>
+    <div class="strip-photo"><div class="photo-placeholder">park photo</div></div>
+  </div>
+
+  <div class="strip-card">
+    <div class="strip-bar t1"></div>
+    <div class="strip-body">
+      <div class="strip-name">Disneyland Paris</div>
+      <div class="strip-loc">Marne-la-Vallée — France</div>
+      <div class="strip-pills">
+        <span class="pill pill-t1">Mega-Resort</span>
+        <span class="pill pill-fog">1–2 days</span>
+      </div>
+      <p class="strip-desc">Europe's largest theme-park resort, with two parks on one site. Phantom Manor — the Haunted Mansion variant — is arguably better than the California original. Off-peak October visits are significantly cheaper.</p>
+      <div class="strip-links"><a href="#">Wikipedia</a><a href="#">Official</a><a href="#">Map</a></div>
+    </div>
+    <div class="strip-photo"><div class="photo-placeholder">park photo</div></div>
+  </div>
+
+  <div class="strip-card">
+    <div class="strip-bar t1"></div>
+    <div class="strip-body">
+      <div class="strip-name">Universal Studios Japan</div>
+      <div class="strip-loc">Osaka — Japan</div>
+      <div class="strip-pills">
+        <span class="pill pill-t1">Mega-Resort</span>
+        <span class="pill pill-fog">Full day · 1 day sufficient</span>
+      </div>
+      <p class="strip-desc">Japan's Universal is operationally pristine — shorter waits than comparable US parks and exceptional food quality. The Wizarding World of Harry Potter and the Nintendo World area are both best-in-class.</p>
+      <div class="strip-links"><a href="#">Wikipedia</a><a href="#">Official</a><a href="#">Our Osaka Guide</a><a href="#">Map</a></div>
+    </div>
+    <div class="strip-photo"><div class="photo-placeholder">park photo</div></div>
+  </div>
+</div>
+
+<!-- ───── TIER 2: THRILL SPECIALIST ───── -->
+<div class="tier-section" id="t-thrill">
+  <div class="tier-header t2">
+    <span class="tier-name">Thrill Specialist</span>
+    <span class="tier-count">5 parks</span>
+    <span class="tier-tag-pill t2">Coaster-first · Half to full day</span>
+  </div>
+  <p class="tier-desc">Parks defined by their coaster lineup rather than IP or theming. Come for the rides; stay as long as the queue allows.</p>
+
+  <div class="strip-card">
+    <div class="strip-bar t2"></div>
+    <div class="strip-body">
+      <div class="strip-name">Fuji-Q Highland</div>
+      <div class="strip-loc">Fujiyoshida, Yamanashi — Japan</div>
+      <div class="strip-pills">
+        <span class="pill pill-t2">Thrill Specialist</span>
+        <span class="pill pill-fog">Half day · 4–6 hours</span>
+      </div>
+      <p class="strip-desc">Four world-record coasters against a backdrop of Mt. Fuji on clear days. The park is small and ride counts are low, but each is extreme. Strategically placed for a Tokyo day trip.</p>
+      <div class="strip-links"><a href="#">Wikipedia</a><a href="#">Official</a><a href="#">Map</a></div>
+    </div>
+    <div class="strip-photo"><div class="photo-placeholder">park photo</div></div>
+  </div>
+
+  <div class="strip-card">
+    <div class="strip-bar t2"></div>
+    <div class="strip-body">
+      <div class="strip-name">Canada's Wonderland</div>
+      <div class="strip-loc">Vaughan, Ontario — Canada</div>
+      <div class="strip-pills">
+        <span class="pill pill-t2">Thrill Specialist</span>
+        <span class="pill pill-fog">Full day</span>
+      </div>
+      <p class="strip-desc">The largest coaster collection in Canada. Within reach of Toronto by transit. Leviathan (93 m drop) and Yukon Striker are both top-tier steel coasters.</p>
+      <div class="strip-links"><a href="#">Wikipedia</a><a href="#">Official</a><a href="#">Map</a></div>
+    </div>
+    <div class="strip-photo"><div class="photo-placeholder">park photo</div></div>
+  </div>
+</div>
+
+<!-- ───── TIER 3: CHARACTER & STORY ───── -->
+<div class="tier-section" id="t-character">
+  <div class="tier-header t3">
+    <span class="tier-name">Character &amp; Story</span>
+    <span class="tier-count">6 parks</span>
+    <span class="tier-tag-pill t3">IP-led · Themed worlds</span>
+  </div>
+  <p class="tier-desc">Parks where narrative immersion is the product — not thrill intensity. Suitable for visitors who do not ride roller coasters.</p>
+
+  <div class="strip-card">
+    <div class="strip-bar t3"></div>
+    <div class="strip-body">
+      <div class="strip-name">Efteling</div>
+      <div class="strip-loc">Kaatsheuvel, North Brabant — Netherlands</div>
+      <div class="strip-pills">
+        <span class="pill pill-t3">Character &amp; Story</span>
+        <span class="pill pill-fog">Full day · 1 day sufficient</span>
+      </div>
+      <p class="strip-desc">Europe's most beautiful fairy-tale park, open since 1952. The original Fairytale Forest walk — hand-crafted scenes of Brothers Grimm stories — has no equivalent anywhere else in the world.</p>
+      <div class="strip-links"><a href="#">Wikipedia</a><a href="#">Official</a><a href="#">Map</a></div>
+    </div>
+    <div class="strip-photo"><div class="photo-placeholder">park photo</div></div>
+  </div>
+
+  <div class="strip-card">
+    <div class="strip-bar t3"></div>
+    <div class="strip-body">
+      <div class="strip-name">Puy du Fou</div>
+      <div class="strip-loc">Les Epesses, Vendée — France</div>
+      <div class="strip-pills">
+        <span class="pill pill-t3">Character &amp; Story</span>
+        <span class="pill pill-fog">1–2 days · Evening show essential</span>
+      </div>
+      <p class="strip-desc">Not a theme park in any conventional sense — a living history spectacle with 2,300 costumed volunteers. No rides. La Cinéscénie night show (14,000 seats) runs only on weekend evenings and is unlike anything else in Europe.</p>
+      <div class="strip-links"><a href="#">Wikipedia</a><a href="#">Official</a><a href="#">Map</a></div>
+    </div>
+    <div class="strip-photo"><div class="photo-placeholder">park photo</div></div>
+  </div>
+</div>
+
+<!-- ───── TIER 4: DISCOVERY & NATURE ───── -->
+<div class="tier-section" id="t-nature">
+  <div class="tier-header t4">
+    <span class="tier-name">Discovery &amp; Nature</span>
+    <span class="tier-count">4 parks</span>
+    <span class="tier-tag-pill t4">Eco &amp; water · Nature-led</span>
+  </div>
+  <p class="tier-desc">Parks built around natural environments, wildlife, or cenote-swimming — fundamentally different from the manufactured thrills above.</p>
+
+  <div class="strip-card">
+    <div class="strip-bar t4"></div>
+    <div class="strip-body">
+      <div class="strip-name">Xcaret Park</div>
+      <div class="strip-loc">Riviera Maya, Quintana Roo — Mexico</div>
+      <div class="strip-pills">
+        <span class="pill pill-t4">Discovery &amp; Nature</span>
+        <span class="pill pill-fog">Full day · 8–10 hours</span>
+      </div>
+      <p class="strip-desc">An eco-archaeological park in a natural inlet on the Caribbean. Cenote swimming, a night show, wildlife encounters, and Mexican cultural performances are all on one ticket.</p>
+      <div class="strip-links"><a href="#">Wikipedia</a><a href="#">Official</a><a href="#">Map</a></div>
+    </div>
+    <div class="strip-photo"><div class="photo-placeholder">park photo</div></div>
+  </div>
+
+  <div class="strip-card">
+    <div class="strip-bar t4"></div>
+    <div class="strip-body">
+      <div class="strip-name">Chimelong Ocean Kingdom</div>
+      <div class="strip-loc">Hengqin, Zhuhai — China</div>
+      <div class="strip-pills">
+        <span class="pill pill-t4">Discovery &amp; Nature</span>
+        <span class="pill pill-fog">Full day</span>
+      </div>
+      <p class="strip-desc">The world's largest aquarium by water volume, embedded inside a theme park. The whale-shark exhibit — the largest of its kind — justifies the trip from Zhuhai or Macau alone.</p>
+      <div class="strip-links"><a href="#">Wikipedia</a><a href="#">Official</a><a href="#">Map</a></div>
+    </div>
+    <div class="strip-photo"><div class="photo-placeholder">park photo</div></div>
+  </div>
+</div>
+
+<!-- ───── TIER 5: CLASSIC & HISTORIC ───── -->
+<div class="tier-section" id="t-classic">
+  <div class="tier-header t5">
+    <span class="tier-name">Classic &amp; Historic</span>
+    <span class="tier-count">5 parks</span>
+    <span class="tier-tag-pill t5">1800s–1970s · Atmosphere-first</span>
+  </div>
+  <p class="tier-desc">Parks that predate the modern theme-park era — atmosphere, history, and craftsmanship over raw thrill or IP.</p>
+
+  <div class="strip-card">
+    <div class="strip-bar t5"></div>
+    <div class="strip-body">
+      <div class="strip-name">Tivoli Gardens</div>
+      <div class="strip-loc">Copenhagen — Denmark</div>
+      <div class="strip-pills">
+        <span class="pill pill-t5">Classic &amp; Historic</span>
+        <span class="pill pill-fog">Half day · Evening preferred</span>
+      </div>
+      <p class="strip-desc">Open since 1843 and one of Walt Disney's acknowledged inspirations. The lantern-lit evening atmosphere has no modern equivalent. In the centre of Copenhagen, minutes from the central station.</p>
+      <div class="strip-links"><a href="#">Wikipedia</a><a href="#">Official</a><a href="#">Our Copenhagen Guide</a><a href="#">Map</a></div>
+    </div>
+    <div class="strip-photo"><div class="photo-placeholder">park photo</div></div>
+  </div>
+
+  <div class="strip-card">
+    <div class="strip-bar t5"></div>
+    <div class="strip-body">
+      <div class="strip-name">Europa-Park</div>
+      <div class="strip-loc">Rust, Baden-Württemberg — Germany</div>
+      <div class="strip-pills">
+        <span class="pill pill-t5">Classic &amp; Historic</span>
+        <span class="pill pill-fog">1–2 days</span>
+      </div>
+      <p class="strip-desc">Europe's most attended theme park outside Disneyland Paris. Its 17 national-themed zones are built and operated by a single family, giving it a consistency of quality hard to find elsewhere.</p>
+      <div class="strip-links"><a href="#">Wikipedia</a><a href="#">Official</a><a href="#">Map</a></div>
+    </div>
+    <div class="strip-photo"><div class="photo-placeholder">park photo</div></div>
+  </div>
+</div>
+
+<!-- ───── DESIGN RATIONALE ───── -->
+<div class="sect-label">Why this redesign</div>
+
+<div class="annotation">
+  <strong>What the current flat grid buries</strong> — the reader choosing between Walt Disney World and Fuji-Q Highland is making two completely different decisions: one is a 3-day resort stay, the other is a 4-hour coaster trip. Today, both cards look identical. The Experience Tiers concept surfaces this instantly.
+  <ul>
+    <li><strong>Sticky tier-jump nav</strong> — 5 pills, one click to the tier that matches intent. Country filter remains but is secondary. Replaces the current country dropdown as the primary navigation layer.</li>
+    <li><strong>Horizontal strip cards</strong> — text-first (photo on the right). Name, location, and commitment pill are visible before reading the description.</li>
+    <li><strong>4px left-bar accent</strong> — the only tier-identity element per card. Cards stay white/paper throughout (NN 94: no black or vibrant fills).</li>
+    <li><strong>Commitment pill</strong> — "Half day · 4–6 hours" or "1–2 days recommended" on every card. Currently buried inside descriptions and absent from many.</li>
+    <li><strong>Two pills per card, never the same family</strong> — type pill matches the tier (cp-purple/cp-orange/cp-blue/cp-green/cp-fog); commitment pill always cp-fog, a distinct neutral (NN 102 compliant).</li>
+    <li><strong>Badge font-size uses <code>min(12px, 0.75em)</code></strong> — never larger than surrounding body text (NN x06).</li>
+    <li><strong>No shared CSS changes</strong> — entire redesign lives in the page's own &lt;style&gt; block.</li>
+    <li><strong>Search bar and country filter unchanged</strong> — both continue to work across all tiers as they do today.</li>
+  </ul>
+</div>
+
+</div>
+</body>
+</html>

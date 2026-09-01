@@ -6,7 +6,7 @@
 <link rel="stylesheet" href="/assets/web-travel-style.css">
 <title>Tipping Customs by Country | Guide My Days</title>
 <style>/* ── Tipping norm palette — 2026-08-27: the local --c-* hex quad is gone.
-   .country-row now also carries the real .cp-dark-teal/.cp-gold/
+   .country-card now also carries the real .cp-dark-teal/.cp-gold/
    .cp-terracotta/.cp-light-grey class (assigned in renderCard()'s NORM_CP
    map), so .norm-*::before below reads --sp-ink straight from
    web-travel-style.css. Ordering intent (strongest-expectation to
@@ -66,44 +66,53 @@
   content: ''; flex: 1; height: 1px; background: var(--rule2,#e6e2da);
 }
 .region-header:first-child { margin-top: 0; }
-/* ── Card groups (connected hairline grid) ── */
-.card-group {
-  display: flex; flex-direction: column; gap: 1px;
-  background: var(--rule,#D2CDCA);
-  border: 1px solid var(--rule,#D2CDCA);
-  border-radius: 8px; overflow: hidden;
+/* ── Region Radar redesign (2026-09-01) — grid of cards replaces the
+   connected hairline row list; layout only, same data/JS-model, same
+   approved .badge/.pill classes throughout. Mock-up:
+   Travel-Website/reports/mock-ups/tipping-region-radar-redesign.html */
+.country-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 12px;
   margin-top: 12px;
 }
 /* ── Country cards ── */
-.country-row {
+.country-card {
   background: var(--surface);
-  border: none; border-radius: 0; margin: 0;
-  padding: 14px 16px 14px 20px;
-  display: grid;
-  grid-template-columns: 210px auto;
-  gap: 0 24px;
+  border: 1px solid var(--border2,#e6e2da); border-radius: 10px;
+  padding: 16px 18px 16px 22px;
   position: relative;
-  transition: background .12s;
+  transition: box-shadow .15s, transform .15s, border-color .15s;
 }
-.country-row::before {
+.country-card::before {
   content: '';
   position: absolute; top: 0; left: 0; bottom: 0;
   width: 4px; border-radius: 0;
 }
-.country-row[class*="cp-"]::before { background: var(--sp-ink); }
-.country-row:hover { background: var(--surface-alt,#F7F4EE); }
-.country-left { display: flex; flex-direction: column; justify-content: flex-start; }
+.country-card[class*="cp-"]::before { background: var(--sp-ink); }
+.country-card:hover {
+  box-shadow: 0 6px 18px rgba(0,0,0,.08); transform: translateY(-2px);
+  border-color: var(--accent);
+}
 /* .country-name canonical place+color+size+font now shared in web-travel-style.css + mobile.css (owner rule 2026-07-29) */
 .country-name { display: flex; align-items: center; gap: 7px; line-height: 1.2; }
 .country-flag { font-size: 18px; line-height: 1; }
-.country-cities { font-size: 11px; color: var(--muted); margin-top: 5px; line-height: 1.55; }
-.country-right { }
-.tip-header { display: flex; align-items: center; gap: 8px; margin-bottom: 8px; }
+.country-cities { font-size: 11px; color: var(--muted); margin-top: 5px; margin-bottom: 10px; line-height: 1.55; }
+.norm-bar { display: flex; align-items: center; gap: 10px; margin-bottom: 10px; }
 .norm-chip {
   /* hook — box from the shared .badge (JS writes norm-chip badge fam-*).
      Was 10px / radius 6px; never re-add a box. */
   flex-shrink: 0;
 }
+/* Norm intensity spectrum — decorative meter beside the badge, filled from
+   the SAME approved sb-* --sb-fill token the badge already carries (no new
+   hex introduced). Width per norm mirrors the mock-up's intensity read. */
+.spectrum { flex: 1; min-width: 40px; height: 5px; border-radius: 3px; background: var(--border2,#e6e2da); position: relative; overflow: hidden; }
+.spectrum-fill { position: absolute; left: 0; top: 0; height: 100%; border-radius: 3px; background: var(--sb-fill); }
+.spectrum-fill.expected    { width: 90%; }
+.spectrum-fill.appreciated { width: 60%; }
+.spectrum-fill.check       { width: 35%; }
+.spectrum-fill.skip        { width: 10%; }
 .tip-rows { display: flex; flex-direction: column; gap: 4px; }
 .tip-row  {
   font-size: 12.5px; color: var(--text);
@@ -126,11 +135,11 @@
      (--search-gap) at every viewport — owner rule 2026-08-17. */
   .pills { flex-wrap: wrap !important; gap: var(--fam-gap,10px) !important; }
   .stat-bar { display: grid; grid-template-columns: repeat(2, 1fr); }
-  .country-row { grid-template-columns: 1fr; gap: 12px; padding: 13px 14px 13px 18px; }
+  .country-grid { grid-template-columns: 1fr; }
+  .country-card { padding: 13px 14px 13px 18px; }
   .tip-label { width: 120px; }
 }
 @media (prefers-color-scheme: dark) {
-  :root { --rule: #3a3730; }
   /* Calm Pastel has no separate dark-mode set yet (doc note: "not yet
      decided" — same as the sp-* tones it replaces), so light-mode fills carry
      over unchanged — each pill is a self-contained light chip, readable on
@@ -1177,20 +1186,21 @@ function equalizeStatPills() {
 window.addEventListener('resize', equalizeStatPills);
 
 var NORM_CP = { expected: 'cp-dark-teal', appreciated: 'cp-gold', check: 'cp-terracotta', skip: 'cp-light-grey' };
+var NORM_SB = { expected: 'sb-green', appreciated: 'sb-gold', check: 'sb-blue', skip: 'sb-dark-grey' };
 function renderCard(c) {
   var tipRows = c.tips.map(function(t) {
     return '<div class="tip-row"><span class="tip-label">' + t.label + '</span><span class="tip-value">' + t.value + '</span></div>';
   }).join('');
-  return '<div class="country-row norm-' + c.norm + ' ' + NORM_CP[c.norm] + '">' +
-    '<div class="country-left">' +
-      '<div class="country-name"><span class="country-flag">' + TVE.flag.html(c.flag) + '</span>' + c.name + '</div>' +
-      '<div class="country-cities">' + c.cities + '</div>' +
+  var sbFam = NORM_SB[c.norm] || 'sb-dark-grey';
+  return '<div class="country-card norm-' + c.norm + ' ' + NORM_CP[c.norm] + '">' +
+    '<div class="country-name"><span class="country-flag">' + TVE.flag.html(c.flag) + '</span>' + c.name + '</div>' +
+    '<div class="country-cities">' + c.cities + '</div>' +
+    '<div class="norm-bar">' +
+      '<span class="norm-chip badge ' + sbFam + ' ' + c.norm + '">' + norm(c.norm) + '</span>' +
+      '<div class="spectrum"><div class="spectrum-fill ' + sbFam + ' ' + c.norm + '"></div></div>' +
     '</div>' +
-    '<div class="country-right">' +
-      '<div class="tip-header"><span class="norm-chip badge ' + ({expected:'sb-green',appreciated:'sb-gold',check:'sb-blue',skip:'sb-dark-grey'}[c.norm]||'sb-dark-grey') + ' ' + c.norm + '">' + norm(c.norm) + '</span></div>' +
-      '<div class="tip-rows">' + tipRows + '</div>' +
-      (c.note ? '<div class="tip-note">' + c.note + '</div>' : '') +
-    '</div>' +
+    '<div class="tip-rows">' + tipRows + '</div>' +
+    (c.note ? '<div class="tip-note">' + c.note + '</div>' : '') +
   '</div>';
 }
 
@@ -1223,7 +1233,7 @@ function render() {
     if (activeRegion === 'all' || searchVal) {
       html += '<div class="region-header">' + REGION_LABELS[r] + '</div>';
     }
-    html += '<div class="card-group">' + grouped[r].map(renderCard).join('') + '</div>';
+    html += '<div class="country-grid">' + grouped[r].map(renderCard).join('') + '</div>';
   });
 
   list.innerHTML = html;

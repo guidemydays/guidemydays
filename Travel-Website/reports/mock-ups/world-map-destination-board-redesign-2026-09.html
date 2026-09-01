@@ -1,0 +1,573 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mockup — World Map: Destination Board redesign concept</title>
+<style>
+/* ── Site tokens (inline for self-contained mockup) ── */
+:root {
+  --font: 'Helvetica Neue', Arial, sans-serif;
+  --rust: #C04E1A;
+  --rust-deep: #8A3F18;
+  --bg: #f5f4f0;
+  --surface: #ffffff;
+  --warm: #fdf8f0;
+  --border: #d8d4cc;
+  --text: #2a1d0f;
+  --muted: #6b5a45;
+  --accent: #8a6c1a;
+  --gold: #c8940a;
+
+  /* Region palette (locked from Maps-Layout.html §5) */
+  --eu-bg: #fde8e8; --eu-border: #f0a0a0; --eu-text: #a02020;
+  --na-bg: #fdf0e4; --na-border: #f0b878; --na-text: #8a3a08;
+  --cb-bg: #d8efe9; --cb-border: #7fcabd; --cb-text: #0c6b5d;
+  --as-bg: #fdf5d8; --as-border: #e8d060; --as-text: #7a5000;
+  --af-bg: #e4f5e8; --af-border: #90d0a0; --af-text: #1a6030;
+  --sa-bg: #e4eef8; --sa-border: #90b8e8; --sa-text: #1a3a8b;
+  --oc-bg: #f0e8f8; --oc-border: #c090e0; --oc-text: #4a1880;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #1a1917; --surface: #2a2825; --warm: #211e1a;
+    --border: #3a3732; --text: #f0ede8; --muted: #9a9082;
+  }
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: var(--font); background: var(--bg); color: var(--text); line-height: 1.5; }
+
+/* ── MOCKUP BANNER ── */
+.mockup-banner {
+  background: #1a1917; color: #f0ede8; text-align: center;
+  padding: 8px 16px; font-size: 12px; letter-spacing: 0.06em; text-transform: uppercase;
+  font-weight: 600;
+}
+
+/* ── SIMULATED TOOLBAR ── */
+.sim-toolbar {
+  background: var(--surface); border-bottom: 1px solid var(--border);
+  padding: 0 32px; display: flex; align-items: center; gap: 6px;
+  height: 52px; overflow: hidden;
+}
+.sim-tab {
+  padding: 5px 14px; border-radius: 20px; border: 1.5px solid var(--border);
+  background: var(--bg); color: var(--muted); font-size: 12px; font-weight: 600;
+  white-space: nowrap; cursor: pointer; text-decoration: none;
+}
+.sim-tab.active {
+  background: var(--surface); border-color: var(--rust); color: var(--rust);
+}
+
+/* ── STATS BAND ── */
+.stats-band {
+  background: var(--warm); border-bottom: 1px solid var(--border);
+  padding: 16px 32px; display: flex; align-items: center; gap: 32px;
+  flex-wrap: wrap;
+}
+.stat-item { display: flex; flex-direction: column; gap: 2px; }
+.stat-value { font-size: 24px; font-weight: 800; color: var(--rust); line-height: 1; }
+.stat-value.gold { color: var(--gold); }
+.stat-value.muted { color: var(--muted); font-size: 18px; }
+.stat-label { font-size: 11px; font-weight: 600; color: var(--muted); text-transform: uppercase; letter-spacing: 0.05em; }
+.stats-band-divider { width: 1px; height: 36px; background: var(--border); flex-shrink: 0; }
+.stats-headline {
+  margin-left: auto; font-size: 13px; font-weight: 700; color: var(--muted);
+  text-transform: uppercase; letter-spacing: 0.08em;
+}
+
+/* ── FILTER BAR ── */
+.filter-bar {
+  background: var(--surface); border-bottom: 1px solid var(--border);
+  padding: 12px 32px; display: flex; align-items: center; gap: 6px;
+  flex-wrap: wrap; position: sticky; top: 0; z-index: 100;
+}
+.filter-label { font-size: 11px; font-weight: 700; color: var(--muted); text-transform: uppercase; letter-spacing: 0.06em; margin-right: 4px; }
+
+/* Region filter pills — using the locked .rn region-nav palette from Maps-Layout.html.
+   These are exempt from cp-*/sb-* requirement per maps-audit routine Step 4 Boundaries. */
+.fp {
+  padding: 5px 14px; border-radius: 20px; border: 1.5px solid var(--border);
+  background: var(--surface); color: var(--muted); font-size: 12px; font-weight: 600;
+  cursor: pointer; display: flex; align-items: center; gap: 5px; white-space: nowrap;
+  transition: filter .12s; font-family: var(--font);
+}
+.fp::before { content: ''; width: 7px; height: 7px; border-radius: 50%; flex-shrink: 0; background: var(--rust); }
+.fp:hover { filter: brightness(.97); }
+.fp.fp-all { background: #eee9e2; border-color: #c4bcae; color: #5a5446; }
+.fp.fp-eu  { background: var(--eu-bg); border-color: var(--eu-border); color: var(--eu-text); }
+.fp.fp-na  { background: var(--na-bg); border-color: var(--na-border); color: var(--na-text); }
+.fp.fp-cb  { background: var(--cb-bg); border-color: var(--cb-border); color: var(--cb-text); }
+.fp.fp-as  { background: var(--as-bg); border-color: var(--as-border); color: var(--as-text); }
+.fp.fp-af  { background: var(--af-bg); border-color: var(--af-border); color: var(--af-text); }
+.fp.fp-sa  { background: var(--sa-bg); border-color: var(--sa-border); color: var(--sa-text); }
+.fp.fp-oc  { background: var(--oc-bg); border-color: var(--oc-border); color: var(--oc-text); }
+/* Been pill — locked gold (Maps-Layout.html §6 Visited pill colors) */
+.fp.fp-been { background: #fdf5d8; border-color: #d8c87a; color: #7a6000; }
+.fp.fp-been::before { background: #c8940a; }
+/* Active/selected state — outlined, never solid fill (x05 non-negotiable) */
+.fp.active { outline: 3px solid currentColor; outline-offset: 2px; }
+.fp.fp-all.active { outline-color: #5a5446; }
+
+/* ── MAIN CONTENT ── */
+.main { padding: 0 32px 120px; }
+
+/* ── CONTINENT SECTION ── */
+.continent-section { margin-top: 36px; }
+.continent-header {
+  display: flex; align-items: center; gap: 12px; margin-bottom: 18px;
+  padding-bottom: 10px; border-bottom: 2px solid var(--border);
+}
+.continent-dot { width: 12px; height: 12px; border-radius: 50%; flex-shrink: 0; }
+.continent-name { font-size: 22px; font-weight: 800; color: var(--text); letter-spacing: -0.02em; }
+.continent-count {
+  font-size: 12px; font-weight: 600; color: var(--muted);
+  background: var(--warm); border: 1px solid var(--border);
+  padding: 2px 10px; border-radius: 20px;
+}
+
+/* ── DESTINATION CARD GRID ── */
+.card-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(195px, 1fr));
+  gap: 12px;
+}
+
+/* ── DESTINATION CARD ── */
+.dest-card {
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: 12px; padding: 16px 18px 14px;
+  text-decoration: none; color: inherit;
+  display: flex; flex-direction: column; gap: 8px;
+  transition: box-shadow .15s, transform .12s;
+  position: relative; overflow: hidden;
+}
+.dest-card:hover { box-shadow: 0 4px 18px rgba(0,0,0,0.10); transform: translateY(-2px); }
+/* Region accent stripe (top border) */
+.dest-card::before {
+  content: ''; position: absolute; top: 0; left: 0; right: 0; height: 4px;
+}
+.dest-card.eu::before { background: var(--eu-border); }
+.dest-card.na::before { background: var(--na-border); }
+.dest-card.cb::before { background: var(--cb-border); }
+.dest-card.as::before { background: var(--as-border); }
+.dest-card.af::before { background: var(--af-border); }
+.dest-card.sa::before { background: var(--sa-border); }
+.dest-card.oc::before { background: var(--oc-border); }
+
+.card-top { display: flex; align-items: flex-start; justify-content: space-between; gap: 8px; }
+.city-name { font-size: 16px; font-weight: 700; color: var(--text); line-height: 1.2; }
+/* Been stamp — locked gold from Maps-Layout.html */
+.card-been-stamp {
+  font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em;
+  color: #7a6000; background: #fdf5d8; border: 1.5px solid #d8c87a;
+  border-radius: 4px; padding: 2px 7px; flex-shrink: 0; white-space: nowrap;
+  display: none;
+}
+.been .card-been-stamp { display: block; }
+.country-name { font-size: 12px; font-weight: 500; color: var(--muted); }
+.card-bottom { display: flex; align-items: center; justify-content: space-between; margin-top: 4px; }
+.open-guide {
+  font-size: 12px; font-weight: 600; color: var(--rust); text-decoration: none;
+  display: flex; align-items: center; gap: 4px;
+}
+.open-guide::after { content: '→'; }
+.pin-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--rust); flex-shrink: 0; }
+
+/* ── FLOATING MAP CARD (desktop) ── */
+.floating-map {
+  position: fixed; bottom: 28px; right: 28px; z-index: 500;
+  width: 260px; background: var(--surface);
+  border: 1px solid var(--border); border-radius: 14px;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.18);
+  overflow: hidden;
+}
+.floating-map-header {
+  padding: 10px 14px; display: flex; align-items: center;
+  justify-content: space-between; background: var(--warm);
+  border-bottom: 1px solid var(--border);
+}
+.floating-map-title { font-size: 12px; font-weight: 700; color: var(--muted); text-transform: uppercase; letter-spacing: 0.06em; }
+.floating-map-expand {
+  font-size: 11px; font-weight: 600; color: var(--rust); cursor: pointer;
+  border: none; background: none; padding: 0; font-family: var(--font);
+}
+.mini-map-sim {
+  height: 150px; background: #cfe0e4; position: relative; overflow: hidden;
+}
+/* Simulated pin clusters */
+.mc {
+  position: absolute; border-radius: 50%;
+  background: radial-gradient(circle at 35% 30%, #c9743a 0%, #C04E1A 60%, #7a3b1e 100%);
+  color: #fdf8f0; font-weight: 700; display: flex; align-items: center; justify-content: center;
+  border: 1.5px solid #fdf8f0; box-shadow: 0 1px 5px rgba(0,0,0,0.25);
+}
+.floating-map-footer {
+  padding: 8px 14px; display: flex; align-items: center; justify-content: space-between;
+}
+.map-open-btn {
+  font-size: 12px; font-weight: 600; color: var(--rust); background: none;
+  border: none; cursor: pointer; font-family: var(--font); padding: 0;
+  display: flex; align-items: center; gap: 3px;
+}
+.map-open-btn::after { content: '↗'; font-size: 11px; }
+
+/* ── MOBILE: Visited pill (locked gold, same as current page) ── */
+.visited-pill-mobile {
+  display: none; position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%);
+  background: #fdf5d8; border: 1.5px solid #d8c87a; border-radius: 22px;
+  min-height: 44px; padding: 0 20px; font-size: 13px; font-weight: 600;
+  color: #7a6000; align-items: center; gap: 7px;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.15); white-space: nowrap; cursor: pointer;
+  z-index: 600; font-family: var(--font);
+}
+.vdot { width: 8px; height: 8px; border-radius: 50%; background: #c8940a; flex-shrink: 0; }
+
+/* ── RESPONSIVE ── */
+@media (max-width: 640px) {
+  .main { padding: 0 14px 120px; }
+  .stats-band { padding: 12px 14px; gap: 20px; overflow-x: auto; flex-wrap: nowrap; }
+  .stats-headline { display: none; }
+  .filter-bar { padding: 10px 14px; overflow-x: auto; flex-wrap: nowrap; }
+  .card-grid { grid-template-columns: repeat(2, 1fr); gap: 10px; }
+  .city-name { font-size: 14px; }
+  .floating-map { display: none; }
+  .visited-pill-mobile { display: flex; }
+  .sim-toolbar { padding: 0 14px; gap: 4px; }
+}
+</style>
+</head>
+<body>
+
+<div class="mockup-banner">
+  CONCEPT MOCKUP — World Map: Destination Board redesign · maps-audit 2026-09-01 · do not ship
+</div>
+
+<!-- Simulated toolbar -->
+<div class="sim-toolbar">
+  <a class="sim-tab" href="#">Guides</a>
+  <a class="sim-tab" href="#">When to Go</a>
+  <a class="sim-tab" href="#">Before You Go</a>
+  <a class="sim-tab" href="#">Packing Checklist</a>
+  <a class="sim-tab active" href="#">Your World Map</a>
+  <a class="sim-tab" href="#">What Plug Adapter?</a>
+  <a class="sim-tab" href="#">What Your Money Is Worth</a>
+  <a class="sim-tab" href="#">Time Zones</a>
+</div>
+
+<!-- Stats band -->
+<div class="stats-band">
+  <div class="stat-item">
+    <div class="stat-value">246</div>
+    <div class="stat-label">Guides</div>
+  </div>
+  <div class="stats-band-divider"></div>
+  <div class="stat-item">
+    <div class="stat-value">6</div>
+    <div class="stat-label">Continents</div>
+  </div>
+  <div class="stats-band-divider"></div>
+  <div class="stat-item">
+    <div class="stat-value gold">14</div>
+    <div class="stat-label">Visited</div>
+  </div>
+  <div class="stats-band-divider"></div>
+  <div class="stat-item">
+    <div class="stat-value muted">5.7%</div>
+    <div class="stat-label">Of the world</div>
+  </div>
+  <div class="stats-headline">Your travel record →</div>
+</div>
+
+<!-- Sticky filter bar -->
+<div class="filter-bar">
+  <span class="filter-label">Region</span>
+  <button class="fp fp-all active">All</button>
+  <button class="fp fp-eu">Europe</button>
+  <button class="fp fp-na">N. America</button>
+  <button class="fp fp-cb">Caribbean</button>
+  <button class="fp fp-as">Asia</button>
+  <button class="fp fp-af">Africa</button>
+  <button class="fp fp-sa">S. America</button>
+  <button class="fp fp-oc">Oceania</button>
+  <div style="width:1px;height:20px;background:var(--border);margin:0 4px;flex-shrink:0;"></div>
+  <button class="fp fp-been">&#10003; Visited</button>
+</div>
+
+<!-- Main content — continent sections with card grids -->
+<div class="main">
+
+  <!-- EUROPE -->
+  <div class="continent-section">
+    <div class="continent-header">
+      <div class="continent-dot" style="background:var(--eu-border);"></div>
+      <h2 class="continent-name">Europe</h2>
+      <span class="continent-count">87 guides</span>
+    </div>
+    <div class="card-grid">
+      <a class="dest-card eu been" href="/guides/paris.html">
+        <div class="card-top"><div class="city-name">Paris</div><div class="card-been-stamp">Been</div></div>
+        <div class="country-name">France</div>
+        <div class="card-bottom"><span class="open-guide">Open guide</span><span class="pin-dot"></span></div>
+      </a>
+      <a class="dest-card eu" href="/guides/rome.html">
+        <div class="card-top"><div class="city-name">Rome</div></div>
+        <div class="country-name">Italy</div>
+        <div class="card-bottom"><span class="open-guide">Open guide</span><span class="pin-dot"></span></div>
+      </a>
+      <a class="dest-card eu been" href="/guides/barcelona.html">
+        <div class="card-top"><div class="city-name">Barcelona</div><div class="card-been-stamp">Been</div></div>
+        <div class="country-name">Spain</div>
+        <div class="card-bottom"><span class="open-guide">Open guide</span><span class="pin-dot"></span></div>
+      </a>
+      <a class="dest-card eu" href="/guides/amsterdam.html">
+        <div class="card-top"><div class="city-name">Amsterdam</div></div>
+        <div class="country-name">Netherlands</div>
+        <div class="card-bottom"><span class="open-guide">Open guide</span><span class="pin-dot"></span></div>
+      </a>
+      <a class="dest-card eu" href="/guides/vienna.html">
+        <div class="card-top"><div class="city-name">Vienna</div></div>
+        <div class="country-name">Austria</div>
+        <div class="card-bottom"><span class="open-guide">Open guide</span><span class="pin-dot"></span></div>
+      </a>
+      <a class="dest-card eu been" href="/guides/lisbon.html">
+        <div class="card-top"><div class="city-name">Lisbon</div><div class="card-been-stamp">Been</div></div>
+        <div class="country-name">Portugal</div>
+        <div class="card-bottom"><span class="open-guide">Open guide</span><span class="pin-dot"></span></div>
+      </a>
+      <a class="dest-card eu" href="/guides/prague.html">
+        <div class="card-top"><div class="city-name">Prague</div></div>
+        <div class="country-name">Czech Republic</div>
+        <div class="card-bottom"><span class="open-guide">Open guide</span><span class="pin-dot"></span></div>
+      </a>
+      <a class="dest-card eu" href="/guides/stockholm.html">
+        <div class="card-top"><div class="city-name">Stockholm</div></div>
+        <div class="country-name">Sweden</div>
+        <div class="card-bottom"><span class="open-guide">Open guide</span><span class="pin-dot"></span></div>
+      </a>
+    </div>
+  </div>
+
+  <!-- NORTH AMERICA -->
+  <div class="continent-section">
+    <div class="continent-header">
+      <div class="continent-dot" style="background:var(--na-border);"></div>
+      <h2 class="continent-name">North America</h2>
+      <span class="continent-count">52 guides</span>
+    </div>
+    <div class="card-grid">
+      <a class="dest-card na been" href="/guides/new-york.html">
+        <div class="card-top"><div class="city-name">New York</div><div class="card-been-stamp">Been</div></div>
+        <div class="country-name">United States</div>
+        <div class="card-bottom"><span class="open-guide">Open guide</span><span class="pin-dot"></span></div>
+      </a>
+      <a class="dest-card na" href="/guides/chicago.html">
+        <div class="card-top"><div class="city-name">Chicago</div></div>
+        <div class="country-name">United States</div>
+        <div class="card-bottom"><span class="open-guide">Open guide</span><span class="pin-dot"></span></div>
+      </a>
+      <a class="dest-card na been" href="/guides/los-angeles.html">
+        <div class="card-top"><div class="city-name">Los Angeles</div><div class="card-been-stamp">Been</div></div>
+        <div class="country-name">United States</div>
+        <div class="card-bottom"><span class="open-guide">Open guide</span><span class="pin-dot"></span></div>
+      </a>
+      <a class="dest-card na" href="/guides/miami.html">
+        <div class="card-top"><div class="city-name">Miami</div></div>
+        <div class="country-name">United States</div>
+        <div class="card-bottom"><span class="open-guide">Open guide</span><span class="pin-dot"></span></div>
+      </a>
+      <a class="dest-card na" href="/guides/cancun.html">
+        <div class="card-top"><div class="city-name">Canc&#250;n</div></div>
+        <div class="country-name">Mexico</div>
+        <div class="card-bottom"><span class="open-guide">Open guide</span><span class="pin-dot"></span></div>
+      </a>
+      <a class="dest-card na" href="/guides/vancouver.html">
+        <div class="card-top"><div class="city-name">Vancouver</div></div>
+        <div class="country-name">Canada</div>
+        <div class="card-bottom"><span class="open-guide">Open guide</span><span class="pin-dot"></span></div>
+      </a>
+    </div>
+  </div>
+
+  <!-- ASIA -->
+  <div class="continent-section">
+    <div class="continent-header">
+      <div class="continent-dot" style="background:var(--as-border);"></div>
+      <h2 class="continent-name">Asia</h2>
+      <span class="continent-count">58 guides</span>
+    </div>
+    <div class="card-grid">
+      <a class="dest-card as been" href="/guides/tokyo.html">
+        <div class="card-top"><div class="city-name">Tokyo</div><div class="card-been-stamp">Been</div></div>
+        <div class="country-name">Japan</div>
+        <div class="card-bottom"><span class="open-guide">Open guide</span><span class="pin-dot"></span></div>
+      </a>
+      <a class="dest-card as" href="/guides/bangkok.html">
+        <div class="card-top"><div class="city-name">Bangkok</div></div>
+        <div class="country-name">Thailand</div>
+        <div class="card-bottom"><span class="open-guide">Open guide</span><span class="pin-dot"></span></div>
+      </a>
+      <a class="dest-card as been" href="/guides/bali.html">
+        <div class="card-top"><div class="city-name">Bali</div><div class="card-been-stamp">Been</div></div>
+        <div class="country-name">Indonesia</div>
+        <div class="card-bottom"><span class="open-guide">Open guide</span><span class="pin-dot"></span></div>
+      </a>
+      <a class="dest-card as" href="/guides/singapore.html">
+        <div class="card-top"><div class="city-name">Singapore</div></div>
+        <div class="country-name">Singapore</div>
+        <div class="card-bottom"><span class="open-guide">Open guide</span><span class="pin-dot"></span></div>
+      </a>
+      <a class="dest-card as" href="/guides/dubai.html">
+        <div class="card-top"><div class="city-name">Dubai</div></div>
+        <div class="country-name">United Arab Emirates</div>
+        <div class="card-bottom"><span class="open-guide">Open guide</span><span class="pin-dot"></span></div>
+      </a>
+      <a class="dest-card as" href="/guides/seoul.html">
+        <div class="card-top"><div class="city-name">Seoul</div></div>
+        <div class="country-name">South Korea</div>
+        <div class="card-bottom"><span class="open-guide">Open guide</span><span class="pin-dot"></span></div>
+      </a>
+    </div>
+  </div>
+
+  <!-- CARIBBEAN -->
+  <div class="continent-section">
+    <div class="continent-header">
+      <div class="continent-dot" style="background:var(--cb-border);"></div>
+      <h2 class="continent-name">Caribbean</h2>
+      <span class="continent-count">19 guides</span>
+    </div>
+    <div class="card-grid">
+      <a class="dest-card cb been" href="/guides/aruba.html">
+        <div class="card-top"><div class="city-name">Aruba</div><div class="card-been-stamp">Been</div></div>
+        <div class="country-name">Aruba</div>
+        <div class="card-bottom"><span class="open-guide">Open guide</span><span class="pin-dot"></span></div>
+      </a>
+      <a class="dest-card cb" href="/guides/st-lucia.html">
+        <div class="card-top"><div class="city-name">St. Lucia</div></div>
+        <div class="country-name">Saint Lucia</div>
+        <div class="card-bottom"><span class="open-guide">Open guide</span><span class="pin-dot"></span></div>
+      </a>
+      <a class="dest-card cb" href="/guides/barbados.html">
+        <div class="card-top"><div class="city-name">Barbados</div></div>
+        <div class="country-name">Barbados</div>
+        <div class="card-bottom"><span class="open-guide">Open guide</span><span class="pin-dot"></span></div>
+      </a>
+      <a class="dest-card cb" href="/guides/turks-and-caicos.html">
+        <div class="card-top"><div class="city-name">Turks &amp; Caicos</div></div>
+        <div class="country-name">Turks and Caicos Islands</div>
+        <div class="card-bottom"><span class="open-guide">Open guide</span><span class="pin-dot"></span></div>
+      </a>
+    </div>
+  </div>
+
+  <!-- AFRICA -->
+  <div class="continent-section">
+    <div class="continent-header">
+      <div class="continent-dot" style="background:var(--af-border);"></div>
+      <h2 class="continent-name">Africa</h2>
+      <span class="continent-count">14 guides</span>
+    </div>
+    <div class="card-grid">
+      <a class="dest-card af been" href="/guides/cape-town.html">
+        <div class="card-top"><div class="city-name">Cape Town</div><div class="card-been-stamp">Been</div></div>
+        <div class="country-name">South Africa</div>
+        <div class="card-bottom"><span class="open-guide">Open guide</span><span class="pin-dot"></span></div>
+      </a>
+      <a class="dest-card af" href="/guides/marrakech.html">
+        <div class="card-top"><div class="city-name">Marrakech</div></div>
+        <div class="country-name">Morocco</div>
+        <div class="card-bottom"><span class="open-guide">Open guide</span><span class="pin-dot"></span></div>
+      </a>
+      <a class="dest-card af" href="/guides/seychelles.html">
+        <div class="card-top"><div class="city-name">Seychelles</div></div>
+        <div class="country-name">Seychelles</div>
+        <div class="card-bottom"><span class="open-guide">Open guide</span><span class="pin-dot"></span></div>
+      </a>
+    </div>
+  </div>
+
+  <!-- SOUTH AMERICA -->
+  <div class="continent-section">
+    <div class="continent-header">
+      <div class="continent-dot" style="background:var(--sa-border);"></div>
+      <h2 class="continent-name">South America</h2>
+      <span class="continent-count">11 guides</span>
+    </div>
+    <div class="card-grid">
+      <a class="dest-card sa" href="/guides/buenos-aires.html">
+        <div class="card-top"><div class="city-name">Buenos Aires</div></div>
+        <div class="country-name">Argentina</div>
+        <div class="card-bottom"><span class="open-guide">Open guide</span><span class="pin-dot"></span></div>
+      </a>
+      <a class="dest-card sa been" href="/guides/rio-de-janeiro.html">
+        <div class="card-top"><div class="city-name">Rio de Janeiro</div><div class="card-been-stamp">Been</div></div>
+        <div class="country-name">Brazil</div>
+        <div class="card-bottom"><span class="open-guide">Open guide</span><span class="pin-dot"></span></div>
+      </a>
+      <a class="dest-card sa" href="/guides/cartagena.html">
+        <div class="card-top"><div class="city-name">Cartagena</div></div>
+        <div class="country-name">Colombia</div>
+        <div class="card-bottom"><span class="open-guide">Open guide</span><span class="pin-dot"></span></div>
+      </a>
+    </div>
+  </div>
+
+  <!-- OCEANIA -->
+  <div class="continent-section">
+    <div class="continent-header">
+      <div class="continent-dot" style="background:var(--oc-border);"></div>
+      <h2 class="continent-name">Oceania</h2>
+      <span class="continent-count">5 guides</span>
+    </div>
+    <div class="card-grid">
+      <a class="dest-card oc" href="/guides/sydney.html">
+        <div class="card-top"><div class="city-name">Sydney</div></div>
+        <div class="country-name">Australia</div>
+        <div class="card-bottom"><span class="open-guide">Open guide</span><span class="pin-dot"></span></div>
+      </a>
+      <a class="dest-card oc" href="/guides/queenstown.html">
+        <div class="card-top"><div class="city-name">Queenstown</div></div>
+        <div class="country-name">New Zealand</div>
+        <div class="card-bottom"><span class="open-guide">Open guide</span><span class="pin-dot"></span></div>
+      </a>
+      <a class="dest-card oc been" href="/guides/bora-bora.html">
+        <div class="card-top"><div class="city-name">Bora Bora</div><div class="card-been-stamp">Been</div></div>
+        <div class="country-name">French Polynesia</div>
+        <div class="card-bottom"><span class="open-guide">Open guide</span><span class="pin-dot"></span></div>
+      </a>
+    </div>
+  </div>
+
+</div><!-- /main -->
+
+<!-- Floating mini-map (desktop only) -->
+<div class="floating-map">
+  <div class="floating-map-header">
+    <span class="floating-map-title">Map View</span>
+    <button class="floating-map-expand">Full map ↗</button>
+  </div>
+  <div class="mini-map-sim">
+    <div class="mc" style="width:28px;height:28px;font-size:9px;position:absolute;left:22%;top:32%;">14</div>
+    <div class="mc" style="width:24px;height:24px;font-size:8px;position:absolute;left:38%;top:28%;">8</div>
+    <div class="mc" style="width:22px;height:22px;font-size:8px;position:absolute;left:68%;top:30%;">11</div>
+    <div class="mc" style="width:18px;height:18px;font-size:8px;position:absolute;left:55%;top:55%;">4</div>
+    <div class="mc" style="width:16px;height:16px;font-size:8px;position:absolute;left:30%;top:60%;">3</div>
+    <div class="mc" style="width:14px;height:14px;font-size:7px;position:absolute;left:80%;top:65%;">2</div>
+  </div>
+  <div class="floating-map-footer">
+    <span style="font-size:11px;color:var(--muted);">246 pins · 14 visited</span>
+    <button class="map-open-btn">Open map</button>
+  </div>
+</div>
+
+<!-- Mobile: Visited pill (locked gold) -->
+<div class="visited-pill-mobile">
+  <div class="vdot"></div>
+  Visited
+</div>
+
+</body>
+</html>

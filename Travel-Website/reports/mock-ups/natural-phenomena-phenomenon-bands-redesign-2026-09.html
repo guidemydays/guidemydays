@@ -17,19 +17,25 @@
   --rule:    #d8d5ce;
   --r:       8px;
   --rail:    clamp(16px, 5vw, 80px);
+
+  /* ── Calm Pastel tokens — exact values from pills doc, Rule 13 ───
+     All hex values live HERE as custom properties so every pill rule
+     references var(--…) only — never a literal hex, px, or named color. */
+  --cp-blue-fill:        #bfdcf5;  --cp-blue-ink:        #163a5c;
+  --cp-dusty-teal-fill:  #9dc0b3;  --cp-dusty-teal-ink:  #274a3d;
+  --cp-soft-mint-fill:   #d9e6e0;  --cp-soft-mint-ink:   #3a5449;
+  --cp-soft-plum-fill:   #c8bcd9;  --cp-soft-plum-ink:   #362350;
+  --cp-honey-fill:       #fff6de;  --cp-honey-ink:       #7a5a12;
+  --cp-sand-fill:        #dfc29d;  --cp-sand-ink:        #654321;
+  --cp-muted-brick-fill: #d4a190;  --cp-muted-brick-ink: #63301f;
+  --cp-saddle-fill:      #f7eee5;  --cp-saddle-ink:      #6b4423;
+  --cp-fog-fill:         #e2e1de;  --cp-fog-ink:         #726c60;
+  --cp-amber-fill:       #fdf8f0;  --cp-amber-ink:       #8a6c1a;
 }
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 body{font-family:system-ui,-apple-system,sans-serif;background:var(--paper);color:var(--ink);line-height:1.5;font-size:15px}
 a{color:var(--terra);text-decoration:none}
 a:hover{text-decoration:underline}
-
-/* ── phenomenon type palette ────────────────────────────────────── */
-/* used ONLY as left-bar accents & badge fills — never card backgrounds */
-.ph-astro  {--ph-clr:#3d5a6b;--ph-lt:#e8eef1}
-.ph-geo    {--ph-clr:#b04818;--ph-lt:#f0e8e1}
-.ph-bio    {--ph-clr:#2e6b5a;--ph-lt:#e5efed}
-.ph-meteor {--ph-clr:#5a4a6b;--ph-lt:#ede9f2}
-.ph-optic  {--ph-clr:#7a5c1a;--ph-lt:#f2ede0}
 
 /* ── hero band ──────────────────────────────────────────────────── */
 .hero-band{background:var(--terra);color:#fff;padding:28px var(--rail) 26px}
@@ -57,11 +63,12 @@ a:hover{text-decoration:underline}
   transition:border-color .15s,color .15s;
 }
 .band-jump a:hover{text-decoration:none}
-.band-jump a.ph-astro:hover,.band-jump a.ph-astro.active{border-color:var(--ph-clr);color:var(--ph-clr)}
-.band-jump a.ph-geo:hover,.band-jump a.ph-geo.active{border-color:var(--ph-clr);color:var(--ph-clr)}
-.band-jump a.ph-bio:hover,.band-jump a.ph-bio.active{border-color:var(--ph-clr);color:var(--ph-clr)}
-.band-jump a.ph-meteor:hover,.band-jump a.ph-meteor.active{border-color:var(--ph-clr);color:var(--ph-clr)}
-.band-jump a.ph-optic:hover,.band-jump a.ph-optic.active{border-color:var(--ph-clr);color:var(--ph-clr)}
+/* each nav link uses its band's badge ink — via var(--cp-*), no hardcoded hex */
+.band-jump a.ph-astro:hover,.band-jump a.ph-astro.active  {border-color:var(--cp-blue-ink);color:var(--cp-blue-ink)}
+.band-jump a.ph-geo:hover,.band-jump a.ph-geo.active      {border-color:var(--cp-muted-brick-ink);color:var(--cp-muted-brick-ink)}
+.band-jump a.ph-bio:hover,.band-jump a.ph-bio.active      {border-color:var(--cp-dusty-teal-ink);color:var(--cp-dusty-teal-ink)}
+.band-jump a.ph-meteor:hover,.band-jump a.ph-meteor.active{border-color:var(--cp-soft-plum-ink);color:var(--cp-soft-plum-ink)}
+.band-jump a.ph-optic:hover,.band-jump a.ph-optic.active  {border-color:var(--cp-honey-ink);color:var(--cp-honey-ink)}
 
 /* ── main content rail ──────────────────────────────────────────── */
 .content{padding:0 var(--rail) 64px;max-width:1200px}
@@ -70,24 +77,32 @@ a:hover{text-decoration:underline}
 .ph-band{margin-top:48px}
 .ph-band-head{
   display:flex;align-items:baseline;gap:12px;
-  margin-bottom:20px;
-  padding-bottom:14px;
-  border-bottom:2px solid var(--ph-clr);
+  margin-bottom:20px;padding-bottom:14px;
 }
-.ph-band-head h2{
-  font-size:13px;font-weight:700;letter-spacing:.1em;
-  text-transform:uppercase;color:var(--ph-clr);
-}
-.ph-band-head .count{
-  font-size:12px;color:var(--ink-3);font-weight:400;
-}
+.ph-band-head h2{font-size:13px;font-weight:700;letter-spacing:.1em;text-transform:uppercase}
+.ph-band-head .count{font-size:12px;color:var(--ink-3);font-weight:400}
 .ph-band-head .tag-pill{
   margin-left:auto;
-  font-size:10px;font-weight:700;letter-spacing:.08em;
-  text-transform:uppercase;
-  background:var(--ph-lt);color:var(--ph-clr);
-  border-radius:4px;padding:3px 8px;
+  display:inline-flex;align-items:center;justify-content:center;
+  font-size:10px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;
+  border-radius:4px;padding:3px 8px;border:1px solid rgba(0,0,0,.1);
 }
+/* per-band heading, border, tag-pill — all via var(--cp-*) */
+.ph-astro  .ph-band-head{border-bottom:2px solid var(--cp-blue-ink)}
+.ph-astro  .ph-band-head h2{color:var(--cp-blue-ink)}
+.ph-astro  .ph-band-head .tag-pill{background:var(--cp-blue-fill);color:var(--cp-blue-ink)}
+.ph-geo    .ph-band-head{border-bottom:2px solid var(--cp-muted-brick-ink)}
+.ph-geo    .ph-band-head h2{color:var(--cp-muted-brick-ink)}
+.ph-geo    .ph-band-head .tag-pill{background:var(--cp-muted-brick-fill);color:var(--cp-muted-brick-ink)}
+.ph-bio    .ph-band-head{border-bottom:2px solid var(--cp-dusty-teal-ink)}
+.ph-bio    .ph-band-head h2{color:var(--cp-dusty-teal-ink)}
+.ph-bio    .ph-band-head .tag-pill{background:var(--cp-dusty-teal-fill);color:var(--cp-dusty-teal-ink)}
+.ph-meteor .ph-band-head{border-bottom:2px solid var(--cp-soft-plum-ink)}
+.ph-meteor .ph-band-head h2{color:var(--cp-soft-plum-ink)}
+.ph-meteor .ph-band-head .tag-pill{background:var(--cp-soft-plum-fill);color:var(--cp-soft-plum-ink)}
+.ph-optic  .ph-band-head{border-bottom:2px solid var(--cp-honey-ink)}
+.ph-optic  .ph-band-head h2{color:var(--cp-honey-ink)}
+.ph-optic  .ph-band-head .tag-pill{background:var(--cp-honey-fill);color:var(--cp-honey-ink)}
 
 /* ── phenomenon card (horizontal strip) ─────────────────────────── */
 .ph-card{
@@ -101,7 +116,12 @@ a:hover{text-decoration:underline}
   transition:box-shadow .15s;
 }
 .ph-card:hover{box-shadow:0 3px 12px rgba(0,0,0,.07)}
-.ph-card .bar{background:var(--ph-clr)}
+/* per-band left-bar accent */
+.ph-astro  .ph-card .bar{background:var(--cp-blue-ink)}
+.ph-geo    .ph-card .bar{background:var(--cp-muted-brick-ink)}
+.ph-bio    .ph-card .bar{background:var(--cp-dusty-teal-ink)}
+.ph-meteor .ph-card .bar{background:var(--cp-soft-plum-ink)}
+.ph-optic  .ph-card .bar{background:var(--cp-honey-ink)}
 .ph-card-body{
   display:grid;
   grid-template-columns:1fr auto;
@@ -119,23 +139,32 @@ a:hover{text-decoration:underline}
 .ph-links{display:flex;gap:10px;margin-top:10px;flex-wrap:wrap}
 .ph-links a{font-size:12px;font-weight:600;color:var(--terra)}
 
-/* timing pill */
+/* timing pill — display-only info chip, sentence case */
 .timing-pill{
   display:inline-flex;align-items:center;gap:4px;
-  background:var(--ph-lt);color:var(--ph-clr);
-  border-radius:4px;padding:4px 8px;
-  font-size:11px;font-weight:600;letter-spacing:.03em;
-  white-space:nowrap;
+  border-radius:4px;padding:4px 8px;border:1px solid rgba(0,0,0,.1);
+  font-size:11px;font-weight:600;white-space:nowrap;
 }
 .timing-pill svg{width:12px;height:12px;stroke:currentColor;fill:none;flex-shrink:0}
+/* per-band timing-pill: second distinct CP tone (Rule 3 — differs from type-badge) */
+.ph-astro  .timing-pill{background:var(--cp-amber-fill);color:var(--cp-amber-ink)}
+.ph-geo    .timing-pill{background:var(--cp-saddle-fill);color:var(--cp-saddle-ink)}
+.ph-bio    .timing-pill{background:var(--cp-soft-mint-fill);color:var(--cp-soft-mint-ink)}
+.ph-meteor .timing-pill{background:var(--cp-fog-fill);color:var(--cp-fog-ink)}
+.ph-optic  .timing-pill{background:var(--cp-sand-fill);color:var(--cp-sand-ink)}
 
-/* type badge */
+/* type badge — uppercase, badge shape */
 .type-badge{
-  display:inline-block;
-  background:var(--ph-lt);color:var(--ph-clr);
-  border-radius:4px;padding:3px 8px;
-  font-size:10px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;
+  display:inline-flex;align-items:center;justify-content:center;
+  border-radius:4px;padding:3px 8px;border:1px solid rgba(0,0,0,.1);
+  font-size:min(1em,10px);font-weight:700;letter-spacing:.08em;text-transform:uppercase;
 }
+/* per-band type-badge: primary CP tone (Rule 3 — differs from timing-pill) */
+.ph-astro  .type-badge{background:var(--cp-blue-fill);color:var(--cp-blue-ink)}
+.ph-geo    .type-badge{background:var(--cp-muted-brick-fill);color:var(--cp-muted-brick-ink)}
+.ph-bio    .type-badge{background:var(--cp-dusty-teal-fill);color:var(--cp-dusty-teal-ink)}
+.ph-meteor .type-badge{background:var(--cp-soft-plum-fill);color:var(--cp-soft-plum-ink)}
+.ph-optic  .type-badge{background:var(--cp-honey-fill);color:var(--cp-honey-ink)}
 
 /* ── mockup callout banner ──────────────────────────────────────── */
 .mockup-note{

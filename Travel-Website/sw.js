@@ -2870,6 +2870,7 @@
    MIN_VERSIONS['web-travel-style.css'] to 231, CACHE to v1767. */
 /* 2026-09-01: essentials/packing pill audit: Save for Offline button now carries the shared pill classes toolbar.js -> v1118. CACHE to v1770. */
 /* 2026-09-01: chevron-link-pill background now references the shared cream token toolbar.js -> v1119. CACHE to v1771. */
+/* 2026-09-01: chevron-link-pill background reverted to white var(--surface) — check_no_beige_pill_button blocks cream wash on pill/button elements. MIN_VERSIONS['web-travel-style.css'] to 235, CACHE to v1772. */
 var CACHE = 'travel-cache-v1772';
 /* 2026-08-27: airlines.css's .card-tags align-items fix changed a shared
    asset without raising its own floor -- MIN_VERSIONS['airlines.css'] to

@@ -5,23 +5,59 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Car Rental Redesign — Coverage Atlas Concept</title>
 <style>
-/* ── Site design tokens (inline, standalone mockup) ── */
+/* ──────────────────────────────────────────────────────────────
+   CSS DESIGN TOKENS — all colors, spacing, borders via vars.
+   No hardcoded hex ever on a pill, badge, or interactive element.
+   Approved values come from:
+     selection-pills-badges-pills-to-badge-dots.html (pills/badges)
+     TVESearch.html (search bar — not used on this page)
+   ────────────────────────────────────────────────────────────── */
 :root {
+  /* ── Site base tokens ── */
   --bg: #f5f4f0; --surface: #ffffff; --text: #1a1917; --muted: #6a6660;
   --border2: #e6e2da; --warm: #fdf8f0; --rust: #C04E1A;
   --rail: clamp(16px,4vw,48px);
-  --banner-gradient: linear-gradient(90deg,#c04e1a,#e07a44,#b5892a,#d4ac4a);
+
+  /* ── Selection-pill — Amber tone (region nav tabs)
+         Exact values from pills doc :root block ── */
+  --sp-amber-ink: #8a6c1a; --sp-amber-rgb: 138,108,26; --sp-amber-wash: #fbf3df;
+
+  /* ── Selection-pill — Cream tone (count badge rest) ── */
+  --sp-cream-ink: #6b5b3e; --sp-cream-rgb: 107,91,62; --sp-cream-wash: #f4f0e5;
+
+  /* ── Calm Pastel badge fills — approved from pills doc ──
+         Used for tier labels (.mock-badge via --bf / --bi vars) */
+  --cp-soft-mint-f: #d9e6e0; --cp-soft-mint-i: #3a5449;   /* Global      */
+  --cp-soft-plum-f: #c8bcd9; --cp-soft-plum-i: #362350;   /* Premium/EU  */
+  --cp-blue-f:      #bfdcf5; --cp-blue-i:      #163a5c;   /* European    */
+  --cp-honey-f:     #fff6de; --cp-honey-i:     #7a5a12;   /* Value       */
+  --cp-dusty-rose-f:#d6b0bd; --cp-dusty-rose-i:#5c3242;   /* P2P         */
+  --cp-fog-f:       #e2e1de; --cp-fog-i:       #726c60;   /* Neutral     */
+  --cp-saddle-f:    #f7eee5; --cp-saddle-i:    #6b4423;   /* Action btns */
+
+  /* ── Card stripe accent colors (decorative, not pill) ── */
+  --stripe-worldwide: #1a5a40;
+  --stripe-europe:    #2a2a8a;
+  --stripe-value:     #3a7a30;
+
+  /* ── Button hover (primary CTA — terracotta darkened) ── */
+  --rust-btn-filter: brightness(0.87);
 }
 @media (prefers-color-scheme: dark) { :root {
   --bg:#1a1917; --surface:#26231f; --text:#f0ede8; --muted:#9a958f;
   --border2:#3a3630; --warm:#1f1d19;
+  --sp-amber-ink:#c8a040; --sp-amber-wash:#2c2410;
+  --cp-fog-f:#2e2c28; --cp-fog-i:#9a9690;
+  --cp-saddle-f:#2a2218; --cp-saddle-i:#c8a878;
 }}
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-body { background: var(--bg); color: var(--text); font-family: -apple-system,BlinkMacSystemFont,'Segoe UI',system-ui,sans-serif; font-size: 14px; line-height: 1.5; }
+body { background: var(--bg); color: var(--text);
+  font-family: -apple-system,BlinkMacSystemFont,'Segoe UI',system-ui,sans-serif;
+  font-size: 14px; line-height: 1.5; }
 a { color: inherit; text-decoration: none; }
 svg { display: block; }
 
-/* ── Hero band (live markup, unchanged) ── */
+/* ── Hero band (live markup — unchanged) ── */
 .eb-hero {
   background: linear-gradient(160deg,#f0ede8 0%,#ede8e0 60%,#e8e0d4 100%);
   border-bottom: 1px solid var(--border2);
@@ -29,8 +65,10 @@ svg { display: block; }
   display: flex; align-items: center; gap: 24px; flex-wrap: wrap;
 }
 .eb-copy { flex: 1 1 320px; }
-.eb-kicker { display: block; font-size: 11px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted); margin-bottom: 8px; }
-.eb-title { font-size: clamp(22px,3vw,30px); font-weight: 800; color: var(--text); line-height: 1.18; margin-bottom: 12px; }
+.eb-kicker { display: block; font-size: 11px; font-weight: 700; letter-spacing: 0.12em;
+  text-transform: uppercase; color: var(--muted); margin-bottom: 8px; }
+.eb-title { font-size: clamp(22px,3vw,30px); font-weight: 800; color: var(--text);
+  line-height: 1.18; margin-bottom: 12px; }
 .eb-title em { color: var(--rust); font-style: normal; }
 .eb-intro { font-size: 13px; color: var(--muted); line-height: 1.6; max-width: 600px; }
 .eb-graphic { width: 64px; height: 64px; flex-shrink: 0; }
@@ -39,53 +77,87 @@ svg { display: block; }
 .wrap { max-width: 1100px; margin: 0 auto; padding: 0 var(--rail); }
 
 /* ══════════════════════════════════════════════════════════════
-   REDESIGN — everything below the hero band
-   ═══════════════════════════════════════════════════════════ */
+   REDESIGN — everything below the hero
+   ══════════════════════════════════════════════════════════════
 
-/* ── Region selector strip ── */
+   PILLS / BADGES:
+   - Region tabs: .selection-pill + sp-amber token family
+     Hover = hov-darken (approved variant 1)
+     Active/selected = background blend (Rule 12 in pills doc)
+   - Tier badges: .mock-badge using --bf / --bi token vars
+     pointing to approved Calm Pastel fills
+     No hover (non-clickable labels)
+   - All values: CSS vars only. Zero hardcoded hex on any
+     pill, badge, or interactive element.
+   ══════════════════════════════════════════════════════════ */
+
+/* ── Region selector tabs (Selection Pill — Amber / hov-darken) ── */
 .atlas-nav {
   display: flex; gap: 10px; flex-wrap: wrap;
-  padding: 20px 0 18px;
-  border-bottom: 1px solid var(--border2);
+  padding: 20px 0 18px; border-bottom: 1px solid var(--border2);
 }
 .atlas-tab {
-  display: flex; align-items: center; gap: 8px;
-  padding: 9px 16px; border-radius: 12px;
-  background: var(--surface); border: 1.5px solid var(--border2);
-  cursor: pointer; transition: border-color .15s, background .15s, transform .12s;
-  font-size: 12.5px; font-weight: 600; color: var(--muted);
-  font-family: inherit;
+  /* Selection pill shape: 999px, amber tone */
+  display: inline-flex; align-items: center; justify-content: center;
+  gap: 8px; border-radius: 999px; cursor: pointer; font-family: inherit;
+  font-weight: 800; font-size: 13px; line-height: 1.2; padding: 8px 16px;
+  background: var(--sp-amber-wash);
+  color: var(--sp-amber-ink);
+  border: 1px solid rgba(var(--sp-amber-rgb),.45);
+  /* transition per pills doc */
+  transition: filter .15s ease, box-shadow .15s ease, transform .15s ease, border-color .15s ease;
 }
-.atlas-tab:hover { background: var(--warm); border-color: var(--rust); color: var(--rust); transform: translateY(-1px); }
-.atlas-tab.active { border-color: var(--rust); background: #fdf3ee; color: var(--rust); }
+/* hov-darken (approved hover variant 1 from pills doc) */
+.atlas-tab:hover {
+  background: color-mix(in srgb, var(--sp-amber-wash) 75%, var(--sp-amber-ink) 25%);
+}
+/* Active/selected: background blend per pills doc Rule 12 */
+.atlas-tab.active {
+  background: color-mix(in srgb, var(--sp-amber-wash) 58%, var(--sp-amber-ink) 42%);
+  color: var(--sp-amber-ink);
+  border-color: rgba(0,0,0,.1);
+}
+/* Count badge inside the tab — uses cream tone, same family direction */
 .atlas-tab-count {
   display: inline-flex; align-items: center; justify-content: center;
-  width: 18px; height: 18px; border-radius: 50%; font-size: 10px; font-weight: 800;
-  background: var(--border2); color: var(--muted);
+  width: 18px; height: 18px; border-radius: 50%;
+  font-size: 10px; font-weight: 800;
+  background: var(--sp-cream-wash);
+  color: var(--sp-cream-ink);
+  border: 1px solid rgba(var(--sp-cream-rgb),.35);
 }
-.atlas-tab.active .atlas-tab-count { background: var(--rust); color: #fff; }
+.atlas-tab.active .atlas-tab-count {
+  background: color-mix(in srgb, var(--sp-amber-wash) 30%, var(--sp-amber-ink) 70%);
+  color: var(--surface);
+  border-color: transparent;
+}
 
 /* ── Mini globe SVG per card ── */
 .globe-wrap { width: 48px; height: 48px; flex-shrink: 0; margin-top: 6px; }
 
-/* ── Network tier badges (mockup-local, concept only) ── */
-.tier-badge {
-  display: inline-block; font-size: 9px; font-weight: 800;
-  text-transform: uppercase; letter-spacing: 0.08em;
-  padding: 2px 8px; border-radius: 4px; white-space: nowrap; flex-shrink: 0;
+/* ── Tier badge (.mock-badge)
+       Uses --bf (fill) and --bi (ink) set per element via style attr.
+       Values on those vars are CSS var() refs, never hex literals.
+       .badge spec from pills doc: uppercase, 4px radius, no hover needed ── */
+.mock-badge {
+  display: inline-block;
+  font-size: min(1em,12px); padding: 3px 8px; border-radius: 4px;
+  font-weight: 700; letter-spacing: .04em; text-transform: uppercase;
+  white-space: nowrap; flex-shrink: 0; line-height: 1;
+  background: var(--bf);
+  color: var(--bi);
+  border: 1px solid rgba(0,0,0,.1);
 }
-.tier-global   { background: #e0ede8; color: #1a5a40; border: 1px solid #b0d4c4; }
-.tier-europe   { background: #e8e8f4; color: #2a2a8a; border: 1px solid #b0b0d8; }
-.tier-regional { background: #f0eadc; color: #7a4a10; border: 1px solid #d4b880; }
-.tier-value    { background: #e4f0e8; color: #1a6a2a; border: 1px solid #90c490; }
-.tier-p2p      { background: #f0e8f4; color: #6a2a8a; border: 1px solid #c490d4; }
 
 /* ── Coverage bars ── */
 .rating-grid { display: flex; flex-direction: column; gap: 5px; margin-top: 10px; }
 .rating-row { display: flex; align-items: center; gap: 8px; }
-.rating-label { font-size: 10px; text-transform: uppercase; letter-spacing: 0.08em; color: var(--muted); width: 65px; flex-shrink: 0; }
+.rating-label { font-size: 10px; text-transform: uppercase; letter-spacing: 0.08em;
+  color: var(--muted); width: 65px; flex-shrink: 0; }
 .rating-track { flex: 1; height: 5px; border-radius: 3px; background: var(--border2); overflow: hidden; }
-.rating-fill { height: 100%; border-radius: 3px; background: linear-gradient(90deg,#c04e1a,#e07a44); }
+/* Bar fill uses site rust + warm amber — both CSS vars */
+.rating-fill { height: 100%; border-radius: 3px;
+  background: linear-gradient(90deg, var(--rust), color-mix(in srgb, var(--rust) 55%, var(--warm))); }
 
 /* ── Company card ── */
 .atlas-grid {
@@ -95,15 +167,15 @@ svg { display: block; }
 }
 .company-card {
   background: var(--surface); border: 1.5px solid var(--border2);
-  border-radius: 16px; overflow: hidden;
-  display: flex; flex-direction: column;
+  border-radius: 16px; overflow: hidden; display: flex; flex-direction: column;
   transition: box-shadow .2s, transform .2s;
 }
 .company-card:hover {
   box-shadow: 0 10px 28px -10px rgba(20,15,5,.18);
   transform: translateY(-3px);
 }
-.card-stripe { height: 4px; background: var(--stripe-col,var(--border2)); }
+/* Stripe uses CSS var, set via style="--stripe-col: var(--stripe-worldwide)" */
+.card-stripe { height: 4px; background: var(--stripe-col, var(--border2)); }
 .card-top {
   display: flex; align-items: flex-start; justify-content: space-between;
   gap: 10px; padding: 14px 16px 10px;
@@ -128,20 +200,24 @@ svg { display: block; }
   border-radius: 8px; margin-bottom: 4px;
   border-left: 3px solid var(--rust);
 }
-.card-actions {
-  display: flex; gap: 8px; padding: 0 16px 14px;
-}
+/* ── Card action buttons
+       Not pills — these are CTA / utility buttons.
+       Colors: CSS vars only (var(--cp-*), var(--rust), filter for hover darkening) ── */
+.card-actions { display: flex; gap: 8px; padding: 0 16px 14px; }
 .card-btn {
   display: inline-flex; align-items: center;
-  font-size: 11px; font-weight: 600; color: var(--muted);
-  background: var(--warm); border: 1px solid var(--border2);
+  font-size: 11px; font-weight: 600; font-family: inherit; cursor: pointer;
   border-radius: 8px; padding: 5px 12px;
-  transition: color .12s, background .12s;
-  font-family: inherit; cursor: pointer;
+  background: var(--cp-fog-f); color: var(--cp-fog-i);
+  border: 1px solid var(--border2);
+  transition: filter .12s;
 }
-.card-btn:hover { color: var(--rust); background: #fdf3ee; border-color: var(--rust); }
-.card-btn.primary { background: var(--rust); color: #fff; border-color: var(--rust); }
-.card-btn.primary:hover { background: #a0401a; }
+.card-btn:hover { filter: brightness(0.95); }
+.card-btn.primary {
+  background: var(--rust); color: var(--surface);
+  border-color: var(--rust);
+}
+.card-btn.primary:hover { filter: var(--rust-btn-filter); }
 
 /* ── Info panel ── */
 .info-panel {
@@ -158,7 +234,8 @@ svg { display: block; }
 .cost-item { display: flex; align-items: flex-start; gap: 10px; }
 .cost-num {
   flex-shrink: 0; width: 22px; height: 22px; border-radius: 50%;
-  background: var(--rust); color: #fff; font-size: 11px; font-weight: 800;
+  background: var(--rust); color: var(--surface);
+  font-size: 11px; font-weight: 800;
   display: flex; align-items: center; justify-content: center; margin-top: 2px;
 }
 .cost-body { font-size: 12.5px; line-height: 1.55; color: var(--text); }
@@ -170,6 +247,17 @@ svg { display: block; }
   border: 1px solid var(--border2); border-radius: 10px; margin: 4px 0 16px;
 }
 
+/* ── Sibling pill — uses .card-btn style (not a selection pill, just a nav link) ── */
+.sibling-row { margin: 12px 0 4px; display: flex; gap: 8px; flex-wrap: wrap; }
+.sibling-btn {
+  display: inline-flex; align-items: center;
+  font-size: 11px; font-weight: 600; font-family: inherit; cursor: pointer;
+  background: var(--cp-saddle-f); color: var(--cp-saddle-i);
+  border: 1px solid rgba(0,0,0,.1); border-radius: 8px; padding: 5px 12px;
+  transition: filter .12s;
+}
+.sibling-btn:hover { filter: brightness(0.95); }
+
 /* ── Cross-link note ── */
 .atlas-note {
   font-size: 13px; color: var(--muted); line-height: 1.6;
@@ -177,17 +265,6 @@ svg { display: block; }
   border: 1px solid var(--border2); border-radius: 10px; margin-top: 20px;
 }
 .atlas-note a { color: var(--rust); text-decoration: underline; }
-
-/* ── Sibling pill area ── */
-.sibling-row { margin: 12px 0 4px; display: flex; gap: 8px; flex-wrap: wrap; }
-.sibling-btn {
-  display: inline-flex; align-items: center;
-  font-size: 11px; font-weight: 600; color: var(--muted);
-  background: var(--warm); border: 1px solid var(--border2);
-  border-radius: 8px; padding: 5px 12px;
-  font-family: inherit; cursor: pointer; transition: color .12s, background .12s;
-}
-.sibling-btn:hover { color: var(--rust); background: #fdf3ee; border-color: var(--rust); }
 
 /* ── Mobile ── */
 @media (max-width: 600px) {
@@ -234,7 +311,7 @@ svg { display: block; }
      REDESIGN — everything below the hero is new in this concept
      ══════════════════════════════════════════════════════════ -->
 
-  <!-- Region selector — replaces jump nav -->
+  <!-- Region selector — .selection-pill shape, sp-amber tone, hov-darken -->
   <nav class="atlas-nav" aria-label="Jump to region">
     <button class="atlas-tab active">All regions <span class="atlas-tab-count">23</span></button>
     <button class="atlas-tab">🌐 Worldwide <span class="atlas-tab-count">4</span></button>
@@ -251,7 +328,7 @@ svg { display: block; }
     <a class="sibling-btn" href="/essentials/idp-guide/">International driving permit guide</a>
   </div>
 
-  <!-- "Two things" info panel — same content, new horizontal layout -->
+  <!-- "Two things" info panel -->
   <div class="info-panel">
     <div class="info-panel-head">Two things that decide the real cost more than the headline rate</div>
     <div class="cost-grid">
@@ -270,8 +347,9 @@ svg { display: block; }
   <div class="region-intro"><strong>Worldwide networks</strong> — the four that price and operate on every continent. On an unfamiliar route these are the ones with a desk where you expect one and a car waiting when the flight lands at midnight.</div>
   <div class="atlas-grid">
 
-    <!-- Hertz -->
-    <article class="company-card" style="--stripe-col:#1a5a40">
+    <!-- Hertz
+         Tier badge: Calm Pastel Soft Mint (Global → "spreads globally") -->
+    <article class="company-card" style="--stripe-col: var(--stripe-worldwide)">
       <div class="card-stripe"></div>
       <div class="card-top">
         <div class="card-identity">
@@ -282,20 +360,19 @@ svg { display: block; }
           </div>
         </div>
         <div>
-          <span class="tier-badge tier-global">Global</span>
-          <!-- mini globe: all zones terracotta = worldwide coverage -->
+          <!-- .mock-badge uses --bf / --bi → approved Calm Pastel vars, no hex inline -->
+          <span class="mock-badge" style="--bf:var(--cp-soft-mint-f); --bi:var(--cp-soft-mint-i)">Global</span>
           <div class="globe-wrap" aria-hidden="true">
-            <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <circle cx="24" cy="24" r="22" fill="#ede8e0"/>
-              <path d="M6 15 L16 13 L18 20 L12 26 L6 22Z" fill="#C04E1A" opacity=".75"/>
-              <path d="M12 28 L20 26 L22 36 L16 40 L10 36Z" fill="#C04E1A" opacity=".7"/>
-              <path d="M20 11 L28 10 L30 17 L24 19 L20 16Z" fill="#C04E1A" opacity=".75"/>
-              <path d="M22 21 L30 19 L32 31 L26 35 L20 31Z" fill="#C04E1A" opacity=".7"/>
-              <path d="M30 9 L42 11 L44 22 L34 24 L28 19Z" fill="#C04E1A" opacity=".75"/>
-              <path d="M36 30 L44 28 L44 36 L38 38 L34 34Z" fill="#C04E1A" opacity=".65"/>
-              <circle cx="24" cy="24" r="22" stroke="rgba(0,0,0,.07)" stroke-width="0.5" fill="none"/>
-              <ellipse cx="24" cy="24" rx="9" ry="22" stroke="rgba(0,0,0,.05)" stroke-width="0.4" fill="none"/>
-              <line x1="2" y1="24" x2="46" y2="24" stroke="rgba(0,0,0,.05)" stroke-width="0.4"/>
+            <svg viewBox="0 0 48 48" fill="none">
+              <circle cx="24" cy="24" r="22" fill="var(--border2)"/>
+              <circle cx="24" cy="24" r="22" stroke="var(--muted)" stroke-width="0.5" stroke-opacity="0.2" fill="none"/>
+              <ellipse cx="24" cy="24" rx="10" ry="22" stroke="var(--muted)" stroke-width="0.5" stroke-opacity="0.2" fill="none"/>
+              <line x1="2" y1="24" x2="46" y2="24" stroke="var(--muted)" stroke-width="0.5" stroke-opacity="0.25"/>
+              <circle cx="11" cy="17" r="4" fill="var(--rust)" opacity=".75"/>
+              <circle cx="15" cy="32" r="3" fill="var(--rust)" opacity=".7"/>
+              <circle cx="24" cy="19" r="3.5" fill="var(--rust)" opacity=".75"/>
+              <circle cx="36" cy="18" r="4.5" fill="var(--rust)" opacity=".75"/>
+              <circle cx="38" cy="33" r="3" fill="var(--rust)" opacity=".65"/>
             </svg>
           </div>
         </div>
@@ -315,8 +392,9 @@ svg { display: block; }
       </div>
     </article>
 
-    <!-- Enterprise -->
-    <article class="company-card" style="--stripe-col:#1a5a40">
+    <!-- Enterprise
+         Tier badge: Calm Pastel Soft Mint (Global) — different card, same tier = same badge OK (not same group) -->
+    <article class="company-card" style="--stripe-col: var(--stripe-worldwide)">
       <div class="card-stripe"></div>
       <div class="card-top">
         <div class="card-identity">
@@ -327,19 +405,18 @@ svg { display: block; }
           </div>
         </div>
         <div>
-          <span class="tier-badge tier-global">Global</span>
+          <span class="mock-badge" style="--bf:var(--cp-soft-mint-f); --bi:var(--cp-soft-mint-i)">Global</span>
           <div class="globe-wrap" aria-hidden="true">
             <svg viewBox="0 0 48 48" fill="none">
-              <circle cx="24" cy="24" r="22" fill="#ede8e0"/>
-              <path d="M6 15 L16 13 L18 20 L12 26 L6 22Z" fill="#C04E1A" opacity=".75"/>
-              <path d="M12 28 L20 26 L22 36 L16 40 L10 36Z" fill="#C04E1A" opacity=".7"/>
-              <path d="M20 11 L28 10 L30 17 L24 19 L20 16Z" fill="#C04E1A" opacity=".75"/>
-              <path d="M22 21 L30 19 L32 31 L26 35 L20 31Z" fill="#C04E1A" opacity=".7"/>
-              <path d="M30 9 L42 11 L44 22 L34 24 L28 19Z" fill="#C04E1A" opacity=".75"/>
-              <path d="M36 30 L44 28 L44 36 L38 38 L34 34Z" fill="#C04E1A" opacity=".65"/>
-              <circle cx="24" cy="24" r="22" stroke="rgba(0,0,0,.07)" stroke-width="0.5" fill="none"/>
-              <ellipse cx="24" cy="24" rx="9" ry="22" stroke="rgba(0,0,0,.05)" stroke-width="0.4" fill="none"/>
-              <line x1="2" y1="24" x2="46" y2="24" stroke="rgba(0,0,0,.05)" stroke-width="0.4"/>
+              <circle cx="24" cy="24" r="22" fill="var(--border2)"/>
+              <circle cx="24" cy="24" r="22" stroke="var(--muted)" stroke-width="0.5" stroke-opacity="0.2" fill="none"/>
+              <ellipse cx="24" cy="24" rx="10" ry="22" stroke="var(--muted)" stroke-width="0.5" stroke-opacity="0.2" fill="none"/>
+              <line x1="2" y1="24" x2="46" y2="24" stroke="var(--muted)" stroke-width="0.5" stroke-opacity="0.25"/>
+              <circle cx="11" cy="17" r="4" fill="var(--rust)" opacity=".75"/>
+              <circle cx="15" cy="32" r="3" fill="var(--rust)" opacity=".7"/>
+              <circle cx="24" cy="19" r="3.5" fill="var(--rust)" opacity=".75"/>
+              <circle cx="36" cy="18" r="4.5" fill="var(--rust)" opacity=".75"/>
+              <circle cx="38" cy="33" r="3" fill="var(--rust)" opacity=".65"/>
             </svg>
           </div>
         </div>
@@ -360,7 +437,7 @@ svg { display: block; }
     </article>
 
     <!-- Avis -->
-    <article class="company-card" style="--stripe-col:#1a5a40">
+    <article class="company-card" style="--stripe-col: var(--stripe-worldwide)">
       <div class="card-stripe"></div>
       <div class="card-top">
         <div class="card-identity">
@@ -371,19 +448,18 @@ svg { display: block; }
           </div>
         </div>
         <div>
-          <span class="tier-badge tier-global">Global</span>
+          <span class="mock-badge" style="--bf:var(--cp-soft-mint-f); --bi:var(--cp-soft-mint-i)">Global</span>
           <div class="globe-wrap" aria-hidden="true">
             <svg viewBox="0 0 48 48" fill="none">
-              <circle cx="24" cy="24" r="22" fill="#ede8e0"/>
-              <path d="M6 15 L16 13 L18 20 L12 26 L6 22Z" fill="#C04E1A" opacity=".75"/>
-              <path d="M12 28 L20 26 L22 36 L16 40 L10 36Z" fill="#C04E1A" opacity=".7"/>
-              <path d="M20 11 L28 10 L30 17 L24 19 L20 16Z" fill="#C04E1A" opacity=".75"/>
-              <path d="M22 21 L30 19 L32 31 L26 35 L20 31Z" fill="#C04E1A" opacity=".7"/>
-              <path d="M30 9 L42 11 L44 22 L34 24 L28 19Z" fill="#C04E1A" opacity=".75"/>
-              <path d="M36 30 L44 28 L44 36 L38 38 L34 34Z" fill="#C04E1A" opacity=".65"/>
-              <circle cx="24" cy="24" r="22" stroke="rgba(0,0,0,.07)" stroke-width="0.5" fill="none"/>
-              <ellipse cx="24" cy="24" rx="9" ry="22" stroke="rgba(0,0,0,.05)" stroke-width="0.4" fill="none"/>
-              <line x1="2" y1="24" x2="46" y2="24" stroke="rgba(0,0,0,.05)" stroke-width="0.4"/>
+              <circle cx="24" cy="24" r="22" fill="var(--border2)"/>
+              <circle cx="24" cy="24" r="22" stroke="var(--muted)" stroke-width="0.5" stroke-opacity="0.2" fill="none"/>
+              <ellipse cx="24" cy="24" rx="10" ry="22" stroke="var(--muted)" stroke-width="0.5" stroke-opacity="0.2" fill="none"/>
+              <line x1="2" y1="24" x2="46" y2="24" stroke="var(--muted)" stroke-width="0.5" stroke-opacity="0.25"/>
+              <circle cx="11" cy="17" r="4" fill="var(--rust)" opacity=".75"/>
+              <circle cx="15" cy="32" r="3" fill="var(--rust)" opacity=".7"/>
+              <circle cx="24" cy="19" r="3.5" fill="var(--rust)" opacity=".75"/>
+              <circle cx="36" cy="18" r="4.5" fill="var(--rust)" opacity=".75"/>
+              <circle cx="38" cy="33" r="3" fill="var(--rust)" opacity=".65"/>
             </svg>
           </div>
         </div>
@@ -403,8 +479,8 @@ svg { display: block; }
       </div>
     </article>
 
-    <!-- Budget -->
-    <article class="company-card" style="--stripe-col:#3a7a30">
+    <!-- Budget — Value tier: Calm Pastel Honey -->
+    <article class="company-card" style="--stripe-col: var(--stripe-value)">
       <div class="card-stripe"></div>
       <div class="card-top">
         <div class="card-identity">
@@ -415,19 +491,18 @@ svg { display: block; }
           </div>
         </div>
         <div>
-          <span class="tier-badge tier-value">Value</span>
+          <span class="mock-badge" style="--bf:var(--cp-honey-f); --bi:var(--cp-honey-i)">Value</span>
           <div class="globe-wrap" aria-hidden="true">
             <svg viewBox="0 0 48 48" fill="none">
-              <circle cx="24" cy="24" r="22" fill="#ede8e0"/>
-              <path d="M6 15 L16 13 L18 20 L12 26 L6 22Z" fill="#C04E1A" opacity=".75"/>
-              <path d="M12 28 L20 26 L22 36 L16 40 L10 36Z" fill="#C04E1A" opacity=".7"/>
-              <path d="M20 11 L28 10 L30 17 L24 19 L20 16Z" fill="#C04E1A" opacity=".75"/>
-              <path d="M22 21 L30 19 L32 31 L26 35 L20 31Z" fill="#C04E1A" opacity=".7"/>
-              <path d="M30 9 L42 11 L44 22 L34 24 L28 19Z" fill="#C04E1A" opacity=".75"/>
-              <path d="M36 30 L44 28 L44 36 L38 38 L34 34Z" fill="#C04E1A" opacity=".65"/>
-              <circle cx="24" cy="24" r="22" stroke="rgba(0,0,0,.07)" stroke-width="0.5" fill="none"/>
-              <ellipse cx="24" cy="24" rx="9" ry="22" stroke="rgba(0,0,0,.05)" stroke-width="0.4" fill="none"/>
-              <line x1="2" y1="24" x2="46" y2="24" stroke="rgba(0,0,0,.05)" stroke-width="0.4"/>
+              <circle cx="24" cy="24" r="22" fill="var(--border2)"/>
+              <circle cx="24" cy="24" r="22" stroke="var(--muted)" stroke-width="0.5" stroke-opacity="0.2" fill="none"/>
+              <ellipse cx="24" cy="24" rx="10" ry="22" stroke="var(--muted)" stroke-width="0.5" stroke-opacity="0.2" fill="none"/>
+              <line x1="2" y1="24" x2="46" y2="24" stroke="var(--muted)" stroke-width="0.5" stroke-opacity="0.25"/>
+              <circle cx="11" cy="17" r="4" fill="var(--rust)" opacity=".75"/>
+              <circle cx="15" cy="32" r="3" fill="var(--rust)" opacity=".7"/>
+              <circle cx="24" cy="19" r="3.5" fill="var(--rust)" opacity=".75"/>
+              <circle cx="36" cy="18" r="4.5" fill="var(--rust)" opacity=".75"/>
+              <circle cx="38" cy="33" r="3" fill="var(--rust)" opacity=".65"/>
             </svg>
           </div>
         </div>
@@ -447,14 +522,14 @@ svg { display: block; }
       </div>
     </article>
 
-  </div><!-- /atlas-grid worldwide -->
+  </div><!-- /worldwide grid -->
 
-  <!-- ── EUROPE (abbreviated — concept shows shape, not full fleet) ── -->
+  <!-- ── EUROPE ── -->
   <div class="region-intro"><strong>Europe</strong> — manual is the default almost everywhere; book automatic explicitly. Cross-border travel needs declaring; several eastern and Balkan countries are excluded from standard terms.</div>
   <div class="atlas-grid">
 
-    <!-- Sixt -->
-    <article class="company-card" style="--stripe-col:#2a2a8a">
+    <!-- Sixt — Premium: Calm Pastel Soft Plum -->
+    <article class="company-card" style="--stripe-col: var(--stripe-europe)">
       <div class="card-stripe"></div>
       <div class="card-top">
         <div class="card-identity">
@@ -465,20 +540,19 @@ svg { display: block; }
           </div>
         </div>
         <div>
-          <span class="tier-badge tier-europe">Premium</span>
-          <!-- Europe highlighted, rest dim -->
+          <span class="mock-badge" style="--bf:var(--cp-soft-plum-f); --bi:var(--cp-soft-plum-i)">Premium</span>
+          <!-- Europe zone highlighted, rest dimmed -->
           <div class="globe-wrap" aria-hidden="true">
             <svg viewBox="0 0 48 48" fill="none">
-              <circle cx="24" cy="24" r="22" fill="#ede8e0"/>
-              <path d="M6 15 L16 13 L18 20 L12 26 L6 22Z" fill="#d4cec6" opacity=".6"/>
-              <path d="M12 28 L20 26 L22 36 L16 40 L10 36Z" fill="#d4cec6" opacity=".5"/>
-              <path d="M20 11 L28 10 L30 17 L24 19 L20 16Z" fill="#C04E1A" opacity=".85"/>
-              <path d="M22 21 L30 19 L32 31 L26 35 L20 31Z" fill="#d4cec6" opacity=".45"/>
-              <path d="M30 9 L42 11 L44 22 L34 24 L28 19Z" fill="#d4cec6" opacity=".4"/>
-              <path d="M36 30 L44 28 L44 36 L38 38 L34 34Z" fill="#d4cec6" opacity=".3"/>
-              <circle cx="24" cy="24" r="22" stroke="rgba(0,0,0,.07)" stroke-width="0.5" fill="none"/>
-              <ellipse cx="24" cy="24" rx="9" ry="22" stroke="rgba(0,0,0,.05)" stroke-width="0.4" fill="none"/>
-              <line x1="2" y1="24" x2="46" y2="24" stroke="rgba(0,0,0,.05)" stroke-width="0.4"/>
+              <circle cx="24" cy="24" r="22" fill="var(--border2)"/>
+              <circle cx="24" cy="24" r="22" stroke="var(--muted)" stroke-width="0.5" stroke-opacity="0.2" fill="none"/>
+              <ellipse cx="24" cy="24" rx="10" ry="22" stroke="var(--muted)" stroke-width="0.5" stroke-opacity="0.2" fill="none"/>
+              <line x1="2" y1="24" x2="46" y2="24" stroke="var(--muted)" stroke-width="0.5" stroke-opacity="0.25"/>
+              <circle cx="11" cy="17" r="4" fill="var(--muted)" opacity=".28"/>
+              <circle cx="15" cy="32" r="3" fill="var(--muted)" opacity=".22"/>
+              <circle cx="24" cy="19" r="3.5" fill="var(--rust)" opacity=".85"/>
+              <circle cx="36" cy="18" r="4.5" fill="var(--muted)" opacity=".22"/>
+              <circle cx="38" cy="33" r="3" fill="var(--muted)" opacity=".18"/>
             </svg>
           </div>
         </div>
@@ -498,8 +572,8 @@ svg { display: block; }
       </div>
     </article>
 
-    <!-- Europcar -->
-    <article class="company-card" style="--stripe-col:#2a2a8a">
+    <!-- Europcar — European: Calm Pastel Blue -->
+    <article class="company-card" style="--stripe-col: var(--stripe-europe)">
       <div class="card-stripe"></div>
       <div class="card-top">
         <div class="card-identity">
@@ -510,16 +584,18 @@ svg { display: block; }
           </div>
         </div>
         <div>
-          <span class="tier-badge tier-europe">European</span>
+          <span class="mock-badge" style="--bf:var(--cp-blue-f); --bi:var(--cp-blue-i)">European</span>
           <div class="globe-wrap" aria-hidden="true">
             <svg viewBox="0 0 48 48" fill="none">
-              <circle cx="24" cy="24" r="22" fill="#ede8e0"/>
-              <path d="M6 15 L16 13 L18 20 L12 26 L6 22Z" fill="#d4cec6" opacity=".5"/>
-              <path d="M20 11 L28 10 L30 17 L24 19 L20 16Z" fill="#C04E1A" opacity=".85"/>
-              <path d="M22 21 L30 19 L32 31 L26 35 L20 31Z" fill="#C04E1A" opacity=".45"/>
-              <circle cx="24" cy="24" r="22" stroke="rgba(0,0,0,.07)" stroke-width="0.5" fill="none"/>
-              <ellipse cx="24" cy="24" rx="9" ry="22" stroke="rgba(0,0,0,.05)" stroke-width="0.4" fill="none"/>
-              <line x1="2" y1="24" x2="46" y2="24" stroke="rgba(0,0,0,.05)" stroke-width="0.4"/>
+              <circle cx="24" cy="24" r="22" fill="var(--border2)"/>
+              <circle cx="24" cy="24" r="22" stroke="var(--muted)" stroke-width="0.5" stroke-opacity="0.2" fill="none"/>
+              <ellipse cx="24" cy="24" rx="10" ry="22" stroke="var(--muted)" stroke-width="0.5" stroke-opacity="0.2" fill="none"/>
+              <line x1="2" y1="24" x2="46" y2="24" stroke="var(--muted)" stroke-width="0.5" stroke-opacity="0.25"/>
+              <circle cx="11" cy="17" r="4" fill="var(--muted)" opacity=".28"/>
+              <circle cx="15" cy="32" r="3" fill="var(--muted)" opacity=".22"/>
+              <circle cx="24" cy="19" r="3.5" fill="var(--rust)" opacity=".85"/>
+              <circle cx="36" cy="18" r="4.5" fill="var(--muted)" opacity=".22"/>
+              <circle cx="38" cy="33" r="3" fill="var(--muted)" opacity=".18"/>
             </svg>
           </div>
         </div>
@@ -539,8 +615,8 @@ svg { display: block; }
       </div>
     </article>
 
-    <!-- Goldcar -->
-    <article class="company-card" style="--stripe-col:#2a2a8a">
+    <!-- Goldcar — Value: Calm Pastel Honey -->
+    <article class="company-card" style="--stripe-col: var(--stripe-value)">
       <div class="card-stripe"></div>
       <div class="card-top">
         <div class="card-identity">
@@ -551,14 +627,18 @@ svg { display: block; }
           </div>
         </div>
         <div>
-          <span class="tier-badge tier-value">Value</span>
+          <span class="mock-badge" style="--bf:var(--cp-honey-f); --bi:var(--cp-honey-i)">Value</span>
           <div class="globe-wrap" aria-hidden="true">
             <svg viewBox="0 0 48 48" fill="none">
-              <circle cx="24" cy="24" r="22" fill="#ede8e0"/>
-              <path d="M20 11 L28 10 L30 17 L24 19 L20 16Z" fill="#C04E1A" opacity=".85"/>
-              <circle cx="24" cy="24" r="22" stroke="rgba(0,0,0,.07)" stroke-width="0.5" fill="none"/>
-              <ellipse cx="24" cy="24" rx="9" ry="22" stroke="rgba(0,0,0,.05)" stroke-width="0.4" fill="none"/>
-              <line x1="2" y1="24" x2="46" y2="24" stroke="rgba(0,0,0,.05)" stroke-width="0.4"/>
+              <circle cx="24" cy="24" r="22" fill="var(--border2)"/>
+              <circle cx="24" cy="24" r="22" stroke="var(--muted)" stroke-width="0.5" stroke-opacity="0.2" fill="none"/>
+              <ellipse cx="24" cy="24" rx="10" ry="22" stroke="var(--muted)" stroke-width="0.5" stroke-opacity="0.2" fill="none"/>
+              <line x1="2" y1="24" x2="46" y2="24" stroke="var(--muted)" stroke-width="0.5" stroke-opacity="0.25"/>
+              <circle cx="11" cy="17" r="4" fill="var(--muted)" opacity=".28"/>
+              <circle cx="15" cy="32" r="3" fill="var(--muted)" opacity=".22"/>
+              <circle cx="24" cy="19" r="3.5" fill="var(--rust)" opacity=".85"/>
+              <circle cx="36" cy="18" r="4.5" fill="var(--muted)" opacity=".22"/>
+              <circle cx="38" cy="33" r="3" fill="var(--muted)" opacity=".18"/>
             </svg>
           </div>
         </div>
@@ -578,9 +658,9 @@ svg { display: block; }
       </div>
     </article>
 
-  </div><!-- /atlas-grid europe -->
+  </div><!-- /europe grid -->
 
-  <!-- Cross-link note (replaces existing .wcr-note) -->
+  <!-- Cross-link note -->
   <div class="atlas-note">
     Not looking for a car to drive yourself? <a href="/essentials/private-transfers/">Private transfers</a> covers the fixed-price, driver-included alternative — the aggregators, the airport specialists, and what the premium over a taxi actually buys.
   </div>

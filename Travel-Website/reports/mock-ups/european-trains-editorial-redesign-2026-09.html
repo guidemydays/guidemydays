@@ -28,20 +28,6 @@
   /* accent */
   --terracotta: #C04E1A;
 
-  /* type badge tones — in real implementation these map to sb-* families */
-  --badge-hs:         #c4914f;
-  --badge-hs-text:    #3d2812;
-  --badge-night:      #7fa8cc;
-  --badge-night-text: #ffffff;
-  --badge-ic:         #dc524f;
-  --badge-ic-text:    #ffffff;
-  --badge-private:    #c77696;
-  --badge-private-text: #ffffff;
-  --badge-regional:   #5a9a5a;
-  --badge-regional-text: #ffffff;
-  --badge-scenic:     #8a867a;
-  --badge-scenic-text: #ffffff;
-
   /* structure */
   --rail: #c8b99a;
   --radius: 10px;
@@ -77,6 +63,42 @@
   --ink-300: #50504a;
   --ink-100: #2d2b28;
   --rail: #3d3830;
+}
+
+/* ─── APPROVED PILL/BADGE SYSTEM (sb-* families, from web-travel-style.css) ── */
+/* Base .badge and .pill-badge */
+.badge, .pill-badge {
+  display: inline-flex; align-items: center; justify-content: center;
+  border-radius: 4px; border: 1px solid transparent;
+  font-weight: 700; letter-spacing: .04em; line-height: 1;
+  flex-shrink: 0; text-transform: uppercase;
+}
+.badge       { font-size: min(1em, 12px); padding: 3px 8px; }
+.pill-badge  { font-size: 12px; padding: 4px 9px; cursor: pointer; user-select: none; }
+.badge.is-on, .pill-badge.is-on { outline: 3px solid currentColor; outline-offset: 3px; }
+
+/* sb-* family variable declarations */
+.sb-tan-orange { --sb-fill: #c4914f; --sb-text: #3d2812; }
+.sb-light-blue { --sb-fill: #7fa8cc; --sb-text: #ffffff; }
+.sb-red        { --sb-fill: #b5453e; --sb-text: #ffffff; }
+.sb-pink       { --sb-fill: #b5527e; --sb-text: #ffffff; }
+.sb-green      { --sb-fill: #7cb384; --sb-text: #ffffff; }
+.sb-dark-grey  { --sb-fill: #8a867a; --sb-text: #ffffff; }
+
+/* Apply fill/text on .badge and .pill-badge with sb-* modifier */
+.badge.sb-tan-orange, .badge.sb-light-blue, .badge.sb-red, .badge.sb-pink,
+.badge.sb-green, .badge.sb-dark-grey,
+.pill-badge.sb-tan-orange, .pill-badge.sb-light-blue, .pill-badge.sb-red, .pill-badge.sb-pink,
+.pill-badge.sb-green, .pill-badge.sb-dark-grey {
+  background: var(--sb-fill); color: var(--sb-text);
+}
+.pill-badge.sb-tan-orange:hover, .pill-badge.sb-light-blue:hover, .pill-badge.sb-red:hover,
+.pill-badge.sb-pink:hover, .pill-badge.sb-green:hover, .pill-badge.sb-dark-grey:hover {
+  filter: brightness(.9);
+}
+.pill-badge.sb-tan-orange:active, .pill-badge.sb-light-blue:active, .pill-badge.sb-red:active,
+.pill-badge.sb-pink:active, .pill-badge.sb-green:active, .pill-badge.sb-dark-grey:active {
+  filter: brightness(.82);
 }
 
 /* ─── RESET ─────────────────────────────────────────────────────── */
@@ -212,19 +234,20 @@ body {
   gap: 28px;
 }
 
-/* Search — real implementation uses TVESearch standard (var(--search-w/h/radius)) */
+/* Search — TVESearch standard: transparent border + ambient shadow, 999px radius */
 .search-wrap input {
   width: 100%;
   background: var(--g-card);
-  border: 1px solid var(--ink-100);
-  border-radius: 8px;
-  padding: 10px 14px;
+  border: 1.5px solid transparent;
+  border-radius: 999px;
+  box-shadow: 0 1px 6px rgba(32,33,36,.28);
+  padding: 10px 16px;
   font-family: Inter, sans-serif;
-  font-size: 13px;
+  font-size: 16px;
   color: var(--ink-900);
   outline: none;
 }
-.search-wrap input::placeholder { color: var(--ink-300); }
+.search-wrap input::placeholder { color: var(--ink-500); }
 
 .filter-group-label {
   font-family: Inter, sans-serif;
@@ -264,8 +287,9 @@ body {
 .fr-swatch {
   width: 12px; height: 12px;
   border-radius: 3px;
-  border: 1px solid var(--ink-100);
+  border: 1px solid var(--ink-300);
   flex-shrink: 0;
+  background: var(--sb-fill, var(--ink-300));
 }
 .filter-row.active .fr-swatch { border-color: transparent; }
 .fr-count {
@@ -291,8 +315,7 @@ body {
   width: 8px; height: 8px; border-radius: 50%;
   background: var(--rail); margin-top: 3px; flex-shrink: 0;
 }
-.spine-item.hs  .spine-dot { background: var(--badge-hs); }
-.spine-item.night .spine-dot { background: var(--badge-night); }
+.spine-item .spine-dot { background: var(--sb-fill, var(--rail)); }
 .si-name { font-weight: 600; display: block; }
 .si-route { font-family: 'Space Mono', monospace; font-size: 10px; color: var(--ink-500); margin-top: 2px; display: block; }
 
@@ -384,10 +407,8 @@ body {
 }
 .fc-type {
   font-family: Inter, sans-serif;
-  font-size: 11px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase;
-  padding: 4px 10px; border-radius: 4px;
-  display: inline-flex; align-items: center; width: fit-content;
-  /* Real implementation: use approved sb-* or cp-* class from pills doc */
+  /* .badge base rules apply via badge class on the element */
+  width: fit-content;
 }
 .fc-name {
   font-family: 'Playfair Display', Georgia, serif;
@@ -430,12 +451,9 @@ body {
 .book-btn.primary { background: var(--ink-900); color: var(--g-page); }
 .book-btn.secondary { background: var(--ink-100); color: var(--ink-700); }
 
-.feature-card.hs     .fc-left { background: var(--g-feature-warm); }
-.feature-card.hs     .fc-type { background: var(--badge-hs); color: var(--badge-hs-text); }
-.feature-card.night  .fc-left { background: var(--g-feature-night); }
-.feature-card.night  .fc-type { background: var(--badge-night); color: var(--badge-night-text); }
+.feature-card.hs      .fc-left { background: var(--g-feature-warm); }
+.feature-card.night   .fc-left { background: var(--g-feature-night); }
 .feature-card.private .fc-left { background: var(--g-feature-private); }
-.feature-card.private .fc-type { background: var(--badge-private); color: var(--badge-private-text); }
 
 /* ─── COMPACT OPERATOR TABLE ─────────────────────────────────────── */
 .operator-table {
@@ -466,9 +484,8 @@ body {
 }
 .op-badge {
   font-family: Inter, sans-serif;
-  font-size: 10px; font-weight: 700; letter-spacing: .06em; text-transform: uppercase;
-  padding: 3px 8px; border-radius: 4px; white-space: nowrap;
-  /* Real implementation: approved sb-* or cp-* class */
+  /* .badge base rules apply via badge class on the element */
+  white-space: nowrap;
 }
 .op-book {
   font-size: 11px; color: var(--terracotta); font-weight: 600;
@@ -522,22 +539,22 @@ body {
 
 .mf-search { padding: 12px 14px; border-bottom: 1px solid var(--ink-100); }
 .mf-search input {
-  width: 100%; background: var(--g-card); border: 1px solid var(--ink-100);
-  border-radius: 8px; padding: 9px 12px; font-size: 12px; color: var(--ink-700);
+  width: 100%; background: var(--g-card);
+  border: 1.5px solid transparent;
+  border-radius: 999px;
+  box-shadow: 0 1px 6px rgba(32,33,36,.28);
+  padding: 9px 16px; font-size: 16px; color: var(--ink-700); outline: none;
 }
+.mf-search input::placeholder { color: var(--ink-500); }
 
-/* mobile: horizontal filter chips — real implementation uses approved cp-*/sb-* */
+/* mobile: horizontal filter chips — approved pill-badge sb-* classes */
 .mf-chips { display: flex; gap: 6px; padding: 10px 14px; overflow-x: auto; border-bottom: 1px solid var(--ink-100); }
 .mf-chips::-webkit-scrollbar { display: none; }
-.mf-chip { font-size: 10px; font-weight: 700; padding: 4px 10px; border-radius: 4px; white-space: nowrap; }
-.mf-chip.all    { background: var(--ink-900); color: var(--g-page); }
-.mf-chip.hs     { background: var(--badge-hs); color: var(--badge-hs-text); }
-.mf-chip.ni     { background: var(--badge-night); color: var(--badge-night-text); }
-.mf-chip.ic     { background: var(--badge-ic); color: var(--badge-ic-text); }
+.mf-chip { white-space: nowrap; }
 
 .mf-feat { border-bottom: 1px solid var(--ink-100); overflow: hidden; }
 .mf-feat-top { background: var(--g-feature-night); padding: 16px 14px 14px; }
-.mf-feat-badge { font-size: 9px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; padding: 3px 8px; border-radius: 3px; background: var(--badge-night); color: #fff; display: inline-block; margin-bottom: 8px; }
+.mf-feat-badge { display: inline-block; margin-bottom: 8px; }
 .mf-feat-name { font-family: 'Playfair Display', Georgia, serif; font-size: 17px; font-weight: 700; color: var(--ink-900); line-height: 1.2; margin-bottom: 4px; }
 .mf-feat-sub { font-size: 10px; color: var(--ink-500); text-transform: uppercase; letter-spacing: .06em; }
 .mf-feat-routes { padding: 10px 14px; border-bottom: 1px solid var(--ink-100); }
@@ -555,7 +572,7 @@ body {
 .mf-op-info { display: flex; flex-direction: column; gap: 2px; }
 .mf-op-name { font-size: 12px; font-weight: 600; color: var(--ink-900); }
 .mf-op-route { font-family: 'Space Mono', monospace; font-size: 9px; color: var(--ink-500); }
-.mf-op-badge { font-size: 9px; font-weight: 700; padding: 3px 7px; border-radius: 3px; }
+.mf-op-badge { }
 </style>
 </head>
 <body>
@@ -563,9 +580,9 @@ body {
 <div class="mockup-banner">REDESIGN CONCEPT — NOT THE LIVE PAGE — trains-continental-audit · 2026-09-01</div>
 
 <div class="impl-notes">
-  <div class="impl-note"><span><strong>Search:</strong> real implementation uses TVESearch standard (var(--search-w/h/radius)); transparent border + ambient shadow at rest</span></div>
-  <div class="impl-note"><span><strong>Type badges:</strong> map to approved sb-*/cp-* families from pills doc — colors here are concept approximations</span></div>
-  <div class="impl-note"><span><strong>Filter rows (desktop):</strong> structural nav list, not a &lt;select&gt; picker — no dropdown-collapse pattern needed</span></div>
+  <div class="impl-note"><span><strong>Search:</strong> TVESearch standard — transparent border, 999px radius, ambient shadow (0 1px 6px rgba(32,33,36,.28))</span></div>
+  <div class="impl-note"><span><strong>Type badges:</strong> approved sb-* families — sb-tan-orange (HS) · sb-light-blue (Night) · sb-red (IC) · sb-pink (Private) · sb-green (Regional) · sb-dark-grey (Scenic)</span></div>
+  <div class="impl-note"><span><strong>Filter rows (desktop):</strong> structural nav list, not a pill — custom active fill is intentional for this nav pattern</span></div>
 </div>
 
 <!-- ── HERO (as-is from live page) ─────────────────────────────── -->
@@ -616,37 +633,37 @@ body {
       <div class="filter-group-label">Filter by type</div>
       <div class="filter-list">
         <div class="filter-row active">
-          <div class="fr-swatch" style="background:var(--ink-900)"></div>
+          <div class="fr-swatch sb-dark-grey"></div>
           All operators
           <span class="fr-count">45</span>
         </div>
         <div class="filter-row">
-          <div class="fr-swatch" style="background:var(--badge-hs)"></div>
+          <div class="fr-swatch sb-tan-orange"></div>
           High-speed
           <span class="fr-count">12</span>
         </div>
         <div class="filter-row">
-          <div class="fr-swatch" style="background:var(--badge-ic)"></div>
+          <div class="fr-swatch sb-red"></div>
           Intercity
           <span class="fr-count">14</span>
         </div>
         <div class="filter-row">
-          <div class="fr-swatch" style="background:var(--badge-regional)"></div>
+          <div class="fr-swatch sb-green"></div>
           Regional
           <span class="fr-count">8</span>
         </div>
         <div class="filter-row">
-          <div class="fr-swatch" style="background:var(--badge-night)"></div>
+          <div class="fr-swatch sb-light-blue"></div>
           Night train
           <span class="fr-count">6</span>
         </div>
         <div class="filter-row">
-          <div class="fr-swatch" style="background:var(--badge-private)"></div>
+          <div class="fr-swatch sb-pink"></div>
           Private operator
           <span class="fr-count">7</span>
         </div>
         <div class="filter-row">
-          <div class="fr-swatch" style="background:var(--badge-scenic)"></div>
+          <div class="fr-swatch sb-dark-grey"></div>
           Scenic
           <span class="fr-count">4</span>
         </div>
@@ -656,35 +673,35 @@ body {
     <!-- Mini route-spine -->
     <div class="sidebar-spine">
       <div class="spine-label">The main corridors</div>
-      <div class="spine-item hs">
+      <div class="spine-item sb-tan-orange">
         <div class="spine-dot"></div>
         <div>
           <span class="si-name">Channel Tunnel</span>
           <span class="si-route">London → Paris / Brussels</span>
         </div>
       </div>
-      <div class="spine-item hs">
+      <div class="spine-item sb-tan-orange">
         <div class="spine-dot"></div>
         <div>
           <span class="si-name">Italian spine</span>
           <span class="si-route">Turin → Milan → Rome</span>
         </div>
       </div>
-      <div class="spine-item hs">
+      <div class="spine-item sb-tan-orange">
         <div class="spine-dot"></div>
         <div>
           <span class="si-name">Madrid – Barcelona</span>
           <span class="si-route">AVE · Iryo · OUIGO compete</span>
         </div>
       </div>
-      <div class="spine-item hs">
+      <div class="spine-item sb-tan-orange">
         <div class="spine-dot"></div>
         <div>
           <span class="si-name">German network</span>
           <span class="si-route">Frankfurt → Berlin / Hamburg</span>
         </div>
       </div>
-      <div class="spine-item night">
+      <div class="spine-item sb-light-blue">
         <div class="spine-dot"></div>
         <div>
           <span class="si-name">The night network</span>
@@ -750,7 +767,7 @@ body {
 
       <div class="feature-card hs">
         <div class="fc-left">
-          <div class="fc-type">High-Speed</div>
+          <div class="fc-type badge sb-tan-orange">High-Speed</div>
           <div class="fc-sub">Eurostar Group · merged Oct 2023</div>
           <div class="fc-name">Eurostar<br>+ former Thalys</div>
           <div class="fc-routes">
@@ -774,7 +791,7 @@ body {
 
       <div class="feature-card night">
         <div class="fc-left">
-          <div class="fc-type">Night Train</div>
+          <div class="fc-type badge sb-light-blue">Night Train</div>
           <div class="fc-sub">ÖBB Austrian Federal Railways</div>
           <div class="fc-name">Nightjet</div>
           <div class="fc-routes">
@@ -798,7 +815,7 @@ body {
 
       <div class="feature-card private">
         <div class="fc-left">
-          <div class="fc-type">Private · Night</div>
+          <div class="fc-type badge sb-pink">Private · Night</div>
           <div class="fc-sub">Brussels-based startup</div>
           <div class="fc-name">European Sleeper</div>
           <div class="fc-routes">
@@ -830,21 +847,21 @@ body {
           <div class="op-flag">🇫🇷</div>
           <div><div class="op-name">TGV / inOui</div><div class="op-org">SNCF</div></div>
           <div class="op-route">Paris ↔ Lyon · Marseille · Bordeaux · Lille · Strasbourg</div>
-          <div class="op-badge" style="background:var(--badge-hs);color:var(--badge-hs-text)">High-speed</div>
+          <div class="op-badge badge sb-tan-orange">High-speed</div>
           <a class="op-book" href="#">sncf-connect.com</a>
         </div>
         <div class="op-row">
           <div class="op-flag">🇫🇷</div>
           <div><div class="op-name">OUIGO</div><div class="op-org">SNCF low-cost</div></div>
           <div class="op-route">Paris ↔ Lyon · Nice · Marseille · Barcelona · Madrid</div>
-          <div class="op-badge" style="background:var(--badge-private);color:var(--badge-private-text)">Low-cost</div>
+          <div class="op-badge badge sb-pink">Low-cost</div>
           <a class="op-book" href="#">ouigo.com</a>
         </div>
         <div class="op-row">
           <div class="op-flag">🇫🇷</div>
           <div><div class="op-name">Intercités</div><div class="op-org">SNCF intercity</div></div>
           <div class="op-route">Paris ↔ Clermont-Ferrand · Toulouse · Nantes (non-TGV routes)</div>
-          <div class="op-badge" style="background:var(--badge-ic);color:var(--badge-ic-text)">Intercity</div>
+          <div class="op-badge badge sb-red">Intercity</div>
           <a class="op-book" href="#">sncf-connect.com</a>
         </div>
       </div>
@@ -862,14 +879,14 @@ body {
           <div class="op-flag">🇩🇪</div>
           <div><div class="op-name">DB ICE</div><div class="op-org">Deutsche Bahn</div></div>
           <div class="op-route">Frankfurt ↔ Berlin · Hamburg · Munich · Cologne · Amsterdam</div>
-          <div class="op-badge" style="background:var(--badge-hs);color:var(--badge-hs-text)">High-speed</div>
+          <div class="op-badge badge sb-tan-orange">High-speed</div>
           <a class="op-book" href="#">bahn.de</a>
         </div>
         <div class="op-row">
           <div class="op-flag">🇩🇪</div>
           <div><div class="op-name">FlixTrain</div><div class="op-org">Private · low-cost</div></div>
           <div class="op-route">Hamburg ↔ Berlin · Cologne · Stuttgart · Munich</div>
-          <div class="op-badge" style="background:var(--badge-private);color:var(--badge-private-text)">Private</div>
+          <div class="op-badge badge sb-pink">Private</div>
           <a class="op-book" href="#">flixtrain.de</a>
         </div>
       </div>
@@ -908,14 +925,14 @@ body {
       <input type="search" placeholder="Operator, country, city or route…" aria-label="Search operators">
     </div>
     <div class="mf-chips">
-      <span class="mf-chip all">All</span>
-      <span class="mf-chip hs">High-speed</span>
-      <span class="mf-chip ic">Intercity</span>
-      <span class="mf-chip ni">Night train</span>
+      <span class="mf-chip pill-badge sb-dark-grey is-on">All</span>
+      <span class="mf-chip pill-badge sb-tan-orange">High-speed</span>
+      <span class="mf-chip pill-badge sb-red">Intercity</span>
+      <span class="mf-chip pill-badge sb-light-blue">Night train</span>
     </div>
     <div class="mf-feat">
       <div class="mf-feat-top">
-        <div class="mf-feat-badge">Night Train</div>
+        <div class="mf-feat-badge badge sb-light-blue">Night Train</div>
         <div class="mf-feat-name">Nightjet</div>
         <div class="mf-feat-sub">ÖBB · Austria</div>
       </div>
@@ -935,7 +952,7 @@ body {
         <div class="mf-op-name">TGV / inOui</div>
         <div class="mf-op-route">Paris ↔ Lyon · Marseille · Bordeaux</div>
       </div>
-      <div class="mf-op-badge" style="background:var(--badge-hs);color:var(--badge-hs-text)">HS</div>
+      <div class="mf-op-badge badge sb-tan-orange">HS</div>
     </div>
     <div class="mf-op">
       <div class="mf-op-flag">🇩🇪</div>
@@ -943,7 +960,7 @@ body {
         <div class="mf-op-name">DB ICE</div>
         <div class="mf-op-route">Frankfurt ↔ Berlin · Hamburg · Munich</div>
       </div>
-      <div class="mf-op-badge" style="background:var(--badge-hs);color:var(--badge-hs-text)">HS</div>
+      <div class="mf-op-badge badge sb-tan-orange">HS</div>
     </div>
     <div class="mf-op">
       <div class="mf-op-flag">🇩🇪</div>
@@ -951,7 +968,7 @@ body {
         <div class="mf-op-name">FlixTrain</div>
         <div class="mf-op-route">Hamburg ↔ Berlin · Cologne · Munich</div>
       </div>
-      <div class="mf-op-badge" style="background:var(--badge-private);color:var(--badge-private-text)">Pvt</div>
+      <div class="mf-op-badge badge sb-pink">Pvt</div>
     </div>
     <div class="mf-op">
       <div class="mf-op-flag">🇪🇸</div>
@@ -959,7 +976,7 @@ body {
         <div class="mf-op-name">Renfe AVE</div>
         <div class="mf-op-route">Madrid ↔ Barcelona · Valencia · Seville</div>
       </div>
-      <div class="mf-op-badge" style="background:var(--badge-hs);color:var(--badge-hs-text)">HS</div>
+      <div class="mf-op-badge badge sb-tan-orange">HS</div>
     </div>
   </div>
 </div>

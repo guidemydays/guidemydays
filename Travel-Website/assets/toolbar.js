@@ -2704,6 +2704,7 @@ window.TVE.home = (function () {
     ] },
     { name: 'Visas & docs', links: [
       ['essentials/visa/',              'Visas'],
+      ['essentials/visa-on-arrival/',   'Visa-On-Arrival Process Guide'],
       ['essentials/entry/',             'Entry Requirements'],
       ['essentials/passport/',          'Passport'],
       ['essentials/trusted-traveler/',  'Trusted Traveler Programs'],

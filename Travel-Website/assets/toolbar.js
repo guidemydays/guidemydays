@@ -2747,7 +2747,8 @@ window.TVE.home = (function () {
       ['essentials/sports-calendar/',   'Sports & Major Events Calendar'],
       ['essentials/festival-finder/',   'Best Festivals & Holidays'],
       ['essentials/pickleball/',        'Best Places to Play Pickleball'],
-      ['essentials/market-days/',       'Market Days']
+      ['essentials/market-days/',       'Market Days'],
+      ['essentials/cruise-ports/',      'Cruise Port Day Guide']
     ] }
   ];
 

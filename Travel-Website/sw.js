@@ -1,3 +1,9 @@
+/* 2026-09-01: web-travel-style.css -- owner report: the Trip Escape "How
+   different?" pill rendered dark/mismatched against its light neighbours.
+   :root now declares color-scheme (light / dark under the existing
+   prefers-color-scheme block) so a native <select> can't fall back to the
+   OS's own dark form-control chrome while the page around it stays light.
+   MIN_VERSIONS['web-travel-style.css'] to 243, CACHE to v1787. */
 /* 2026-09-01: pill-color-compliance: .sb-tan-orange retired sitewide (not
    an approved pills-doc Family 2 tone) -- class definition and every
    compound-selector entry removed from web-travel-style.css.
@@ -2904,7 +2910,7 @@
 /* 2026-09-01: GM_SPRITE gained 'car' (Site-Icons.html #177) for the self-drive-routes hero toolbar.js -> v1122. CACHE to v1784. */
 /* 2026-09-01: best-of chevron-link-pill consolidation (f09bea435) touched web-travel-style.css without raising its floor toolbar.js -> v1123. CACHE to v1785. */
 /* 2026-09-01: correction — the prior 'toolbar.js -> v1123' entry above never actually raised MIN_VERSIONS['web-travel-style.css']; doing that now. CACHE to v1786. */
-var CACHE = 'travel-cache-v1786';
+var CACHE = 'travel-cache-v1787';
 /* 2026-08-27: airlines.css's .card-tags align-items fix changed a shared
    asset without raising its own floor -- MIN_VERSIONS['airlines.css'] to
    6, CACHE to v1662. */
@@ -2946,7 +2952,7 @@ var ICS_OUTBOX = 'gmd-ics-outbox';
    of 230+ guides. Instead, bump MIN_VERSIONS here + increment the CACHE version. */
 /* 2026-08-30: weather.js: Punta Cana climate normals added (244 cities). MIN_VERSIONS["weather.js"] to 19, CACHE to v1748. */
 /* 2026-08-30: search-autocomplete.js — reverted ARIA combobox pattern (role=listbox/option caused side-by-side layout regression). MIN_VERSIONS['search-autocomplete.js'] to 11, CACHE to v1749. */
-var MIN_VERSIONS = { 'guide-style.css': 278,'toolbar.js': 1123, 'mobile.css': 93, 'web-travel-style.css': 242, 'guides-index-style.css': 46, 'read-about.css': 8, 'best-of-features.js': 5, 'best-of-cross-data.js': 24, 'weather.js': 21,'trains.css': 30, 'trains.js': 5, 'airlines.css': 9, 'airlines.js': 9, 'passport.js': 5, 'search-autocomplete.js': 12, 'flag-render.js': 3 };
+var MIN_VERSIONS = { 'guide-style.css': 278,'toolbar.js': 1123, 'mobile.css': 93, 'web-travel-style.css': 243, 'guides-index-style.css': 46, 'read-about.css': 8, 'best-of-features.js': 5, 'best-of-cross-data.js': 24, 'weather.js': 21,'trains.css': 30, 'trains.js': 5, 'airlines.css': 9, 'airlines.js': 9, 'passport.js': 5, 'search-autocomplete.js': 12, 'flag-render.js': 3 };
 
 function rewriteAssetUrl(urlStr) {
   var u;

@@ -2760,8 +2760,11 @@ window.TVE.home = (function () {
       ['essentials/pickleball/',        'Best Places to Play Pickleball'],
       ['essentials/market-days/',       'Market Days'],
       ['essentials/night-markets/',     'Night Markets'],
+      ['essentials/nightlife/',         'International Nightlife Guide'],
       ['essentials/cruise-ports/',      'Cruise Port Day Guide'],
       ['essentials/golden-hour/',       'Golden Hour & Best Photo Spots'],
+      ['essentials/best-tours/',        'Best Guided Tours'],
+      ['essentials/winery-tasting/',    'Winery & Tasting Room Visits'],
       ['essentials/rooftop-bars/',      'Rooftop Bars & Skyline Views']
     ] }
   ];

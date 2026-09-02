@@ -2696,6 +2696,7 @@ window.TVE.home = (function () {
     ] },
     { name: 'Getting around', links: [
       ['essentials/worldwide-car-rental/',          'Car Rental Around the World'],
+      ['essentials/self-drive-routes/', 'Great Self-Drive Routes'],
       ['essentials/private-transfers/',             'Private Transfers'],
       ['essentials/transit-cards/',     'Transit Cards'],
       ['essentials/storage/',           'Luggage Storage']

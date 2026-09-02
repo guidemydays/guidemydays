@@ -1,3 +1,10 @@
+/* 2026-09-02: guide-style.css -- the per-stop "Closed {day}" line and the
+   address link were reading in two different inks (plain body ink, link-
+   blue) against the hours row's terracotta, inside one status box for what
+   is really one kind of information (owner: "all these should follow the
+   same color", pointing at the share/wishlist/note rail's #C04E1A). Both
+   now match #C04E1A; the catalogue icon fills (red closed sign, red pin)
+   are untouched. MIN_VERSIONS['guide-style.css'] to 279, CACHE to v1792. */
 /* 2026-09-02: web-travel-style.css -- reverted the root --nt-grey-wash/-ink/-rgb
    values (2026-09-01 remap) back to the neutral #f0ede8/#6a6660 pairing --
    that remap pointed them at the approved Grey badge tone, but the real
@@ -2921,7 +2928,8 @@
 /* 2026-09-01: remove duplicate car sprite key (car → rental-cars); repoint self-drive-routes toolbar.js -> v1124. CACHE to v1788. */
 /* 2026-09-02: Color the guide control-row icons (calendar, map, offline, visited, currency) toolbar.js -> v1125. CACHE to v1789. */
 /* 2026-09-02: web-travel-style.css -- wired the missing .badge/.pill-badge/.selection-pill.nt-white compound rule -- MIN_VERSIONS['web-travel-style.css'] to 244, CACHE to v1791. */
-var CACHE = 'travel-cache-v1791';
+/* 2026-09-02: guide-style.css's Closed-day/address-link terracotta recolor (7e2f3ae2f) shipped without raising its own floor -- doing that now. MIN_VERSIONS['guide-style.css'] to 279, CACHE to v1793. */
+var CACHE = 'travel-cache-v1793';
 /* 2026-08-27: airlines.css's .card-tags align-items fix changed a shared
    asset without raising its own floor -- MIN_VERSIONS['airlines.css'] to
    6, CACHE to v1662. */
@@ -2963,7 +2971,7 @@ var ICS_OUTBOX = 'gmd-ics-outbox';
    of 230+ guides. Instead, bump MIN_VERSIONS here + increment the CACHE version. */
 /* 2026-08-30: weather.js: Punta Cana climate normals added (244 cities). MIN_VERSIONS["weather.js"] to 19, CACHE to v1748. */
 /* 2026-08-30: search-autocomplete.js — reverted ARIA combobox pattern (role=listbox/option caused side-by-side layout regression). MIN_VERSIONS['search-autocomplete.js'] to 11, CACHE to v1749. */
-var MIN_VERSIONS = { 'guide-style.css': 278,'toolbar.js': 1125, 'mobile.css': 93, 'web-travel-style.css': 244, 'guides-index-style.css': 46, 'read-about.css': 8, 'best-of-features.js': 5, 'best-of-cross-data.js': 24, 'weather.js': 21,'trains.css': 30, 'trains.js': 5, 'airlines.css': 9, 'airlines.js': 9, 'passport.js': 5, 'search-autocomplete.js': 12, 'flag-render.js': 3 };
+var MIN_VERSIONS = { 'guide-style.css': 279,'toolbar.js': 1125, 'mobile.css': 93, 'web-travel-style.css': 244, 'guides-index-style.css': 46, 'read-about.css': 8, 'best-of-features.js': 5, 'best-of-cross-data.js': 24, 'weather.js': 21,'trains.css': 30, 'trains.js': 5, 'airlines.css': 9, 'airlines.js': 9, 'passport.js': 5, 'search-autocomplete.js': 12, 'flag-render.js': 3 };
 
 function rewriteAssetUrl(urlStr) {
   var u;

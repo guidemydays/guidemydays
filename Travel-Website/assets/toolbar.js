@@ -2679,6 +2679,7 @@ window.TVE.home = (function () {
       ['essentials/connections/',       'Airport Connections'],
       ['essentials/lounges/',           'Lounges'],
       ['essentials/lounge-access/',     'Lounge Access Methods'],
+      ['essentials/layover-city-guide/', 'Layover City Guide'],
       ['essentials/airline-networks/',  'US Airline Networks']
     ] },
     /* The four regional train guides reach the nav for the first time here —
@@ -2749,7 +2750,8 @@ window.TVE.home = (function () {
       ['essentials/festival-finder/',   'Best Festivals & Holidays'],
       ['essentials/pickleball/',        'Best Places to Play Pickleball'],
       ['essentials/market-days/',       'Market Days'],
-      ['essentials/cruise-ports/',      'Cruise Port Day Guide']
+      ['essentials/cruise-ports/',      'Cruise Port Day Guide'],
+      ['essentials/golden-hour/',       'Golden Hour & Best Photo Spots']
     ] }
   ];
 

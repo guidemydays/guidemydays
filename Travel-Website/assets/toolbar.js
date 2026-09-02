@@ -2131,23 +2131,26 @@ window.TVE.home = (function () {
          top:0 covers the full viewport; overflow-y:auto scrolls inside the
          panel; body overflow:hidden (set by toggleHamMenu) locks page scroll
          so only the menu scrolls while it is open. */
-      '.tb-ham-menu{display:none;position:fixed;top:64px;left:0;right:0;bottom:0;' +
-        'background:#ffffff;border-top:1px solid #e6e2da;z-index:1001;padding:4px 0 16px;' +
+      '.tb-ham-menu{display:block;visibility:hidden;opacity:0;position:fixed;top:64px;left:0;right:0;bottom:0;' +
+        'background:#ffffff;border-top:1px solid #e6e2da;z-index:1001;padding:4px 0 calc(16px + env(safe-area-inset-bottom,0px));' +
         'overflow-y:auto;-webkit-overflow-scrolling:touch;overscroll-behavior:contain;' +
-        'transform:translateZ(0);-webkit-transform:translateZ(0);will-change:transform}' +
-      '.tb-ham-menu.tb-ham-open{display:block}' +
+        'transform:translateY(-10px) translateZ(0);-webkit-transform:translateY(-10px) translateZ(0);will-change:transform,opacity;' +
+        'transition:opacity .22s ease,transform .22s ease,visibility .22s}' +
+      '.tb-ham-menu.tb-ham-open{visibility:visible;opacity:1;transform:translateY(0) translateZ(0);-webkit-transform:translateY(0) translateZ(0)}' +
       /* ONE ROW SHAPE, above and below the terracotta band (owner rule 2026-08-17).
          The tabs were 14px/400 and the nine categories below them 15px/600 — at
          the same #3d3a32 ink the heavier block reads as a second, darker black,
          which is what the owner saw in the panel: "do you see two different
          tones of black?" ... "i want the top to look the same of the bottom."
          So the tab rows take the category row's box AND its type, value for
-         value: 15px/600, 11px 24px, 44px minimum, border-box. Change one of the
-         two and the two-tone comes straight back — they move together.
+         value: 16px/600 (bumped together from 15px 2026-09-02, Apple HIG
+         minimum for primary nav text), 11px 24px, 44px minimum, border-box.
+         Change one of the two and the two-tone comes straight back — they
+         move together.
          This does NOT reach the links inside a category. .tb-ham-grp-links a
          sets 14px and 400 explicitly, and it must keep doing so: those rows are
          a tier down and are the one place a lighter face is the point. */
-      '.tb-ham-menu a,.tb-ham-menu a:visited{display:block;font-size:15px;font-weight:600;' +
+      '.tb-ham-menu a,.tb-ham-menu a:visited{display:block;font-size:16px;font-weight:600;' +
         'color:#3d3a32!important;text-decoration:none;padding:11px 24px;min-height:44px;' +
         'box-sizing:border-box;border-bottom:none;-webkit-tap-highlight-color:transparent;' +
         'cursor:pointer;touch-action:manipulation}' +
@@ -2167,7 +2170,8 @@ window.TVE.home = (function () {
       '.tb-ham-menu a.tb-has-ico.tb-has-new .tb-entry-label{flex:0 0 auto}' +
       '.tb-ham-menu a:active{background:rgba(0,0,0,.04)}' +
       '.tb-ham-menu .tb-ham-sep{height:1px;background:#e6e2da;margin:4px 24px}' +
-      '.tb-ham-menu .tb-ham-hdr{font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:#9e9688;padding:6px 24px 2px}' +
+      '.tb-ham-menu .tb-ham-hdr{font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:#9e9688;' +
+        'padding:8px 24px 4px;background:rgba(0,0,0,.028);border-top:1px solid #ece8e0}' +
       /* ── The nine category groups (owner rule 2026-08-17) ──────────────────
          Terracotta wherever the reference design used blue — the category name
          and its +/− — and the pages underneath in the black this menu already
@@ -5999,6 +6003,83 @@ window.TVE.home = (function () {
     document.addEventListener('DOMContentLoaded', _injectVisitedToggle);
   } else {
     _injectVisitedToggle();
+  }
+
+  /* ── Pocket version — a stripped, print-friendly day-block view: stop
+     name, address (map link), motion row only. No description, no tour/
+     ticket chrome, no photos (Open Recommendation
+     pocket-guide-printable-offline, 2026-08-06). Every field it shows
+     already lives in the page — this is a display-mode switch, not a
+     content generator, so the toggle just flips a body class and CSS
+     hides what pocket mode drops (see .tve-pocket-mode in guide-style.css).
+     Nothing here removes a node, so the full guide is one more tap away.
+     The class is unscoped to screen, so a reader who switches it on and
+     then prints (Cmd/Ctrl+P) gets the stripped page through the guide's
+     existing @media print rules — no separate print path to maintain. ── */
+  function _injectPocketToggle() {
+    if (!isRealGuide) return;
+
+    var ON_HTML  = iconSVG(null, 15, 'check') + ' Full guide';
+    var OFF_HTML = iconSVG(null, 15, 'printer') + ' Pocket version';
+
+    var btn = document.createElement('a');
+    btn.href = 'javascript:void(0)';
+    btn.className = 'overview-extra-link';
+    btn.id = 'tve-pocket-btn';
+    btn.innerHTML = OFF_HTML;
+    btn.setAttribute('aria-pressed', 'false');
+
+    btn.addEventListener('click', function (e) {
+      e.preventDefault(); e.stopPropagation();
+      var on = document.body.classList.toggle('tve-pocket-mode');
+      btn.innerHTML = on ? ON_HTML : OFF_HTML;
+      btn.classList.toggle('tve-pocket-on', on);
+      btn.setAttribute('aria-pressed', on ? 'true' : 'false');
+    });
+
+    var icsCalPill = document.getElementById('ics-cal-pill');
+    if (icsCalPill) {
+      var pillRow = icsCalPill.parentNode;
+      btn.style.setProperty('flex', '1 1 0', 'important');
+      btn.style.setProperty('min-width', '0', 'important');
+      btn.style.setProperty('align-items', 'center', 'important');
+      btn.style.setProperty('justify-content', 'center', 'important');
+      btn.style.setProperty('text-align', 'center', 'important');
+      pillRow.appendChild(btn);
+      /* iOS :active workaround — touch events don't reliably fire :active */
+      btn.addEventListener('touchstart', function () {
+        btn.classList.add('tve-pressed');
+        btn.style.setProperty('color', '#fff', 'important');
+        btn.style.setProperty('-webkit-text-fill-color', '#fff', 'important');
+      }, { passive: true });
+      btn.addEventListener('touchend', function () {
+        setTimeout(function () {
+          btn.classList.remove('tve-pressed');
+          btn.style.removeProperty('color');
+          btn.style.removeProperty('-webkit-text-fill-color');
+        }, 300);
+      }, { passive: true });
+      btn.addEventListener('touchcancel', function () {
+        btn.classList.remove('tve-pressed');
+        btn.style.removeProperty('color');
+        btn.style.removeProperty('-webkit-text-fill-color');
+      }, { passive: true });
+    } else {
+      var pocketDays = document.querySelectorAll('.overview-day');
+      if (!pocketDays.length) return;
+      var pocketLast = pocketDays[pocketDays.length - 1];
+      var pocketExtras = pocketLast.parentNode.querySelector('.overview-extras');
+      if (pocketExtras) {
+        pocketExtras.parentNode.insertBefore(btn, pocketExtras);
+      } else {
+        pocketLast.parentNode.appendChild(btn);
+      }
+    }
+  }
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', _injectPocketToggle);
+  } else {
+    _injectPocketToggle();
   }
 
   /* ── Continue where you left off — a dismissible card between the title

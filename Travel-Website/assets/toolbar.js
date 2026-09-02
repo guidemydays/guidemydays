@@ -2746,7 +2746,8 @@ window.TVE.home = (function () {
       ['essentials/disney/',            'Best of Disney Parks'],
       ['essentials/sports-calendar/',   'Sports & Major Events Calendar'],
       ['essentials/festival-finder/',   'Best Festivals & Holidays'],
-      ['essentials/pickleball/',        'Best Places to Play Pickleball']
+      ['essentials/pickleball/',        'Best Places to Play Pickleball'],
+      ['essentials/market-days/',       'Market Days']
     ] }
   ];
 

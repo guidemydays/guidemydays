@@ -142,8 +142,13 @@ html { overflow-x: clip; scroll-behavior: smooth; }
   --c-tag-ok-border:   #8a6a28;
 
   /* ── Search bar standard tokens (§ 14 Formatting.html#sec-colors) ── */
-  /* NOTE: deliberate — read the commit history before changing this. */
+  /* 2026-08-30 owner revert (sw.js CACHE v1743, the latest of several passes):
+     "revert to the gold it was before looked much better" -- TVESearch.html's
+     own § 0 history table stops one step earlier at #3d3a32 and doesn't know
+     about this revert; sw.js's dated changelog is the tie-breaker. Don't
+     "correct" this back to #3d3a32 without checking sw.js's full history first. */
   --c-search-focus-border: #c8b99a;
+  --c-search-focus-border-rgb: 200,185,154;
   --c-search-placeholder:  #6a6660;
 
   /* ── Section head + badge colors (Cards-ATM.html) ── */
@@ -223,6 +228,7 @@ html { overflow-x: clip; scroll-behavior: smooth; }
     --c-temp-lo: #6090e0;
     --c-rain: #70a0c0;
     --c-search-focus-border: #7a6a5a;
+    --c-search-focus-border-rgb: 122,106,90;
     --c-search-placeholder:  #9a9690;
     --search-icon: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='15' height='15' viewBox='0 0 13 13' fill='none'%3E%3Ccircle cx='5.5' cy='5.5' r='4.5' stroke='%239a9690' stroke-width='1.5'/%3E%3Cline x1='9.35' y1='9.35' x2='12' y2='12' stroke='%239a9690' stroke-width='1.5' stroke-linecap='round'/%3E%3C/svg%3E");
     --c-section-head:  #c8a060;
@@ -2560,10 +2566,15 @@ body > .hero-ground {
   cursor: pointer;
   transition: background .12s ease, border-color .12s ease;
 }
+/* 2026-08-26: Glow hover (Dropdown-Collapse.html item 1) -- deliberately kept, not
+   retired. Was a hardcoded rgba(200,185,154,...) duplicating --c-search-focus-border's
+   rgb by hand instead of reading it; now reads --c-search-focus-border-rgb, so light
+   and dark both resolve correctly from the one token pair with no separate dark-mode
+   override needed (same gold-glow visual as before, just no longer hand-copied). */
 .pp-btn:hover,
 .pp-btn:focus-visible {
-  box-shadow: 0 0 0 6px rgba(200,185,154,.18), 0 0 18px rgba(200,185,154,.35);
-  border-color: var(--c-search-focus-border, var(--c-search-focus-border));
+  box-shadow: 0 0 0 6px rgba(var(--c-search-focus-border-rgb),.18), 0 0 18px rgba(var(--c-search-focus-border-rgb),.35);
+  border-color: var(--c-search-focus-border);
 }
 
 input.pp-input {
@@ -2648,8 +2659,13 @@ input.pp-input::placeholder { color: var(--muted, #6a6660); opacity: .82; font-w
 
 @media (prefers-color-scheme: dark) {
   .pp-btn { border-color: var(--border2, var(--border2)); }
+  /* border-color no longer needs a dark override -- var(--c-search-focus-border)
+     already resolves correctly (redefined for dark mode at :root, above). The
+     glow keeps a dark override only for its alpha (.25/.45 vs light's .18/.35,
+     original dark-mode intensity) -- still reads --c-search-focus-border-rgb,
+     never a hardcoded rgb. */
   .pp-btn:hover, .pp-btn:focus-visible {
-    box-shadow: 0 0 0 6px rgba(122,106,90,.25), 0 0 18px rgba(122,106,90,.45);
+    box-shadow: 0 0 0 6px rgba(var(--c-search-focus-border-rgb),.25), 0 0 18px rgba(var(--c-search-focus-border-rgb),.45);
   }
   .pp-pop { box-shadow: 0 8px 28px rgba(0,0,0,.5); }
 }

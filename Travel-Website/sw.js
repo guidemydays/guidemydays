@@ -2920,7 +2920,8 @@
 /* 2026-09-01: correction — the prior 'toolbar.js -> v1123' entry above never actually raised MIN_VERSIONS['web-travel-style.css']; doing that now. CACHE to v1786. */
 /* 2026-09-01: remove duplicate car sprite key (car → rental-cars); repoint self-drive-routes toolbar.js -> v1124. CACHE to v1788. */
 /* 2026-09-02: Color the guide control-row icons (calendar, map, offline, visited, currency) toolbar.js -> v1125. CACHE to v1789. */
-var CACHE = 'travel-cache-v1790';
+/* 2026-09-02: web-travel-style.css -- wired the missing .badge/.pill-badge/.selection-pill.nt-white compound rule -- MIN_VERSIONS['web-travel-style.css'] to 244, CACHE to v1791. */
+var CACHE = 'travel-cache-v1791';
 /* 2026-08-27: airlines.css's .card-tags align-items fix changed a shared
    asset without raising its own floor -- MIN_VERSIONS['airlines.css'] to
    6, CACHE to v1662. */

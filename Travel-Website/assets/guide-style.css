@@ -441,6 +441,7 @@ a:hover { text-decoration: underline; }
   #ics-pill-row > .overview-extra-link:nth-child(even) { border-left-width: 0 !important; }
   #ics-pill-row > .overview-extra-link:nth-child(n+3)  { border-top-width: 0 !important; }
   #ics-pill-row > #tve-cur-pill:nth-child(odd):last-child { grid-column: 1 / -1; }
+  #ics-pill-row > #tve-pocket-btn:nth-child(odd):last-child { grid-column: 1 / -1; }
 }
 @media (max-width: 600px) and (pointer: coarse) {
   #ics-pill-row {
@@ -458,6 +459,7 @@ a:hover { text-decoration: underline; }
   #ics-pill-row > .overview-extra-link:nth-child(even) { border-left-width: 0 !important; }
   #ics-pill-row > .overview-extra-link:nth-child(n+3)  { border-top-width: 0 !important; }
   #ics-pill-row > #tve-cur-pill:nth-child(odd):last-child { grid-column: 1 / -1; }
+  #ics-pill-row > #tve-pocket-btn:nth-child(odd):last-child { grid-column: 1 / -1; }
 }
 
 #ams-advisory { display:flex; align-items:flex-start; gap:10px; padding:10px 14px; background:var(--c-alt-bg); border-top:1px solid var(--c-alt-border); border-bottom:1px solid var(--c-alt-border); }
@@ -470,14 +472,14 @@ a:hover { text-decoration: underline; }
 #ams-advisory .ams-read-more:visited { color:#4a7fa8; }  /* literal hex — browsers don't resolve var() in :visited */
 #ams-advisory .ams-read-more:hover   { text-decoration:underline; }
 
-#ics-cal-pill, #ics-map-pill, #tve-offline-btn, #tve-visited-btn { color: var(--c-text-primary); }
-#ics-cal-pill:visited, #ics-map-pill:visited, #tve-offline-btn:visited, #tve-visited-btn:visited { color: #3d3a32; }  /* literal hex — browsers don't resolve var() in :visited */
-#ics-cal-pill:active, #ics-map-pill:active, #tve-offline-btn:active, #tve-visited-btn:active,
-#ics-cal-pill.tve-pressed, #ics-map-pill.tve-pressed, #tve-offline-btn.tve-pressed, #tve-visited-btn.tve-pressed { background: var(--c-action-press); }
-#tve-visited-btn.tve-been, #tve-offline-btn.tve-saved { background: var(--c-next-bg); border-color: var(--c-next-border); color: var(--c-action-text); font-weight: 700; }
-#tve-visited-btn.tve-been:visited, #tve-offline-btn.tve-saved:visited { color: #5a3c0e; }  /* literal hex — browsers don't resolve var() in :visited */
+#ics-cal-pill, #ics-map-pill, #tve-offline-btn, #tve-visited-btn, #tve-pocket-btn { color: var(--c-text-primary); }
+#ics-cal-pill:visited, #ics-map-pill:visited, #tve-offline-btn:visited, #tve-visited-btn:visited, #tve-pocket-btn:visited { color: #3d3a32; }  /* literal hex — browsers don't resolve var() in :visited */
+#ics-cal-pill:active, #ics-map-pill:active, #tve-offline-btn:active, #tve-visited-btn:active, #tve-pocket-btn:active,
+#ics-cal-pill.tve-pressed, #ics-map-pill.tve-pressed, #tve-offline-btn.tve-pressed, #tve-visited-btn.tve-pressed, #tve-pocket-btn.tve-pressed { background: var(--c-action-press); }
+#tve-visited-btn.tve-been, #tve-offline-btn.tve-saved, #tve-pocket-btn.tve-pocket-on { background: var(--c-next-bg); border-color: var(--c-next-border); color: var(--c-action-text); font-weight: 700; }
+#tve-visited-btn.tve-been:visited, #tve-offline-btn.tve-saved:visited, #tve-pocket-btn.tve-pocket-on:visited { color: #5a3c0e; }  /* literal hex — browsers don't resolve var() in :visited */
 @media (hover: hover) {
-  #ics-cal-pill:hover, #ics-map-pill:hover, #tve-offline-btn:hover, #tve-visited-btn:hover { background: var(--c-pill-hover); border-color: var(--c-pill-bd-hover); }
+  #ics-cal-pill:hover, #ics-map-pill:hover, #tve-offline-btn:hover, #tve-visited-btn:hover, #tve-pocket-btn:hover { background: var(--c-pill-hover); border-color: var(--c-pill-bd-hover); }
 }
 
 /* ── In-guide currency converter — 💱 Currency pill + expanded panel ───────── */
@@ -1939,6 +1941,44 @@ div.train .train-time   { padding: 2px 0; }
   margin: 0 0 0 auto;
   font-size: 10.5px;
   color: #c0bbb5;
+}
+
+
+/* ─── POCKET MODE (Open Recommendation pocket-guide-printable-offline) ──────
+   Toggled by #tve-pocket-btn. Strips every day-block stop down to name,
+   address (map link) and motion row — the one line a reader needs mid-walk
+   — by hiding what's already in the DOM rather than building a second copy
+   of it. Scoped to .day-block only: the hotel banner, extras sections and
+   Worth Knowing are untouched, since the recommendation is about the
+   itinerary, not the whole page. Deliberately unscoped to screen — a
+   reader who switches this on and then prints gets the stripped page
+   through the @media print rules below with no separate print path. */
+.tve-pocket-mode .day-block .stop-block > .stop-row,
+.tve-pocket-mode .day-block .stop-photos {
+  display: none;
+}
+.tve-pocket-mode .day-block .tour-box > *:not(.stop-row),
+.tve-pocket-mode .day-block .ticket-box > *:not(.stop-row) {
+  display: none;
+}
+.tve-pocket-mode .day-block .tour-box,
+.tve-pocket-mode .day-block .ticket-box {
+  background: none !important;
+  padding: 0 !important;
+  margin: 4px 0 0 !important;
+  border-radius: 0 !important;
+}
+.tve-pocket-mode .day-block .tour-box > .stop-row,
+.tve-pocket-mode .day-block .ticket-box > .stop-row {
+  margin: 0 !important;
+  padding: 0 !important;
+}
+.tve-pocket-mode .day-block .stop-block {
+  border-bottom: 1px dashed var(--c-next-border);
+  padding-bottom: 10px;
+}
+.tve-pocket-mode .day-block .stop-block:last-child {
+  border-bottom: none;
 }
 
 

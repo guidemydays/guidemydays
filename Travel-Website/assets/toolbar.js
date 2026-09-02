@@ -10598,7 +10598,13 @@ window.TVE.home = (function () {
       'grocery-abroad': 'food-delivery',
       /* Best Of */
       'amusement-parks': 'ferris', 'kids-friendly-places': 'kids',
-      'islands': 'island'
+      'islands': 'island', 'observation-decks': 'tower',
+      /* Rooftop Bars & Skyline Views' sibling-pill row sat 'nightlife',
+         'golden-hour' and 'observation-decks' bare beside a pill that draws
+         one (check_also_on_site_pills_intact) — golden-hour reuses the same
+         'sunset' key its own hero already draws (rooftop-bars' hero draws it
+         too), nightlife reuses its own hero's 'night-sky'. */
+      'nightlife': 'night-sky', 'golden-hour': 'sunset', 'rooftop-bars': 'sunset'
     };
     /* A pill pointing at a GUIDE is not in the table and never can be — there
        are 237 of them and they arrive by slug (`/guides/athens.html`), or built

@@ -2725,7 +2725,8 @@ window.TVE.home = (function () {
       ['essentials/scams/',             'Scams & Tourist Traps'],
       ['essentials/mistakes/',          'First-timer Mistakes'],
       ['essentials/cultural-etiquette/', 'Cultural Faux Pas & Taboos'],
-      ['essentials/medical-emergency-abroad/', 'Medical Emergency Abroad']
+      ['essentials/medical-emergency-abroad/', 'Medical Emergency Abroad'],
+      ['essentials/phone-theft-recovery/', 'Phone Theft & Tech Recovery Abroad']
     ] },
     /* Packing is NOT here (owner 2026-08-17: "remove packing from the plan and
        pack ... there is no pack there"). It is a top-strip tab, reachable from

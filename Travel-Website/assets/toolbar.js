@@ -6660,6 +6660,17 @@ window.TVE.home = (function () {
       { name: 'Pillows City Hotel Brussels Centre', note: 'Pillows Hotels — Rue des Paroissiens 15 beside the Cathedral and Brussels-Central, restaurant, fitness room, 24h reception, private parking · 9.1 Booking.com', url: 'https://www.booking.com/hotel/be/sandton-brussels-centre.html', tier: 'expensive' }
     ], price: { budget: '€180–195', mid: '€205–245', expensive: '€265–300', luxury: '€380+' } },
 
+    'bucharest': { h: [
+      { name: 'InterContinental Athénée Palace Bucharest by IHG', note: 'IHG InterContinental — Strada Episcopiei 1–3 facing Athenaeum, the centrepiece address in Bucharest, Belle Époque grand lobby, full-service restaurant and bar, 24h reception · 8.7 Booking.com', url: 'https://www.booking.com/hotel/ro/intercontinental-athenee-palace-bucharest.html', tier: 'luxury' },
+      { name: 'JW Marriott Bucharest Grand Hotel', note: 'Marriott JW — Calea 13 Septembrie 90 at Constitution Square, 5-star, Health & Wellness club with indoor pool, Grand Ballroom district · 8.7 Booking.com', url: 'https://www.booking.com/hotel/ro/jw-marriott-bucharest.html', tier: 'luxury' },
+      { name: 'Radisson Blu Hotel Bucharest', note: 'Radisson Blu — Calea Victoriei 63–81, rooftop pool and spa, Summit Restaurant, 24h reception, steps from the National History Museum · 8.6 Booking.com', url: 'https://www.booking.com/hotel/ro/radisson-blu-bucharest.html', tier: 'expensive' },
+      { name: 'Hilton Garden Inn Bucharest Old Town', note: 'Hilton Garden Inn — Strada Doamnei 18 in the Old Town, rooftop bar with city views, fitness room, 24h reception, steps from Lipscani · 9.0 Booking.com', url: 'https://www.booking.com/hotel/ro/hilton-garden-inn-bucharest-old-town.html', tier: 'expensive' },
+      { name: 'Cișmigiu Hotel', note: 'Independent boutique — Bulevardul Regina Elisabeta 38 overlooking Cismigiu Gardens, 24h reception, fitness room, Belle Époque interiors, tram access · 9.1 Booking.com', url: 'https://www.booking.com/hotel/ro/cismigiu.html', tier: 'mid' },
+      { name: 'Rembrandt Hotel', note: 'Independent — Strada Smardan 11 in the heart of Lipscani Old Town, 24h reception, Dutch-inspired boutique rooms, walking distance to all Old Town sights · 9.3 Booking.com', url: 'https://www.booking.com/hotel/ro/rembrandt.html', tier: 'mid' },
+      { name: 'Hotel Caro Bucharest', note: 'Independent — Strada Grigore Alexandrescu 9-11 in Floreasca, 24h reception, fitness room, restaurant, free parking, quiet residential setting · 9.2 Booking.com', url: 'https://www.booking.com/hotel/ro/caro.html', tier: 'budget' },
+      { name: 'Hotel Lido Bucharest', note: 'Independent — Bulevardul Magheru 5-7 on Bucharest\'s main shopping boulevard, 24h reception, central location, metro Universitate 3 min walk · 8.8 Booking.com', url: 'https://www.booking.com/hotel/ro/lido.html', tier: 'budget' }
+    ], price: { budget: 'RON 250–350', mid: 'RON 500–700', expensive: 'RON 950–1,400', luxury: 'RON 1,900+' } },
+
     'budapest': { h: [
       { name: 'Four Seasons Hotel Gresham Palace Budapest', note: 'Four Seasons brand — 1906 Art Nouveau palace at Chain Bridge, Danube-view rooms, spa, Kollázs Brasserie & Bar · 9.4 Booking.com', url: 'https://www.booking.com/hotel/hu/four-seasons-gresham-palace-budapest.html', tier: 'luxury' },
       { name: 'Corinthia Budapest', note: 'Independent luxury — 1896 grand Victorian building in central Pest, Royal Spa, Brasserie & Atrium, indoor pool · 9.2 Booking.com', url: 'https://www.booking.com/hotel/hu/corinthiaroyal.html', tier: 'mid' },
@@ -7205,6 +7216,16 @@ window.TVE.home = (function () {
       { name: 'Mercure Kuala Lumpur Shaw Parade', note: 'Accor Mercure brand — Changkat Raja Chulan, rooftop pool, fitness centre, 24h reception · 8.7 Booking.com', url: 'https://www.booking.com/hotel/my/mercure-kuala-lumpur-shaw-parade.html', tier: 'mid' },
       { name: 'Moxy Kuala Lumpur Chinatown', note: 'Marriott Moxy brand — Jalan Maharajalela near Chinatown, bar, fitness centre, 24h reception · 8.8 Booking.com', url: 'https://www.booking.com/hotel/my/moxy-kuala-lumpur-chinatown.html', tier: 'budget' }
     ], price: { budget: 'MYR 220–270', mid: 'MYR 280–320', expensive: 'MYR 370–420', luxury: 'MYR 520–600' } },
+    'kuwait-city': { h: [
+      { name: 'Ibis Kuwait Salmiya', note: 'Accor Ibis brand — Al-Salmiya commercial district, 3-star, 24h reception · 8.3 Booking.com', url: 'https://www.booking.com/hotel/kw/ibis-kuwait-salmiya.html', tier: 'budget' },
+      { name: 'Holiday Inn Express Kuwait Salmiya', note: 'IHG Holiday Inn Express brand — Salmiya on Gulf Road, 3-star, fitness centre, 24h reception · 8.5 Booking.com', url: 'https://www.booking.com/hotel/kw/holiday-inn-express-kuwait-salmiya.html', tier: 'budget' },
+      { name: 'Four Points by Sheraton Kuwait', note: 'Marriott Four Points brand — Abdullah Al-Salem District, 4-star, outdoor pool, 24h reception · 8.5 Booking.com', url: 'https://www.booking.com/hotel/kw/four-points-by-sheraton-kuwait.html', tier: 'mid' },
+      { name: 'Courtyard by Marriott Kuwait City', note: 'Marriott Courtyard brand — Salmiya near the Gulf, 4-star, outdoor pool, 24h reception · 8.7 Booking.com', url: 'https://www.booking.com/hotel/kw/courtyard-by-marriott-kuwait-city.html', tier: 'mid' },
+      { name: 'JW Marriott Hotel Kuwait City', note: 'Marriott JW brand — Al Shuhada Street in Salhia, 5-star, outdoor pool, multiple restaurants, 24h reception · 9.0 Booking.com', url: 'https://www.booking.com/hotel/kw/jw-marriott-hotel-kuwait-city.html', tier: 'expensive' },
+      { name: 'Kempinski Residences and Suites Kuwait', note: 'Kempinski brand — Jahra Road in West Mishref, 5-star, full kitchen suites, pools, 24h reception · 8.8 Booking.com', url: 'https://www.booking.com/hotel/kw/kempinski-residences-and-suites-kuwait.html', tier: 'expensive' },
+      { name: 'Four Seasons Hotel Kuwait at Burj Alshaya', note: 'Four Seasons brand — Sheikh Hamad Bin Jaber Al-Ali Street in Sharq, 5-star, rooftop pool, spa, 24h reception · 9.3 Booking.com', url: 'https://www.booking.com/hotel/kw/four-seasons-hotel-kuwait-at-burj-alshaya.html', tier: 'luxury' },
+      { name: 'Jumeirah Messilah Beach Hotel & Spa', note: 'Jumeirah brand — Messilah beachfront south of the city, 5-star, private beach, multiple pools, spa, 24h reception · 9.1 Booking.com', url: 'https://www.booking.com/hotel/kw/jumeirah-messilah-beach-hotel-spa-kuwait.html', tier: 'luxury' }
+    ], price: { budget: 'KWD 15–25', mid: 'KWD 40–65', expensive: 'KWD 85–130', luxury: 'KWD 160–300' } },
     'kyoto': { h: [
       { name: 'THE THOUSAND KYOTO', note: 'Independent — Shimogyo Ward beside Kyoto Station, 5-star, spa and wellness centre, 24h reception · 9.4 Booking.com', url: 'https://www.booking.com/hotel/jp/the-thousand-kyoto.html', tier: 'expensive' },
       { name: 'The Royal Park Hotel Iconic Kyoto', note: 'Royal Park Hotels — Nakagyo Ward on Kawaramachi, 5-star, public bath, 24h reception · 9.2 Booking.com', url: 'https://www.booking.com/hotel/jp/za-roirupakuhoteru-aikonitukujing-du.html', tier: 'expensive' },
@@ -7486,6 +7507,23 @@ window.TVE.home = (function () {
       { name: 'Hyatt Centric Montevideo', note: 'Hyatt brand — downtown on Rincón, panoramic city views, fitness centre, 24h front desk · 8.9 Booking.com', url: 'https://www.booking.com/hotel/uy/hyatt-centric-montevideo.html', tier: 'expensive' },
       { name: 'Sofitel Montevideo Casino Carrasco & Spa', note: 'Sofitel brand — 1921 Casino Carrasco landmark on the Rambla, indoor pool and spa, 24h front desk · 9.0 Booking.com', url: 'https://www.booking.com/hotel/uy/sofitel-montevideo-casino-carrasco.html', tier: 'luxury' }
     ], price: { budget: 'USD 60–100', mid: 'USD 100–170', expensive: 'USD 170–280', luxury: 'USD 280+' } },
+    'moscow': { h: [
+      { name: 'CityComfort Hotel Kitay-Gorod', note: 'Independent — old Kitay-Gorod quarter, 5 min walk to Lubyanka, 15 min walk to Red Square, 24h front desk · 8.0 Booking.com', url: 'https://www.booking.com/hotel/ru/city-comfort.html', tier: 'budget' },
+      { name: 'Minima Kitay-Gorod', note: 'Independent — compact budget rooms 10 min walk from Red Square and Saint Basil’s, 24h reception', url: 'https://www.booking.com/hotel/ru/kitay-gorod.html', tier: 'budget' },
+      { name: 'Budapest Hotel', note: 'Independent — 19th-century building steps from the Bolshoi Theatre, 24h front desk, free cancellation · 8.2 Booking.com', url: 'https://www.booking.com/hotel/ru/budapest.html', tier: 'mid' },
+      { name: 'Golden Ring Hotel', note: 'Independent — near the Arbat opposite the Foreign Ministry high-rise, 5 min walk to Smolenskaya metro, 24h reception · 8.9 Booking.com', url: 'https://www.booking.com/hotel/ru/golden-ring.html', tier: 'mid' },
+      { name: 'Metropol Hotel', note: 'Independent — Art Nouveau landmark by the Bolshoi Theatre and Red Square, 24h reception, indoor pool · 8.5 Booking.com', url: 'https://www.booking.com/hotel/ru/metropol-moscow.html', tier: 'expensive' },
+      { name: 'Lotte Hotel Moscow', note: 'Independent — modern 5-star at the Arbat/Novinsky Boulevard corner, indoor pool and spa, 24h reception', url: 'https://www.booking.com/hotel/ru/lotte-moscow.html', tier: 'expensive' },
+      { name: 'Hotel National', note: 'Marriott Luxury Collection — directly opposite the Kremlin and Red Square, 24h reception, indoor pool · 8.9 Booking.com', url: 'https://www.booking.com/hotel/ru/national.html', tier: 'luxury' },
+      { name: 'The Carlton, Moscow', note: 'Independent, former Ritz-Carlton — Tverskaya Street steps from Red Square, rooftop O2 Lounge with Kremlin views, 24h reception', url: 'https://www.booking.com/hotel/ru/moscow-ritz.en-gb.html', tier: 'luxury' }
+    ], price: { budget: '₽3,500–6,000', mid: '₽8,000–13,000', expensive: '₽18,000–30,000', luxury: '₽32,000+' } },
+    'nairobi': { h: [
+      { name: 'Hyatt Place Nairobi Westlands', note: 'Hyatt family select-service — Lower Kabete Road by Sarit Centre, modern rooms, 24h reception · 9.2 Booking.com', url: 'https://www.booking.com/hotel/ke/hyatt-place-nairobi-westlands.html', tier: 'budget' },
+      { name: 'Hilton Garden Inn Nairobi Airport', note: 'Hilton family — modern rooms near JKIA, outdoor pool, free airport shuttle, 24h reception · 8.6 Booking.com', url: 'https://www.booking.com/hotel/ke/hilton-garden-inn-nairobi-kenya.html', tier: 'mid' },
+      { name: 'Sankara Nairobi, Autograph Collection', note: 'Marriott family (Autograph Collection) — Westlands nightlife district, rooftop pool bar, 24h reception · 8.2 Booking.com', url: 'https://www.booking.com/hotel/ke/sankara-nairobi.html', tier: 'expensive' },
+      { name: 'Radisson Blu Hotel, Nairobi Upper Hill', note: 'Radisson Blu brand — Elgon Road in the Upper Hill business district, outdoor pool, 24h reception · 8.8 Booking.com', url: 'https://www.booking.com/hotel/ke/radisson-blu-nairobi.html', tier: 'expensive' },
+      { name: 'JW Marriott Hotel Nairobi', note: 'Marriott family flagship — Chiromo Lane in Westlands, infinity pool, spa, 12-min walk to the National Museum · 9.3 Booking.com', url: 'https://www.booking.com/hotel/ke/jw-marriott-nairobi.html', tier: 'luxury' }
+    ], price: { budget: 'KES 13000–18500', mid: 'KES 18500–25500', expensive: 'KES 25500–34000', luxury: 'KES 34000+' } },
     'montreal': { h: [
       { name: 'Marriott Château Champlain', note: 'Marriott brand — distinctive half-moon windows on rue de la Gauchetière, indoor pool, steps from Windsor Station and the Bell Centre · 8.5 Booking.com', url: 'https://www.booking.com/hotel/ca/chateau-champlain-montreal.html', tier: 'budget' },
       { name: 'Delta Hotels by Marriott Montreal', note: 'Marriott brand — central on rue de la Montagne, outdoor terrace, 24h front desk · 8.6 Booking.com', url: 'https://www.booking.com/hotel/ca/delta-montreal.html', tier: 'mid' },
@@ -11643,6 +11681,7 @@ window.TVE.home = (function () {
       'boulder':           {iata:'DEN', name:'Denver International'},
       'bruges':            {iata:'BRU', name:'Brussels Airport'},
       'brussels':          {iata:'BRU', name:'Brussels Airport'},
+      'bucharest':         {iata:'OTP', name:'Henri Coandă International'},
       'budapest':          {iata:'BUD', name:'Budapest Ferenc Liszt'},
       'buenos-aires':      {iata:'EZE', name:'Ministro Pistarini International'},
       'busan':             {iata:'PUS', name:'Gimhae International'},
@@ -11709,6 +11748,7 @@ window.TVE.home = (function () {
       'kotor':             {iata:'TIV', name:'Tivat Airport'},
       'krakow':            {iata:'KRK', name:'Kraków John Paul II'},
       'kuala-lumpur':      {iata:'KUL', name:'Kuala Lumpur International Airport'},
+      'kuwait-city':       {iata:'KWI', name:'Kuwait International Airport'},
       'kyoto':             {iata:'HND', name:'Tokyo Haneda'},
       'la-jolla':          {iata:'SAN', name:'San Diego International'},
       'lagos':             {iata:'FAO', name:'Faro Airport'},
@@ -11747,7 +11787,9 @@ window.TVE.home = (function () {
       'monaco':            {iata:'NCE', name:'Nice Côte d\'Azur'},
       'montevideo':        {iata:'MVD', name:'Carrasco International'},
       'montreal':          {iata:'YUL', name:'Montréal-Trudeau International'},
+      'moscow':            {iata:'SVO', name:'Sheremetyevo International'},
       'mumbai':            {iata:'BOM', name:'Chhatrapati Shivaji Maharaj International'},
+      'nairobi':           {iata:'NBO', name:'Jomo Kenyatta International'},
       'munich':            {iata:'MUC', name:'Munich International'},
       'muscat':            {iata:'MCT', name:'Muscat International'},
       'mykonos':           {iata:'JMK', name:'Mykonos Island National Airport'},
@@ -11874,14 +11916,14 @@ window.TVE.home = (function () {
       'DCA','DEL','DEN','DFW','DOH','DPS','DTW','DUB','DUS','DXB','DYG','EDI','EYW','EZE','FAO','FCA',
       'FCO','FHR','FLN','FLR','FNC','FOR','FRA','GCM','GEG','GIG','GLA','GOT','GPS','GRU','GRX','GVA',
       'HAM','HAN','HAV','HEL','HER','HHH','HIJ','HKG','HKT','HND','HNL','IAD','IAH','ICN','IGU','IST',
-      'JFK','JMK','JPA','JTR','KEF','KIX','KOA','KRK','KTM','KUL','LAS','LAX','LGA','LGW','LHR','LIH','LIM',
-      'LIS','LJU','LOS','LPQ','LUX','LYS','MAD','MAN','MCO','MCT','MCZ','MEL','MIA','MLA','MLE','MRS',
-      'MSP','MSY','MUC','MVD','MXP','NAP','NAS','NAT','NCE','OAX','OGG','OLB','OPO','ORD','ORS','ORY',
-      'OSL','PBH','PDL','PDX','PEK','PHL','PHX','PLS','PMI','PNS','POA','PPS','PRG','PSA','PSP','PUJ',
-      'PUS','PVG','PVR','RAK','RDM','REC','RHO','RIX','RNO','RSW','SAN','SCL','SEA','SEZ','SFO','SIN',
-      'SJC','SJD','SJO','SJU','SKG','SLC','SLZ','SPU','SRQ','SSA','STR','STT','SVQ','SXB','SXM','SYD',
-      'SZG','TBS','TFS','TIV','TLL','TLV','TOS','TPE','TRN','VCE','VIE','VLC','VNO','VRN','WLG','YQB','YUL',
-      'YVR','YYC','YYZ','ZAG','ZQN','ZRH','ZTH'
+      'JFK','JMK','JPA','JTR','KEF','KIX','KOA','KRK','KTM','KUL','KWI','LAS','LAX','LGA','LGW','LHR',
+      'LIH','LIM','LIS','LJU','LOS','LPQ','LUX','LYS','MAD','MAN','MCO','MCT','MCZ','MEL','MIA','MLA',
+      'MLE','MRS','MSP','MSY','MUC','MVD','MXP','NAP','NAS','NAT','NBO','NCE','OAX','OGG','OLB','OPO',
+      'ORD','ORS','ORY','OSL','OTP','PBH','PDL','PDX','PEK','PHL','PHX','PLS','PMI','PNS','POA','PPS',
+      'PRG','PSA','PSP','PUJ','PUS','PVG','PVR','RAK','RDM','REC','RHO','RIX','RNO','RSW','SAN','SCL',
+      'SEA','SEZ','SFO','SIN','SJC','SJD','SJO','SJU','SKG','SLC','SLZ','SPU','SRQ','SSA','STR','STT',
+      'SVO','SVQ','SXB','SXM','SYD','SZG','TBS','TFS','TIV','TLL','TLV','TOS','TPE','TRN','VCE','VIE',
+      'VLC','VNO','VRN','WLG','YQB','YUL','YVR','YYC','YYZ','ZAG','ZQN','ZRH','ZTH'
     ];
 
     function _inject() {

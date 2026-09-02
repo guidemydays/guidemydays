@@ -54,7 +54,7 @@
    classes in web-travel-style.css.  This class is a layout hook only; it used
    to set its own 12px / 2px 8px near-miss of the shared box.  Never re-add one.
    Spec: Brain/Reference/Icons-Formats-Logos/selection-pills-badges-pills-to-badge-dots/. */
-.legend-item { }
+.legend-item[data-filter] { cursor: pointer; user-select: none; }
 .country-block { margin-bottom: 24px; }
 /* .country-header / .country-name canonical place+color+size+font now shared in web-travel-style.css + mobile.css (owner rule 2026-07-29) */
 .country-header { display: flex; align-items: center; gap: 12px; }
@@ -325,10 +325,10 @@ html { scroll-behavior: smooth; }
  <div class="legend-group">
  <div class="legend-group-label">Lounge type</div>
  <div class="legend-items">
- <div class="legend-item badge has-icon sb-blue"><svg class="gm-icon" data-icon="dot-blue" data-role="dot" viewBox="0 0 24 24" aria-hidden="true"><use href="#gm-i-dot-blue"/></svg> Airline &amp; alliance</div>
- <div class="legend-item badge has-icon sb-dark-grey"><svg class="gm-icon" data-icon="dot-black" data-role="dot" viewBox="0 0 24 24" aria-hidden="true"><use href="#gm-i-dot-black"/></svg> Pay at the door</div>
- <div class="legend-item badge has-icon sb-green"><svg class="gm-icon" data-icon="dot-green" data-role="dot" viewBox="0 0 24 24" aria-hidden="true"><use href="#gm-i-dot-green"/></svg> Membership</div>
- <div class="legend-item badge has-icon sb-gold"><svg class="gm-icon" data-icon="dot-orange" data-role="dot" viewBox="0 0 24 24" aria-hidden="true"><use href="#gm-i-dot-orange"/></svg> Credit card</div>
+ <div class="legend-item badge has-icon sb-blue" data-filter="airline" role="button" tabindex="0" aria-pressed="false"><svg class="gm-icon" data-icon="dot-blue" data-role="dot" viewBox="0 0 24 24" aria-hidden="true"><use href="#gm-i-dot-blue"/></svg> Airline &amp; alliance</div>
+ <div class="legend-item badge has-icon sb-dark-grey" data-filter="pay" role="button" tabindex="0" aria-pressed="false"><svg class="gm-icon" data-icon="dot-black" data-role="dot" viewBox="0 0 24 24" aria-hidden="true"><use href="#gm-i-dot-black"/></svg> Pay at the door</div>
+ <div class="legend-item badge has-icon sb-green" data-filter="pp" role="button" tabindex="0" aria-pressed="false"><svg class="gm-icon" data-icon="dot-green" data-role="dot" viewBox="0 0 24 24" aria-hidden="true"><use href="#gm-i-dot-green"/></svg> Membership</div>
+ <div class="legend-item badge has-icon sb-gold" data-filter="card" role="button" tabindex="0" aria-pressed="false"><svg class="gm-icon" data-icon="dot-orange" data-role="dot" viewBox="0 0 24 24" aria-hidden="true"><use href="#gm-i-dot-orange"/></svg> Credit card</div>
  </div>
  </div>
  </div>
@@ -6201,7 +6201,8 @@ html { scroll-behavior: smooth; }
   var pagenav=document.querySelector('nav.nav');
   var blocks=[].slice.call(document.querySelectorAll('.country-block'));
   var pills=[].slice.call(document.querySelectorAll('.nav-link[data-cont]'));
-  var cont='';
+  var legendItems=[].slice.call(document.querySelectorAll('.legend-item[data-filter]'));
+  var cont='', access='';
   function norm(s){return (s||'').normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase();}
   /* The country name and the continent live on the block, not on the card, so
      a card's own text does not contain them — fold them in or a search for
@@ -6214,6 +6215,20 @@ html { scroll-behavior: smooth; }
         .replace(/\buk\b/g,'uk united kingdom')
         .replace(/\busa\b/g,'usa united states')
         .replace(/\buae\b/g,'uae united arab emirates');
+      /* Access-type groups: a .section-label plus every sibling up to the
+         next .section-label is one group. Grouped by DOM adjacency, not a
+         fixed 1-label-1-lounge-item assumption — some airports stack up to
+         5 lounge-items under one label (several Priority Pass rooms at one
+         terminal), so walking nextElementSibling is the only way to get
+         this right for every airport-card on the page. */
+      var groups=[];
+      [].slice.call(card.querySelectorAll('.section-label')).forEach(function(label){
+        var members=[label], el=label.nextElementSibling;
+        while(el&&!el.classList.contains('section-label')){members.push(el);el=el.nextElementSibling;}
+        var type=['airline','pay','pp','card','third-party'].filter(function(t){return label.classList.contains(t);})[0]||'';
+        groups.push({type:type,members:members});
+      });
+      card._groups=groups;
     });
   });
   function run(){
@@ -6221,9 +6236,21 @@ html { scroll-behavior: smooth; }
     blocks.forEach(function(b){
       var inCont=(cont===''||b.getAttribute('data-cont')===cont), any=false;
       [].slice.call(b.querySelectorAll('.airport-card')).forEach(function(card){
-        var match=inCont&&(q===''||card._hay.indexOf(q)>-1);
+        var textMatch=(q===''||card._hay.indexOf(q)>-1);
+        var groupMatch=true;
+        if(access){
+          groupMatch=false;
+          card._groups.forEach(function(g){
+            var on=g.type===access;
+            g.members.forEach(function(m){m.style.display=on?'':'none';});
+            if(on)groupMatch=true;
+          });
+        } else {
+          card._groups.forEach(function(g){g.members.forEach(function(m){m.style.display='';});});
+        }
+        var match=inCont&&textMatch&&groupMatch;
         card.style.display=match?'':'none';
-        if(match){any=true;shown++;if(q&&window.LoungeUI)window.LoungeUI.expand(card);}
+        if(match){any=true;shown++;if((q||access)&&window.LoungeUI)window.LoungeUI.expand(card);}
       });
       b.style.display=any?'':'none';
     });
@@ -6238,10 +6265,13 @@ html { scroll-behavior: smooth; }
       setTimeout(function(){
         var dd=input.parentNode&&input.parentNode.querySelector('.sa-suggest');
         if(dd&&!dd.hidden) return;
-        /* Typing clears the continent so a match is never filtered out of
-           sight by a pill the reader set minutes ago. */
-        if(input.value.trim()!==''&&cont!==''){
-          cont='';pills.forEach(function(p){p.classList.toggle('is-on',p.getAttribute('data-cont')==='');});
+        /* Typing clears the continent AND the access filter so a match is
+           never filtered out of sight by a pill/legend button the reader
+           set minutes ago. */
+        if(input.value.trim()!==''&&(cont!==''||access!=='')){
+          cont='';access='';
+          pills.forEach(function(p){p.classList.toggle('is-on',p.getAttribute('data-cont')==='');});
+          legendItems.forEach(function(li){li.classList.remove('is-on');li.setAttribute('aria-pressed','false');});
         }
         run();
       },0);
@@ -6252,6 +6282,24 @@ html { scroll-behavior: smooth; }
       cont=p.getAttribute('data-cont')||'';
       pills.forEach(function(o){o.classList.toggle('is-on',o===p);});
       run();
+    });
+  });
+  /* Legend-item access filter — same single-select, click-active-to-clear
+     contract as the continent pills above and as /essentials/safety/'s
+     filterLevel: picking a type shows only its groups within each airport
+     card (an airport with no matching lounge type simply drops out); the
+     active pill clears itself on a second click. */
+  function activateLegend(li){
+    var on=li.classList.contains('is-on');
+    legendItems.forEach(function(o){o.classList.remove('is-on');o.setAttribute('aria-pressed','false');});
+    access=on?'':(li.getAttribute('data-filter')||'');
+    if(!on){li.classList.add('is-on');li.setAttribute('aria-pressed','true');}
+    run();
+  }
+  legendItems.forEach(function(li){
+    li.addEventListener('click',function(){activateLegend(li);});
+    li.addEventListener('keydown',function(e){
+      if(e.key==='Enter'||e.key===' '){e.preventDefault();activateLegend(li);}
     });
   });
   window.LoungeFilter={run:run};

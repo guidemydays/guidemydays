@@ -2724,7 +2724,8 @@ window.TVE.home = (function () {
        Both old paths 404; never re-add either row. */
     { name: 'Stay & eat', links: [
       ['essentials/where-to-stay/',      'Where to Stay'],
-      ['essentials/restaurants/',        'Restaurants & Reservations']
+      ['essentials/restaurants/',        'Restaurants & Reservations'],
+      ['essentials/grocery-abroad/',     'Grocery & Pharmacy Delivery Abroad']
     ] },
     { name: 'Health & safety', links: [
       ['essentials/safety/',            'Safety Guide'],
@@ -2758,8 +2759,10 @@ window.TVE.home = (function () {
       ['essentials/festival-finder/',   'Best Festivals & Holidays'],
       ['essentials/pickleball/',        'Best Places to Play Pickleball'],
       ['essentials/market-days/',       'Market Days'],
+      ['essentials/night-markets/',     'Night Markets'],
       ['essentials/cruise-ports/',      'Cruise Port Day Guide'],
-      ['essentials/golden-hour/',       'Golden Hour & Best Photo Spots']
+      ['essentials/golden-hour/',       'Golden Hour & Best Photo Spots'],
+      ['essentials/rooftop-bars/',      'Rooftop Bars & Skyline Views']
     ] }
   ];
 
@@ -10586,6 +10589,13 @@ window.TVE.home = (function () {
       'insurance': 'insurance', 'safety': 'safety-guide', 'scams': 'scams',
       'tap-water': 'tap-water', 'mistakes': 'first-timer',
       'before-you-go': 'luggage',
+      /* Grocery & Pharmacy Delivery Abroad's sibling-pill row (Travel Packing,
+         Tap Water) sat bare beside pills that draw one
+         (check_also_on_site_pills_intact) — no grocery/cart/pharmacy concept
+         exists in the catalogue yet, so this reuses 'food-delivery', already
+         drawn for guides' Food Delivery extras section, rather than inventing
+         a new icon for a page that is itself about delivery. */
+      'grocery-abroad': 'food-delivery',
       /* Best Of */
       'amusement-parks': 'ferris', 'kids-friendly-places': 'kids',
       'islands': 'island'

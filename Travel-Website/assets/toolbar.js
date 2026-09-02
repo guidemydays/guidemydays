@@ -6267,6 +6267,12 @@ window.TVE.home = (function () {
      fleet-wide by check_post_ci_sections.py.                                     */
   var HOTEL_ALT_DATA = {
     /* entries added per guide during build — see Separation Map.md § Hotels & Rentals */
+    'jerusalem': { h: [
+      { name: 'Saladin Boutique Hotel', note: 'Independent boutique — inside the Old City in the Muslim Quarter, 5 min walk to the Western Wall, 24h front desk, king or twin rooms · 9.0 Booking.com', url: 'https://www.booking.com/hotel/il/saladin-boutique.html', tier: 'budget' },
+      { name: 'Jerusalem Gold Hotel', note: 'Independent — West Jerusalem beside Yitzhak Navon train station, soundproofed rooms, 24h front desk, 20 min walk to the Old City · 9.3 Booking.com', url: 'https://www.booking.com/hotel/il/jerusalem-gold.html', tier: 'mid' },
+      { name: 'Mamilla view URBAN - Boutique hotel', note: 'Independent boutique — Shlomtzion HaMalka Street, 5 min walk to the Old City and Mamilla, 24h front desk, king or twin rooms · 9.0 Booking.com', url: 'https://www.booking.com/hotel/il/cityhoteljerusalem.html', tier: 'expensive' },
+      { name: 'Waldorf Astoria Jerusalem', note: 'Hilton Waldorf Astoria — Agron Street between King David and Mamilla, the sole current international luxury brand hotel in the city, Spa Guerlain, 3 restaurants, 24h reception · 8.9 Booking.com', url: 'https://www.booking.com/hotel/il/waldorf-astoria-jerusalem.html', tier: 'luxury' }
+    ], price: { budget: 'ILS 300–450', mid: 'ILS 450–650', expensive: 'ILS 650–1,000', luxury: 'ILS 1,600+' } },
     'granada': { h: [
       { name: 'Shine Albayzín Hotel', note: 'Boutique hotel in Albaicín near Río Darro, traditional Andalusian courtyard, free cancellation, 24h reception · 8.4 Booking.com', url: 'https://www.booking.com/hotel/es/shine-darro.html', tier: 'budget' },
       { name: 'Vincci Albayzín Hotel', note: 'Vincci Hotels — 4-star in Albaicín, eco-certified, regional cuisine restaurant, free cancellation · 8.7 Booking.com', url: 'https://www.booking.com/hotel/es/vincci-albayzin.html', tier: 'mid' },
@@ -11696,6 +11702,7 @@ window.TVE.home = (function () {
       'hoi-an':            {iata:'DAD', name:'Da Nang International'},
       'hong-kong':         {iata:'HKG', name:'Hong Kong International'},
       'istanbul':          {iata:'IST', name:'Istanbul Airport'},
+      'jerusalem':         {iata:'TLV', name:'Ben Gurion Airport'},
       'joao-pessoa':       {iata:'JPA', name:'João Pessoa Castro Pinto'},
       'kauai':             {iata:'LIH', name:'Lihue Airport'},
       'keywest':           {iata:'EYW', name:'Key West International'},
@@ -11873,7 +11880,7 @@ window.TVE.home = (function () {
       'OSL','PBH','PDL','PDX','PEK','PHL','PHX','PLS','PMI','PNS','POA','PPS','PRG','PSA','PSP','PUJ',
       'PUS','PVG','PVR','RAK','RDM','REC','RHO','RIX','RNO','RSW','SAN','SCL','SEA','SEZ','SFO','SIN',
       'SJC','SJD','SJO','SJU','SKG','SLC','SLZ','SPU','SRQ','SSA','STR','STT','SVQ','SXB','SXM','SYD',
-      'SZG','TBS','TFS','TIV','TLL','TOS','TPE','TRN','VCE','VIE','VLC','VNO','VRN','WLG','YQB','YUL',
+      'SZG','TBS','TFS','TIV','TLL','TLV','TOS','TPE','TRN','VCE','VIE','VLC','VNO','VRN','WLG','YQB','YUL',
       'YVR','YYC','YYZ','ZAG','ZQN','ZRH','ZTH'
     ];
 

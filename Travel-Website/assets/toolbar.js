@@ -2708,7 +2708,8 @@ window.TVE.home = (function () {
       ['essentials/passport/',          'Passport'],
       ['essentials/trusted-traveler/',  'Trusted Traveler Programs'],
       ['essentials/visa-times/',        'Visa Processing Times'],
-      ['essentials/nomad-visas/',       'Digital Nomad Visa Quick Reference']
+      ['essentials/nomad-visas/',       'Digital Nomad Visa Quick Reference'],
+      ['essentials/traveling-with-minors/', 'Traveling with Minors']
     ] },
     /* essentials/hotels/ + essentials/neighborhoods/ merged into ONE page,
        essentials/where-to-stay/, on 2026-08-22 (owner: "combine this page

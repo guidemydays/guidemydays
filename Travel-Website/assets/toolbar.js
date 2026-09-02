@@ -3368,7 +3368,7 @@ window.TVE.home = (function () {
           var pill = document.createElement('a');
           pill.className = 'overview-extra-link';
           pill.href = mapHref;
-          pill.innerHTML = monoSVG('country-map', 15) + ' All Stops Map';
+          pill.innerHTML = iconSVG(null, 15, 'country-map') + ' All Stops Map';
           gelRow.appendChild(pill);
         }
       };
@@ -4009,7 +4009,7 @@ window.TVE.home = (function () {
     var bTitle = document.createElement('div');
     bTitle.style.cssText = 'margin-bottom:5px;padding-right:28px;';
     var bTitleText = document.createElement('span');
-    bTitleText.innerHTML = monoSVG('cal-export', 15) + ' Export to Calendar';
+    bTitleText.innerHTML = iconSVG(null, 15, 'cal-export') + ' Export to Calendar';
     bTitleText.style.cssText = 'font-size:15px;font-weight:700;color:#1b2531;';
     bTitle.appendChild(bTitleText);
 
@@ -4228,7 +4228,7 @@ window.TVE.home = (function () {
     /* ── Trigger link — <a> matches the other pills exactly, terracotta border only ── */
     var trigBtn = document.createElement('a');
     trigBtn.href = 'javascript:void(0)';
-    trigBtn.innerHTML = monoSVG('cal-export', 15) + ' Export to Calendar';
+    trigBtn.innerHTML = iconSVG(null, 15, 'cal-export') + ' Export to Calendar';
     trigBtn.className = 'overview-extra-link';
     trigBtn.addEventListener('click', function (e) {
       e.preventDefault(); e.stopPropagation();
@@ -5706,7 +5706,7 @@ window.TVE.home = (function () {
     btn.id = 'tve-offline-btn';
     var restLabel = (isPacking
       ? '<svg viewBox="0 0 24 24" aria-hidden="true"><use href="#gm-i-download"/></svg>&nbsp;Save for Offline'
-      : monoSVG('download', 15) + ' Save for Offline');
+      : iconSVG(null, 15, 'download') + ' Save for Offline');
     btn.innerHTML = restLabel;
 
     var busy = false;
@@ -5773,7 +5773,7 @@ window.TVE.home = (function () {
           /* Anything else is usually a lost user activation: the build took
              several seconds and the gesture that started it has expired. Offer
              one fresh tap rather than silently dumping the file somewhere. */
-          setLabel(monoSVG('download', 15) + ' Tap to save');
+          setLabel(iconSVG(null, 15, 'download') + ' Tap to save');
           btn.__pending = html;
           busy = false;
         });
@@ -5920,19 +5920,19 @@ window.TVE.home = (function () {
     btn.className = 'overview-extra-link' + (visited ? ' tve-been' : '');
     btn.id = 'tve-visited-btn';
     btn.innerHTML = visited
-      ? monoSVG('check', 15) + ' I’ve Been'
-      : monoSVG('pin', 15) + ' I’ve Been';
+      ? iconSVG(null, 15, 'check') + ' I’ve Been'
+      : iconSVG(null, 15, 'pin') + ' I’ve Been';
 
     btn.addEventListener('click', function (e) {
       e.preventDefault(); e.stopPropagation();
       var nowVisited = !!localStorage.getItem(storageKey);
       if (nowVisited) {
         localStorage.removeItem(storageKey);
-        btn.innerHTML = monoSVG('pin', 15) + ' I’ve Been';
+        btn.innerHTML = iconSVG(null, 15, 'pin') + ' I’ve Been';
         btn.classList.remove('tve-been');
       } else {
         localStorage.setItem(storageKey, '1');
-        btn.innerHTML = monoSVG('check', 15) + ' I’ve Been';
+        btn.innerHTML = iconSVG(null, 15, 'check') + ' I’ve Been';
         btn.classList.add('tve-been');
       }
     });
@@ -9675,7 +9675,7 @@ window.TVE.home = (function () {
       pill.href = 'javascript:void(0)';
       pill.className = 'overview-extra-link';
       pill.id = 'tve-cur-pill';
-      pill.innerHTML = monoSVG('exchange', 15) + ' Currency';
+      pill.innerHTML = iconSVG(null, 15, 'exchange') + ' Currency';
       pill.setAttribute('aria-expanded', 'false');
       pill.setAttribute('aria-controls', 'tve-cur-panel');
       pill.style.setProperty('flex', '1 1 0', 'important');

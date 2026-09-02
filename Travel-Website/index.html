@@ -2138,22 +2138,22 @@ a.ask-card:focus-visible .ask-name { color: var(--rust, #C04E1A); }
   background: var(--sp-wash); border: 1px solid rgba(var(--sp-rgb),.45); color: var(--sp-ink);
   transition: box-shadow .15s, border-color .15s;
 }
-#tp-compare .cmp-go-btn:not(:disabled):hover {
+/* ONE hover rule, both buttons (fixed 2026-09-02 -- owner, live: "they have
+   two different hovers! how can we ship that!"). The 2026-08-27 fix this
+   replaces only patched .cmp-exit-btn's OWN hover (a specificity fight
+   against .paired-reset it could never win, see the history this comment
+   used to carry) without checking the result against its .paired-btn
+   sibling, so the pair still diverged -- exactly the class of bug
+   .paired-btn exists to prevent (assets/toolbar.js's _equalizePairButtons(),
+   same 2026-08-27 rule: "give the treatment to all", currently width-only).
+   Restores the shared saddle+glow hover both buttons already carry at REST
+   (line 2136) and that guides-index-style.css's own .cmp-go-btn/.cmp-exit-btn
+   base gives both buttons identically -- this #tp-compare scope was the
+   only place the pair ever split. Brain/scripts/paired_btn_hover_audit.py
+   now hard-fails any future re-split of a .paired-btn pair's hover. */
+#tp-compare .cmp-go-btn:not(:disabled):hover, #tp-compare .cmp-exit-btn:hover {
   box-shadow: 0 0 0 6px rgba(var(--sp-rgb),.18), 0 0 18px rgba(var(--sp-rgb),.35);
   border-color: var(--sp-ink);
-}
-/* .cmp-exit-btn's own glow-shadow hover deleted (owner rule 2026-08-27:
-   "not sure hover is right either") -- it never matched any other reset
-   button on the site; .paired-reset (assets/web-travel-style.css) was meant
-   to supply the shared neutral hover every other reset control uses, but
-   never actually could: the ID-scoped rest rule above (#tp-compare
-   .cmp-exit-btn, specificity 1,1,0) always outranks a two-class hover
-   selector (.paired-reset:hover, 0,2,0), ID or no :hover, so the shared
-   rule silently lost on every hover and the button never visibly changed
-   at all. Restated at this rule's own ID scope instead of relying on the
-   shared class to win a specificity fight it structurally can't. */
-#tp-compare .cmp-exit-btn:hover {
-  background: var(--nt-grey-wash); border-color: rgba(var(--nt-grey-rgb),.75); color: var(--nt-grey-ink);
 }
 
 /* ON A PHONE THE PAIR SHARES A ROW AND THE COUNT TAKES ITS OWN. Left to the
@@ -2853,17 +2853,16 @@ summary.res-head:focus-visible { outline: 2px solid var(--rust, #C04E1A); outlin
   #tp-compare .cmp-go-btn, #tp-compare .cmp-exit-btn {
     background: transparent; border-color: rgba(200,160,96,.42); color: #c8a060;
   }
-  #tp-compare .cmp-go-btn:not(:disabled):hover {
+  /* ONE hover rule, both buttons -- same 2026-09-02 fix as the light-mode
+     rule above. Dark mode had already converged on "flat, no glow" for both
+     buttons independently (this was always box-shadow:none, unlike the
+     light-mode glow it replaces) but still used two different colors, gold
+     wash for cmp-go-btn vs grey for cmp-exit-btn -- the identical drift,
+     one shade lighter. Unified on the gold wash both already agree is the
+     dark-mode tone for this pair (matches guides-index-style.css's own
+     dark-mode base, which never split the two buttons to begin with). */
+  #tp-compare .cmp-go-btn:not(:disabled):hover, #tp-compare .cmp-exit-btn:hover {
     background: rgba(200,160,96,.12); border-color: rgba(200,160,96,.62); box-shadow: none;
-  }
-  /* .cmp-exit-btn's own dark-mode hover deleted -- .paired-reset's shared
-     dark-mode hover (assets/web-travel-style.css) was meant to supply it,
-     but the same ID-vs-two-class specificity fight as the light-mode rule
-     above means the rest rule at line 2831 always won and the button never
-     visibly changed on hover in dark mode either. Restated at this rule's
-     own ID scope, same values .paired-reset:hover uses in dark mode. */
-  #tp-compare .cmp-exit-btn:hover {
-    background: var(--surface2, #1e1c1a); border-color: #4a453e; color: var(--muted, #9a9690);
   }
   /* .cmpx-mini ("Surprise me") had no dark-mode hover at all -- the light-mode
      #f0ede8/#b0aca6 fix above is a literal hex, not a token, so it does not
@@ -6870,12 +6869,25 @@ function render() {
          same size" / "create a shared something... they need to be fixed
          and kept in check") — assets/toolbar.js's _equalizePairButtons()
          measures the widest of the two and matches them, same technique
-         _equalizePillRows() already uses for filter rows. paired-reset on
-         this one only: the shared neutral hover (assets/web-travel-style.css)
-         replaces the page-local glow-shadow hover below, which was this
-         button's own one-off and never matched any other reset control on
-         the site. */
-      '<button class="cmp-exit-btn paired-btn paired-reset" id="cmp-exit">Clear everything</button>';
+         _equalizePillRows() already uses for filter rows.
+
+         paired-reset REMOVED (2026-09-02) — it was never just a class,
+         it was a SECOND hover rule (web-travel-style.css's shared
+         `.paired-reset:hover`, background+ink change, no glow) riding
+         alongside this scope's own `#tp-compare .cmp-exit-btn:hover`. The
+         2026-08-27 comment this replaces framed that as the fix — "the
+         shared neutral hover replaces the page-local glow-shadow hover" —
+         but it only ever touched THIS button, so the pair still hovered
+         two different ways (owner, live, 2026-09-02: "they have two
+         different hovers! how can we ship that!"). Dropping the class is
+         what actually stops it: `#tp-compare .cmp-exit-btn:hover` alone
+         now governs every property, sharing ONE rule with .cmp-go-btn's
+         own hover (index.html's CSS, ~line 2141) instead of splitting the
+         paint across two independently-specificity'd selectors again.
+         paired_btn_hover_audit.py hard-fails a re-add of this exact class
+         to this button, or any future .paired-btn pair with the same
+         shape of drift. */
+      '<button class="cmp-exit-btn paired-btn" id="cmp-exit">Clear everything</button>';
     (document.getElementById('compare-mount') || document.body).appendChild(selBar);
 
     var goBtn   = document.getElementById('cmp-go');

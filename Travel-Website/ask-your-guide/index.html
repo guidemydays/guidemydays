@@ -392,26 +392,12 @@ var AGMO=["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec
     var dn=placeName.split('|').pop();
     var place=AGP[placeName];
     if(!place){
-      /* NAME THE GAP. Nine guides — Abu Dhabi, Dubai, the Caymans, Curacao,
-         Vilnius and four US cities — have no record on any stats page, so they
-         reach this pack with nothing behind them. Their pill is the same as
-         everyone's (owner rule 2026-08-23: no guide keeps a stats pill), which
-         means silence here reads as a broken page rather than a data gap. */
-      document.getElementById('ag-guide-link').innerHTML=esc(city);
-      document.getElementById('ag-scope').textContent='';
-      document.getElementById('ag-facts').innerHTML=
-        '<span class="ag-fact">No figures for this place yet</span>';
-      document.getElementById('ag-groups').innerHTML=
-        '<p class="ag-sources">We do not hold country figures for '+esc(city)+
-        ' yet. The guide itself is complete — everything else about the place is below.</p>';
-      document.getElementById('ag-lede').hidden=true;
-      document.getElementById('ag-trio').hidden=true;
-      document.getElementById('ag-cost-group').hidden=true;
-      document.getElementById('ag-sun-group').hidden=true;
-      var gl0=document.getElementById('ag-guide-link');
-      gl0.href='/guides/'+slug+'.html'; gl0.textContent=city;
-      document.getElementById('ag-sources').textContent='';
-      elRes.hidden=false;
+      /* A guide with no place record never renders here — searching it, or
+         landing via a deep link, finds nothing rather than a half-empty "no
+         figures yet" card (owner rule 2026-09-03: this page must never hand
+         back a guide it holds no figures for). Supersedes the old "a real
+         empty state, not silence" stance from the Ninetieth non-negotiable. */
+      elRes.hidden=true;
       return;
     }
     var cols=AGC[place.r]||{};
@@ -616,20 +602,25 @@ var AGMO=["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec
     var items=[];
     for(i=0;i<AGG.length;i++){
       var r=AGG[i];
-      /* sub carries the COUNTRY, so the shared typeahead — which matches on name
-         OR sub — answers "Spain" with every Spanish guide, not just the one the
-         stats page happened to link. r[2] itself is the internal "region|Country"
-         key AGP is looked up by (see show()) and must stay untouched there — only
-         the display copy here is trimmed to the part after the pipe, so the
-         dropdown reads "Italy", not "europe|Italy". */
-      items.push({name:r[1], sub:r[2]?r[2].split('|').pop():'', anchor:r[0]});
+      /* A guide with no place record (r[2] empty) is skipped — this page never
+         offers a result it cannot back with real figures (owner rule
+         2026-09-03). sub carries the COUNTRY, so the shared typeahead — which
+         matches on name OR sub — answers "Spain" with every Spanish guide, not
+         just the one the stats page happened to link. r[2] itself is the
+         internal "region|Country" key AGP is looked up by (see show()) and
+         must stay untouched there — only the display copy here is trimmed to
+         the part after the pipe, so the dropdown reads "Italy", not
+         "europe|Italy". */
+      if(!r[2]) continue;
+      items.push({name:r[1], sub:r[2].split('|').pop(), anchor:r[0]});
     }
     TVESearch.attach(input,{items:items,onPick:function(it){ show(it.anchor); }});
   }
 
   /* The ONE thing that may arrive with a place already chosen: a #City link the
-     reader clicked in a guide. */
-  if(window.__tveDeep && BYA[window.__tveDeep]){
+     reader clicked in a guide — and only when there is real data behind it, per
+     the same rule above. */
+  if(window.__tveDeep && BYA[window.__tveDeep] && AGP[BYA[window.__tveDeep][2]]){
     input.value=BYA[window.__tveDeep][1];
     show(window.__tveDeep);
   }

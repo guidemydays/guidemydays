@@ -37,3 +37,6 @@
 2026-09-02 20:35 — kuwait-city.html — FAIL @ verify-booking — 0 checks
 2026-09-02 20:35 — kuwait-city.html — FAIL @ verify-booking — 0 checks
 2026-09-02 20:41 — kuwait-city.html — PASS — 917/917 passed, 0 failed
+2026-09-03 10:25 — kuwait-city.html — FAIL @ final-gates-precheck — 0 checks — Fleet: index.html inline data (CLIMATE_INLINE / COST_DATA / SAFETY_DATA)
+2026-09-03 10:53 — kuwait-city.html — FAIL @ final-gates-precheck — 0 checks — Fleet: Currency Guide coverage
+2026-09-03 11:14 — kuwait-city.html — PASS — 917/917 passed, 0 failed

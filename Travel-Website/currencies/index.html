@@ -93,10 +93,9 @@
 .fx-note { margin: 0.55rem 0 0; font-size: var(--fs-sub,12px); color: #C04E1A; }
 
 /* ── The ask ──────────────────────────────────────────────────────────────
-   One question and one button. Filled terracotta, which is the true-CTA
+   One button, no lead-in question. Filled terracotta, which is the true-CTA
    carve-out of the Thirty-fifth non-negotiable — never a gradient, and the
    press state is that gradient's own midpoint so it stays as dark as it was. */
-.fx-ask-q { margin: 0 0 0.75rem; font-size: clamp(1rem, 2.2vw, 1.2rem); font-weight: 600; color: var(--text,#3d3a32); }
 .fx-yes {
   font: inherit; font-size: var(--fs-body,14px); font-weight: 700;
   background: #C04E1A; color: #fff; border: 1px solid #C04E1A;
@@ -105,10 +104,7 @@
 .fx-yes:hover { background: #8A3F18; border-color: #8A3F18; }
 
 /* ── Sort row ─────────────────────────────────────────────────────────────
-   Outlined at rest, outlined when selected — the site's Option B grammar
-   (Twenty-fourth non-negotiable): a chosen chip is white with a terracotta rim
-   and a terracotta label, never a filled gradient. Rim ladder .30 → .55 → .85. */
-/* STICKY, and that is the way out of the table (owner rule 2026-08-18: "after i
+   STICKY, and that is the way out of the table (owner rule 2026-08-18: "after i
    open the entire table of currency how do i close and go up to the top so i
    can exit without rolling all up for a long time on mobile?").
    51 rows is a long scroll and there was no way back — the ✕ rides with the
@@ -142,19 +138,8 @@
   width: 44px; height: 44px; transform: translate(-50%, -50%);
 }
 .fx-sort-label { font-size: var(--fs-label,11px); font-weight: 700; color: var(--muted,#6a6660); text-transform: uppercase; letter-spacing: 0.08em; }
-/* Selection Pills audit 2026-08-23 (owner: "sometimes the hove is wrong
-   sometimes is the font") — rest-state ink was var(--text), body colour,
-   turning terracotta only on hover/.on. The toolbar's own rule keeps the
-   label terracotta in every state; only the fill/border darken. Fixed here
-   and in the dark-mode override below.
-   The box (border/radius/background/rest+hover+is-on colour) is the shared
-   .selection-pill class on the element (Cleanliness rule 954) — this rule
-   is only the size override, since these sort pills run smaller than the
-   16px/8px 18px standard. */
-.fx-sort-pill {
-  font: inherit; font-size: var(--fs-sub,12px); font-weight: 600;
-  padding: 0.45em 1.1em;
-}
+/* Box, size, rest/hover/is-on colour all come from the shared .selection-pill-sm
+   class (web-travel-style.css) — no page-local override. */
 .fx-lede { margin: 14px 0 14px; font-size: var(--fs-body,14px); color: var(--muted,#6a6660); }
 .fx-lede b { color: var(--text,#3d3a32); }
 
@@ -267,17 +252,8 @@ tr[aria-expanded="true"] .fx-mark { transform: rotate(90deg); opacity: 1; }
   .fx-eq { color: var(--text, #e8e5e0); }
   .fx-eq b { color: var(--rust, #D4663A); }
   .fx-note { color: var(--rust, #D4663A); }
-  /* The rim ladder carries the state here; the GROUND does not move. The light
-     theme tints a chosen chip #fdf4ed, and the dark mirror of that tint —
-     rgba(212,102,58,.16) — blends to #3b281f, on which #D4663A measures 3.82:1,
-     under the 4.5 floor. Holding the surface flat keeps the same label at 4.66.
-     Option B is unchanged: outlined at rest, outlined when chosen, terracotta
-     border and terracotta label (Twenty-fourth non-negotiable). */
   .fx-sort { background: var(--bg, #1a1917); border-bottom-color: var(--border2, #3a3630); }
   .fx-close-x:hover { color: #f5f3ef; }
-  .fx-sort-pill { background: var(--surface2, #1e1c1a); color: var(--rust, #D4663A); border-color: rgba(212,102,58,.35); }
-  .fx-sort-pill:hover { background: var(--surface2, #1e1c1a); color: var(--rust, #D4663A); border-color: rgba(212,102,58,.6); }
-  .fx-sort-pill.is-on { background: var(--surface2, #1e1c1a); color: var(--rust, #D4663A); border-color: rgba(212,102,58,.9); }
   .index-table tbody td:last-child { color: var(--text, #e8e5e0); }
   .index-table tbody tr:hover td { background: rgba(212,102,58,.16); box-shadow: inset 0 1px 0 rgba(212,102,58,.25), inset 0 -1px 0 rgba(212,102,58,.25); }
   .index-table tbody tr:active td { background: rgba(212,102,58,.28); }
@@ -414,21 +390,20 @@ tr[aria-expanded="true"] .fx-mark { transform: rotate(90deg); opacity: 1; }
     <div class="fx-card">
       <p class="fx-eq" id="fx-eq"></p>
       <p class="fx-unit" id="fx-unit"></p>
-      <p class="fx-where" id="fx-where"></p>
+      <p class="fx-where" id="fx-where" hidden></p>
       <p class="fx-note" id="fx-note" hidden></p>
     </div>
   </div>
 
   <div id="fx-ask" hidden>
-    <p class="fx-ask-q">Want to find where your money is worth more?</p>
-    <button id="fx-yes" class="fx-yes" type="button">Yes &mdash; show me</button>
+    <button id="fx-yes" class="fx-yes" type="button">Show me all currencies</button>
   </div>
 
   <div id="fx-table-wrap" hidden>
     <div class="fx-sort">
       <span class="fx-sort-label">Sort</span>
-      <button class="fx-sort-pill selection-pill is-on hov-darken" type="button" data-sort="most">Most value</button>
-      <button class="fx-sort-pill selection-pill hov-darken" type="button" data-sort="least">Least value</button>
+      <button class="selection-pill-sm is-on hov-darken" type="button" data-sort="most">Most value</button>
+      <button class="selection-pill-sm hov-darken" type="button" data-sort="least">Least value</button>
       <button id="fx-close" class="fx-close-x" type="button" aria-label="Close the table">&#10005;</button>
     </div>
     <p class="fx-lede" id="fx-lede"></p>
@@ -437,9 +412,8 @@ tr[aria-expanded="true"] .fx-mark { transform: rotate(90deg); opacity: 1; }
       <thead><tr><th>Currency</th><th class="fx-where-col">Where it is used</th><th class="sym-col">Sym</th><th>You get</th></tr></thead>
       <tbody id="fx-tbody"></tbody>
     </table>
+    <p class="rates-footer">Rates as of 3 September 2026 · 93 countries · Source: exchangerate-api.com</p>
   </div>
-
-  <p class="rates-footer">Rates as of 3 September 2026 · 93 countries · Source: exchangerate-api.com</p>
 </div>
 
 <script>
@@ -508,11 +482,18 @@ var FXC=[["Austria","Austria","Europe","EUR","",[["Salzburg","/guides/salzburg.h
     var A=FXR[fi], B=FXR[ti], out=convert(amt,fi,ti);
     document.getElementById('fx-eq').innerHTML=
       '<b>'+esc(A.s+fmt(amt))+'</b> '+esc(A.n)+' = <b>'+esc(B.s+fmt(out))+'</b> '+esc(B.n);
+    /* At amt===1 the forward half ("1 USD = 0.86 EUR") just repeats the headline
+       above in a different format — only the reverse rate is new information, so
+       the forward half is dropped whenever the reader hasn't changed the amount. */
+    var revRate='1 '+ti+' = '+fmt(convert(1,ti,fi))+' '+fi;
     document.getElementById('fx-unit').textContent=
-      '1 '+fi+' = '+fmt(convert(1,fi,ti))+' '+ti+'  ·  1 '+ti+' = '+fmt(convert(1,ti,fi))+' '+fi;
-    var where=USED[ti]||[];
-    document.getElementById('fx-where').textContent=
-      B.n+' is used in '+where.join(' · ')+'.';
+      amt===1 ? revRate : '1 '+fi+' = '+fmt(convert(1,fi,ti))+' '+ti+'  ·  '+revRate;
+    /* Naming the single country a currency belongs to only repeats what its own
+       name already told the reader (Argentine Peso, Argentina) — this line
+       earns its place only once there is more than one place to name. */
+    var where=USED[ti]||[], elWhere=document.getElementById('fx-where');
+    elWhere.hidden=where.length<2;
+    elWhere.textContent=where.length<2?'':B.n+' is used in '+where.join(' · ')+'.';
     var peg=(BYA[toAnchor]||[])[4]||'';
     var note=document.getElementById('fx-note');
     note.textContent=peg; note.hidden=!peg;
@@ -577,10 +558,10 @@ var FXC=[["Austria","Austria","Europe","EUR","",[["Salzburg","/guides/salzburg.h
     tableOpen=false; elWrap.hidden=true; elAsk.hidden=false;
     elRes.scrollIntoView({block:'start'});
   });
-  [].forEach.call(document.querySelectorAll('.fx-sort-pill'),function(p){
+  [].forEach.call(document.querySelectorAll('.fx-sort .selection-pill-sm'),function(p){
     p.addEventListener('click',function(){
       sortMode=p.getAttribute('data-sort');
-      [].forEach.call(document.querySelectorAll('.fx-sort-pill'),function(q){
+      [].forEach.call(document.querySelectorAll('.fx-sort .selection-pill-sm'),function(q){
         q.classList.toggle('is-on',q===p);
       });
       renderTable();

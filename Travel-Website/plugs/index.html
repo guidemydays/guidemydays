@@ -224,11 +224,23 @@ var PG=[["Austria","Austria","Europe","230V / 50Hz","CF"],["Belgium","Belgium","
   function esc(s){ return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
 
   /* "CF" -> "Type C or F".  "ABCEFO" -> "Type A, B, C, E, F or O".
-     One "Type", then the letters — the reader is buying one adapter, not six. */
+     Descriptive only — which shapes are in use here. Never used for the
+     "Bring a ___" instruction below, where "or" would wrongly read as any
+     single type working everywhere in the country. */
   function typeList(t){
     var a=t.split('');
     if(a.length===1) return 'Type '+a[0];
     return 'Type '+a.slice(0,-1).join(', ')+' or '+a[a.length-1];
+  }
+
+  /* Same letters, joined with "and": for the instruction line only. A
+     country with several types in use needs a universal adapter (one
+     device, several pin faces) to actually be covered — "or" would imply
+     any single one works everywhere, which is false. */
+  function typeAnd(t){
+    var a=t.split('');
+    if(a.length===1) return 'Type '+a[0];
+    return 'Type '+a.slice(0,-1).join(', ')+' and '+a[a.length-1];
   }
 
   /* The voltage advice is ORIGIN-NEUTRAL and must stay that way: nothing on
@@ -257,7 +269,9 @@ var PG=[["Austria","Austria","Europe","230V / 50Hz","CF"],["Belgium","Belgium","
     if(!row){ elRes.hidden=true; return; }
     document.getElementById('pg-country').textContent=row[1];
     document.getElementById('pg-volt').textContent=row[3].replace(' / ',' \u00b7 ')+'  \u00b7  '+row[2];
-    document.getElementById('pg-answer').innerHTML='Bring a <b>'+esc(typeList(row[4]))+'</b> adapter.';
+    document.getElementById('pg-answer').innerHTML=(row[4].length===1)
+      ? 'Bring a <b>'+esc(typeList(row[4]))+'</b> adapter.'
+      : 'Sockets here use <b>'+esc(typeAnd(row[4]))+'</b> \u2014 bring a universal adapter that covers all of them.';
     document.getElementById('pg-conv').innerHTML=converterNote(row[3]);
     var out=[], t=row[4].split(''), j;
     for(j=0;j<t.length;j++){
@@ -318,12 +332,10 @@ var PG=[["Austria","Austria","Europe","230V / 50Hz","CF"],["Belgium","Belgium","
   }
 
   /* The ONE thing that may arrive with a country already selected: a #Country
-     link the reader clicked in a guide. Guide deep-links use spaces (#Saudi Arabia)
-     but PG anchor keys use underscores (Saudi_Arabia) — normalize before lookup. */
-  if(window.__tveDeep){
-    var _d=window.__tveDeep, _dk=_d.replace(/ /g,'_');
-    var _entry=BYA[_dk]||BYA[_d];
-    if(_entry){ input.value=_entry[1]; show(_entry[0]); }
+     link the reader clicked in a guide. */
+  if(window.__tveDeep && BYA[window.__tveDeep]){
+    input.value=BYA[window.__tveDeep][1];
+    show(window.__tveDeep);
   }
 }());
 </script>

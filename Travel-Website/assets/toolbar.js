@@ -966,6 +966,11 @@ window.TVE.home = (function () {
 
     'delivery-car': ['0 0 24 24', '<path d="M5.8 10.4 7.5 6.6c.3-.8 1-1.3 1.9-1.3h5.2c.9 0 1.6.5 1.9 1.3l1.7 3.8z" fill="url(#gm-sky)" stroke="var(--c-sky-rim)" stroke-width="0.5"/><path d="M11.6 5.3h0.9v5.1h-0.9z" fill="url(#gm-red)" stroke="var(--c-red-rim)" stroke-width="0.5"/><rect x="2.4" y="9.9" width="19.2" height="6.5" rx="2.4" fill="url(#gm-red)" stroke="var(--c-red-rim)" stroke-width="0.5"/><rect x="6.6" y="6.4" width="4" height="2.4" rx="0.6" fill="url(#gm-paper)" stroke="var(--c-rim-cool)" stroke-width="0.6"/><circle cx="8.6" cy="7.6" r="0.75" fill="url(#gm-red)" stroke="var(--c-red-rim)" stroke-width="0.5"/><rect x="2.7" y="11.4" width="3.1" height="1.9" rx="0.95" fill="url(#gm-sun)" stroke="var(--c-sun-rim)" stroke-width="0.5"/><rect x="18.2" y="11.4" width="3.1" height="1.9" rx="0.95" fill="url(#gm-red)" stroke="var(--c-red-rim)" stroke-width="0.5"/><circle cx="6.8" cy="17.3" r="2.6" fill="url(#gm-tire)" stroke="var(--c-tire-rim)" stroke-width="0.5"/><circle cx="6.8" cy="17.3" r="1.1" fill="url(#gm-stone)" stroke="var(--c-stone-rim)" stroke-width="0.5"/><circle cx="17.2" cy="17.3" r="2.6" fill="url(#gm-tire)" stroke="var(--c-tire-rim)" stroke-width="0.5"/><circle cx="17.2" cy="17.3" r="1.1" fill="url(#gm-stone)" stroke="var(--c-stone-rim)" stroke-width="0.5"/>'],
 
+    /* Site-Icons.html #195 — ferry, for the standalone Ferry motion pattern
+       (Motion Rule.html § Ferry). Added on the zanzibar build, its first use
+       fleet-wide; catalogue drawing carried no sprite entry until now. */
+    'ferry': ['0 0 24 24', '<rect x="10.2" y="1.6" width="2.4" height="3.2" rx="0.6" fill="url(#gm-rust)" stroke="var(--c-rust-rim)" stroke-width="0.5"/><rect x="10.2" y="1.6" width="2.4" height="3.2" rx="0.6" fill="url(#gm-gloss)"/> <rect x="8.4" y="4.4" width="7.6" height="4.2" rx="1" fill="url(#gm-paper)" stroke="var(--c-rim-cool)" stroke-width="0.6"/> <rect x="4.2" y="8.4" width="15.6" height="4.2" rx="1" fill="url(#gm-cream)" stroke="var(--c-rim-warm)" stroke-width="0.6"/> <g fill="url(#gm-sky)" stroke="var(--c-sky-rim)" stroke-width="0.5"> <rect x="9.6" y="5.6" width="1.8" height="1.8" rx="0.4"/><rect x="12.6" y="5.6" width="1.8" height="1.8" rx="0.4"/> <rect x="5.8" y="9.6" width="1.9" height="1.9" rx="0.4"/><rect x="9" y="9.6" width="1.9" height="1.9" rx="0.4"/> <rect x="12.2" y="9.6" width="1.9" height="1.9" rx="0.4"/><rect x="15.4" y="9.6" width="1.9" height="1.9" rx="0.4"/> </g> <path d="M2.6 12.8h18.8l-2.8 5H5.4z" fill="url(#gm-red)" stroke="var(--c-red-rim)" stroke-width="0.5"/> <path d="M2 19.4c1.7 0 1.7 1.5 3.4 1.5s1.7-1.5 3.4-1.5 1.7 1.5 3.4 1.5 1.7-1.5 3.4-1.5 1.7 1.5 3.4 1.5" fill="none" stroke="var(--c-blue)" stroke-width="1.7" stroke-linecap="round"/>'],
+
     'cal-export': ['0 0 24 24', '<rect x="2.6" y="4" width="18.8" height="17.2" rx="2.4" fill="url(#gm-paper)" stroke="var(--c-rim-warm)" stroke-width="0.6" stroke-linejoin="round" /> <path d="M2.6 6.4A2.4 2.4 0 0 1 5 4h14a2.4 2.4 0 0 1 2.4 2.4v2.4H2.6z" fill="url(#gm-red)" stroke="var(--c-red-rim)" stroke-width="0.5"/> <rect x="6.3" y="1.9" width="2.2" height="4" rx="1.1" fill="url(#gm-cocoa)" stroke="var(--c-cocoa-rim)" stroke-width="0.5"/> <rect x="15.5" y="1.9" width="2.2" height="4" rx="1.1" fill="url(#gm-cocoa)" stroke="var(--c-cocoa-rim)" stroke-width="0.5"/> <text x="12" y="18.6" font-family="ui-sans-serif, system-ui, sans-serif" font-size="10.6" font-weight="700" fill="url(#gm-cocoa)" stroke="var(--c-cocoa-rim)" stroke-width="0.5" text-anchor="middle">17</text>'],
 
     'country-map': ['0 0 24 24', '<defs><clipPath id="cpm1"><path d="M1.6 8.4 8 5.6v13.2l-6.4 2.8z"/></clipPath><clipPath id="cpm2"><path d="M8 5.6 15.4 8.4v13.2L8 18.8z"/></clipPath><clipPath id="cpm3"><path d="M15.4 8.4 22.4 5.6v13.2l-7 2.8z"/></clipPath></defs><path d="M1.6 8.4 8 5.6v13.2l-6.4 2.8z" fill="url(#gm-green)" stroke="var(--c-green-rim)" stroke-width="0.5"/><path d="M1.6 8.4 8 5.6v13.2l-6.4 2.8z" fill="url(#gm-gloss)"/><path d="M8 5.6 15.4 8.4v13.2L8 18.8z" fill="url(#gm-cream)" stroke="var(--c-rim-warm)" stroke-width="0.6"/><path d="M15.4 8.4 22.4 5.6v13.2l-7 2.8z" fill="url(#gm-sky)" stroke="var(--c-sky-rim)" stroke-width="0.5"/><g clip-path="url(#cpm1)"><path d="M1 13.6c2.4-1 4.6-1.4 7.6-1.2v3.4c-3-.2-5.2.2-7.6 1.2z" fill="url(#gm-sky)" stroke="var(--c-sky-rim)" stroke-width="0.5"/></g><g clip-path="url(#cpm2)"><path d="M7.6 13.4c2.6.5 4.8 1.4 6.6 2.6l-.4 3.8c-1.8-1.4-4-2.4-6.6-3z" fill="url(#gm-green)" stroke="var(--c-green-rim)" stroke-width="0.5"/><path d="M9.2 7.6c1.8.4 3.4 1 4.8 1.8l-.3 2.8c-1.4-.9-3-1.5-4.8-1.9z" fill="url(#gm-sun)" stroke="var(--c-sun-rim)" stroke-width="0.5"/></g><g clip-path="url(#cpm3)"><path d="M15 16c2.4-1.2 4.6-1.8 7.6-1.8v3.6c-3 0-5.2.6-7.6 1.8z" fill="url(#gm-green)" stroke="var(--c-green-rim)" stroke-width="0.5"/></g><g fill="none" stroke="var(--c-cocoa)" stroke-width="0.8" stroke-linecap="round" opacity="0.5" stroke-dasharray="0.1 2.4"><path d="M3.4 17.4c3.2-3.4 6.4-4.4 9.6-3 3.2 1.4 6 .6 8.4-2.4"/></g><path d="M12.6 1.6a4.2 4.2 0 0 0-4.2 4.2c0 3.1 4.2 7.6 4.2 7.6s4.2-4.5 4.2-7.6a4.2 4.2 0 0 0-4.2-4.2z" fill="url(#gm-red)" stroke="var(--c-red-rim)" stroke-width="0.5"/><circle cx="12.6" cy="5.8" r="1.7" fill="url(#gm-paper)" stroke="var(--c-rim-cool)" stroke-width="0.6"/>'],
@@ -6265,12 +6270,46 @@ window.TVE.home = (function () {
      fleet-wide by check_post_ci_sections.py.                                     */
   var HOTEL_ALT_DATA = {
     /* entries added per guide during build — see Separation Map.md § Hotels & Rentals */
+    'montego-bay': { h: [
+      { name: "Evelin's On The Beach", note: 'Independent — Kent Avenue, oceanfront on the Hip Strip, restaurant and water-sports desk on site, no ladder brand in market · 8.1 Booking.com', url: 'https://www.booking.com/hotel/jm/evelins-on-the-beach.html', tier: 'budget' },
+      { name: 'Hills Royale Villa – Ironshore', note: 'Independent villa — Greenview Avenue, Ironshore, pool and garden, quiet residential setting near the airport, no ladder brand in market · 9.3 Booking.com', url: 'https://www.booking.com/hotel/jm/hills-royale-villa.html', tier: 'budget' },
+      { name: "Toby's Resort", note: 'Independent — Kent Avenue, Hip Strip, pool, gym, spa and golf within 2 miles, wheelchair-accessible rooms · 8.0 Booking.com', url: 'https://www.booking.com/hotel/jm/tobys-resort.html', tier: 'mid' },
+      { name: 'Hotel 39 Jamaica', note: 'Independent boutique — Gloucester Avenue, Hip Strip, rooftop infinity pool, spa, walk to Doctor’s Cave Beach · 7.8 Booking.com', url: 'https://www.booking.com/hotel/jm/39-jamaica.html', tier: 'mid' },
+      { name: 'Iberostar Waves Rose Hall Beach', note: 'Iberostar — independent Spanish chain, Rose Hall Main Road, all-inclusive beachfront, tennis and spa, 5 min from Rose Hall Great House · 8.3 Booking.com', url: 'https://www.booking.com/hotel/jm/iberostar-rose-hall-beach.html', tier: 'expensive' },
+      { name: 'Dreams Rose Hall Resort & Spa', note: 'AMResorts/Hyatt Inclusive Collection — 400-acre all-inclusive on Rose Hall Main Road, water park and championship golf, no Marriott or Hilton remains in this market (Hilton rebranded away in 2025) · 7.8 Booking.com', url: 'https://www.booking.com/hotel/jm/rose-hall-resort-spa-a-hilton-resort.html', tier: 'expensive' },
+      { name: 'Hyatt Ziva Rose Hall', note: 'Hyatt family — this guide’s title-card hotel, Rose Hall Main Road, all-inclusive beachfront, family-friendly, 24h reception · 8.5 Booking.com', url: 'https://www.booking.com/hotel/jm/hyatt-ziva-rose-hall.html', tier: 'luxury' },
+      { name: 'Iberostar Selection Rose Hall Suites', note: 'Iberostar — independent Spanish chain, Rose Hall Main Road, suite-only all-inclusive, adults-friendly, private balconies · 8.6 Booking.com', url: 'https://www.booking.com/hotel/jm/iberostar-rose-hall-suites.html', tier: 'luxury' }
+    ], price: { budget: '$70–140', mid: '$140–220', expensive: '$220–340', luxury: '$340+' } },
+    'antigua-guatemala': { h: [
+      { name: 'Posada San Sebastian', note: 'Independent guesthouse — 3ra Avenida Norte, a few blocks from Parque Central, garden courtyard, 24h front desk · 9.0 Booking.com', url: 'https://www.booking.com/hotel/gt/posada-san-sebastian.html', tier: 'budget' },
+      { name: 'All Suite El Marques de Antigua', note: 'Independent all-suite hotel — 4th Avenue South, apartment-style suites with kitchenette, free parking, 24h front desk · 9.1 Booking.com', url: 'https://www.booking.com/hotel/gt/all-suite-el-marques-de-antigua.html', tier: 'mid' },
+      { name: 'Ojalá', note: 'Independent boutique hotel — 7a Avenida Norte, garden courtyard bar with live music, easy walk to Parque Central, 24h front desk · 9.2 Booking.com', url: 'https://www.booking.com/hotel/gt/ojala.html', tier: 'mid' },
+      { name: 'Camino Real Antigua', note: 'Camino Real — independent regional chain, 7a Calle Poniente, 5-star colonial-style property with spa and fitness center, 24h reception · 9.2 Booking.com', url: 'https://www.booking.com/hotel/gt/camino-real-antigua.html', tier: 'expensive' },
+      { name: 'Meson Panza Verde', note: 'Independent boutique inn — 5a Avenida Sur, renowned on-site restaurant and jazz bar, courtyard pool, 24h reception · 9.1 Booking.com', url: 'https://www.booking.com/hotel/gt/meson-panza-verde.html', tier: 'luxury' }
+    ], price: { budget: 'GTQ 530–730', mid: 'GTQ 650–900', expensive: 'GTQ 1,200–1,700', luxury: 'GTQ 1,750+' } },
+    'sofia': { h: [
+      { name: 'Aurora Sofia Hotel', note: 'Independent boutique — Bulgarska Morava Street, laptop-friendly rooms, AC, 24h reception, 19 min walk to the Archaeological Museum · 9.2 Booking.com', url: 'https://www.booking.com/hotel/bg/aurora-sofia.html', tier: 'budget' },
+      { name: 'Hotel Via Serdika', note: 'Independent — Konstantin Stoilov Street, AC, 24h reception, 18 min walk to Alexander Nevsky Cathedral · 9.0 Booking.com', url: 'https://www.booking.com/hotel/bg/via-serdika-sofia.html', tier: 'budget' },
+      { name: 'AMAR Design Hotel by HMG', note: 'Independent design hotel — Veslets Street, AC, 24h reception, 6 min walk to Banya Bashi Mosque · 9.1 Booking.com', url: 'https://www.booking.com/hotel/bg/amar-design-by-hmg.html', tier: 'mid' },
+      { name: 'Sentro Boutique Hotel', note: 'Independent boutique — Solunska Street, AC, 24h front desk, 8 min walk to the Archaeological Museum · 9.6 Booking.com', url: 'https://www.booking.com/hotel/bg/sentro.html', tier: 'mid' },
+      { name: 'InterContinental Sofia by IHG', note: 'IHG InterContinental — Narodno Sabranie Square facing Alexander Nevsky Cathedral, 5-star, spa, 24h reception, Michelin Guide 2025 hotel selection · 9.0 Booking.com', url: 'https://www.booking.com/hotel/bg/intercontinental-sofia.html', tier: 'expensive' },
+      { name: 'Sense Hotel Sofia', note: 'Independent design hotel — Tsar Osvoboditel Boulevard steps from Parliament, rooftop pool and bar, spa, 24h reception · 9.0 Booking.com', url: 'https://www.booking.com/hotel/bg/sense-sofia.html', tier: 'expensive' },
+      { name: 'Grand Hotel Millennium Sofia', note: 'Independent — Vitosha Boulevard, 5-star, panoramic spa and pool, 5 restaurants, 24h reception · 9.2 Booking.com', url: 'https://www.booking.com/hotel/bg/grand-millennium-sofia.html', tier: 'luxury' },
+      { name: 'Juno Hotel Sofia, a Member of Design Hotels', note: 'Independent design hotel — Ivan Denkoglu Street, AC, 24h reception, 4 min walk to the Archaeological Museum · 9.2 Booking.com', url: 'https://www.booking.com/hotel/bg/juno-sofia.html', tier: 'luxury' }
+    ], price: { budget: 'BGN 140–160', mid: 'BGN 175–190', expensive: 'BGN 340–350', luxury: 'BGN 380–435' } },
     'jerusalem': { h: [
       { name: 'Saladin Boutique Hotel', note: 'Independent boutique — inside the Old City in the Muslim Quarter, 5 min walk to the Western Wall, 24h front desk, king or twin rooms · 9.0 Booking.com', url: 'https://www.booking.com/hotel/il/saladin-boutique.html', tier: 'budget' },
       { name: 'Jerusalem Gold Hotel', note: 'Independent — West Jerusalem beside Yitzhak Navon train station, soundproofed rooms, 24h front desk, 20 min walk to the Old City · 9.3 Booking.com', url: 'https://www.booking.com/hotel/il/jerusalem-gold.html', tier: 'mid' },
       { name: 'Mamilla view URBAN - Boutique hotel', note: 'Independent boutique — Shlomtzion HaMalka Street, 5 min walk to the Old City and Mamilla, 24h front desk, king or twin rooms · 9.0 Booking.com', url: 'https://www.booking.com/hotel/il/cityhoteljerusalem.html', tier: 'expensive' },
       { name: 'Waldorf Astoria Jerusalem', note: 'Hilton Waldorf Astoria — Agron Street between King David and Mamilla, the sole current international luxury brand hotel in the city, Spa Guerlain, 3 restaurants, 24h reception · 8.9 Booking.com', url: 'https://www.booking.com/hotel/il/waldorf-astoria-jerusalem.html', tier: 'luxury' }
     ], price: { budget: 'ILS 300–450', mid: 'ILS 450–650', expensive: 'ILS 650–1,000', luxury: 'ILS 1,600+' } },
+    'zanzibar': { h: [
+      { name: 'Dhow Palace Hotel', note: 'Independent — 1559 historic building on Kenyatta Road in Shangani, Stone Town, roof-top pool, 24h reception, AC · 8.2 Booking.com', url: 'https://www.booking.com/hotel/tz/dhow-palace.html', tier: 'budget' },
+      { name: 'Upendo House Hotel Zanzibar', note: 'Independent design boutique — Hurumzi Street, 2 min walk to House of Wonders, rooftop pool, spa, 24h reception · 8.6 Booking.com', url: 'https://www.booking.com/hotel/tz/upendo-house-zanzibar-zanzibar.html', tier: 'mid' },
+      { name: 'Zanzibar Serena Hotel', note: 'Serena Hotels — Shangani Street seafront, 5-star, outdoor pool, spa, two restaurants, 24h reception · 8.6 Booking.com', url: 'https://www.booking.com/hotel/tz/zanzibar-serena-inn.en-gb.html', tier: 'expensive' },
+      { name: 'The Neela Boutique Hotel Stone Town', note: 'Independent boutique — Shangani, steps from Stone Town Beach, rooftop bar, 14 rooms, 24h reception · 9.0 Booking.com', url: 'https://www.booking.com/hotel/tz/neela-boutique.html', tier: 'luxury' },
+      { name: 'Park Hyatt Zanzibar', note: 'Hyatt full brand — Shangani Street seafront in Stone Town, spa, outdoor pool, 24h reception · 8.9 Booking.com', url: 'https://www.booking.com/hotel/tz/park-hyatt-zanzibar.en-gb.html', tier: 'luxury' }
+    ], price: { budget: 'TZS 190,000–290,000', mid: 'TZS 490,000–680,000', expensive: 'TZS 660,000–930,000', luxury: 'TZS 850,000+' } },
     'granada': { h: [
       { name: 'Shine Albayzín Hotel', note: 'Boutique hotel in Albaicín near Río Darro, traditional Andalusian courtyard, free cancellation, 24h reception · 8.4 Booking.com', url: 'https://www.booking.com/hotel/es/shine-darro.html', tier: 'budget' },
       { name: 'Vincci Albayzín Hotel', note: 'Vincci Hotels — 4-star in Albaicín, eco-certified, regional cuisine restaurant, free cancellation · 8.7 Booking.com', url: 'https://www.booking.com/hotel/es/vincci-albayzin.html', tier: 'mid' },
@@ -7245,6 +7284,12 @@ window.TVE.home = (function () {
       { name: 'Hilton La Jolla Torrey Pines', note: 'Hilton brand — Torrey Pines Golf Course, outdoor pool, Blue Agave bar · 8.6 Booking.com', url: 'https://www.booking.com/hotel/us/hilton-la-jolla-torrey-pines.html', tier: 'mid' },
       { name: 'Empress Hotel of La Jolla', note: 'Independent — 7766 Fay Ave in La Jolla Village, compact rooms, walking distance to the cove and village shops, 24h reception · 8.1 Booking.com', url: 'https://www.booking.com/hotel/us/empress-hotel-of-la-jolla.html', tier: 'budget' }
     ], price: { budget: '$130–220', mid: '$260–420', expensive: '$420–700', luxury: '$700+' } },
+    'la-paz': { h: [
+      { name: 'Hotel Sagarnaga', note: 'Independent — Sagárnaga steps from the Basilica of San Francisco, in-house Café del Mundo, free Wi-Fi, 24h reception · 8.4 Booking.com', url: 'https://www.booking.com/hotel/bo/sagarnaga.html', tier: 'budget' },
+      { name: 'El Museo Hotel Boutique', note: 'Independent boutique — quiet Sopocachi district near the Sopocachi Teleférico station, continental breakfast, free Wi-Fi · 9.0 Booking.com', url: 'https://www.booking.com/hotel/bo/tinka-la-paz1.en-gb.html', tier: 'mid' },
+      { name: 'Stannum Boutique Hotel & Spa', note: 'Independent boutique — 12th floor of Torre Multicine in Sopocachi, panoramic city views, spa, sauna, 24h reception · 9.0 Booking.com', url: 'https://www.booking.com/hotel/bo/stannum-boutique.en-gb.html', tier: 'expensive' },
+      { name: 'Casa Grande Suites', note: 'Independent — Calacoto in the Zona Sur luxury district, suite-style rooms with living areas, sauna, fitness room, free breakfast · 9.1 Booking.com', url: 'https://www.booking.com/hotel/bo/casa-grande.html', tier: 'luxury' }
+    ], price: { budget: 'BOB 140–250', mid: 'BOB 250–450', expensive: 'BOB 450–950', luxury: 'BOB 950+' } },
     'lagos': { h: [
       { name: 'Bela Vista Hotel & Spa', note: 'Leading Hotels of the World — 1918 Art Nouveau manor in Praia da Rocha (Portimão, 20 km east), clifftop Atlantic views, outdoor pool, Michelin-recognized Boa Mesa restaurant · 9.3 Booking.com', url: 'https://www.booking.com/hotel/pt/bela-vista.html', tier: 'luxury' },
       { name: 'Dona Filipa Hotel', note: 'Marriott Autograph Collection — Vale do Lobo resort estate (55 km east of Lagos), San Lorenzo golf access, 3 pools, spa, direct beach · 8.5 Booking.com', url: 'https://www.booking.com/hotel/pt/dona-filipa.html', tier: 'expensive' },
@@ -11658,6 +11703,7 @@ window.TVE.home = (function () {
       'amalfi':            {iata:'NAP', name:'Naples International'},
       'amsterdam':         {iata:'AMS', name:'Amsterdam Schiphol'},
       'annecy':            {iata:'GVA', name:'Geneva International'},
+      'antigua-guatemala': {iata:'GUA', name:'La Aurora International'},
       'aracaju':           {iata:'AJU', name:'Aracaju Marechal Cunha Machado'},
       'arenal':            {iata:'SJO', name:'Juan Santamaría International'},
       'aruba':             {iata:'AUA', name:'Queen Beatrix International'},
@@ -11755,6 +11801,7 @@ window.TVE.home = (function () {
       'kuwait-city':       {iata:'KWI', name:'Kuwait International Airport'},
       'kyoto':             {iata:'HND', name:'Tokyo Haneda'},
       'la-jolla':          {iata:'SAN', name:'San Diego International'},
+      'la-paz':            {iata:'LPB', name:'El Alto International'},
       'lagos':             {iata:'FAO', name:'Faro Airport'},
       'lagos-nigeria':     {iata:'LOS', name:'Murtala Muhammed International Airport'},
       'lake-como':         {iata:'MXP', name:'Milan Malpensa'},
@@ -11789,6 +11836,7 @@ window.TVE.home = (function () {
       'miami':             {iata:'MIA', name:'Miami International'},
       'milan':             {iata:'MXP', name:'Milan Malpensa'},
       'monaco':            {iata:'NCE', name:'Nice Côte d\'Azur'},
+      'montego-bay':       {iata:'MBJ', name:'Sangster International'},
       'montevideo':        {iata:'MVD', name:'Carrasco International'},
       'montreal':          {iata:'YUL', name:'Montréal-Trudeau International'},
       'moscow':            {iata:'SVO', name:'Sheremetyevo International'},
@@ -11872,6 +11920,7 @@ window.TVE.home = (function () {
       'singapore':         {iata:'SIN', name:'Singapore Changi'},
       'sint-maarten':      {iata:'SXM', name:'Princess Juliana International'},
       'sintra':            {iata:'LIS', name:'Lisbon Humberto Delgado'},
+      'sofia':             {iata:'SOF', name:'Sofia Airport'},
       'sorrento':          {iata:'NAP', name:'Naples International'},
       'split':             {iata:'SPU', name:'Split Airport'},
       'stockholm':         {iata:'ARN', name:'Stockholm Arlanda'},
@@ -11901,6 +11950,7 @@ window.TVE.home = (function () {
       'whistler':          {iata:'YVR', name:'Vancouver International'},
       'yellowstone':       {iata:'DEN', name:'Denver International'},
       'zakynthos':         {iata:'ZTH', name:'Zakynthos International'},
+      'zanzibar':          {iata:'ZNZ', name:'Abeid Amani Karume International'},
       'zhangjiajie':       {iata:'DYG', name:'Zhangjiajie Hehua Airport'},
       'zurich':            {iata:'ZRH', name:'Zurich International'}
     };
@@ -11919,16 +11969,17 @@ window.TVE.home = (function () {
       'BGI','BGO','BIO','BKK','BLQ','BNA','BOB','BOD','BOM','BOS','BRU','BSL','BUD','CAE','CAI','CDG',
       'CFU','CGN','CKG','CLT','CMB','CNX','CPH','CPT','CTA','CTG','CUN','CUR','CUZ','CWB','DAD','DBV',
       'DCA','DEL','DEN','DFW','DOH','DPS','DTW','DUB','DUS','DXB','DYG','EDI','EYW','EZE','FAO','FCA',
-      'FCO','FHR','FLN','FLR','FNC','FOR','FRA','GCM','GEG','GIG','GLA','GOT','GPS','GRU','GRX','GVA',
-      'HAM','HAN','HAV','HEL','HER','HHH','HIJ','HKG','HKT','HND','HNL','IAD','IAH','ICN','IGU','IST',
-      'JFK','JMK','JPA','JTR','KEF','KIX','KOA','KRK','KTM','KUL','KWI','LAS','LAX','LGA','LGW','LHR',
-      'LIH','LIM','LIS','LJU','LOS','LPQ','LUX','LYS','MAD','MAN','MCO','MCT','MCZ','MEL','MIA','MLA',
-      'MLE','MRS','MSP','MSY','MUC','MVD','MXP','NAP','NAS','NAT','NBO','NCE','OAX','OGG','OLB','OPO',
-      'ORD','ORS','ORY','OSL','OTP','PBH','PDL','PDX','PEK','PHL','PHX','PLS','PMI','PNS','POA','PPS',
-      'PRG','PSA','PSP','PUJ','PUS','PVG','PVR','RAK','RDM','REC','RHO','RIX','RNO','RSW','RUH','SAN','SCL',
-      'SEA','SEZ','SFO','SIN','SJC','SJD','SJO','SJU','SKG','SLC','SLZ','SPU','SRQ','SSA','STR','STT',
-      'SVO','SVQ','SXB','SXM','SYD','SZG','TBS','TFS','TIV','TLL','TLV','TOS','TPE','TRN','VCE','VIE',
-      'VLC','VNO','VRN','WLG','YQB','YUL','YVR','YYC','YYZ','ZAG','ZQN','ZRH','ZTH'
+      'FCO','FHR','FLN','FLR','FNC','FOR','FRA','GCM','GEG','GIG','GLA','GOT','GPS','GRU','GRX','GUA',
+      'GVA','HAM','HAN','HAV','HEL','HER','HHH','HIJ','HKG','HKT','HND','HNL','IAD','IAH','ICN','IGU',
+      'IST','JFK','JMK','JPA','JTR','KEF','KIX','KOA','KRK','KTM','KUL','KWI','LAS','LAX','LGA','LGW',
+      'LHR','LIH','LIM','LIS','LJU','LOS','LPB','LPQ','LUX','LYS','MAD','MAN','MBJ','MCO','MCT','MCZ',
+      'MEL','MIA','MLA','MLE','MRS','MSP','MSY','MUC','MVD','MXP','NAP','NAS','NAT','NBO','NCE','OAX',
+      'OGG','OLB','OPO','ORD','ORS','ORY','OSL','OTP','PBH','PDL','PDX','PEK','PHL','PHX','PLS','PMI',
+      'PNS','POA','PPS','PRG','PSA','PSP','PUJ','PUS','PVG','PVR','RAK','RDM','REC','RHO','RIX','RNO',
+      'RSW','RUH','SAN','SCL','SEA','SEZ','SFO','SIN','SJC','SJD','SJO','SJU','SKG','SLC','SLZ','SOF',
+      'SPU','SRQ','SSA','STR','STT','SVO','SVQ','SXB','SXM','SYD','SZG','TBS','TFS','TIV','TLL','TLV',
+      'TOS','TPE','TRN','VCE','VIE','VLC','VNO','VRN','WLG','YQB','YUL','YVR','YYC','YYZ','ZAG','ZNZ',
+      'ZQN','ZRH','ZTH'
     ];
 
     function _inject() {

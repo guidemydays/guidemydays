@@ -2963,7 +2963,8 @@
 /* 2026-09-03: guide-style.css: restore .stop-photos img max-width 370px (was 100%) toolbar.js -> v1144. CACHE to v1820. */
 /* 2026-09-03: la-paz guide ship: toolbar.js HOTEL_ALT_DATA/CHIP_DATA/LOUNGE_IATAS, weather.js climate normals toolbar.js -> v1145. CACHE to v1821. */
 /* 2026-09-03: la-paz guide ship: weather.js climate normals toolbar.js -> v1146. CACHE to v1822. */
-var CACHE = 'travel-cache-v1822';
+/* 2026-09-03: la-paz guide ship — weather.js climate normals for La Paz. MIN_VERSIONS['weather.js'] to 23, CACHE to v1823. */
+var CACHE = 'travel-cache-v1823';
 /* 2026-08-27: airlines.css's .card-tags align-items fix changed a shared
    asset without raising its own floor -- MIN_VERSIONS['airlines.css'] to
    6, CACHE to v1662. */
@@ -3006,7 +3007,7 @@ var ICS_OUTBOX = 'gmd-ics-outbox';
 /* 2026-08-30: weather.js: Punta Cana climate normals added (244 cities). MIN_VERSIONS["weather.js"] to 19, CACHE to v1748. */
 /* 2026-08-30: search-autocomplete.js — reverted ARIA combobox pattern (role=listbox/option caused side-by-side layout regression). MIN_VERSIONS['search-autocomplete.js'] to 11, CACHE to v1749. */
 /* 2026-09-02: toolbar.js — remove false-affordance right hairline from stop-hours row (commit 981cca5d5). MIN_VERSIONS['toolbar.js'] to 1142, CACHE to v1816. */
-var MIN_VERSIONS = { 'guide-style.css': 283,'toolbar.js': 1146, 'mobile.css': 94, 'web-travel-style.css': 248, 'guides-index-style.css': 48, 'read-about.css': 8, 'best-of-features.js': 5, 'best-of-cross-data.js': 24, 'weather.js': 22,'trains.css': 30, 'trains.js': 5, 'airlines.css': 9, 'airlines.js': 9, 'passport.js': 5, 'search-autocomplete.js': 12, 'flag-render.js': 3 };
+var MIN_VERSIONS = { 'guide-style.css': 283,'toolbar.js': 1146, 'mobile.css': 94, 'web-travel-style.css': 248, 'guides-index-style.css': 48, 'read-about.css': 8, 'best-of-features.js': 5, 'best-of-cross-data.js': 24, 'weather.js': 23,'trains.css': 30, 'trains.js': 5, 'airlines.css': 9, 'airlines.js': 9, 'passport.js': 5, 'search-autocomplete.js': 12, 'flag-render.js': 3 };
 
 function rewriteAssetUrl(urlStr) {
   var u;

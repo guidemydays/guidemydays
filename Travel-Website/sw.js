@@ -2954,7 +2954,8 @@
 /* 2026-09-02: Jerusalem guide ship -- toolbar.js gains HOTEL_ALT_DATA['jerusalem'], CHIP_DATA['jerusalem'] (TLV), and 'TLV' in LOUNGE_IATAS. MIN_VERSIONS['toolbar.js'] to 1139, CACHE to v1809. */
 /* 2026-09-02: Riyadh guide ship: add CHIP_DATA, HOTEL_ALT_DATA, LOUNGE_IATAS for RUH toolbar.js -> v1141. CACHE to v1811. */
 /* 2026-09-02: guide-style.css -- new .dining-area-note block for the Dining Areas guide section (card layout, light/dark, mobile). MIN_VERSIONS['guide-style.css'] to 281, CACHE to v1812. */
-var CACHE = 'travel-cache-v1812';
+/* 2026-09-02: web-travel-style.css -- reverted today's a:hover regression (commit fbd8e563f) back to text-decoration:none, and patched .selection-pill(-sm)/.pill-badge/.cont-btn/.guide-pill/.cs-item/.hov-rust hover rules that never re-declared the property (fleet-wide pill/button underline-on-hover bug). MIN_VERSIONS['web-travel-style.css'] to 247, CACHE to v1813. */
+var CACHE = 'travel-cache-v1813';
 /* 2026-08-27: airlines.css's .card-tags align-items fix changed a shared
    asset without raising its own floor -- MIN_VERSIONS['airlines.css'] to
    6, CACHE to v1662. */
@@ -2996,7 +2997,7 @@ var ICS_OUTBOX = 'gmd-ics-outbox';
    of 230+ guides. Instead, bump MIN_VERSIONS here + increment the CACHE version. */
 /* 2026-08-30: weather.js: Punta Cana climate normals added (244 cities). MIN_VERSIONS["weather.js"] to 19, CACHE to v1748. */
 /* 2026-08-30: search-autocomplete.js — reverted ARIA combobox pattern (role=listbox/option caused side-by-side layout regression). MIN_VERSIONS['search-autocomplete.js'] to 11, CACHE to v1749. */
-var MIN_VERSIONS = { 'guide-style.css': 281,'toolbar.js': 1141, 'mobile.css': 94, 'web-travel-style.css': 246, 'guides-index-style.css': 47, 'read-about.css': 8, 'best-of-features.js': 5, 'best-of-cross-data.js': 24, 'weather.js': 22,'trains.css': 30, 'trains.js': 5, 'airlines.css': 9, 'airlines.js': 9, 'passport.js': 5, 'search-autocomplete.js': 12, 'flag-render.js': 3 };
+var MIN_VERSIONS = { 'guide-style.css': 281,'toolbar.js': 1141, 'mobile.css': 94, 'web-travel-style.css': 247, 'guides-index-style.css': 47, 'read-about.css': 8, 'best-of-features.js': 5, 'best-of-cross-data.js': 24, 'weather.js': 22,'trains.css': 30, 'trains.js': 5, 'airlines.css': 9, 'airlines.js': 9, 'passport.js': 5, 'search-autocomplete.js': 12, 'flag-render.js': 3 };
 
 function rewriteAssetUrl(urlStr) {
   var u;

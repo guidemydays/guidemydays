@@ -5738,6 +5738,18 @@ window.TVE.home = (function () {
 
     var busy = false;
 
+    /* Companion flag for the Guides-Index badge -- same key shape and sync
+       pattern _injectVisitedToggle/tve-visited- already uses. */
+    var offlineParts = location.pathname.split('/');
+    var offlineGi = offlineParts.findIndex(function (x) { return x.toLowerCase() === 'guides'; });
+    var offlineKey = (offlineGi >= 0 && offlineParts[offlineGi + 1])
+      ? 'tve-dl-' + offlineParts[offlineGi + 1].toLowerCase()
+      : null;
+    function markSaved() {
+      if (!offlineKey) return;
+      try { localStorage.setItem(offlineKey, '1'); } catch (e) {}
+    }
+
     function setLabel(html) { btn.innerHTML = html; }
     function rest() {
       busy = false;

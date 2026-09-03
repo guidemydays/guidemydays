@@ -5777,6 +5777,7 @@ window.TVE.home = (function () {
         URL.revokeObjectURL(url);
         if (a.parentNode) a.parentNode.removeChild(a);
       }, 1500);
+      markSaved();
       toast('Saved — check your Downloads folder');
     }
 
@@ -5792,7 +5793,7 @@ window.TVE.home = (function () {
         deliverDownload(html); return;
       }
       navigator.share({ files: [file], title: document.title })
-        .then(function () { rest(); })
+        .then(function () { markSaved(); rest(); })
         ['catch'](function (err) {
           /* AbortError is the reader closing the sheet — a deliberate cancel,
              not a failure, and must not then force a download they declined. */
@@ -5856,7 +5857,7 @@ window.TVE.home = (function () {
           if (handle) {
             return handle.createWritable()
               .then(function (w) { return w.write(html).then(function () { return w.close(); }); })
-              .then(function () { rest(); toast('Saved — ' + (isPacking ? 'the list' : 'the guide') + ' now opens without a connection'); });
+              .then(function () { markSaved(); rest(); toast('Saved — ' + (isPacking ? 'the list' : 'the guide') + ' now opens without a connection'); });
           }
           rest();
           deliverShare(html);
@@ -6168,9 +6169,33 @@ window.TVE.home = (function () {
       if (raw) { JSON.parse(raw).forEach(function (i) { done[i] = true; }); }
     } catch (e) {}
 
+    /* Aggregate progress chip — "N/18 stops done" — sits right after the
+       TRIP OVERVIEW title bar so it scrolls with the page like everything
+       else (Seventy-fourth non-negotiable: nothing pins to the viewport).
+       Placed as a sibling of .overview-title rather than a child of it —
+       every guide also carries a per-guide inline script that appends a
+       "READ ABOUT {CITY}" link into .overview-title's own children, and
+       that script's DOMContentLoaded listener registers AFTER toolbar.js's
+       (the inline script sits later in the document), so reaching into
+       .overview-title here would race that later insert. */
+    var progressChip = null;
+    var overviewTitle = document.querySelector('.overview-title');
+    if (overviewTitle) {
+      progressChip = document.createElement('div');
+      progressChip.className = 'stops-progress-chip';
+      overviewTitle.insertAdjacentElement('afterend', progressChip);
+    }
+    function updateProgressChip() {
+      if (!progressChip) return;
+      var checked = Object.keys(done).filter(function (k) { return done[k]; }).length;
+      progressChip.textContent = checked + '/' + blocks.length + ' stops done';
+    }
+    updateProgressChip();
+
     function save() {
       var arr = Object.keys(done).filter(function (k) { return done[k]; }).map(Number);
       try { localStorage.setItem(storageKey, JSON.stringify(arr)); } catch (e) {}
+      updateProgressChip();
     }
 
     [].forEach.call(blocks, function (sb, idx) {

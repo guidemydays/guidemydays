@@ -7898,6 +7898,12 @@ window.TVE.home = (function () {
       { name: 'Hotel Bergs', note: 'Independent boutique — Elizabetes street in the quiet Bergs Bazaar courtyard, 12 rooms and suites, 24h reception, AC · 9.4 Booking.com', url: 'https://www.booking.com/hotel/lv/bergs.html', tier: 'expensive' },
       { name: 'Grand Palace Hotel Riga', note: 'Preferred Hotels — Pils street on the Old Town edge opposite Riga Castle, classical interiors, spa, 24h reception, AC · 9.4 Booking.com', url: 'https://www.booking.com/hotel/lv/grand-palace-riga.html', tier: 'luxury' }
     ], price: { budget: '€70–120', mid: '€120–220', expensive: '€220–380', luxury: '€380+' } },
+    'riyadh': { h: [
+      { name: 'ibis Styles Riyadh Olaya', note: 'Accor ibis Styles — Olaya district, walkable to Kingdom Centre and Al Faisaliah, 24h reception, AC · 8.2 Booking.com', url: 'https://www.booking.com/hotel/sa/ibis-styles-riyadh-olaya.html', tier: 'budget' },
+      { name: 'Novotel Riyadh Al Anoud', note: 'Accor Novotel — Al Anoud Tower in the Olaya business corridor, rooftop pool, 24h reception, AC · 8.3 Booking.com', url: 'https://www.booking.com/hotel/sa/novotel-riyadh.html', tier: 'mid' },
+      { name: 'Sheraton Riyadh Hotel & Towers', note: 'Marriott Sheraton — King Fahad Road in the financial district, large pool, 24h reception, AC · 8.5 Booking.com', url: 'https://www.booking.com/hotel/sa/sheraton-riyadh-hotel-and-towers.html', tier: 'expensive' },
+      { name: 'Four Seasons Hotel Riyadh at Kingdom Centre', note: 'Four Seasons — floors 30–35 of Kingdom Centre, sky-high pool, butler service, 24h reception, AC · 9.4 Booking.com', url: 'https://www.booking.com/hotel/sa/four-seasons-riyadh.html', tier: 'luxury' }
+    ], price: { budget: 'SAR 200–400', mid: 'SAR 400–700', expensive: 'SAR 700–1,100', luxury: 'SAR 1,100+' } },
     'rio-de-janeiro': { h: [
       { name: 'Novotel Rio de Janeiro Leme', note: 'Novotel — Rua Gustavo Sampaio in Leme one block off the beach, rooftop pool, 24h reception, AC · 8.0 Booking.com', url: 'https://www.booking.com/hotel/br/novotel-rio-de-janeiro-leme.html', tier: 'budget' },
       { name: 'JW Marriott Rio de Janeiro', note: 'Marriott family — Avenida Atlântica 2600 on Copacabana beach, rooftop pool, 24h reception, AC · 8.0 Booking.com', url: 'https://www.booking.com/hotel/br/jw-marriott-rio-de-janeiro.html', tier: 'mid' },
@@ -11834,6 +11840,7 @@ window.TVE.home = (function () {
       'reykjavik':         {iata:'KEF', name:'Keflavík International'},
       'rhodes':            {iata:'RHO', name:'Rhodes Diagoras'},
       'riga':              {iata:'RIX', name:'Riga International'},
+      'riyadh':            {iata:'RUH', name:'King Khalid International Airport'},
       'rio-de-janeiro':    {iata:'GIG', name:'Rio de Janeiro Galeão International'},
       'rome':              {iata:'FCO', name:'Rome Fiumicino (Leonardo da Vinci)'},
       'rotterdam':         {iata:'AMS', name:'Amsterdam Schiphol'},
@@ -11920,7 +11927,7 @@ window.TVE.home = (function () {
       'LIH','LIM','LIS','LJU','LOS','LPQ','LUX','LYS','MAD','MAN','MCO','MCT','MCZ','MEL','MIA','MLA',
       'MLE','MRS','MSP','MSY','MUC','MVD','MXP','NAP','NAS','NAT','NBO','NCE','OAX','OGG','OLB','OPO',
       'ORD','ORS','ORY','OSL','OTP','PBH','PDL','PDX','PEK','PHL','PHX','PLS','PMI','PNS','POA','PPS',
-      'PRG','PSA','PSP','PUJ','PUS','PVG','PVR','RAK','RDM','REC','RHO','RIX','RNO','RSW','SAN','SCL',
+      'PRG','PSA','PSP','PUJ','PUS','PVG','PVR','RAK','RDM','REC','RHO','RIX','RNO','RSW','RUH','SAN','SCL',
       'SEA','SEZ','SFO','SIN','SJC','SJD','SJO','SJU','SKG','SLC','SLZ','SPU','SRQ','SSA','STR','STT',
       'SVO','SVQ','SXB','SXM','SYD','SZG','TBS','TFS','TIV','TLL','TLV','TOS','TPE','TRN','VCE','VIE',
       'VLC','VNO','VRN','WLG','YQB','YUL','YVR','YYC','YYZ','ZAG','ZQN','ZRH','ZTH'

@@ -319,7 +319,9 @@
 
        A #City hash still selects — the 237 guides deep-link that way. */
     var hashKey = decodeURIComponent(location.hash.slice(1));
-    curKey = (hashKey && cityKeys.indexOf(hashKey) >= 0) ? hashKey : null;
+    /* Case-insensitive match so guide deep-links like #nairobi resolve to "Nairobi". */
+    var hashLower = hashKey.toLowerCase();
+    curKey = hashKey ? (cityKeys.filter(function(k){ return k.toLowerCase() === hashLower; })[0] || null) : null;
     var inp0 = document.getElementById('wx-city-search');
     if (inp0) inp0.value = DB[curKey] ? (DB[curKey].city || curKey) : '';
     if (window.TVESearch && inp0) {

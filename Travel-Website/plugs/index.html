@@ -318,10 +318,12 @@ var PG=[["Austria","Austria","Europe","230V / 50Hz","CF"],["Belgium","Belgium","
   }
 
   /* The ONE thing that may arrive with a country already selected: a #Country
-     link the reader clicked in a guide. */
-  if(window.__tveDeep && BYA[window.__tveDeep]){
-    input.value=BYA[window.__tveDeep][1];
-    show(window.__tveDeep);
+     link the reader clicked in a guide. Guide deep-links use spaces (#Saudi Arabia)
+     but PG anchor keys use underscores (Saudi_Arabia) — normalize before lookup. */
+  if(window.__tveDeep){
+    var _d=window.__tveDeep, _dk=_d.replace(/ /g,'_');
+    var _entry=BYA[_dk]||BYA[_d];
+    if(_entry){ input.value=_entry[1]; show(_entry[0]); }
   }
 }());
 </script>

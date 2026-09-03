@@ -99,31 +99,6 @@
 .ag-of { display: block; font-family: var(--font); font-size: 12px; font-weight: 400;
   color: var(--muted); letter-spacing: .05em; text-transform: uppercase; margin-top: 6px; }
 
-.ag-facts { display: flex; flex-wrap: wrap; gap: 9px; margin-top: 18px; }
-.ag-fact {
-  display: inline-flex; align-items: baseline; gap: 7px;
-  font-size: 12.5px; padding: 7px 13px; border-radius: 20px;
-  border: 1px solid var(--border2); background: var(--warm); color: var(--muted);
-}
-.ag-fact b { font-weight: 700; color: var(--text); }
-.ag-fact span { color: var(--muted); }
-/* Safety is the ONE chip that earns a colour, because it is a LEVEL and the
-   level is the point — now a full family pill (ground + border + ink together,
-   per the Eighty-ninth non-negotiable), not just a coloured word. Trip cost and
-   currency stay the neutral box: two inks doing one job is enough contrast
-   without becoming the "several fonts and colors" mess this replaced. */
-/* 2026-08-27: repointed onto the real .cp-dark-teal/.cp-gold/.cp-terracotta
-   token classes -- was hand-rolled hex that happened to exactly duplicate
-   those three (a fresh copy of the shared system, not a use of it), and the
-   duplicate never carried the label text's own ink, only the bold value's,
-   leaving "Safety" muted-grey on a saturated green fill. var(--sp-ink) now
-   colours the whole pill (label + value alike) via inheritance; only the
-   bold weight, not a separate ink, is what still needs restating. */
-.ag-fact.cp-dark-teal, .ag-fact.cp-gold, .ag-fact.cp-terracotta {
-  background: var(--sp-wash); border-color: rgba(0,0,0,.1); color: var(--sp-ink);
-}
-.ag-fact.cp-dark-teal b, .ag-fact.cp-gold b, .ag-fact.cp-terracotta b { color: var(--sp-ink); }
-
 /* THE VERDICT, before any number — now a tinted callout instead of a plain
    border-left line, the loudest single element on the page short of the trio. */
 .ag-lede {
@@ -326,12 +301,6 @@
         <a class="ag-place" id="ag-guide-link" href="/guides/"></a>
         <span class="ag-scope" id="ag-scope"></span>
       </div>
-      <!-- CITY-LEVEL, and deliberately repeated from the guide (owner rule
-           2026-08-23: "keep the data that was repetitive but still important here
-           like safety etc dont get rid of any date"). It is also the corrective
-           on a country-level pack: Paris reads Moderate for safety while France's
-           national figures say nothing of the sort. -->
-      <div class="ag-facts" id="ag-facts"></div>
       <!-- Built from the ranks, in the page, at render time — no editorial copy
            is stored per place and nothing is researched. -->
       <p class="ag-lede" id="ag-lede" hidden></p>
@@ -502,22 +471,6 @@ var AGMO=["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec
         '<b>'+s.a+'</b> '+(s.u==='days'?'sunny days':'hours')+' a year';
       sunG.hidden=false;
     } else { sunG.hidden=true; }
-
-    /* City-level facts, repeated here on purpose (see the markup note). */
-    var SAFE_CLASS={'Very Safe':'cp-dark-teal','Safe':'cp-dark-teal','Moderate':'cp-gold',
-                    'Caution':'cp-terracotta','High Risk':'cp-terracotta'};
-    var TIER_CLASS={'Budget':'is-good','Moderate':'is-mid',
-                    'Expensive':'is-warn','Premium':'is-warn'};
-    var cf=row[4]||[], fh='';
-    if(cf[0]) fh+='<span class="ag-fact '+(SAFE_CLASS[cf[0]]||'')+'">Safety <b>'+esc(cf[0])+'</b>'+
-                  (cf[1]?'<span>'+esc(cf[1])+'</span>':'')+'</span>';
-    /* No TIER_CLASS: colour is reserved for SAFETY, which is a level. A cost
-       tier tinted orange beside an amber safety chip and a grey currency chip
-       was three inks doing one job (owner rule 2026-08-23: "several fonts and
-       colors"). */
-    if(cf[2]) fh+='<span class="ag-fact">Trip cost <b>'+esc(cf[2])+'</b></span>';
-    if(cf[3]) fh+='<span class="ag-fact">Currency <b>'+esc(cf[3])+'</b></span>';
-    document.getElementById('ag-facts').innerHTML=fh;
 
     /* City cost: the index, its band, and the three sub-indices. The SCOPE is
        printed rather than assumed — a row measured for the country, or off a

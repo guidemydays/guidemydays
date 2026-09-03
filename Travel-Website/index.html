@@ -2043,18 +2043,25 @@ a.ask-card:focus-visible .ask-name { color: var(--rust, #C04E1A); }
 .cmpx-count { margin: 0 auto 0 0; font-size: 0.95rem; font-weight: 600; color: var(--text,#3d3a32); }
 .cmpx-count b { color: var(--text,#3d3a32); font-weight: 700; }
 /* Smaller than .fnd-reset because they sit above the list rather than under
-   the card, but the same grammar: outlined, muted ink, THE FONT DOES NOT
-   MOVE (owner rule 2026-07-30 / 2026-08-19). Hover was terracotta rim/ground
-   var(--bg) -- retired along with every other pill hover sitewide (pills
-   doc Rule 13, added this session); now the same neutral #f0ede8/#b0aca6
-   every other reset-grammar control on the site uses. */
+   the card. FIXED 2026-09-02 (owner: "it is wrong and hardcoded") -- this was
+   a plain outlined/transparent pill with a flat #f0ede8/#b0aca6 hover that
+   never adapted itself, while its own siblings two rows down (.cmp-go-btn /
+   .cmp-exit-btn, "Pick 2-5 cities" / "Clear everything") already use the
+   real --sp-saddle-* tokens with a glow hover. Same tokens, same grammar,
+   here too -- .cmpx-mini isn't a descendant of .cmp-sel-bar.sp-saddle so it
+   reads the --sp-saddle-* globals directly rather than the generic --sp-*
+   aliases .cmp-go-btn/.cmp-exit-btn inherit from that wrapper. */
 .cmpx-mini {
   display: inline-flex; align-items: center; gap: 0.4rem;
-  border: 1px solid var(--border,#e3ddd2); background: transparent;
-  color: var(--muted,#6a6660); font: inherit; font-size: 0.85rem;
+  border: 1px solid rgba(var(--sp-saddle-rgb),.45); background: var(--sp-saddle-wash);
+  color: var(--sp-saddle-ink); font: inherit; font-size: 0.85rem;
   border-radius: 999px; padding: 0.45em 1.1em; cursor: pointer;
+  transition: box-shadow .15s, border-color .15s;
 }
-.cmpx-mini:not(:disabled):hover, .cmpx-mini:focus-visible { background: var(--nt-grey-wash); border-color: rgba(var(--nt-grey-rgb),.75); }
+.cmpx-mini:not(:disabled):hover, .cmpx-mini:focus-visible {
+  box-shadow: 0 0 0 6px rgba(var(--sp-saddle-rgb),.18), 0 0 18px rgba(var(--sp-saddle-rgb),.35);
+  border-color: var(--sp-saddle-ink);
+}
 /* Surprise me needs two cities to shuffle between; below that it is disabled,
    and it dims the same .45 as a row the five-city cap has locked out, so one
    "you cannot press this" reading serves the whole card. */
@@ -2869,12 +2876,10 @@ summary.res-head:focus-visible { outline: 2px solid var(--rust, #C04E1A); outlin
   #tp-compare .cmp-go-btn:not(:disabled):hover, #tp-compare .cmp-exit-btn:hover {
     background: rgba(200,160,96,.12); border-color: rgba(200,160,96,.62); box-shadow: none;
   }
-  /* .cmpx-mini ("Surprise me") had no dark-mode hover at all -- the light-mode
-     #f0ede8/#b0aca6 fix above is a literal hex, not a token, so it does not
-     adapt on its own. Same dark neutral hover as .fnd-reset/.cmp-exit-btn. */
-  .cmpx-mini:not(:disabled):hover, .cmpx-mini:focus-visible {
-    background: var(--surface2, #1e1c1a); border-color: #4a453e;
-  }
+  /* .cmpx-mini's own dark-mode override retired 2026-09-02: it fixed to a
+     hardcoded #1e1c1a/#4a453e neutral rather than a token, and is no longer
+     needed at all now that the light-mode rule above reads --sp-saddle-*
+     custom properties, which already resolve correctly in dark mode. */
 
   /* The three rules that were html[data-theme="dark"] until the toggle went. */
   .res-sub > summary,

@@ -652,11 +652,31 @@ body.mode-compare.cmp-full .mosaic-wrap .dest-card:not(.cmp-sel) { opacity: .45;
 .cmp-table-wrap { overflow-x: auto; }
 .cmp-table { border-collapse: separate; border-spacing: 0; min-width: 420px; }
 .cmp-table td { padding: 10px 14px; border-bottom: 1px solid var(--border2, #e6e2da); font-size: 13px; vertical-align: middle; }
-.cmp-row-label {
+/* td.cmp-row-label, not .cmp-row-label -- a bare class selector (0,1,0) loses
+   to .cmp-table td (0,1,1) above regardless of source order, so the label's
+   own 11px never actually applied; every label rendered at the value's 13px
+   instead, one flattened size where the type scale below this comment means
+   two. td.cmp-row-label ties .cmp-table td on specificity and wins on source
+   order (it comes later), so 11px finally reaches the element it's set on. */
+td.cmp-row-label {
   font-size: 11px; letter-spacing: .08em; text-transform: uppercase;
   color: var(--muted); font-weight: 600; white-space: nowrap;
   text-align: left; padding-right: 14px; min-width: 92px;
 }
+/* .cmp-row-sub undoes the label's own bold/caps/tracking for a plain second
+   line under it (e.g. "Best season" / "mild weather") -- one class instead of
+   the same "font-weight:400;letter-spacing:0;text-transform:none" pasted
+   inline on four separate rows. */
+.cmp-row-sub { font-weight: 400; letter-spacing: 0; text-transform: none; }
+/* .cmp-row-top is the Safety row's own vertical-align/padding-top -- its cells
+   run two lines (icon+level, then a note) where every other row runs one, so
+   it alone needs top alignment and extra headroom. Was the same
+   "vertical-align:top;padding-top:14px" pasted inline three times a few lines
+   apart (the label cell and both branches of the value cell). td.cmp-row-top,
+   not the bare class -- .cmp-table td above already sets both properties at
+   (0,1,1); a bare .cmp-row-top class is only (0,1,0) and loses the exact same
+   way the unqualified .cmp-row-label used to (see the note above it). */
+td.cmp-row-top { vertical-align: top; padding-top: 14px; }
 /* Unified value type scale — one primary size, one sub size, one muted-sub */
 .cmp-v    { font-size: 13px; font-weight: 400; color: var(--text, #1a1917); }
 .cmp-sub  { display: block; font-size: 11px; font-weight: 400; color: var(--muted); margin-top: 2px; line-height: 1.4; }

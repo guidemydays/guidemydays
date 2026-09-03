@@ -2028,8 +2028,6 @@ a.ask-card:focus-visible .ask-name { color: var(--rust, #C04E1A); }
    bar — which is shared CSS and is therefore scoped to #tp-compare, never
    edited in guides-index-style.css (same reasoning as the .hc-nav override
    above: the guides index shares the class and must not move). */
-.cmpx-lede { font-size: 0.92rem; line-height: 1.6; color: var(--muted,#6a6660); margin: 0 0 clamp(0.9rem, 2vw, 1.2rem); max-width: 66ch; }
-.cmpx-lede strong { color: var(--text,#3d3a32); font-weight: 600; }
 /* The search box is NOT styled here. It carries .search-input and takes the
    site-wide standard out of shared CSS — 440×56 at 17px, 6px corners, the
    standard border and focus colour, and the shared magnifier that a background
@@ -4139,7 +4137,13 @@ window.lpGuideCard = function (href, flag, name, extra) {
     <!-- "flight time" without an origin, because the origin is now the
          reader's own and is named in the table's row header. Naming Seattle
          here would contradict the column it introduces. -->
-    <p class="cmpx-lede">Pick <strong>2 to 5 cities</strong> to compare.</p>
+    <!-- The static "Pick 2 to 5 cities to compare." lede that used to open this
+         card is retired (owner, 2026-09-03: "we have pick 2 to 5 twice") — it
+         repeated the live #cmpx-count line below word for word ("Pick 2 to 5."
+         at rest, "N of 5 picked." once you start), and the card link above this
+         panel (.ask-desc "Up to five cities, side by side.") already sets up
+         what the tool does. The dynamic count is the one instruction that stays:
+         it updates as you pick, the static line never did. -->
 
     <!-- NO SEARCH BOX AND NO FILTERS (owner rules 2026-08-23: "remove search" ·
          "remove all that" · "you pick the cities and it give it all!!! all info we
@@ -6960,7 +6964,11 @@ function render() {
 
     function renderBars(key) {
       var d = climateData && climateData[key];
-      if (!d || !d.hi) return '<span style="font-size:11px;color:var(--muted)">—</span>';
+      /* .cmp-sub, not a hand-rolled 11px/muted inline style -- every other
+         missing-data cell in this table (Country, Safety, Cost, Currency...)
+         already uses the shared class for its own "—" fallback; this was the
+         one place that duplicated its numbers instead of reading it. */
+      if (!d || !d.hi) return '<span class="cmp-sub">—</span>';
       var maxHi = Math.max.apply(null, d.hi);
       var H = 58;
       var out = '<div class="cmp-bars" data-key="' + key + '">';
@@ -7266,7 +7274,13 @@ function render() {
       out += '<tr><td class="cmp-row-label"></td>';
       sel.forEach(function(c) {
         out += '<td class="cmp-col cmp-city-cell">' +
-          '<span class="cmp-chip" style="font-size:13px;font-weight:600;padding:4px 8px 4px 12px">' +
+          /* No inline style here — this chip reads the same shared #tp-compare
+             .cmp-chip rule as the selection-bar chips above the table (owner,
+             2026-09-03: "the pills with the countries are hardcoded"). It used
+             to hand-carry an approximate copy of that rule's own numbers
+             (13px/600 vs the shared rule's real 14.4px/800), so the same
+             "Rome ✕" chip read at two different sizes a few rows apart. */
+          '<span class="cmp-chip">' +
           (c.flag ? TVE.flag.html(c.flag, 'gm-flag') : '') + esc(c.name) +
           ' <button class="cmp-chip-x cmp-remove-btn" data-href="' + esc(c.href) + '" title="Remove">✕</button>' +
           '</span>' +
@@ -7285,14 +7299,14 @@ function render() {
       out += '<tr class="cmp-section-title"><td colspan="' + (sel.length + 1) + '">When to go</td></tr>';
 
       /* Best season row */
-      out += '<tr><td class="cmp-row-label">Best season<br><span style="font-weight:400;letter-spacing:0;text-transform:none">mild weather</span></td>';
+      out += '<tr><td class="cmp-row-label">Best season<br><span class="cmp-row-sub">mild weather</span></td>';
       sel.forEach(function(c) {
         out += '<td class="cmp-col"><span class="cmp-v">' + bestSeason(c.climateKey) + '</span></td>';
       });
       out += '</tr>';
 
       /* Climate bars row */
-      out += '<tr><td class="cmp-row-label">Climate<br><span style="font-weight:400;letter-spacing:0;text-transform:none">tap a month</span></td>';
+      out += '<tr><td class="cmp-row-label">Climate<br><span class="cmp-row-sub">tap a month</span></td>';
       sel.forEach(function(c) {
         out += '<td class="cmp-col">' + renderBars(c.climateKey) + '</td>';
       });
@@ -7302,7 +7316,7 @@ function render() {
          per-city sunshine table has one, else the country's. Hours everywhere
          except the US region, which reads sunny days instead — the unit is
          printed rather than assumed, same reasoning as the Currency row. */
-      out += '<tr><td class="cmp-row-label">Sunshine<br><span style="font-weight:400;letter-spacing:0;text-transform:none">annual total</span></td>';
+      out += '<tr><td class="cmp-row-label">Sunshine<br><span class="cmp-row-sub">annual total</span></td>';
       sel.forEach(function(c) {
         var slugS = String(c.href || '').split('/').pop().replace(/\.html$/, '');
         var wsS = (WORLD_STATS && WORLD_STATS[slugS]) || null;
@@ -7334,23 +7348,31 @@ function render() {
         {lvl:4,label:'Caution',   col:'#c06000'},
         {lvl:5,label:'High Risk', col:'#b00000'}
       ];
+      /* The static font-size/color half of each legend item reads .cmp-sub --
+         the same shared 11px-muted token as every sub-line in the table --
+         leaving only the per-level color inline, since that one genuinely
+         comes from SAFE_LEGEND's own data and can't be a static class. */
       var legendFootnote = '<div class="cmp-legend-footnote">'
         + SAFE_LEGEND.map(function(s){
-            return '<span style="font-size:11px;color:var(--muted)">Level ' + s.lvl + ' = <span style="color:' + s.col + '">' + s.label + '</span></span>';
+            return '<span class="cmp-sub">Level ' + s.lvl + ' = <span style="color:' + s.col + '">' + s.label + '</span></span>';
           }).join('')
         + '</div>';
       var SAFE_CLASS = {'Very Safe':'cmp-good','Safe':'cmp-good2','Moderate':'cmp-mid','Caution':'cmp-warn','High Risk':'cmp-bad'};
-      out += '<tr><td class="cmp-row-label" style="vertical-align:top;padding-top:14px">Safety</td>';
+      /* .cmp-row-top carries the vertical-align/padding-top this row's two-line
+         cells need (icon+level above, note below) -- shared instead of the
+         same "vertical-align:top;padding-top:14px" pasted inline three times
+         a few lines apart. */
+      out += '<tr><td class="cmp-row-label cmp-row-top">Safety</td>';
       sel.forEach(function(c) {
         var si = SAFETY_DATA[c.climateKey] || SAFETY_DATA[c.name] || null;
         if (si) {
           var dotKey = SAFE_DOT[si.level] || 'dot-yellow';
-          out += '<td class="cmp-col" style="vertical-align:top;padding-top:14px">'
+          out += '<td class="cmp-col cmp-row-top">'
             + '<span class="cmp-v ' + (SAFE_CLASS[si.level] || 'cmp-mid') + '"><svg class="gm-icon cmp-dot" data-icon="' + dotKey + '" data-role="dot" viewBox="0 0 24 24" aria-hidden="true"><use href="#gm-i-' + dotKey + '"/></svg>' + si.level + '</span>'
             + (si.note ? '<span class="cmp-sub">' + esc(stripIcons(si.note)) + '</span>' : '<span class="cmp-sub" style="visibility:hidden">·</span>')
             + '</td>';
         } else {
-          out += '<td class="cmp-col" style="vertical-align:top;padding-top:14px"><span class="cmp-sub">—</span></td>';
+          out += '<td class="cmp-col cmp-row-top"><span class="cmp-sub">—</span></td>';
         }
       });
       out += '</tr>';
@@ -7392,7 +7414,7 @@ function render() {
          the same reason the Flight row names its airport. */
       if (VISA_ON) {
         var pp = window.TVE.passport.get();
-        out += '<tr><td class="cmp-row-label">Entry<br><span style="font-weight:400;letter-spacing:0;text-transform:none">' + esc(pp.name) + ' passport</span></td>';
+        out += '<tr><td class="cmp-row-label">Entry<br><span class="cmp-row-sub">' + esc(pp.name) + ' passport</span></td>';
         sel.forEach(function(c) {
           var vi = window.TVE.passport.cell(c.country || c.name);
           if (!vi) { out += '<td class="cmp-col"><span class="cmp-sub">&mdash;</span></td>'; return; }

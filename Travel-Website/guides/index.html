@@ -3635,7 +3635,7 @@
 
   function renderBars(key) {
     var d = climateData && climateData[key];
-    if (!d || !d.hi) return '<span style="font-size:11px;color:var(--muted)">—</span>';
+    if (!d || !d.hi) return '<span class="cmp-sub">—</span>';
     var maxHi = Math.max.apply(null, d.hi);
     var H = 58;
     var out = '<div class="cmp-bars" data-key="' + key + '">';
@@ -3911,7 +3911,12 @@
     out += '<tr><td class="cmp-row-label"></td>';
     sel.forEach(function(c) {
       out += '<td class="cmp-col cmp-city-cell">' +
-        '<span class="cmp-chip" style="font-size:13px;font-weight:600;padding:4px 8px 4px 12px">' +
+        /* No inline style -- reads the shared .cmp-chip rule, same as this
+           page's own selection-bar chips a few lines below (owner-flagged
+           live: the same hardcoded copy already fixed on the landing page's
+           #tp-compare table existed here too, unfixed, since this page keeps
+           its own copy of buildTable(). */
+        '<span class="cmp-chip">' +
         (c.flag ? TVE.flag.html(c.flag, 'gm-flag') : '') + esc(c.name) +
         ' <button class="cmp-chip-x cmp-remove-btn" data-href="' + esc(c.href) + '" title="Remove">✕</button>' +
         '</span>' +
@@ -3930,14 +3935,14 @@
     out += '<tr class="cmp-section-title"><td colspan="' + (sel.length + 1) + '">When to go</td></tr>';
 
     /* Best season row */
-    out += '<tr><td class="cmp-row-label">Best season<br><span style="font-weight:400;letter-spacing:0;text-transform:none">mild weather</span></td>';
+    out += '<tr><td class="cmp-row-label">Best season<br><span class="cmp-row-sub">mild weather</span></td>';
     sel.forEach(function(c) {
       out += '<td class="cmp-col"><span class="cmp-v">' + bestSeason(c.climateKey) + '</span></td>';
     });
     out += '</tr>';
 
     /* Climate bars row */
-    out += '<tr><td class="cmp-row-label">Climate<br><span style="font-weight:400;letter-spacing:0;text-transform:none">tap a month</span></td>';
+    out += '<tr><td class="cmp-row-label">Climate<br><span class="cmp-row-sub">tap a month</span></td>';
     sel.forEach(function(c) {
       out += '<td class="cmp-col">' + renderBars(c.climateKey) + '</td>';
     });
@@ -3947,7 +3952,7 @@
        per-city sunshine table has one, else the country's. Hours everywhere
        except the US region, which reads sunny days instead — the unit is
        printed rather than assumed, same reasoning as the Currency row. */
-    out += '<tr><td class="cmp-row-label">Sunshine<br><span style="font-weight:400;letter-spacing:0;text-transform:none">annual total</span></td>';
+    out += '<tr><td class="cmp-row-label">Sunshine<br><span class="cmp-row-sub">annual total</span></td>';
     sel.forEach(function(c) {
       var slugS = String(c.href || '').split('/').pop().replace(/\.html$/, '');
       var wsS = (WORLD_STATS && WORLD_STATS[slugS]) || null;
@@ -3981,21 +3986,21 @@
     ];
     var legendFootnote = '<div class="cmp-legend-footnote">'
       + SAFE_LEGEND.map(function(s){
-          return '<span style="font-size:11px;color:var(--muted)">Level ' + s.lvl + ' = <span style="color:' + s.col + '">' + s.label + '</span></span>';
+          return '<span class="cmp-sub">Level ' + s.lvl + ' = <span style="color:' + s.col + '">' + s.label + '</span></span>';
         }).join('')
       + '</div>';
     var SAFE_CLASS = {'Very Safe':'cmp-good','Safe':'cmp-good2','Moderate':'cmp-mid','Caution':'cmp-warn','High Risk':'cmp-bad'};
-    out += '<tr><td class="cmp-row-label" style="vertical-align:top;padding-top:14px">Safety</td>';
+    out += '<tr><td class="cmp-row-label cmp-row-top">Safety</td>';
     sel.forEach(function(c) {
       var si = SAFETY_DATA[c.climateKey] || SAFETY_DATA[c.name] || null;
       if (si) {
         var dotKey = SAFE_DOT[si.level] || 'dot-yellow';
-        out += '<td class="cmp-col" style="vertical-align:top;padding-top:14px">'
+        out += '<td class="cmp-col cmp-row-top">'
           + '<span class="cmp-v ' + (SAFE_CLASS[si.level] || 'cmp-mid') + '"><svg class="gm-icon cmp-dot" data-icon="' + dotKey + '" data-role="dot" viewBox="0 0 24 24" aria-hidden="true"><use href="#gm-i-' + dotKey + '"/></svg>' + si.level + '</span>'
           + (si.note ? '<span class="cmp-sub">' + esc(stripIcons(si.note)) + '</span>' : '<span class="cmp-sub" style="visibility:hidden">·</span>')
           + '</td>';
       } else {
-        out += '<td class="cmp-col" style="vertical-align:top;padding-top:14px"><span class="cmp-sub">—</span></td>';
+        out += '<td class="cmp-col cmp-row-top"><span class="cmp-sub">—</span></td>';
       }
     });
     out += '</tr>';
@@ -4040,7 +4045,7 @@
        the same reason the Flight row names its airport. */
     if (VISA_ON) {
       var pp = window.TVE.passport.get();
-      out += '<tr><td class="cmp-row-label">Entry<br><span style="font-weight:400;letter-spacing:0;text-transform:none">' + esc(pp.name) + ' passport</span></td>';
+      out += '<tr><td class="cmp-row-label">Entry<br><span class="cmp-row-sub">' + esc(pp.name) + ' passport</span></td>';
       sel.forEach(function(c) {
         var vi = window.TVE.passport.cell(c.country || c.name);
         if (!vi) { out += '<td class="cmp-col"><span class="cmp-sub">&mdash;</span></td>'; return; }

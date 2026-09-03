@@ -4662,16 +4662,14 @@ window.TVE.home = (function () {
            is now the right hairline. Do not reinstate a border-left here. Do not
            restore a background either without re-checking it against
            BOTH #f5f0e6 and #fdf8f0 — the two layers it sits between. */
-        /* RIGHT EDGE — with no fill and (since 2026-08-11) no left rail, this
-           hairline is the ONLY mark of where the band ends, which is what shows
-           it stopping at the background (#faf7f2): on desktop the slab otherwise
-           reads as trailing off into the middle of the page instead of stopping
-           at the card edge. The hairline closes it, so it carries more weight now
-           than when it shipped and must not be dropped as "matching" the left
-           side. Same tint as .tve-ph-hr so the band, its divider and its panel
-           agree. */
+        /* RIGHT EDGE — the hairline that used to close the half-width desktop
+           band here was REMOVED (owner rule 2026-09-02): on a simple one-segment
+           row it read as a column/control edge — "it looks like it will open
+           and it does not" — since a plain row carries no toggle. Do not
+           reinstate it on .tve-ph or .tve-ph-24; the toggle variant's own
+           round chevron (.tve-ph-chv) is the only affordance mark left. */
         '.tve-ph{' +
-        'border-right:1px solid rgba(187,160,112,.45);background:transparent;color:#C04E1A;' +
+        'background:transparent;color:#C04E1A;' +
         'font-weight:500;padding:0 14px;border-radius:0;' +
         'margin:6px -14px 0;line-height:1.55;font-size:inherit;}' +
         /* CLOCK ALIGNMENT — the label is inline, so the 15px <svg> iconSVG()
@@ -4722,7 +4720,7 @@ window.TVE.home = (function () {
            because the class is still stamped in JS and
            check_stop_hours_contract hard-fails a tve-ph-* class with no CSS. */
         '.tve-ph-24{background:transparent!important;' +
-        'border-right-color:rgba(187,160,112,.45)!important;color:#C04E1A!important;}' +
+        'color:#C04E1A!important;}' +
         /* Authored 🏛️ row: hidden, but kept in the DOM so the Open Now
            filter can still read its textContent. */
                 /* DESKTOP WIDTH — the band stops at the horizontal centre of the screen

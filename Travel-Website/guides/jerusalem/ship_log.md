@@ -20,3 +20,6 @@
 2026-09-02 18:54 — jerusalem.html — FAIL @ validate — 931/933 passed, 2 failed — FINAL GATE — Safety Guide has a row for this city (essentials/safety/index.html — hardcoded, add manually)
 2026-09-02 18:54 — jerusalem.html — PASS — 932/932 passed, 0 failed
 2026-09-02 18:58 — jerusalem.html — FAIL @ final-gates-precheck — 0 checks — Filter coverage — this guide answers every filter (owner rule 2026-08-23)
+2026-09-03 10:06 — jerusalem.html — FAIL @ surface-preflight — 0 checks — 1 gap(s): Before-You-Go — country missing from WATER_DATA (tap water)
+2026-09-03 10:36 — jerusalem.html — FAIL @ final-gates-precheck — 0 checks — Filter coverage — this guide answers every filter (owner rule 2026-08-23)
+2026-09-03 11:14 — jerusalem.html — PASS — 933/933 passed, 0 failed

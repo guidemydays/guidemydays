@@ -5,3 +5,6 @@
 2026-09-02 19:08 — nairobi.html — FAIL @ verify — 0 checks
 2026-09-02 19:10 — nairobi.html — FAIL @ verify-booking — 0 checks
 2026-09-02 19:18 — nairobi.html — PASS — 913/913 passed, 0 failed
+2026-09-03 10:25 — nairobi.html — FAIL @ final-gates-precheck — 0 checks — Fleet: index.html inline data (CLIMATE_INLINE / COST_DATA / SAFETY_DATA)
+2026-09-03 10:53 — nairobi.html — FAIL @ final-gates-precheck — 0 checks — Fleet: Currency Guide coverage
+2026-09-03 11:14 — nairobi.html — PASS — 915/915 passed, 0 failed

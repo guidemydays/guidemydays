@@ -138,14 +138,28 @@
 .gx-kicker { font-size: .72rem; font-weight: 700; letter-spacing: .14em; text-transform: uppercase;
   color: var(--rust, #C04E1A); margin: 0 0 .6rem; }
 .gx-hero-h { font-size: clamp(2.1rem, 5.4vw, 3.9rem); line-height: 1.0; letter-spacing: -.035em;
-  font-weight: 700; color: var(--text, #17150f); margin: 0 auto clamp(1.4rem, 3vw, 2rem);
+  font-weight: 700; color: var(--text, #17150f); margin: 0 auto var(--search-gap, 32px);
   max-width: 20ch; text-wrap: balance; }
 .gx-hero-h em { font-style: normal; color: var(--rust, #C04E1A); }
-/* Surprise me — the one live control this banner adds beyond the search box.
-   .topbar (and every .disc-btn in it) is hidden site-wide on this page since
-   2026-08-14, so this reuses the .disc-btn look but sits in the hero, the
-   only part of the page that stayed a real control surface. */
-.gx-surprise { margin-top: 14px; }
+/* Surprise me — styled like its siblings elsewhere on the site that share
+   its job (index.html's .cmpx-mini Compare-Cities "Surprise me", and that
+   card's .cmp-go-btn/.cmp-exit-btn CTA pair): the same --sp-saddle-* tokens,
+   the same glow hover, pill radius 999px — no mix-and-match between sibling
+   pills (owner rule 2026-09-02, pills doc). Its gap below the search box
+   matches --search-gap, the same token .gx-hero-h uses above it, so the
+   search bar's gap above equals its gap below. */
+.gx-surprise {
+  margin-top: var(--search-gap, 32px);
+  display: inline-flex; align-items: center; gap: 0.4rem;
+  border: 1px solid rgba(var(--sp-saddle-rgb),.45); background: var(--sp-saddle-wash);
+  color: var(--sp-saddle-ink); font: inherit; font-size: 0.85rem;
+  border-radius: 999px; padding: 0.45em 1.1em; cursor: pointer;
+  transition: box-shadow .15s, border-color .15s;
+}
+.gx-surprise:hover {
+  box-shadow: 0 0 0 6px rgba(var(--sp-saddle-rgb),.18), 0 0 18px rgba(var(--sp-saddle-rgb),.35);
+  border-color: var(--sp-saddle-ink);
+}
 /* .gx-search box/icon/input/placeholder/focus/suggest rules moved to the
    shared .hero-search / .hero-search-icon component in web-travel-style.css
    (2026-08-28 consolidation -- owner: "No exception change ALL to share").
@@ -515,7 +529,7 @@
       <input type="search" id="guide-search" class="search-input" placeholder="City or country" aria-label="Search guides" autocomplete="off">
     </div>
   </div>
-  <button type="button" id="btn-surprise-me" class="disc-btn gx-surprise" title="Jump to a random guide — within your current filters, if any are on"><svg viewBox="0 0 24 24" width="14" height="14" aria-hidden="true" style="vertical-align:middle;flex-shrink:0"><use href="#gm-i-dice"/></svg> Surprise me</button>
+  <button type="button" id="btn-surprise-me" class="gx-surprise" title="Jump to a random guide — within your current filters, if any are on"><svg viewBox="0 0 24 24" width="14" height="14" aria-hidden="true" style="vertical-align:middle;flex-shrink:0"><use href="#gm-i-shuffle"/></svg> Surprise me</button>
 </header>
 <div class="topbar">
   <!-- The search moved into the hero below (owner 2026-08-14). Same input, same

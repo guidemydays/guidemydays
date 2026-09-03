@@ -1866,7 +1866,16 @@ a.ask-card:focus-visible .ask-name { color: var(--rust, #C04E1A); }
    pair overflows the rail. The sections carry no margin of their own any more —
    the gap belongs to the grid above, in one place. */
 .lp-tools, .lp-plan { display: block; min-width: 0; }
-.lp-tools-tile, .lp-plan-tile {
+/* THE LAST TWO CAROUSELS BECOME ONE ON A PHONE (owner rule 2026-09-03:
+   combine .lp-tools and .lp-plan into a single carousel carrying every image
+   on mobile; the hero and Best Of carousels are untouched). .lp-combo shares
+   every rule below with the two it replaces -- same selector lists, extended,
+   never a second copy of the block -- and starts hidden: it is a THIRD grid
+   child of .lp-carousels, shown only under the real phone gate further down,
+   where .lp-tools/.lp-plan hide in its place. Desktop and the ≥601px stacked
+   view keep the two separate carousels exactly as they were. */
+.lp-combo { display: none; min-width: 0; }
+.lp-tools-tile, .lp-plan-tile, .lp-combo-tile {
   display: block;
   text-decoration: none;
   border-radius: 14px;
@@ -1897,16 +1906,17 @@ a.ask-card:focus-visible .ask-name { color: var(--rust, #C04E1A); }
 
    `.lp-steps-nav` takes the same cap and centring or the arrows float out at
    the rail's right edge, half a screen away from the card they page. */
-.lp-tools-tile, .lp-plan-tile, .lp-steps-nav {
+.lp-tools-tile, .lp-plan-tile, .lp-combo-tile, .lp-steps-nav {
   max-width: 600px; margin-left: auto; margin-right: auto;
 }
 
-.lp-tools-tile:active, .lp-plan-tile:active { transform: scale(.992); }
+.lp-tools-tile:active, .lp-plan-tile:active, .lp-combo-tile:active { transform: scale(.992); }
 .lp-tools-tile, .lp-tools-tile:active,
-.lp-plan-tile, .lp-plan-tile:active { transition: transform .12s ease; }
+.lp-plan-tile, .lp-plan-tile:active,
+.lp-combo-tile, .lp-combo-tile:active { transition: transform .12s ease; }
 
-.lp-tools-shot, .lp-plan-shot { position: relative; display: block; background: var(--surface2,#f5f2ec); }
-.lp-tools-shot img, .lp-plan-shot img {
+.lp-tools-shot, .lp-plan-shot, .lp-combo-shot { position: relative; display: block; background: var(--surface2,#f5f2ec); }
+.lp-tools-shot img, .lp-plan-shot img, .lp-combo-shot img {
   display: block;
   width: 100%;
   object-fit: cover;
@@ -1958,20 +1968,29 @@ a.ask-card:focus-visible .ask-name { color: var(--rust, #C04E1A); }
 /* Only a step whose crop stops mid-content fades. Set per step by the script,
    never blanket — a fade over a finished edge greys out the payoff, which on
    the map step is the gold count and on When to Go is the result line. */
-.lp-tools-shot.is-cut::after, .lp-plan-shot.is-cut::after {
+.lp-tools-shot.is-cut::after, .lp-plan-shot.is-cut::after, .lp-combo-shot.is-cut::after {
   content: '';
   position: absolute; left: 0; right: 0; bottom: 0; height: 56px;
   background: linear-gradient(to bottom, rgba(245,242,236,0), var(--surface2,#f5f2ec));
   pointer-events: none;
 }
 
-.lp-tools-band, .lp-plan-band { display: block; padding: 13px 15px 15px; background: linear-gradient(150deg, #f8f1e2 0%, #ecdec2 100%); }
-.lp-tools-band-t, .lp-plan-band-t { display: block; font-size: 16.5px; font-weight: 700; line-height: 1.25; color: #3d2f1f; }
-.lp-tools-band-t::after, .lp-plan-band-t::after { content: ' \203A'; opacity: .75; }
-.lp-tools-band-d, .lp-plan-band-d {
+.lp-tools-band, .lp-plan-band, .lp-combo-band { display: block; padding: 13px 15px 15px; background: linear-gradient(150deg, #f8f1e2 0%, #ecdec2 100%); }
+.lp-tools-band-t, .lp-plan-band-t, .lp-combo-band-t { display: block; font-size: 16.5px; font-weight: 700; line-height: 1.25; color: #3d2f1f; }
+.lp-tools-band-t::after, .lp-plan-band-t::after, .lp-combo-band-t::after { content: ' \203A'; opacity: .75; }
+.lp-tools-band-d, .lp-plan-band-d, .lp-combo-band-d {
   display: block; margin-top: 5px;
   font-size: 13.5px; line-height: 1.5;
   color: rgba(61,47,31,.78);
+}
+
+/* THE PHONE GATE ITSELF — swaps .lp-tools/.lp-plan for .lp-combo. Real mobile
+   only (max-width:600 + pointer:coarse, the site's own switch point, never
+   the 1000px reflow breakpoint above, which still shows the two carousels
+   stacked full-width on a narrow desktop/tablet window). */
+@media (max-width: 600px) and (pointer: coarse) {
+  .lp-tools, .lp-plan { display: none; }
+  .lp-combo { display: block; }
 }
 
 @media (max-width: 600px) and (pointer: coarse) {
@@ -4561,6 +4580,31 @@ window.lpGuideCard = function (href, flag, name, extra) {
     </span>
   </a>
 </section>
+
+<!-- CAROUSEL 3 — PHONE ONLY, combines carousel 1 (.lp-tools) and carousel 2
+     (.lp-plan) above into ONE six-step carousel (owner rule 2026-09-03: "in
+     mobile only combine the two carousel in one with all images"). Hidden by
+     default and shown only under the real phone gate in the CSS above, where
+     .lp-tools/.lp-plan hide in its place; desktop and the ≥601px stacked view
+     are untouched. The script's STEPS['lp-combo'] is STEPS['lp-tools']
+     concatenated with STEPS['lp-plan'] — packing, plug, weather, then map,
+     time zones, when to go — so this is a THIRD key into the same generic
+     paint()/reserve() loop, not a separate carousel implementation. The
+     static markup below is the no-JS fallback and mirrors .lp-tools's own
+     step 1. -->
+<section class="lp-combo">
+  <a class="lp-combo-tile" href="/essentials/packing/">
+    <span class="lp-combo-shot">
+      <img src="/assets/landing/steps/pack-progress.png"
+           alt="The Packing Checklist part-way through a seven-day trip: the progress ring, the running total of what is still to pack, and the first items struck through"
+           loading="lazy" width="1101" height="687">
+    </span>
+    <span class="lp-combo-band">
+      <span class="lp-combo-band-t">212 items, and it counts them</span>
+      <span class="lp-combo-band-d">Quantities that follow the length of your trip, a running total of what is still to pack, and one tap to hide everything already done.</span>
+    </span>
+  </a>
+</section>
 </div>
 
 <script>
@@ -4601,6 +4645,10 @@ window.lpGuideCard = function (href, flag, name, extra) {
       ['wtg-results',     1101, 687, 1, 'Every city that matches', 'Say the month and the weather you want, and each city that fits comes back with its own high, low and rain &mdash; one tap from the guide.', '/when-to-go/']
     ]
   };
+  /* PHONE-ONLY MERGE (owner rule 2026-09-03): .lp-combo is not a third
+     hand-written list, it is lp-tools's three steps followed by lp-plan's
+     three — one six-step walk, same order each carousel already used. */
+  STEPS['lp-combo'] = STEPS['lp-tools'].concat(STEPS['lp-plan']);
 
   Object.keys(STEPS).forEach(function (key) {
     var sec = document.querySelector('.' + key);

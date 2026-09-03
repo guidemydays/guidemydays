@@ -363,10 +363,30 @@ body > .title-updated { max-width: var(--rail); margin-left: auto; margin-right:
 
 /* ── Links ── */
 a { color: var(--accent, #8a6c1a); text-decoration: none; }
-a:hover { text-decoration: underline; text-underline-offset: 2px; }
+/* 2026-09-02: reverted today's commit fbd8e563f, which flipped this to
+   `underline` on the assumption every pill/button already had its own
+   text-decoration:none override — false for .selection-pill(-sm),
+   .pill-badge, .cont-btn, .guide-pill, .cs-item and .hov-rust (all patched
+   above), plus every page-local pill this file can't see (e.g. .lp-btn on
+   index.html, .byg-guide-pill on before-you-go). A pill or button is
+   already unmistakably a link by its shape; it never needs an underline on
+   top, resting/hover/select. Genuine inline text links (.xref,
+   .review-link, .overview-extra-link, .story-footer-back, etc.) keep their
+   hover-underline via their OWN explicit :hover rules — none of them relied
+   on this fallback. brain_check.py's check_hover_anchor_no_underline hard-
+   fails on this exact rule; it was red all session until this line. */
+a:hover { text-decoration: none; text-underline-offset: 2px; }
 .nav-link, .nav-link:hover, .nav-link.active,
 .pill, .pill:hover, .pill.active, a.pill:hover,
 a.badge, a.badge:hover,
+/* selection-pill/-sm, pill-badge, cont-btn, guide-pill, cs-item, hov-rust: a
+   pill/button never underlines, resting/hover/select (owner rule) — these
+   were missed when today's a:hover regression (commit fbd8e563f) assumed
+   "scoped classes with their own text-decoration:none already override
+   safely," which wasn't true for any class whose OWN :hover rule never
+   re-declares the property. */
+.selection-pill:hover, .selection-pill-sm:hover, .pill-badge:hover,
+.cont-btn:hover, .guide-pill:hover, .cs-item:hover, .hov-rust:hover,
 .jump-btn, .jump-btn:hover, .jump-btn.active,
 .stab, .stab:hover, .stab.on,
 .stats-nav a, .stats-nav a:hover, .stats-nav a.active,

@@ -1089,11 +1089,22 @@ input[type="text"]:focus,
 .sa-row:hover, .sa-row.active { background: var(--bg, #f5f3ef); }
 .sa-empty { padding: 12px; font-size: 13px; color: var(--muted, #6a6660); text-align: center; }
 
+/* 2026-09-03 owner rule: the clear (X) must always be the same color as the
+   search box's own ring/border -- "if the circle around is gold, X needs to
+   be gold too, the X needs to follow the color of the circle." Bound to
+   var(--c-search-focus-border) (the one token that colors that ring in every
+   state and every page, currently #c8b99a light / #7a6a5a dark -- gold,
+   per the 2026-08-30 owner revert below) instead of currentColor, which tied
+   the X to the input's TEXT color and let it drift away from the ring the
+   moment the ring's own color changed independently (exactly what happened
+   between the 2026-08-27 currentColor lock and the 2026-08-30 gold revert).
+   Binding both to the same variable makes them incapable of mismatching
+   again, regardless of which color the ring is set to next. */
 input[type="search"]::-webkit-search-cancel-button,
 .search-input::-webkit-search-cancel-button {
   -webkit-appearance: none; appearance: none;
   width: 13px; height: 13px; cursor: pointer;
-  background-color: currentColor;
+  background-color: var(--c-search-focus-border);
   -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 14 14'%3E%3Cpath d='M3 3l8 8M11 3l-8 8' stroke='black' stroke-width='2' stroke-linecap='round'/%3E%3C/svg%3E") no-repeat center / contain;
   mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 14 14'%3E%3Cpath d='M3 3l8 8M11 3l-8 8' stroke='black' stroke-width='2' stroke-linecap='round'/%3E%3C/svg%3E") no-repeat center / contain;
 }

@@ -13,6 +13,7 @@ Pre-existing guide (predates _build/build_state.md requirement). Validation stub
 ## Phase 2 — Guide structure
 - [x] Guide Structure.html
 - [x] Stops Structure.html
+- [x] hotel_rules.html
 - [x] Hotel Banner.html
 - [x] Trip Overview.html
 - [x] Toolbar.html

@@ -40,19 +40,8 @@
   .tz-title-staggered .ln2 { padding-left: 4%; }
   .tz-title-staggered .ln3 { padding-left: 9%; }
 }
-/* Time Zones hero, page-local overrides (owner rule 2026-08-26: "push down
-   the introduction and increase the hero side"). Scoped to THIS page only —
-   both selectors also exist in the shared .eb-hero recipe (web-travel-
-   style.css), which every other essentials page still rides unchanged; this
-   page's own inline style block loads after that stylesheet, so
-   same-specificity rules here win only here. */
 .eb-intro { margin-top: 14px; }
 .eb-graphic svg { max-width: clamp(240px, 30vw, 400px); }
-/* NO "Home base" row (owner 2026-08-17: "remove home base it should not be
-   there" · "i dont need to decide for them"). The reader searches a city or a
-   country and every card is re-measured from there — the reference is the city
-   left standing in the search box, never a card on the page declaring somebody's
-   home. There is ONE search here and it must never grow a second box. */
 /* ── Controls ── */
 .controls { display: flex; flex-direction: column; gap: 14px; align-items: center; margin-bottom: 16px; flex-wrap: wrap; }
 input.search {
@@ -62,25 +51,9 @@ input.search {
 }
 input.search::placeholder { color: var(--c-search-placeholder); }
 input.search:focus { border-color: var(--c-search-focus-border); box-shadow: none; }
-/* ── The search's own explanation, and the reference bar that replaces it ──
-   Owner 2026-08-23: "the page is not clear at all" · "it also needs to be clear
-   somehow that if the user enters a city what they will get" · "does this need
-   to move closer to the search".
-
-   Before a city is named, the page can measure nothing: no ± chip on any card,
-   no distance sort. That used to be expressed as a greyed-out pill parked at the
-   end of the region row — a control the reader could see, could not use, and was
-   given no reason for. It is gone. In its place, ONE sentence under the search
-   saying what a search buys you. The pill itself only exists once it works, and
-   it appears where the thing that turned it on is — under the search, not five
-   controls away in the filter row. */
 .search-hint {
   margin: 10px auto 0; font-size: 13px; line-height: 1.45; color: var(--muted, #6a6660);
-  /* Picks up the same emphasis `.reference-answer strong` gives the answer
-     sentence once a city IS named (owner-approved mock-up, 2026-08-23) — the
-     hint is that same sentence's BEFORE state, and grey-flat next to the bold
-     terracotta it turns into read as two different pages' copy. */
-  /* Never wider than the search it explains — a caption that outruns its own
+    /* Never wider than the search it explains — a caption that outruns its own
      control reads as page copy rather than as the box's own note. */
   text-align: center; max-width: 480px;
 }
@@ -111,15 +84,6 @@ input.search:focus { border-color: var(--c-search-focus-border); box-shadow: non
   display: flex; align-items: center; justify-content: center;
   gap: 14px; flex-wrap: wrap; margin: 12px 0 0;
 }
-/* ONE RULE FOR THE BOX, so the two controls cannot drift apart — the same device
-   `.fnd-go, .fnd-reset` uses on the landing page. Clear was a bare underlined word
-   standing beside a 34px pill (owner 2026-08-23: "clear should be a button same
-   size").
-   AND THE PAIR SITS A TIER DOWN FROM THE REGION FILTERS BELOW IT — 32px/12.5px
-   against their 34px/13px — because at identical size an outlined "Closest first"
-   was indistinguishable from a seventh region pill (owner, same line: "it looks
-   too similar to the pills below"). These act on the answer; those filter the
-   grid, and the size step is what says so before either is read. */
 .reference-bar .pill, .reference-clear {
   box-sizing: border-box; display: inline-flex; align-items: center; justify-content: center;
   height: 32px; padding: 0 16px; border-radius: 999px;
@@ -150,10 +114,6 @@ input.search:focus { border-color: var(--c-search-focus-border); box-shadow: non
    Same three-state ladder the toolbar tab used to carry: white ground, .30
    rim at rest, .85 rim + #f0ede8 fill + neutral #6a6660 ink when selected,
    and THE BOX IS IDENTICAL IN BOTH STATES so the row cannot shift under a tap. */
-/* Selection Pills audit 2026-08-23 (owner: "sometimes the hove is wrong
-   sometimes is the font") — superseded 2026-08-26 (owner: "remove all
-   terracotta fonts or pills hover"): rest/hover/active are now the neutral
-   #f0ede8/#6a6660 pairing in every state, never terracotta. */
 .reference-bar .pill {
   background: var(--warm, #fdf8f0); border: 1px solid var(--border2, #e6e2da);
   color: var(--muted, #6a6660);
@@ -247,37 +207,10 @@ input.search:focus { border-color: var(--c-search-focus-border); box-shadow: non
 .pills .pill.selection-pill:not(.is-on):not([aria-pressed="true"]) {
   background: var(--sp-wash); border-color: rgba(var(--sp-rgb),.45); color: var(--sp-ink);
 }
-/* THERE IS NO DISABLED PILL ON THIS PAGE. The distance sort cannot work before a
-   city is named, so before then it is not drawn at all — the page says what a
-   search does in words instead. A greyed control that answers nothing reads as a
-   broken button, which is exactly how it was read (owner 2026-08-23: "why closest
-   is grey out and not working?"). Never re-add a `:disabled` or `is-waiting`
-   state here: the fix is to show the control only once it has something to sort. */
 a.pill:visited { color: var(--muted, #6a6660); } /* note: browsers ignore CSS vars in :visited for security — hex fallback is intentional */
 
-/* Desktop — ROUNDED PILLS, spaced, in the toolbar's own grammar (owner 2026-08-17:
-   "this is ugly the all is a big square try to make these pill look better").
-   The glued squared strip is retired here: with only 6 short region labels it read
-   as a row of boxes, and "All" — a three-letter label in a 36px squared box with a
-   1.5px terracotta rim — was a big empty square.
-
-   Values are the desktop toolbar tab's, field for field (Thirty-fifth non-negotiable
-   / Toolbar.html § 5): white ground, 999px radius, 8px 18px, and the rim ladder
-   .30 rest → .55 hover → .85 active with the neutral #f0ede8 fill on the last two.
-   Neutral #6a6660 ink on the selected pill (terracotta retired 2026-08-26 — owner:
-   "remove all terracotta fonts or pills hover"), never a filled gradient.
-   THE BOX IS IDENTICAL IN ALL THREE STATES — same border width, same padding, same
-   radius; colour alone differs. Otherwise the row's width tracks which pill is
-   selected and the strip shifts under the pointer. */
 @media (min-width: 601px), (pointer: fine) {
-  /* A soft backing plate groups the six pills as ONE control (owner-approved
-     mock-up, 2026-08-23, revised after "too close to the cards, not
-     balanced" and "no changes to the pills" — a 1px hairline read as nearly
-     invisible, and the 32px gap above the row against 16px below it was the
-     actual imbalance, not just the pills themselves). Tighter gap and a
-     shared min-width even out "All"'s narrow oval against "M.E. & Africa"'s
-     wide one, so the row keeps one rhythm instead of six random widths. */
-  .controls { background: var(--surface, #ffffff); border: 1px solid var(--border2, #e6e2da); border-radius: 14px; padding: 18px 18px 20px; margin-bottom: 32px; }
+    .controls { background: var(--surface, #ffffff); border: 1px solid var(--border2, #e6e2da); border-radius: 14px; padding: 18px 18px 20px; margin-bottom: 32px; }
   .pills { justify-content: center; gap: 6px; }
   .pills .pill {
     flex: 0 0 auto; box-sizing: border-box; height: 34px; padding: 0 18px; min-width: 96px;
@@ -325,14 +258,6 @@ a.pill:visited { color: var(--muted, #6a6660); } /* note: browsers ignore CSS va
   padding: 12px 14px; display: flex; flex-direction: column; gap: 6px;
   transition: border-color .15s, box-shadow .15s, transform .08s;
 }
-/* ── Day/night card ground (owner-approved mock-up, 2026-08-23; collapsed
-   from an earlier day/twilight/night three-way, 2026-09-04) ── This is the
-   one structural change from web-travel-style.css's shared `.card`: a
-   gradient wash keyed off the SAME local-hour test the sun/moon mark already
-   uses, so a full grid reads "what hour is it there" at a glance instead of
-   needing every card's number read one at a time — the thing a plain white
-   card shares identically with When to Go's temperature cards. Everything
-   else about the card (border, radius, hover ring, meta row) is untouched. */
 .card.is-day      { background: linear-gradient(165deg, var(--tz-day-a) 0%, var(--surface) 62%); }
 .card.is-night {
   background: linear-gradient(165deg, var(--tz-night-a) 0%, var(--tz-night-b) 100%);
@@ -370,13 +295,6 @@ a.pill:visited { color: var(--muted, #6a6660); } /* note: browsers ignore CSS va
 .card-clock  { display: flex; align-items: baseline; gap: 5px; }
 .card-time   { font-size: 22px; font-weight: 600; color: var(--rust-ink, #C04E1A); font-variant-numeric: tabular-nums; letter-spacing: -.01em; line-height: 1; cursor: copy; }
 .card-day    { font-size: 11px; color: var(--muted); font-weight: 400; }
-/* THE META ROW IS THE CARD'S LAST ROW, at the card's own foot — `margin-top: auto`
-   inside the column, not simply "written last" (owner 2026-08-23: "these should be
-   all in the last row of the card"). Grid tracks stretch every card in a row to the
-   tallest of them, so a card whose name wraps to two lines ("Carmel-by-the-Sea")
-   pushed its UTC / label / mark down while its single-line neighbours left theirs
-   floating mid-card: the same three things sat at three heights across one row.
-   The auto margin absorbs the leftover height instead, so the row lines up. */
 .card-meta   {
   display: flex; align-items: center; justify-content: space-between;
   /* `flex: 0 0 auto` FIRST, and it is the load-bearing half. web-travel-style.css
@@ -403,46 +321,12 @@ a.pill:visited { color: var(--muted, #6a6660); } /* note: browsers ignore CSS va
 }
 .vs-sea.ahead  { color: #1a5a1a; background: #e8f5e8; border-color: #1a5a1a; }   /* GREEN */
 .vs-sea.behind { color: #7a1414; background: #fdf0e8; border-color: #7a1414; }   /* RED */
-/* "SAME" IS A LABEL LIKE THE OTHER TWO (owner 2026-08-23: "same should be a label
-   too and look the same"). It was bare text on the card's own ground — the one
-   reading in the set that did not look like a reading, so a zero offset read as an
-   annotation rather than as the answer the other cards were giving. It takes the
-   canonical GREY family (selection-pills-badges-pills-to-badge-dots.html#sec-badge-full-spec) because zero is neither ahead
-   nor behind: borrowing GREEN would claim a direction it does not have. GREY's
-   text carries fw:800 per the family palette table — the one family where the
-   base 700 reads too light against its low-contrast tint. */
 .vs-sea.same   { color: #6a6660; background: rgba(138,108,26,.07); border-color: #6a6660; font-weight: 800; }
 /* base .empty-state lives in web-travel-style.css — page keeps only the grid span */
 .empty-state { grid-column: 1 / -1; }
-/* ── Day / night mark — EVERY card carries one, in the BOTTOM-RIGHT corner, last in
-   the meta row (owner 2026-08-22). Local hour 18:00–07:59 draws catalogue #306
-   (crescent moon, sprite `wx-moon`); every other hour draws catalogue #299 (sun,
-   sprite `wx-clear`) — owner 2026-08-23: "we should also add a sun outline too when
-   is day". The pair is the point: a lone moon says "some cards are special", a moon
-   or a sun on every card says "this is what o'clock it is there". The card itself is
-   NEVER dimmed: the old `.sleeping` opacity drop read as "filtered out" with All
-   selected (owner 2026-08-21). ── */
 .card-meta-right { display: flex; align-items: center; gap: 6px; }
 .card-night { width: 13px; height: 13px; flex-shrink: 0; }
 .card-day-mark { width: 13px; height: 13px; flex-shrink: 0; }
-/* OUTLINE, not a filled shape (owner 2026-08-23: "make the moon to not be filled
-   just the outline"). Still catalogue #306 and #299 — the same crescent, the same
-   sun, the same paths — drawn as a line rather than a solid: at 13px in a card
-   corner the navy and amber fills read as heavy blobs next to hairline text. The
-   rules target the SYMBOLS in the toolbar sprite, because CSS cannot reach inside a
-   <use> shadow tree, and they live in this page's own stylesheet so no other
-   surface's weather icons change. */
-/* THE TWO MARKS ARE NOT THE SAME COLOUR (owner 2026-08-23: "sun needs to have the
-   outline yellow moon outline grey metalic … you did both in grey"). In one grey
-   they were two shapes the reader had to stop and identify; in gold and steel they
-   are day and night at a glance, doing their job without being read. Both are
-   catalogue palette tokens taken from the icons' OWN fills — the sun's
-   `--c-sun-shade`, the moon's `--c-slate` — never two new hexes. */
-/* GOLD, not the yellow above it (owner 2026-08-23: "sun should be a gold outline").
-   `--c-sun-shade` is the sun's mid amber and at 13px it read as a highlighter
-   stroke; `--c-sun-rim` is the same icon's own deepest tone, the brass the
-   catalogue already draws its rim in — still the icon's own palette, still not a
-   new hex invented for this page. */
 #gm-i-wx-clear path,
 #gm-i-wx-clear circle { stroke: var(--c-sun-rim, #a87f0b); }
 #gm-i-wx-moon path,
@@ -604,15 +488,7 @@ a.pill:visited { color: var(--muted, #6a6660); } /* note: browsers ignore CSS va
          non-negotiable): the reference city, the sort it just unlocked, and the
          way back to plain local times. -->
     <div class="reference-bar" id="reference-bar" hidden>
-      <!-- TWO TIERS, not one row of three mismatched things. The first is the ANSWER,
-           written in the site's own answer grammar — the plugs page's `.pg-answer`:
-           a statement a size up from the body, 600 weight, in the text ink, with the
-           thing you asked for in terracotta. The second is the controls that act on
-           it, a size down. A grey caption, a pill and an underlined link all on one
-           line read as three unrelated widgets, which is exactly how it looked
-           (owner 2026-08-23: "this part is super ugly … look at the other pages and
-           see if you get any ideas"). -->
-      <p class="reference-answer">Measured from <span class="reference-flag" id="reference-flag"></span><strong id="reference-city"></strong></p>
+            <p class="reference-answer">Measured from <span class="reference-flag" id="reference-flag"></span><strong id="reference-city"></strong></p>
       <div class="reference-controls">
         <button type="button" class="pill sort-pill active" id="sort-time" data-sort="time">Closest first</button>
         <button type="button" class="reference-clear" id="reference-clear">Clear</button>
@@ -620,21 +496,7 @@ a.pill:visited { color: var(--muted, #6a6660); } /* note: browsers ignore CSS va
     </div>
   </div>
 
-  <!-- ONE ROW, and A–Z is RETIRED (owner 2026-08-17: "A to Z does not make
-       sense? remove that" · "time zone is always in relationship to the city
-       searched" · "we have all already so a to z is very useless add on" ·
-       "move closest to the city up to the same row as the rest").
-
-       A–Z was never a choice — it is the grid's resting order, the one you are
-       already looking at, so it shipped as a permanently-selected pill sitting
-       next to a permanently-dead one and said nothing. Alphabetical is now
-       simply what the grid does until a city is searched.
-
-       The distance sort has LEFT this row (owner 2026-08-23). It belongs to the
-       search, not to the region filters: it only exists once a city is named, so
-       it is drawn under the search box, in the reference bar, at the moment that
-       happens. This row is six region filters and nothing else. -->
-  <div class="controls">
+    <div class="controls">
     <div class="pills" id="region-pills" role="group" aria-label="Filter by region">
       <button class="pill selection-pill cp-light-grey hov-darken" data-region="all" aria-pressed="true">All</button>
       <button class="pill selection-pill cp-blue hov-darken" data-region="americas" aria-pressed="false">Americas</button>
@@ -645,13 +507,7 @@ a.pill:visited { color: var(--muted, #6a6660); } /* note: browsers ignore CSS va
     </div>
   </div>
 
-  <!-- No "Home base" row (owner 2026-08-17: "remove home base it should not be
-       there" · "i dont need to decide for them"). Nothing is assumed and nothing
-       is declared on the reader's behalf: they search a city or a country, and
-       the 237 cards are re-measured from there. The searched city stays in the
-       box, which is where the reference is read off — never a card announcing
-       somebody's home. Still exactly ONE search on this page. -->
-  <div class="grid" id="grid"></div>
+    <div class="grid" id="grid"></div>
 
 </div>
 
@@ -920,15 +776,6 @@ var CITIES = [
   {name:'Zanzibar',        country:'Tanzania',             tz:'Africa/Dar_es_Salaam',           region:'other',     flag:10191, url:'/guides/zanzibar.html'},
 ];
 
-/* HOME_TZ — null on arrival, EVERY time. NOTHING is ever preselected here
-   (owner 2026-08-17: "no cities starting ANYWHERE"): not the owner's city, not
-   the browser's own zone, and — since a saved pick put Melbourne in the search
-   box on a later visit and read exactly like a default — nothing remembered
-   from last time either. The page does not persist the choice at all; the only
-   thing that selects is the reader acting now, by searching or by following a
-   #City link they clicked. Everything measured against a reference — the ± chip
-   on each card and the distance sort — stays off the page until then. Each
-   card's own local time and UTC offset are absolute and always render. */
 var HOME_TZ = null, HOME_LABEL = '';
 
 function _deviceTZ() {
@@ -942,12 +789,7 @@ function setHome(city) {
   /* Deliberately NOT persisted — a remembered city is a preselected city on the
      next visit, which is the thing this page must never do. */
 
-  /* Two mutually exclusive states under the search, never both: the sentence that
-     explains what a search does, or the bar that reports what this one did. The
-     sort pill exists only inside the second, so it can never be seen in a state
-     where pressing it does nothing (owner 2026-08-23: "why closest is grey out
-     and not working?"). */
-  var hint    = document.getElementById('search-hint');
+    var hint    = document.getElementById('search-hint');
   var refBar  = document.getElementById('reference-bar');
   var refCity = document.getElementById('reference-city');
   var refFlag = document.getElementById('reference-flag');
@@ -962,11 +804,7 @@ function setHome(city) {
     }
   }
 
-  /* Naming a city IS the request to see the world from it, so the sort turns on
-     with it (owner 2026-08-17: "time zone is always in relationship to the city
-     searched") — no second click on a control the reader had no reason to notice.
-     Clearing drops back to the grid's resting alphabetical order. */
-  var timePill = document.querySelector('.sort-pill[data-sort="time"]');
+    var timePill = document.querySelector('.sort-pill[data-sort="time"]');
   activeSort = city ? 'time' : 'alpha';
   if (timePill) timePill.classList.toggle('active', !!city);
 }
@@ -1038,11 +876,7 @@ function render() {
   var now  = new Date();
   var grid = document.getElementById('grid');
 
-  /* THE SEARCH DOES NOT FILTER (owner 2026-08-16: "it needs to show all time
-     zone based on wherever the person searched ALL in relate to"). Searching a
-     city names the REFERENCE, not a subset — every city on the site stays on
-     screen, re-measured against it. Only the region pills subset the grid. */
-  var filtered = CITIES.filter(function(c) {
+    var filtered = CITIES.filter(function(c) {
     return activeRegion === 'all' || c.region === activeRegion;
   });
 
@@ -1105,11 +939,7 @@ function render() {
         '<span class="card-day">'  + day  + '</span>' +
       '</div>' +
       '<div class="card-progress"><span class="card-progress-fill" style="width:' + pct + '%"></span></div>' +
-      /* The night mark rides the BOTTOM-RIGHT corner, not the clock line (owner,
-         2026-08-22: "the moon should move all down to the right corner"). The
-         difference chip keeps its place, so the two share one right-hand group
-         and the UTC offset stays alone on the left. */
-      '<div class="card-meta">' +
+            '<div class="card-meta">' +
         '<span class="utc-offset">' + utc + '</span>' +
         '<span class="card-meta-right">' +
           (vs ? '<span class="vs-sea ' + vs.cls + '">' + vs.label + '</span>' : '') +
@@ -1206,10 +1036,6 @@ document.getElementById('grid').addEventListener('click', function(e) {
   _hashHome = match;
 })();
 
-/* A #City deep link is the ONLY thing that can arrive with a reference already
-   set, and it is a link the reader clicked. There is nothing else — no saved
-   pick, no device zone, no city (owner 2026-08-17: "no cities starting
-   ANYWHERE"). With no hash, setHome(null) is the empty, search-only state. */
 (function initHome() {
   setHome(_hashHome || null);
 })();
@@ -1353,20 +1179,13 @@ function renderSun() {
   var items=src.map(function(c){ return { name:c.name, sub:c.country }; });
   var input=document.getElementById('search');
   if(input){
-    /* The page's ONLY search, and it does ONE thing: name the city everything
-       else is measured against. It never filters — all 237 cities stay on
-       screen, re-measured against the pick. The box EMPTIES on pick and that is
-       the shipped behaviour: leaving the city sitting in it was tried for one
-       commit and reverted (owner 2026-08-17: "search bar was working great"). */
-    TVESearch.attach(input,{
+        TVESearch.attach(input,{
       items:items,
       onPick:function(it){
         var city=src.filter(function(c){ return c.name===it.name; })[0];
         if(!city) return;
         setHome(city);
-        input.value='';   /* the box empties on pick — owner 2026-08-17, reverting
-                             the one commit that left the city sitting in it */
-        render();
+        input.value='';           render();
       }
     });
   }

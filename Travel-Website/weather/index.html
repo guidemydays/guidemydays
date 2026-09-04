@@ -66,9 +66,6 @@
 .wx-note { color: var(--muted); font-size: 11px; margin-top: 14px; text-align: center; }
 /* ── Hero (2026-08-14) — the Before-You-Go pattern, same tokens and sizes, so
    the redesigned pages read as one system. ── */
-/* Gradient card treatment matches .cf-hero (When to Go) and .sun-hero
-   (Sunrise & Sunset) — same warm radial wash, border and radius, so the
-   whole Before-You-Go family reads as one set (owner rule 2026-08-26). */
 .wx-hero { max-width: 1120px; margin: clamp(0.5rem, 1.5vw, 1.2rem) auto clamp(1.2rem, 2.6vw, 1.9rem);
   padding: clamp(1.8rem, 4vw, 3.2rem) clamp(1.4rem, 3.4vw, 2.8rem);
   background:
@@ -100,9 +97,7 @@
 .wx-search .wx-unit button.on { background: var(--bg, #f0ede8); color: var(--muted, #6a6660); }
 @media (max-width: 700px) {
   .wx-hero { padding-top: 1.5rem; }
-  /* No phone shrink: one search height at every viewport (--search-h,
-     owner rule 2026-08-17). */
-}
+  }
 @media (prefers-color-scheme: dark) {
   /* --c-temp-hi #e05030 is 4.05:1 on #242220 (warm bg) — not AA; lighten to #f07050 (5.0:1) */
   :root { --c-temp-hi: #f07050; }
@@ -144,12 +139,6 @@
 <script src="/assets/weather.js?v=4"></script>
 <script src="/assets/search-autocomplete.js?v=8"></script>
 
-<!-- Banner + intro card deleted and the page rebuilt around its search
-     (owner 2026-08-14: "delete all that" · "we need to do a cool here for this
-     one too"). Same move as Before-You-Go: the headline is the readout — it
-     names the city you picked instead of repeating the page title — and the
-     search leaves the 460px panel to become the widest thing on the page.
-     Weather.html is a FORMAT_EXCEPTION page, so the banner is not coming back. -->
 <div class="wx-hero">
   <p class="wx-kicker">Weather by city</p>
   <h1 class="wx-hero-h" id="wx-hero-h">Every destination, <em>month by month</em>.</h1>
@@ -168,13 +157,7 @@
 
 <div class="wx-wrap">
   <div class="wx-panel" id="wx-panel" hidden></div>
-  <!-- The two glued strips that sat here are gone (owner 2026-08-14: "these
-       should all be removed — it is ugly and repetitive"). The top pair read as
-       one offer twice over (Climate finder IS the When to Go tab), and the
-       six-link Forecast & Research block is the same block that sits at the foot
-       of Climate-Finder. Weather by city now ends on its own content, and the
-       When to Go hero carries the link back. -->
-</div>
+  </div>
 
 <script>
 (function () {
@@ -298,10 +281,7 @@
     DB[k] = data[k];
   });
 
-  /* The "Updated {Month} {Year}" stamp this block painted into #wx-updated is
-     gone (owner 2026-08-16): the stamp renders on the stats pages only. The
-     element it wrote into is deleted too, so nothing here reads _generated. */
-  cityKeys = Object.keys(DB).sort(function (a, b) { return (DB[a].city || a).localeCompare(DB[b].city || b); });
+    cityKeys = Object.keys(DB).sort(function (a, b) { return (DB[a].city || a).localeCompare(DB[b].city || b); });
   /* `sub` is the country, and it is not decoration: TVESearch matches on name OR
      sub, so this is what makes typing "Japan" list Tokyo, Kyoto and Osaka the way
      it does in every other search on the site. Without it this page was the one
@@ -311,14 +291,7 @@
     return { name: DB[k].city || k, sub: DB[k].co || '', key: k };
   });
   if (cityKeys.length) {
-    /* NOTHING is selected on arrival (owner 2026-08-16) — same rule as the Time
-       Zones home base, and the same reason: any starting city is a place the
-       reader is not. It preferred 'Seattle' (the owner's own), then fell back to
-       whatever sorted first alphabetically, which is how the page came to open on
-       Abu Dhabi. Both are arbitrary; the reader searches.
-
-       A #City hash still selects — the 237 guides deep-link that way. */
-    var hashKey = decodeURIComponent(location.hash.slice(1));
+        var hashKey = decodeURIComponent(location.hash.slice(1));
     /* Case-insensitive match so guide deep-links like #nairobi resolve to "Nairobi". */
     var hashLower = hashKey.toLowerCase();
     curKey = hashKey ? (cityKeys.filter(function(k){ return k.toLowerCase() === hashLower; })[0] || null) : null;

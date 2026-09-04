@@ -127,9 +127,6 @@ a.cf-spill-pill:visited { color: var(--nt-linen-ink, #5a3c0e); }
   padding: 10px 0; font-family: inherit; font-size: 13px; font-weight: 400; color: var(--nt-linen-ink,#5a3c0e);
   background: var(--nt-linen-wash,#f5f0e6); transition: background .12s,color .12s,border-color .12s; }
 .cf-mon:hover { font-family: inherit; border-color: var(--nt-linen-ink,#5a3c0e); background: color-mix(in srgb, var(--nt-linen-wash,#f5f0e6) 75%, var(--nt-linen-ink,#5a3c0e) 25%); color: var(--nt-linen-ink,#5a3c0e); font-weight: 600; }
-/* Owner 2026-09-04: matched to the rest of the filter panel's brown palette
-   (Units/Rainfall/Sort/TRY presets) instead of the site's generic neutral-grey
-   selected convention. */
 .cf-mon.on { font-family: inherit; background: color-mix(in srgb, var(--nt-linen-wash,#f5f0e6) 55%, var(--nt-linen-ink,#5a3c0e) 45%); color: var(--nt-linen-ink,#5a3c0e); border-color: var(--nt-linen-ink,#5a3c0e); font-weight: 700; }
 
 /* Desktop-only: canonical squared+touching for the Forecast & Research 6-link
@@ -216,8 +213,6 @@ a.cf-card:hover { border-color: var(--rust); box-shadow: 0 3px 10px rgba(192,78,
   /* clears the absolutely-positioned compare button (22px at right:6px) — without
      it the country label runs under the + and is clipped mid-word. */
   padding-right: 16px; }
-/* No arrow beside the country (owner rule 2026-08-17) — the Guide pill at the
-   foot of the card is the one thing that says the card opens a guide. */
 .cf-country { font-size: 9.5px; color: var(--muted,#6a6660); letter-spacing: .02em; text-align: right; line-height: 1.2; }
 .cf-temps { display: flex; align-items: baseline; gap: 14px; margin-top: 8px; }
 .cf-hi { font-size: 26px; font-weight: 700; color: var(--c-temp-hi); line-height: 1; }
@@ -278,10 +273,8 @@ a.cf-card:hover { border-color: var(--rust); box-shadow: 0 3px 10px rgba(192,78,
    full stadium, i.e. visually identical to the shared class's 999px. Only
    this page's smaller footprint stays page-local now. */
 .cf-preset { font-size: 12px; padding: 5px 12px; }
-/* City search */
-.cf-city-search { width: 200px; padding: 7px 10px; border: 1.5px solid var(--border2); border-radius: 6px; font-family: inherit; font-size: 16px; color: var(--text); background: var(--bg); }
-.cf-city-search::placeholder { color: var(--muted); }
-@media (max-width: 600px) and (pointer: coarse) { .cf-city-search { width: 100%; } }
+/* City search — #cf-city-search uses the shared .search-input class
+   (assets/web-travel-style.css § 14) directly; no page-local override. */
 /* Compare */
 .cf-card { position: relative; }
 /* mobile.css rule 7 gives every <button> min-height:40px — a floor that beats
@@ -294,23 +287,6 @@ a.cf-card:hover { border-color: var(--rust); box-shadow: 0 3px 10px rgba(192,78,
 .cf-compare-btn::after { content: ''; position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); width: 40px; height: 40px; }
 .cf-compare-btn:hover { border-color: rgba(var(--nt-grey-rgb, 106,102,96), .75); background: var(--nt-grey-wash, #f0ede8); color: var(--nt-grey-ink, #6a6660); }
 .cf-compare-btn.selected { border-color: rgba(var(--nt-grey-rgb, 106,102,96), .75); background: var(--nt-grey-wash, #f0ede8); color: var(--nt-grey-ink, #6a6660); }
-/* ─── Compare tray — docked to the foot of the VIEWPORT, never a panel at the
-   bottom of the page (owner rule 2026-08-17: "i would never find this there").
-   Three things the old .cf-compare-panel got wrong, all fixed here:
-   1. It rendered only at length===2 and returned early otherwise, so the FIRST
-      + produced no visible change anywhere on screen — a 22px ring turned gold
-      somewhere off-view and that was the entire feedback. The tray opens on the
-      first pick and says what to do next.
-   2. It rendered below every result card (95 at the page's own default filter)
-      with no scroll-to, so it was never seen.
-   3. It repeated the two cards' own stats — high, low, mm, rainy days, month
-      and the 12-month strip — which is what made it ~300px of full-width white
-      for information the reader was already looking at. The tray carries the
-      DIFFERENCES instead, the one thing you cannot read off the two cards.
-   Body clearance rides the site's own --pb hook (web-travel-style.css body{}),
-   set from the tray's measured height so the last row of cards is never
-   covered — never a hardcoded number, since the tray is one line with a single
-   city and two with the diff row. */
 .cf-tray { position: fixed; left: 0; right: 0; bottom: 0; z-index: 40;
   background: var(--surface, #fff); border-top: 1px solid var(--border2, #e6e2da);
   box-shadow: 0 -4px 16px rgba(92,61,17,.10); }
@@ -382,11 +358,6 @@ a.cf-card:hover { border-color: var(--rust); box-shadow: 0 3px 10px rgba(192,78,
     content: ''; position: absolute; left: 50%; top: 50%;
     transform: translate(-50%, -50%); width: 100%; min-width: 34px; height: 40px; }
 }
-/* Guide pill inside card — reads as a link, not a status tag (owner rule
-   2026-08-17). Same grammar as the site's .chevron-link-pill: Amber label
-   + trailing › (U+203A text punctuation, never the banned up-right arrow glyph).
-   The card is the <a>, so the pill stays a span with pointer-events:none —
-   the click target is the whole card. */
 /* Was riding the shared .selection-pill class (oval, border-radius:999px) —
    wrong component: a "links out to another page/section" chevron pill is
    .chevron-link-pill (10px rounded rect), same shape as every other "X ›"
@@ -510,25 +481,14 @@ a.cf-card:hover .cf-guide-pill { border-color: var(--nt-linen-ink,#5a3c0e); }
         <span>J</span><span>F</span><span>M</span><span>A</span><span>M</span><span>J</span>
         <span>J</span><span>A</span><span>S</span><span>O</span><span>N</span><span>D</span>
       </div>
-      <!-- Weather by city rides up here with Daylight by month (owner 2026-08-14:
-           "weather by city need to grow in visibility too"). The two are the same
-           offer read the other way round — this page answers "where is warm in
-           August", those answer "what is one city like all year" — so the hero
-           carries both and the foot keeps the two that are a different subject. -->
-      <div style="margin:44px 0 0;display:flex;flex-wrap:wrap;gap:8px;">
+            <div style="margin:44px 0 0;display:flex;flex-wrap:wrap;gap:8px;">
         <a href="/weather/" class="cf-spill-pill">Weather by city</a>
         <a href="/sunrise-sunset/" class="cf-spill-pill">Daylight by month</a>
       </div>
     </div>
   </header>
 
-  <!-- The three sibling links moved to the foot (owner 2026-08-14), joining
-       Forecast & Research for the same reason those went down: they take you
-       OFF this page, and they sat above the control the page exists for —
-       louder than the presets, which are the fastest way to actually use it.
-       Owner: "this part of this page looks ugly" · "all these can change" ·
-       "from here down i like it" (Month and everything below untouched). -->
-  <p class="cf-try-label">Try</p>
+    <p class="cf-try-label">Try</p>
   <div class="cf-presets" id="cf-presets">
     <button type="button" class="cf-preset selection-pill cp-brown hov-darken" data-preset="beach" aria-pressed="false">Beach weather</button>
     <button type="button" class="cf-preset selection-pill cp-brown hov-darken" data-preset="spring" aria-pressed="false">Mild spring</button>
@@ -541,8 +501,8 @@ a.cf-card:hover .cf-guide-pill { border-color: var(--nt-linen-ink,#5a3c0e); }
       <div id="cf-months" class="cf-months"></div>
     </div>
     <div class="cf-block">
-      <div class="cf-label">Search city</div>
-      <input type="text" id="cf-city-search" class="cf-city-search" placeholder="City" autocomplete="off" aria-label="Search by city name">
+      <div class="cf-label">Search city or country</div>
+      <input type="search" id="cf-city-search" class="search-input" placeholder="City or country" autocomplete="off" spellcheck="false" aria-label="Search by city or country">
     </div>
     <div class="cf-block">
       <div class="cf-label">Typical daytime high</div>
@@ -585,19 +545,7 @@ a.cf-card:hover .cf-guide-pill { border-color: var(--nt-linen-ink,#5a3c0e); }
   <div id="cf-results" class="cf-results"></div>
   <div id="cf-tray" class="cf-tray" role="region" aria-label="Compare" hidden></div>
 
-  <!-- Forecast & Research moved to the foot (owner 2026-08-14). These are six
-       links OFF the site; they sat above the month row, ahead of the tool the
-       page exists for. Nothing else moved and the markup is unchanged.
-
-       The "Also on this site" head and its .cf-sibling-row (Festival finder /
-       Sports calendar) that stood above this block were REMOVED 2026-08-17
-       (owner rule) with every other end-of-page cross-link strip on the site.
-       This page had hand-built one out of inline styles rather than .also-strip,
-       which is why it survived the sweep of the other 65 and had to be found by
-       its label. Do not put it back — brain_check.check_no_also_strip_outside_guides
-       hard-fails on the label as well as on the classes. The six links BELOW are
-       not that: they go off-site, and they stay. -->
-  <div style="margin:14px 0 14px;">
+    <div style="margin:14px 0 14px;">
     <div style="font-size:11.5px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:0.06em;margin-bottom:5px;">Forecast &amp; Research</div>
     <div class="cf-research-row" style="display:flex;flex-wrap:wrap;gap:6px;">
       <a href="https://forecast.weather.gov" target="_blank" rel="noopener" class="sibling-pill">Weather.gov</a>
@@ -787,11 +735,7 @@ a.cf-card:hover .cf-guide-pill { border-color: var(--nt-linen-ink,#5a3c0e); }
         labelCompareBtn(b, k, sel);
       });
     }
-    /* The + carried no label of any kind — no text, no title, no aria — so
-       nothing on the page ever said what it did (owner rule 2026-08-17: "does
-       even tell what to do with the pluses"). Named on every render AND every
-       repaint, so the label always tracks the button's real state. */
-    function labelCompareBtn(b, k, sel) {
+        function labelCompareBtn(b, k, sel) {
       var nm = (CLIM[k] && CLIM[k].city) || k;
       b.title = sel ? 'Remove from compare' : 'Compare';
       b.setAttribute('aria-label', sel ? 'Remove ' + nm + ' from compare' : 'Compare ' + nm);
@@ -1217,7 +1161,8 @@ a.cf-card:hover .cf-guide-pill { border-color: var(--nt-linen-ink,#5a3c0e); }
       if (citySearch) {
         var cs = citySearch.toLowerCase();
         hits = hits.filter(function (k) {
-          return (CLIM[k].city || k).toLowerCase().indexOf(cs) >= 0;
+          return (CLIM[k].city || k).toLowerCase().indexOf(cs) >= 0 ||
+            (CITY_COUNTRIES[k] || '').toLowerCase().indexOf(cs) >= 0;
         });
       }
       if (sort === 'warm') hits.sort(function (a, b) { return CLIM[b].hi[month] - CLIM[a].hi[month]; });
@@ -1238,7 +1183,8 @@ a.cf-card:hover .cf-guide-pill { border-color: var(--nt-linen-ink,#5a3c0e); }
         if (citySearch) {
           var cs2 = citySearch.toLowerCase();
           var cityMatches = keys.filter(function (k) {
-            return (CLIM[k].city || k).toLowerCase().indexOf(cs2) >= 0;
+            return (CLIM[k].city || k).toLowerCase().indexOf(cs2) >= 0 ||
+              (CITY_COUNTRIES[k] || '').toLowerCase().indexOf(cs2) >= 0;
           });
           if (!cityMatches.length) {
             emptyMsg = '“' + citySearch + '” isn’t in the climate dataset.';

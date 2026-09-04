@@ -137,12 +137,6 @@
 .tsa-link::after { content: '\203A'; font-size: 13px; vertical-align: -1px; margin-left: 2px; }
 .tsa-link:hover { color: var(--rust, #C04E1A); opacity: 1; text-decoration: none; }
 /* ── Airport address list ── */
-/* .trains-block is .flights-block's twin on purpose — same warm card, same grid,
-   so a rail leg reads exactly like a flight leg. It is deliberately NOT called
-   .flights-block: the calendar export walks the card for .flights-block, and a
-   train sharing that class would inflate the "All flights" leg count. Trains
-   carry no export at all (owner rule 2026-08-15) — the booking link is the
-   whole point of the row. */
 .flights-block,
 .trains-block { margin-top: 4px; padding: 8px 12px; background: var(--warm); border-radius: 4px; border: 1px solid var(--border2); }
 .flights-block .fc,
@@ -152,20 +146,6 @@
 .trains-block .fc a,
 .trains-block .fc a:visited { color: var(--red); font-weight: 700; text-decoration: none; }
 @media (hover: hover) { .trains-block .fc a:hover { text-decoration: underline; } }
-/* ── Station address list — the airport list's twin ──────────────────────────
-   A train leg needs the same three facts a flight leg gets from .airport-addrs
-   (which station, its address, how far the hotel is) so it rides on the SAME
-   rules, joined by comma rather than copied: one block of values, one dark-mode
-   pass, one mobile pass. The classes are separate (.station-* not .airport-*)
-   because the calendar export reads .airport-row to name flight endpoints, and
-   a station row wearing that class would surface as an airport in a flight
-   note. Trains carry no export of their own — owner rule 2026-08-15.
-
-   It is its OWN section, not a tail on the timetable, because a station is
-   listed ONCE however many departures use it (owner 2026-08-17: "you put the
-   train station once with full address and all the times"). Two rail legs out
-   of the same pair of stations repeat the times, never the address — so this
-   takes .trains-block's card box rather than .airport-addrs' inline margin. */
 .airport-addrs { margin-top: 10px; padding-top: 8px; }
 .station-addrs { margin-top: 4px; padding: 8px 12px; background: var(--warm); border-radius: 4px; border: 1px solid var(--border2); }
 .airport-row,
@@ -195,33 +175,10 @@
 .st-from { font-size: 12px; color: var(--muted); padding: 0 0 3px 37px; }
 .station-row + .st-from { padding-top: 1px; }
 .st-from + .station-row { margin-top: 6px; }
-/* ── The station line every timetable OPENS on (owner 2026-08-21) ─────────────
-   "Trains · Salzburg → Munich · Aug 22 — where is the train station name and
-   address! That has to be there always." The Stations block above lists each
-   station ONCE with its hotel walk/drive lines — but it sits above the FIRST
-   timetable, and the return corridor came after a Hotels section, so at that
-   block the reader had seventeen departure times and no building named
-   anywhere near them. So every .trains-block opens on one .train-stations row:
-   departure → arrival, each the local short name AND its full address, both
-   Maps anchors, the SAME URLs as the Stations block. One row above seventeen
-   (the ratio the .sec header already has) — never a station per row, and
-   never the .st-from hotel lines, which are the station's and stay in the
-   Stations block exactly once. .ts-stop keeps name + address together so a
-   phone wraps between the two stations, not mid-address. Pinned by
-   brain_check.check_trips_train_block_names_its_stations (rule 916). */
 .train-stations { display: flex; flex-wrap: wrap; align-items: baseline; gap: 5px; padding: 0 0 6px; margin-bottom: 4px; border-bottom: 1px solid rgba(0,0,0,0.06); }
 .train-stations .ts-stop { display: inline-flex; flex-wrap: wrap; align-items: baseline; gap: 5px; }
 .train-stations .st-name { min-width: 0; }
 .train-stations .ts-arrow { font-size: 12px; font-weight: 700; color: var(--muted); flex: none; padding: 0 2px; }
-/* ── Hotel address — same treatment as a guide's address row ──────────────
-   Guides render the address as a Maps anchor (blue --c-link, no underline at
-   rest, underline on hover) with a copy button injected beside it that opens
-   the shared three-option popover. This page carried its own variant instead:
-   plain grey text, the whole line click-to-copy, a green toast. Owner
-   2026-08-14 ("fix the style look how the guides handle address" · "all the
-   rule should follow like undeline etc") — the guide treatment is the rule, so
-   the classes, the anchor styling and the popover below are ported verbatim
-   from guide-style.css. Do not re-invent a page-local address style. */
 .hotel-addr { font-size: 14px; color: var(--text); margin: 3px 0 0; position: relative; display: block; }
 .hotel-addr a { color: var(--c-link, #2867c4); text-decoration: none; border-bottom: none; }
 .hotel-addr a:visited { color: #2867c4; border-bottom: none; }  /* literal hex — var() blocked in :visited */
@@ -242,9 +199,6 @@
 .addr-copy-done { font-size: 12px; color: #4a7a25; padding: 4px 11px 5px; display: none; }
 /* ── Hotel → venue distance ── */
 .venue-distance { font-size: 13px; color: var(--muted) !important; padding: 4px 0 0; margin: 0; }
-/* ── Stay detail — room type and booking ref, the info wanted at the desk.
-   Owner rule 2026-08-20. Never the booking PIN: this repo is public and
-   ref + PIN together open the reservation. ── */
 .hotel-detail { font-size: 13px; color: var(--muted); padding: 3px 0 0; margin: 0; }
 .hotel p { font-size: 14px; padding: 2px 0 0; margin: 0; color: var(--muted); }
 .hotel p a { color: var(--accent); border-bottom: none; }
@@ -375,22 +329,6 @@ a.nu-chip:visited { color: #6a6660; }
 .trip-jump-pill { display: inline-flex; align-items: center; gap: 5px; font-size: 12px; font-weight: 500; color: var(--text); padding: 5px 13px; border: 1px solid var(--border); border-radius: 20px; background: var(--warm, #fdf8f0); text-decoration: none; white-space: nowrap; transition: border-color .15s, color .15s, background .15s; }
 a.trip-jump-pill:visited { color: #3d3a32; }
 .trip-jump-pill:hover { color: var(--nt-grey-ink); border-color: rgba(var(--nt-grey-rgb),.75); background: var(--nt-grey-wash); }
-/* ── The calendar icon on each part of the trip ──────────────────────────
-   Owner rule 2026-08-16: one icon per part, and NO page in between. The
-   chooser panel that used to stand between the click and the calendar is gone
-   — owner: *"i did not ask for this middle page … i ask one icon by each part
-   of it"* and *"we need to get rid of it, this is the problem."* There is also
-   no whole-trip control: the two of them export different parts, so an
-   "everything" button is one neither would press.
-
-   Each icon builds that one part's .ics in the page and hands it to Calendar
-   as a FILE — the share sheet on a phone, a download anywhere else. Never as a
-   URL of any kind (webcal:// or a blob: navigation): a URL is what Calendar
-   offers to SUBSCRIBE to. See the delivery rule further down for the whole story.
-
-   The .added state is remembered in localStorage, because the real cost of
-   per-part exporting is losing track — owner: *"i would get lost which one i
-   did."* ── */
 .cal-add {
   display: inline-flex; align-items: center; justify-content: center;
   margin-left: 8px; padding: 3px 5px; border-radius: 5px;
@@ -723,12 +661,6 @@ document.addEventListener('DOMContentLoaded',()=>{
 </script>
 
 <script>
-/* ── Address copy — the guide behaviour, ported from toolbar.js _injectAddrCopy.
-   That function is gated on isRealGuide, and this page does not load
-   guide-style.css, so the popover lives here with its CSS above rather than
-   being reached from the shared bundle. Same markup, same classes, same three
-   options, so the two surfaces behave identically: tap the address to open
-   Maps, tap the button to copy. Owner 2026-08-14. */
 (function(){
   var rows=document.querySelectorAll('.hotel-addr');
   if(!rows.length)return;
@@ -954,9 +886,7 @@ document.addEventListener('DOMContentLoaded',()=>{
     +'</a><div class="nu-chips">';
   trips.forEach(function(t){
     var _nuDot=function(c){return '<svg class="gm-icon" data-icon="dot-'+c+'" data-role="dot" viewBox="0 0 24 24" aria-hidden="true"><use href="#gm-i-dot-'+c+'"/></svg>';};
-    /* Drawn spheres, not emoji circles (owner 2026-08-20): a coloured emoji
-       is a fixed platform colour that cannot re-tint for dark mode. */
-    var nuEmoji=_nuDot({now:'green',set:'orange',hold:'yellow',tbd:'black'}[t.st.status]||'black');
+        var nuEmoji=_nuDot({now:'green',set:'orange',hold:'yellow',tbd:'black'}[t.st.status]||'black');
     html+='<a class="nu-chip '+t.st.status+'" href="#'+t.id+'">'
       +nuEmoji+' '+TVE.flag.html(t.flag)+' '+esc(t.name)
       +' <span class="nu-c">'+chipCount(t.st)+'</span></a>';
@@ -997,34 +927,6 @@ document.addEventListener('DOMContentLoaded',()=>{
 </script>
 
 <script>
-/* ── Export to Calendar ─────────────────────────────────────────────────────
-   Owner rule 2026-08-11. Every upcoming trip carries the guide's action-bar
-   pill; it opens a chooser listing **all flights as one export** and **each
-   stay as its own**, so the two of us can take only what we need, whenever we
-   have time. Nothing is ever written to a calendar automatically — an MCP
-   calendar write asks for approval on every event, which is what this replaces.
-
-   The .ics is built in the browser from the rows already on the page, so a
-   corrected flight time or hotel date is picked up on the next click with no
-   other edit. Upcoming trips only, never an unconfirmed one.
-
-   Owner rule 2026-08-15: **the title is the name alone** — a route for a
-   flight, the hotel for a stay — and EVERYTHING else goes in the notes, one
-   labelled `Field · value` line each, grouped by blank lines. Nothing is
-   appended to the title to make it "informative"; the calendar month view has
-   room for a route and nothing more, and the detail is one tap away.
-
-   Owner rule 2026-08-16: **every part of the trip is exactly ONE event and
-   carries its own icon** — each flight leg, as each stay already did — so the
-   two of them take only what is theirs. Owner rule 2026-08-17: **that icon
-   ADDS the event; it never offers a subscription.** Which of the two you get is
-   decided by what Calendar is handed — a file imports, a URL subscribes — and
-   the whole rule is written out at the delivery comment below.
-
-   The pre-trip-audit routine writes the same files to Trip-Exports/ on every
-   run, so they are already sitting there when you want them — this page is the
-   on-demand path to the identical exports.
-── */
 (function(){
   var MONS='jan|feb|mar|apr|may|jun|jul|aug|sep|oct|nov|dec';
   var MN={jan:0,feb:1,mar:2,apr:3,may:4,jun:5,jul:6,aug:7,sep:8,oct:9,nov:10,dec:11};
@@ -1058,10 +960,7 @@ document.addEventListener('DOMContentLoaded',()=>{
   function human(d){ return MS[d.getMonth()]+' '+d.getDate(); }
   function clock(d){ var h=d.getHours(),m=d.getMinutes(),ap=h<12?'AM':'PM'; h=h%12||12; return h+':'+pad(m)+' '+ap; }
   function addDays(d,n){ var x=new Date(d.getTime()); x.setDate(x.getDate()+n); return x; }
-  /* The notes are one labelled fact per line, blank lines grouping them — the
-     title carries the name alone, so everything else has to be findable here
-     without reading a sentence (owner rule 2026-08-15). */
-  function notes(lines){ return lines.filter(function(l){ return l!=null; }).join('\n'); }
+    function notes(lines){ return lines.filter(function(l){ return l!=null; }).join('\n'); }
 
   /* ── ICS serialisation ── */
   function pad(n){ return (n<10?'0':'')+n; }
@@ -1073,16 +972,7 @@ document.addEventListener('DOMContentLoaded',()=>{
   function calendar(events){
     if(!events.length) return '';
     var now=dStamp(new Date());
-    /* NO METHOD line. `METHOD:PUBLISH` declares the file a *published calendar*,
-       and Apple Calendar answers a published calendar by offering to SUBSCRIBE
-       to it / add it as a calendar of its own — which is what put each booking
-       in a separate calendar of its own instead of in the reader's (owner
-       2026-08-17: "they all have their own calendars", "it is ask if I want to
-       subscribe"). A VCALENDAR with no METHOD is a plain set of events, and
-       plain events are IMPORTED into the calendar you already use. Never add
-       METHOD back, and never add X-WR-CALNAME / NAME / REFRESH-INTERVAL, which
-       are the same claim by another name. */
-    var L=['BEGIN:VCALENDAR','VERSION:2.0','PRODID:-//Guide My Days//Trips//EN','CALSCALE:GREGORIAN'];
+        var L=['BEGIN:VCALENDAR','VERSION:2.0','PRODID:-//Guide My Days//Trips//EN','CALSCALE:GREGORIAN'];
     events.forEach(function(e){
       L.push('BEGIN:VEVENT');
       L.push('UID:'+e.uid);
@@ -1103,50 +993,7 @@ document.addEventListener('DOMContentLoaded',()=>{
     return L.join('\r\n')+'\r\n';
   }
 
-  /* ── Delivery — hand Calendar a FILE, never a URL (owner, 2026-08-17) ──────
-     No Google anywhere in this file, by owner rule (2026-08-16): the calendar
-     here is Apple Calendar, on a Mac and on an iPhone. And no webcal:// —
-     webcal means SUBSCRIBE, which builds a separate read-only calendar instead
-     of putting the event in your own (owner: "it is not subscribe, calendar is
-     another thing").
-
-     THE THING THAT DECIDES SUBSCRIBE vs ADD IS THE FILE'S PREAMBLE, not how
-     it is delivered. `METHOD:PUBLISH` declares the .ics a *published calendar*,
-     and Apple answers a calendar by offering to subscribe to it or by making a
-     calendar of its own for it — which is why every booking arrived as its own
-     named calendar (owner: "they all have their own calendars"). It is gone,
-     along with X-WR-CALNAME / NAME / REFRESH-INTERVAL, which are the same claim
-     by another name. See calendar() above; never put any of them back.
-
-     DELIVERY: A SERVED FILE. Nothing is built in the browser and nothing is
-     saved to disk — owner, 2026-08-17: *"i should not need to save in my disk
-     first"* · *"should not ask me to save on the disk for me to hunt it and
-     then open and save it"* · the behaviour they want, in their words: *"the
-     link opens, i press okay, add on my calendar."*
-
-     **There is no URL that opens Apple Calendar with an event in it.** Google,
-     Outlook and Yahoo each have one; Apple does not, and every add-to-calendar
-     library on the web handles Apple with a `.ics` and nothing else. What Apple
-     *does* do reliably is take a **real file served as `text/calendar`**:
-     Safari, on macOS and iOS, hands it straight to Calendar and Calendar opens
-     its add prompt. So each icon is a plain `<a href="/trips/ics/{uid}.ics">`,
-     one file per flight leg and per stay, written by `build_trip_exports.py`
-     from this same markup. `calendar()` above still exists because the page
-     builds the events to know their UIDs — it no longer delivers them.
-
-     WHAT DOES NOT WORK. All three were shipped on 2026-08-17 and all three came
-     straight back; do not try any of them again:
-       · **`<a download>`** — puts the file in Downloads to go and find.
-       · **A `blob:` object URL**, navigated to or downloaded — a blob has no
-         filename and no served MIME type, so the browser cannot hand it to
-         Calendar and asks where to put it instead: a Save-As panel titled with
-         a raw UUID ("4b537d25-3bef-4c1b-…"). This is the one that looks right
-         in code and is the most wrong in practice.
-       · **`webcal://`** — the subscribe scheme. A read-only calendar of its
-         own, which is the complaint this whole rule exists to answer.
-     A `data:` URI is not the way out either: WebKit's navigation policy blocks
-     it outright. */
-
+  
   /* ── Flights ── */
   function airportNames(block){
     var map={};
@@ -1191,15 +1038,8 @@ document.addEventListener('DOMContentLoaded',()=>{
       var toLine=route[2]+(to&&to!==route[2]?' — '+to:'');
       evs.push({
         uid:base+'-flight-'+slug(route[1]+route[2]+num)+'-'+dDate(dep)+'-'+i+'@guidemydays.com',
-        /* Owner rule 2026-08-17: the title says it is a flight and where it
-           goes, nothing else — "only the title says flight X to X place, simple".
-           Flight number, times, airports, Who and trip all live in the notes
-           below, one labelled line each. */
-        summary:'Flight '+route[1]+' → '+route[2],
-        /* Carried for the chooser row's label only — never written to the .ics,
-           where the flight number and Who live in the notes (owner rule
-           2026-08-15: the title is the name alone). */
-        num:num, who:who,
+                summary:'Flight '+route[1]+' → '+route[2],
+                num:num, who:who,
         /* The row this leg came from — the calendar icon is injected into it,
            so the event and the line the reader is looking at stay together. */
         row:row,
@@ -1299,23 +1139,7 @@ document.addEventListener('DOMContentLoaded',()=>{
     });
   }
 
-  /* ── One calendar icon on each part of the trip ─────────────────────────
-     Owner rule 2026-08-16. The chooser panel is GONE — owner: *"i did not ask
-     for this middle page … i ask one icon by each part of it"* · *"we need to
-     get rid of it, this is the problem."* Each flight row and each stay carries
-     its own icon, right where the booking is written. There is no whole-trip
-     control: the two of them export different parts, so an "everything" button
-     is one neither would press.
-
-     Every icon is a plain link to that event's own served .ics — see the
-     delivery rule above. Nothing is built in the browser and nothing is
-     saved to disk.
-
-     Clicking marks the icon added, remembered across visits — the real cost of
-     exporting part by part is losing your place (owner: *"i would get lost
-     which one i did"*). It is a reminder, not a lock: the icon still works
-     every time, because re-adding a feed corrects it rather than duplicating. ── */
-  var ADDED_KEY='tve_cal_added';
+    var ADDED_KEY='tve_cal_added';
   function addedSet(){
     try { return JSON.parse(localStorage.getItem(ADDED_KEY)||'[]'); } catch(e){ return []; }
   }

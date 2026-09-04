@@ -21,7 +21,7 @@ Last updated: 2026-08-28
 >
 > NEVER open these whole — measured 2026-08-18, they are 79% of the old read pile
 > and mostly artwork, not rules:
->   Site-Icons.html (1.37 MB, 77% raw SVG paths)   → icon_find.py, always
+>   Icons Library.html (1.37 MB, 77% raw SVG paths)   → icon_find.py, always
 >   Icon Order and Format.html (195 KB, 136 KB of inline SVG) → spec_find get icons
 >   Toolbar.html (239 KB, 66 sections; a build needs 2-3) → spec_find get toolbar 10
 >   Rules for Claude.html is the exception: it IS read in full, Phase 0, hook-enforced.

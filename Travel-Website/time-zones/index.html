@@ -911,11 +911,13 @@ function render() {
     var vs   = vsHome(c.tz, now);   /* null until a home base is set */
     var hour = parseInt(time.split(':')[0], 10);
     var minute = parseInt(time.split(':')[1], 10);
-    /* 2026-09-04: widened from 22:00–06:59 — the old dawn/dusk "twilight" band
-       (06:00–07:59 and 18:00–21:59) folds into night, not day, per owner
-       ("this needs to be the night one... I think it was the twilight one"
-       on Banff at 20:57). 18:00–07:59 local → moon; 08:00–17:59 → sun. */
-    var night = hour >= 18 || hour < 8;
+    /* 2026-09-04: widened the EVENING side only, from 22:00 to 18:00 — the old
+       dusk "twilight" band (18:00–21:59) folds into night, not day, per owner
+       ("this needs to be the night one... I think it was the twilight one" on
+       Banff at 20:57). Morning stays 07:00 (unchanged from the original
+       sun/moon test) — widening it too caught Abu Dhabi at 07:35 as "night",
+       which nobody asked for. 18:00–06:59 local → moon; 07:00–17:59 → sun. */
+    var night = hour >= 18 || hour < 7;
     var nightMark = night
       ? '<svg class="gm-icon card-night" data-icon="wx-moon" data-role="night" viewBox="0 0 24 24" role="img" aria-label="Night there"><use href="#gm-i-wx-moon"/></svg>'
       : '<svg class="gm-icon card-day-mark" data-icon="wx-clear" data-role="day" viewBox="0 0 24 24" role="img" aria-label="Daytime there"><use href="#gm-i-wx-clear"/></svg>';

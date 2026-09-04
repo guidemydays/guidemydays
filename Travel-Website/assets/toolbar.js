@@ -2161,7 +2161,7 @@ window.TVE.home = (function () {
          This does NOT reach the links inside a category. .tb-ham-grp-links a
          sets 14px and 400 explicitly, and it must keep doing so: those rows are
          a tier down and are the one place a lighter face is the point. */
-      '.tb-ham-menu a,.tb-ham-menu a:visited{display:block;font-size:16px;font-weight:600;' +
+      '.tb-ham-menu a,.tb-ham-menu a:visited{display:block;font-size:15px;font-weight:600;' +
         'color:#3d3a32!important;text-decoration:none;padding:11px 24px;min-height:44px;' +
         'box-sizing:border-box;border-bottom:none;-webkit-tap-highlight-color:transparent;' +
         'cursor:pointer;touch-action:manipulation}' +

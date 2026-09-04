@@ -6,20 +6,21 @@
 <link rel="stylesheet" href="/assets/web-travel-style.css">
 <title>World Time Zones by City | Guide My Days</title>
 <style>/* .wrap — fluid width from web-travel-style.css */
-/* ── Card ground tokens — day/twilight/night wash (owner-approved mock-up,
-   2026-08-23). Day and twilight fade into the ordinary --surface card; only
-   night is a fully-tinted ground, so the grid reads as mostly-day with the
-   handful of cities actually asleep standing out. */
+/* ── Card ground tokens — day/night wash, two states only (2026-09-04:
+   collapsed from the earlier day/twilight/night three-way — owner: "just two
+   night and day now... light beige and not the solid blue"). Day fades into
+   the ordinary --surface card; night is a fully-tinted ground, but a warm
+   dark beige/brown, matching day's own family, never navy blue. */
 :root {
-  --tz-day-a: #fdf1de; --tz-twi-a: #4a3a52;
-  --tz-night-a: #1c2740; --tz-night-b: #2c3a5c;
-  --tz-night-text: #f2efe6; --tz-night-muted: #9aa4bd;
+  --tz-day-a: #fdf1de;
+  --tz-night-a: #5c4630; --tz-night-b: #3d2f1f;
+  --tz-night-text: #f2efe6; --tz-night-muted: #c4a882;
   --tz-day-mark: var(--c-sun-rim, #a87f0b); --tz-night-mark: #e8d38a;
 }
 @media (prefers-color-scheme: dark) {
   :root {
-    --tz-day-a: #3a3222; --tz-twi-a: #3a2f42;
-    --tz-night-a: #10152a; --tz-night-b: #1a2338;
+    --tz-day-a: #3a3222;
+    --tz-night-a: #2a2015; --tz-night-b: #1a140c;
   }
 }
 /* ── Page header — from web-travel-style.css ── */
@@ -220,39 +221,30 @@ input.search:focus { border-color: var(--c-search-focus-border); box-shadow: non
 }
 .pill:hover { font-family: inherit; background: var(--nt-grey-wash); border-color: rgba(var(--nt-grey-rgb),.75); color: var(--nt-grey-ink); }
 .pill.active { font-family: inherit; background: var(--nt-grey-wash); border-color: rgba(var(--nt-grey-rgb),.75); color: var(--nt-grey-ink); font-weight: 600; }
-/* "All" now carries a real cp-* class too -- cp-light-grey, the same shared
-   neutral family essentials/scenic-trains and essentials/self-drive-routes
-   already use for their own "All" pill (selection-pill cp-light-grey). It was
-   the one pill on this row with no family of its own, so unlike its five
-   siblings it had no color to fall back on when deselected: the desktop
-   `.pills .pill { background: var(--surface) }` rule turned it plain white at
-   rest, reading as a blank gap in the row instead of a pill. Giving it a real
-   family fixes that the same way every other pill here is already fixed --
-   one generic rule below reads any cp-* class's own --sp-wash/--sp-ink,
-   unconditionally, active or not -- instead of a page-local override that
-   only patched "All" specifically. */
-/* Region pills take a per-region Calm Pastel tint. Originally the same mapping
-   essentials/tipping's #region-pills uses (americas blue, caribbean teal,
-   europe terracotta, asiapac purple, other gold) -- but terracotta (#f7f3ea)
-   and gold (#fff6de) are the two palest tones in the set, barely darker than
-   the white row behind them, so next to blue/teal/purple's fuller fills they
-   read as outlined text rather than a colored pill (owner feedback, live).
-   europe and other now use two different EXISTING families instead -- Muted
-   Brick (cp-bright-red) and Peachy Blush (cp-pink) -- picked directly off the
-   full palette, not invented or blended; essentials/tipping's own mapping is
-   untouched. Hover/active darken via filter, matching the shared
-   .selection-pill.cp-* convention, so no fill color changes are ever needed
-   beyond the rest-state tint already set. */
-/* 2026-08-27: was 5 separate [data-region] rules each duplicating a real
-   cp-* wash/ink pair as literal hex -- this comment already said "matching
-   the shared .selection-pill.cp-* convention" without actually using it, so
-   the hex could (and did) drift from the real thing. Each button now
-   carries its own cp-* class directly; one generic rule pulls wash/ink from
-   that class's own --sp-wash/--sp-ink custom properties, so there is
-   nothing left here to fall out of sync with web-travel-style.css. */
-.pill[class*="cp-"] { background: var(--sp-wash); border-color: rgba(0,0,0,.1); color: var(--sp-ink); }
-.pill[data-region]:hover { filter: brightness(.90); }
-.pill[data-region].active { filter: brightness(.88); font-weight: 600; }
+/* The row's own bespoke hover/active (a flat brightness filter: .90 hover,
+   .88 selected) was replaced 2026-09-04 -- "hover and selected barely being
+   seen." Region pills now carry the real .selection-pill component + its
+   cp-* family class + hov-darken directly, the same trio every other pill's
+   own family already uses site-wide (essentials/tipping's identical row
+   included, "All" included via cp-light-grey -- same shared family
+   essentials/scenic-trains and essentials/self-drive-routes use for theirs).
+   That gets hover/selected for free, and BOTH read stronger by design:
+   hov-darken is `color-mix(wash 75%, ink 25%)`, selected (.is-on /
+   [aria-pressed="true"]) is `color-mix(wash 58%, ink 42%)` !important -- a
+   real per-tone darken toward the pill's own ink, not a flat brightness
+   number invented for this page (web-travel-style.css -- the exact fix for a
+   near-identical "we cant even read" complaint on the shared component
+   itself). Only gap: .selection-pill's own rest-state background/border/ink
+   lose to this page's `.pills .pill { background: var(--surface) }` (desktop)
+   and dark-mode equivalents on specificity (all three classes, NN104's exact
+   trap) -- restored below, REST STATE ONLY (:not(.is-on):not([aria-pressed=
+   "true"]) so it can never compete with hover/selected, which are already
+   !important and don't need this). --sp-wash/--sp-ink resolve to each cp-*
+   class's own dark-mode color-mix automatically, so one rule covers every
+   viewport and both themes. */
+.pills .pill.selection-pill:not(.is-on):not([aria-pressed="true"]) {
+  background: var(--sp-wash); border-color: rgba(var(--sp-rgb),.45); color: var(--sp-ink);
+}
 /* THERE IS NO DISABLED PILL ON THIS PAGE. The distance sort cannot work before a
    city is named, so before then it is not drawn at all — the page says what a
    search does in words instead. A greyed control that answers nothing reads as a
@@ -319,23 +311,10 @@ a.pill:visited { color: var(--muted, #6a6660); } /* note: browsers ignore CSS va
     color: var(--nt-grey-ink); font-weight: 600;
   }
   /* The sort pill lives under the search, not in this row, but it is the same
-     component — it inherits the ladder above by carrying .pill. */
-  /* Re-declared at this breakpoint: `.pills .pill`'s own white background/grey
-     .active two rules up are the SAME specificity as `.pill[data-region="x"]`
-     above and load later, so without this they silently won on every
-     (pointer:fine) viewport (i.e. every desktop, and any real device with a
-     mouse/trackpad) -- region pills rendered plain white regardless of
-     viewport width, the touch/coarse-pointer branch was the only one that
-     ever showed the real per-region colour. NN104. */
-  .pills .pill[class*="cp-"] { background: var(--sp-wash); border-color: rgba(0,0,0,.1); color: var(--sp-ink); }
-  .pills .pill[data-region]:hover {
-    filter: brightness(.90);
-  }
-  .pills .pill[data-region].active,
-  .pills .pill[data-region].active:hover,
-  .pills .pill[data-region].active:focus {
-    filter: brightness(.88); font-weight: 600;
-  }
+     component — it inherits the ladder above by carrying .pill. Region pills'
+     own color/hover/selected now come entirely from .selection-pill + cp-* +
+     hov-darken (see the rest-state restoration rule near the top of this
+     stylesheet) -- nothing left to re-declare at this breakpoint. */
 }
 /* ── Grid ── */
 .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(196px, 1fr)); gap: 10px; min-height: 300px; }
@@ -344,15 +323,15 @@ a.pill:visited { color: var(--muted, #6a6660); } /* note: browsers ignore CSS va
   padding: 12px 14px; display: flex; flex-direction: column; gap: 6px;
   transition: border-color .15s, box-shadow .15s, transform .08s;
 }
-/* ── Day/twilight/night card ground (owner-approved mock-up, 2026-08-23) ── This
-   is the one structural change from web-travel-style.css's shared `.card`: a
+/* ── Day/night card ground (owner-approved mock-up, 2026-08-23; collapsed
+   from an earlier day/twilight/night three-way, 2026-09-04) ── This is the
+   one structural change from web-travel-style.css's shared `.card`: a
    gradient wash keyed off the SAME local-hour test the sun/moon mark already
    uses, so a full grid reads "what hour is it there" at a glance instead of
    needing every card's number read one at a time — the thing a plain white
    card shares identically with When to Go's temperature cards. Everything
    else about the card (border, radius, hover ring, meta row) is untouched. */
 .card.is-day      { background: linear-gradient(165deg, var(--tz-day-a) 0%, var(--surface) 62%); }
-.card.is-twilight { background: linear-gradient(165deg, var(--tz-twi-a) 0%, var(--surface) 68%); }
 .card.is-night {
   background: linear-gradient(165deg, var(--tz-night-a) 0%, var(--tz-night-b) 100%);
   border-color: var(--tz-night-b);
@@ -513,20 +492,10 @@ a.pill:visited { color: var(--muted, #6a6660); } /* note: browsers ignore CSS va
 @media (prefers-color-scheme: dark) {
   .pills .pill       { color: var(--muted, #9a9690); background: var(--surface, #2a2825); }
   .pills .pill.active { color: var(--muted, #9a9690); }
-  /* Same equal-specificity trap as the light desktop block above: without a
-     re-declaration here, the two rules just above silently win over
-     `.pill[data-region="x"]` in EVERY dark-mode context (touch included,
-     not just pointer:fine) since dark mode is unconditional here. cp-light-grey
-     (All) has its own dark-mode color-mix wash same as every other cp-* class
-     (web-travel-style.css), so it needs no special-casing here any more than
-     Americas/Caribbean/etc. do. */
-  .pills .pill[class*="cp-"] { background: var(--sp-wash); border-color: rgba(0,0,0,.1); color: var(--sp-ink); }
-  .pills .pill[data-region]:hover {
-    filter: brightness(.85);
-  }
-  .pills .pill[data-region].active {
-    filter: brightness(.78); font-weight: 600;
-  }
+  /* Region pills' color/hover/selected come entirely from .selection-pill +
+     cp-* + hov-darken now — cp-light-grey (All) included, same as every
+     other cp-* class (web-travel-style.css's own dark-mode color-mix), so
+     nothing needs re-declaring here. */
   .vs-sea.ahead  { background: #0d200d; color: #5aaa5e; border-color: #5aaa5e; }
   .vs-sea.behind { background: #2a1408; color: #e8a880; border-color: #e8a880; }
   .vs-sea.same   { background: rgba(180,175,168,.10); color: #b4afa8; border-color: #b4afa8; }
@@ -665,12 +634,12 @@ a.pill:visited { color: var(--muted, #6a6660); } /* note: browsers ignore CSS va
        happens. This row is six region filters and nothing else. -->
   <div class="controls">
     <div class="pills" id="region-pills" role="group" aria-label="Filter by region">
-      <button class="pill active cp-light-grey" data-region="all">All</button>
-      <button class="pill cp-blue" data-region="americas">Americas</button>
-      <button class="pill cp-dark-teal" data-region="caribbean">Caribbean</button>
-      <button class="pill cp-bright-red" data-region="europe">Europe</button>
-      <button class="pill cp-purple" data-region="asiapac">Asia · Pacific</button>
-      <button class="pill cp-pink" data-region="other">M.E. &amp; Africa</button>
+      <button class="pill selection-pill cp-light-grey hov-darken" data-region="all" aria-pressed="true">All</button>
+      <button class="pill selection-pill cp-blue hov-darken" data-region="americas" aria-pressed="false">Americas</button>
+      <button class="pill selection-pill cp-dark-teal hov-darken" data-region="caribbean" aria-pressed="false">Caribbean</button>
+      <button class="pill selection-pill cp-bright-red hov-darken" data-region="europe" aria-pressed="false">Europe</button>
+      <button class="pill selection-pill cp-purple hov-darken" data-region="asiapac" aria-pressed="false">Asia · Pacific</button>
+      <button class="pill selection-pill cp-pink hov-darken" data-region="other" aria-pressed="false">M.E. &amp; Africa</button>
     </div>
   </div>
 
@@ -1110,11 +1079,11 @@ function render() {
     var nightMark = night
       ? '<svg class="gm-icon card-night" data-icon="wx-moon" data-role="night" viewBox="0 0 24 24" role="img" aria-label="Night there"><use href="#gm-i-wx-moon"/></svg>'
       : '<svg class="gm-icon card-day-mark" data-icon="wx-clear" data-role="day" viewBox="0 0 24 24" role="img" aria-label="Daytime there"><use href="#gm-i-wx-clear"/></svg>';
-    /* Three-way ground for the card itself (owner-approved mock-up, 2026-08-23) —
-       a coarser band than the moon/sun test above on purpose: night is 22:00–05:59,
-       dawn/dusk is the hour either side of it, day is everything else. The 24h
-       progress fill uses the exact minute. */
-    var dayCls = night ? 'is-night' : (hour < 8 || hour >= 18) ? 'is-twilight' : 'is-day';
+    /* Two-way ground for the card itself (2026-09-04, collapsed from an earlier
+       day/twilight/night three-way): same night test as the moon/sun mark above,
+       so the card ground and the mark always agree. The 24h progress fill uses
+       the exact minute. */
+    var dayCls = night ? 'is-night' : 'is-day';
     var pct = Math.round(((hour * 60 + minute) / 1440) * 100);
     var cardCls = 'card ' + dayCls;
     var inner =
@@ -1154,8 +1123,9 @@ document.getElementById('region-pills').addEventListener('click', function(e) {
   var btn = e.target.closest('.pill[data-region]');
   if (!btn) return;
   activeRegion = btn.dataset.region;
-  document.querySelectorAll('#region-pills .pill[data-region]').forEach(function(p) { p.classList.remove('active'); });
-  btn.classList.add('active');
+  document.querySelectorAll('#region-pills .pill[data-region]').forEach(function(p) { p.classList.remove('is-on'); p.setAttribute('aria-pressed', 'false'); });
+  btn.classList.add('is-on');
+  btn.setAttribute('aria-pressed', 'true');
   render();
 });
 

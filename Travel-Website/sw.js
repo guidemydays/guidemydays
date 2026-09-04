@@ -3029,7 +3029,12 @@
    (cp-terracotta -> cp-bright-red "Muted Brick", cp-gold -> cp-pink
    "Peachy Blush") instead of a custom hex, zero new CSS. Page precached,
    no shared asset moved. CACHE to v1839. */
-/* 2026-09-04: signpost (#41) sprite whitespace sync — no shape/colour change, fixes check_sprite_matches_catalogue toolbar.js -> v1153. CACHE to v1840. */
+/* 2026-09-04: time-zones -- region pills migrated to the real .selection-pill
+   component + hov-darken (hover/selected were a flat brightness filter,
+   "barely being seen"; now color-mix toward each pill's own ink, same
+   mechanism as every other cp-* pill site-wide); city-card day/twilight/
+   night collapsed to two states, night moved from navy to warm dark
+   beige/brown. Page precached, no shared asset moved. CACHE to v1840. */
 var CACHE = 'travel-cache-v1840';
 /* 2026-08-27: airlines.css's .card-tags align-items fix changed a shared
    asset without raising its own floor -- MIN_VERSIONS['airlines.css'] to

@@ -228,11 +228,17 @@ input.search:focus { border-color: var(--c-search-focus-border); box-shadow: non
    "All" stays the grey wash in every state; .active/:hover above still carry the
    bold weight and border that mark it selected. */
 #region-pills [data-region="all"] { background: var(--nt-grey-wash); border-color: rgba(var(--nt-grey-rgb),.15); }
-/* Region pills take the same per-region Calm Pastel tint the region badges
-   elsewhere on the site use for the identical categories (essentials/tipping's
-   #region-pills) -- americas blue, caribbean teal, europe terracotta, asiapac
-   purple, other gold. "All" and the sort pill (no region of their own) stay on
-   the neutral #f0ede8/#6a6660 pairing above. Hover/active darken via filter,
+/* Region pills take a per-region Calm Pastel tint. Originally the same mapping
+   essentials/tipping's #region-pills uses (americas blue, caribbean teal,
+   europe terracotta, asiapac purple, other gold) -- but terracotta (#f7f3ea)
+   and gold (#fff6de) are the two palest tones in the set, barely darker than
+   the white row behind them, so next to blue/teal/purple's fuller fills they
+   read as outlined text rather than a colored pill (owner feedback, live).
+   europe and other now use two different EXISTING families instead -- Muted
+   Brick (cp-bright-red) and Peachy Blush (cp-pink) -- picked directly off the
+   full palette, not invented or blended; essentials/tipping's own mapping is
+   untouched. "All" and the sort pill (no region of their own) stay on the
+   neutral #f0ede8/#6a6660 pairing above. Hover/active darken via filter,
    matching the shared .selection-pill.cp-* convention, so no fill color changes
    are ever needed beyond the rest-state tint already set. */
 /* 2026-08-27: was 5 separate [data-region] rules each duplicating a real
@@ -243,15 +249,6 @@ input.search:focus { border-color: var(--c-search-focus-border); box-shadow: non
    that class's own --sp-wash/--sp-ink custom properties, so there is
    nothing left here to fall out of sync with web-travel-style.css. */
 .pill[class*="cp-"] { background: var(--sp-wash); border-color: rgba(0,0,0,.1); color: var(--sp-ink); }
-/* Europe (Rust) and M.E. & Africa (Honey) are the two palest tones in the shared
-   Calm Pastel set -- #f7f3ea and #fff6de are barely darker than the white row
-   behind them, so next to Americas/Caribbean/Asia-Pacific's fuller blue/teal/
-   purple fills they read as outlined text rather than a colored pill (owner
-   feedback, live). Page-scoped only: overrides --sp-wash on these two buttons
-   alone, not the shared .cp-terracotta/.cp-gold classes web-travel-style.css
-   defines for the rest of the site, so no other badge/pill anywhere changes. */
-#region-pills [data-region="europe"] { --sp-wash: #e8c4a3; }
-#region-pills [data-region="other"]  { --sp-wash: #f0d78a; }
 .pill[data-region]:not([data-region="all"]):hover { filter: brightness(.90); }
 .pill[data-region]:not([data-region="all"]).active { filter: brightness(.88); font-weight: 600; }
 /* THERE IS NO DISABLED PILL ON THIS PAGE. The distance sort cannot work before a
@@ -518,12 +515,6 @@ a.pill:visited { color: var(--muted, #6a6660); } /* note: browsers ignore CSS va
      light nt-grey-wash tone even here. Dark mode already had its own correct
      rest/active treatment for "All" before that rule existed — restore it. */
   #region-pills [data-region="all"] { background: var(--surface, #2a2825); border-color: var(--border2, #332f2a); }
-  /* Same reasoning: restores the ORIGINAL cp-terracotta/cp-gold dark-mode wash
-     (web-travel-style.css's own color-mix formula, unchanged) on these two
-     buttons specifically, since the light-only override above would otherwise
-     win here too and paint them with the new light-mode hex. */
-  #region-pills [data-region="europe"] { --sp-wash: color-mix(in srgb, #f7f3ea 22%, var(--surface)); }
-  #region-pills [data-region="other"]  { --sp-wash: color-mix(in srgb, #fff6de 22%, var(--surface)); }
   /* Same equal-specificity trap as the light desktop block above: without a
      re-declaration here, the two rules just above silently win over
      `.pill[data-region="x"]` in EVERY dark-mode context (touch included,
@@ -687,9 +678,9 @@ a.pill:visited { color: var(--muted, #6a6660); } /* note: browsers ignore CSS va
       <button class="pill active" data-region="all">All</button>
       <button class="pill cp-blue" data-region="americas">Americas</button>
       <button class="pill cp-dark-teal" data-region="caribbean">Caribbean</button>
-      <button class="pill cp-terracotta" data-region="europe">Europe</button>
+      <button class="pill cp-bright-red" data-region="europe">Europe</button>
       <button class="pill cp-purple" data-region="asiapac">Asia · Pacific</button>
-      <button class="pill cp-gold" data-region="other">M.E. &amp; Africa</button>
+      <button class="pill cp-pink" data-region="other">M.E. &amp; Africa</button>
     </div>
   </div>
 

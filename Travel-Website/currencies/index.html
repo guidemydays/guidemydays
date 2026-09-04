@@ -68,6 +68,15 @@
 .fx-ctl input::placeholder { color: var(--muted, #6a6660); font-weight: 400; }
 .fx-amt { width: 8.5rem; }
 .fx-cur { width: 17rem; max-width: 100%; }
+/* The swap sits on the row's baseline with the two pills, not under the labels —
+   it has no label of its own, so it takes the label's height as margin. */
+.fx-swap {
+  flex: 0 0 auto; width: 2.6rem; height: 2.6rem; border-radius: 50%;
+  border: 1px solid var(--border2, #e6e2da); background: var(--surface,#fff);
+  color: var(--muted, #6a6660); font: inherit; font-size: 1.05rem; line-height: 1; cursor: pointer;
+  margin-bottom: 0.85rem;
+}
+.fx-swap:hover { background: var(--surface2, #f0ede8); border-color: var(--border-strong, #d8d4cc); }
 
 /* ── The result ───────────────────────────────────────────────────────────
    Hidden on arrival and hidden again whenever either currency is cleared. The
@@ -144,13 +153,14 @@
    on every row (that read as "super confusing" — one line of context here
    replaces it). Same dark rust ink as the result ticket. */
 .fx-board {
-  background: var(--fx-ink, #6b2f14); color: #f2ece2; border-radius: 14px 14px 0 0;
-  padding: 14px 22px; display: flex; align-items: center; justify-content: space-between;
-  gap: 16px; flex-wrap: wrap;
+  width: 100%; max-width: 520px; margin: 0 auto;
+  background: var(--fx-ink, #6b2f14); color: #f2ece2; border-radius: 10px 10px 0 0;
+  padding: 8px 14px; display: flex; align-items: center; justify-content: space-between;
+  gap: 12px; flex-wrap: wrap; box-sizing: border-box;
   font-family: ui-monospace, 'SF Mono', 'Cascadia Mono', 'Roboto Mono', monospace;
 }
-.fx-board-label { font-size: 10.5px; font-weight: 600; letter-spacing: 0.14em; text-transform: uppercase; color: #b8aa98; }
-.fx-board-value { font-size: 14px; font-weight: 600; font-variant-numeric: tabular-nums; }
+.fx-board-label { font-size: 9px; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; color: #b8aa98; }
+.fx-board-value { font-size: 12px; font-weight: 600; font-variant-numeric: tabular-nums; }
 
 /* ── The comparison table ─────────────────────────────────────────────────
    The site's shared .index-table interaction, pinned by
@@ -182,6 +192,7 @@
 .index-table tbody tr.fx-target td { background: var(--warm,#fdf4ed); box-shadow: inset 3px 0 0 #C04E1A, inset 0 -1px 0 var(--border2,#e6e2da); }
 .index-table tbody tr.fx-target:hover td { background: #FAE8DE; }
 .fx-to-tag {
+  display: inline-block; white-space: nowrap;
   font-family: ui-monospace, 'SF Mono', 'Cascadia Mono', 'Roboto Mono', monospace;
   font-size: 9.5px; font-weight: 700; letter-spacing: 0.06em; color: #8a3f18;
   background: var(--surface,#fff); border: 1px solid rgba(192,78,26,.35); border-radius: 4px;
@@ -243,12 +254,15 @@ tr[aria-expanded="true"] .fx-mark { transform: rotate(90deg); opacity: 1; }
      of them becoming unreadable. */
   .fx-row { flex-direction: column; align-items: stretch; }
   .fx-amt, .fx-cur { width: 100%; }
+  .fx-swap { align-self: center; margin: 0; }
   .index-table td, .index-table th { font-size: var(--fs-sub,12px) !important; padding: 6px 8px !important; }
   .fx-used { display: block; }
   .index-table tbody tr.fx-open td { padding: 4px 8px 12px !important; }
 }
 @media (prefers-color-scheme: dark) {
   .fx-ctl { background: var(--surface2, #1e1c1a); }
+  .fx-swap { background: var(--surface2, #1e1c1a); color: var(--muted, #9a9690); border-color: var(--border2, #3a3630); }
+  .fx-swap:hover { background: var(--surface, #2a2725); border-color: var(--border-strong, #4a4640); }
   .fx-sort { background: var(--bg, #1a1917); border-bottom-color: var(--border2, #3a3630); }
   .fx-close-x:hover { color: #f5f3ef; }
   .index-table tbody td:last-child { color: var(--text, #e8e5e0); }
@@ -378,6 +392,7 @@ tr[aria-expanded="true"] .fx-mark { transform: rotate(90deg); opacity: 1; }
         <label for="fx-from">From</label>
         <div class="fx-ctl fx-cur"><input type="text" id="fx-from" placeholder="Choose a currency" autocomplete="off" spellcheck="false"></div>
       </div>
+      <button id="fx-swap" class="fx-swap" type="button" aria-label="Swap the two currencies" title="Swap">&#8646;</button>
       <div class="fx-field">
         <label for="fx-to">To</label>
         <div class="fx-ctl fx-cur"><input type="text" id="fx-to" placeholder="Choose a currency" autocomplete="off" spellcheck="false"></div>
@@ -545,6 +560,12 @@ var FXC=[["Austria","Austria","Europe","EUR","",[["Salzburg","/guides/salzburg.h
      too — an emptied box must not go on converting the last thing it held. */
   elFrom.addEventListener('input',function(){ if(!elFrom.value){ fromAnchor=''; render(); } });
   elTo.addEventListener('input',function(){ if(!elTo.value){ toAnchor=''; render(); } });
+  document.getElementById('fx-swap').addEventListener('click',function(){
+    var a=fromAnchor, an=elFrom.value;
+    fromAnchor=toAnchor; elFrom.value=elTo.value;
+    toAnchor=a; elTo.value=an;
+    render();
+  });
   /* The table is always open once a result exists — this ✕ is only the way
      back to the top of a long scroll (51 rows), not a hide/show toggle.
      `scrollIntoView` is safe here: this page sets no scroll-behavior, so it

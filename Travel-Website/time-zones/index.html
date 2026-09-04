@@ -6,23 +6,21 @@
 <link rel="stylesheet" href="/assets/web-travel-style.css">
 <title>World Time Zones by City | Guide My Days</title>
 <style>/* .wrap — fluid width from web-travel-style.css */
-/* ── Card ground tokens — day/night wash, two states only (2026-09-04:
-   collapsed from the earlier day/twilight/night three-way — owner: "just two
-   night and day now... light beige and not the solid blue"). Day fades into
-   the ordinary --surface card; night is a fully-tinted ground, warm brown
-   like day's own family, never navy blue. night-a/night-b READ the Earth
-   Tone family's own root-level tokens directly (web-travel-style.css's
-   --sp-espresso-ink/--sp-saddle-ink) instead of retyping their hex — no
-   .sp-espresso class needed since these are :root-scoped, not class-scoped. */
+/* ── Card ground — morning/night, two states (2026-09-04: "i want 2 morning
+   and night" ... "look on github the exact values for these two! they were
+   live!!!"). These are exactly the original day/twilight tokens this page
+   already shipped under owner approval 2026-08-23 (git history:
+   fc55737a0~1) — not new values, just renamed and remapped: --tz-day-a
+   (warm cream, was "day") is now morning; --tz-twi-a (dark plum, was
+   "twilight") is now night. Same gradient mechanic both times too (fade to
+   --surface, not a flat fill). */
 :root {
-  --tz-day-a: #fdf1de;
-  --tz-night-a: var(--sp-espresso-ink); --tz-night-b: var(--sp-saddle-ink);
-  --tz-night-text: #f2efe6; --tz-night-muted: #9aa4bd;
-  --tz-day-mark: var(--c-sun-rim, #a87f0b); --tz-night-mark: #e8d38a;
+  --tz-day-a: #fdf1de; --tz-twi-a: #4a3a52;
+  --tz-day-mark: var(--c-sun-rim, #a87f0b);
 }
 @media (prefers-color-scheme: dark) {
   :root {
-    --tz-day-a: #3a3222;
+    --tz-day-a: #3a3222; --tz-twi-a: #3a2f42;
   }
 }
 /* ── Page header — from web-travel-style.css ── */
@@ -258,22 +256,17 @@ a.pill:visited { color: var(--muted, #6a6660); } /* note: browsers ignore CSS va
   padding: 12px 14px; display: flex; flex-direction: column; gap: 6px;
   transition: border-color .15s, box-shadow .15s, transform .08s;
 }
-.card.is-day      { background: linear-gradient(165deg, var(--tz-day-a) 0%, var(--surface) 62%); }
-.card.is-night {
-  background: linear-gradient(165deg, var(--tz-night-a) 0%, var(--tz-night-b) 100%);
-  border-color: var(--tz-night-b);
-}
-.card.is-night .card-city   { color: var(--tz-night-text); }
-.card.is-night .card-country,
-.card.is-night .card-day,
-.card.is-night .utc-offset  { color: var(--tz-night-muted); }
+/* Both states fade their tint toward the plain card surface — the exact same
+   mechanic these tokens shipped with as day/twilight — so neither is a full
+   dark fill and neither needs a special light-text override; the default
+   card text already reads fine against a wash-to-surface fade. */
+.card.is-morning { background: linear-gradient(165deg, var(--tz-day-a) 0%, var(--surface) 62%); }
+.card.is-night    { background: linear-gradient(165deg, var(--tz-twi-a) 0%, var(--surface) 68%); }
 .card-time { font-family: var(--font); }
 /* A thin 24h-progress bar between the clock and the meta row — the one shape a
    hi/lo temperature reading has no equivalent for. */
 .card-progress { position: relative; height: 3px; border-radius: 3px; background: rgba(0,0,0,.07); }
-.card.is-night .card-progress { background: rgba(255,255,255,.14); }
 .card-progress-fill { position: absolute; top: 0; left: 0; height: 100%; border-radius: 3px; background: var(--tz-day-mark); }
-.card.is-night .card-progress-fill { background: var(--tz-night-mark); }
 .card-link { color: inherit; cursor: pointer; text-decoration: none;
   transition: border-color .15s, box-shadow .15s, transform .08s; }
 .card-link:hover, .card-link:visited, .card-link:focus { text-decoration: none; color: inherit; }
@@ -921,11 +914,11 @@ function render() {
     var nightMark = night
       ? '<svg class="gm-icon card-night" data-icon="wx-moon" data-role="night" viewBox="0 0 24 24" role="img" aria-label="Night there"><use href="#gm-i-wx-moon"/></svg>'
       : '<svg class="gm-icon card-day-mark" data-icon="wx-clear" data-role="day" viewBox="0 0 24 24" role="img" aria-label="Daytime there"><use href="#gm-i-wx-clear"/></svg>';
-    /* Two-way ground for the card itself (2026-09-04, collapsed from an earlier
-       day/twilight/night three-way): same night test as the moon/sun mark above,
-       so the card ground and the mark always agree. The 24h progress fill uses
-       the exact minute. */
-    var dayCls = night ? 'is-night' : 'is-day';
+    /* Two-way ground for the card itself, named morning/night per owner
+       (2026-09-04): same night test as the moon/sun mark above, so the card
+       ground and the mark always agree. The 24h progress fill uses the
+       exact minute. */
+    var dayCls = night ? 'is-night' : 'is-morning';
     var pct = Math.round(((hour * 60 + minute) / 1440) * 100);
     var cardCls = 'card ' + dayCls;
     var inner =

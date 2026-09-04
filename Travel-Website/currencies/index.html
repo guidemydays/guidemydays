@@ -12,6 +12,11 @@
    here. Never re-cap .wrap or .index-section with a literal (Thirty-second
    non-negotiable); both read --rail and --gutter. */
 .index-section { max-width: var(--rail); margin: 0 auto; padding: 0 var(--gutter); }
+/* The result ticket and the ledger's "Converting from" band share one dark
+   rust ink — never black (owner rule: mockups/pages never go black/near-black). */
+:root { --fx-ink: #6b2f14; }
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) { --fx-ink: #3a1a10; } }
+:root[data-theme="dark"] { --fx-ink: #3a1a10; }
 
 /* ── The converter row ────────────────────────────────────────────────────
    Sits inside .hero-ground, which paints its own band and carries the
@@ -63,15 +68,6 @@
 .fx-ctl input::placeholder { color: var(--muted, #6a6660); font-weight: 400; }
 .fx-amt { width: 8.5rem; }
 .fx-cur { width: 17rem; max-width: 100%; }
-/* The swap sits on the row's baseline with the two pills, not under the labels —
-   it has no label of its own, so it takes the label's height as margin. */
-.fx-swap {
-  flex: 0 0 auto; width: 2.6rem; height: 2.6rem; border-radius: 50%;
-  border: 1px solid var(--border2, #e6e2da); background: var(--surface,#fff);
-  color: var(--muted, #6a6660); font: inherit; font-size: 1.05rem; line-height: 1; cursor: pointer;
-  margin-bottom: 0.85rem;
-}
-.fx-swap:hover { background: var(--surface2, #f0ede8); border-color: var(--border-strong, #d8d4cc); }
 
 /* ── The result ───────────────────────────────────────────────────────────
    Hidden on arrival and hidden again whenever either currency is cleared. The
@@ -82,15 +78,26 @@
    without this the attribute is set and nothing moves. */
 #fx-result[hidden], #fx-table-wrap[hidden] { display: none !important; }
 .fx-card {
-  display: block; background: var(--surface,#fff); border: 1px solid var(--border,#d8d4cc);
-  border-radius: 12px; padding: clamp(1rem, 2.4vw, 1.6rem) clamp(1rem, 2.6vw, 1.8rem);
-  box-shadow: 0 2px 8px rgba(92,61,17,.06);
+  display: block; background: var(--fx-ink, #6b2f14); border: none;
+  border-radius: 14px; padding: clamp(1rem, 2.4vw, 1.6rem) clamp(1rem, 2.6vw, 1.8rem);
+  box-shadow: 0 2px 8px rgba(92,61,17,.06); color: #f2ece2;
 }
-.fx-eq { margin: 0; font-size: clamp(1.15rem, 3.2vw, 1.7rem); font-weight: 700; color: var(--text,#3d3a32); line-height: 1.35; font-variant-numeric: tabular-nums; }
-.fx-eq b { color: #C04E1A; font-weight: 700; }
-.fx-unit { margin: 0.6rem 0 0; font-size: var(--fs-body,14px); color: var(--muted,#6a6660); font-variant-numeric: tabular-nums; }
-.fx-where { margin: 0.55rem 0 0; font-size: var(--fs-sub,12px); color: var(--muted,#6a6660); }
-.fx-note { margin: 0.55rem 0 0; font-size: var(--fs-sub,12px); color: #C04E1A; }
+.fx-eq {
+  margin: 0; font-size: clamp(1.15rem, 3.2vw, 1.7rem); font-weight: 600; color: #f2ece2;
+  line-height: 1.35; font-variant-numeric: tabular-nums;
+  font-family: ui-monospace, 'SF Mono', 'Cascadia Mono', 'Roboto Mono', monospace;
+}
+/* Both amounts are the same weight/color — no highlighted half. A prior draft
+   colored only one of them terracotta, which read as two different numbers
+   instead of one equation (owner: "both numbers needs to be the same colors"). */
+.fx-eq b { color: inherit; font-weight: 600; }
+.fx-eq-cur { font-family: var(--font,inherit); font-weight: 400; font-size: 0.62em; color: #b8aa98; }
+.fx-unit {
+  margin: 0.6rem 0 0; font-size: var(--fs-sub,12px); color: #b8aa98; font-variant-numeric: tabular-nums;
+  font-family: ui-monospace, 'SF Mono', 'Cascadia Mono', 'Roboto Mono', monospace;
+}
+.fx-where { margin: 0.55rem 0 0; font-size: var(--fs-sub,12px); color: #b8aa98; }
+.fx-note { margin: 0.55rem 0 0; font-size: var(--fs-sub,12px); color: var(--terracotta-deep, #e8926a); }
 
 /* ── Sort row ─────────────────────────────────────────────────────────────
    STICKY, and that is the way out of the table (owner rule 2026-08-18: "after i
@@ -129,29 +136,57 @@
 .fx-sort-label { font-size: var(--fs-label,11px); font-weight: 700; color: var(--muted,#6a6660); text-transform: uppercase; letter-spacing: 0.08em; }
 /* Box, size, rest/hover/is-on colour all come from the shared .selection-pill-sm
    class (web-travel-style.css) — no page-local override. */
-.fx-lede { margin: 14px 0 14px; font-size: var(--fs-body,14px); color: var(--muted,#6a6660); }
+.fx-lede { margin: 14px 0; font-size: var(--fs-body,14px); color: var(--muted,#6a6660); }
 .fx-lede b { color: var(--text,#3d3a32); }
+
+/* ── The "Converting from" board ──────────────────────────────────────────
+   States the anchor currency ONCE, above the list, instead of repeating it
+   on every row (that read as "super confusing" — one line of context here
+   replaces it). Same dark rust ink as the result ticket. */
+.fx-board {
+  background: var(--fx-ink, #6b2f14); color: #f2ece2; border-radius: 14px 14px 0 0;
+  padding: 14px 22px; display: flex; align-items: center; justify-content: space-between;
+  gap: 16px; flex-wrap: wrap;
+  font-family: ui-monospace, 'SF Mono', 'Cascadia Mono', 'Roboto Mono', monospace;
+}
+.fx-board-label { font-size: 10.5px; font-weight: 600; letter-spacing: 0.14em; text-transform: uppercase; color: #b8aa98; }
+.fx-board-value { font-size: 14px; font-weight: 600; font-variant-numeric: tabular-nums; }
 
 /* ── The comparison table ─────────────────────────────────────────────────
    The site's shared .index-table interaction, pinned by
    brain_check.check_index_table_design: outer border, white rows, no zebra,
    terracotta box-shadow outline on hover. Never a drop shadow, never
    filter:brightness(). */
-.index-table thead th {
-  background: var(--surface2, #f0ede8); border-bottom: 2px solid var(--border, #d8d4cc);
-  padding: 10px 14px; text-align: left; font-size: var(--fs-body,14px); font-weight: 700;
-  color: var(--muted, #6a6660); text-transform: uppercase; letter-spacing: 0.1em;
-}
 .index-table th:last-child, .index-table td:last-child { text-align: right; font-variant-numeric: tabular-nums; }
-.index-table { width: 100%; max-width: 520px; margin: 0 auto; border-collapse: collapse; border: 1px solid var(--border,#d8d4cc); border-radius: 8px; overflow: hidden; }
-.index-table tbody td { font-size: var(--fs-body,14px); padding: 9px 14px; color: var(--text); box-shadow: inset 0 -1px 0 var(--border2,#e6e2da); transition: box-shadow .1s ease; }
+.index-table {
+  width: 100%; max-width: 520px; margin: 0 auto; border-collapse: collapse;
+  border: 1px solid var(--border,#d8d4cc); border-top: none; border-radius: 0 0 8px 8px; overflow: hidden;
+}
+.index-table tbody td {
+  font-size: var(--fs-body,14px); padding: 9px 14px; color: var(--text);
+  box-shadow: inset 0 -1px 0 var(--border2,#e6e2da); transition: box-shadow .1s ease;
+}
 .index-table tbody tr:last-child td { box-shadow: none; }
 .index-table tbody td:first-child { font-weight: 600; }
-.index-table tbody td:last-child { white-space: nowrap; font-weight: 600; }
+.index-table tbody td:last-child {
+  white-space: nowrap; font-weight: 600; font-variant-numeric: tabular-nums;
+  font-family: ui-monospace, 'SF Mono', 'Cascadia Mono', 'Roboto Mono', monospace;
+}
 .index-table tbody tr { cursor: pointer; background: var(--surface,#fff); }
 .index-table tbody tr:hover td { background: #FAE8DE; box-shadow: inset 0 1px 0 rgba(192,78,26,.15), inset 0 -1px 0 rgba(192,78,26,.15); }
 .index-table tbody tr:active td { background: #f2d0bb; box-shadow: inset 2px 0 0 #C04E1A, inset -2px 0 0 #C04E1A; }
 .fx-used { font-size: var(--fs-body,14px); color: var(--muted,#6a6660); font-weight: 400; }
+/* The currency picked in "To" is pulled to the top of the list and highlighted
+   — otherwise it can land dozens of rows down and the picker above feels
+   disconnected from the table it drives. */
+.index-table tbody tr.fx-target td { background: var(--warm,#fdf4ed); box-shadow: inset 3px 0 0 #C04E1A, inset 0 -1px 0 var(--border2,#e6e2da); }
+.index-table tbody tr.fx-target:hover td { background: #FAE8DE; }
+.fx-to-tag {
+  font-family: ui-monospace, 'SF Mono', 'Cascadia Mono', 'Roboto Mono', monospace;
+  font-size: 9.5px; font-weight: 700; letter-spacing: 0.06em; color: #8a3f18;
+  background: var(--surface,#fff); border: 1px solid rgba(192,78,26,.35); border-radius: 4px;
+  padding: 1px 5px; margin-left: 8px;
+}
 
 /* ── A row opens onto its guides ──────────────────────────────────────────
    Owner rule 2026-08-18: "we hover in the desktop and feel like we should press
@@ -204,33 +239,25 @@ tr[aria-expanded="true"] .fx-mark { transform: rotate(90deg); opacity: 1; }
 
 @media (max-width: 600px) and (pointer: coarse) {
   .index-section { padding: 0 14px; }
-  /* One column, full width — three pills and a swap button cannot share a
-     393px row without each of them becoming unreadable. The swap keeps its
-     circle and centres between the two it swaps. */
+  /* One column, full width — two pills cannot share a 393px row without each
+     of them becoming unreadable. */
   .fx-row { flex-direction: column; align-items: stretch; }
   .fx-amt, .fx-cur { width: 100%; }
-  .fx-swap { align-self: center; margin: 0; }
   .index-table td, .index-table th { font-size: var(--fs-sub,12px) !important; padding: 6px 8px !important; }
   .fx-used { display: block; }
   .index-table tbody tr.fx-open td { padding: 4px 8px 12px !important; }
 }
 @media (prefers-color-scheme: dark) {
   .fx-ctl { background: var(--surface2, #1e1c1a); }
-  /* Muted, not terracotta — matches .fx-ctl's own picker/placeholder ink
-     (owner rule 2026-08-27, same muted-default pass that reversed the old
-     gold var(--accent) pickers). */
-  .fx-swap { background: var(--surface2, #1e1c1a); color: var(--muted, #9a9690); border-color: var(--border2, #3a3630); }
-  .fx-swap:hover { background: var(--surface, #2a2725); border-color: var(--border-strong, #4a4640); }
-  .fx-card { background: var(--surface2, #1e1c1a); border-color: var(--border2, #3a3630); }
-  .fx-eq { color: var(--text, #e8e5e0); }
-  .fx-eq b { color: var(--rust, #D4663A); }
-  .fx-note { color: var(--rust, #D4663A); }
   .fx-sort { background: var(--bg, #1a1917); border-bottom-color: var(--border2, #3a3630); }
   .fx-close-x:hover { color: #f5f3ef; }
   .index-table tbody td:last-child { color: var(--text, #e8e5e0); }
   .index-table tbody tr:hover td { background: rgba(212,102,58,.16); box-shadow: inset 0 1px 0 rgba(212,102,58,.25), inset 0 -1px 0 rgba(212,102,58,.25); }
   .index-table tbody tr:active td { background: rgba(212,102,58,.28); }
   .index-table tbody tr.fx-open, .index-table tbody tr.fx-open:hover td { background: rgba(212,102,58,.08); }
+  .index-table tbody tr.fx-target td { background: rgba(212,102,58,.12); box-shadow: inset 3px 0 0 var(--rust,#D4663A), inset 0 -1px 0 var(--border2,#3a3630); }
+  .index-table tbody tr.fx-target:hover td { background: rgba(212,102,58,.2); }
+  .fx-to-tag { color: var(--rust, #D4663A); background: var(--surface2, #1e1c1a); border-color: rgba(212,102,58,.45); }
   .fx-gc a { color: var(--text, #e8e5e0); border-bottom-color: rgba(212,102,58,.45); }
   .fx-gc a:hover { color: var(--rust, #D4663A); border-bottom-color: var(--rust, #D4663A); }
 }
@@ -351,7 +378,6 @@ tr[aria-expanded="true"] .fx-mark { transform: rotate(90deg); opacity: 1; }
         <label for="fx-from">From</label>
         <div class="fx-ctl fx-cur"><input type="text" id="fx-from" placeholder="Choose a currency" autocomplete="off" spellcheck="false"></div>
       </div>
-      <button id="fx-swap" class="fx-swap" type="button" aria-label="Swap the two currencies" title="Swap">&#8646;</button>
       <div class="fx-field">
         <label for="fx-to">To</label>
         <div class="fx-ctl fx-cur"><input type="text" id="fx-to" placeholder="Choose a currency" autocomplete="off" spellcheck="false"></div>
@@ -375,10 +401,13 @@ tr[aria-expanded="true"] .fx-mark { transform: rotate(90deg); opacity: 1; }
       <button class="selection-pill-sm sp-rust hov-darken" type="button" data-sort="least">Least value</button>
       <button id="fx-close" class="fx-close-x" type="button" aria-label="Back to top">&#10005;</button>
     </div>
-    <p class="fx-lede" id="fx-lede"></p>
+    <p class="fx-lede" id="fx-lede">Open a row to see the guides that use it.</p>
+    <div class="fx-board">
+      <span class="fx-board-label">Converting from</span>
+      <span class="fx-board-value" id="fx-board-value"></span>
+    </div>
     <table class="index-table">
       <colgroup><col style="width:65%"><col style="width:35%"></colgroup>
-      <thead><tr><th>Conversion</th><th>You get</th></tr></thead>
       <tbody id="fx-tbody"></tbody>
     </table>
     <p class="rates-footer">Rates as of 3 September 2026 · 93 countries · Source: exchangerate-api.com</p>
@@ -450,7 +479,8 @@ var FXC=[["Austria","Austria","Europe","EUR","",[["Salzburg","/guides/salzburg.h
     }
     var A=FXR[fi], B=FXR[ti], out=convert(amt,fi,ti);
     document.getElementById('fx-eq').innerHTML=
-      '<b>'+esc(A.s+fmt(amt))+'</b> '+esc(A.n)+' = <b>'+esc(B.s+fmt(out))+'</b> '+esc(B.n);
+      '<b>'+esc(A.s+fmt(amt))+'</b> <span class="fx-eq-cur">'+esc(A.n)+'</span> = '+
+      '<b>'+esc(B.s+fmt(out))+'</b> <span class="fx-eq-cur">'+esc(B.n)+'</span>';
     /* At amt===1 the forward half ("1 USD = 0.86 EUR") just repeats the headline
        above in a different format — only the reverse rate is new information, so
        the forward half is dropped whenever the reader hasn't changed the amount. */
@@ -472,7 +502,7 @@ var FXC=[["Austria","Austria","Europe","EUR","",[["Salzburg","/guides/salzburg.h
   }
 
   function renderTable(){
-    var amt=parseFloat(elAmt.value), fi=iso(fromAnchor);
+    var amt=parseFloat(elAmt.value), fi=iso(fromAnchor), ti=iso(toAnchor);
     if(!fi||isNaN(amt)) return;
     var A=FXR[fi], list=[];
     for(var code in FXR){
@@ -480,11 +510,20 @@ var FXC=[["Austria","Austria","Europe","EUR","",[["Salzburg","/guides/salzburg.h
       list.push({c:code,v:convert(amt,fi,code)});
     }
     list.sort(function(a,b){ return sortMode==='most' ? b.v-a.v : a.v-b.v; });
+    /* The currency picked in "To" is pulled to the top of the list and
+       highlighted — otherwise it can land dozens of rows down (sorted by
+       value like everything else) and the picker above feels disconnected
+       from the table it drives. */
+    var targetIdx=-1;
+    for(var k=0;k<list.length;k++){ if(list[k].c===ti){ targetIdx=k; break; } }
+    if(targetIdx>0){ var t=list.splice(targetIdx,1)[0]; list.unshift(t); }
     var html='';
     for(var j=0;j<list.length;j++){
       var C=FXR[list[j].c];
-      html+='<tr data-iso="'+list[j].c+'" tabindex="0" role="button" aria-expanded="false">'+
-            '<td><span class="fx-mark"></span>'+esc(A.n)+' to '+esc(C.n)+' - <span class="fx-used">'+list[j].c+'</span></td>'+
+      var isTarget=list[j].c===ti;
+      var toTag=isTarget?'<span class="fx-to-tag">YOUR &quot;TO&quot; PICK</span>':'';
+      html+='<tr class="'+(isTarget?'fx-target':'')+'" data-iso="'+list[j].c+'" tabindex="0" role="button" aria-expanded="false">'+
+            '<td><span class="fx-mark"></span>'+esc(C.n)+' <span class="fx-used">'+list[j].c+'</span>'+toTag+'</td>'+
             '<td>'+esc(C.s+fmt(list[j].v))+'</td></tr>'+
             /* Rendered with the row and hidden, not built on demand: an
                expansion that has to be constructed first flashes an empty band
@@ -492,9 +531,7 @@ var FXC=[["Austria","Austria","Europe","EUR","",[["Salzburg","/guides/salzburg.h
             '<tr class="fx-open" hidden><td colspan="2">'+guidesHTML(list[j].c)+'</td></tr>';
     }
     elBody.innerHTML=html;
-    document.getElementById('fx-lede').innerHTML=
-      'What <b>'+esc(A.s+fmt(amt)+' '+A.n)+'</b> is worth, currency by currency. '+
-      'Open a row to see the guides that use it.';
+    document.getElementById('fx-board-value').textContent=A.s+fmt(amt)+' '+A.n+' · '+fi;
   }
 
   elAmt.addEventListener('input',render);
@@ -508,12 +545,6 @@ var FXC=[["Austria","Austria","Europe","EUR","",[["Salzburg","/guides/salzburg.h
      too — an emptied box must not go on converting the last thing it held. */
   elFrom.addEventListener('input',function(){ if(!elFrom.value){ fromAnchor=''; render(); } });
   elTo.addEventListener('input',function(){ if(!elTo.value){ toAnchor=''; render(); } });
-  document.getElementById('fx-swap').addEventListener('click',function(){
-    var a=fromAnchor, an=elFrom.value;
-    fromAnchor=toAnchor; elFrom.value=elTo.value;
-    toAnchor=a; elTo.value=an;
-    render();
-  });
   /* The table is always open once a result exists — this ✕ is only the way
      back to the top of a long scroll (51 rows), not a hide/show toggle.
      `scrollIntoView` is safe here: this page sets no scroll-behavior, so it

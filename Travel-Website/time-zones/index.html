@@ -413,7 +413,7 @@ a.pill:visited { color: var(--muted, #6a6660); } /* note: browsers ignore CSS va
 /* base .empty-state lives in web-travel-style.css — page keeps only the grid span */
 .empty-state { grid-column: 1 / -1; }
 /* ── Day / night mark — EVERY card carries one, in the BOTTOM-RIGHT corner, last in
-   the meta row (owner 2026-08-22). Local hour 22:00–06:59 draws catalogue #306
+   the meta row (owner 2026-08-22). Local hour 18:00–07:59 draws catalogue #306
    (crescent moon, sprite `wx-moon`); every other hour draws catalogue #299 (sun,
    sprite `wx-clear`) — owner 2026-08-23: "we should also add a sun outline too when
    is day". The pair is the point: a lone moon says "some cards are special", a moon
@@ -1075,7 +1075,11 @@ function render() {
     var vs   = vsHome(c.tz, now);   /* null until a home base is set */
     var hour = parseInt(time.split(':')[0], 10);
     var minute = parseInt(time.split(':')[1], 10);
-    var night = hour >= 22 || hour < 7;   /* 22:00–06:59 local → moon; every other hour → sun */
+    /* 2026-09-04: widened from 22:00–06:59 — the old dawn/dusk "twilight" band
+       (06:00–07:59 and 18:00–21:59) folds into night, not day, per owner
+       ("this needs to be the night one... I think it was the twilight one"
+       on Banff at 20:57). 18:00–07:59 local → moon; 08:00–17:59 → sun. */
+    var night = hour >= 18 || hour < 8;
     var nightMark = night
       ? '<svg class="gm-icon card-night" data-icon="wx-moon" data-role="night" viewBox="0 0 24 24" role="img" aria-label="Night there"><use href="#gm-i-wx-moon"/></svg>'
       : '<svg class="gm-icon card-day-mark" data-icon="wx-clear" data-role="day" viewBox="0 0 24 24" role="img" aria-label="Daytime there"><use href="#gm-i-wx-clear"/></svg>';

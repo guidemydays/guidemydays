@@ -6022,17 +6022,6 @@ window.TVE.home = (function () {
     _injectVisitedToggle();
   }
 
-  /* ── Pocket version — a stripped, print-friendly day-block view: stop
-     name, address (map link), motion row only. No description, no tour/
-     ticket chrome, no photos (Open Recommendation
-     pocket-guide-printable-offline, 2026-08-06). Every field it shows
-     already lives in the page — this is a display-mode switch, not a
-     content generator, so the toggle just flips a body class and CSS
-     hides what pocket mode drops (see .tve-pocket-mode in guide-style.css).
-     Nothing here removes a node, so the full guide is one more tap away.
-     The class is unscoped to screen, so a reader who switches it on and
-     then prints (Cmd/Ctrl+P) gets the stripped page through the guide's
-     existing @media print rules — no separate print path to maintain. ── */
   function _injectPocketToggle() {
     if (!isRealGuide) return;
 
@@ -6097,6 +6086,64 @@ window.TVE.home = (function () {
     document.addEventListener('DOMContentLoaded', _injectPocketToggle);
   } else {
     _injectPocketToggle();
+  }
+
+  function _injectPrintButton() {
+    if (!isRealGuide) return;
+
+    var btn = document.createElement('a');
+    btn.href = 'javascript:void(0)';
+    btn.className = 'overview-extra-link';
+    btn.id = 'tve-print-btn';
+    btn.innerHTML = iconSVG(null, 15, 'printer') + ' Print';
+
+    btn.addEventListener('click', function (e) {
+      e.preventDefault(); e.stopPropagation();
+      window.print();
+    });
+
+    var icsCalPill = document.getElementById('ics-cal-pill');
+    if (icsCalPill) {
+      var pillRow = icsCalPill.parentNode;
+      btn.style.setProperty('flex', '1 1 0', 'important');
+      btn.style.setProperty('min-width', '0', 'important');
+      btn.style.setProperty('align-items', 'center', 'important');
+      btn.style.setProperty('justify-content', 'center', 'important');
+      btn.style.setProperty('text-align', 'center', 'important');
+      pillRow.appendChild(btn);
+      btn.addEventListener('touchstart', function () {
+        btn.classList.add('tve-pressed');
+        btn.style.setProperty('color', '#fff', 'important');
+        btn.style.setProperty('-webkit-text-fill-color', '#fff', 'important');
+      }, { passive: true });
+      btn.addEventListener('touchend', function () {
+        setTimeout(function () {
+          btn.classList.remove('tve-pressed');
+          btn.style.removeProperty('color');
+          btn.style.removeProperty('-webkit-text-fill-color');
+        }, 300);
+      }, { passive: true });
+      btn.addEventListener('touchcancel', function () {
+        btn.classList.remove('tve-pressed');
+        btn.style.removeProperty('color');
+        btn.style.removeProperty('-webkit-text-fill-color');
+      }, { passive: true });
+    } else {
+      var printDays = document.querySelectorAll('.overview-day');
+      if (!printDays.length) return;
+      var printLast = printDays[printDays.length - 1];
+      var printExtras = printLast.parentNode.querySelector('.overview-extras');
+      if (printExtras) {
+        printExtras.parentNode.insertBefore(btn, printExtras);
+      } else {
+        printLast.parentNode.appendChild(btn);
+      }
+    }
+  }
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', _injectPrintButton);
+  } else {
+    _injectPrintButton();
   }
 
   /* ── Continue where you left off — a dismissible card between the title

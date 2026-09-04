@@ -3057,7 +3057,11 @@
    restored to the exact hex this page already shipped as day/twilight
    2026-08-23 (renamed, not new colors), same fade-to-surface gradient
    mechanic. Page precached, no shared asset moved. CACHE to v1845. */
-var CACHE = 'travel-cache-v1845';
+/* 2026-09-04: time-zones -- marked the morning/night card ground LOCKED in
+   a code comment (owner: "cascade this decision so it does not gets
+   reverted"), no functional change. Page precached, no shared asset moved.
+   CACHE to v1846. */
+var CACHE = 'travel-cache-v1846';
 /* 2026-08-27: airlines.css's .card-tags align-items fix changed a shared
    asset without raising its own floor -- MIN_VERSIONS['airlines.css'] to
    6, CACHE to v1662. */

@@ -3038,7 +3038,11 @@
 /* 2026-09-04: time-zones -- widened the day/night boundary to 18:00-07:59 =
    night (was 22:00-06:59); the retired twilight band now folds into night
    instead of day. Page precached, no shared asset moved. CACHE to v1841. */
-var CACHE = 'travel-cache-v1841';
+/* 2026-09-04: time-zones -- night card ground stopped inventing a brown hex;
+   reads var(--sp-espresso-ink)/var(--sp-saddle-ink) directly (Earth Tone
+   family, web-travel-style.css) instead. Page precached, no shared asset
+   moved. CACHE to v1842. */
+var CACHE = 'travel-cache-v1842';
 /* 2026-08-27: airlines.css's .card-tags align-items fix changed a shared
    asset without raising its own floor -- MIN_VERSIONS['airlines.css'] to
    6, CACHE to v1662. */

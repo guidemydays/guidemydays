@@ -93,14 +93,6 @@ a.chip-link:hover {
   .etype { scroll-margin-top: 140px; }
 }
 /* ── Visa Check view ── */
-/* NOT STICKY (owner rule 2026-08-22: "no stick page either the top it is
-   stick"). It was position:sticky;top:0;z-index:10 with an opaque ground and a
-   border-bottom, so the search and the six entry-type pills rode down the whole
-   238-row list, taking ~140px of every screen and cutting each country row in
-   half as it passed under them. Nothing on this page is fixed or sticky now —
-   scrolling shows the page, not a bar with the page moving behind it. Never
-   re-add position:sticky here: the z-index it needs is also what painted
-   straight through the open passport dropdown once before. */
 .legend { display: flex; flex-direction: column; align-items: center; gap: var(--search-gap, 32px);
   padding: var(--search-gap, 32px) 0; margin: 0 0 18px;
   background: var(--bg); border-bottom: 1px solid var(--border2, #e6e2da); }
@@ -108,20 +100,6 @@ a.chip-link:hover {
 /* The passport bar — same centred column and rhythm as .legend, but NOT
    sticky and carrying no z-index. See the note on the markup: two sticky
    z-index:10 bars is what painted through the open dropdown. */
-/* THE THREE DISTANCES, and they are two different KINDS of gap (owner rule
-   2026-08-22: "then entry rules way above? calculate distance between all and
-   make sense of it"). "Entry rules for" is the BUTTON'S CAPTION, not a block of
-   its own — the two read as one sentence — so it sits at 10px, the same value
-   .cmp-passport-strip already uses for exactly this pair. At the 32px page
-   rhythm it read as a stray heading floating above an unrelated control.
-   The 32px then belongs OUTSIDE the pair: 32 above the label, 32 below the
-   button (Fifty-fourth non-negotiable — a block's gap above equals its gap
-   below). The bottom 32 is NOT padding here: whichever element follows owns
-   it, because the two that can follow are mutually exclusive — #visa-empty
-   when no passport is set (margin-top below), and .legend when one is, which
-   already carries its own 32px padding-top and is sticky, so zeroing it would
-   put the search bar hard against the viewport edge. Padding on .pp-bar would
-   give 64px in the picked state. */
 .pp-bar { display: flex; flex-direction: column; align-items: center;
   gap: 10px; padding: var(--search-gap, 32px) 0 0; margin: 0; }
 /* The button's gap below, in the unset state. Scoped to the id, never to
@@ -174,11 +152,6 @@ html { scroll-behavior: smooth; }
 .chip::after { content: "·"; color: var(--border); margin: 0 8px; }
 .chip:last-child::after { content: ""; margin: 0; }
 .chip .lim { font-size: 12px; color: var(--muted); font-variant-numeric: tabular-nums; margin-left: 3px; }
-/* Grid, not a stacked list — 121 visa-free countries used to run one
-   full-width row each (~4,400px of pure scroll before "Visa on arrival" even
-   started). Same rows, same DOM, same search/filter JS (untouched) — just
-   laid out as a flag-forward card grid so the same content fits in roughly
-   a fifth of the height. Owner-approved mockup, 2026-08-23. */
 .rows { display: grid; grid-template-columns: repeat(auto-fill, minmax(210px, 1fr)); gap: 8px; }
 .rows.two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 9px; }
 .rows.three-col { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
@@ -421,19 +394,7 @@ a.apply-link:hover { background: #C04E1A; color: #fff; border-color: var(--rust)
     </div>
   </div>
 
-  <!-- ════════════════════ VISA CHECK ════════════════════
-       Rebuilt 2026-08-20 (owner rule): this used to be one hand-kept table of
-       what a US passport needed. Every country on earth answers here now,
-       for whoever is asking — pick a passport, see all 207 destinations
-       grouped by requirement, sourced from assets/visa-matrix.json via the
-       shared TVE.passport module (same one Compare uses). NO passport is
-       preselected and none of this renders until the reader names theirs —
-       a page full of requirements with no passport chosen would be answering
-       a question nobody asked (Thirtieth non-negotiable's "opens on nothing"
-       rule, same as /currencies/ and /plugs/). The pick is remembered via
-       TVE.passport (localStorage), same as TVE.home's own city — reused
-       across every visa surface on the site rather than asked for again. -->
-  <div class="view active" id="view-visa">
+    <div class="view active" id="view-visa">
     <!-- The picker bar is deliberately NOT .legend. It used to be, and that
          made TWO position:sticky bars both at top:0 with z-index:10 — the
          filter legend below, being later in the DOM at the SAME z-index, won

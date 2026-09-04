@@ -193,25 +193,6 @@
 if(location.search.includes('embed=1')){
 }
 
-/* ── Visited is per-visitor, and it is the SAME store the guides write ───────
-   The gold cities used to be a Set literal further down this file, so every
-   reader saw the owner's travel presented as their own and had no way to
-   record theirs.
-
-   This does NOT invent a store. Guide pages already carry an "I've Been" pill
-   (toolbar.js _injectVisitedToggle) which writes tve-visited-{folder} to
-   localStorage, and the Guides Index already reads those keys to override a
-   card's status. The map now reads and writes the very same keys, so the three
-   surfaces are one list: mark Lisbon on its guide and its pin is gold here;
-   mark it here and the guide's pill shows checked.
-
-   The join key is the guide FOLDER, lowercased ('bora-bora') — the only name
-   a guide page can derive from its own URL. Pin display names would mean
-   hand-matching 'Cancún' and 'Curaçao' on both sides. The map takes the slug
-   out of each pin's own href, so the two can never drift apart.
-
-   No account behind it, so it is per-browser and per-device by design; the
-   owner accepted that trade rather than take on sign-in. */
 var BEEN_PREFIX = 'tve-visited-';
 function beenSlug(href) {
   var parts = String(href || '').split('/');
@@ -239,18 +220,6 @@ function beenCount() {
   } catch (e) {}
   return n;
 }
-/* MARKING HAPPENS ON THE GUIDE, NOT HERE (owner rule 2026-08-17).
-   The map used to carry a "Mark mine" mode: turn it on and a pin tap recorded
-   the city instead of opening its guide. It is gone, and it does not come back.
-   The reader marks a place with the I've Been pill on that place's guide, as
-   they read it — one gesture, in the one place where they have just decided
-   they have been there. Two ways to mark meant a pin tap did different things
-   depending on a mode the reader had set minutes earlier, and it silently took
-   away the map's only real job: tap a pin, read the guide.
-
-   The reader's list moves between browsers only through a #mine= backup
-   link generated elsewhere; this page just displays it and restores from
-   one when opened. It never edits a single city. */
 function beenPaintCount() {
   var el = document.getElementById('visited-pill-count');
   var n = beenCount();
@@ -312,20 +281,6 @@ window.addEventListener('pageshow', function (e) { if (e.persisted) repaintVisit
 window.addEventListener('storage', function (e) { if (!e.key || e.key.indexOf(BEEN_PREFIX) === 0) repaintVisited(); });
 document.addEventListener('visibilitychange', function () { if (document.visibilityState === 'visible') repaintVisited(); });
 
-/* NO HARDCODED LIST OF PLACES LIVES ON THIS PAGE (owner rule 2026-08-17:
-   "i am not doing hardcode anymore").
-
-   Two have existed and both are gone. `BEEN_CITIES`, a Set of 82 city names,
-   presented the owner's travel to every reader as their own — removed
-   2026-08-14 when visited became per-visitor. `OWNER_SEED`, the same 82 behind
-   a `#seed-mine` hash, was the one-shot migration that carried them into the
-   owner's browser; it ran on 2026-08-17 and is removed here, as its own
-   comment always said it should be.
-
-   There is nothing left to re-add. A reader's places come from the I've Been
-   pill on each guide, and a list that already exists moves between browsers
-   through the Back up link — which is a per-reader `#mine=` hash, not page
-   data, and is why no seed is needed by anyone ever again. */
 </script>
 
 <div id="wrap">
@@ -1342,10 +1297,7 @@ function buildPins() {
     iconAnchor: [6.5, 6.5],
   });
 
-  /* The owner's 82 cities used to be hardcoded here — see the per-visitor
-     per-visitor store at the top of this file — the same tve-visited- keys the
-     guide pages' I've Been pill writes. */
-
+  
   const beenIcon = L.divIcon({
     className: '',
     html: '<div class="city-pin" style="width:13px;height:13px;background:radial-gradient(circle at 35% 30%,#f5c842 0%,#d4a017 55%,#9a6f00 100%);box-shadow:0 0 0 2px rgba(212,160,23,0.35);"></div>',

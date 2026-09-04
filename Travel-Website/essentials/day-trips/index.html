@@ -6,33 +6,6 @@
 <link rel="stylesheet" href="/assets/web-travel-style.css">
 <title>Day Trips by Train — Guide My Days</title>
 <style>
-/* ══ REBUILT 2026-08-14 (owner: "this is a really boring page!" · "break format
-   · do what you think looks cool") ═══════════════════════════════════════════
-   What was here: a banner, an intro card, and 128 identical full-width grey
-   rows reading "{City} · 5 trips · Guide · ▶". Nothing on screen told you
-   anything until you clicked, and the one fact that decides a day trip — how
-   long the ride is — was hidden two levels down inside every row.
-
-   So the journey time becomes the interface. All 494 times parse cleanly, and
-   they split 53 / 209 / 169 / 63 across four bands, which is what makes a band
-   filter worth having: every choice actually narrows the list. The page can now
-   answer "what can I reach in under half an hour", from anywhere, which the
-   accordion could not answer at all. */
-/* Gradient card added 2026-08-26, matching the rest of essentials
-   (.hero-band.eb-hero's own recipe, lifted exactly — same dot-texture radial
-   + 150deg cream-to-tan wash, same border, same 12px radius). REBUILT the
-   same day into eb-hero's own two-column grid (owner: "change to that
-   [average-costs]" · "title is to the left and icon is a gradient") — copy
-   left, icon right, exactly like every other eb-hero page, rather than the
-   centered single-column layout this page shipped with first. dt-hero stays
-   its own class (search + bands live inside .dt-copy, which eb-hero pages
-   don't carry) but the grid/background/border/radius are eb-hero's own.
-   2026-08-30: the dot layer was briefly dropped (2026-08-29's site-wide
-   removal, then this page's own catch-up fix) and restored the same day —
-   owner reversal: the dots were the intended texture all along, not a
-   defect; without them the gradient itself reads as flat. Back in lockstep
-   with web-travel-style.css's own .eb-hero/.bo-hero, which regained theirs
-   in the same pass. */
 .dt-hero { position: relative; max-width: 1120px; margin: 0 auto;
   padding: clamp(1.8rem, 4vw, 3.2rem) clamp(1.4rem, 3.4vw, 2.8rem);
   background:
@@ -54,55 +27,23 @@
   color: var(--text, #17150f); margin: 0 0 clamp(.7rem, 1.6vw, 1.05rem); text-wrap: balance; }
 .dt-hero-h em { font-style: normal; color: var(--rust, #C04E1A); }
 .dt-hero-sub { font-size: clamp(.95rem, 1.25vw, 1.1rem); line-height: 1.6; color: var(--muted, #6a6660); max-width: 56ch; margin: 0 0 var(--search-gap, 32px); }
-/* Box/icon/input/placeholder/focus/suggest rules come from the shared
-   .hero-search / .hero-search-icon component in web-travel-style.css
-   (2026-08-28 consolidation -- owner: "No exception change ALL to share").
-   Only this page's genuine variance stays local: this hero isn't centered
-   (it sits beside the icon column in a grid) and its field is narrower. */
 .dt-search.hero-search { max-width: 460px; margin: 0; }
 
 /* Journey-time bands — the page's actual question, asked once at the top. */
 .dt-bands { display: flex; flex-wrap: wrap; justify-content: flex-start; gap: 6px; margin: var(--search-gap, 32px) 0 0; max-width: 460px; }
 .dt-band { font: inherit; font-weight: 600; letter-spacing: .02em; cursor: pointer;
   display: inline-flex; align-items: center; border: 1px solid; }
-/* Vibrant family tokens (--fam-*) swapped for Enamel (--en-*) — Vibrant is
-   paused from use, Enamel is the live default (owner rule 2026-08-26). Flat
-   fill using the gradient's own top stop rather than the full gradient,
-   since these bind through a page-local class (.dt-band) rather than the
-   shared .badge/.pillbadge box Enamel's gradient+shadow was designed for. */
 /* 2026-08-27: was 5 [data-band] rules each duplicating a real cp-* wash/ink
    as literal hex. Each button now carries its own cp-* class directly
    (BANDS' own cp field, above), one generic rule pulls wash/ink from that
    class's --sp-wash/--sp-ink -- nothing left here to drift. */
 .dt-band[class*="cp-"] { background: var(--sp-wash); border-color: rgba(0,0,0,.1); color: var(--sp-ink); }
-/* Selected state used to darken each band's own border via a hand-picked
-   rgba() per band (5 separate rules) -- replaced by wiring .dt-band into
-   the shared .pill-badge system (class added in paintBands()), so the
-   universal .pill-badge.is-on color-mix background blend rule now carries
-   selection here (2026-09-01: was outline:1.5px solid currentColor --
-   moved to the same background blend as .selection-pill.is-on per Rule 12
-   in the pills doc: ring is Focus's alone, Selected is background blend).
-   2026-08-30: the cp-light-grey outline-offset:0 override retired -- it made
-   "Any length" the one band whose ring sat flush against the pill with no gap,
-   reading as a heavy dark border unlike its four siblings' identical shared
-   ring (owner screenshot: "same ones i gave before still wrong"). */
 
 .dt-summary { text-align: center; font-size: 13px; color: var(--muted, #6a6660); margin: 22px 0 18px; }
 .dt-summary b { color: var(--text, #3d3a32); font-weight: 650; }
 .dt-summary button { font: inherit; font-size: 13px; color: var(--rust, #C04E1A); background: none; border: 0;
   border-bottom: 1px dashed currentColor; padding: 0 0 1px; margin-left: 10px; cursor: pointer; }
 
-/* ══ REDESIGNED 2026-08-24 (owner: "search cool design website ideas, do
-   modern, surprise me — everything but the background and the banner") ═══
-   The 2026-08-23 pass turned the browse view into small white cards, but a
-   grid of cards is what half the site already does (Alt. Hotels, Best Of,
-   the guides index). Nothing here read as belonging to a *train* page.
-
-   So the browse list now reads like a station departure board — one row per
-   city, monospace time, split-flap entrance — and a selected city's trips
-   read like a platform timeline: a single rail with stops in order, closest
-   ride first, instead of a wall of identical cards. Same data, same click
-   still sets `city` and calls render() — only the shape changed. */
 .dt-board { max-width: 900px; margin: 0 auto; border: 1px solid var(--border2, #e6e2da); border-radius: 14px;
   overflow: hidden; background: var(--surface, #fff); box-shadow: 0 10px 34px rgba(30,20,5,.06); }
 .dt-board-head { display: grid; grid-template-columns: 1fr auto 20px; gap: 14px; align-items: center;

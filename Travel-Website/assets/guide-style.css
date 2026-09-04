@@ -415,18 +415,24 @@ a:hover { text-decoration: underline; }
   line-height: 1.25;
 }
 
-#ics-pill-row { margin-top: 36px; margin-bottom: 14px; }
+/* 4 columns so 7 action pills auto-place 4-over-3 instead of the old
+   content-sized flex row, which let 6 short pills crowd one line and left
+   "Currency" alone stretched full-width on the line under them. Equal grid
+   tracks make every pill the same size. */
+#ics-pill-row {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 8px;
+  margin-top: 36px;
+  margin-bottom: 14px;
+}
 #ics-pill-row > .overview-extra-link {
   border: 1px solid var(--c-pill-bd);
   background: var(--c-pill-bg);
   color: var(--c-pill-text);
   font-weight: 500;
   letter-spacing: 0.01em;
-}
-#ics-pill-row { gap: 8px !important; flex-wrap: wrap !important; }
-#ics-pill-row > .overview-extra-link { border-radius: 6px; }
-
-#ics-pill-row > .overview-extra-link {
+  border-radius: 6px;
   white-space: normal;
   line-height: 1.2;
   text-align: center;
@@ -440,43 +446,24 @@ a:hover { text-decoration: underline; }
   #ics-pill-row > .overview-extra-link { font-size: 12px; padding: 5px 6px; gap: 4px; }
 }
 
-@media (max-width: 600px) and (pointer: fine) {
+/* Mobile: same rounded chip as desktop, just 2 columns instead of 4 —
+   no separate square/uppercase/segmented treatment. */
+@media (max-width: 600px) {
+  /* !important: .overview-extras (in the touch-device block below) also
+     matches #ics-pill-row via its shared class and forces its own 3-column
+     grid with !important — an ID selector alone isn't enough to win against
+     that once it's in scope, so this has to out-rank it too. */
   #ics-pill-row {
     display: grid !important;
     grid-template-columns: repeat(2, 1fr) !important;
-    gap: 0 !important;
+    gap: 8px !important;
   }
   #ics-pill-row > .overview-extra-link {
     font-size: 12px;
-    padding: 6px 8px;
+    padding: 8px 8px;
     gap: 4px;
-    border-radius: 0 !important;
-    border-left-width: 1px !important;
+    min-height: 42px;
   }
-  #ics-pill-row > .overview-extra-link:nth-child(even) { border-left-width: 0 !important; }
-  #ics-pill-row > .overview-extra-link:nth-child(n+3)  { border-top-width: 0 !important; }
-  #ics-pill-row > #tve-cur-pill:nth-child(odd):last-child { grid-column: 1 / -1; }
-  #ics-pill-row > #tve-pocket-btn:nth-child(odd):last-child { grid-column: 1 / -1; }
-  #ics-pill-row > #tve-print-btn:nth-child(odd):last-child { grid-column: 1 / -1; }
-}
-@media (max-width: 600px) and (pointer: coarse) {
-  #ics-pill-row {
-    display: grid !important;
-    grid-template-columns: repeat(2, 1fr) !important;
-    gap: 0 !important;
-  }
-  #ics-pill-row > .overview-extra-link {
-    font-size: 12px;
-    padding: 6px 8px;
-    gap: 4px;
-    border-radius: 0 !important;
-    border-left-width: 1px !important;
-  }
-  #ics-pill-row > .overview-extra-link:nth-child(even) { border-left-width: 0 !important; }
-  #ics-pill-row > .overview-extra-link:nth-child(n+3)  { border-top-width: 0 !important; }
-  #ics-pill-row > #tve-cur-pill:nth-child(odd):last-child { grid-column: 1 / -1; }
-  #ics-pill-row > #tve-pocket-btn:nth-child(odd):last-child { grid-column: 1 / -1; }
-  #ics-pill-row > #tve-print-btn:nth-child(odd):last-child { grid-column: 1 / -1; }
 }
 
 #ams-advisory { display:flex; align-items:flex-start; gap:10px; padding:10px 14px; background:var(--c-alt-bg); border-top:1px solid var(--c-alt-border); border-bottom:1px solid var(--c-alt-border); }
@@ -1897,18 +1884,7 @@ div.train .train-time   { padding: 2px 0; }
   #ics-pill-row {
     display: grid !important;
     grid-template-columns: repeat(2, 1fr) !important;
-    gap: 0 !important;
-  }
-  #ics-pill-row > .overview-extra-link {
-    border: 1.5px solid var(--c-index-border) !important;
-    border-radius: 0 !important;
-    text-transform: uppercase !important;
-  }
-  #ics-pill-row > .overview-extra-link:nth-child(even) {
-    border-left: none !important;
-  }
-  #ics-pill-row > .overview-extra-link:nth-child(n+3) {
-    border-top: none !important;
+    gap: 8px !important;
   }
   #ics-pill-row > .overview-extra-link:active,
   #ics-pill-row > .overview-extra-link.tve-pressed {
@@ -3179,4 +3155,16 @@ a.neigh-name:visited { color: #3d3a32; }
 .wn-pill-addr .gm-ic-mono { width: 12px; height: 12px; flex-shrink: 0; }
 .wn-pill-go { margin-left: auto; flex-shrink: 0; font-size: 11px; font-weight: 600; color: var(--c-brand); white-space: nowrap; }
 .wn-footnote { font-size: 11.5px; color: var(--c-text-muted); margin-top: 2px; }
+/* A visited "Directions" link (Google Maps) must read exactly like an
+   unvisited one — literal hex, same as every other :visited fix on this
+   site, because browsers don't resolve var() in :visited. */
+.wn-pill:visited { text-decoration: none; }
+.wn-pill:visited .wn-pill-name { color: #3d3a32; }  /* literal hex — browsers don't resolve var() in :visited */
+.wn-pill:visited .wn-pill-addr { color: #555; }  /* literal hex — browsers don't resolve var() in :visited */
+.wn-pill:visited .wn-pill-go   { color: #8a6c1a; }  /* literal hex — browsers don't resolve var() in :visited */
+@media (prefers-color-scheme: dark) {
+  .wn-pill:visited .wn-pill-name { color: #e8e5e0; }
+  .wn-pill:visited .wn-pill-addr { color: #999; }
+  .wn-pill:visited .wn-pill-go   { color: #c8a060; }
+}
 

@@ -1896,44 +1896,15 @@ summary.res-head:focus-visible { outline: 2px solid var(--rust, #C04E1A); outlin
   line-height: 1.45;
   color: var(--muted, #6a6660);
 }
-/* #tt-go WEARS .fnd-go, BUT AN ID BEATS A CLASS — so the geometry has to be
-   restated at id strength. guides-index-style.css styles `#tt-go` for the
-   guides index's copy of this widget (38px tall, 6px corners, 13px type, a `›`
-   glued on by ::after), and no amount of load order lets `.fnd-go` win against
-   an id selector. Deleting the page-local block was therefore not enough: the
-   button came back square with the chevron still on it.
-
-   Every value below is `.fnd-go` / `.fnd-go, .fnd-reset`'s own, restated. THEY
-   MOVE TOGETHER — change the finder's pill and change this. The alternative is
-   renaming the button on this page so the shared rule cannot reach it, which
-   would make the two copies of this widget diff dirty for a cosmetic reason.
-
-   `content:none`, not `content:''` — the chevron is not part of this grammar;
-   Help Me Choose's Show-my-matches carries a magnifier and nothing after it. */
-#tt-go { height:auto; padding:0.8em 1.7em; border-radius:999px;
-         font-size:clamp(0.95rem, 1.2vw, 1.05rem); font-weight:700;
-         /* The colour half matters as much as the geometry, and it is the half
-            that looks fine and is not. The shared rule paints #C04E1A and a
-            1.5px rim as LITERALS; .fnd-go paints var(--rust) and 1px. Today
-            those render the same pixel, so nothing looks wrong — and the day
-            --rust moves, every button on the site follows it and this one
-            silently does not. Declared here so the token, not the literal, is
-            what this button obeys. */
-         background:var(--rust, #C04E1A); border:1px solid var(--rust, #C04E1A);
-         color:#fff; cursor:pointer; transition:background .15s, color .15s; }
-#tt-go::after { content:none; }
-#tt-go:hover:not(:disabled) { background:transparent; border-color:var(--rust, #C04E1A); color:var(--rust, #C04E1A); }
-/* The one state .fnd-go has no opinion about: Help Me Choose's button is never
-   disabled, this card's is until a home is given. A dead button must not light
-   up under a pointer that can do nothing with it. */
-#tt-go:disabled { background:var(--border2,#e6e2da); border-color:var(--border2,#e6e2da); color:var(--muted); cursor:default; }
-#tt-go:disabled:hover { background:var(--border2,#e6e2da); border-color:var(--border2,#e6e2da); color:var(--muted); }
 .tt-res-head { font-size:10px; font-weight:700; letter-spacing:.12em; text-transform:uppercase; color:var(--muted); margin:0 0 14px; }
 /* The old #tt-city / #tt-city-wrap phone widths went with the box they sized.
    The picker mounted in their place is inline-block, and its popover is capped
    at min(280px, 100vw - 32px) by .pp-pop — the width rule Compare's copy of the
    same control already proved on a 393px screen. */
 #tt-city-row { width:100%; }
+/* guides-index-style.css adds a chevron via #tt-go::after — null it here so the
+   landing-page copy of the widget does not inherit an arrow from the shared sheet. */
+#tt-go::after { content:none; }
 
 /* Plug strip — the socket photos that ship with the plug guide, at a size where
    you can actually tell a Type G from a Type F. */
@@ -5156,7 +5127,7 @@ function render() {
   /* THE FIVE READERS AGAIN READ REAL FIELDS (restored 2026-08-28). Each falls
      back to the constant the stub used to return the moment its own element is
      missing — an empty value reads as "Flexible"/"No preference", and a
-     missing tt-degree still defaults to 'max' — so nothing here can throw if
+     missing tt-degree still defaults to 'most' — so nothing here can throw if
      the markup and the JS ever drift out of sync again. */
   function ttMonth() { var el = document.getElementById('tt-month'); var v = el && el.value; return v === '' || v == null ? null : parseInt(v, 10); }
   function ttAct() { var el = document.getElementById('tt-act'); var v = el && el.value; return v || null; }

@@ -3023,7 +3023,8 @@
    Asia-Pacific's fuller tints; "All" pill's rest-state border dropped from
    rgba(grey,.4) to .15 to match its siblings' rgba(0,0,0,.1) weight. Page
    precached, no shared asset moved. CACHE to v1837. */
-var CACHE = 'travel-cache-v1837';
+/* 2026-09-03: ferry sprite dedup toolbar.js -> v1152. CACHE to v1838. */
+var CACHE = 'travel-cache-v1838';
 /* 2026-08-27: airlines.css's .card-tags align-items fix changed a shared
    asset without raising its own floor -- MIN_VERSIONS['airlines.css'] to
    6, CACHE to v1662. */
@@ -3066,7 +3067,7 @@ var ICS_OUTBOX = 'gmd-ics-outbox';
 /* 2026-08-30: weather.js: Punta Cana climate normals added (244 cities). MIN_VERSIONS["weather.js"] to 19, CACHE to v1748. */
 /* 2026-08-30: search-autocomplete.js — reverted ARIA combobox pattern (role=listbox/option caused side-by-side layout regression). MIN_VERSIONS['search-autocomplete.js'] to 11, CACHE to v1749. */
 /* 2026-09-02: toolbar.js — remove false-affordance right hairline from stop-hours row (commit 981cca5d5). MIN_VERSIONS['toolbar.js'] to 1142, CACHE to v1816. */
-var MIN_VERSIONS = { 'guide-style.css': 284,'toolbar.js': 1151, 'mobile.css': 94, 'web-travel-style.css': 253, 'guides-index-style.css': 51, 'read-about.css': 8, 'best-of-features.js': 5, 'best-of-cross-data.js': 24, 'weather.js': 23,'trains.css': 30, 'trains.js': 5, 'airlines.css': 9, 'airlines.js': 9, 'passport.js': 5, 'search-autocomplete.js': 12, 'flag-render.js': 3 };
+var MIN_VERSIONS = { 'guide-style.css': 284,'toolbar.js': 1152, 'mobile.css': 94, 'web-travel-style.css': 253, 'guides-index-style.css': 51, 'read-about.css': 8, 'best-of-features.js': 5, 'best-of-cross-data.js': 24, 'weather.js': 23,'trains.css': 30, 'trains.js': 5, 'airlines.css': 9, 'airlines.js': 9, 'passport.js': 5, 'search-autocomplete.js': 12, 'flag-render.js': 3 };
 
 function rewriteAssetUrl(urlStr) {
   var u;

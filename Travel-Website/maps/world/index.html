@@ -940,7 +940,24 @@ function fitOpts(animated) {
   if (!animated) base.animate = false;
   return base;
 }
-map.fitBounds(REGIONS.world, fitOpts(false));
+// FIXED (2026-09-04): reported live as the map opening zoomed deep into the
+// Sahara (~z11, the maxZoom cap) instead of a world view — every country
+// label reads as one flat color filling the screen, no borders anywhere, and
+// finding a pin to click means panning/zooming out blind first. Root cause:
+// #wrap sits in a flex column under the toolbar and gets its height from
+// flex:1 1 auto — on first paint that can still be 0 while the layout is
+// settling, so fitBounds() divides the world's lat/lng span by a ~0px-tall
+// container and picks the highest zoom that "fits," clamped to maxZoom.
+// Leaflet never re-fits itself on a later resize, so the bad view sticks
+// forever. invalidateSize() forces a fresh read of the container's real
+// size; if it's still degenerate, wait a frame and try again rather than
+// fitting to a size that isn't real yet (confirmed via getSize().y checks
+// against a live reload — retrying once was always enough).
+(function fitWorldOnce() {
+  map.invalidateSize();
+  if (map.getSize().y < 50) { requestAnimationFrame(fitWorldOnce); return; }
+  map.fitBounds(REGIONS.world, fitOpts(false));
+})();
 
 /* ── Country polygons from world-atlas TopoJSON (GeoJSON-only, no tiles) ── */
 getJSON('/maps/data/countries-50m.json')

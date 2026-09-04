@@ -3035,7 +3035,10 @@
    mechanism as every other cp-* pill site-wide); city-card day/twilight/
    night collapsed to two states, night moved from navy to warm dark
    beige/brown. Page precached, no shared asset moved. CACHE to v1840. */
-var CACHE = 'travel-cache-v1840';
+/* 2026-09-04: time-zones -- widened the day/night boundary to 18:00-07:59 =
+   night (was 22:00-06:59); the retired twilight band now folds into night
+   instead of day. Page precached, no shared asset moved. CACHE to v1841. */
+var CACHE = 'travel-cache-v1841';
 /* 2026-08-27: airlines.css's .card-tags align-items fix changed a shared
    asset without raising its own floor -- MIN_VERSIONS['airlines.css'] to
    6, CACHE to v1662. */

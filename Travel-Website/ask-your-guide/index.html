@@ -99,22 +99,20 @@
 .ag-of { display: block; font-family: var(--font); font-size: 12px; font-weight: 400;
   color: var(--muted); letter-spacing: .05em; text-transform: uppercase; margin-top: 6px; }
 
-/* Layout only — the pills themselves are the real shared .selection-pill-sm
-   component (assets/web-travel-style.css) with a .cp-* family-color modifier,
-   not a page-local box (owner rule 2026-09-03: the earlier hand-rolled
-   .ag-fact box, even after being repointed onto the real --sp-ink/--sp-wash
-   tokens, was still a page-local shape duplicating the shared pill instead of
-   using it). */
-.ag-facts { display: flex; flex-wrap: wrap; gap: 9px; margin-top: 18px; }
-/* The shared .selection-pill-sm is display:inline-flex, which — unlike normal
-   inline flow — drops the whitespace between two child nodes entirely (a text
-   node plus a <b>) instead of collapsing it to one space, and doesn't force
-   its own content onto one line the way .badge/.pillbadge do. Neither matters
-   for the component's usual single-text-run content; both matter for a
-   "label + bold value" chip, so this page supplies the spacing/nowrap the
-   shared rule has no reason to carry itself. Colour, fill, border and shape
-   are still entirely the shared .cp-* tokens — nothing here overrides them. */
-.ag-facts .selection-pill-sm { gap: 4px; white-space: nowrap; }
+/* The real pattern for a single-value indicator, verbatim from
+   essentials/safety/index.html's own level badges
+   (<span class="badge sb-green badge-l1">Level 1</span>): a plain-text
+   label sits OUTSIDE the pill, and the pill itself is the real shared
+   .badge + .cp-* component holding nothing but the value — never a
+   "Label Value" sentence squeezed inside one chip (owner rule 2026-09-03,
+   correcting a second time: the .selection-pill-sm attempt reused the right
+   TOKENS but the wrong COMPONENT — that family is for clickable filter
+   chips, is never auto-uppercased, and was never the shape this kind of
+   fact chip uses anywhere else on the site). .badge already sets
+   text-transform:uppercase, weight 700 and white-space:nowrap on its own —
+   nothing here needs to re-supply any of that. */
+.ag-facts { display: flex; flex-wrap: wrap; gap: 10px 16px; margin-top: 18px; }
+.ag-fact { display: inline-flex; align-items: center; gap: 7px; font-size: 13px; color: var(--muted); }
 
 /* THE VERDICT, before any number — now a tinted callout instead of a plain
    border-left line, the loudest single element on the page short of the trio. */
@@ -322,8 +320,9 @@
            2026-08-23: "keep the data that was repetitive but still important here
            like safety etc dont get rid of any date"). It is also the corrective
            on a country-level pack: Paris reads Moderate for safety while France's
-           national figures say nothing of the sort. Each chip is the real shared
-           .selection-pill-sm + .cp-* component, not a page-local box. -->
+           national figures say nothing of the sort. Each value is the real shared
+           .badge + .cp-* component, plain-text label outside it — same pattern as
+           essentials/safety's own level badges. -->
       <div class="ag-facts" id="ag-facts"></div>
       <!-- Built from the ranks, in the page, at render time — no editorial copy
            is stored per place and nothing is researched. -->
@@ -496,19 +495,21 @@ var AGMO=["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec
       sunG.hidden=false;
     } else { sunG.hidden=true; }
 
-    /* City-level facts, repeated here on purpose (see the markup note). Each
-       chip is the real shared .selection-pill-sm component (Family 1 / Calm
-       Pastel .cp-* tones from assets/web-travel-style.css) — not a page-local
-       box. Safety keeps its level colour; Trip cost and Currency get their own
-       fixed tones, neither of which SAFE_CLASS ever hands out, so the row can
-       never repeat a colour (Hundred-and-second non-negotiable). */
+    /* City-level facts, repeated here on purpose (see the markup note). A
+       plain-text label plus the real shared .badge + .cp-* component holding
+       only the value — same pattern as essentials/safety's level badges
+       (<span class="badge sb-green badge-l1">Level 1</span>). .badge already
+       uppercases, bolds and no-wraps itself; nothing here re-supplies any of
+       that. Safety keeps its level colour; Trip cost and Currency get their
+       own fixed tones, neither of which SAFE_CLASS ever hands out, so the row
+       can never repeat a colour (Hundred-and-second non-negotiable). */
     var SAFE_CLASS={'Very Safe':'cp-dark-teal','Safe':'cp-dark-teal','Moderate':'cp-gold',
                     'Caution':'cp-terracotta','High Risk':'cp-terracotta'};
     var cf=row[4]||[], fh='';
-    if(cf[0]) fh+='<span class="selection-pill-sm '+(SAFE_CLASS[cf[0]]||'cp-light-grey')+'">Safety <b>'+esc(cf[0])+'</b>'+
+    if(cf[0]) fh+='<span class="ag-fact">Safety <span class="badge '+(SAFE_CLASS[cf[0]]||'cp-light-grey')+'">'+esc(cf[0])+'</span>'+
                   (cf[1]?' '+esc(cf[1]):'')+'</span>';
-    if(cf[2]) fh+='<span class="selection-pill-sm cp-blue">Trip cost <b>'+esc(cf[2])+'</b></span>';
-    if(cf[3]) fh+='<span class="selection-pill-sm cp-purple">Currency <b>'+esc(cf[3])+'</b></span>';
+    if(cf[2]) fh+='<span class="ag-fact">Trip cost <span class="badge cp-blue">'+esc(cf[2])+'</span></span>';
+    if(cf[3]) fh+='<span class="ag-fact">Currency <span class="badge cp-purple">'+esc(cf[3])+'</span></span>';
     document.getElementById('ag-facts').innerHTML=fh;
 
     /* City cost: the index, its band, and the three sub-indices. The SCOPE is

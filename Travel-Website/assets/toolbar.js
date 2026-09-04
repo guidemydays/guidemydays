@@ -845,6 +845,11 @@ window.TVE.home = (function () {
     'packing': ['0 0 24 24', '<rect x="4.2" y="2.8" width="15.6" height="18.4" rx="2" fill="url(#gm-paper)" stroke="var(--c-rim-cool)" stroke-width="0.6"/><rect x="4.2" y="2.8" width="15.6" height="18.4" rx="2" fill="none" stroke="var(--c-navy-rim)" stroke-width="1.1"/><rect x="4.2" y="2.8" width="15.6" height="18.4" rx="2" fill="url(#gm-gloss)"/><rect x="8.6" y="1.2" width="6.8" height="3.4" rx="1.2" fill="url(#gm-navy)" stroke="var(--c-navy-rim)" stroke-width="0.5"/><g stroke="var(--c-green-rim)" stroke-width="1.7" fill="none" stroke-linecap="round" stroke-linejoin="round"><path d="M6.8 9.2l1.5 1.5 2.6-2.9"/><path d="M6.8 14l1.5 1.5 2.6-2.9"/><path d="M6.8 18.6l1.5 1.5 2.6-2.9"/></g><g fill="url(#gm-sky)" stroke="var(--c-sky-rim)" stroke-width="0.4"><rect x="12.6" y="8.6" width="4.8" height="1.5" rx="0.75"/><rect x="12.6" y="13.4" width="4.8" height="1.5" rx="0.75"/><rect x="12.6" y="18" width="4.8" height="1.5" rx="0.75"/></g>'],
     'palm': ['0 0 24 24', '<path d="M11.4 9.6h1.8l.8 12.4h-3.4z" fill="url(#gm-cocoa)" stroke="var(--c-cocoa-rim)" stroke-width="0.5"/><path d="M11.4 9.6h1.8l.8 12.4h-3.4z" fill="url(#gm-gloss)"/><path d="M12.4 9.4c-2.8-2.6-5.8-2.8-8-.8 2.6-.7 5 0 6.9 1.7zM11.6 9.4c2.8-2.6 5.8-2.8 8-.8-2.6-.7-5 0-6.9 1.7zM12 8.6c-.9-3.2-2.8-5-5.2-5 2 1.3 3.3 3 3.9 5.4z" fill="url(#gm-green)" stroke="var(--c-green-rim)" stroke-width="0.5"/><path d="M12 8.6c.9-3.2 2.8-5 5.2-5-2 1.3-3.3 3-3.9 5.4z" fill="url(#gm-leaf)" stroke="var(--c-leaf-rim)" stroke-width="0.5"/><circle cx="12" cy="8.8" r="1.5" fill="url(#gm-sun)" stroke="var(--c-sun-rim)" stroke-width="0.5"/>'],
     'printer': ['0 0 24 24', '<rect x="6.4" y="2.4" width="11.2" height="5" rx="0.6" fill="url(#gm-cream)" stroke="var(--c-rim-warm)" stroke-width="0.6"/><rect x="2.4" y="7.4" width="19.2" height="9.2" rx="2" fill="url(#gm-navy)" stroke="var(--c-navy-rim)" stroke-width="0.5"/><rect x="4.4" y="9.6" width="3.4" height="1.8" rx="0.9" fill="url(#gm-sky)" stroke="var(--c-sky-rim)" stroke-width="0.5"/><circle cx="18.6" cy="10.4" r="1.2" fill="url(#gm-green)" stroke="var(--c-green-rim)" stroke-width="0.5"/><rect x="6.4" y="14.4" width="11.2" height="7.2" rx="0.6" fill="url(#gm-paper)" stroke="var(--c-rim-cool)" stroke-width="0.6"/><g stroke="var(--c-stone)" stroke-width="1" stroke-linecap="round" opacity="0.6"><path d="M8.4 16.8h7.2M8.4 19h4.6"/></g>'],
+    /* Site-Icons.html #571 — phone frame. Pocket version toggles a condensed
+       mobile-style guide layout; it needs an icon distinct from the actual
+       Print button (which reuses 'printer' just above) and distinct from the
+       book-shaped icons already claimed elsewhere ('book', 'guidebook-globe'). */
+    'phone-frame': ['0 0 24 24', '<rect x="6" y="1.4" width="12" height="21.2" rx="2.4" fill="url(#gm-navy)" stroke="var(--c-navy-rim)" stroke-width="0.5"/><rect x="7.4" y="4.4" width="9.2" height="14.6" rx="0.8" fill="url(#gm-cream)" stroke="var(--c-rim-cool)" stroke-width="0.6" stroke-linejoin="round" /><g stroke="var(--c-stone)" stroke-width="1" stroke-linecap="round" opacity="0.6"><path d="M9.2 7.6h5.6M9.2 10.2h5.6M9.2 12.8h3.6"/></g><circle cx="12" cy="20.6" r="1" fill="url(#gm-sky)" stroke="var(--c-sky-rim)" stroke-width="0.5"/><rect x="10.2" y="2.6" width="3.6" height="0.9" rx="0.45" fill="url(#gm-sky)" stroke="var(--c-sky-rim)" stroke-width="0.5"/>'],
     'pyramid': ['0 0 24 24', '<circle cx="18.4" cy="5.6" r="2.8" fill="url(#gm-sun)" stroke="var(--c-sun-rim)" stroke-width="0.5"/><circle cx="18.4" cy="5.6" r="2.8" fill="url(#gm-gloss)"/><path d="M8.4 6.6 17.6 19.6H-0.8z" fill="url(#gm-tan)" stroke="var(--c-tan-rim)" stroke-width="0.5"/><path d="M8.4 6.6V19.6H-0.8z" fill="url(#gm-amber)" stroke="var(--c-amber-rim)" stroke-width="0.5" opacity="0.35"/><path d="M17.2 11.4 23.6 19.6h-12.8z" fill="url(#gm-tan)" stroke="var(--c-tan-rim)" stroke-width="0.5"/><path d="M17.2 11.4v8.2h-6.4z" fill="url(#gm-amber)" stroke="var(--c-amber-rim)" stroke-width="0.5" opacity="0.35"/><rect x="0.6" y="19.4" width="22.8" height="2" rx="1" fill="url(#gm-cream)" stroke="var(--c-rim-warm)" stroke-width="0.6" stroke="var(--c-rim-warm)" stroke-width="0.8"/>'],
     'rental-cars': ['0 0 24 24', '<path d="M5.8 10.4 7.5 6.6c.3-.8 1-1.3 1.9-1.3h5.2c.9 0 1.6.5 1.9 1.3l1.7 3.8z" fill="url(#gm-sky)" stroke="var(--c-sky-rim)" stroke-width="0.5"/><path d="M5.8 10.4 7.5 6.6c.3-.8 1-1.3 1.9-1.3h5.2c.9 0 1.6.5 1.9 1.3l1.7 3.8z" fill="url(#gm-gloss)"/> <rect x="2.4" y="9.9" width="19.2" height="6.5" rx="2.4" fill="url(#gm-blue)" stroke="var(--c-blue-rim)" stroke-width="0.5"/> <rect x="2.7" y="11.4" width="3.1" height="1.9" rx="0.95" fill="url(#gm-sun)" stroke="var(--c-sun-rim)" stroke-width="0.5"/> <rect x="18.2" y="11.4" width="3.1" height="1.9" rx="0.95" fill="url(#gm-red)" stroke="var(--c-red-rim)" stroke-width="0.5"/> <circle cx="6.8" cy="17.3" r="2.6" fill="url(#gm-tire)" stroke="var(--c-tire-rim)" stroke-width="0.5"/><circle cx="6.8" cy="17.3" r="1.1" fill="url(#gm-stone)" stroke="var(--c-stone-rim)" stroke-width="0.5"/> <circle cx="17.2" cy="17.3" r="2.6" fill="url(#gm-tire)" stroke="var(--c-tire-rim)" stroke-width="0.5"/><circle cx="17.2" cy="17.3" r="1.1" fill="url(#gm-stone)" stroke="var(--c-stone-rim)" stroke-width="0.5"/>'],
     'scams': ['0 0 24 24', '<path d="M8.4 1.6h7.2l5.6 5.6v7.2l-5.6 5.6H8.4L2.8 14.4V7.2z" fill="url(#gm-red)" stroke="var(--c-red-rim)" stroke-width="0.5"/> <g fill="url(#gm-paper)" stroke="var(--c-rim-warm)" stroke-width="0.6" stroke-linejoin="round"> <rect x="8" y="6.4" width="1.8" height="5.6" rx="0.9"/> <rect x="10.2" y="5.4" width="1.8" height="6.6" rx="0.9"/> <rect x="12.4" y="5.6" width="1.8" height="6.4" rx="0.9"/> <rect x="14.6" y="6.8" width="1.8" height="5.2" rx="0.9"/> <path d="M8 10.4h8.4v2.6a4.2 4.2 0 0 1-8.4 0z"/> <path d="M8.2 11.6 6.2 9.6 5 10.8l3.2 3.2z"/> </g>'],
@@ -3314,8 +3319,11 @@ window.TVE.home = (function () {
          mobile overrides) — CSS attribute-selector approach loses specificity on
          mobile and leaves the pill right-aligned. Desktop unaffected. */
       function _flexPill(el) {
-        el.style.setProperty('flex', '1 1 0', 'important');
-        el.style.setProperty('min-width', '0', 'important');
+        /* flex-basis:auto (not 0) so each pill sizes to its own label instead
+           of an equal fraction of the row — the equal-share forced pills like
+           "Export to Calendar" to wrap across 2-3 lines while short ones like
+           "Print" sat mostly empty. */
+        el.style.setProperty('flex', '1 1 auto', 'important');
         el.style.setProperty('align-items', 'center', 'important');
         el.style.setProperty('justify-content', 'center', 'important');
         el.style.setProperty('text-align', 'center', 'important');
@@ -4718,8 +4726,7 @@ window.TVE.home = (function () {
     var icsCalPill = document.getElementById('ics-cal-pill');
     if (icsCalPill) {
       var pillRow = icsCalPill.parentNode;
-      btn.style.setProperty('flex', '1 1 0', 'important');
-      btn.style.setProperty('min-width', '0', 'important');
+      btn.style.setProperty('flex', '1 1 auto', 'important');
       btn.style.setProperty('align-items', 'center', 'important');
       btn.style.setProperty('justify-content', 'center', 'important');
       btn.style.setProperty('text-align', 'center', 'important');
@@ -4800,8 +4807,7 @@ window.TVE.home = (function () {
     var icsCalPill = document.getElementById('ics-cal-pill');
     if (icsCalPill) {
       var pillRow = icsCalPill.parentNode;
-      btn.style.setProperty('flex', '1 1 0', 'important');
-      btn.style.setProperty('min-width', '0', 'important');
+      btn.style.setProperty('flex', '1 1 auto', 'important');
       btn.style.setProperty('align-items', 'center', 'important');
       btn.style.setProperty('justify-content', 'center', 'important');
       btn.style.setProperty('text-align', 'center', 'important');
@@ -4845,7 +4851,7 @@ window.TVE.home = (function () {
     if (!isRealGuide) return;
 
     var ON_HTML  = iconSVG(null, 15, 'check') + ' Full guide';
-    var OFF_HTML = iconSVG(null, 15, 'printer') + ' Pocket version';
+    var OFF_HTML = iconSVG(null, 15, 'phone-frame') + ' Pocket version';
 
     var btn = document.createElement('a');
     btn.href = 'javascript:void(0)';
@@ -4865,8 +4871,7 @@ window.TVE.home = (function () {
     var icsCalPill = document.getElementById('ics-cal-pill');
     if (icsCalPill) {
       var pillRow = icsCalPill.parentNode;
-      btn.style.setProperty('flex', '1 1 0', 'important');
-      btn.style.setProperty('min-width', '0', 'important');
+      btn.style.setProperty('flex', '1 1 auto', 'important');
       btn.style.setProperty('align-items', 'center', 'important');
       btn.style.setProperty('justify-content', 'center', 'important');
       btn.style.setProperty('text-align', 'center', 'important');
@@ -4924,8 +4929,7 @@ window.TVE.home = (function () {
     var icsCalPill = document.getElementById('ics-cal-pill');
     if (icsCalPill) {
       var pillRow = icsCalPill.parentNode;
-      btn.style.setProperty('flex', '1 1 0', 'important');
-      btn.style.setProperty('min-width', '0', 'important');
+      btn.style.setProperty('flex', '1 1 auto', 'important');
       btn.style.setProperty('align-items', 'center', 'important');
       btn.style.setProperty('justify-content', 'center', 'important');
       btn.style.setProperty('text-align', 'center', 'important');
@@ -8565,8 +8569,7 @@ window.TVE.home = (function () {
       pill.innerHTML = iconSVG(null, 15, 'exchange') + ' Currency';
       pill.setAttribute('aria-expanded', 'false');
       pill.setAttribute('aria-controls', 'tve-cur-panel');
-      pill.style.setProperty('flex', '1 1 0', 'important');
-      pill.style.setProperty('min-width', '0', 'important');
+      pill.style.setProperty('flex', '1 1 auto', 'important');
       pill.style.setProperty('align-items', 'center', 'important');
       pill.style.setProperty('justify-content', 'center', 'important');
       pill.style.setProperty('text-align', 'center', 'important');

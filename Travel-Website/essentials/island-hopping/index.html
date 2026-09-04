@@ -6,6 +6,17 @@
 <link rel="stylesheet" href="/assets/web-travel-style.css">
 <title>Island Hopping Routes | Guide My Days</title>
 <style>
+/* ── Region jump-nav — same dot-chip pattern as cruise-ports · layover-city-guide ── */
+.jchip {
+  display: inline-flex; align-items: center; gap: 6px;
+  font-size: 12px; font-weight: 600; line-height: 1.3;
+  background: var(--warm, #fdf8f0); border: 1px solid var(--border2); border-radius: 20px;
+  padding: 5px 12px; color: var(--text); text-decoration: none;
+  transition: background .15s, border-color .15s, color .15s;
+}
+.jchip:visited { color: #3d3a32; }
+.jchip .gm-icon { width: 14px; height: 14px; flex: none; }
+
 /* ── How to plan — four short principles, plain cards, no catalogue icon needed ── */
 .ih-howto { margin: 0 0 30px; }
 .ih-howto h2 {
@@ -25,12 +36,14 @@
 
 /* ── Region sections + circuit cards — same visual system as cruise-ports' port-card ── */
 .region-section { margin: 8px 0 28px; scroll-margin-top: 90px; }
+.region-section.all-hidden { display: none; }
 .circuit-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 14px; }
 .circuit-card {
   background: var(--surface, #fff); border: 1px solid var(--border2, #e6e2da);
   border-radius: 10px; padding: 16px 18px;
   box-shadow: 0 1px 6px rgba(92,61,17,.05);
 }
+.circuit-card.hidden { display: none; }
 .circuit-top { display: flex; align-items: flex-start; justify-content: space-between; gap: 10px; margin-bottom: 8px; }
 .circuit-name { font-size: 15px; font-weight: 800; color: var(--text, #3d3a32); line-height: 1.3; }
 .circuit-name .circuit-sub { display: block; font-size: 11.5px; font-weight: 600; color: var(--muted, #6a6660); margin-top: 1px; }
@@ -43,6 +56,8 @@
 }
 .circuit-fact.watch .circuit-fact-label { color: #8a4a10; }
 
+/* ── No-results state lives in a normal doc-flow slot below the grid ── */
+#empty-state { display: none; }
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme="light"]) {
     /* #8a4a10 at 10px on --card (#2a2825) = 2.15:1; switch to --text for legible uppercase labels. */
@@ -104,6 +119,16 @@
   </div>
 
 <div class="wrap">
+
+  <div class="search-wrap">
+    <input type="search" id="ih-search" class="search-input" placeholder="Archipelago, region, or country" aria-label="Search island-hopping routes" autocomplete="off" spellcheck="false" style="width:var(--search-w, 440px);max-width:100%;">
+  </div>
+
+  <div class="jump-strip">
+    <a class="jchip hov-rust" href="#europe"><svg class="gm-icon" data-icon="dot-blue" data-role="dot" viewBox="0 0 24 24" aria-hidden="true"><use href="#gm-i-dot-blue"/></svg>Europe</a>
+    <a class="jchip hov-rust" href="#southeast-asia"><svg class="gm-icon" data-icon="dot-green" data-role="dot" viewBox="0 0 24 24" aria-hidden="true"><use href="#gm-i-dot-green"/></svg>Southeast Asia</a>
+    <a class="jchip hov-rust" href="#atlantic"><svg class="gm-icon" data-icon="dot-purple" data-role="dot" viewBox="0 0 24 24" aria-hidden="true"><use href="#gm-i-dot-purple"/></svg>Atlantic</a>
+  </div>
 
   <div class="ih-howto">
     <h2>How to plan an island-hopping circuit</h2>
@@ -226,7 +251,56 @@
     </div>
   </div>
 
+  <div class="empty-state" id="empty-state">
+    <span class="empty-state-icon"><svg viewBox="0 0 24 24" width="28" height="28" fill="currentColor" aria-hidden="true"><path d="M15.5 14h-.79l-.28-.27A6.471 6.471 0 0 0 16 9.5 6.5 6.5 0 1 0 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/></svg></span>
+    <div class="empty-state-text">No circuit matches that search — try a country name or an archipelago.</div>
+  </div>
+
 </div><!-- /wrap -->
 
+<script src="/assets/search-autocomplete.js?v=8"></script>
+<script>
+(function () {
+  var input = document.getElementById('ih-search');
+  var empty = document.getElementById('empty-state');
+  var cards = Array.prototype.slice.call(document.querySelectorAll('.circuit-card'));
+  var sections = Array.prototype.slice.call(document.querySelectorAll('.region-section'));
+
+  function filter() {
+    var q = input.value.trim().toLowerCase();
+    var visible = 0;
+    cards.forEach(function (card) {
+      var hay = card.id + ' ' + card.textContent.toLowerCase();
+      var show = !q || hay.toLowerCase().indexOf(q) !== -1;
+      card.classList.toggle('hidden', !show);
+      if (show) visible++;
+    });
+    sections.forEach(function (sec) {
+      var vis = sec.querySelectorAll('.circuit-card:not(.hidden)').length;
+      sec.classList.toggle('all-hidden', vis === 0);
+    });
+    empty.style.display = visible === 0 ? 'block' : 'none';
+  }
+
+  input.addEventListener('input', filter);
+
+  if (window.TVESearch) {
+    var items = cards.map(function (card) {
+      var name = card.querySelector('.circuit-name').childNodes[0].textContent.trim();
+      var sub = card.querySelector('.circuit-sub').textContent.trim();
+      return { name: name, sub: sub, id: card.id };
+    });
+    TVESearch.attach(input, {
+      items: items,
+      onPick: function (it) {
+        input.value = it.name;
+        filter();
+        var card = document.getElementById(it.id);
+        if (card) card.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      }
+    });
+  }
+}());
+</script>
 </body>
 </html>

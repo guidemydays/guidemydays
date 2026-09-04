@@ -3007,7 +3007,8 @@
 /* 2026-09-03: web-travel-style.css: fixed .selection-pill-sm font-size 16px -> 12px (doc-documented small pill size) toolbar.js -> v1150. CACHE to v1831. */
 /* 2026-09-03: web-travel-style.css -- .selection-pill-sm font-size 16px -> 12px fix (commit 0192583a8) never raised its own MIN_VERSIONS floor; the previous entry bumped toolbar.js instead (--bump-sw only ever targets that key). web-travel-style.css -> v252. CACHE to v1832. */
 /* 2026-09-04: guides-index-style.css -- .cmp-guide-link hover: retired literal terracotta hex (light + dark) to the shared neutral grey wash. guides-index-style.css -> v51. CACHE to v1833. */
-var CACHE = 'travel-cache-v1833';
+/* 2026-09-04: web-travel-style.css -- .selection-pill font-size 16px -> 14px fix (commit 5a5e21d5, same bug class as the -sm variant fixed a few commits back). web-travel-style.css -> v253. CACHE to v1834. */
+var CACHE = 'travel-cache-v1834';
 /* 2026-08-27: airlines.css's .card-tags align-items fix changed a shared
    asset without raising its own floor -- MIN_VERSIONS['airlines.css'] to
    6, CACHE to v1662. */
@@ -3050,7 +3051,7 @@ var ICS_OUTBOX = 'gmd-ics-outbox';
 /* 2026-08-30: weather.js: Punta Cana climate normals added (244 cities). MIN_VERSIONS["weather.js"] to 19, CACHE to v1748. */
 /* 2026-08-30: search-autocomplete.js — reverted ARIA combobox pattern (role=listbox/option caused side-by-side layout regression). MIN_VERSIONS['search-autocomplete.js'] to 11, CACHE to v1749. */
 /* 2026-09-02: toolbar.js — remove false-affordance right hairline from stop-hours row (commit 981cca5d5). MIN_VERSIONS['toolbar.js'] to 1142, CACHE to v1816. */
-var MIN_VERSIONS = { 'guide-style.css': 284,'toolbar.js': 1150, 'mobile.css': 94, 'web-travel-style.css': 252, 'guides-index-style.css': 51, 'read-about.css': 8, 'best-of-features.js': 5, 'best-of-cross-data.js': 24, 'weather.js': 23,'trains.css': 30, 'trains.js': 5, 'airlines.css': 9, 'airlines.js': 9, 'passport.js': 5, 'search-autocomplete.js': 12, 'flag-render.js': 3 };
+var MIN_VERSIONS = { 'guide-style.css': 284,'toolbar.js': 1150, 'mobile.css': 94, 'web-travel-style.css': 253, 'guides-index-style.css': 51, 'read-about.css': 8, 'best-of-features.js': 5, 'best-of-cross-data.js': 24, 'weather.js': 23,'trains.css': 30, 'trains.js': 5, 'airlines.css': 9, 'airlines.js': 9, 'passport.js': 5, 'search-autocomplete.js': 12, 'flag-render.js': 3 };
 
 function rewriteAssetUrl(urlStr) {
   var u;

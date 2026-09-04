@@ -220,14 +220,17 @@ input.search:focus { border-color: var(--c-search-focus-border); box-shadow: non
 }
 .pill:hover { font-family: inherit; background: var(--nt-grey-wash); border-color: rgba(var(--nt-grey-rgb),.75); color: var(--nt-grey-ink); }
 .pill.active { font-family: inherit; background: var(--nt-grey-wash); border-color: rgba(var(--nt-grey-rgb),.75); color: var(--nt-grey-ink); font-weight: 600; }
-/* "All" carries no region tint of its own, so unlike its five siblings it has no
-   color to fall back on when deselected — the desktop `.pills .pill { background:
-   var(--surface) }` rule below turned it plain white at rest, same as the card
-   background behind it, reading as a blank gap in the row instead of a pill.
-   ID-scoped so it outranks that rule (and the .active one) on background alone:
-   "All" stays the grey wash in every state; .active/:hover above still carry the
-   bold weight and border that mark it selected. */
-#region-pills [data-region="all"] { background: var(--nt-grey-wash); border-color: rgba(var(--nt-grey-rgb),.15); }
+/* "All" now carries a real cp-* class too -- cp-light-grey, the same shared
+   neutral family essentials/scenic-trains and essentials/self-drive-routes
+   already use for their own "All" pill (selection-pill cp-light-grey). It was
+   the one pill on this row with no family of its own, so unlike its five
+   siblings it had no color to fall back on when deselected: the desktop
+   `.pills .pill { background: var(--surface) }` rule turned it plain white at
+   rest, reading as a blank gap in the row instead of a pill. Giving it a real
+   family fixes that the same way every other pill here is already fixed --
+   one generic rule below reads any cp-* class's own --sp-wash/--sp-ink,
+   unconditionally, active or not -- instead of a page-local override that
+   only patched "All" specifically. */
 /* Region pills take a per-region Calm Pastel tint. Originally the same mapping
    essentials/tipping's #region-pills uses (americas blue, caribbean teal,
    europe terracotta, asiapac purple, other gold) -- but terracotta (#f7f3ea)
@@ -237,10 +240,9 @@ input.search:focus { border-color: var(--c-search-focus-border); box-shadow: non
    europe and other now use two different EXISTING families instead -- Muted
    Brick (cp-bright-red) and Peachy Blush (cp-pink) -- picked directly off the
    full palette, not invented or blended; essentials/tipping's own mapping is
-   untouched. "All" and the sort pill (no region of their own) stay on the
-   neutral #f0ede8/#6a6660 pairing above. Hover/active darken via filter,
-   matching the shared .selection-pill.cp-* convention, so no fill color changes
-   are ever needed beyond the rest-state tint already set. */
+   untouched. Hover/active darken via filter, matching the shared
+   .selection-pill.cp-* convention, so no fill color changes are ever needed
+   beyond the rest-state tint already set. */
 /* 2026-08-27: was 5 separate [data-region] rules each duplicating a real
    cp-* wash/ink pair as literal hex -- this comment already said "matching
    the shared .selection-pill.cp-* convention" without actually using it, so
@@ -249,8 +251,8 @@ input.search:focus { border-color: var(--c-search-focus-border); box-shadow: non
    that class's own --sp-wash/--sp-ink custom properties, so there is
    nothing left here to fall out of sync with web-travel-style.css. */
 .pill[class*="cp-"] { background: var(--sp-wash); border-color: rgba(0,0,0,.1); color: var(--sp-ink); }
-.pill[data-region]:not([data-region="all"]):hover { filter: brightness(.90); }
-.pill[data-region]:not([data-region="all"]).active { filter: brightness(.88); font-weight: 600; }
+.pill[data-region]:hover { filter: brightness(.90); }
+.pill[data-region].active { filter: brightness(.88); font-weight: 600; }
 /* THERE IS NO DISABLED PILL ON THIS PAGE. The distance sort cannot work before a
    city is named, so before then it is not drawn at all — the page says what a
    search does in words instead. A greyed control that answers nothing reads as a
@@ -298,20 +300,21 @@ a.pill:visited { color: var(--muted, #6a6660); } /* note: browsers ignore CSS va
      rim color, laid over this page's own responsive shape — not a fresh hand-rolled
      copy of the whole box (Cleanliness rule 954). */
   .pills .pill { border: 1px solid var(--border2, #e6e2da); }
-  /* Scoped off actual region pills (americas/caribbean/europe/asiapac/other) --
-     unscoped, this neutral grey tied with `.pill[data-region="x"]` on
-     specificity and a real click leaves the button :focus'd, which pulls in
+  /* Scoped off every real region pill (americas/caribbean/europe/asiapac/
+     other/all) -- unscoped, this neutral grey tied with `.pill[data-region="x"]`
+     on specificity and a real click leaves the button :focus'd, which pulls in
      the higher-specificity `.active:focus` variant below and repaints a
-     selected region pill grey/white instead of its own colour. "All" (whose
-     own data-region value is literally "all") and the sort pill (no
-     data-region at all) still take this neutral treatment via the two
-     :not() clauses. */
-  .pills .pill:not([data-region="americas"]):not([data-region="caribbean"]):not([data-region="europe"]):not([data-region="asiapac"]):not([data-region="other"]):hover {
+     selected region pill grey/white instead of its own colour. Only the sort
+     pill (no data-region at all, lives under the search) still takes this
+     neutral treatment. "All" now carries cp-light-grey, a real family same as
+     its five siblings, so it's excluded here too and picked up by the cp-*
+     rule below instead. */
+  .pills .pill:not([data-region="americas"]):not([data-region="caribbean"]):not([data-region="europe"]):not([data-region="asiapac"]):not([data-region="other"]):not([data-region="all"]):hover {
     background: var(--nt-grey-wash); border-color: rgba(var(--nt-grey-rgb),.75); color: var(--nt-grey-ink);
   }
-  .pills .pill:not([data-region="americas"]):not([data-region="caribbean"]):not([data-region="europe"]):not([data-region="asiapac"]):not([data-region="other"]).active,
-  .pills .pill:not([data-region="americas"]):not([data-region="caribbean"]):not([data-region="europe"]):not([data-region="asiapac"]):not([data-region="other"]).active:hover,
-  .pills .pill:not([data-region="americas"]):not([data-region="caribbean"]):not([data-region="europe"]):not([data-region="asiapac"]):not([data-region="other"]).active:focus {
+  .pills .pill:not([data-region="americas"]):not([data-region="caribbean"]):not([data-region="europe"]):not([data-region="asiapac"]):not([data-region="other"]):not([data-region="all"]).active,
+  .pills .pill:not([data-region="americas"]):not([data-region="caribbean"]):not([data-region="europe"]):not([data-region="asiapac"]):not([data-region="other"]):not([data-region="all"]).active:hover,
+  .pills .pill:not([data-region="americas"]):not([data-region="caribbean"]):not([data-region="europe"]):not([data-region="asiapac"]):not([data-region="other"]):not([data-region="all"]).active:focus {
     background: var(--nt-grey-wash); border: 1px solid rgba(var(--nt-grey-rgb),.75);
     color: var(--nt-grey-ink); font-weight: 600;
   }
@@ -325,12 +328,12 @@ a.pill:visited { color: var(--muted, #6a6660); } /* note: browsers ignore CSS va
      viewport width, the touch/coarse-pointer branch was the only one that
      ever showed the real per-region colour. NN104. */
   .pills .pill[class*="cp-"] { background: var(--sp-wash); border-color: rgba(0,0,0,.1); color: var(--sp-ink); }
-  .pills .pill[data-region]:not([data-region="all"]):hover {
+  .pills .pill[data-region]:hover {
     filter: brightness(.90);
   }
-  .pills .pill[data-region]:not([data-region="all"]).active,
-  .pills .pill[data-region]:not([data-region="all"]).active:hover,
-  .pills .pill[data-region]:not([data-region="all"]).active:focus {
+  .pills .pill[data-region].active,
+  .pills .pill[data-region].active:hover,
+  .pills .pill[data-region].active:focus {
     filter: brightness(.88); font-weight: 600;
   }
 }
@@ -510,23 +513,18 @@ a.pill:visited { color: var(--muted, #6a6660); } /* note: browsers ignore CSS va
 @media (prefers-color-scheme: dark) {
   .pills .pill       { color: var(--muted, #9a9690); background: var(--surface, #2a2825); }
   .pills .pill.active { color: var(--muted, #9a9690); }
-  /* Counters the light-only #region-pills[data-region="all"] ID rule above (higher
-     specificity than .pills .pill), which would otherwise paint "All" with the
-     light nt-grey-wash tone even here. Dark mode already had its own correct
-     rest/active treatment for "All" before that rule existed — restore it. */
-  #region-pills [data-region="all"] { background: var(--surface, #2a2825); border-color: var(--border2, #332f2a); }
   /* Same equal-specificity trap as the light desktop block above: without a
      re-declaration here, the two rules just above silently win over
      `.pill[data-region="x"]` in EVERY dark-mode context (touch included,
-     not just pointer:fine) since dark mode is unconditional here. No
-     dark-specific tint exists site-wide for these regions (essentials/tipping's
-     #region-pills carries the same light pastel straight into dark mode too,
-     unaltered) so this repeats the identical light values on purpose. NN104. */
+     not just pointer:fine) since dark mode is unconditional here. cp-light-grey
+     (All) has its own dark-mode color-mix wash same as every other cp-* class
+     (web-travel-style.css), so it needs no special-casing here any more than
+     Americas/Caribbean/etc. do. */
   .pills .pill[class*="cp-"] { background: var(--sp-wash); border-color: rgba(0,0,0,.1); color: var(--sp-ink); }
-  .pills .pill[data-region]:not([data-region="all"]):hover {
+  .pills .pill[data-region]:hover {
     filter: brightness(.85);
   }
-  .pills .pill[data-region]:not([data-region="all"]).active {
+  .pills .pill[data-region].active {
     filter: brightness(.78); font-weight: 600;
   }
   .vs-sea.ahead  { background: #0d200d; color: #5aaa5e; border-color: #5aaa5e; }
@@ -540,22 +538,14 @@ a.pill:visited { color: var(--muted, #6a6660); } /* note: browsers ignore CSS va
 @media (prefers-color-scheme: dark) and (min-width: 601px),
        (prefers-color-scheme: dark) and (pointer: fine) {
   .pills .pill { background: transparent; border-color: var(--border2, #332f2a); }
-  .pills .pill:not([data-region="americas"]):not([data-region="caribbean"]):not([data-region="europe"]):not([data-region="asiapac"]):not([data-region="other"]):hover {
+  .pills .pill:not([data-region="americas"]):not([data-region="caribbean"]):not([data-region="europe"]):not([data-region="asiapac"]):not([data-region="other"]):not([data-region="all"]):hover {
     background: var(--surface2, #1e1c1a); border-color: var(--pill-dk-border); color: var(--muted, #9a9690);
   }
-  .pills .pill:not([data-region="americas"]):not([data-region="caribbean"]):not([data-region="europe"]):not([data-region="asiapac"]):not([data-region="other"]).active,
-  .pills .pill:not([data-region="americas"]):not([data-region="caribbean"]):not([data-region="europe"]):not([data-region="asiapac"]):not([data-region="other"]).active:hover,
-  .pills .pill:not([data-region="americas"]):not([data-region="caribbean"]):not([data-region="europe"]):not([data-region="asiapac"]):not([data-region="other"]).active:focus {
+  .pills .pill:not([data-region="americas"]):not([data-region="caribbean"]):not([data-region="europe"]):not([data-region="asiapac"]):not([data-region="other"]):not([data-region="all"]).active,
+  .pills .pill:not([data-region="americas"]):not([data-region="caribbean"]):not([data-region="europe"]):not([data-region="asiapac"]):not([data-region="other"]):not([data-region="all"]).active:hover,
+  .pills .pill:not([data-region="americas"]):not([data-region="caribbean"]):not([data-region="europe"]):not([data-region="asiapac"]):not([data-region="other"]):not([data-region="all"]).active:focus {
     background: var(--surface2, #1e1c1a); border: 1px solid var(--pill-dk-border); color: var(--muted, #9a9690);
   }
-  /* Same NN104-style re-declaration as the light desktop block: the ID rule above
-     outranks every .pills .pill class selector on `background` alone, so without
-     this "All" would carry the light nt-grey-wash tone in dark+desktop too. */
-  #region-pills [data-region="all"] { background: transparent; }
-  #region-pills [data-region="all"]:hover { background: var(--surface2, #1e1c1a); }
-  #region-pills [data-region="all"].active,
-  #region-pills [data-region="all"].active:hover,
-  #region-pills [data-region="all"].active:focus { background: var(--surface2, #1e1c1a); }
 }
 @media (min-width: 601px), (pointer: fine) {
 }
@@ -675,7 +665,7 @@ a.pill:visited { color: var(--muted, #6a6660); } /* note: browsers ignore CSS va
        happens. This row is six region filters and nothing else. -->
   <div class="controls">
     <div class="pills" id="region-pills" role="group" aria-label="Filter by region">
-      <button class="pill active" data-region="all">All</button>
+      <button class="pill active cp-light-grey" data-region="all">All</button>
       <button class="pill cp-blue" data-region="americas">Americas</button>
       <button class="pill cp-dark-teal" data-region="caribbean">Caribbean</button>
       <button class="pill cp-bright-red" data-region="europe">Europe</button>

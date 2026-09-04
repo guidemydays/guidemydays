@@ -2093,8 +2093,16 @@ window.TVE.home = (function () {
   (function () {
     var tbSearchCSS = document.createElement('style');
     tbSearchCSS.textContent =
-      '.tb-search{position:absolute;top:17px;right:clamp(12px,2vw,28px);display:flex;align-items:center;z-index:5}' +
-      '.tb-search-ico{position:absolute;left:11px;top:50%;transform:translateY(-50%);color:#9a8367;pointer-events:none}' +
+      /* height:30px + align-items:flex-start (not center) on .tb-search below is deliberate --
+         input[type=search]/[type=text] elements carry an intrinsic used-height (~44px here) that
+         browsers apply during flex alignment regardless of their explicit CSS height:30px; with
+         align-items:center that phantom 44px pushes the input's rendered box down inside an
+         auto-sized 44px wrap, which in turn drags the icon (centered against that same 44px) into
+         the input's bottom half instead of its middle. Pinning wrap height to the input's real
+         30px and flush-aligning it to the top makes the input render exactly where it's told to,
+         so the icon's top:50% has a trustworthy box to center against. */
+      '.tb-search{position:absolute;top:17px;right:clamp(12px,2vw,28px);display:flex;align-items:flex-start;height:30px;z-index:5}' +
+      '.tb-search-ico{position:absolute;left:10px;top:50%;transform:translateY(-50%);color:#9a8367;pointer-events:none}' +
       /* input[type="search"].tb-search-input (not just .tb-search-input) on every rule below --
          web-travel-style.css has a site-wide input[type=search] rule (440x56, 17px, its own
          background-image magnifier baked in via --search-icon) at specificity (0,1,1); a bare class
@@ -2104,7 +2112,7 @@ window.TVE.home = (function () {
          class keeps every property here winning without needing !important. */
       'input[type="search"].tb-search-input{-webkit-appearance:none;appearance:none;width:170px;height:30px;border-radius:999px;background:#fff;' +
         'border:1.5px solid #c8b199;color:#1a1917;font:inherit;font-size:12px;' +
-        'padding:0 12px 0 30px;box-shadow:0 2px 8px rgba(107,68,35,.08);transition:border-color .15s,width .15s}' +
+        'padding:0 12px 0 32px;box-shadow:0 2px 8px rgba(107,68,35,.08);transition:border-color .15s,width .15s}' +
       'input[type="search"].tb-search-input::placeholder{color:#9a8367}' +
       'input[type="search"].tb-search-input::-webkit-search-decoration,input[type="search"].tb-search-input::-webkit-search-cancel-button,' +
         'input[type="search"].tb-search-input::-webkit-search-results-button,input[type="search"].tb-search-input::-webkit-search-results-decoration{display:none}' +
@@ -2129,7 +2137,7 @@ window.TVE.home = (function () {
     var tbWrap = document.createElement('div');
     tbWrap.className = 'tb-search';
     tbWrap.innerHTML =
-      '<svg class="tb-search-ico" width="14" height="14" viewBox="0 0 13 13" fill="none" aria-hidden="true">' +
+      '<svg class="tb-search-ico" width="16" height="16" viewBox="0 0 13 13" fill="none" aria-hidden="true">' +
         '<circle cx="5.5" cy="5.5" r="4.5" stroke="currentColor" stroke-width="1.5"/>' +
         '<line x1="9.35" y1="9.35" x2="12" y2="12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>' +
       '</svg>' +

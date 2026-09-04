@@ -3024,7 +3024,12 @@
    rgba(grey,.4) to .15 to match its siblings' rgba(0,0,0,.1) weight. Page
    precached, no shared asset moved. CACHE to v1837. */
 /* 2026-09-03: ferry sprite dedup toolbar.js -> v1152. CACHE to v1838. */
-var CACHE = 'travel-cache-v1838';
+/* 2026-09-04: time-zones -- superseded the v1837 page-local --sp-wash
+   override: Europe/M.E.&Africa now swap to genuine existing families
+   (cp-terracotta -> cp-bright-red "Muted Brick", cp-gold -> cp-pink
+   "Peachy Blush") instead of a custom hex, zero new CSS. Page precached,
+   no shared asset moved. CACHE to v1839. */
+var CACHE = 'travel-cache-v1839';
 /* 2026-08-27: airlines.css's .card-tags align-items fix changed a shared
    asset without raising its own floor -- MIN_VERSIONS['airlines.css'] to
    6, CACHE to v1662. */

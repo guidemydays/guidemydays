@@ -193,12 +193,7 @@ tr[aria-expanded="true"] .fx-mark { transform: rotate(90deg); opacity: 1; }
   color: var(--text);
   font-variant-numeric: normal;
 }
-.fx-gc { margin: 0; padding: 7px 0 0; font-size: var(--fs-sub,12px); line-height: 1.7; }
-.fx-gc b {
-  display: inline-block; min-width: 8.5em; margin-right: 6px;
-  color: var(--muted,#6a6660); font-weight: 700;
-  text-transform: uppercase; letter-spacing: 0.06em;
-}
+.fx-gc { margin: 0; padding: 7px 0 0; font-size: var(--fs-body,14px); line-height: 1.7; }
 .fx-gc a { color: var(--text,#3d3a32); text-decoration: none; border-bottom: 1px solid rgba(192,78,26,.35); }
 .fx-gc a:hover { color: #C04E1A; border-bottom-color: #C04E1A; }
 /* Literal hex, not var(): browsers refuse to resolve custom properties inside
@@ -217,9 +212,6 @@ tr[aria-expanded="true"] .fx-mark { transform: rotate(90deg); opacity: 1; }
   .fx-swap { align-self: center; margin: 0; }
   .index-table td, .index-table th { font-size: var(--fs-sub,12px) !important; padding: 6px 8px !important; }
   .fx-used { display: block; }
-  /* The 8.5em label column is a desktop alignment device; on 393px it strands
-     the first guide on its own line. The country name becomes its own line. */
-  .fx-gc b { display: block; min-width: 0; margin: 0 0 2px; }
   .index-table tbody tr.fx-open td { padding: 4px 8px 12px !important; }
 }
 @media (prefers-color-scheme: dark) {
@@ -540,16 +532,14 @@ var FXC=[["Austria","Austria","Europe","EUR","",[["Salzburg","/guides/salzburg.h
     });
   });
   function guidesHTML(iso){
-    var g=GUIDES[iso]||[], out='';
+    var g=GUIDES[iso]||[], links=[];
     for(var i=0;i<g.length;i++){
-      var links=[];
       for(var j=0;j<g[i][1].length;j++){
         links.push('<a href="'+g[i][1][j][1]+'">'+esc(g[i][1][j][0])+'</a>');
       }
-      out+='<p class="fx-gc"><b>'+esc(g[i][0])+'</b>'+
-           links.join('<span class="fx-sep"> · </span>')+'</p>';
     }
-    return out;
+    if(!links.length) return '';
+    return '<p class="fx-gc">'+links.join('<span class="fx-sep"> · </span>')+'</p>';
   }
 
   /* A row OPENS onto its guides (owner rule 2026-08-18). It used to re-point

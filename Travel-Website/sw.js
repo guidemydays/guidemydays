@@ -3053,7 +3053,11 @@
    action calling window.print(), no state. Both render on mobile and
    desktop via the existing shared row. MIN_VERSIONS['toolbar.js'] to 1154,
    MIN_VERSIONS['guide-style.css'] to 286, CACHE to v1844. */
-var CACHE = 'travel-cache-v1844';
+/* 2026-09-04: time-zones -- settled on exactly 2 card states (morning/night),
+   restored to the exact hex this page already shipped as day/twilight
+   2026-08-23 (renamed, not new colors), same fade-to-surface gradient
+   mechanic. Page precached, no shared asset moved. CACHE to v1845. */
+var CACHE = 'travel-cache-v1845';
 /* 2026-08-27: airlines.css's .card-tags align-items fix changed a shared
    asset without raising its own floor -- MIN_VERSIONS['airlines.css'] to
    6, CACHE to v1662. */

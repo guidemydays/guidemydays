@@ -66,11 +66,9 @@
    result, once, so it takes the card's own heading. */
 .pg-country { margin: 0; font-size: clamp(1.3rem, 3.4vw, 1.9rem); font-weight: 700; color: var(--text,#3d3a32); line-height: 1.2; }
 .pg-volt { font-size: var(--fs-body,14px); font-weight: 600; color: var(--muted,#6a6660); font-variant-numeric: tabular-nums; }
-/* The answer the reader came for, in one line: which adapter to bring. */
+/* The answer the reader came for, in one line: which plug(s) to bring. */
 .pg-answer { margin: 0.85rem 0 0; font-size: clamp(1rem, 2.4vw, 1.25rem); font-weight: 600; color: var(--text,#3d3a32); }
 .pg-answer b { color: #C04E1A; font-weight: 700; }
-.pg-conv { margin: 0.6rem 0 0; font-size: var(--fs-body,14px); color: var(--muted,#6a6660); line-height: 1.55; }
-.pg-conv b { color: var(--text,#3d3a32); font-weight: 600; }
 
 /* ── One block per plug type the country uses ─────────────────────────────
    The images are addressed by TYPE, not by country: a Type C plug is a Type C
@@ -120,7 +118,6 @@
      one terracotta, each theme with its own value for it. */
   .pg-answer { color: var(--text,#e8e5e0); }
   .pg-answer b { color: var(--rust,#D4663A); }
-  .pg-conv b { color: var(--text,#e8e5e0); }
   .pg-type { background: var(--surface,#242220); border-color: var(--border2,#3a3630); }
   .pg-type-head { color: var(--text,#e8e5e0); }
   /* The photographs are shot on white and stay on white in both themes — a
@@ -191,7 +188,6 @@
         <span class="pg-volt" id="pg-volt"></span>
       </div>
       <p class="pg-answer" id="pg-answer"></p>
-      <p class="pg-conv" id="pg-conv"></p>
       <div class="pg-types" id="pg-types"></div>
     </div>
   </div>
@@ -224,44 +220,21 @@ var PG=[["Austria","Austria","Europe","230V / 50Hz","CF"],["Belgium","Belgium","
   function esc(s){ return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
 
   /* "CF" -> "Type C or F".  "ABCEFO" -> "Type A, B, C, E, F or O".
-     Descriptive only — which shapes are in use here. Never used for the
-     "Bring a ___" instruction below, where "or" would wrongly read as any
-     single type working everywhere in the country. */
+     Used for the dropdown/region sub-line only — never the instruction line
+     below, where "or" would wrongly read as any single type working
+     everywhere in the country. */
   function typeList(t){
     var a=t.split('');
     if(a.length===1) return 'Type '+a[0];
     return 'Type '+a.slice(0,-1).join(', ')+' or '+a[a.length-1];
   }
 
-  /* Same letters, joined with "and": for the instruction line only. A
-     country with several types in use needs a universal adapter (one
-     device, several pin faces) to actually be covered — "or" would imply
-     any single one works everywhere, which is false. */
+  /* Same letters joined with "and", for the instruction line: a country
+     with several types in use needs all of them covered, not any one. */
   function typeAnd(t){
     var a=t.split('');
     if(a.length===1) return 'Type '+a[0];
     return 'Type '+a.slice(0,-1).join(', ')+' and '+a[a.length-1];
-  }
-
-  /* The voltage advice is ORIGIN-NEUTRAL and must stay that way: nothing on
-     this site is anchored to one person's country (Forty-seventh
-     non-negotiable), so it never assumes the reader is coming from 120V or from
-     230V. It states what the country supplies and the one rule that decides the
-     answer — what the device's own small print says. */
-  function converterNote(volts){
-    /* The voltage itself is already on the head line beside the country name —
-       repeating it here read as the page saying the same number twice. */
-    var nums=(volts.split(' / ')[0].match(/\d+/g)||[]).map(Number);
-    if(nums.length>1){
-      return 'Two voltages are in use here, so an adapter alone is safe only for a device whose own '
-        +'label reads <b>100\u2013240V</b>. Check what the socket carries before plugging in anything else.';
-    }
-    var v=nums[0]||0;
-    var other=(v>=200)?'110\u2013120V':'220\u2013240V';
-    return 'Almost anything with a charging brick \u2014 phone, laptop, camera \u2014 reads '
-      +'<b>100\u2013240V</b> in the small print and runs on it with the adapter alone. A device marked '
-      +'for '+other+' only, which is usually where hair dryers and straighteners land, needs a '
-      +'<b>voltage converter</b> as well.';
   }
 
   function show(anchor){
@@ -271,8 +244,7 @@ var PG=[["Austria","Austria","Europe","230V / 50Hz","CF"],["Belgium","Belgium","
     document.getElementById('pg-volt').textContent=row[3].replace(' / ',' \u00b7 ')+'  \u00b7  '+row[2];
     document.getElementById('pg-answer').innerHTML=(row[4].length===1)
       ? 'Bring a <b>'+esc(typeList(row[4]))+'</b> adapter.'
-      : 'Sockets here use <b>'+esc(typeAnd(row[4]))+'</b> \u2014 bring a universal adapter that covers all of them.';
-    document.getElementById('pg-conv').innerHTML=converterNote(row[3]);
+      : 'Bring <b>'+esc(typeAnd(row[4]))+'</b> plugs.';
     var out=[], t=row[4].split(''), j;
     for(j=0;j<t.length;j++){
       var L=t[j], meta=PT[L]; if(!meta) continue;
@@ -282,7 +254,7 @@ var PG=[["Austria","Austria","Europe","230V / 50Hz","CF"],["Belgium","Belgium","
         +'<div class="pg-type-desc">'+esc(meta.d)+'</div>'
         +'<div class="pg-imgs">'
         +'<div class="pg-img-box"><img src="/plugs/imgs/type-'+slug+'-wall-socket.jpg" width="180" height="180" alt="Type '+esc(L)+' wall socket" loading="lazy"><div class="pg-img-label">Wall Socket</div></div>'
-        +'<div class="pg-img-box"><img src="/plugs/imgs/type-'+slug+'-plug.jpg" width="180" height="180" alt="Type '+esc(L)+' plug face" loading="lazy"><div class="pg-img-label">Plug / Adapter Face</div></div>'
+        +'<div class="pg-img-box"><img src="/plugs/imgs/type-'+slug+'-plug.jpg" width="180" height="180" alt="Type '+esc(L)+' plug face" loading="lazy"><div class="pg-img-label">Plug</div></div>'
         +'</div></div>');
     }
     document.getElementById('pg-types').innerHTML=out.join('');

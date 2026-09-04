@@ -949,7 +949,7 @@ window.TVE.home = (function () {
        Library.html (2026-09-02) but never wired into GM_SPRITE — every
        <use href="#gm-i-signpost"/> in a guide resolved to nothing. Added
        2026-09-03 while backfilling the Dining Areas section fleet-wide. */
-    'signpost': ['0 0 24 24', '<ellipse cx="12" cy="22.2" rx="4.4" ry="1.2" fill="url(#gm-stone)" stroke="var(--c-stone-rim)" stroke-width="0.5" opacity="0.4"/><rect x="10.9" y="2.6" width="2.2" height="19.4" rx="1" fill="url(#gm-cocoa)" stroke="var(--c-cocoa-rim)" stroke-width="0.5"/><rect x="10.9" y="2.6" width="2.2" height="19.4" rx="1" fill="url(#gm-gloss)"/><path d="M12.6 4.6h7.2l2.4 2.2-2.4 2.2h-7.2z" fill="url(#gm-green)" stroke="var(--c-green-rim)" stroke-width="0.5"/><path d="M11.4 10.6H4.2L1.8 12.8l2.4 2.2h7.2z" fill="url(#gm-rust)" stroke="var(--c-rust-rim)" stroke-width="0.5"/><path d="M12.6 16.6h5.4l1.9 1.8-1.9 1.8h-5.4z" fill="url(#gm-sun)" stroke="var(--c-sun-rim)" stroke-width="0.5"/>'],
+    'signpost': ['0 0 24 24', '<ellipse cx="12" cy="22.2" rx="4.4" ry="1.2" fill="url(#gm-stone)" stroke="var(--c-stone-rim)" stroke-width="0.5" opacity="0.4"/> <rect x="10.9" y="2.6" width="2.2" height="19.4" rx="1" fill="url(#gm-cocoa)" stroke="var(--c-cocoa-rim)" stroke-width="0.5"/><rect x="10.9" y="2.6" width="2.2" height="19.4" rx="1" fill="url(#gm-gloss)"/> <path d="M12.6 4.6h7.2l2.4 2.2-2.4 2.2h-7.2z" fill="url(#gm-green)" stroke="var(--c-green-rim)" stroke-width="0.5"/> <path d="M11.4 10.6H4.2L1.8 12.8l2.4 2.2h7.2z" fill="url(#gm-rust)" stroke="var(--c-rust-rim)" stroke-width="0.5"/> <path d="M12.6 16.6h5.4l1.9 1.8-1.9 1.8h-5.4z" fill="url(#gm-sun)" stroke="var(--c-sun-rim)" stroke-width="0.5"/>'],
 
     /* Site-Icons.html #183 - the RIDE APP mark. Uber is an app car (owner rule
 

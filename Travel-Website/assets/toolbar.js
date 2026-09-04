@@ -2076,6 +2076,187 @@ window.TVE.home = (function () {
      declared with var below, so an append there is a silent no-op. */
   if (tveBrandLogo) bar.insertBefore(tveBrandLogo, bar.firstChild);
 
+  /* ── Site-wide search — corner pill, desktop only ─────────────────────────
+     Separate from the guides-index hero box (#guide-search), which stays
+     exactly as it is and keeps filtering that one page's cards. This is the
+     only search on the site that matches live, letter by letter, mid-word,
+     across every guide's stops/tours/restaurants AND the other pages —
+     everywhere else that looks like a search either filters a fixed list on
+     one page or waits for a full phrase. Desktop-only: hidden under the same
+     pointer:coarse gate the nav row already uses to switch to the hamburger,
+     so it never fights the mobile menu for space. */
+  (function () {
+    var tbSearchCSS = document.createElement('style');
+    tbSearchCSS.textContent =
+      '.tb-search{position:absolute;top:14px;right:clamp(12px,2vw,28px);display:flex;align-items:center;z-index:5}' +
+      '.tb-search-ico{position:absolute;left:13px;top:50%;transform:translateY(-50%);color:#9a8367;pointer-events:none}' +
+      '.tb-search-input{width:210px;height:36px;border-radius:999px;background:#fff;' +
+        'border:1.5px solid #c8b199;color:#1a1917;font:inherit;font-size:13px;' +
+        'padding:0 14px 0 34px;box-shadow:0 2px 8px rgba(107,68,35,.08);transition:border-color .15s,width .15s}' +
+      '.tb-search-input::placeholder{color:#9a8367}' +
+      '.tb-search-input:focus{outline:none;border-color:#3d3a32;width:250px}' +
+      '.tb-search-drop{position:absolute;top:calc(100% + 8px);right:0;width:300px;max-height:60vh;' +
+        'overflow-y:auto;background:#fff;border:1px solid #e6e2da;border-radius:10px;' +
+        'box-shadow:0 8px 24px rgba(92,61,17,.16);padding:6px;z-index:20}' +
+      '.tb-sd-guide,.tb-sd-page{display:block;text-decoration:none;padding:7px 9px;border-radius:8px;' +
+        'border-top:1px solid #f0ece5}' +
+      '.tb-search-drop>a:first-child{border-top:none}' +
+      '.tb-sd-guide:hover,.tb-sd-page:hover{background:rgba(184,134,11,.08)}' +
+      '.tb-sd-title{display:block;font-weight:700;font-size:13px;color:#8a6c1a;margin-bottom:2px}' +
+      '.tb-sd-sub{display:block;font-size:12px;color:#6a6660}' +
+      '.tb-sd-item{display:flex;justify-content:space-between;gap:8px;font-size:12.5px;color:#1a1917;padding:2px 0}' +
+      '.tb-sd-tag{flex:none;font-size:11px;color:#6a6660;white-space:nowrap}' +
+      '.tb-sd-empty{font-size:12.5px;color:#8a857c;padding:18px 10px;text-align:center}' +
+      '.tb-search-drop mark{background:rgba(184,134,11,.28);color:inherit;border-radius:2px;padding:0 1px}' +
+      '@media(prefers-color-scheme:dark){.tb-search-drop{background:var(--surface,#2a2825)}}' +
+      '@media (max-width: 1260px) and (pointer: coarse){.tb-search{display:none!important}}';
+    document.head.appendChild(tbSearchCSS);
+
+    var tbWrap = document.createElement('div');
+    tbWrap.className = 'tb-search';
+    tbWrap.innerHTML =
+      '<svg class="tb-search-ico" width="14" height="14" viewBox="0 0 13 13" fill="none" aria-hidden="true">' +
+        '<circle cx="5.5" cy="5.5" r="4.5" stroke="currentColor" stroke-width="1.5"/>' +
+        '<line x1="9.35" y1="9.35" x2="12" y2="12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>' +
+      '</svg>' +
+      '<input type="search" class="tb-search-input" id="tb-site-search" placeholder="Search the site" aria-label="Search the site" autocomplete="off">' +
+      '<div class="tb-search-drop" id="tb-site-search-drop" hidden></div>';
+    bar.appendChild(tbWrap);
+
+    var tbInput = tbWrap.querySelector('.tb-search-input');
+    var tbDrop = tbWrap.querySelector('.tb-search-drop');
+    var tbData = null, tbLoading = false;
+
+    // length-preserving diacritic fold — matches the guides-index content search
+    function tbFold(s) {
+      var out = '', a = Array.from(s);
+      for (var i = 0; i < a.length; i++) out += a[i].normalize('NFD').charAt(0);
+      return out.toLowerCase();
+    }
+    function tbEsc(s) {
+      return s.replace(/[&<>"]/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]; });
+    }
+    function tbSecLabel(sid) {
+      var m = /^day(\d+)$/.exec(sid || '');
+      if (m) return 'Day ' + m[1];
+      return (tbData.labels && tbData.labels[sid]) || '';
+    }
+    function tbHref(u) { return u.charAt(0) === '/' ? u : '/' + u; }
+    function tbLoad(cb) {
+      if (tbData) { cb(); return; }
+      if (tbLoading) return;
+      tbLoading = true;
+      fetch('/assets/search-index.json')
+        .then(function (r) { return r.json(); })
+        .then(function (j) {
+          tbData = j;
+          tbData.guides.forEach(function (g) { g.cf = tbFold(g.c); g.e.forEach(function (e) { e[2] = tbFold(e[0]); }); });
+          (tbData.pages || []).forEach(function (p) { p.e.forEach(function (e) { e[2] = tbFold(e[0]); }); });
+          tbLoading = false;
+          cb();
+        })
+        .catch(function () { tbLoading = false; });
+    }
+    // every token must be found somewhere in the text — order-independent,
+    // and a token can match mid-word (this is the "all words or parts of
+    // words" match the hero box does not do).
+    function tbTokenRanges(tf, tokens) {
+      var ranges = [];
+      for (var i = 0; i < tokens.length; i++) {
+        var pos = tf.indexOf(tokens[i]);
+        if (pos < 0) return null;
+        ranges.push([pos, tokens[i].length]);
+      }
+      return ranges;
+    }
+    function tbMark(text, ranges) {
+      ranges = ranges.slice().sort(function (a, b) { return a[0] - b[0]; });
+      var merged = [];
+      ranges.forEach(function (r) {
+        var last = merged[merged.length - 1];
+        if (last && r[0] <= last[0] + last[1]) last[1] = Math.max(last[1], r[0] + r[1] - last[0]);
+        else merged.push(r.slice());
+      });
+      var out = '', pos = 0;
+      merged.forEach(function (r) {
+        out += tbEsc(text.slice(pos, r[0])) + '<mark>' + tbEsc(text.slice(r[0], r[0] + r[1])) + '</mark>';
+        pos = r[0] + r[1];
+      });
+      return out + tbEsc(text.slice(pos));
+    }
+    function tbRenderResults(q) {
+      var tokens = tbFold(q).trim().split(/\s+/).filter(Boolean);
+      if (!tokens.length) { tbDrop.hidden = true; tbDrop.innerHTML = ''; return; }
+
+      var guideHits = [];
+      tbData.guides.forEach(function (g) {
+        var items = [];
+        g.e.forEach(function (e) {
+          var r = tbTokenRanges(e[2], tokens);
+          if (r) items.push({ t: e[0], sub: tbSecLabel(e[1]), ranges: r });
+        });
+        var cityRanges = tbTokenRanges(g.cf, tokens);
+        if (!items.length && !cityRanges) return;
+        guideHits.push({ city: g.c, url: tbHref(g.u), items: items.slice(0, 3), cityRanges: cityRanges });
+      });
+      guideHits.sort(function (a, b) { return a.city.localeCompare(b.city); });
+
+      var pageHits = [];
+      (tbData.pages || []).forEach(function (p) {
+        var items = [];
+        p.e.forEach(function (e) {
+          var r = tbTokenRanges(e[2], tokens);
+          if (r) items.push({ t: e[0], ranges: r });
+        });
+        if (!items.length) return;
+        pageHits.push({ title: p.t, url: tbHref(p.u), items: items.slice(0, 2) });
+      });
+
+      if (!guideHits.length && !pageHits.length) {
+        tbDrop.innerHTML = '<div class="tb-sd-empty">No matches on the site.</div>';
+        tbDrop.hidden = false;
+        return;
+      }
+
+      var html = '';
+      pageHits.slice(0, 4).forEach(function (p) {
+        html += '<a class="tb-sd-page" href="' + p.url + '">' +
+          '<span class="tb-sd-title">' + tbEsc(p.title) + '</span>' +
+          p.items.map(function (it) { return '<span class="tb-sd-sub">' + tbMark(it.t, it.ranges) + '</span>'; }).join('') +
+          '</a>';
+      });
+      guideHits.slice(0, 8).forEach(function (g) {
+        html += '<a class="tb-sd-guide" href="' + g.url + '">' +
+          '<span class="tb-sd-title">' + (g.cityRanges ? tbMark(g.city, g.cityRanges) : tbEsc(g.city)) + '</span>' +
+          g.items.map(function (it) {
+            return '<span class="tb-sd-item"><span>' + tbMark(it.t, it.ranges) + '</span>' +
+              (it.sub ? '<span class="tb-sd-tag">' + tbEsc(it.sub) + '</span>' : '') + '</span>';
+          }).join('') +
+          '</a>';
+      });
+      tbDrop.innerHTML = html;
+      tbDrop.hidden = false;
+    }
+
+    tbInput.addEventListener('focus', function () {
+      tbLoad(function () { if (tbInput.value.trim()) tbRenderResults(tbInput.value); });
+    });
+    tbInput.addEventListener('input', function () {
+      if (!tbInput.value.trim()) { tbDrop.hidden = true; return; }
+      tbLoad(function () { tbRenderResults(tbInput.value); });
+    });
+    tbInput.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape') { tbDrop.hidden = true; tbInput.blur(); return; }
+      if (e.key === 'Enter') {
+        var first = tbDrop.hidden ? null : tbDrop.querySelector('a');
+        if (first) { e.preventDefault(); location.href = first.getAttribute('href'); }
+      }
+    });
+    document.addEventListener('click', function (e) {
+      if (!tbWrap.contains(e.target)) tbDrop.hidden = true;
+    });
+  }());
+
   /* ── Insert toolbar ──────────────────────────────────────────────────────── */
   if (mount) {
     var hoistTarget = mount;

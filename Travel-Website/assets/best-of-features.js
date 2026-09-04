@@ -128,20 +128,7 @@
     document.body.appendChild(buildCompareModal());
   }
 
-  /* Collect [{label, labelEl, continent, cards[]}] in DOM order.
-
-     The country is read from data-country ON THE CARD. It used to be a
-     <div class="best-of-section-label">Peru</div> heading above each run of
-     cards; those are retired on every place page (owner rule 2026-08-22 - the
-     grid breaks to a new row at every heading, which cost 55% of the section's
-     height), and check_best_of_pages_are_flat fails a page that brings one back.
-
-     labelEl is therefore always null, and every consumer below already guards on
-     it. Note the class itself is NOT dead: best-of/index.html still uses it for
-     its five theme groups (Nature & outdoors, Family, ...), which are not
-     countries and are marked data-no-filter - but that page has no
-     .showcase-grid, so none of this runs there. */
-  function collectSections() {
+    function collectSections() {
     var result = [], byCountry = {};
     [].slice.call(grid.children).forEach(function (node) {
       if (!node.classList.contains('showcase-card')) return;

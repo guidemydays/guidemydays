@@ -1,28 +1,3 @@
-/* ══════════════════════════════════════════════════════════════════════════
-   trains.js — behaviour for the continent train guides.
-
-   Five pages ride this file: /essentials/european-trains/, /asian-trains/,
-   /americas-trains/, /african-trains/, /oceania-trains/. Extracted from
-   european-trains' two inline <script> blocks on 2026-08-17, when the guide
-   was divided by continent (owner rule) — the alternative was the same 150
-   lines pasted into four more pages, where a fix to one would silently miss
-   the others.
-
-   Nothing here is continent-specific. Every behaviour is driven off classes
-   the markup already carries, so a new continent page needs no JS of its own:
-
-     .train-card[data-type]   type filtering + free-text search
-     .country-section         a jump-nav pill, an id, and scroll-spy
-     .multi-section           same, for the cross-border groupings
-     .purpose-section         same — the transport-or-the-trip groups on the
-                              three small pages (no jump pill; they have no nav)
-     .rail-band               the opening band; static, nothing attaches to it
-     .route-item              city names linkified to their guide
-     #train-search            the search box, wired to TVESearch when present
-
-   LOAD IT LAST, after search-autocomplete.js — the TVESearch typeahead is
-   attached at the bottom of this file and needs window.TVESearch to exist.
-   ══════════════════════════════════════════════════════════════════════════ */
 (function () {
   var activeType = 'all';
   var searchEl = document.getElementById('train-search');
@@ -60,14 +35,7 @@
   }
   applyCardSpines();
 
-  /* ---- Collapse long country-tag rows (2026-08-23 redesign) ----
-     A network reaching ten countries printed ten flag pills in a row,
-     burying the fact under its own length (owner: the pills up top didn't
-     match what mattered below — same complaint, different page). Anything
-     past the 6th .ctag in an .info-row collapses behind a "+N more" toggle;
-     clicking it reveals the rest in place. Short rows (the common case) are
-     left completely untouched. */
-  function collapseCountryTags() {
+    function collapseCountryTags() {
     var CAP = 6;
     document.querySelectorAll('.country-tags').forEach(function (row) {
       var tags = [].slice.call(row.querySelectorAll('.ctag'));
@@ -95,14 +63,7 @@
     if (!m.id) m.id = 'sec-multi' + (i || '');
     sections.push(m);
   });
-  /* .purpose-section — the transport-or-the-trip grouping that replaced the
-     8-pill type filter on the three small pages (owner rule 2026-08-22:
-     "each of them needs to be re thought"). It is registered here for one
-     reason: applyFilters() hides a SECTION whose cards are all filtered out,
-     and a group left out of `sections` keeps its heading on screen above an
-     empty space during a search. No jump pill is built for these — the three
-     pages that carry them have no jump nav. */
-  [].forEach.call(document.querySelectorAll('.purpose-section'), function (s, i) {
+    [].forEach.call(document.querySelectorAll('.purpose-section'), function (s, i) {
     if (!s.id) {
       var h = s.querySelector('.purpose-header h2');
       var base = (h ? h.textContent : 'group-' + i).trim().toLowerCase()

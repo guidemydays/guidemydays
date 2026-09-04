@@ -1,19 +1,3 @@
-/* airlines.js — the render behind the seven continent airline pages.
-   Each page ships its own AIRLINES array and this draws it: alliance chips, the
-   search, country groups, and one card per carrier carrying its own site, its
-   reviews and its safety rating. Split out of essentials/airlines/index.html
-   when that page became one page per continent (owner 2026-08-17), so the seven
-   pages share one copy of the behaviour instead of seven.
-
-   2026-08-23 — boarding-pass redesign (owner-approved mockup). Card markup
-   changed to al-pass/al-seam/al-stub; alliance filters moved onto the shared
-   .pill-badge fam-* system instead of a bespoke box. `a.iata` (the airline's
-   own IATA designator, e.g. "EK" for Emirates) is a NEW, OPTIONAL field —
-   rolled out on Middle East first; a page whose data doesn't carry it yet
-   renders "—" on the stub rather than a guessed code (Links.html § 1 rule:
-   never ship a guess where the real fact is missing). Hub code(s) and the
-   short fleet number are DERIVED from the existing `hub`/`fl` strings, so
-   every page keeps working unchanged even before its data adds `iata`. */
 function esc(s) { return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
 
 /* Independent + Full-service share the grey family on purpose — both are the

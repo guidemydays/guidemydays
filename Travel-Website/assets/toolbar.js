@@ -21,86 +21,12 @@
  * To update the toolbar for every page: edit ONLY this file.
  */
 
-/* ── What counts as a phone — ONE definition, shared by CSS and JS ──────────
-   Owner rule 2026-08-10: "somehow mobile got mixed with the desktop … needs to
-   hold". A DESKTOP BROWSER NARROWED BY THE USER IS NOT A PHONE. Width alone
-   cannot tell the two apart — the viewport reports 500px either way — so every
-   mobile gate on this site pairs the width with the pointer type:
-
-       CSS   @media (max-width: 600px) and (pointer: coarse)
-       JS    TVE.isPhone()            ← the exact same query, below
-
-   `pointer: coarse` is the PRIMARY input device: a finger on a phone or tablet,
-   never a mouse or trackpad. A touchscreen laptop still reports `fine`, because
-   its primary pointer is the trackpad. Resizing a desktop window changes the
-   width and nothing else, so the desktop layout now holds all the way down.
-
-   Desktop-only rules take the mirror form `(min-width: 601px), (pointer: fine)`
-   — an OR, so they keep applying in a narrow desktop window.
-
-   The nav's hamburger swap uses the same pairing at its own 1260px width.
-   Enforced by brain_check.check_mobile_breakpoints_gated_on_pointer: a bare
-   width-only 600/601/1260 query is a HARD FAIL. Spec: Toolbar.html § 42. */
 window.TVE = window.TVE || {};
 window.TVE.PHONE_MQ = '(max-width: 600px) and (pointer: coarse)';
 window.TVE.isPhone = function () {
   return !!(window.matchMedia && window.matchMedia(window.TVE.PHONE_MQ).matches);
 };
 
-/* ══ TVE.home — the reader's HOME AIRPORT, one setting for the whole site ══
-   Owner, 2026-08-15, looking at the landing-page finder: "this is all wired
-   from my seattle and can't be."
-
-   It was. Owner rule 2026-08-22, after the same thing had been asked six
-   times: NOTHING ON THE SITE STARTS FROM ANY PLACE. There is no home, no
-   fallback, and no airport that gets better numbers than any other — the
-   Seattle routings that FMAP once carried were the last special case and
-   they are gone from the data. Every reader, wherever they fly from, gets
-   the same thing:
-
-     home picked  ->  a great-circle ESTIMATE of flying time from the reader's
-                      own airport, always rendered with a leading "~" and
-                      never presented as a routing. No hub is invented, no
-                      leg is claimed.
-     NO HOME SET  ->  NOTHING. No number, no ranking, no city name. Owner rule
-                      2026-08-20: "should not have any fallback".
-
-   THERE IS NO DEFAULT ORIGIN. get() returns null until the reader picks an
-   airport, and every surface that measures from one omits its number, its row
-   or its whole block until then — the same rule Time Zones has carried since
-   2026-08-16 (rule 867), and for the same reason: a default nobody chose is
-   still one person's city, however carefully it is labelled.
-
-   WHAT IS ESTIMATED IS FLYING TIME, and that choice is the load-bearing one.
-   Fitted, when the constants were chosen, against 69 real nonstop routings —
-   the ones where the great-circle IS the route — so they are measured, not
-   guessed:
-
-       air minutes = 44 + km / 14        (14 km/min ≈ 840 km/h)
-
-   Median error 3 minutes, mean 12, over everything from 130 km to 11,000 km.
-
-   The first attempt modelled the whole JOURNEY, layovers included, by adding a
-   connection allowance past 5,000 km. It fitted the 236 totals to a median of
-   52 minutes and was still wrong in the way that matters: SEA–AMS is nonstop,
-   and the model billed it 12h27 against a real 9h45. Whether a nonstop exists
-   between two arbitrary airports is the largest single term in a journey time
-   and is precisely what this cannot know. So it does not pretend to. It
-   answers the question it can answer to within minutes and says which question
-   that was: every surface labels an estimate as flying time. A reader who sees
-   "~10h flying" and then connects has been told the truth; one shown a
-   fabricated "AMS · 1 stop" has not.
-
-   NOTHING IS SAVED (owner rule 2026-08-20, said several times: "no filter
-   should save anything" · "no user should have any filter search saved on
-   their cookies"). A pick lives for the current page load only — in a plain
-   JS variable, never localStorage — and is gone the moment the reader
-   reloads or navigates. This is deliberate and it is not a bug: the site
-   used to write the choice to localStorage so a reader who picked once
-   carried it to every later page, and that is exactly the behaviour the
-   owner ruled out. The write-only 'tve_book_origin' reservation for a
-   booking surface that was never built is gone with it. Spec: Toolbar.html
-   § 46. */
 window.TVE.home = (function () {
   /* A pick lives here for the current page load and NOWHERE ELSE — no
      localStorage, no sessionStorage, no cookie. Reset to null on every fresh
@@ -209,23 +135,7 @@ window.TVE.home = (function () {
      Destination Records, and the guides-index Flight time view. Note it is not
      TVESearch, which searches GUIDES; an origin picker wired to that one finds
      cities with guides rather than airports to fly from. */
-  /* THE CITY A READER TYPES IS NOT ALWAYS IN ANY FIELD OF THE AIRPORT'S ROW.
-     Matching is against the code, OurAirports' `municipality` and the airport's
-     own name, and for a good number of the world's busiest airports the city
-     appears in NONE of the three. Measured 2026-08-23: "tokyo" returned Haneda
-     and NOT Narita (municipality "Narita", name "Narita International");
-     "bergamo" returned NOTHING (BGY is "Orio al Serio (BG)" / "Il Caravaggio
-     International"). That was survivable while the airport was an optional
-     field; it stopped being survivable when it became the FIRST and REQUIRED
-     question on the landing finder, with the rest of the form greyed out behind
-     it — a reader who cannot find their airport cannot use the tool at all.
-
-     `aliasSet` is airport-names.json's `x` map, curated in build_airports.py
-     and validated there against the row list, so it can never name a code the
-     picker cannot draw. A matched alias ranks its codes at 1, level with a city
-     match, and NEVER overrides a better rank the row already earned — typing
-     "lhr" still puts LHR first. Owner approval 2026-08-23. */
-  function lookup(q, rows, majorSet, limit, aliasSet) {
+    function lookup(q, rows, majorSet, limit, aliasSet) {
     q = fold(q).trim();
     if (!q || !rows || !rows.length) return [];
     majorSet = majorSet || {};
@@ -307,61 +217,19 @@ window.TVE.home = (function () {
   /* A picker row -> a home. The row carries its own position (build_airports.py
      appends lat/lon), so the choice is resolved once and stored complete: no
      later surface ever has to fetch 204 KB to learn where the reader lives. */
-  /* `tz` is the airport's own IANA zone, column 8 since 2026-08-23 (owner
-     decision): the finder measures jet lag from the airport the reader named,
-     not from their device clock, so the clock has to travel with the choice.
-     `r.length >= 7` still admits an older row — the zone comes back '' and
-     every consumer falls back to the device clock, which is what it did
-     before. Never tighten this to >= 8 without a cache-busting story: a reader
-     mid-session can be holding a sessionStorage row from the previous asset. */
-  function fromRow(r) {
+    function fromRow(r) {
     return r && r.length >= 7
       ? { code: r[0], city: r[1], country: r[2], lat: r[5], lon: r[6], tz: r[7] || '' }
       : null;
   }
 
-  /* ── The picker, mounted the same way on every surface ────────────────────
-     Owner, 2026-08-23, on the finding that Compare promises a flight time no
-     reader could turn on from inside Compare: "fix airport and the rest."
-
-     ONE IMPLEMENTATION, MOUNTED, exactly like TVE.passport.mount — because the
-     two controls now sit side by side in the Compare strip and a second
-     hand-rolled airport box would drift from this one the first time either
-     changed. It borrows the passport picker's own .pp-* classes on purpose:
-     they are the same control doing the same job one row apart, and a reader
-     should not be able to tell which script drew which.
-
-     THE STRIP IS THE ONLY PLACE A CONDITIONAL ROW CAN BE TURNED ON. Both the
-     Entry row and the Flight row are omitted entirely until the reader answers
-     — a rule this file states at length above — so both answers have to be
-     askable from a control that is drawn whether or not it has been used. The
-     Flight row had no such control: the only airport box on the site lived
-     inside the landing page's Help Me Choose card, a different disclosure, so
-     a reader who opened Compare alone never saw a flight time at all.
-
-     NOTHING IS SAVED HERE EITHER. This is a way to SET the page-load pick, not
-     a way to keep it: the owner rule against persisting a reader's filters
-     (2026-08-20) is untouched, and a reader who reloads is asked again. */
-  function mount(host, opts) {
+    function mount(host, opts) {
     if (!host) return null;
     opts = opts || {};
     host.innerHTML = '';
     host.className = (host.className ? host.className + ' ' : '') + 'pp-mount';
 
-    /* ONE FIELD YOU TYPE IN (owner rule 2026-08-23: "this should be one field no
-       drop down to then type").
-
-       It was a button that opened a popover that held a search box, and the
-       popover opened on the words "Type a city or an airport code." — a click of
-       pure ceremony in front of the only thing the control can do. There is no
-       browse list to justify a menu: 199 passports are a list a reader can
-       scroll, 3,268 airports are not, so this control was always going to be a
-       search box wearing a dropdown.
-
-       The field IS the control now. It carries the picked airport as its value
-       ("SEA · Seattle"), focusing selects that text so the next keystroke
-       replaces it, and the matches appear underneath as you type. */
-    var field = document.createElement('input');
+        var field = document.createElement('input');
     field.type = 'text';                       /* not "search": no browser ✕ inside our own box */
     field.className = 'pp-input';
     field.autocomplete = 'off';
@@ -519,43 +387,6 @@ window.TVE.home = (function () {
   } catch (e) {}
 })();
 
-/* ── CSS version guard — if guide-style.css is cached at v < CURRENT, load the
-   latest styles under a fresh ?v=. Transparent to HTML (no guide re-stamp
-   needed); runs before any other toolbar logic.
-
-   CACHE-BUST ARCHITECTURE (2026-07-26):
-   • guide-style.css → this CURRENT guard refreshes ?v= at runtime
-   • toolbar.js itself → sw.js MIN_VERSIONS rewrites ?v= in the service worker
-   • NEVER bump ?v= in any HTML file — it breaks HMAC stamps on guides
-   • To deploy a toolbar.js or guide-style.css change:
-     1. Bump CURRENT here (for CSS) or MIN_VERSIONS in sw.js (for toolbar.js)
-     2. Bump CACHE version in sw.js
-     3. Done — one or two files, zero guide re-stamps
-
-   🔒 ADD A SECOND LINK — NEVER ASSIGN link.href (owner-approved 2026-08-11).
-   Assigning `href` on a stylesheet that has ALREADY LOADED makes Chrome drop
-   its sheet the same tick and refetch, so from the swap until the replacement
-   arrives the document has NO guide CSS AT ALL. Every guide ships a ?v= below
-   CURRENT, so this fired on every page load of the site, and the window is
-   long: measured on Prague, the first sheet finished at 267ms, the swap fired,
-   DOMContentLoaded landed at 361ms — INSIDE the gap — and the replacement only
-   arrived at 619ms.
-
-   That is not just a flash of unstyled content. Everything toolbar.js measures
-   at DOMContentLoaded measures an UNSTYLED document: _phFit() read a
-   .ticket-box gutter of 0 and stepped every 🕐 hours band on every guide one
-   full 14px gutter right of the 🎟 / 📍 rows around it, for as long as the
-   feature had shipped (owner report 2026-08-11, "this is not aligned … look at
-   the time"). Any future pass that reads geometry early would inherit the same
-   trap silently.
-
-   Appending a SECOND link instead keeps the stale sheet applied and the page
-   fully styled while the fresh one is in flight, then drops the loser: the old
-   link on success, the new link on a failed fetch — so a 404 leaves the page
-   with the stale styles rather than none. The new link is inserted AFTER the
-   old one so that, for the ~300ms both are live, the fresh sheet wins the
-   cascade at equal specificity. Cost of the overlap is one stale rule surviving
-   a few hundred ms; cost of the old approach was no rules at all. */
 (function () {
   var CURRENT = 102;
   var link = document.querySelector('link[href*="guide-style.css"]');
@@ -602,34 +433,13 @@ window.TVE.home = (function () {
     link('manifest', b + 'manifest.webmanifest');
     link('apple-touch-icon', b + 'assets/icons/apple-touch-icon.png');
     link('icon', b + 'assets/icons/favicon-32.png', { sizes: '32x32', type: 'image/png' });
-    /* Beige, matching the page and the toolbar (owner 2026-08-10). Was #C04E1A,
-       which painted the phone's status-bar band terracotta above a bar that no
-       longer is. */
-    meta('theme-color', '#f5f4f0');
+        meta('theme-color', '#f5f4f0');
     meta('apple-mobile-web-app-capable', 'yes');
     meta('mobile-web-app-capable', 'yes');
     meta('apple-mobile-web-app-status-bar-style', 'default');
     meta('apple-mobile-web-app-title', 'Guide My Days');
 
-    /* ── Cloudflare Web Analytics (owner rule 2026-08-17) ──────────────────
-       Loaded here rather than written into all 856 pages: every page already
-       loads this file, so the beacon is one line instead of a fleet-wide
-       rewrite, and moving it later costs one commit.
-
-       WHY THE SNIPPET AND NOT CLOUDFLARE'S "AUTOMATIC SETUP": automatic
-       injection happens in Cloudflare's PROXY, and guidemydays.com is on
-       Cloudflare DNS but DNS-only (grey cloud) — visitors reach GitHub Pages
-       directly, no request passes through Cloudflare, so nothing can be
-       injected. The dashboard still offers automatic setup because the domain
-       is on the account, and choosing it records ZERO for ever. The site is set
-       to "Enable with JS Snippet installation" to match this. If the orange
-       cloud is ever switched on, delete this block and switch the site back to
-       automatic — running both double-counts every page view.
-
-       Host-gated on purpose: validate_mobile_render.py and validate_dark_mode.py
-       serve the real pages over a local HTTP server, so an ungated beacon would
-       report every validator run as live traffic. */
-    if (location.hostname === 'guidemydays.com') {
+        if (location.hostname === 'guidemydays.com') {
       var _cfb = document.createElement('script');
       _cfb.type = 'module';
       _cfb.defer = true;
@@ -723,45 +533,14 @@ window.TVE.home = (function () {
   var prevHref = mount ? (mount.dataset.prev || '') : '';
   var nextHref = mount ? (mount.dataset.next || '') : '';
 
-  /* ── "new" badge on dropdown children ──────────────────────────────────────
-     A page shipped within the last NEW_WINDOW_DAYS shows a small gold NEW badge
-     next to its name inside its dropdown (and in the mobile hamburger). Set by
-     `newSince: 'YYYY-MM-DD'` — the page's ship date — on the child entry.
-
-     Owner rule 2026-08-08: a new page's NEW badge belongs on the toolbar entry,
-     beside the name, under the section it sits in ("it is under Safety, and
-     there [are] others like that"). Before this, a freshly shipped page had to
-     be duplicated into the Also Recommended panel on index.html just to earn a
-     badge — that duplication is now banned (brain_check.
-     check_also_recommended_excludes_toolbar_pages), so the badge lives here.
-
-     The window matches the Also Recommended / Guides-Index badge exactly (21
-     days, index.html "New badge" script), so the badge self-expires and no crib
-     has to remember to strip it. A `newSince` date left behind after the window
-     closes is harmless — it simply stops rendering.
-
-     Never put the badge on the top strip. A badge widens the tab and the strip
-     has no spare width (Nineteenth non-negotiable). Dropdown children only. */
-  var NEW_WINDOW_DAYS = 21;
+    var NEW_WINDOW_DAYS = 21;
   function isNewEntry(entry) {
     if (!entry || !entry.newSince) return false;
     var d = new Date(entry.newSince + 'T00:00:00');
     if (isNaN(d.getTime())) return false;
     return (Date.now() - d.getTime()) <= NEW_WINDOW_DAYS * 86400000;
   }
-  /* ── Dropdown row icons (OWNER-DIRECTED 2026-08-10) ──────────────────────
-     A dropdown child may carry `icon: '<key>'` instead of a leading emoji.
-     The key resolves here to the SAME SVG path the page itself draws in its
-     .page-intro-icon, so the menu row and the page it opens wear one icon.
-     fill="var(--rust,#C04E1A)" — the SAME terracotta the page draws it in, so a
-     row and the page it opens are visibly one thing. (Do not switch this to
-     currentColor: the glyph then takes the row's near-black label colour and
-     the icons go grey — owner caught exactly that on 2026-08-10.)
-     Two flat Apple-emoji rows (🪪 Visas ×4) were indistinguishable at a
-     glance; these are not. Adding an `icon:` key also exempts the child from
-     check_toolbar_group_icon_consistency's shared-emoji rule — the SVG IS the
-     icon, so there is no leading emoji left to match against. */
-  var NAV_VIEWBOX = {"chart": "2.48 2.48 19.05 19.05", "clock": "0.10 0.10 23.81 23.81", "disney-parks": "-0.20 -0.45 24.40 24.40", "entry-req": "0.10 0.10 23.81 23.81", "calendar": "0.10 -0.90 23.81 23.81", "first-timer": "-1.10 -1.60 26.19 26.19", "globe": "0.10 0.10 23.81 23.81", "insurance": "-1.21 -1.11 26.43 26.43", "laptop": "-2.29 -2.29 28.57 28.57", "list": "0.14 -0.82 23.71 23.71", "luggage": "0.10 -0.40 23.81 23.81", "map": "1.29 1.29 21.43 21.43", "money": "0.10 0.10 23.81 23.81", "neighborhoods": "1.02 1.72 20.95 20.95", "passport": "0.10 0.10 23.81 23.81", "rental-cars": "1.29 2.29 21.43 21.43", "restaurants": "0.10 0.10 23.81 23.81", "safety-guide": "-1.21 -1.11 26.43 26.43", "scams": "0.10 0.10 23.81 23.81", "sun": "-1.10 -1.10 26.19 26.19", "sunset": "-1.04 -1.54 26.07 26.07", "tap-water": "0.51 0.26 22.98 22.98", "tours-tickets": "0.10 0.10 23.81 23.81", "travel-apps": "-1.10 -1.10 26.19 26.19", "trophy": "1.29 0.79 21.43 21.43", "vaccines": "-0.20 -1.10 23.81 23.81", "visas": "0.10 0.10 23.81 23.81", "train": "0.10 -0.90 23.81 23.81", "hotel": "1.79 1.29 21.43 21.43", "trusted": "1.19 1.89 22.62 22.62", "plug": "0.69 1.19 22.62 22.62", "packing": "-0.29 2.11 21.07 21.07"};
+    var NAV_VIEWBOX = {"chart": "2.48 2.48 19.05 19.05", "clock": "0.10 0.10 23.81 23.81", "disney-parks": "-0.20 -0.45 24.40 24.40", "entry-req": "0.10 0.10 23.81 23.81", "calendar": "0.10 -0.90 23.81 23.81", "first-timer": "-1.10 -1.60 26.19 26.19", "globe": "0.10 0.10 23.81 23.81", "insurance": "-1.21 -1.11 26.43 26.43", "laptop": "-2.29 -2.29 28.57 28.57", "list": "0.14 -0.82 23.71 23.71", "luggage": "0.10 -0.40 23.81 23.81", "map": "1.29 1.29 21.43 21.43", "money": "0.10 0.10 23.81 23.81", "neighborhoods": "1.02 1.72 20.95 20.95", "passport": "0.10 0.10 23.81 23.81", "rental-cars": "1.29 2.29 21.43 21.43", "restaurants": "0.10 0.10 23.81 23.81", "safety-guide": "-1.21 -1.11 26.43 26.43", "scams": "0.10 0.10 23.81 23.81", "sun": "-1.10 -1.10 26.19 26.19", "sunset": "-1.04 -1.54 26.07 26.07", "tap-water": "0.51 0.26 22.98 22.98", "tours-tickets": "0.10 0.10 23.81 23.81", "travel-apps": "-1.10 -1.10 26.19 26.19", "trophy": "1.29 0.79 21.43 21.43", "vaccines": "-0.20 -1.10 23.81 23.81", "visas": "0.10 0.10 23.81 23.81", "train": "0.10 -0.90 23.81 23.81", "hotel": "1.79 1.29 21.43 21.43", "trusted": "1.19 1.89 22.62 22.62", "plug": "0.69 1.19 22.62 22.62", "packing": "-0.29 2.11 21.07 21.07"};
   var NAV_ICONS = {
     'safety-guide': '<path d="M12 1 3 5v6.1c0 5.6 3.8 10.8 9 12.1 5.2-1.3 9-6.5 9-12.1V5l-9-4zm0 2.2 7 3.1v4.8c0 4.5-3 8.8-7 10-4-1.2-7-5.5-7-10V6.3l7-3.1z"/><path d="M11 6.8h2v6.4h-2zM11 15h2v2h-2z"/>',
     'vaccines':     '<path d="M16.3 1.3 15 2.6l1.6 1.6-2 2-2.6-2.6-1.3 1.3 1 1-6.6 6.6a3 3 0 0 0-.8 1.5l-.7 3.1-1.9 1.9 1.3 1.3 1.9-1.9 3.1-.7a3 3 0 0 0 1.5-.8l6.6-6.6 1 1 1.3-1.3-2.6-2.6 2-2L20.4 6l1.3-1.3-5.4-3.4zm-1.7 8.3-2.2 2.2-1.4-1.4-1.2 1.2 1.4 1.4-1.3 1.3-1.4-1.4-1.2 1.2 1.4 1.4-.6.6a1.2 1.2 0 0 1-.6.3l-2.2.5.5-2.2a1.2 1.2 0 0 1 .3-.6l6.3-6.3 2.2 2.2z"/>',
@@ -846,15 +625,7 @@ window.TVE.home = (function () {
     'money': '<path d="M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20zm0 18a8 8 0 1 1 0-16 8 8 0 0 1 0 16zm.6-8.7c-1.7-.5-2.2-.9-2.2-1.5 0-.7.7-1.2 1.8-1.2 1.2 0 1.7.6 1.7 1.4h1.6c0-1.2-.8-2.3-2.2-2.6V6h-2.2v1.4c-1.3.3-2.3 1.2-2.3 2.5 0 1.5 1.3 2.3 3.2 2.8 1.7.4 2 1 2 1.6 0 .5-.3 1.2-1.8 1.2-1.4 0-1.9-.6-2-1.4H8.6c.1 1.5 1.2 2.4 2.5 2.7V18h2.2v-1.4c1.4-.3 2.4-1.1 2.4-2.5 0-1.8-1.6-2.5-3.1-2.8z"/>',
     'sun': '<path d="M12 6a6 6 0 1 0 0 12 6 6 0 0 0 0-12zm0 10a4 4 0 1 1 0-8 4 4 0 0 1 0 8zM11 1h2v3h-2zm0 19h2v3h-2zM1 11h3v2H1zm19 0h3v2h-3zM4.2 5.6l1.4-1.4 2.1 2.1-1.4 1.4zm12.1 12.1 1.4-1.4 2.1 2.1-1.4 1.4zM17.7 6.3l-1.4-1.4 2.1-2.1 1.4 1.4zM5.6 19.8l-1.4-1.4 2.1-2.1 1.4 1.4z"/>',
     'list': '<path d="M19 3h-4.2a3 3 0 0 0-5.6 0H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V5a2 2 0 0 0-2-2zm-7 0a1 1 0 1 1 0 2 1 1 0 0 1 0-2zm7 16H5V5h2v2h10V5h2v14zM7 10h10v2H7zm0 4h7v2H7z"/>',
-    /* NO FLAT AIRPLANE. NAV_ICONS['plane'] — the #124 outline as a solid
-       fill="var(--rust)" silhouette — was DELETED 2026-08-22 (owner: "use the
-       same plane everywhere make sure it is the treated one"). iconSVG() only
-       falls back to a NAV_ICONS entry when GM_SPRITE has no key of that name,
-       so leaving this here meant any surface whose key was 'plane' quietly
-       drew an untreated airplane. Every airplane on the site now resolves to
-       GM_SPRITE['flight-nav'] and draws with its gradient, rim and gloss.
-       Enforced: brain_check check_one_plane_drawing (85th non-negotiable). */
-    'clock':        '<path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm.5-13H11v6l5.25 3.15.75-1.23-4.5-2.67V7z"/>',
+        'clock':        '<path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm.5-13H11v6l5.25 3.15.75-1.23-4.5-2.67V7z"/>',
     /* the train already drawn on essentials/train-passes/ — same rule
        as every other key here: the menu wears the page's own icon */
     'passport':     '<path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 14H4V6h16v12zM6 10h2v2H6zm0 4h12v2H6zm4-4h8v2h-8z"/>',
@@ -866,25 +637,7 @@ window.TVE.home = (function () {
      markup; { stroke:true, m } is a stroked icon and needs the opposite
      wrapper (fill:none + a stroke colour) or it renders as a solid blob. */
 
-  /* ── COLOURED ICON SPRITE ────────────────────────────────────────────────
-     Owner rule 2026-08-12: every terracotta icon becomes a coloured one — the
-     mark inside a pill changes, the pill itself does not.
-
-     A coloured icon cannot be a CSS mask: a mask is a stencil filled with ONE
-     background-color, which is exactly why the whole set has been one colour.
-     So the drawing has to be real SVG in the DOM. Doing that naively would put
-     a full copy of the artwork at every occurrence — 8,810 pins and 3,496 book
-     rows across the fleet — so instead every drawing is declared ONCE as a
-     <symbol> and each occurrence is a single <use>. Per-instance markup stays
-     about 40 bytes.
-
-     Fills are palette vars, injected below, so a coloured mark still re-tints
-     for dark mode. Hardcoding the colours would have frozen the whole set
-     light.
-
-     A key with no entry here keeps the old mask path untouched, so this can be
-     completed icon by icon without a flag day. */
-  var GM_SPRITE = {
+    var GM_SPRITE = {
     /* Weather codes need a rain, a storm and a wind drawing: the strip used
        to print Apple weather emoji and now draws like everything else.
        Straight from the catalogue, never redrawn. */
@@ -897,17 +650,7 @@ window.TVE.home = (function () {
     /* Site-Icons.html #306 */
     'wx-moon': ['0 0 24 24', '<path d="M16.4 2.6a9.6 9.6 0 1 0 5 12.8A7.6 7.6 0 0 1 16.4 2.6z" fill="url(#gm-navy)" stroke="var(--c-navy-rim)" stroke-width="0.5"/><path d="M16.4 2.6a9.6 9.6 0 1 0 5 12.8A7.6 7.6 0 0 1 16.4 2.6z" fill="url(#gm-gloss)"/><g fill="url(#gm-sun)" stroke="var(--c-sun-rim)" stroke-width="0.5"><circle cx="8.6" cy="6.4" r="1.1"/><circle cx="5.4" cy="10.6" r="0.8"/><circle cx="11" cy="4.2" r="0.7"/></g>'],
 
-    /* ── The dots ────────────────────────────────────────────────────────
-       Site-Icons.html § Dots, specimens 856-867. These replace the color-circle
-       emoji (red/orange/yellow/green/blue/purple/grey) the badge families used
-       to print (owner 2026-08-20: "use our dots not emojis"). No dot emoji
-       character may appear anywhere in shipped HTML — check_no_css_dots and
-       check_no_decorative_emoji_in_pages/guides both hard-fail on one now
-       (brain_check.py, updated 2026-08-23). Each carries its own gradients - the ids are unique per
-       colour, so they cannot collide - plus the two specular ellipses that
-       give the sphere its sheen. Never redraw one: an emoji dot is a fixed
-       platform colour that cannot re-tint, which is the whole reason they go. */
-    /* Site-Icons.html #856 - Dot red */
+        /* Site-Icons.html #856 - Dot red */
     'dot-red': ['0 0 24 24', '<defs><radialGradient id="dot-red" cx="34%" cy="28%" r="78%"><stop offset="0%" stop-color="#ff8878"/><stop offset="52%" stop-color="#e03a2b"/><stop offset="100%" stop-color="#8a1a11"/></radialGradient><radialGradient id="dot-red-b" cx="50%" cy="88%" r="46%"><stop offset="0%" stop-color="#ff8878" stop-opacity="0.55"/><stop offset="100%" stop-color="#ff8878" stop-opacity="0"/></radialGradient></defs><circle cx="12" cy="12" r="10.8" fill="url(#dot-red)"/><circle cx="12" cy="12" r="10.8" fill="url(#dot-red-b)"/><ellipse cx="9.1" cy="7.6" rx="4.3" ry="3" fill="url(#gm-paper)" stroke="var(--c-rim-cool)" stroke-width="0.6" opacity="0.42" transform="rotate(-28 9.1 7.6)"/><ellipse cx="8.2" cy="6.6" rx="1.9" ry="1.2" fill="url(#gm-paper)" stroke="var(--c-rim-cool)" stroke-width="0.6" opacity="0.55" transform="rotate(-28 8.2 6.6)"/>'],
     /* Site-Icons.html #857 - Dot orange */
     'dot-orange': ['0 0 24 24', '<defs><radialGradient id="dot-orange" cx="34%" cy="28%" r="78%"><stop offset="0%" stop-color="#ffb75f"/><stop offset="52%" stop-color="#ef7d18"/><stop offset="100%" stop-color="#8f4408"/></radialGradient><radialGradient id="dot-orange-b" cx="50%" cy="88%" r="46%"><stop offset="0%" stop-color="#ffb75f" stop-opacity="0.55"/><stop offset="100%" stop-color="#ffb75f" stop-opacity="0"/></radialGradient></defs><circle cx="12" cy="12" r="10.8" fill="url(#dot-orange)"/><circle cx="12" cy="12" r="10.8" fill="url(#dot-orange-b)"/><ellipse cx="9.1" cy="7.6" rx="4.3" ry="3" fill="url(#gm-paper)" stroke="var(--c-rim-cool)" stroke-width="0.6" opacity="0.42" transform="rotate(-28 9.1 7.6)"/><ellipse cx="8.2" cy="6.6" rx="1.9" ry="1.2" fill="url(#gm-paper)" stroke="var(--c-rim-cool)" stroke-width="0.6" opacity="0.55" transform="rotate(-28 8.2 6.6)"/>'],
@@ -951,16 +694,7 @@ window.TVE.home = (function () {
        2026-09-03 while backfilling the Dining Areas section fleet-wide. */
     'signpost': ['0 0 24 24', '<ellipse cx="12" cy="22.2" rx="4.4" ry="1.2" fill="url(#gm-stone)" stroke="var(--c-stone-rim)" stroke-width="0.5" opacity="0.4"/> <rect x="10.9" y="2.6" width="2.2" height="19.4" rx="1" fill="url(#gm-cocoa)" stroke="var(--c-cocoa-rim)" stroke-width="0.5"/><rect x="10.9" y="2.6" width="2.2" height="19.4" rx="1" fill="url(#gm-gloss)"/> <path d="M12.6 4.6h7.2l2.4 2.2-2.4 2.2h-7.2z" fill="url(#gm-green)" stroke="var(--c-green-rim)" stroke-width="0.5"/> <path d="M11.4 10.6H4.2L1.8 12.8l2.4 2.2h7.2z" fill="url(#gm-rust)" stroke="var(--c-rust-rim)" stroke-width="0.5"/> <path d="M12.6 16.6h5.4l1.9 1.8-1.9 1.8h-5.4z" fill="url(#gm-sun)" stroke="var(--c-sun-rim)" stroke-width="0.5"/>'],
 
-    /* Site-Icons.html #183 - the RIDE APP mark. Uber is an app car (owner rule
-
-       2026-08-21). Deliberately the NAVY body: #184 red is the motion row and
-
-       nothing else, #180 teal is Food Delivery. Three jobs, three colours, and
-
-       the key is named for the MEANING because this family's other two keys read
-
-       as swapped ('delivery-car' is the ride, 'app-car' is the delivery). */
-
+    
     'ride-app': ['0 0 24 24', '<path d="M5.8 10.4 7.5 6.6c.3-.8 1-1.3 1.9-1.3h5.2c.9 0 1.6.5 1.9 1.3l1.7 3.8z" fill="url(#gm-sky)" stroke="var(--c-sky-rim)" stroke-width="0.5"/><path d="M5.8 10.4 7.5 6.6c.3-.8 1-1.3 1.9-1.3h5.2c.9 0 1.6.5 1.9 1.3l1.7 3.8z" fill="url(#gm-gloss)"/><path d="M11.6 5.3h0.9v5.1h-0.9z" fill="url(#gm-navy)" stroke="var(--c-navy-rim)" stroke-width="0.5"/><rect x="2.4" y="9.9" width="19.2" height="6.5" rx="2.4" fill="url(#gm-navy)" stroke="var(--c-navy-rim)" stroke-width="0.5"/><rect x="6.6" y="6.4" width="4" height="2.4" rx="0.6" fill="url(#gm-paper)" stroke="var(--c-rim-cool)" stroke-width="0.6"/><circle cx="8.6" cy="7.6" r="0.75" fill="url(#gm-navy)" stroke="var(--c-navy-rim)" stroke-width="0.5"/><rect x="2.7" y="11.4" width="3.1" height="1.9" rx="0.95" fill="url(#gm-sun)" stroke="var(--c-sun-rim)" stroke-width="0.5"/><rect x="18.2" y="11.4" width="3.1" height="1.9" rx="0.95" fill="url(#gm-red)" stroke="var(--c-red-rim)" stroke-width="0.5"/><circle cx="6.8" cy="17.3" r="2.6" fill="url(#gm-tire)" stroke="var(--c-tire-rim)" stroke-width="0.5"/><circle cx="6.8" cy="17.3" r="1.1" fill="url(#gm-stone)" stroke="var(--c-stone-rim)" stroke-width="0.5"/><circle cx="17.2" cy="17.3" r="2.6" fill="url(#gm-tire)" stroke="var(--c-tire-rim)" stroke-width="0.5"/><circle cx="17.2" cy="17.3" r="1.1" fill="url(#gm-stone)" stroke="var(--c-stone-rim)" stroke-width="0.5"/>'],
 
     /* Catalogue #176 -- a licensed/hailed street taxi, distinct from 'ride-app'
@@ -1032,47 +766,21 @@ window.TVE.home = (function () {
     'bang': ['0 0 24 24', '<path d="M9.3 2.2h5.4l-1 13.2h-3.4z" fill="url(#gm-red)" stroke="var(--c-red-rim)" stroke-width="0.5"/> <rect x="9.3" y="17.4" width="5.4" height="5.2" rx="1.6" fill="url(#gm-red)" stroke="var(--c-red-rim)" stroke-width="0.5"/> <path d="M10.2 3.4h1.5l-.75 11h-.5z" fill="url(#gm-paper)" stroke="var(--c-rim-cool)" stroke-width="0.6" opacity="0.4"/> <rect x="10.1" y="18.3" width="1.5" height="1.6" rx="0.7" fill="url(#gm-paper)" stroke="var(--c-rim-cool)" stroke-width="0.6" opacity="0.4"/>'],
     'beach': ['0 0 24 24', '<path d="M12 2.4C7.5 2.4 3.8 5.6 3 9.8L12 7.5l9 2.3C20.2 5.6 16.5 2.4 12 2.4z" fill="url(#gm-red)" stroke="var(--c-red-rim)" stroke-width="0.5"/><path d="M12 2.4C7.5 2.4 3.8 5.6 3 9.8L12 7.5l9 2.3C20.2 5.6 16.5 2.4 12 2.4z" fill="url(#gm-gloss)"/> <path d="M12 2.4C9.8 2.4 8 5.6 7.6 9.8L12 7.5l4.4 2.3C16 5.6 14.2 2.4 12 2.4z" fill="url(#gm-cream)" stroke="var(--c-rim-warm)" stroke-width="0.6"/> <rect x="11.3" y="7.5" width="1.4" height="10" fill="url(#gm-cocoa)" stroke="var(--c-cocoa-rim)" stroke-width="0.5"/> <path d="M1.6 17.6h20.8v2.2H1.6z" fill="url(#gm-tan)" stroke="var(--c-tan-rim)" stroke-width="0.5"/> <path d="M1.6 20.2c1.7 0 1.7 1.4 3.4 1.4s1.7-1.4 3.4-1.4 1.7 1.4 3.4 1.4 1.7-1.4 3.4-1.4 1.7 1.4 3.4 1.4 1.7-1.4 3.4-1.4" fill="none" stroke="var(--c-blue)" stroke-width="1.6" stroke-linecap="round"/>'],
     'book': ['0 0 24 24', '<path d="M1.4 4.6c2.9-1.2 7.6-1.1 10.6 1 3-2.1 7.7-2.2 10.6-1v15c-2.9-1.2-7.6-1.1-10.6 1-3-2.1-7.7-2.2-10.6-1z" fill="url(#gm-blue)" stroke="var(--c-blue-rim)" stroke-width="0.5"/> <path d="M2.9 6.4c2.4-.9 6.1-.8 8.4.9v11.6c-2.3-1.7-6-1.8-8.4-.9z" fill="url(#gm-paper)" stroke="var(--c-rim-cool)" stroke-width="0.6" stroke-linejoin="round" /> <path d="M21.1 6.4c-2.4-.9-6.1-.8-8.4.9v11.6c2.3-1.7 6-1.8 8.4-.9z" fill="url(#gm-cream)" stroke="var(--c-rim-cool)" stroke-width="0.6" stroke-linejoin="round" /> <g fill="none" stroke="var(--c-stone)" stroke-width="1" stroke-linecap="round"> <path d="M4.6 9h5M4.6 11.4h5M4.6 13.8h3.4M14.4 9.6h5M14.4 12h5M14.4 14.4h3.4"/> </g> <path d="M16.4 3.8h1.9v6.4l-.95-1.2-.95 1.2z" fill="url(#gm-red)" stroke="var(--c-red-rim)" stroke-width="0.5"/>'],
-    /* Site-Icons #651 (bookmark) — owner pick 2026-08-14, replacing the heavy
-       chain #1303. The glyph is still 💥 and the key is still 'burst'; the key
-       names the authored glyph, never the drawing. */
-    'burst': ['0 0 24 24', '<path d="M5.4 2.4h13.2a1.8 1.8 0 0 1 1.8 1.8v18l-8.4-5.4-8.4 5.4v-18a1.8 1.8 0 0 1 1.8-1.8z" fill="url(#gm-rust)" stroke="var(--c-rust-rim)" stroke-width="0.5"/><path d="M12 6.4l1.5 3 3.3.5-2.4 2.3.6 3.3-3-1.6-3 1.6.6-3.3-2.4-2.3 3.3-.5z" fill="url(#gm-sun)" stroke="var(--c-sun-rim)" stroke-width="0.5"/>'],
+        'burst': ['0 0 24 24', '<path d="M5.4 2.4h13.2a1.8 1.8 0 0 1 1.8 1.8v18l-8.4-5.4-8.4 5.4v-18a1.8 1.8 0 0 1 1.8-1.8z" fill="url(#gm-rust)" stroke="var(--c-rust-rim)" stroke-width="0.5"/><path d="M12 6.4l1.5 3 3.3.5-2.4 2.3.6 3.3-3-1.6-3 1.6.6-3.3-2.4-2.3 3.3-.5z" fill="url(#gm-sun)" stroke="var(--c-sun-rim)" stroke-width="0.5"/>'],
     'calendar': ['0 0 24 24', '<rect x="2.6" y="4" width="18.8" height="17.2" rx="2.4" fill="url(#gm-paper)" stroke="var(--c-rim-warm)" stroke-width="0.6" stroke-linejoin="round" /> <path d="M2.6 6.4A2.4 2.4 0 0 1 5 4h14a2.4 2.4 0 0 1 2.4 2.4v2.4H2.6z" fill="url(#gm-rust)" stroke="var(--c-rust-rim)" stroke-width="0.5"/> <rect x="6.3" y="1.9" width="2.2" height="4" rx="1.1" fill="url(#gm-clay)" stroke="var(--c-clay-rim)" stroke-width="0.5"/> <rect x="15.5" y="1.9" width="2.2" height="4" rx="1.1" fill="url(#gm-clay)" stroke="var(--c-clay-rim)" stroke-width="0.5"/> <g fill="url(#gm-stone)" stroke="var(--c-stone-rim)" stroke-width="0.5" opacity="0.45"> <rect x="5.4" y="11" width="3.1" height="2.7" rx="0.7"/><rect x="10.45" y="11" width="3.1" height="2.7" rx="0.7"/> <rect x="15.5" y="11" width="3.1" height="2.7" rx="0.7"/><rect x="5.4" y="15.4" width="3.1" height="2.7" rx="0.7"/> <rect x="15.5" y="15.4" width="3.1" height="2.7" rx="0.7"/> </g> <rect x="10.45" y="15.4" width="3.1" height="2.7" rx="0.7" fill="url(#gm-sun)" stroke="var(--c-sun-rim)" stroke-width="0.5"/>'],
     'card': ['0 0 24 24', '<rect x="1.6" y="4.6" width="20.8" height="14.8" rx="2.4" fill="url(#gm-navy)" stroke="var(--c-navy-rim)" stroke-width="0.5"/><rect x="1.6" y="4.6" width="20.8" height="14.8" rx="2.4" fill="url(#gm-gloss)"/> <rect x="1.6" y="7.8" width="20.8" height="3.4" fill="url(#gm-tire)" stroke="var(--c-tire-rim)" stroke-width="0.5"/> <rect x="4" y="13.4" width="5.4" height="3.6" rx="0.7" fill="url(#gm-sun)" stroke="var(--c-sun-rim)" stroke-width="0.5"/> <g stroke="var(--c-amber)" stroke-width="0.7" opacity="0.8"> <path d="M6.7 13.4v3.6M4 15.2h5.4"/> </g> <g fill="url(#gm-cream)" stroke="var(--c-rim-warm)" stroke-width="0.6" opacity="0.75"> <rect x="12.4" y="14.6" width="4.4" height="1.3" rx="0.65"/><rect x="18" y="14.6" width="2.4" height="1.3" rx="0.65"/> </g>'],
     'chart': ['0 0 24 24', '<rect x="3.2" y="12.6" width="4.6" height="8" rx="1.1" fill="url(#gm-sun)" stroke="var(--c-sun-rim)" stroke-width="0.5"/> <rect x="9.7" y="8.4" width="4.6" height="12.2" rx="1.1" fill="url(#gm-blue)" stroke="var(--c-blue-rim)" stroke-width="0.5"/> <rect x="16.2" y="4.4" width="4.6" height="16.2" rx="1.1" fill="url(#gm-rust)" stroke="var(--c-rust-rim)" stroke-width="0.5"/> <path d="M2 22h20" stroke="var(--c-stone)" stroke-width="1.5" stroke-linecap="round"/>'],
     'cathedral': ['0 0 24 24', '<g fill="none" stroke="var(--c-sky)" stroke-width="1.3" stroke-linecap="round"><path d="M12 3.6v3.4"/><path d="M12.9 7.6c2.4 1 3.9 3 4.3 5.6"/><path d="M11.1 7.6c-2.4 1-3.9 3-4.3 5.6"/></g><circle cx="12" cy="2.9" r="1" fill="url(#gm-sky)" stroke="var(--c-sky-rim)" stroke-width="0.5"/><path d="M7.6 9.8h8.8c0 2.1-2 3.4-4.4 3.4s-4.4-1.3-4.4-3.4z" fill="url(#gm-stone)" stroke="var(--c-stone-rim)" stroke-width="0.5"/><rect x="10.9" y="12.8" width="2.2" height="4.6" fill="url(#gm-stone)" stroke="var(--c-stone-rim)" stroke-width="0.5"/><path d="M2.8 16.8h18.4c0 2.6-4.1 4.2-9.2 4.2S2.8 19.4 2.8 16.8z" fill="url(#gm-slate)" stroke="var(--c-slate-rim)" stroke-width="0.5"/><ellipse cx="12" cy="16.8" rx="9.2" ry="2.2" fill="url(#gm-sky)" stroke="var(--c-sky-rim)" stroke-width="0.5"/><ellipse cx="12" cy="16.8" rx="9.2" ry="2.2" fill="url(#gm-gloss)"/><path d="M5.6 16.4c1.4-.7 2.6.5 4 0s2.6.5 4 0 2.6.5 4 0" fill="none" stroke="url(#gm-paper)" stroke-width="0.9" stroke-linecap="round" opacity="0.7"/>'],
     'church': ['0 0 24 24', '<rect x="11.2" y="1.4" width="1.6" height="5" fill="url(#gm-sun)" stroke="var(--c-sun-rim)" stroke-width="0.5"/><rect x="11.2" y="1.4" width="1.6" height="5" fill="url(#gm-gloss)"/><rect x="9.6" y="2.8" width="4.8" height="1.6" fill="url(#gm-sun)" stroke="var(--c-sun-rim)" stroke-width="0.5"/> <path d="M12 7 20 13.4V21.6H4V13.4z" fill="url(#gm-cream)" stroke="var(--c-rim-cool)" stroke-width="0.6" stroke-linejoin="round" /> <path d="M12 7 20 13.4h-2.6L12 9.6 6.6 13.4H4z" fill="url(#gm-rust)" stroke="var(--c-rust-rim)" stroke-width="0.5"/> <path d="M10 21.6v-4.2a2 2 0 0 1 4 0v4.2z" fill="url(#gm-cocoa)" stroke="var(--c-cocoa-rim)" stroke-width="0.5"/> <circle cx="12" cy="14.4" r="1.7" fill="url(#gm-sky)" stroke="var(--c-sky-rim)" stroke-width="0.5"/> <rect x="3.2" y="21.4" width="17.6" height="1.6" rx="0.8" fill="url(#gm-stone)" stroke="var(--c-stone-rim)" stroke-width="0.5"/>'],
-    /* Catalogue 210 — the History trip-type chip (owner pick, 2026-08-20).
-       NOT the 'cathedral' key above it: that one is deliberately the FOUNTAIN
-       drawing, mapped from ⛲ by MARKS, and renaming it breaks 128 Day Trips
-       sections. 'church' is catalogue 228, a different cathedral again. */
-    'basilica': ['0 0 24 24', '<path d="M4.4 8.4 6.2 4.6 8 8.4z" fill="url(#gm-rust)" stroke="var(--c-rust-rim)" stroke-width="0.5"/><path d="M4.4 8.4 6.2 4.6 8 8.4z" fill="url(#gm-gloss)"/> <path d="M16 8.4 17.8 4.6 19.6 8.4z" fill="url(#gm-rust)" stroke="var(--c-rust-rim)" stroke-width="0.5"/> <rect x="4.4" y="8.4" width="3.6" height="13.2" fill="url(#gm-cream)" stroke="var(--c-rim-warm)" stroke-width="0.6"/> <rect x="16" y="8.4" width="3.6" height="13.2" fill="url(#gm-cream)" stroke="var(--c-rim-warm)" stroke-width="0.6"/> <path d="M12 2.6 15.4 8.6v13H8.6v-13z" fill="url(#gm-cream)" stroke="var(--c-rim-cool)" stroke-width="0.6" stroke-linejoin="round" /> <path d="M12 4.8 14.2 8.8h-4.4z" fill="url(#gm-clay)" stroke="var(--c-clay-rim)" stroke-width="0.5"/> <circle cx="12" cy="12.6" r="2.2" fill="url(#gm-sky)" stroke="var(--c-sky-rim)" stroke-width="0.5"/> <path d="M12 10.4v4.4M9.8 12.6h4.4" stroke="var(--c-cream)" stroke-width="1.7"/> <path d="M10.2 21.6v-3.4a1.8 1.8 0 0 1 3.6 0v3.4z" fill="url(#gm-cocoa)" stroke="var(--c-cocoa-rim)" stroke-width="0.5"/> <g fill="url(#gm-sky)" stroke="var(--c-sky-rim)" stroke-width="0.5"><rect x="5.4" y="11.6" width="1.6" height="3" rx="0.8"/><rect x="17" y="11.6" width="1.6" height="3" rx="0.8"/></g> <rect x="3.4" y="21.4" width="17.2" height="1.6" rx="0.8" fill="url(#gm-stone)" stroke="var(--c-stone-rim)" stroke-width="0.5"/>'],
-    /* Catalogue 226 — the Art & museums trip-type chip (owner pick, 2026-08-20).
-       'museum-amber' (217) and catalogue 227 are the same colonnade drawn as a
-       single flat-tinted silhouette; this is the one with cream columns, a rust
-       architrave and a stone plinth, which is what reads at 14px. */
-    'museum-columned': ['0 0 24 24', '<path d="M4 20.5v-2h16v2H4zm1-3V9h2v8.5H5zm4 0V9h2v8.5H9zm4 0V9h2v8.5h-2zm4 0V9h2v8.5h-2zM12 1.5l9 5V8H3V6.5l9-5zm0 2.8L8.2 6.4h7.6L12 4.3z" fill="url(#gm-clay)" stroke="var(--c-clay-rim)" stroke-width="0.5"/><path d="M4 20.5v-2h16v2H4zm1-3V9h2v8.5H5zm4 0V9h2v8.5H9zm4 0V9h2v8.5h-2zm4 0V9h2v8.5h-2zM12 1.5l9 5V8H3V6.5l9-5zm0 2.8L8.2 6.4h7.6L12 4.3z" fill="url(#gm-gloss)"/>'],
+        'basilica': ['0 0 24 24', '<path d="M4.4 8.4 6.2 4.6 8 8.4z" fill="url(#gm-rust)" stroke="var(--c-rust-rim)" stroke-width="0.5"/><path d="M4.4 8.4 6.2 4.6 8 8.4z" fill="url(#gm-gloss)"/> <path d="M16 8.4 17.8 4.6 19.6 8.4z" fill="url(#gm-rust)" stroke="var(--c-rust-rim)" stroke-width="0.5"/> <rect x="4.4" y="8.4" width="3.6" height="13.2" fill="url(#gm-cream)" stroke="var(--c-rim-warm)" stroke-width="0.6"/> <rect x="16" y="8.4" width="3.6" height="13.2" fill="url(#gm-cream)" stroke="var(--c-rim-warm)" stroke-width="0.6"/> <path d="M12 2.6 15.4 8.6v13H8.6v-13z" fill="url(#gm-cream)" stroke="var(--c-rim-cool)" stroke-width="0.6" stroke-linejoin="round" /> <path d="M12 4.8 14.2 8.8h-4.4z" fill="url(#gm-clay)" stroke="var(--c-clay-rim)" stroke-width="0.5"/> <circle cx="12" cy="12.6" r="2.2" fill="url(#gm-sky)" stroke="var(--c-sky-rim)" stroke-width="0.5"/> <path d="M12 10.4v4.4M9.8 12.6h4.4" stroke="var(--c-cream)" stroke-width="1.7"/> <path d="M10.2 21.6v-3.4a1.8 1.8 0 0 1 3.6 0v3.4z" fill="url(#gm-cocoa)" stroke="var(--c-cocoa-rim)" stroke-width="0.5"/> <g fill="url(#gm-sky)" stroke="var(--c-sky-rim)" stroke-width="0.5"><rect x="5.4" y="11.6" width="1.6" height="3" rx="0.8"/><rect x="17" y="11.6" width="1.6" height="3" rx="0.8"/></g> <rect x="3.4" y="21.4" width="17.2" height="1.6" rx="0.8" fill="url(#gm-stone)" stroke="var(--c-stone-rim)" stroke-width="0.5"/>'],
+        'museum-columned': ['0 0 24 24', '<path d="M4 20.5v-2h16v2H4zm1-3V9h2v8.5H5zm4 0V9h2v8.5H9zm4 0V9h2v8.5h-2zm4 0V9h2v8.5h-2zM12 1.5l9 5V8H3V6.5l9-5zm0 2.8L8.2 6.4h7.6L12 4.3z" fill="url(#gm-clay)" stroke="var(--c-clay-rim)" stroke-width="0.5"/><path d="M4 20.5v-2h16v2H4zm1-3V9h2v8.5H5zm4 0V9h2v8.5H9zm4 0V9h2v8.5h-2zm4 0V9h2v8.5h-2zM12 1.5l9 5V8H3V6.5l9-5zm0 2.8L8.2 6.4h7.6L12 4.3z" fill="url(#gm-gloss)"/>'],
     'clock-stop': ['0 0 24 24', '<circle cx="12" cy="12" r="10" fill="url(#gm-rust)" stroke="var(--c-rust-rim)" stroke-width="0.5"/> <circle cx="12" cy="12" r="8.1" fill="url(#gm-cream)" stroke="var(--c-rim-cool)" stroke-width="0.6" stroke-linejoin="round" /> <g fill="url(#gm-stone)" stroke="var(--c-stone-rim)" stroke-width="0.5"> <rect x="11.4" y="4.6" width="1.2" height="2" rx="0.6"/><rect x="11.4" y="17.4" width="1.2" height="2" rx="0.6"/> <rect x="4.6" y="11.4" width="2" height="1.2" rx="0.6"/><rect x="17.4" y="11.4" width="2" height="1.2" rx="0.6"/> </g> <g stroke="var(--c-navy)" stroke-width="1.9" stroke-linecap="round" fill="none"> <path d="M12 7.6V12"/><path d="M12 12l3.6 2.1"/> </g> <circle cx="12" cy="12" r="1.2" fill="url(#gm-sun)" stroke="var(--c-sun-rim)" stroke-width="0.5"/>'],
     'clock': ['0 0 24 24', '<circle cx="12" cy="12" r="10" fill="url(#gm-rust)" stroke="var(--c-rust-rim)" stroke-width="0.5"/> <circle cx="12" cy="12" r="8.1" fill="url(#gm-cream)" stroke="var(--c-rim-cool)" stroke-width="0.6" stroke-linejoin="round" /> <g fill="url(#gm-stone)" stroke="var(--c-stone-rim)" stroke-width="0.5"> <rect x="11.4" y="4.6" width="1.2" height="2" rx="0.6"/><rect x="11.4" y="17.4" width="1.2" height="2" rx="0.6"/> <rect x="4.6" y="11.4" width="2" height="1.2" rx="0.6"/><rect x="17.4" y="11.4" width="2" height="1.2" rx="0.6"/> </g> <g stroke="var(--c-navy)" stroke-width="1.9" stroke-linecap="round" fill="none"> <path d="M12 7.6V12"/><path d="M12 12l3.6 2.1"/> </g> <circle cx="12" cy="12" r="1.2" fill="url(#gm-sun)" stroke="var(--c-sun-rim)" stroke-width="0.5"/>'],
-    /* Guide-Icons.html specimen #63, "Clock · wall clock" — owner pick 2026-08-13
-       for Time Zones. Separate key from 'clock' (specimen #62, the shipped
-       shape), which stays on Connection Times and Visa Processing Times. */
-    'wall-clock': ['0 0 24 24', '<circle cx="12" cy="12" r="10.4" fill="url(#gm-navy)" stroke="var(--c-navy-rim)" stroke-width="0.5"/><circle cx="12" cy="12" r="8.6" fill="url(#gm-paper)" stroke="var(--c-rim-cool)" stroke-width="0.6"/><g fill="none" stroke="var(--c-stone)" stroke-width="0.8" stroke-linecap="round"><path d="M12.00 4.95L12.00 3.74"/><path d="M15.53 5.89L16.13 4.85"/><path d="M18.11 8.47L19.15 7.87"/><path d="M19.05 12.00L20.26 12.00"/><path d="M18.11 15.53L19.15 16.13"/><path d="M15.53 18.11L16.13 19.15"/><path d="M12.00 19.05L12.00 20.26"/><path d="M8.47 18.11L7.87 19.15"/><path d="M5.89 15.53L4.85 16.13"/><path d="M4.95 12.00L3.74 12.00"/><path d="M5.89 8.47L4.85 7.87"/><path d="M8.47 5.89L7.87 4.85"/></g><g fill="none" stroke="var(--c-tire)" stroke-linecap="round"><path d="M12 12L9.57 10.30" stroke-width="1.90"/><path d="M12 12L15.83 9.79" stroke-width="1.50"/></g><circle cx="12" cy="12" r="1" fill="url(#gm-red)" stroke="var(--c-red-rim)" stroke-width="0.5"/>'],
-    /* Guide-Icons.html specimen #572, "Preview · wand" — owner pick 2026-08-13
-       for Unique Hotels, replacing the 'bulb'. 'bulb' is untouched and stays
-       wherever else it is drawn. */
-    'wand': ['0 0 24 24', '<path d="M14.4 2.2 15.9 6.1 19.8 7.6 15.9 9.1 14.4 13 12.9 9.1 9 7.6 12.9 6.1z" fill="url(#gm-sun)" stroke="var(--c-sun-rim)" stroke-width="0.5"/><path d="M12.2 11.4 3.4 20.2a1.9 1.9 0 0 0 2.7 2.7l8.8-8.8z" fill="url(#gm-plum)" stroke="var(--c-plum-rim)" stroke-width="0.5"/><circle cx="20.4" cy="13.4" r="1.5" fill="url(#gm-rose)" stroke="var(--c-rose-rim)" stroke-width="0.5"/><circle cx="6.6" cy="5.4" r="1.2" fill="url(#gm-sky)" stroke="var(--c-sky-rim)" stroke-width="0.5"/>'],
-    /* Guide-Icons.html specimen #324, "Sun · sun and palms" — owner pick
-       2026-08-13 for Browse by City, replacing the generic 'search' magnifier.
-       'search' itself stays: other surfaces still draw it. */
-    'sun-palms': ['0 0 24 24', '<circle cx="12.6" cy="10.2" r="5.4" fill="url(#gm-sun)" stroke="var(--c-sun-rim)" stroke-width="0.5"/><circle cx="12.6" cy="10.2" r="5.4" fill="url(#gm-gloss)"/><rect x="1" y="19.4" width="22" height="2.4" rx="1.2" fill="url(#gm-tan)" stroke="var(--c-tan-rim)" stroke-width="0.5"/><path d="M5.4 19.4c-.4-3.6-.2-6.4.6-8.4l1.9.5c-.7 1.8-.9 4.4-.5 7.9z" fill="url(#gm-cocoa)" stroke="var(--c-cocoa-rim)" stroke-width="0.5"/><path d="M6.4 10.4c2.4-1.6 4.4-1.4 6 .6-1.8-.6-3.5-.4-5 .6zM6.4 10.4c-2.4-1.6-4.4-1.4-6 .6 1.8-.6 3.5-.4 5 .6zM6.4 10.4c.6-2.6 2-4 4.2-4.2-1.5 1-2.6 2.4-3.2 4.2z" fill="url(#gm-leaf)" stroke="var(--c-leaf-rim)" stroke-width="0.5"/><path d="M18.4 19.4c.3-3 .1-5.4-.5-7l1.8-.5c.7 1.7.9 4.2.6 7.5z" fill="url(#gm-cocoa)" stroke="var(--c-cocoa-rim)" stroke-width="0.5"/><path d="M19 12.2c2-1.3 3.7-1.1 5 .5-1.5-.5-2.9-.3-4.2.5zM19 12.2c-2-1.3-3.7-1.1-5 .5 1.5-.5 2.9-.3 4.2.5z" fill="url(#gm-leaf)" stroke="var(--c-leaf-rim)" stroke-width="0.5"/>'],
-    /* Guide-Icons.html specimen #71, "Clock · clock and hourglass" — owner pick
-       2026-08-13 for Visa Processing Times. Fourth distinct clock; 'clock' (#62)
-       is now only the hours band and duration chip, which draw it directly. */
-    'clock-hourglass': ['0 0 24 24', '<circle cx="8.6" cy="10.4" r="7.4" fill="url(#gm-navy)" stroke="var(--c-navy-rim)" stroke-width="0.5"/><circle cx="8.6" cy="10.4" r="5.8" fill="url(#gm-paper)" stroke="var(--c-rim-cool)" stroke-width="0.6"/><g fill="none" stroke="var(--c-stone)" stroke-width="1.05" stroke-linecap="round"><path d="M8.60 5.64L8.60 4.83"/><path d="M10.98 6.28L11.38 5.58"/><path d="M12.72 8.02L13.42 7.62"/><path d="M13.36 10.40L14.17 10.40"/><path d="M12.72 12.78L13.42 13.18"/><path d="M10.98 14.52L11.38 15.22"/><path d="M8.60 15.16L8.60 15.97"/><path d="M6.22 14.52L5.82 15.22"/><path d="M4.48 12.78L3.78 13.18"/><path d="M3.84 10.40L3.03 10.40"/><path d="M4.48 8.02L3.78 7.62"/><path d="M6.22 6.28L5.82 5.58"/></g><g fill="none" stroke="var(--c-tire)" stroke-linecap="round"><path d="M8.6 10.4L6.47 9.83" stroke-width="1.61"/><path d="M8.6 10.4L8.60 13.68" stroke-width="1.27"/></g><circle cx="8.6" cy="10.4" r="0.7" fill="url(#gm-red)" stroke="var(--c-red-rim)" stroke-width="0.5"/><rect x="14.4" y="16.4" width="7.6" height="1.6" rx="0.8" fill="url(#gm-cocoa)" stroke="var(--c-cocoa-rim)" stroke-width="0.5"/><rect x="14.4" y="3.6" width="7.6" height="1.6" rx="0.8" fill="url(#gm-cocoa)" stroke="var(--c-cocoa-rim)" stroke-width="0.5"/><path d="M15.2 5.2h6c0 1.9-1 3.2-3 4.5 2 1.3 3 2.6 3 4.5h-6c0-1.9 1-3.2 3-4.5-2-1.3-3-2.6-3-4.5z" fill="url(#gm-sky)" stroke="var(--c-sky-rim)" stroke-width="0.5" opacity="0.85"/><path d="M16 6.2h4.4L18.2 9.7z" fill="url(#gm-sun)" stroke="var(--c-sun-rim)" stroke-width="0.5"/><path d="M16.4 15.2c0-1.2.8-2 1.8-2s1.8.8 1.8 2z" fill="url(#gm-sun)" stroke="var(--c-sun-rim)" stroke-width="0.5"/>'],
-    /* Guide-Icons.html specimen #67, "Clock · wristwatch" — owner pick 2026-08-13
-       for Connection Times. Third distinct clock: 'clock' (#62) stays on Visa
-       Processing Times, 'wall-clock' (#63) is Time Zones. */
-    'wristwatch': ['0 0 24 24', '<rect x="8.4" y="1.2" width="7.2" height="5" rx="1.2" fill="url(#gm-stone)" stroke="var(--c-stone-rim)" stroke-width="0.5"/><rect x="8.4" y="17.8" width="7.2" height="5" rx="1.2" fill="url(#gm-stone)" stroke="var(--c-stone-rim)" stroke-width="0.5"/><circle cx="12" cy="12" r="6.6" fill="url(#gm-navy)" stroke="var(--c-navy-rim)" stroke-width="0.5"/><circle cx="12" cy="12" r="5" fill="url(#gm-paper)" stroke="var(--c-rim-cool)" stroke-width="0.6"/><g fill="none" stroke="var(--c-stone)" stroke-width="1.05" stroke-linecap="round"><path d="M12.00 7.90L12.00 7.20"/><path d="M14.05 8.45L14.40 7.84"/><path d="M15.55 9.95L16.16 9.60"/><path d="M16.10 12.00L16.80 12.00"/><path d="M15.55 14.05L16.16 14.40"/><path d="M14.05 15.55L14.40 16.16"/><path d="M12.00 16.10L12.00 16.80"/><path d="M9.95 15.55L9.60 16.16"/><path d="M8.45 14.05L7.84 14.40"/><path d="M7.90 12.00L7.20 12.00"/><path d="M8.45 9.95L7.84 9.60"/><path d="M9.95 8.45L9.60 7.84"/></g><g fill="none" stroke="var(--c-tire)" stroke-linecap="round"><path d="M12 12L10.38 10.86" stroke-width="1.52"/><path d="M12 12L14.56 10.52" stroke-width="1.20"/></g><circle cx="12" cy="12" r="0.7" fill="url(#gm-red)" stroke="var(--c-red-rim)" stroke-width="0.5"/>'],
+        'wall-clock': ['0 0 24 24', '<circle cx="12" cy="12" r="10.4" fill="url(#gm-navy)" stroke="var(--c-navy-rim)" stroke-width="0.5"/><circle cx="12" cy="12" r="8.6" fill="url(#gm-paper)" stroke="var(--c-rim-cool)" stroke-width="0.6"/><g fill="none" stroke="var(--c-stone)" stroke-width="0.8" stroke-linecap="round"><path d="M12.00 4.95L12.00 3.74"/><path d="M15.53 5.89L16.13 4.85"/><path d="M18.11 8.47L19.15 7.87"/><path d="M19.05 12.00L20.26 12.00"/><path d="M18.11 15.53L19.15 16.13"/><path d="M15.53 18.11L16.13 19.15"/><path d="M12.00 19.05L12.00 20.26"/><path d="M8.47 18.11L7.87 19.15"/><path d="M5.89 15.53L4.85 16.13"/><path d="M4.95 12.00L3.74 12.00"/><path d="M5.89 8.47L4.85 7.87"/><path d="M8.47 5.89L7.87 4.85"/></g><g fill="none" stroke="var(--c-tire)" stroke-linecap="round"><path d="M12 12L9.57 10.30" stroke-width="1.90"/><path d="M12 12L15.83 9.79" stroke-width="1.50"/></g><circle cx="12" cy="12" r="1" fill="url(#gm-red)" stroke="var(--c-red-rim)" stroke-width="0.5"/>'],
+        'wand': ['0 0 24 24', '<path d="M14.4 2.2 15.9 6.1 19.8 7.6 15.9 9.1 14.4 13 12.9 9.1 9 7.6 12.9 6.1z" fill="url(#gm-sun)" stroke="var(--c-sun-rim)" stroke-width="0.5"/><path d="M12.2 11.4 3.4 20.2a1.9 1.9 0 0 0 2.7 2.7l8.8-8.8z" fill="url(#gm-plum)" stroke="var(--c-plum-rim)" stroke-width="0.5"/><circle cx="20.4" cy="13.4" r="1.5" fill="url(#gm-rose)" stroke="var(--c-rose-rim)" stroke-width="0.5"/><circle cx="6.6" cy="5.4" r="1.2" fill="url(#gm-sky)" stroke="var(--c-sky-rim)" stroke-width="0.5"/>'],
+        'sun-palms': ['0 0 24 24', '<circle cx="12.6" cy="10.2" r="5.4" fill="url(#gm-sun)" stroke="var(--c-sun-rim)" stroke-width="0.5"/><circle cx="12.6" cy="10.2" r="5.4" fill="url(#gm-gloss)"/><rect x="1" y="19.4" width="22" height="2.4" rx="1.2" fill="url(#gm-tan)" stroke="var(--c-tan-rim)" stroke-width="0.5"/><path d="M5.4 19.4c-.4-3.6-.2-6.4.6-8.4l1.9.5c-.7 1.8-.9 4.4-.5 7.9z" fill="url(#gm-cocoa)" stroke="var(--c-cocoa-rim)" stroke-width="0.5"/><path d="M6.4 10.4c2.4-1.6 4.4-1.4 6 .6-1.8-.6-3.5-.4-5 .6zM6.4 10.4c-2.4-1.6-4.4-1.4-6 .6 1.8-.6 3.5-.4 5 .6zM6.4 10.4c.6-2.6 2-4 4.2-4.2-1.5 1-2.6 2.4-3.2 4.2z" fill="url(#gm-leaf)" stroke="var(--c-leaf-rim)" stroke-width="0.5"/><path d="M18.4 19.4c.3-3 .1-5.4-.5-7l1.8-.5c.7 1.7.9 4.2.6 7.5z" fill="url(#gm-cocoa)" stroke="var(--c-cocoa-rim)" stroke-width="0.5"/><path d="M19 12.2c2-1.3 3.7-1.1 5 .5-1.5-.5-2.9-.3-4.2.5zM19 12.2c-2-1.3-3.7-1.1-5 .5 1.5-.5 2.9-.3 4.2.5z" fill="url(#gm-leaf)" stroke="var(--c-leaf-rim)" stroke-width="0.5"/>'],
+        'clock-hourglass': ['0 0 24 24', '<circle cx="8.6" cy="10.4" r="7.4" fill="url(#gm-navy)" stroke="var(--c-navy-rim)" stroke-width="0.5"/><circle cx="8.6" cy="10.4" r="5.8" fill="url(#gm-paper)" stroke="var(--c-rim-cool)" stroke-width="0.6"/><g fill="none" stroke="var(--c-stone)" stroke-width="1.05" stroke-linecap="round"><path d="M8.60 5.64L8.60 4.83"/><path d="M10.98 6.28L11.38 5.58"/><path d="M12.72 8.02L13.42 7.62"/><path d="M13.36 10.40L14.17 10.40"/><path d="M12.72 12.78L13.42 13.18"/><path d="M10.98 14.52L11.38 15.22"/><path d="M8.60 15.16L8.60 15.97"/><path d="M6.22 14.52L5.82 15.22"/><path d="M4.48 12.78L3.78 13.18"/><path d="M3.84 10.40L3.03 10.40"/><path d="M4.48 8.02L3.78 7.62"/><path d="M6.22 6.28L5.82 5.58"/></g><g fill="none" stroke="var(--c-tire)" stroke-linecap="round"><path d="M8.6 10.4L6.47 9.83" stroke-width="1.61"/><path d="M8.6 10.4L8.60 13.68" stroke-width="1.27"/></g><circle cx="8.6" cy="10.4" r="0.7" fill="url(#gm-red)" stroke="var(--c-red-rim)" stroke-width="0.5"/><rect x="14.4" y="16.4" width="7.6" height="1.6" rx="0.8" fill="url(#gm-cocoa)" stroke="var(--c-cocoa-rim)" stroke-width="0.5"/><rect x="14.4" y="3.6" width="7.6" height="1.6" rx="0.8" fill="url(#gm-cocoa)" stroke="var(--c-cocoa-rim)" stroke-width="0.5"/><path d="M15.2 5.2h6c0 1.9-1 3.2-3 4.5 2 1.3 3 2.6 3 4.5h-6c0-1.9 1-3.2 3-4.5-2-1.3-3-2.6-3-4.5z" fill="url(#gm-sky)" stroke="var(--c-sky-rim)" stroke-width="0.5" opacity="0.85"/><path d="M16 6.2h4.4L18.2 9.7z" fill="url(#gm-sun)" stroke="var(--c-sun-rim)" stroke-width="0.5"/><path d="M16.4 15.2c0-1.2.8-2 1.8-2s1.8.8 1.8 2z" fill="url(#gm-sun)" stroke="var(--c-sun-rim)" stroke-width="0.5"/>'],
+        'wristwatch': ['0 0 24 24', '<rect x="8.4" y="1.2" width="7.2" height="5" rx="1.2" fill="url(#gm-stone)" stroke="var(--c-stone-rim)" stroke-width="0.5"/><rect x="8.4" y="17.8" width="7.2" height="5" rx="1.2" fill="url(#gm-stone)" stroke="var(--c-stone-rim)" stroke-width="0.5"/><circle cx="12" cy="12" r="6.6" fill="url(#gm-navy)" stroke="var(--c-navy-rim)" stroke-width="0.5"/><circle cx="12" cy="12" r="5" fill="url(#gm-paper)" stroke="var(--c-rim-cool)" stroke-width="0.6"/><g fill="none" stroke="var(--c-stone)" stroke-width="1.05" stroke-linecap="round"><path d="M12.00 7.90L12.00 7.20"/><path d="M14.05 8.45L14.40 7.84"/><path d="M15.55 9.95L16.16 9.60"/><path d="M16.10 12.00L16.80 12.00"/><path d="M15.55 14.05L16.16 14.40"/><path d="M14.05 15.55L14.40 16.16"/><path d="M12.00 16.10L12.00 16.80"/><path d="M9.95 15.55L9.60 16.16"/><path d="M8.45 14.05L7.84 14.40"/><path d="M7.90 12.00L7.20 12.00"/><path d="M8.45 9.95L7.84 9.60"/><path d="M9.95 8.45L9.60 7.84"/></g><g fill="none" stroke="var(--c-tire)" stroke-linecap="round"><path d="M12 12L10.38 10.86" stroke-width="1.52"/><path d="M12 12L14.56 10.52" stroke-width="1.20"/></g><circle cx="12" cy="12" r="0.7" fill="url(#gm-red)" stroke="var(--c-red-rim)" stroke-width="0.5"/>'],
     'closed': ['0.10 0.10 23.81 23.81', '<path d="M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20zm0 2c1.9 0 3.6.6 5 1.7L5.7 17A8 8 0 0 1 12 4zm0 16c-1.9 0-3.6-.6-5-1.7L18.3 7A8 8 0 0 1 12 20z" fill="url(#gm-red)" stroke="var(--c-red-rim)" stroke-width="0.5"/>'],
     'coffee': ['0 0 24 24', '<ellipse cx="11.4" cy="19.9" rx="10.2" ry="2.2" fill="url(#gm-tire)" stroke="var(--c-tire-rim)" stroke-width="0.5" opacity="0.13"/><ellipse cx="11.4" cy="19.4" rx="10.2" ry="2.6" fill="url(#gm-cocoa)" stroke="var(--c-cocoa-rim)" stroke-width="0.5"/><ellipse cx="11.4" cy="19.4" rx="10.2" ry="2.6" fill="url(#gm-gloss)"/><ellipse cx="11.4" cy="18.9" rx="7.4" ry="1.6" fill="url(#gm-cocoa)" stroke="var(--c-cocoa-rim)" stroke-width="0.5"/><ellipse cx="11.4" cy="18.9" rx="7.4" ry="1.6" fill="url(#gm-tire)" stroke="var(--c-tire-rim)" stroke-width="0.5" opacity="0.10"/><path d="M19.6 9.4a3.4 3.4 0 0 1 0 6.8h-1.6v-2.2h1.6a1.2 1.2 0 0 0 0-2.4h-1.6V9.4z" fill="url(#gm-cocoa)" stroke="var(--c-cocoa-rim)" stroke-width="0.5"/><path d="M3.4 8.2h15.4v3.4c0 3.9-3.4 6.8-7.7 6.8s-7.7-2.9-7.7-6.8z" fill="url(#gm-cocoa)" stroke="var(--c-cocoa-rim)" stroke-width="0.5"/><path d="M4.9 9.1c-.35 2.6-.2 4.6.7 6.3-1.4-1.3-2.1-3-2.2-5.2z" fill="url(#gm-gloss)"/><ellipse cx="11.1" cy="8.2" rx="7.7" ry="2.6" fill="url(#gm-cocoa)" stroke="var(--c-cocoa-rim)" stroke-width="0.5"/><ellipse cx="11.1" cy="8.2" rx="6.3" ry="2.0" fill="url(#gm-clay)" stroke="var(--c-clay-rim)" stroke-width="0.5"/><g fill="none" stroke="var(--c-cream)" stroke-width="0.8" stroke-linecap="round"><path d="M8.2 8.2c0-1 1.3-1.8 2.9-1.8s2.9.8 2.9 1.8-1.3 1.8-2.9 1.8-2.9-.8-2.9-1.8z"/><path d="M11.1 6.4v3.6"/></g><ellipse cx="11.1" cy="19.4" rx="4.4" ry="1.0" fill="url(#gm-cocoa)" stroke="var(--c-cocoa-rim)" stroke-width="0.5" opacity="0.5"/>'],
     'dessert': ['0 0 24 24', '<ellipse cx="12" cy="15.4" rx="10.4" ry="5.8" fill="url(#gm-slate)" stroke="var(--c-slate-rim)" stroke-width="0.5"/><ellipse cx="12" cy="15.0" rx="7.9" ry="4.2" fill="url(#gm-paper)" stroke="var(--c-rim-cool)" stroke-width="0.6"/><ellipse cx="12" cy="14.2" rx="6.6" ry="3.4" fill="url(#gm-sun)" stroke="var(--c-sun-rim)" stroke-width="0.5"/><g fill="none" stroke="var(--c-amber)" stroke-width="0.75" stroke-linecap="round" opacity="0.85"><path d="M6.4 14c2.2-1.9 9-1.9 11.2 0"/><path d="M6.6 15.4c2.4 1.7 8.4 1.7 10.8 0"/><path d="M8 12.4c1.6 1.4 6.4 1.4 8 0"/></g><ellipse cx="12" cy="12.9" rx="2.9" ry="1.6" fill="url(#gm-red)" stroke="var(--c-red-rim)" stroke-width="0.5"/><circle cx="13.6" cy="11.8" r="0.75" fill="url(#gm-green)" stroke="var(--c-green-rim)" stroke-width="0.5"/><ellipse cx="12" cy="15.4" rx="10.4" ry="5.8" fill="url(#gm-gloss)"/>'],
@@ -1096,21 +804,13 @@ window.TVE.home = (function () {
     'folded-map': ['0 0 24 24', '<path d="M1.6 5 8.4 2.6v16.8L1.6 21.8z" fill="url(#gm-blue)" stroke="var(--c-blue-rim)" stroke-width="0.5"/><path d="M8.4 2.6 15.6 5v16.8l-7.2-2.4z" fill="url(#gm-sky)" stroke="var(--c-sky-rim)" stroke-width="0.5"/><path d="M15.6 5 22.4 2.6v16.8l-6.8 2.4z" fill="url(#gm-blue)" stroke="var(--c-blue-rim)" stroke-width="0.5"/>'],
     'map': ['0 0 24 24', '<path d="M2 5.2 8.6 3v16L2 21.2z" fill="url(#gm-green)" stroke="var(--c-green-rim)" stroke-width="0.5"/><path d="M2 5.2 8.6 3v16L2 21.2z" fill="url(#gm-gloss)"/> <path d="M8.6 3 15.4 5.2v16L8.6 19z" fill="url(#gm-cream)" stroke="var(--c-rim-warm)" stroke-width="0.6" stroke-linejoin="round" /> <path d="M15.4 5.2 22 3v16l-6.6 2.2z" fill="url(#gm-green)" stroke="var(--c-green-rim)" stroke-width="0.5"/> <path d="M4.6 17.4c2-3 3.6-2 5.2-4.6 1.6-2.6 4-2 6-4.8" fill="none" stroke="var(--c-rust)" stroke-width="1.4" stroke-linecap="round" stroke-dasharray="2.4 1.9"/> <path d="M17.4 5.6a2.3 2.3 0 0 0-2.3 2.3c0 1.7 2.3 4.3 2.3 4.3s2.3-2.6 2.3-4.3a2.3 2.3 0 0 0-2.3-2.3z" fill="url(#gm-red)" stroke="var(--c-red-rim)" stroke-width="0.5"/> <circle cx="17.4" cy="7.9" r="0.9" fill="url(#gm-paper)" stroke="var(--c-rim-cool)" stroke-width="0.6"/>'],
     'money': ['0 0 24 24', '<rect x="1.4" y="5.6" width="17" height="10" rx="1.7" fill="url(#gm-green)" stroke="var(--c-green-rim)" stroke-width="0.5"/><rect x="1.4" y="5.6" width="17" height="10" rx="1.7" fill="url(#gm-gloss)"/> <rect x="3.2" y="7.4" width="13.4" height="6.4" rx="0.9" fill="none" stroke="var(--c-cream)" stroke-width="0.9" opacity="0.75"/> <circle cx="9.9" cy="10.6" r="2.4" fill="url(#gm-cream)" stroke="var(--c-rim-warm)" stroke-width="0.6"/> <circle cx="17.4" cy="16.6" r="5.4" fill="url(#gm-sun)" stroke="var(--c-sun-rim)" stroke-width="0.5"/> <circle cx="17.4" cy="16.6" r="3.8" fill="url(#gm-amber)" stroke="var(--c-amber-rim)" stroke-width="0.5"/> <g stroke="var(--c-cream)" stroke-width="1.1" stroke-linecap="round"> <path d="M17.4 13.8v5.6M16 15.3h2.8M16 17.9h2.8"/> </g>'],
-    /* Site-Icons #1350 (twin peaks) — owner pick 2026-08-14. */
-    'mountain': ['0 0 24 24', '<path d="M0.8 20.8 8.4 8.2 14.6 20.8z" fill="url(#gm-pine)" stroke="var(--c-pine-rim)" stroke-width="0.5"/><path d="M9.4 20.8 16.6 6 23.2 20.8z" fill="url(#gm-slate)" stroke="var(--c-slate-rim)" stroke-width="0.5"/><path d="M16.6 6 19.6 12.7c-1.1.6-2 .2-2.9-.3-.9-.5-1.8-.4-2.7.2L13.6 12.7z" fill="url(#gm-paper)" stroke="var(--c-rim-cool)" stroke-width="0.6"/><path d="M16.6 6 19.6 12.7c-1.1.6-2 .2-2.9-.3-.9-.5-1.8-.4-2.7.2L13.6 12.7z" fill="url(#gm-gloss)"/><rect x="0.6" y="20.6" width="22.8" height="1.6" rx="0.8" fill="url(#gm-stone)" stroke="var(--c-stone-rim)" stroke-width="0.5"/>'],
+        'mountain': ['0 0 24 24', '<path d="M0.8 20.8 8.4 8.2 14.6 20.8z" fill="url(#gm-pine)" stroke="var(--c-pine-rim)" stroke-width="0.5"/><path d="M9.4 20.8 16.6 6 23.2 20.8z" fill="url(#gm-slate)" stroke="var(--c-slate-rim)" stroke-width="0.5"/><path d="M16.6 6 19.6 12.7c-1.1.6-2 .2-2.9-.3-.9-.5-1.8-.4-2.7.2L13.6 12.7z" fill="url(#gm-paper)" stroke="var(--c-rim-cool)" stroke-width="0.6"/><path d="M16.6 6 19.6 12.7c-1.1.6-2 .2-2.9-.3-.9-.5-1.8-.4-2.7.2L13.6 12.7z" fill="url(#gm-gloss)"/><rect x="0.6" y="20.6" width="22.8" height="1.6" rx="0.8" fill="url(#gm-stone)" stroke="var(--c-stone-rim)" stroke-width="0.5"/>'],
     'bunting': ['0 0 24 24', '<path d="M1.4 6.4Q12 12.6 22.6 6.4" fill="none" stroke="var(--c-cocoa)" stroke-width="1.2" stroke-linecap="round"/> <path d="M2.4 7h3.6L4.2 12.2z" fill="url(#gm-red)" stroke="var(--c-red-rim)" stroke-width="0.5"/><path d="M2.4 7h3.6L4.2 12.2z" fill="url(#gm-gloss)"/> <path d="M6.4 8.4h3.6L8.2 13.6z" fill="url(#gm-sun)" stroke="var(--c-sun-rim)" stroke-width="0.5"/> <path d="M10.4 9.2h3.6L12.2 14.4z" fill="url(#gm-blue)" stroke="var(--c-blue-rim)" stroke-width="0.5"/> <path d="M14.4 8.7h3.6L16.2 13.9z" fill="url(#gm-green)" stroke="var(--c-green-rim)" stroke-width="0.5"/> <path d="M18.2 7.4h3.6L20 12.6z" fill="url(#gm-plum)" stroke="var(--c-plum-rim)" stroke-width="0.5"/> <circle cx="5" cy="17.6" r="1.2" fill="url(#gm-rose)" stroke="var(--c-rose-rim)" stroke-width="0.5"/> <circle cx="12" cy="19.4" r="1.4" fill="url(#gm-sun)" stroke="var(--c-sun-rim)" stroke-width="0.5"/> <circle cx="18.8" cy="17.2" r="1.2" fill="url(#gm-teal)" stroke="var(--c-teal-rim)" stroke-width="0.5"/>'],
     'projector': ['0 0 24 24', '<rect x="2.4" y="8.4" width="13.6" height="8.4" rx="1.6" fill="url(#gm-navy)" stroke="var(--c-navy-rim)" stroke-width="0.5"/><rect x="2.4" y="8.4" width="13.6" height="8.4" rx="1.6" fill="url(#gm-gloss)"/><circle cx="8.2" cy="6.4" r="3.2" fill="url(#gm-stone)" stroke="var(--c-stone-rim)" stroke-width="0.5"/><circle cx="16.2" cy="6.4" r="2.4" fill="url(#gm-stone)" stroke="var(--c-stone-rim)" stroke-width="0.5"/><circle cx="8.2" cy="6.4" r="1" fill="url(#gm-tire)" stroke="var(--c-tire-rim)" stroke-width="0.5"/><circle cx="16.2" cy="6.4" r="0.8" fill="url(#gm-tire)" stroke="var(--c-tire-rim)" stroke-width="0.5"/><path d="M16 10.6 22.4 8v9.2L16 14.6z" fill="url(#gm-sun)" stroke="var(--c-sun-rim)" stroke-width="0.5" opacity="0.75"/><rect x="4.4" y="10.6" width="3.4" height="1.6" rx="0.5" fill="url(#gm-sky)" stroke="var(--c-sky-rim)" stroke-width="0.5"/><rect x="3.4" y="17" width="11.6" height="1.9" rx="0.9" fill="url(#gm-tire)" stroke="var(--c-tire-rim)" stroke-width="0.5"/>'],
     'museum-amber': ['0 0 24 24', '<path d="M4 21v-2h16v2H4zm1-3V9.5h2V18H5zm4 0V9.5h2V18H9zm4 0V9.5h2V18h-2zm4 0V9.5h2V18h-2zM12 2l9 5v1.5H3V7l9-5z" fill="url(#gm-amber)" stroke="var(--c-amber-rim)" stroke-width="0.5"/><path d="M4 21v-2h16v2H4zm1-3V9.5h2V18H5zm4 0V9.5h2V18H9zm4 0V9.5h2V18h-2zm4 0V9.5h2V18h-2zM12 2l9 5v1.5H3V7l9-5z" fill="url(#gm-gloss)"/>'],
     'museumstar': ['0 0 24 24', '<rect x="2.4" y="8.6" width="19.2" height="12.8" rx="1.2" fill="url(#gm-cream)" stroke="var(--c-rim-warm)" stroke-width="0.6"/><rect x="2.4" y="8.6" width="19.2" height="12.8" rx="1.2" fill="url(#gm-gloss)"/><path d="M1.4 8.6 12 3.4l10.6 5.2z" fill="url(#gm-slate)" stroke="var(--c-slate-rim)" stroke-width="0.5"/><rect x="4.4" y="11" width="4" height="4.4" rx="0.5" fill="url(#gm-sky)" stroke="var(--c-sky-rim)" stroke-width="0.5"/><rect x="16" y="11" width="4" height="4.4" rx="0.5" fill="url(#gm-sky)" stroke="var(--c-sky-rim)" stroke-width="0.5"/><rect x="9.6" y="12.6" width="4.8" height="8.8" rx="0.6" fill="url(#gm-cocoa)" stroke="var(--c-cocoa-rim)" stroke-width="0.5"/><rect x="3.4" y="17.4" width="5.4" height="1.6" rx="0.7" fill="url(#gm-stone)" stroke="var(--c-stone-rim)" stroke-width="0.5"/><rect x="15.4" y="17.4" width="5.4" height="1.6" rx="0.7" fill="url(#gm-stone)" stroke="var(--c-stone-rim)" stroke-width="0.5"/><rect x="1" y="21" width="22" height="1.6" rx="0.8" fill="url(#gm-stone)" stroke="var(--c-stone-rim)" stroke-width="0.5"/>'],
     'paddle': ['0 0 24 24', '<g transform="rotate(-15 9 11)"> <rect x="3.2" y="1.4" width="11.6" height="13.8" rx="2.8" fill="url(#gm-tan)" stroke="var(--c-tan-rim)" stroke-width="0.5"/><rect x="3.2" y="1.4" width="11.6" height="13.8" rx="2.8" fill="url(#gm-gloss)"/> <rect x="4.8" y="2.9" width="8.4" height="10.8" rx="2" fill="url(#gm-cream)" stroke="var(--c-rim-warm)" stroke-width="0.6" opacity="0.5"/> <rect x="7.6" y="15" width="2.8" height="2.6" fill="url(#gm-cocoa)" stroke="var(--c-cocoa-rim)" stroke-width="0.5"/> <rect x="6.9" y="17.2" width="4.2" height="5.6" rx="1.7" fill="url(#gm-rust)" stroke="var(--c-rust-rim)" stroke-width="0.5"/> <g stroke="var(--c-cocoa)" stroke-width="0.7" opacity="0.45"> <path d="M7 18.7h4M7 20.1h4M7 21.5h4"/> </g> </g> <circle cx="19.1" cy="18.3" r="4.1" fill="url(#gm-sun)" stroke="var(--c-sun-rim)" stroke-width="0.5"/> <g fill="url(#gm-amber)" stroke="var(--c-amber-rim)" stroke-width="0.5"> <circle cx="17.6" cy="16.9" r="0.8"/><circle cx="20.4" cy="17.2" r="0.8"/> <circle cx="18.1" cy="19.8" r="0.8"/><circle cx="20.7" cy="19.9" r="0.8"/> </g>'],
-    /* #1233 Hiking boot — the SAME catalogue drawing the Packing Checklist
-       carries on its own Hiking card, which is where the section's closing pill
-       points (owner rule 2026-08-18). Verbatim from the specimen, its own
-       viewBox included, so it is normalised exactly as the catalogue draws it.
-       With this key present markRow draws the coloured symbol; without it the
-       glyph fell through to the flat mask and Hiking was the ONLY one of the
-       sixteen section titles not carrying the gradient-and-rim treatment. */
-    'hiking-boot': ['2.22 3.17 18.96 18.96', '<path d="M4.2 3.6h4.4c.9 0 1.6.7 1.7 1.6l.5 5.4 6.8 3.2c2 .9 3.2 2.9 3.2 5.1v1.2c0 .9-.7 1.6-1.6 1.6H4.2c-.9 0-1.6-.7-1.6-1.6z" fill="url(#gm-rust)" stroke="var(--c-rust-rim)" stroke-width="0.5"/><path d="M4.2 3.6h4.4c.9 0 1.6.7 1.7 1.6l.5 5.4 6.8 3.2c2 .9 3.2 2.9 3.2 5.1v1.2c0 .9-.7 1.6-1.6 1.6H4.2c-.9 0-1.6-.7-1.6-1.6z" fill="url(#gm-gloss)"/> <path d="M2.6 18.2h18.2v1.6c0 .9-.7 1.6-1.6 1.6H4.2c-.9 0-1.6-.7-1.6-1.6z" fill="url(#gm-tire)" stroke="var(--c-tire-rim)" stroke-width="0.5"/> <g stroke="var(--c-sun-rim)" stroke-width="1.5" stroke-linecap="round"><path d="M4.6 6.4h4M4.6 9.2h4M4.6 12h4.4"/></g> <path d="M12 12.6c2.2 1 4.4 1.8 6.4 2.2" stroke="var(--c-teal-rim)" stroke-width="1.4" stroke-linecap="round" fill="none"/>'],
+        'hiking-boot': ['2.22 3.17 18.96 18.96', '<path d="M4.2 3.6h4.4c.9 0 1.6.7 1.7 1.6l.5 5.4 6.8 3.2c2 .9 3.2 2.9 3.2 5.1v1.2c0 .9-.7 1.6-1.6 1.6H4.2c-.9 0-1.6-.7-1.6-1.6z" fill="url(#gm-rust)" stroke="var(--c-rust-rim)" stroke-width="0.5"/><path d="M4.2 3.6h4.4c.9 0 1.6.7 1.7 1.6l.5 5.4 6.8 3.2c2 .9 3.2 2.9 3.2 5.1v1.2c0 .9-.7 1.6-1.6 1.6H4.2c-.9 0-1.6-.7-1.6-1.6z" fill="url(#gm-gloss)"/> <path d="M2.6 18.2h18.2v1.6c0 .9-.7 1.6-1.6 1.6H4.2c-.9 0-1.6-.7-1.6-1.6z" fill="url(#gm-tire)" stroke="var(--c-tire-rim)" stroke-width="0.5"/> <g stroke="var(--c-sun-rim)" stroke-width="1.5" stroke-linecap="round"><path d="M4.6 6.4h4M4.6 9.2h4M4.6 12h4.4"/></g> <path d="M12 12.6c2.2 1 4.4 1.8 6.4 2.2" stroke="var(--c-teal-rim)" stroke-width="1.4" stroke-linecap="round" fill="none"/>'],
     /* #1349 Snow peak — the terrain row (distance - shape - ascent). The one
        genuinely new drawing this section needs; every other row it ships reuses
        a symbol the site already draws. */
@@ -1123,29 +823,14 @@ window.TVE.home = (function () {
     'pin': ['0 0 24 24', '<ellipse cx="12" cy="21.4" rx="4" ry="1.3" fill="url(#gm-stone)" stroke="var(--c-stone-rim)" stroke-width="0.5" opacity="0.45"/> <path d="M12 1.6a7.4 7.4 0 0 0-7.4 7.4c0 5.5 7.4 13.4 7.4 13.4s7.4-8 7.4-13.4A7.4 7.4 0 0 0 12 1.6z" fill="url(#gm-red)" stroke="var(--c-red-rim)" stroke-width="0.5"/><path d="M12 1.6a7.4 7.4 0 0 0-7.4 7.4c0 5.5 7.4 13.4 7.4 13.4s7.4-8 7.4-13.4A7.4 7.4 0 0 0 12 1.6z" fill="url(#gm-gloss)"/> <path d="M12 1.6a7.4 7.4 0 0 0-7.4 7.4c0 5.5 7.4 13.4 7.4 13.4z" fill="url(#gm-clay)" stroke="var(--c-clay-rim)" stroke-width="0.5" opacity="0.55"/> <circle cx="12" cy="9" r="2.9" fill="url(#gm-paper)" stroke="var(--c-rim-cool)" stroke-width="0.6"/> <circle cx="12" cy="9" r="1.3" fill="url(#gm-rust)" stroke="var(--c-rust-rim)" stroke-width="0.5"/>'],
     'blocks': ['0 0 24 24', '<rect x="2.4" y="11" width="8.4" height="10.6" rx="1" fill="url(#gm-teal)" stroke="var(--c-teal-rim)" stroke-width="0.5"/><rect x="2.4" y="11" width="8.4" height="10.6" rx="1" fill="url(#gm-gloss)"/><rect x="13.2" y="6.4" width="8.4" height="15.2" rx="1" fill="url(#gm-clay)" stroke="var(--c-clay-rim)" stroke-width="0.5"/><rect x="7" y="2.4" width="8.4" height="6.4" rx="1" fill="url(#gm-sun)" stroke="var(--c-sun-rim)" stroke-width="0.5"/>'],
     'books': ['0 0 24 24', '<rect x="2.6" y="4" width="4.4" height="16.4" rx="0.8" fill="url(#gm-red)" stroke="var(--c-red-rim)" stroke-width="0.5"/><rect x="7.6" y="6" width="4.2" height="14.4" rx="0.8" fill="url(#gm-teal)" stroke="var(--c-teal-rim)" stroke-width="0.5"/><rect x="12.4" y="3.2" width="4.4" height="17.2" rx="0.8" fill="url(#gm-sun)" stroke="var(--c-sun-rim)" stroke-width="0.5"/><rect x="17.4" y="7" width="4" height="13.4" rx="0.8" fill="url(#gm-blue)" stroke="var(--c-blue-rim)" stroke-width="0.5"/><rect x="1.6" y="20.4" width="20.8" height="1.8" rx="0.9" fill="url(#gm-cocoa)" stroke="var(--c-cocoa-rim)" stroke-width="0.5"/>'],
-    /* WALLET, not the piggy bank (owner rule 2026-08-23: "wallet 378, make sure
-       it has the cool treatment"). Specimen 378 from Site-Icons.html, copied
-       verbatim — gradient fills, per-family rims and the gloss on the note, so
-       it draws as a treated icon and not a flat silhouette (Twenty-eighth and
-       Fifty-ninth non-negotiables). One key, one drawing: this is the cost
-       mark everywhere it appears — the landing finder's Average costs, the
-       Compare card's Average costs, and the Cost of Living pill on 239 guides
-       — so the pig is gone from all of them in one edit rather than leaving two
-       vocabularies for one fact. NAV_ICONS['budget'] still holds the old flat
-       outline and is never read: iconSVG() prefers the sprite whenever the key
-       exists in both. */
-    'budget': ['0 0 24 24', '<rect x="7.4" y="3.4" width="9.6" height="5" rx="1" fill="url(#gm-green)" stroke="var(--c-green-rim)" stroke-width="0.5"/><rect x="7.4" y="3.4" width="9.6" height="5" rx="1" fill="url(#gm-gloss)"/> <circle cx="12.2" cy="5.9" r="1.4" fill="url(#gm-cream)" stroke="var(--c-rim-warm)" stroke-width="0.6"/> <path d="M3.4 6.6h15a2.2 2.2 0 0 1 2.2 2.2v9.4a2.2 2.2 0 0 1-2.2 2.2h-15z" fill="url(#gm-rust)" stroke="var(--c-rust-rim)" stroke-width="0.5"/> <rect x="2" y="6.6" width="2.2" height="13.8" rx="1.1" fill="url(#gm-cocoa)" stroke="var(--c-cocoa-rim)" stroke-width="0.5"/> <rect x="13.8" y="11.4" width="8" height="4.6" rx="1.4" fill="url(#gm-cream)" stroke="var(--c-rim-warm)" stroke-width="0.6"/> <circle cx="17.2" cy="13.7" r="1.3" fill="url(#gm-amber)" stroke="var(--c-amber-rim)" stroke-width="0.5"/>'],
+        'budget': ['0 0 24 24', '<rect x="7.4" y="3.4" width="9.6" height="5" rx="1" fill="url(#gm-green)" stroke="var(--c-green-rim)" stroke-width="0.5"/><rect x="7.4" y="3.4" width="9.6" height="5" rx="1" fill="url(#gm-gloss)"/> <circle cx="12.2" cy="5.9" r="1.4" fill="url(#gm-cream)" stroke="var(--c-rim-warm)" stroke-width="0.6"/> <path d="M3.4 6.6h15a2.2 2.2 0 0 1 2.2 2.2v9.4a2.2 2.2 0 0 1-2.2 2.2h-15z" fill="url(#gm-rust)" stroke="var(--c-rust-rim)" stroke-width="0.5"/> <rect x="2" y="6.6" width="2.2" height="13.8" rx="1.1" fill="url(#gm-cocoa)" stroke="var(--c-cocoa-rim)" stroke-width="0.5"/> <rect x="13.8" y="11.4" width="8" height="4.6" rx="1.4" fill="url(#gm-cream)" stroke="var(--c-rim-warm)" stroke-width="0.6"/> <circle cx="17.2" cy="13.7" r="1.3" fill="url(#gm-amber)" stroke="var(--c-amber-rim)" stroke-width="0.5"/>'],
     'mosque': ['0 0 24 24', '<rect x="2.4" y="8.6" width="2.6" height="13" rx="0.6" fill="url(#gm-cream)" stroke="var(--c-rim-warm)" stroke-width="0.6"/><rect x="2.4" y="8.6" width="2.6" height="13" rx="0.6" fill="url(#gm-gloss)"/> <path d="M3.7 5.6 5.4 8.6H2z" fill="url(#gm-teal)" stroke="var(--c-teal-rim)" stroke-width="0.5"/> <rect x="19" y="8.6" width="2.6" height="13" rx="0.6" fill="url(#gm-cream)" stroke="var(--c-rim-warm)" stroke-width="0.6"/> <path d="M20.3 5.6 22 8.6h-3.4z" fill="url(#gm-teal)" stroke="var(--c-teal-rim)" stroke-width="0.5"/> <rect x="6.4" y="12.6" width="11.2" height="9" fill="url(#gm-cream)" stroke="var(--c-rim-cool)" stroke-width="0.6" stroke-linejoin="round" /> <path d="M12 4.4c3.1 0 5.6 3 5.6 6.6 0 0.8-.1 1.5-.3 2.2H6.7a7.6 7.6 0 0 1-.3-2.2C6.4 7.4 8.9 4.4 12 4.4z" fill="url(#gm-teal)" stroke="var(--c-teal-rim)" stroke-width="0.5"/> <rect x="11.4" y="2" width="1.2" height="2.6" fill="url(#gm-sun)" stroke="var(--c-sun-rim)" stroke-width="0.5"/> <path d="M10 21.6v-4.2a2 2 0 0 1 4 0v4.2z" fill="url(#gm-cocoa)" stroke="var(--c-cocoa-rim)" stroke-width="0.5"/> <rect x="1.4" y="21.4" width="21.2" height="1.6" rx="0.8" fill="url(#gm-stone)" stroke="var(--c-stone-rim)" stroke-width="0.5"/>'],
     'colosseum': ['0 0 24 24', '<path d="M2.6 8.6h18.8v11.6H2.6z" fill="url(#gm-cream)" stroke="var(--c-rim-warm)" stroke-width="0.6" stroke-linejoin="round" /><path d="M2.6 8.6h18.8v11.6H2.6z" fill="url(#gm-gloss)"/> <path d="M2.6 8.6a9.4 3.4 0 0 1 18.8 0z" fill="url(#gm-tan)" stroke="var(--c-tan-rim)" stroke-width="0.5"/> <g fill="url(#gm-cocoa)" stroke="var(--c-cocoa-rim)" stroke-width="0.5"> <path d="M4.6 12.4a1.5 1.5 0 0 1 3 0v2.4h-3zM9 11.9a1.5 1.5 0 0 1 3 0v2.9H9zM13.4 11.9a1.5 1.5 0 0 1 3 0v2.9h-3zM17.8 12.4a1.5 1.5 0 0 1 3 0v2.4h-3z"/> <path d="M4.6 17a1.3 1.3 0 0 1 2.6 0v2.2H4.6zM9.2 16.7a1.3 1.3 0 0 1 2.6 0v2.5H9.2zM13.6 16.7a1.3 1.3 0 0 1 2.6 0v2.5h-2.6zM18.2 17a1.3 1.3 0 0 1 2.6 0v2.2h-2.6z"/> </g> <path d="M17.4 6.4 21.4 8.6v11.6h-4z" fill="url(#gm-stone)" stroke="var(--c-stone-rim)" stroke-width="0.5" opacity="0.35"/> <rect x="1.6" y="20" width="20.8" height="1.8" rx="0.9" fill="url(#gm-stone)" stroke="var(--c-stone-rim)" stroke-width="0.5"/>'],
     'building': ['0 0 24 24', '<rect x="3.4" y="3" width="17.2" height="18.4" rx="1.4" fill="url(#gm-cream)" stroke="var(--c-rim-warm)" stroke-width="0.6" stroke="var(--c-rim-warm)" stroke-width="1" stroke-linejoin="round"/><rect x="3.4" y="3" width="17.2" height="18.4" rx="1.4" fill="url(#gm-gloss)"/><rect x="3" y="3" width="18" height="2.8" rx="0.8" fill="url(#gm-rust)" stroke="var(--c-rust-rim)" stroke-width="0.5"/><g fill="url(#gm-blue)" stroke="var(--c-blue-rim)" stroke-width="0.5"><rect x="6" y="7.6" width="2.8" height="2.8" rx="0.5"/><rect x="10.6" y="7.6" width="2.8" height="2.8" rx="0.5"/><rect x="15.2" y="7.6" width="2.8" height="2.8" rx="0.5"/><rect x="6" y="12.4" width="2.8" height="2.8" rx="0.5"/><rect x="15.2" y="12.4" width="2.8" height="2.8" rx="0.5"/></g><rect x="10.6" y="12.4" width="2.8" height="2.8" rx="0.5" fill="url(#gm-sun)" stroke="var(--c-sun-rim)" stroke-width="0.5"/><rect x="9.6" y="17" width="4.8" height="4.4" rx="0.5" fill="url(#gm-cocoa)" stroke="var(--c-cocoa-rim)" stroke-width="0.5"/>'],
     'bulb': ['0 0 24 24', '<g stroke="var(--c-amber)" stroke-width="1.7" stroke-linecap="round"><path d="M12 1.2v1.8M4 5.6 5.4 6.8M20 5.6 18.6 6.8"/></g><path d="M12 3.6a6.6 6.6 0 0 0-3.8 12c.5.4.8 1 .8 1.6v.6h6v-.6c0-.6.3-1.2.8-1.6A6.6 6.6 0 0 0 12 3.6z" fill="url(#gm-sun)" stroke="var(--c-sun-rim)" stroke-width="0.5"/><path d="M9 18.6h6v1.2a1.4 1.4 0 0 1-1.4 1.4h-3.2A1.4 1.4 0 0 1 9 19.8z" fill="url(#gm-cocoa)" stroke="var(--c-cocoa-rim)" stroke-width="0.5"/>'],
     'castle': ['0 0 24 24', '<path d="M4.4 9.8 7 4.6l2.6 5.2z" fill="url(#gm-blue)" stroke="var(--c-blue-rim)" stroke-width="0.5"/><path d="M4.4 9.8 7 4.6l2.6 5.2z" fill="url(#gm-gloss)"/><path d="M14.4 9.8 17 4.6l2.6 5.2z" fill="url(#gm-blue)" stroke="var(--c-blue-rim)" stroke-width="0.5"/><path d="M8.4 7.6 12 1.4l3.6 6.2z" fill="url(#gm-navy)" stroke="var(--c-navy-rim)" stroke-width="0.5"/><rect x="4.7" y="9.8" width="4.6" height="12" fill="url(#gm-cream)" stroke="var(--c-rim-warm)" stroke-width="0.6" stroke="var(--c-rim-warm)" stroke-width="0.9"/><rect x="14.7" y="9.8" width="4.6" height="12" fill="url(#gm-cream)" stroke="var(--c-rim-warm)" stroke-width="0.6" stroke="var(--c-rim-warm)" stroke-width="0.9"/><rect x="8.6" y="7.6" width="6.8" height="14.2" fill="url(#gm-cream)" stroke="var(--c-rim-warm)" stroke-width="0.6" stroke="var(--c-rim-warm)" stroke-width="0.9"/><path d="M9.9 21.8v-4.2a2.1 2.1 0 0 1 4.2 0v4.2z" fill="url(#gm-rust)" stroke="var(--c-rust-rim)" stroke-width="0.5"/>'],
     'category': ['0 0 24 24', '<rect x="2.4" y="2.4" width="8.6" height="8.6" rx="1.6" fill="url(#gm-blue)" stroke="var(--c-blue-rim)" stroke-width="0.5"/><rect x="13" y="2.4" width="8.6" height="8.6" rx="1.6" fill="url(#gm-sun)" stroke="var(--c-sun-rim)" stroke-width="0.5"/><rect x="2.4" y="13" width="8.6" height="8.6" rx="1.6" fill="url(#gm-teal)" stroke="var(--c-teal-rim)" stroke-width="0.5"/><rect x="13" y="13" width="8.6" height="8.6" rx="1.6" fill="url(#gm-clay)" stroke="var(--c-clay-rim)" stroke-width="0.5"/>'],
-    /* Guide-Icons.html specimen #50, "Cal · the date" — owner pick 2026-08-13 for
-       Day Trips by Train. A SEPARATE key from 'calendar' on purpose: that one is
-       the grid calendar and is also the Export-to-Calendar button's mark, so
-       restyling it in place would have silently changed a second surface. */
-    'calendar-date': ['0 0 24 24', '<rect x="2.6" y="4" width="18.8" height="17.2" rx="2.4" fill="url(#gm-paper)" stroke="var(--c-rim-warm)" stroke-width="0.6" stroke-linejoin="round" /> <path d="M2.6 6.4A2.4 2.4 0 0 1 5 4h14a2.4 2.4 0 0 1 2.4 2.4v2.4H2.6z" fill="url(#gm-rust)" stroke="var(--c-rust-rim)" stroke-width="0.5"/> <rect x="6.3" y="1.9" width="2.2" height="4" rx="1.1" fill="url(#gm-clay)" stroke="var(--c-clay-rim)" stroke-width="0.5"/> <rect x="15.5" y="1.9" width="2.2" height="4" rx="1.1" fill="url(#gm-clay)" stroke="var(--c-clay-rim)" stroke-width="0.5"/> <g fill="url(#gm-stone)" stroke="var(--c-stone-rim)" stroke-width="0.5" opacity="0.45"> <rect x="5.4" y="11" width="3.1" height="2.7" rx="0.7"/><rect x="10.45" y="11" width="3.1" height="2.7" rx="0.7"/> <rect x="15.5" y="11" width="3.1" height="2.7" rx="0.7"/><rect x="5.4" y="15.4" width="3.1" height="2.7" rx="0.7"/> <rect x="15.5" y="15.4" width="3.1" height="2.7" rx="0.7"/> </g> <rect x="10.45" y="15.4" width="3.1" height="2.7" rx="0.7" fill="url(#gm-sun)" stroke="var(--c-sun-rim)" stroke-width="0.5"/>'],
+        'calendar-date': ['0 0 24 24', '<rect x="2.6" y="4" width="18.8" height="17.2" rx="2.4" fill="url(#gm-paper)" stroke="var(--c-rim-warm)" stroke-width="0.6" stroke-linejoin="round" /> <path d="M2.6 6.4A2.4 2.4 0 0 1 5 4h14a2.4 2.4 0 0 1 2.4 2.4v2.4H2.6z" fill="url(#gm-rust)" stroke="var(--c-rust-rim)" stroke-width="0.5"/> <rect x="6.3" y="1.9" width="2.2" height="4" rx="1.1" fill="url(#gm-clay)" stroke="var(--c-clay-rim)" stroke-width="0.5"/> <rect x="15.5" y="1.9" width="2.2" height="4" rx="1.1" fill="url(#gm-clay)" stroke="var(--c-clay-rim)" stroke-width="0.5"/> <g fill="url(#gm-stone)" stroke="var(--c-stone-rim)" stroke-width="0.5" opacity="0.45"> <rect x="5.4" y="11" width="3.1" height="2.7" rx="0.7"/><rect x="10.45" y="11" width="3.1" height="2.7" rx="0.7"/> <rect x="15.5" y="11" width="3.1" height="2.7" rx="0.7"/><rect x="5.4" y="15.4" width="3.1" height="2.7" rx="0.7"/> <rect x="15.5" y="15.4" width="3.1" height="2.7" rx="0.7"/> </g> <rect x="10.45" y="15.4" width="3.1" height="2.7" rx="0.7" fill="url(#gm-sun)" stroke="var(--c-sun-rim)" stroke-width="0.5"/>'],
     'cave': ['0 0 24 24', '<path d="M1.8 22c.2-8.4 3.4-14.6 9.4-15.4 6.6-.9 11 5.6 11 15.4z" fill="url(#gm-tan)" stroke="var(--c-tan-rim)" stroke-width="0.5"/><path d="M1.8 22c.2-8.4 3.4-14.6 9.4-15.4 6.6-.9 11 5.6 11 15.4z" fill="url(#gm-gloss)"/><path d="M7.3 22v-4.4l1.2 2.1.9-3.1 1.1 2.6 1-3.4 1.1 2.9 1-2.4 1.2 2.7.9-1.9V22z" fill="url(#gm-navy)" stroke="var(--c-navy-rim)" stroke-width="0.5"/>'],
     'check': ['0 0 24 24', '<circle cx="12" cy="12" r="10.6" fill="url(#gm-green)" stroke="var(--c-green-rim)" stroke-width="0.5"/><path d="M6.8 12.4 10.4 16l6.8-8" fill="none" stroke="var(--c-paper)" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/>'],
     'close': ['0 0 24 24', '<circle cx="12" cy="12" r="10.6" fill="url(#gm-stone)" stroke="var(--c-stone-rim)" stroke-width="0.5"/><path d="M8.2 8.2 15.8 15.8M15.8 8.2 8.2 15.8" stroke="var(--c-paper)" stroke-width="2.6" stroke-linecap="round"/>'],
@@ -1193,18 +878,7 @@ window.TVE.home = (function () {
     'sun-clear': ['0 0 24 24', '<circle cx="12" cy="12" r="5.4" fill="url(#gm-sun)" stroke="var(--c-sun-rim)" stroke-width="0.5"/><circle cx="12" cy="12" r="5.4" fill="url(#gm-gloss)"/> <circle cx="12" cy="12" r="3.6" fill="url(#gm-amber)" stroke="var(--c-amber-rim)" stroke-width="0.5" opacity="0.45"/> <g stroke="var(--c-sun)" stroke-width="2.1" stroke-linecap="round"> <path d="M12 2.4v2.6"/><path d="M12 19v2.6"/><path d="M2.4 12h2.6"/><path d="M19 12h2.6"/> <path d="M5.2 5.2 7 7"/><path d="M17 17l1.8 1.8"/><path d="M18.8 5.2 17 7"/><path d="M7 17l-1.8 1.8"/> </g>'],
     'id-card-check': ['0 0 24 24', '<rect x="1.8" y="4.8" width="20.4" height="14.4" rx="2.2" fill="url(#gm-cream)" stroke="var(--c-rim-cool)" stroke-width="0.6" stroke-linejoin="round" /><rect x="1.8" y="4.8" width="20.4" height="14.4" rx="2.2" fill="url(#gm-gloss)"/> <rect x="1.8" y="4.8" width="20.4" height="3.4" rx="2.2" fill="url(#gm-navy)" stroke="var(--c-navy-rim)" stroke-width="0.5"/> <rect x="1.8" y="6.8" width="20.4" height="1.4" fill="url(#gm-navy)" stroke="var(--c-navy-rim)" stroke-width="0.5"/> <circle cx="7.4" cy="12.4" r="2.2" fill="url(#gm-blue)" stroke="var(--c-blue-rim)" stroke-width="0.5"/> <path d="M4 17.2a3.4 3.4 0 0 1 6.8 0z" fill="url(#gm-blue)" stroke="var(--c-blue-rim)" stroke-width="0.5"/> <g fill="url(#gm-stone)" stroke="var(--c-stone-rim)" stroke-width="0.5" opacity="0.55"> <rect x="12.4" y="10.6" width="7.4" height="1.4" rx="0.7"/><rect x="12.4" y="13.2" width="5.4" height="1.4" rx="0.7"/> </g> <circle cx="18.6" cy="17" r="4.2" fill="url(#gm-green)" stroke="var(--c-green-rim)" stroke-width="0.5"/> <path d="M16.7 17 18.1 18.4 20.5 15.9" fill="none" stroke="var(--c-paper)" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>'],
     'trophy': ['1.5 1.5 21 21', '<path d="M6.6 3h10.8v6.2a5.4 5.4 0 0 1-10.8 0z" fill="url(#gm-sun)" stroke="var(--c-sun-rim)" stroke-width="0.5"/><path d="M12 3h5.4v6.2a5.4 5.4 0 0 1-5.4 5.4z" fill="url(#gm-amber)" stroke="var(--c-amber-rim)" stroke-width="0.5"/><path d="M6.6 4.6H4.4a2.8 2.8 0 0 0 2.6 4.6M17.4 4.6h2.2a2.8 2.8 0 0 1-2.6 4.6" fill="none" stroke="var(--c-amber)" stroke-width="1.7" stroke-linecap="round"/><rect x="10.9" y="14.4" width="2.2" height="3.6" fill="url(#gm-amber)" stroke="var(--c-amber-rim)" stroke-width="0.5"/><rect x="7.8" y="18" width="8.4" height="2.4" rx="1.2" fill="url(#gm-rust)" stroke="var(--c-rust-rim)" stroke-width="0.5"/>'],
-    /* ONE AIRPLANE ON THIS SITE AND IT IS #124 `flight-nav` (owner rule
-       2026-08-22: "this airplane will be used where any airplane needs to show
-       up same icon"). GM_SPRITE['plane'] — Site-Icons #127 "take off", the
-       climbing plane with a runway rule and a contrail — was RETIRED here in
-       the same pass that moved its last consumer (the guides-index Flight time
-       button) onto flight-nav. Do not re-add it, and do not add #128
-       "landing": the catalogue holds both as specimens, and holding a specimen
-       is not shipping it. The FLAT NAV_ICONS['plane'] fallback went in the
-       same pass (owner: "make sure it is the treated one") — every airplane
-       now resolves to GM_SPRITE['flight-nav'] and draws treated. Enforced:
-       brain_check check_one_plane_drawing (85th non-negotiable). */
-    'plug': ['0 0 24 24', '<rect x="7.6" y="1.8" width="2.2" height="5.4" rx="1.1" fill="url(#gm-navy)" stroke="var(--c-navy-rim)" stroke-width="0.5"/><rect x="7.6" y="1.8" width="2.2" height="5.4" rx="1.1" fill="url(#gm-gloss)"/> <rect x="14.2" y="1.8" width="2.2" height="5.4" rx="1.1" fill="url(#gm-navy)" stroke="var(--c-navy-rim)" stroke-width="0.5"/> <path d="M5.8 7h12.4v3.2a6.2 6.2 0 0 1-12.4 0z" fill="url(#gm-stone)" stroke="var(--c-stone-rim)" stroke-width="0.5"/> <rect x="10.9" y="16" width="2.2" height="5.8" rx="1.1" fill="url(#gm-navy)" stroke="var(--c-navy-rim)" stroke-width="0.5"/> <path d="M12.9 8.2 10.4 12.4h1.9l-1 3.2 3.4-4.4h-2z" fill="url(#gm-sun)" stroke="var(--c-sun-rim)" stroke-width="0.5"/>'],
+        'plug': ['0 0 24 24', '<rect x="7.6" y="1.8" width="2.2" height="5.4" rx="1.1" fill="url(#gm-navy)" stroke="var(--c-navy-rim)" stroke-width="0.5"/><rect x="7.6" y="1.8" width="2.2" height="5.4" rx="1.1" fill="url(#gm-gloss)"/> <rect x="14.2" y="1.8" width="2.2" height="5.4" rx="1.1" fill="url(#gm-navy)" stroke="var(--c-navy-rim)" stroke-width="0.5"/> <path d="M5.8 7h12.4v3.2a6.2 6.2 0 0 1-12.4 0z" fill="url(#gm-stone)" stroke="var(--c-stone-rim)" stroke-width="0.5"/> <rect x="10.9" y="16" width="2.2" height="5.8" rx="1.1" fill="url(#gm-navy)" stroke="var(--c-navy-rim)" stroke-width="0.5"/> <path d="M12.9 8.2 10.4 12.4h1.9l-1 3.2 3.4-4.4h-2z" fill="url(#gm-sun)" stroke="var(--c-sun-rim)" stroke-width="0.5"/>'],
     'restaurants': ['0 0 24 24', '<path fill-rule="evenodd" d="M5.80 2.40H11.00A0.60 0.60 0 0 1 11.60 3.00V8.60A3.20 2.40 0 0 1 5.20 8.60V3.00A0.60 0.60 0 0 1 5.80 2.40ZM6.09 1.90h0.95v4.46a0.47 0.47 0 0 1 -0.95 0zM7.93 1.90h0.95v4.46a0.47 0.47 0 0 1 -0.95 0zM9.76 1.90h0.95v4.46a0.47 0.47 0 0 1 -0.95 0z" fill="url(#gm-slate)" stroke="var(--c-slate-rim)" stroke-width="0.5"/><path fill-rule="evenodd" d="M5.80 2.40H11.00A0.60 0.60 0 0 1 11.60 3.00V8.60A3.20 2.40 0 0 1 5.20 8.60V3.00A0.60 0.60 0 0 1 5.80 2.40ZM6.09 1.90h0.95v4.46a0.47 0.47 0 0 1 -0.95 0zM7.93 1.90h0.95v4.46a0.47 0.47 0 0 1 -0.95 0zM9.76 1.90h0.95v4.46a0.47 0.47 0 0 1 -0.95 0z" fill="url(#gm-gloss)"/><rect x="7.62" y="10.90" width="1.56" height="10.50" rx="0.78" fill="url(#gm-navy)" stroke="var(--c-navy-rim)" stroke-width="0.5"/><path d="M15.60 3.4C16.00 2.6 17.20 2.4 18.00 4.2C19.00 6.2 19.40 8.4 19.40 10.6C19.40 11.9 18.50 12.7 17.20 12.7H15.60Z" fill="url(#gm-slate)" stroke="var(--c-slate-rim)" stroke-width="0.5"/><rect x="15.45" y="12.4" width="1.85" height="9" rx="0.92" fill="url(#gm-navy)" stroke="var(--c-navy-rim)" stroke-width="0.5"/><path d="M16.05 4.2c1 1.9 1.5 4 1.5 6.2h-1.5z" fill="url(#gm-gloss)"/><rect x="8.05" y="11.4" width="0.55" height="9.4" rx="0.27" fill="url(#gm-gloss)"/><rect x="15.85" y="13" width="0.55" height="7.6" rx="0.27" fill="url(#gm-gloss)"/>'],
     'food-delivery': ['0 0 24 24', '<path d="M5.4 10.4 7.2 6.2c.32-.8 1.05-1.3 1.95-1.3h5.7c.9 0 1.63.5 1.95 1.3l1.8 4.2z" fill="url(#gm-rust)" stroke="var(--c-rust-rim)" stroke-width="0.5"/><path d="M5.4 10.4 7.2 6.2c.32-.8 1.05-1.3 1.95-1.3h5.7c.9 0 1.63.5 1.95 1.3l1.8 4.2z" fill="url(#gm-gloss)"/> <path d="M7.2 9.6 8.4 6.7h3v2.9zM12.4 6.7h3.2l1.2 2.9h-4.4z" fill="url(#gm-sky)" stroke="var(--c-sky-rim)" stroke-width="0.5"/> <rect x="2.4" y="9.9" width="19.2" height="6.5" rx="2.4" fill="url(#gm-clay)" stroke="var(--c-clay-rim)" stroke-width="0.5"/> <rect x="2.7" y="11.4" width="3.1" height="1.9" rx="0.95" fill="url(#gm-sun)" stroke="var(--c-sun-rim)" stroke-width="0.5"/> <rect x="18.2" y="11.4" width="3.1" height="1.9" rx="0.95" fill="url(#gm-red)" stroke="var(--c-red-rim)" stroke-width="0.5"/> <circle cx="6.8" cy="17.3" r="2.6" fill="url(#gm-tire)" stroke="var(--c-tire-rim)" stroke-width="0.5"/><circle cx="6.8" cy="17.3" r="1.1" fill="url(#gm-stone)" stroke="var(--c-stone-rim)" stroke-width="0.5"/> <circle cx="17.2" cy="17.3" r="2.6" fill="url(#gm-tire)" stroke="var(--c-tire-rim)" stroke-width="0.5"/><circle cx="17.2" cy="17.3" r="1.1" fill="url(#gm-stone)" stroke="var(--c-stone-rim)" stroke-width="0.5"/>'],
     'nearby-guides': ['0 0 24 24', '<path d="M1.4 5.2 8.4 2.8v16.4l-7 2.4z" fill="url(#gm-sky)" stroke="var(--c-sky-rim)" stroke-width="0.5"/><path d="M1.4 5.2 8.4 2.8v16.4l-7 2.4z" fill="url(#gm-gloss)"/><path d="M8.4 2.8 15.6 5.2v16.4l-7.2-2.4z" fill="url(#gm-sky)" stroke="var(--c-sky-rim)" stroke-width="0.5"/><path d="M15.6 5.2 22.6 2.8v16.4l-7 2.4z" fill="url(#gm-sky)" stroke="var(--c-sky-rim)" stroke-width="0.5"/><path d="M3.2 7.4c1.6-.9 3-.6 4.2.6 1.1 1.1.9 2.6-.4 3.4-1.4.9-2.6.5-3.4-.6-.8-1.1-1-2.6-.4-3.4z" fill="url(#gm-green)" stroke="var(--c-green-rim)" stroke-width="0.5"/><path d="M10 8.6c1.8-1.2 3.6-.8 4.8.6 1.2 1.4.8 3.2-.6 4.4-1.4 1.2-3 1.2-4-.2-1-1.4-1.4-3.6-.2-4.8z" fill="url(#gm-green)" stroke="var(--c-green-rim)" stroke-width="0.5"/><path d="M17.6 6.6c1.6-.7 3.2-.2 3.8 1.1.6 1.3-.2 2.6-1.6 3.1-1.4.5-2.6 0-3-1.2-.4-1.2 0-2.5.8-3z" fill="url(#gm-green)" stroke="var(--c-green-rim)" stroke-width="0.5"/><path d="M4.6 9.6c2.4 2.4 3.6-.4 6 1.2s3.4 2.6 6.6.4" fill="none" stroke="var(--c-rust)" stroke-width="0.9" stroke-linecap="round" stroke-dasharray="0.1 1.9"/><g fill="url(#gm-red)" stroke="var(--c-red-rim)" stroke-width="0.4"><path d="M4.8 8.2a1.1 1.1 0 0 0-1.1 1.1c0 .8 1.1 2 1.1 2s1.1-1.2 1.1-2A1.1 1.1 0 0 0 4.8 8.2z"/><path d="M11.6 9.6a1.1 1.1 0 0 0-1.1 1.1c0 .8 1.1 2 1.1 2s1.1-1.2 1.1-2A1.1 1.1 0 0 0 11.6 9.6z"/><path d="M18.2 7.2a1.1 1.1 0 0 0-1.1 1.1c0 .8 1.1 2 1.1 2s1.1-1.2 1.1-2A1.1 1.1 0 0 0 18.2 7.2z"/></g>'],
@@ -1235,22 +909,9 @@ window.TVE.home = (function () {
     'unesco': ['0 0 24 24', '<path d="M12 2.4 22 8.2H2z" fill="url(#gm-clay)" stroke="var(--c-clay-rim)" stroke-width="0.5"/><path d="M12 2.4 22 8.2H2z" fill="url(#gm-gloss)"/> <rect x="1.6" y="8.2" width="20.8" height="1.8" fill="url(#gm-rust)" stroke="var(--c-rust-rim)" stroke-width="0.5"/> <g fill="url(#gm-cream)" stroke="var(--c-rim-warm)" stroke-width="0.6" stroke-linejoin="round"><rect x="4" y="10.4" width="2.4" height="8"/><rect x="8.4" y="10.4" width="2.4" height="8"/><rect x="12.8" y="10.4" width="2.4" height="8"/><rect x="17.2" y="10.4" width="2.4" height="8"/></g> <rect x="2.2" y="18.4" width="19.6" height="2.2" fill="url(#gm-stone)" stroke="var(--c-stone-rim)" stroke-width="0.5"/> <rect x="1.4" y="20.8" width="21.2" height="1.8" rx="0.9" fill="url(#gm-cocoa)" stroke="var(--c-cocoa-rim)" stroke-width="0.5"/>'],
     'syringe-colour': ['0 0 24 24', '<defs><clipPath id="cp474"><path d="M16.3 1.3 15 2.6l1.6 1.6-2 2-2.6-2.6-1.3 1.3 1 1-6.6 6.6a3 3 0 0 0-.8 1.5l-.7 3.1-1.9 1.9 1.3 1.3 1.9-1.9 3.1-.7a3 3 0 0 0 1.5-.8l6.6-6.6 1 1 1.3-1.3-2.6-2.6 2-2L20.4 6l1.3-1.3-5.4-3.4zm-1.7 8.3-2.2 2.2-1.4-1.4-1.2 1.2 1.4 1.4-1.3 1.3-1.4-1.4-1.2 1.2 1.4 1.4-.6.6a1.2 1.2 0 0 1-.6.3l-2.2.5.5-2.2a1.2 1.2 0 0 1 .3-.6l6.3-6.3 2.2 2.2z"/></clipPath></defs><path d="M16.3 1.3 15 2.6l1.6 1.6-2 2-2.6-2.6-1.3 1.3 1 1-6.6 6.6a3 3 0 0 0-.8 1.5l-.7 3.1-1.9 1.9 1.3 1.3 1.9-1.9 3.1-.7a3 3 0 0 0 1.5-.8l6.6-6.6 1 1 1.3-1.3-2.6-2.6 2-2L20.4 6l1.3-1.3-5.4-3.4zm-1.7 8.3-2.2 2.2-1.4-1.4-1.2 1.2 1.4 1.4-1.3 1.3-1.4-1.4-1.2 1.2 1.4 1.4-.6.6a1.2 1.2 0 0 1-.6.3l-2.2.5.5-2.2a1.2 1.2 0 0 1 .3-.6l6.3-6.3 2.2 2.2z" fill="url(#gm-cream)" stroke="var(--c-rim-warm)" stroke-width="0.6"/><g clip-path="url(#cp474)"><path d="M0.9 7 14.1 22 -3 26 -3 7z" fill="url(#gm-stone)" stroke="var(--c-stone-rim)" stroke-width="0.5"/><path d="M0.9 7 14.1 22 18.6 17.5 5.4 2.5z" fill="url(#gm-sky)" stroke="var(--c-sky-rim)" stroke-width="0.5"/><path d="M10.9 -1.7 24.1 13.3 27 13 27 -3z" fill="url(#gm-blue)" stroke="var(--c-blue-rim)" stroke-width="0.5"/></g><path d="M16.3 1.3 15 2.6l1.6 1.6-2 2-2.6-2.6-1.3 1.3 1 1-6.6 6.6a3 3 0 0 0-.8 1.5l-.7 3.1-1.9 1.9 1.3 1.3 1.9-1.9 3.1-.7a3 3 0 0 0 1.5-.8l6.6-6.6 1 1 1.3-1.3-2.6-2.6 2-2L20.4 6l1.3-1.3-5.4-3.4zm-1.7 8.3-2.2 2.2-1.4-1.4-1.2 1.2 1.4 1.4-1.3 1.3-1.4-1.4-1.2 1.2 1.4 1.4-.6.6a1.2 1.2 0 0 1-.6.3l-2.2.5.5-2.2a1.2 1.2 0 0 1 .3-.6l6.3-6.3 2.2 2.2z" fill="none" stroke="var(--c-stone-rim)" stroke-width="1"/>'],
     'vaccines': ['0 0 24 24', '<rect x="1.6" y="10.2" width="2.2" height="3.6" rx="0.6" fill="url(#gm-stone)" stroke="var(--c-stone-rim)" stroke-width="0.5"/><rect x="1.6" y="10.2" width="2.2" height="3.6" rx="0.6" fill="url(#gm-gloss)"/> <rect x="3.8" y="11.2" width="2.6" height="1.6" fill="url(#gm-stone)" stroke="var(--c-stone-rim)" stroke-width="0.5"/> <rect x="6.4" y="8.6" width="9.6" height="6.8" rx="1.2" fill="url(#gm-sky)" stroke="var(--c-sky-rim)" stroke-width="0.5"/> <rect x="6.4" y="8.6" width="4.2" height="6.8" rx="1.2" fill="url(#gm-blue)" stroke="var(--c-blue-rim)" stroke-width="0.5"/> <g stroke="var(--c-paper)" stroke-width="0.75" opacity="0.9" stroke-linecap="round"><path d="M11.6 9.4v1.5M13 9.4v1.5M14.4 9.4v1.5"/></g> <rect x="16" y="10.4" width="1.8" height="3.2" rx="0.4" fill="url(#gm-stone)" stroke="var(--c-stone-rim)" stroke-width="0.5"/> <rect x="17.8" y="11.6" width="4.6" height="0.9" rx="0.45" fill="url(#gm-stone)" stroke="var(--c-stone-rim)" stroke-width="0.5"/> <circle cx="22" cy="8.8" r="1.5" fill="url(#gm-red)" stroke="var(--c-red-rim)" stroke-width="0.5"/>'],
-    /* Site-Icons.html #193 - the bus, head-on. THE TRANSPORTATION MARK: it
-       carries the Getting Around section title and its Trip Overview pill.
-       Owner rule 2026-08-21 - #191 was called 'van', which it is not and does
-       not look like; shown #193 the owner said 'use that for the van/shuttle'
-       and named it: 'just say transportation'. #191 keeps ONLY the tram entry
-       headings, a different meaning that was not in scope. */
-    'transportation': ['0 0 24 24', '<path d="M4.4 3.4h15.2a2.4 2.4 0 0 1 2.4 2.4v11.4a2.4 2.4 0 0 1-2.4 2.4H4.4A2.4 2.4 0 0 1 2 17.2V5.8a2.4 2.4 0 0 1 2.4-2.4z" fill="url(#gm-navy)" stroke="var(--c-navy-rim)" stroke-width="0.5"/><path d="M4.4 3.4h15.2a2.4 2.4 0 0 1 2.4 2.4v11.4a2.4 2.4 0 0 1-2.4 2.4H4.4A2.4 2.4 0 0 1 2 17.2V5.8a2.4 2.4 0 0 1 2.4-2.4z" fill="url(#gm-gloss)"/> <g fill="url(#gm-sky)" stroke="var(--c-sky-rim)" stroke-width="0.5"> <rect x="3.6" y="5.6" width="3.9" height="4.6" rx="0.7"/><rect x="8.4" y="5.6" width="3.9" height="4.6" rx="0.7"/> <rect x="13.2" y="5.6" width="3.9" height="4.6" rx="0.7"/><rect x="18" y="5.6" width="2.4" height="4.6" rx="0.7"/> </g> <rect x="2" y="11.6" width="20" height="2" fill="url(#gm-sun)" stroke="var(--c-sun-rim)" stroke-width="0.5"/> <rect x="3.4" y="15" width="3" height="1.8" rx="0.9" fill="url(#gm-cream)" stroke="var(--c-rim-warm)" stroke-width="0.6"/> <rect x="17.6" y="15" width="3" height="1.8" rx="0.9" fill="url(#gm-cream)" stroke="var(--c-rim-warm)" stroke-width="0.6"/> <circle cx="6.6" cy="19.8" r="2.2" fill="url(#gm-tire)" stroke="var(--c-tire-rim)" stroke-width="0.5"/><circle cx="17.4" cy="19.8" r="2.2" fill="url(#gm-tire)" stroke="var(--c-tire-rim)" stroke-width="0.5"/>'],
+        'transportation': ['0 0 24 24', '<path d="M4.4 3.4h15.2a2.4 2.4 0 0 1 2.4 2.4v11.4a2.4 2.4 0 0 1-2.4 2.4H4.4A2.4 2.4 0 0 1 2 17.2V5.8a2.4 2.4 0 0 1 2.4-2.4z" fill="url(#gm-navy)" stroke="var(--c-navy-rim)" stroke-width="0.5"/><path d="M4.4 3.4h15.2a2.4 2.4 0 0 1 2.4 2.4v11.4a2.4 2.4 0 0 1-2.4 2.4H4.4A2.4 2.4 0 0 1 2 17.2V5.8a2.4 2.4 0 0 1 2.4-2.4z" fill="url(#gm-gloss)"/> <g fill="url(#gm-sky)" stroke="var(--c-sky-rim)" stroke-width="0.5"> <rect x="3.6" y="5.6" width="3.9" height="4.6" rx="0.7"/><rect x="8.4" y="5.6" width="3.9" height="4.6" rx="0.7"/> <rect x="13.2" y="5.6" width="3.9" height="4.6" rx="0.7"/><rect x="18" y="5.6" width="2.4" height="4.6" rx="0.7"/> </g> <rect x="2" y="11.6" width="20" height="2" fill="url(#gm-sun)" stroke="var(--c-sun-rim)" stroke-width="0.5"/> <rect x="3.4" y="15" width="3" height="1.8" rx="0.9" fill="url(#gm-cream)" stroke="var(--c-rim-warm)" stroke-width="0.6"/> <rect x="17.6" y="15" width="3" height="1.8" rx="0.9" fill="url(#gm-cream)" stroke="var(--c-rim-warm)" stroke-width="0.6"/> <circle cx="6.6" cy="19.8" r="2.2" fill="url(#gm-tire)" stroke="var(--c-tire-rim)" stroke-width="0.5"/><circle cx="17.4" cy="19.8" r="2.2" fill="url(#gm-tire)" stroke="var(--c-tire-rim)" stroke-width="0.5"/>'],
 
-    /* Site-Icons.html #191 - the tram, head-on, in RUST. Renamed from 'van'
-       on 2026-08-21: it is not a van and does not look like one (owner). #191
-       and #192 are ONE drawing in two colours - rust and green - the same
-       shape as the app-car family, so the catalogue calls this one
-       'tram, rust'. It carries the tram entry headings and the tram sub-line
-       motion banners, and nothing else; the Getting Around section mark is
-       #193 'transportation'. */
-    'tram': ['0 0 24 24', '<path d="M6 2.4h12a2.8 2.8 0 0 1 2.8 2.8v12a2.8 2.8 0 0 1-2.8 2.8H6A2.8 2.8 0 0 1 3.2 17.2v-12A2.8 2.8 0 0 1 6 2.4z" fill="url(#gm-rust)" stroke="var(--c-rust-rim)" stroke-width="0.5"/><path d="M6 2.4h12a2.8 2.8 0 0 1 2.8 2.8v12a2.8 2.8 0 0 1-2.8 2.8H6A2.8 2.8 0 0 1 3.2 17.2v-12A2.8 2.8 0 0 1 6 2.4z" fill="url(#gm-gloss)"/> <rect x="4.9" y="5.6" width="14.2" height="6.2" rx="1" fill="url(#gm-sky)" stroke="var(--c-sky-rim)" stroke-width="0.5"/> <rect x="11.4" y="5.6" width="1.2" height="6.2" fill="url(#gm-rust)" stroke="var(--c-rust-rim)" stroke-width="0.5"/> <rect x="3.2" y="13.4" width="17.6" height="1.8" fill="url(#gm-cream)" stroke="var(--c-rim-warm)" stroke-width="0.6"/> <circle cx="7.5" cy="17.4" r="1.7" fill="url(#gm-sun)" stroke="var(--c-sun-rim)" stroke-width="0.5"/><circle cx="16.5" cy="17.4" r="1.7" fill="url(#gm-sun)" stroke="var(--c-sun-rim)" stroke-width="0.5"/> <path d="M6.4 20h11.2l1.4 2v.6H5V22z" fill="url(#gm-tire)" stroke="var(--c-tire-rim)" stroke-width="0.5"/>'],
+        'tram': ['0 0 24 24', '<path d="M6 2.4h12a2.8 2.8 0 0 1 2.8 2.8v12a2.8 2.8 0 0 1-2.8 2.8H6A2.8 2.8 0 0 1 3.2 17.2v-12A2.8 2.8 0 0 1 6 2.4z" fill="url(#gm-rust)" stroke="var(--c-rust-rim)" stroke-width="0.5"/><path d="M6 2.4h12a2.8 2.8 0 0 1 2.8 2.8v12a2.8 2.8 0 0 1-2.8 2.8H6A2.8 2.8 0 0 1 3.2 17.2v-12A2.8 2.8 0 0 1 6 2.4z" fill="url(#gm-gloss)"/> <rect x="4.9" y="5.6" width="14.2" height="6.2" rx="1" fill="url(#gm-sky)" stroke="var(--c-sky-rim)" stroke-width="0.5"/> <rect x="11.4" y="5.6" width="1.2" height="6.2" fill="url(#gm-rust)" stroke="var(--c-rust-rim)" stroke-width="0.5"/> <rect x="3.2" y="13.4" width="17.6" height="1.8" fill="url(#gm-cream)" stroke="var(--c-rim-warm)" stroke-width="0.6"/> <circle cx="7.5" cy="17.4" r="1.7" fill="url(#gm-sun)" stroke="var(--c-sun-rim)" stroke-width="0.5"/><circle cx="16.5" cy="17.4" r="1.7" fill="url(#gm-sun)" stroke="var(--c-sun-rim)" stroke-width="0.5"/> <path d="M6.4 20h11.2l1.4 2v.6H5V22z" fill="url(#gm-tire)" stroke="var(--c-tire-rim)" stroke-width="0.5"/>'],
     'visas': ['0 0 24 24', '<rect x="4.2" y="2.4" width="15.4" height="19.2" rx="2" fill="url(#gm-navy)" stroke="var(--c-navy-rim)" stroke-width="0.5"/><rect x="4.2" y="2.4" width="15.4" height="19.2" rx="2" fill="url(#gm-gloss)"/> <rect x="5.6" y="2.4" width="1.6" height="19.2" fill="url(#gm-blue)" stroke="var(--c-blue-rim)" stroke-width="0.5"/> <rect x="17.8" y="4.4" width="2.4" height="15.2" rx="1" fill="url(#gm-cream)" stroke="var(--c-rim-warm)" stroke-width="0.6"/> <circle cx="12.4" cy="9.6" r="3.4" fill="none" stroke="var(--c-sun)" stroke-width="1.3"/> <path d="M12.4 6.2v6.8M9 9.6h6.8" stroke="var(--c-sun)" stroke-width="0.9"/> <rect x="8.6" y="15.6" width="7.6" height="1.7" rx="0.85" fill="url(#gm-sun)" stroke="var(--c-sun-rim)" stroke-width="0.5"/>'],
     'volcano-erupting': ['0 0 24 24', '<path d="M9 5.2h6l7.4 15.6H1.6z" fill="url(#gm-cocoa)" stroke="var(--c-cocoa-rim)" stroke-width="0.5"/><path d="M9 5.2h6l7.4 15.6H1.6z" fill="url(#gm-gloss)"/><path d="M9 5.2h2.6l-.5 15.6H1.6z" fill="url(#gm-tan)" stroke="var(--c-tan-rim)" stroke-width="0.5" opacity="0.4"/><path d="M10.2 5.6c-.4 2.6-1.2 4.4-1.6 7-.2 1.5-.2 2.9 0 4.3l1.5-1.5.9 2.2 1.2-2.6 1.3 2.1.7-2.3 1.4 1.3c.3-1.9.1-3.6-.3-5.2-.5-2-1.3-3.5-1.6-5.3z" fill="url(#gm-red)" stroke="var(--c-red-rim)" stroke-width="0.5"/><path d="M11.3 6.4c-.2 2-.7 3.4-1 5.2-.2 1.1-.2 2.1 0 3.1l.8-1 .5 1.6.8-1.9.7 1.5.4-1.6.8.9c.2-1.4 0-2.6-.3-3.8-.4-1.4-.9-2.4-1.1-3.9z" fill="url(#gm-sun)" stroke="var(--c-sun-rim)" stroke-width="0.5" opacity="0.9"/><path d="M11.3 6.4c-.2 2-.7 3.4-1 5.2-.2 1.1-.2 2.1 0 3.1l.8-1 .5 1.6.8-1.9.7 1.5.4-1.6.8.9c.2-1.4 0-2.6-.3-3.8-.4-1.4-.9-2.4-1.1-3.9z" fill="url(#gm-sheen)"/><ellipse cx="12" cy="5.2" rx="3" ry="1.15" fill="url(#gm-red)" stroke="var(--c-red-rim)" stroke-width="0.5"/><g fill="url(#gm-sun)" stroke="var(--c-sun-rim)" stroke-width="0.5"><circle cx="8.6" cy="2.8" r="0.8"/><circle cx="15.2" cy="2.2" r="0.65"/><circle cx="11.4" cy="1.2" r="0.55"/><circle cx="17.4" cy="4.4" r="0.5"/></g><rect x="1" y="20.4" width="22" height="1.6" rx="0.8" fill="url(#gm-tan)" stroke="var(--c-tan-rim)" stroke-width="0.5"/>'],
     'volcano': ['0 0 24 24', '<path d="M9 5.2h6l7.4 15.6H1.6z" fill="url(#gm-cocoa)" stroke="var(--c-cocoa-rim)" stroke-width="0.5"/><path d="M9 5.2h6l7.4 15.6H1.6z" fill="url(#gm-gloss)"/><path d="M9 5.2h2.6l-.5 15.6H1.6z" fill="url(#gm-tan)" stroke="var(--c-tan-rim)" stroke-width="0.5" opacity="0.4"/><path d="M10.2 5.6c-.4 2.6-1.2 4.4-1.6 7-.2 1.5-.2 2.9 0 4.3l1.5-1.5.9 2.2 1.2-2.6 1.3 2.1.7-2.3 1.4 1.3c.3-1.9.1-3.6-.3-5.2-.5-2-1.3-3.5-1.6-5.3z" fill="url(#gm-red)" stroke="var(--c-red-rim)" stroke-width="0.5"/><path d="M11.3 6.4c-.2 2-.7 3.4-1 5.2-.2 1.1-.2 2.1 0 3.1l.8-1 .5 1.6.8-1.9.7 1.5.4-1.6.8.9c.2-1.4 0-2.6-.3-3.8-.4-1.4-.9-2.4-1.1-3.9z" fill="url(#gm-sun)" stroke="var(--c-sun-rim)" stroke-width="0.5" opacity="0.9"/><path d="M11.3 6.4c-.2 2-.7 3.4-1 5.2-.2 1.1-.2 2.1 0 3.1l.8-1 .5 1.6.8-1.9.7 1.5.4-1.6.8.9c.2-1.4 0-2.6-.3-3.8-.4-1.4-.9-2.4-1.1-3.9z" fill="url(#gm-sheen)"/><ellipse cx="12" cy="5.2" rx="3" ry="1.15" fill="url(#gm-red)" stroke="var(--c-red-rim)" stroke-width="0.5"/><g fill="url(#gm-sun)" stroke="var(--c-sun-rim)" stroke-width="0.5"><circle cx="8.6" cy="2.8" r="0.8"/><circle cx="15.2" cy="2.2" r="0.65"/><circle cx="11.4" cy="1.2" r="0.55"/><circle cx="17.4" cy="4.4" r="0.5"/></g><rect x="1" y="20.4" width="22" height="1.6" rx="0.8" fill="url(#gm-tan)" stroke="var(--c-tan-rim)" stroke-width="0.5"/>'],
@@ -1259,42 +920,13 @@ window.TVE.home = (function () {
        directly: <svg class="gm-icon" data-icon="steps" data-role="steps"
        viewBox="0 0 24 24" aria-hidden="true"><use href="#gm-i-steps"/></svg>. */
     'steps': ['0 0 24 24', '<path d="M22.0 21.75 L22.0 16.875 L17.0 16.875 L17.0 12.0 L12.0 12.0 L12.0 7.125 L7.0 7.125 L7.0 2.25 L2.0 2.25 L2.0 21.75 Z" fill="url(#gm-rust)" stroke="var(--c-rust-rim)" stroke-width="0.5" stroke-linejoin="round"/><path d="M22.0 21.75 L22.0 16.875 L17.0 16.875 L17.0 12.0 L12.0 12.0 L12.0 7.125 L7.0 7.125 L7.0 2.25 L2.0 2.25 L2.0 21.75 Z" fill="url(#gm-gloss)"/>'],
-    /* 'uphill' is Site-Icons.html #1452, the RAMP — not a walking figure, and
-       not #169 (owner rules 2026-08-23: "The uphill we cant do the same it would
-       be confusing any way to change the icon so it would be diffrent and we
-       could keep the same color" · "yes do the ramp A"). #169 and #153 are one
-       drawing in two poses, so once every Position-2c mark went rust the two
-       collided: a reader could not tell the climb row from the walk row, because
-       colour had been doing the work the shape should have done. The fix was the
-       SHAPE. #1420 is a stepped block, #1452 is that block with the steps
-       smoothed out, and both lean the same way — they are read as a pair.
-       #169's artwork stays in the catalogue with no sprite entry, like the
-       cancelled #1421/#1422; NEVER re-point 'uphill' at it.
-       'long-walk' is still #153 (long stride), recoloured rust the same day, and
-       it keeps data-norm="h19.5" — untransformed it stands 21.85 against walk's
-       19.75, so in a row it would out-size the walking figure two lines above it;
-       the wrapper divides every stroke-width back out, and re-wrapping an already
-       wrapped drawing is the mistake to avoid. #1452 needs no wrapper: it is
-       authored at 20x19.5 in the 24 box.
-       THE KEYS ARE NOT MOTION MARKS — a motion row draws walk / delivery-car /
-       van / ship and nothing else (Sixty-seventh non-negotiable); these two only
-       ever lead a Position-2c note. */
-    'uphill': ['0 0 24 24', '<path d="M2.0 2.25 C2.0 2.25 8.0 14.0 12.0 17.6 C15.5 20.7 22.0 21.75 22.0 21.75 L2.0 21.75 Z" fill="url(#gm-rust)" stroke="var(--c-rust-rim)" stroke-width="0.5" stroke-linejoin="round"/><path d="M2.0 2.25 C2.0 2.25 8.0 14.0 12.0 17.6 C15.5 20.7 22.0 21.75 22.0 21.75 L2.0 21.75 Z" fill="url(#gm-gloss)"/>'],
+        'uphill': ['0 0 24 24', '<path d="M2.0 2.25 C2.0 2.25 8.0 14.0 12.0 17.6 C15.5 20.7 22.0 21.75 22.0 21.75 L2.0 21.75 Z" fill="url(#gm-rust)" stroke="var(--c-rust-rim)" stroke-width="0.5" stroke-linejoin="round"/><path d="M2.0 2.25 C2.0 2.25 8.0 14.0 12.0 17.6 C15.5 20.7 22.0 21.75 22.0 21.75 L2.0 21.75 Z" fill="url(#gm-gloss)"/>'],
     'long-walk': ['0 0 24 24', '<g data-norm="h19.5" transform="translate(2.272 1.642) scale(0.8686)"><path d="M12.6 5.6 11.8 12.0" fill="none" stroke="var(--c-rust-rim)" stroke-width="6.332" stroke-linecap="round" stroke-linejoin="round"/><path d="M11.8 12.0 15.6 16.2 16.7 20.8" fill="none" stroke="var(--c-rust-rim)" stroke-width="5.411" stroke-linecap="round" stroke-linejoin="round"/><path d="M11.8 12.0 7.5 16.4 5.7 20.6" fill="none" stroke="var(--c-rust-rim)" stroke-width="5.411" stroke-linecap="round" stroke-linejoin="round"/><path d="M12.4 7.0 16.8 12.0" fill="none" stroke="var(--c-rust-rim)" stroke-width="4.950" stroke-linecap="round" stroke-linejoin="round"/><path d="M12.2 6.9 8.0 12.0" fill="none" stroke="var(--c-rust-rim)" stroke-width="4.950" stroke-linecap="round" stroke-linejoin="round"/><path d="M12.6 5.6 11.8 12.0" fill="none" stroke="url(#gm-rust)" stroke-width="5.181" stroke-linecap="round" stroke-linejoin="round"/><path d="M11.8 12.0 15.6 16.2 16.7 20.8" fill="none" stroke="url(#gm-rust)" stroke-width="4.260" stroke-linecap="round" stroke-linejoin="round"/><path d="M11.8 12.0 7.5 16.4 5.7 20.6" fill="none" stroke="url(#gm-rust)" stroke-width="4.260" stroke-linecap="round" stroke-linejoin="round"/><path d="M12.4 7.0 16.8 12.0" fill="none" stroke="url(#gm-rust)" stroke-width="3.799" stroke-linecap="round" stroke-linejoin="round"/><path d="M12.2 6.9 8.0 12.0" fill="none" stroke="url(#gm-rust)" stroke-width="3.799" stroke-linecap="round" stroke-linejoin="round"/><circle cx="12.8" cy="3.6" r="2.65" fill="url(#gm-rust)" stroke="var(--c-rust-rim)" stroke-width="0.576"/><circle cx="12.8" cy="3.6" r="2.65" fill="url(#gm-gloss)"/></g>'],
     /* Site-Icons.html #1423 — the viaduct, for exposed heights. Straight
        from the catalogue, never redrawn. data-icon names the DRAWING, so a
        stop writes data-icon="viaduct" data-role="heights". */
-    /* Catalogue #16 'route A to B' — the map link at the end of every motion row
-       (owner rule 2026-08-19). Registered here because a guide draws from GM_SPRITE:
-       add_motion_map_links.py emitted #gm-i-16, a catalogue id with no sprite behind
-       it, which would have painted 4,855 BLANK icons across the fleet. The key is
-       semantic like every other one — never the bare number. */
-    'route-ab': ['0 0 24 24', '<rect x="1.8" y="3.2" width="20.4" height="17.6" rx="2" fill="url(#gm-cream)" stroke="var(--c-rim-cool)" stroke-width="0.6" stroke-linejoin="round" /><rect x="1.8" y="3.2" width="20.4" height="17.6" rx="2" fill="url(#gm-gloss)"/> <path d="M5.6 18.2c2.6 0 2.6-3.4 5.2-3.4s2.6 3 5.2 3 3.4-3.6 3.4-7" fill="none" stroke="var(--c-rust)" stroke-width="1.8" stroke-linecap="round" stroke-dasharray="2.6 2.2"/> <circle cx="5.6" cy="18.2" r="2.4" fill="url(#gm-navy)" stroke="var(--c-navy-rim)" stroke-width="0.5"/> <text x="5.6" y="19.4" font-family="ui-sans-serif, system-ui, sans-serif" font-size="3.6" font-weight="700" fill="url(#gm-paper)" stroke="var(--c-rim-cool)" stroke-width="0.6" text-anchor="middle">A</text> <path d="M19.4 3.6a3.2 3.2 0 0 0-3.2 3.2c0 2.4 3.2 5.8 3.2 5.8s3.2-3.4 3.2-5.8a3.2 3.2 0 0 0-3.2-3.2z" fill="url(#gm-red)" stroke="var(--c-red-rim)" stroke-width="0.5"/> <circle cx="19.4" cy="6.8" r="1.25" fill="url(#gm-paper)" stroke="var(--c-rim-cool)" stroke-width="0.6"/>'],
-    /* Catalogue #1424 'crack, tight squeeze' — the claustrophobia mark, chosen by the
-       owner 2026-08-21 from three candidates drawn that day. No figure in it: the
-       earlier rounds proved a person has nowhere to stand once the walls are close
-       enough to mean anything, and small compression arrows vanish by 17px. */
-    'squeeze': ['0 0 24 24', '<g data-norm="h19.5" transform="translate(1.364 1.364) scale(0.8864)"><path d="M0.5 1.0 L10.6 1.0 L8.6 6.4 L10.9 11.2 L9.4 16.0 L11.0 23.0 L0.5 23.0 Z" fill="url(#gm-rust)" stroke="var(--c-rust-rim)" stroke-width="0.564" stroke-linejoin="round"/><path d="M0.5 1.0 L10.6 1.0 L8.6 6.4 L10.9 11.2 L9.4 16.0 L11.0 23.0 L0.5 23.0 Z" fill="url(#gm-gloss)"/><path d="M23.5 1.0 L13.4 1.0 L15.4 6.4 L13.1 11.2 L14.6 16.0 L13.0 23.0 L23.5 23.0 Z" fill="url(#gm-rust)" stroke="var(--c-rust-rim)" stroke-width="0.564" stroke-linejoin="round"/><path d="M23.5 1.0 L13.4 1.0 L15.4 6.4 L13.1 11.2 L14.6 16.0 L13.0 23.0 L23.5 23.0 Z" fill="url(#gm-gloss)"/></g>'],
+        'route-ab': ['0 0 24 24', '<rect x="1.8" y="3.2" width="20.4" height="17.6" rx="2" fill="url(#gm-cream)" stroke="var(--c-rim-cool)" stroke-width="0.6" stroke-linejoin="round" /><rect x="1.8" y="3.2" width="20.4" height="17.6" rx="2" fill="url(#gm-gloss)"/> <path d="M5.6 18.2c2.6 0 2.6-3.4 5.2-3.4s2.6 3 5.2 3 3.4-3.6 3.4-7" fill="none" stroke="var(--c-rust)" stroke-width="1.8" stroke-linecap="round" stroke-dasharray="2.6 2.2"/> <circle cx="5.6" cy="18.2" r="2.4" fill="url(#gm-navy)" stroke="var(--c-navy-rim)" stroke-width="0.5"/> <text x="5.6" y="19.4" font-family="ui-sans-serif, system-ui, sans-serif" font-size="3.6" font-weight="700" fill="url(#gm-paper)" stroke="var(--c-rim-cool)" stroke-width="0.6" text-anchor="middle">A</text> <path d="M19.4 3.6a3.2 3.2 0 0 0-3.2 3.2c0 2.4 3.2 5.8 3.2 5.8s3.2-3.4 3.2-5.8a3.2 3.2 0 0 0-3.2-3.2z" fill="url(#gm-red)" stroke="var(--c-red-rim)" stroke-width="0.5"/> <circle cx="19.4" cy="6.8" r="1.25" fill="url(#gm-paper)" stroke="var(--c-rim-cool)" stroke-width="0.6"/>'],
+        'squeeze': ['0 0 24 24', '<g data-norm="h19.5" transform="translate(1.364 1.364) scale(0.8864)"><path d="M0.5 1.0 L10.6 1.0 L8.6 6.4 L10.9 11.2 L9.4 16.0 L11.0 23.0 L0.5 23.0 Z" fill="url(#gm-rust)" stroke="var(--c-rust-rim)" stroke-width="0.564" stroke-linejoin="round"/><path d="M0.5 1.0 L10.6 1.0 L8.6 6.4 L10.9 11.2 L9.4 16.0 L11.0 23.0 L0.5 23.0 Z" fill="url(#gm-gloss)"/><path d="M23.5 1.0 L13.4 1.0 L15.4 6.4 L13.1 11.2 L14.6 16.0 L13.0 23.0 L23.5 23.0 Z" fill="url(#gm-rust)" stroke="var(--c-rust-rim)" stroke-width="0.564" stroke-linejoin="round"/><path d="M23.5 1.0 L13.4 1.0 L15.4 6.4 L13.1 11.2 L14.6 16.0 L13.0 23.0 L23.5 23.0 Z" fill="url(#gm-gloss)"/></g>'],
     'viaduct': ['0 0 24 24', '<path d="M2.0 2.25 L22.0 2.25 L22.0 4.85 L2.0 4.85 Z" fill="url(#gm-stone)" stroke="var(--c-stone-rim)" stroke-width="0.5" stroke-linejoin="round"/><path d="M2.0 2.25 L22.0 2.25 L22.0 4.85 L2.0 4.85 Z" fill="url(#gm-gloss)"/><path d="M3.2 4.85 L6.2 4.85 L6.2 19.15 L3.2 19.15 Z M10.5 4.85 L13.5 4.85 L13.5 19.15 L10.5 19.15 Z M17.8 4.85 L20.8 4.85 L20.8 19.15 L17.8 19.15 Z" fill="url(#gm-rust)" stroke="var(--c-rust-rim)" stroke-width="0.5" stroke-linejoin="round"/><path d="M3.2 4.85 L6.2 4.85 L6.2 19.15 L3.2 19.15 Z M10.5 4.85 L13.5 4.85 L13.5 19.15 L10.5 19.15 Z M17.8 4.85 L20.8 4.85 L20.8 19.15 L17.8 19.15 Z" fill="url(#gm-gloss)"/><g fill="none" stroke="var(--c-rust-rim)" stroke-width="1.5"><path d="M6.2 13.9 A2.15 2.15 0 0 1 10.5 13.9"/><path d="M13.5 13.9 A2.15 2.15 0 0 1 17.8 13.9"/></g><path d="M2.0 19.15 L22.0 19.15 L22.0 21.75 L2.0 21.75 Z" fill="url(#gm-rust)" stroke="var(--c-rust-rim)" stroke-width="0.5" stroke-linejoin="round"/><path d="M2.0 19.15 L22.0 19.15 L22.0 21.75 L2.0 21.75 Z" fill="url(#gm-gloss)"/>'],
     'walk': ['0 0 24 24', '<circle cx="13.2" cy="3.7" r="2.3" fill="url(#gm-tan)" stroke="var(--c-tan-rim)" stroke-width="0.5"/> <g fill="none" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round"> <path d="M13.2 7.6 11.6 12.8" stroke="var(--c-red)"/><path d="M12.4 9.2 15.8 11.4" stroke="var(--c-red)"/><path d="M12.6 8.9 9.4 11.2" stroke="var(--c-red)"/> <path d="M11.6 12.8 13.9 16.2 13.4 20.9" stroke="var(--c-navy)"/><path d="M11.6 12.8 9.4 16.4 7.9 20.4" stroke="var(--c-navy)"/></g>'],
     'warn': ['0 0 24 24', '<path d="M12 2.2c-.66 0-1.27.35-1.6.92L.7 20.3A1.85 1.85 0 0 0 2.3 23h19.4a1.85 1.85 0 0 0 1.6-2.7L13.6 3.12A1.85 1.85 0 0 0 12 2.2z" fill="url(#gm-amber)" stroke="var(--c-amber-rim)" stroke-width="0.5"/> <path d="M12 5.9 3.4 20.9h17.2z" fill="url(#gm-sun)" stroke="var(--c-sun-rim)" stroke-width="0.5"/> <rect x="10.9" y="9.6" width="2.2" height="6.1" rx="1.1" fill="url(#gm-cocoa)" stroke="var(--c-cocoa-rim)" stroke-width="0.5"/> <rect x="10.9" y="17" width="2.2" height="2.2" rx="1.1" fill="url(#gm-cocoa)" stroke="var(--c-cocoa-rim)" stroke-width="0.5"/>'],
@@ -1320,21 +952,9 @@ window.TVE.home = (function () {
     '--c-sky:#66caff;--c-grape:#9d5fd6;--c-wine:#c9584a;--c-pine:#3fa876;--c-slate:#8ea3b2;--c-paper-shade:#dad4cb;--c-cream-shade:#cfc3ae;' +
     '--c-rim-warm:#e0873f;--c-rim-cool:#a9bac8;--c-tire-shade:#38312d;--c-tire-rim:#8d8480;--c-stone-shade:#736a60;--c-stone-rim:#b8b0a6;--c-tan-shade:#c79050;--c-tan-rim:#ffcd94;--c-cocoa-shade:#8e4e19;--c-cocoa-rim:#d39764;--c-rust-shade:#c46619;--c-rust-rim:#ffa963;--c-clay-shade:#c4653a;--c-clay-rim:#ffa881;--c-red-shade:#c25141;--c-red-rim:#ff9788;--c-rose-shade:#c24e65;--c-rose-rim:#ff94aa;--c-plum-shade:#a937ae;--c-plum-rim:#eb80ef;--c-sun-shade:#c7a13c;--c-sun-rim:#ffdd82;--c-amber-shade:#c47728;--c-amber-rim:#ffb871;--c-green-shade:#5aba31;--c-green-rim:#9ef479;--c-leaf-shade:#499320;--c-leaf-rim:#8fd26a;--c-teal-shade:#1ab5a2;--c-teal-rim:#64efde;--c-blue-shade:#2e86c4;--c-blue-rim:#76c6fe;--c-navy-shade:#225d8f;--c-navy-rim:#6da5d6;--c-sky-shade:#509ec7;--c-sky-rim:#94daff;--c-grape-shade:#73459c;--c-grape-rim:#ba8fe2;--c-wine-shade:#934036;--c-wine-rim:#d98a80;--c-pine-shade:#30805a;--c-pine-rim:#79c29f;--c-slate-shade:#6c7c87;--c-slate-rim:#b0bfc9}}' +
     '.gm-ic{display:inline-block;vertical-align:-0.15em;flex-shrink:0}' +
-    /* .gm-icon is the icon AS AUTHORED IN THE HTML (icons_direct.py, owner
-       2026-08-20). It replaced .gm-mk, which was painted at load over an
-       authored emoji. 1.2em matches what the mark used to occupy, so no row
-       reflows; the gap to the following word is the space that already sits
-       after it in the source, never a margin here - a margin would also
-       apply to the icons that sit alone in a pill. This rule ships from
-       toolbar.js so it reaches guides and non-guide pages alike, which load
-       different stylesheets. */
-    '.gm-icon{display:inline-block;width:1.2em;height:1.2em;vertical-align:-0.22em;flex-shrink:0}' +
+        '.gm-icon{display:inline-block;width:1.2em;height:1.2em;vertical-align:-0.22em;flex-shrink:0}' +
     '.gm-icon svg,.gm-icon use{width:100%;height:100%}' +
-    /* The A-to-B map link at the END of a motion row (owner rule 2026-08-19).
-       Its svg carries .gm-icon like every other icon in the row, so it takes the
-       1.2em sizing above — without that class the <svg> has no intrinsic size and
-       renders enormous. line-height:0 keeps the anchor from adding row height. */
-    'a.motion-route{margin-left:6px;display:inline-block;line-height:0;text-decoration:none}' +
+        'a.motion-route{margin-left:6px;display:inline-block;line-height:0;text-decoration:none}' +
     '';
 
   /* One sprite and one style tag per page, inserted before anything asks for a
@@ -1356,24 +976,7 @@ window.TVE.home = (function () {
     wrap.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg">' + GM_DEFS + out.join('') + '</svg>';
     document.body.insertBefore(wrap, document.body.firstChild);
 
-    /* ── OPTICAL SIZE ───────────────────────────────────────────────────────
-       Owner, 2026-08-12: "they look smaller than emojis". Measured and true —
-       the symbols filled 0.70 to 1.02 of their own viewBox (median 0.85) while
-       Apple emoji fill 0.944 to 1.000 of the em box. Two icons at the same css
-       size therefore rendered at visibly different sizes, and all of them
-       smaller than the glyphs they replaced.
-
-       Fixed here rather than by hand-editing 102 viewBoxes: each symbol is
-       measured after insertion and its viewBox rewritten to a square centred
-       on its own ink, sized so the dominant axis fills TARGET. Scale stays
-       uniform, so nothing is stretched and a wide ticket stays wide. Doing it
-       at runtime means an icon added later is corrected automatically and
-       cannot drift back.
-
-       The wrapper is width:0/overflow:hidden rather than display:none on
-       purpose — a display:none subtree has no layout, so getBBox would return
-       zeros and this would silently do nothing. */
-    var TARGET = 0.96;
+        var TARGET = 0.96;
     /* Both passes measure the same way, so they share one body: the sprite
        sheet's <symbol>s, then any INLINE specimen on the page. An inline icon
        is marked by data-fill — the packing checklist's 19 category drawings
@@ -1423,77 +1026,13 @@ window.TVE.home = (function () {
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', _gmSprite);
   else _gmSprite();
 
-  /* ── THE ONE GATE FOR "does this icon key draw?" ────────────────────────────
-     Two registries hold icon art: NAV_ICONS (the original flat mask markup)
-     and GM_SPRITE (the coloured symbols). iconSVG() already prefers the
-     sprite and never reads `entry` when it hits — but every CALL SITE used to
-     gate on `NAV_ICONS[key]` alone, so a key that lives ONLY in the sprite
-     resolved falsy, no icon was appended, and the group label kept the raw
-     Apple emoji the icon was supposed to replace.
-
-     That is not hypothetical and it is why this function exists: c79854ea
-     (2026-08-13) added `groupIcon:'hotel'`, `icon:'hotel'` and `icon:'sparkle'`
-     — all three sprite-only — and 🏨 Where to Stay shipped to the live top
-     strip rendering the emoji, with the two dropdown rows drawing nothing.
-     Owner: "this has been fixed and came back several times." It comes back
-     because adding art to the sprite is the normal way to add an icon, and the
-     failure is SILENT — no error, no blank box, just the emoji showing through.
-
-     So: resolve through here, never through a bare NAV_ICONS[...] truthiness
-     test. A sprite-only key returns a truthy placeholder whose value is never
-     rendered (iconSVG returns the <use> before it looks at `entry`).
-     Enforced by brain_check.check_toolbar_icon_keys_resolve. */
-  var SPRITE_ONLY = '<!--sprite-->';
+    var SPRITE_ONLY = '<!--sprite-->';
   function navIcon(key) {
     if (!key) return null;
     return NAV_ICONS[key] || (GM_SPRITE[key] ? SPRITE_ONLY : null);
   }
 
-  /* ── MONO ACTION-ROW MARKS (owner 2026-08-18: "Icon takes the label's colour
-     — i loved this one"). ────────────────────────────────────────────────────
-     The action row's five icons each came from a different catalogue family, so
-     one row carried a RED calendar, a GREEN-and-BLUE map, a GREEN arrow and a
-     GOLD-and-TEAL coin pair. Every icon correct on its own; four unrelated hues
-     together, which is what the owner called a carnival.
-
-     These are drawn as MARKS, not as catalogue icons — the same distinction the
-     site already makes for the row marks _injectRowMarks paints inside every
-     stop, which are flat single-colour silhouettes rather than gradient icons.
-     `fill: currentColor` is what makes them take the label's colour, so the
-     icon and the word are one object and the icon follows the pill's ink
-     automatically — change the label colour and nothing here has to move.
-
-     Deliberately NOT the gradient-and-rim catalogue treatment: that rule
-     governs ICONS, and a mark is the other system. Do not "restore" these to
-     GM_SPRITE — that is the carnival coming back.
-
-     EVERY PATH BELOW IS THE CATALOGUE'S OWN, taken verbatim from
-     `icon_find.py --embed 46,12,617,375,1265,40` and flattened to currentColor.
-     Nothing here is hand-drawn (Twenty-eighth non-negotiable: an icon is
-     reused, never redrawn) — a hand-cut copy loses the optical normalisation
-     the specimen's viewBox carries and renders visibly undersized beside its
-     neighbours. Each entry keeps its OWN vb for the same reason.
-     FLATTEN THE FILL, DROP THE RIM — never the other way round. Every
-     catalogue shape here is a FILLED shape wearing a 0.5 hairline rim
-     (fill="url(#gm-X)" stroke="var(--c-X-rim)" stroke-width="0.5"). The rim
-     exists to part a gradient fill from the ground; a flat mark has no gradient
-     and needs no rim. Moving currentColor onto the STROKE instead and keeping
-     that 0.5 turns a solid shape into a 0.5-unit outline — at 15px in a
-     24-unit box that is 0.31 CSS px, a sub-pixel hairline the browser
-     antialiases to about a third of one pixel of ink. Five of these six
-     shipped that way on 2026-08-18 and the row read as five labels with no
-     icons; the sixth, 'download', looked fine only because #617 is genuinely a
-     stroke drawing at 2.3 (1.44px) and had nothing to flatten. Nothing errors,
-     nothing is blank — the mark is simply too faint to see, which is why it
-     survived review. So: fill="currentColor" and no stroke, EXCEPT where the
-     catalogue itself drew strokes.
-     The light shapes that survive as knockouts — the tick on #1265, the
-     currency glyph on #375, the pin's hole on #40 — take --c-pill-bg rather
-     than currentColor, because a one-colour mark swallows them otherwise. The
-     front coin on #375 takes a --c-pill-bg rim for the same reason: two solid
-     currentColor discs overlapping merge into one blob without it.
-     To change a drawing: re-run the script, do not edit the path by hand. */
-  var GM_MONO = {
+    var GM_MONO = {
     'cal-export': { vb: '0.10 -0.90 23.81 23.81', m: '<path fill="currentColor" d="M19 3h-1V1h-2v2H8V1H6v2H5c-1.11 0-1.99.9-1.99 2L3 19c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 16H5V8h14v11zM7 10h5v5H7z"/>' },
     'country-map': { vb: '0 0 24 24', m: '<path fill="currentColor" d="M2 5.2 8.6 3v16L2 21.2z"/><path fill="currentColor" opacity=".42" d="M8.6 3 15.4 5.2v16L8.6 19z"/><path fill="currentColor" d="M15.4 5.2 22 3v16l-6.6 2.2z"/><path fill="var(--c-pill-bg,#fdf8f0)" d="M17.4 5.6a2.3 2.3 0 0 0-2.3 2.3c0 1.7 2.3 4.3 2.3 4.3s2.3-2.6 2.3-4.3a2.3 2.3 0 0 0-2.3-2.3z"/>' },
     'download': { vb: '0 0 24 24', m: '<path fill="none" stroke="currentColor" d="M12 4v11.4" stroke-width="2.3" stroke-linecap="round"/><path fill="none" stroke="currentColor" d="M6.8 10.2 12 15.4l5.2-5.2" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"/><path fill="none" stroke="currentColor" d="M5.4 19.6h13.2" stroke-width="2.3" stroke-linecap="round"/>' },
@@ -1576,100 +1115,21 @@ window.TVE.home = (function () {
   }
 
   /* ── Links ─────────────────────────────────────────────────────────────── */
-    /* 2026-08-14 — OWNER-DIRECTED: Guides · Before You Go · Best Of · Maps · Contact.
-     Everything else reaches through the home page, which carries a section for
-     every area of the site. Best Of keeps its dropdown (34 categories); the rest
-     are plain links.
-
-     Guide path tests in this file are case-INSENSITIVE — see isRealGuide. The
-     Guides/ -> guides/ rename left a regex literal and several indexOf('Guides')
-     lookups behind, so isRealGuide was false on every guide page and silently
-     removed the weather strip, the info pills, the Trip Overview carousel and the
-     SHOW ONLY chips. Never re-pin these to one capitalisation. */
-  var ITEMS = [
-    /* "Guides", not "Where to Go" (owner 2026-08-16, reversing the 2026-08-14
-       label). The question-shaped set it belonged to no longer exists — Where to
-       Stay was removed on 2026-08-16 — so the label was naming a set of one
-       while hiding what the tab actually opens: the 237-guide index. The href
-       has never moved through either rename; only the label. */
-    { href: base + 'guides/index.html', text: 'Guides', icon: 'orbited-globe' },
-    /* OWNER-DIRECTED 2026-08-14, order: Guides · When to Go · Where to Stay ·
-       Before You Go · Maps · Contact. It follows the order a trip is actually
-       decided in — when to travel, then where to sleep, then what to sort out
-       before leaving — rather than the order the tabs happened to be added. */
-    { href: base + 'when-to-go/', text: 'When to Go', icon: 'sun-clear' },
-    /* OWNER-DIRECTED 2026-08-14: Where to Stay, a dropdown of the six lodging
-       pages previously reachable only from the landing page's Where to Stay
-       column. SIXTH top-strip entry and the first dropdown since the bar was cut
-       back to five plain links — both deliberate, both the owner's call.
-       TOOLBAR_ITEMS_LOCK moved in the same pass. */
-    /* A dropdown entry is a different shape from a tab: the label comes from
+      var ITEMS = [
+        { href: base + 'guides/index.html', text: 'Guides', icon: 'orbited-globe' },
+        { href: base + 'when-to-go/', text: 'When to Go', icon: 'sun-clear' },
+        /* A dropdown entry is a different shape from a tab: the label comes from
        `group` (with `groupShort` for the strip) and the icon from `groupIcon`.
        `text`/`icon` are the TAB fields and are ignored here — an entry that
        carries them instead throws in the hamburger loop, which reads
        item.group.replace(...), and the whole toolbar renders as the no-JS
        fallback on every page. */
     { href: base + 'before-you-go/', text: 'Before You Go', icon: 'luggage' },
-    /* OWNER-DIRECTED 2026-08-16: the Best Of dropdown is replaced by a plain
-       Packing Checklist tab. The owner wanted the packing page promoted to a
-       more visible place, and it now has the only slot that reaches it from
-       every page of the site.
-
-       Best Of is NOT orphaned by this: the landing page carries the whole
-       34-category list as its own section (index.html #best-of), which is where
-       it was promoted to on 2026-08-14, and every Best Of page keeps its
-       prev/next carousel. What is gone is the nav copy of that list.
-
-       This also leaves ITEMS with no `group` entry at all — the dropdown tier
-       is empty for the first time. The group-rendering code stays where it is;
-       it simply has nothing to iterate, and the next dropdown the owner asks
-       for needs no code to come back. */
-    { href: base + 'essentials/packing/', text: 'Packing Checklist', icon: 'packing' },
-    /* OWNER-DIRECTED 2026-08-22: 'Your World Map', not 'Maps'. The tab opens the
-       world map whose gold pins are the READER'S OWN marked places (Thirty-ninth
-       non-negotiable), and 'Maps' named a plural the strip does not have — the
-       seven regional maps are views reached from inside that page, never tabs.
-       Label only: the href has not moved, so TOOLBAR_ITEMS_LOCK — keyed on
-       paths — does not move either. */
-    { href: base + 'maps/world/', text: 'Your World Map', icon: 'folded-map' },
-    /* OWNER-DIRECTED 2026-08-16: three essentials pages added after Maps. */
-    /* PLURAL, both of them (owner rule 2026-08-17: "rename currency to
-       currencies and plug adaptors plural too"). Each page is a table of many —
-       52 currencies, the plug types of every country — so the singular read as
-       a converter and a single adaptor. The labels now also match the paths
-       (/currencies/, and /plugs/), which is what stopped them being renamed
-       back by eye. Label only: no href moves, so TOOLBAR_ITEMS_LOCK — which is
-       keyed on paths — does not move either. */
-    /* OWNER-DIRECTED 2026-08-22: 'What Plug Adapter Do I Need?', not 'Plug
-       Adaptors'. Same move as the Currencies rename in the same sitting — the
-       label names the QUESTION the reader arrives with rather than the subject
-       of the page, and this page has been a search-and-one-answer lookup since
-       the table was retired (Fifty-third non-negotiable), so the question IS
-       what it does. The owner asked for it knowing the strip has no spare
-       width: "we will have problem with space do you best i will think late
-       solutions for that problem". MEASURED after the three renames and the
-       Contact removal, on /currencies/ at 1280 / 1366 / 1440 / 1512 / 1600 /
-       1728 / 1920: the row is 1334-1358px and sits on ONE line from 1366px up,
-       wrapping to two clean rows at 1280 through the existing <=1365px rule,
-       with no horizontal overflow anywhere. Dropping Contact paid for the
-       longer labels, so no breakpoint moved and none needed to. RE-MEASURE
-       before adding a tab or lengthening a label again — the margin at 1366 is
-       32px. Label only: the href has not moved. */
-    { href: base + 'plugs/', text: 'What Plug Adapter Do I Need?', icon: 'plug' },
-    /* OWNER-DIRECTED 2026-08-22: 'What Your Money Is Worth', not 'Currencies'.
-       The page's selling point is the comparison — the same money in all 52
-       currencies at once, ranked by where it goes furthest — which is the half a
-       search engine does not already answer inline (Fiftieth non-negotiable).
-       'Currencies' named the table; this names the question. Label only: the
-       href has not moved, so TOOLBAR_ITEMS_LOCK does not move either. */
-    { href: base + 'currencies/', text: 'What Your Money Is Worth', icon: 'exchange' },
-    /* OWNER-DIRECTED 2026-08-22: the Contact tab is REMOVED. It was the one
-       entry that did not open a page — a mailto that launched the reader's mail
-       app straight off the nav — and the landing page already carries the
-       contact form, which is where a reader who wants to write to us goes.
-       It carried no path, so TOOLBAR_ITEMS_LOCK (keyed on paths) never had an
-       entry for it and does not move on its removal. Do not re-add it. */
-    { href: base + 'time-zones/', text: 'Time Zones', icon: 'wall-clock' }
+        { href: base + 'essentials/packing/', text: 'Packing Checklist', icon: 'packing' },
+        { href: base + 'maps/world/', text: 'Your World Map', icon: 'folded-map' },
+                { href: base + 'plugs/', text: 'What Plug Adapter Do I Need?', icon: 'plug' },
+        { href: base + 'currencies/', text: 'What Your Money Is Worth', icon: 'exchange' },
+        { href: base + 'time-zones/', text: 'Time Zones', icon: 'wall-clock' }
   ];
   // isGuide: only fires when data-toolbar-theme="guide" is explicitly set (guides_index).
   // Guide pages now share the #f5f4f0 warm background with essentials — colour detection
@@ -1682,42 +1142,16 @@ window.TVE.home = (function () {
   var styleEl = document.createElement('style');
   styleEl.textContent =
     /* Toolbar outer — flex row so title + nav sit side by side */
-    /* Bar height: padding 16px -> 9px (owner 2026-08-10, "less thicker"), then
-       9px -> 8px when the tab font went 13px -> 14px. The tabs' own vertical
-       padding was cut 4px -> 2px in the same pass, so the taller text is fully
-       absorbed and the bar is no thicker than before. */
-    '.tb{padding:8px 0;position:relative;top:auto;z-index:auto;margin-bottom:18px;' +
+        '.tb{padding:8px 0;position:relative;top:auto;z-index:auto;margin-bottom:18px;' +
       'background:transparent;' +
       'border-bottom:none;box-shadow:none;' +
       'display:flex;flex-wrap:wrap;align-items:center;justify-content:center}' +
     /* Site title — desktop only */
     '.tb-scroll-wrap{display:none!important}' +
-    /* (owner 2026-08-10) .tb-site-title rules removed with the element itself —
-       the desktop title no longer exists, so the whole bar width is the tab row's. */
-    /* Site-wide wordmark above the bar. Smaller than the index.html copy on
+        /* Site-wide wordmark above the bar. Smaller than the index.html copy on
        purpose (170px vs 300px): it repeats on every page. width/height on the
        <img> reserve the box so the toolbar never jumps as the PNG loads. */
-    /* LEFT-aligned, always, on every page (owner 2026-08-10: "always in the same
-       place left or middle but not right"). Constrained to the same max-width
-       lane as the page content so it lines up with the content's left edge
-       rather than the viewport's. Only the SIZE varies: the home page is the
-       masthead (300px), every other page a smaller repeat (170px). The bottom
-       padding is what pushes the content below it down. */
-    /* Aligned to the TOOLBAR's gutter, not to a content lane (owner 2026-08-10 —
-       it must sit in the same place on every page). It used to live in a fixed
-       1080px centred lane, which lines up on pages whose content is capped at
-       that width but floats to the middle on full-width pages — the Maps pages
-       set no data-maxwidth, so the wordmark appeared centred there and left
-       everywhere else. Anchoring to the toolbar's own gutter keeps it in the same
-       place on every page, whatever the content below it does.
-       The 120px left inset is deliberate (owner 2026-08-10: "start about there
-       before you go start") — it clears the 🌐 Guides pill so the wordmark's left
-       edge lines up with the SECOND tab rather than the first. That number tracks
-       the rendered width of the Guides pill (~100px + the 10px gutter + the 10px
-       tab gap); if that pill's label, padding or font-size changes, re-measure it.
-       Mobile keeps the plain 10px gutter — the pill row is replaced by the
-       hamburger there, so there is nothing to clear. */
-    /* DESKTOP: the wordmark is a full-width first line INSIDE .tb, so it must
+            /* DESKTOP: the wordmark is a full-width first line INSIDE .tb, so it must
    paint the page background over the bar's terracotta — the mark is navy and
    orange and is unreadable on #C04E1A. Mobile overrides this to transparent,
    where the whole bar is beige anyway. */
@@ -1725,19 +1159,7 @@ window.TVE.home = (function () {
    `.tb a{padding:2px 2px}` (class+element) outranks a bare `.tb-brand-logo`
    (class only) and silently ate every padding value set here — computed
    padding was 2px on all sides no matter what this rule said. */
-    /* CENTRED, 300px (owner rule 2026-08-17, on the official-logo swap: "decide
-       what is the best size and placement… if toolbar needs to go lower it is
-       okay"). It was left-aligned at 196px on a 64px inset that tracked the
-       width of the first pill — a number that went stale every time that pill's
-       label changed, and that put a symmetric lockup off-axis above a CENTRED
-       tab row. Centre needs no such number and is the placement the mobile bar
-       has always used, so the two breakpoints finally agree.
-       300px is the size, not a cap the image never reaches: the type is only
-       the middle band of this lockup, so the word "Guide" renders at the same
-       optical weight the old 196px wordmark had while the pin and the plane
-       are still large enough to read. The bottom padding is the gap down to
-       the pills. */
-    '.tb a.tb-brand-logo{display:block;flex:0 0 100%;line-height:0;text-decoration:none;' +
+        '.tb a.tb-brand-logo{display:block;flex:0 0 100%;line-height:0;text-decoration:none;' +
       'padding:10px 10px 26px;background:transparent;width:100%;box-sizing:border-box}' +
     '.tb a.tb-brand-logo img{display:block;width:100%;max-width:300px;height:auto;margin:0 auto}' +
     /* Light/dark logo swap. EVERY SELECTOR HERE CARRIES THE FULL `.tb a
@@ -1750,89 +1172,24 @@ window.TVE.home = (function () {
     '@media(prefers-color-scheme:dark){' +
       '.tb a.tb-brand-logo img.tb-logo-light{display:none}' +
       '.tb a.tb-brand-logo img.tb-logo-dark{display:block}}' +
-    /* MOBILE ONLY (owner 2026-08-10): the bar turns beige with dark-terracotta
-   traces, and the wordmark is CENTRED in the row. Everything else keeps its
-   position — hamburger left, theme toggle right — so the logo is absolutely
-   positioned and pointer-events:none through its margins, exactly how the old
-   centred text label worked. Desktop keeps the terracotta bar untouched. */
-    /* NAV SWAP IS WIDTH-ONLY — and deliberately so, unlike every other
-       breakpoint on this site (owner rule 2026-08-10, § 42). The page LAYOUT
-       holds on a narrowed desktop window because a card or a paragraph can
-       simply be narrower. The tab row cannot: 14 tabs need ~1300px, which is
-       exactly why this breakpoint is pinned at 1260 for the 1280px MacBook Air.
-       Three ways of keeping the tabs below that were measured and all were worse
-       than the hamburger — (1) letting .tb wrap drops the theme toggle to a
-       centred second line under the tabs; (2) scrolling the row horizontally
-       works until the active-tab scrollLeft centering runs and the bar shows a
-       two-letter fragment of one tab; (3) wrapping .tb-links resolves the row to
-       min-content, one tab per line, a 476px-tall wall of tabs at every width
-       below 1260. So the hamburger stays here on a narrow desktop window. It is
-       responsive nav, not the mobile site: the page around it is still desktop. */
-    '@media (max-width: 1260px) and (pointer: coarse){' +
-      /* Opaque, not transparent (owner rule 2026-08-15). This rule dates from
-         when the mobile bar sat in normal flow, where transparent simply
-         inherited the page ground and cost nothing. The bar is position:fixed
-         now, so a transparent ground let the page scroll THROUGH the wordmark
-         and the two icons — verified at 393px, the guide's prose ran straight
-         across the logo. Same token the .tb rule above uses, and it carries a
-         dark-mode value, so the bar follows the theme. */
-      '.tb{background:var(--c-page-bg,#f5f4f0)!important}' +
+            '@media (max-width: 1260px) and (pointer: coarse){' +
+            '.tb{background:var(--c-page-bg,#f5f4f0)!important}' +
       '.tb a,.tb a:visited,.tb-ddbtn,.tb-ham{color:#C04E1A!important}' +
-      /* padding-top 3px -> 14px (owner rule 2026-08-15: "move the title guide my
-         days lower in mobile"). The wordmark is absolutely positioned with no
-         `top`, so its vertical seat IS this padding — it sat hard against the
-         top of the bar, above the optical centre of the hamburger and the theme
-         toggle that flank it. 14px drops it onto their line.
-         10px since the official logo landed (2026-08-17): the lockup is 3.14:1
-         where the old wordmark was 4.09:1, so at the same width it is ~30%
-         taller and 14px pushed it past the bar's floor. THE ABSOLUTE POSITION
-         IS THE TRAP HERE — an out-of-flow element adds nothing to its parent's
-         height, so a logo too tall for the bar does not grow it, it hangs out
-         the bottom and the page's first heading overlaps it. The bar's own
-         min-height (see the .tb rule in this block) is what has to move, and it
-         moved with these numbers in the same pass. Measured at 393px: 10 + 56
-         = 66px inside a 78px floor. */
-      '.tb a.tb-brand-logo{position:absolute;left:0;right:0;width:auto;padding:10px 0 0;flex:none;pointer-events:none;text-align:center}' +
+            '.tb a.tb-brand-logo{position:absolute;left:0;right:0;width:auto;padding:10px 0 0;flex:none;pointer-events:none;text-align:center}' +
       '.tb a.tb-brand-logo img{max-width:186px;margin:0 auto;display:inline-block;pointer-events:auto}' +
     '}' +
     '@media (max-width: 600px) and (pointer: coarse) {.tb a.tb-brand-logo img{max-width:176px}}' +
     /* Nav container — takes remaining space; width:100% on .tb-links fills it exactly */
-    /* Gutter matches the .tb-links tab gap exactly (owner 2026-08-10: every space
-   in the bar the same) — both use the SAME clamp() so they stay equal at every
-   width while shrinking together as the viewport narrows. Left edge -> first tab, tab -> tab, and last tab ->
-   theme toggle are all 10px; the toggle's own margin-left is 0 so this padding
-   is the only thing between them, otherwise the two would stack to 20px. */
-    /* min-width:0 is load-bearing: .tb-inner is a flex item whose default
+        /* min-width:0 is load-bearing: .tb-inner is a flex item whose default
    min-width:auto refuses to shrink below the nowrap tab row's intrinsic
    width. Without it the bar overflows to the right and pushes the theme
    toggle off the edge — the toggle's own flex-shrink:0 cannot help,
    because the overflow happens upstream of it. */
-    /* flex:0 1 auto, not flex:1 (owner 2026-08-10). With flex:1 the container took
-   all remaining width and the unused space collected between the last tab and
-   the theme toggle — ~21px against a 10px left gutter, and it varied with the
-   viewport. Shrink-to-fit removes that slack so the toggle sits one gutter
-   after the last tab, as if it were the next tab, and the gap matches the
-   left margin exactly at every width. */
-    /* The gutter MUST equal the .tb-links tab gap — Cleanliness rule: every space
+        /* The gutter MUST equal the .tb-links tab gap — Cleanliness rule: every space
    in the bar is identical (edge to first tab, tab to tab, last tab to the
    theme toggle). Changed with the gap on 2026-08-11; if you retune one,
    retune both or check_toolbar_font_size_unified hard-fails. */
-    /* --tb-gap is THE ONE number for horizontal space in the bar, and
-       --tb-ring-off is DERIVED FROM IT so the selected ring can never be wider
-       than the space it has. Owner 2026-08-13, on the Guides ring intersecting
-       the open Before-You-Go ring: "are these supposed to overlap?" — no.
-       A ring stands (offset + 1.5px width) out from its tab, so two adjacent
-       rings need TWICE that between them. At a fixed 5px offset they needed
-       13px and the gap is 5-11px, so any active tab next to an open dropdown
-       drew two intersecting rings. offset = gap/2 - 1.75px makes the pair
-       always land 0.5px short of touching, at every width: gap 5 -> 0.75px
-       offset, 7.35 -> 1.9px, 11 -> 3.75px. The ring simply uses the room that
-       exists instead of a number picked at one width.
-       Both live on .tb-inner: it uses --tb-gap for its own gutter, .tb-links
-       inherits it for the column gap, and the tabs inherit --tb-ring-off. Keep
-       them here together — the gutter and the tab gap must stay equal
-       (check_toolbar_font_size_unified), and now the ring follows for free. */
-    '.tb-inner{flex:0 1 auto;min-width:0;' +
+        '.tb-inner{flex:0 1 auto;min-width:0;' +
       /* 2026-08-14: the 5-11px gap was tuned when fourteen tabs had to fit a bar
    with no spare width. There are five now, so the tabs get real air. */
       '--tb-gap:clamp(8px,1.5vw,24px);--tb-ring-off:calc(var(--tb-gap)/2 - 1.75px);' +
@@ -1850,71 +1207,15 @@ window.TVE.home = (function () {
        cannot cut it off (see the .tb-menu note below). Scrollbar hidden — a
        visible bar under the tabs reads as a rule line. */
     '@media (max-width: 1259px) and (pointer: fine){' +
-      /* THE VERTICAL PADDING IS WHAT KEEPS THE TERRACOTTA RING WHOLE — owner
-         2026-08-13: "terracota ring should never disappear."
-         `overflow-x:auto` FORCES overflow-y to compute as a non-visible value;
-         that is CSS, not a choice. An outline is painted OUTSIDE the border
-         box, so the moment this rule applied, the selected tab's ring got its
-         top and bottom sliced off and rendered as two side arcs — "( Guides )".
-         It only bit after the ring became an outline (it used to be a border,
-         which lives inside the box and cannot clip). Reproduced and fixed by
-         measurement: ring spans 6.5px beyond the tab (offset 5 + width 1.5)
-         against 2.8px of slack in the row, so the scroll box needs ~4px; 7px
-         is given. VERTICAL ONLY — it costs no horizontal width, so the
-         one-row fit above is untouched. Never remove this padding while the
-         ring is an outline, and never re-add overflow here without it. */
-      '.tb-inner{max-width:100%;overflow-x:auto;overflow-y:hidden;' +
+            '.tb-inner{max-width:100%;overflow-x:auto;overflow-y:hidden;' +
         'padding-top:7px;padding-bottom:7px;' +
         'scrollbar-width:none;-ms-overflow-style:none}' +
       '.tb-inner::-webkit-scrollbar{display:none}' +
     '}' +
     /* Flex row — fills full width, edge-to-edge. No scrolling, no gap. */
-    /* OWNER 2026-08-10: tabs pushed LEFT with one EQUAL gap between every pair.
-       Was justify-content:space-between + gap:0, which spread the row edge to
-       edge and made each gap a different width (they absorbed the leftover
-       space in proportion to nothing). With the site title gone the row no
-       longer needs to fill the bar, so: flex-start + a fixed gap, and
-       width:auto so the row is exactly as wide as its tabs. */
-    /* GAP — owner 2026-08-11, "these need to spread out more". Raised from
-       clamp(4px,0.42vw,6px), which was itself shaved on 2026-08-09 to stop
-       Recommended wrapping. The shave was aimed at the wrong constraint: the
-       row is shrink-to-fit (.tb-inner is flex:0 1 auto) inside a .tb that is
-       justify-content:center, so the leftover space is not the row's to run
-       out of — at 1439px the tabs measured 1317.5px inside a 1439px bar, 121px
-       of it unused. The gap grows into that instead of the tabs shrinking.
-       CEILING IS SET BY THE **OPEN** STATE, NOT THE CLOSED ONE. A tab whose
-       dropdown is open gains the active ring — padding 4px 12px against the
-       base 2px 2px, plus a 1.5px border — which measures +23px on the row. The
-       first cut of this rule budgeted 14px of gap from the closed width, fit
-       with 31px to spare, and then wrapped Recommended onto a second line the
-       moment its own flyout opened (owner: "when i select this recommended
-       moves below"). That is the same wrap the 2026-08-09 shave was chasing.
-       Measured at 1439px: tabs 1242px closed, 1265px open, against 1419px of
-       usable bar. 1265 + 13 x 11 = 1408, which clears it with the flyout open.
-       Re-measure WITH A DROPDOWN OPEN before touching the 11px cap. */
-    '.tb-links{display:flex;flex-wrap:nowrap;width:auto;margin:0;' +
+            '.tb-links{display:flex;flex-wrap:nowrap;width:auto;margin:0;' +
       'column-gap:var(--tb-gap);align-items:center;justify-content:flex-start;min-width:0}' +
-    /* Between the hamburger (<=1260px) and ~1500px the desktop tab row does not
-       fit: it measures 1414px, plus the theme toggle that is now its last tab.
-       Let it wrap. The toggle is inside .tb-links, so it wraps WITH the tabs
-       rather than dropping to a line of its own — owner rule 2026-08-10, "pin
-       in the page as if it was the last tab and when we reduce it will behave
-       like the rest". Two lines of tabs beats a row that pushes the whole page
-       sideways, and beats a horizontal scroller (the active-tab scrollLeft
-       centering then shows a fragment of one tab and nothing else). Nothing
-       here applies at >=1500px, where the row still sits on one line as shipped,
-       and .tb-inner keeps no overflow, so Cleanliness Rule 582 is untouched. */
-    /* BREAKPOINT MOVED 1499 -> 1365 (owner 2026-08-13: "the toolbar need to
-       resize and fit in the screen of a regular notebook"). It fits now because
-       the row is 23px narrower and, crucially, NO LONGER CHANGES WIDTH WITH
-       STATE — see the two selected-state rules below. Measured one row, closed
-       AND with a dropdown open, at 1366 / 1440 / 1512 / 1600.
-       Below 1366 it still wraps, and the gap RELAXES BACK to the roomy clamp:
-       once the row has wrapped there is spare width by definition, so holding
-       it tight would look cramped for nothing. 1280 cannot be reached at any
-       gap — the 14 tabs measure 1260.9px with the gaps at ZERO, so the fix
-       there is narrower tabs, not less space between them. */
-    '@media (max-width: 1365px) and (pointer: fine){' +
+            '@media (max-width: 1365px) and (pointer: fine){' +
       /* row-gap 6 -> 15: same ring, other axis. The selected tab's outline
          reaches 6.5px above and below it, so two stacked rows only 6px apart
          put one row's ring straight through the row beneath it. 15px clears
@@ -1932,54 +1233,7 @@ window.TVE.home = (function () {
       'border:none;border-radius:4px;background:transparent;white-space:nowrap;flex-shrink:0;' +
       'transition:color .15s,background .15s,border-color .15s,box-shadow .15s}' +
     '.tb a:hover{color:#6b4423!important;background:transparent}' +
-    /* ── DESKTOP TOP STRIP = PILLS (owner 2026-08-17) ────────────────────────
-       Every tab in the top strip is a visible outlined pill AT REST, not bare
-       text that only becomes a pill once you are on that page. The strip used
-       to draw one pill — the active tab — floating in a row of plain words,
-       which read as a stray chip rather than as a set.
-
-       SCOPED TO `.tb-links>a`, NOT `.tb a`, and that is load-bearing twice
-       over. `.tb a` also matches (a) the wordmark, `.tb a.tb-brand-logo`, a
-       direct child of .tb that sets no border of its own — a bare `.tb a`
-       border draws a pill around the logo image; and (b) every row of the
-       mobile hamburger, `.tb-ham-menu a`, which sets no border either and
-       would gain 40-odd stacked chips. The child combinator keeps this to the
-       desktop tab row, which is the only thing .tb-links holds.
-
-       THE ROW STILL HAS EXACTLY ONE WIDTH IN EVERY STATE — the layout rule the
-       note on .tb a.tb-active below exists to protect. Rest and active now
-       carry the SAME box: 1px border, padding 8px 18px, radius 999px. Only the
-       border-colour and the fill change. Before this pass the rest state had
-       `border:none`, so the active tab was 2px wider than the same tab
-       unselected and the row's width tracked which page you were on. Never
-       give the rest and active pills different padding or border widths.
-
-       Fill/border follow the site's outlined-chip grammar (Twenty-fourth
-       non-negotiable): white ground and a light terracotta rim at rest, the
-       warm #fdf4ed fill and the stronger rim on hover and when active — never
-       a filled terracotta gradient.
-
-       THE DROPDOWN TRIGGER IS NOT STYLED HERE — it takes the same pill from its
-       own rule below, and that split is not a stylistic choice.
-       check_toolbar_font_size_unified locates that rule by searching
-       whitespace-collapsed source for the ddbtn class followed immediately by an
-       opening brace, and takes the FIRST hit in the file. So any selector that
-       ENDS in the ddbtn class and sits above the real rule is read as the real
-       rule, and the check hard-fails with "no font-size" against a block that
-       was never meant to carry one. Two consequences, both learned the hard way
-       in this pass: never end a selector with that class above its own rule, and
-       never write the class-plus-brace pair in a COMMENT above it either — the
-       check does not strip comments, so this very note took the match until it
-       was reworded.
-
-       THIS BOX IS THE CANONICAL DEFINITION OF "SELECTION PILL" (owner rule
-       2026-08-23) — web-travel-style.css's .selection-pill class is these
-       same six declarations, reusable by any page that needs "one choice
-       marked selected, no family colour." This block stays inline (the
-       toolbar restructures for no one but the owner — Nineteenth
-       non-negotiable) but is the values' one source; never let it drift
-       from .selection-pill without updating both. */
-    '.tb-links>a,.tb-links>a:visited{' +
+        '.tb-links>a,.tb-links>a:visited{' +
       'box-sizing:border-box;display:inline-flex;align-items:center;line-height:1.2;' +
       'padding:8px 18px;border:1px solid rgba(107,68,35,.45);border-radius:999px;background:#f7eee5}' +
     '.tb-links>a:hover{box-shadow:0 0 0 6px rgba(107,68,35,.18),0 0 18px rgba(107,68,35,.35);border-color:#6b4423}' +
@@ -2024,12 +1278,7 @@ window.TVE.home = (function () {
     /* An OPEN dropdown gets the same terracotta ring as the active tab, so the
    menu is visibly attached to the tab it came from. It only changed text
    colour before, which was invisible against the other tabs. */
-    /* OUTLINE, for the same reason as .tb a.tb-active above — this one is the
-       direct cause of the owner's "when i select this recommended moves below".
-       Opening a dropdown grew its button by ~23px, which was enough to reflow
-       the whole row on the click. Measured: closed 1283.9px / open 1306.9px
-       before, 1260.9px / 1260.9px after. */
-    '.tb-dd.tb-open>.tb-ddbtn:not(.tb-active){box-sizing:border-box;display:inline-flex;align-items:center;color:#6b4423!important;background:transparent;'+
+        '.tb-dd.tb-open>.tb-ddbtn:not(.tb-active){box-sizing:border-box;display:inline-flex;align-items:center;color:#6b4423!important;background:transparent;'+
       'outline:1.5px solid rgba(107,68,35,0.85);outline-offset:5px;border-radius:14px}' +
     '.tb-caret{font-size:8px;line-height:1;transition:transform .15s}' +
     '.tb-dd.tb-open .tb-caret{transform:rotate(180deg)}' +
@@ -2064,11 +1313,7 @@ window.TVE.home = (function () {
        flex:1 is what pushes the badge to the right edge, not space-between. */
     '.tb-menu a.tb-has-ico.tb-has-new{gap:9px;justify-content:flex-start}' +
     '.tb a.tb-has-ico{display:inline-flex;align-items:center;gap:5px}' +
-    /* 2026-08-14 OWNER: no icons on the bar. The emoji/SVG mark beside each tab
-   was the last thing making the nav look dated, and with five plain words
-   the label carries it alone. Hidden rather than removed from the data, so
-   groupIcon stays intact for the dropdown headers and the hamburger. */
-    '.tb .tb-ico,.tb-ddbtn .tb-ico{display:none!important}' +
+        '.tb .tb-ico,.tb-ddbtn .tb-ico{display:none!important}' +
     '.tb-ico{flex-shrink:0;display:inline-flex;align-items:center;line-height:0}' +
     '.tb-menu a.tb-has-new{display:flex;align-items:center;justify-content:space-between;gap:12px}' +
     '.tb-new,.tb-ham-new{flex-shrink:0;font-size:7.5px;font-weight:700;letter-spacing:.07em;' +
@@ -2091,29 +1336,7 @@ window.TVE.home = (function () {
        The row must be made to FIT 1260px instead — hence the tab gap cut from
        18px to 10px in the same pass. */
     '@media (max-width: 1260px) and (pointer: coarse){' +
-      /* STICKY ON MOBILE (owner rule 2026-08-15): "in mobile make the menu and
-         title available in all pages ... with dark mode toggle." The bar holds
-         all three — theme toggle far left, wordmark centred, hamburger right —
-         and it used to be position:relative, so it scrolled off the top and a
-         reader four screens into a guide had no menu, no title and no way to
-         switch theme without scrolling all the way back up. Sticky keeps the
-         whole set on screen on EVERY page, since toolbar.js mounts the bar on
-         every page of the site.
-         The background MUST be opaque here — on the relative bar transparent
-         was free, but a sticky bar with no ground lets the page's own content
-         scroll through the wordmark and the icons. --c-page-bg is the site
-         ground token and is redefined in both theme blocks above, so the bar
-         follows dark mode instead of pinning a light strip over a dark page.
-         The hamburger panel is position:fixed at top:64px and clears this. */
-      /* Owner rule 2026-08-15: mobile toolbar scrolls with the page (not fixed/sticky). */
-      /* min-height 56 -> 78 (owner rule 2026-08-17, official-logo swap: "if
-         toolbar needs to go lower in your opinion it is okay"). This floor is
-         the ONLY thing holding the bar open around the wordmark, which is
-         absolutely positioned in this block and therefore contributes nothing
-         to the bar's height — see the note on .tb-brand-logo above. It has to
-         clear the logo's seat plus its rendered height (10 + 56 at the 176px
-         phone cap) with a few px to spare, and it moves whenever either does. */
-      '.tb{position:relative;z-index:1002;padding:15px 0 14px;display:flex;align-items:center;justify-content:space-between;min-height:78px;border-bottom:none;background:var(--c-page-bg,#f5f4f0);box-shadow:none}' +
+                        '.tb{position:relative;z-index:1002;padding:15px 0 14px;display:flex;align-items:center;justify-content:space-between;min-height:78px;border-bottom:none;background:var(--c-page-bg,#f5f4f0);box-shadow:none}' +
       '.tb-inner{display:none !important}' +
       '.tb-scroll-wrap{display:none !important}' +
       '.tb::after{display:none}' +
@@ -2143,20 +1366,7 @@ window.TVE.home = (function () {
         'transform:translateY(-10px) translateZ(0);-webkit-transform:translateY(-10px) translateZ(0);will-change:transform,opacity;' +
         'transition:opacity .22s ease,transform .22s ease,visibility .22s}' +
       '.tb-ham-menu.tb-ham-open{visibility:visible;opacity:1;transform:translateY(0) translateZ(0);-webkit-transform:translateY(0) translateZ(0)}' +
-      /* ONE ROW SHAPE, above and below the terracotta band (owner rule 2026-08-17).
-         The tabs were 14px/400 and the nine categories below them 15px/600 — at
-         the same #3d3a32 ink the heavier block reads as a second, darker black,
-         which is what the owner saw in the panel: "do you see two different
-         tones of black?" ... "i want the top to look the same of the bottom."
-         So the tab rows take the category row's box AND its type, value for
-         value: 16px/600 (bumped together from 15px 2026-09-02, Apple HIG
-         minimum for primary nav text), 11px 24px, 44px minimum, border-box.
-         Change one of the two and the two-tone comes straight back — they
-         move together.
-         This does NOT reach the links inside a category. .tb-ham-grp-links a
-         sets 14px and 400 explicitly, and it must keep doing so: those rows are
-         a tier down and are the one place a lighter face is the point. */
-      '.tb-ham-menu a,.tb-ham-menu a:visited{display:block;font-size:15px;font-weight:600;' +
+            '.tb-ham-menu a,.tb-ham-menu a:visited{display:block;font-size:15px;font-weight:600;' +
         'color:#3d3a32!important;text-decoration:none;padding:11px 24px;min-height:44px;' +
         'box-sizing:border-box;border-bottom:none;-webkit-tap-highlight-color:transparent;' +
         'cursor:pointer;touch-action:manipulation}' +
@@ -2178,25 +1388,7 @@ window.TVE.home = (function () {
       '.tb-ham-menu .tb-ham-sep{height:1px;background:#e6e2da;margin:4px 24px}' +
       '.tb-ham-menu .tb-ham-hdr{font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:#9e9688;' +
         'padding:8px 24px 4px;background:rgba(0,0,0,.028);border-top:1px solid #ece8e0}' +
-      /* ── The nine category groups (owner rule 2026-08-17) ──────────────────
-         Terracotta wherever the reference design used blue — the category name
-         and its +/− — and the pages underneath in the black this menu already
-         uses for every other row (#3d3a32, the colour set by `.tb-ham-menu a`
-         directly above). Owner: "use our terracota colors where he used blue …
-         on the categories below do not use terracota match the black already
-         in the toolbar."
-
-         There is no heading over this tier and no label naming it. The nine
-         category names ARE the rows, at the same level as the tabs above them.
-
-         The group name is a summary, not a link — these nine categories have no
-         page of their own, so the row's only job is to disclose. 15px/600 is now
-         the shape of EVERY row in this panel, tabs included (owner rule
-         2026-08-17). It used to be the heading weight set against 14px/400 tabs,
-         and that contrast read as two different blacks on one #3d3a32 ink. What
-         marks this tier is the terracotta band above it and the + on the right —
-         never a heavier face than the rows above. Keep the two rules in step. */
-      '.tb-ham-menu .tb-ham-grp{border:0}' +
+            '.tb-ham-menu .tb-ham-grp{border:0}' +
       '.tb-ham-menu .tb-ham-grp>summary{list-style:none;display:flex;align-items:center;' +
         'justify-content:space-between;gap:10px;padding:11px 24px;min-height:44px;' +
         'box-sizing:border-box;font-size:15px;font-weight:600;color:#3d3a32;cursor:pointer;' +
@@ -2211,20 +1403,7 @@ window.TVE.home = (function () {
       /* A typographic marker, not an icon: ASCII + and U+2212 MINUS, so nothing
          here comes from the icon catalogue (Twenty-eighth non-negotiable). */
       '.tb-ham-grp-plus{font-size:19px;font-weight:400;line-height:1;flex-shrink:0;color:#C04E1A}' +
-      /* The one piece of terracotta left, and it is a band, not a rule: full-bleed
-         to both edges of the panel, opening the categories the way the reference
-         design opens a section. No side margin and no border-radius — either one
-         reads as a stray underline again, which is what the first 34px version
-         did. It carries no label: the owner ruled out a heading over this tier,
-         so the band marks where the categories start and says nothing.
-         HEIGHT IS 28px — the owner doubled it from 14px on 2026-08-17 ("i want
-         that double as it is now"), in the pass that gave the rows above and
-         below it one 15px/600 shape. With the two blocks identical, the band is
-         the only thing separating them: at 14px it read as a thick rule between
-         them, at 28px it reads as the block of colour it is meant to be.
-         Full-bleed and radius-free still govern — double the height, never the
-         side margin. */
-      '.tb-ham-menu .tb-ham-grp-bar{height:28px;background:#C04E1A;margin:14px 0 0}' +
+            '.tb-ham-menu .tb-ham-grp-bar{height:28px;background:#C04E1A;margin:14px 0 0}' +
       '.tb-ham-grp-plus::before{content:"+"}' +
       '.tb-ham-menu .tb-ham-grp[open]>summary .tb-ham-grp-plus::before{content:"\\2212"}' +
       /* Indented one step from the category name, the way a child row reads on
@@ -2300,13 +1479,7 @@ window.TVE.home = (function () {
          canonical name — the bar has no spare width, while the dropdown header,
          the hamburger and TOOLBAR_ITEMS_LOCK all keep the full name. */
       var labelText = item.groupShort || item.group;
-      /* groupIcon (OWNER-DIRECTED 2026-08-11): the tab draws an SVG from
-         NAV_ICONS instead of its leading emoji. Deliberately a SEPARATE field
-         from `group` — the canonical group string keeps its emoji, so the
-         dropdown header, the hamburger and TOOLBAR_ITEMS_LOCK are all
-         untouched and only the visible top-strip button changes. The emoji is
-         stripped from the rendered label here, not from the data. */
-      var gico = navIcon(item.groupIcon);
+            var gico = navIcon(item.groupIcon);
       if (gico) {
         labelText = labelText.replace(/^[^\x00-\x7E\s]+\uFE0F?\s*/, '').trim() || labelText;
         var gs = document.createElement('span');
@@ -2451,15 +1624,7 @@ window.TVE.home = (function () {
   var bar = document.createElement('div');
   bar.className = 'tb';
 
-  /* OWNER 2026-08-10: the desktop site title ("GUIDE MY DAYS") was REMOVED from
-     the bar to free its width for more tabs. Do not re-add it — the branding
-     now lives in the wordmark on index.html, and this space is reserved for
-     nav. The .tb-site-title element and all its CSS went with it; the earlier
-     2026-08-09 note about the title being .tb-links' first flex item is moot,
-     since space-between now distributes gaps across the tabs alone.
-     The MOBILE label (.tb-ham-label) is untouched — mobile has no tab row, so
-     removing it there would leave the hamburger bar with no branding at all. */
-
+  
   bar.appendChild(scroller);
 
 
@@ -2644,36 +1809,7 @@ window.TVE.home = (function () {
     }
   });
 
-  /* ── The nine category groups — MOBILE MENU ONLY (owner rule 2026-08-17) ────
-     Every page under essentials/ — all 45 of them — grouped nine ways, each
-     group a closed disclosure whose name carries a plus. Owner: "i want you to
-     remove from there and move to the toolbar with similar look of this page",
-     pointing at the Rick Steves mobile nav; then "no essentials Money then
-     comes what is under, safety and healthy then comes what is under".
-
-     So there is NO wrapper heading. The nine names sit at the same level as the
-     tabs above them, separated by the same hairline, and nothing labels the tier
-     "Trip Resources" or "Essentials" — the category name is the whole row.
-
-     THIS IS NOT IN `ITEMS`, DELIBERATELY. That array feeds the desktop tab row
-     as well, so nine groups there would put nine dropdowns on a top strip that
-     has no space for one (Nineteenth non-negotiable). This list is read only by
-     the hamburger builder, which runs inside the 1260px + coarse-pointer gate —
-     the desktop bar never sees it. It is also the one hand-maintained list in
-     this menu since the 2026-08-15 sweep that made the menu exactly ITEMS; that
-     note below still governs Best Of and Also-on-this-site, which do not come
-     back. This tier is the owner's exception to it, not a reopening of it.
-
-     KEEP THIS LIST TOTAL. A new page under essentials/ belongs in a group here
-     or it is reachable from nowhere on a phone — the landing page block that
-     used to carry it is hidden at this width. The labels are the site's own
-     (they came from the landing block), never the page <title>.
-
-     Car Rental is ONE row, not eight. The landing block gives it seven
-     continent sub-rows, but those are anchors into the same page — a second
-     disclosure level inside a phone menu to reach #rc-europe is a tier of
-     nesting for no new page. Every page is still one tap from here. */
-  var RES_GROUPS = [
+    var RES_GROUPS = [
     { name: 'Money', links: [
       ['essentials/average-costs/',            'Average Costs'],
       ['essentials/cards-atm/',         'Cards & ATM'],
@@ -2728,11 +1864,7 @@ window.TVE.home = (function () {
       ['essentials/nomad-visas/',       'Digital Nomad Visa Quick Reference'],
       ['essentials/traveling-with-minors/', 'Traveling with Minors']
     ] },
-    /* essentials/hotels/ + essentials/neighborhoods/ merged into ONE page,
-       essentials/where-to-stay/, on 2026-08-22 (owner: "combine this page
-       with this page ... make it work" · "title needs to be Where to Stay").
-       Both old paths 404; never re-add either row. */
-    { name: 'Stay & eat', links: [
+        { name: 'Stay & eat', links: [
       ['essentials/where-to-stay/',      'Where to Stay'],
       ['essentials/restaurants/',        'Restaurants & Reservations'],
       ['essentials/grocery-abroad/',     'Grocery & Pharmacy Delivery Abroad']
@@ -2748,15 +1880,7 @@ window.TVE.home = (function () {
       ['essentials/medical-emergency-abroad/', 'Medical Emergency Abroad'],
       ['essentials/phone-theft-recovery/', 'Phone Theft & Tech Recovery Abroad']
     ] },
-    /* Packing is NOT here (owner 2026-08-17: "remove packing from the plan and
-       pack ... there is no pack there"). It is a top-strip tab, reachable from
-       every page of the site, so a second copy inside a category is the same
-       link twice — and with it gone the group is 'Plan', which is what the
-       landing page's own Trip Resources block has always called it. The two
-       surfaces list the same four pages; never re-add packing to either.
-       plugs, currencies and time-zones are NOT under essentials/ — they moved
-       to the site root on 2026-08-16 — so they stay tabs only, no group. */
-    { name: 'Plan', links: [
+        { name: 'Plan', links: [
       ['essentials/sims/',              'Phone & SIM Abroad'],
       ['essentials/apps/',              'Travel Apps'],
       ['essentials/tours/',             'Tours & Tickets'],
@@ -2825,23 +1949,7 @@ window.TVE.home = (function () {
     hamMenu.appendChild(det);
   });
 
-  /* ── Best Of + Also-on-this-site sections — REMOVED (owner rule 2026-08-15)
-     The hamburger used to append two hand-maintained lists after the ITEMS
-     loop: a 34-row "Best Of" block and an 11-row "Also on this site" block,
-     plus a "My Trips"/"Travel Stats" pair injected under Guides and seven
-     region rows under Maps. All of it is gone. Owner: "the menu should have
-     only the stuff on the toolbar as of now remove the rest."
-     THE MENU IS NOW EXACTLY ITEMS — nothing hand-added, nothing to keep in
-     sync, and a new page appears in the menu the moment the owner puts it in
-     the toolbar. That is the whole point: the two lists were separate copies
-     of the navigation and drifted from it.
-     Every page they used to reach is still reachable from the landing page,
-     the hub the five-link bar delegates to. Do not re-add either list, and
-     never rebuild a bestOfPages/alsoPages array here.
-     check_mobile_menu_sections and check_mobile_trips_injection were retired
-     in the same pass; check_best_of_toolbar_coverage now reads ITEMS and the
-     landing page instead of a bestOfPages array. */
-
+  
   /* Patch hamburger BYG link with city hash so it deep-links like the others. */
   if (cityHash) {
     var _hamBYG = hamMenu.querySelector('a[href*="before-you-go"]');
@@ -2927,19 +2035,7 @@ window.TVE.home = (function () {
     if (e.target.closest('a')) closeHamMenu();
   });
 
-  /* ── Site-wide brand wordmark ─────────────────────────────────────────────
-     OWNER 2026-08-10: goes on EVERY page, ABOVE the toolbar. Removing the
-     desktop site title left every page except index.html with no branding at
-     all — this puts it back once, site-wide, instead of editing 800+ files.
-     Above the bar (not inside it) for two reasons: the bar is solid terracotta
-     #C04E1A and would swallow the wordmark's orange script, and sitting above
-     means it scrolls away while the sticky nav stays put.
-     ONE copy, every page, index included. index.html briefly had its own larger
-     <a class="site-logo"> as well, which rendered the wordmark twice there — the
-     guard that was meant to skip it queried for '.site-logo' from a <script>
-     that runs BEFORE that element exists in the DOM, so it never matched. The
-     index copy is gone; this is the only wordmark on the site. */
-  var tveBrandLogo = document.createElement('a');
+    var tveBrandLogo = document.createElement('a');
   tveBrandLogo.className = 'tb-brand-logo';
   /* Links to the site ROOT, not to index.html — the address bar should read
      https://guidemydays.com. base is the relative hop to the root; at depth 0
@@ -2947,13 +2043,7 @@ window.TVE.home = (function () {
   tveBrandLogo.href = base || './';
   tveBrandLogo.setAttribute('aria-label', 'Guide My Days — home');
   var _bImg = document.createElement('img');
-  /* THE OFFICIAL LOGO (owner rule 2026-08-17). Built from the one master by
-     Brain/scripts/build/build_brand_assets.py — never swapped for another file
-     in images/logos/, which holds the retired 2026-08-10 concept sheet. The
-     lockup is 3.14:1, not the old wordmark's 4.09:1: it carries the pin, the
-     dashed route and the plane below and above the type, so at any given width
-     it stands ~30% taller. Every size below was retuned for that. */
-  _bImg.src = base + 'images/logo/guidemydays-logo.png';
+    _bImg.src = base + 'images/logo/guidemydays-logo.png';
   _bImg.className = 'tb-logo-light';
   _bImg.alt = 'Guide My Days';
   _bImg.width = 900; _bImg.height = 287;
@@ -3009,8 +2099,7 @@ window.TVE.home = (function () {
      took. Only ever applied at the fixed breakpoint; on desktop the bar is in
      normal flow and the padding is cleared. */
   function _padForFixedBar() {
-    /* Owner rule 2026-08-15: bar is no longer fixed on mobile — no padding needed. */
-    document.body.style.paddingTop = '';
+        document.body.style.paddingTop = '';
   }
   if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', _padForFixedBar);
@@ -3020,31 +2109,7 @@ window.TVE.home = (function () {
   window.addEventListener('load', _padForFixedBar);
   window.addEventListener('resize', _padForFixedBar);
 
-  /* ── Filter/sort pill rows — every pill in the row is the SAME size, set by
-     the widest one (owner rule 2026-08-23: "the biggest pill sets the size
-     for the rest, period"). The shared .badge/.pill-badge box already gives
-     every pill the same height, font and padding (--fam-fs/--fam-pad) — this
-     only equalizes WIDTH, because "All"/"Tips" next to "Carrier plan" makes
-     the short ones look like a different control even though the box is
-     identical.
-     GROUPED BY BEHAVIOUR, NOT BY CONTAINER CLASS. Every essentials page that
-     ships a filter/sort bar names its own row and pill classes — .pills,
-     .pill-badge-strip, .pill-wrap, .controls, .filter-strip, .pill-row,
-     .sc-legend and more — a page is free to invent one (CLAUDE.md carve-out:
-     a routine may add new pills on the page it owns). A class allowlist goes
-     stale the day the next page picks a new name. What every one of these
-     rows actually shares is that the pills are CLICKABLE — a <button> or a
-     role="button" element — which is exactly the .badge-vs-.pill-badge line
-     the CSS already draws ("A BADGE labels what something IS... A PILL-BADGE
-     links or filters"). Selecting on that instead of a container class also
-     naturally excludes what must NOT be touched: a legend of plain,
-     non-interactive <div class="tier-pill pill-badge …"> (airline-networks'
-     .tier-legend explains a colour, it doesn't filter anything) and every
-     .card-tag (those are .badge, not .pill-badge, and static <span>s to
-     begin with) — both correctly fall through the button/role=button test.
-     Runs after layout so it can measure natural widths, and again on resize
-     because wrapping to a new row changes what "widest in this row" means. */
-  function _equalizePillRows() {
+    function _equalizePillRows() {
     var clickable = [].slice.call(document.querySelectorAll('button.pill-badge, [role="button"].pill-badge'));
     var rows = [];
     clickable.forEach(function (p) {
@@ -3058,43 +2123,10 @@ window.TVE.home = (function () {
       if (pills.length < 2) return;
       pills.forEach(function (p) { p.style.minWidth = ''; p.style.minHeight = ''; });
       row.style.flexWrap = '';
-      /* HEIGHT — every pill in the row, no exception (owner rule 2026-08-27:
-         "they all need to have the same height always"). Unlike width below,
-         this does NOT exclude the grey All/reset pill: a plain pill next to
-         a .has-icon one (average-costs' All vs. Cheap/Moderate/Expensive/
-         Very-expensive) has a genuinely different natural height (20px vs
-         27.8px) since .has-icon's padding is taller — set directly on each
-         pill via minHeight rather than relying on the row's own
-         align-items, so this holds regardless of what container class a
-         given page happens to use (the shared .pill-badge-strip's own
-         align-items: stretch covers the same case for that one class, but
-         this is the version that works on EVERY row, matching this
-         function's own "group by behaviour, not by container class" rule
-         above). */
-      var maxH = 0;
+            var maxH = 0;
       pills.forEach(function (p) { maxH = Math.max(maxH, p.getBoundingClientRect().height); });
       pills.forEach(function (p) { p.style.minHeight = maxH + 'px'; });
-      /* WIDTH — the "All"/reset pill is never part of the scale it resets.
-         It keeps its own natural width instead of matching the widest
-         sibling; owner correction 2026-08-27 after average-costs' "All"
-         rendered stretched to "Very expensive"'s width for no reason --
-         its minWidth reset above still applies, so it always falls back
-         to fit-content, "always smaller". This is now a real, numbered
-         rule (selection-pills-badges-pills-to-badge-dots.html Rule 8,
-         added 2026-08-30), not just a convention -- and that same pass
-         amended Rule 4 so the All pill's color moved from grey to
-         nt-brown (the deep end of the Neutral scale, "the darker pill of
-         the group"). Detected by color class, not a page-specific class
-         name, since a page is free to invent its own row/container names
-         (see the function comment above). nt-brown is the live target;
-         the sb-/cp-dark-grey and cp-light-grey entries stay as a
-         transitional fallback for any page not yet recolored to match --
-         drop them once a sweep confirms no page still uses grey for its
-         All pill. If a page ever has a legitimately-grey or -brown pill
-         that ISN'T the All/reset control, this heuristic would wrongly
-         exclude it from width-matching -- that's a real edge case to
-         watch for, not a rule violation. */
-      var ALL_PILL = ['nt-brown', 'nt-grey', 'sb-dark-grey', 'sb-light-grey', 'cp-dark-grey', 'cp-light-grey'];
+            var ALL_PILL = ['nt-brown', 'nt-grey', 'sb-dark-grey', 'sb-light-grey', 'cp-dark-grey', 'cp-light-grey'];
       var sized = pills.filter(function (p) {
         return !ALL_PILL.some(function (g) { return p.classList.contains(g); });
       });
@@ -3128,24 +2160,7 @@ window.TVE.home = (function () {
   window.addEventListener('load', _equalizePillRows);
   window.addEventListener('resize', _equalizePillRows);
 
-  /* ── CTA + reset button pairs — same width, no exception ──────────────────
-     Owner rule 2026-08-27, on index.html's Compare bar ("Pick 2-5 cities" /
-     "Clear everything" sitting at two different widths, no mechanism ever
-     matched them) and its own sibling pair (Find My Destinations' .fnd-go /
-     .fnd-reset, unified on HEIGHT only, years before, never on width):
-     "create a shared something? they need to be fixed and kept in check" ·
-     "give the treatment to all."
-
-     This is _equalizePillRows()'s exact technique (measure the widest,
-     apply min-width to the rest) generalized to any primary-CTA + reset
-     pair, opted in via .paired-btn instead of keyed to .pill-badge -- these
-     buttons are deliberately NOT .pill-badge (their font-size/padding is
-     each page's own, a finder CTA and a compare-bar button don't share a
-     size), so the shared filter-row equalizer was never going to reach
-     them. Add .paired-btn to every button in a pair; the group is
-     everything with that class sharing a parent, exactly like the pill-row
-     grouping above. */
-  function _equalizePairButtons() {
+    function _equalizePairButtons() {
     var buttons = [].slice.call(document.querySelectorAll('.paired-btn'));
     var rows = [];
     buttons.forEach(function (b) {
@@ -3184,36 +2199,9 @@ window.TVE.home = (function () {
   window.TVE = window.TVE || {};
   window.TVE.equalizePairButtons = _equalizePairButtons;
 
-  /* ── Guide-page back-strip — REMOVED (owner rule 2026-08-15) ──────────────
-     The mobile-only #tve-back-guides strip ('🖨 Print Guide' · 'Before You Go' ·
-     '‹ All Guides', and the '‹ {City}' variant on stops-map) is gone with the
-     rest of the hand-built mobile navigation. Owner: "remove all navigation
-     made by us use the native one for mobile." The reader's own back gesture
-     covers every destination the strip offered, and the browser's Share/Print
-     covers the print button — mobile now navigates the way the phone does,
-     with the toolbar for forward moves and the OS for backward ones.
-     Do not re-add it, and do not rebuild any of it as a floating pill. */
-
-  /* ── Floating back pills — REMOVED (owner rule 2026-08-15) ────────────────
-     #tve-back-to-guide ("← {City}"), #tve-back-to-byg ("← Back to Before You
-     Go") and #tve-nav-back ("Back") are gone, together with the
-     stashNavSource() sessionStorage slot that fed the first two. All three
-     were mobile-only re-implementations of the back button the phone already
-     has. Owner: "remove all navigation made by us use the native one for
-     mobile." The reader goes back with the OS gesture or the browser chrome;
-     the toolbar handles every forward move. Never rebuild any of them, and
-     never re-add a Forward pill (already cut once, 2026-08-09). */
-
-  /* ── Trip Overview prev/next arrows — REMOVED (owner rule 2026-08-15) ─────
-     The [‹] title [›] pair that cycled the reader from one guide to the next
-     is gone on BOTH desktop and mobile. Owner: "trip overview remove the
-     arrows to circle as guides from both desktop and mobile." The carousel
-     data (data-prev-guide / data-next-guide) stays on the mount and the
-     wiring script keeps it current — nothing else reads it today, but the
-     chain is what other tools walk. Do not re-inject the arrows.
-     Best-Of pages keep THEIR own prev/next row (injectBestOfArrows below);
-     the owner named the guide Trip Overview only. */
-  /* The block below is deferred to DOMContentLoaded: this script runs at the
+  
+  
+    /* The block below is deferred to DOMContentLoaded: this script runs at the
      top of <body>, before .overview-title exists in the DOM. */
   if (isRealGuide) {
 
@@ -3275,14 +2263,7 @@ window.TVE.home = (function () {
     if (document.readyState !== 'loading') shortenTrainPill();
     else document.addEventListener('DOMContentLoaded', shortenTrainPill);
 
-    /* ── "Cappuccino" reads "Cafe" (owner rule 2026-08-15) ──────────────────
-       "cappuccino pill mobile and desktop needs to rename to Cafe." Renamed at
-       RENDER TIME, exactly like shortenTrainPill above and for the same reason:
-       the label lives in 245 guide files, and the section id (#cappuccino), the
-       section's own heading and every validator that reads them are unchanged.
-       This touches the pill in the Trip Overview extras row only, on every
-       viewport — there is no mobile/desktop split in the extras row. */
-    function renameCappuccinoPill() {
+        function renameCappuccinoPill() {
       [].slice.call(document.querySelectorAll('.overview-extra-link[href="#cappuccino"]')).forEach(function (a) {
         /* Rewrite the TEXT NODES only. The leading glyph is swapped for a drawn
            icon authored in the markup by icons_direct.py
@@ -3297,31 +2278,7 @@ window.TVE.home = (function () {
     if (document.readyState !== 'loading') renameCappuccinoPill();
     else document.addEventListener('DOMContentLoaded', renameCappuccinoPill);
 
-    /* ── Extras row follows the page (owner rule 2026-08-15) ─────────────────
-       "the pills order is wrong and needs to be in the order the sections show
-       up." The row is authored by hand in each guide and grown at runtime by
-       _injectEndSectionPills and the Also-in-Country XHR, so its order was a
-       mix of authoring habit and whichever async call resolved first — a reader
-       scanning it could not use it to predict what came next in the guide.
-
-       Sort key is the section's own position in the document, so the row can
-       never disagree with the page: move a section, add one, inject one late,
-       and the row re-sorts itself. Anything that is NOT an in-page jump — the
-       stops-map link, which points at another file — keeps its place at the
-       END, which is where the stops-map pill is deliberately appended.
-
-       Re-run on a SHORT FIXED SCHEDULE, never on a MutationObserver. The late
-       injections arrive after DOMContentLoaded, so one pass is not enough — but
-       an observer on this row deadlocks the page. Measured, not guessed: with
-       the observer wired up, guide pages never reached DOMContentLoaded at all
-       (Playwright timed out at 25s, and the Chrome extension could not inject a
-       screenshot script). The row is also watched by the drawn-mark pass, so
-       reordering it makes that observer re-process the row, which mutates it,
-       which re-fires ours — a mutual loop no disconnect() on our side can
-       break. Fixed passes are bounded by construction and idempotent (the
-       `same` check below returns without touching the DOM once the order is
-       right), so the extra passes cost nothing. */
-    function orderExtrasRow() {
+        function orderExtrasRow() {
       var row = document.querySelector('.overview-extras:not(#ics-pill-row)');
       if (!row) return;
       var kids = [].slice.call(row.children);
@@ -3337,17 +2294,7 @@ window.TVE.home = (function () {
          a nested section against the wrong scale. Flag 4 = DOCUMENT_POSITION_
          FOLLOWING, i.e. b comes after a in the document. getBoundingClientRect
          is not an option — a collapsed or off-screen section measures 0. */
-      /* Three buckets, and only the middle one is sorted:
-           0 — not a link at all. Every guide opens its row with a decorative
-               `<span>|</span>` separator; it is authored first in 199 of them
-               and belongs at the head, so non-anchors keep their place ahead of
-               the pills rather than being swept to the end as "no target".
-           1 — an in-page jump whose section resolves. THIS is the row the owner
-               wants in page order.
-           2 — a link that leaves the page (the stops-map pill) or whose target
-               is missing. Stays at the end, which is where the stops-map pill
-               is deliberately appended. */
-      function bucket(el, t) {
+            function bucket(el, t) {
         if (!el.getAttribute || el.tagName !== 'A') return 0;
         return t ? 1 : 2;
       }
@@ -3407,16 +2354,7 @@ window.TVE.home = (function () {
     if (document.readyState !== 'loading') injectStopsMapPill();
     else document.addEventListener('DOMContentLoaded', injectStopsMapPill);
 
-    /* ── "Preview Optimized" button — REMOVED (owner rule 2026-08-15) ───────
-       #tve-preview-btn re-ran the route optimizer in the reader's browser and
-       redrew the day list as a preview, with a floating "Preview only — run
-       optimize_route.py to commit" notice. It was build tooling that shipped
-       on the public page: the reader has no route to commit and no reason to
-       reshuffle a guide the crib already optimized. Owner: "below remove
-       preview otipmitze." Route optimization stays exactly where it belongs —
-       Brain/scripts/optimize_route.py, run at build and rebuild time (Twenty-
-       first non-negotiable). Do not re-inject the button. */
-
+    
   }
 
   /* ── Trip Overview: colour the leading "Day N" label ──────────────────────
@@ -3472,15 +2410,7 @@ window.TVE.home = (function () {
       btn.type = 'button';
       btn.className = 'overview-toggle-btn';
       var expanded = true;
-      /* Only a section that carries its OWN control can be collapsed — a
-         `> .extras-title` (extras / Worth Knowing / hotel alternatives) or a
-         `> .day-header` (day block). Without one there is nothing to click to
-         bring the content back. #skip-list is exactly that case: a title-less
-         italic footnote. Collapsing it hid its "Skipping: …" line permanently
-         and left the section's 36px top margin + 14px collapsed padding behind
-         as ~50px of blank space (owner spotted it 2026-08-10). Same gate as the
-         mobile auto-collapse in _sectionCollapse. */
-      function _hasCollapseControl(el) {
+            function _hasCollapseControl(el) {
         return !!el.querySelector(':scope > .extras-title, :scope > .day-header');
       }
       function getTargets() {
@@ -3691,10 +2621,7 @@ window.TVE.home = (function () {
       var header = document.querySelector('.page-header');
       if (!header) return;
 
-      /* Arrow row injected AFTER .page-header — visually below the terracotta line.
-         The "Updated {date}" stamp used to be moved into the header here; it now
-         lives at the bottom-left of every page (owner rule 2026-08-10). */
-      var row = document.createElement('div');
+            var row = document.createElement('div');
       row.style.cssText = 'display:flex;align-items:center;justify-content:space-between;' +
         'gap:12px;margin:6px 0 4px;';
 
@@ -3822,33 +2749,8 @@ window.TVE.home = (function () {
     }, 50);
   }
 
-  /* ── Last-updated stamp — all pages ─────────────────────────────────────
-     Source: the EXPLICIT data-updated="YYYY-MM" or "YYYY-MM-DD" attribute on
-     toolbar-mount — NOT document.lastModified (which bumps on every file touch).
-     Guide pages: injects a .title-updated div into .title-page (near top), then
-       repositionUpdatedStamp() moves it to after the LAST section on the page (bottom).
-     Non-guide pages: injects .title-updated at the END of body — always the
-       true visual bottom even on stats pages where .wrap closes early. Style
-       and mobile padding are set inline; no separate repositioning needed.
-     Bottom-left on EVERY page and EVERY viewport (owner rule 2026-08-10) — there
-       is no desktop under-the-banner variant, and the class that marked one is
-       retired. Spec: Brain/Reference/Toolbar-Nav/Toolbar.html Sec 10.
-     No attribute → no stamp (silent). Spec: Brain/Reference/Toolbar.html § 10. */
-  var _updated = mount ? (mount.dataset.updated || '') : '';
-  /* OWNER-DIRECTED 2026-08-16: the "Updated {Month} {Year}" stamp renders on the
-     STATS PAGES ONLY. It used to render on every page carrying data-updated —
-     all 237 guides and every essentials page — where it answered a question no
-     reader asks and dated the page in a way that reads as staleness rather than
-     maintenance. On the stats pages it is real information: those numbers are a
-     snapshot and the date says which one.
-
-     THE ATTRIBUTE IS NOT REMOVED, and must never be. data-updated is the Fifth
-     non-negotiable: every page carries it, it moves only after a full content
-     audit, and the audit routines read it. What changed is only whether it is
-     PAINTED. Stripping data-updated to "clean up" this stamp would destroy the
-     audit trail for 245 pages — the gate below is the whole mechanism, and
-     brain_check.check_updated_stamp_stats_only fails if it is removed. */
-  var _statsPage = /(^|\/)stats\//.test(location.pathname);
+    var _updated = mount ? (mount.dataset.updated || '') : '';
+    var _statsPage = /(^|\/)stats\//.test(location.pathname);
   if (_updated) {
     var _MONTHS = ['January','February','March','April','May','June',
                    'July','August','September','October','November','December'];
@@ -3932,19 +2834,7 @@ window.TVE.home = (function () {
      day, each pre-filled with that day's stop list from .stop-name elements.
      Entirely client-side — no backend, no accounts. */
 
-  /* ── What a row IS, read off the drawing it carries ────────────────────────
-     Owner 2026-08-20: "no more marks to then change to icons use the icons
-     itself". A row used to open with an authored emoji and toolbar.js swapped
-     it for a drawing at load; now the drawing is IN the HTML and the glyph is
-     gone, so nothing can test textContent for it any more.
-
-     `data-icon` names the drawing, `data-role` names the row. They are not the
-     same thing and must not be collapsed into one: 'hours' and 'duration' both
-     draw the clock (Site-Icons.html #60, reused exactly as that page intends),
-     so a test on the DRAWING cannot tell an opening-hours row from an
-     average-visit-time row — and those two feed different features. Always
-     branch on the role. */
-  function _gmRole(el) {
+    function _gmRole(el) {
     if (!el) return '';
     var ic = el.querySelector(':scope > svg.gm-icon[data-role]')
           || el.querySelector('svg.gm-icon[data-role]');
@@ -4053,11 +2943,7 @@ window.TVE.home = (function () {
     var _icsD = new Date(); _icsD.setDate(_icsD.getDate() + 1);
     dateInput.value = _icsD.getFullYear() + '-' +
       ('0' + (_icsD.getMonth() + 1)).slice(-2) + '-' + ('0' + _icsD.getDate()).slice(-2);
-    /* The date bar is sized to its own value and CENTRED in the box, not run to
-       the full 100% width (owner 2026-08-19: "a bit smaller to fit and centered").
-       A full-width bar left the date floating in a rail of empty gold border.
-       width + max-width, not width alone: the box is 90vw on a narrow phone. */
-    dateInput.style.cssText =
+        dateInput.style.cssText =
       'display:block;width:200px;max-width:100%;padding:9px 11px;' +
       'border:1.5px solid rgba(138,108,26,.45);border-radius:6px;' +
       'font-size:16px;font-family:inherit;box-sizing:border-box;margin:0 auto 18px;' +
@@ -4075,20 +2961,7 @@ window.TVE.home = (function () {
     var bRow = document.createElement('div');
     bRow.style.cssText = 'display:flex;gap:10px;';
 
-    /* BOTH buttons wear the extras-section pill (owner 2026-08-19: "change to
-       blond text and the cancel too and white background … no terracota fill").
-       Values are the light-mode --c-pill-* tokens written as literals, because
-       this overlay is hardcoded light (box is #fff) and reading the tokens would
-       paint a dark pill on a white box under a dark OS.
-         bg  #fdf8f0            = --c-pill-bg
-         bd  rgba(138,108,26,.25) = --c-pill-bd
-         ink #8a6c1a            = --c-pill-text
-       The download button used to be background:#C04E1A with color:#C04E1A —
-       terracotta ink on a terracotta fill, so its label was invisible and the
-       button read as a blank orange slab. Never give this pair a filled
-       terracotta background: the filled fill is reserved for true CTAs
-       (apply-btn / apply-link / badge / city-row) and these are pills. */
-    var _icsPill =
+        var _icsPill =
       'flex:1;padding:8px 10px;border:1px solid rgba(138,108,26,.25);border-radius:6px;' +
       'background:#fdf8f0;color:#8a6c1a;font-size:13px;cursor:pointer;font-family:inherit;' +
       'white-space:nowrap;';
@@ -4119,15 +2992,7 @@ window.TVE.home = (function () {
         return s.replace(/\\/g, '\\\\').replace(/;/g, '\\;')
                 .replace(/,/g, '\\,').replace(/\n/g, '\\n');
       }
-      /* A BARE VCALENDAR — no METHOD:PUBLISH, no X-WR-CALNAME, no NAME, no
-         REFRESH-INTERVAL / X-PUBLISHED-TTL. Every one of those declares the
-         file a *published calendar*, and Apple answers a calendar by offering
-         to SUBSCRIBE to it or by adding it as a calendar of its own — which is
-         not an export (owner rule, Thirty-first non-negotiable: "it is not
-         subscribe, calendar is another thing"). METHOD:PUBLISH was here until
-         2026-08-19 and is the one that reads as boilerplate, because every ICS
-         example on the internet carries it. Never put any of them back. */
-      var _stamp = new Date().toISOString().replace(/[-:]/g, '').replace(/\.\d+/, '');
+            var _stamp = new Date().toISOString().replace(/[-:]/g, '').replace(/\.\d+/, '');
       var out = [
         'BEGIN:VCALENDAR', 'VERSION:2.0',
         'PRODID:-//Guide My Days//Guide Calendar//EN',
@@ -4174,40 +3039,8 @@ window.TVE.home = (function () {
       var icsContent = out.join('\r\n') + '\r\n';
       var icsPath = '/guides/ics/' + _slug + '-' + _fmtDate(base) + '.ics';
 
-      /* ── Delivery — hand Calendar a SERVED FILE, never a blob ─────────────
-         Measured on iOS 26.5 in the Simulator, 2026-08-19, all three:
-           · blob: URL navigation  → a BLANK PAGE. No Calendar, no prompt,
-             nothing. This is what shipped here until today, under a comment
-             claiming it "routes to the Add to Calendar prompt" — a claim that
-             had never been measured. On the Trips page the same blob produced a
-             Save-As panel titled with a raw UUID, which is what the owner saw.
-           · a real text/calendar response → iOS opens its native ADD TO
-             CALENDAR sheet: title, date, All-day, the stops in Notes.
-           · the same response synthesised by the SERVICE WORKER → identical
-             sheet. This is the one that makes the feature possible at all.
-
-         WHY A SERVICE WORKER AND NOT A FILE ON DISK. Trips can publish one
-         static .ics per booking because a booking has real dates. A guide has
-         none — the reader picks Day 1 in the modal above — so the file would
-         have to exist for every guide × every start date, which is ~86,000
-         files on a static host. There is no server here to build one on demand.
-         So the page WRITES the response into Cache Storage and then navigates
-         to its URL; sw.js answers that one path out of the cache and deletes it
-         (see sw.js → GUIDE ICS OUTBOX). The URL is same-origin and 404s on the
-         network, so the service worker is the only thing that can answer it —
-         which is exactly how it was tested.
-
-         NEVER go back to a blob, an <a download>, a data: URI or webcal:// —
-         the first three were shipped and rejected (Thirty-first non-negotiable)
-         and the fourth is the subscribe scheme. Never window.open(): it returns
-         null by specification, so testing its return value reads every
-         successful open as a failure. */
-      var _fallback = function () {
-        /* Only when there is no service worker at all — an old browser, or a
-           context where registration is refused. A file in Downloads is not the
-           behaviour the owner asked for, but it is the last thing that works,
-           and it is strictly better than the blank page this replaces. */
-        var a = document.createElement('a');
+            var _fallback = function () {
+                var a = document.createElement('a');
         var burl = URL.createObjectURL(new Blob([icsContent], { type: 'text/calendar;charset=utf-8' }));
         a.href = burl; a.download = _slug + '-trip.ics';
         document.body.appendChild(a); a.click();
@@ -4615,66 +3448,7 @@ window.TVE.home = (function () {
            declare is "only ever a foreground — never a fill", so it is used for
            rails, text and borders and never as a background. */
         /* Base row */
-        /* HORIZONTAL — the band is a FULL-BLEED strip. Its negative side margins
-           cancel the card's 14px padding, so the rail sits flush to the card edge
-           and the 🕐 lands on exactly the same x as every other icon row in the
-           card (🎟️ ⚠️ 🚫 📍). Inset by 10px inside the content column the glyph
-           sat 12.5px right of that column and the icon run visibly stepped in and
-           back out on every stop (owner report 2026-08-08, "look the spaces it is
-           a mess all over the place"). border-left(2.5) + padding-left(11.5) = the
-           card's own 14px gutter, which is what puts the text back on the column.
-           These two numbers are the DESKTOP default only — the card drops to
-           `padding: 10px 12px` at the mobile breakpoint (guide-style.css § mobile),
-           so _phFit() re-reads the real padding off the card and overrides both at
-           runtime. Hardcoding 14 hung the band 2px off each edge at 393px.
-           VERTICAL — with option G (no fill, 2026-08-08) the band is spaced as
-           what it now IS: a text row with a rail. Its ink is its TEXT, not a box
-           edge, so it takes the card's ordinary 6px row margin, no padding, and
-           nothing special at the first/last row — every number here is the card
-           default, which is the least driftable outcome available. While the
-           band carried a fill the model was the opposite and the numbers below
-           were 9.125 / 3.125 / 3.125, because a tint HAS no leading and had to
-           supply it from margin. Kept for the next reader: restoring any fill
-           means restoring those numbers with it, or the band lands 6px off the
-           card's 12.25 constant (measured 18.25 the moment the fill came off
-           while the tint-model spacing was still in place).
-           HISTORICAL — the card's row gap is 6px, and the tint model SPLIT it: 3px of
-           padding inside the tint, 3px of margin outside it, top and bottom. That
-           is the whole fix. Two earlier attempts each moved all 6px to one side
-           and each was rejected: 6px margin + 6px padding put the band's text 12px
-           from its neighbour's while every other pair sat at 6px (the band became
-           the odd row out, 35px pitch against 29px), and 0 margin + 6px padding
-           kept the pitch right but let the tint run edge-to-edge into the rows
-           above and below with no clear space at all — owner, 2026-08-08, on a
-           screenshot of this exact card. 3+3 is the only split that satisfies both
-           constraints at once: margin+padding still totals the 6px the rhythm
-           needs, so every text row in the card stays on one 29.25px grid, and the
-           tint now ends 3px short of that gap on each side so it reads as its own
-           object rather than a stripe wedged between two lines. Line-height is
-           1.55 to match `.tour-box > div` exactly — at 1.45 the band was 1.5px
-           short and threw the two pitches around it to 28.4 / 28.9. */
-        /* NO FILL — owner pick G, 2026-08-08, from a seven-option sheet rendered
-           on the real card. The band had carried #fdf8f0, which is the SAME HEX
-           as the .day-block behind the stop card (page #f5f4f0, day #fdf8f0,
-           card #f5f0e6, band #fdf8f0). A fill identical to the layer two levels
-           behind it does not read as a strip laid on the card — it reads as a
-           hole cut through the card, which is why every earlier attempt to fix
-           this by changing the RAIL colour felt wrong: the rail was never the
-           problem. Dropping the fill sidesteps the collision entirely and the
-           row reads as a marked row rather than a strip. The ink is #7a3b1e and
-           the chevron follows with a transparent chip. The terracotta left rail
-           this comment used to describe was REMOVED on 2026-08-11 (owner: "the
-           hours time no terracota bar on the left") — the band's only edge mark
-           is now the right hairline. Do not reinstate a border-left here. Do not
-           restore a background either without re-checking it against
-           BOTH #f5f0e6 and #fdf8f0 — the two layers it sits between. */
-        /* RIGHT EDGE — the hairline that used to close the half-width desktop
-           band here was REMOVED (owner rule 2026-09-02): on a simple one-segment
-           row it read as a column/control edge — "it looks like it will open
-           and it does not" — since a plain row carries no toggle. Do not
-           reinstate it on .tve-ph or .tve-ph-24; the toggle variant's own
-           round chevron (.tve-ph-chv) is the only affordance mark left. */
-        '.tve-ph{' +
+                                '.tve-ph{' +
         'background:transparent;color:#C04E1A;' +
         'font-weight:500;padding:0 14px;border-radius:0;' +
         'margin:6px -14px 0;line-height:1.55;font-size:inherit;}' +
@@ -4713,37 +3487,11 @@ window.TVE.home = (function () {
            leading, so the band supplies the missing 3.125 itself or it sits
            3px closer to the photo than every other gap in the card. */
         '.tour-box > .tve-ph-end,.ticket-box > .tve-ph-end{margin-bottom:0!important;}' +
-        /* Open-around-the-clock variant — SAME SKIN as every other band
-           (owner rule 2026-08-08). The 24h row used to be the only band with
-           its own colours: an #f5f0e6 fill on a .tour-box that is ITSELF
-           #f5f0e6, so it had no fill contrast at all and vanished into its own
-           card while the cream bands on neighbouring stops read as strips —
-           one kind of information rendered two different ways down a day.
-           Owner: "make sure these that are not toolbar also don't pass the
-           middle of the page and match color the same color". Every band now
-           shares one skin and the 24h distinction is carried by the label,
-           which already says "Open 24h". The rule is kept rather than deleted
-           because the class is still stamped in JS and
-           check_stop_hours_contract hard-fails a tve-ph-* class with no CSS. */
-        '.tve-ph-24{background:transparent!important;' +
+                '.tve-ph-24{background:transparent!important;' +
         'color:#C04E1A!important;}' +
         /* Authored 🏛️ row: hidden, but kept in the DOM so the Open Now
            filter can still read its textContent. */
-                /* DESKTOP WIDTH — the band stops at the horizontal centre of the screen
-           and no further (owner rule 2026-08-08: "make sure this stops in the
-           middle of the desktop screen not more than that"). At 1440px the card
-           is 1280px wide, so a full-bleed strip ran nearly the whole window for
-           a row that says nine words.
-           `calc(50% + 14px)` IS the screen centre, not an approximation: the
-           card is centred, so its left edge sits at (V - W) / 2 and the band —
-           which is full-bleed, starting on that edge — must be W/2 wide to end
-           at V/2. 50% resolves against the card's CONTENT box (W - 28 at the
-           14px gutter), so half of that plus the 14px the band bleeds back over
-           is exactly W/2. The 14 is re-read at runtime by _phFit for the mobile
-           gutter, but this rule is desktop-only, where the gutter is 14.
-           Mobile keeps the full-bleed strip: at 393px half the screen cannot
-           hold "Today · 10:00am - 8:00pm" and the chevron. */
-        '@media (min-width: 601px), (pointer: fine) {' +
+                        '@media (min-width: 601px), (pointer: fine) {' +
         '.tour-box > .tve-ph,.ticket-box > .tve-ph,' +
         '.tour-box > .tve-ph-wrap,.ticket-box > .tve-ph-wrap{width:calc(50% + 14px);}' +
         '}' +
@@ -4757,16 +3505,7 @@ window.TVE.home = (function () {
         'border-radius:0!important;margin:0!important;' +
         '-webkit-user-select:none;user-select:none;}' +
         '.tve-ph-lbl{flex:1;}' +
-        /* Chevron reads as a control, not punctuation. At 11px inline it was
-           near-invisible — nothing signalled that the row opened. 22px round chip;
-           also gives it a real tap target. Owner-requested 2026-08-07 ("make this
-           more obvious so people know these open"). Palette: the TAN family —
-           #6b5320 glyph in a #bba070 ring on the cream fill (owner picked option
-           G from the 2026-08-08 mockups). It was terracotta, which put a second
-           accent colour in a row whose rail is already the band's accent; tan is
-           the same family as the rail, so the chip reads as part of the band
-           rather than as a competing mark. Hover deepens the fill to #f5f0e6. */
-        '.tve-ph-chv{font-size:15px;font-weight:700;color:#C04E1A;line-height:1;' +
+                '.tve-ph-chv{font-size:15px;font-weight:700;color:#C04E1A;line-height:1;' +
         'display:inline-flex;align-items:center;justify-content:center;flex:none;' +
         'width:22px;height:22px;border-radius:50%;' +
         'border:1px solid #C04E1A;background:transparent;' +
@@ -4975,45 +3714,7 @@ window.TVE.home = (function () {
       return wrap;
     }
 
-    /* ── Full-bleed fit ─────────────────────────────────────────────────────
-       The band cancels its card's horizontal padding so its rail sits on the
-       card edge and its text lands on the same column as every other icon row.
-       That padding is 14px on desktop and 12px at the mobile breakpoint, so the
-       number cannot live in the stylesheet — it is read off the card here and
-       re-read on resize, which is also what makes an orientation change land on
-       the right value instead of a 2px overhang.
-
-       🔒 NEVER MEASURE A CARD THAT REPORTS NO GUTTER (fixed 2026-08-11).
-       A .tour-box / .ticket-box is `padding: 10px 14px` in guide-style.css and
-       `10px 12px` at the mobile breakpoint. It is NEVER 0 — a 0 reading means
-       the stylesheet is not applied at the moment we measured, and the whole
-       computation is then garbage: margin-left lands on -0, the negative bleed
-       never happens, `.tve-ph{padding:0 14px}` from the injected sheet survives,
-       and every hours band on the page sits ONE FULL 14px GUTTER right of the
-       🎟 / 📍 / ⚠️ rows above and below it (owner report 2026-08-11, on a Prague
-       stop card: "this is not aligned … look at the time" — all 19 bands on that
-       page were stepped in).
-
-       That window is real and it is OURS: the CSS version guard at the top of
-       this file rewrites the guide-style.css link's `?v=` when a guide ships an
-       older number (every guide does — they stamp v=29-ish against CURRENT).
-       Assigning `link.href` makes Chrome DROP the loaded sheet immediately and
-       refetch, so between the swap and the new sheet's arrival the document has
-       NO guide CSS at all. Measured on Prague: first sheet done at 267ms, swap
-       fires, DOMContentLoaded at 361ms — _phFit ran HERE, on an unstyled
-       document — and the replacement sheet only landed at 619ms.
-
-       So: bail on a 0 gutter rather than writing wrong values (the injected
-       CSS defaults of 14/-14 are already correct for desktop, so the band stays
-       aligned meanwhile), and re-run on `load`, which by definition waits for
-       every stylesheet. Do not "simplify" either half away.
-
-       The left pad is the gutter MINUS the element's own left border, read off
-       the element rather than hardcoded: .tve-ph-panel still carries a 2.5px
-       rail, while .tve-ph and .tve-ph-toggle lost theirs on 2026-08-11 (owner:
-       "the hours time no terracota bar on the left"). The constant 2.5 stayed
-       behind and hung both of those 2.5px LEFT of the icon column. */
-    var _phBands = [];
+        var _phBands = [];
     function _phFit() {
       _phBands.forEach(function (outer) {
         if (!outer.parentNode) return;
@@ -5034,16 +3735,7 @@ window.TVE.home = (function () {
       });
     }
 
-    /* ── Walk the authored 🏛️ rows, GROUPED BY STOP ─────────────────────────
-       A stop can carry more than one 🏛️ row — Carmel Mission ships
-       "Mon-Sat 9:30am - 5:00pm" on one and "Sun 10:30am - 5:00pm" on the
-       next. That is ONE weekly schedule split across two lines, not two
-       schedules, and rendering a band per row stacked two near-identical
-       strips with a gap between them (owner report 2026-08-07: "it is all
-       over the place"). Grouping by the containing card means exactly one
-       band per stop, which is also what makes the vertical rhythm
-       deterministic: there is never a band-to-band gap left to tune. */
-    var groups = [], boxes = [];
+        var groups = [], boxes = [];
     srcRows.forEach(function (row) {
       var box = row.parentNode;
       var i = boxes.indexOf(box);
@@ -5247,20 +3939,7 @@ window.TVE.home = (function () {
     _injectAddrCopy();
   }
 
-  /* ── The stop-header control rail ────────────────────────────────────────
-     ONE flex item holding all four per-stop controls — ✓ visited, share, ★
-     wishlist, ✎ note — instead of four loose ones (owner rule 2026-08-15:
-     "they will be all 4 together instead of bookmark being in a line alone").
-     Grouping is what actually keeps them together: .stop-header is
-     flex-wrap:wrap on mobile, and loose flex items wrap ONE AT A TIME, so a
-     long stop name split the row 3 + 1 even after the ✓ moved over to join the
-     others. As a single item the rail wraps whole or not at all.
-     Created on demand by whichever injector runs first and reused by the rest,
-     so the four stay in a fixed order (✓ share ★ ✎) however they are scheduled.
-     No auto margin here — the spacer stays on the left group's last item
-     (.open-now-status → .stop-dur → .stop-name in guide-style.css); two auto
-     margins would split the free space and strand the left group mid-row. */
-  function stopActionRail(header) {
+    function stopActionRail(header) {
     if (!header) return null;
     var rail = header.querySelector(':scope > .stop-actions');
     if (!rail) {
@@ -5271,16 +3950,7 @@ window.TVE.home = (function () {
     return rail;
   }
 
-  /* ── Day Jump pill — REMOVED (owner rule 2026-08-15) ──────────────────────
-     The floating "📅 N days" pill (.day-jump-btn) and its jump-to-day overlay
-     (.day-jump-overlay) are gone on every viewport. Owner: "remove the 5 days
-     6 days pills from mobile as well we dont need anymore." The Trip Overview
-     at the head of every guide already lists each day as a jump link, so the
-     pill duplicated navigation that is one scroll away — and it was the last
-     floating control sitting over the foot of a guide page.
-     Do not re-inject it. Its CSS in guide-style.css is kept for now only
-     where shared with .tve-scroll-top positioning notes. */
-
+  
   /* ── ?day=N deep link — scroll to Day N on page load ────────────────────
      Sharing guide.html?day=2 opens directly at Day 2 without hunting for it.
      No-ops silently if the parameter is absent, non-numeric, or out of range. */
@@ -5300,48 +3970,7 @@ window.TVE.home = (function () {
     _applyDayParam();
   }
 
-  /* ── Save for Offline — writes ONE self-contained .html FILE the reader picks
-     a folder for (owner rule 2026-08-22: "ask the user where they want to save
-     and the user chooses a folder and saves it").
-
-     WHAT THIS REPLACED, AND WHY. Until today the pill confirmed a SERVICE WORKER
-     CACHE entry and stamped localStorage so a return visit showed a ✓. Every
-     part of that worked, and the feature was still unusable, because a cache
-     entry HAS NO ADDRESS. Owner: "how can i find the guide i ask to save off
-     line? where it goes? i can't load the site if i have no internet to find my
-     bookmark." That is the whole defect: the saved guide was reachable only by
-     navigating to a URL the reader could no longer look up — a bookmark they
-     could not reach without the network, on a page they could not load without
-     the bookmark. The cache was real and the guide was in it; there was simply
-     no door. A file has a door: it sits in Files or Downloads under a name, and
-     it opens with no network, no browser history and no service worker.
-
-     THE SERVICE-WORKER CACHE IS UNTOUCHED AND STILL DOES ITS JOB. sw.js goes on
-     caching every visited page, so a reader who returns to the URL online-then-
-     offline still gets it. This pill is no longer the way to ASK for that; it is
-     the way to get a copy you can find. Never re-point it at caches.match().
-
-     WHY THE WHOLE PAGE IS INLINED. The file has to survive with no origin at
-     all: opened from Files, from a folder, from a USB stick, on a plane. So the
-     stylesheet, the webfont and every photograph are embedded as data: URIs, and
-     the copy carries no <script>, no <link> and no same-origin request of any
-     kind. A saved file that still needs the network for its CSS is not a saved
-     file — it is a bookmark with extra steps, which is the bug being fixed.
-
-     WHY IT SERIALISES THE LIVE DOM RATHER THAN REFETCHING THE SOURCE. Almost
-     everything a reader sees on a guide is injected by this file at runtime —
-     the weather strip, the pill row, the Trip Overview, the drawn marks, the
-     hotel alternatives, the cross-links. Refetching guides/{slug}.html would
-     save the scaffold and none of it. Cloning documentElement captures the page
-     as rendered, including the runtime <style> blocks and the #gm-sprite <symbol>
-     defs, which is why the copy needs no script to look right.
-
-     AND WHY IT CARRIES NO JAVASCRIPT. A static file cannot run the collapse
-     toggles, the lightbox, the currency converter or the calendar export, so
-     rather than ship dead controls the builder REMOVES every control and OPENS
-     every collapsible (see _offlineStrip). The copy is a document, not an app:
-     everything is visible, anchors still jump, and nothing on it can fail. */
-
+  
   /* Read a Blob as a data: URI. */
   function _offlineBlobToDataURI(blob) {
     return new Promise(function (res, rej) {
@@ -6267,22 +4896,7 @@ window.TVE.home = (function () {
       header.style.display = 'flex';
       header.style.alignItems = 'center';
 
-      /* The control belongs with the OTHER CONTROLS on the right rail — share,
-         star and notes — not against the title (owner rule 2026-08-15: "when
-         the stop name is too long the bookmark is pushed below. so the move the
-         bookmark to close to share, start and write note they will be all 4
-         together instead of bookmark being in a line alone").
-         It used to sit directly after .stop-name and carry margin-right:auto as
-         the row's spacer, which is exactly what broke: on mobile .stop-header
-         is flex-wrap:wrap, so a long name filled the first line, the auto
-         margin ate the remaining space, and the ✓ landed on a line of its own
-         with share/star/notes stranded on a third.
-         The spacer job hands down to .stop-name in guide-style.css now — the
-         name is the one element every header has, so the chain can never fall
-         through. The name still sizes to its own content (flex:0 1 auto beats
-         the flex:1 _injectStopDuration sets) and its auto margin does the
-         pushing. */
-      var nameEl = header.querySelector('.stop-name');
+            var nameEl = header.querySelector('.stop-name');
       if (nameEl) {
         nameEl.style.flex = '0 1 auto';
         nameEl.style.minWidth = '0';
@@ -6344,16 +4958,7 @@ window.TVE.home = (function () {
     _injectMarkStops();
   }
 
-  /* ── Alternative hotel recommendations — injected before #also-on-this-site on
-     guide pages that have a HOTEL_ALT_DATA entry. Runner-up hotels from the same
-     search process used to pick the guide hotel; added during each guide build.
-     Every slug carries a MINIMUM of 4 hotels — there is NO maximum; list every
-     alternative that clears the quality bar. Each hotel needs name + note + url
-     (Booking.com property page) + tier, and the slug carries, AFTER the h: array,
-     price: { budget, mid, expensive, luxury } — one range per tier head (owner
-     rule 2026-08-22). Enforced by the FINAL GATE in validate_itinerary.py and
-     fleet-wide by check_post_ci_sections.py.                                     */
-  var HOTEL_ALT_DATA = {
+    var HOTEL_ALT_DATA = {
     /* entries added per guide during build — see Separation Map.md § Hotels & Rentals */
     'montego-bay': { h: [
       { name: "Evelin's On The Beach", note: 'Independent — Kent Avenue, oceanfront on the Hip Strip, restaurant and water-sports desk on site, no ladder brand in market · 8.1 Booking.com', url: 'https://www.booking.com/hotel/jm/evelins-on-the-beach.html', tier: 'budget' },
@@ -8559,17 +7164,7 @@ window.TVE.home = (function () {
     ], price: { budget: 'CHF 170–280', mid: 'CHF 280–450', expensive: 'CHF 450–650', luxury: 'CHF 650+' } }
   };
 
-  /* ── Neighborhood cross-link — appended under the Alternative Hotel
-     Recommendations grid on the guides Neighborhoods.html covers.
-     That page carries district-by-district "where to stay" detail for a small
-     set of cities; those are exactly the guides where the hotel block should
-     hand the reader on to it. Key = guide filename slug; value = the city name
-     as written in the page's own AN_CITIES array — it becomes the #hash the
-     page reads on load to open pre-filtered on that city.
-     The two lists are kept in lockstep by brain_check
-     check_accommodation_neighborhoods_crosslink (hard-fail on either side
-     drifting). Owner rule 2026-08-08. */
-  var AN_NEIGHBORHOOD_CITIES = {
+    var AN_NEIGHBORHOOD_CITIES = {
     'amsterdam':      'Amsterdam',
     'athens':         'Athens',
     'bangkok':        'Bangkok',
@@ -8679,27 +7274,10 @@ window.TVE.home = (function () {
     wrap.id = 'hotel-alternatives';
     var h = document.createElement('div');
     h.className = 'extras-title';
-    /* RENAMED 2026-08-20 (owner): "Alternative Hotel Recommendations" →
-       "Hotel Recommendations". The old wording said these were the runners-up;
-       with four price tiers they are the recommendations. */
-    h.innerHTML = monoSVG('hotel', 15) + ' Hotel Recommendations';
+        h.innerHTML = monoSVG('hotel', 15) + ' Hotel Recommendations';
     wrap.appendChild(h);
 
-    /* ── Four price tiers, grouped, cheapest first ─────────────────────────
-       Budget · Mid · Expensive · Luxury. Every guide must carry at least one
-       hotel in EACH — enforced hard-fail by validate_itinerary.py. The tier is
-       a HEAD above its group and never a chip on the card: that variant was
-       built, shown to the owner and rejected (2026-08-20), and a chip also
-       hides an empty tier, which is the one thing this section must reveal.
-       Entries with no `tier` render ungrouped, ABOVE the tiers, so the fleet
-       keeps rendering while the backfill runs — a reader never sees a broken
-       section because the data is mid-migration.
-       EACH HEAD CARRIES THE TIER'S PRICE RANGE from entry.price[tier] — '€90–140',
-       per night, double room, the destination's own currency — drawn into
-       span.hr-price. REQUIRED, FINAL GATE (owner rule 2026-08-22: the approved
-       design had the range and the retired zero-money rule took it off). The
-       price object sits AFTER the h: array — every parser finds a slug by "{ h:". */
-    var TIERS = [
+        var TIERS = [
       ['budget',    'Budget',    1, 'hr-budget'],
       ['mid',       'Mid',       2, 'hr-mid'],
       ['expensive', 'Expensive', 3, 'hr-exp'],
@@ -8824,17 +7402,7 @@ window.TVE.home = (function () {
     _injectHotelAlternatives();
   }
 
-  /* ── Nearby From Here — on the LAST stop of each day (the one whose .next
-     banner reads "→ hotel"), offer stops/restaurants/shows anywhere else in
-     the guide that share that stop's own neighbourhood. Stops, restaurants
-     and shows all already print their address as "... · Neighbourhood" and
-     link it to a Google Maps SEARCH pin — this reuses both directly, so
-     there is no geocoding step and no distance is computed or shown: each
-     card is just a name, that same address, and the SAME link upgraded from
-     a place search to a DIRECTIONS request with no origin, so Maps supplies
-     the reader's real current location itself (or asks, if none is shared).
-     Owner rule 2026-08-30. */
-  function _injectNearbyFromHere() {
+    function _injectNearbyFromHere() {
     if (!isRealGuide || isReadAbout || isStopsMap) return;
     var dayBlocks = document.querySelectorAll('.day-block');
     if (!dayBlocks.length) return;
@@ -8995,43 +7563,8 @@ window.TVE.home = (function () {
     _injectNearbyFromHere();
   }
 
-  /* ── _injectGAGrid — RETIRED 2026-08-19 (owner rule: "they need to match the
-     rest of the sections — i changed my mind on the side by sides thing").
-
-     It lifted every .extras-sub + .transit-box pair in 🚌 Getting Around and
-     🚗 Food Delivery into a .neigh-card and laid 2–4 of those cards out ACROSS
-     the section. Both sections now draw the same stacked Style-A card as every
-     other Extras section, straight from the authored markup, with no injection
-     at all — guide-style.css § "#191 Getting Around · #184 Food Delivery —
-     STACKED entry cards".
-
-     Never re-add it, and never give either section a card grid by any other
-     route. Enforced, hard-fail: brain_check.check_getting_around_entry_cards
-     bans `_injectGAGrid` and a `.ga-grid` reaching either section id.
-
-     _injectWCGrid — the same grid on #weekly-closures — is retired too, on
-     2026-08-21, in the owner's own words: "i want this back as used to be match
-     the other sections. one entry below the other." That section was the last
-     consumer of .ga-grid, so the class is gone from guide-style.css as well. ── */
-
-  /* ── Weekly Closures — RETIRED 2026-08-21 ──────────────────────────────────
-     _injectWCGrid() wrapped each .stop-row of #weekly-closures in a .neigh-card
-     inside a .ga-grid.ga-auto, running 2–4 entries ACROSS the section. It was
-     the last user of that grid, and it goes for exactly the reason Getting
-     Around and Food Delivery lost theirs two days earlier — the owner wants
-     every Extras section to read the same way: "i want this back as used to be
-     match the other sections. one entry below the other."
-
-     Nothing replaced it. The base rules in guide-style.css § "#55 Weekly
-     Closures" have always drawn the stacked column — white rows one below the
-     other, first rounded at the top, last at the bottom — and the injection was
-     simply painting over them, which is why removing it restores the previous
-     rendering byte for byte and touches no guide markup at all.
-
-     Never re-add it, and never give this section a card grid by any other route.
-     Enforced, hard-fail: brain_check.check_weekly_closures_stacked bans
-     `_injectWCGrid`, `ga-auto` and any `.ga-grid` rule. ── */
-
+  
+  
 
   /* ── Best-Of cross-links — injected before #also-on-this-site on guide pages
      that appear in one or more Best-Of collections. CITY_BEST_OF_MAP is generated
@@ -9366,14 +7899,7 @@ window.TVE.home = (function () {
            size. The row is a <div>, so it never disturbs the <a>-based
            :nth-of-type zebra on the day rows above it. */
         '.tve-adtf{display:flex;align-items:baseline;gap:14px;padding:10px 16px;' +
-        /* --fs-overview-title, NOT --fs-overview-day-title. The Trip Overview
-           moved onto its own token on 2026-08-20 (Sixtieth non-negotiable) and
-           this row was left behind on the old one, so ALSO rendered at 15px in
-           a table of 17px day rows — owner 2026-08-21: "the also on trip
-           overview should be same size day 1, 2". --fs-overview-day-title now
-           drives the guides-index cards and .guide-nav and has nothing to do
-           with this table; pointing this back at it re-shrinks the row. */
-        'font-size:var(--fs-overview-title,17px);line-height:1.5;}' +
+                'font-size:var(--fs-overview-title,17px);line-height:1.5;}' +
         /* …which is also why the row cannot INHERIT that zebra: the CSS tints
            every even <a>, and this is a <div>, so the stripe always stopped at
            the last day row and the ALSO row came out white however the table
@@ -9392,14 +7918,7 @@ window.TVE.home = (function () {
            the day table and must move with it in both themes. */
         '.tve-adtf-cities{flex:1 1 auto;min-width:0;color:var(--c-ovd-stops,#6f695d);}' +
         '.tve-adtf-sep{color:inherit;}' +
-        /* The departure city is NOT gold (owner rule 2026-08-09). It is the same
-           kind of thing as "Berchtesgaden" on the row above — a place name in a
-           day line — and those are plain body text, so a gold one here read as a
-           different class of content sitting in the same column. It takes the
-           row's own colour and reveals itself as a link on hover instead.
-           :visited needs no rule: this is a class-specificity author selector,
-           so it already outranks the UA visited style in every state. */
-        '.tve-adtf a{color:inherit;text-decoration:none;border-bottom:1px solid transparent;}' +
+                '.tve-adtf a{color:inherit;text-decoration:none;border-bottom:1px solid transparent;}' +
         '.tve-adtf a:hover{color:#C04E1A;border-bottom-color:#C04E1A;text-decoration:none;}' +
         /* Mobile mirrors the day row's stacked form: label on its own line, body full width. */
         '@media (max-width: 600px) and (pointer: coarse) {.tve-adtf{display:grid;grid-template-columns:1fr;' +
@@ -9436,12 +7955,7 @@ window.TVE.home = (function () {
 
       var cities = document.createElement('span');
       cities.className = 'tve-adtf-cities';
-      /* Body IS a Train Day body — same icon, same "Train Day", same dot before
-         the city (owner rule 2026-08-09: "the rest of the format follow what we
-         use already"). The single added word is "from", which is not decoration:
-         this row is the INBOUND view, so "🚆 · Train Day · Vienna" would read as
-         a train day TO Vienna and state the opposite of the truth. */
-      var lead = document.createElement('span');
+            var lead = document.createElement('span');
       lead.innerHTML = iconSVG(NAV_ICONS['train'], 15, 'train') + ' · Train Day from · ';
       cities.appendChild(lead);
       from.forEach(function (g, i) {
@@ -9512,39 +8026,8 @@ window.TVE.home = (function () {
     }
   }());
 
-  /* ── The end-section nav pills are RETIRED (owner rule 2026-08-15) ─────────
-     `_injectEndSectionPills` built five overview-extra-link pills into the strip
-     above the guide days — Also on This Site, Best Of, Nearby Guides, Alternative
-     Hotels, Also in Country. The owner removed all five that day, and what was
-     left was a function that queried the DOM, defined an addPill helper, and then
-     ran five comments. Deleted 2026-08-20; the rulings it carried are kept here
-     because each one is a "do not re-add" and they are the only record of it.
-
-     1. ALSO ON THIS SITE — no pill. Owner: "also in this site remove pill from
-        extra sections and will only show in the bottom." The #also-on-this-site
-        section is untouched and still required by the validators; only its
-        shortcut in the Trip Overview extras row is gone.
-     2. BEST OF — no pill. Same call, same day.
-     3. NEARBY GUIDES — no pill. Owner: "nearby guide remove to be a pills on
-        extra section also and will only show below in the own section too."
-        #nearby-guides still ships, still built by build_nearby_guides.py, and
-        still carries its own heading at the foot of the guide.
-     4. HOTEL RECOMMENDATIONS — no pill. Section still ships at the bottom.
-     5. ALSO IN COUNTRY — no pill. Section still ships at the bottom.
-
-     Do not re-add any of them, and do not re-add the injector. */
-
-  /* ── Nearby Guides header icon ──────────────────────────────────────────
-     That title is not DOM text: guide-style.css writes it with
-     `#nearby-guides .extras-title:empty::before { content: "Nearby Guides" }`,
-     and a ::before string cannot carry a drawn mark. Every other bottom
-     section leads with one — "Also on this site" through the 💥 its fallback
-     pastes, "Also in Country" through iconSVG below — so this was the single
-     header on the page with nothing beside the words (owner 2026-08-14:
-     "missing icon"). Writing real text plus the sprite fixes it in one move:
-     the element stops being :empty, so the CSS fallback stops applying.
-     Same key the Nearby Guides pill draws, so header and pill match. */
-  function _injectNearbyGuidesTitle() {
+  
+    function _injectNearbyGuidesTitle() {
     var ng = document.getElementById('nearby-guides');
     if (!ng) return;
     var t = ng.querySelector(':scope > .extras-title');
@@ -9610,8 +8093,7 @@ window.TVE.home = (function () {
            /aix-en-provence/aix-en-provence.html → 404, /guides/aix-en-provence.html
            → 200). `g.slug` already carries the .html. */
         a.href = '/guides/' + g.slug;
-        /* City name ONLY — no map glyph (owner rule 2026-08-10, Rule 815). */
-        a.textContent = g.city;
+                a.textContent = g.city;
         pills.appendChild(a);
       });
       wrap.appendChild(h);
@@ -9626,8 +8108,7 @@ window.TVE.home = (function () {
       });
       anchor.parentNode.insertBefore(wrap, anchor.nextSibling);
       _fixPillGridOrphans(pills);
-      /* Also in Country nav pill removed (owner rule 2026-08-15) — section at bottom stays. */
-      /* Re-anchor the stamp (and no-entries row) after the now-last footer section.
+            /* Re-anchor the stamp (and no-entries row) after the now-last footer section.
          Uses the same DOM-last logic as repositionUpdatedStamp() — compareDocumentPosition
          flag 4 = DOCUMENT_POSITION_FOLLOWING — so #also-in-country (just inserted)
          is always found as the last section rather than hard-coding Best Of. */
@@ -9679,15 +8160,7 @@ window.TVE.home = (function () {
     }
   })();
 
-  /* RETIRED 2026-08-20 (owner) — the "Inquire for a different hotel as your
-     starting point" line under the hotel banner. It was injected here onto
-     every guide title card (owner rule 2026-08-15) and the owner removed it:
-     "remove this sentence from the guides and move the next section up." The
-     card now ends on the hotel address and the pill row sits directly under
-     it. Its `.title-hotel-request` rules went out of guide-style.css in the
-     same pass — CSS that still describes a retired component is how the next
-     crib talks itself into re-adding it. Do not restore the injection. */
-
+  
   /* ── Quick Facts strip — real guide pages only ────────────────────────────
      The four facts a reader checks before committing to an itinerary:
      🗣️ language · 💰 cost tier · 🔌 plug type · 🌤️ best months. Each one
@@ -9744,16 +8217,7 @@ window.TVE.home = (function () {
         'display:flex;flex-wrap:wrap;gap:6px;width:100%;box-sizing:border-box;' +
         'margin:' + (isMobile ? '12px 0' : '0 0 16px') + ';';
 
-      /* EVERY CHIP IS A STATIC LABEL — no links (owner rule 2026-08-15).
-         Cost, plug and best-months used to link out to Budget-Guide,
-         Plug-Adapter-Guide and When-to-Go. Owner: "The results below the
-         wetaher banner in all guide mobile and desktop remove al links. This
-         should not send the person to a huge list so language, plug, etc is not
-         a link anymore. turns into static label." The chip already carries the
-         answer for THIS city; the destination was a site-wide table the reader
-         then had to search for their own city again. Desktop and mobile alike —
-         do not re-add hrefs here, and do not reintroduce a QF_HREF map. */
-      items.forEach(function (it) {
+            items.forEach(function (it) {
         var pill = document.createElement('span');
         pill.title = it[1];
         pill.style.cssText =
@@ -9810,47 +8274,7 @@ window.TVE.home = (function () {
     }
   })();
 
-  /* ── In-guide currency converter — collapsed pill on the action row ────────
-     A 💱 Currency pill appended to #ics-pill-row that expands, in place, into a
-     two-field converter: YOUR currency ⇄ the currency of this place. Both
-     fields are live inputs — editing either rewrites the other — because a
-     reader inside an itinerary needs the conversion in both directions:
-     budgeting outbound ("what is €60 here?") and reading a price inbound ("the
-     menu says ¥4,800").
-
-     ONE SIDE IS A CHOICE AND THE OTHER IS NOT (owner rule 2026-08-18). The left
-     field carries a picker of all 52 currencies because the site never guesses
-     what the reader holds (Forty-seventh non-negotiable); the right is FIXED to
-     the currency of the country this guide is about, because that one is not the
-     reader's to pick — in Kyoto the price tag is in yen whatever is in your
-     pocket. Never make the right side a select "for symmetry": the any-to-any
-     converter is /currencies/, which the panel links to for exactly that reason.
-     Nothing is preselected and nothing is persisted — a currency restored from a
-     pick made days ago is a preselected currency by another name (rule 867).
-
-     Adds no data pipeline. The rate is the one /currencies/ already carries:
-     update_currency_rates.py refreshes that page monthly and emits
-     assets/currency-rates.json from the same baked FXR/FXC literals in the same
-     pass, so page and pill cannot quote different numbers. Reading the JSON
-     instead of the page keeps the cost at ~9 KB rather than the whole page. The
-     picker's option list is deduped from those same rows by ISO — no second
-     data source and no extra request.
-
-     Country resolution reuses assets/country-guides.json — already fetched and
-     sessionStorage-cached under tvecg by the "Also in [Country]" section, so on
-     a warm tab this feature costs one extra request, not two. Both sides of the
-     join are FOLDED (lowercase, accents stripped, underscores → spaces): the
-     Currency-Guide anchors are ASCII with underscores while country-guides.json
-     holds display strings, four of them all-caps or accented (Curaçao, MALTA,
-     PHILIPPINES, SOUTH AFRICA). Without the fold those four render no pill.
-
-     Renders nothing only when the country is unknown. It used to bail on USD as
-     well (Ecuador, Puerto Rico, Turks and Caicos, United States) because a
-     US$→US$ box is noise — true while the left field WAS US dollars, and false
-     the moment the reader picks their own, so those 60 guides now get the pill
-     like every other. Do not re-add that bail.
-     Like every fetch-backed feature it is invisible over file:// (§ 34). */
-  (function () {
+    (function () {
     if (!isRealGuide) return;
 
     function _curFold(s) {
@@ -9923,13 +8347,7 @@ window.TVE.home = (function () {
       var bySlug = (cg && cg._by_slug) || {};
       var country = bySlug[curr] || bySlug[curr + '.html'];
       var c = country && cur && cur.rates && cur.rates[_curFold(country)];
-      /* USD is NO LONGER a reason to render nothing (owner rule 2026-08-18).
-         While the left field was a hardcoded "US$" box, a US, Ecuador, Puerto
-         Rico or Turks-and-Caicos guide had a US$→US$ converter to offer, which
-         is noise — so the pill was suppressed on all 60 of them. Now that the
-         reader picks their OWN currency, a dollar destination is an ordinary
-         conversion target and those guides get the pill like everyone else. */
-      if (!c || !c.rate) return;
+            if (!c || !c.rate) return;
 
       var sym = c.sym || '';
 
@@ -9990,18 +8408,7 @@ window.TVE.home = (function () {
         return { wrap: wrap, input: input };
       }
 
-      /* ONE side is a choice and the other is not (owner rule 2026-08-18).
-         LEFT — the reader's own money, a picker: they may hold any currency and
-         the site never guesses which (Forty-seventh non-negotiable).
-         RIGHT — the currency of the place this guide is about, FIXED. It is not
-         a choice because it is not the reader's to make: in Kyoto the price tag
-         is in yen whatever else is in your pocket. Never turn it into a second
-         select "for symmetry" — that is the /currencies/ page, which this panel
-         links to precisely so this one can stay a two-field answer.
-         Nothing is preselected and nothing is remembered between visits: a
-         currency restored from a pick made days ago is a preselected currency
-         by another name (same rule as Time Zones, rule 867). */
-      var mine = _field('', 'Amount in your currency');
+            var mine = _field('', 'Amount in your currency');
       var pick = document.createElement('select');
       pick.className = 'tve-cur-pick';
       pick.id = 'tve-cur-pick';
@@ -10087,16 +8494,7 @@ window.TVE.home = (function () {
       loc.input.placeholder = 'Amount';
 
       /* ── Reference line — the rate, its currency, and the way out ── */
-      /* ── The way out ──────────────────────────────────────────────────────
-         Tapping the pill again closes the panel, and that was the ONLY way out —
-         which nobody finds (owner, 2026-08-18: "i always have a problem figuring
-         out what to do to close get out of this section"). An explicit ✕ is the
-         answer. It follows the site's standalone-✕ standard exactly — the ✕
-         character is U+2715, never U+00D7, 13px #7a7068, no background, no
-         border, no radius — and `.tve-cur-x` is registered in
-         _X_STANDARD_SELECTORS in brain_check.py, without which that check
-         hard-fails on an unregistered class. */
-      var xBtn = document.createElement('button');
+            var xBtn = document.createElement('button');
       xBtn.type = 'button';
       xBtn.className = 'tve-cur-x';
       xBtn.textContent = '✕';
@@ -10233,15 +8631,7 @@ window.TVE.home = (function () {
     document.head.appendChild(_wx);
   }
 
-  /* ── Sticky stop-name strip — REMOVED (owner rule 2026-08-15) ─────────────
-     #tve-stop-strip was a fixed 28px bar pinned to the top of the viewport
-     that named the stop currently being read ("📍 1. Panthéon") once its
-     header scrolled past. Owner: "when we scroll a pin shows on top of the
-     guide with the name of the stop remove this pin ... we have that now when
-     we click on the picture." It also fought the toolbar, which became
-     position:sticky on mobile in this same pass — two bars stacking at the top
-     of every guide. Do not re-inject it. */
-
+  
   /* ── 7-day weather strip — real guide pages only ──────────────────────────
      Fetches a live forecast from Open-Meteo (free, no API key). Coordinates
      come from climate.json. Response is cached in sessionStorage under
@@ -10266,13 +8656,7 @@ window.TVE.home = (function () {
     var cityNorm = _normCity(rawCity);
 
     /* WMO weather-code → emoji */
-    /* WMO weather code -> a DRAWING, never an Apple weather emoji (owner
-       2026-08-20). Every value is a GM_SPRITE key and every one of those is a
-       numbered specimen in Site-Icons.html § Weather: 299 clear, 300 partly
-       cloudy, 301 overcast, 302 rain, 303 storm, 304 snow. Fog has no drawing
-       of its own and takes overcast, which is what fog looks like from inside
-       it; that is a reuse, not a new mark. */
-    var WMO = {
+        var WMO = {
       0:'wx-clear', 1:'wx-clear', 2:'wx-partly', 3:'wx-overcast',
       45:'wx-overcast', 48:'wx-overcast',
       51:'wx-rain', 53:'wx-rain', 55:'wx-rain',
@@ -10315,17 +8699,7 @@ window.TVE.home = (function () {
       strip.style.cssText =
         'display:flex;align-items:center;text-decoration:none;width:100%;' +
         'background:#f3efe6;border:1px solid #e3dccd;border-radius:6px;' +
-        /* Desktop top margin is 36px to match what sits BELOW the strip: at
-           runtime #ics-pill-row is lifted out of the Trip Overview card and
-           inserted directly before .overview-section, which makes it the strip's
-           next sibling, and its own margin-top:36px collapses over the strip's
-           16px bottom — so the gap under the strip is 36 and the strip's declared
-           16 never shows. Above it there was nothing at all (margin-top:0), so
-           what read as the top gap was only .title-page's own 16px bottom margin
-           and the strip sat high in its slot (owner 2026-08-18). 36 here collapses
-           over that 16 the same way, giving 36/36. Phone keeps its own 12/12 —
-           the phone block sets its own rhythm and is not part of this. */
-        'padding:' + (isMobile ? '5px 6px' : '6px 10px') + ';margin:' + (isMobile ? '12px 0' : '36px 0 16px') + ';font-family:inherit;box-sizing:border-box;' +
+                'padding:' + (isMobile ? '5px 6px' : '6px 10px') + ';margin:' + (isMobile ? '12px 0' : '36px 0 16px') + ';font-family:inherit;box-sizing:border-box;' +
         'overflow:hidden;cursor:pointer;transition:background .15s;';
       strip.addEventListener('mouseenter', function () { strip.style.background = '#ece5d6'; });
       strip.addEventListener('mouseleave', function () { strip.style.background = '#f3efe6'; });
@@ -10523,30 +8897,8 @@ window.TVE.home = (function () {
     _injectScrollFab();
   }
 
-  /* ── Best-Of country jump pill — REMOVED (owner rule 2026-08-18) ─────────
-     #tve-bo-jump was the floating gold "🌍 N countries" pill that opened a
-     country-filter overlay on the 34 Best-Of showcase pages. Owner, pointing
-     at it on Best-Hard-To-Reach-Places: "remove any pills we may have in
-     mobile like that. i dont want this type of pills anywhere."
-
-     It also broke the page it sat on. The pill is position:fixed at
-     bottom:20px with height 28px, so its box sat INSIDE the vertical band of
-     the .bo-compare-bar (bottom:0, ~44px tall) and covered the right 64vw of
-     it — including the Compare and Clear buttons. Tapping "Compare" opened
-     the country overlay instead, which reads as "Compare does nothing".
-
-     Do NOT re-add it, or any floating pill, here or anywhere. This is the
-     same call that removed the "N days" jump pill and the four back pills
-     (see mobile.css § FLOATING CONTROL FAMILY). The per-page #regionJump
-     "Filter by country" disclosure in the controls block is the only filter
-     surface on Best-Of pages. */
-
-  /* ── Map "← All Guides" pill — REMOVED (owner rule 2026-08-15) ───────────
-     #tve-map-back was the last of the mobile-only floating back controls.
-     Owner: "remove all navigation made by us use the native one for mobile."
-     A reader who opened a map from the toolbar leaves it with the phone's own
-     back gesture; the hamburger reaches every destination going forward. */
-
+  
+  
   /* ── Share-this-stop button — guide pages only ───────────────────────────
      Injects a share-icon button into each .stop-header so readers can share
      a single stop via the Web Share API (mobile) or clipboard copy (desktop).
@@ -10572,20 +8924,7 @@ window.TVE.home = (function () {
     var _ssCss = document.createElement('style');
     _ssCss.id = 'tve-share-stop-css';
     _ssCss.textContent =
-      /* Terracotta, not grey (owner 2026-08-10). #a8a09a was quiet enough that
-         readers were missing that the three stop actions exist at all; the
-         brand terracotta reads as "there is something here" without shouting.
-         Dark mode lifts to #D4663A: #C04E1A sits at 2.6:1 on the #2a2825 card,
-         the same lift the pullquote border and .free-flag already take.
-
-         ONE LANGUAGE ACROSS ALL THREE ICONS: outline = off, SOLID = on, and
-         hover fills solid to show you what clicking would give you (owner:
-         "when selecting should hover full terracotta like the bookmark so we
-         know we selected"). Hover used to just darken the stroke to #7a3b1e,
-         which is a 1px colour shift on a 14px outline — invisible in practice.
-         Filling the glyph changes its whole silhouette, so it reads instantly
-         and it reads without colour vision. */
-      '.tve-share-stop-btn{background:none;border:none;cursor:pointer;' +
+            '.tve-share-stop-btn{background:none;border:none;cursor:pointer;' +
       'color:#C04E1A;padding:0;margin-left:12px;line-height:1;vertical-align:middle;' +
       'display:inline-flex;align-items:center;flex-shrink:0;transition:color .15s;}' +
       '.tve-share-stop-btn svg{transition:fill .15s;}' +
@@ -10678,25 +9017,7 @@ window.TVE.home = (function () {
   }
   _injectShareStopButtons();
 
-  /* ── The row marks are RETIRED. Icons are in the HTML now ─────────────────
-     Owner 2026-08-20: "no more marks to then change to icons use the icons
-     itself".
-
-     `MARKS`, `markRow` and `_injectRowMarks` lived here: a row authored an
-     emoji, and at load the emoji was wrapped in a hidden .gm-mk-src span and
-     a .gm-mk mark was drawn beside it. The reader never saw an emoji, but the
-     emoji was still the KEY the whole system read — which is why deleting the
-     glyphs from the source (2026-08-20) stopped every icon on the site from
-     drawing rather than removing a picture.
-
-     Brain/scripts/build/icons_direct.py did the migration once, in the source:
-     each glyph is now the drawing itself, <svg class="gm-icon" data-icon="KEY"
-     data-role="ROLE"><use href="#gm-i-KEY"/></svg>. Nothing is rewritten at
-     render time, so there is nothing here to run.
-
-     The consumers that used to test textContent for a glyph read _gmRole()
-     instead. Do not re-add a glyph-to-drawing swap of any kind. */
-
+  
   /* ── The booking and free ticket marks, drawn ────────────────────────────────
      .ticket-flag / .free-flag paint through a CSS mask, which is monochrome and so
      cannot carry the gradient-plus-rim treatment every neighbouring icon has. The
@@ -10726,72 +9047,12 @@ window.TVE.home = (function () {
     document.addEventListener('DOMContentLoaded', _injectTicketFlags);
   } else { _injectTicketFlags(); }
 
-  /* ── "Also on this site" footer pills — icons restored as drawings ────────
-     Owner 2026-08-11: "we have these toolbars everywhere that the previous crib
-     by mistake removed" · "bottom for a lot of pages" · "this is the pill i was
-     looking for". Commit 043c9fe6 ("decorative emoji removed site-wide") took
-     the glyph off every one of these pills across 286 pages, leaving bare text.
-
-     They are NOT restored as emoji. Each pill links to a Trip-Essentials page
-     that already has a toolbar icon, so the icon is looked up from ITEMS by the
-     target's filename — one source of truth, and it stays correct on its own
-     when a nav icon changes. A pill whose target has no ITEMS entry simply
-     stays text.
-
-     iconSVG rather than a CSS mask on purpose: the mask classes lived in
-     guide-style.css, which Trip-Essentials pages do not load. An inline SVG
-     needs no stylesheet and works on every page this strip appears on. */
-  /* ── The index pill icon swap is RETIRED ──────────────────────────────────
-     `INDEX_GLYPH_ICON` and `_injectIndexPillIcons` walked the guides-index and
-     landing-page pills for an authored emoji and replaced each one with a
-     drawing. That is the same conversion `markRow` did on guide rows, and it
-     went for the same reason (owner 2026-08-20: "no more marks to then change
-     to icons use the icons itself").
-
-     Those pills carry <svg class="gm-icon"> in their markup now, written once
-     by Brain/scripts/build/icons_direct.py. Nothing is swapped at render time. */
-
+    
   function _injectAlsoOnSiteIcons() {
-    /* .sibling-pill is the same idea under another class — the cross-links a
-       Trip-Essentials page carries to its siblings ("Weather by city", "When to
-       go", "Festival finder", "Sports calendar") across 17 pages. Neither emoji
-       sweep touched those files, so unlike the footer pills these were never
-       stripped; they simply never had an icon, and sat bare next to rows that
-       now draw one (owner 2026-08-11: "these lost icons too"). REVERSED 2026-08-19
-       (owner: "no emojis on pills") — sibling-pill text rows stay icon-free. */
-    var pills = document.querySelectorAll('.also-on-this-site-pill');
+        var pills = document.querySelectorAll('.also-on-this-site-pill');
     if (!pills.length) return;
 
-    /* KEYED ON THE PAGE SLUG, NOT THE FILENAME (rewritten 2026-08-16 for the
-       Thirtieth non-negotiable's URL shape). Every key here used to be a
-       CamelCase `.html` filename — `Time-Zones.html`, `Weather.html` — and the
-       lookup was `href.split('/').pop()`. The URL migration turned every target
-       into a directory (`/time-zones/`, `/essentials/visa/`), so `.pop()`
-       returned the EMPTY STRING after the trailing slash and not one key in
-       this table could ever match again.
-
-       It failed far worse than "no icons", which is why the owner saw it: the
-       ITEMS walk below writes `PAGE_ICON[key] = it.icon` using the same broken
-       expression, so every nav entry in turn wrote to `PAGE_ICON['']` and the
-       LAST one won. Every pill then resolved '' → that one icon and the whole
-       strip rendered as a row of identical clocks (Time Zones being last in
-       ITEMS). A pill that should have drawn nothing drew a clock too.
-
-       `_pageKey` below is the fix and is the only thing that reads an href:
-       last non-empty path segment, `.html` stripped. Both this table and the
-       ITEMS walk go through it, so they cannot drift apart again, and an empty
-       key is refused rather than stored. */
-    /* ONE ICON PER MEANING, not one per category (2026-08-16). Every air page
-       used to map to `plane`, so the airlines strip drew FIVE identical planes
-       in a row — a weaker version of the all-clocks bug above, and it reads to a
-       owner as the same defect: a row stamped with one shape. Distinct meanings
-       now get distinct shapes from the catalogue (`Site-Icons.html`, the
-       Twenty-eighth non-negotiable): connection times is about time between
-       flights, a lounge is somewhere to sit, a carrier route map is a map.
-       Pages that genuinely ARE the same thing still match on purpose — the
-       three carrier route maps, the two lounge pages — because inventing a
-       difference where there is none is the opposite fix. */
-    var PAGE_ICON = {
+            var PAGE_ICON = {
       /* Air */
       'connections': 'hourglass', 'lounges': 'coffee',
       'delta-routes': 'flight-nav', 'united-routes': 'flight-nav',
@@ -10824,11 +9085,7 @@ window.TVE.home = (function () {
       'most-luxurious-hotels': 'gem-yellow', 'ultra-luxurious-resorts': 'palm',
       'unique-hotels': 'boutique', 'resorts': 'tropical-bay',
       /* Rail */
-      /* Rail draws ONE train site-wide - #1237 'train' (owner rule
-         2026-08-22: "all train titles and anything related to trains will
-         use this icon"). european-trains drew the HSR nose #171 until then,
-         so the rail row showed two different trains side by side. */
-      'european-trains': 'train', 'scenic-trains': 'train',
+            'european-trains': 'train', 'scenic-trains': 'train',
       'train-passes': 'ticket', 'transit-cards': 'transit',
       /* Documents */
       'visa': 'visas', 'visa-times': 'clock-hourglass', 'nomad-visas': 'laptop',
@@ -10909,20 +9166,7 @@ window.TVE.home = (function () {
         : PAGE_ICON[_pageKey(a.getAttribute('href'))];
     }
 
-    /* A SHAPE REPEATED DOWN A WHOLE STRIP IS NOISE, SO IT IS NOT DRAWN.
-       The regional stats pages cross-link the other seven regions, and every one
-       of them is a stats page — so the row came out as seven identical charts,
-       which is the picture the owner objected to in the first place, only this
-       time the icons were CORRECT. An icon that is the same on every pill in a
-       row tells the reader nothing the labels do not; the labels are the
-       information. Same reasoning `_injectRowMarks` already applies to an
-       .extras-sub repeating its own section header's mark.
-
-       Threshold is 3, and per STRIP rather than per page: a PAIR is kept,
-       because two lounge pages or two carrier route maps genuinely are the same
-       kind of thing and the shared shape reads as a grouping rather than as a
-       stamp. Three or more and it stops carrying meaning. */
-    var REPEAT_LIMIT = 3;
+        var REPEAT_LIMIT = 3;
     var strips = [];
     [].forEach.call(pills, function (a) {
       if (a.parentNode && strips.indexOf(a.parentNode) === -1) strips.push(a.parentNode);
@@ -10942,34 +9186,12 @@ window.TVE.home = (function () {
 
     [].forEach.call(pills, function (a) {
       if (a.querySelector('svg')) return;                 /* already drawn */
-      /* An individual pill can opt out with data-no-icon (owner 2026-08-23,
-         Where to Stay's per-city "{City} guide" pill: "leave the link to the
-         guides remove icons only") — the pill and its shared box/hover stay,
-         only the leading mark is skipped. Page-scoped by whichever markup
-         sets the attribute; nothing else on the site does. */
-      if (a.hasAttribute('data-no-icon')) return;
+            if (a.hasAttribute('data-no-icon')) return;
       var key = _iconKey(a);
       var mute = a.parentNode && a.parentNode._gmMutedIcons;
       if (key && mute && mute[key]) return;               /* repeated down the strip */
       if (!navIcon(key)) return;
-      /* THE PILL MAY ALREADY CARRY A DRAWN MARK — take it out before inserting.
-         The guard above only catches an <svg>, and a mask would be painted on a
-         SPAN, so a pill whose authored glyph is in the MARKS table came through
-         it and ended up with both: the sun twice on Weather, the shield twice
-         on Safety Guide, the house twice on Which neighborhood (owner
-         2026-08-11: "we have double icons on these"). It could not happen
-         before 2026-08-11, when nothing drew marks on these pills.
-
-         The nav icon wins, and deliberately: a pill resolves its icon from the
-         TARGET PAGE via ITEMS, so the pill and the nav entry for the same page
-         always draw one shape and a nav icon change follows here automatically
-         (Icon Order and Format.html § 0). The drawn mark comes off the authored
-         glyph instead, which is per-guide and can drift from the nav.
-
-         Only the LEADING icon is removed, and only once we know a nav icon is
-         going in — a pill whose target has no PAGE_ICON entry returns above and
-         keeps the icon its markup authored, which is the right fallback. */
-      var firstEl = a.firstElementChild;
+            var firstEl = a.firstElementChild;
       if (firstEl && firstEl.classList && firstEl.classList.contains('gm-icon')) {
         firstEl.parentNode.removeChild(firstEl);
       }
@@ -11046,17 +9268,7 @@ window.TVE.home = (function () {
     var _nCss = document.createElement('style');
     _nCss.id  = 'tve-notes-css';
     _nCss.textContent =
-      /* Pencil button in stop-header — sits last, after share and ★.
-         Terracotta at rest (owner 2026-08-10, same pass as share and ★).
-         .tve-note-has USED to be #C04E1A, which is now the resting colour —
-         the has-a-note state would have become completely invisible. It keeps
-         the colour and gains the fill instead, matching the saved star:
-         outline off, solid on. Hover fills too — the pencil is not a toggle,
-         it opens an editor, so there is no opposite state to preview and it
-         simply lights up. A stop that already HAS a note is solid at rest, so
-         hover there darkens instead of filling, which is the only way to give
-         feedback on a glyph that is already full. */
-      '.tve-note-btn{background:none;border:none;cursor:pointer;color:#C04E1A;padding:0;' +
+            '.tve-note-btn{background:none;border:none;cursor:pointer;color:#C04E1A;padding:0;' +
       'margin-left:8px;line-height:1;display:inline-flex;align-items:center;flex-shrink:0;' +
       'transition:color .15s;font-family:inherit;}' +
       '.tve-note-btn svg{transition:fill .15s;}' +
@@ -11354,17 +9566,7 @@ window.TVE.home = (function () {
   }
   _injectStopNotes();
 
-  /* ── Back-to-guide anchor re-scroll ─────────────────────────────────────
-     When the reader taps the pill on a Trip-Essentials page, they land on
-     the source guide at #also-on-this-site. The browser's initial fragment
-     scroll fires at parse time — before toolbar.js injects the weather
-     strip, hotel banner, hotel alternatives, and Also-in-{Country} section
-     — so the anchor element shifts down and the reader lands thousands of
-     pixels above the actual card. Owner rule 2026-07-28: land the reader
-     AT THE CARD as fast as possible. Fire immediately on DOMContentLoaded,
-     then every 250ms for 1.5s to catch late injections. Manual scroll
-     restoration prevents the browser's stale initial scroll from winning. */
-  if (/\/guides\//i.test(location.pathname)
+    if (/\/guides\//i.test(location.pathname)
       && location.pathname.indexOf('guides_index') < 0
       && location.hash === '#also-on-this-site') {
     if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
@@ -11405,20 +9607,7 @@ window.TVE.home = (function () {
           }
         });
       });
-      /* Collapse all extras sections by default on mobile (≤768px).
-         guide-style.css already defines .extras-section.collapsed (lines 1062-1069).
-
-         ONLY sections that got a collapse control above (dataset.collapseInited)
-         may be collapsed — a section with no `> .extras-title` has nothing to
-         click, so collapsing it hides its content with no way to bring it back.
-         #skip-list is exactly that: a title-less italic footnote. It was being
-         collapsed here, so on every guide its "Skipping: …" line was invisible on
-         mobile while the section still occupied its 36px top margin and the 14px
-         collapsed padding — ~50px of blank space between Worth Knowing and
-         Alternative Hotel Recommendations, which is what the owner spotted
-         2026-08-10. Gate on the control, not on an ID blacklist, so the next
-         title-less section can't reintroduce it. */
-      if (window.innerWidth <= 768) {
+            if (window.innerWidth <= 768) {
         document.querySelectorAll('.extras-section').forEach(function (sec) {
           if (sec.dataset.collapseInited && sec.id !== 'nearby-guides') sec.classList.add('collapsed');
         });
@@ -11516,23 +9705,7 @@ window.TVE.home = (function () {
     }
   }());
 
-  /* ── Open-now stop status ─────────────────────────────────────────────────
-     Injects the destination-clock label at the bottom of .overview-section
-     (inside the white Trip Overview card), and stamps an Open / Closed badge
-     into every .stop-header whose hours are known.
-
-     This is a STATEMENT, not a control (owner rule 2026-08-09). It used to be
-     a toggle pill labelled "Open right now" that dimmed closed stops and
-     auto-collapsed Day 2+. Two things were wrong with that: the label was
-     phrased as a fact, so a clickable pill made no sense, and open/closed is
-     not the reader's decision to make — "it should tell me if it is open or
-     not period. it cant be my decision."
-
-     Hours are read from .tour-box/.ticket-box children starting with 🏛.
-     Timezone: data-timezone on toolbar-mount → city lookup map. With no
-     timezone we show nothing rather than judge the destination by the
-     reader's own clock. */
-  (function _injectOpenNowStatus() {
+    (function _injectOpenNowStatus() {
     if (!isRealGuide) return;
 
     /* ── Destination timezone map (folder slug → IANA) ── */
@@ -11673,10 +9846,7 @@ window.TVE.home = (function () {
       timeLabel.className = 'open-now-local-time';
       timeLabel.id = 'tve-open-now-time';
 
-      /* Moved to Quick Facts pill strip (owner rule 2026-08-15) — sits beside the
-         language/cost/plug/season pills above Trip Overview on both mobile and
-         desktop. QF loads via XHR so it may not exist yet; observe until it does. */
-      function _attachToQF() {
+            function _attachToQF() {
         var qf = document.getElementById('tve-quick-facts');
         if (qf) { qf.appendChild(timeLabel); return true; }
         return false;
@@ -11740,13 +9910,7 @@ window.TVE.home = (function () {
             if (!hdr) return;
             badge = document.createElement('span');
             badge.className = 'open-now-status';
-            /* AFTER the duration chip, not before it (owner 2026-08-10). The
-               status is bare text by design; sandwiched between the round ✓
-               control and the round chip it read as compressed, so the two
-               pill shapes now sit together and the text closes the group.
-               With no chip, it goes ahead of the share button so it still
-               lands with the title rather than out on the control rail. */
-            var dur = hdr.querySelector('.stop-dur');
+                        var dur = hdr.querySelector('.stop-dur');
             var share = hdr.querySelector('.tve-share-stop-btn');
             if (dur) hdr.insertBefore(badge, dur.nextSibling);
             else if (share) hdr.insertBefore(badge, share);
@@ -11768,13 +9932,7 @@ window.TVE.home = (function () {
     } else { _setup(); }
   }());
 
-  /* ── Lounge arrival chip — injected at the top of Day 1 ─────────────────────
-     Reads the city slug from the page path → looks up destination IATA via
-     CHIP_DATA → links to /essentials/lounges/#<iata> when that airport has a
-     card there, and is a plain unclickable chip when it does not (owner
-     2026-08-16). Chip sits immediately after the
-     .day-header (above .hotel-first). CSS: guide-style.css .lounge-arrival-chip */
-  (function _loungeChipInject() {
+    (function _loungeChipInject() {
     if (!/\/guides\//i.test(location.pathname)
         || /-read-about\.html$/.test(location.pathname)
         || /-stops-map\.html$/.test(location.pathname)) return;
@@ -12085,11 +10243,7 @@ window.TVE.home = (function () {
       var dayHdr = day1.querySelector(':scope > .day-header');
       if (!dayHdr) return;
 
-      /* A link ONLY when a lounge page actually covers this airport — it opens
-         that page and jumps straight to the airport's own row. Everywhere else
-         the chip is a plain <div>: no href, no hover, nothing to click (owner
-         2026-08-16). */
-      var href = LOUNGE_IATAS.indexOf(info.iata) >= 0
+            var href = LOUNGE_IATAS.indexOf(info.iata) >= 0
         ? '/essentials/lounges/#' + info.iata.toLowerCase()
         : null;
 
@@ -12097,18 +10251,7 @@ window.TVE.home = (function () {
       chip.className = 'lounge-arrival-chip';
       if (href) chip.href = href;
       chip.innerHTML =
-        /* The plane is drawn, full stop. The hidden glyph span this used to
-           carry existed only to keep textContent byte-identical for the mark
-           sweep; that sweep is gone and nothing reads this chip as text.
-
-           ONE PLANE, and it is `flight-nav` — Site-Icons.html specimen #124,
-           the one the catalogue captions "plane, shipped" and the one the
-           landing-page finder draws on its "Where are you flying from?" field
-           (index.html, span.fnd-ic). This chip drew `plane` — specimen #127,
-           "take off" — until 2026-08-22, so a reader met two different planes
-           moving between the index filter and a guide's Day 1 (owner). Never
-           swap it back to `plane` or to a hand-drawn glyph. */
-        '<span class="lac-iata"><span class="gm-icon" aria-hidden="true"' +
+                '<span class="lac-iata"><span class="gm-icon" aria-hidden="true"' +
         ' style="margin-right:4px">' +
         '<svg viewBox="0 0 24 24"><use href="#gm-i-flight-nav"/></svg></span>' +
         info.iata + '</span>' +
@@ -12183,9 +10326,7 @@ window.TVE.home = (function () {
       'getting-around': 20, 'stations-near-hotel': 21, 'day-trips-by-train': 22,
       /* Plan & do */
       'weekly-closures': 30, 'tours': 31, 'shows': 32, 'pickleball': 33,
-      /* Hiking sorts where the section itself sits — last content section of the
-         guide, between Heads Up and Worth Knowing (owner rule 2026-08-18). */
-      'heads-up': 34, 'hiking': 35, 'worth-knowing': 36
+            'heads-up': 34, 'hiking': 35, 'worth-knowing': 36
       /* Elsewhere on the site — everything else, ranked below */
     };
     var ELSEWHERE = 90;
@@ -12739,20 +10880,7 @@ window.TVE.home = (function () {
         '<circle cx="6" cy="4.6" r="1.25" stroke="currentColor" stroke-width="1.2"/>' +
       '</svg>';
 
-    /* Same self-styled idiom as #tve-copy-day-css (§ 30): classes, but the
-       rules ship inside toolbar.js so there is no guide-style.css half to
-       drift against.
-
-       THE LABEL SHOWS AT EVERY WIDTH (owner 2026-08-18: "map day does not show
-       in mobile just the icon"). It used to be dropped below 480px on the
-       grounds that "a third word wraps the header on a phone" — measured on a
-       live guide with the label forced visible, that is not true of today's
-       layout: at both 360px and 393px the header stays ONE row and
-       scrollWidth == clientWidth, so nothing wraps and nothing overflows.
-       A bare pin next to a labelled "Copy day" also read as a different kind of
-       control rather than its pair, and aria-label is invisible to someone
-       looking at the row. Re-measure before re-adding any hide. */
-    var _mdCss = document.createElement('style');
+        var _mdCss = document.createElement('style');
     _mdCss.id = 'tve-map-day-css';
     _mdCss.textContent =
       '.tve-map-day-link{text-decoration:none;cursor:pointer;' +
@@ -12877,89 +11005,7 @@ window.TVE.home = (function () {
   }
   _injectMapDayLinks();
 
-  /* ── Stop-type filter chips — Trip Overview ─────────────────────────────────
-     A chip row at the foot of the Trip Overview card: All · Museums ·
-     Historic · Landmarks · Nature · Views · Streets · Food · Fun, each
-     carrying its count for THIS guide. Picking one hides every .stop-block
-     that is not of that type and drops any .day-block left with no visible
-     stop. "All" puts the guide back exactly as it shipped.
-
-     ── NO ICONS ON THE CHIPS (owner rule 2026-08-09) ──
-     The row shipped as "🏛 Museums 8 · ⛪ Historic 5 · …" and the owner cut the
-     glyphs outright: "i do not want the icon! remove!" The chips carry the
-     word and the count, nothing else. This is the same call already made for
-     the day opener (🏨, 2026-08-08) and the train-day arrival banner (,
-     2026-08-09) — a control leads with words, not a picture. There is no
-     `emoji` field on a category any more, deliberately: an unused one is an
-     invitation to put them back.
-
-     ── Why the classifier reads the stop NAME, not an emoji ──
-     The original proposal assumed each .stop-header opens with a stop-type
-     emoji that could simply be read off. It does not: of 2,932 stop headers
-     across the 216 shipped guides, 16 carry any emoji at all (0.5%), and those
-     16 are part of the place name, not a category mark. Icon Order and Format
-     confirms it by design — the per-stop icon vocabulary is FUNCTIONAL (🕐
-     hours, ⏰ duration, 🚫 closed days, 📍 address, 🚶/🚕 motion), and 🏛 is
-     banned inside a stop outright. There is no authored stop-type signal
-     anywhere in a guide, so one is derived here from the text that IS there.
-
-     The signal, in order:
-       1. The stop NAME against a head-noun lexicon (accent-folded, whole-word).
-          "Musée Granet" → museums, "Parque Forestal" → nature, "Torre
-          Malakoff" → views. A name may hit several categories and KEEPS them
-          all — "Monte Palace Tropical Garden" is filed under both Historic and
-          Nature. Recall matters more than precision for a filter: the cost of
-          an extra stop appearing under Nature is trivial next to the cost of
-          the garden going missing when a reader asks for it. Measured over all
-          2,932 stops: 94% take one label, 5% two, 0.2% three.
-       2. No name hit → the description, but only against MULTI-WORD phrases
-          ("botanical garden", "observation deck", "food market") plus a short
-          list of unambiguous single words. Bare words like "market" or
-          "coffee" in a description filed towns and art centres under Food, so
-          they are name-only terms.
-       3. Still nothing → 🗿 Landmarks. This is a real bucket with an honest
-          label, not a dumping ground: it is 19.6% of stops and it holds the
-          Burj Khalifas, Cristo Redentors and Corpus Clocks — things that are
-          precisely landmarks and nothing narrower. Nothing is unreachable.
-     Name signal covers 65.7% of stops, description a further 14.7%.
-
-     ── Why the route lines go with the stops ──
-     A .next banner reads "🚶 6 min · 🚕 4 min → Trevi Fountain". With Trevi
-     Fountain filtered out that banner is pointing at nothing, and the walking
-     times between the stops that DO remain are not the authored ones anyway.
-     So while a filter is on, every .next / .next-tram / .next-metro /
-     .hotel-first / .arrive-first is hidden, and the day flow returns intact
-     on "All".
-
-     ── The All chip IS the readout, and it counts what is HIDDEN ──
-     Its number is not the fixed total. At rest it shows every stop; the moment
-     a chip is picked it becomes total MINUS visible — the stops the filter is
-     holding back. Pick a chip of 4 on a 28-stop guide and All reads 24.
-     Owner, 2026-08-09: "the 28 gets reduced by the number i am seeing", and,
-     when the first attempt showed the visible count instead, "28 minus 4 is
-     not 4". It is a subtraction, not a substitution — the natural reading of
-     All is "how much more there is", so the number next to it is the remainder.
-
-     This replaced a sentence printed under the row — "Showing 1 of 28 stops —
-     walking and ride times between stops are hidden while a filter is on. Pick
-     All to restore the day flow." The owner cut it the same day: the count
-     belongs on the control, not in prose beneath it. Do not reinstate the
-     sentence, and do not "correct" the number back to the visible count; if
-     this needs to say more it says it in the chip's title/aria-label.
-
-     Deliberately NOT persisted. A reader who filtered yesterday and came back
-     to a guide missing two thirds of its stops would read that as a broken
-     page, not as their own filter — so every load starts on All.
-
-     Collapse state is borrowed, not overwritten: a day that is collapsed but
-     holds matches opens for the duration of the filter and re-collapses on
-     "All". Days are never auto-collapsed — the retired open-now filter did
-     that and the owner's objection to it stands (Trip Overview, 2026-08-08).
-
-     Zero guide HTML changes, and the CSS is injected here rather than added to
-     guide-style.css, so the feature lands on all 216 guides at once and cannot
-     drift out of sync with a stylesheet. ── */
-  function _injectStopTypeFilter() {
+    function _injectStopTypeFilter() {
     if (!isRealGuide) return;
 
     /* Head-noun lexicon, accent-folded and matched whole-word. Multilingual
@@ -13163,15 +11209,7 @@ window.TVE.home = (function () {
         '@media (hover:hover){.tve-stf-chip:hover{background:var(--c-pill-hover);' +
         'border-color:var(--c-pill-bd-hover);}}' +
         '.tve-stf-chip:focus-visible{outline:2px solid #C04E1A;outline-offset:2px;}' +
-        /* Outlined, not filled — a selected chip is outlined site-wide ("Filled is
-           a Button, Outlined is Selected"; every filter pill/chip/month button
-           follows this — Non-Negotiables x05). This chip's fill used to go solid
-           #C04E1A on selection, which also caused a separate contrast bug (owner
-           spotted "All 24" unreadable on Buenos Aires, 2026-08-10) papered over
-           with white text instead of fixing the underlying violation. Deepening
-           the chip's own var()-driven rest-state tokens instead keeps it outlined
-           and gets dark mode for free — no separate override block needed. */
-        '.tve-stf-chip.is-on{background:var(--c-pill-hover);' +
+                '.tve-stf-chip.is-on{background:var(--c-pill-hover);' +
         'border-color:var(--c-pill-text);color:var(--c-pill-text);font-weight:600;}' +
         '.tve-stf-chip.is-on .tve-stf-n{opacity:.85;}' +
         '@media (hover:hover){.tve-stf-chip.is-on:hover{' +
@@ -13220,13 +11258,7 @@ window.TVE.home = (function () {
       _chip('all', 'All', stops.length);
       shown.forEach(function (c) { _chip(c.key, c.label, counts[c.key]); });
 
-      /* The All chip's number is the live "how many am I looking at" readout —
-         it drops to the visible count while a filter is on and returns to the
-         total on All. That replaced a sentence under the row ("Showing 1 of 28
-         stops — …"), which the owner cut on 2026-08-09: the count belongs on
-         the control, not in a line of prose beneath it. aria-live moves with
-         it so the change is still announced with the status text gone. */
-      if (allCount) allCount.setAttribute('aria-live', 'polite');
+            if (allCount) allCount.setAttribute('aria-live', 'polite');
       if (allChip) {
         allChip.setAttribute('title', 'Showing all ' + stops.length + ' stops');
         allChip.setAttribute('aria-label',
@@ -13281,12 +11313,7 @@ window.TVE.home = (function () {
           b.setAttribute('aria-pressed', on ? 'true' : 'false');
         });
 
-        /* All's number is the TOTAL MINUS what you are looking at — the count
-           of stops the filter is holding back, not the count on screen. Owner,
-           2026-08-09: "the 28 gets reduced by the number i am seeing", and on
-           the first attempt getting it wrong: "28 minus 4 is not 4". Picking a
-           chip of 4 out of 28 leaves All reading 24. */
-        var hidden = stops.length - visible;
+                var hidden = stops.length - visible;
         if (allCount) allCount.textContent = all ? stops.length : hidden;
         if (allChip) {
           allChip.setAttribute('title', all

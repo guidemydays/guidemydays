@@ -1,41 +1,3 @@
-/* ══ TVE.passport — the reader's PASSPORT, one setting for the whole site ══
-
-   Owner, 2026-08-20, pointing at the Compare table's "NEEDS VISA / US citizen"
-   row: "Nothing can be in relation to US anymore. This is an international
-   site. work on visa, entry etc make sure the information is equally for all
-   countries in the world."
-
-   Every visa surface answered for one passport. Compare said "US citizen" in
-   as many words; /essentials/visa/, /entry/, /visa-times/ and /nomad-visas/
-   were written as "what a US passport holder needs"; Before You Go stamped its
-   badge from a US-only table. A reader in Sao Paulo was shown Washington's
-   answer with no way to say otherwise — the Forty-seventh non-negotiable's
-   defect exactly, in a second dimension nobody had looked at.
-
-   THERE IS NO DEFAULT PASSPORT, AND THAT IS NOT THE SAME DECISION AS TVE.home.
-   The home-airport module names ROUTINGS_FROM because the site genuinely holds
-   measured routings for one airport and estimates for the rest — an asymmetry
-   in the data itself. Here there is none: assets/visa-matrix.json holds all 199
-   passports at identical quality, so no passport is the "real" one and none may
-   stand in for the reader. get() returns null until they say. A surface with no
-   passport chosen shows a CONTROL, never a claim, and never a row of dashes —
-   placeholders in a comparison table read as missing data about the
-   destinations, which is the wrong thing to say about a question nobody asked
-   yet.
-
-   Nothing is remembered on the reader's behalf either, beyond the choice they
-   made: no device-locale guess, no Accept-Language sniff. A locale is not a
-   citizenship — plenty of en-US browsers belong to people carrying something
-   else — and guessing here is the same error as guessing a home city, with a
-   worse failure mode, because the answer is about whether they are allowed on
-   the plane.
-
-   WHAT THE ANSWER IS, AND WHAT IT IS NOT. The matrix is a dated snapshot of the
-   Wikipedia "Visa requirements for X citizens" articles, rebuilt by
-   Brain/scripts/build/build_visa_matrix.py and stamped with the source's own
-   date. Every surface that renders a cell prints that date and links the
-   destination's official portal. It is good enough to plan against and is never
-   the authority to travel on; say so on the card, always. */
 (function () {
   window.TVE = window.TVE || {};
   if (window.TVE.passport) return;
@@ -43,20 +5,7 @@
   var KEY = 'tve_passport';
   var subs = [];
 
-  /* A pick lives here for the current page load and NOWHERE ELSE — no
-     localStorage, no sessionStorage, no cookie. Reset to null on every fresh
-     load, which is the whole point: nothing a reader picks on one visit is
-     still there on the next. Exactly TVE.home's rule ("No filter saves
-     anything, ever", commit 416458ab), and for the identical reason — a
-     passport saved from a pick made days ago comes back as a preselected
-     country by another name, which is the Melbourne bug on Time Zones
-     (Thirty-first non-negotiable). Owner, 2026-08-21: "should not start with
-     any country."
-
-     The sessionStorage keys this module still uses ('tvepp', 'tvevm') cache
-     the FETCHED DATA — the passport list and the visa matrix — and are not a
-     pick. Caching a 97 KB asset is not remembering a choice. */
-  var picked = null;
+    var picked = null;
 
   /* An earlier version of this file DID persist the pick to localStorage;
      this purges whatever it left behind rather than ever reading it back. A
@@ -356,21 +305,7 @@
       btn.classList.toggle('pp-unset', !me);
     }
 
-    /* SORTED BY NAME, AND SORTED ON A COPY (owner rule 2026-08-22: "does not
-       have all the countries and or i can scroll to the end").
-
-       passports.json is authored in ISO-CODE order — AD, AE, AF, AG, AL, AM,
-       AO, AR, AT, AU — so the browse list opened on Andorra, United Arab
-       Emirates, Afghanistan, Antigua, Albania, Armenia, Angola, Argentina,
-       Austria, Australia. Every one of those does start with A, which is
-       exactly why the jumble read as a rendering fault rather than as an
-       ordering one: it LOOKS alphabetical until you notice the U.
-
-       .slice() first — never sort the shared array in place. loadList caches
-       one object in _list and in sessionStorage, handed to every caller on the
-       page; reordering it under them is a mutation nobody would think to look
-       for. */
-    var _sorted = null;
+        var _sorted = null;
     function rows(cb) {
       loadList(function (l) {
         indexNames(l);

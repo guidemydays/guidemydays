@@ -17,3 +17,11 @@
 2026-08-05 17:46 — cologne.html — FAIL @ verify-booking — 0 checks
 2026-08-05 17:48 — cologne.html — FAIL @ verify-booking — 0 checks
 2026-08-05 17:51 — cologne.html — PASS — 879/879 passed, 0 failed
+2026-09-04 18:47 — cologne.html — FAIL @ validate — 941/944 passed, 3 failed — Every served photo is a real, distinct, Wikimedia-sourced photograph (no fabrica; FINAL GATE — guide carries exactly ONE <!-- route-optimized: YYYY-MM-DD stops:… ; FINAL GATE — Currency Guide includes this guide's country (run Brain/scripts/val
+2026-09-04 18:49 — cologne.html — FAIL @ validate — 942/944 passed, 2 failed — FINAL GATE — guide carries exactly ONE <!-- route-optimized: YYYY-MM-DD stops:… ; FINAL GATE — Currency Guide includes this guide's country (run Brain/scripts/val
+2026-09-04 18:50 — cologne.html — FAIL @ validate — 943/944 passed, 1 failed — FINAL GATE — Currency Guide includes this guide's country (run Brain/scripts/val
+2026-09-04 18:52 — cologne.html — FAIL @ validate — 943/944 passed, 1 failed — FINAL GATE — Currency Guide includes this guide's country (run Brain/scripts/val
+2026-09-04 19:03 — cologne.html — PASS — 944/944 passed, 0 failed
+2026-09-04 19:07 — cologne.html — FAIL @ verify-booking — 0 checks — https://en.wikipedia.org/wiki/Kranhaus
+2026-09-04 19:11 — cologne.html — FAIL @ verify-booking — 0 checks — https://en.wikipedia.org/wiki/Kranhaus
+2026-09-04 19:23 — cologne.html — PASS — 943/943 passed, 0 failed

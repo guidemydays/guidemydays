@@ -3009,7 +3009,15 @@
 /* 2026-09-04: guides-index-style.css -- .cmp-guide-link hover: retired literal terracotta hex (light + dark) to the shared neutral grey wash. guides-index-style.css -> v51. CACHE to v1833. */
 /* 2026-09-04: web-travel-style.css -- .selection-pill font-size 16px -> 14px fix (commit 5a5e21d5, same bug class as the -sm variant fixed a few commits back). web-travel-style.css -> v253. CACHE to v1834. */
 /* 2026-09-03: toolbar.js: fix phone-menu tab-row font-size 16px→15px to match category row toolbar.js -> v1151. CACHE to v1835. */
-var CACHE = 'travel-cache-v1835';
+/* 2026-09-04: time-zones -- Kuwait City's stray region:'middleeast' tag (matched
+   no filter pill) corrected to 'other'; region-pill hover strengthened
+   brightness(.94)->(.90) light-mode (was imperceptible against the pale pastel
+   tints, dark mode's own .85 already read fine); "All" pill no longer drops to
+   plain white when deselected (it carries no region tint of its own, unlike its
+   five colored siblings, so it read as a blank gap in the row) -- ID-scoped rule
+   keeps it on the neutral grey wash in every state, dark mode unchanged. Page
+   precached, no shared asset moved. CACHE to v1836. */
+var CACHE = 'travel-cache-v1836';
 /* 2026-08-27: airlines.css's .card-tags align-items fix changed a shared
    asset without raising its own floor -- MIN_VERSIONS['airlines.css'] to
    6, CACHE to v1662. */

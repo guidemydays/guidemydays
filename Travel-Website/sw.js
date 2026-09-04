@@ -3017,7 +3017,13 @@
    five colored siblings, so it read as a blank gap in the row) -- ID-scoped rule
    keeps it on the neutral grey wash in every state, dark mode unchanged. Page
    precached, no shared asset moved. CACHE to v1836. */
-var CACHE = 'travel-cache-v1836';
+/* 2026-09-04: time-zones -- Europe/M.E.&Africa region pills deepened
+   (page-scoped --sp-wash override, shared cp-terracotta/cp-gold classes
+   untouched) so they read as filled pills next to Americas/Caribbean/
+   Asia-Pacific's fuller tints; "All" pill's rest-state border dropped from
+   rgba(grey,.4) to .15 to match its siblings' rgba(0,0,0,.1) weight. Page
+   precached, no shared asset moved. CACHE to v1837. */
+var CACHE = 'travel-cache-v1837';
 /* 2026-08-27: airlines.css's .card-tags align-items fix changed a shared
    asset without raising its own floor -- MIN_VERSIONS['airlines.css'] to
    6, CACHE to v1662. */

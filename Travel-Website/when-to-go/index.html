@@ -67,31 +67,26 @@
   font-size: clamp(9px, 0.85vw, 11px); font-weight: 600;
   color: var(--muted, #6a6660);
 }
-/* Its own class, not .sibling-pill: that one is shared site-wide, carries an
-   injected icon, and is drawn as a white boxy chip — restyling it here would
-   change the row below and every other page that uses it. Outlined round pill,
-   var(--hero-pill-border) rather than --border so it reads as clickable
-   against the hero wash — that literal was hardcoded identically here and on
-   sunrise-sunset's twin .sun-spill-pill, so it's now the shared
-   web-travel-style.css token both reference (2026-09-01, same value, no
-   visual change).
-   Hover used to go terracotta outline+text -- retired along with every other
-   pill hover sitewide (pills doc Rule 13, added this session, no exception
-   for this class); now the same neutral #f0ede8/#b0aca6 every other outlined
-   pill on the site uses. */
+/* Built on the shared .selection-pill (web-travel-style.css) — shape, rest
+   background, hover (grey wash) and :focus-visible (the site-wide
+   a:focus-visible rule) all come from there now, not a page-local copy.
+   .cf-spill-pill only carries the hero-band deltas: var(--hero-pill-border)
+   instead of --border2 so the outline reads as clickable against the hero
+   wash (de-duped into the shared token 2026-09-01), transparent background
+   + --text instead of the pill's default --warm/--muted, and a fluid
+   clamp() font-size (+ matching em padding) so the pair shrinks with the
+   hero instead of the shared class's fixed 16px. */
 .cf-spill-pill {
-  display: inline-flex; align-items: center;
-  font: inherit; font-size: clamp(0.86rem, 0.95vw, 0.94rem); font-weight: 600;
+  font-size: clamp(0.86rem, 0.95vw, 0.94rem);
   padding: 0.62em 1.4em;
-  border: 1.5px solid var(--hero-pill-border, #c8bfb0); border-radius: 999px;
+  border: 1.5px solid var(--hero-pill-border, #c8bfb0);
   background: transparent; color: var(--text, #3d3a32);
-  text-decoration: none;
-  transition: background .18s ease, border-color .18s ease, color .18s ease;
 }
-a.cf-spill-pill:visited { color: #3d3a32; }  /* literal: var() is inert in :visited */
-.cf-spill-pill:hover, .cf-spill-pill:focus-visible, a.cf-spill-pill:hover:visited {
-  background: var(--nt-grey-wash); border-color: rgba(var(--nt-grey-rgb),.75); color: var(--nt-grey-ink);
-}
+/* :visited only touches color (background/border-color on hover still come
+   from .selection-pill:hover); the second rule keeps hover winning over a
+   visited link's color, same as the pill's non-visited hover state. */
+a.cf-spill-pill:visited { color: var(--text, #3d3a32); }
+a.cf-spill-pill:hover:visited, a.cf-spill-pill:visited:focus-visible { color: var(--nt-grey-ink); }
 /* One column below 62rem: the spill sits under the lede rather than beside
    it, and shortens so it never pushes the month row below the fold. */
 @media (max-width: 62rem) {
@@ -188,13 +183,15 @@ a.cf-spill-pill:visited { color: #3d3a32; }  /* literal: var() is inert in :visi
 .cf-sliderrow { display: flex; align-items: center; flex-wrap: wrap; gap: 10px; }
 .cf-sliderrow input[type=range] { width: 130px; cursor: pointer; accent-color: var(--rust); }
 .cf-tval { font-weight: 700; color: var(--rust-ink, #C04E1A); min-width: 52px; }
-/* °C/°F + sort */
-.cf-seg { display: inline-flex; border: 1px solid var(--border2,#e6e2da); border-radius: 6px; overflow: hidden; }
-.cf-seg button { border: none; cursor: pointer; padding: 8px 13px; font-family: var(--font);
-  font-size: var(--fs-sub,12px); font-weight: 600; background: var(--warm,#fdf8f0); color: var(--muted,#6a6660); }
-.cf-seg button.on { background: var(--nt-grey-wash); color: var(--nt-grey-ink); }
+/* Units/Rainfall toggles use the shared .selection-pill-sm component
+   (web-travel-style.css) — .cf-seg is layout only (flex + gap between
+   the pills; it used to also draw a joined bordered box around hand-rolled
+   buttons with no gap, which is why Dry/Wet ran together with no
+   separation). Sort stays a native <select> (.cf-sort), a form control
+   outside the pills doc's scope, not a hand-rolled pill. */
+.cf-seg { display: inline-flex; gap: 8px; }
 .cf-sort { height: 36px; padding: 0 28px 0 10px; border: 1px solid var(--border2,#e6e2da); border-radius: 6px;
-  font-family: var(--font); font-size: var(--fs-sub,12px); color: var(--text,#1a1917); background-color: var(--warm,#fdf8f0); cursor: pointer; }
+  font-family: var(--font); font-size: var(--fs-sub,12px); color: var(--muted,#6a6660); background-color: var(--warm,#fdf8f0); cursor: pointer; }
 /* Summary */
 .cf-summary { font-size: var(--fs-sub,12px); color: var(--muted,#6a6660); margin: 4px 2px 12px;
   text-transform: uppercase; letter-spacing: .05em; }
@@ -404,19 +401,12 @@ a.cf-card:hover .cf-guide-pill { border-color: rgba(var(--nt-grey-rgb),.75); }
      (terracotta retired sitewide, Rule 13). */
   .cf-mon:hover, .cf-compare-btn:hover { background: var(--surface2, #1e1c1a); border-color: #4a453e; color: var(--muted, #9a9690); }
   .cf-compare-btn.selected { background: var(--surface2, #1e1c1a); border-color: #4a453e; color: var(--muted, #9a9690); }
-  /* The selected UNIT chip gets the same ground as the selected MONTH chip
-     directly above, and for the measured reason that rule already encodes:
-     --rust (#D4663A) on --surface (#2a2825) is 4.03:1, under the 4.5 a 12px
-     label needs, and on --surface2 (#1e1c1a) it is 4.7. No new colour — the
-     same token pair, and the same treatment .cont-btn.on uses site-wide. */
-  .cf-seg button.on { background: var(--surface2, #1e1c1a); }
   .cf-sliderrow input[type=range] { background: transparent; }
-  /* .cf-spill-pill's hover was a literal light hex (#f0ede8/#b0aca6, just
-     fixed from terracotta above) -- doesn't adapt on its own, needs its own
-     dark value same as every other retired-terracotta pill hover this pass. */
-  .cf-spill-pill:hover, .cf-spill-pill:focus-visible, a.cf-spill-pill:hover:visited {
-    background: var(--surface2, #1e1c1a); border-color: #4a453e; color: var(--muted, #9a9690);
-  }
+  /* .cf-spill-pill's rest/hover background+border-color now come from the
+     shared .selection-pill (its own dark rule already swaps to
+     --surface2/--muted). Only the :visited-hover color override above needs
+     a dark twin — --nt-grey-ink is a light-only value. */
+  a.cf-spill-pill:hover:visited, a.cf-spill-pill:visited:focus-visible { color: var(--muted, #9a9690); }
 }
 /* The four :root[data-theme="dark"] twins that stood here are deleted. The
    manual theme toggle went on 2026-08-18 and nothing stamps data-theme any
@@ -510,8 +500,8 @@ a.cf-card:hover .cf-guide-pill { border-color: rgba(var(--nt-grey-rgb),.75); }
            August", those answer "what is one city like all year" — so the hero
            carries both and the foot keeps the two that are a different subject. -->
       <div style="margin:14px 0 0;display:flex;flex-wrap:wrap;gap:8px;">
-        <a href="/weather/" class="cf-spill-pill">Weather by city</a>
-        <a href="/sunrise-sunset/" class="cf-spill-pill">Daylight by month</a>
+        <a href="/weather/" class="selection-pill cf-spill-pill">Weather by city</a>
+        <a href="/sunrise-sunset/" class="selection-pill cf-spill-pill">Daylight by month</a>
       </div>
     </div>
   </header>
@@ -551,8 +541,8 @@ a.cf-card:hover .cf-guide-pill { border-color: rgba(var(--nt-grey-rgb),.75); }
         <div>
           <div class="cf-label">Units</div>
           <div id="cf-unit" class="cf-seg">
-            <button type="button" data-u="C" aria-label="Celsius" aria-pressed="false">°C</button>
-            <button type="button" data-u="F" aria-label="Fahrenheit" aria-pressed="false">°F</button>
+            <button type="button" class="selection-pill-sm" data-u="C" aria-label="Celsius" aria-pressed="false">°C</button>
+            <button type="button" class="selection-pill-sm" data-u="F" aria-label="Fahrenheit" aria-pressed="false">°F</button>
           </div>
         </div>
         <div>
@@ -566,9 +556,9 @@ a.cf-card:hover .cf-guide-pill { border-color: rgba(var(--nt-grey-rgb),.75); }
         <div>
           <div class="cf-label">Rainfall</div>
           <div id="cf-rain-filter" class="cf-seg">
-            <button type="button" data-rf="all" aria-pressed="true">All</button>
-            <button type="button" data-rf="dry" aria-pressed="false">Dry</button>
-            <button type="button" data-rf="wet" aria-pressed="false">Wet</button>
+            <button type="button" class="selection-pill-sm is-on" data-rf="all" aria-pressed="true">All</button>
+            <button type="button" class="selection-pill-sm" data-rf="dry" aria-pressed="false">Dry</button>
+            <button type="button" class="selection-pill-sm" data-rf="wet" aria-pressed="false">Wet</button>
           </div>
         </div>
       </div>
@@ -702,7 +692,7 @@ a.cf-card:hover .cf-guide-pill { border-color: rgba(var(--nt-grey-rgb),.75); }
     function paintUnit() {
       [].forEach.call(unitEl.children, function (b) {
         var sel = b.dataset.u === unit();
-        b.classList.toggle('on', sel);
+        b.classList.toggle('is-on', sel);
         b.setAttribute('aria-pressed', String(sel));
       });
     }
@@ -723,7 +713,7 @@ a.cf-card:hover .cf-guide-pill { border-color: rgba(var(--nt-grey-rgb),.75); }
     function paintRainFilter() {
       [].forEach.call(rainFilterEl.children, function (b) {
         var sel = b.dataset.rf === rainFilter;
-        b.classList.toggle('on', sel);
+        b.classList.toggle('is-on', sel);
         b.setAttribute('aria-pressed', String(sel));
       });
     }

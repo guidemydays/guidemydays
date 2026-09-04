@@ -2090,13 +2090,20 @@ window.TVE.home = (function () {
     tbSearchCSS.textContent =
       '.tb-search{position:absolute;top:17px;right:clamp(12px,2vw,28px);display:flex;align-items:center;z-index:5}' +
       '.tb-search-ico{position:absolute;left:11px;top:50%;transform:translateY(-50%);color:#9a8367;pointer-events:none}' +
-      '.tb-search-input{-webkit-appearance:none;appearance:none;width:170px;height:30px;border-radius:999px;background:#fff;' +
+      /* input[type="search"].tb-search-input (not just .tb-search-input) on every rule below --
+         web-travel-style.css has a site-wide input[type=search] rule (440x56, 17px, its own
+         background-image magnifier baked in via --search-icon) at specificity (0,1,1); a bare class
+         selector at (0,1,0) loses that fight silently on width/height/font/padding/color/background,
+         which is why this box rendered oversized with two overlapping icons on pages that load that
+         stylesheet (the landing page, essentials pages). Matching their attribute selector plus the
+         class keeps every property here winning without needing !important. */
+      'input[type="search"].tb-search-input{-webkit-appearance:none;appearance:none;width:170px;height:30px;border-radius:999px;background:#fff;' +
         'border:1.5px solid #c8b199;color:#1a1917;font:inherit;font-size:12px;' +
         'padding:0 12px 0 30px;box-shadow:0 2px 8px rgba(107,68,35,.08);transition:border-color .15s,width .15s}' +
-      '.tb-search-input::placeholder{color:#9a8367}' +
-      '.tb-search-input::-webkit-search-decoration,.tb-search-input::-webkit-search-cancel-button,' +
-        '.tb-search-input::-webkit-search-results-button,.tb-search-input::-webkit-search-results-decoration{display:none}' +
-      '.tb-search-input:focus{outline:none;border-color:#3d3a32;width:205px}' +
+      'input[type="search"].tb-search-input::placeholder{color:#9a8367}' +
+      'input[type="search"].tb-search-input::-webkit-search-decoration,input[type="search"].tb-search-input::-webkit-search-cancel-button,' +
+        'input[type="search"].tb-search-input::-webkit-search-results-button,input[type="search"].tb-search-input::-webkit-search-results-decoration{display:none}' +
+      'input[type="search"].tb-search-input:focus{outline:none;border-color:#3d3a32;width:205px}' +
       '.tb-search-drop{position:absolute;top:calc(100% + 8px);right:0;width:300px;max-height:60vh;' +
         'overflow-y:auto;background:#fff;border:1px solid #e6e2da;border-radius:10px;' +
         'box-shadow:0 8px 24px rgba(92,61,17,.16);padding:6px;z-index:20}' +

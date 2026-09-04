@@ -463,6 +463,7 @@ a.apply-link:hover { background: #C04E1A; color: #fff; border-color: var(--rust)
 
 <script src="/assets/flag-render.js"></script>
 <script src="/assets/passport.js"></script>
+<script src="/assets/search-autocomplete.js?v=8"></script>
 <script>
 (function () {
   /* Group definitions — one bucket per requirement token, same site
@@ -643,6 +644,21 @@ a.apply-link:hover { background: #C04E1A; color: #fff; border-color: var(--rust)
           });
 
           wireSchengenCalc();
+          if (searchInput && window.TVESearch) {
+            var rows = Array.prototype.slice.call(sections.querySelectorAll('.row'));
+            var items = rows.map(function (r) {
+              var nameEl = r.querySelector('.cty');
+              return { name: nameEl ? nameEl.textContent.trim() : r.textContent.trim(), el: r };
+            });
+            TVESearch.attach(searchInput, {
+              items: items,
+              onPick: function (it) {
+                searchInput.value = it.name;
+                filterRows(it.name);
+                it.el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+              }
+            });
+          }
           if (searchInput) filterRows(searchInput.value);
         });
       });

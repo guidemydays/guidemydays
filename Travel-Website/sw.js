@@ -1,3 +1,10 @@
+/* 2026-09-04: web-travel-style.css -- input.pp-input (Trip Escape's airport
+   field) widened again, this time to match the §0 search-bar standard exactly
+   (var(--search-w,440px) x var(--search-h,56px)) instead of the 22rem/40px it
+   held after yesterday's bump -- still read "too small" next to the standard,
+   and its always-visible grey border is now the standard's ambient-shadow /
+   transparent-border / gold-on-focus edge instead. MIN_VERSIONS['web-travel-
+   style.css'] to 257, CACHE to v1858. */
 /* 2026-09-04: guide-style.css + web-travel-style.css -- removed unverifiable
    owner-quote rationale comments (dated "(owner ...)" narrative blocks) from
    both files at the owner's request; no CSS rules changed, comment text only.
@@ -3080,7 +3087,7 @@
 /* 2026-09-04: toolbar.js: retire the glossy-sphere badge dots (Site-Icons.html #856-867) for the catalogue's own Matte equivalents (#868-879) -- owner: 'remove all these icons these dots with this reflection on top i dont want us to use any of these'. Same 12 colours, same hues, just no highlight ellipse. toolbar.js -> v1160. CACHE to v1855. */
 /* 2026-09-04: top-strip search icon vertical-center fix + size bump toolbar.js -> v1161. CACHE to v1856. */
 /* 2026-09-04: toolbar.js: revert the dot-* matte swap -- owner said not to touch the live site; the glossy-sphere badge dots are back to how they were before today's session. toolbar.js -> v1162. CACHE to v1857. */
-var CACHE = 'travel-cache-v1857';
+var CACHE = 'travel-cache-v1858';
 /* 2026-08-27: airlines.css's .card-tags align-items fix changed a shared
    asset without raising its own floor -- MIN_VERSIONS['airlines.css'] to
    6, CACHE to v1662. */
@@ -3123,7 +3130,7 @@ var ICS_OUTBOX = 'gmd-ics-outbox';
 /* 2026-08-30: weather.js: Punta Cana climate normals added (244 cities). MIN_VERSIONS["weather.js"] to 19, CACHE to v1748. */
 /* 2026-08-30: search-autocomplete.js — reverted ARIA combobox pattern (role=listbox/option caused side-by-side layout regression). MIN_VERSIONS['search-autocomplete.js'] to 11, CACHE to v1749. */
 /* 2026-09-02: toolbar.js — remove false-affordance right hairline from stop-hours row (commit 981cca5d5). MIN_VERSIONS['toolbar.js'] to 1142, CACHE to v1816. */
-var MIN_VERSIONS = { 'guide-style.css': 287,'toolbar.js': 1162, 'mobile.css': 94, 'web-travel-style.css': 256, 'guides-index-style.css': 52, 'read-about.css': 8, 'best-of-features.js': 6, 'best-of-cross-data.js': 24, 'weather.js': 23,'trains.css': 30, 'trains.js': 6, 'airlines.css': 9, 'airlines.js': 10, 'passport.js': 6, 'search-autocomplete.js': 12, 'flag-render.js': 3 };
+var MIN_VERSIONS = { 'guide-style.css': 287,'toolbar.js': 1162, 'mobile.css': 94, 'web-travel-style.css': 257, 'guides-index-style.css': 52, 'read-about.css': 8, 'best-of-features.js': 6, 'best-of-cross-data.js': 24, 'weather.js': 23,'trains.css': 30, 'trains.js': 6, 'airlines.css': 9, 'airlines.js': 10, 'passport.js': 6, 'search-autocomplete.js': 12, 'flag-render.js': 3 };
 
 function rewriteAssetUrl(urlStr) {
   var u;

@@ -2111,12 +2111,12 @@ window.TVE.home = (function () {
          stylesheet (the landing page, essentials pages). Matching their attribute selector plus the
          class keeps every property here winning without needing !important. */
       'input[type="search"].tb-search-input{-webkit-appearance:none;appearance:none;width:170px;height:30px;border-radius:999px;background:#fff;' +
-        'border:1.5px solid #c8b199;color:#1a1917;font:inherit;font-size:12px;' +
+        'border:1.5px solid transparent;color:#1a1917;font:inherit;font-size:12px;' +
         'padding:0 12px 0 32px;box-shadow:0 2px 8px rgba(107,68,35,.08);transition:border-color .15s,width .15s}' +
       'input[type="search"].tb-search-input::placeholder{color:#9a8367}' +
       'input[type="search"].tb-search-input::-webkit-search-decoration,input[type="search"].tb-search-input::-webkit-search-cancel-button,' +
         'input[type="search"].tb-search-input::-webkit-search-results-button,input[type="search"].tb-search-input::-webkit-search-results-decoration{display:none}' +
-      'input[type="search"].tb-search-input:focus{outline:none;border-color:#3d3a32;width:205px}' +
+      'input[type="search"].tb-search-input:focus{outline:none;border-color:var(--c-search-focus-border,#c8b99a);width:205px}' +
       '.tb-search-drop{position:absolute;top:calc(100% + 8px);right:0;width:300px;max-height:60vh;' +
         'overflow-y:auto;background:#fff;border:1px solid #e6e2da;border-radius:10px;' +
         'box-shadow:0 8px 24px rgba(92,61,17,.16);padding:6px;z-index:20}' +

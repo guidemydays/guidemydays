@@ -4569,7 +4569,7 @@ window.TVE.home = (function () {
     btn.id = 'tve-offline-btn';
     var restLabel = (isPacking
       ? '<svg viewBox="0 0 24 24" aria-hidden="true"><use href="#gm-i-download"/></svg>&nbsp;Save for Offline'
-      : iconSVG(null, 15, 'download') + ' Save for Offline');
+      : iconSVG(null, 15, 'offline-save') + ' Save for Offline');
     btn.innerHTML = restLabel;
 
     var busy = false;
@@ -4649,7 +4649,7 @@ window.TVE.home = (function () {
           /* Anything else is usually a lost user activation: the build took
              several seconds and the gesture that started it has expired. Offer
              one fresh tap rather than silently dumping the file somewhere. */
-          setLabel(iconSVG(null, 15, 'download') + ' Tap to save');
+          setLabel(iconSVG(null, 15, isPacking ? 'download' : 'offline-save') + ' Tap to save');
           btn.__pending = html;
           busy = false;
         });
@@ -9324,7 +9324,13 @@ window.TVE.home = (function () {
          one (check_also_on_site_pills_intact) — golden-hour reuses the same
          'sunset' key its own hero already draws (rooftop-bars' hero draws it
          too), nightlife reuses its own hero's 'night-sky'. */
-      'nightlife': 'night-sky', 'golden-hour': 'sunset', 'rooftop-bars': 'sunset'
+      'nightlife': 'night-sky', 'golden-hour': 'sunset', 'rooftop-bars': 'sunset',
+      /* Island Hopping Routes' sibling pill on Best Islands sat bare beside
+         'islands' pills that draw one (check_also_on_site_pills_intact) —
+         reuses the same 'ship' key already wired for 'cruises' rather than
+         the disputed 'ferry' key (flagged elsewhere as a byte-identical
+         duplicate of 'ship' under a separate GM_SPRITE name). */
+      'island-hopping': 'ship'
     };
     /* A pill pointing at a GUIDE is not in the table and never can be — there
        are 237 of them and they arrive by slug (`/guides/athens.html`), or built

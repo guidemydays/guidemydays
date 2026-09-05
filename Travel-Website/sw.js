@@ -3125,7 +3125,8 @@
 /* 2026-09-05: weather.js — CLIMATE block re-baked with Bangalore's normals (bangalore guide ships). MIN_VERSIONS['weather.js'] to 25, CACHE to v1892. */
 /* 2026-09-05: pickleball: GM_SPRITE[paddle] (108 guide rows) and the essentials/packing Pickleball card both take Icons Library #1458 toolbar.js -> v1180. CACHE to v1893. */
 /* 2026-09-05: new shared site-footer.js (copyright line + bare contact:contact@guidemydays.com mailto) added; toolbar.js dynamically loads it on every page it runs on (owner rule 2026-09-05 -- homepage keeps its own #contact form, and the bare hero+search finder pages -- weather/currencies/plugs/ask-your-guide/before-you-go/when-to-go/sunrise-sunset/essentials/day-trips -- are excluded via site-footer.js's own path list). Renders a <div class="site-footer">, not a <footer> element, because trains.css/airlines.css still carry the retired footnote.js-era `footer, .tb-footnote { display:none !important }` rule on a few pages (trips, lounges, airline-networks, cruises, self-drive-routes, scenic-trains) that would otherwise silently hide it. MIN_VERSIONS['site-footer.js'] to 1, CACHE to v1894. */
-var CACHE = 'travel-cache-v1894';
+/* 2026-09-05: push guard caught the site-footer.js commit shipping a real toolbar.js content change (the dynamic site-footer.js loader tail) under an unbumped floor -- toolbar.js's MIN_VERSIONS had already been raised to 1180 by an unrelated same-day pickleball-icon commit, which happened to land first, so this commit's own toolbar.js delta had no floor bump of its own. MIN_VERSIONS['toolbar.js'] to 1181, CACHE to v1895. */
+var CACHE = 'travel-cache-v1895';
 /* 2026-08-27: airlines.css's .card-tags align-items fix changed a shared
    asset without raising its own floor -- MIN_VERSIONS['airlines.css'] to
    6, CACHE to v1662. */
@@ -3168,7 +3169,7 @@ var ICS_OUTBOX = 'gmd-ics-outbox';
 /* 2026-08-30: weather.js: Punta Cana climate normals added (244 cities). MIN_VERSIONS["weather.js"] to 19, CACHE to v1748. */
 /* 2026-08-30: search-autocomplete.js — reverted ARIA combobox pattern (role=listbox/option caused side-by-side layout regression). MIN_VERSIONS['search-autocomplete.js'] to 11, CACHE to v1749. */
 /* 2026-09-02: toolbar.js — remove false-affordance right hairline from stop-hours row (commit 981cca5d5). MIN_VERSIONS['toolbar.js'] to 1142, CACHE to v1816. */
-var MIN_VERSIONS = { 'guide-style.css': 292,'toolbar.js': 1180, 'mobile.css': 94, 'web-travel-style.css': 260, 'guides-index-style.css': 58, 'read-about.css': 8, 'best-of-features.js': 6, 'best-of-cross-data.js': 25, 'weather.js': 25,'trains.css': 30, 'trains.js': 6, 'airlines.css': 9, 'airlines.js': 10, 'passport.js': 6, 'search-autocomplete.js': 13, 'flag-render.js': 3, 'site-footer.js': 1 };
+var MIN_VERSIONS = { 'guide-style.css': 292,'toolbar.js': 1181, 'mobile.css': 94, 'web-travel-style.css': 260, 'guides-index-style.css': 58, 'read-about.css': 8, 'best-of-features.js': 6, 'best-of-cross-data.js': 25, 'weather.js': 25,'trains.css': 30, 'trains.js': 6, 'airlines.css': 9, 'airlines.js': 10, 'passport.js': 6, 'search-autocomplete.js': 13, 'flag-render.js': 3, 'site-footer.js': 1 };
 
 function rewriteAssetUrl(urlStr) {
   var u;

@@ -49,8 +49,7 @@
     footer.className = 'site-footer';
     var year = new Date().getFullYear();
     footer.innerHTML =
-      '<p>© ' + year + ' GuideMyDays. All rights reserved.</p>' +
-      '<p>Contact: <a href="mailto:contact@guidemydays.com">contact@guidemydays.com</a></p>';
+      '<p>© ' + year + ' GuideMyDays. All rights reserved. · <a href="mailto:contact@guidemydays.com">contact@guidemydays.com</a></p>';
     document.body.appendChild(footer);
   }
 

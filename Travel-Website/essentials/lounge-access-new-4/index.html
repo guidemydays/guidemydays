@@ -1,0 +1,563 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Lounge Access Methods — New 4 (The Door) | Guide My Days</title>
+<meta name="robots" content="noindex,nofollow">
+<meta name="description" content="Design study — lounge access as the door you are trying to get through.">
+<style>
+/* ══════════════════════════════════════════════════════════════════
+   DESIGN STUDY — LOUNGE ACCESS · "THE DOOR"
+   Standalone competition entry. Not wired into the site: no toolbar,
+   no shared CSS/JS, no internal links. Every value is a local token
+   (pills doc rule 13 — nothing hardcoded inline).
+
+   Idea: every one of the four ways in is really the same moment — a
+   person at a door and an agent deciding. So the page is built around
+   that door: it opens on load, spilling light, and everything below
+   is "what gets you through it" ranked by what it actually costs.
+
+   The one genuinely new thing vs. the live page: the closing
+   frequency table becomes a DRAGGABLE dial. You move how often you
+   fly and the recommendation resolves live, with the runners-up
+   greying out — instead of reading four static rows and working out
+   which one is you.
+   ══════════════════════════════════════════════════════════════════ */
+
+:root{
+  --night:#0e0d0c;
+  --night-2:#161411;
+  --panel:#1c1916;
+  --panel-2:#231f1a;
+  --line:#332d25;
+  --line-soft:#282320;
+  --gold:#d8b45e;
+  --gold-deep:#a8842f;
+  --cream:#f2ece0;
+  --dim:#9c948a;
+  --dimmer:#6e675f;
+
+  /* Four ways in — four different tones, no two alike (pills rule 3) */
+  --w-airline:#80a9cd;
+  --w-pay:#7db485;
+  --w-member:#c9ab4b;
+  --w-card:#b6537f;
+
+  /* Tier ladder — three distinct tones */
+  --t-std:#8b877b;
+  --t-plus:#4070a9;
+  --t-prestige:#d8b45e;
+
+  --sans:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+  --mono:ui-monospace,"SF Mono",SFMono-Regular,Menlo,Consolas,monospace;
+  --ease:cubic-bezier(.22,1,.36,1);
+}
+
+*{box-sizing:border-box}
+body{
+  margin:0;background:var(--night);color:var(--cream);
+  font-family:var(--sans);font-size:15px;line-height:1.65;
+  -webkit-font-smoothing:antialiased;
+}
+.shell{max-width:1020px;margin:0 auto;padding:0 22px 100px}
+
+/* ── Hero: the door ───────────────────────────────────────────── */
+.hero{position:relative;padding:78px 0 62px;overflow:hidden}
+.doorwrap{
+  position:absolute;inset:0;display:flex;align-items:center;justify-content:center;
+  pointer-events:none;
+}
+.door{width:min(560px,92%);height:100%;max-height:420px}
+.hero-in{position:relative;z-index:2}
+.eyebrow{
+  font-family:var(--mono);font-size:11px;letter-spacing:.32em;text-transform:uppercase;
+  color:var(--gold);margin:0 0 20px;
+}
+h1{
+  font-size:clamp(34px,6.2vw,60px);line-height:1.04;margin:0 0 22px;
+  font-weight:800;letter-spacing:-.025em;max-width:16ch;
+}
+h1 em{font-style:italic;font-weight:400;color:var(--gold);display:block}
+.lede{font-size:16.5px;line-height:1.72;color:var(--dim);max-width:70ch;margin:0}
+.lede b{color:var(--cream);font-weight:600}
+
+/* the two door leaves swing open on load, light spilling between them */
+.leaf{transform-box:fill-box;transform-origin:var(--o,left center);animation:swing 1.5s var(--ease) .35s both}
+.leaf.r{--o:right center}
+@keyframes swing{from{transform:rotateY(0deg)}to{transform:rotateY(-62deg)}}
+.leaf.r{animation-name:swingR}
+@keyframes swingR{from{transform:rotateY(0deg)}to{transform:rotateY(62deg)}}
+.spill{opacity:0;animation:spill 1.7s var(--ease) .5s forwards}
+@keyframes spill{to{opacity:1}}
+
+/* ── Section furniture ────────────────────────────────────────── */
+section{margin-top:74px}
+.sec-k{
+  font-family:var(--mono);font-size:10.5px;letter-spacing:.26em;text-transform:uppercase;
+  color:var(--gold-deep);margin:0 0 8px;
+}
+h2{font-size:27px;margin:0 0 6px;font-weight:800;letter-spacing:-.018em;line-height:1.2}
+.sec-sub{color:var(--dim);font-size:14px;margin:0 0 30px;max-width:70ch}
+
+/* ── The four ways in — key cards ─────────────────────────────── */
+.ways{display:grid;grid-template-columns:repeat(auto-fit,minmax(228px,1fr));gap:14px}
+.way{
+  position:relative;background:var(--panel);border:1px solid var(--line);
+  border-radius:12px;padding:22px 20px 20px;overflow:hidden;
+  transition:transform .3s var(--ease),box-shadow .3s var(--ease);
+}
+/* hov-lift, the one approved mechanic used across this page's card groups */
+.way:hover{transform:translateY(-4px);box-shadow:0 20px 34px -22px #000}
+.way::before{content:'';position:absolute;left:0;right:0;top:0;height:3px;background:var(--tone)}
+.way::after{
+  content:'';position:absolute;right:-42px;top:-42px;width:120px;height:120px;border-radius:50%;
+  background:var(--tone);opacity:.07;
+}
+.w-airline{--tone:var(--w-airline)} .w-pay{--tone:var(--w-pay)}
+.w-member{--tone:var(--w-member)} .w-card{--tone:var(--w-card)}
+.way .tag{
+  display:inline-block;font-family:var(--mono);font-size:9.5px;font-weight:800;
+  letter-spacing:.16em;text-transform:uppercase;color:var(--tone);
+  border:1px solid var(--tone);border-radius:3px;padding:3px 8px;margin-bottom:13px;
+}
+.way p{margin:0;font-size:13.5px;line-height:1.68;color:var(--dim)}
+.dirnote{
+  margin-top:20px;font-size:13px;color:var(--dimmer);font-style:italic;
+  border-left:2px solid var(--line);padding-left:14px;
+}
+
+/* ── Priority Pass tiers — three standing cards ───────────────── */
+.tiers{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:16px}
+.tier{
+  background:linear-gradient(165deg,var(--panel-2),var(--panel));
+  border:1px solid var(--line);border-radius:14px;padding:26px 22px 24px;
+  position:relative;transition:transform .3s var(--ease),box-shadow .3s var(--ease);
+}
+.tier:hover{transform:translateY(-4px);box-shadow:0 22px 38px -24px #000}
+.t-std{--tone:var(--t-std)} .t-plus{--tone:var(--t-plus)} .t-prestige{--tone:var(--t-prestige)}
+.tier .badge{
+  display:inline-block;font-family:var(--mono);font-size:9.5px;font-weight:800;
+  letter-spacing:.15em;text-transform:uppercase;
+  background:var(--tone);color:var(--night);border-radius:3px;padding:4px 9px;margin-bottom:16px;
+}
+.price{font-size:38px;font-weight:800;letter-spacing:-.03em;line-height:1;color:var(--cream)}
+.price span{font-size:14px;font-weight:400;color:var(--dimmer);letter-spacing:0}
+.tier dl{margin:20px 0 0;padding:0;border-top:1px solid var(--line-soft)}
+.tier dt{
+  font-family:var(--mono);font-size:9.5px;letter-spacing:.15em;text-transform:uppercase;
+  color:var(--dimmer);margin-top:15px;
+}
+.tier dd{margin:3px 0 0;font-size:14px;color:var(--cream)}
+.tiernote{
+  margin-top:20px;font-size:13.5px;line-height:1.7;color:var(--dim);
+  background:var(--night-2);border:1px solid var(--line-soft);border-radius:10px;padding:16px 18px;
+}
+.tiernote strong{color:var(--gold)}
+
+/* ── The three cards — flip on click ──────────────────────────── */
+.cards{display:grid;gap:16px}
+.cc{perspective:1400px}
+.cc-in{
+  position:relative;transition:transform .7s var(--ease);transform-style:preserve-3d;
+}
+.cc.flipped .cc-in{transform:rotateY(180deg)}
+.cc-face{
+  border:1px solid var(--line);border-radius:14px;padding:24px 24px 22px;
+  backface-visibility:hidden;-webkit-backface-visibility:hidden;
+}
+.cc-front{background:linear-gradient(140deg,var(--panel-2),var(--night-2));position:relative;overflow:hidden}
+.cc-front::after{
+  content:'';position:absolute;left:-30%;top:-140%;width:36%;height:380%;
+  background:linear-gradient(90deg,transparent,rgba(255,255,255,.055),transparent);
+  transform:rotate(19deg);
+}
+.cc-back{
+  position:absolute;inset:0;transform:rotateY(180deg);background:var(--panel);
+  overflow-y:auto;
+}
+.cc-chip{
+  width:38px;height:28px;border-radius:5px;margin-bottom:20px;
+  background:linear-gradient(150deg,var(--gold),var(--gold-deep));
+  position:relative;
+}
+.cc-chip::before,.cc-chip::after{
+  content:'';position:absolute;left:5px;right:5px;height:1px;background:rgba(0,0,0,.32);
+}
+.cc-chip::before{top:9px} .cc-chip::after{top:18px}
+.cc-name{font-size:20px;font-weight:800;letter-spacing:-.01em;margin-bottom:6px}
+.cc-net{font-family:var(--mono);font-size:11px;letter-spacing:.1em;color:var(--gold);line-height:1.6}
+.cc-flip{
+  margin-top:20px;display:inline-flex;align-items:center;justify-content:center;gap:8px;
+  font-family:var(--mono);font-size:10px;font-weight:800;letter-spacing:.16em;text-transform:uppercase;
+  background:none;border:1px solid var(--gold-deep);color:var(--gold);
+  border-radius:999px;padding:8px 16px;cursor:pointer;
+  transition:filter .2s ease;
+}
+.cc-flip:hover{filter:brightness(1.25)}
+.cc-flip:focus-visible{outline:2px solid var(--gold);outline-offset:3px}
+.cc-back p{margin:0 0 12px;font-size:13.5px;line-height:1.7;color:var(--dim)}
+.cc-back strong{color:var(--cream)}
+.cc-back ul{margin:0;padding-left:18px}
+.cc-back li{font-size:13px;line-height:1.65;color:var(--dim);margin-bottom:8px}
+.cc-back li::marker{color:var(--gold-deep)}
+.cc-h{
+  font-family:var(--mono);font-size:9.5px;letter-spacing:.17em;text-transform:uppercase;
+  color:var(--gold-deep);margin:0 0 12px;
+}
+
+/* ── Rules — warning strips ───────────────────────────────────── */
+.rules{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:14px}
+.rule{
+  background:var(--panel);border:1px solid var(--line);border-left:3px solid var(--gold);
+  border-radius:0 10px 10px 0;padding:19px 20px;
+  transition:transform .3s var(--ease),box-shadow .3s var(--ease);
+}
+.rule:hover{transform:translateY(-4px);box-shadow:0 18px 30px -22px #000}
+.rule h3{margin:0 0 8px;font-size:15px;font-weight:700;line-height:1.35;color:var(--cream)}
+.rule p{margin:0;font-size:13.5px;line-height:1.68;color:var(--dim)}
+
+/* ── The dial — the page's new idea ───────────────────────────── */
+.dial{
+  background:linear-gradient(165deg,var(--panel-2),var(--night-2));
+  border:1px solid var(--line);border-radius:16px;padding:30px 26px 26px;
+}
+.dial-read{display:flex;align-items:baseline;gap:12px;flex-wrap:wrap;margin-bottom:6px}
+.dial-num{font-size:56px;font-weight:800;letter-spacing:-.04em;line-height:1;color:var(--gold);font-variant-numeric:tabular-nums}
+.dial-unit{font-size:15px;color:var(--dim)}
+.slider{
+  -webkit-appearance:none;appearance:none;width:100%;height:6px;border-radius:99px;
+  background:linear-gradient(90deg,var(--gold) var(--pct,20%),var(--line) var(--pct,20%));
+  outline:none;margin:26px 0 8px;cursor:pointer;
+}
+.slider::-webkit-slider-thumb{
+  -webkit-appearance:none;width:26px;height:26px;border-radius:50%;cursor:grab;
+  background:var(--cream);border:4px solid var(--gold);
+  box-shadow:0 0 0 0 rgba(216,180,94,.4);transition:box-shadow .25s ease;
+}
+.slider:hover::-webkit-slider-thumb,.slider:focus-visible::-webkit-slider-thumb{box-shadow:0 0 0 10px rgba(216,180,94,.16)}
+.slider::-moz-range-thumb{
+  width:22px;height:22px;border-radius:50%;cursor:grab;
+  background:var(--cream);border:4px solid var(--gold);
+}
+.ticks{display:flex;justify-content:space-between;font-family:var(--mono);font-size:10px;letter-spacing:.12em;color:var(--dimmer)}
+
+.verdicts{margin-top:28px;display:grid;gap:10px}
+.verdict{
+  display:grid;grid-template-columns:auto 1fr;gap:16px;align-items:start;
+  background:var(--panel);border:1px solid var(--line-soft);border-radius:10px;
+  padding:16px 18px;opacity:.32;
+  transition:opacity .35s ease,border-color .35s ease,transform .35s var(--ease),background .35s ease;
+}
+.verdict.on{opacity:1;border-color:var(--gold-deep);background:var(--panel-2);transform:translateX(5px)}
+.v-range{
+  font-family:var(--mono);font-size:10px;font-weight:800;letter-spacing:.13em;text-transform:uppercase;
+  color:var(--dimmer);white-space:nowrap;padding-top:3px;min-width:108px;
+}
+.verdict.on .v-range{color:var(--gold)}
+.v-pick{font-size:15.5px;font-weight:700;color:var(--cream);margin-bottom:5px;line-height:1.35}
+.v-why{font-size:13.5px;line-height:1.68;color:var(--dim);margin:0}
+.dial-caveat{margin-top:20px;font-size:12.5px;color:var(--dimmer);font-style:italic;line-height:1.6}
+
+.tail{margin-top:70px;padding-top:22px;border-top:1px solid var(--line);
+  font-family:var(--mono);font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:var(--line)}
+
+@media(max-width:700px){
+  .hero{padding:52px 0 44px}
+  .cc-back{position:relative;inset:auto;transform:none}
+  .verdict{grid-template-columns:1fr;gap:7px}
+  .v-range{min-width:0}
+}
+@media(prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation-duration:.001s !important;transition-duration:.001s !important}
+  .leaf{transform:none}
+}
+</style>
+</head>
+<body>
+<div class="shell">
+
+  <div class="hero">
+    <div class="doorwrap" aria-hidden="true">
+      <svg class="door" viewBox="0 0 560 420" preserveAspectRatio="xMidYMid slice">
+        <defs>
+          <linearGradient id="lightspill" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0" stop-color="#d8b45e" stop-opacity=".30"/>
+            <stop offset="1" stop-color="#d8b45e" stop-opacity="0"/>
+          </linearGradient>
+          <linearGradient id="leafg" x1="0" y1="0" x2="1" y2="1">
+            <stop offset="0" stop-color="#231f1a"/>
+            <stop offset="1" stop-color="#12100e"/>
+          </linearGradient>
+        </defs>
+        <!-- the light beyond the door, revealed as the leaves swing -->
+        <polygon class="spill" points="280,60 150,420 410,420" fill="url(#lightspill)"/>
+        <rect class="spill" x="212" y="60" width="136" height="300" rx="4" fill="#d8b45e" opacity=".13"/>
+        <g class="leaf">
+          <rect x="150" y="52" width="130" height="316" rx="5" fill="url(#leafg)" stroke="#332d25"/>
+          <rect x="166" y="70" width="98" height="130" rx="3" fill="none" stroke="#3d352b"/>
+          <rect x="166" y="216" width="98" height="132" rx="3" fill="none" stroke="#3d352b"/>
+          <circle cx="266" cy="212" r="4.5" fill="#a8842f"/>
+        </g>
+        <g class="leaf r">
+          <rect x="280" y="52" width="130" height="316" rx="5" fill="url(#leafg)" stroke="#332d25"/>
+          <rect x="296" y="70" width="98" height="130" rx="3" fill="none" stroke="#3d352b"/>
+          <rect x="296" y="216" width="98" height="132" rx="3" fill="none" stroke="#3d352b"/>
+          <circle cx="294" cy="212" r="4.5" fill="#a8842f"/>
+        </g>
+      </svg>
+    </div>
+    <div class="hero-in">
+      <p class="eyebrow">Lounge Access Methods</p>
+      <h1>Lounge access, <em>every way in — compared.</em></h1>
+      <p class="lede">Four ways into an airport lounge — flying business, paying at the door, carrying a membership, or carrying the right credit card — and what each one actually costs once you look past the headline benefit. Priority Pass pricing tier by tier, what <b>Amex Platinum</b>, <b>Chase Sapphire Reserve</b> and <b>Capital One Venture X</b> really give you, the same-day-boarding-pass rules that turn people away at the desk, and which option is worth it depending on how often you fly.</p>
+    </div>
+  </div>
+
+  <section>
+    <p class="sec-k">01 — Ways in</p>
+    <h2>The four ways in</h2>
+    <p class="sec-sub">Same four families as the lounge directory — here's what each actually costs.</p>
+    <div class="ways">
+      <div class="way w-airline">
+        <span class="tag">Airline &amp; alliance</span>
+        <p>Your cabin on the day, or your alliance status. Costs nothing extra once you have the ticket or the status — the trade-off is that a membership card never opens these doors, no matter which one you carry.</p>
+      </div>
+      <div class="way w-pay">
+        <span class="tag">Pay at the door</span>
+        <p>No ticket class, no card, no membership — anyone can buy in. About $25–$100 for two to three hours, and booking online through the lounge's own site or an app is reliably cheaper than paying at the desk.</p>
+      </div>
+      <div class="way w-member">
+        <span class="tag">Membership</span>
+        <p>Priority Pass is the widest network; LoungeKey and DragonPass cover many of the same rooms under a different bank's branding. Priced below. Busy lounges turn members away before ticketed passengers.</p>
+      </div>
+      <div class="way w-card">
+        <span class="tag">Credit card</span>
+        <p>A network the issuer owns outright (Amex Centurion) or a bundled Priority Pass membership (most other cards). Almost always needs a same-day boarding pass — see the rules below.</p>
+      </div>
+    </div>
+    <p class="dirnote">The full lounge directory — every lounge covered, airport by airport, worldwide — lives on the site's own Lounges page.</p>
+  </section>
+
+  <section>
+    <p class="sec-k">02 — Membership</p>
+    <h2>Priority Pass, tier by tier</h2>
+    <p class="sec-sub">Bought standalone, not bundled into a card.</p>
+    <div class="tiers">
+      <div class="tier t-std">
+        <span class="badge">Standard</span>
+        <div class="price">$99<span> / year</span></div>
+        <dl>
+          <dt>Visits included</dt><dd>None</dd>
+          <dt>After that</dt><dd>$35 per visit, every visit</dd>
+        </dl>
+      </div>
+      <div class="tier t-plus">
+        <span class="badge">Standard Plus</span>
+        <div class="price">$329<span> / year</span></div>
+        <dl>
+          <dt>Visits included</dt><dd>10 visits</dd>
+          <dt>After that</dt><dd>$35 per visit</dd>
+        </dl>
+      </div>
+      <div class="tier t-prestige">
+        <span class="badge">Prestige</span>
+        <div class="price">$469<span> / year</span></div>
+        <dl>
+          <dt>Visits included</dt><dd>Unlimited</dd>
+          <dt>After that</dt><dd>—</dd>
+        </dl>
+      </div>
+    </div>
+    <p class="tiernote">A guest costs <strong>$35 a visit on every tier</strong> — the fee is per person through the door, not per member. <strong>LoungeKey</strong> and <strong>DragonPass</strong> run separate, overlapping networks; which one (if any) your credit card bundles depends on the bank that issued it, not on you choosing one over Priority Pass.</p>
+  </section>
+
+  <section>
+    <p class="sec-k">03 — Cards</p>
+    <h2>What the major travel cards actually give you</h2>
+    <p class="sec-sub">Beyond the headline "lounge access included" line. Turn a card over for its fine print.</p>
+    <div class="cards" id="cards"></div>
+  </section>
+
+  <section>
+    <p class="sec-k">04 — Fine print</p>
+    <h2>Rules that catch people out</h2>
+    <p class="sec-sub">The conditions behind "lounge access included".</p>
+    <div class="rules">
+      <div class="rule">
+        <h3>Delta Sky Club needs a same-day boarding pass — always</h3>
+        <p>Every access method — Delta status, a membership, or a co-branded card — requires a same-day boarding pass on a Delta-operated or eligible SkyTeam partner flight. Entry runs from up to 3 hours before departure, or during a same-day connection. There is no walk-in option, membership or not.</p>
+      </div>
+      <div class="rule">
+        <h3>Basic Economy is excluded from Delta Sky Club</h3>
+        <p>A Basic Economy ticket is turned away at Delta Sky Club regardless of status, membership, or card — the fare class itself is the block, not the access method.</p>
+      </div>
+      <div class="rule">
+        <h3>Amex now checks your arrival time and your guest's flight</h3>
+        <p>Since July 8, 2026: Centurion Lounges and Delta Sky Clubs (via the Platinum Card) require arrival within 3 hours of a single flight's departure, or 5 hours of a connecting flight — and any guest must be ticketed on the same flight as you.</p>
+      </div>
+      <div class="rule">
+        <h3>Guest fees moved, they didn't disappear</h3>
+        <p>Capital One Venture X guests stopped being free in Priority Pass lounges on February 1, 2026 ($35/visit now). Amex's $75,000 spend threshold buys complimentary guests at Centurion Lounges and Delta Sky Club — but they're two separate thresholds, not one.</p>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <p class="sec-k">05 — The verdict</p>
+    <h2>Which one's worth it, by how often you fly</h2>
+    <p class="sec-sub">Drag the dial to how many trips you take in a year. The answer resolves as you move.</p>
+    <div class="dial">
+      <div class="dial-read">
+        <span class="dial-num" id="num">4</span>
+        <span class="dial-unit" id="unit">trips a year</span>
+      </div>
+      <input class="slider" id="slider" type="range" min="1" max="20" value="4" step="1"
+             aria-label="Trips per year" aria-describedby="verdicts">
+      <div class="ticks"><span>1</span><span>5</span><span>10</span><span>15</span><span>20+</span></div>
+
+      <div class="verdicts" id="verdicts">
+        <div class="verdict" data-lo="1" data-hi="2">
+          <span class="v-range">1–2 trips</span>
+          <div>
+            <div class="v-pick">Pay at the door</div>
+            <p class="v-why">An annual membership fee never earns itself back at that pace — two or three door visits a year costs less than any Priority Pass tier.</p>
+          </div>
+        </div>
+        <div class="verdict" data-lo="3" data-hi="6">
+          <span class="v-range">3–6 trips</span>
+          <div>
+            <div class="v-pick">Priority Pass Standard Plus, or a card that already bundles Priority Pass Select</div>
+            <p class="v-why">10 included visits roughly matches this range; if you'd carry a card like Chase Sapphire Reserve anyway for its other benefits, its bundled membership costs nothing extra.</p>
+          </div>
+        </div>
+        <div class="verdict" data-lo="7" data-hi="15">
+          <span class="v-range">7–15 trips</span>
+          <div>
+            <div class="v-pick">Priority Pass Prestige, or Capital One Venture X</div>
+            <p class="v-why">Unlimited visits stop being a luxury once per-visit fees would otherwise add up past the annual fee; Venture X gives the same unlimited entry as a card perk rather than a separate membership.</p>
+          </div>
+        </div>
+        <div class="verdict" data-lo="16" data-hi="99">
+          <span class="v-range">15+ trips</span>
+          <div>
+            <div class="v-pick">American Express Platinum</div>
+            <p class="v-why">Centurion Lounges are the largest lounge network any single card owns outright, plus Delta Sky Club on Delta flights — at the cost of the same-day-boarding-pass rule and per-guest fees below the $75,000 spend threshold. Also the pick if you simply want the widest premium network.</p>
+          </div>
+        </div>
+      </div>
+      <p class="dial-caveat">A rough frequency guide — not a recommendation to open a card for lounge access alone.</p>
+    </div>
+  </section>
+
+  <p class="tail">Design study · The Door · standalone, not linked into the site</p>
+</div>
+
+<script>
+(function () {
+  'use strict';
+
+  /* ── The three cards ───────────────────────────────────────── */
+  var CARDS = [
+    {
+      name: 'American Express Platinum',
+      net: 'Centurion Lounge + Global Lounge Collection + Delta Sky Club',
+      body: 'Entry needs the physical card, a same-day boarding pass, and government ID. <strong>Delta Sky Club:</strong> access on same-day Delta-operated flights, capped at 10 visits a year unless you spend $75,000 or more on the card in a calendar year (then unlimited on eligible days); a guest costs $50 ($25 at Grab and Go locations), a child age 2–17 costs $30. <strong>Centurion Lounges:</strong> a guest costs $50 ($30 for a child, free under 2); hitting the same $75,000 threshold unlocks two complimentary guests per visit instead.',
+      notes: ['Since July 8, 2026: you must arrive within 3 hours of departure on a single flight, or within 5 hours of a connecting flight’s departure — and any guest must be booked on the same flight as you.']
+    },
+    {
+      name: 'Chase Sapphire Reserve',
+      net: 'Priority Pass Select + Chase Sapphire Lounges by The Club',
+      body: 'Priority Pass Select — 1,300+ lounges worldwide — activates automatically for the primary cardholder and every authorized user, alongside Chase’s own branded Sapphire Lounges, select Air Canada Maple Leaf Lounges &amp; Cafés, and the Etihad Lounge at Washington Dulles (IAD). Most locations admit two guests; Maple Leaf admits one. A layover stop at a Chase Sapphire Lounge is good for up to 5 hours before your connecting flight (raised from 3).',
+      notes: ['As of August 15, 2026, Chase Sapphire Lounges stopped accepting outside Priority Pass and LoungeKey members — a standalone Priority Pass card no longer gets a non-Chase cardholder through that specific door. This does not change anything for a Sapphire Reserve cardholder: your own access to Chase Sapphire Lounges and your own Priority Pass Select membership for every other lounge in the network are both unaffected.']
+    },
+    {
+      name: 'Capital One Venture X',
+      net: 'Unlimited entries — Capital One Lounges, Capital One Landings &amp; Priority Pass network',
+      body: 'The cardholder and every authorized user get unlimited visits, on the card alone, to Capital One’s own Lounges and Landings plus the full Priority Pass network — no separate membership fee.',
+      notes: [
+        'Since February 1, 2026, guests are no longer complimentary in Priority Pass lounges on this card — a $35-per-visit guest fee now applies there. Spending $75,000 or more on the card in a calendar year unlocks two complimentary guests, but only at Capital One’s own Lounges and Landings; Priority Pass lounges still charge $35 a guest regardless of spend.',
+        'The Venture X <strong>Business</strong> card is the exception: it still brings two guests into Priority Pass lounges free.'
+      ]
+    }
+  ];
+
+  var wrap = document.getElementById('cards');
+
+  CARDS.forEach(function (c, i) {
+    var el = document.createElement('div');
+    el.className = 'cc';
+    el.innerHTML =
+      '<div class="cc-in">' +
+        '<div class="cc-face cc-front">' +
+          '<div class="cc-chip" aria-hidden="true"></div>' +
+          '<div class="cc-name">' + c.name + '</div>' +
+          '<div class="cc-net">' + c.net + '</div>' +
+          '<button class="cc-flip" type="button" aria-expanded="false" aria-controls="back' + i + '">Read the fine print</button>' +
+        '</div>' +
+        '<div class="cc-face cc-back" id="back' + i + '">' +
+          '<p class="cc-h">' + c.name + ' — the detail</p>' +
+          '<p>' + c.body + '</p>' +
+          '<ul>' + c.notes.map(function (n) { return '<li>' + n + '</li>'; }).join('') + '</ul>' +
+          '<button class="cc-flip" type="button">Back to the card</button>' +
+        '</div>' +
+      '</div>';
+    wrap.appendChild(el);
+  });
+
+  /* The back face is taller than the front, so the shell has to take the
+     height of whichever face is showing — otherwise a flipped card either
+     clips its own fine print or leaves a hole under the front. */
+  function sizeCards() {
+    wrap.querySelectorAll('.cc').forEach(function (cc) {
+      var inner = cc.querySelector('.cc-in');
+      var front = cc.querySelector('.cc-front');
+      var back = cc.querySelector('.cc-back');
+      var h = cc.classList.contains('flipped') ? back.scrollHeight : front.offsetHeight;
+      inner.style.height = h + 'px';
+    });
+  }
+
+  wrap.addEventListener('click', function (e) {
+    var btn = e.target.closest('.cc-flip');
+    if (!btn) return;
+    var cc = btn.closest('.cc');
+    cc.classList.toggle('flipped');
+    var open = cc.classList.contains('flipped');
+    var toggle = cc.querySelector('.cc-front .cc-flip');
+    if (toggle) toggle.setAttribute('aria-expanded', open ? 'true' : 'false');
+    sizeCards();
+  });
+
+  sizeCards();
+  window.addEventListener('resize', sizeCards);
+  /* Fonts landing after first paint change the front face's height. */
+  if (document.fonts && document.fonts.ready) document.fonts.ready.then(sizeCards);
+
+  /* ── The dial ──────────────────────────────────────────────── */
+  var slider = document.getElementById('slider');
+  var num = document.getElementById('num');
+  var unit = document.getElementById('unit');
+  var verdicts = Array.prototype.slice.call(document.querySelectorAll('.verdict'));
+
+  function paint() {
+    var v = parseInt(slider.value, 10);
+    var max = parseInt(slider.max, 10);
+    var min = parseInt(slider.min, 10);
+
+    num.textContent = v === max ? v + '+' : v;
+    unit.textContent = v === 1 ? 'trip a year' : 'trips a year';
+    slider.style.setProperty('--pct', ((v - min) / (max - min)) * 100 + '%');
+
+    verdicts.forEach(function (el) {
+      var lo = +el.dataset.lo, hi = +el.dataset.hi;
+      el.classList.toggle('on', v >= lo && v <= hi);
+    });
+  }
+
+  slider.addEventListener('input', paint);
+  paint();
+})();
+</script>
+</body>
+</html>

@@ -897,13 +897,14 @@ body.v-aurora *::after {
       es.forEach(function (e) {
         if (!e.isIntersecting) return;
         nio.unobserve(e.target);
+        if (e.target.children.length) return;
         var raw = e.target.textContent, m = raw.match(/(\d[\d,.]*)/);
         if (!m) return;
         var target = parseFloat(m[1].replace(/,/g, ''));
         if (!isFinite(target) || target > 100000) return;
         var dec = (m[1].split('.')[1] || '').length, t0 = performance.now();
         var tick = function (t) {
-          var p = Math.min(1, (t - t0) / 1000);
+          var p = Math.min(1, Math.max(0, (t - t0) / 1000));
           var v = target * (1 - Math.pow(1 - p, 3));
           e.target.textContent = raw.replace(m[1], v.toFixed(dec).replace(/\B(?=(\d{3})+(?!\d))/g, ','));
           if (p < 1) requestAnimationFrame(tick);

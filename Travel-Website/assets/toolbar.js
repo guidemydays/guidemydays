@@ -8603,7 +8603,11 @@ window.TVE.home = (function () {
       pill.href = 'javascript:void(0)';
       pill.className = 'overview-extra-link';
       pill.id = 'tve-cur-pill';
-      pill.innerHTML = iconSVG(null, 15, 'exchange') + ' Currency';
+      /* Sized up from the shared 15px other pills use — the two-coin
+         exchange glyph packs $ and € text into thin circles, so at 15px it
+         reads visibly lighter/smaller than the bolder single-shape icons
+         (calendar, map, phone, printer) beside it in the same row. */
+      pill.innerHTML = iconSVG(null, 19, 'exchange') + ' Currency';
       pill.setAttribute('aria-expanded', 'false');
       pill.setAttribute('aria-controls', 'tve-cur-panel');
       pill.style.setProperty('flex', '1 1 auto', 'important');

@@ -1,3 +1,5 @@
+/* 2026-09-05: toolbar.js -- pattaya HOTEL_ALT_DATA + CHIP_DATA entry.
+   MIN_VERSIONS['toolbar.js'] to 1183, CACHE to v1898. */
 /* 2026-09-05: weather.js -- pattaya climate normals added to the baked CLIMATE
    block. MIN_VERSIONS['weather.js'] to 26, CACHE to v1897. */
 /* 2026-09-04: toolbar.js -- add GM_SPRITE entry for 'ship' icon (catalogue #195,
@@ -3129,7 +3131,6 @@
 /* 2026-09-05: new shared site-footer.js (copyright line + bare contact:contact@guidemydays.com mailto) added; toolbar.js dynamically loads it on every page it runs on (owner rule 2026-09-05 -- homepage keeps its own #contact form, and the bare hero+search finder pages -- weather/currencies/plugs/ask-your-guide/before-you-go/when-to-go/sunrise-sunset/essentials/day-trips -- are excluded via site-footer.js's own path list). Renders a <div class="site-footer">, not a <footer> element, because trains.css/airlines.css still carry the retired footnote.js-era `footer, .tb-footnote { display:none !important }` rule on a few pages (trips, lounges, airline-networks, cruises, self-drive-routes, scenic-trains) that would otherwise silently hide it. MIN_VERSIONS['site-footer.js'] to 1, CACHE to v1894. */
 /* 2026-09-05: push guard caught the site-footer.js commit shipping a real toolbar.js content change (the dynamic site-footer.js loader tail) under an unbumped floor -- toolbar.js's MIN_VERSIONS had already been raised to 1180 by an unrelated same-day pickleball-icon commit, which happened to land first, so this commit's own toolbar.js delta had no floor bump of its own. MIN_VERSIONS['toolbar.js'] to 1181, CACHE to v1895. */
 /* 2026-09-05: mecca guide ships — toolbar.js gains HOTEL_ALT_DATA['mecca'], CHIP_DATA 'mecca' -> JED King Abdulaziz International, JED in LOUNGE_IATAS (two-commit fix, guard caught the JED LOUNGE_IATAS omission). MIN_VERSIONS['toolbar.js'] to 1182, CACHE to v1896. */
-/* 2026-09-05: toolbar.js — Shenzhen HOTEL_ALT_DATA (four tiers), CHIP_DATA SZX, SZX in LOUNGE_IATAS toolbar.js -> v1183. CACHE to v1898. */
 var CACHE = 'travel-cache-v1898';
 /* 2026-08-27: airlines.css's .card-tags align-items fix changed a shared
    asset without raising its own floor -- MIN_VERSIONS['airlines.css'] to

@@ -1,0 +1,659 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Layover City Guide — Transit Pass | Guide My Days</title>
+<meta name="description" content="Design experiment — the Layover City Guide as a set of boarding-pass stubs with a travelling transit rail. Same content, new design. Not linked into the site.">
+<meta name="robots" content="noindex,nofollow">
+<style>
+/* ══════════════════════════════════════════════════════════════════
+   LAYOVER CITY GUIDE — NEW 2 · "TRANSIT PASS"
+   Standalone design experiment. Not wired to the site: no shared
+   stylesheet, no toolbar, no outbound links, no search control.
+
+   The idea: a layover is a document — a stub you hold while you decide
+   whether to leave the building. Each hub is rendered as a boarding-
+   pass stub: torn edge, punched holes, a barcode strip, and a transit
+   rail across the middle that a marker actually travels when the stub
+   scrolls into view. The region strip up top is a selection control
+   (sentence case, tinted at rest, darken on hover, background-blend
+   when selected — one tone per region, never a repeat, "All" on the
+   deepest tone).
+   ══════════════════════════════════════════════════════════════ */
+
+*,*::before,*::after{box-sizing:border-box}
+
+:root{
+  --card:#fffdf8;
+  --board:#efe9dc;
+  --board-2:#e5ddcc;
+  --ink:#1d1a15;
+  --ink-2:#57503f;
+  --ink-3:#8b8371;
+  --line:#ded5c1;
+  --line-2:#c4b89e;
+  --terra:#C04E1A;
+
+  /* one tone per region — three siblings, three colours, never shared */
+  --asia-ink:#1a4f6b;   --asia-rgb:26,79,107;   --asia-wash:#e8f1f6;
+  --me-ink:#8a5a12;     --me-rgb:138,90,18;     --me-wash:#faf1de;
+  --eu-ink:#38602f;     --eu-rgb:56,96,47;      --eu-wash:#ecf3e9;
+  /* the "all" control takes the deepest tone in the set */
+  --all-ink:#3a3228;    --all-rgb:58,50,40;     --all-wash:#efeae1;
+
+  --mono:ui-monospace,"SF Mono",SFMono-Regular,Menlo,Consolas,monospace;
+  --sans:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){
+    --card:#1e1b16;--board:#141210;--board-2:#191612;
+    --ink:#f2ede2;--ink-2:#b5ad9c;--ink-3:#8a8271;
+    --line:#332e25;--line-2:#4a4335;
+    --terra:#e0692c;
+    --asia-ink:#7fc0e2;--asia-rgb:127,192,226;--asia-wash:#152530;
+    --me-ink:#dcae52;--me-rgb:220,174,82;--me-wash:#2a2213;
+    --eu-ink:#95c584;--eu-rgb:149,197,132;--eu-wash:#1a2617;
+    --all-ink:#cbc2b1;--all-rgb:203,194,177;--all-wash:#26221b;
+  }
+}
+
+html{-webkit-text-size-adjust:100%}
+body{
+  margin:0;background:var(--board);color:var(--ink);
+  font-family:var(--sans);font-size:15.5px;line-height:1.66;
+  background-image:
+    repeating-linear-gradient(45deg,rgba(0,0,0,.014) 0 2px,transparent 2px 7px);
+}
+.frame{max-width:1060px;margin:0 auto;padding:0 22px 130px}
+
+/* ─────────── Header ─────────── */
+.stripline{
+  display:flex;gap:0;height:8px;margin-top:0;
+}
+.stripline i{flex:1}
+.stripline i:nth-child(1){background:var(--asia-ink)}
+.stripline i:nth-child(2){background:var(--me-ink)}
+.stripline i:nth-child(3){background:var(--eu-ink)}
+.stripline i:nth-child(4){background:var(--terra)}
+
+.head{padding:36px 0 0;display:flex;align-items:baseline;gap:14px;flex-wrap:wrap;
+  font-family:var(--mono);font-size:10.5px;letter-spacing:.2em;text-transform:uppercase;color:var(--ink-3)}
+.head .sp{flex:1}
+
+.hero{padding:26px 0 0;max-width:20ch}
+.hero h1{
+  font-size:clamp(36px,7.4vw,74px);font-weight:800;line-height:.98;
+  letter-spacing:-.04em;margin:0;text-transform:uppercase;
+}
+.hero h1 .thin{display:block;font-weight:300;text-transform:none;letter-spacing:-.03em;color:var(--terra)}
+.hero-sub{max-width:66ch;font-size:16.5px;line-height:1.74;color:var(--ink-2);margin:24px 0 0}
+.hero-sub strong{color:var(--ink);font-weight:650}
+
+/* ─────────── Region selection strip ─────────── */
+.strip{
+  display:flex;gap:10px;flex-wrap:wrap;align-items:center;
+  margin:34px 0 6px;padding:16px 0;border-block:1px dashed var(--line-2);
+}
+.strip .caption{
+  font-family:var(--mono);font-size:10px;letter-spacing:.18em;text-transform:uppercase;
+  color:var(--ink-3);margin-right:6px;
+}
+.rtab{
+  --ink-t:var(--asia-ink);--rgb-t:var(--asia-rgb);--wash-t:var(--asia-wash);
+  display:inline-flex;align-items:center;justify-content:center;gap:8px;
+  font-family:inherit;font-size:14px;font-weight:800;line-height:1.2;
+  padding:8px 18px;border-radius:999px;cursor:pointer;
+  border:1px solid rgba(var(--rgb-t),.45);background:var(--wash-t);color:var(--ink-t);
+  transition:background .15s ease,border-color .15s ease;
+}
+.rtab .d{width:9px;height:9px;border-radius:50%;background:var(--ink-t)}
+.rtab.r-me{--ink-t:var(--me-ink);--rgb-t:var(--me-rgb);--wash-t:var(--me-wash)}
+.rtab.r-eu{--ink-t:var(--eu-ink);--rgb-t:var(--eu-rgb);--wash-t:var(--eu-wash)}
+.rtab.r-all{--ink-t:var(--all-ink);--rgb-t:var(--all-rgb);--wash-t:var(--all-wash)}
+/* Darken, the approved hover — the tint deepens toward its own ink. */
+.rtab:hover{background:color-mix(in srgb, var(--wash-t) 75%, var(--ink-t) 25%)}
+.rtab:focus-visible{outline:2px solid var(--ink-t);outline-offset:4px}
+/* Selected is a background blend only — no ring, no check. */
+.rtab[aria-pressed="true"]{background:color-mix(in srgb, var(--wash-t) 58%, var(--ink-t) 42%)}
+
+/* ─────────── Region blocks ─────────── */
+.reg{margin-top:46px}
+.reg[hidden]{display:none}
+.reg > h2{
+  --ink-t:var(--asia-ink);
+  display:flex;align-items:center;gap:14px;margin:0 0 22px;
+  font-family:var(--mono);font-size:11px;letter-spacing:.26em;text-transform:uppercase;color:var(--ink-t);
+}
+.reg.r-me > h2{--ink-t:var(--me-ink)}
+.reg.r-eu > h2{--ink-t:var(--eu-ink)}
+.reg > h2::after{content:"";flex:1;height:2px;background:currentColor;opacity:.35}
+
+/* ─────────── The stub ─────────── */
+.stubs{display:grid;gap:24px}
+.stub{
+  --ink-t:var(--asia-ink);--wash-t:var(--asia-wash);
+  background:var(--card);border:1px solid var(--line);border-radius:14px;
+  position:relative;overflow:hidden;
+  box-shadow:0 18px 34px -30px rgba(60,40,15,.7);
+  transition:opacity .6s ease,transform .6s cubic-bezier(.2,.7,.3,1),box-shadow .3s ease;
+}
+html.anim .stub{opacity:0;transform:translateY(22px)}
+.stub.in,html.anim .stub.in{opacity:1;transform:none}
+.stub:hover{box-shadow:0 26px 44px -30px rgba(60,40,15,.85)}
+.reg.r-me .stub{--ink-t:var(--me-ink);--wash-t:var(--me-wash)}
+.reg.r-eu .stub{--ink-t:var(--eu-ink);--wash-t:var(--eu-wash)}
+
+/* punched holes down the tear line */
+.stub::before,.stub::after{
+  content:"";position:absolute;width:22px;height:22px;border-radius:50%;
+  background:var(--board);border:1px solid var(--line);
+  left:calc(64% - 11px);
+}
+.stub::before{top:-11px}
+.stub::after{bottom:-11px}
+
+.stub-grid{display:grid;grid-template-columns:64% 36%}
+
+.pane{padding:26px 28px 26px}
+.pane-head{display:flex;align-items:flex-start;justify-content:space-between;gap:16px;margin-bottom:4px}
+.pane h3{margin:0;font-size:23px;font-weight:800;letter-spacing:-.025em;line-height:1.12}
+.iata{
+  font-family:var(--mono);font-size:26px;font-weight:700;letter-spacing:.02em;
+  color:var(--ink-t);line-height:1;
+}
+.iata .pl{display:block;width:20px;height:20px;margin:0 0 7px auto;opacity:.85}
+.iata small{display:block;font-size:9px;letter-spacing:.18em;color:var(--ink-3);text-align:right;margin-top:6px}
+.where{font-family:var(--mono);font-size:10.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--ink-3);margin-bottom:16px}
+.blurb{font-size:14.5px;line-height:1.72;color:var(--ink-2);margin:0 0 20px}
+
+/* The transit rail — a marker travels it when the stub arrives. */
+.rail{
+  position:relative;height:56px;margin:0 0 20px;
+  border-top:1px solid var(--line);border-bottom:1px solid var(--line);
+}
+.rail .line{
+  position:absolute;left:12px;right:12px;top:50%;height:2px;
+  background:repeating-linear-gradient(90deg,var(--line-2) 0 7px,transparent 7px 13px);
+}
+.rail .stop{
+  position:absolute;top:50%;transform:translate(-50%,-50%);
+  display:flex;flex-direction:column;align-items:center;gap:0;
+}
+.rail .stop i{
+  width:11px;height:11px;border-radius:50%;background:var(--card);
+  border:2px solid var(--ink-t);display:block;
+}
+.rail .stop span{
+  position:absolute;top:14px;font-family:var(--mono);font-size:8.5px;letter-spacing:.1em;
+  text-transform:uppercase;color:var(--ink-3);white-space:nowrap;
+}
+.rail .mover{
+  position:absolute;top:50%;left:12px;width:22px;height:22px;
+  transform:translate(-50%,-50%);
+  filter:drop-shadow(0 2px 3px rgba(0,0,0,.25));
+}
+.stub.in .mover{animation:travel 3.4s cubic-bezier(.5,0,.5,1) .3s both}
+@keyframes travel{
+  0%{left:12px}
+  46%{left:calc(100% - 12px)}
+  54%{left:calc(100% - 12px)}
+  100%{left:12px}
+}
+.rail .mins{
+  position:absolute;right:12px;top:6px;
+  font-family:var(--mono);font-size:9.5px;letter-spacing:.12em;color:var(--ink-t);
+}
+
+/* Fact rows */
+.facts{display:grid;gap:0}
+.frow{
+  display:grid;grid-template-columns:112px 1fr;gap:16px;
+  padding:12px 0;border-top:1px solid var(--line);
+}
+.frow:first-child{border-top:0}
+.frow dt{
+  font-family:var(--mono);font-size:9.5px;font-weight:700;letter-spacing:.14em;
+  text-transform:uppercase;color:var(--ink-3);padding-top:2px;
+}
+.frow dd{margin:0;font-size:13.8px;line-height:1.68;color:var(--ink-2)}
+.frow.flag dt{color:var(--terra)}
+
+/* Right-hand tear-off */
+.tear{
+  padding:26px 24px;background:var(--wash-t);
+  border-left:2px dashed var(--line-2);
+  display:flex;flex-direction:column;gap:18px;
+}
+.tear .kv dt{
+  font-family:var(--mono);font-size:9px;font-weight:700;letter-spacing:.18em;
+  text-transform:uppercase;color:var(--ink-3);margin-bottom:4px;
+}
+.tear .kv dd{margin:0;font-size:13.5px;line-height:1.6;color:var(--ink);font-weight:600}
+.tear .barcode{margin-top:auto;display:flex;gap:2px;align-items:flex-end;height:44px}
+.tear .barcode i{background:var(--ink);width:2px;display:block;opacity:.75}
+.tear .ref{
+  font-family:var(--mono);font-size:9px;letter-spacing:.2em;text-transform:uppercase;color:var(--ink-3);
+}
+
+.closing{
+  margin-top:44px;padding:20px 24px;background:var(--card);
+  border:1px dashed var(--line-2);border-radius:12px;
+  font-size:14px;line-height:1.74;color:var(--ink-2);
+}
+.closing b{color:var(--terra)}
+
+.foot{
+  margin-top:80px;padding-top:22px;border-top:1px solid var(--line-2);
+  font-family:var(--mono);font-size:10px;letter-spacing:.18em;text-transform:uppercase;
+  color:var(--ink-3);display:flex;flex-wrap:wrap;gap:10px 26px;
+}
+
+@media (max-width:880px){
+  .stub-grid{grid-template-columns:1fr}
+  .stub::before,.stub::after{display:none}
+  .tear{border-left:0;border-top:2px dashed var(--line-2)}
+}
+@media (max-width:620px){
+  .frame{padding:0 15px 90px}
+  .frow{grid-template-columns:1fr;gap:4px}
+  .pane{padding:22px 20px}
+  .rail .stop span{font-size:7.5px}
+}
+@media (prefers-reduced-motion:reduce){
+  *{animation-duration:.001ms!important;animation-iteration-count:1!important;transition-duration:.001ms!important}
+  html.anim .stub{opacity:1;transform:none}
+}
+</style>
+</head>
+<body>
+<style>:root{--c-tire:#3a332e;--c-stone:#a89c8e;--c-paper:#fff;--c-cream:#f6ecdb;--c-tan:#fca240;--c-cocoa:#8a3d0c;--c-rust:#e25100;--c-clay:#ff661d;--c-red:#ff200c;--c-rose:#ff3d7a;--c-plum:#ad29e5;--c-sun:#ffc110;--c-amber:#ff7c08;--c-green:#4ad017;--c-leaf:#2f9106;--c-teal:#01d5bc;--c-blue:#0982ec;--c-navy:#0d4a86;--c-sky:#3dbaff;--c-grape:#6b2fa0;--c-wine:#8c1a10;--c-pine:#14663c;--c-slate:#566b7a;--c-terra:#C04E1A;--c-paper-shade:#dad4cb;--c-cream-shade:#e0d7c7;--c-rim-warm:#c25a20;--c-rim-cool:#93a4b2;--c-tire-shade:#171412;--c-tire-rim:#26221e;--c-stone-shade:#80776c;--c-stone-rim:#6f675e;--c-tan-shade:#c57e32;--c-tan-rim:#a66b2a;--c-cocoa-shade:#572608;--c-cocoa-rim:#5b2808;--c-rust-shade:#a73c00;--c-rust-rim:#953500;--c-clay-shade:#c24e16;--c-clay-rim:#a84313;--c-red-shade:#bf1809;--c-red-rim:#a81508;--c-rose-shade:#bf2e5b;--c-rose-rim:#a82851;--c-plum-shade:#7d1ea5;--c-plum-rim:#721b97;--c-sun-shade:#c7970c;--c-sun-rim:#a87f0b;--c-amber-shade:#c45f06;--c-amber-rim:#a85205;--c-green-shade:#3aa212;--c-green-rim:#31890f;--c-leaf-shade:#236b04;--c-leaf-rim:#1f6004;--c-teal-shade:#01a693;--c-teal-rim:#018d7c;--c-blue-shade:#0760af;--c-blue-rim:#06569c;--c-navy-shade:#072a4c;--c-navy-rim:#093158;--c-sky-shade:#2f8fc4;--c-sky-rim:#287ba8;--c-grape-shade:#401c60;--c-grape-rim:#471f6a;--c-wine-shade:#4e0f09;--c-wine-rim:#5c110a;--c-pine-shade:#0d4227;--c-pine-rim:#0d4327;--c-slate-shade:#3c4b55;--c-slate-rim:#394751;--c-terra-shade:#8A3F18;--c-terra-rim:#6b2f12}.gm-i{width:1.2em;height:1.2em;vertical-align:-.25em;display:inline-block}</style>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs><linearGradient id="gm-gloss" x1="0" y1="0" x2="0.55" y2="1"><stop offset="0" stop-color="#fff" stop-opacity="0.46"/><stop offset="0.42" stop-color="#fff" stop-opacity="0.14"/><stop offset="1" stop-color="#fff" stop-opacity="0"/></linearGradient><radialGradient id="sph-black" cx="40%" cy="34%" r="82%"><stop offset="0%" stop-color="#7a7a7a"/><stop offset="46%" stop-color="#2c2c2c"/><stop offset="100%" stop-color="#040404"/></radialGradient><radialGradient id="sph-black-b" cx="50%" cy="90%" r="42%"><stop offset="0%" stop-color="#7a7a7a" stop-opacity="0.34"/><stop offset="100%" stop-color="#7a7a7a" stop-opacity="0"/></radialGradient><radialGradient id="sph-blue" cx="40%" cy="34%" r="82%"><stop offset="0%" stop-color="#95cbf2"/><stop offset="46%" stop-color="#2c80c9"/><stop offset="100%" stop-color="#123f68"/></radialGradient><radialGradient id="sph-blue-b" cx="50%" cy="90%" r="42%"><stop offset="0%" stop-color="#95cbf2" stop-opacity="0.34"/><stop offset="100%" stop-color="#95cbf2" stop-opacity="0"/></radialGradient><radialGradient id="sph-brown" cx="40%" cy="34%" r="82%"><stop offset="0%" stop-color="#d5a677"/><stop offset="46%" stop-color="#95603a"/><stop offset="100%" stop-color="#4a2d1d"/></radialGradient><radialGradient id="sph-brown-b" cx="50%" cy="90%" r="42%"><stop offset="0%" stop-color="#d5a677" stop-opacity="0.34"/><stop offset="100%" stop-color="#d5a677" stop-opacity="0"/></radialGradient><radialGradient id="sph-green" cx="40%" cy="34%" r="82%"><stop offset="0%" stop-color="#a6e473"/><stop offset="46%" stop-color="#57b334"/><stop offset="100%" stop-color="#2a6a17"/></radialGradient><radialGradient id="sph-green-b" cx="50%" cy="90%" r="42%"><stop offset="0%" stop-color="#a6e473" stop-opacity="0.34"/><stop offset="100%" stop-color="#a6e473" stop-opacity="0"/></radialGradient><radialGradient id="sph-grey" cx="40%" cy="34%" r="82%"><stop offset="0%" stop-color="#dedbd6"/><stop offset="46%" stop-color="#98928a"/><stop offset="100%" stop-color="#4a4641"/></radialGradient><radialGradient id="sph-grey-b" cx="50%" cy="90%" r="42%"><stop offset="0%" stop-color="#dedbd6" stop-opacity="0.34"/><stop offset="100%" stop-color="#dedbd6" stop-opacity="0"/></radialGradient><radialGradient id="sph-orange" cx="40%" cy="34%" r="82%"><stop offset="0%" stop-color="#ffb75f"/><stop offset="46%" stop-color="#ef7d18"/><stop offset="100%" stop-color="#8f4408"/></radialGradient><radialGradient id="sph-orange-b" cx="50%" cy="90%" r="42%"><stop offset="0%" stop-color="#ffb75f" stop-opacity="0.34"/><stop offset="100%" stop-color="#ffb75f" stop-opacity="0"/></radialGradient><radialGradient id="sph-pink" cx="40%" cy="34%" r="82%"><stop offset="0%" stop-color="#ffadc7"/><stop offset="46%" stop-color="#e76890"/><stop offset="100%" stop-color="#88304e"/></radialGradient><radialGradient id="sph-pink-b" cx="50%" cy="90%" r="42%"><stop offset="0%" stop-color="#ffadc7" stop-opacity="0.34"/><stop offset="100%" stop-color="#ffadc7" stop-opacity="0"/></radialGradient><radialGradient id="sph-plum" cx="40%" cy="34%" r="82%"><stop offset="0%" stop-color="#d8abe4"/><stop offset="46%" stop-color="#9a58b6"/><stop offset="100%" stop-color="#523067"/></radialGradient><radialGradient id="sph-plum-b" cx="50%" cy="90%" r="42%"><stop offset="0%" stop-color="#d8abe4" stop-opacity="0.34"/><stop offset="100%" stop-color="#d8abe4" stop-opacity="0"/></radialGradient><radialGradient id="sph-teal" cx="40%" cy="34%" r="82%"><stop offset="0%" stop-color="#84e4d8"/><stop offset="46%" stop-color="#26a596"/><stop offset="100%" stop-color="#0f5f58"/></radialGradient><radialGradient id="sph-teal-b" cx="50%" cy="90%" r="42%"><stop offset="0%" stop-color="#84e4d8" stop-opacity="0.34"/><stop offset="100%" stop-color="#84e4d8" stop-opacity="0"/></radialGradient><radialGradient id="sph-white" cx="40%" cy="34%" r="82%"><stop offset="0%" stop-color="#ffffff"/><stop offset="46%" stop-color="#efebe5"/><stop offset="100%" stop-color="#aea79e"/></radialGradient><radialGradient id="sph-white-b" cx="50%" cy="90%" r="42%"><stop offset="0%" stop-color="#ffffff" stop-opacity="0.34"/><stop offset="100%" stop-color="#ffffff" stop-opacity="0"/></radialGradient><radialGradient id="sph-yellow" cx="40%" cy="34%" r="82%"><stop offset="0%" stop-color="#ffe886"/><stop offset="46%" stop-color="#f3c02e"/><stop offset="100%" stop-color="#a2740a"/></radialGradient><radialGradient id="sph-yellow-b" cx="50%" cy="90%" r="42%"><stop offset="0%" stop-color="#ffe886" stop-opacity="0.34"/><stop offset="100%" stop-color="#ffe886" stop-opacity="0"/></radialGradient><radialGradient id="sph-red" cx="40%" cy="34%" r="82%"><stop offset="0%" stop-color="#ff8878"/><stop offset="46%" stop-color="#e03a2b"/><stop offset="100%" stop-color="#8a1a11"/></radialGradient><radialGradient id="sph-red-b" cx="50%" cy="90%" r="42%"><stop offset="0%" stop-color="#ff8878" stop-opacity="0.34"/><stop offset="100%" stop-color="#ff8878" stop-opacity="0"/></radialGradient><linearGradient id="gm-sheen" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#fff" stop-opacity="0.30"/><stop offset="0.55" stop-color="#fff" stop-opacity="0.06"/><stop offset="1" stop-color="#fff" stop-opacity="0"/></linearGradient><linearGradient id="gm-amber" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="var(--c-amber)"/><stop offset="1" stop-color="var(--c-amber-shade)"/></linearGradient><linearGradient id="gm-blue" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="var(--c-blue)"/><stop offset="1" stop-color="var(--c-blue-shade)"/></linearGradient><linearGradient id="gm-clay" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="var(--c-clay)"/><stop offset="1" stop-color="var(--c-clay-shade)"/></linearGradient><linearGradient id="gm-cocoa" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="var(--c-cocoa)"/><stop offset="1" stop-color="var(--c-cocoa-shade)"/></linearGradient><linearGradient id="gm-grape" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="var(--c-grape)"/><stop offset="1" stop-color="var(--c-grape-shade)"/></linearGradient><linearGradient id="gm-wine" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="var(--c-wine)"/><stop offset="1" stop-color="var(--c-wine-shade)"/></linearGradient><linearGradient id="gm-pine" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="var(--c-pine)"/><stop offset="1" stop-color="var(--c-pine-shade)"/></linearGradient><linearGradient id="gm-slate" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="var(--c-slate)"/><stop offset="1" stop-color="var(--c-slate-shade)"/></linearGradient><linearGradient id="gm-green" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="var(--c-green)"/><stop offset="1" stop-color="var(--c-green-shade)"/></linearGradient><linearGradient id="gm-leaf" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="var(--c-leaf)"/><stop offset="1" stop-color="var(--c-leaf-shade)"/></linearGradient><linearGradient id="gm-navy" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="var(--c-navy)"/><stop offset="1" stop-color="var(--c-navy-shade)"/></linearGradient><linearGradient id="gm-plum" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="var(--c-plum)"/><stop offset="1" stop-color="var(--c-plum-shade)"/></linearGradient><linearGradient id="gm-red" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="var(--c-red)"/><stop offset="1" stop-color="var(--c-red-shade)"/></linearGradient><linearGradient id="gm-rose" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="var(--c-rose)"/><stop offset="1" stop-color="var(--c-rose-shade)"/></linearGradient><linearGradient id="gm-rust" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="var(--c-rust)"/><stop offset="1" stop-color="var(--c-rust-shade)"/></linearGradient><linearGradient id="gm-sky" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="var(--c-sky)"/><stop offset="1" stop-color="var(--c-sky-shade)"/></linearGradient><linearGradient id="gm-stone" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="var(--c-stone)"/><stop offset="1" stop-color="var(--c-stone-shade)"/></linearGradient><linearGradient id="gm-sun" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="var(--c-sun)"/><stop offset="1" stop-color="var(--c-sun-shade)"/></linearGradient><linearGradient id="gm-tan" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="var(--c-tan)"/><stop offset="1" stop-color="var(--c-tan-shade)"/></linearGradient><linearGradient id="gm-teal" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="var(--c-teal)"/><stop offset="1" stop-color="var(--c-teal-shade)"/></linearGradient><linearGradient id="gm-tire" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="var(--c-tire)"/><stop offset="1" stop-color="var(--c-tire-shade)"/></linearGradient><linearGradient id="gm-terra" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="var(--c-terra)"/><stop offset="1" stop-color="var(--c-terra-shade)"/></linearGradient><linearGradient id="gm-paper" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="var(--c-paper)"/><stop offset="1" stop-color="var(--c-paper-shade)"/></linearGradient><linearGradient id="gm-cream" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="var(--c-cream)"/><stop offset="1" stop-color="var(--c-cream-shade)"/></linearGradient><symbol id="gm-i-124" viewBox="-0.32 0.03 24.64 24.64"><path d="M12 2a1.4 1.4 0 0 1 1.4 1.4v6.1l8.1 4.8v2.2l-8.1-2.6v5.2l2.6 1.9v1.7L12 21.4l-4 1.3v-1.7l2.6-1.9v-5.2L2.5 16.5v-2.2l8.1-4.8V3.4A1.4 1.4 0 0 1 12 2z" fill="url(#gm-blue)" stroke="var(--c-blue-rim)" stroke-width="0.5"/><path d="M12 2a1.4 1.4 0 0 1 1.4 1.4v6.1l8.1 4.8v2.2l-8.1-2.6v5.2l2.6 1.9v1.7L12 21.4l-4 1.3v-1.7l2.6-1.9v-5.2L2.5 16.5v-2.2l8.1-4.8V3.4A1.4 1.4 0 0 1 12 2z" fill="url(#gm-gloss)"/><path d="M12 2a1.4 1.4 0 0 1 1.4 1.4v6.1l8.1 4.8v2.2l-8.1-2.6z" fill="url(#gm-navy)" stroke="var(--c-navy-rim)" stroke-width="0.5"/><path d="M13.4 18.4l2.6 1.9v1.7L12 21.4z" fill="url(#gm-navy)" stroke="var(--c-navy-rim)" stroke-width="0.5"/><circle cx="12" cy="5.4" r="0.95" fill="url(#gm-sun)" stroke="var(--c-sun-rim)" stroke-width="0.5"/></symbol><symbol id="gm-i-173" viewBox="0.10 -0.90 23.81 23.81"><rect x="6" y="5" width="12" height="5" fill="url(#gm-sky)" stroke="var(--c-sky-rim)" stroke-width="0.5"/><rect x="6" y="5" width="12" height="5" fill="url(#gm-gloss)"/>
+<circle cx="12" cy="15" r="2" fill="url(#gm-sun)" stroke="var(--c-sun-rim)" stroke-width="0.5"/>
+<path d="M4 15.5C4 17.43 5.57 19 7.5 19L6 20.5v.5h12v-.5L16.5 19c1.93 0 3.5-1.57 3.5-3.5V5c0-3.5-3.58-4-8-4S4 1.5 4 5v10.5zm8 1.5c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2zm6-7H6V5h12v5z" fill="url(#gm-rust)" stroke="var(--c-rust-rim)" stroke-width="0.5"/></symbol></defs></svg>
+
+<div class="stripline" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
+
+<div class="frame">
+
+  <div class="head">
+    <span>Layover city guide</span>
+    <span class="sp"></span>
+    <span>Transit pass</span>
+    <span>Design experiment &middot; new 2</span>
+  </div>
+
+  <header class="hero">
+    <h1>Six hours<span class="thin">is a document, not a delay.</span></h1>
+  </header>
+  <p class="hero-sub">A reference for six of the world's busiest connecting airports — <strong>what fits in a 4–8 hour transit window</strong>, the express train into the city when the clock allows it, where to nap or shower, where to store bags, and what a transit visa means for your specific passport. This assumes your layover is actually that long — minimum connection times are a separate question, answered on the Airport Connections page.</p>
+
+  <div class="strip" role="group" aria-label="Filter by region">
+    <span class="caption">Show</span>
+    <button type="button" class="rtab r-all" data-region="all" aria-pressed="true"><span class="d"></span>All six</button>
+    <button type="button" class="rtab r-asia" data-region="asia" aria-pressed="false"><span class="d"></span>Asia</button>
+    <button type="button" class="rtab r-me" data-region="me" aria-pressed="false"><span class="d"></span>Middle East</button>
+    <button type="button" class="rtab r-eu" data-region="eu" aria-pressed="false"><span class="d"></span>Europe</button>
+  </div>
+
+  <!-- ══ ASIA ══ -->
+  <section class="reg r-asia" data-region="asia">
+    <h2>Asia</h2>
+    <div class="stubs">
+
+      <article class="stub">
+        <div class="stub-grid">
+          <div class="pane">
+            <div class="pane-head">
+              <div>
+                <h3>Singapore Changi</h3>
+                <div class="where">Singapore</div>
+              </div>
+              <div class="iata"><svg class="pl" viewBox="0 0 24 24" aria-hidden="true"><use href="#gm-i-124"/></svg>SIN<small>Hub</small></div>
+            </div>
+            <p class="blurb">Consistently rated among the world's best airports for a layover — Jewel Changi's indoor waterfall and gardens sit right off Terminal 1, reachable without ever leaving the transit system.</p>
+
+            <div class="rail" aria-hidden="true">
+              <div class="line"></div>
+              <div class="stop" style="left:12px"><i></i><span>Gate</span></div>
+              <div class="stop" style="left:38%"><i></i><span>Jewel</span></div>
+              <div class="stop" style="left:70%"><i></i><span>Tanah Merah</span></div>
+              <div class="stop" style="left:calc(100% - 12px)"><i></i><span>City</span></div>
+              <svg class="mover" viewBox="0 0 24 24"><use href="#gm-i-173"/></svg>
+              <div class="mins">40–45 min by MRT</div>
+            </div>
+
+            <dl class="facts">
+              <div class="frow"><dt>4–8hr plan</dt><dd>Jewel Changi (linked to T1, with bridges from T2/T3) for the 40m Rain Vortex waterfall, Canopy Park and a free light show most evenings — 1.5–4 hours covers it comfortably.</dd></div>
+              <div class="frow"><dt>Express train</dt><dd>No dedicated express — the Changi Airport MRT branch connects via a transfer at Tanah Merah, roughly 40–45 minutes to the city center.</dd></div>
+              <div class="frow"><dt>Transit hotel</dt><dd>Ambassador Transit Hotel (airside, Terminals 2 &amp; 3, rooms by the hour) and Aerotel Singapore (airside, T1, with an outdoor pool). YOTELAIR sits inside Jewel but is past immigration.</dd></div>
+              <div class="frow"><dt>Luggage storage</dt><dd>24-hour left-luggage counters in every terminal, including inside Jewel and at T2's MRT entrance.</dd></div>
+              <div class="frow"><dt>Transit visa</dt><dd>Most transiting nationalities need no visa to stay airside. Singapore's 96-hour Visa Free Transit Facility separately lets a defined list of nationalities enter the city with a confirmed onward ticket — eligibility varies by passport.</dd></div>
+              <div class="frow flag"><dt>Exit &amp; re-entry</dt><dd>Staying inside the transit area skips immigration entirely. Leaving into the city means a normal entry and exit stamp, with immigration typically well under an hour each way.</dd></div>
+            </dl>
+          </div>
+
+          <div class="tear">
+            <div class="kv"><dt>Best airside move</dt><dd>Jewel Rain Vortex &middot; 1.5–4 hrs</dd></div>
+            <div class="kv"><dt>To the city</dt><dd>MRT via Tanah Merah &middot; 40–45 min</dd></div>
+            <div class="kv"><dt>Sleep airside</dt><dd>Ambassador T2/T3 &middot; Aerotel T1</dd></div>
+            <div class="kv"><dt>Bags</dt><dd>24h counters, every terminal</dd></div>
+            <div class="barcode" aria-hidden="true"></div>
+            <div class="ref">Guide on site &middot; Singapore</div>
+          </div>
+        </div>
+      </article>
+
+      <article class="stub">
+        <div class="stub-grid">
+          <div class="pane">
+            <div class="pane-head">
+              <div>
+                <h3>Tokyo — Narita &amp; Haneda</h3>
+                <div class="where">Japan</div>
+              </div>
+              <div class="iata"><svg class="pl" viewBox="0 0 24 24" aria-hidden="true"><use href="#gm-i-124"/></svg>NRT<small>/ HND</small></div>
+            </div>
+            <p class="blurb">Two airports serve Tokyo, and they're not interchangeable for a layover — Haneda sits close to the city center; Narita does not.</p>
+
+            <div class="rail" aria-hidden="true">
+              <div class="line"></div>
+              <div class="stop" style="left:12px"><i></i><span>Gate</span></div>
+              <div class="stop" style="left:34%"><i></i><span>Monorail</span></div>
+              <div class="stop" style="left:64%"><i></i><span>N'EX</span></div>
+              <div class="stop" style="left:calc(100% - 12px)"><i></i><span>Tokyo Stn</span></div>
+              <svg class="mover" viewBox="0 0 24 24"><use href="#gm-i-173"/></svg>
+              <div class="mins">HND 11–14 min &middot; NRT ~53 min</div>
+            </div>
+
+            <dl class="facts">
+              <div class="frow"><dt>4–8hr plan</dt><dd>Haneda: Edo Koji's Edo-period dining street and a free 24-hour observation deck (Terminal 3) suit a shorter layover, and its central location makes a quick trip into Tokyo realistic with 6+ hours. Narita: the free Narita Transit Program runs guided tours to Naritasan Shinshoji Temple for layovers of 8+ hours.</dd></div>
+              <div class="frow"><dt>Express train</dt><dd>Haneda: Tokyo Monorail to Hamamatsucho (~13 min) or the Keikyu Line to Shinagawa (~11–14 min). Narita: the Narita Express (N'EX) runs direct to Tokyo Station in about 53 minutes.</dd></div>
+              <div class="frow"><dt>Transit hotel</dt><dd>Haneda: the Royal Park Hotel's Transit wing (Terminal 3) sits genuinely airside on just an international boarding pass. Narita: the 9h capsule hotel (Terminal 2) is landside — using it means clearing Japanese immigration.</dd></div>
+              <div class="frow"><dt>Luggage storage</dt><dd>Coin lockers throughout both airports (¥300–¥1,000/day) plus a staffed baggage counter at Narita Terminal 2.</dd></div>
+              <div class="frow"><dt>Transit visa</dt><dd>Most nationalities can stay in the airside transit area without a visa at either airport. Actually leaving requires a Japan visa where one is normally needed, or a discretionary Shore Pass from the immigration officer — not guaranteed, and dependent on nationality.</dd></div>
+              <div class="frow flag"><dt>Exit &amp; re-entry</dt><dd>Leaving either airport means full immigration and customs both ways; reported waits run from a few minutes to well over an hour with little predictability — budget at least 3 hours round trip if you plan to exit.</dd></div>
+            </dl>
+          </div>
+
+          <div class="tear">
+            <div class="kv"><dt>Best airside move</dt><dd>HND observation deck, 24h</dd></div>
+            <div class="kv"><dt>To the city</dt><dd>HND 11–14 min &middot; NRT ~53 min</dd></div>
+            <div class="kv"><dt>Sleep airside</dt><dd>Royal Park Transit, HND T3</dd></div>
+            <div class="kv"><dt>Exit budget</dt><dd>3 hrs round trip, minimum</dd></div>
+            <div class="barcode" aria-hidden="true"></div>
+            <div class="ref">Guide on site &middot; Tokyo</div>
+          </div>
+        </div>
+      </article>
+
+      <article class="stub">
+        <div class="stub-grid">
+          <div class="pane">
+            <div class="pane-head">
+              <div>
+                <h3>Seoul Incheon</h3>
+                <div class="where">South Korea</div>
+              </div>
+              <div class="iata"><svg class="pl" viewBox="0 0 24 24" aria-hidden="true"><use href="#gm-i-124"/></svg>ICN<small>Hub</small></div>
+            </div>
+            <p class="blurb">Incheon runs its own guided city-tour program for transit passengers, alongside a free Korean-culture museum for anyone staying airside instead.</p>
+
+            <div class="rail" aria-hidden="true">
+              <div class="line"></div>
+              <div class="stop" style="left:12px"><i></i><span>Gate</span></div>
+              <div class="stop" style="left:36%"><i></i><span>K-Culture</span></div>
+              <div class="stop" style="left:68%"><i></i><span>AREX</span></div>
+              <div class="stop" style="left:calc(100% - 12px)"><i></i><span>Seoul Stn</span></div>
+              <svg class="mover" viewBox="0 0 24 24"><use href="#gm-i-173"/></svg>
+              <div class="mins">43–51 min nonstop</div>
+            </div>
+
+            <dl class="facts">
+              <div class="frow"><dt>4–8hr plan</dt><dd>Airside: the free K-Culture Museum and Korean Cultural Street (hanbok try-ons, craft workshops). With a valid visa/K-ETA, the airport's own free Transit Tour program runs guided loops from one hour up to six, covering palaces and traditional markets.</dd></div>
+              <div class="frow"><dt>Express train</dt><dd>AREX (Airport Railroad Express) runs nonstop to Seoul Station in about 43 minutes from Terminal 1, 51 minutes from Terminal 2.</dd></div>
+              <div class="frow"><dt>Transit hotel</dt><dd>The airside Transit Hotel in Terminal 2 (opposite Gate 251) is reserved for passengers connecting between international flights, sold in 6-hour blocks. The landside Darakhyu Capsule Hotel sits in both terminals' transportation centers.</dd></div>
+              <div class="frow"><dt>Luggage storage</dt><dd>Staffed, insured counters in both terminals — T1 near Check-in Area N, T2 at Entrances 3 and 4.</dd></div>
+              <div class="frow"><dt>Transit visa</dt><dd>South Korea exempts many transiting nationalities from a visa for stays up to 30 hours with a confirmed onward ticket; roughly two dozen nationalities are excluded. The Transit Tour program is a separate, tour-based route requiring registration. Verify by passport.</dd></div>
+              <div class="frow flag"><dt>Exit &amp; re-entry</dt><dd>Immigration runs anywhere from 15–20 minutes off-peak to 90+ minutes at peak (weekday afternoons, weekends, cherry blossom season). The Transit Tour requires formally entering Korea, so budget generously for both directions plus a security re-screening.</dd></div>
+            </dl>
+          </div>
+
+          <div class="tear">
+            <div class="kv"><dt>Best airside move</dt><dd>K-Culture Museum, free</dd></div>
+            <div class="kv"><dt>To the city</dt><dd>AREX &middot; 43–51 min</dd></div>
+            <div class="kv"><dt>Sleep airside</dt><dd>T2 Transit Hotel &middot; 6-hr blocks</dd></div>
+            <div class="kv"><dt>Free tours</dt><dd>1 to 6 hrs, registration needed</dd></div>
+            <div class="barcode" aria-hidden="true"></div>
+            <div class="ref">Guide on site &middot; Seoul</div>
+          </div>
+        </div>
+      </article>
+
+    </div>
+  </section>
+
+  <!-- ══ MIDDLE EAST ══ -->
+  <section class="reg r-me" data-region="me">
+    <h2>Middle East</h2>
+    <div class="stubs">
+
+      <article class="stub">
+        <div class="stub-grid">
+          <div class="pane">
+            <div class="pane-head">
+              <div>
+                <h3>Dubai International</h3>
+                <div class="where">United Arab Emirates</div>
+              </div>
+              <div class="iata"><svg class="pl" viewBox="0 0 24 24" aria-hidden="true"><use href="#gm-i-124"/></svg>DXB<small>Hub</small></div>
+            </div>
+            <p class="blurb">Terminal 3's duty-free, lounges and a gym/pool/spa club fill a shorter layover without leaving the building; the Metro puts the city itself within reach on a longer one.</p>
+
+            <div class="rail" aria-hidden="true">
+              <div class="line"></div>
+              <div class="stop" style="left:12px"><i></i><span>Gate</span></div>
+              <div class="stop" style="left:36%"><i></i><span>G-Force</span></div>
+              <div class="stop" style="left:66%"><i></i><span>Red Line</span></div>
+              <div class="stop" style="left:calc(100% - 12px)"><i></i><span>Burj Khalifa</span></div>
+              <svg class="mover" viewBox="0 0 24 24"><use href="#gm-i-173"/></svg>
+              <div class="mins">23–27 min by Metro</div>
+            </div>
+
+            <dl class="facts">
+              <div class="frow"><dt>4–8hr plan</dt><dd>In-terminal: duty-free shopping, the G-Force Club (gym, pool, spa) and Zen Gardens, all in Terminal 3. With 5+ hours and an eligible passport, the Metro reaches the Burj Khalifa/Dubai Mall area for a genuine city visit.</dd></div>
+              <div class="frow"><dt>Express train</dt><dd>No separate express — the Dubai Metro Red Line runs directly from Terminals 1 and 3 to the Burj Khalifa/Dubai Mall area in about 23–27 minutes.</dd></div>
+              <div class="frow"><dt>Transit hotel</dt><dd>Dubai International Hotel sits inside the Terminal 3 transit area itself (Concourses A/B/C), sold in 3-, 6-, 12- and 24-hour blocks without clearing immigration.</dd></div>
+              <div class="frow"><dt>Luggage storage</dt><dd>24-hour left-luggage counters at both Terminal 1 and Terminal 3 arrivals.</dd></div>
+              <div class="frow"><dt>Transit visa</dt><dd>50+ nationalities (UK, US, most of the EU, Australia, Canada and others) get visa-on-arrival and can walk straight into the city. Everyone else needs a pre-arranged 48- or 96-hour transit visa, and a handful of nationalities don't qualify for either — verify by passport.</dd></div>
+              <div class="frow flag"><dt>Exit &amp; re-entry</dt><dd>Leaving the transit area is a full UAE entry — your passport is stamped and the clock starts on your visa. Immigration averages about 12 minutes but can run to an hour at peak; allow 60–75 minutes for a same-terminal connection, ~90 for cross-terminal.</dd></div>
+            </dl>
+          </div>
+
+          <div class="tear">
+            <div class="kv"><dt>Best airside move</dt><dd>G-Force Club &middot; gym, pool, spa</dd></div>
+            <div class="kv"><dt>To the city</dt><dd>Metro Red Line &middot; 23–27 min</dd></div>
+            <div class="kv"><dt>Sleep airside</dt><dd>Dubai Intl Hotel &middot; 3/6/12/24 hrs</dd></div>
+            <div class="kv"><dt>City trip needs</dt><dd>5+ hrs and an eligible passport</dd></div>
+            <div class="barcode" aria-hidden="true"></div>
+            <div class="ref">Guide on site &middot; Dubai</div>
+          </div>
+        </div>
+      </article>
+
+    </div>
+  </section>
+
+  <!-- ══ EUROPE ══ -->
+  <section class="reg r-eu" data-region="eu">
+    <h2>Europe</h2>
+    <div class="stubs">
+
+      <article class="stub">
+        <div class="stub-grid">
+          <div class="pane">
+            <div class="pane-head">
+              <div>
+                <h3>Amsterdam Schiphol</h3>
+                <div class="where">Netherlands</div>
+              </div>
+              <div class="iata"><svg class="pl" viewBox="0 0 24 24" aria-hidden="true"><use href="#gm-i-124"/></svg>AMS<small>Hub</small></div>
+            </div>
+            <p class="blurb">A small Rijksmuseum gallery and the Airport Library sit airside between the lounges — one of the few hub airports where a genuine city trip is realistic on a mid-length layover, transit-visa rules permitting.</p>
+
+            <div class="rail" aria-hidden="true">
+              <div class="line"></div>
+              <div class="stop" style="left:12px"><i></i><span>Gate</span></div>
+              <div class="stop" style="left:34%"><i></i><span>Rijksmuseum</span></div>
+              <div class="stop" style="left:66%"><i></i><span>Schiphol Stn</span></div>
+              <div class="stop" style="left:calc(100% - 12px)"><i></i><span>Centraal</span></div>
+              <svg class="mover" viewBox="0 0 24 24"><use href="#gm-i-173"/></svg>
+              <div class="mins">15–17 min, every ~10 min</div>
+            </div>
+
+            <dl class="facts">
+              <div class="frow"><dt>4–8hr plan</dt><dd>Airside: the Rijksmuseum's airport gallery and the Airport Library near Lounges 2–3 for a quick, free stop. With 6–7+ hours and no Airport Transit Visa requirement, the train into central Amsterdam (canals, Dam Square) fits comfortably.</dd></div>
+              <div class="frow"><dt>Express train</dt><dd>NS trains run directly from Schiphol Station, beneath the terminal, to Amsterdam Centraal every ~10 minutes — about 15–17 minutes each way.</dd></div>
+              <div class="frow"><dt>Transit hotel</dt><dd>YOTELAIR Amsterdam Schiphol sits airside past security in Lounge 2, capsule-style, open only to transiting passengers. The landside Sheraton Amsterdam Airport connects directly but sits outside the secure zone.</dd></div>
+              <div class="frow"><dt>Luggage storage</dt><dd>Coin lockers both pre- and post-security (Kelderplein and Holland Boulevard); a staffed 24-hour counter on Level -1 handles larger bags for up to 30 days.</dd></div>
+              <div class="frow"><dt>Transit visa</dt><dd>As a Schengen airport, Amsterdam requires a Schengen Airport Transit Visa for a defined list of nationalities even to stay airside without entering the Netherlands — holders of a valid US, Canada or Japan visa are typically exempt. Verify by passport.</dd></div>
+              <div class="frow flag"><dt>Exit &amp; re-entry</dt><dd>Leaving the transit area means a full external Schengen border check each way. Schiphol's own guidance recommends a 2-hour buffer for a Schengen connection and 3 hours for a non-Schengen one.</dd></div>
+            </dl>
+          </div>
+
+          <div class="tear">
+            <div class="kv"><dt>Best airside move</dt><dd>Rijksmuseum gallery &middot; free</dd></div>
+            <div class="kv"><dt>To the city</dt><dd>NS train &middot; 15–17 min</dd></div>
+            <div class="kv"><dt>Sleep airside</dt><dd>YOTELAIR, Lounge 2</dd></div>
+            <div class="kv"><dt>City trip needs</dt><dd>6–7+ hrs, no ATV requirement</dd></div>
+            <div class="barcode" aria-hidden="true"></div>
+            <div class="ref">Guide on site &middot; Amsterdam</div>
+          </div>
+        </div>
+      </article>
+
+      <article class="stub">
+        <div class="stub-grid">
+          <div class="pane">
+            <div class="pane-head">
+              <div>
+                <h3>Frankfurt</h3>
+                <div class="where">Germany</div>
+              </div>
+              <div class="iata"><svg class="pl" viewBox="0 0 24 24" aria-hidden="true"><use href="#gm-i-124"/></svg>FRA<small>Hub</small></div>
+            </div>
+            <p class="blurb">A free rooftop viewing terrace sits inside Terminal 2, and Frankfurt's own train station puts the old town within a single short ride.</p>
+
+            <div class="rail" aria-hidden="true">
+              <div class="line"></div>
+              <div class="stop" style="left:12px"><i></i><span>Gate</span></div>
+              <div class="stop" style="left:33%"><i></i><span>T2 Terrace</span></div>
+              <div class="stop" style="left:64%"><i></i><span>ICE / S-Bahn</span></div>
+              <div class="stop" style="left:calc(100% - 12px)"><i></i><span>Römerberg</span></div>
+              <svg class="mover" viewBox="0 0 24 24"><use href="#gm-i-173"/></svg>
+              <div class="mins">6–8 min ICE &middot; 12–15 min S-Bahn</div>
+            </div>
+
+            <dl class="facts">
+              <div class="frow"><dt>4–8hr plan</dt><dd>Airside: the Terminal 2 Visitor's Terrace, a free rooftop viewing deck. With 5+ hours and no Airport Transit Visa issue, the Römerberg old-town square is about 15 minutes away by train and easily walkable from there.</dd></div>
+              <div class="frow"><dt>Express train</dt><dd>The airport's own long-distance station (ICE/IC) reaches Frankfurt Hauptbahnhof in about 6–8 minutes; the regional S-Bahn (S8/S9) takes roughly 12–15 minutes.</dd></div>
+              <div class="frow"><dt>Transit hotel</dt><dd>MY CLOUD Transit Hotel sits airside in Terminal 1's non-Schengen transit area, booked by the hour. The landside Sheraton Frankfurt Airport connects to every terminal and both train stations via the SkyLine people-mover.</dd></div>
+              <div class="frow"><dt>Luggage storage</dt><dd>Staffed counters at Terminal 1 Arrivals (24 hours) and Departures, plus Terminal 2 Hall D (6am–10pm).</dd></div>
+              <div class="frow"><dt>Transit visa</dt><dd>The same Schengen Airport Transit Visa rules apply as Amsterdam — a defined list of nationalities needs one even to stay airside, with exemptions for holders of a valid US, Canada or Japan visa. Verify by passport.</dd></div>
+              <div class="frow flag"><dt>Exit &amp; re-entry</dt><dd>US citizens typically clear immigration in about 5 minutes via automated kiosks, other nationalities roughly 7–9 — longer at peak summer and holiday periods, and the EU's Entry-Exit System can add processing time on both exit and re-entry.</dd></div>
+            </dl>
+          </div>
+
+          <div class="tear">
+            <div class="kv"><dt>Best airside move</dt><dd>T2 Visitor's Terrace &middot; free</dd></div>
+            <div class="kv"><dt>To the city</dt><dd>ICE 6–8 min &middot; S-Bahn 12–15</dd></div>
+            <div class="kv"><dt>Sleep airside</dt><dd>MY CLOUD, T1 non-Schengen</dd></div>
+            <div class="kv"><dt>City trip needs</dt><dd>5+ hrs, no ATV issue</dd></div>
+            <div class="barcode" aria-hidden="true"></div>
+            <div class="ref">Guide on site &middot; Frankfurt</div>
+          </div>
+        </div>
+      </article>
+
+    </div>
+  </section>
+
+  <div class="closing">Every stub above assumes the layover is genuinely long. <b>Minimum connection times are a different question</b> — how little time you can safely have between two flights lives on the Airport Connections page, not here.</div>
+
+  <div class="foot">
+    <span>Guide My Days</span>
+    <span>Layover city guide &middot; new 2</span>
+    <span>Transit pass</span>
+    <span>Design experiment — not linked into the site</span>
+  </div>
+
+</div>
+
+<script>
+(function(){
+  "use strict";
+
+  /* Opt in to the "starts hidden" CSS only once JS is running, and
+     put a floor under it: if the observers never fire — a hidden tab,
+     a snapshot renderer, an old browser — everything is revealed
+     anyway a couple of seconds in. Content is never left invisible. */
+  document.documentElement.classList.add('anim');
+  setTimeout(function(){
+    [].slice.call(document.querySelectorAll('.stub')).forEach(function(el){
+      el.classList.add('in');
+    });
+  }, 2500);
+  var reduced = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  /* ── Barcodes: drawn, not an image, so each stub gets its own pattern.
+     Seeded off the stub's index so it is stable across reloads. ── */
+  [].slice.call(document.querySelectorAll('.barcode')).forEach(function(bc, idx){
+    var seed = (idx + 3) * 9973;
+    for (var i = 0; i < 44; i++) {
+      seed = (seed * 1103515245 + 12345) % 2147483648;
+      var bar = document.createElement('i');
+      bar.style.height = (14 + (seed % 30)) + 'px';
+      bar.style.width = ((seed >> 5) % 3 === 0 ? 3 : 2) + 'px';
+      bc.appendChild(bar);
+    }
+  });
+
+  /* ── Region selection: one pressed at a time, background-blend only. ── */
+  var tabs = [].slice.call(document.querySelectorAll('.rtab'));
+  var regs = [].slice.call(document.querySelectorAll('.reg'));
+  tabs.forEach(function(tab){
+    tab.addEventListener('click', function(){
+      var pick = tab.getAttribute('data-region');
+      tabs.forEach(function(t){ t.setAttribute('aria-pressed', String(t === tab)); });
+      regs.forEach(function(r){
+        r.hidden = !(pick === 'all' || r.getAttribute('data-region') === pick);
+      });
+      /* Re-run the entrance on whatever just became visible. */
+      [].slice.call(document.querySelectorAll('.reg:not([hidden]) .stub')).forEach(function(s, i){
+        s.classList.remove('in');
+        s.style.transitionDelay = (i * 0.07) + 's';
+        /* reflow so the class removal takes before it goes back on */
+        void s.offsetHeight;
+        s.classList.add('in');
+      });
+    });
+  });
+
+  /* ── Stub entrances ── */
+  var stubs = [].slice.call(document.querySelectorAll('.stub'));
+  if (!('IntersectionObserver' in window) || reduced) {
+    stubs.forEach(function(s){ s.classList.add('in'); });
+  } else {
+    var io = new IntersectionObserver(function(entries){
+      entries.forEach(function(e){
+        if (!e.isIntersecting) return;
+        e.target.classList.add('in');
+        io.unobserve(e.target);
+      });
+    }, { rootMargin: '0px 0px -8% 0px', threshold: 0.06 });
+    stubs.forEach(function(s){ io.observe(s); });
+  }
+}());
+</script>
+</body>
+</html>

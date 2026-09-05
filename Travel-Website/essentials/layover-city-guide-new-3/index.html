@@ -1,0 +1,645 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Layover City Guide — Stamp Collection | Guide My Days</title>
+<meta name="description" content="Design experiment — the Layover City Guide as a passport spread: stamps that press in on scroll and an airside/landside lens over the same facts. Same content, new design. Not linked into the site.">
+<meta name="robots" content="noindex,nofollow">
+<style>
+/* ══════════════════════════════════════════════════════════════════
+   LAYOVER CITY GUIDE — NEW 3 · "STAMP COLLECTION"
+   Standalone design experiment. Not wired to the site: no shared
+   stylesheet, no toolbar, no outbound links, no search control.
+
+   The idea: a layover's real decision is a passport decision — stay
+   inside the transit area, or take the stamp. So each hub is a
+   passport spread on aged paper, with a rubber stamp that presses in
+   (scale + rotate + ink bleed) as it scrolls up, and a two-position
+   lens — Airside / Into the city — that lifts the facts belonging to
+   the choice you're weighing. The lens never hides anything: every
+   fact stays on the page and in the DOM, it only changes what is
+   foregrounded.
+   ══════════════════════════════════════════════════════════════ */
+
+*,*::before,*::after{box-sizing:border-box}
+
+:root{
+  --paper:#f2ebdc;
+  --paper-2:#faf5e9;
+  --paper-3:#e7dcc6;
+  --fibre:rgba(120,95,55,.05);
+  --rule:#d9cbaf;
+  --rule-2:#bfae8c;
+  --ink:#231d14;
+  --ink-2:#5b5140;
+  --ink-3:#8d8168;
+
+  /* stamp inks — one per region, three siblings, never a shared colour */
+  --ink-asia:#1d4f78;
+  --ink-me:#8a5410;
+  --ink-eu:#2f6142;
+  --ink-red:#8f2515;
+  --terra:#C04E1A;
+
+  --mono:ui-monospace,"SF Mono",SFMono-Regular,Menlo,Consolas,monospace;
+  --sans:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+  --serif:ui-serif,Georgia,"Iowan Old Style","Times New Roman",serif;
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){
+    --paper:#181510;--paper-2:#211d16;--paper-3:#2a251c;
+    --fibre:rgba(255,235,190,.03);
+    --rule:#393225;--rule-2:#524734;
+    --ink:#f3ecdd;--ink-2:#b9ae98;--ink-3:#8d8268;
+    --ink-asia:#7cb6e0;--ink-me:#dcae52;--ink-eu:#7cc39a;--ink-red:#e0705c;
+    --terra:#e0692c;
+  }
+}
+
+html{-webkit-text-size-adjust:100%;scroll-behavior:smooth}
+body{
+  margin:0;background:var(--paper);color:var(--ink);
+  font-family:var(--sans);font-size:15.5px;line-height:1.68;
+  background-image:
+    radial-gradient(circle at 20% 30%, var(--fibre) 0 1px, transparent 1px),
+    radial-gradient(circle at 70% 70%, var(--fibre) 0 1px, transparent 1px);
+  background-size:23px 23px, 31px 31px;
+}
+.book{max-width:1080px;margin:0 auto;padding:0 22px 130px}
+
+/* ─────────── Cover ─────────── */
+.cover{padding:46px 0 0}
+.cover .line{
+  font-family:var(--mono);font-size:10.5px;letter-spacing:.24em;text-transform:uppercase;
+  color:var(--ink-3);display:flex;gap:14px;align-items:center;flex-wrap:wrap;
+}
+.cover .line .sp{flex:1}
+.cover h1{
+  font-family:var(--serif);font-weight:600;
+  font-size:clamp(36px,7.6vw,78px);line-height:1.02;letter-spacing:-.03em;
+  margin:26px 0 0;max-width:17ch;
+}
+.cover h1 em{font-style:italic;color:var(--terra)}
+.cover p{max-width:64ch;font-size:16.5px;line-height:1.75;color:var(--ink-2);margin:24px 0 0}
+.cover p strong{color:var(--ink);font-weight:650}
+
+/* ─────────── The collection strip ─────────── */
+.collection{
+  margin:44px 0 0;padding:22px 0;border-block:2px solid var(--ink);
+  display:flex;gap:14px;flex-wrap:wrap;align-items:center;
+}
+.collection .cap{
+  font-family:var(--mono);font-size:10px;letter-spacing:.2em;text-transform:uppercase;
+  color:var(--ink-3);width:100%;margin-bottom:4px;
+}
+.mini{
+  --ink-t:var(--ink-asia);
+  display:inline-flex;flex-direction:column;align-items:center;gap:2px;
+  border:2px solid var(--ink-t);border-radius:5px;
+  padding:8px 14px 7px;text-decoration:none;color:var(--ink-t);
+  transform:rotate(var(--rot,-2deg));
+  transition:transform .22s cubic-bezier(.2,.7,.3,1),background .22s ease;
+  background:transparent;
+}
+.mini:hover{transform:rotate(0deg) scale(1.06);background:color-mix(in srgb,var(--paper-2) 60%,var(--ink-t) 12%)}
+.mini:focus-visible{outline:2px solid var(--ink-t);outline-offset:4px}
+.mini .code{font-family:var(--mono);font-size:17px;font-weight:700;letter-spacing:.06em;line-height:1}
+.mini .cty{font-family:var(--mono);font-size:8px;letter-spacing:.14em;text-transform:uppercase;opacity:.8}
+.mini.m-me{--ink-t:var(--ink-me)}
+.mini.m-eu{--ink-t:var(--ink-eu)}
+
+/* ─────────── Spread ─────────── */
+.spread{
+  margin-top:64px;background:var(--paper-2);
+  border:1px solid var(--rule);border-radius:3px;
+  padding:34px 36px 34px;position:relative;overflow:hidden;
+  box-shadow:0 2px 0 var(--paper-3),0 30px 50px -44px rgba(60,40,10,.9);
+  scroll-margin-top:24px;
+}
+/* the binding gutter down the left edge */
+.spread::before{
+  content:"";position:absolute;left:0;top:0;bottom:0;width:14px;
+  background:linear-gradient(90deg,rgba(90,68,30,.14),transparent);
+}
+.spread-grid{display:grid;grid-template-columns:1fr 300px;gap:38px;align-items:start}
+
+.sp-head{margin-bottom:8px}
+.sp-head h2{
+  font-family:var(--serif);font-size:clamp(26px,4vw,40px);font-weight:600;
+  line-height:1.08;letter-spacing:-.024em;margin:0;
+}
+.sp-head .place{
+  font-family:var(--mono);font-size:10.5px;letter-spacing:.2em;text-transform:uppercase;
+  color:var(--ink-3);margin-top:9px;
+}
+.sp-blurb{font-size:15.5px;line-height:1.76;color:var(--ink-2);margin:18px 0 24px;max-width:62ch}
+
+/* The lens — two positions over the same facts */
+.lens{
+  display:inline-flex;gap:6px;padding:5px;border-radius:999px;
+  background:var(--paper-3);border:1px solid var(--rule);margin-bottom:22px;
+}
+.lens button{
+  font-family:inherit;font-size:13px;font-weight:800;line-height:1.2;
+  padding:7px 16px;border-radius:999px;cursor:pointer;
+  border:1px solid transparent;background:transparent;color:var(--ink-2);
+  transition:background .16s ease,color .16s ease;
+}
+.lens button:hover{background:color-mix(in srgb,var(--paper-2) 70%,var(--ink) 8%)}
+.lens button:focus-visible{outline:2px solid var(--ink);outline-offset:3px}
+.lens button[aria-pressed="true"]{background:var(--paper-2);color:var(--ink);border-color:var(--rule-2)}
+
+.leaves{display:grid;gap:0;border-top:2px solid var(--ink)}
+.leaf{
+  display:grid;grid-template-columns:130px 1fr;gap:20px;
+  padding:15px 0;border-bottom:1px solid var(--rule);
+  transition:opacity .3s ease,transform .3s cubic-bezier(.2,.7,.3,1),background .3s ease;
+}
+.leaf dt{
+  font-family:var(--mono);font-size:9.5px;font-weight:700;letter-spacing:.16em;
+  text-transform:uppercase;color:var(--ink-3);padding-top:3px;
+}
+.leaf dd{margin:0;font-size:14.2px;line-height:1.72;color:var(--ink-2)}
+.leaf.hot{
+  background:color-mix(in srgb,var(--paper-2) 70%,var(--terra) 7%);
+  transform:translateX(6px);
+}
+.leaf.hot dt{color:var(--terra)}
+.leaf.hot dd{color:var(--ink)}
+.leaf.cool{opacity:.42}
+.leaf.caution dt{color:var(--ink-red)}
+
+/* The stamp */
+.stampwrap{position:relative;padding-top:6px}
+.stamp{
+  --ink-t:var(--ink-asia);
+  border:3px double var(--ink-t);border-radius:6px;
+  padding:20px 18px 16px;text-align:center;color:var(--ink-t);
+  position:relative;overflow:hidden;
+}
+html.anim .stamp{transform:rotate(-8deg) scale(1.7);opacity:0}
+.spread.pressed .stamp{
+  animation:press .62s cubic-bezier(.2,1.1,.3,1) forwards;
+}
+@keyframes press{
+  0%{transform:rotate(-16deg) scale(1.8);opacity:0}
+  55%{transform:rotate(-6deg) scale(.94);opacity:.95}
+  75%{transform:rotate(-7.5deg) scale(1.03);opacity:.88}
+  100%{transform:rotate(-7deg) scale(1);opacity:.92}
+}
+/* the uneven ink of a real rubber stamp */
+.stamp::after{
+  content:"";position:absolute;inset:0;pointer-events:none;
+  background:
+    radial-gradient(circle at 22% 28%, rgba(255,255,255,.4) 0 12%, transparent 13%),
+    radial-gradient(circle at 78% 66%, rgba(255,255,255,.34) 0 9%, transparent 10%),
+    radial-gradient(circle at 55% 88%, rgba(255,255,255,.3) 0 7%, transparent 8%);
+  mix-blend-mode:screen;
+}
+.stamp .sc{font-family:var(--mono);font-size:42px;font-weight:700;letter-spacing:.05em;line-height:1}
+.stamp .sn{font-family:var(--mono);font-size:9.5px;letter-spacing:.2em;text-transform:uppercase;margin-top:8px}
+.stamp .sd{
+  font-family:var(--mono);font-size:8.5px;letter-spacing:.14em;text-transform:uppercase;
+  margin-top:12px;padding-top:9px;border-top:1px solid currentColor;opacity:.85;line-height:1.8;
+}
+.stamp.s-me{--ink-t:var(--ink-me)}
+html.anim .stamp.s-me{transform:rotate(6deg) scale(1.7)}
+.spread.pressed .stamp.s-me{animation-name:press-me}
+@keyframes press-me{
+  0%{transform:rotate(14deg) scale(1.8);opacity:0}
+  55%{transform:rotate(5deg) scale(.94);opacity:.95}
+  100%{transform:rotate(6deg) scale(1);opacity:.92}
+}
+.stamp.s-eu{--ink-t:var(--ink-eu)}
+
+.ticketbox{
+  margin-top:22px;border:1px dashed var(--rule-2);border-radius:6px;padding:16px 18px;
+  display:grid;gap:13px;
+}
+.ticketbox dt{
+  font-family:var(--mono);font-size:8.5px;font-weight:700;letter-spacing:.18em;
+  text-transform:uppercase;color:var(--ink-3);margin-bottom:3px;
+}
+.ticketbox dd{margin:0;font-size:13.5px;line-height:1.6;color:var(--ink);font-weight:600}
+.ticketbox .ic{width:15px;height:15px;vertical-align:-3px;margin-right:5px}
+.guideline{
+  margin-top:16px;font-family:var(--mono);font-size:9px;letter-spacing:.18em;
+  text-transform:uppercase;color:var(--ink-3);text-align:center;
+}
+
+/* Region divider */
+.divider{
+  margin-top:76px;display:flex;align-items:center;gap:16px;
+  font-family:var(--mono);font-size:11px;letter-spacing:.28em;text-transform:uppercase;
+}
+.divider::before,.divider::after{content:"";flex:1;height:2px;background:var(--ink);opacity:.5}
+.divider.d-asia{color:var(--ink-asia)}
+.divider.d-me{color:var(--ink-me)}
+.divider.d-eu{color:var(--ink-eu)}
+
+.endnote{
+  margin-top:52px;padding:20px 24px;border:2px solid var(--ink);border-radius:3px;
+  background:var(--paper-2);font-size:14.5px;line-height:1.76;color:var(--ink-2);
+}
+.endnote b{color:var(--terra)}
+
+.foot{
+  margin-top:70px;padding-top:22px;border-top:1px solid var(--rule-2);
+  font-family:var(--mono);font-size:10px;letter-spacing:.18em;text-transform:uppercase;
+  color:var(--ink-3);display:flex;flex-wrap:wrap;gap:10px 26px;
+}
+
+@media (max-width:900px){
+  .spread-grid{grid-template-columns:1fr;gap:26px}
+  .stampwrap{max-width:280px}
+}
+@media (max-width:620px){
+  .book{padding:0 15px 90px}
+  .spread{padding:24px 20px}
+  .leaf{grid-template-columns:1fr;gap:4px}
+  .leaf.hot{transform:none}
+}
+@media (prefers-reduced-motion:reduce){
+  html{scroll-behavior:auto}
+  *{animation-duration:.001ms!important;transition-duration:.001ms!important}
+  html.anim .stamp{opacity:.92;transform:rotate(-7deg) scale(1)}
+  html.anim .stamp.s-me{transform:rotate(6deg) scale(1)}
+}
+</style>
+</head>
+<body>
+<style>:root{--c-tire:#3a332e;--c-stone:#a89c8e;--c-paper:#fff;--c-cream:#f6ecdb;--c-tan:#fca240;--c-cocoa:#8a3d0c;--c-rust:#e25100;--c-clay:#ff661d;--c-red:#ff200c;--c-rose:#ff3d7a;--c-plum:#ad29e5;--c-sun:#ffc110;--c-amber:#ff7c08;--c-green:#4ad017;--c-leaf:#2f9106;--c-teal:#01d5bc;--c-blue:#0982ec;--c-navy:#0d4a86;--c-sky:#3dbaff;--c-grape:#6b2fa0;--c-wine:#8c1a10;--c-pine:#14663c;--c-slate:#566b7a;--c-terra:#C04E1A;--c-paper-shade:#dad4cb;--c-cream-shade:#e0d7c7;--c-rim-warm:#c25a20;--c-rim-cool:#93a4b2;--c-tire-shade:#171412;--c-tire-rim:#26221e;--c-stone-shade:#80776c;--c-stone-rim:#6f675e;--c-tan-shade:#c57e32;--c-tan-rim:#a66b2a;--c-cocoa-shade:#572608;--c-cocoa-rim:#5b2808;--c-rust-shade:#a73c00;--c-rust-rim:#953500;--c-clay-shade:#c24e16;--c-clay-rim:#a84313;--c-red-shade:#bf1809;--c-red-rim:#a81508;--c-rose-shade:#bf2e5b;--c-rose-rim:#a82851;--c-plum-shade:#7d1ea5;--c-plum-rim:#721b97;--c-sun-shade:#c7970c;--c-sun-rim:#a87f0b;--c-amber-shade:#c45f06;--c-amber-rim:#a85205;--c-green-shade:#3aa212;--c-green-rim:#31890f;--c-leaf-shade:#236b04;--c-leaf-rim:#1f6004;--c-teal-shade:#01a693;--c-teal-rim:#018d7c;--c-blue-shade:#0760af;--c-blue-rim:#06569c;--c-navy-shade:#072a4c;--c-navy-rim:#093158;--c-sky-shade:#2f8fc4;--c-sky-rim:#287ba8;--c-grape-shade:#401c60;--c-grape-rim:#471f6a;--c-wine-shade:#4e0f09;--c-wine-rim:#5c110a;--c-pine-shade:#0d4227;--c-pine-rim:#0d4327;--c-slate-shade:#3c4b55;--c-slate-rim:#394751;--c-terra-shade:#8A3F18;--c-terra-rim:#6b2f12}.gm-i{width:1.2em;height:1.2em;vertical-align:-.25em;display:inline-block}</style>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs><linearGradient id="gm-gloss" x1="0" y1="0" x2="0.55" y2="1"><stop offset="0" stop-color="#fff" stop-opacity="0.46"/><stop offset="0.42" stop-color="#fff" stop-opacity="0.14"/><stop offset="1" stop-color="#fff" stop-opacity="0"/></linearGradient><radialGradient id="sph-black" cx="40%" cy="34%" r="82%"><stop offset="0%" stop-color="#7a7a7a"/><stop offset="46%" stop-color="#2c2c2c"/><stop offset="100%" stop-color="#040404"/></radialGradient><radialGradient id="sph-black-b" cx="50%" cy="90%" r="42%"><stop offset="0%" stop-color="#7a7a7a" stop-opacity="0.34"/><stop offset="100%" stop-color="#7a7a7a" stop-opacity="0"/></radialGradient><radialGradient id="sph-blue" cx="40%" cy="34%" r="82%"><stop offset="0%" stop-color="#95cbf2"/><stop offset="46%" stop-color="#2c80c9"/><stop offset="100%" stop-color="#123f68"/></radialGradient><radialGradient id="sph-blue-b" cx="50%" cy="90%" r="42%"><stop offset="0%" stop-color="#95cbf2" stop-opacity="0.34"/><stop offset="100%" stop-color="#95cbf2" stop-opacity="0"/></radialGradient><radialGradient id="sph-brown" cx="40%" cy="34%" r="82%"><stop offset="0%" stop-color="#d5a677"/><stop offset="46%" stop-color="#95603a"/><stop offset="100%" stop-color="#4a2d1d"/></radialGradient><radialGradient id="sph-brown-b" cx="50%" cy="90%" r="42%"><stop offset="0%" stop-color="#d5a677" stop-opacity="0.34"/><stop offset="100%" stop-color="#d5a677" stop-opacity="0"/></radialGradient><radialGradient id="sph-green" cx="40%" cy="34%" r="82%"><stop offset="0%" stop-color="#a6e473"/><stop offset="46%" stop-color="#57b334"/><stop offset="100%" stop-color="#2a6a17"/></radialGradient><radialGradient id="sph-green-b" cx="50%" cy="90%" r="42%"><stop offset="0%" stop-color="#a6e473" stop-opacity="0.34"/><stop offset="100%" stop-color="#a6e473" stop-opacity="0"/></radialGradient><radialGradient id="sph-grey" cx="40%" cy="34%" r="82%"><stop offset="0%" stop-color="#dedbd6"/><stop offset="46%" stop-color="#98928a"/><stop offset="100%" stop-color="#4a4641"/></radialGradient><radialGradient id="sph-grey-b" cx="50%" cy="90%" r="42%"><stop offset="0%" stop-color="#dedbd6" stop-opacity="0.34"/><stop offset="100%" stop-color="#dedbd6" stop-opacity="0"/></radialGradient><radialGradient id="sph-orange" cx="40%" cy="34%" r="82%"><stop offset="0%" stop-color="#ffb75f"/><stop offset="46%" stop-color="#ef7d18"/><stop offset="100%" stop-color="#8f4408"/></radialGradient><radialGradient id="sph-orange-b" cx="50%" cy="90%" r="42%"><stop offset="0%" stop-color="#ffb75f" stop-opacity="0.34"/><stop offset="100%" stop-color="#ffb75f" stop-opacity="0"/></radialGradient><radialGradient id="sph-pink" cx="40%" cy="34%" r="82%"><stop offset="0%" stop-color="#ffadc7"/><stop offset="46%" stop-color="#e76890"/><stop offset="100%" stop-color="#88304e"/></radialGradient><radialGradient id="sph-pink-b" cx="50%" cy="90%" r="42%"><stop offset="0%" stop-color="#ffadc7" stop-opacity="0.34"/><stop offset="100%" stop-color="#ffadc7" stop-opacity="0"/></radialGradient><radialGradient id="sph-plum" cx="40%" cy="34%" r="82%"><stop offset="0%" stop-color="#d8abe4"/><stop offset="46%" stop-color="#9a58b6"/><stop offset="100%" stop-color="#523067"/></radialGradient><radialGradient id="sph-plum-b" cx="50%" cy="90%" r="42%"><stop offset="0%" stop-color="#d8abe4" stop-opacity="0.34"/><stop offset="100%" stop-color="#d8abe4" stop-opacity="0"/></radialGradient><radialGradient id="sph-teal" cx="40%" cy="34%" r="82%"><stop offset="0%" stop-color="#84e4d8"/><stop offset="46%" stop-color="#26a596"/><stop offset="100%" stop-color="#0f5f58"/></radialGradient><radialGradient id="sph-teal-b" cx="50%" cy="90%" r="42%"><stop offset="0%" stop-color="#84e4d8" stop-opacity="0.34"/><stop offset="100%" stop-color="#84e4d8" stop-opacity="0"/></radialGradient><radialGradient id="sph-white" cx="40%" cy="34%" r="82%"><stop offset="0%" stop-color="#ffffff"/><stop offset="46%" stop-color="#efebe5"/><stop offset="100%" stop-color="#aea79e"/></radialGradient><radialGradient id="sph-white-b" cx="50%" cy="90%" r="42%"><stop offset="0%" stop-color="#ffffff" stop-opacity="0.34"/><stop offset="100%" stop-color="#ffffff" stop-opacity="0"/></radialGradient><radialGradient id="sph-yellow" cx="40%" cy="34%" r="82%"><stop offset="0%" stop-color="#ffe886"/><stop offset="46%" stop-color="#f3c02e"/><stop offset="100%" stop-color="#a2740a"/></radialGradient><radialGradient id="sph-yellow-b" cx="50%" cy="90%" r="42%"><stop offset="0%" stop-color="#ffe886" stop-opacity="0.34"/><stop offset="100%" stop-color="#ffe886" stop-opacity="0"/></radialGradient><radialGradient id="sph-red" cx="40%" cy="34%" r="82%"><stop offset="0%" stop-color="#ff8878"/><stop offset="46%" stop-color="#e03a2b"/><stop offset="100%" stop-color="#8a1a11"/></radialGradient><radialGradient id="sph-red-b" cx="50%" cy="90%" r="42%"><stop offset="0%" stop-color="#ff8878" stop-opacity="0.34"/><stop offset="100%" stop-color="#ff8878" stop-opacity="0"/></radialGradient><linearGradient id="gm-sheen" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#fff" stop-opacity="0.30"/><stop offset="0.55" stop-color="#fff" stop-opacity="0.06"/><stop offset="1" stop-color="#fff" stop-opacity="0"/></linearGradient><linearGradient id="gm-amber" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="var(--c-amber)"/><stop offset="1" stop-color="var(--c-amber-shade)"/></linearGradient><linearGradient id="gm-blue" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="var(--c-blue)"/><stop offset="1" stop-color="var(--c-blue-shade)"/></linearGradient><linearGradient id="gm-clay" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="var(--c-clay)"/><stop offset="1" stop-color="var(--c-clay-shade)"/></linearGradient><linearGradient id="gm-cocoa" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="var(--c-cocoa)"/><stop offset="1" stop-color="var(--c-cocoa-shade)"/></linearGradient><linearGradient id="gm-grape" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="var(--c-grape)"/><stop offset="1" stop-color="var(--c-grape-shade)"/></linearGradient><linearGradient id="gm-wine" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="var(--c-wine)"/><stop offset="1" stop-color="var(--c-wine-shade)"/></linearGradient><linearGradient id="gm-pine" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="var(--c-pine)"/><stop offset="1" stop-color="var(--c-pine-shade)"/></linearGradient><linearGradient id="gm-slate" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="var(--c-slate)"/><stop offset="1" stop-color="var(--c-slate-shade)"/></linearGradient><linearGradient id="gm-green" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="var(--c-green)"/><stop offset="1" stop-color="var(--c-green-shade)"/></linearGradient><linearGradient id="gm-leaf" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="var(--c-leaf)"/><stop offset="1" stop-color="var(--c-leaf-shade)"/></linearGradient><linearGradient id="gm-navy" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="var(--c-navy)"/><stop offset="1" stop-color="var(--c-navy-shade)"/></linearGradient><linearGradient id="gm-plum" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="var(--c-plum)"/><stop offset="1" stop-color="var(--c-plum-shade)"/></linearGradient><linearGradient id="gm-red" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="var(--c-red)"/><stop offset="1" stop-color="var(--c-red-shade)"/></linearGradient><linearGradient id="gm-rose" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="var(--c-rose)"/><stop offset="1" stop-color="var(--c-rose-shade)"/></linearGradient><linearGradient id="gm-rust" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="var(--c-rust)"/><stop offset="1" stop-color="var(--c-rust-shade)"/></linearGradient><linearGradient id="gm-sky" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="var(--c-sky)"/><stop offset="1" stop-color="var(--c-sky-shade)"/></linearGradient><linearGradient id="gm-stone" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="var(--c-stone)"/><stop offset="1" stop-color="var(--c-stone-shade)"/></linearGradient><linearGradient id="gm-sun" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="var(--c-sun)"/><stop offset="1" stop-color="var(--c-sun-shade)"/></linearGradient><linearGradient id="gm-tan" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="var(--c-tan)"/><stop offset="1" stop-color="var(--c-tan-shade)"/></linearGradient><linearGradient id="gm-teal" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="var(--c-teal)"/><stop offset="1" stop-color="var(--c-teal-shade)"/></linearGradient><linearGradient id="gm-tire" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="var(--c-tire)"/><stop offset="1" stop-color="var(--c-tire-shade)"/></linearGradient><linearGradient id="gm-terra" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="var(--c-terra)"/><stop offset="1" stop-color="var(--c-terra-shade)"/></linearGradient><linearGradient id="gm-paper" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="var(--c-paper)"/><stop offset="1" stop-color="var(--c-paper-shade)"/></linearGradient><linearGradient id="gm-cream" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="var(--c-cream)"/><stop offset="1" stop-color="var(--c-cream-shade)"/></linearGradient><symbol id="gm-i-443" viewBox="0 0 24 24"><rect x="3.6" y="2.6" width="14.4" height="18.8" rx="2" fill="url(#gm-navy)" stroke="var(--c-navy-rim)" stroke-width="0.5"/><rect x="3.6" y="2.6" width="14.4" height="18.8" rx="2" fill="url(#gm-gloss)"/>
+ <rect x="5" y="2.6" width="1.5" height="18.8" fill="url(#gm-blue)" stroke="var(--c-blue-rim)" stroke-width="0.5"/>
+ <rect x="16.4" y="4.4" width="2.4" height="15.2" rx="1" fill="url(#gm-cream)" stroke="var(--c-rim-warm)" stroke-width="0.6"/>
+ <rect x="7.6" y="6.4" width="7.2" height="1.5" rx="0.75" fill="url(#gm-sun)" stroke="var(--c-sun-rim)" stroke-width="0.5"/>
+ <rect x="7.6" y="9" width="4.6" height="1.2" rx="0.6" fill="url(#gm-sun)" stroke="var(--c-sun-rim)" stroke-width="0.5" opacity="0.6"/>
+ <g transform="rotate(-14 13.4 15.4)">
+ <rect x="8.2" y="12.2" width="10.4" height="6.4" rx="1" fill="none" stroke="var(--c-red)" stroke-width="1.4"/>
+ <path d="M10 15.4h6.8" stroke="var(--c-red)" stroke-width="1.4" stroke-linecap="round"/>
+ <path d="M10 17.2h4.4" stroke="var(--c-red)" stroke-width="1.1" stroke-linecap="round" opacity="0.7"/>
+ </g></symbol><symbol id="gm-i-430" viewBox="0 0 24 24"><rect x="2.4" y="2.6" width="19.2" height="18.8" rx="1.8" fill="url(#gm-stone)" stroke="var(--c-stone-rim)" stroke-width="0.5"/><rect x="2.4" y="2.6" width="19.2" height="18.8" rx="1.8" fill="url(#gm-gloss)"/>
+ <rect x="3.8" y="4" width="7.8" height="16" rx="1" fill="url(#gm-teal)" stroke="var(--c-teal-rim)" stroke-width="0.5"/>
+ <rect x="12.4" y="4" width="7.8" height="16" rx="1" fill="url(#gm-teal)" stroke="var(--c-teal-rim)" stroke-width="0.5"/>
+ <g stroke="var(--c-cream)" stroke-width="0.9" opacity="0.65">
+ <path d="M5.4 6.4h4.6M5.4 8h4.6M14 6.4h4.6M14 8h4.6"/>
+ </g>
+ <circle cx="10.2" cy="13" r="1.1" fill="url(#gm-sun)" stroke="var(--c-sun-rim)" stroke-width="0.5"/>
+ <circle cx="13.8" cy="13" r="1.1" fill="url(#gm-sun)" stroke="var(--c-sun-rim)" stroke-width="0.5"/>
+ <path d="M9.4 16.6v-1.2a2.6 2.6 0 0 1 5.2 0v1.2" fill="none" stroke="var(--c-cocoa)" stroke-width="1.5"/>
+ <rect x="8.6" y="16.4" width="6.8" height="5" rx="1.2" fill="url(#gm-amber)" stroke="var(--c-amber-rim)" stroke-width="0.5"/>
+ <circle cx="12" cy="18.6" r="1" fill="url(#gm-cocoa)" stroke="var(--c-cocoa-rim)" stroke-width="0.5"/></symbol><symbol id="gm-i-173" viewBox="0.10 -0.90 23.81 23.81"><rect x="6" y="5" width="12" height="5" fill="url(#gm-sky)" stroke="var(--c-sky-rim)" stroke-width="0.5"/><rect x="6" y="5" width="12" height="5" fill="url(#gm-gloss)"/>
+<circle cx="12" cy="15" r="2" fill="url(#gm-sun)" stroke="var(--c-sun-rim)" stroke-width="0.5"/>
+<path d="M4 15.5C4 17.43 5.57 19 7.5 19L6 20.5v.5h12v-.5L16.5 19c1.93 0 3.5-1.57 3.5-3.5V5c0-3.5-3.58-4-8-4S4 1.5 4 5v10.5zm8 1.5c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2zm6-7H6V5h12v5z" fill="url(#gm-rust)" stroke="var(--c-rust-rim)" stroke-width="0.5"/></symbol><symbol id="gm-i-60" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10" fill="url(#gm-rust)" stroke="var(--c-rust-rim)" stroke-width="0.5"/>
+ <circle cx="12" cy="12" r="8.1" fill="url(#gm-cream)" stroke="var(--c-rim-cool)" stroke-width="0.6" stroke-linejoin="round" />
+ <g fill="url(#gm-stone)" stroke="var(--c-stone-rim)" stroke-width="0.5">
+ <rect x="11.4" y="4.6" width="1.2" height="2" rx="0.6"/><rect x="11.4" y="17.4" width="1.2" height="2" rx="0.6"/>
+ <rect x="4.6" y="11.4" width="2" height="1.2" rx="0.6"/><rect x="17.4" y="11.4" width="2" height="1.2" rx="0.6"/>
+ </g>
+ <g stroke="var(--c-navy)" stroke-width="1.9" stroke-linecap="round" fill="none">
+ <path d="M12 7.6V12"/><path d="M12 12l3.6 2.1"/>
+ </g>
+ <circle cx="12" cy="12" r="1.2" fill="url(#gm-sun)" stroke="var(--c-sun-rim)" stroke-width="0.5"/></symbol></defs></svg>
+
+<div class="book">
+
+  <header class="cover">
+    <div class="line">
+      <span>Layover city guide</span>
+      <span class="sp"></span>
+      <span>Stamp collection</span>
+      <span>Design experiment &middot; new 3</span>
+    </div>
+    <h1>Six hubs. Six pages. <em>One decision: take the stamp, or stay inside.</em></h1>
+    <p>A reference for six of the world's busiest connecting airports — <strong>what fits in a 4–8 hour transit window</strong>, the express train into the city when the clock allows it, where to nap or shower, where to store bags, and what a transit visa means for your specific passport. This assumes your layover is actually that long — minimum connection times are a separate question, answered on the Airport Connections page.</p>
+  </header>
+
+  <nav class="collection" aria-label="Jump to an airport">
+    <span class="cap">The collection</span>
+    <a class="mini" href="#sin" style="--rot:-3deg"><span class="code">SIN</span><span class="cty">Singapore</span></a>
+    <a class="mini" href="#tyo" style="--rot:2deg"><span class="code">NRT</span><span class="cty">Tokyo</span></a>
+    <a class="mini" href="#icn" style="--rot:-1.5deg"><span class="code">ICN</span><span class="cty">Seoul</span></a>
+    <a class="mini m-me" href="#dxb" style="--rot:3deg"><span class="code">DXB</span><span class="cty">Dubai</span></a>
+    <a class="mini m-eu" href="#ams" style="--rot:-2.5deg"><span class="code">AMS</span><span class="cty">Amsterdam</span></a>
+    <a class="mini m-eu" href="#fra" style="--rot:1.5deg"><span class="code">FRA</span><span class="cty">Frankfurt</span></a>
+  </nav>
+
+  <div class="divider d-asia">Asia</div>
+
+  <!-- ══ SINGAPORE ══ -->
+  <article class="spread" id="sin">
+    <div class="spread-grid">
+      <div>
+        <div class="sp-head">
+          <h2>Singapore Changi</h2>
+          <div class="place">Singapore &middot; SIN</div>
+        </div>
+        <p class="sp-blurb">Consistently rated among the world's best airports for a layover — Jewel Changi's indoor waterfall and gardens sit right off Terminal 1, reachable without ever leaving the transit system.</p>
+
+        <div class="lens" role="group" aria-label="Foreground the facts for">
+          <button type="button" data-lens="airside" aria-pressed="true">Airside</button>
+          <button type="button" data-lens="landside" aria-pressed="false">Into the city</button>
+        </div>
+
+        <dl class="leaves">
+          <div class="leaf" data-side="airside"><dt>4–8hr plan</dt><dd>Jewel Changi (linked to T1, with bridges from T2/T3) for the 40m Rain Vortex waterfall, Canopy Park and a free light show most evenings — 1.5–4 hours covers it comfortably.</dd></div>
+          <div class="leaf" data-side="landside"><dt>Express train</dt><dd>No dedicated express — the Changi Airport MRT branch connects via a transfer at Tanah Merah, roughly 40–45 minutes to the city center.</dd></div>
+          <div class="leaf" data-side="airside"><dt>Transit hotel</dt><dd>Ambassador Transit Hotel (airside, Terminals 2 &amp; 3, rooms by the hour) and Aerotel Singapore (airside, T1, with an outdoor pool). YOTELAIR sits inside Jewel but is past immigration.</dd></div>
+          <div class="leaf" data-side="airside"><dt>Luggage storage</dt><dd>24-hour left-luggage counters in every terminal, including inside Jewel and at T2's MRT entrance.</dd></div>
+          <div class="leaf" data-side="landside"><dt>Transit visa</dt><dd>Most transiting nationalities need no visa to stay airside. Singapore's 96-hour Visa Free Transit Facility separately lets a defined list of nationalities enter the city with a confirmed onward ticket — eligibility varies by passport.</dd></div>
+          <div class="leaf caution" data-side="landside"><dt>Exit &amp; re-entry</dt><dd>Staying inside the transit area skips immigration entirely. Leaving into the city means a normal entry and exit stamp, with immigration typically well under an hour each way.</dd></div>
+        </dl>
+      </div>
+
+      <div class="stampwrap">
+        <div class="stamp">
+          <div class="sc">SIN</div>
+          <div class="sn">Changi &middot; Singapore</div>
+          <div class="sd">Jewel airside<br>MRT 40–45 min<br>96-hr VFTF, by passport</div>
+        </div>
+        <dl class="ticketbox">
+          <div><dt><svg class="ic" viewBox="0 0 24 24"><use href="#gm-i-60"/></svg>Airside plan</dt><dd>Jewel Rain Vortex, 1.5–4 hrs</dd></div>
+          <div><dt><svg class="ic" viewBox="0 0 24 24"><use href="#gm-i-173"/></svg>To the city</dt><dd>MRT via Tanah Merah, 40–45 min</dd></div>
+          <div><dt><svg class="ic" viewBox="0 0 24 24"><use href="#gm-i-430"/></svg>Bags</dt><dd>24-hr counters, every terminal</dd></div>
+        </dl>
+        <div class="guideline">City guide on the site &middot; Singapore</div>
+      </div>
+    </div>
+  </article>
+
+  <!-- ══ TOKYO ══ -->
+  <article class="spread" id="tyo">
+    <div class="spread-grid">
+      <div>
+        <div class="sp-head">
+          <h2>Tokyo — Narita &amp; Haneda</h2>
+          <div class="place">Japan &middot; NRT / HND</div>
+        </div>
+        <p class="sp-blurb">Two airports serve Tokyo, and they're not interchangeable for a layover — Haneda sits close to the city center; Narita does not.</p>
+
+        <div class="lens" role="group" aria-label="Foreground the facts for">
+          <button type="button" data-lens="airside" aria-pressed="true">Airside</button>
+          <button type="button" data-lens="landside" aria-pressed="false">Into the city</button>
+        </div>
+
+        <dl class="leaves">
+          <div class="leaf" data-side="airside"><dt>4–8hr plan</dt><dd>Haneda: Edo Koji's Edo-period dining street and a free 24-hour observation deck (Terminal 3) suit a shorter layover, and its central location makes a quick trip into Tokyo realistic with 6+ hours. Narita: the free Narita Transit Program runs guided tours to Naritasan Shinshoji Temple for layovers of 8+ hours.</dd></div>
+          <div class="leaf" data-side="landside"><dt>Express train</dt><dd>Haneda: Tokyo Monorail to Hamamatsucho (~13 min) or the Keikyu Line to Shinagawa (~11–14 min). Narita: the Narita Express (N'EX) runs direct to Tokyo Station in about 53 minutes.</dd></div>
+          <div class="leaf" data-side="airside"><dt>Transit hotel</dt><dd>Haneda: the Royal Park Hotel's Transit wing (Terminal 3) sits genuinely airside on just an international boarding pass. Narita: the 9h capsule hotel (Terminal 2) is landside — using it means clearing Japanese immigration.</dd></div>
+          <div class="leaf" data-side="airside"><dt>Luggage storage</dt><dd>Coin lockers throughout both airports (¥300–¥1,000/day) plus a staffed baggage counter at Narita Terminal 2.</dd></div>
+          <div class="leaf" data-side="landside"><dt>Transit visa</dt><dd>Most nationalities can stay in the airside transit area without a visa at either airport. Actually leaving requires a Japan visa where one is normally needed, or a discretionary Shore Pass from the immigration officer — not guaranteed, and dependent on nationality.</dd></div>
+          <div class="leaf caution" data-side="landside"><dt>Exit &amp; re-entry</dt><dd>Leaving either airport means full immigration and customs both ways; reported waits run from a few minutes to well over an hour with little predictability — budget at least 3 hours round trip if you plan to exit.</dd></div>
+        </dl>
+      </div>
+
+      <div class="stampwrap">
+        <div class="stamp">
+          <div class="sc">HND</div>
+          <div class="sn">Haneda &middot; Narita</div>
+          <div class="sd">City trip: 6+ hrs<br>Narita programme: 8+ hrs<br>Shore Pass is discretionary</div>
+        </div>
+        <dl class="ticketbox">
+          <div><dt><svg class="ic" viewBox="0 0 24 24"><use href="#gm-i-60"/></svg>Airside plan</dt><dd>HND observation deck, 24 hrs</dd></div>
+          <div><dt><svg class="ic" viewBox="0 0 24 24"><use href="#gm-i-173"/></svg>To the city</dt><dd>HND 11–14 min &middot; NRT ~53 min</dd></div>
+          <div><dt><svg class="ic" viewBox="0 0 24 24"><use href="#gm-i-443"/></svg>Exit budget</dt><dd>3 hrs round trip, minimum</dd></div>
+        </dl>
+        <div class="guideline">City guide on the site &middot; Tokyo</div>
+      </div>
+    </div>
+  </article>
+
+  <!-- ══ SEOUL ══ -->
+  <article class="spread" id="icn">
+    <div class="spread-grid">
+      <div>
+        <div class="sp-head">
+          <h2>Seoul Incheon</h2>
+          <div class="place">South Korea &middot; ICN</div>
+        </div>
+        <p class="sp-blurb">Incheon runs its own guided city-tour program for transit passengers, alongside a free Korean-culture museum for anyone staying airside instead.</p>
+
+        <div class="lens" role="group" aria-label="Foreground the facts for">
+          <button type="button" data-lens="airside" aria-pressed="true">Airside</button>
+          <button type="button" data-lens="landside" aria-pressed="false">Into the city</button>
+        </div>
+
+        <dl class="leaves">
+          <div class="leaf" data-side="airside"><dt>4–8hr plan</dt><dd>Airside: the free K-Culture Museum and Korean Cultural Street (hanbok try-ons, craft workshops). With a valid visa/K-ETA, the airport's own free Transit Tour program runs guided loops from one hour up to six, covering palaces and traditional markets.</dd></div>
+          <div class="leaf" data-side="landside"><dt>Express train</dt><dd>AREX (Airport Railroad Express) runs nonstop to Seoul Station in about 43 minutes from Terminal 1, 51 minutes from Terminal 2.</dd></div>
+          <div class="leaf" data-side="airside"><dt>Transit hotel</dt><dd>The airside Transit Hotel in Terminal 2 (opposite Gate 251) is reserved for passengers connecting between international flights, sold in 6-hour blocks. The landside Darakhyu Capsule Hotel sits in both terminals' transportation centers.</dd></div>
+          <div class="leaf" data-side="airside"><dt>Luggage storage</dt><dd>Staffed, insured counters in both terminals — T1 near Check-in Area N, T2 at Entrances 3 and 4.</dd></div>
+          <div class="leaf" data-side="landside"><dt>Transit visa</dt><dd>South Korea exempts many transiting nationalities from a visa for stays up to 30 hours with a confirmed onward ticket; roughly two dozen nationalities are excluded. The Transit Tour program is a separate, tour-based route requiring registration. Verify by passport.</dd></div>
+          <div class="leaf caution" data-side="landside"><dt>Exit &amp; re-entry</dt><dd>Immigration runs anywhere from 15–20 minutes off-peak to 90+ minutes at peak (weekday afternoons, weekends, cherry blossom season). The Transit Tour requires formally entering Korea, so budget generously for both directions plus a security re-screening.</dd></div>
+        </dl>
+      </div>
+
+      <div class="stampwrap">
+        <div class="stamp">
+          <div class="sc">ICN</div>
+          <div class="sn">Incheon &middot; Korea</div>
+          <div class="sd">Visa-free transit to 30 hrs<br>Transit Tour: 1–6 hrs<br>Registration required</div>
+        </div>
+        <dl class="ticketbox">
+          <div><dt><svg class="ic" viewBox="0 0 24 24"><use href="#gm-i-60"/></svg>Airside plan</dt><dd>K-Culture Museum, free</dd></div>
+          <div><dt><svg class="ic" viewBox="0 0 24 24"><use href="#gm-i-173"/></svg>To the city</dt><dd>AREX nonstop, 43–51 min</dd></div>
+          <div><dt><svg class="ic" viewBox="0 0 24 24"><use href="#gm-i-430"/></svg>Bags</dt><dd>Staffed, insured, both terminals</dd></div>
+        </dl>
+        <div class="guideline">City guide on the site &middot; Seoul</div>
+      </div>
+    </div>
+  </article>
+
+  <div class="divider d-me">Middle East</div>
+
+  <!-- ══ DUBAI ══ -->
+  <article class="spread" id="dxb">
+    <div class="spread-grid">
+      <div>
+        <div class="sp-head">
+          <h2>Dubai International</h2>
+          <div class="place">United Arab Emirates &middot; DXB</div>
+        </div>
+        <p class="sp-blurb">Terminal 3's duty-free, lounges and a gym/pool/spa club fill a shorter layover without leaving the building; the Metro puts the city itself within reach on a longer one.</p>
+
+        <div class="lens" role="group" aria-label="Foreground the facts for">
+          <button type="button" data-lens="airside" aria-pressed="true">Airside</button>
+          <button type="button" data-lens="landside" aria-pressed="false">Into the city</button>
+        </div>
+
+        <dl class="leaves">
+          <div class="leaf" data-side="airside"><dt>4–8hr plan</dt><dd>In-terminal: duty-free shopping, the G-Force Club (gym, pool, spa) and Zen Gardens, all in Terminal 3. With 5+ hours and an eligible passport, the Metro reaches the Burj Khalifa/Dubai Mall area for a genuine city visit.</dd></div>
+          <div class="leaf" data-side="landside"><dt>Express train</dt><dd>No separate express — the Dubai Metro Red Line runs directly from Terminals 1 and 3 to the Burj Khalifa/Dubai Mall area in about 23–27 minutes.</dd></div>
+          <div class="leaf" data-side="airside"><dt>Transit hotel</dt><dd>Dubai International Hotel sits inside the Terminal 3 transit area itself (Concourses A/B/C), sold in 3-, 6-, 12- and 24-hour blocks without clearing immigration.</dd></div>
+          <div class="leaf" data-side="airside"><dt>Luggage storage</dt><dd>24-hour left-luggage counters at both Terminal 1 and Terminal 3 arrivals.</dd></div>
+          <div class="leaf" data-side="landside"><dt>Transit visa</dt><dd>50+ nationalities (UK, US, most of the EU, Australia, Canada and others) get visa-on-arrival and can walk straight into the city. Everyone else needs a pre-arranged 48- or 96-hour transit visa, and a handful of nationalities don't qualify for either — verify by passport.</dd></div>
+          <div class="leaf caution" data-side="landside"><dt>Exit &amp; re-entry</dt><dd>Leaving the transit area is a full UAE entry — your passport is stamped and the clock starts on your visa. Immigration averages about 12 minutes but can run to an hour at peak; allow 60–75 minutes for a same-terminal connection, ~90 for cross-terminal.</dd></div>
+        </dl>
+      </div>
+
+      <div class="stampwrap">
+        <div class="stamp s-me">
+          <div class="sc">DXB</div>
+          <div class="sn">Dubai &middot; UAE</div>
+          <div class="sd">City trip: 5+ hrs<br>Visa on arrival, 50+ passports<br>Otherwise 48/96-hr transit visa</div>
+        </div>
+        <dl class="ticketbox">
+          <div><dt><svg class="ic" viewBox="0 0 24 24"><use href="#gm-i-60"/></svg>Airside plan</dt><dd>G-Force Club, T3 &middot; Zen Gardens</dd></div>
+          <div><dt><svg class="ic" viewBox="0 0 24 24"><use href="#gm-i-173"/></svg>To the city</dt><dd>Metro Red Line, 23–27 min</dd></div>
+          <div><dt><svg class="ic" viewBox="0 0 24 24"><use href="#gm-i-443"/></svg>Stamp warning</dt><dd>Leaving starts your visa clock</dd></div>
+        </dl>
+        <div class="guideline">City guide on the site &middot; Dubai</div>
+      </div>
+    </div>
+  </article>
+
+  <div class="divider d-eu">Europe</div>
+
+  <!-- ══ AMSTERDAM ══ -->
+  <article class="spread" id="ams">
+    <div class="spread-grid">
+      <div>
+        <div class="sp-head">
+          <h2>Amsterdam Schiphol</h2>
+          <div class="place">Netherlands &middot; AMS</div>
+        </div>
+        <p class="sp-blurb">A small Rijksmuseum gallery and the Airport Library sit airside between the lounges — one of the few hub airports where a genuine city trip is realistic on a mid-length layover, transit-visa rules permitting.</p>
+
+        <div class="lens" role="group" aria-label="Foreground the facts for">
+          <button type="button" data-lens="airside" aria-pressed="true">Airside</button>
+          <button type="button" data-lens="landside" aria-pressed="false">Into the city</button>
+        </div>
+
+        <dl class="leaves">
+          <div class="leaf" data-side="airside"><dt>4–8hr plan</dt><dd>Airside: the Rijksmuseum's airport gallery and the Airport Library near Lounges 2–3 for a quick, free stop. With 6–7+ hours and no Airport Transit Visa requirement, the train into central Amsterdam (canals, Dam Square) fits comfortably.</dd></div>
+          <div class="leaf" data-side="landside"><dt>Express train</dt><dd>NS trains run directly from Schiphol Station, beneath the terminal, to Amsterdam Centraal every ~10 minutes — about 15–17 minutes each way.</dd></div>
+          <div class="leaf" data-side="airside"><dt>Transit hotel</dt><dd>YOTELAIR Amsterdam Schiphol sits airside past security in Lounge 2, capsule-style, open only to transiting passengers. The landside Sheraton Amsterdam Airport connects directly but sits outside the secure zone.</dd></div>
+          <div class="leaf" data-side="airside"><dt>Luggage storage</dt><dd>Coin lockers both pre- and post-security (Kelderplein and Holland Boulevard); a staffed 24-hour counter on Level -1 handles larger bags for up to 30 days.</dd></div>
+          <div class="leaf" data-side="landside"><dt>Transit visa</dt><dd>As a Schengen airport, Amsterdam requires a Schengen Airport Transit Visa for a defined list of nationalities even to stay airside without entering the Netherlands — holders of a valid US, Canada or Japan visa are typically exempt. Verify by passport.</dd></div>
+          <div class="leaf caution" data-side="landside"><dt>Exit &amp; re-entry</dt><dd>Leaving the transit area means a full external Schengen border check each way. Schiphol's own guidance recommends a 2-hour buffer for a Schengen connection and 3 hours for a non-Schengen one.</dd></div>
+        </dl>
+      </div>
+
+      <div class="stampwrap">
+        <div class="stamp s-eu">
+          <div class="sc">AMS</div>
+          <div class="sn">Schiphol &middot; Netherlands</div>
+          <div class="sd">City trip: 6–7+ hrs<br>Schengen ATV list applies<br>Buffer 2 hrs / 3 hrs non-Schengen</div>
+        </div>
+        <dl class="ticketbox">
+          <div><dt><svg class="ic" viewBox="0 0 24 24"><use href="#gm-i-60"/></svg>Airside plan</dt><dd>Rijksmuseum gallery &middot; Library</dd></div>
+          <div><dt><svg class="ic" viewBox="0 0 24 24"><use href="#gm-i-173"/></svg>To the city</dt><dd>NS to Centraal, 15–17 min</dd></div>
+          <div><dt><svg class="ic" viewBox="0 0 24 24"><use href="#gm-i-430"/></svg>Bags</dt><dd>Lockers both sides &middot; 24-hr counter</dd></div>
+        </dl>
+        <div class="guideline">City guide on the site &middot; Amsterdam</div>
+      </div>
+    </div>
+  </article>
+
+  <!-- ══ FRANKFURT ══ -->
+  <article class="spread" id="fra">
+    <div class="spread-grid">
+      <div>
+        <div class="sp-head">
+          <h2>Frankfurt</h2>
+          <div class="place">Germany &middot; FRA</div>
+        </div>
+        <p class="sp-blurb">A free rooftop viewing terrace sits inside Terminal 2, and Frankfurt's own train station puts the old town within a single short ride.</p>
+
+        <div class="lens" role="group" aria-label="Foreground the facts for">
+          <button type="button" data-lens="airside" aria-pressed="true">Airside</button>
+          <button type="button" data-lens="landside" aria-pressed="false">Into the city</button>
+        </div>
+
+        <dl class="leaves">
+          <div class="leaf" data-side="airside"><dt>4–8hr plan</dt><dd>Airside: the Terminal 2 Visitor's Terrace, a free rooftop viewing deck. With 5+ hours and no Airport Transit Visa issue, the Römerberg old-town square is about 15 minutes away by train and easily walkable from there.</dd></div>
+          <div class="leaf" data-side="landside"><dt>Express train</dt><dd>The airport's own long-distance station (ICE/IC) reaches Frankfurt Hauptbahnhof in about 6–8 minutes; the regional S-Bahn (S8/S9) takes roughly 12–15 minutes.</dd></div>
+          <div class="leaf" data-side="airside"><dt>Transit hotel</dt><dd>MY CLOUD Transit Hotel sits airside in Terminal 1's non-Schengen transit area, booked by the hour. The landside Sheraton Frankfurt Airport connects to every terminal and both train stations via the SkyLine people-mover.</dd></div>
+          <div class="leaf" data-side="airside"><dt>Luggage storage</dt><dd>Staffed counters at Terminal 1 Arrivals (24 hours) and Departures, plus Terminal 2 Hall D (6am–10pm).</dd></div>
+          <div class="leaf" data-side="landside"><dt>Transit visa</dt><dd>The same Schengen Airport Transit Visa rules apply as Amsterdam — a defined list of nationalities needs one even to stay airside, with exemptions for holders of a valid US, Canada or Japan visa. Verify by passport.</dd></div>
+          <div class="leaf caution" data-side="landside"><dt>Exit &amp; re-entry</dt><dd>US citizens typically clear immigration in about 5 minutes via automated kiosks, other nationalities roughly 7–9 — longer at peak summer and holiday periods, and the EU's Entry-Exit System can add processing time on both exit and re-entry.</dd></div>
+        </dl>
+      </div>
+
+      <div class="stampwrap">
+        <div class="stamp s-eu">
+          <div class="sc">FRA</div>
+          <div class="sn">Frankfurt &middot; Germany</div>
+          <div class="sd">City trip: 5+ hrs<br>ICE 6–8 min to Hauptbahnhof<br>Entry-Exit System adds time</div>
+        </div>
+        <dl class="ticketbox">
+          <div><dt><svg class="ic" viewBox="0 0 24 24"><use href="#gm-i-60"/></svg>Airside plan</dt><dd>T2 Visitor's Terrace, free</dd></div>
+          <div><dt><svg class="ic" viewBox="0 0 24 24"><use href="#gm-i-173"/></svg>To the city</dt><dd>ICE 6–8 min &middot; S-Bahn 12–15 min</dd></div>
+          <div><dt><svg class="ic" viewBox="0 0 24 24"><use href="#gm-i-430"/></svg>Bags</dt><dd>T1 Arrivals 24 hrs &middot; T2 Hall D</dd></div>
+        </dl>
+        <div class="guideline">City guide on the site &middot; Frankfurt</div>
+      </div>
+    </div>
+  </article>
+
+  <div class="endnote">The lens above never removes a fact — it only lifts the ones that belong to the choice you're weighing, and dims the rest. <b>Every entry on every page stays on the page,</b> because the transit-visa line is exactly the one people skip and then wish they hadn't.</div>
+
+  <div class="foot">
+    <span>Guide My Days</span>
+    <span>Layover city guide &middot; new 3</span>
+    <span>Stamp collection</span>
+    <span>Design experiment — not linked into the site</span>
+  </div>
+
+</div>
+
+<script>
+(function(){
+  "use strict";
+
+  /* Opt in to the "starts hidden" CSS only once JS is running, and
+     put a floor under it: if the observers never fire — a hidden tab,
+     a snapshot renderer, an old browser — everything is revealed
+     anyway a couple of seconds in. Content is never left invisible. */
+  document.documentElement.classList.add('anim');
+  setTimeout(function(){
+    [].slice.call(document.querySelectorAll('.spread')).forEach(function(el){
+      el.classList.add('pressed');
+    });
+  }, 2500);
+  var reduced = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  /* ── The lens: one per spread, foregrounding its own leaves only. ── */
+  [].slice.call(document.querySelectorAll('.spread')).forEach(function(spread){
+    var buttons = [].slice.call(spread.querySelectorAll('.lens button'));
+    var leaves  = [].slice.call(spread.querySelectorAll('.leaf'));
+
+    function apply(side){
+      buttons.forEach(function(b){
+        b.setAttribute('aria-pressed', String(b.getAttribute('data-lens') === side));
+      });
+      leaves.forEach(function(l){
+        var mine = l.getAttribute('data-side') === side;
+        l.classList.toggle('hot', mine);
+        l.classList.toggle('cool', !mine);
+      });
+    }
+    buttons.forEach(function(b){
+      b.addEventListener('click', function(){ apply(b.getAttribute('data-lens')); });
+    });
+    apply('airside');
+  });
+
+  /* ── Stamps press in as each spread arrives ── */
+  var spreads = [].slice.call(document.querySelectorAll('.spread'));
+  if (!('IntersectionObserver' in window) || reduced) {
+    spreads.forEach(function(s){ s.classList.add('pressed'); });
+  } else {
+    var io = new IntersectionObserver(function(entries){
+      entries.forEach(function(e){
+        if (!e.isIntersecting) return;
+        e.target.classList.add('pressed');
+        io.unobserve(e.target);
+      });
+    }, { rootMargin: '0px 0px -18% 0px', threshold: 0.12 });
+    spreads.forEach(function(s){ io.observe(s); });
+  }
+}());
+</script>
+</body>
+</html>

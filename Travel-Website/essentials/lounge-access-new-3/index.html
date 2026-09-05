@@ -1,0 +1,666 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Lounge Access Methods — Kinetic Edition | Guide My Days</title>
+<meta name="description" content="Design experiment — Lounge Access Methods as a kinetic editorial: word-by-word reveals, a ticker, a sticky index and a horizontal card rail. Same content, new design. Not linked into the site.">
+<meta name="robots" content="noindex,nofollow">
+<style>
+/* ══════════════════════════════════════════════════════════════════
+   LOUNGE ACCESS — NEW 3 · "KINETIC EDITION"
+   Standalone design experiment. Not wired to the site: no shared
+   stylesheet, no toolbar, no outbound links, no search control.
+
+   The idea: treat the page as a magazine feature rather than a
+   reference table. Oversized display type that assembles word by word
+   as it enters, a ticker carrying the four ways in, a sticky index
+   rail that tracks where you are, and the three cards on a
+   scroll-snapped horizontal rail so they get compared side by side
+   the way a reader actually compares them.
+   ══════════════════════════════════════════════════════════════ */
+
+*,*::before,*::after{box-sizing:border-box}
+
+:root{
+  --page:#fbfaf7;
+  --page-2:#ffffff;
+  --page-3:#f1eee7;
+  --line:#e3ded4;
+  --line-2:#c9c2b4;
+  --ink:#141210;
+  --ink-2:#4f4941;
+  --ink-3:#867e73;
+  --terra:#C04E1A;
+  --terra-wash:#fbf0e9;
+  --ultra:#1c2c4c;
+  --ultra-wash:#eceff5;
+  --moss:#3f5f2c;
+  --moss-wash:#eef2e9;
+  --gold:#7d6115;
+  --gold-wash:#f9f2dd;
+  --serif:ui-serif,Georgia,"Iowan Old Style","Times New Roman",serif;
+  --sans:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+  --mono:ui-monospace,"SF Mono",SFMono-Regular,Menlo,Consolas,monospace;
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){
+    --page:#131210;--page-2:#1b1917;--page-3:#232019;
+    --line:#312d26;--line-2:#4b4438;
+    --ink:#f4f0e8;--ink-2:#b6afa3;--ink-3:#8a8276;
+    --terra:#e26a2c;--terra-wash:#2a1a11;
+    --ultra:#9db4dc;--ultra-wash:#181e2a;
+    --moss:#9cc077;--moss-wash:#1b2316;
+    --gold:#d5b04e;--gold-wash:#272012;
+  }
+}
+
+html{-webkit-text-size-adjust:100%;scroll-behavior:smooth}
+body{
+  margin:0;background:var(--page);color:var(--ink);
+  font-family:var(--sans);font-size:16px;line-height:1.65;
+  overflow-x:hidden;
+}
+
+/* ─────────── Scroll progress hairline ─────────── */
+.prog{
+  position:fixed;top:0;left:0;height:3px;width:100%;z-index:40;
+  background:var(--terra);transform:scaleX(0);transform-origin:left;
+}
+
+/* ─────────── Layout ─────────── */
+.frame{max-width:1180px;margin:0 auto;padding:0 26px 130px}
+.cols{display:grid;grid-template-columns:150px 1fr;gap:52px;align-items:start}
+
+/* Sticky index rail */
+.rail{position:sticky;top:44px;padding-top:8px}
+.rail ol{list-style:none;margin:0;padding:0;display:grid;gap:2px}
+.rail a{
+  display:grid;grid-template-columns:20px 1fr;gap:10px;align-items:baseline;
+  padding:8px 0;text-decoration:none;color:var(--ink-3);
+  font-size:12.5px;line-height:1.4;font-weight:600;
+  border-top:1px solid var(--line);
+  transition:color .22s ease,padding-left .22s cubic-bezier(.2,.7,.3,1);
+}
+.rail a .num{font-family:var(--mono);font-size:10px;letter-spacing:.1em}
+.rail a:hover{color:var(--ink);padding-left:5px}
+.rail a.here{color:var(--terra)}
+.rail a.here .num{color:var(--terra)}
+.rail .badge-exp{
+  margin-top:22px;font-family:var(--mono);font-size:9px;letter-spacing:.16em;
+  text-transform:uppercase;color:var(--ink-3);line-height:1.7;
+}
+
+/* ─────────── Hero ─────────── */
+.hero{padding:56px 0 0}
+.hero .over{
+  font-family:var(--mono);font-size:11px;letter-spacing:.28em;text-transform:uppercase;
+  color:var(--terra);margin-bottom:22px;
+}
+.big{
+  font-family:var(--serif);font-weight:600;
+  font-size:clamp(40px,9vw,104px);line-height:.98;letter-spacing:-.035em;
+  margin:0;max-width:13ch;
+}
+.big em{font-style:italic;color:var(--terra)}
+/* Word-by-word: each word sits in a clipping box and slides up. */
+.w{display:inline-block;overflow:hidden;vertical-align:bottom;padding-bottom:.06em}
+.w > span{display:inline-block}
+html.anim .w > span{transform:translateY(105%);opacity:0}
+html.anim .w.on > span{transform:none;opacity:1;transition:transform .72s cubic-bezier(.16,.9,.24,1),opacity .5s ease}
+
+.hero .stand{
+  max-width:60ch;font-size:17.5px;line-height:1.72;color:var(--ink-2);margin:32px 0 0;
+}
+.hero .stand strong{color:var(--ink);font-weight:600}
+
+/* ─────────── Ticker ─────────── */
+.ticker{
+  margin:58px 0 0;border-block:1px solid var(--ink);
+  padding:14px 0;overflow:hidden;white-space:nowrap;
+  --dur:38s;
+}
+.ticker .track{display:inline-flex;gap:0;animation:slide var(--dur) linear infinite}
+.ticker:hover .track{animation-play-state:paused}
+.ticker span{
+  font-family:var(--serif);font-size:clamp(20px,3.4vw,34px);font-style:italic;
+  letter-spacing:-.01em;padding:0 22px;color:var(--ink);
+}
+.ticker span::after{content:"·";color:var(--terra);margin-left:22px;font-style:normal}
+@keyframes slide{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+
+/* ─────────── Sections ─────────── */
+.chunk{padding-top:88px;scroll-margin-top:30px}
+.chunk > .ch-top{display:flex;align-items:baseline;gap:16px;margin-bottom:8px}
+.chunk > .ch-top .num{
+  font-family:var(--mono);font-size:11px;letter-spacing:.2em;color:var(--terra);
+}
+.chunk h2{
+  font-family:var(--serif);font-weight:600;font-size:clamp(27px,4.6vw,46px);
+  line-height:1.05;letter-spacing:-.028em;margin:0;
+}
+.chunk .lede{font-size:16px;color:var(--ink-2);max-width:60ch;margin:14px 0 34px}
+
+html.anim .rise{opacity:0;transform:translateY(24px)}
+html.anim .rise.on{opacity:1;transform:none;transition:opacity .7s ease,transform .7s cubic-bezier(.16,.9,.24,1)}
+
+/* Four ways — big numbered entries */
+.entries{border-top:1px solid var(--line)}
+.entry{
+  --tone:var(--ultra);--wash:var(--ultra-wash);
+  display:grid;grid-template-columns:76px 1fr 190px;gap:28px;align-items:start;
+  padding:28px 0;border-bottom:1px solid var(--line);
+  position:relative;transition:background .3s ease;
+}
+.entry.t-moss{--tone:var(--moss);--wash:var(--moss-wash)}
+.entry.t-gold{--tone:var(--gold);--wash:var(--gold-wash)}
+.entry.t-terra{--tone:var(--terra);--wash:var(--terra-wash)}
+.entry:hover{background:var(--wash)}
+.entry .no{
+  font-family:var(--serif);font-size:44px;line-height:.9;color:var(--tone);
+  transition:transform .3s cubic-bezier(.2,.7,.3,1);
+}
+.entry:hover .no{transform:translateX(6px)}
+.entry h3{margin:0 0 8px;font-size:19px;font-weight:700;letter-spacing:-.015em}
+.entry p{margin:0;font-size:15px;line-height:1.7;color:var(--ink-2);max-width:56ch}
+.entry .side{
+  font-family:var(--mono);font-size:10.5px;line-height:1.7;letter-spacing:.1em;
+  text-transform:uppercase;color:var(--tone);padding-top:6px;
+}
+.entry .side .sideic{
+  display:block;width:22px;height:22px;margin-bottom:9px;opacity:.9;
+  transition:transform .3s cubic-bezier(.2,.7,.3,1);
+}
+.entry:hover .side .sideic{transform:translateY(-3px) scale(1.08)}
+
+/* Odometer numbers (Priority Pass) */
+.odo{display:grid;grid-template-columns:repeat(3,1fr);gap:0;border:1px solid var(--ink);margin-top:6px}
+.odo > div{padding:30px 26px 28px;border-right:1px solid var(--ink);position:relative}
+.odo > div:last-child{border-right:0}
+.odo .tname{
+  font-family:var(--mono);font-size:10.5px;letter-spacing:.2em;text-transform:uppercase;
+  color:var(--ink-3);margin-bottom:18px;
+}
+.odo .fig{
+  font-family:var(--serif);font-size:clamp(40px,6vw,64px);line-height:1;
+  letter-spacing:-.04em;color:var(--ink);font-variant-numeric:tabular-nums;
+}
+.odo .fig .yr{font-family:var(--sans);font-size:13px;letter-spacing:0;color:var(--ink-3)}
+.odo .rowline{
+  display:flex;justify-content:space-between;gap:14px;
+  padding:9px 0;border-top:1px solid var(--line);font-size:13px;
+}
+.odo .rowline:first-of-type{margin-top:20px}
+.odo .rowline dt{color:var(--ink-3)}
+.odo .rowline dd{margin:0;color:var(--ink);font-weight:600;text-align:right}
+.odo > div.crown{background:var(--terra-wash)}
+.odo > div.crown .fig{color:var(--terra)}
+
+/* Horizontal card rail */
+.rail-x{
+  display:grid;grid-auto-flow:column;grid-auto-columns:minmax(320px,420px);
+  gap:18px;overflow-x:auto;scroll-snap-type:x mandatory;
+  padding:4px 4px 22px;margin:0 -4px;
+}
+.rail-x::-webkit-scrollbar{height:8px}
+.rail-x::-webkit-scrollbar-track{background:var(--page-3);border-radius:99px}
+.rail-x::-webkit-scrollbar-thumb{background:var(--line-2);border-radius:99px}
+.slab{
+  scroll-snap-align:start;background:var(--page-2);
+  border:1px solid var(--line);border-top:5px solid var(--terra);
+  border-radius:4px;padding:26px 26px 28px;display:flex;flex-direction:column;
+  transition:box-shadow .28s ease,transform .28s cubic-bezier(.2,.7,.3,1);
+}
+.slab:hover{transform:translateY(-4px);box-shadow:0 22px 40px -30px rgba(50,35,20,.75)}
+.slab:nth-child(2){border-top-color:var(--ultra)}
+.slab:nth-child(3){border-top-color:var(--moss)}
+.slab h3{font-family:var(--serif);font-size:24px;font-weight:600;letter-spacing:-.02em;margin:0 0 8px;line-height:1.15}
+.slab .gives{
+  font-family:var(--mono);font-size:10.5px;letter-spacing:.09em;line-height:1.75;
+  color:var(--ink-3);padding-bottom:16px;margin-bottom:16px;border-bottom:1px solid var(--line);
+}
+.slab p{margin:0;font-size:14.5px;line-height:1.72;color:var(--ink-2)}
+.slab p strong{color:var(--ink);font-weight:650}
+.slab .news{list-style:none;margin:16px 0 0;padding:0;display:grid;gap:9px}
+.slab .news li{
+  font-size:13.5px;line-height:1.65;color:var(--ink-2);
+  padding:11px 13px;background:var(--page-3);border-left:2px solid var(--terra);border-radius:0 4px 4px 0;
+}
+.rail-hint{
+  font-family:var(--mono);font-size:10px;letter-spacing:.16em;text-transform:uppercase;
+  color:var(--ink-3);margin-top:2px;
+}
+
+/* Rules — big pull quotes */
+.pulls{display:grid;gap:0;border-top:1px solid var(--ink)}
+.pull{
+  display:grid;grid-template-columns:56px 1fr;gap:24px;
+  padding:30px 0;border-bottom:1px solid var(--line);
+}
+.pull .mk{
+  font-family:var(--mono);font-size:12px;letter-spacing:.16em;color:var(--terra);padding-top:6px;
+}
+.pull h4{
+  font-family:var(--serif);font-size:clamp(19px,2.6vw,27px);font-weight:600;
+  line-height:1.2;letter-spacing:-.02em;margin:0 0 10px;max-width:26ch;
+}
+.pull p{margin:0;font-size:14.5px;line-height:1.72;color:var(--ink-2);max-width:64ch}
+
+/* Verdict ladder */
+.ladder{display:grid;gap:0;border-top:1px solid var(--ink)}
+.rung{
+  display:grid;grid-template-columns:170px 1fr;gap:30px;
+  padding:26px 0;border-bottom:1px solid var(--line);
+  transition:padding-left .28s cubic-bezier(.2,.7,.3,1),background .28s ease;
+}
+.rung:hover{padding-left:12px;background:var(--page-3)}
+.rung .band{
+  font-family:var(--serif);font-size:32px;line-height:1;letter-spacing:-.035em;color:var(--terra);
+}
+.rung .band small{
+  display:block;font-family:var(--mono);font-size:9.5px;letter-spacing:.16em;
+  text-transform:uppercase;color:var(--ink-3);margin-top:8px;
+}
+.rung .ans{font-size:17px;font-weight:700;letter-spacing:-.012em;margin-bottom:7px}
+.rung .rz{font-size:14.5px;line-height:1.72;color:var(--ink-2);max-width:66ch}
+
+.aside{
+  margin-top:26px;padding:18px 22px;border:1px solid var(--line-2);border-radius:4px;
+  font-size:14px;line-height:1.75;color:var(--ink-2);background:var(--page-2);
+}
+.aside b{color:var(--terra)}
+
+.colophon{
+  margin-top:96px;padding-top:24px;border-top:1px solid var(--ink);
+  font-family:var(--mono);font-size:10px;letter-spacing:.18em;text-transform:uppercase;
+  color:var(--ink-3);display:flex;flex-wrap:wrap;gap:10px 26px;
+}
+
+@media (max-width:960px){
+  .cols{grid-template-columns:1fr;gap:0}
+  .rail{position:static;margin-bottom:10px;padding-top:0}
+  .rail ol{grid-auto-flow:column;grid-auto-columns:max-content;overflow-x:auto;gap:0}
+  .rail a{border-top:0;border-bottom:2px solid var(--line);padding:8px 14px 8px 0;white-space:nowrap}
+  .rail a.here{border-bottom-color:var(--terra)}
+  .rail .badge-exp{display:none}
+  .entry{grid-template-columns:52px 1fr;gap:18px}
+  .entry .side{grid-column:2;padding-top:0}
+  .odo{grid-template-columns:1fr}
+  .odo > div{border-right:0;border-bottom:1px solid var(--ink)}
+  .odo > div:last-child{border-bottom:0}
+  .rung{grid-template-columns:1fr;gap:10px}
+}
+@media (max-width:620px){
+  .frame{padding:0 16px 90px}
+  .chunk{padding-top:64px}
+  .pull{grid-template-columns:1fr;gap:8px}
+}
+@media (prefers-reduced-motion:reduce){
+  html{scroll-behavior:auto}
+  *{animation-duration:.001ms!important;animation-iteration-count:1!important;transition-duration:.001ms!important}
+  html.anim .rise{opacity:1;transform:none}
+  html.anim .w > span{transform:none;opacity:1}
+}
+</style>
+</head>
+<body>
+<style>:root{--c-tire:#3a332e;--c-stone:#a89c8e;--c-paper:#fff;--c-cream:#f6ecdb;--c-tan:#fca240;--c-cocoa:#8a3d0c;--c-rust:#e25100;--c-clay:#ff661d;--c-red:#ff200c;--c-rose:#ff3d7a;--c-plum:#ad29e5;--c-sun:#ffc110;--c-amber:#ff7c08;--c-green:#4ad017;--c-leaf:#2f9106;--c-teal:#01d5bc;--c-blue:#0982ec;--c-navy:#0d4a86;--c-sky:#3dbaff;--c-grape:#6b2fa0;--c-wine:#8c1a10;--c-pine:#14663c;--c-slate:#566b7a;--c-terra:#C04E1A;--c-paper-shade:#dad4cb;--c-cream-shade:#e0d7c7;--c-rim-warm:#c25a20;--c-rim-cool:#93a4b2;--c-tire-shade:#171412;--c-tire-rim:#26221e;--c-stone-shade:#80776c;--c-stone-rim:#6f675e;--c-tan-shade:#c57e32;--c-tan-rim:#a66b2a;--c-cocoa-shade:#572608;--c-cocoa-rim:#5b2808;--c-rust-shade:#a73c00;--c-rust-rim:#953500;--c-clay-shade:#c24e16;--c-clay-rim:#a84313;--c-red-shade:#bf1809;--c-red-rim:#a81508;--c-rose-shade:#bf2e5b;--c-rose-rim:#a82851;--c-plum-shade:#7d1ea5;--c-plum-rim:#721b97;--c-sun-shade:#c7970c;--c-sun-rim:#a87f0b;--c-amber-shade:#c45f06;--c-amber-rim:#a85205;--c-green-shade:#3aa212;--c-green-rim:#31890f;--c-leaf-shade:#236b04;--c-leaf-rim:#1f6004;--c-teal-shade:#01a693;--c-teal-rim:#018d7c;--c-blue-shade:#0760af;--c-blue-rim:#06569c;--c-navy-shade:#072a4c;--c-navy-rim:#093158;--c-sky-shade:#2f8fc4;--c-sky-rim:#287ba8;--c-grape-shade:#401c60;--c-grape-rim:#471f6a;--c-wine-shade:#4e0f09;--c-wine-rim:#5c110a;--c-pine-shade:#0d4227;--c-pine-rim:#0d4327;--c-slate-shade:#3c4b55;--c-slate-rim:#394751;--c-terra-shade:#8A3F18;--c-terra-rim:#6b2f12}.gm-i{width:1.2em;height:1.2em;vertical-align:-.25em;display:inline-block}</style>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs><linearGradient id="gm-gloss" x1="0" y1="0" x2="0.55" y2="1"><stop offset="0" stop-color="#fff" stop-opacity="0.46"/><stop offset="0.42" stop-color="#fff" stop-opacity="0.14"/><stop offset="1" stop-color="#fff" stop-opacity="0"/></linearGradient><radialGradient id="sph-black" cx="40%" cy="34%" r="82%"><stop offset="0%" stop-color="#7a7a7a"/><stop offset="46%" stop-color="#2c2c2c"/><stop offset="100%" stop-color="#040404"/></radialGradient><radialGradient id="sph-black-b" cx="50%" cy="90%" r="42%"><stop offset="0%" stop-color="#7a7a7a" stop-opacity="0.34"/><stop offset="100%" stop-color="#7a7a7a" stop-opacity="0"/></radialGradient><radialGradient id="sph-blue" cx="40%" cy="34%" r="82%"><stop offset="0%" stop-color="#95cbf2"/><stop offset="46%" stop-color="#2c80c9"/><stop offset="100%" stop-color="#123f68"/></radialGradient><radialGradient id="sph-blue-b" cx="50%" cy="90%" r="42%"><stop offset="0%" stop-color="#95cbf2" stop-opacity="0.34"/><stop offset="100%" stop-color="#95cbf2" stop-opacity="0"/></radialGradient><radialGradient id="sph-brown" cx="40%" cy="34%" r="82%"><stop offset="0%" stop-color="#d5a677"/><stop offset="46%" stop-color="#95603a"/><stop offset="100%" stop-color="#4a2d1d"/></radialGradient><radialGradient id="sph-brown-b" cx="50%" cy="90%" r="42%"><stop offset="0%" stop-color="#d5a677" stop-opacity="0.34"/><stop offset="100%" stop-color="#d5a677" stop-opacity="0"/></radialGradient><radialGradient id="sph-green" cx="40%" cy="34%" r="82%"><stop offset="0%" stop-color="#a6e473"/><stop offset="46%" stop-color="#57b334"/><stop offset="100%" stop-color="#2a6a17"/></radialGradient><radialGradient id="sph-green-b" cx="50%" cy="90%" r="42%"><stop offset="0%" stop-color="#a6e473" stop-opacity="0.34"/><stop offset="100%" stop-color="#a6e473" stop-opacity="0"/></radialGradient><radialGradient id="sph-grey" cx="40%" cy="34%" r="82%"><stop offset="0%" stop-color="#dedbd6"/><stop offset="46%" stop-color="#98928a"/><stop offset="100%" stop-color="#4a4641"/></radialGradient><radialGradient id="sph-grey-b" cx="50%" cy="90%" r="42%"><stop offset="0%" stop-color="#dedbd6" stop-opacity="0.34"/><stop offset="100%" stop-color="#dedbd6" stop-opacity="0"/></radialGradient><radialGradient id="sph-orange" cx="40%" cy="34%" r="82%"><stop offset="0%" stop-color="#ffb75f"/><stop offset="46%" stop-color="#ef7d18"/><stop offset="100%" stop-color="#8f4408"/></radialGradient><radialGradient id="sph-orange-b" cx="50%" cy="90%" r="42%"><stop offset="0%" stop-color="#ffb75f" stop-opacity="0.34"/><stop offset="100%" stop-color="#ffb75f" stop-opacity="0"/></radialGradient><radialGradient id="sph-pink" cx="40%" cy="34%" r="82%"><stop offset="0%" stop-color="#ffadc7"/><stop offset="46%" stop-color="#e76890"/><stop offset="100%" stop-color="#88304e"/></radialGradient><radialGradient id="sph-pink-b" cx="50%" cy="90%" r="42%"><stop offset="0%" stop-color="#ffadc7" stop-opacity="0.34"/><stop offset="100%" stop-color="#ffadc7" stop-opacity="0"/></radialGradient><radialGradient id="sph-plum" cx="40%" cy="34%" r="82%"><stop offset="0%" stop-color="#d8abe4"/><stop offset="46%" stop-color="#9a58b6"/><stop offset="100%" stop-color="#523067"/></radialGradient><radialGradient id="sph-plum-b" cx="50%" cy="90%" r="42%"><stop offset="0%" stop-color="#d8abe4" stop-opacity="0.34"/><stop offset="100%" stop-color="#d8abe4" stop-opacity="0"/></radialGradient><radialGradient id="sph-teal" cx="40%" cy="34%" r="82%"><stop offset="0%" stop-color="#84e4d8"/><stop offset="46%" stop-color="#26a596"/><stop offset="100%" stop-color="#0f5f58"/></radialGradient><radialGradient id="sph-teal-b" cx="50%" cy="90%" r="42%"><stop offset="0%" stop-color="#84e4d8" stop-opacity="0.34"/><stop offset="100%" stop-color="#84e4d8" stop-opacity="0"/></radialGradient><radialGradient id="sph-white" cx="40%" cy="34%" r="82%"><stop offset="0%" stop-color="#ffffff"/><stop offset="46%" stop-color="#efebe5"/><stop offset="100%" stop-color="#aea79e"/></radialGradient><radialGradient id="sph-white-b" cx="50%" cy="90%" r="42%"><stop offset="0%" stop-color="#ffffff" stop-opacity="0.34"/><stop offset="100%" stop-color="#ffffff" stop-opacity="0"/></radialGradient><radialGradient id="sph-yellow" cx="40%" cy="34%" r="82%"><stop offset="0%" stop-color="#ffe886"/><stop offset="46%" stop-color="#f3c02e"/><stop offset="100%" stop-color="#a2740a"/></radialGradient><radialGradient id="sph-yellow-b" cx="50%" cy="90%" r="42%"><stop offset="0%" stop-color="#ffe886" stop-opacity="0.34"/><stop offset="100%" stop-color="#ffe886" stop-opacity="0"/></radialGradient><radialGradient id="sph-red" cx="40%" cy="34%" r="82%"><stop offset="0%" stop-color="#ff8878"/><stop offset="46%" stop-color="#e03a2b"/><stop offset="100%" stop-color="#8a1a11"/></radialGradient><radialGradient id="sph-red-b" cx="50%" cy="90%" r="42%"><stop offset="0%" stop-color="#ff8878" stop-opacity="0.34"/><stop offset="100%" stop-color="#ff8878" stop-opacity="0"/></radialGradient><linearGradient id="gm-sheen" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#fff" stop-opacity="0.30"/><stop offset="0.55" stop-color="#fff" stop-opacity="0.06"/><stop offset="1" stop-color="#fff" stop-opacity="0"/></linearGradient><linearGradient id="gm-amber" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="var(--c-amber)"/><stop offset="1" stop-color="var(--c-amber-shade)"/></linearGradient><linearGradient id="gm-blue" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="var(--c-blue)"/><stop offset="1" stop-color="var(--c-blue-shade)"/></linearGradient><linearGradient id="gm-clay" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="var(--c-clay)"/><stop offset="1" stop-color="var(--c-clay-shade)"/></linearGradient><linearGradient id="gm-cocoa" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="var(--c-cocoa)"/><stop offset="1" stop-color="var(--c-cocoa-shade)"/></linearGradient><linearGradient id="gm-grape" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="var(--c-grape)"/><stop offset="1" stop-color="var(--c-grape-shade)"/></linearGradient><linearGradient id="gm-wine" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="var(--c-wine)"/><stop offset="1" stop-color="var(--c-wine-shade)"/></linearGradient><linearGradient id="gm-pine" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="var(--c-pine)"/><stop offset="1" stop-color="var(--c-pine-shade)"/></linearGradient><linearGradient id="gm-slate" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="var(--c-slate)"/><stop offset="1" stop-color="var(--c-slate-shade)"/></linearGradient><linearGradient id="gm-green" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="var(--c-green)"/><stop offset="1" stop-color="var(--c-green-shade)"/></linearGradient><linearGradient id="gm-leaf" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="var(--c-leaf)"/><stop offset="1" stop-color="var(--c-leaf-shade)"/></linearGradient><linearGradient id="gm-navy" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="var(--c-navy)"/><stop offset="1" stop-color="var(--c-navy-shade)"/></linearGradient><linearGradient id="gm-plum" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="var(--c-plum)"/><stop offset="1" stop-color="var(--c-plum-shade)"/></linearGradient><linearGradient id="gm-red" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="var(--c-red)"/><stop offset="1" stop-color="var(--c-red-shade)"/></linearGradient><linearGradient id="gm-rose" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="var(--c-rose)"/><stop offset="1" stop-color="var(--c-rose-shade)"/></linearGradient><linearGradient id="gm-rust" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="var(--c-rust)"/><stop offset="1" stop-color="var(--c-rust-shade)"/></linearGradient><linearGradient id="gm-sky" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="var(--c-sky)"/><stop offset="1" stop-color="var(--c-sky-shade)"/></linearGradient><linearGradient id="gm-stone" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="var(--c-stone)"/><stop offset="1" stop-color="var(--c-stone-shade)"/></linearGradient><linearGradient id="gm-sun" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="var(--c-sun)"/><stop offset="1" stop-color="var(--c-sun-shade)"/></linearGradient><linearGradient id="gm-tan" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="var(--c-tan)"/><stop offset="1" stop-color="var(--c-tan-shade)"/></linearGradient><linearGradient id="gm-teal" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="var(--c-teal)"/><stop offset="1" stop-color="var(--c-teal-shade)"/></linearGradient><linearGradient id="gm-tire" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="var(--c-tire)"/><stop offset="1" stop-color="var(--c-tire-shade)"/></linearGradient><linearGradient id="gm-terra" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="var(--c-terra)"/><stop offset="1" stop-color="var(--c-terra-shade)"/></linearGradient><linearGradient id="gm-paper" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="var(--c-paper)"/><stop offset="1" stop-color="var(--c-paper-shade)"/></linearGradient><linearGradient id="gm-cream" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="var(--c-cream)"/><stop offset="1" stop-color="var(--c-cream-shade)"/></linearGradient><symbol id="gm-i-124" viewBox="-0.32 0.03 24.64 24.64"><path d="M12 2a1.4 1.4 0 0 1 1.4 1.4v6.1l8.1 4.8v2.2l-8.1-2.6v5.2l2.6 1.9v1.7L12 21.4l-4 1.3v-1.7l2.6-1.9v-5.2L2.5 16.5v-2.2l8.1-4.8V3.4A1.4 1.4 0 0 1 12 2z" fill="url(#gm-blue)" stroke="var(--c-blue-rim)" stroke-width="0.5"/><path d="M12 2a1.4 1.4 0 0 1 1.4 1.4v6.1l8.1 4.8v2.2l-8.1-2.6v5.2l2.6 1.9v1.7L12 21.4l-4 1.3v-1.7l2.6-1.9v-5.2L2.5 16.5v-2.2l8.1-4.8V3.4A1.4 1.4 0 0 1 12 2z" fill="url(#gm-gloss)"/><path d="M12 2a1.4 1.4 0 0 1 1.4 1.4v6.1l8.1 4.8v2.2l-8.1-2.6z" fill="url(#gm-navy)" stroke="var(--c-navy-rim)" stroke-width="0.5"/><path d="M13.4 18.4l2.6 1.9v1.7L12 21.4z" fill="url(#gm-navy)" stroke="var(--c-navy-rim)" stroke-width="0.5"/><circle cx="12" cy="5.4" r="0.95" fill="url(#gm-sun)" stroke="var(--c-sun-rim)" stroke-width="0.5"/></symbol><symbol id="gm-i-384" viewBox="0 0 24 24"><ellipse cx="9.4" cy="18.6" rx="6.4" ry="2.2" fill="url(#gm-sun)" stroke="var(--c-sun-rim)" stroke-width="0.5"/><ellipse cx="9.4" cy="18.6" rx="6.4" ry="2.2" fill="url(#gm-gloss)"/><rect x="3" y="13.8" width="12.8" height="4.8" rx="0" fill="url(#gm-sun)" stroke="var(--c-sun-rim)" stroke-width="0.5"/><ellipse cx="9.4" cy="13.8" rx="6.4" ry="2.2" fill="url(#gm-amber)" stroke="var(--c-amber-rim)" stroke-width="0.5"/><ellipse cx="9.4" cy="12" rx="6.4" ry="2.2" fill="url(#gm-sun)" stroke="var(--c-sun-rim)" stroke-width="0.5"/><rect x="3" y="9" width="12.8" height="3" rx="0" fill="url(#gm-sun)" stroke="var(--c-sun-rim)" stroke-width="0.5"/><ellipse cx="9.4" cy="9" rx="6.4" ry="2.2" fill="url(#gm-amber)" stroke="var(--c-amber-rim)" stroke-width="0.5"/><circle cx="16.6" cy="8.6" r="5.4" fill="url(#gm-sun)" stroke="var(--c-sun-rim)" stroke-width="0.5"/><circle cx="16.6" cy="8.6" r="4" fill="url(#gm-amber)" stroke="var(--c-amber-rim)" stroke-width="0.5"/><text x="16.6" y="10.6" font-family="ui-sans-serif, system-ui, sans-serif" font-size="5.4" font-weight="700" text-anchor="middle" fill="url(#gm-cocoa)" stroke="var(--c-cocoa-rim)" stroke-width="0.35">$</text></symbol><symbol id="gm-i-524" viewBox="1 5.5 22 13"><path d="M4 6.5H20A2 2 0 0 1 22 8.5V10A2 2 0 0 0 22 14V15.5A2 2 0 0 1 20 17.5H4A2 2 0 0 1 2 15.5V14A2 2 0 0 0 2 10V8.5A2 2 0 0 1 4 6.5ZM16.3 8.5h1.3v1.7h-1.3ZM16.3 11.15h1.3v1.7h-1.3ZM16.3 13.8h1.3v1.7h-1.3Z" fill="url(#gm-sun)" stroke="var(--c-sun-rim)" stroke-width="0.5" fill-rule="evenodd"/><path d="M4 6.5H20A2 2 0 0 1 22 8.5V10A2 2 0 0 0 22 14V15.5A2 2 0 0 1 20 17.5H4A2 2 0 0 1 2 15.5V14A2 2 0 0 0 2 10V8.5A2 2 0 0 1 4 6.5ZM16.3 8.5h1.3v1.7h-1.3ZM16.3 11.15h1.3v1.7h-1.3ZM16.3 13.8h1.3v1.7h-1.3Z" fill="url(#gm-gloss)"/></symbol><symbol id="gm-i-395" viewBox="0 0 24 24"><rect x="1.6" y="4.6" width="20.8" height="14.8" rx="2.4" fill="url(#gm-navy)" stroke="var(--c-navy-rim)" stroke-width="0.5"/><rect x="1.6" y="4.6" width="20.8" height="14.8" rx="2.4" fill="url(#gm-gloss)"/>
+ <rect x="1.6" y="7.8" width="20.8" height="3.4" fill="url(#gm-tire)" stroke="var(--c-tire-rim)" stroke-width="0.5"/>
+ <rect x="4" y="13.4" width="5.4" height="3.6" rx="0.7" fill="url(#gm-sun)" stroke="var(--c-sun-rim)" stroke-width="0.5"/>
+ <g stroke="var(--c-amber)" stroke-width="0.7" opacity="0.8">
+ <path d="M6.7 13.4v3.6M4 15.2h5.4"/>
+ </g>
+ <g fill="url(#gm-cream)" stroke="var(--c-rim-warm)" stroke-width="0.6" opacity="0.75">
+ <rect x="12.4" y="14.6" width="4.4" height="1.3" rx="0.65"/><rect x="18" y="14.6" width="2.4" height="1.3" rx="0.65"/>
+ </g></symbol></defs></svg>
+
+<div class="prog" id="prog" aria-hidden="true"></div>
+
+<div class="frame">
+  <div class="cols">
+
+    <nav class="rail" aria-label="Sections">
+      <ol>
+        <li><a href="#ways" class="here"><span class="num">01</span><span>The four ways in</span></a></li>
+        <li><a href="#pp"><span class="num">02</span><span>Priority Pass pricing</span></a></li>
+        <li><a href="#cards"><span class="num">03</span><span>What the cards give</span></a></li>
+        <li><a href="#rules"><span class="num">04</span><span>Rules that catch people</span></a></li>
+        <li><a href="#worth"><span class="num">05</span><span>Which one's worth it</span></a></li>
+      </ol>
+      <div class="badge-exp">Design experiment<br>New 3 &middot; kinetic edition<br>Not linked into the site</div>
+    </nav>
+
+    <main>
+
+      <header class="hero">
+        <div class="over">Lounge access methods, compared</div>
+        <h1 class="big" data-words>Every way in, and what it really costs.</h1>
+        <p class="stand">Four ways into an airport lounge — <strong>flying business, paying at the door, carrying a membership, or carrying the right credit card</strong> — and what each one actually costs once you look past the headline benefit. Priority Pass pricing tier by tier, what Amex Platinum, Chase Sapphire Reserve and Capital One Venture X really give you, the same-day-boarding-pass rules that turn people away at the desk, and which option is worth it depending on how often you fly.</p>
+      </header>
+
+      <div class="ticker" aria-hidden="true">
+        <div class="track" id="tick"></div>
+      </div>
+
+      <!-- ══ 01 ══ -->
+      <section class="chunk rise" id="ways">
+        <div class="ch-top"><span class="num">01</span></div>
+        <h2>The four ways in</h2>
+        <p class="lede">Same four families the lounge directory uses. Here's what each one actually costs.</p>
+
+        <div class="entries">
+          <div class="entry">
+            <div class="no">i</div>
+            <div>
+              <h3>Airline &amp; alliance</h3>
+              <p>Your cabin on the day, or your alliance status. Costs nothing extra once you have the ticket or the status — the trade-off is that a membership card never opens these doors, no matter which one you carry.</p>
+            </div>
+            <div class="side"><svg class="sideic" viewBox="0 0 24 24" aria-hidden="true"><use href="#gm-i-124"/></svg>Free with the<br>ticket or status</div>
+          </div>
+          <div class="entry t-moss">
+            <div class="no">ii</div>
+            <div>
+              <h3>Pay at the door</h3>
+              <p>No ticket class, no card, no membership — anyone can buy in. About $25–$100 for two to three hours, and booking online through the lounge's own site or an app is reliably cheaper than paying at the desk.</p>
+            </div>
+            <div class="side"><svg class="sideic" viewBox="0 0 24 24" aria-hidden="true"><use href="#gm-i-384"/></svg>$25–$100<br>per visit</div>
+          </div>
+          <div class="entry t-gold">
+            <div class="no">iii</div>
+            <div>
+              <h3>Membership</h3>
+              <p>Priority Pass is the widest network; LoungeKey and DragonPass cover many of the same rooms under a different bank's branding. Priced below. Busy lounges turn members away before ticketed passengers.</p>
+            </div>
+            <div class="side"><svg class="sideic" viewBox="0 0 24 24" aria-hidden="true"><use href="#gm-i-524"/></svg>$99–$469<br>a year</div>
+          </div>
+          <div class="entry t-terra">
+            <div class="no">iv</div>
+            <div>
+              <h3>Credit card</h3>
+              <p>A network the issuer owns outright (Amex Centurion) or a bundled Priority Pass membership (most other cards). Almost always needs a same-day boarding pass — see 04.</p>
+            </div>
+            <div class="side"><svg class="sideic" viewBox="0 0 24 24" aria-hidden="true"><use href="#gm-i-395"/></svg>Bundled into<br>the card</div>
+          </div>
+        </div>
+
+        <div class="aside">Every lounge the site covers, airport by airport, worldwide, lives at <b>/essentials/lounges/</b> — that page answers <em>which lounges exist here and what does this one take.</em> This one answers <em>which way in is worth paying for.</em></div>
+      </section>
+
+      <!-- ══ 02 ══ -->
+      <section class="chunk rise" id="pp">
+        <div class="ch-top"><span class="num">02</span></div>
+        <h2>Priority Pass, tier by tier</h2>
+        <p class="lede">Bought standalone, not bundled into a card.</p>
+
+        <div class="odo">
+          <div>
+            <div class="tname">Standard</div>
+            <div class="fig"><span class="roll" data-to="99">0</span><span class="yr">/year</span></div>
+            <dl class="rowline"><dt>Visits included</dt><dd>None</dd></dl>
+            <dl class="rowline"><dt>After that</dt><dd>$35 a visit, every visit</dd></dl>
+          </div>
+          <div>
+            <div class="tname">Standard Plus</div>
+            <div class="fig"><span class="roll" data-to="329">0</span><span class="yr">/year</span></div>
+            <dl class="rowline"><dt>Visits included</dt><dd>10 visits</dd></dl>
+            <dl class="rowline"><dt>After that</dt><dd>$35 a visit</dd></dl>
+          </div>
+          <div class="crown">
+            <div class="tname">Prestige</div>
+            <div class="fig"><span class="roll" data-to="469">0</span><span class="yr">/year</span></div>
+            <dl class="rowline"><dt>Visits included</dt><dd>Unlimited</dd></dl>
+            <dl class="rowline"><dt>After that</dt><dd>—</dd></dl>
+          </div>
+        </div>
+
+        <div class="aside">A guest costs <b>$35 a visit on every tier</b> — the fee is per person through the door, not per member. <b>LoungeKey</b> and <b>DragonPass</b> run separate, overlapping networks; which one (if any) your credit card bundles depends on the bank that issued it, not on you choosing one over Priority Pass.</div>
+      </section>
+
+      <!-- ══ 03 ══ -->
+      <section class="chunk rise" id="cards">
+        <div class="ch-top"><span class="num">03</span></div>
+        <h2>What the major travel cards actually give you</h2>
+        <p class="lede">Beyond the headline "lounge access included" line — three cards, side by side.</p>
+
+        <div class="rail-x">
+          <article class="slab">
+            <h3>American Express Platinum</h3>
+            <div class="gives">Centurion Lounge<br>Global Lounge Collection<br>Delta Sky Club</div>
+            <p>Entry needs the physical card, a same-day boarding pass, and government ID. <strong>Delta Sky Club:</strong> access on same-day Delta-operated flights, capped at 10 visits a year unless you spend $75,000 or more on the card in a calendar year (then unlimited on eligible days); a guest costs $50 ($25 at Grab and Go locations), a child age 2–17 costs $30. <strong>Centurion Lounges:</strong> a guest costs $50 ($30 for a child, free under 2); hitting the same $75,000 threshold unlocks two complimentary guests per visit instead.</p>
+            <ul class="news">
+              <li>Since July 8, 2026: you must arrive within 3 hours of departure on a single flight, or within 5 hours of a connecting flight's departure — and any guest must be booked on the same flight as you.</li>
+            </ul>
+          </article>
+
+          <article class="slab">
+            <h3>Chase Sapphire Reserve</h3>
+            <div class="gives">Priority Pass Select<br>Chase Sapphire Lounges by The Club</div>
+            <p>Priority Pass Select — 1,300+ lounges worldwide — activates automatically for the primary cardholder and every authorized user, alongside Chase's own branded Sapphire Lounges, select Air Canada Maple Leaf Lounges &amp; Cafés, and the Etihad Lounge at Washington Dulles (IAD). Most locations admit two guests; Maple Leaf admits one. A layover stop at a Chase Sapphire Lounge is good for up to 5 hours before your connecting flight (raised from 3).</p>
+            <ul class="news">
+              <li>As of August 15, 2026, Chase Sapphire Lounges stopped accepting outside Priority Pass and LoungeKey members — a standalone Priority Pass card no longer gets a non-Chase cardholder through that specific door. This does not change anything for a Sapphire Reserve cardholder: your own access to Chase Sapphire Lounges and your own Priority Pass Select membership for every other lounge in the network are both unaffected.</li>
+            </ul>
+          </article>
+
+          <article class="slab">
+            <h3>Capital One Venture X</h3>
+            <div class="gives">Capital One Lounges<br>Capital One Landings<br>Priority Pass network &middot; unlimited</div>
+            <p>The cardholder and every authorized user get unlimited visits, on the card alone, to Capital One's own Lounges and Landings plus the full Priority Pass network — no separate membership fee.</p>
+            <ul class="news">
+              <li>Since February 1, 2026, guests are no longer complimentary in Priority Pass lounges on this card — a $35-per-visit guest fee now applies there. Spending $75,000 or more on the card in a calendar year unlocks two complimentary guests, but only at Capital One's own Lounges and Landings; Priority Pass lounges still charge $35 a guest regardless of spend.</li>
+              <li>The Venture X <strong>Business</strong> card is the exception: it still brings two guests into Priority Pass lounges free.</li>
+            </ul>
+          </article>
+        </div>
+        <div class="rail-hint">Drag or scroll sideways &mdash; three cards, one rail</div>
+      </section>
+
+      <!-- ══ 04 ══ -->
+      <section class="chunk rise" id="rules">
+        <div class="ch-top"><span class="num">04</span></div>
+        <h2>Rules that catch people out</h2>
+        <p class="lede">The fine print behind "lounge access included".</p>
+
+        <div class="pulls">
+          <div class="pull">
+            <div class="mk">01</div>
+            <div>
+              <h4>Delta Sky Club needs a same-day boarding pass — always</h4>
+              <p>Every access method — Delta status, a membership, or a co-branded card — requires a same-day boarding pass on a Delta-operated or eligible SkyTeam partner flight. Entry runs from up to 3 hours before departure, or during a same-day connection. There is no walk-in option, membership or not.</p>
+            </div>
+          </div>
+          <div class="pull">
+            <div class="mk">02</div>
+            <div>
+              <h4>Basic Economy is excluded from Delta Sky Club</h4>
+              <p>A Basic Economy ticket is turned away at Delta Sky Club regardless of status, membership, or card — the fare class itself is the block, not the access method.</p>
+            </div>
+          </div>
+          <div class="pull">
+            <div class="mk">03</div>
+            <div>
+              <h4>Amex now checks your arrival time and your guest's flight</h4>
+              <p>Since July 8, 2026: Centurion Lounges and Delta Sky Clubs (via the Platinum Card) require arrival within 3 hours of a single flight's departure, or 5 hours of a connecting flight — and any guest must be ticketed on the same flight as you.</p>
+            </div>
+          </div>
+          <div class="pull">
+            <div class="mk">04</div>
+            <div>
+              <h4>Guest fees moved, they didn't disappear</h4>
+              <p>Capital One Venture X guests stopped being free in Priority Pass lounges on February 1, 2026 ($35/visit now). Amex's $75,000 spend threshold buys complimentary guests at Centurion Lounges and Delta Sky Club — but they're two separate thresholds, not one.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ══ 05 ══ -->
+      <section class="chunk rise" id="worth">
+        <div class="ch-top"><span class="num">05</span></div>
+        <h2>Which one's worth it, by how often you fly</h2>
+        <p class="lede">A rough frequency guide — not a recommendation to open a card for lounge access alone.</p>
+
+        <div class="ladder">
+          <div class="rung">
+            <div class="band">1–2<small>trips a year</small></div>
+            <div>
+              <div class="ans">Pay at the door</div>
+              <div class="rz">An annual membership fee never earns itself back at that pace — two or three door visits a year costs less than any Priority Pass tier.</div>
+            </div>
+          </div>
+          <div class="rung">
+            <div class="band">3–6<small>trips a year</small></div>
+            <div>
+              <div class="ans">Priority Pass Standard Plus, or a card that already bundles Priority Pass Select</div>
+              <div class="rz">10 included visits roughly matches this range; if you'd carry a card like Chase Sapphire Reserve anyway for its other benefits, its bundled membership costs nothing extra.</div>
+            </div>
+          </div>
+          <div class="rung">
+            <div class="band">7–15<small>trips a year</small></div>
+            <div>
+              <div class="ans">Priority Pass Prestige, or Capital One Venture X</div>
+              <div class="rz">Unlimited visits stop being a luxury once per-visit fees would otherwise add up past the annual fee; Venture X gives the same unlimited entry as a card perk rather than a separate membership.</div>
+            </div>
+          </div>
+          <div class="rung">
+            <div class="band">15+<small>trips a year</small></div>
+            <div>
+              <div class="ans">American Express Platinum</div>
+              <div class="rz">Also the pick if you simply want the widest premium network. Centurion Lounges are the largest lounge network any single card owns outright, plus Delta Sky Club on Delta flights — at the cost of the same-day-boarding-pass rule and per-guest fees below the $75,000 spend threshold.</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <div class="colophon">
+        <span>Guide My Days</span>
+        <span>Lounge access &middot; new 3</span>
+        <span>Kinetic edition</span>
+        <span>Design experiment — not linked into the site</span>
+      </div>
+
+    </main>
+  </div>
+</div>
+
+<script>
+(function(){
+  "use strict";
+
+  /* Opt in to the "starts hidden" CSS only once JS is running, and
+     put a floor under it: if the observers never fire — a hidden tab,
+     a snapshot renderer, an old browser — everything is revealed
+     anyway a couple of seconds in. Content is never left invisible. */
+  document.documentElement.classList.add('anim');
+  setTimeout(function(){
+    [].slice.call(document.querySelectorAll('.rise')).forEach(function(el){
+      el.classList.add('on');
+    });
+    /* Same floor for the odometer figures — written by an observer
+       callback, so a stalled observer would leave $0 on screen. */
+    [].slice.call(document.querySelectorAll('.roll')).forEach(function(el){
+      if (el.textContent.replace(/\D/g, '') === '0') {
+        el.textContent = '$' + el.getAttribute('data-to');
+      }
+    });
+  }, 2500);
+  var reduced = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  /* ── Headline: wrap every word in a clipping box so it can slide up
+     from below its own baseline, one after the next. ── */
+  var big = document.querySelector('.big[data-words]');
+  if (big) {
+    var words = big.textContent.trim().split(/\s+/);
+    big.textContent = '';
+    words.forEach(function(word, i){
+      var box = document.createElement('span');
+      box.className = 'w';
+      var inner = document.createElement('span');
+      /* the closing phrase carries the accent */
+      inner.textContent = word;
+      if (i >= 4) { var em = document.createElement('em'); em.textContent = word; inner.textContent = ''; inner.appendChild(em); }
+      box.appendChild(inner);
+      big.appendChild(box);
+      big.appendChild(document.createTextNode(' '));
+      setTimeout(function(){ box.classList.add('on'); }, reduced ? 0 : 120 + i * 85);
+    });
+  }
+
+  /* ── Ticker: the four ways in, doubled so the loop is seamless. ── */
+  var tick = document.getElementById('tick');
+  if (tick) {
+    var items = ['Fly the cabin', 'Pay at the door', 'Carry the membership', 'Carry the card',
+                 '$25–$100 a visit', '$99 to $469 a year', 'Same-day boarding pass', 'Guests are never free'];
+    var html = items.map(function(t){ return '<span>' + t + '</span>'; }).join('');
+    tick.innerHTML = html + html;
+  }
+
+  /* ── Scroll progress hairline ── */
+  var prog = document.getElementById('prog');
+  function onScroll(){
+    var h = document.documentElement;
+    var max = h.scrollHeight - h.clientHeight;
+    prog.style.transform = 'scaleX(' + (max > 0 ? h.scrollTop / max : 0) + ')';
+  }
+  document.addEventListener('scroll', onScroll, { passive: true });
+  onScroll();
+
+  /* ── Section reveals + rail tracking, one observer each ── */
+  var chunks = [].slice.call(document.querySelectorAll('.chunk'));
+  var links  = [].slice.call(document.querySelectorAll('.rail a'));
+
+  if (!('IntersectionObserver' in window) || reduced) {
+    chunks.forEach(function(c){ c.classList.add('on'); });
+  } else {
+    var reveal = new IntersectionObserver(function(entries){
+      entries.forEach(function(e){
+        if (!e.isIntersecting) return;
+        e.target.classList.add('on');
+        reveal.unobserve(e.target);
+      });
+    }, { rootMargin: '0px 0px -12% 0px', threshold: 0.06 });
+    chunks.forEach(function(c){ reveal.observe(c); });
+
+    /* Rail: whichever section's top band is in the upper third wins. */
+    var track = new IntersectionObserver(function(entries){
+      entries.forEach(function(e){
+        if (!e.isIntersecting) return;
+        links.forEach(function(a){
+          a.classList.toggle('here', a.getAttribute('href') === '#' + e.target.id);
+        });
+      });
+    }, { rootMargin: '-12% 0px -70% 0px', threshold: 0 });
+    chunks.forEach(function(c){ track.observe(c); });
+  }
+
+  /* ── Odometer figures — count up when the block arrives ── */
+  var rolls = [].slice.call(document.querySelectorAll('.roll'));
+  function roll(el){
+    var to = parseInt(el.getAttribute('data-to'), 10) || 0;
+    if (reduced) { el.textContent = '$' + to; return; }
+    var start = null;
+    function step(ts){
+      if (start === null) start = ts;
+      var p = Math.min((ts - start) / 1000, 1);
+      el.textContent = '$' + Math.round(to * (1 - Math.pow(1 - p, 4)));
+      if (p < 1) requestAnimationFrame(step);
+    }
+    requestAnimationFrame(step);
+    /* rAF is throttled to nothing in a background tab — a timer lands the
+       real figure whether or not the roll ever ran. */
+    setTimeout(function(){ el.textContent = '$' + to; }, 1150);
+  }
+  if (!('IntersectionObserver' in window) || reduced) {
+    rolls.forEach(roll);
+  } else {
+    var ro = new IntersectionObserver(function(entries){
+      entries.forEach(function(e){
+        if (!e.isIntersecting) return;
+        roll(e.target); ro.unobserve(e.target);
+      });
+    }, { threshold: 0.4 });
+    rolls.forEach(function(r){ ro.observe(r); });
+  }
+}());
+</script>
+</body>
+</html>

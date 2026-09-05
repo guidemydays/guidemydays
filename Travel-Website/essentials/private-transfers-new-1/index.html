@@ -417,7 +417,7 @@ body.v-kinetic .hero-band.eb-hero {
   box-shadow: none !important;
   max-width: none !important;
   margin: 0 0 clamp(30px, 5vw, 64px) !important;
-  padding: clamp(46px, 8vw, 104px) clamp(20px, 6vw, 76px) clamp(34px, 5vw, 60px) !important;
+  padding: clamp(40px, 6vw, 80px) clamp(20px, 6vw, 76px) clamp(30px, 4vw, 52px) !important;
   display: block !important;
   position: relative;
   overflow: hidden;
@@ -447,15 +447,14 @@ body.v-kinetic .eb-kicker::after {
 }
 @keyframes v-ruleout { to { width: clamp(48px, 12vw, 190px); } }
 
-body.v-kinetic .eb-copy { max-width: 21ch; }
 body.v-kinetic .eb-title {
-  font-size: clamp(38px, 7.6vw, 92px) !important;
+  font-size: clamp(34px, 5.8vw, 74px) !important;
   line-height: .94 !important;
   letter-spacing: -.035em !important;
   font-weight: 800 !important;
   color: var(--v-ink) !important;
   margin: 0 0 clamp(20px, 3vw, 34px) !important;
-  max-width: none !important;
+  max-width: 15ch !important;
 }
 body.v-kinetic .eb-title em {
   font-style: normal;
@@ -625,10 +624,10 @@ body.v-kinetic *::after {
       var el = els[i];
       var c = ' ' + (el.getAttribute('class') || '') + ' ';
       if (SKIP.test(c)) continue;
-      if (el.tagName === 'ARTICLE' || /\s[a-z0-9]+-(card|tile|panel)\s/.test(c)) el.classList.add('v-pane');
-      if (/\s[a-z0-9]+-chip\s/.test(c)) el.classList.add('v-chip');
-      if (/\s[a-z0-9]+-num\s/.test(c)) el.classList.add('v-stat');
-      if (/\s[a-z0-9]+-head\s/.test(c)) el.classList.add('v-label');
+      if (el.tagName === 'ARTICLE' || /\s[a-z0-9-]+-(card|tile|panel)\s/.test(c)) el.classList.add('v-pane');
+      if (/\s[a-z0-9-]+-chip\s/.test(c)) el.classList.add('v-chip');
+      if (/\s[a-z0-9-]+-num\s/.test(c)) el.classList.add('v-stat');
+      if (/\s[a-z0-9-]+-head\s/.test(c)) el.classList.add('v-label');
     }
   })();
 
@@ -683,7 +682,13 @@ body.v-kinetic *::after {
         io.unobserve(e.target);
       });
     }, { rootMargin: '0px 0px -8% 0px', threshold: 0.06 });
-    seen.forEach(function (el) { io.observe(el); });
+    seen.forEach(function (el) {
+      if (el.getBoundingClientRect().top < innerHeight * 0.92) { el.classList.add('in'); return; }
+      io.observe(el);
+    });
+    setTimeout(function () {
+      seen.forEach(function (el) { el.classList.add('in'); });
+    }, 2500);
   }
 
   /* count-up on the big numerals */

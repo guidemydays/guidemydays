@@ -8829,13 +8829,15 @@ window.TVE.home = (function () {
          sentence asks — where else the same money goes further. */
       function _syncNote() {
         var iso = pick.value, r = _mineRate();
+        /* No trailing separator: .tve-cur-note holds the sentence at one end of
+           the line and the link at the other, so nothing follows the date. */
         lede.nodeValue = (iso && r)
           ? '1 ' + iso + ' ≈ ' + sym + _curRate(c.rate / r) + ' · ' +
             c.name + ' (' + c.iso + ')' +
-            (cur._as_of ? ' · rates as of ' + cur._as_of : '') + ' · '
+            (cur._as_of ? ' · rates as of ' + cur._as_of : '')
           : 'Pick your currency to convert · prices here are in ' +
             c.name + ' (' + c.iso + ')' +
-            (cur._as_of ? ' · rates as of ' + cur._as_of : '') + ' · ';
+            (cur._as_of ? ' · rates as of ' + cur._as_of : '');
       }
       _syncNote();
       pick.addEventListener('change', function () {

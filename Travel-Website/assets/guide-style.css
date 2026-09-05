@@ -537,33 +537,58 @@ a:hover { text-decoration: underline; }
   content: ''; position: absolute; top: 50%; left: 50%;
   width: 44px; height: 44px; transform: translate(-50%, -50%);
 }
-.tve-cur-row { display: flex; align-items: center; gap: 8px; width: 100%; padding-right: 22px; box-sizing: border-box; }
-.tve-cur-field { display: inline-flex; align-items: center; gap: 6px; min-width: 0; }
-.tve-cur-sym { font-size: 13px; font-weight: 700; color: var(--c-action-text); white-space: nowrap; }
+.tve-cur-row {
+  display: grid;
+  /* picker · your amount · = · destination symbol · destination amount. The two
+     amount columns are one 1fr each, so both boxes measure the SAME. As flex
+     children they could not: the left label carries the picker as well, so its
+     input only ever got what the picker left over — the row shipped with a
+     narrow box on the left and a wide one on the right doing the same job. */
+  grid-template-columns: auto minmax(64px, 1fr) auto auto minmax(64px, 1fr);
+  align-items: center;
+  column-gap: 10px;
+  width: 100%;
+  padding-right: 24px;   /* keeps the last box clear of the ✕ */
+  box-sizing: border-box;
+}
+/* Layout-transparent: the label still owns its input for the accessibility tree,
+   but the picker, both amount boxes and the two operators sit directly on the
+   row's grid — which is what lets the row span the panel instead of huddling in
+   its left quarter with the ✕ marooned at the far edge. */
+.tve-cur-field { display: contents; }
+.tve-cur-sym { font-size: 14px; font-weight: 700; color: var(--c-action-text); white-space: nowrap; }
 .tve-cur-pick {
   font-family: inherit;
-  font-size: 13px;
+  /* Same type size and box padding as the two amount fields beside it: three
+     controls on one row read as one control set only when they share a height
+     and a size. The 11em cap keeps a long currency name from stretching the
+     picker column past the boxes it is measured against. */
+  font-size: 14px;
   font-weight: 700;
   color: var(--c-action-text);
   background: var(--c-card-bg);
   border: 1px solid var(--c-next-border);
   border-radius: 4px;
-  padding: 5px 6px;
+  padding: 6px 10px;
   max-width: 11em;
+  min-width: 0;
   cursor: pointer;
 }
 .tve-cur-pick:focus { outline: none; border-color: #C04E1A; }
 .tve-cur-eq { font-size: 14px; color: var(--c-text-muted); }
 .tve-cur-in {
-  width: 96px;
-  padding: 6px 9px;
+  width: auto;      /* the grid column sizes it — see .tve-cur-row */
+  min-width: 0;
+  padding: 6px 10px;
   border: 1px solid var(--c-next-border);
   border-radius: 4px;
   background: var(--c-card-bg);
   color: var(--c-text-primary);
   -webkit-text-fill-color: var(--c-text-primary);   /* iOS greys the value without this */
   font-family: inherit;
-  font-size: 16px;
+  /* 14px here, 16px at the phone breakpoint below — under 16px iOS Safari zooms
+     the whole page on focus and throws the reader out of the guide. */
+  font-size: 14px;
   font-weight: 600;
   text-align: right;
   -moz-appearance: textfield;
@@ -576,7 +601,20 @@ a:hover { text-decoration: underline; }
   font-weight: 400;
 }
 .tve-cur-in:focus { outline: none; border-color: #C04E1A; }
-.tve-cur-note { font-size: 11px; line-height: 1.5; color: var(--c-text-muted); }
+/* The sentence and its link hold the two ends of the line, so the panel's
+   bottom edge is as wide as its top one. They stack in reading order when the
+   sentence is too long to share a line. */
+.tve-cur-note {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 2px 16px;
+  width: 100%;
+  font-size: 12px;
+  line-height: 1.5;
+  color: var(--c-text-muted);
+}
 .tve-cur-more { color: var(--c-index-accent); text-decoration: none; font-weight: 600; white-space: nowrap; }
 .tve-cur-more:visited { color: #7a5c0e; }  /* literal hex — browsers don't resolve var() in :visited */
 @media (prefers-color-scheme: dark) {
@@ -585,9 +623,11 @@ a:hover { text-decoration: underline; }
 }
 .tve-cur-more:hover { text-decoration: underline; }
 @media (max-width: 600px) and (pointer: coarse) {
-  .tve-cur-field { flex: 1 1 0; }
-  .tve-cur-in { width: auto; flex: 1 1 0; min-width: 0; }
-  .tve-cur-row { flex-wrap: wrap; }
+  /* A phone gets the wrapping flex row back — five grid columns on 393px is the
+     sliver bug the .tve-cur-mine comment in toolbar.js describes. */
+  .tve-cur-row { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+  .tve-cur-field { display: inline-flex; align-items: center; gap: 6px; flex: 1 1 0; }
+  .tve-cur-in { width: auto; flex: 1 1 0; min-width: 0; font-size: 16px; }
   .tve-cur-mine { flex: 1 0 100%; }
   .tve-cur-pick { font-size: 16px; flex: 1 1 auto; max-width: 58%; }
 }

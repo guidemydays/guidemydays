@@ -456,7 +456,7 @@ a:hover { text-decoration: underline; }
 
 /* Mobile: same rounded chip as desktop, just 2 columns instead of 4 —
    no separate square/uppercase/segmented treatment. */
-@media (max-width: 600px) {
+@media (max-width: 600px) and (pointer: coarse) {
   /* !important: .overview-extras (in the touch-device block below) also
      matches #ics-pill-row via its shared class and forces its own 3-column
      grid with !important — an ID selector alone isn't enough to win against
@@ -472,6 +472,12 @@ a:hover { text-decoration: underline; }
     gap: 4px;
     min-height: 52px;
   }
+  /* Odd pill count (5): the Currency pill sits alone in the last row of
+     this 2-col grid otherwise — half-width with an empty cell beside it
+     (owner rule 2026-08-18). Conditional on :last-child so a 6th pill
+     added later makes the row even again and this stops matching on its
+     own, rather than leaving one pill mysteriously double width. */
+  #ics-pill-row > #tve-cur-pill:nth-child(odd):last-child { grid-column: 1 / -1; }
 }
 
 #ams-advisory { display:flex; align-items:flex-start; gap:10px; padding:10px 14px; background:var(--c-alt-bg); border-top:1px solid var(--c-alt-border); border-bottom:1px solid var(--c-alt-border); }
@@ -1922,6 +1928,10 @@ div.train .train-time   { padding: 2px 0; }
     color: #fff !important;
     -webkit-text-fill-color: #fff !important;
   }
+  /* Odd pill count (5): same fix as the (pointer: coarse)-only block above
+     — this file carries the phone pill grid twice, so the rule has to be
+     duplicated here too (owner rule 2026-08-18). */
+  #ics-pill-row > #tve-cur-pill:nth-child(odd):last-child { grid-column: 1 / -1; }
   #tve-best-of-crosslinks + .title-updated,
   #also-in-country + .title-updated,
   #also-nearby-wrap + .title-updated,

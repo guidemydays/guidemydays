@@ -5189,7 +5189,13 @@ window.TVE.home = (function () {
 
     var HOTEL_ALT_DATA = {
     /* entries added per guide during build — see Separation Map.md § Hotels & Rentals */
-    'montego-bay': { h: [
+    'bangalore': { h: [
+      { name: 'Radisson Blu Atria Bengaluru', note: 'Radisson Blu — second-tier international brand, Palace Road, spa, pool, 24h reception, AC, 25 min walk to MG Road · 7.9 Booking.com', url: 'https://www.booking.com/hotel/in/radisson-blu-atria-bengaluru.html', tier: 'budget' },
+      { name: 'Hyatt Centric MG Road Bangalore', note: 'Hyatt family — first-tier international brand, right on MG Road, spa, 24h reception, AC, steps from Cubbon Park · 7.8 Booking.com', url: 'https://www.booking.com/hotel/in/hyatt-bangalore-mg-road.html', tier: 'mid' },
+      { name: 'JW Marriott Hotel Bengaluru', note: 'Marriott family — first-tier international brand, this guide\u2019s title-card hotel, Vittal Mallya Road, Central Business District, spa, pool, 24h reception, AC, steps from Cubbon Park and UB City · 8.2 Booking.com', url: 'https://www.booking.com/hotel/in/jw-marriott-bengaluru.html', tier: 'expensive' },
+      { name: 'Conrad Bengaluru', note: 'Hilton family — first-tier international brand, Kensington Road, spa, pool, 24h reception, AC, 5 min walk to MG Road · 8.2 Booking.com', url: 'https://www.booking.com/hotel/in/conrad-bengaluru.html', tier: 'expensive' },
+      { name: 'The Ritz-Carlton, Bangalore', note: 'Marriott family — first-tier international brand, Residency Road, spa, pool, 24h reception, AC, Bangalore\u2019s top-of-market address · 9.3 Booking.com', url: 'https://www.booking.com/hotel/in/ritz-carlton-bangalore.html', tier: 'luxury' }
+    ], price: { budget: '₹7,000–9,000', mid: '₹9,500–13,500', expensive: '₹16,000–30,000', luxury: '₹29,000+' } },    'montego-bay': { h: [
       { name: "Evelin's On The Beach", note: 'Independent — Kent Avenue, oceanfront on the Hip Strip, restaurant and water-sports desk on site, no ladder brand in market · 8.1 Booking.com', url: 'https://www.booking.com/hotel/jm/evelins-on-the-beach.html', tier: 'budget' },
       { name: 'Hills Royale Villa – Ironshore', note: 'Independent villa — Greenview Avenue, Ironshore, pool and garden, quiet residential setting near the airport, no ladder brand in market · 9.3 Booking.com', url: 'https://www.booking.com/hotel/jm/hills-royale-villa.html', tier: 'budget' },
       { name: "Toby's Resort", note: 'Independent — Kent Avenue, Hip Strip, pool, gym, spa and golf within 2 miles, wheelchair-accessible rooms · 8.0 Booking.com', url: 'https://www.booking.com/hotel/jm/tobys-resort.html', tier: 'mid' },
@@ -10255,6 +10261,7 @@ window.TVE.home = (function () {
       'curitiba':          {iata:'CWB', name:'Curitiba Afonso Pena'},
       'cusco':             {iata:'CUZ', name:'Alejandro Velasco Astete International'},
       'dallas':            {iata:'DFW', name:'Dallas/Fort Worth International'},
+      'bangalore':         {iata:'BLR', name:'Kempegowda International'},
       'delhi':             {iata:'DEL', name:'Indira Gandhi International'},
       'denver':            {iata:'DEN', name:'Denver International'},
       'doha':              {iata:'DOH', name:'Hamad International'},
@@ -10459,7 +10466,7 @@ window.TVE.home = (function () {
        its airport. */
     var LOUNGE_IATAS = [
       'ABQ','AES','AGP','AJU','AMM','AMS','ANC','ARN','ATH','ATL','AUA','AUH','AUS','BCN','BDS','BER',
-      'BGI','BGO','BIO','BKK','BLQ','BNA','BOB','BOD','BOM','BOS','BRU','BSL','BUD','CAE','CAI','CDG',
+      'BGI','BGO','BIO','BKK','BLQ','BLR','BNA','BOB','BOD','BOM','BOS','BRU','BSL','BUD','CAE','CAI','CDG',
       'CFU','CGN','CKG','CLT','CMB','CNX','CPH','CPT','CTA','CTG','CUN','CUR','CUZ','CWB','DAD','DBV',
       'DCA','DEL','DEN','DFW','DOH','DPS','DTW','DUB','DUS','DXB','DYG','EDI','EYW','EZE','FAO','FCA',
       'FCO','FHR','FLN','FLR','FNC','FOR','FRA','GCM','GEG','GIG','GLA','GOT','GPS','GRU','GRX','GUA',

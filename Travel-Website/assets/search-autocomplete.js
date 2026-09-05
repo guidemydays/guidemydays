@@ -187,10 +187,7 @@
           return sc(a) - sc(b) || a.name.localeCompare(b.name);
         })
         .slice(0, limit);
-      if (!cur.length) {
-        dd.innerHTML = '<div class="sa-empty">No matches for “' + esc(input.value.trim()) + '”.</div>';
-        dd.hidden = false; active = -1; return;
-      }
+      if (!cur.length) { hide(); return; }
       dd.innerHTML = cur.map(function (it, i) {
         return '<button type="button" class="sa-row" data-i="' + i + '">' +
           esc(it.name) + (it.sub ? '<span class="sa-sub"> · ' + esc(it.sub) + '</span>' : '') +

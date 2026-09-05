@@ -10483,7 +10483,7 @@ window.TVE.home = (function () {
       'DCA','DEL','DEN','DFW','DOH','DPS','DTW','DUB','DUS','DXB','DYG','EDI','EYW','EZE','FAO','FCA',
       'FCO','FHR','FLN','FLR','FNC','FOR','FRA','GCM','GEG','GIG','GLA','GOT','GPS','GRU','GRX','GUA',
       'GVA','HAM','HAN','HAV','HEL','HER','HHH','HIJ','HKG','HKT','HND','HNL','IAD','IAH','ICN','IGU',
-      'IST','JFK','JMK','JPA','JTR','KEF','KIX','KOA','KRK','KTM','KUL','KWI','LAS','LAX','LGA','LGW',
+      'IST','JED','JFK','JMK','JPA','JTR','KEF','KIX','KOA','KRK','KTM','KUL','KWI','LAS','LAX','LGA','LGW',
       'LHR','LIH','LIM','LIS','LJU','LOS','LPB','LPQ','LUX','LYS','MAD','MAN','MBJ','MCO','MCT','MCZ',
       'MEL','MFM','MIA','MLA','MLE','MRS','MSP','MSY','MUC','MVD','MXP','NAP','NAS','NAT','NBO','NCE','OAX',
       'OGG','OLB','OPO','ORD','ORS','ORY','OSL','OTP','PBH','PDL','PDX','PEK','PHL','PHX','PLS','PMI',

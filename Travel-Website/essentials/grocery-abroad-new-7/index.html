@@ -1,0 +1,442 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Grocery &amp; Pharmacy Delivery Abroad — Receipt Roll | Design Study</title>
+<meta name="robots" content="noindex,nofollow">
+<meta name="description" content="Design study of the Grocery & Pharmacy Delivery Abroad page: 30 countries printed as one long till receipt.">
+<link rel="icon" href="/assets/icons/favicon-32.png" sizes="32x32" type="image/png">
+<meta name="theme-color" content="#e9e3d6" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#131110" media="(prefers-color-scheme: dark)">
+<style>
+
+*,*::before,*::after{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body.gmd-study{margin:0;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif;
+     -webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
+img,svg{max-width:100%}
+[hidden]{display:none!important}
+a{color:inherit}
+:focus-visible{outline:2px solid var(--focus,#C04E1A);outline-offset:3px;border-radius:3px}
+@media (prefers-reduced-motion: reduce){
+  *,*::before,*::after{animation-duration:.001ms!important;animation-iteration-count:1!important;
+                       transition-duration:.001ms!important;scroll-behavior:auto!important}
+}
+
+.sa-suggest{position:absolute;top:calc(100% + 6px);left:0;right:0;z-index:60;
+  background:var(--paper);border:1px solid var(--edge);border-radius:8px;
+  box-shadow:0 8px 24px rgba(92,61,17,.16);max-height:340px;overflow-y:auto;padding:4px}
+.sa-suggest[hidden]{display:none}
+.sa-row{display:block;width:100%;text-align:left;box-sizing:border-box;padding:9px 14px;
+  border:none;background:transparent;border-radius:6px;cursor:pointer;font-family:inherit;
+  font-size:14px;font-weight:600;color:var(--ink)}
+.sa-row .sa-sub{font-weight:400;color:var(--ink2)}
+.sa-row:hover,.sa-row.active{background:var(--paper2)}
+.sa-empty{padding:12px;font-size:13px;color:var(--ink2);text-align:center}
+
+:root{
+  --counter:#e9e3d6; --counter2:#ded6c5; --paper:#fffdf8; --paper2:#f6f1e6;
+  --ink:#211d17; --ink2:#6a6153; --faint:#98907f; --edge:#ddd4c0;
+  --terra:#C04E1A; --leaf:#2f6d33; --red:#a8332a; --focus:#C04E1A;
+  --mono:ui-monospace,SFMono-Regular,'SF Mono',Menlo,Consolas,'Courier New',monospace;
+}
+@media (prefers-color-scheme:dark){:root{
+  --counter:#131110; --counter2:#1a1815; --paper:#211e19; --paper2:#1a1714;
+  --ink:#f0ebe0; --ink2:#a89f8e; --faint:#847b6a; --edge:#38332a;
+  --terra:#e2703c; --leaf:#7fc283; --red:#e0796e;
+}}
+body.gmd-study{background:var(--counter);color:var(--ink);font-size:15px;line-height:1.62}
+.shell{max-width:920px;margin:0 auto;padding:0 clamp(14px,4vw,30px)}
+
+/* ── till header ─────────────────────────────────────────────────────── */
+.till{background:var(--counter2);border-bottom:2px dashed var(--edge)}
+.till-in{max-width:920px;margin:0 auto;padding:clamp(26px,5vw,48px) clamp(14px,4vw,30px) clamp(28px,4vw,42px);
+  display:grid;grid-template-columns:minmax(0,1fr) auto;gap:26px;align-items:center}
+.tag{display:inline-flex;align-items:center;gap:9px;background:var(--paper);border:1px solid var(--edge);
+  padding:8px 13px;font:800 9.5px/1 var(--mono);letter-spacing:.2em;text-transform:uppercase;color:var(--terra)}
+.tag::before{content:'';width:6px;height:6px;background:var(--leaf);border-radius:50%}
+h1{font-size:clamp(26px,4.6vw,46px);line-height:1.08;font-weight:800;letter-spacing:-.028em;
+  margin:20px 0 0;max-width:19ch;text-wrap:balance}
+h1 em{font-style:normal;color:var(--terra)}
+.intro{margin:18px 0 0;max-width:66ch;color:var(--ink2);font-size:14.4px;line-height:1.72}
+.intro a{color:var(--terra);text-underline-offset:3px}
+.basket{width:clamp(64px,10vw,98px);background:var(--paper);border:1px solid var(--edge);padding:13px}
+.basket svg{display:block;width:100%;height:auto}
+
+/* ── the roll ────────────────────────────────────────────────────────── */
+.roll{max-width:860px;margin:0 auto;background:var(--paper);position:relative;
+  box-shadow:0 0 0 1px var(--edge),0 22px 50px -38px rgba(0,0,0,.6)}
+.roll::before,.roll::after{content:'';position:absolute;left:0;right:0;height:10px;background:var(--counter);
+  z-index:2}
+.roll::before{top:0;-webkit-mask:radial-gradient(7px 10px at 7px 0,transparent 98%,#000) repeat-x 0 0/14px 10px;
+  mask:radial-gradient(7px 10px at 7px 0,transparent 98%,#000) repeat-x 0 0/14px 10px}
+.roll::after{bottom:0;-webkit-mask:radial-gradient(7px 10px at 7px 100%,transparent 98%,#000) repeat-x 0 100%/14px 10px;
+  mask:radial-gradient(7px 10px at 7px 100%,transparent 98%,#000) repeat-x 0 100%/14px 10px}
+.roll-in{padding:clamp(26px,4vw,44px) clamp(18px,4vw,44px)}
+.lead{font:600 13px/1.75 var(--mono);color:var(--ink2);text-align:center;
+  padding-bottom:20px;border-bottom:2px dashed var(--edge)}
+
+/* ── two info slips ──────────────────────────────────────────────────── */
+.slips{display:grid;grid-template-columns:1fr 1fr;gap:20px;margin:24px 0 0}
+.slip{border:1px solid var(--edge);background:var(--paper2);padding:16px 17px;
+  opacity:0;transform:translateY(12px);transition:opacity .5s,transform .5s cubic-bezier(.2,.8,.3,1)}
+.slip.in{opacity:1;transform:none;transition-delay:calc(var(--i,0) * 90ms)}
+.slip h3{margin:0 0 10px;font:800 10px/1.5 var(--mono);letter-spacing:.18em;text-transform:uppercase;
+  color:var(--terra);padding-bottom:8px;border-bottom:1px dashed var(--edge)}
+.slip p{margin:0 0 9px;font-size:13.2px;line-height:1.64;color:var(--ink)}
+.slip p:last-child{margin-bottom:0}
+
+/* ── controls ────────────────────────────────────────────────────────── */
+.controls{margin:30px 0 0;padding-top:22px;border-top:2px dashed var(--edge)}
+.seek{position:relative;max-width:440px;margin:0 auto}
+.seek svg{position:absolute;left:16px;top:50%;transform:translateY(-50%);pointer-events:none;color:var(--ink2)}
+.seek input{width:100%;height:52px;border-radius:999px;border:1.5px solid transparent;background:var(--paper);
+  color:var(--ink);font:500 16px/1 inherit;padding:0 20px 0 44px;appearance:none;
+  box-shadow:0 1px 6px rgba(32,33,36,.28)}
+.seek input::placeholder{color:var(--ink2)}
+.seek input:focus{outline:none;border-color:var(--terra);box-shadow:0 0 0 4px rgba(192,78,26,.15)}
+.rgnrow{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin-top:20px}
+.rgn{font:800 10px/1 var(--mono);letter-spacing:.14em;text-transform:uppercase;cursor:pointer;
+  border:1.5px solid var(--edge);background:var(--paper2);color:var(--ink2);
+  padding:10px 15px;border-radius:999px;transition:all .18s}
+.rgn:hover{border-color:var(--terra);color:var(--terra)}
+.rgn.on{background:var(--ink);border-color:var(--ink);color:var(--paper)}
+.tally{display:block;text-align:center;margin-top:14px;font:700 10px/1 var(--mono);
+  letter-spacing:.18em;text-transform:uppercase;color:var(--faint)}
+
+/* ── printed country blocks ──────────────────────────────────────────── */
+.block{margin-top:34px}
+.block-h{display:flex;align-items:center;gap:12px;margin-bottom:6px}
+.block-h b{font:800 10px/1 var(--mono);letter-spacing:.28em;text-transform:uppercase;color:var(--ink)}
+.block-h::before,.block-h::after{content:'';flex:1;height:2px;
+  background:repeating-linear-gradient(90deg,var(--edge) 0 4px,transparent 4px 8px)}
+.entry{padding:18px 0;border-bottom:1px dashed var(--edge);
+  opacity:0;clip-path:inset(0 0 100% 0);
+  transition:opacity .18s linear,clip-path .5s cubic-bezier(.35,0,.2,1)}
+.entry.in{opacity:1;clip-path:inset(0 0 0 0);transition-delay:calc(var(--i,0) * 48ms)}
+.entry:last-child{border-bottom:0}
+.e-head{display:flex;align-items:center;gap:11px;margin-bottom:11px}
+.e-head svg{width:26px;height:19px;flex:none;box-shadow:0 0 0 1px var(--edge)}
+.e-name{font-size:16px;font-weight:800;letter-spacing:-.01em}
+.e-code{margin-left:auto;font:700 9px/1 var(--mono);letter-spacing:.16em;text-transform:uppercase;color:var(--faint)}
+.line{display:grid;grid-template-columns:104px 1fr;gap:14px;align-items:baseline;
+  padding:6px 0;font-size:13.4px;line-height:1.6}
+.line dt{font:800 9px/1.7 var(--mono);letter-spacing:.14em;text-transform:uppercase}
+.line:nth-child(1) dt,.line dt.super{color:var(--leaf)}
+.line dt.pharm{color:var(--red)}
+.line dt.deliv{color:var(--terra)}
+.line dd{margin:0}
+/* the dotted rule that makes a receipt read as a receipt */
+.line+.line{border-top:1px dotted var(--edge)}
+
+.none{padding:52px 16px;text-align:center;font:700 12px/1.7 var(--mono);letter-spacing:.1em;
+  color:var(--ink2);border:1px dashed var(--edge);margin-top:26px}
+.total{margin-top:30px;padding-top:20px;border-top:3px double var(--edge);
+  font:600 11.5px/1.75 var(--mono);color:var(--ink2)}
+.rel{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin-top:22px}
+.rel a{font:800 9.5px/1 var(--mono);letter-spacing:.13em;text-transform:uppercase;text-decoration:none;
+  border:1.5px solid var(--edge);padding:10px 14px;color:var(--ink2);border-radius:999px;
+  transition:color .18s,border-color .18s}
+.rel a:hover{color:var(--terra);border-color:var(--terra)}
+.barcode{margin:28px auto 0;height:44px;max-width:260px;
+  background:repeating-linear-gradient(90deg,var(--ink) 0 2px,transparent 2px 4px,
+    var(--ink) 4px 5px,transparent 5px 9px,var(--ink) 9px 12px,transparent 12px 14px);opacity:.75}
+.foot{text-align:center;padding:16px 0 60px;font:600 9.5px/1.9 var(--mono);letter-spacing:.16em;
+  text-transform:uppercase;color:var(--faint)}
+@media (max-width:740px){
+  .till-in{grid-template-columns:1fr}.basket{width:74px}
+  .slips{grid-template-columns:1fr}
+  .line{grid-template-columns:1fr;gap:2px}
+  .e-code{margin-left:0}
+}
+
+</style>
+</head>
+<body class="gmd-study">
+
+<header class="till"><div class="till-in">
+  <div>
+    <span class="tag">Grocery &amp; Pharmacy Delivery Abroad</span>
+    <h1>The supermarket on the corner has a different name <em>in every country.</em></h1>
+    <p class="intro">Supermarket and pharmacy chain names by country, so you recognize one on sight instead of hunting for an unfamiliar logo — plus which grocery and pharmacy delivery services actually operate there, and whether they deliver to a hotel or a short-term rental. No prices and no what-to-buy advice: this is a where-to-buy and delivery-availability reference only. For what to pack from home before you go, see <a href="/essentials/packing/">Travel Packing</a>; for water safety, see <a href="/essentials/tap-water/">Tap Water</a>.</p>
+  </div>
+  <div class="basket" aria-hidden="true"><svg viewBox="0 0 24 24" aria-hidden="true"><defs>
+      <linearGradient id="ga-cart" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#7fbf7f"/><stop offset="1" stop-color="#2c6a2c"/></linearGradient>
+      <linearGradient id="ga-cross" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#f08a8a"/><stop offset="1" stop-color="#a82c2c"/></linearGradient>
+    </defs>
+      <path d="M2.5 3h2.4l.9 3M5.8 6h15.2l-1.8 8.2a1.6 1.6 0 0 1-1.56 1.3H8.9a1.6 1.6 0 0 1-1.56-1.24L5.8 6z" fill="none" stroke="url(#ga-cart)" stroke-width="1.4" stroke-linejoin="round" stroke-linecap="round"/>
+      <circle cx="9.4" cy="19.6" r="1.35" fill="url(#gm-tire)" stroke="var(--c-tire-rim)" stroke-width="0.4"/>
+      <circle cx="17.4" cy="19.6" r="1.35" fill="url(#gm-tire)" stroke="var(--c-tire-rim)" stroke-width="0.4"/>
+      <rect x="16" y="2.6" width="7" height="7" rx="1.4" fill="url(#ga-cross)" stroke="#6a1a1a" stroke-width="0.5"/>
+      <rect x="16" y="2.6" width="7" height="7" rx="1.4" fill="url(#gm-gloss)"/>
+      <path d="M19.5 4.1v3.6M17.7 5.9h3.6" stroke="#fff" stroke-width="1.1" stroke-linecap="round"/>
+    </svg></div>
+</div></header>
+
+<main>
+<div class="roll"><div class="roll-in">
+  <p class="lead">30 countries across five regions. Chains are the ones a visitor is most likely to actually see on the street — this is not a ranking or a recommendation of one over another.</p>
+  <div class="slips"><div class="slip rv" style="--i:0"><h3>Finding the nearest one</h3><p>Search the chain's name, or just "supermarket" / "pharmacy", on Google Maps or Apple Maps once you have your hotel or Airbnb's exact address — every GuideMyDays guide's hotel banner lists it. Both show current opening hours and whether a branch is open right now.</p><p>In city centers, a small-format branch of the country's dominant chain (Tesco Express, Carrefour City, Sainsbury's Local, a 7-Eleven) is usually within a few minutes' walk of any central hotel, even where the full-size supermarket is further out.</p></div><div class="slip rv" style="--i:1"><h3>Hotel vs. Airbnb: how delivery arrives</h3><p><strong>Hotel</strong> — most hotels don't let a courier up to the room directly. Give the delivery app the hotel's name and street address, and add "hold for guest [name], arriving via front desk" in the delivery notes. The front desk holds the order and calls or texts the room; ask at check-in if you're expecting a delivery so staff know to expect it.</p><p><strong>Short-term rental</strong> — there's no front desk, so building access matters more than the street address: unit number, buzzer or intercom code, gate or lockbox code, and floor. Put that in the app's delivery notes, and message your host in advance if the building needs a code or a doorman to let a courier in. Without an answer, most couriers leave the order at the main entrance or mailbox area.</p></div></div>
+
+  <div class="controls">
+    <div class="seek">
+      <svg width="15" height="15" viewBox="0 0 13 13" fill="none" aria-hidden="true">
+        <circle cx="5.5" cy="5.5" r="4.5" stroke="currentColor" stroke-width="1.5"/>
+        <line x1="9.35" y1="9.35" x2="12" y2="12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+      </svg>
+      <input type="search" class="search-input" id="q" placeholder="Country" aria-label="Search by country" autocomplete="off" spellcheck="false">
+    </div>
+    <div class="rgnrow"><button class="rgn on" data-region="all" aria-pressed="true">All</button><button class="rgn" data-region="europe" aria-pressed="false">Europe</button><button class="rgn" data-region="namerica" aria-pressed="false">North America</button><button class="rgn" data-region="latam" aria-pressed="false">Latin America</button><button class="rgn" data-region="asiapac" aria-pressed="false">Asia-Pacific</button><button class="rgn" data-region="mea" aria-pressed="false">M.E. &amp; Africa</button></div>
+    <span class="tally" id="tally"></span>
+  </div>
+
+  <section class="block" data-block="europe"><div class="block-h"><b>Europe</b></div><div class="entry rv" style="--i:0" data-country="France" data-block-key="europe">
+          <div class="e-head">
+            <svg viewBox="0 0 36 36" aria-hidden="true"><use href="/assets/flags/sprite.svg#flag-10062"></use></svg>
+            <span class="e-name">France</span>
+            <span class="e-code">Europe</span>
+          </div><dl><div class="line"><dt class="super">Supermarkets</dt><dd>Carrefour, Monoprix, Franprix, Casino.</dd></div><div class="line"><dt class="pharm">Pharmacies</dt><dd>No single national chain — every pharmacy carries the same green cross sign; the Pharmacie de Garde system designates which one stays open nights, Sundays and holidays.</dd></div><div class="line"><dt class="deliv">Delivery</dt><dd>Carrefour Livraison, Monoprix+ (via Amazon); Uber Eats and Deliveroo both carry a "Courses" (groceries) tab in major cities.</dd></div></dl></div><div class="entry rv" style="--i:1" data-country="Italy" data-block-key="europe">
+          <div class="e-head">
+            <svg viewBox="0 0 36 36" aria-hidden="true"><use href="/assets/flags/sprite.svg#flag-10087"></use></svg>
+            <span class="e-name">Italy</span>
+            <span class="e-code">Europe</span>
+          </div><dl><div class="line"><dt class="super">Supermarkets</dt><dd>Conad, Esselunga, Coop, Carrefour.</dd></div><div class="line"><dt class="pharm">Pharmacies</dt><dd>Farmacia — independent, marked by a green cross; no single dominant chain, though multi-city networks like LloydsFarmacia also operate.</dd></div><div class="line"><dt class="deliv">Delivery</dt><dd>Esselunga a Casa, Carrefour Italia; Glovo and Just Eat both carry grocery sections in larger cities.</dd></div></dl></div><div class="entry rv" style="--i:2" data-country="Spain" data-block-key="europe">
+          <div class="e-head">
+            <svg viewBox="0 0 36 36" aria-hidden="true"><use href="/assets/flags/sprite.svg#flag-10056"></use></svg>
+            <span class="e-name">Spain</span>
+            <span class="e-code">Europe</span>
+          </div><dl><div class="line"><dt class="super">Supermarkets</dt><dd>Mercadona, Carrefour, Dia.</dd></div><div class="line"><dt class="pharm">Pharmacies</dt><dd>Farmacia — independent, green cross sign; Spanish law restricts pharmacy ownership to licensed pharmacists, so there's no nationwide chain.</dd></div><div class="line"><dt class="deliv">Delivery</dt><dd>Mercadona's own online ordering, Carrefour Online; Glovo carries both grocery and pharmacy delivery in most cities.</dd></div></dl></div><div class="entry rv" style="--i:3" data-country="Portugal" data-block-key="europe">
+          <div class="e-head">
+            <svg viewBox="0 0 36 36" aria-hidden="true"><use href="/assets/flags/sprite.svg#flag-10151"></use></svg>
+            <span class="e-name">Portugal</span>
+            <span class="e-code">Europe</span>
+          </div><dl><div class="line"><dt class="super">Supermarkets</dt><dd>Continente, Pingo Doce, Lidl.</dd></div><div class="line"><dt class="pharm">Pharmacies</dt><dd>Farmácia — independent, green cross sign; no single dominant national chain.</dd></div><div class="line"><dt class="deliv">Delivery</dt><dd>Continente Online; Uber Eats and Glovo both carry grocery sections.</dd></div></dl></div><div class="entry rv" style="--i:4" data-country="United Kingdom" data-block-key="europe">
+          <div class="e-head">
+            <svg viewBox="0 0 36 36" aria-hidden="true"><use href="/assets/flags/sprite.svg#flag-10064"></use></svg>
+            <span class="e-name">United Kingdom</span>
+            <span class="e-code">Europe</span>
+          </div><dl><div class="line"><dt class="super">Supermarkets</dt><dd>Tesco, Sainsbury's, Waitrose, ASDA.</dd></div><div class="line"><dt class="pharm">Pharmacies</dt><dd>Boots, Superdrug.</dd></div><div class="line"><dt class="deliv">Delivery</dt><dd>Ocado, Tesco and Sainsbury's each run their own delivery; Deliveroo and Uber Eats both carry grocery-shop sections for smaller top-up orders.</dd></div></dl></div><div class="entry rv" style="--i:5" data-country="Germany" data-block-key="europe">
+          <div class="e-head">
+            <svg viewBox="0 0 36 36" aria-hidden="true"><use href="/assets/flags/sprite.svg#flag-10046"></use></svg>
+            <span class="e-name">Germany</span>
+            <span class="e-code">Europe</span>
+          </div><dl><div class="line"><dt class="super">Supermarkets</dt><dd>Rewe, Edeka, Lidl, Aldi.</dd></div><div class="line"><dt class="pharm">Pharmacies</dt><dd>dm and Rossmann are drugstores for toiletries and OTC items; prescription medicine only comes from an Apotheke, independently owned and marked with a red "A" sign.</dd></div><div class="line"><dt class="deliv">Delivery</dt><dd>Rewe Lieferservice; quick-commerce apps (Flink and similar) have consolidated repeatedly in Germany — confirm one is still live in-app before relying on it.</dd></div></dl></div><div class="entry rv" style="--i:6" data-country="Switzerland" data-block-key="europe">
+          <div class="e-head">
+            <svg viewBox="0 0 36 36" aria-hidden="true"><use href="/assets/flags/sprite.svg#flag-10034"></use></svg>
+            <span class="e-name">Switzerland</span>
+            <span class="e-code">Europe</span>
+          </div><dl><div class="line"><dt class="super">Supermarkets</dt><dd>Migros, Coop.</dd></div><div class="line"><dt class="pharm">Pharmacies</dt><dd>Amavita, Sun Store — both national chains.</dd></div><div class="line"><dt class="deliv">Delivery</dt><dd>Coop@home, LeShop.ch (Migros-owned).</dd></div></dl></div><div class="entry rv" style="--i:7" data-country="Netherlands" data-block-key="europe">
+          <div class="e-head">
+            <svg viewBox="0 0 36 36" aria-hidden="true"><use href="/assets/flags/sprite.svg#flag-10136"></use></svg>
+            <span class="e-name">Netherlands</span>
+            <span class="e-code">Europe</span>
+          </div><dl><div class="line"><dt class="super">Supermarkets</dt><dd>Albert Heijn (AH), Jumbo.</dd></div><div class="line"><dt class="pharm">Pharmacies</dt><dd>Kruidvat and Etos are drugstores for OTC items and toiletries; prescription medicine comes from an Apotheek.</dd></div><div class="line"><dt class="deliv">Delivery</dt><dd>AH's own bezorgservice, Picnic (grocery-only quick delivery); the earlier wave of 10-minute delivery apps has shrunk sharply, so check current app-store availability.</dd></div></dl></div><div class="entry rv" style="--i:8" data-country="Greece" data-block-key="europe">
+          <div class="e-head">
+            <svg viewBox="0 0 36 36" aria-hidden="true"><use href="/assets/flags/sprite.svg#flag-10071"></use></svg>
+            <span class="e-name">Greece</span>
+            <span class="e-code">Europe</span>
+          </div><dl><div class="line"><dt class="super">Supermarkets</dt><dd>AB Vasilopoulos, Sklavenitis, Carrefour.</dd></div><div class="line"><dt class="pharm">Pharmacies</dt><dd>Farmakeio — independent, green cross sign; no single dominant chain.</dd></div><div class="line"><dt class="deliv">Delivery</dt><dd>e-fresh (AB Vasilopoulos), Sklavenitis online; Wolt is very widely used for both restaurant and grocery delivery.</dd></div></dl></div></section><section class="block" data-block="namerica"><div class="block-h"><b>North America</b></div><div class="entry rv" style="--i:0" data-country="United States" data-block-key="namerica">
+          <div class="e-head">
+            <svg viewBox="0 0 36 36" aria-hidden="true"><use href="/assets/flags/sprite.svg#flag-10194"></use></svg>
+            <span class="e-name">United States</span>
+            <span class="e-code">North America</span>
+          </div><dl><div class="line"><dt class="super">Supermarkets</dt><dd>Walmart, Kroger, Safeway, Publix, Whole Foods — exact chain coverage varies by state and city.</dd></div><div class="line"><dt class="pharm">Pharmacies</dt><dd>CVS, Walgreens, Rite Aid.</dd></div><div class="line"><dt class="deliv">Delivery</dt><dd>Instacart (multi-retailer), Amazon Fresh / Whole Foods via Amazon, Walmart+; CVS and Walgreens each run their own same-day delivery for prescriptions and OTC items.</dd></div></dl></div><div class="entry rv" style="--i:1" data-country="Canada" data-block-key="namerica">
+          <div class="e-head">
+            <svg viewBox="0 0 36 36" aria-hidden="true"><use href="/assets/flags/sprite.svg#flag-10030"></use></svg>
+            <span class="e-name">Canada</span>
+            <span class="e-code">North America</span>
+          </div><dl><div class="line"><dt class="super">Supermarkets</dt><dd>Loblaws, Sobeys, Metro.</dd></div><div class="line"><dt class="pharm">Pharmacies</dt><dd>Shoppers Drug Mart (Pharmaprix in Quebec), Rexall.</dd></div><div class="line"><dt class="deliv">Delivery</dt><dd>Instacart operates nationwide across most major chains; Shoppers Drug Mart runs its own same-day delivery in larger cities.</dd></div></dl></div><div class="entry rv" style="--i:2" data-country="Mexico" data-block-key="namerica">
+          <div class="e-head">
+            <svg viewBox="0 0 36 36" aria-hidden="true"><use href="/assets/flags/sprite.svg#flag-10129"></use></svg>
+            <span class="e-name">Mexico</span>
+            <span class="e-code">North America</span>
+          </div><dl><div class="line"><dt class="super">Supermarkets</dt><dd>Walmart de México (Bodega Aurrera, Walmart Express), Soriana, Chedraui.</dd></div><div class="line"><dt class="pharm">Pharmacies</dt><dd>Farmacias Guadalajara, Farmacias del Ahorro, Farmacias Similares — the last also runs low-cost walk-in clinics.</dd></div><div class="line"><dt class="deliv">Delivery</dt><dd>Rappi is dominant for both groceries and pharmacy items; Uber Eats carries a grocery tab in major cities.</dd></div></dl></div></section><section class="block" data-block="latam"><div class="block-h"><b>Latin America</b></div><div class="entry rv" style="--i:0" data-country="Brazil" data-block-key="latam">
+          <div class="e-head">
+            <svg viewBox="0 0 36 36" aria-hidden="true"><use href="/assets/flags/sprite.svg#flag-10024"></use></svg>
+            <span class="e-name">Brazil</span>
+            <span class="e-code">Latin America</span>
+          </div><dl><div class="line"><dt class="super">Supermarkets</dt><dd>Pão de Açúcar, Carrefour, Extra.</dd></div><div class="line"><dt class="pharm">Pharmacies</dt><dd>Droga Raia, Drogasil (both part of RaiaDrogasil), Pacheco.</dd></div><div class="line"><dt class="deliv">Delivery</dt><dd>iFood is the dominant platform and carries grocery and pharmacy sections alongside restaurants; Rappi also operates in major cities.</dd></div></dl></div><div class="entry rv" style="--i:1" data-country="Argentina" data-block-key="latam">
+          <div class="e-head">
+            <svg viewBox="0 0 36 36" aria-hidden="true"><use href="/assets/flags/sprite.svg#flag-10008"></use></svg>
+            <span class="e-name">Argentina</span>
+            <span class="e-code">Latin America</span>
+          </div><dl><div class="line"><dt class="super">Supermarkets</dt><dd>Coto, Carrefour, Disco, Jumbo.</dd></div><div class="line"><dt class="pharm">Pharmacies</dt><dd>Farmacity — the largest chain, often open late or 24 hours in city centers.</dd></div><div class="line"><dt class="deliv">Delivery</dt><dd>Rappi and PedidosYa both carry grocery and pharmacy sections; Farmacity also runs its own delivery app.</dd></div></dl></div><div class="entry rv" style="--i:2" data-country="Colombia" data-block-key="latam">
+          <div class="e-head">
+            <svg viewBox="0 0 36 36" aria-hidden="true"><use href="/assets/flags/sprite.svg#flag-10039"></use></svg>
+            <span class="e-name">Colombia</span>
+            <span class="e-code">Latin America</span>
+          </div><dl><div class="line"><dt class="super">Supermarkets</dt><dd>Éxito, Carulla, Jumbo.</dd></div><div class="line"><dt class="pharm">Pharmacies</dt><dd>Farmatodo, La Rebaja.</dd></div><div class="line"><dt class="deliv">Delivery</dt><dd>Rappi, founded in Colombia, is the dominant platform nationwide for both groceries and pharmacy items.</dd></div></dl></div></section><section class="block" data-block="asiapac"><div class="block-h"><b>Asia-Pacific</b></div><div class="entry rv" style="--i:0" data-country="Japan" data-block-key="asiapac">
+          <div class="e-head">
+            <svg viewBox="0 0 36 36" aria-hidden="true"><use href="/assets/flags/sprite.svg#flag-10090"></use></svg>
+            <span class="e-name">Japan</span>
+            <span class="e-code">Asia-Pacific</span>
+          </div><dl><div class="line"><dt class="super">Supermarkets</dt><dd>AEON, Ito-Yokado, Life; convenience stores (7-Eleven, Lawson, FamilyMart) work as everyday grocery top-up stops.</dd></div><div class="line"><dt class="pharm">Pharmacies</dt><dd>Matsumoto Kiyoshi, Sundrug, Sugi Pharmacy — drugstores for toiletries and OTC items; prescriptions are filled at a separate yakkyoku (薬局).</dd></div><div class="line"><dt class="deliv">Delivery</dt><dd>Amazon Fresh (Tokyo and Osaka areas only), Rakuten Seiyu Netsuper — coverage is far more limited outside major metro areas than in the US or Europe.</dd></div></dl></div><div class="entry rv" style="--i:1" data-country="China" data-block-key="asiapac">
+          <div class="e-head">
+            <svg viewBox="0 0 36 36" aria-hidden="true"><use href="/assets/flags/sprite.svg#flag-10038"></use></svg>
+            <span class="e-name">China</span>
+            <span class="e-code">Asia-Pacific</span>
+          </div><dl><div class="line"><dt class="super">Supermarkets</dt><dd>RT-Mart, Carrefour China, Walmart China; Sam's Club is also present in major cities.</dd></div><div class="line"><dt class="pharm">Pharmacies</dt><dd>Independent pharmacies (药店) are everywhere and unbranded nationally, though chains like Yifeng Pharmacy operate regionally.</dd></div><div class="line"><dt class="deliv">Delivery</dt><dd>Meituan and Ele.me both dominate — the same apps used for restaurant delivery also carry full grocery and pharmacy sections, and are the default way most residents shop.</dd></div></dl></div><div class="entry rv" style="--i:2" data-country="South Korea" data-block-key="asiapac">
+          <div class="e-head">
+            <svg viewBox="0 0 36 36" aria-hidden="true"><use href="/assets/flags/sprite.svg#flag-10098"></use></svg>
+            <span class="e-name">South Korea</span>
+            <span class="e-code">Asia-Pacific</span>
+          </div><dl><div class="line"><dt class="super">Supermarkets</dt><dd>E-Mart, Lotte Mart, Homeplus.</dd></div><div class="line"><dt class="pharm">Pharmacies</dt><dd>Independent pharmacies (약국), marked by a cross sign — no dominant nationwide retail chain; prescriptions and OTC medicine are both handled there.</dd></div><div class="line"><dt class="deliv">Delivery</dt><dd>Coupang is the dominant e-commerce/grocery platform, known for next-day and even same-day "Rocket" delivery; Baemin also carries grocery sections.</dd></div></dl></div><div class="entry rv" style="--i:3" data-country="Singapore" data-block-key="asiapac">
+          <div class="e-head">
+            <svg viewBox="0 0 36 36" aria-hidden="true"><use href="/assets/flags/sprite.svg#flag-10164"></use></svg>
+            <span class="e-name">Singapore</span>
+            <span class="e-code">Asia-Pacific</span>
+          </div><dl><div class="line"><dt class="super">Supermarkets</dt><dd>FairPrice, Cold Storage, Sheng Siong.</dd></div><div class="line"><dt class="pharm">Pharmacies</dt><dd>Guardian, Watsons — drugstore chains for OTC items and toiletries; prescriptions are filled at a polyclinic, hospital, or select outlets with a licensed pharmacist.</dd></div><div class="line"><dt class="deliv">Delivery</dt><dd>FairPrice Group's own app; Grab's GrabMart carries groceries and pharmacy items across the city.</dd></div></dl></div><div class="entry rv" style="--i:4" data-country="Thailand" data-block-key="asiapac">
+          <div class="e-head">
+            <svg viewBox="0 0 36 36" aria-hidden="true"><use href="/assets/flags/sprite.svg#flag-10181"></use></svg>
+            <span class="e-name">Thailand</span>
+            <span class="e-code">Asia-Pacific</span>
+          </div><dl><div class="line"><dt class="super">Supermarkets</dt><dd>Tops Market, Big C, Villa Market — Villa Market is popular with expats and tourists for imported goods.</dd></div><div class="line"><dt class="pharm">Pharmacies</dt><dd>Boots and Watsons both operate in Thailand; independent pharmacies are common and can dispense many medicines over the counter that need a prescription elsewhere.</dd></div><div class="line"><dt class="deliv">Delivery</dt><dd>Grab's GrabMart and LINE MAN both carry full grocery and pharmacy sections and are the standard way to order either in Bangkok and other major cities.</dd></div></dl></div><div class="entry rv" style="--i:5" data-country="Vietnam" data-block-key="asiapac">
+          <div class="e-head">
+            <svg viewBox="0 0 36 36" aria-hidden="true"><use href="/assets/flags/sprite.svg#flag-10201"></use></svg>
+            <span class="e-name">Vietnam</span>
+            <span class="e-code">Asia-Pacific</span>
+          </div><dl><div class="line"><dt class="super">Supermarkets</dt><dd>Co.opmart, WinMart, GO! (formerly Big C).</dd></div><div class="line"><dt class="pharm">Pharmacies</dt><dd>Pharmacity, Long Châu — both national chains, easy to spot by signage.</dd></div><div class="line"><dt class="deliv">Delivery</dt><dd>Grab's GrabMart is the standard app for both groceries and pharmacy items in major cities.</dd></div></dl></div><div class="entry rv" style="--i:6" data-country="Philippines" data-block-key="asiapac">
+          <div class="e-head">
+            <svg viewBox="0 0 36 36" aria-hidden="true"><use href="/assets/flags/sprite.svg#flag-10146"></use></svg>
+            <span class="e-name">Philippines</span>
+            <span class="e-code">Asia-Pacific</span>
+          </div><dl><div class="line"><dt class="super">Supermarkets</dt><dd>SM Supermarket, Robinsons Supermarket, Puregold.</dd></div><div class="line"><dt class="pharm">Pharmacies</dt><dd>Mercury Drug — by far the largest and most recognizable chain, found in nearly every neighborhood and mall; Watsons.</dd></div><div class="line"><dt class="deliv">Delivery</dt><dd>GrabMart and foodpanda both carry grocery and pharmacy sections; Mercury Drug also runs its own delivery in Metro Manila and other major cities.</dd></div></dl></div><div class="entry rv" style="--i:7" data-country="Indonesia" data-block-key="asiapac">
+          <div class="e-head">
+            <svg viewBox="0 0 36 36" aria-hidden="true"><use href="/assets/flags/sprite.svg#flag-10080"></use></svg>
+            <span class="e-name">Indonesia</span>
+            <span class="e-code">Asia-Pacific</span>
+          </div><dl><div class="line"><dt class="super">Supermarkets</dt><dd>Indomaret and Alfamart function as the everyday top-up stop on nearly every block; Hypermart and Transmart cover full shops.</dd></div><div class="line"><dt class="pharm">Pharmacies</dt><dd>Kimia Farma, Guardian, Watsons.</dd></div><div class="line"><dt class="deliv">Delivery</dt><dd>GrabMart and Gojek's GoFood/GoMart both dominate — the same super-apps used for ride-hailing also carry grocery and pharmacy delivery.</dd></div></dl></div><div class="entry rv" style="--i:8" data-country="India" data-block-key="asiapac">
+          <div class="e-head">
+            <svg viewBox="0 0 36 36" aria-hidden="true"><use href="/assets/flags/sprite.svg#flag-10083"></use></svg>
+            <span class="e-name">India</span>
+            <span class="e-code">Asia-Pacific</span>
+          </div><dl><div class="line"><dt class="super">Supermarkets</dt><dd>Reliance Fresh, Reliance Smart, DMart, Spencer's — exact chain presence varies significantly by city.</dd></div><div class="line"><dt class="pharm">Pharmacies</dt><dd>Apollo Pharmacy, MedPlus — both national chains with a large footprint in major cities.</dd></div><div class="line"><dt class="deliv">Delivery</dt><dd>Blinkit, Zepto and Swiggy's Instamart dominate quick grocery delivery in major metros, often under 15 minutes; 1mg and Apollo 24|7 handle pharmacy delivery, frequently same-day.</dd></div></dl></div><div class="entry rv" style="--i:9" data-country="Australia" data-block-key="asiapac">
+          <div class="e-head">
+            <svg viewBox="0 0 36 36" aria-hidden="true"><use href="/assets/flags/sprite.svg#flag-10010"></use></svg>
+            <span class="e-name">Australia</span>
+            <span class="e-code">Asia-Pacific</span>
+          </div><dl><div class="line"><dt class="super">Supermarkets</dt><dd>Coles, Woolworths, IGA.</dd></div><div class="line"><dt class="pharm">Pharmacies</dt><dd>Chemist Warehouse — the largest chain by far and known for discount pricing; Priceline Pharmacy, Terry White Chemmart.</dd></div><div class="line"><dt class="deliv">Delivery</dt><dd>Coles Online and Woolworths each run their own delivery; Amazon Fresh in Sydney and Melbourne; Uber Eats carries a grocery/pharmacy tab in most cities.</dd></div></dl></div><div class="entry rv" style="--i:10" data-country="New Zealand" data-block-key="asiapac">
+          <div class="e-head">
+            <svg viewBox="0 0 36 36" aria-hidden="true"><use href="/assets/flags/sprite.svg#flag-10140"></use></svg>
+            <span class="e-name">New Zealand</span>
+            <span class="e-code">Asia-Pacific</span>
+          </div><dl><div class="line"><dt class="super">Supermarkets</dt><dd>Woolworths NZ (rebranded from Countdown), New World, Pak'nSave.</dd></div><div class="line"><dt class="pharm">Pharmacies</dt><dd>Unichem, Life Pharmacy — both national franchise networks.</dd></div><div class="line"><dt class="deliv">Delivery</dt><dd>Woolworths NZ and New World both run their own online ordering and delivery; Uber Eats also carries grocery sections in Auckland, Wellington and Christchurch.</dd></div></dl></div></section><section class="block" data-block="mea"><div class="block-h"><b>Middle East &amp; Africa</b></div><div class="entry rv" style="--i:0" data-country="United Arab Emirates" data-block-key="mea">
+          <div class="e-head">
+            <svg viewBox="0 0 36 36" aria-hidden="true"><use href="/assets/flags/sprite.svg#flag-10002"></use></svg>
+            <span class="e-name">United Arab Emirates</span>
+            <span class="e-code">Middle East &amp; Africa</span>
+          </div><dl><div class="line"><dt class="super">Supermarkets</dt><dd>Carrefour, Spinneys, Lulu Hypermarket, Union Coop.</dd></div><div class="line"><dt class="pharm">Pharmacies</dt><dd>Life Pharmacy, Aster Pharmacy, Boots — all run multi-branch chains across Dubai and Abu Dhabi.</dd></div><div class="line"><dt class="deliv">Delivery</dt><dd>InstaShop, Talabat, Careem NOW all carry full grocery and pharmacy sections and deliver quickly across the city.</dd></div></dl></div><div class="entry rv" style="--i:1" data-country="Qatar" data-block-key="mea">
+          <div class="e-head">
+            <svg viewBox="0 0 36 36" aria-hidden="true"><use href="/assets/flags/sprite.svg#flag-10154"></use></svg>
+            <span class="e-name">Qatar</span>
+            <span class="e-code">Middle East &amp; Africa</span>
+          </div><dl><div class="line"><dt class="super">Supermarkets</dt><dd>Carrefour, Lulu Hypermarket, Al Meera.</dd></div><div class="line"><dt class="pharm">Pharmacies</dt><dd>Independent pharmacies are common; Al Muftah Pharmacy also operates a multi-branch network.</dd></div><div class="line"><dt class="deliv">Delivery</dt><dd>Talabat and Snoonu both carry grocery and pharmacy sections and are the standard apps for both in Doha.</dd></div></dl></div><div class="entry rv" style="--i:2" data-country="Egypt" data-block-key="mea">
+          <div class="e-head">
+            <svg viewBox="0 0 36 36" aria-hidden="true"><use href="/assets/flags/sprite.svg#flag-10054"></use></svg>
+            <span class="e-name">Egypt</span>
+            <span class="e-code">Middle East &amp; Africa</span>
+          </div><dl><div class="line"><dt class="super">Supermarkets</dt><dd>Carrefour, Spinneys, Metro Market, Kazyon.</dd></div><div class="line"><dt class="pharm">Pharmacies</dt><dd>Seif Pharmacy, El Ezaby Pharmacy — both large national chains, many branches open 24 hours.</dd></div><div class="line"><dt class="deliv">Delivery</dt><dd>Talabat and InstaShop both carry grocery and pharmacy sections in Cairo, Alexandria and other major cities.</dd></div></dl></div><div class="entry rv" style="--i:3" data-country="South Africa" data-block-key="mea">
+          <div class="e-head">
+            <svg viewBox="0 0 36 36" aria-hidden="true"><use href="/assets/flags/sprite.svg#flag-10206"></use></svg>
+            <span class="e-name">South Africa</span>
+            <span class="e-code">Middle East &amp; Africa</span>
+          </div><dl><div class="line"><dt class="super">Supermarkets</dt><dd>Woolworths (upmarket, unrelated to the chains of the same name in the UK or Australia), Pick n Pay, Checkers, Spar.</dd></div><div class="line"><dt class="pharm">Pharmacies</dt><dd>Clicks, Dis-Chem — both large national chains.</dd></div><div class="line"><dt class="deliv">Delivery</dt><dd>Checkers Sixty60 is widely used for fast grocery delivery; Pick n Pay ASAP and Mr D Food also carry a grocery tab.</dd></div></dl></div></section>
+  <div class="none" id="none" hidden>No countries match your search.</div>
+
+  <p class="total">Chain names and delivery-app availability change without much notice, especially quick-commerce apps, which have consolidated and exited markets repeatedly. Confirm an app is still live in your destination before relying on it.</p>
+  <nav class="rel"><a href="/essentials/packing/">Travel packing</a><a href="/essentials/tap-water/">Tap water</a><a href="/essentials/apps/">Travel apps</a></nav>
+  <div class="barcode" aria-hidden="true"></div>
+</div></div>
+<p class="foot">Design study &middot; not linked from the live site &middot; content identical to /essentials/grocery-abroad/</p>
+</main>
+
+<script src="/assets/search-autocomplete.js?v=8"></script>
+<script>
+
+(function(){
+  // Deterministic reveal: a timer-throttled rect sweep. No IntersectionObserver —
+  // IO callbacks are deferred in contexts that never paint (background tab, an
+  // embedded pane that is hidden), which leaves .rv content stuck at opacity 0.
+  var pending=[], timer=null;
+  var reduced=window.matchMedia&&window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  function sweep(){
+    timer=null;
+    var h=window.innerHeight||800, keep=[];
+    for(var i=0;i<pending.length;i++){
+      var el=pending[i], r=el.getBoundingClientRect();
+      if(reduced||r.top<h*1.06) el.classList.add('in'); else keep.push(el);
+    }
+    pending=keep;
+  }
+  function schedule(){ if(timer===null) timer=setTimeout(sweep,16); }
+  function collect(root){
+    var found=(root||document).querySelectorAll('.rv:not(.in)');
+    for(var i=0;i<found.length;i++){ if(pending.indexOf(found[i])<0) pending.push(found[i]); }
+    schedule();
+  }
+  window.addEventListener('scroll',schedule,{passive:true});
+  window.addEventListener('resize',schedule,{passive:true});
+  window.addEventListener('load',schedule);
+  setTimeout(schedule,300); setTimeout(schedule,1200);
+  // Backstop: a slow poll for the first 12s, so a missed scroll event in an
+  // unusual embedding context can never leave a card stuck invisible.
+  var n=0, iv=setInterval(function(){ schedule(); if(++n>24) clearInterval(iv); },500);
+  window.__rvWire=collect;
+  collect();
+}());
+
+(function(){
+  var rows=[].slice.call(document.querySelectorAll('[data-country]'));
+  var blocks=[].slice.call(document.querySelectorAll('[data-block]'));
+  var pills=[].slice.call(document.querySelectorAll('[data-region]'));
+  var q=document.getElementById('q'), none=document.getElementById('none'), tally=document.getElementById('tally');
+  var region='all';
+  function fold(s){return String(s).normalize('NFD').replace(/[̀-ͯ]/g,'').toLowerCase();}
+  function apply(){
+    var term=fold((q&&q.value||'').trim()), shown=0;
+    rows.forEach(function(el){
+      var okR = region==='all' || el.getAttribute('data-block-key')===region;
+      var okQ = !term || fold(el.getAttribute('data-country')).indexOf(term)!==-1
+                      || fold(el.textContent).indexOf(term)!==-1;
+      var on = okR && okQ;
+      el.hidden = !on;
+      if(on) shown++;
+    });
+    blocks.forEach(function(b){
+      var any=[].slice.call(b.querySelectorAll('[data-country]')).some(function(e){return !e.hidden;});
+      b.hidden=!any;
+    });
+    if(none) none.hidden = shown>0;
+    if(tally) tally.textContent = shown ? shown+(shown===1?' country':' countries') : '';
+    if(window.__rvWire) window.__rvWire(document);
+  }
+  pills.forEach(function(p){
+    p.addEventListener('click',function(){
+      region=p.getAttribute('data-region');
+      pills.forEach(function(o){
+        var on=o===p;
+        o.setAttribute('aria-pressed',on?'true':'false');
+        o.classList.toggle('on',on);
+      });
+      apply();
+    });
+  });
+  if(q) q.addEventListener('input',apply);
+  apply();
+}());
+
+/* The shared site typeahead, wired to this page's own country rows. */
+(function(){
+  var inp=document.getElementById('q');
+  if(!inp||!window.TVESearch)return;
+  var items=[];
+  document.querySelectorAll('[data-country]').forEach(function(r){
+    items.push({name:r.getAttribute('data-country'),sub:''});
+  });
+  TVESearch.attach(inp,{items:items});
+}());
+
+</script>
+</body>
+</html>

@@ -55,39 +55,54 @@
    without this the attribute is set and nothing moves. */
 #plug-result[hidden] { display: none !important; }
 .pg-card {
-  display: block; background: var(--surface,#fff); border: 1px solid var(--border,#d8d4cc);
-  border-radius: 12px; padding: clamp(1rem, 2.4vw, 1.6rem) clamp(1rem, 2.6vw, 1.8rem);
-  box-shadow: 0 2px 8px rgba(92,61,17,.06);
+  display: block; background: #241a13; border: 1px solid rgba(255,255,255,.08);
+  border-radius: 16px; padding: clamp(1.4rem, 3vw, 2.4rem) clamp(1.1rem, 3vw, 2.4rem);
+  position: relative; overflow: hidden;
+  box-shadow: 0 10px 30px rgba(36,26,19,.28);
 }
-.pg-head { display: flex; flex-wrap: wrap; align-items: baseline; gap: 8px 18px; }
+/* The voltage set oversized and nearly transparent behind the headline. It is
+   decoration only — the readable figure is .pg-volt, which always carries the
+   same number — so this is aria-hidden and is never the only place it appears. */
+.pg-vbg {
+  position: absolute; top: 0.1rem; right: clamp(0.5rem, 2vw, 1.6rem);
+  font-size: clamp(58px, 13vw, 132px); font-weight: 800; line-height: 1;
+  letter-spacing: -0.04em; color: #ffffff; opacity: 0.055;
+  pointer-events: none; user-select: none;
+}
+.pg-head { display: flex; flex-wrap: wrap; align-items: baseline; gap: 8px 18px; position: relative; }
 /* The country is the page's own <h2>, not a .country-name: that class belongs
    to the repeating in-page section header the retired country blocks used, and
    is pinned across six pages by check_country_header_consistency. This is one
    result, once, so it takes the card's own heading. */
-.pg-country { margin: 0; font-size: clamp(1.3rem, 3.4vw, 1.9rem); font-weight: 700; color: var(--text,#3d3a32); line-height: 1.2; }
-.pg-volt { font-size: var(--fs-body,14px); font-weight: 600; color: var(--muted,#6a6660); font-variant-numeric: tabular-nums; }
+.pg-country { margin: 0; font-size: clamp(1.8rem, 5vw, 3rem); font-weight: 800; color: #f3ece2; line-height: 1.05; letter-spacing: -0.02em; }
+.pg-volt { font-size: var(--fs-body,14px); font-weight: 600; color: #c8b39c; font-variant-numeric: tabular-nums; }
 /* The answer the reader came for, in one line: which plug(s) to bring. */
-.pg-answer { margin: 0.85rem 0 0; font-size: clamp(1rem, 2.4vw, 1.25rem); font-weight: 600; color: var(--text,#3d3a32); }
-.pg-answer b { color: #C04E1A; font-weight: 700; }
+.pg-answer { margin: 0.9rem 0 0; font-size: clamp(1.05rem, 2.6vw, 1.4rem); font-weight: 700; color: #f3ece2; position: relative; max-width: 46ch; }
+/* #D4663A, not #C04E1A: the light terracotta measures 2.81:1 on this brown,
+   under the 4.5 floor validate_dark_mode.py enforces. The dark-mode partner
+   measures 4.68:1. Thirty-fifth non-negotiable — one terracotta, each ground
+   taking its own value for it. */
+.pg-answer b { color: #D4663A; font-weight: 800; }
 
 /* ── One block per plug type the country uses ─────────────────────────────
    The images are addressed by TYPE, not by country: a Type C plug is a Type C
    plug, and the per-country copies were 646 byte-identical duplicates. */
-.pg-types { margin-top: 1.4rem; display: grid; gap: 14px; }
-.pg-type { border: 1px solid var(--border2,#e6e2da); border-radius: 8px; padding: 16px 18px; background: var(--bg,#f5f4f0); }
-.pg-type-head { font-size: var(--fs-body,14px); font-weight: 700; color: var(--text,#3d3a32); }
-.pg-type-desc { font-size: var(--fs-sub,12px); color: var(--muted,#6a6660); margin-top: 3px; }
-.pg-imgs { display: flex; flex-wrap: wrap; gap: 22px; margin-top: 14px; }
-.pg-img-box { display: flex; flex-direction: column; align-items: center; gap: 8px; }
-/* width and height are on the tag as well as here: the box must hold its space
-   before the picture arrives, or the card reflows under the reader as the two
-   images land. */
+.pg-types { margin-top: 1.6rem; display: grid; gap: 12px; grid-template-columns: repeat(auto-fit, minmax(272px, 1fr)); position: relative; }
+.pg-type { border: 1px solid rgba(255,255,255,.07); border-radius: 12px; padding: 16px 16px 14px; background: #30231a; }
+.pg-type-head { font-size: var(--fs-body,14px); font-weight: 700; color: #f3ece2; }
+.pg-type-desc { font-size: var(--fs-sub,12px); color: #c8b39c; margin-top: 3px; }
+.pg-imgs { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 14px; }
+.pg-img-box { display: flex; flex-direction: column; align-items: center; gap: 8px; background: #3b2b20; border-radius: 10px; padding: 12px 8px 10px; }
+/* aspect-ratio plus the width/height attributes on the tag: the tile must hold
+   its square before the picture arrives, or the panel reflows under the reader
+   as the two images land. The plate is the photographs' own ivory ground
+   (#F6F4EF) in both themes — a brown plate behind an ivory-ground JPEG just
+   draws a bright rectangle inside a darker one. */
 .pg-img-box img {
-  width: 180px; height: 180px; object-fit: contain; display: block;
-  background: var(--surface,#fff); border: 1px solid var(--border,#d8d4cc);
-  border-radius: 6px; padding: 6px; box-sizing: border-box;
+  width: 100%; height: auto; aspect-ratio: 1 / 1; object-fit: contain; display: block;
+  background: #F6F4EF; border: 0; border-radius: 8px;
 }
-.pg-img-label { font-size: var(--fs-label,11px); font-weight: 700; color: var(--muted,#6a6660); text-transform: uppercase; letter-spacing: 0.06em; }
+.pg-img-label { font-size: var(--fs-label,11px); font-weight: 700; color: #c8b39c; text-transform: uppercase; letter-spacing: 0.08em; }
 
 @media (max-width: 600px) and (pointer: coarse) {
   .index-section { padding: 0 14px; }
@@ -101,29 +116,17 @@
      (Forty-third non-negotiable). */
   .pg-field { width: 100%; }
   #plug-search { max-width: 100%; }
-  /* Two 180px boxes plus the gap do not fit 393px minus the gutter, and shrunk
-     to fit they stop telling the types apart — which is the one thing the
-     pictures are here for. They go one above the other at full width instead. */
-  .pg-imgs { flex-direction: column; gap: 16px; }
-  .pg-img-box { align-items: flex-start; }
-  .pg-img-box img { width: 100%; max-width: 260px; height: auto; aspect-ratio: 1 / 1; }
+  /* The two tiles stay side by side on a phone now — they are fluid halves of
+     the card rather than the old fixed 180px boxes, so both fit 393px minus the
+     gutter and the pair still reads as socket-and-plug at a glance. */
+  .pg-types { grid-template-columns: 1fr; }
+  .pg-imgs { gap: 8px; }
 }
 
-@media (prefers-color-scheme: dark) {
-  .pg-card { background: var(--surface2,#1e1c1a); border-color: var(--border2,#3a3630); }
-  .pg-country { color: var(--text,#e8e5e0); }
-  /* var(--rust) is #D4663A in dark and is not interchangeable with the light
-     #C04E1A: the light terracotta on this surface measures 3.52:1, under the
-     4.5 floor validate_dark_mode.py enforces. Thirty-fifth non-negotiable —
-     one terracotta, each theme with its own value for it. */
-  .pg-answer { color: var(--text,#e8e5e0); }
-  .pg-answer b { color: var(--rust,#D4663A); }
-  .pg-type { background: var(--surface,#242220); border-color: var(--border2,#3a3630); }
-  .pg-type-head { color: var(--text,#e8e5e0); }
-  /* The photographs are shot on white and stay on white in both themes — a
-     dark plate behind a white-background JPEG just draws a bright rectangle. */
-  .pg-img-box img { background: #fff; border-color: var(--border2,#3a3630); }
-}
+/* The panel is the same brown in both themes — it is the page's dark surface
+   by design, not a light card inverted — so dark mode leaves it alone. The one
+   thing that would change is the ground the page sits on, which is the shared
+   stylesheet's job, not this file's. */
 </style>
 <link rel="stylesheet" href="/assets/mobile.css?v=53">
 <!-- seo:start — generated by Brain/scripts/build/build_seo.py · do not hand-edit -->
@@ -183,6 +186,9 @@
        in for one; see the note on #plug-result in the stylesheet. -->
   <div id="plug-result" hidden>
     <div class="pg-card">
+      <!-- Decoration only, and aria-hidden for it: the readable voltage is
+           .pg-volt, which always carries the same figure. -->
+      <div class="pg-vbg" id="pg-vbg" aria-hidden="true"></div>
       <div class="pg-head">
         <h2 class="pg-country" id="pg-country"></h2>
         <span class="pg-volt" id="pg-volt"></span>
@@ -242,6 +248,10 @@ var PG=[["Austria","Austria","Europe","230V / 50Hz","CF"],["Belgium","Belgium","
     if(!row){ elRes.hidden=true; return; }
     document.getElementById('pg-country').textContent=row[1];
     document.getElementById('pg-volt').textContent=row[3].replace(' / ',' \u00b7 ')+'  \u00b7  '+row[2];
+    /* The watermark takes the volts alone — '230V' out of '230V / 50Hz', and
+       '127/220V' where a country runs both. Never a second fact, and never a
+       fact that is not already spelled out in .pg-volt above it. */
+    document.getElementById('pg-vbg').textContent=row[3].split(' / ')[0];
     document.getElementById('pg-answer').innerHTML=(row[4].length===1)
       ? 'Pack a <b>'+esc(typeList(row[4]))+'</b> adapter.'
       : 'Pack <b>'+esc(typeAnd(row[4]))+'</b> plugs.';

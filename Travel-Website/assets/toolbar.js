@@ -2135,20 +2135,21 @@ window.TVE.home = (function () {
       'input[type="search"].tb-search-input::-webkit-search-decoration,input[type="search"].tb-search-input::-webkit-search-cancel-button,' +
         'input[type="search"].tb-search-input::-webkit-search-results-button,input[type="search"].tb-search-input::-webkit-search-results-decoration{display:none}' +
       'input[type="search"].tb-search-input:focus{outline:none;border-color:var(--c-search-focus-border,#c8b99a);width:205px}' +
+      /* Colors below match the guides-index content-search dropdown (.cs-* in
+         guides-index-style.css) — same shared tokens, same accent/mark values —
+         so the two "search the whole site" results panels read as one system. */
       '.tb-search-drop{position:absolute;top:calc(100% + 8px);right:0;width:300px;max-height:60vh;' +
-        'overflow-y:auto;background:#fff;border:1px solid #e6e2da;border-radius:10px;' +
+        'overflow-y:auto;background:var(--surface,#fff);border:1px solid var(--border2,#e6e2da);border-radius:10px;' +
         'box-shadow:0 8px 24px rgba(92,61,17,.16);padding:6px;z-index:20}' +
       '.tb-sd-guide,.tb-sd-page{display:block;text-decoration:none;padding:7px 9px;border-radius:8px;' +
-        'border-top:1px solid #f0ece5}' +
+        'border-top:1px solid var(--border2,#e6e2da)}' +
       '.tb-search-drop>a:first-child{border-top:none}' +
       '.tb-sd-guide:hover,.tb-sd-page:hover{background:rgba(184,134,11,.08)}' +
-      '.tb-sd-title{display:block;font-weight:700;font-size:13px;color:#8a6c1a;margin-bottom:2px}' +
-      '.tb-sd-sub{display:block;font-size:12px;color:#6a6660}' +
-      '.tb-sd-item{display:flex;justify-content:space-between;gap:8px;font-size:12.5px;color:#1a1917;padding:2px 0}' +
-      '.tb-sd-tag{flex:none;font-size:11px;color:#6a6660;white-space:nowrap}' +
-      '.tb-sd-empty{font-size:12.5px;color:#8a857c;padding:18px 10px;text-align:center}' +
+      '.tb-sd-title{display:block;font-weight:700;font-size:13px;color:var(--accent,#8a6c1a);margin-bottom:2px}' +
+      '.tb-sd-sub{display:block;font-size:12px;color:var(--muted,#6a6660)}' +
+      '.tb-sd-item{display:block;font-size:12.5px;color:var(--text,#1a1917);padding:2px 0}' +
+      '.tb-sd-empty{font-size:12.5px;color:var(--muted,#6a6660);padding:18px 10px;text-align:center}' +
       '.tb-search-drop mark{background:rgba(184,134,11,.28);color:inherit;border-radius:2px;padding:0 1px}' +
-      '@media(prefers-color-scheme:dark){.tb-search-drop{background:var(--surface,#2a2825)}}' +
       '@media (max-width: 1260px) and (pointer: coarse){.tb-search{display:none!important}}';
     document.head.appendChild(tbSearchCSS);
 
@@ -2175,11 +2176,6 @@ window.TVE.home = (function () {
     }
     function tbEsc(s) {
       return s.replace(/[&<>"]/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]; });
-    }
-    function tbSecLabel(sid) {
-      var m = /^day(\d+)$/.exec(sid || '');
-      if (m) return 'Day ' + m[1];
-      return (tbData.labels && tbData.labels[sid]) || '';
     }
     function tbHref(u) { return u.charAt(0) === '/' ? u : '/' + u; }
     function tbLoad(cb) {
@@ -2233,7 +2229,7 @@ window.TVE.home = (function () {
         var items = [];
         g.e.forEach(function (e) {
           var r = tbTokenRanges(e[2], tokens);
-          if (r) items.push({ t: e[0], sub: tbSecLabel(e[1]), ranges: r });
+          if (r) items.push({ t: e[0], ranges: r });
         });
         var cityRanges = tbTokenRanges(g.cf, tokens);
         if (!items.length && !cityRanges) return;
@@ -2269,8 +2265,7 @@ window.TVE.home = (function () {
         html += '<a class="tb-sd-guide" href="' + g.url + '">' +
           '<span class="tb-sd-title">' + (g.cityRanges ? tbMark(g.city, g.cityRanges) : tbEsc(g.city)) + '</span>' +
           g.items.map(function (it) {
-            return '<span class="tb-sd-item"><span>' + tbMark(it.t, it.ranges) + '</span>' +
-              (it.sub ? '<span class="tb-sd-tag">' + tbEsc(it.sub) + '</span>' : '') + '</span>';
+            return '<span class="tb-sd-item">' + tbMark(it.t, it.ranges) + '</span>';
           }).join('') +
           '</a>';
       });

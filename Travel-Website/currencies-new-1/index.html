@@ -1,0 +1,596 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex,nofollow">
+<title>What Your Money Is Worth — Design New 1: The Split-Flap Board | Guide My Days</title>
+<link rel="stylesheet" href="/assets/web-travel-style.css">
+<link rel="stylesheet" href="/assets/mobile.css">
+<link rel="icon" href="/assets/icons/favicon-32.png" sizes="32x32" type="image/png">
+<link rel="apple-touch-icon" href="/assets/icons/apple-touch-icon.png">
+<meta name="theme-color" content="#f5f4f0" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#1a1917" media="(prefers-color-scheme: dark)">
+<style>
+/* ═══════════════════════════════════════════════════════════════════════
+   CURRENCIES — NEW 1 · "The Split-Flap Board"
+   Design-competition entry. STANDALONE: nothing on the live site links here,
+   and this page links to no other entry. The CONTENT is the live
+   /currencies/ page's content, unchanged — same FXR/FXC data, same
+   converter, same all-currencies comparison, same guide links, same footer.
+   Only the presentation is new.
+
+   The idea: an exchange desk reads like a departures board, so the page IS
+   one. Every number that changes flips into place on its own tile, the
+   comparison list arrives row by row the way a board repaints, and the whole
+   thing sits on the site's own cream palette — no dark canvas, no invented
+   colour, no emoji. Pills are the shared .selection-pill-sm; the two
+   pickers are the shared TVESearch typeahead; the search-box geometry comes
+   from the --search-* tokens, per TVESearch.html § 0.
+   ═══════════════════════════════════════════════════════════════════════ */
+
+.index-section { max-width: var(--rail); margin: 0 auto; padding: 0 var(--gutter); }
+
+/* ── The hero ticker ──────────────────────────────────────────────────────
+   A live board has a strip of rates crawling across it. This one is built
+   from FXR itself, doubled so the loop is seamless, paused on hover and
+   frozen entirely under prefers-reduced-motion. */
+.bd-ticker {
+  margin-top: 0; overflow: hidden; position: relative;
+  border: 1px solid var(--border,#d8d4cc); border-top: 0;
+  border-radius: 0 0 12px 12px;
+  background: var(--surface2,#f0ede8);
+  -webkit-mask-image: linear-gradient(90deg, transparent, #000 6%, #000 94%, transparent);
+          mask-image: linear-gradient(90deg, transparent, #000 6%, #000 94%, transparent);
+}
+.bd-tape { display: flex; width: max-content; animation: bd-crawl 68s linear infinite; }
+.bd-ticker:hover .bd-tape { animation-play-state: paused; }
+.bd-cell {
+  display: inline-flex; align-items: baseline; gap: 7px; white-space: nowrap;
+  padding: 9px 18px; font-size: var(--fs-sub,12px); color: var(--muted,#6a6660);
+  border-right: 1px solid var(--border2,#e6e2da);
+}
+.bd-cell b { font-weight: 800; color: var(--text,#3d3a32); letter-spacing: .06em; }
+.bd-cell span { font-variant-numeric: tabular-nums; }
+@keyframes bd-crawl { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+
+/* ── The desk ─────────────────────────────────────────────────────────────
+   The converter row. Same three controls as the live page — Amount, From,
+   swap, To — restaged as a board's own input desk: one raised panel, the
+   labels stencilled, the fields on the site's oval search geometry. */
+.bd-desk {
+  position: relative;
+  margin-top: var(--search-gap,32px);
+  background: var(--surface,#fff);
+  border: 1px solid var(--border,#d8d4cc); border-radius: 16px;
+  padding: clamp(18px,2.6vw,26px) clamp(16px,3vw,28px);
+  box-shadow: 0 10px 26px -20px rgba(61,47,31,.55);
+}
+.bd-desk::before {
+  content: ''; position: absolute; inset: 0 0 auto; height: 4px;
+  border-radius: 16px 16px 0 0;
+  /* The two earth tones are READ from the Selection-Pill family tokens, never
+     retyped: a hex copied out of that family drifts the moment the family
+     moves, which is what pill_color_family_audit.py exists to stop. */
+  background: linear-gradient(90deg,#C04E1A 0 22%, #d99a72 22% 46%, var(--sp-clay-ink,#8c6b47) 46% 68%, var(--sp-sand-ink,#8f6a3e) 68% 100%);
+  opacity: .85;
+}
+.bd-row { display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: center; gap: 12px; }
+.bd-field { display: flex; flex-direction: column; gap: .35rem; min-width: 0; }
+.bd-field label {
+  font-size: var(--fs-label,12px); font-weight: 800; color: var(--muted,#6a6660);
+  text-transform: uppercase; letter-spacing: .14em;
+}
+/* Search-bar geometry, straight from the tokens (TVESearch.html § 0): one
+   height, oval radius, transparent 1.5px border with the edge carried by the
+   shadow, muted ink. Never a page-local pixel value. */
+.bd-ctl {
+  display: flex; align-items: center; min-width: 0;
+  background: var(--surface,#fff); padding: 0 18px;
+  height: var(--search-h,56px); box-sizing: border-box;
+  border: 1.5px solid transparent; border-radius: var(--search-radius,999px);
+  box-shadow: 0 1px 6px rgba(32,33,36,.28);
+  transition: box-shadow .15s ease, transform .15s ease;
+}
+/* Lift — one of the four approved picker hovers (dropdown-collapse.html). */
+@media (hover: hover) {
+  .bd-ctl:hover { transform: translateY(-2px); box-shadow: 0 10px 18px -7px rgba(138,63,24,.45); }
+}
+.bd-ctl:focus-within { border-color: var(--c-search-focus-border,#3d3a32); box-shadow: none; transform: none; }
+.bd-ctl input {
+  flex: 1 1 auto; min-width: 0; width: 100%; border: 0; outline: none; background: transparent;
+  box-shadow: none; border-radius: 0; font: inherit; font-size: var(--fs-body,16px);
+  color: var(--muted,#6a6660); padding: 0; margin: 0; height: 100%; cursor: text;
+  text-align: start; font-weight: 600;
+}
+.bd-ctl input::placeholder { color: var(--muted,#6a6660); font-weight: 400; }
+.bd-amt { width: 9rem; }
+.bd-cur { width: 17rem; max-width: 100%; }
+.bd-swap {
+  flex: 0 0 auto; width: 2.8rem; height: 2.8rem; border-radius: 50%;
+  border: 1px solid var(--border2,#e6e2da); background: var(--surface,#fff);
+  color: var(--muted,#6a6660); font: inherit; font-size: 1.1rem; line-height: 1; cursor: pointer;
+  margin-bottom: .9rem; transition: transform .35s cubic-bezier(.2,.8,.3,1), background .15s, border-color .15s;
+}
+.bd-swap:hover { background: var(--surface2,#f0ede8); border-color: var(--border-strong,#d8d4cc); }
+.bd-swap.is-turning { transform: rotate(180deg); }
+
+/* ── The flap readout ─────────────────────────────────────────────────────
+   The page's one big idea. Every character of the converted amount sits on
+   its own tile, and a tile whose character changed flips down into place,
+   staggered left to right. Nothing is drawn: the tile is a gradient box and
+   the hinge is a 1px inset line across its middle. */
+.bd-board { margin-top: var(--search-gap,32px); }
+#bd-board[hidden], #bd-ask[hidden], #bd-wrap[hidden] { display: none !important; }
+.bd-panel {
+  background: var(--surface,#fff); border: 1px solid var(--border,#d8d4cc);
+  border-radius: 16px; padding: clamp(1.1rem,2.6vw,1.9rem) clamp(1rem,2.8vw,2rem);
+  box-shadow: 0 2px 8px rgba(92,61,17,.06);
+}
+.bd-from-line {
+  font-size: var(--fs-label,12px); font-weight: 800; letter-spacing: .14em;
+  text-transform: uppercase; color: var(--muted,#6a6660); margin: 0 0 .9rem;
+}
+.bd-from-line b { color: #8a3f18; font-weight: 800; }
+.bd-flaps { display: flex; flex-wrap: wrap; align-items: center; gap: 4px; perspective: 700px; }
+.flap {
+  display: inline-flex; align-items: center; justify-content: center;
+  min-width: .72em; padding: .16em .1em;
+  font-size: clamp(1.9rem, 6.4vw, 3.4rem); font-weight: 800; line-height: 1.05;
+  font-variant-numeric: tabular-nums; letter-spacing: -.01em;
+  color: #fdf8f0; border-radius: 5px;
+  background: linear-gradient(180deg, #a8542a 0 49.6%, #8a3f18 50.4% 100%);
+  box-shadow: inset 0 -1px 0 rgba(0,0,0,.35), 0 2px 5px -2px rgba(61,47,31,.5);
+  transform-origin: 50% 50%;
+}
+.flap.is-space { background: none; box-shadow: none; min-width: .34em; }
+.flap.is-punct { background: linear-gradient(180deg,#c8b9a4 0 49.6%, #a8977f 50.4% 100%); color: #fdf8f0; }
+.flap.is-flip { animation: flap-in .44s cubic-bezier(.2,.85,.3,1) both; animation-delay: var(--d,0ms); }
+@keyframes flap-in {
+  0%   { transform: rotateX(-92deg); opacity: .15; }
+  55%  { transform: rotateX(14deg);  opacity: 1; }
+  78%  { transform: rotateX(-6deg); }
+  100% { transform: rotateX(0);      opacity: 1; }
+}
+.bd-into {
+  margin: .9rem 0 0; font-size: clamp(1rem,2.2vw,1.25rem); font-weight: 700; color: var(--text,#3d3a32);
+}
+.bd-into b { color: #8a3f18; }
+.bd-meta { margin: .75rem 0 0; font-size: var(--fs-body,16px); color: var(--muted,#6a6660); font-variant-numeric: tabular-nums; }
+.bd-where { margin: .5rem 0 0; font-size: var(--fs-sub,12px); color: var(--muted,#6a6660); }
+.bd-note { margin: .5rem 0 0; font-size: var(--fs-sub,12px); color: #8a3f18; font-weight: 600; }
+
+/* ── The ask ── one filled terracotta CTA, the true-button carve-out. */
+.bd-ask { margin-top: var(--search-gap,32px); text-align: center; }
+.bd-ask p { margin: 0 0 .7rem; font-size: var(--fs-body,16px); color: var(--muted,#6a6660); }
+.bd-yes {
+  font: inherit; font-size: var(--fs-body,16px); font-weight: 800; letter-spacing: .02em;
+  background: #C04E1A; color: #fff; border: 1px solid #C04E1A;
+  border-radius: 999px; padding: .78em 1.9em; cursor: pointer;
+  transition: background .15s, border-color .15s, box-shadow .15s, transform .15s;
+}
+.bd-yes:hover { background: #8A3F18; border-color: #8A3F18; box-shadow: 0 0 0 6px rgba(192,78,26,.14); }
+.bd-yes:active { transform: translateY(1px) scale(.985); }
+
+/* ── The board ────────────────────────────────────────────────────────────
+   The comparison list. Not a table of cells but a stack of board lines, each
+   one dealt in with a stagger so the list repaints instead of appearing. */
+.bd-wrap { margin-top: var(--search-gap,32px); }
+.bd-sort {
+  /* NOT sticky. The Seventy-fourth non-negotiable is absolute — nothing on
+     this site pins itself to the viewport — and the live page's .fx-sort is
+     an owner-granted exemption for that one path, not a pattern to copy onto
+     a new one. The need behind that exemption is real, though (owner rule
+     2026-08-18: a reader deep in seventy rows had no way out without
+     scrolling all the way back), so it is answered by putting a second, plain
+     Close at the FOOT of the list instead of by making the bar ride along. */
+  display: flex; flex-wrap: wrap; align-items: center; gap: 8px;
+  background: var(--bg,#f5f4f0);
+  padding: 10px 0 12px; border-bottom: 1px solid var(--border2,#e6e2da);
+}
+.bd-sort-label { font-size: var(--fs-label,12px); font-weight: 800; color: var(--muted,#6a6660); text-transform: uppercase; letter-spacing: .14em; }
+.bd-close-x {
+  margin-left: auto; font-size: 13px; line-height: 1; color: #7a7068;
+  background: none; border: none; padding: 0; cursor: pointer; font-family: inherit; position: relative;
+}
+.bd-close-x:hover { color: #3d3a32; }
+.bd-close-x::after { content: ''; position: absolute; top: 50%; left: 50%; width: 44px; height: 44px; transform: translate(-50%,-50%); }
+.bd-lede { margin: 14px 0; font-size: var(--fs-body,16px); color: var(--muted,#6a6660); }
+.bd-lede b { color: var(--text,#3d3a32); }
+
+.bd-line {
+  display: grid; grid-template-columns: 2.6rem minmax(0,1fr) minmax(0,1.5fr) 2.4rem minmax(0,8rem);
+  align-items: center; gap: 12px;
+  padding: 11px 14px; width: 100%; text-align: left;
+  background: var(--surface,#fff); border: 1px solid var(--border2,#e6e2da);
+  border-radius: 10px; margin-bottom: 6px; cursor: pointer;
+  font: inherit; color: var(--text,#3d3a32);
+  animation: bd-deal .34s cubic-bezier(.2,.85,.3,1) both; animation-delay: var(--d,0ms);
+  transition: border-color .14s ease, box-shadow .14s ease, transform .14s ease, background .14s ease;
+}
+@keyframes bd-deal { from { opacity: 0; transform: translateY(-9px) rotateX(-38deg); } to { opacity: 1; transform: none; } }
+.bd-line:hover { background: #FAE8DE; border-color: rgba(192,78,26,.45); box-shadow: 0 8px 16px -12px rgba(138,63,24,.7); transform: translateY(-1px); }
+.bd-line:focus-visible { outline: 3px solid #C04E1A; outline-offset: 2px; }
+.bd-rank {
+  font-size: var(--fs-sub,12px); font-weight: 800; letter-spacing: .06em;
+  color: #fdf8f0; background: var(--sp-clay-ink,#8c6b47); border-radius: 4px; padding: 3px 0; text-align: center;
+  font-variant-numeric: tabular-nums;
+}
+.bd-name { font-weight: 700; min-width: 0; }
+.bd-code { font-size: var(--fs-sub,12px); font-weight: 700; color: var(--muted,#6a6660); letter-spacing: .07em; }
+.bd-used { font-size: var(--fs-sub,12px); color: var(--muted,#6a6660); min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.bd-sym { text-align: center; font-weight: 700; color: var(--muted,#6a6660); }
+.bd-get {
+  text-align: right; font-weight: 800; font-variant-numeric: tabular-nums; white-space: nowrap;
+  font-size: clamp(1rem,2vw,1.15rem); color: #5C3D11;
+}
+/* The open marker is drawn from a border, never typed and never an emoji. */
+.bd-caret {
+  display: inline-block; width: 0; height: 0; margin-right: 8px; vertical-align: middle;
+  border-left: 5px solid currentColor; border-top: 4px solid transparent; border-bottom: 4px solid transparent;
+  opacity: .5; transition: transform .14s ease, opacity .14s ease;
+}
+.bd-line[aria-expanded="true"] .bd-caret { transform: rotate(90deg); opacity: 1; }
+.bd-line[aria-expanded="true"] { background: var(--warm,#fdf4ed); border-color: rgba(192,78,26,.45); }
+
+.bd-detail {
+  overflow: hidden; margin: -2px 0 8px; padding: 0 14px;
+  background: var(--warm,#fdf4ed); border: 1px solid rgba(192,78,26,.22); border-top: 0;
+  border-radius: 0 0 10px 10px;
+  animation: bd-open .26s ease both;
+}
+@keyframes bd-open { from { opacity: 0; max-height: 0; } to { opacity: 1; max-height: 1400px; } }
+.bd-gc { margin: 0; padding: 8px 0 0; font-size: var(--fs-sub,12px); line-height: 1.75; }
+.bd-gc:last-child { padding-bottom: 12px; }
+.bd-gc b { display: inline-block; min-width: 8.5em; margin-right: 6px; color: var(--muted,#6a6660); font-weight: 800; text-transform: uppercase; letter-spacing: .06em; }
+.bd-gc a { color: var(--text,#3d3a32); text-decoration: none; border-bottom: 1px solid rgba(192,78,26,.35); }
+.bd-gc a:hover { color: #C04E1A; border-bottom-color: #C04E1A; }
+.bd-gc a:visited { color: #3d3a32; }
+.bd-sep { color: var(--muted,#6a6660); opacity: .6; }
+.bd-footer { text-align: center; font-size: var(--fs-sub,12px); color: var(--muted); margin: 26px 0 14px; padding-top: 12px; border-top: 1px solid var(--border); }
+
+@media (max-width: 760px) {
+  .bd-line { grid-template-columns: 2.2rem minmax(0,1fr) 2rem minmax(0,6.4rem); }
+  .bd-used { display: none; }
+}
+@media (max-width: 600px) and (pointer: coarse) {
+  .index-section { padding: 0 14px; }
+  .bd-row { flex-direction: column; align-items: stretch; }
+  .bd-amt, .bd-cur { width: 100%; }
+  .bd-swap { align-self: center; margin: 0; }
+  .flap { font-size: clamp(1.5rem,9vw,2.2rem); }
+  .bd-gc b { display: block; min-width: 0; margin: 0 0 2px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .bd-tape { animation: none; }
+  .flap.is-flip, .bd-line, .bd-detail { animation: none !important; }
+  .bd-swap.is-turning { transform: none; }
+}
+@media (prefers-color-scheme: dark) {
+  .bd-ticker { background: var(--surface2,#1e1c1a); border-color: var(--border2,#3a3630); }
+  .bd-cell { border-right-color: var(--border2,#3a3630); }
+  .bd-desk, .bd-panel { background: var(--surface2,#1e1c1a); border-color: var(--border2,#3a3630); }
+  .bd-ctl { background: var(--surface2,#1e1c1a); }
+  .bd-swap { background: var(--surface2,#1e1c1a); color: var(--muted,#9a9690); border-color: var(--border2,#3a3630); }
+  .bd-swap:hover { background: var(--surface,#2a2725); border-color: var(--border-strong,#4a4640); }
+  .bd-into { color: var(--text,#e8e5e0); }
+  .bd-into b, .bd-note, .bd-from-line b { color: var(--rust,#D4663A); }
+  .bd-sort { background: var(--bg,#1a1917); border-bottom-color: var(--border2,#3a3630); }
+  .bd-close-x:hover { color: #f5f3ef; }
+  .bd-line { background: var(--surface2,#1e1c1a); border-color: var(--border2,#3a3630); color: var(--text,#e8e5e0); }
+  .bd-line:hover { background: rgba(212,102,58,.16); }
+  .bd-line[aria-expanded="true"] { background: rgba(212,102,58,.10); }
+  .bd-get { color: var(--text,#e8e5e0); }
+  .bd-detail { background: rgba(212,102,58,.08); border-color: rgba(212,102,58,.25); }
+  .bd-gc a { color: var(--text,#e8e5e0); border-bottom-color: rgba(212,102,58,.45); }
+  .bd-gc a:hover { color: var(--rust,#D4663A); border-bottom-color: var(--rust,#D4663A); }
+}
+
+/* The way out from the bottom of the list — the other half of the answer to
+   the 2026-08-18 owner rule, now that the sort row scrolls away with its
+   content like everything else on the site. */
+.bd-close-foot {
+  display: block; margin: 18px auto 0; font: inherit; font-size: var(--fs-sub,12px);
+  font-weight: 800; letter-spacing: .1em; text-transform: uppercase;
+  color: var(--muted,#6a6660); background: var(--surface,#fff);
+  border: 1px solid var(--border2,#e6e2da); border-radius: 999px; padding: 9px 20px; cursor: pointer;
+  transition: color .15s, border-color .15s, box-shadow .15s;
+}
+.bd-close-foot:hover { color: #C04E1A; border-color: rgba(192,78,26,.55); box-shadow: 0 0 0 5px rgba(192,78,26,.12); }
+@media (prefers-color-scheme: dark) {
+  .bd-close-foot { background: var(--surface2,#1e1c1a); color: var(--muted,#9a9690); border-color: var(--border2,#3a3630); }
+}
+</style>
+<!-- Incoming #Country deep-link guard, kept verbatim from the live page: iOS
+     Safari performs a native fragment jump on load otherwise. -->
+<script>(function(){try{var h=location.hash;if(h&&h.length>1){window.__tveDeep=decodeURIComponent(h.slice(1));history.replaceState(null,'',location.pathname+location.search);}}catch(e){}}());</script>
+</head>
+<body>
+
+<div id="toolbar-mount" data-depth="2" data-maxwidth="1180" data-updated="2026-09-05"></div>
+<script src="/assets/toolbar.js?v=103"></script>
+<script src="/assets/search-autocomplete.js?v=8"></script>
+
+<div class="index-section">
+  <div class="hero-band eb-hero">
+    <span class="eb-kicker">What Your Money Is Worth</span>
+    <div class="eb-copy">
+      <h1 class="eb-title">What your money is worth, <em>in 70 currencies at once.</em></h1>
+      <p class="eb-intro">Convert any currency into any other at exchange rates refreshed monthly — then see the same money in all 70 at once, ranked by where it goes furthest. Dollars to yen, euros to baht, any pair in either direction, and the guides for wherever it lands.</p>
+    </div>
+    <!-- $/€ swap — catalogue #407, copied verbatim from the live page with its
+         page-local terracotta/dusty-blue gradients. No icon is authored here. -->
+    <div class="eb-graphic" aria-hidden="true"><svg viewBox="0 0 24 24"><defs>
+      <linearGradient id="fx-terra-mid" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#d99a72"/><stop offset="1" stop-color="#8a4a2c"/></linearGradient>
+      <linearGradient id="fx-terra-light" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#ecc2a8"/><stop offset="1" stop-color="#d99a72"/></linearGradient>
+      <linearGradient id="fx-blue-mid" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#7fa8c9"/><stop offset="1" stop-color="#3d5f7a"/></linearGradient>
+      <linearGradient id="fx-blue-light" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#a8c7de"/><stop offset="1" stop-color="#7fa8c9"/></linearGradient>
+    </defs>
+      <circle cx="6.8" cy="8.6" r="5.4" fill="url(#fx-terra-mid)" stroke="#8a4a2c" stroke-width="0.5"/>
+      <circle cx="6.8" cy="8.6" r="5.4" fill="url(#gm-gloss)"/>
+      <circle cx="6.8" cy="8.6" r="3.9" fill="url(#fx-terra-light)" stroke="#8a4a2c" stroke-width="0.5"/>
+      <text x="6.8" y="10.8" font-family="ui-sans-serif, system-ui, sans-serif" font-size="5.4" font-weight="700" text-anchor="middle" fill="#8a4a2c">$</text>
+      <circle cx="17.2" cy="15.4" r="5.4" fill="url(#fx-blue-mid)" stroke="#3d5f7a" stroke-width="0.5"/>
+      <circle cx="17.2" cy="15.4" r="5.4" fill="url(#gm-gloss)"/>
+      <circle cx="17.2" cy="15.4" r="3.9" fill="url(#fx-blue-light)" stroke="#3d5f7a" stroke-width="0.5"/>
+      <text x="17.2" y="17.6" font-family="ui-sans-serif, system-ui, sans-serif" font-size="5.4" font-weight="700" text-anchor="middle" fill="#3d5f7a">€</text>
+      <path d="M13.6 5.4c3 .6 5.2 2.2 6.6 4.6" fill="none" stroke="#8a8171" stroke-width="1.6" stroke-linecap="round"/>
+      <path d="M22 11.4 19 9.2l3.4-1z" fill="#8a8171" stroke="#5c5346" stroke-width="0.5"/>
+      <path d="M10.4 18.6c-3-.6-5.2-2.2-6.6-4.6" fill="none" stroke="#8a8171" stroke-width="1.6" stroke-linecap="round"/>
+      <path d="M2 12.6 5 14.8l-3.4 1z" fill="#8a8171" stroke="#5c5346" stroke-width="0.5"/>
+    </svg></div>
+  </div>
+
+  <div class="bd-ticker" aria-hidden="true"><div class="bd-tape" id="bd-tape"></div></div>
+
+  <div class="bd-desk">
+    <div class="bd-row">
+      <div class="bd-field">
+        <label for="fx-amount">Amount</label>
+        <div class="bd-ctl bd-amt"><input id="fx-amount" type="number" min="0" step="any" value="1" inputmode="decimal"></div>
+      </div>
+      <div class="bd-field">
+        <label for="fx-from">From</label>
+        <div class="bd-ctl bd-cur"><input type="text" id="fx-from" placeholder="Choose a currency" autocomplete="off" spellcheck="false"></div>
+      </div>
+      <button id="fx-swap" class="bd-swap" type="button" aria-label="Swap the two currencies" title="Swap">&#8646;</button>
+      <div class="bd-field">
+        <label for="fx-to">To</label>
+        <div class="bd-ctl bd-cur"><input type="text" id="fx-to" placeholder="Choose a currency" autocomplete="off" spellcheck="false"></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="bd-board" id="bd-board" hidden>
+    <div class="bd-panel">
+      <p class="bd-from-line" id="bd-from-line"></p>
+      <div class="bd-flaps" id="bd-flaps" role="status" aria-live="polite" aria-label="Converted amount"></div>
+      <p class="bd-into" id="bd-into"></p>
+      <p class="bd-meta" id="bd-meta"></p>
+      <p class="bd-where" id="bd-where" hidden></p>
+      <p class="bd-note" id="bd-note" hidden></p>
+    </div>
+  </div>
+
+  <div class="bd-ask" id="bd-ask" hidden>
+    <p>Want to find where your money is worth more?</p>
+    <button id="fx-yes" class="bd-yes" type="button">Show me all currencies</button>
+  </div>
+
+  <div class="bd-wrap" id="bd-wrap" hidden>
+    <div class="bd-sort">
+      <span class="bd-sort-label">Sort</span>
+      <button class="selection-pill-sm sp-rust hov-darken is-on" type="button" data-sort="most">Most value</button>
+      <button class="selection-pill-sm sp-sand hov-darken" type="button" data-sort="least">Least value</button>
+      <button id="fx-close" class="bd-close-x" type="button" aria-label="Close the board">&#10005;</button>
+    </div>
+    <p class="bd-lede" id="bd-lede"></p>
+    <div id="bd-list"></div>
+    <button id="fx-close-foot" class="bd-close-foot" type="button">&#10005; Close the board</button>
+    <p class="bd-footer">Rates as of 5 September 2026 &middot; 94 countries &middot; Source: exchangerate-api.com</p>
+  </div>
+</div>
+
+<script>
+/* FXR / FXC — copied verbatim from Travel-Website/currencies/index.html. Same
+   rates, same countries, same guide links. Never hand-edit a rate here. */
+var FXR={"AED":{"n":"UAE Dirham","s":"Dh","r":3.6725},"ARS":{"n":"Argentine Peso","s":"AR$","r":1507.3745},"AUD":{"n":"Australian Dollar","s":"A$","r":1.388189},"AWG":{"n":"Aruban Florin","s":"Afl.","r":1.79},"BBD":{"n":"Barbadian Dollar","s":"Bds$","r":2},"BGN":{"n":"Bulgarian Lev","s":"лв","r":1.684197},"BOB":{"n":"Bolivian Boliviano","s":"Bs","r":12.145708},"BRL":{"n":"Brazilian Real","s":"R$","r":5.111452},"BSD":{"n":"Bahamian Dollar","s":"B$","r":1},"BTN":{"n":"Bhutanese Ngultrum","s":"Nu","r":94.517585},"CAD":{"n":"Canadian Dollar","s":"C$","r":1.382855},"CHF":{"n":"Swiss Franc","s":"Fr","r":0.809855},"CLP":{"n":"Chilean Peso","s":"CL$","r":932.412272},"CNY":{"n":"Chinese Yuan (Renminbi)","s":"¥","r":6.728858},"COP":{"n":"Colombian Peso","s":"COP","r":3152.90844},"CRC":{"n":"Costa Rican Colón","s":"₡","r":453.305929},"CUP":{"n":"Cuban Peso","s":"CUP","r":24},"CZK":{"n":"Czech Koruna","s":"Kč","r":20.821419},"DKK":{"n":"Danish Krone","s":"kr","r":6.432372},"DOP":{"n":"Dominican Peso","s":"RD$","r":58.700692},"EGP":{"n":"Egyptian Pound","s":"E£","r":50.944245},"EUR":{"n":"Euro","s":"€","r":0.861117},"GBP":{"n":"Pound Sterling","s":"£","r":0.739612},"GEL":{"n":"Georgian Lari","s":"₾","r":2.613051},"GTQ":{"n":"Guatemalan Quetzal","s":"Q","r":7.629135},"HKD":{"n":"Hong Kong Dollar","s":"HK$","r":7.840994},"HUF":{"n":"Hungarian Forint","s":"Ft","r":311.876276},"IDR":{"n":"Indonesian Rupiah","s":"Rp","r":17674.218391},"ILS":{"n":"Israeli New Shekel","s":"₪","r":3.011277},"INR":{"n":"Indian Rupee","s":"₹","r":94.51761},"ISK":{"n":"Icelandic Króna","s":"kr","r":121.168844},"JMD":{"n":"Jamaican Dollar","s":"J$","r":158.224631},"JOD":{"n":"Jordanian Dinar","s":"JD","r":0.709},"JPY":{"n":"Japanese Yen","s":"¥","r":156.156625},"KES":{"n":"Kenyan Shilling","s":"KSh","r":129.388213},"KRW":{"n":"South Korean Won","s":"₩","r":1348.990395},"KWD":{"n":"Kuwaiti Dinar","s":"KD","r":0.308726},"KYD":{"n":"Cayman Islands Dollar","s":"CI$","r":0.833333},"LAK":{"n":"Lao Kip","s":"₭","r":22199.314709},"LKR":{"n":"Sri Lankan Rupee","s":"Rs","r":328.202304},"MAD":{"n":"Moroccan Dirham","s":"DH","r":9.348756},"MOP":{"n":"Macanese Pataca","s":"MOP$","r":8.076223},"MVR":{"n":"Maldivian Rufiyaa","s":"Rf","r":15.444121},"MXN":{"n":"Mexican Peso","s":"$","r":16.894736},"MYR":{"n":"Malaysian Ringgit","s":"RM","r":4.044043},"NGN":{"n":"Nigerian Naira","s":"₦","r":1324.205782},"NOK":{"n":"Norwegian Krone","s":"kr","r":9.302202},"NPR":{"n":"Nepalese Rupee","s":"Rs","r":151.228136},"NZD":{"n":"New Zealand Dollar","s":"NZ$","r":1.700319},"OMR":{"n":"Omani Rial","s":"RO","r":0.384497},"PEN":{"n":"Peruvian Sol","s":"S/","r":3.360932},"PHP":{"n":"Philippine Peso","s":"₱","r":62.696582},"PLN":{"n":"Polish Złoty","s":"zł","r":3.711676},"QAR":{"n":"Qatari Riyal","s":"QR","r":3.64},"RON":{"n":"Romanian Leu","s":"lei","r":4.520983},"RUB":{"n":"Russian Ruble","s":"₽","r":86.587805},"SAR":{"n":"Saudi Riyal","s":"SR","r":3.75},"SCR":{"n":"Seychellois Rupee","s":"SCR","r":14.359923},"SEK":{"n":"Swedish Krona","s":"kr","r":9.565227},"SGD":{"n":"Singapore Dollar","s":"S$","r":1.266802},"THB":{"n":"Thai Baht","s":"฿","r":32.914495},"TRY":{"n":"Turkish Lira","s":"₺","r":48.416604},"TWD":{"n":"New Taiwan Dollar","s":"NT$","r":31.630012},"TZS":{"n":"Tanzanian Shilling","s":"TSh","r":2641.564042},"USD":{"n":"US Dollar","s":"$","r":1},"UYU":{"n":"Uruguayan Peso","s":"$U","r":40.230884},"VND":{"n":"Vietnamese Dong","s":"₫","r":26025.122751},"XCG":{"n":"Caribbean Guilder","s":"ƒ","r":1.79},"XPF":{"n":"CFP Franc","s":"XPF","r":102.758719},"ZAR":{"n":"South African Rand","s":"R","r":15.966228}};
+var FXC=[["Austria","Austria","Europe","EUR","",[["Salzburg","/guides/salzburg.html"],["Vienna","/guides/vienna.html"]]],["Belgium","Belgium","Europe","EUR","",[["Bruges","/guides/bruges.html"],["Brussels","/guides/brussels.html"]]],["Bulgaria","Bulgaria","Europe","BGN","Pegged to the euro at a fixed rate (1.95583).",[["Sofia","/guides/sofia.html"]]],["Croatia","Croatia","Europe","EUR","Adopted the euro in 2023.",[["Dubrovnik","/guides/dubrovnik.html"],["Split","/guides/split.html"]]],["Czech_Republic","Czech Republic","Europe","CZK","",[["Prague","/guides/prague.html"]]],["Denmark","Denmark","Europe","DKK","",[["Copenhagen","/guides/copenhagen.html"]]],["Estonia","Estonia","Europe","EUR","",[["Tallinn","/guides/tallinn.html"]]],["Finland","Finland","Europe","EUR","",[["Helsinki","/guides/helsinki.html"]]],["France","France","Europe","EUR","",[["Aix-en-Provence","/guides/aix-en-provence.html"],["Annecy","/guides/annecy.html"],["Bordeaux","/guides/bordeaux.html"],["Cannes","/guides/cannes.html"],["Colmar","/guides/colmar.html"],["Lille","/guides/lille.html"],["Lyon","/guides/lyon.html"],["Marseille","/guides/marseille.html"],["Nice","/guides/nice.html"],["Paris","/guides/paris.html"],["Strasbourg","/guides/strasbourg.html"]]],["Georgia","Georgia","Europe","GEL","",[["Tbilisi","/guides/tbilisi.html"]]],["Germany","Germany","Europe","EUR","",[["Berlin","/guides/berlin.html"],["Cologne","/guides/cologne.html"],["Frankfurt","/guides/frankfurt.html"],["Hamburg","/guides/hamburg.html"],["Marktoberdorf","/guides/marktoberdorf.html"],["Munich","/guides/munich.html"],["Stuttgart","/guides/stuttgart.html"]]],["Greece","Greece","Europe","EUR","",[["Athens","/guides/athens.html"],["Corfu","/guides/corfu.html"],["Crete","/guides/crete.html"],["Mykonos","/guides/mykonos.html"],["Rhodes","/guides/rhodes.html"],["Santorini","/guides/santorini.html"],["Zakynthos","/guides/zakynthos.html"]]],["Hungary","Hungary","Europe","HUF","",[["Budapest","/guides/budapest.html"]]],["Iceland","Iceland","Europe","ISK","",[["Reykjavik","/guides/reykjavik.html"]]],["Ireland","Ireland","Europe","EUR","",[["Dublin","/guides/dublin.html"]]],["Italy","Italy","Europe","EUR","",[["Amalfi","/guides/amalfi.html"],["Bologna","/guides/bologna.html"],["Capri","/guides/capri.html"],["Cinque Terre","/guides/cinque-terre.html"],["Florence","/guides/florence.html"],["Lake Como","/guides/lake-como.html"],["Lecce","/guides/lecce.html"],["Milan","/guides/milan.html"],["Naples","/guides/naples.html"],["Pisa","/guides/pisa.html"],["Rome","/guides/rome.html"],["Sardinia","/guides/sardinia.html"],["Sicily","/guides/sicily.html"],["Siena","/guides/siena.html"],["Sorrento","/guides/sorrento.html"],["Turin","/guides/turin.html"],["Venice","/guides/venice.html"],["Verona","/guides/verona.html"]]],["Latvia","Latvia","Europe","EUR","",[["Riga","/guides/riga.html"]]],["Lithuania","Lithuania","Europe","EUR","",[["Vilnius","/guides/vilnius.html"]]],["Luxembourg","Luxembourg","Europe","EUR","",[["Luxembourg","/guides/luxembourg.html"]]],["Malta","Malta","Europe","EUR","",[["Valletta","/guides/valletta.html"]]],["Monaco","Monaco","Europe","EUR","",[["Monaco","/guides/monaco.html"]]],["Montenegro","Montenegro","Europe","EUR","Uses the euro without EU membership.",[["Kotor","/guides/kotor.html"]]],["Netherlands","Netherlands","Europe","EUR","",[["Amsterdam","/guides/amsterdam.html"],["Rotterdam","/guides/rotterdam.html"]]],["Norway","Norway","Europe","NOK","",[["Bergen","/guides/bergen.html"],["Oslo","/guides/oslo.html"],["Tromsø","/guides/tromso.html"],["Ålesund","/guides/alesund.html"]]],["Poland","Poland","Europe","PLN","",[["Kraków","/guides/krakow.html"]]],["Portugal","Portugal","Europe","EUR","",[["Azores","/guides/azores.html"],["Cascais","/guides/cascais.html"],["Lagos","/guides/lagos.html"],["Lisbon","/guides/lisbon.html"],["Madeira","/guides/madeira.html"],["Porto","/guides/porto.html"],["Sintra","/guides/sintra.html"]]],["Romania","Romania","Europe","RON","",[["Bucharest","/guides/bucharest.html"]]],["Russia","Russia","Europe","RUB","Largely non-convertible outside Russia since 2022 sanctions; foreign Visa/Mastercard do not work.",[["Moscow","/guides/moscow.html"],["Saint Petersburg","/guides/saint-petersburg.html"]]],["Slovenia","Slovenia","Europe","EUR","",[["Ljubljana","/guides/ljubljana.html"]]],["Spain","Spain","Europe","EUR","",[["Barcelona","/guides/barcelona.html"],["Bilbao","/guides/bilbao.html"],["Granada","/guides/granada.html"],["Madrid","/guides/madrid.html"],["Málaga","/guides/malaga.html"],["San Sebastián","/guides/san-sebastian.html"],["Seville","/guides/seville.html"],["Tenerife","/guides/tenerife.html"],["Toledo","/guides/toledo.html"]]],["Sweden","Sweden","Europe","SEK","",[["Gothenburg","/guides/gothenburg.html"],["Stockholm","/guides/stockholm.html"]]],["Switzerland","Switzerland","Europe","CHF","",[["Geneva","/guides/geneva.html"],["Lucerne","/guides/lucerne.html"],["Zurich","/guides/zurich.html"]]],["Turkey","Turkey","Europe","TRY","",[["Antalya","/guides/antalya.html"],["Istanbul","/guides/istanbul.html"]]],["United_Kingdom","United Kingdom","Europe","GBP","",[["Cambridge","/guides/cambridge.html"],["Edinburgh","/guides/edinburgh.html"],["Glasgow","/guides/glasgow.html"],["London","/guides/london.html"],["Oxford","/guides/oxford.html"]]],["Israel","Israel","Middle East","ILS","",[["Jerusalem","/guides/jerusalem.html"]]],["Jordan","Jordan","Middle East","JOD","Pegged to the US dollar (~0.71).",[["Petra","/guides/petra.html"]]],["Kuwait","Kuwait","Middle East","KWD","Pegged to a basket of international currencies; among the world's highest-valued currencies.",[["Kuwait City","/guides/kuwait-city.html"]]],["Oman","Oman","Middle East","OMR","Pegged to the US dollar (~0.38).",[["Muscat","/guides/muscat.html"]]],["Qatar","Qatar","Middle East","QAR","Pegged to the US dollar (~3.64).",[["Doha","/guides/doha.html"]]],["Saudi_Arabia","Saudi Arabia","Middle East","SAR","Pegged to the US dollar (~3.75).",[["Mecca","/guides/mecca.html"],["Riyadh","/guides/riyadh.html"]]],["United_Arab_Emirates","United Arab Emirates","Middle East","AED","Pegged to the US dollar (~3.67).",[["Abu Dhabi","/guides/abu-dhabi.html"],["Dubai","/guides/dubai.html"]]],["Egypt","Egypt","Africa","EGP","",[["Cairo","/guides/cairo.html"]]],["Kenya","Kenya","Africa","KES","",[["Nairobi","/guides/nairobi.html"]]],["Morocco","Morocco","Africa","MAD","",[["Marrakech","/guides/marrakech.html"]]],["Nigeria","Nigeria","Africa","NGN","",[["Lagos Nigeria","/guides/lagos-nigeria.html"]]],["Seychelles","Seychelles","Africa","SCR","",[["Seychelles","/guides/seychelles.html"]]],["South_Africa","South Africa","Africa","ZAR","",[["Cape Town","/guides/cape-town.html"]]],["Tanzania","Tanzania","Africa","TZS","",[["Zanzibar","/guides/zanzibar.html"]]],["Bhutan","Bhutan","Asia","BTN","Pegged 1:1 to the Indian Rupee; INR also accepted.",[["Paro","/guides/bhutan.html"]]],["China","China","Asia","CNY","",[["Beijing","/guides/beijing.html"],["Chongqing","/guides/chongqing.html"],["Shanghai","/guides/shanghai.html"],["Shenzhen","/guides/shenzhen.html"],["Zhangjiajie","/guides/zhangjiajie.html"]]],["Hong_Kong","Hong Kong","Asia","HKD","Pegged to the US dollar (~7.8).",[["Hong Kong","/guides/hong-kong.html"]]],["India","India","Asia","INR","",[["Delhi","/guides/delhi.html"],["Mumbai","/guides/mumbai.html"]]],["Indonesia","Indonesia","Asia","IDR","",[["Bali","/guides/bali.html"]]],["Japan","Japan","Asia","JPY","",[["Hiroshima","/guides/hiroshima.html"],["Kyoto","/guides/kyoto.html"],["Osaka","/guides/osaka.html"],["Tokyo","/guides/tokyo.html"]]],["Laos","Laos","Asia","LAK","",[["Luang Prabang","/guides/luang-prabang.html"]]],["Macau","Macau","Asia","MOP","Pegged to the Hong Kong dollar at a fixed rate (~1.032).",[["Macau","/guides/macau.html"]]],["Malaysia","Malaysia","Asia","MYR","",[["Kuala Lumpur","/guides/kuala-lumpur.html"]]],["Maldives","Maldives","Asia","MVR","",[["Maldives","/guides/maldives.html"]]],["Nepal","Nepal","Asia","NPR","",[["Pokhara","/guides/pokhara.html"]]],["Philippines","Philippines","Asia","PHP","",[["Palawan","/guides/palawan.html"]]],["Singapore","Singapore","Asia","SGD","",[["Singapore","/guides/singapore.html"]]],["South_Korea","South Korea","Asia","KRW","",[["Busan","/guides/busan.html"],["Seoul","/guides/seoul.html"]]],["Sri_Lanka","Sri Lanka","Asia","LKR","",[["Colombo","/guides/colombo.html"]]],["Taiwan","Taiwan","Asia","TWD","",[["Taipei","/guides/taipei.html"]]],["Thailand","Thailand","Asia","THB","",[["Bangkok","/guides/bangkok.html"],["Chiang Mai","/guides/chiang-mai.html"],["Pattaya","/guides/pattaya.html"],["Phuket","/guides/phuket.html"]]],["Vietnam","Vietnam","Asia","VND","",[["Hanoi","/guides/hanoi.html"],["Hoi An","/guides/hoi-an.html"]]],["Australia","Australia","Oceania","AUD","",[["Melbourne","/guides/melbourne.html"],["Sydney","/guides/sydney.html"]]],["French_Polynesia","French Polynesia","Oceania","XPF","",[["Bora Bora","/guides/bora-bora.html"]]],["New_Zealand","New Zealand","Oceania","NZD","",[["Queenstown","/guides/queenstown.html"],["Wellington","/guides/wellington.html"]]],["Canada","Canada","North America","CAD","",[["Banff","/guides/banff.html"],["Montréal","/guides/montreal.html"],["Québec City","/guides/quebec-city.html"],["Toronto","/guides/toronto.html"],["Vancouver","/guides/vancouver.html"],["Victoria","/guides/victoria.html"],["Whistler","/guides/whistler.html"]]],["Mexico","Mexico","North America","MXN","",[["Cancún","/guides/cancun.html"],["Los Cabos","/guides/los-cabos.html"],["Oaxaca","/guides/oaxaca.html"],["Puerto Vallarta","/guides/puerto-vallarta.html"]]],["United_States","United States","North America","USD","",[["Alaska","/guides/alaska.html"],["Atlanta","/guides/atlanta.html"],["Austin","/guides/austin.html"],["Bend","/guides/bend.html"],["Big Island","/guides/big-island.html"],["Boston","/guides/boston.html"],["Boulder","/guides/boulder.html"],["Cape Cod","/guides/cape-cod.html"],["Carmel by the Sea","/guides/carmel-by-the-sea.html"],["Charlotte","/guides/charlotte.html"],["Chicago","/guides/chicago.html"],["Coeur d'Alene","/guides/coeur-dalene.html"],["Columbia","/guides/columbia.html"],["Dallas","/guides/dallas.html"],["Denver","/guides/denver.html"],["Florida Keys","/guides/florida-keys.html"],["Glacier National Park","/guides/glacier-national-park.html"],["Hilton Head Island","/guides/hilton-head-island.html"],["Kauai","/guides/kauai.html"],["Key West","/guides/keywest.html"],["La Jolla","/guides/la-jolla.html"],["Lake Tahoe","/guides/lake-tahoe.html"],["Las Vegas","/guides/las-vegas.html"],["Los Angeles","/guides/los-angeles.html"],["Malibu","/guides/malibu.html"],["Marco Island","/guides/marco-island.html"],["Maui","/guides/maui.html"],["Miami","/guides/miami.html"],["Napa","/guides/napa.html"],["Naples, FL","/guides/naples-florida.html"],["Nashville","/guides/nashville.html"],["New Orleans","/guides/new-orleans.html"],["New York","/guides/new-york.html"],["Oahu","/guides/oahu.html"],["Orcas Island","/guides/orcas-island.html"],["Orlando","/guides/orlando.html"],["Palm Desert","/guides/palm-desert.html"],["Palo Alto","/guides/palo-alto.html"],["Pasadena","/guides/pasadena.html"],["Pensacola","/guides/pensacola.html"],["Philadelphia","/guides/philadelphia.html"],["Phoenix","/guides/phoenix.html"],["Portland","/guides/portland.html"],["San Diego","/guides/san-diego.html"],["San Francisco","/guides/san-francisco.html"],["San Jose","/guides/san-jose.html"],["San Juan Island","/guides/san-juan-island.html"],["Santa Barbara","/guides/santa-barbara.html"],["Santa Cruz","/guides/santa-cruz.html"],["Santa Fe","/guides/santa-fe.html"],["Santa Monica","/guides/santa-monica.html"],["Sarasota","/guides/sarasota.html"],["Scottsdale","/guides/scottsdale.html"],["Seattle","/guides/seattle.html"],["Sedona","/guides/sedona.html"],["Virgin Islands","/guides/virgin-islands.html"],["Washington DC","/guides/washington-dc.html"],["Yellowstone","/guides/yellowstone.html"]]],["Costa_Rica","Costa Rica","Central America","CRC","Many establishments accept US dollars, especially in tourist areas.",[["Arenal","/guides/arenal.html"],["Manuel Antonio","/guides/manuel-antonio.html"],["San José","/guides/san-jose-costa-rica.html"]]],["Guatemala","Guatemala","Central America","GTQ","Cash is the default outside hotels and upscale restaurants; small bills are useful.",[["Antigua Guatemala","/guides/antigua-guatemala.html"]]],["Aruba","Aruba","Caribbean","AWG","Pegged to the US dollar; USD widely accepted.",[["Aruba","/guides/aruba.html"]]],["Bahamas","Bahamas","Caribbean","BSD","Pegged 1:1 with the US dollar — USD accepted everywhere.",[["The Bahamas","/guides/bahamas.html"]]],["Barbados","Barbados","Caribbean","BBD","Pegged 2:1 with the US dollar — USD widely accepted.",[["Barbados","/guides/barbados.html"]]],["Cayman_Islands","Cayman Islands","Caribbean","KYD","Pegged to the US dollar; one of the few currencies worth more than USD.",[["Cayman Islands","/guides/cayman-islands.html"]]],["Cuba","Cuba","Caribbean","CUP","US-issued cards are blocked; bring EUR, CAD, or GBP in cash to exchange at a CADECA office.",[["Havana","/guides/havana.html"]]],["Curacao","Curaçao","Caribbean","XCG","Pegged to the US dollar; replaced the Netherlands Antillean guilder.",[["Curaçao","/guides/curacao.html"]]],["Dominican_Republic","Dominican Republic","Caribbean","DOP","",[["Punta Cana","/guides/punta-cana.html"]]],["Jamaica","Jamaica","Caribbean","JMD","US dollars widely accepted in tourist zones; change often comes back in Jamaican dollars.",[["Montego Bay","/guides/montego-bay.html"]]],["Puerto_Rico","Puerto Rico","Caribbean","USD","US territory — uses the US dollar.",[["Puerto Rico","/guides/puerto-rico.html"]]],["Sint_Maarten","Sint Maarten","Caribbean","XCG","Pegged to the US dollar; USD widely accepted.",[["Sint Maarten","/guides/sint-maarten.html"]]],["Turks_and_Caicos","Turks and Caicos","Caribbean","USD","British Overseas Territory; the US dollar is the official currency.",[["Turks and Caicos","/guides/turks-and-caicos.html"]]],["Argentina","Argentina","South America","ARS","",[["Buenos Aires","/guides/buenos-aires.html"]]],["Bolivia","Bolivia","South America","BOB","",[["La Paz","/guides/la-paz.html"]]],["Brazil","Brazil","South America","BRL","",[["Aracaju","/guides/aracaju.html"],["Curitiba","/guides/curitiba.html"],["Florianópolis","/guides/florianopolis.html"],["Fortaleza","/guides/fortaleza.html"],["Foz do Iguaçu","/guides/foz-do-iguacu.html"],["João Pessoa","/guides/joao-pessoa.html"],["Maceió","/guides/maceio.html"],["Natal","/guides/natal.html"],["Olinda","/guides/olinda.html"],["Porto Alegre","/guides/porto-alegre.html"],["Recife","/guides/recife.html"],["Rio de Janeiro","/guides/rio-de-janeiro.html"],["Salvador","/guides/salvador.html"],["São Luís","/guides/sao-luis.html"],["São Paulo","/guides/sao-paulo.html"]]],["Chile","Chile","South America","CLP","",[["Santiago","/guides/santiago.html"]]],["Colombia","Colombia","South America","COP","",[["Cartagena","/guides/cartagena.html"]]],["Colombia","Colombia","South America","COP","",[["Cartagena","/guides/cartagena.html"]]],["Ecuador","Ecuador","South America","USD","Ecuador adopted the US dollar as its official currency in 2000.",[["Galápagos Islands","/guides/galapagos-islands.html"]]],["Peru","Peru","South America","PEN","",[["Cusco","/guides/cusco.html"],["Lima","/guides/lima.html"],["Machu Picchu","/guides/machupicchu.html"]]],["Uruguay","Uruguay","South America","UYU","",[["Montevideo","/guides/montevideo.html"]]]];
+(function(){
+  var elAmt=document.getElementById('fx-amount');
+  var elFrom=document.getElementById('fx-from'), elTo=document.getElementById('fx-to');
+  var elBoard=document.getElementById('bd-board'), elAsk=document.getElementById('bd-ask');
+  var elWrap=document.getElementById('bd-wrap'), elList=document.getElementById('bd-list');
+  var elFlaps=document.getElementById('bd-flaps');
+  if(!elAmt||!elFrom||!elTo) return;
+
+  var BYA={}, USED={}, GUIDES={}, FX_ITEMS=[];
+  for(var i=0;i<FXC.length;i++){
+    var row=FXC[i]; BYA[row[0]]=row;
+    (USED[row[3]]=USED[row[3]]||[]).push(row[1]);
+    if(row[5] && row[5].length) (GUIDES[row[3]]=GUIDES[row[3]]||[]).push([row[1],row[5]]);
+    var curName=(FXR[row[3]]||{}).n||row[3];
+    FX_ITEMS.push({name:row[1], sub:curName, text:row[2]+' '+row[3], anchor:row[0]});
+  }
+  var sortMode='most', tableOpen=false, fromAnchor='', toAnchor='';
+
+  function fmt(v){
+    if(!isFinite(v)) return '—';
+    if(v>=1000) return v.toLocaleString('en-US',{maximumFractionDigits:0});
+    if(v>=1) return v.toLocaleString('en-US',{minimumFractionDigits:2,maximumFractionDigits:2});
+    if(v>=0.01) return v.toLocaleString('en-US',{maximumFractionDigits:4});
+    return v.toLocaleString('en-US',{maximumFractionDigits:6});
+  }
+  function iso(a){ var r=BYA[a]; return r?r[3]:''; }
+  function convert(amount,fromIso,toIso){
+    var a=FXR[fromIso], b=FXR[toIso];
+    if(!a||!b||!a.r) return NaN;
+    return amount/a.r*b.r;
+  }
+  function esc(s){ return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+
+  /* ── The tape ── built from FXR once, doubled so translateX(-50%) loops
+     seamlessly. Everything is quoted against the US dollar because that is
+     the base the snapshot itself is quoted in. */
+  (function tape(){
+    var t=document.getElementById('bd-tape'); if(!t) return;
+    var codes=Object.keys(FXR).sort(), cells='';
+    for(var i=0;i<codes.length;i++){
+      cells+='<span class="bd-cell"><b>'+esc(codes[i])+'</b><span>'+esc(fmt(FXR[codes[i]].r))+'</span></span>';
+    }
+    t.innerHTML=cells+cells;
+  }());
+
+  /* ── The flap readout ──
+     One tile per character. A tile only animates when ITS character changed,
+     so re-rendering a value that shares a prefix (1,200 -> 1,250) flips the
+     two digits that moved and leaves the rest still — which is exactly what a
+     real board does, and is why the animation reads as mechanical rather than
+     as the whole line blinking. */
+  var lastFlap=[];
+  function writeFlaps(str){
+    var chars=String(str).split(''), html='', d=0;
+    for(var i=0;i<chars.length;i++){
+      var c=chars[i], changed=lastFlap[i]!==c;
+      var cls='flap';
+      if(c===' ') cls+=' is-space';
+      else if(!/[0-9]/.test(c)) cls+=' is-punct';
+      if(changed && c!==' '){ cls+=' is-flip'; }
+      html+='<span class="'+cls+'" style="--d:'+(changed?(d++*38):0)+'ms">'+esc(c===' '?' ':c)+'</span>';
+    }
+    elFlaps.innerHTML=html;
+    lastFlap=chars;
+  }
+
+  function render(){
+    var amt=parseFloat(elAmt.value);
+    var fi=iso(fromAnchor), ti=iso(toAnchor);
+    /* No currency chosen, no result — the page opens on nothing and says so
+       by showing nothing, exactly as the live page does. */
+    if(!fi||!ti||isNaN(amt)){
+      elBoard.hidden=true; elAsk.hidden=true; elWrap.hidden=true; tableOpen=false; lastFlap=[];
+      return;
+    }
+    var A=FXR[fi], B=FXR[ti], out=convert(amt,fi,ti);
+    document.getElementById('bd-from-line').innerHTML=
+      'You hand over <b>'+esc(A.s+fmt(amt))+' '+esc(A.n)+'</b> and you get';
+    writeFlaps(B.s+fmt(out));
+    document.getElementById('bd-into').innerHTML='in <b>'+esc(B.n)+'</b>';
+    var revRate='1 '+ti+' = '+fmt(convert(1,ti,fi))+' '+fi;
+    document.getElementById('bd-meta').textContent=
+      amt===1 ? revRate : '1 '+fi+' = '+fmt(convert(1,fi,ti))+' '+ti+'  ·  '+revRate;
+    var where=USED[ti]||[], elWhere=document.getElementById('bd-where');
+    elWhere.hidden=where.length<2;
+    elWhere.textContent=where.length<2?'':B.n+' is used in '+where.join(' · ')+'.';
+    var peg=(BYA[toAnchor]||[])[4]||'';
+    var note=document.getElementById('bd-note');
+    note.textContent=peg; note.hidden=!peg;
+    elBoard.hidden=false;
+    elAsk.hidden=tableOpen;
+    if(tableOpen) renderList();
+  }
+
+  function guidesHTML(code){
+    var g=GUIDES[code]||[], out='';
+    for(var i=0;i<g.length;i++){
+      var links=[];
+      for(var j=0;j<g[i][1].length;j++) links.push('<a href="'+g[i][1][j][1]+'">'+esc(g[i][1][j][0])+'</a>');
+      out+='<p class="bd-gc"><b>'+esc(g[i][0])+'</b>'+links.join('<span class="bd-sep"> · </span>')+'</p>';
+    }
+    return out || '<p class="bd-gc">No guides on this site use it yet.</p>';
+  }
+
+  function renderList(){
+    var amt=parseFloat(elAmt.value), fi=iso(fromAnchor);
+    if(!fi||isNaN(amt)) return;
+    var A=FXR[fi], list=[];
+    for(var code in FXR){
+      if(code===fi) continue;
+      list.push({c:code,v:convert(amt,fi,code)});
+    }
+    list.sort(function(a,b){ return sortMode==='most' ? b.v-a.v : a.v-b.v; });
+    var html='';
+    for(var j=0;j<list.length;j++){
+      var C=FXR[list[j].c], used=(USED[list[j].c]||[]).join(' · ');
+      /* The stagger is capped: 70 rows at 18ms each would take over a second
+         to finish dealing, and the reader is already looking at row one. */
+      var d=Math.min(j*18,640);
+      html+='<button class="bd-line" type="button" data-iso="'+list[j].c+'" aria-expanded="false" style="--d:'+d+'ms">'+
+              '<span class="bd-rank">'+(j+1)+'</span>'+
+              '<span class="bd-name"><span class="bd-caret"></span>'+esc(C.n)+' <span class="bd-code">'+esc(list[j].c)+'</span></span>'+
+              '<span class="bd-used">'+esc(used)+'</span>'+
+              '<span class="bd-sym">'+esc(C.s)+'</span>'+
+              '<span class="bd-get">'+esc(C.s+fmt(list[j].v))+'</span>'+
+            '</button>';
+    }
+    elList.innerHTML=html;
+    document.getElementById('bd-lede').innerHTML=
+      'What <b>'+esc(A.s+fmt(amt)+' '+A.n)+'</b> is worth, currency by currency. '+
+      'Open a line to see the guides that use it. These are exchange rates, not local prices.';
+  }
+
+  /* Accordion, not multi-open — with 70 lines and the euro's sixty guides,
+     two open panels put the second one off-screen. */
+  elList.addEventListener('click',function(e){
+    var btn=e.target.closest && e.target.closest('.bd-line');
+    if(!btn) return;
+    var open=btn.getAttribute('aria-expanded')==='true';
+    var cur=elList.querySelector('.bd-detail');
+    if(cur) cur.remove();
+    [].forEach.call(elList.querySelectorAll('.bd-line[aria-expanded="true"]'),function(b){ b.setAttribute('aria-expanded','false'); });
+    if(open) return;
+    btn.setAttribute('aria-expanded','true');
+    var det=document.createElement('div');
+    det.className='bd-detail';
+    det.innerHTML=guidesHTML(btn.getAttribute('data-iso'));
+    btn.parentNode.insertBefore(det,btn.nextSibling);
+  });
+
+  elAmt.addEventListener('input',render);
+  function pickFrom(item){ fromAnchor=item.anchor; elFrom.value=item.name; render(); }
+  function pickTo(item){ toAnchor=item.anchor; elTo.value=item.name; render(); }
+  if(window.TVESearch){
+    TVESearch.attach(elFrom,{items:FX_ITEMS, onPick:pickFrom});
+    TVESearch.attach(elTo,{items:FX_ITEMS, onPick:pickTo});
+  }
+  elFrom.addEventListener('input',function(){ if(!elFrom.value){ fromAnchor=''; render(); } });
+  elTo.addEventListener('input',function(){ if(!elTo.value){ toAnchor=''; render(); } });
+  var swapBtn=document.getElementById('fx-swap');
+  swapBtn.addEventListener('click',function(){
+    var a=fromAnchor, an=elFrom.value;
+    fromAnchor=toAnchor; elFrom.value=elTo.value;
+    toAnchor=a; elTo.value=an;
+    swapBtn.classList.toggle('is-turning');
+    lastFlap=[];
+    render();
+  });
+  document.getElementById('fx-yes').addEventListener('click',function(){
+    tableOpen=true; elAsk.hidden=true; elWrap.hidden=false; renderList();
+  });
+  function closeList(){
+    tableOpen=false; elWrap.hidden=true; elAsk.hidden=false;
+    elBoard.scrollIntoView({block:'start'});
+  }
+  /* One handler, two ways out: the ✕ in the sort row and the ✕ under the last
+     row. Whichever is pressed, the reader lands back on the reading they came
+     from rather than at the top of the document. */
+  document.getElementById('fx-close').addEventListener('click',closeList);
+  document.getElementById('fx-close-foot').addEventListener('click',closeList);
+  [].forEach.call(document.querySelectorAll('.bd-sort .selection-pill-sm'),function(p){
+    p.addEventListener('click',function(){
+      sortMode=p.getAttribute('data-sort');
+      [].forEach.call(document.querySelectorAll('.bd-sort .selection-pill-sm'),function(q){ q.classList.toggle('is-on',q===p); });
+      renderList();
+    });
+  });
+
+  /* The one thing that may arrive preset: a #Country deep link from a guide.
+     It fills "To" and never "From", and nothing is remembered between visits. */
+  if(window.__tveDeep){
+    var d=window.__tveDeep, entry=BYA[d.replace(/ /g,'_')]||BYA[d];
+    if(entry){ toAnchor=entry[0]; elTo.value=entry[1]; render(); }
+  }
+}());
+</script>
+</body>
+</html>

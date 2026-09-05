@@ -1,0 +1,591 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex,nofollow">
+<title>What Your Money Is Worth — Design New 2: The Sentence &amp; The Ladder | Guide My Days</title>
+<link rel="stylesheet" href="/assets/web-travel-style.css">
+<link rel="stylesheet" href="/assets/mobile.css">
+<link rel="icon" href="/assets/icons/favicon-32.png" sizes="32x32" type="image/png">
+<link rel="apple-touch-icon" href="/assets/icons/apple-touch-icon.png">
+<meta name="theme-color" content="#f5f4f0" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#1a1917" media="(prefers-color-scheme: dark)">
+<style>
+/* ═══════════════════════════════════════════════════════════════════════
+   CURRENCIES — NEW 2 · "The Sentence & The Ladder"
+   Design-competition entry. STANDALONE: nothing on the live site links here
+   and this page links to no other entry. The CONTENT is the live
+   /currencies/ page's content, unchanged — same FXR/FXC data, same
+   converter, same all-currencies comparison, same guide links, same footer.
+
+   Two ideas, both aimed at the same complaint: a form is a form, and a
+   51-row table is a spreadsheet. So there is no form and no table.
+
+   (1) THE SENTENCE. The converter is one oversized line of English with
+   three blanks in it — "I have ___ in ___, so what is that in ___?" The
+   reader fills a sentence, not a field set. The typeahead behind each blank
+   is still the shared TVESearch component (search-autocomplete.js); only the
+   blank's own presentation is page-local, the same opt-out the live page's
+   .fx-ctl already documents.
+
+   (2) THE LADDER. The comparison is a ranked bar chart, not a table — every
+   currency gets a bar whose length is its place on a log scale between the
+   weakest and strongest result, so 70 numbers spanning six orders of
+   magnitude are readable at a glance. Re-sorting does not repaint the list;
+   the bars physically travel to their new rank (a FLIP transition), which is
+   the whole reason to have a ranking you can flip.
+
+   Site palette throughout — no dark canvas, no invented colour, no emoji,
+   and no icon authored here.
+   ═══════════════════════════════════════════════════════════════════════ */
+
+.index-section { max-width: var(--rail); margin: 0 auto; padding: 0 var(--gutter); }
+
+/* ── The sentence ─────────────────────────────────────────────────────────
+   Set at display size and allowed to wrap like prose. The blanks sit ON the
+   baseline of the sentence, so the line still reads as a line even before it
+   is filled in. */
+.sn-stage {
+  margin-top: var(--search-gap,32px);
+  padding: clamp(22px,4vw,40px) clamp(18px,3.5vw,36px);
+  background: var(--surface,#fff);
+  border: 1px solid var(--border,#d8d4cc); border-radius: 18px;
+  box-shadow: 0 14px 34px -28px rgba(61,47,31,.7);
+}
+.sn-kick {
+  margin: 0 0 clamp(14px,2vw,20px); font-size: var(--fs-label,12px); font-weight: 800;
+  text-transform: uppercase; letter-spacing: .16em; color: var(--muted,#6a6660);
+}
+.sn-line {
+  font-size: clamp(1.35rem, 3.4vw, 2.35rem); font-weight: 800; line-height: 1.75;
+  letter-spacing: -.015em; color: var(--text,#3d3a32); margin: 0;
+  display: flex; flex-wrap: wrap; align-items: baseline; gap: 0 .38em;
+}
+.sn-line .sn-word { white-space: nowrap; }
+/* A blank, not a box: transparent ground, a terracotta rule under it, and the
+   sentence's own type size. It grows with what is typed into it. */
+.sn-blank { position: relative; display: inline-flex; align-items: baseline; }
+.sn-blank input {
+  font: inherit; font-size: inherit; font-weight: 800; color: #8a3f18;
+  background: transparent; border: 0; border-bottom: 3px solid rgba(192,78,26,.38);
+  border-radius: 0; box-shadow: none; outline: none;
+  padding: 0 .12em .06em; margin: 0; text-align: center;
+  transition: border-color .18s ease, background .18s ease;
+}
+.sn-blank input::placeholder { color: rgba(106,102,96,.55); font-weight: 600; }
+.sn-blank input:hover { background: rgba(192,78,26,.06); }
+.sn-blank input:focus { border-bottom-color: #C04E1A; background: rgba(192,78,26,.09); }
+/* Kill the shared stylesheet's own number-input chrome so the blank stays a
+   blank — the site gives every <input> a 14px bottom margin and a search box
+   its own oval, and both would break the baseline this sentence sits on. */
+.sn-blank input[type="number"] { -moz-appearance: textfield; width: 4.2em; }
+.sn-blank input[type="number"]::-webkit-outer-spin-button,
+.sn-blank input[type="number"]::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
+/* Targeted by CLASS, never by input[type="text"]: that attribute selector is
+   the site's search-bar selector, and a page-local rule written against it is
+   read — correctly — as a hand-rolled search bar breaking the shared standard
+   (TVESearch.html § 0, brain_check.check_search_bar_standard). These two are
+   not search bars; they are two words in a sentence with a typeahead behind
+   them, and the class keeps that distinction visible in the CSS. The class
+   also out-specifies the shared input[type="text"] rule, which is what stops
+   the standard's own oval + shadow + 440px box from nesting inside the blank. */
+.sn-blank .sn-cty { width: 8.4em; box-shadow: none; border-radius: 0; background-image: none; }
+.sn-swap {
+  font: inherit; font-size: var(--fs-sub,12px); font-weight: 800; letter-spacing: .1em;
+  text-transform: uppercase; color: var(--muted,#6a6660);
+  background: none; border: 0; border-bottom: 1px dotted var(--muted,#6a6660);
+  padding: 0 0 1px; margin-left: .5em; cursor: pointer; align-self: center;
+}
+.sn-swap:hover { color: #C04E1A; border-bottom-color: #C04E1A; }
+
+/* ── The answer ───────────────────────────────────────────────────────────
+   One number, set as large as the page can carry it, counted up rather than
+   swapped in. Nothing frames it — the number is the card. */
+#sn-answer[hidden], #sn-ask[hidden], #sn-wrap[hidden] { display: none !important; }
+.sn-answer { margin-top: clamp(26px,4vw,44px); }
+.sn-answer-in { animation: sn-rise .5s cubic-bezier(.2,.85,.3,1) both; }
+@keyframes sn-rise { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: none; } }
+.sn-big {
+  margin: 0; font-size: clamp(2.6rem, 10.5vw, 6.5rem); font-weight: 800; line-height: 1;
+  letter-spacing: -.045em; color: #8a3f18; font-variant-numeric: tabular-nums;
+  overflow-wrap: anywhere;
+}
+.sn-cur { margin: .5rem 0 0; font-size: clamp(1.05rem,2.6vw,1.5rem); font-weight: 700; color: var(--text,#3d3a32); }
+.sn-rates {
+  margin: 1.1rem 0 0; display: flex; flex-wrap: wrap; gap: 8px 10px;
+}
+.sn-rate {
+  font-size: var(--fs-sub,12px); font-weight: 700; font-variant-numeric: tabular-nums;
+  color: var(--muted,#6a6660); background: var(--surface2,#f0ede8);
+  border: 1px solid var(--border2,#e6e2da); border-radius: 999px; padding: 5px 13px;
+}
+.sn-where { margin: 1rem 0 0; font-size: var(--fs-body,16px); color: var(--muted,#6a6660); max-width: 68ch; line-height: 1.65; }
+.sn-note {
+  margin: .8rem 0 0; font-size: var(--fs-sub,12px); color: #8a3f18; font-weight: 600;
+  border-left: 3px solid rgba(192,78,26,.45); padding-left: 12px; max-width: 68ch; line-height: 1.6;
+}
+
+/* ── The ask ── */
+.sn-ask { margin-top: clamp(28px,4.5vw,48px); }
+.sn-ask p { margin: 0 0 .8rem; font-size: var(--fs-body,16px); color: var(--muted,#6a6660); }
+.sn-yes {
+  font: inherit; font-size: var(--fs-body,16px); font-weight: 800;
+  background: #C04E1A; color: #fff; border: 1px solid #C04E1A;
+  border-radius: 999px; padding: .8em 1.9em; cursor: pointer;
+  transition: background .15s, border-color .15s, box-shadow .15s, transform .15s;
+}
+.sn-yes:hover { background: #8A3F18; border-color: #8A3F18; box-shadow: 0 0 0 6px rgba(192,78,26,.14); }
+.sn-yes:active { transform: translateY(1px) scale(.985); }
+
+/* ── The ladder ───────────────────────────────────────────────────────────
+   One row per currency. The bar is the reading; the number is the check. */
+.sn-wrap { margin-top: clamp(28px,4.5vw,48px); }
+.sn-sort {
+  /* NOT sticky. The Seventy-fourth non-negotiable is absolute — nothing on
+     this site pins itself to the viewport — and the live page's .fx-sort is
+     an owner-granted exemption for that one path, not a pattern to copy onto
+     a new one. The need behind that exemption is real, though (owner rule
+     2026-08-18: a reader deep in seventy rows had no way out without
+     scrolling all the way back), so it is answered by putting a second, plain
+     Close at the FOOT of the list instead of by making the bar ride along. */
+  display: flex; flex-wrap: wrap; align-items: center; gap: 8px;
+  background: var(--bg,#f5f4f0);
+  padding: 10px 0 12px; border-bottom: 1px solid var(--border2,#e6e2da);
+}
+.sn-sort-label { font-size: var(--fs-label,12px); font-weight: 800; color: var(--muted,#6a6660); text-transform: uppercase; letter-spacing: .14em; }
+.sn-close-x {
+  margin-left: auto; font-size: 13px; line-height: 1; color: #7a7068;
+  background: none; border: none; padding: 0; cursor: pointer; font-family: inherit; position: relative;
+}
+.sn-close-x:hover { color: #3d3a32; }
+.sn-close-x::after { content: ''; position: absolute; top: 50%; left: 50%; width: 44px; height: 44px; transform: translate(-50%,-50%); }
+.sn-lede { margin: 16px 0 18px; font-size: var(--fs-body,16px); color: var(--muted,#6a6660); max-width: 74ch; line-height: 1.65; }
+.sn-lede b { color: var(--text,#3d3a32); }
+
+.sn-rung { border-bottom: 1px solid var(--border2,#e6e2da); }
+.sn-bar {
+  display: grid; grid-template-columns: 2.2rem minmax(9rem,15rem) minmax(0,1fr) minmax(0,8.5rem);
+  align-items: center; gap: 14px; width: 100%; text-align: left;
+  background: none; border: 0; font: inherit; color: var(--text,#3d3a32);
+  padding: 12px 8px; cursor: pointer; border-radius: 8px;
+  transition: background .14s ease;
+}
+.sn-bar:hover { background: #FAE8DE; }
+.sn-bar:focus-visible { outline: 3px solid #C04E1A; outline-offset: -2px; }
+.sn-rk { font-size: var(--fs-sub,12px); font-weight: 800; color: var(--muted,#6a6660); font-variant-numeric: tabular-nums; }
+.sn-nm { font-weight: 700; min-width: 0; display: flex; align-items: center; gap: 7px; }
+.sn-nm i { font-style: normal; font-size: var(--fs-sub,12px); font-weight: 700; color: var(--muted,#6a6660); letter-spacing: .07em; }
+/* The marker is drawn from a border — never typed, never an emoji. */
+.sn-caret {
+  flex: 0 0 auto; width: 0; height: 0;
+  border-left: 5px solid currentColor; border-top: 4px solid transparent; border-bottom: 4px solid transparent;
+  opacity: .45; transition: transform .14s ease, opacity .14s ease;
+}
+.sn-bar[aria-expanded="true"] .sn-caret { transform: rotate(90deg); opacity: 1; }
+/* Both are <span>s, so both must be told to be blocks: an inline box ignores
+   height and width outright, and the fill rendered as a zero-size inline run
+   until this was set (caught in review — the bar was invisible, not thin). */
+.sn-track { display: block; height: 14px; border-radius: 999px; background: var(--surface2,#f0ede8); overflow: hidden; min-width: 0; }
+/* One colour family, deepening with rank — a per-bar hue would turn a
+   ranking into a palette and stop being a ranking. */
+/* The width is written into the markup, and the GROWTH is a pure-CSS
+   transform — no JS frame is responsible for the bar being the right length.
+   An earlier pass set the width from a requestAnimationFrame callback and a
+   throttled tab left every bar at zero: a chart that is silently empty is
+   worse than a chart with no animation, so the correctness and the animation
+   are now separate mechanisms. */
+.sn-fill {
+  display: block; height: 100%; width: var(--w,0); border-radius: 999px;
+  background: linear-gradient(90deg, #d99a72, #C04E1A);
+  transform-origin: left center;
+  animation: sn-grow .62s cubic-bezier(.22,.85,.28,1) both;
+}
+@keyframes sn-grow { from { transform: scaleX(0); } to { transform: scaleX(1); } }
+.sn-val { text-align: right; font-weight: 800; font-variant-numeric: tabular-nums; white-space: nowrap; color: #5C3D11; }
+.sn-detail { padding: 2px 8px 16px; }
+.sn-gc { margin: 0; padding: 7px 0 0; font-size: var(--fs-sub,12px); line-height: 1.75; }
+.sn-gc b { display: inline-block; min-width: 8.5em; margin-right: 6px; color: var(--muted,#6a6660); font-weight: 800; text-transform: uppercase; letter-spacing: .06em; }
+.sn-gc a { color: var(--text,#3d3a32); text-decoration: none; border-bottom: 1px solid rgba(192,78,26,.35); }
+.sn-gc a:hover { color: #C04E1A; border-bottom-color: #C04E1A; }
+.sn-gc a:visited { color: #3d3a32; }
+.sn-sep { color: var(--muted,#6a6660); opacity: .6; }
+.sn-used { font-size: var(--fs-sub,12px); color: var(--muted,#6a6660); margin: 0 0 6px; }
+.sn-footer { text-align: center; font-size: var(--fs-sub,12px); color: var(--muted); margin: 30px 0 14px; padding-top: 12px; border-top: 1px solid var(--border); }
+
+@media (max-width: 820px) {
+  .sn-bar { grid-template-columns: 2rem minmax(0,1fr) minmax(0,7rem); }
+  .sn-track { display: none; }
+}
+@media (max-width: 600px) and (pointer: coarse) {
+  .index-section { padding: 0 14px; }
+  .sn-line { font-size: clamp(1.15rem,6vw,1.6rem); line-height: 1.9; }
+  .sn-blank .sn-cty { width: 7.2em; }
+  .sn-gc b { display: block; min-width: 0; margin: 0 0 2px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .sn-answer-in { animation: none; }
+  .sn-fill { animation: none; }
+}
+@media (prefers-color-scheme: dark) {
+  .sn-stage { background: var(--surface2,#1e1c1a); border-color: var(--border2,#3a3630); }
+  .sn-blank input { color: var(--rust,#D4663A); }
+  .sn-big, .sn-note { color: var(--rust,#D4663A); }
+  .sn-note { border-left-color: rgba(212,102,58,.5); }
+  .sn-cur { color: var(--text,#e8e5e0); }
+  .sn-rate { background: var(--surface2,#1e1c1a); border-color: var(--border2,#3a3630); }
+  .sn-sort { background: var(--bg,#1a1917); border-bottom-color: var(--border2,#3a3630); }
+  .sn-close-x:hover { color: #f5f3ef; }
+  .sn-rung { border-bottom-color: var(--border2,#3a3630); }
+  .sn-bar { color: var(--text,#e8e5e0); }
+  .sn-bar:hover { background: rgba(212,102,58,.14); }
+  .sn-track { background: rgba(255,255,255,.07); }
+  .sn-val { color: var(--text,#e8e5e0); }
+  .sn-gc a { color: var(--text,#e8e5e0); border-bottom-color: rgba(212,102,58,.45); }
+  .sn-gc a:hover { color: var(--rust,#D4663A); border-bottom-color: var(--rust,#D4663A); }
+}
+
+/* The way out from the bottom of the list — the other half of the answer to
+   the 2026-08-18 owner rule, now that the sort row scrolls away with its
+   content like everything else on the site. */
+.sn-close-foot {
+  display: block; margin: 18px auto 0; font: inherit; font-size: var(--fs-sub,12px);
+  font-weight: 800; letter-spacing: .1em; text-transform: uppercase;
+  color: var(--muted,#6a6660); background: var(--surface,#fff);
+  border: 1px solid var(--border2,#e6e2da); border-radius: 999px; padding: 9px 20px; cursor: pointer;
+  transition: color .15s, border-color .15s, box-shadow .15s;
+}
+.sn-close-foot:hover { color: #C04E1A; border-color: rgba(192,78,26,.55); box-shadow: 0 0 0 5px rgba(192,78,26,.12); }
+@media (prefers-color-scheme: dark) {
+  .sn-close-foot { background: var(--surface2,#1e1c1a); color: var(--muted,#9a9690); border-color: var(--border2,#3a3630); }
+}
+</style>
+<script>(function(){try{var h=location.hash;if(h&&h.length>1){window.__tveDeep=decodeURIComponent(h.slice(1));history.replaceState(null,'',location.pathname+location.search);}}catch(e){}}());</script>
+</head>
+<body>
+
+<div id="toolbar-mount" data-depth="2" data-maxwidth="1180" data-updated="2026-09-05"></div>
+<script src="/assets/toolbar.js?v=103"></script>
+<script src="/assets/search-autocomplete.js?v=8"></script>
+
+<div class="index-section">
+  <div class="hero-band eb-hero">
+    <span class="eb-kicker">What Your Money Is Worth</span>
+    <div class="eb-copy">
+      <h1 class="eb-title">What your money is worth, <em>in 70 currencies at once.</em></h1>
+      <p class="eb-intro">Convert any currency into any other at exchange rates refreshed monthly — then see the same money in all 70 at once, ranked by where it goes furthest. Dollars to yen, euros to baht, any pair in either direction, and the guides for wherever it lands.</p>
+    </div>
+    <!-- $/€ swap — catalogue #407, copied verbatim from the live page. -->
+    <div class="eb-graphic" aria-hidden="true"><svg viewBox="0 0 24 24"><defs>
+      <linearGradient id="fx-terra-mid" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#d99a72"/><stop offset="1" stop-color="#8a4a2c"/></linearGradient>
+      <linearGradient id="fx-terra-light" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#ecc2a8"/><stop offset="1" stop-color="#d99a72"/></linearGradient>
+      <linearGradient id="fx-blue-mid" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#7fa8c9"/><stop offset="1" stop-color="#3d5f7a"/></linearGradient>
+      <linearGradient id="fx-blue-light" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#a8c7de"/><stop offset="1" stop-color="#7fa8c9"/></linearGradient>
+    </defs>
+      <circle cx="6.8" cy="8.6" r="5.4" fill="url(#fx-terra-mid)" stroke="#8a4a2c" stroke-width="0.5"/>
+      <circle cx="6.8" cy="8.6" r="5.4" fill="url(#gm-gloss)"/>
+      <circle cx="6.8" cy="8.6" r="3.9" fill="url(#fx-terra-light)" stroke="#8a4a2c" stroke-width="0.5"/>
+      <text x="6.8" y="10.8" font-family="ui-sans-serif, system-ui, sans-serif" font-size="5.4" font-weight="700" text-anchor="middle" fill="#8a4a2c">$</text>
+      <circle cx="17.2" cy="15.4" r="5.4" fill="url(#fx-blue-mid)" stroke="#3d5f7a" stroke-width="0.5"/>
+      <circle cx="17.2" cy="15.4" r="5.4" fill="url(#gm-gloss)"/>
+      <circle cx="17.2" cy="15.4" r="3.9" fill="url(#fx-blue-light)" stroke="#3d5f7a" stroke-width="0.5"/>
+      <text x="17.2" y="17.6" font-family="ui-sans-serif, system-ui, sans-serif" font-size="5.4" font-weight="700" text-anchor="middle" fill="#3d5f7a">€</text>
+      <path d="M13.6 5.4c3 .6 5.2 2.2 6.6 4.6" fill="none" stroke="#8a8171" stroke-width="1.6" stroke-linecap="round"/>
+      <path d="M22 11.4 19 9.2l3.4-1z" fill="#8a8171" stroke="#5c5346" stroke-width="0.5"/>
+      <path d="M10.4 18.6c-3-.6-5.2-2.2-6.6-4.6" fill="none" stroke="#8a8171" stroke-width="1.6" stroke-linecap="round"/>
+      <path d="M2 12.6 5 14.8l-3.4 1z" fill="#8a8171" stroke="#5c5346" stroke-width="0.5"/>
+    </svg></div>
+  </div>
+
+  <div class="sn-stage">
+    <p class="sn-kick">Fill in the blanks</p>
+    <p class="sn-line">
+      <span class="sn-word">I have</span>
+      <span class="sn-blank"><label class="sr-only" for="fx-amount">Amount</label><input id="fx-amount" type="number" min="0" step="any" value="1" inputmode="decimal" aria-label="Amount"></span>
+      <span class="sn-word">in</span>
+      <span class="sn-blank"><input type="text" class="sn-cty" id="fx-from" placeholder="a country" autocomplete="off" spellcheck="false" aria-label="From — the money you have"></span>
+      <span class="sn-word">, so what is that in</span>
+      <span class="sn-blank"><input type="text" class="sn-cty" id="fx-to" placeholder="a country" autocomplete="off" spellcheck="false" aria-label="To — the money you want"></span>
+      <span class="sn-word">?</span>
+      <button id="fx-swap" class="sn-swap" type="button">Swap them</button>
+    </p>
+
+    <div class="sn-answer" id="sn-answer" hidden>
+      <div id="sn-answer-in">
+        <p class="sn-big" id="sn-big"></p>
+        <p class="sn-cur" id="sn-cur"></p>
+        <div class="sn-rates" id="sn-rates"></div>
+        <p class="sn-where" id="sn-where" hidden></p>
+        <p class="sn-note" id="sn-note" hidden></p>
+      </div>
+    </div>
+
+    <div class="sn-ask" id="sn-ask" hidden>
+      <p>Want to find where your money is worth more?</p>
+      <button id="fx-yes" class="sn-yes" type="button">Show me all currencies</button>
+    </div>
+  </div>
+
+  <div class="sn-wrap" id="sn-wrap" hidden>
+    <div class="sn-sort">
+      <span class="sn-sort-label">Sort</span>
+      <button class="selection-pill-sm sp-rust hov-darken is-on" type="button" data-sort="most">Most value</button>
+      <button class="selection-pill-sm sp-beige hov-darken" type="button" data-sort="least">Least value</button>
+      <button id="fx-close" class="sn-close-x" type="button" aria-label="Close the ladder">&#10005;</button>
+    </div>
+    <p class="sn-lede" id="sn-lede"></p>
+    <div id="sn-ladder"></div>
+    <button id="fx-close-foot" class="sn-close-foot" type="button">&#10005; Close the ladder</button>
+    <p class="sn-footer">Rates as of 5 September 2026 &middot; 94 countries &middot; Source: exchangerate-api.com</p>
+  </div>
+</div>
+
+<script>
+/* FXR / FXC — copied verbatim from Travel-Website/currencies/index.html. */
+var FXR={"AED":{"n":"UAE Dirham","s":"Dh","r":3.6725},"ARS":{"n":"Argentine Peso","s":"AR$","r":1507.3745},"AUD":{"n":"Australian Dollar","s":"A$","r":1.388189},"AWG":{"n":"Aruban Florin","s":"Afl.","r":1.79},"BBD":{"n":"Barbadian Dollar","s":"Bds$","r":2},"BGN":{"n":"Bulgarian Lev","s":"лв","r":1.684197},"BOB":{"n":"Bolivian Boliviano","s":"Bs","r":12.145708},"BRL":{"n":"Brazilian Real","s":"R$","r":5.111452},"BSD":{"n":"Bahamian Dollar","s":"B$","r":1},"BTN":{"n":"Bhutanese Ngultrum","s":"Nu","r":94.517585},"CAD":{"n":"Canadian Dollar","s":"C$","r":1.382855},"CHF":{"n":"Swiss Franc","s":"Fr","r":0.809855},"CLP":{"n":"Chilean Peso","s":"CL$","r":932.412272},"CNY":{"n":"Chinese Yuan (Renminbi)","s":"¥","r":6.728858},"COP":{"n":"Colombian Peso","s":"COP","r":3152.90844},"CRC":{"n":"Costa Rican Colón","s":"₡","r":453.305929},"CUP":{"n":"Cuban Peso","s":"CUP","r":24},"CZK":{"n":"Czech Koruna","s":"Kč","r":20.821419},"DKK":{"n":"Danish Krone","s":"kr","r":6.432372},"DOP":{"n":"Dominican Peso","s":"RD$","r":58.700692},"EGP":{"n":"Egyptian Pound","s":"E£","r":50.944245},"EUR":{"n":"Euro","s":"€","r":0.861117},"GBP":{"n":"Pound Sterling","s":"£","r":0.739612},"GEL":{"n":"Georgian Lari","s":"₾","r":2.613051},"GTQ":{"n":"Guatemalan Quetzal","s":"Q","r":7.629135},"HKD":{"n":"Hong Kong Dollar","s":"HK$","r":7.840994},"HUF":{"n":"Hungarian Forint","s":"Ft","r":311.876276},"IDR":{"n":"Indonesian Rupiah","s":"Rp","r":17674.218391},"ILS":{"n":"Israeli New Shekel","s":"₪","r":3.011277},"INR":{"n":"Indian Rupee","s":"₹","r":94.51761},"ISK":{"n":"Icelandic Króna","s":"kr","r":121.168844},"JMD":{"n":"Jamaican Dollar","s":"J$","r":158.224631},"JOD":{"n":"Jordanian Dinar","s":"JD","r":0.709},"JPY":{"n":"Japanese Yen","s":"¥","r":156.156625},"KES":{"n":"Kenyan Shilling","s":"KSh","r":129.388213},"KRW":{"n":"South Korean Won","s":"₩","r":1348.990395},"KWD":{"n":"Kuwaiti Dinar","s":"KD","r":0.308726},"KYD":{"n":"Cayman Islands Dollar","s":"CI$","r":0.833333},"LAK":{"n":"Lao Kip","s":"₭","r":22199.314709},"LKR":{"n":"Sri Lankan Rupee","s":"Rs","r":328.202304},"MAD":{"n":"Moroccan Dirham","s":"DH","r":9.348756},"MOP":{"n":"Macanese Pataca","s":"MOP$","r":8.076223},"MVR":{"n":"Maldivian Rufiyaa","s":"Rf","r":15.444121},"MXN":{"n":"Mexican Peso","s":"$","r":16.894736},"MYR":{"n":"Malaysian Ringgit","s":"RM","r":4.044043},"NGN":{"n":"Nigerian Naira","s":"₦","r":1324.205782},"NOK":{"n":"Norwegian Krone","s":"kr","r":9.302202},"NPR":{"n":"Nepalese Rupee","s":"Rs","r":151.228136},"NZD":{"n":"New Zealand Dollar","s":"NZ$","r":1.700319},"OMR":{"n":"Omani Rial","s":"RO","r":0.384497},"PEN":{"n":"Peruvian Sol","s":"S/","r":3.360932},"PHP":{"n":"Philippine Peso","s":"₱","r":62.696582},"PLN":{"n":"Polish Złoty","s":"zł","r":3.711676},"QAR":{"n":"Qatari Riyal","s":"QR","r":3.64},"RON":{"n":"Romanian Leu","s":"lei","r":4.520983},"RUB":{"n":"Russian Ruble","s":"₽","r":86.587805},"SAR":{"n":"Saudi Riyal","s":"SR","r":3.75},"SCR":{"n":"Seychellois Rupee","s":"SCR","r":14.359923},"SEK":{"n":"Swedish Krona","s":"kr","r":9.565227},"SGD":{"n":"Singapore Dollar","s":"S$","r":1.266802},"THB":{"n":"Thai Baht","s":"฿","r":32.914495},"TRY":{"n":"Turkish Lira","s":"₺","r":48.416604},"TWD":{"n":"New Taiwan Dollar","s":"NT$","r":31.630012},"TZS":{"n":"Tanzanian Shilling","s":"TSh","r":2641.564042},"USD":{"n":"US Dollar","s":"$","r":1},"UYU":{"n":"Uruguayan Peso","s":"$U","r":40.230884},"VND":{"n":"Vietnamese Dong","s":"₫","r":26025.122751},"XCG":{"n":"Caribbean Guilder","s":"ƒ","r":1.79},"XPF":{"n":"CFP Franc","s":"XPF","r":102.758719},"ZAR":{"n":"South African Rand","s":"R","r":15.966228}};
+var FXC=[["Austria","Austria","Europe","EUR","",[["Salzburg","/guides/salzburg.html"],["Vienna","/guides/vienna.html"]]],["Belgium","Belgium","Europe","EUR","",[["Bruges","/guides/bruges.html"],["Brussels","/guides/brussels.html"]]],["Bulgaria","Bulgaria","Europe","BGN","Pegged to the euro at a fixed rate (1.95583).",[["Sofia","/guides/sofia.html"]]],["Croatia","Croatia","Europe","EUR","Adopted the euro in 2023.",[["Dubrovnik","/guides/dubrovnik.html"],["Split","/guides/split.html"]]],["Czech_Republic","Czech Republic","Europe","CZK","",[["Prague","/guides/prague.html"]]],["Denmark","Denmark","Europe","DKK","",[["Copenhagen","/guides/copenhagen.html"]]],["Estonia","Estonia","Europe","EUR","",[["Tallinn","/guides/tallinn.html"]]],["Finland","Finland","Europe","EUR","",[["Helsinki","/guides/helsinki.html"]]],["France","France","Europe","EUR","",[["Aix-en-Provence","/guides/aix-en-provence.html"],["Annecy","/guides/annecy.html"],["Bordeaux","/guides/bordeaux.html"],["Cannes","/guides/cannes.html"],["Colmar","/guides/colmar.html"],["Lille","/guides/lille.html"],["Lyon","/guides/lyon.html"],["Marseille","/guides/marseille.html"],["Nice","/guides/nice.html"],["Paris","/guides/paris.html"],["Strasbourg","/guides/strasbourg.html"]]],["Georgia","Georgia","Europe","GEL","",[["Tbilisi","/guides/tbilisi.html"]]],["Germany","Germany","Europe","EUR","",[["Berlin","/guides/berlin.html"],["Cologne","/guides/cologne.html"],["Frankfurt","/guides/frankfurt.html"],["Hamburg","/guides/hamburg.html"],["Marktoberdorf","/guides/marktoberdorf.html"],["Munich","/guides/munich.html"],["Stuttgart","/guides/stuttgart.html"]]],["Greece","Greece","Europe","EUR","",[["Athens","/guides/athens.html"],["Corfu","/guides/corfu.html"],["Crete","/guides/crete.html"],["Mykonos","/guides/mykonos.html"],["Rhodes","/guides/rhodes.html"],["Santorini","/guides/santorini.html"],["Zakynthos","/guides/zakynthos.html"]]],["Hungary","Hungary","Europe","HUF","",[["Budapest","/guides/budapest.html"]]],["Iceland","Iceland","Europe","ISK","",[["Reykjavik","/guides/reykjavik.html"]]],["Ireland","Ireland","Europe","EUR","",[["Dublin","/guides/dublin.html"]]],["Italy","Italy","Europe","EUR","",[["Amalfi","/guides/amalfi.html"],["Bologna","/guides/bologna.html"],["Capri","/guides/capri.html"],["Cinque Terre","/guides/cinque-terre.html"],["Florence","/guides/florence.html"],["Lake Como","/guides/lake-como.html"],["Lecce","/guides/lecce.html"],["Milan","/guides/milan.html"],["Naples","/guides/naples.html"],["Pisa","/guides/pisa.html"],["Rome","/guides/rome.html"],["Sardinia","/guides/sardinia.html"],["Sicily","/guides/sicily.html"],["Siena","/guides/siena.html"],["Sorrento","/guides/sorrento.html"],["Turin","/guides/turin.html"],["Venice","/guides/venice.html"],["Verona","/guides/verona.html"]]],["Latvia","Latvia","Europe","EUR","",[["Riga","/guides/riga.html"]]],["Lithuania","Lithuania","Europe","EUR","",[["Vilnius","/guides/vilnius.html"]]],["Luxembourg","Luxembourg","Europe","EUR","",[["Luxembourg","/guides/luxembourg.html"]]],["Malta","Malta","Europe","EUR","",[["Valletta","/guides/valletta.html"]]],["Monaco","Monaco","Europe","EUR","",[["Monaco","/guides/monaco.html"]]],["Montenegro","Montenegro","Europe","EUR","Uses the euro without EU membership.",[["Kotor","/guides/kotor.html"]]],["Netherlands","Netherlands","Europe","EUR","",[["Amsterdam","/guides/amsterdam.html"],["Rotterdam","/guides/rotterdam.html"]]],["Norway","Norway","Europe","NOK","",[["Bergen","/guides/bergen.html"],["Oslo","/guides/oslo.html"],["Tromsø","/guides/tromso.html"],["Ålesund","/guides/alesund.html"]]],["Poland","Poland","Europe","PLN","",[["Kraków","/guides/krakow.html"]]],["Portugal","Portugal","Europe","EUR","",[["Azores","/guides/azores.html"],["Cascais","/guides/cascais.html"],["Lagos","/guides/lagos.html"],["Lisbon","/guides/lisbon.html"],["Madeira","/guides/madeira.html"],["Porto","/guides/porto.html"],["Sintra","/guides/sintra.html"]]],["Romania","Romania","Europe","RON","",[["Bucharest","/guides/bucharest.html"]]],["Russia","Russia","Europe","RUB","Largely non-convertible outside Russia since 2022 sanctions; foreign Visa/Mastercard do not work.",[["Moscow","/guides/moscow.html"],["Saint Petersburg","/guides/saint-petersburg.html"]]],["Slovenia","Slovenia","Europe","EUR","",[["Ljubljana","/guides/ljubljana.html"]]],["Spain","Spain","Europe","EUR","",[["Barcelona","/guides/barcelona.html"],["Bilbao","/guides/bilbao.html"],["Granada","/guides/granada.html"],["Madrid","/guides/madrid.html"],["Málaga","/guides/malaga.html"],["San Sebastián","/guides/san-sebastian.html"],["Seville","/guides/seville.html"],["Tenerife","/guides/tenerife.html"],["Toledo","/guides/toledo.html"]]],["Sweden","Sweden","Europe","SEK","",[["Gothenburg","/guides/gothenburg.html"],["Stockholm","/guides/stockholm.html"]]],["Switzerland","Switzerland","Europe","CHF","",[["Geneva","/guides/geneva.html"],["Lucerne","/guides/lucerne.html"],["Zurich","/guides/zurich.html"]]],["Turkey","Turkey","Europe","TRY","",[["Antalya","/guides/antalya.html"],["Istanbul","/guides/istanbul.html"]]],["United_Kingdom","United Kingdom","Europe","GBP","",[["Cambridge","/guides/cambridge.html"],["Edinburgh","/guides/edinburgh.html"],["Glasgow","/guides/glasgow.html"],["London","/guides/london.html"],["Oxford","/guides/oxford.html"]]],["Israel","Israel","Middle East","ILS","",[["Jerusalem","/guides/jerusalem.html"]]],["Jordan","Jordan","Middle East","JOD","Pegged to the US dollar (~0.71).",[["Petra","/guides/petra.html"]]],["Kuwait","Kuwait","Middle East","KWD","Pegged to a basket of international currencies; among the world's highest-valued currencies.",[["Kuwait City","/guides/kuwait-city.html"]]],["Oman","Oman","Middle East","OMR","Pegged to the US dollar (~0.38).",[["Muscat","/guides/muscat.html"]]],["Qatar","Qatar","Middle East","QAR","Pegged to the US dollar (~3.64).",[["Doha","/guides/doha.html"]]],["Saudi_Arabia","Saudi Arabia","Middle East","SAR","Pegged to the US dollar (~3.75).",[["Mecca","/guides/mecca.html"],["Riyadh","/guides/riyadh.html"]]],["United_Arab_Emirates","United Arab Emirates","Middle East","AED","Pegged to the US dollar (~3.67).",[["Abu Dhabi","/guides/abu-dhabi.html"],["Dubai","/guides/dubai.html"]]],["Egypt","Egypt","Africa","EGP","",[["Cairo","/guides/cairo.html"]]],["Kenya","Kenya","Africa","KES","",[["Nairobi","/guides/nairobi.html"]]],["Morocco","Morocco","Africa","MAD","",[["Marrakech","/guides/marrakech.html"]]],["Nigeria","Nigeria","Africa","NGN","",[["Lagos Nigeria","/guides/lagos-nigeria.html"]]],["Seychelles","Seychelles","Africa","SCR","",[["Seychelles","/guides/seychelles.html"]]],["South_Africa","South Africa","Africa","ZAR","",[["Cape Town","/guides/cape-town.html"]]],["Tanzania","Tanzania","Africa","TZS","",[["Zanzibar","/guides/zanzibar.html"]]],["Bhutan","Bhutan","Asia","BTN","Pegged 1:1 to the Indian Rupee; INR also accepted.",[["Paro","/guides/bhutan.html"]]],["China","China","Asia","CNY","",[["Beijing","/guides/beijing.html"],["Chongqing","/guides/chongqing.html"],["Shanghai","/guides/shanghai.html"],["Shenzhen","/guides/shenzhen.html"],["Zhangjiajie","/guides/zhangjiajie.html"]]],["Hong_Kong","Hong Kong","Asia","HKD","Pegged to the US dollar (~7.8).",[["Hong Kong","/guides/hong-kong.html"]]],["India","India","Asia","INR","",[["Delhi","/guides/delhi.html"],["Mumbai","/guides/mumbai.html"]]],["Indonesia","Indonesia","Asia","IDR","",[["Bali","/guides/bali.html"]]],["Japan","Japan","Asia","JPY","",[["Hiroshima","/guides/hiroshima.html"],["Kyoto","/guides/kyoto.html"],["Osaka","/guides/osaka.html"],["Tokyo","/guides/tokyo.html"]]],["Laos","Laos","Asia","LAK","",[["Luang Prabang","/guides/luang-prabang.html"]]],["Macau","Macau","Asia","MOP","Pegged to the Hong Kong dollar at a fixed rate (~1.032).",[["Macau","/guides/macau.html"]]],["Malaysia","Malaysia","Asia","MYR","",[["Kuala Lumpur","/guides/kuala-lumpur.html"]]],["Maldives","Maldives","Asia","MVR","",[["Maldives","/guides/maldives.html"]]],["Nepal","Nepal","Asia","NPR","",[["Pokhara","/guides/pokhara.html"]]],["Philippines","Philippines","Asia","PHP","",[["Palawan","/guides/palawan.html"]]],["Singapore","Singapore","Asia","SGD","",[["Singapore","/guides/singapore.html"]]],["South_Korea","South Korea","Asia","KRW","",[["Busan","/guides/busan.html"],["Seoul","/guides/seoul.html"]]],["Sri_Lanka","Sri Lanka","Asia","LKR","",[["Colombo","/guides/colombo.html"]]],["Taiwan","Taiwan","Asia","TWD","",[["Taipei","/guides/taipei.html"]]],["Thailand","Thailand","Asia","THB","",[["Bangkok","/guides/bangkok.html"],["Chiang Mai","/guides/chiang-mai.html"],["Pattaya","/guides/pattaya.html"],["Phuket","/guides/phuket.html"]]],["Vietnam","Vietnam","Asia","VND","",[["Hanoi","/guides/hanoi.html"],["Hoi An","/guides/hoi-an.html"]]],["Australia","Australia","Oceania","AUD","",[["Melbourne","/guides/melbourne.html"],["Sydney","/guides/sydney.html"]]],["French_Polynesia","French Polynesia","Oceania","XPF","",[["Bora Bora","/guides/bora-bora.html"]]],["New_Zealand","New Zealand","Oceania","NZD","",[["Queenstown","/guides/queenstown.html"],["Wellington","/guides/wellington.html"]]],["Canada","Canada","North America","CAD","",[["Banff","/guides/banff.html"],["Montréal","/guides/montreal.html"],["Québec City","/guides/quebec-city.html"],["Toronto","/guides/toronto.html"],["Vancouver","/guides/vancouver.html"],["Victoria","/guides/victoria.html"],["Whistler","/guides/whistler.html"]]],["Mexico","Mexico","North America","MXN","",[["Cancún","/guides/cancun.html"],["Los Cabos","/guides/los-cabos.html"],["Oaxaca","/guides/oaxaca.html"],["Puerto Vallarta","/guides/puerto-vallarta.html"]]],["United_States","United States","North America","USD","",[["Alaska","/guides/alaska.html"],["Atlanta","/guides/atlanta.html"],["Austin","/guides/austin.html"],["Bend","/guides/bend.html"],["Big Island","/guides/big-island.html"],["Boston","/guides/boston.html"],["Boulder","/guides/boulder.html"],["Cape Cod","/guides/cape-cod.html"],["Carmel by the Sea","/guides/carmel-by-the-sea.html"],["Charlotte","/guides/charlotte.html"],["Chicago","/guides/chicago.html"],["Coeur d'Alene","/guides/coeur-dalene.html"],["Columbia","/guides/columbia.html"],["Dallas","/guides/dallas.html"],["Denver","/guides/denver.html"],["Florida Keys","/guides/florida-keys.html"],["Glacier National Park","/guides/glacier-national-park.html"],["Hilton Head Island","/guides/hilton-head-island.html"],["Kauai","/guides/kauai.html"],["Key West","/guides/keywest.html"],["La Jolla","/guides/la-jolla.html"],["Lake Tahoe","/guides/lake-tahoe.html"],["Las Vegas","/guides/las-vegas.html"],["Los Angeles","/guides/los-angeles.html"],["Malibu","/guides/malibu.html"],["Marco Island","/guides/marco-island.html"],["Maui","/guides/maui.html"],["Miami","/guides/miami.html"],["Napa","/guides/napa.html"],["Naples, FL","/guides/naples-florida.html"],["Nashville","/guides/nashville.html"],["New Orleans","/guides/new-orleans.html"],["New York","/guides/new-york.html"],["Oahu","/guides/oahu.html"],["Orcas Island","/guides/orcas-island.html"],["Orlando","/guides/orlando.html"],["Palm Desert","/guides/palm-desert.html"],["Palo Alto","/guides/palo-alto.html"],["Pasadena","/guides/pasadena.html"],["Pensacola","/guides/pensacola.html"],["Philadelphia","/guides/philadelphia.html"],["Phoenix","/guides/phoenix.html"],["Portland","/guides/portland.html"],["San Diego","/guides/san-diego.html"],["San Francisco","/guides/san-francisco.html"],["San Jose","/guides/san-jose.html"],["San Juan Island","/guides/san-juan-island.html"],["Santa Barbara","/guides/santa-barbara.html"],["Santa Cruz","/guides/santa-cruz.html"],["Santa Fe","/guides/santa-fe.html"],["Santa Monica","/guides/santa-monica.html"],["Sarasota","/guides/sarasota.html"],["Scottsdale","/guides/scottsdale.html"],["Seattle","/guides/seattle.html"],["Sedona","/guides/sedona.html"],["Virgin Islands","/guides/virgin-islands.html"],["Washington DC","/guides/washington-dc.html"],["Yellowstone","/guides/yellowstone.html"]]],["Costa_Rica","Costa Rica","Central America","CRC","Many establishments accept US dollars, especially in tourist areas.",[["Arenal","/guides/arenal.html"],["Manuel Antonio","/guides/manuel-antonio.html"],["San José","/guides/san-jose-costa-rica.html"]]],["Guatemala","Guatemala","Central America","GTQ","Cash is the default outside hotels and upscale restaurants; small bills are useful.",[["Antigua Guatemala","/guides/antigua-guatemala.html"]]],["Aruba","Aruba","Caribbean","AWG","Pegged to the US dollar; USD widely accepted.",[["Aruba","/guides/aruba.html"]]],["Bahamas","Bahamas","Caribbean","BSD","Pegged 1:1 with the US dollar — USD accepted everywhere.",[["The Bahamas","/guides/bahamas.html"]]],["Barbados","Barbados","Caribbean","BBD","Pegged 2:1 with the US dollar — USD widely accepted.",[["Barbados","/guides/barbados.html"]]],["Cayman_Islands","Cayman Islands","Caribbean","KYD","Pegged to the US dollar; one of the few currencies worth more than USD.",[["Cayman Islands","/guides/cayman-islands.html"]]],["Cuba","Cuba","Caribbean","CUP","US-issued cards are blocked; bring EUR, CAD, or GBP in cash to exchange at a CADECA office.",[["Havana","/guides/havana.html"]]],["Curacao","Curaçao","Caribbean","XCG","Pegged to the US dollar; replaced the Netherlands Antillean guilder.",[["Curaçao","/guides/curacao.html"]]],["Dominican_Republic","Dominican Republic","Caribbean","DOP","",[["Punta Cana","/guides/punta-cana.html"]]],["Jamaica","Jamaica","Caribbean","JMD","US dollars widely accepted in tourist zones; change often comes back in Jamaican dollars.",[["Montego Bay","/guides/montego-bay.html"]]],["Puerto_Rico","Puerto Rico","Caribbean","USD","US territory — uses the US dollar.",[["Puerto Rico","/guides/puerto-rico.html"]]],["Sint_Maarten","Sint Maarten","Caribbean","XCG","Pegged to the US dollar; USD widely accepted.",[["Sint Maarten","/guides/sint-maarten.html"]]],["Turks_and_Caicos","Turks and Caicos","Caribbean","USD","British Overseas Territory; the US dollar is the official currency.",[["Turks and Caicos","/guides/turks-and-caicos.html"]]],["Argentina","Argentina","South America","ARS","",[["Buenos Aires","/guides/buenos-aires.html"]]],["Bolivia","Bolivia","South America","BOB","",[["La Paz","/guides/la-paz.html"]]],["Brazil","Brazil","South America","BRL","",[["Aracaju","/guides/aracaju.html"],["Curitiba","/guides/curitiba.html"],["Florianópolis","/guides/florianopolis.html"],["Fortaleza","/guides/fortaleza.html"],["Foz do Iguaçu","/guides/foz-do-iguacu.html"],["João Pessoa","/guides/joao-pessoa.html"],["Maceió","/guides/maceio.html"],["Natal","/guides/natal.html"],["Olinda","/guides/olinda.html"],["Porto Alegre","/guides/porto-alegre.html"],["Recife","/guides/recife.html"],["Rio de Janeiro","/guides/rio-de-janeiro.html"],["Salvador","/guides/salvador.html"],["São Luís","/guides/sao-luis.html"],["São Paulo","/guides/sao-paulo.html"]]],["Chile","Chile","South America","CLP","",[["Santiago","/guides/santiago.html"]]],["Colombia","Colombia","South America","COP","",[["Cartagena","/guides/cartagena.html"]]],["Colombia","Colombia","South America","COP","",[["Cartagena","/guides/cartagena.html"]]],["Ecuador","Ecuador","South America","USD","Ecuador adopted the US dollar as its official currency in 2000.",[["Galápagos Islands","/guides/galapagos-islands.html"]]],["Peru","Peru","South America","PEN","",[["Cusco","/guides/cusco.html"],["Lima","/guides/lima.html"],["Machu Picchu","/guides/machupicchu.html"]]],["Uruguay","Uruguay","South America","UYU","",[["Montevideo","/guides/montevideo.html"]]]];
+(function(){
+  var elAmt=document.getElementById('fx-amount');
+  var elFrom=document.getElementById('fx-from'), elTo=document.getElementById('fx-to');
+  var elAns=document.getElementById('sn-answer'), elAnsIn=document.getElementById('sn-answer-in');
+  var elAsk=document.getElementById('sn-ask'), elWrap=document.getElementById('sn-wrap');
+  var elLadder=document.getElementById('sn-ladder');
+  if(!elAmt||!elFrom||!elTo) return;
+
+  var BYA={}, USED={}, GUIDES={}, FX_ITEMS=[];
+  for(var i=0;i<FXC.length;i++){
+    var row=FXC[i]; BYA[row[0]]=row;
+    (USED[row[3]]=USED[row[3]]||[]).push(row[1]);
+    if(row[5] && row[5].length) (GUIDES[row[3]]=GUIDES[row[3]]||[]).push([row[1],row[5]]);
+    var curName=(FXR[row[3]]||{}).n||row[3];
+    FX_ITEMS.push({name:row[1], sub:curName, text:row[2]+' '+row[3], anchor:row[0]});
+  }
+  var sortMode='most', tableOpen=false, fromAnchor='', toAnchor='', openIso='';
+  var reduce=window.matchMedia&&window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  function fmt(v){
+    if(!isFinite(v)) return '—';
+    if(v>=1000) return v.toLocaleString('en-US',{maximumFractionDigits:0});
+    if(v>=1) return v.toLocaleString('en-US',{minimumFractionDigits:2,maximumFractionDigits:2});
+    if(v>=0.01) return v.toLocaleString('en-US',{maximumFractionDigits:4});
+    return v.toLocaleString('en-US',{maximumFractionDigits:6});
+  }
+  function iso(a){ var r=BYA[a]; return r?r[3]:''; }
+  function convert(amount,fromIso,toIso){
+    var a=FXR[fromIso], b=FXR[toIso];
+    if(!a||!b||!a.r) return NaN;
+    return amount/a.r*b.r;
+  }
+  function esc(s){ return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+
+  /* Each blank grows to fit what is in it, so the sentence stays a sentence
+     instead of a row of same-width boxes with words between them. */
+  function fit(input,min){
+    var n=(input.value||input.placeholder||'').length;
+    input.style.width=Math.max(min,n+1.4)+'ch';
+  }
+  function fitAll(){ fit(elAmt,4.2); fit(elFrom,8); fit(elTo,8); }
+
+  /* ── The count-up ──
+     The number climbs to its value instead of appearing at it. It is the only
+     thing on the page that moves on a conversion, which is what makes it read
+     as the answer. Cancelled and restarted on every new conversion so two
+     rapid edits never race each other. */
+  var raf=0, shown=0, settle=0;
+  function countTo(target,symbol){
+    var big=document.getElementById('sn-big');
+    if(raf) cancelAnimationFrame(raf);
+    if(settle) clearTimeout(settle);
+    if(reduce || !isFinite(target)){ big.textContent=symbol+fmt(target); shown=target; return; }
+    var from=isFinite(shown)?shown:0, t0=0, dur=680;
+    /* A backgrounded or throttled tab runs requestAnimationFrame at a crawl
+       (or not at all), which would leave the headline frozen part-way to the
+       answer — a WRONG number, not just an unfinished animation. This timer
+       is the guarantee that the exact value lands whether the frames do or
+       not; the animation is decoration on top of it. */
+    settle=setTimeout(function(){
+      if(raf) cancelAnimationFrame(raf);
+      shown=target; big.textContent=symbol+fmt(target);
+    },dur+140);
+    function step(ts){
+      if(!t0) t0=ts;
+      var p=Math.min(1,(ts-t0)/dur);
+      var e=1-Math.pow(1-p,4);           /* easeOutQuart — fast, then settles */
+      var v=from+(target-from)*e;
+      big.textContent=symbol+fmt(v);
+      if(p<1) raf=requestAnimationFrame(step); else { shown=target; big.textContent=symbol+fmt(target); if(settle) clearTimeout(settle); }
+    }
+    raf=requestAnimationFrame(step);
+  }
+
+  function render(){
+    var amt=parseFloat(elAmt.value);
+    var fi=iso(fromAnchor), ti=iso(toAnchor);
+    fitAll();
+    /* No currency chosen, no answer — the page opens on nothing. */
+    if(!fi||!ti||isNaN(amt)){
+      elAns.hidden=true; elAsk.hidden=true; elWrap.hidden=true; tableOpen=false; shown=0;
+      return;
+    }
+    var A=FXR[fi], B=FXR[ti], out=convert(amt,fi,ti);
+    var wasHidden=elAns.hidden;
+    elAns.hidden=false;
+    if(wasHidden && !reduce){ elAnsIn.classList.remove('sn-answer-in'); void elAnsIn.offsetWidth; elAnsIn.classList.add('sn-answer-in'); }
+    countTo(out,B.s);
+    document.getElementById('sn-cur').textContent=B.n+' — for '+A.s+fmt(amt)+' '+A.n;
+    /* At amt === 1 the forward rate only repeats the answer above in another
+       format, so only the reverse rate is shown — same call the live page makes. */
+    var rates=['1 '+ti+' = '+fmt(convert(1,ti,fi))+' '+fi];
+    if(amt!==1) rates.unshift('1 '+fi+' = '+fmt(convert(1,fi,ti))+' '+ti);
+    document.getElementById('sn-rates').innerHTML=rates.map(function(r){ return '<span class="sn-rate">'+esc(r)+'</span>'; }).join('');
+    var where=USED[ti]||[], elWhere=document.getElementById('sn-where');
+    elWhere.hidden=where.length<2;
+    elWhere.textContent=where.length<2?'':B.n+' is used in '+where.join(' · ')+'.';
+    var peg=(BYA[toAnchor]||[])[4]||'';
+    var note=document.getElementById('sn-note');
+    note.textContent=peg; note.hidden=!peg;
+    elAsk.hidden=tableOpen;
+    if(tableOpen) renderLadder();
+  }
+
+  function guidesHTML(code){
+    var g=GUIDES[code]||[], out='';
+    for(var i=0;i<g.length;i++){
+      var links=[];
+      for(var j=0;j<g[i][1].length;j++) links.push('<a href="'+g[i][1][j][1]+'">'+esc(g[i][1][j][0])+'</a>');
+      out+='<p class="sn-gc"><b>'+esc(g[i][0])+'</b>'+links.join('<span class="sn-sep"> · </span>')+'</p>';
+    }
+    return out || '<p class="sn-gc">No guides on this site use it yet.</p>';
+  }
+
+  /* ── The ladder ──
+     Bar length is LOG-scaled between the smallest and largest result. On a
+     linear scale a dong result makes every other bar a hairline — six orders
+     of magnitude do not share a linear axis. Log keeps every bar readable and
+     still ranks them correctly, which is the only claim the bar makes. */
+  function renderLadder(){
+    var amt=parseFloat(elAmt.value), fi=iso(fromAnchor);
+    if(!fi||isNaN(amt)) return;
+    var A=FXR[fi], list=[];
+    for(var code in FXR){
+      if(code===fi) continue;
+      list.push({c:code,v:convert(amt,fi,code)});
+    }
+    list.sort(function(a,b){ return sortMode==='most' ? b.v-a.v : a.v-b.v; });
+    var vals=list.map(function(x){ return x.v; }).filter(function(v){ return isFinite(v)&&v>0; });
+    var lo=Math.log10(Math.min.apply(null,vals)), hi=Math.log10(Math.max.apply(null,vals));
+    var span=(hi-lo)||1;
+
+    /* FLIP, first half: where is every bar right now? */
+    var before={};
+    [].forEach.call(elLadder.querySelectorAll('.sn-rung'),function(r){
+      before[r.getAttribute('data-iso')]=r.getBoundingClientRect().top;
+    });
+
+    var html='';
+    for(var j=0;j<list.length;j++){
+      var C=FXR[list[j].c], v=list[j].v;
+      var pct=isFinite(v)&&v>0 ? 6+((Math.log10(v)-lo)/span)*94 : 0;
+      var isOpen=list[j].c===openIso;
+      html+='<div class="sn-rung" data-iso="'+list[j].c+'" data-w="'+pct.toFixed(2)+'">'+
+              '<button class="sn-bar" type="button" aria-expanded="'+(isOpen?'true':'false')+'">'+
+                '<span class="sn-rk">'+(j+1)+'</span>'+
+                '<span class="sn-nm"><span class="sn-caret"></span>'+esc(C.n)+' <i>'+esc(list[j].c)+'</i></span>'+
+                '<span class="sn-track"><span class="sn-fill" style="--w:'+pct.toFixed(2)+'%"></span></span>'+
+                '<span class="sn-val">'+esc(C.s+fmt(v))+'</span>'+
+              '</button>'+
+              (isOpen?'<div class="sn-detail">'+usedHTML(list[j].c)+guidesHTML(list[j].c)+'</div>':'')+
+            '</div>';
+    }
+    elLadder.innerHTML=html;
+
+    /* FLIP, second half: put every bar back where it was, then let it travel
+       to its new rank. Re-sorting a ranking should look like the ranking
+       moving, not like a new list appearing. */
+    if(!reduce){
+      [].forEach.call(elLadder.querySelectorAll('.sn-rung'),function(r){
+        var was=before[r.getAttribute('data-iso')];
+        if(was===undefined) return;
+        var d=was-r.getBoundingClientRect().top;
+        if(!d) return;
+        r.style.transform='translateY('+d+'px)';
+        r.style.transition='none';
+        requestAnimationFrame(function(){
+          r.style.transition='transform .55s cubic-bezier(.22,.85,.28,1)';
+          r.style.transform='';
+        });
+      });
+    }
+    document.getElementById('sn-lede').innerHTML=
+      'What <b>'+esc(A.s+fmt(amt)+' '+A.n)+'</b> is worth, currency by currency — the bar is its place between the weakest and the strongest result on this list. '+
+      'Open a rung to see the guides that use it. These are exchange rates, not local prices.';
+  }
+  function usedHTML(code){
+    var u=USED[code]||[];
+    return u.length<2 ? '' : '<p class="sn-used">Used in '+esc(u.join(' · '))+'.</p>';
+  }
+
+  /* Accordion, not multi-open. openIso survives a re-sort, so the rung you
+     opened is still open after the ladder reorders. */
+  elLadder.addEventListener('click',function(e){
+    if(e.target.closest && e.target.closest('a')) return;
+    var btn=e.target.closest && e.target.closest('.sn-bar');
+    if(!btn) return;
+    var rung=btn.parentNode, code=rung.getAttribute('data-iso');
+    var wasOpen=btn.getAttribute('aria-expanded')==='true';
+    [].forEach.call(elLadder.querySelectorAll('.sn-detail'),function(d){ d.remove(); });
+    [].forEach.call(elLadder.querySelectorAll('.sn-bar[aria-expanded="true"]'),function(b){ b.setAttribute('aria-expanded','false'); });
+    if(wasOpen){ openIso=''; return; }
+    openIso=code;
+    btn.setAttribute('aria-expanded','true');
+    var det=document.createElement('div');
+    det.className='sn-detail';
+    det.innerHTML=usedHTML(code)+guidesHTML(code);
+    rung.appendChild(det);
+  });
+
+  elAmt.addEventListener('input',render);
+  function pickFrom(item){ fromAnchor=item.anchor; elFrom.value=item.name; render(); }
+  function pickTo(item){ toAnchor=item.anchor; elTo.value=item.name; render(); }
+  if(window.TVESearch){
+    TVESearch.attach(elFrom,{items:FX_ITEMS, onPick:pickFrom});
+    TVESearch.attach(elTo,{items:FX_ITEMS, onPick:pickTo});
+  }
+  elFrom.addEventListener('input',function(){ fitAll(); if(!elFrom.value){ fromAnchor=''; render(); } });
+  elTo.addEventListener('input',function(){ fitAll(); if(!elTo.value){ toAnchor=''; render(); } });
+  document.getElementById('fx-swap').addEventListener('click',function(){
+    var a=fromAnchor, an=elFrom.value;
+    fromAnchor=toAnchor; elFrom.value=elTo.value;
+    toAnchor=a; elTo.value=an;
+    shown=0; openIso='';
+    render();
+  });
+  document.getElementById('fx-yes').addEventListener('click',function(){
+    tableOpen=true; elAsk.hidden=true; elWrap.hidden=false; renderLadder();
+  });
+  function closeList(){
+    tableOpen=false; elWrap.hidden=true; elAsk.hidden=false; openIso='';
+    elAns.scrollIntoView({block:'start'});
+  }
+  /* One handler, two ways out: the ✕ in the sort row and the ✕ under the last
+     row. Whichever is pressed, the reader lands back on the reading they came
+     from rather than at the top of the document. */
+  document.getElementById('fx-close').addEventListener('click',closeList);
+  document.getElementById('fx-close-foot').addEventListener('click',closeList);
+  [].forEach.call(document.querySelectorAll('.sn-sort .selection-pill-sm'),function(p){
+    p.addEventListener('click',function(){
+      sortMode=p.getAttribute('data-sort');
+      [].forEach.call(document.querySelectorAll('.sn-sort .selection-pill-sm'),function(q){ q.classList.toggle('is-on',q===p); });
+      renderLadder();
+    });
+  });
+
+  fitAll();
+  if(window.__tveDeep){
+    var d=window.__tveDeep, entry=BYA[d.replace(/ /g,'_')]||BYA[d];
+    if(entry){ toAnchor=entry[0]; elTo.value=entry[1]; render(); }
+  }
+}());
+</script>
+</body>
+</html>

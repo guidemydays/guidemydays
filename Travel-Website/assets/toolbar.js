@@ -5189,6 +5189,17 @@ window.TVE.home = (function () {
 
     var HOTEL_ALT_DATA = {
     /* entries added per guide during build — see Separation Map.md § Hotels & Rentals */
+    'mecca': { h: [
+      { name: 'Courtyard by Marriott Makkah', note: 'Marriott family — Ajyad Street, Al Rawabi, 24h reception, AC, 27 min walk to Masjid al-Haram · 8.5 Booking.com', url: 'https://www.booking.com/hotel/sa/courtyard-by-marriott-makkah.html', tier: 'budget' },
+      { name: 'Sheraton Makkah Jabal Al Kaaba Hotel', note: 'Marriott family — Jabal Al Kaaba, 24h reception, AC, 12 min walk to Masjid al-Haram · 8.2 Booking.com', url: 'https://www.booking.com/hotel/sa/sheraton-makkah-jabal-al-kaaba.html', tier: 'budget' },
+      { name: 'DoubleTree by Hilton Jabal Omar Makkah', note: 'Hilton family — Jabal Omar, Ajyad, 24h reception, AC, 12 min walk to Masjid al-Haram · 8.5 Booking.com', url: 'https://www.booking.com/hotel/sa/doubletree-by-hilton-makkah-jabal-omar.html', tier: 'mid' },
+      { name: 'Jabal Omar Marriott Hotel', note: 'Marriott brand — Umm Al Qura Road, Ajyad, 24h reception, AC, 10 min walk to Masjid al-Haram · 8.9 Booking.com', url: 'https://www.booking.com/hotel/sa/makkah-marriott.html', tier: 'mid' },
+      { name: 'Hilton Hotel & Convention Jabal Omar Makkah', note: 'Hilton brand — Jabal Omar, Ajyad, 24h reception, AC, 9 min walk to Masjid al-Haram · 8.5 Booking.com', url: 'https://www.booking.com/hotel/sa/hilton-makkah-convention.html', tier: 'expensive' },
+      { name: 'Rotana Jabal Omar Makkah', note: 'Independent — Ibrahim Khalil Road, Jabal Omar, no ladder brand at this rating in market, 24h reception, AC, 8 min walk to Masjid al-Haram · 9.1 Booking.com', url: 'https://www.booking.com/hotel/sa/rotana-jabal-omar.html', tier: 'expensive' },
+      { name: 'Conrad Jabal Omar Makkah', note: 'Hilton family — this guide’s title-card hotel, Ibrahim Al Khalil Road, Ajyad, 24h reception, AC, 8 min walk to Masjid al-Haram · 8.9 Booking.com', url: 'https://www.booking.com/hotel/sa/conrad-makkah.html', tier: 'luxury' },
+      { name: 'Hilton Suites Jabal Omar Makkah', note: 'Hilton family — Ibrahim Al Khalil Street, Ajyad, 24h reception, AC, 7 min walk to Masjid al-Haram · 9.0 Booking.com', url: 'https://www.booking.com/hotel/sa/hilton-suites-makkah.html', tier: 'luxury' },
+      { name: 'Jabal Omar Hyatt Regency Makkah', note: 'Hyatt family — Ibrahim Al Khalil Road, Ajyad, 24h reception, AC, 7 min walk to Masjid al-Haram · 8.8 Booking.com', url: 'https://www.booking.com/hotel/sa/hyatt-regency-makkah.html', tier: 'luxury' }
+    ], price: { budget: 'SAR 190–420', mid: 'SAR 420–520', expensive: 'SAR 520–650', luxury: 'SAR 650+' } },
     'bangalore': { h: [
       { name: 'Radisson Blu Atria Bengaluru', note: 'Radisson Blu — second-tier international brand, Palace Road, spa, pool, 24h reception, AC, 25 min walk to MG Road · 7.9 Booking.com', url: 'https://www.booking.com/hotel/in/radisson-blu-atria-bengaluru.html', tier: 'budget' },
       { name: 'Hyatt Centric MG Road Bangalore', note: 'Hyatt family — first-tier international brand, right on MG Road, spa, 24h reception, AC, steps from Cubbon Park · 7.8 Booking.com', url: 'https://www.booking.com/hotel/in/hyatt-bangalore-mg-road.html', tier: 'mid' },
@@ -10332,6 +10343,7 @@ window.TVE.home = (function () {
       'marrakech':         {iata:'RAK', name:'Marrakech Menara'},
       'marseille':         {iata:'MRS', name:'Marseille Provence'},
       'maui':              {iata:'OGG', name:'Kahului Airport'},
+      'mecca':             {iata:'JED', name:'King Abdulaziz International Airport'},
       'melbourne':         {iata:'MEL', name:'Melbourne Airport (Tullamarine)'},
       'miami':             {iata:'MIA', name:'Miami International'},
       'milan':             {iata:'MXP', name:'Milan Malpensa'},

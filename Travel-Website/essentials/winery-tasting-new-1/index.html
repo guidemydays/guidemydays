@@ -1,0 +1,513 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Winery &amp; Tasting Room Visit Guide — Decanter | Guide My Days</title>
+<meta name="robots" content="noindex,nofollow">
+<style>
+/* ============================================================
+   COMPETITION DESIGN — "DECANTER"
+   Standalone. No shared CSS, no toolbar, not linked from the site.
+   Idea: the page pours. A liquid meter fills per region, the
+   reservation policy is a physical cellar door that lifts, and the
+   six regions ride a snap rail you drag like a wine flight.
+   Badges keep the site's ALL-CAPS badge convention.
+   ============================================================ */
+
+:root{
+  --paper:#faf7f1;
+  --paper2:#f2ece0;
+  --ink:#241c18;
+  --ink2:#6b5c50;
+  --line:#e0d5c4;
+  --wine:#7a1a2e;
+  --wine-lt:#c95b6a;
+  --vine:#2f5b38;
+  --gold:#8a6c1a;
+  --shadow:rgba(60,38,24,.14);
+}
+
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  margin:0; background:var(--paper); color:var(--ink);
+  font:400 16px/1.6 "Iowan Old Style","Palatino Linotype",Palatino,Georgia,serif;
+  -webkit-font-smoothing:antialiased; overflow-x:hidden;
+}
+.sans{font-family:ui-sans-serif,-apple-system,"Segoe UI",Inter,Helvetica,Arial,sans-serif}
+
+/* ---------- grain, whole page ---------- */
+body::before{
+  content:""; position:fixed; inset:0; pointer-events:none; z-index:9;
+  background-image:radial-gradient(circle at 1px 1px, rgba(90,60,40,.16) 1px, transparent 0);
+  background-size:4px 4px; opacity:.5; mix-blend-mode:multiply;
+}
+
+/* ================= HERO ================= */
+.hero{
+  position:relative; min-height:88vh; display:grid; align-content:center;
+  padding:96px 6vw 72px; overflow:hidden;
+  background:
+    radial-gradient(120% 90% at 78% 12%, #fdf6e9 0%, rgba(253,246,233,0) 60%),
+    linear-gradient(178deg,#fbf8f2 0%,#f3ebdc 100%);
+}
+.stain{
+  position:absolute; left:-8vw; top:-14vh; width:64vw; height:64vw; z-index:0;
+  background:radial-gradient(circle at 42% 40%, rgba(122,26,46,.16), rgba(122,26,46,.05) 46%, transparent 68%);
+  filter:blur(6px);
+  animation:bloom 16s ease-in-out infinite alternate;
+}
+.stain.b{left:auto; right:-14vw; top:auto; bottom:-24vw; width:52vw; height:52vw;
+  background:radial-gradient(circle at 50% 50%, rgba(47,91,56,.14), transparent 66%);
+  animation-duration:21s; animation-direction:alternate-reverse;
+}
+@keyframes bloom{from{transform:scale(.86) translate(0,0)}to{transform:scale(1.12) translate(3vw,2vh)}}
+
+.kicker{
+  position:relative; z-index:2; font-family:ui-sans-serif,-apple-system,"Segoe UI",Inter,sans-serif;
+  font-size:11px; font-weight:700; letter-spacing:.28em; text-transform:uppercase;
+  color:var(--wine); display:flex; align-items:center; gap:14px; margin-bottom:26px;
+}
+.kicker::after{content:""; height:1px; flex:1; max-width:220px; background:linear-gradient(90deg,var(--wine),transparent)}
+
+h1.big{
+  position:relative; z-index:2; margin:0 0 28px; max-width:16ch;
+  font-size:clamp(46px,8.4vw,116px); line-height:.94; font-weight:400; letter-spacing:-.025em;
+}
+h1.big em{font-style:italic; color:var(--wine); display:block}
+.w{display:inline-block; opacity:0; transform:translateY(.5em) rotate(2deg); animation:rise .9s cubic-bezier(.2,.9,.25,1) forwards}
+@keyframes rise{to{opacity:1; transform:none}}
+
+.intro{
+  position:relative; z-index:2; max-width:60ch; font-size:17.5px; color:var(--ink2); line-height:1.72;
+  opacity:0; animation:rise 1s .55s cubic-bezier(.2,.9,.25,1) forwards;
+}
+.intro a{color:var(--wine); text-underline-offset:3px; text-decoration-thickness:1px}
+
+.pour{position:absolute; right:5vw; top:50%; transform:translateY(-50%); width:min(30vw,340px); z-index:1; opacity:.95}
+@media (max-width:900px){.pour{position:relative; right:auto; top:auto; transform:none; width:190px; margin-top:38px}}
+.glass-fill{transform-origin:50% 100%; animation:fillup 3.4s 1.1s cubic-bezier(.5,0,.2,1) forwards; transform:scaleY(0)}
+@keyframes fillup{to{transform:scaleY(1)}}
+.drop{animation:drip 2.6s linear infinite; opacity:0}
+@keyframes drip{0%{opacity:0;transform:translateY(0)}12%{opacity:1}70%{opacity:1;transform:translateY(56px)}80%,100%{opacity:0;transform:translateY(60px)}}
+
+.scrollcue{
+  position:relative; z-index:2; margin-top:56px; display:inline-flex; align-items:center; gap:12px;
+  font-family:ui-sans-serif,-apple-system,"Segoe UI",Inter,sans-serif;
+  font-size:11px; letter-spacing:.2em; text-transform:uppercase; color:var(--ink2);
+  opacity:0; animation:rise 1s 1s forwards;
+}
+.scrollcue span{display:block; width:34px; height:1px; background:var(--ink2); transform-origin:left;
+  animation:stretch 2.2s ease-in-out infinite}
+@keyframes stretch{0%,100%{transform:scaleX(.4)}50%{transform:scaleX(1)}}
+
+/* ================= LEAD ================= */
+.lead-wrap{max-width:1180px; margin:0 auto; padding:0 6vw}
+.lead{
+  font-size:clamp(21px,2.5vw,30px); line-height:1.5; max-width:26ch; margin:90px 0 18px;
+  border-left:4px solid var(--wine); padding-left:26px;
+}
+.lead-rest{max-width:64ch; color:var(--ink2); font-size:16.5px; margin:0 0 8px}
+
+/* ================= FILTER ================= */
+.filters{display:flex; flex-wrap:wrap; gap:10px; margin:52px 0 10px; align-items:center}
+.flabel{font-size:10.5px; letter-spacing:.22em; text-transform:uppercase; color:var(--ink2); margin-right:6px}
+.chip{
+  font-family:ui-sans-serif,-apple-system,"Segoe UI",Inter,sans-serif;
+  border:1px solid var(--line); background:#fff; color:var(--ink);
+  padding:9px 18px; border-radius:999px; font-size:13px; font-weight:700; cursor:pointer;
+  transition:background .25s, color .25s, border-color .25s, transform .25s, box-shadow .25s;
+}
+.chip:hover{transform:translateY(-2px); box-shadow:0 10px 18px -8px var(--shadow); border-color:var(--ink2)}
+.chip[aria-pressed="true"]{background:var(--ink); color:var(--paper); border-color:var(--ink)}
+.chip.red[aria-pressed="true"]{background:var(--wine); border-color:var(--wine); color:#fff}
+.chip.green[aria-pressed="true"]{background:var(--vine); border-color:var(--vine); color:#fff}
+.chip.gold[aria-pressed="true"]{background:var(--gold); border-color:var(--gold); color:#fff}
+
+/* ================= RAIL ================= */
+.railwrap{position:relative; margin:34px 0 20px}
+.rail{
+  display:flex; gap:26px; overflow-x:auto; scroll-snap-type:x mandatory;
+  padding:14px 6vw 46px; margin:0 -6vw; scrollbar-width:none; cursor:grab;
+}
+.rail::-webkit-scrollbar{display:none}
+
+.card{
+  scroll-snap-align:center; flex:0 0 min(86vw,460px);
+  background:#fffdf8; border:1px solid var(--line); border-radius:2px;
+  padding:0 0 26px; position:relative; overflow:hidden;
+  box-shadow:0 1px 0 var(--line);
+  transition:transform .6s cubic-bezier(.2,.9,.25,1), box-shadow .6s, opacity .45s, filter .45s;
+  opacity:0; transform:translateY(40px);
+}
+.card.in{opacity:1; transform:none}
+.card:hover{box-shadow:0 26px 50px -22px var(--shadow); transform:translateY(-6px)}
+.card.dim{opacity:.22; filter:saturate(.2)}
+
+/* the cellar-door top: a shutter that lifts */
+.door{
+  height:118px; position:relative; overflow:hidden;
+  background:linear-gradient(160deg,#f6efe2,#eadfc9);
+  border-bottom:1px solid var(--line);
+}
+.door .slats{position:absolute; inset:0; background:repeating-linear-gradient(90deg,rgba(120,90,60,.10) 0 2px,transparent 2px 15px)}
+.door .shutter{
+  position:absolute; inset:0; background:linear-gradient(180deg,#3b2a22,#241c18);
+  transform-origin:50% 0; transition:transform .75s cubic-bezier(.3,1,.3,1);
+}
+.card:hover .door .shutter, .card.open .door .shutter{transform:scaleY(0)}
+.door .shut-txt{
+  position:absolute; inset:0; display:grid; place-items:center; color:#e8dcc6;
+  font:700 10.5px/1 ui-sans-serif,-apple-system,sans-serif; letter-spacing:.3em; text-transform:uppercase;
+  transition:opacity .3s;
+}
+.card:hover .shut-txt, .card.open .shut-txt{opacity:0}
+.door .region-mark{
+  position:absolute; left:22px; bottom:32px; font-size:clamp(26px,3.6vw,38px); line-height:1;
+  color:var(--ink); letter-spacing:-.02em;
+}
+.door .region-sub{position:absolute; left:24px; bottom:14px; font:400 11px/1 ui-sans-serif,sans-serif;
+  letter-spacing:.16em; text-transform:uppercase; color:var(--ink2)}
+
+.pol{
+  position:absolute; right:16px; top:16px; z-index:3;
+  font:700 9.5px/1 ui-sans-serif,-apple-system,sans-serif; letter-spacing:.14em; text-transform:uppercase;
+  padding:7px 11px; border-radius:4px; color:#fff;
+}
+.pol.red{background:var(--wine)} .pol.gold{background:var(--gold)} .pol.green{background:var(--vine)}
+
+.body{padding:22px 26px 0}
+.desc{font-size:15px; line-height:1.68; color:var(--ink2); margin:0 0 20px}
+
+/* liquid price meter */
+.meter{margin:0 0 20px}
+.meter-top{display:flex; justify-content:space-between; align-items:baseline; margin-bottom:7px}
+.meter-lab{font:700 9.5px/1 ui-sans-serif,sans-serif; letter-spacing:.16em; text-transform:uppercase; color:var(--ink2)}
+.meter-val{font-size:12.5px; color:var(--ink)}
+.tube{height:9px; border-radius:999px; background:var(--paper2); overflow:hidden; position:relative}
+.tube i{
+  position:absolute; inset:0 auto 0 0; width:0; border-radius:999px;
+  background:linear-gradient(90deg,var(--wine-lt),var(--wine));
+  transition:width 1.3s cubic-bezier(.2,.9,.25,1);
+}
+.tube i::after{content:""; position:absolute; inset:0;
+  background:linear-gradient(90deg,transparent,rgba(255,255,255,.5),transparent);
+  transform:translateX(-100%); animation:sheen 2.8s 1.2s ease-in-out infinite}
+@keyframes sheen{to{transform:translateX(240%)}}
+
+.facts{border-top:1px dashed var(--line); padding-top:16px; display:grid; gap:15px}
+.f{display:grid; gap:4px}
+.fl{font:700 9.5px/1 ui-sans-serif,sans-serif; letter-spacing:.16em; text-transform:uppercase; color:var(--wine)}
+.fv{font-size:14px; line-height:1.62; color:var(--ink2)}
+
+.progress{height:2px; background:var(--line); margin:0 6vw; position:relative; border-radius:2px}
+.progress i{position:absolute; left:0; top:-1px; height:4px; border-radius:4px; background:var(--wine); width:12%; transition:width .2s}
+.railhint{font:400 11px/1 ui-sans-serif,sans-serif; letter-spacing:.2em; text-transform:uppercase;
+  color:var(--ink2); margin:16px 6vw 0; display:flex; justify-content:space-between}
+
+/* ================= CLOSER ================= */
+.closer{
+  margin:110px 0 0; padding:74px 6vw 96px; position:relative; overflow:hidden;
+  background:linear-gradient(180deg,#f4ecdd,#efe4d0);
+  border-top:1px solid var(--line);
+}
+.closer h2{margin:0 0 16px; font-size:clamp(30px,4.6vw,58px); line-height:1.02; font-weight:400; letter-spacing:-.02em; max-width:16ch}
+.closer p{max-width:62ch; font-size:17px; line-height:1.72; color:var(--ink2); margin:0; position:relative; z-index:2}
+.closer .crate{position:absolute; right:-40px; bottom:-40px; width:min(38vw,420px); opacity:.16}
+.tilt{animation:tilt 9s ease-in-out infinite alternate; transform-origin:50% 100%}
+@keyframes tilt{from{transform:rotate(-4deg)}to{transform:rotate(5deg)}}
+
+.foot{padding:26px 6vw 60px; font:400 11px/1.7 ui-sans-serif,sans-serif; letter-spacing:.12em;
+  text-transform:uppercase; color:var(--ink2)}
+
+@media (prefers-reduced-motion:reduce){
+  *{animation:none !important; transition-duration:.01ms !important}
+  .card{opacity:1; transform:none}
+  .glass-fill{transform:scaleY(1)}
+}
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <div class="stain" aria-hidden="true"></div>
+  <div class="stain b" aria-hidden="true"></div>
+
+  <svg class="pour" viewBox="0 0 200 300" aria-hidden="true">
+    <defs>
+      <linearGradient id="g-wine" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0" stop-color="#c95b6a"/><stop offset="1" stop-color="#7a1a2e"/>
+      </linearGradient>
+      <linearGradient id="g-gloss" x1="0" y1="0" x2="1" y2="0">
+        <stop offset="0" stop-color="#fff" stop-opacity=".34"/>
+        <stop offset=".4" stop-color="#fff" stop-opacity="0"/>
+      </linearGradient>
+      <clipPath id="bowl"><path d="M62 96h76c0 34-14 56-32 62v46h-12v-46c-18-6-32-28-32-62z"/></clipPath>
+    </defs>
+    <g transform="rotate(-32 44 60)">
+      <rect x="30" y="4" width="16" height="18" rx="3" fill="#123018"/>
+      <path d="M28 22h20v12c8 4 13 12 13 21v58a8 8 0 0 1-8 8H23a8 8 0 0 1-8-8V55c0-9 5-17 13-21z" fill="#2b5a34"/>
+      <path d="M28 22h20v12c8 4 13 12 13 21v58a8 8 0 0 1-8 8H23a8 8 0 0 1-8-8V55c0-9 5-17 13-21z" fill="url(#g-gloss)"/>
+      <rect x="16" y="66" width="44" height="24" rx="2" fill="#f3ead6" opacity=".9"/>
+    </g>
+    <circle class="drop" cx="99" cy="106" r="4.5" fill="#8d2438"/>
+    <g clip-path="url(#bowl)">
+      <rect class="glass-fill" x="58" y="118" width="84" height="46" fill="url(#g-wine)"/>
+    </g>
+    <path d="M62 96h76c0 34-14 56-32 62v46h-12v-46c-18-6-32-28-32-62z" fill="none" stroke="#4a0e18" stroke-width="2.4" opacity=".55"/>
+    <rect x="72" y="200" width="56" height="5" rx="2.5" fill="#4a0e18" opacity=".55"/>
+  </svg>
+
+  <div class="kicker">Winery &amp; Tasting Room Visits</div>
+  <h1 class="big" id="h1"><em>Most don't anymore.</em></h1>
+  <p class="intro">Reservation habits, typical tasting fees, how visitors actually get between estates, and what it takes to ship or carry bottles home — across six regions with six different sets of rules: Napa Valley, Burgundy, Chianti, the Barossa Valley, Mendoza and Stellenbosch. For a longer list of scenic wine regions worldwide, see <a href="/best-of/wine-regions/">Best Wine Regions</a>.</p>
+  <div class="scrollcue"><span></span> Drag the flight</div>
+</header>
+
+<div class="lead-wrap">
+  <p class="lead">Reservation culture varies more by region than almost anything else in wine tourism.</p>
+  <p class="lead-rest">A policy that's optional in one valley is the only way in at another. Each card below covers what to expect showing up cold, what a standard tasting runs, how visitors actually get between estates, and what it takes to bring bottles home.</p>
+
+  <div class="filters" role="group" aria-label="Filter by reservation policy">
+    <span class="flabel sans">Show</span>
+    <button class="chip" aria-pressed="true" data-f="all">All six</button>
+    <button class="chip red" aria-pressed="false" data-f="red">Reservation required</button>
+    <button class="chip gold" aria-pressed="false" data-f="gold">Recommended</button>
+    <button class="chip green" aria-pressed="false" data-f="green">Walk-ins common</button>
+  </div>
+</div>
+
+<div class="railwrap">
+  <div class="rail" id="rail">
+
+    <article class="card" data-p="red" data-fill="72">
+      <span class="pol red">Reservation required</span>
+      <div class="door">
+        <div class="slats"></div>
+        <div class="region-mark">Napa Valley</div>
+        <div class="region-sub">United States (California)</div>
+        <div class="shutter"></div>
+        <div class="shut-txt">Cellar door — closed</div>
+      </div>
+      <div class="body">
+        <p class="desc">Most Napa producers now run on an appointment-only system, and allocation-only estates like Screaming Eagle or Harlan book out months ahead. Only a handful of large, visitor-oriented wineries — Robert Mondavi, Beringer, Castello di Amorosa among them — still keep walk-in tasting rooms with regular hours.</p>
+        <div class="meter">
+          <div class="meter-top"><span class="meter-lab">Typical tasting cost</span><span class="meter-val">$40–$75 pp</span></div>
+          <div class="tube"><i></i></div>
+        </div>
+        <div class="facts">
+          <div class="f"><span class="fl">Typical tasting cost</span><span class="fv">$40–$75 per person, often credited toward a bottle purchase; premium or library tastings run $100–$250+</span></div>
+          <div class="f"><span class="fl">Getting there</span><span class="fv">No public transit between wineries — hire a driver, book a wine-country shuttle, or ride the Napa Valley Wine Train; California's DUI limit is 0.08% and checkpoints are common on Highway 29</span></div>
+          <div class="f"><span class="fl">Shipping bottles home</span><span class="fv">Most wineries ship within the US through a licensed carrier, but a few states (Utah among them) block direct-to-consumer wine shipments outright — check your home state's rules before buying a case</span></div>
+        </div>
+      </div>
+    </article>
+
+    <article class="card" data-p="gold" data-fill="45">
+      <span class="pol gold">Recommended</span>
+      <div class="door">
+        <div class="slats"></div>
+        <div class="region-mark">Burgundy</div>
+        <div class="region-sub">France</div>
+        <div class="shutter"></div>
+        <div class="shut-txt">Cellar door — closed</div>
+      </div>
+      <div class="body">
+        <p class="desc">Grand Cru growers along the Route des Grands Crus are almost all by appointment, frequently booked by email weeks ahead, while the négociant cellars in Beaune itself — Patriarche, the Marché aux Vins — run paid walk-in tastings daily.</p>
+        <div class="meter">
+          <div class="meter-top"><span class="meter-lab">Typical tasting cost</span><span class="meter-val">Free–€50</span></div>
+          <div class="tube"><i></i></div>
+        </div>
+        <div class="facts">
+          <div class="f"><span class="fl">Typical tasting cost</span><span class="fv">Free to €25 at the larger Beaune cellars; small grower visits increasingly charge €20–€50 given demand for a limited allocation</span></div>
+          <div class="f"><span class="fl">Getting there</span><span class="fv">Villages sit close together but have almost no public transit between them — a car, a private driver, or biking the flat Route des Grands Crus voie verte cycle path are the three real options</span></div>
+          <div class="f"><span class="fl">Shipping bottles home</span><span class="fv">Shipping within the EU is simple; getting bottles to the US or another non-EU country usually means routing through a wine-shipping consolidator, since most small domaines don't handle export paperwork themselves</span></div>
+        </div>
+      </div>
+    </article>
+
+    <article class="card" data-p="gold" data-fill="38">
+      <span class="pol gold">Recommended</span>
+      <div class="door">
+        <div class="slats"></div>
+        <div class="region-mark">Chianti</div>
+        <div class="region-sub">Italy (Tuscany)</div>
+        <div class="shutter"></div>
+        <div class="shut-txt">Cellar door — closed</div>
+      </div>
+      <div class="body">
+        <p class="desc">Mid-size estates often take walk-ins outside peak season, but a tasting is usually bundled with a light lunch or a full pairing menu — and that part does need a booking, especially at agriturismo properties that also run a restaurant.</p>
+        <div class="meter">
+          <div class="meter-top"><span class="meter-lab">Typical tasting cost</span><span class="meter-val">€15–€40</span></div>
+          <div class="tube"><i></i></div>
+        </div>
+        <div class="facts">
+          <div class="f"><span class="fl">Typical tasting cost</span><span class="fv">€15–€40 for a standard 3–4 wine tasting, often served with crostini, cheese or olive oil; multi-course pairing lunches run €60–€120+</span></div>
+          <div class="f"><span class="fl">Getting there</span><span class="fv">The Chianti hills are poorly served by trains or buses — a rental car is the standard, or a private driver given Italy's low 0.05% BAC drink-driving limit</span></div>
+          <div class="f"><span class="fl">Shipping bottles home</span><span class="fv">EU shipping is straightforward; exporting to the US or elsewhere typically goes through a third-party wine-shipping company most estates already work with — ask before buying more than fits in a suitcase</span></div>
+        </div>
+      </div>
+    </article>
+
+    <article class="card" data-p="green" data-fill="18">
+      <span class="pol green">Walk-ins common</span>
+      <div class="door">
+        <div class="slats"></div>
+        <div class="region-mark">Barossa Valley</div>
+        <div class="region-sub">Australia (South Australia)</div>
+        <div class="shutter"></div>
+        <div class="shut-txt">Cellar door — closed</div>
+      </div>
+      <div class="body">
+        <p class="desc">Large, well-known cellar doors — Jacob's Creek, Seppeltsfield, Penfolds among them — run regular walk-in hours with no booking needed. It's the small family producers and any private barrel-room tasting that require calling ahead.</p>
+        <div class="meter">
+          <div class="meter-top"><span class="meter-lab">Typical tasting cost</span><span class="meter-val">Free–A$15</span></div>
+          <div class="tube"><i></i></div>
+        </div>
+        <div class="facts">
+          <div class="f"><span class="fl">Typical tasting cost</span><span class="fv">Often free or a nominal A$5–A$15, waived with a purchase; reserve or library tastings run A$25–A$60</span></div>
+          <div class="f"><span class="fl">Getting there</span><span class="fv">About an hour's drive from Adelaide with no rail service into the valley — self-drive (Australia drives on the left) or a full-day guided tour from Adelaide, useful given the 0.05% BAC limit</span></div>
+          <div class="f"><span class="fl">Shipping bottles home</span><span class="fv">Domestic shipping is easy through the cellar door or a courier; international shipping usually runs through a specialist export agent, and your home country's duty-free alcohol allowance still applies on arrival</span></div>
+        </div>
+      </div>
+    </article>
+
+    <article class="card" data-p="red" data-fill="34">
+      <span class="pol red">Reservation required</span>
+      <div class="door">
+        <div class="slats"></div>
+        <div class="region-mark">Mendoza</div>
+        <div class="region-sub">Argentina</div>
+        <div class="shutter"></div>
+        <div class="shut-txt">Cellar door — closed</div>
+      </div>
+      <div class="body">
+        <p class="desc">Most of the well-known estates — Catena Zapata, Zuccardi, Bodega Salentein among them — run tastings and lunches strictly by appointment, particularly in the Uco Valley. Only a few larger, commercial wineries closer to the city allow walk-ins.</p>
+        <div class="meter">
+          <div class="meter-top"><span class="meter-lab">Typical tasting cost</span><span class="meter-val">US$15–$40</span></div>
+          <div class="tube"><i></i></div>
+        </div>
+        <div class="facts">
+          <div class="f"><span class="fl">Typical tasting cost</span><span class="fv">US$15–$40 for a standard tasting; pairing lunches at top Uco Valley estates run $80–$200+ per person</span></div>
+          <div class="f"><span class="fl">Getting there</span><span class="fv">Wineries spread across Luján de Cuyo, Maipú and the Uco Valley (up to 90 minutes from the city) with almost no public transit — rent a bike for the flatter Maipú wineries, or hire a driver for the day rather than self-driving between tastings</span></div>
+          <div class="f"><span class="fl">Shipping bottles home</span><span class="fv">Some estates can arrange international shipping through a consolidator, though cost and reliability vary; most visitors instead pack bottles carefully in checked luggage and clear their destination country's duty-free allowance on arrival</span></div>
+        </div>
+      </div>
+    </article>
+
+    <article class="card" data-p="green" data-fill="12">
+      <span class="pol green">Walk-ins common</span>
+      <div class="door">
+        <div class="slats"></div>
+        <div class="region-mark">Stellenbosch</div>
+        <div class="region-sub">South Africa (Cape Winelands)</div>
+        <div class="shutter"></div>
+        <div class="shut-txt">Cellar door — closed</div>
+      </div>
+      <div class="body">
+        <p class="desc">Plenty of smaller, informal cellar doors take walk-ins any day they're open, though estates built around a restaurant — Delaire Graff, Tokara among them — prefer or require a booking, especially for a lunch pairing.</p>
+        <div class="meter">
+          <div class="meter-top"><span class="meter-lab">Typical tasting cost</span><span class="meter-val">≈US$3–$8</span></div>
+          <div class="tube"><i></i></div>
+        </div>
+        <div class="facts">
+          <div class="f"><span class="fl">Typical tasting cost</span><span class="fv">Roughly R50–R150 (about US$3–$8) at most estates, well below Napa or Burgundy prices; premium tastings and food pairings run R250–R600+</span></div>
+          <div class="f"><span class="fl">Getting there</span><span class="fv">About 45 minutes from Cape Town with no train service between estates — self-drive is affordable and standard, or a private driver given South Africa's strict 0.05% BAC limit</span></div>
+          <div class="f"><span class="fl">Shipping bottles home</span><span class="fv">Domestic courier shipping is simple; several estates work with Stellenbosch-based wine-export specialists for shipments to the US, UK or EU, though cost per bottle rises steeply on small orders — most visitors just pack bottles home instead</span></div>
+        </div>
+      </div>
+    </article>
+
+  </div>
+
+  <div class="progress"><i id="pbar"></i></div>
+  <div class="railhint"><span>Six regions</span><span id="counter">01 / 06</span></div>
+</div>
+
+<section class="closer">
+  <svg class="crate tilt" viewBox="0 0 200 140" aria-hidden="true">
+    <rect x="6" y="26" width="188" height="104" rx="4" fill="none" stroke="#7a1a2e" stroke-width="3"/>
+    <path d="M6 56h188M6 92h188M62 26v104M132 26v104" stroke="#7a1a2e" stroke-width="2"/>
+    <circle cx="34" cy="41" r="7" fill="#7a1a2e"/><circle cx="100" cy="41" r="7" fill="#7a1a2e"/><circle cx="166" cy="41" r="7" fill="#7a1a2e"/>
+  </svg>
+  <h2>Before you buy a case</h2>
+  <p>Every home country sets its own duty-free allowance for wine brought back from abroad, and it's usually far lower than a good tasting can tempt you into — a bottle or two typically clears customs without a second look, a case usually won't. Check your own country's personal allowance before committing to shipping or hand-carrying more than that.</p>
+</section>
+
+<p class="foot">Guide My Days · Competition design “Decanter” · not linked from the live site</p>
+
+<script>
+(function(){
+  var h1 = document.getElementById('h1');
+  var words = 'Some cellar doors take walk-ins.'.split(' ');
+  var frag = document.createDocumentFragment();
+  words.forEach(function(w,i){
+    var s = document.createElement('span');
+    s.className = 'w'; s.textContent = w;
+    s.style.animationDelay = (0.08 * i) + 's';
+    frag.appendChild(s);
+    frag.appendChild(document.createTextNode(' '));
+  });
+  h1.insertBefore(frag, h1.firstChild);
+
+  var cards = [].slice.call(document.querySelectorAll('.card'));
+  var io = new IntersectionObserver(function(es){
+    es.forEach(function(e){
+      if(!e.isIntersecting) return;
+      var c = e.target;
+      c.classList.add('in');
+      var bar = c.querySelector('.tube i');
+      setTimeout(function(){ bar.style.width = c.dataset.fill + '%'; }, 260);
+      io.unobserve(c);
+    });
+  }, {threshold:.25});
+  cards.forEach(function(c){ io.observe(c); });
+
+  var chips = [].slice.call(document.querySelectorAll('.chip'));
+  chips.forEach(function(ch){
+    ch.addEventListener('click', function(){
+      chips.forEach(function(o){ o.setAttribute('aria-pressed', String(o === ch)); });
+      var f = ch.dataset.f;
+      cards.forEach(function(c){
+        c.classList.toggle('dim', f !== 'all' && c.dataset.p !== f);
+      });
+      var first = cards.filter(function(c){ return !c.classList.contains('dim'); })[0];
+      if(first) first.scrollIntoView({behavior:'smooth', inline:'center', block:'nearest'});
+    });
+  });
+
+  var rail = document.getElementById('rail');
+  var pbar = document.getElementById('pbar');
+  var counter = document.getElementById('counter');
+  function pad(n){ return (n < 10 ? '0' : '') + n; }
+  function sync(){
+    var max = rail.scrollWidth - rail.clientWidth;
+    var p = max > 0 ? rail.scrollLeft / max : 0;
+    pbar.style.width = (12 + p * 88) + '%';
+    var mid = rail.scrollLeft + rail.clientWidth / 2;
+    var idx = 0, best = 1e9;
+    cards.forEach(function(c,i){
+      var d = Math.abs(c.offsetLeft + c.offsetWidth / 2 - mid);
+      if(d < best){ best = d; idx = i; }
+    });
+    counter.textContent = pad(idx + 1) + ' / ' + pad(cards.length);
+    cards.forEach(function(c,i){ c.classList.toggle('open', i === idx); });
+  }
+  rail.addEventListener('scroll', function(){ window.requestAnimationFrame(sync); }, {passive:true});
+  window.addEventListener('resize', sync);
+  sync();
+
+  var down = false, startX = 0, startL = 0;
+  rail.addEventListener('pointerdown', function(e){
+    down = true; startX = e.clientX; startL = rail.scrollLeft; rail.style.cursor = 'grabbing';
+  });
+  window.addEventListener('pointerup', function(){ down = false; rail.style.cursor = ''; });
+  rail.addEventListener('pointermove', function(e){
+    if(!down) return;
+    rail.scrollLeft = startL - (e.clientX - startX);
+  });
+})();
+</script>
+</body>
+</html>

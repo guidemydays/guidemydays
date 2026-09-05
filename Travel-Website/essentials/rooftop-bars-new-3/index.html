@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Rooftop Bars &amp; Skyline Views — The Door | Guide My Days</title>
+<meta name="robots" content="noindex,nofollow">
+<style>
+/* ============================================================
+   COMPETITION DESIGN 3 of 3 — "THE DOOR"
+   Standalone. No shared CSS, no toolbar, not linked from the site.
+   New idea: answer the question people actually have at the lift —
+   will they let me in dressed like this? Tick what you're wearing
+   and whether you booked, and each bar's door swings open, stays
+   shut, or shows the honest third answer: not addressed.
+   Every verdict is read live out of that bar's OWN stated line,
+   which is printed underneath it — nothing is scored or invented.
+   ============================================================ */
+:root{
+  --paper:#f7f4ee; --card:#fff; --ink:#1d1a16; --ink2:#6a6458; --line:#e3ddd0;
+  --velvet:#8c2b3a; --brass:#b08a3c; --green:#2d6b45; --amber:#b0791a; --grey:#77706a; --glass:#3f7f96; --terra:#c04e1a;
+  --sans:ui-sans-serif,-apple-system,"Segoe UI",Inter,Helvetica,Arial,sans-serif;
+  --mono:ui-monospace,"SF Mono",Menlo,Consolas,monospace;
+  --shadow:rgba(40,25,20,.24);
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0; background:var(--paper); color:var(--ink);
+  font:400 15px/1.62 var(--sans); -webkit-font-smoothing:antialiased; overflow-x:hidden}
+.wrap{max-width:1180px; margin:0 auto; padding:0 clamp(16px,4.5vw,50px)}
+
+/* ---------- HERO ---------- */
+.hero{position:relative; padding:78px 0 40px; overflow:hidden;
+  background:linear-gradient(178deg,#fdfaf4 0%,#f2ece0 100%)}
+.rope{position:absolute; right:-40px; top:70px; width:min(38vw,420px); opacity:.16}
+.ropeswing{transform-origin:50% 0; animation:sway 7s ease-in-out infinite alternate}
+@keyframes sway{from{transform:rotate(-3deg)}to{transform:rotate(3deg)}}
+.kick{position:relative; z-index:2; font-size:11px; font-weight:800; letter-spacing:.3em;
+  text-transform:uppercase; color:var(--velvet); display:flex; align-items:center; gap:14px; margin-bottom:22px}
+.kick::after{content:""; height:1px; flex:1; max-width:190px; background:linear-gradient(90deg,var(--velvet),transparent)}
+h1{position:relative; z-index:2; margin:0 0 22px; font-size:clamp(34px,5.6vw,68px);
+  line-height:1.02; letter-spacing:-.035em; font-weight:800; max-width:17ch}
+h1 em{font-style:normal; display:block; color:var(--velvet)}
+.reveal{opacity:0; transform:translateY(20px); animation:up .95s cubic-bezier(.19,1,.22,1) forwards}
+@keyframes up{to{opacity:1; transform:none}}
+.intro{position:relative; z-index:2; max-width:72ch; color:var(--ink2); font-size:15.5px; line-height:1.78; margin:0 0 24px}
+.intro a{color:var(--velvet); font-weight:600}
+.lead{position:relative; z-index:2; max-width:72ch; color:var(--ink2); font-size:14px; line-height:1.72;
+  margin:0 0 8px; padding-left:16px; border-left:3px solid rgba(140,43,58,.4)}
+
+/* ---------- THE CHECK ---------- */
+.check{position:sticky; top:0; z-index:40; background:rgba(247,244,238,.96);
+  backdrop-filter:blur(10px); border-bottom:1px solid var(--line); padding:14px 0; margin-top:30px}
+.check .wrap{display:flex; gap:14px; align-items:center; flex-wrap:wrap}
+.clab{font:800 9.5px/1 var(--sans); letter-spacing:.2em; text-transform:uppercase; color:var(--ink2)}
+.wear{display:flex; gap:8px; flex-wrap:wrap}
+.w{border:1px solid var(--line); background:#fff; cursor:pointer; color:var(--ink);
+  font:800 11px/1 var(--sans); letter-spacing:.09em; text-transform:uppercase;
+  padding:11px 14px; border-radius:999px; display:inline-flex; align-items:center; gap:8px;
+  transition:background .22s,color .22s,border-color .22s,transform .2s}
+.w:hover{transform:translateY(-2px)}
+.w i{width:7px; height:7px; border-radius:50%; background:var(--line); display:block; transition:background .22s}
+.w[aria-pressed="true"]{background:var(--velvet); color:#fff; border-color:var(--velvet)}
+.w[aria-pressed="true"] i{background:#fff}
+.w.booked[aria-pressed="true"]{background:var(--green); border-color:var(--green)}
+.searchbox{position:relative; flex:1; min-width:190px; max-width:300px}
+.searchbox svg{position:absolute; left:15px; top:50%; transform:translateY(-50%); width:16px; height:16px; opacity:.45}
+.search{width:100%; font:400 14px/1 var(--sans); color:var(--ink2); background:#fff;
+  border:1px solid var(--line); border-radius:999px; padding:12px 16px 12px 40px; outline:none;
+  transition:border-color .2s, box-shadow .2s}
+.search::placeholder{color:var(--ink2); opacity:.75}
+.search:focus{border-color:var(--velvet); box-shadow:0 0 0 5px rgba(140,43,58,.13)}
+.tally{margin-left:auto; font:800 10.5px/1 var(--mono); letter-spacing:.14em; color:var(--ink2)}
+
+/* ---------- DOORS ---------- */
+.region{display:flex; align-items:baseline; gap:16px; margin:52px 0 18px}
+.region h2{margin:0; font-size:clamp(20px,2.8vw,30px); font-weight:800; letter-spacing:-.026em}
+.region span{font:800 10px/1 var(--mono); letter-spacing:.18em; color:var(--ink2)}
+.region::after{content:""; flex:1; height:1px; background:var(--line)}
+.region.gone{display:none}
+
+.grid{display:grid; grid-template-columns:repeat(auto-fill,minmax(360px,1fr)); gap:18px}
+.door{
+  position:relative; background:var(--card); border:1px solid var(--line); border-radius:14px;
+  overflow:hidden; opacity:0; transform:translateY(22px);
+  transition:opacity .5s, transform .5s cubic-bezier(.19,1,.22,1), box-shadow .3s, border-color .3s;
+}
+.door.in{opacity:1; transform:none}
+.door.gone{display:none}
+.door:hover{box-shadow:0 24px 44px -28px var(--shadow)}
+
+/* the verdict panel that swings */
+.panel{position:relative; height:74px; perspective:900px; background:#f2ece0; overflow:hidden}
+.leaf{position:absolute; inset:0; transform-origin:left center; backface-visibility:hidden;
+  display:flex; align-items:center; gap:12px; padding:0 20px; color:#fff;
+  transition:transform .75s cubic-bezier(.3,1,.3,1), background .4s}
+.leaf b{font:800 13px/1.25 var(--sans); letter-spacing:.09em; text-transform:uppercase}
+.leaf small{display:block; font:700 10px/1.4 var(--sans); letter-spacing:.06em; opacity:.9; text-transform:none}
+.leaf svg{width:22px; height:22px; flex:0 0 auto}
+.door[data-v="in"]    .leaf{background:var(--green);  transform:rotateY(-72deg)}
+.door[data-v="out"]   .leaf{background:var(--velvet); transform:none}
+.door[data-v="maybe"] .leaf{background:var(--amber);  transform:rotateY(-24deg)}
+.door[data-v="idle"]  .leaf{background:var(--grey);   transform:rotateY(-14deg)}
+.behind{position:absolute; inset:0; display:flex; align-items:center; padding:0 20px;
+  font:800 11px/1.4 var(--sans); letter-spacing:.12em; text-transform:uppercase; color:#9a9186}
+
+.dtop{display:flex; align-items:flex-start; gap:14px; padding:18px 20px 12px; flex-wrap:wrap}
+.dname{margin:0 0 4px; font-size:18px; font-weight:800; letter-spacing:-.02em; line-height:1.3}
+.dcity{font:800 10px/1 var(--sans); letter-spacing:.16em; text-transform:uppercase; color:var(--ink2)}
+.resb{margin-left:auto; font:800 9.5px/1 var(--sans); letter-spacing:.14em; text-transform:uppercase;
+  padding:8px 12px; border-radius:4px; color:#fff; white-space:nowrap}
+.resb.walk{background:var(--green)} .resb.rec{background:var(--glass)} .resb.req{background:var(--velvet)}
+.dvenue{padding:0 20px 14px; margin:0; font-size:13.5px; line-height:1.6; color:var(--ink2)}
+
+/* per-item chips */
+.items{display:flex; gap:6px; flex-wrap:wrap; padding:0 20px 16px}
+.it{font:800 8.5px/1 var(--sans); letter-spacing:.11em; text-transform:uppercase;
+  padding:7px 10px; border-radius:4px; border:1px solid var(--line); color:var(--ink2); background:#fff}
+.it.no{background:rgba(140,43,58,.1); border-color:rgba(140,43,58,.35); color:var(--velvet)}
+.it.yes{background:rgba(45,107,69,.1); border-color:rgba(45,107,69,.35); color:var(--green)}
+
+.det{border-top:1px solid var(--line); padding:14px 20px}
+.det b{display:block; font:800 9.5px/1 var(--sans); letter-spacing:.17em; text-transform:uppercase;
+  color:var(--velvet); margin-bottom:8px}
+.det p{margin:0; font-size:13.5px; line-height:1.65; color:var(--ink2)}
+.det p a{color:var(--glass); font-weight:600}
+.det.currently{background:linear-gradient(90deg,rgba(192,78,26,.07),transparent)}
+.det.currently b{color:var(--terra)}
+
+.note{margin:44px 0 0; padding:18px 22px; background:#efe8dc; border-left:3px solid var(--velvet);
+  border-radius:0 10px 10px 0; font-size:13.5px; color:var(--ink2); max-width:80ch}
+.empty{padding:70px 0; text-align:center; color:var(--ink2); font-size:16px}
+.foot{padding:70px 0 60px; font-size:11px; letter-spacing:.12em; text-transform:uppercase; color:var(--ink2)}
+@media (prefers-reduced-motion:reduce){*{animation:none !important; transition-duration:.01ms !important}
+  .door{opacity:1; transform:none}}
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <svg class="rope" viewBox="0 0 300 200" aria-hidden="true">
+    <g class="ropeswing">
+      <path d="M40 30 Q150 130 260 30" fill="none" stroke="#8c2b3a" stroke-width="10" stroke-linecap="round"/>
+    </g>
+    <rect x="32" y="26" width="16" height="150" rx="7" fill="#b08a3c"/>
+    <rect x="252" y="26" width="16" height="150" rx="7" fill="#b08a3c"/>
+    <circle cx="40" cy="22" r="12" fill="#b08a3c"/><circle cx="260" cy="22" r="12" fill="#b08a3c"/>
+  </svg>
+  <div class="wrap">
+    <div class="kick reveal" style="animation-delay:.05s">Rooftop Bars &amp; Skyline Views</div>
+    <h1 class="reveal" style="animation-delay:.14s">The skyline is the same for everyone. <em>Getting a seat in front of it never is.</em></h1>
+    <p class="intro reveal" style="animation-delay:.26s">Reservation policy, dress code, minimum spend, and how to time your arrival before sunset — for 19 rooftop bars across 10 cities: Bangkok, Tokyo, Singapore, Hong Kong, Paris, London, Dubai, New York, Chicago and Los Angeles. Every detail below is sourced from the venue's own reservation page or its hotel's site where one exists; dress codes and minimum spends shift by season and night of the week, so confirm on the operator's own site before a special-occasion visit. For ticketed observation decks, see <a href="/best-of/observation-decks/">Best Observation Decks</a>; for late-night bar and club culture by city, see <a href="/essentials/nightlife/">International Nightlife Guide</a>; for a destination's exact sunset time this month, see <a href="/essentials/golden-hour/">Golden Hour &amp; Best Photo Spots</a>.</p>
+    <p class="lead reveal" style="animation-delay:.34s">Sourced from each bar's own reservation page or hotel site — minimum spends, dress codes and hours change by season and by night of the week. A bar flagged as temporarily closed is noted in its own row rather than left off the list.</p>
+  </div>
+</header>
+
+<div class="check">
+  <div class="wrap">
+    <span class="clab">Wearing</span>
+    <div class="wear" id="wear">
+      <button class="w" aria-pressed="false" data-k="shorts"><i></i>Shorts</button>
+      <button class="w" aria-pressed="false" data-k="trainers"><i></i>Trainers</button>
+      <button class="w" aria-pressed="false" data-k="sandals"><i></i>Flip-flops</button>
+      <button class="w" aria-pressed="false" data-k="sleeveless"><i></i>Sleeveless</button>
+      <button class="w" aria-pressed="false" data-k="sportswear"><i></i>Sportswear</button>
+      <button class="w booked" aria-pressed="false" data-k="booked"><i></i>I booked</button>
+    </div>
+    <div class="searchbox">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+        <circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5" stroke-linecap="round"/>
+      </svg>
+      <input type="search" class="search" id="search" placeholder="City or bar name" aria-label="Search by city or bar name" autocomplete="off" spellcheck="false">
+    </div>
+    <span class="tally" id="tally"></span>
+  </div>
+</div>
+
+<main class="wrap">
+  <div id="list"></div>
+  <div class="empty" id="empty" style="display:none">No rooftop bar matches that search.</div>
+  <p class="note"><strong>How the door decides:</strong> nothing here is scored or guessed. Each verdict is read live out of that bar's own “Access &amp; dress” and “Reservation” lines, printed unchanged on the same card — if the wording names an item among what's refused, the door stays shut; if it names it as allowed, the door opens; if the wording never mentions it, the card says so rather than assuming. Dress codes shift by season and by night of the week, so the operator's own site is still the last word.</p>
+  <p class="foot">Guide My Days · Competition design &ldquo;The Door&rdquo; · not linked from the live site</p>
+</main>
+
+<script>
+var BARS = [{"reg":"Asia-Pacific","res":"walk","txt":"bangkok thailand vertigo moon bar banyan tree","city":"Bangkok, Thailand","name":"Moon Bar (Vertigo &amp; Moon Bar, Banyan Tree Bangkok)","venue":"61st floor, on the hotel's converted helipad — a 360&deg; view over the city","badge":"Walk-in OK","det":[["Currently","<strong>Closed for renovation</strong> from mid-June 2026, with an expected reopening around <strong>28 November 2026</strong> (subject to change) &mdash; confirm on <a href=\"https://www.banyantree.com/thailand/bangkok/dining/vertigo\" target=\"_blank\" rel=\"noopener\">Banyan Tree's own page</a> before planning around it."],["Access &amp; dress","Smart casual — no shorts or flip-flops; closed shoes and long pants expected of gentlemen."],["Reservation","Moon Bar (the bar side) has historically been walk-in, no booking needed; Vertigo (the restaurant side) takes reservations. In normal operation the bar opens 5pm, restaurant 6&ndash;10:30pm."],["Cost","No cover for the bar; à la carte cocktails and a full dinner menu on the restaurant side."]],"fl":61},{"reg":"Asia-Pacific","res":"rec","txt":"bangkok thailand above eleven","city":"Bangkok, Thailand","name":"Above Eleven","venue":"33rd&ndash;34th floor, Fraser Suites Sukhumvit","badge":"Reserve ahead","det":[["Access &amp; dress","Smart casual — shorts allowed for both women and men, but sandals, flip-flops and Birkenstocks are refused; men need fully covered shoes and no sleeveless tops."],["Reservation","Recommended, especially for dinner — book online via <a href=\"https://aboveeleven.com/rooftop-restaurant-bangkok/\" target=\"_blank\" rel=\"noopener\">Above Eleven's own site</a> for an instant confirmation. Open 5pm&ndash;2am."],["Cost","No stated cover; a Peruvian-Japanese à la carte and cocktail menu."]],"fl":34},{"reg":"Asia-Pacific","res":"rec","txt":"tokyo japan rooftop bar andaz toranomon hills","city":"Tokyo, Japan","name":"Rooftop Bar, Andaz Tokyo Toranomon Hills","venue":"52nd floor, a semi-open-air roof-protected terrace over the Tokyo skyline","badge":"Reserve ahead","det":[["Access &amp; dress","Smart casual; no stated hard dress code beyond that."],["Reservation","Accepted by phone, WhatsApp or email via <a href=\"https://restaurants.andaztokyo.jp/en/rooftop-bar\" target=\"_blank\" rel=\"noopener\">Andaz Tokyo's own booking page</a>, up to two months ahead — bookable arrivals are only taken up to 8pm, so a later visit is walk-in."],["Cost","No seating charge for hotel guests, or for anyone 5&ndash;8pm; a &yen;2,200 per-person seating charge applies on the terrace after 8pm (March&ndash;December)."]],"fl":52},{"reg":"Asia-Pacific","res":"rec","txt":"singapore 1-altitude","city":"Singapore","name":"1-Altitude","venue":"63rd floor, Raffles Place — the tallest building in the district","badge":"Reserve ahead","det":[["Access &amp; dress","Smart casual — no singlets, sleeveless tops, shorts or flip-flops for men. Minimum entry age 21; after 10pm the floor is men 25+ / women 21+."],["Reservation","Recommended for a group or a table for sunset; the bar itself takes walk-ins."],["Cost","No stated cover for standing room; table minimums apply on request."]],"fl":63},{"reg":"Asia-Pacific","res":"req","txt":"singapore ce la vi marina bay sands","city":"Singapore","name":"CÉ LA VI Singapore — SkyBar","venue":"Level 57, Marina Bay Sands SkyPark","badge":"Reservation required","det":[["Access &amp; dress","Dressy/smart casual — no slippers, sandals, beachwear or activewear; men need covered shoes (no crocs) and a sleeved shirt; smart shorts allowed for men before 10pm."],["Reservation","Required — book via <a href=\"https://www.marinabaysands.com/restaurants/ce-la-vi-club-lounge-and-rooftop-bar.html\" target=\"_blank\" rel=\"noopener\">Marina Bay Sands' own page</a>. Sold as timed sessions (Sunset 4&ndash;7:30pm, Late Night from 8pm) rather than a walk-up table."],["Cost","Minimum spend from S$200++ per person on the Sunset Session, from S$1,000++ per table Late Night — figures move with the calendar and public holidays."]],"fl":57},{"reg":"Asia-Pacific","res":"rec","txt":"hong kong ozone ritz-carlton icc","city":"Hong Kong","name":"Ozone, The Ritz-Carlton Hong Kong","venue":"118th floor of the ICC tower — the world's highest bar","badge":"Reserve ahead","det":[["Access &amp; dress","No flip-flops or athletic wear; men should avoid open-toe shoes, sleeveless shirts and sports shorts."],["Reservation","Recommended — book via <a href=\"https://www.ozonebarhongkong.com/\" target=\"_blank\" rel=\"noopener\">Ozone's own site</a> or by phone."],["Cost","No stated cover; cocktails and small plates à la carte."]],"fl":118},{"reg":"Asia-Pacific","res":"walk","txt":"hong kong aqua spirit tsim sha tsui","city":"Hong Kong","name":"Aqua Spirit","venue":"17th floor, H Zentre, Tsim Sha Tsui — over Victoria Harbour","badge":"Walk-in OK","det":[["Access &amp; dress","Smart casual — no shorts, open-toe shoes or sleeveless shirts for gentlemen at dinner. Under-18s are not admitted to the bar from 6pm onward."],["Reservation","Not needed for drinks — walk in; reservations are for the adjoining Italian/Japanese dining rooms via <a href=\"https://aqua.com.hk/reservations/\" target=\"_blank\" rel=\"noopener\">Aqua's own page</a>."],["Cost","No cover; cocktails à la carte."]],"fl":17},{"reg":"Europe","res":"walk","txt":"paris france le perchoir menilmontant","city":"Paris, France","name":"Le Perchoir Ménilmontant","venue":"The original Le Perchoir rooftop, on top of a former industrial building near Ménilmontant métro","badge":"Walk-in OK","det":[["Access &amp; dress","Smart casual."],["Reservation","Walk-in for the rooftop bar itself — arrive early to skip the queue, or book a table downstairs at the 6th-floor restaurant instead."],["Cost","No cover; cocktails, wine by the glass or bottle, and bar snacks from a snack shack."]],"fl":null},{"reg":"Europe","res":"walk","txt":"paris france terrass hotel montmartre rooftop","city":"Paris, France","name":"Terrass&Prime; Rooftop Bar","venue":"Atop the Terrass&Prime; Hôtel on the Montmartre hill — one of the highest rooftop views in Paris","badge":"Walk-in OK","det":[["Access &amp; dress","Smart casual; no stated hard dress code."],["Reservation","Walk-in, no booking needed for the bar — <a href=\"https://www.terrass-hotel.com/rooftop\" target=\"_blank\" rel=\"noopener\">the hotel's own page</a> suggests avoiding 7&ndash;8:30pm to skip the wait."],["Cost","No cover; cocktails à la carte."]],"fl":null},{"reg":"Europe","res":"rec","txt":"london united kingdom aqua shard","city":"London, United Kingdom","name":"Aqua Shard","venue":"Level 31, The Shard","badge":"Reserve ahead","det":[["Access &amp; dress","Smart casual — tailored shorts allowed until 5pm; no sportswear or flip-flops at any time."],["Reservation","Opens on a rolling three-month window via <a href=\"https://aquashard.co.uk/reservations/\" target=\"_blank\" rel=\"noopener\">Aqua Shard's own site</a>; every table has a skyline view, so window seats can't be specifically requested."],["Cost","&pound;50 minimum spend per guest on a bar-only booking (dining bookings are separate)."]],"fl":31},{"reg":"Europe","res":"rec","txt":"london united kingdom sushisamba heron tower","city":"London, United Kingdom","name":"SUSHISAMBA London","venue":"38th&ndash;39th floor, Heron Tower","badge":"Reserve ahead","det":[["Access &amp; dress","Smart casual — smart trainers are fine; tracksuits, denim shorts, flip-flops/sliders and beachwear are refused, entry at the door's discretion."],["Reservation","Recommended via <a href=\"https://www.sushisamba.com/locations/london-heron-tower/contact-reservations\" target=\"_blank\" rel=\"noopener\">SUSHISAMBA's own site</a>."],["Cost","No stated cover; à la carte Japanese-Brazilian-Peruvian menu and cocktails."]],"fl":39},{"reg":"Middle East","res":"req","txt":"dubai uae at.mosphere burj khalifa","city":"Dubai, United Arab Emirates","name":"At.mosphere","venue":"Level 122, Burj Khalifa — enter via the Armani Hotel elevator","badge":"Reservation required","det":[["Access &amp; dress","The restaurant is \"smart elegant\" — full-sleeve shirts, no shorts, sportswear or open shoes for men, no slippers or sportswear for women; the lounge is smart casual with no formal enforcement."],["Reservation","Required — call or email via <a href=\"https://atmosphereburjkhalifa.com\" target=\"_blank\" rel=\"noopener\">At.mosphere's own contact page</a>."],["Cost","Dinner minimum spend AED 350 per person (non-window) or AED 450 (window table); the lounge's minimum spend is AED 75 per person."]],"fl":122},{"reg":"Middle East","res":"req","txt":"dubai uae ce la vi address sky view","city":"Dubai, United Arab Emirates","name":"CÉ LA VI Dubai — SkyBar","venue":"Level 54, Address Sky View","badge":"Reservation required","det":[["Access &amp; dress","Smart casual by day; evenings expect a more polished look — no sportswear, beachwear or flip-flops after dark."],["Reservation","Required to enter — book via <a href=\"https://dxb.celavi.com/skybar\" target=\"_blank\" rel=\"noopener\">CÉ LA VI Dubai's own site</a>."],["Cost","Minimum spend from AED 500 per person, varying by night, season and table position."]],"fl":54},{"reg":"North America","res":"walk","txt":"new york city usa 230 fifth","city":"New York, United States","name":"230 Fifth","venue":"Rooftop, Flatiron District","badge":"Walk-in OK","det":[["Access &amp; dress","No strict dress code — no gym clothes or sweatpants; upscale casual expected on weekend nights."],["Reservation","Generally first-come, first-served; weekend nights favor a reservation (with a minimum spend) via <a href=\"https://www.sevenrooms.com/reservations/fifthrooftop\" target=\"_blank\" rel=\"noopener\">230 Fifth's own booking page</a>."],["Cost","No general cover; a $15 per-person cover applies after 8pm Friday and Saturday."]],"fl":null},{"reg":"North America","res":"rec","txt":"new york city usa westlight william vale brooklyn","city":"New York, United States","name":"Westlight","venue":"22nd floor, The William Vale, Williamsburg, Brooklyn — the Manhattan skyline across the East River","badge":"Reserve ahead","det":[["Access &amp; dress","Elevated casual, especially evenings and events. Under-21s are admitted until 6pm only; 21+ after that."],["Reservation","Highly recommended via <a href=\"https://www.westlightnyc.com/reservations/\" target=\"_blank\" rel=\"noopener\">Westlight's own site</a>."],["Cost","No stated cover; craft cocktails and small plates à la carte."]],"fl":22},{"reg":"North America","res":"walk","txt":"chicago usa cindy's rooftop chicago athletic association","city":"Chicago, United States","name":"Cindy's Rooftop","venue":"13th floor, Chicago Athletic Association, under a glass atrium","badge":"Walk-in OK","det":[["Access &amp; dress","No strict dress code; smart casual encouraged."],["Reservation","Not required — encouraged for indoor seating via <a href=\"https://cindysrooftop.com/\" target=\"_blank\" rel=\"noopener\">Cindy's own site</a>."],["Cost","No stated cover; à la carte."]],"fl":13},{"reg":"North America","res":"rec","txt":"chicago usa lh rooftop londonhouse","city":"Chicago, United States","name":"LH Rooftop (LH on 21 &amp; 22)","venue":"LondonHouse Chicago — views of the Chicago River, Lake Michigan and the Magnificent Mile","badge":"Reserve ahead","det":[["Access &amp; dress","Smart casual."],["Reservation","Highly recommended for a table via <a href=\"https://www.exploretock.com/lhrooftop/\" target=\"_blank\" rel=\"noopener\">LH Rooftop's Tock page</a>; the bar itself takes walk-ins. Open 11am&ndash;midnight daily."],["Cost","No stated cover; classic cocktails and small bites à la carte."]],"fl":null},{"reg":"North America","res":"rec","txt":"los angeles usa spire 73 intercontinental downtown","city":"Los Angeles, United States","name":"Spire 73","venue":"73rd floor, InterContinental Los Angeles Downtown — the tallest open-air bar in the Western Hemisphere","badge":"Reserve ahead","det":[["Access &amp; dress","Business casual / summer attire — no cut-off tees, sleeveless jerseys, jogging shorts or backpacks."],["Reservation","Strongly recommended, especially on weekends, via the hotel's own dining page — seating is limited."],["Cost","$60 minimum spend per person."]],"fl":73},{"reg":"North America","res":"walk","txt":"los angeles usa perch downtown","city":"Los Angeles, United States","name":"Perch LA","venue":"15th (restaurant/bar) &amp; 16th floor (open-air rooftop terrace), Downtown LA","badge":"Walk-in OK","det":[["Access &amp; dress","Upscale casual — no gym or beach attire, tank tops, baseball caps or flip-flops after 4pm. The 16th-floor rooftop is 21+ at all times."],["Reservation","Recommended, but walk-ins are welcome on a first-come, first-served list via <a href=\"https://www.perchla.com/reservations\" target=\"_blank\" rel=\"noopener\">Perch's own site</a>."],["Cost","No stated cover; à la carte French bistro menu and cocktails."]],"fl":16}];
+var REGION_ORDER = [];
+BARS.forEach(function(b){ if(REGION_ORDER.indexOf(b.reg) === -1) REGION_ORDER.push(b.reg); });
+
+var TERMS = {
+  shorts:     ['shorts'],
+  trainers:   ['trainer', 'sneaker', 'athletic wear', 'gym clothes', 'gym or beach', 'jogging'],
+  sandals:    ['flip-flop', 'flip flop', 'sandal', 'slipper', 'slider', 'open-toe', 'open toe', 'birkenstock', 'crocs', 'open shoes'],
+  sleeveless: ['sleeveless', 'tank top', 'singlet', 'cut-off tee', 'sleeved shirt', 'full-sleeve'],
+  sportswear: ['sportswear', 'sports wear', 'activewear', 'tracksuit', 'sweatpants', 'gym clothes', 'athletic wear', 'gym or beach', 'jogging', 'sports shorts']
+};
+var ALLOWY = /(allowed|are fine|is fine|permitted|acceptable|welcome)/i;
+var LABEL = { shorts:'Shorts', trainers:'Trainers', sandals:'Flip-flops', sleeveless:'Sleeveless', sportswear:'Sportswear' };
+
+function strip(h){ var d = document.createElement('div'); d.innerHTML = h; return (d.textContent || '').toLowerCase(); }
+
+/* pull the dress line and the reservation line out of each bar's own details */
+BARS.forEach(function(b){
+  b.dress = ''; b.resline = '';
+  b.det.forEach(function(d){
+    var l = d[0].toLowerCase();
+    if(l.indexOf('dress') !== -1 || l.indexOf('access') !== -1) b.dress = strip(d[1]);
+    if(l.indexOf('reservation') !== -1) b.resline = strip(d[1]);
+  });
+  b.rules = {};
+  Object.keys(TERMS).forEach(function(k){
+    var verdict = 'unstated';
+    var clauses = b.dress.split(/[;—–]|(?:,\s*(?=no\b))/);
+    clauses.forEach(function(c){
+      var hit = TERMS[k].some(function(t){ return c.indexOf(t) !== -1; });
+      if(!hit) return;
+      if(ALLOWY.test(c) && !/not (allowed|permitted)/.test(c)) { if(verdict !== 'no') verdict = 'yes'; }
+      else verdict = 'no';
+    });
+    b.rules[k] = verdict;
+  });
+});
+
+var TICK  = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="m4 13 5.5 5.5L20 6"/></svg>';
+var CROSS = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><path d="M6 6l12 12M18 6 6 18"/></svg>';
+var QUERY = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M9 9a3 3 0 1 1 4.2 2.8c-.8.4-1.2 1-1.2 1.9v.4"/><path d="M12 18h.01"/></svg>';
+
+function detHTML(d){
+  var cls = /currently/i.test(d[0]) ? ' currently' : '';
+  return '<div class="det' + cls + '"><b>' + d[0] + '</b><p>' + d[1] + '</p></div>';
+}
+
+document.getElementById('list').innerHTML = REGION_ORDER.map(function(reg){
+  var inR = BARS.filter(function(b){ return b.reg === reg; });
+  return '<div class="region" data-reg="' + reg + '"><h2>' + reg + '</h2><span>' + inR.length + ' BARS</span></div>' +
+  '<div class="grid" data-reg="' + reg + '">' + inR.map(function(b, i){
+    var idx = BARS.indexOf(b);
+    return '<article class="door" data-i="' + idx + '" data-res="' + b.res + '" data-reg="' + reg + '" data-v="idle" data-hay="' +
+        (b.txt + ' ' + b.city + ' ' + b.name).toLowerCase().replace(/"/g,'') + '">' +
+      '<div class="panel"><span class="behind">Tick what you\'re wearing</span>' +
+        '<span class="leaf"><span class="ic">' + QUERY + '</span><b class="vt">Nothing ticked yet<small>The door is closed until you say what you\'re wearing</small></b></span>' +
+      '</div>' +
+      '<div class="dtop"><span><h3 class="dname">' + b.name + '</h3><span class="dcity">' + b.city + '</span></span>' +
+        '<span class="resb ' + b.res + '">' + b.badge + '</span></div>' +
+      '<p class="dvenue">' + b.venue + '</p>' +
+      '<div class="items"></div>' +
+      b.det.map(detHTML).join('') +
+    '</article>';
+  }).join('') + '</div>';
+}).join('');
+
+var picked = {};
+function evaluate(){
+  var keys = Object.keys(picked).filter(function(k){ return picked[k] && k !== 'booked'; });
+  var booked = !!picked.booked;
+  var openCount = 0, shown = 0;
+
+  [].forEach.call(document.querySelectorAll('.door'), function(el){
+    if(el.classList.contains('gone')) return;
+    shown++;
+    var b = BARS[+el.dataset.i];
+    var refused = [], allowed = [], unstated = [];
+    keys.forEach(function(k){
+      var v = b.rules[k];
+      if(v === 'no') refused.push(LABEL[k]);
+      else if(v === 'yes') allowed.push(LABEL[k]);
+      else unstated.push(LABEL[k]);
+    });
+
+    var needBooking = (b.res === 'req' && !booked);
+    var v, txt, sub, ic;
+    if(!keys.length && !booked){
+      v = 'idle'; ic = QUERY; txt = 'Nothing ticked yet';
+      sub = "The door is closed until you say what you're wearing";
+    } else if(refused.length){
+      v = 'out'; ic = CROSS; txt = 'Turned away — ' + refused.join(', ').toLowerCase();
+      sub = 'Named in this bar’s own dress line as refused';
+    } else if(needBooking){
+      v = 'out'; ic = CROSS; txt = 'Reservation required';
+      sub = 'This one states a booking is required — tick “I booked”';
+    } else if(unstated.length){
+      v = 'maybe'; ic = QUERY; txt = 'Not addressed — ' + unstated.join(', ').toLowerCase();
+      sub = 'This bar’s stated line never mentions it either way';
+    } else {
+      v = 'in'; ic = TICK; txt = 'Walk up';
+      sub = allowed.length ? 'Named as allowed: ' + allowed.join(', ').toLowerCase()
+                           : 'Nothing you ticked is refused here';
+      openCount++;
+    }
+
+    el.dataset.v = v;
+    el.querySelector('.ic').innerHTML = ic;
+    el.querySelector('.vt').innerHTML = txt + '<small>' + sub + '</small>';
+
+    el.querySelector('.items').innerHTML = keys.map(function(k){
+      var r = b.rules[k];
+      return '<span class="it ' + (r === 'no' ? 'no' : (r === 'yes' ? 'yes' : '')) + '">' +
+        LABEL[k] + ' · ' + (r === 'no' ? 'refused' : (r === 'yes' ? 'allowed' : 'not stated')) + '</span>';
+    }).join('');
+  });
+
+  document.getElementById('tally').textContent =
+    (keys.length || picked.booked) ? openCount + ' / ' + shown + ' DOORS OPEN' : shown + ' BARS';
+}
+
+document.getElementById('wear').addEventListener('click', function(e){
+  var b = e.target.closest ? e.target.closest('.w') : null;
+  if(!b) return;
+  var on = b.getAttribute('aria-pressed') === 'true';
+  b.setAttribute('aria-pressed', String(!on));
+  picked[b.dataset.k] = !on;
+  evaluate();
+});
+
+var io = new IntersectionObserver(function(es){
+  es.forEach(function(e){ if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); } });
+}, {threshold:.12});
+[].forEach.call(document.querySelectorAll('.door'), function(d){ io.observe(d); });
+
+document.getElementById('search').addEventListener('input', function(e){
+  var q = e.target.value.trim().toLowerCase(), shown = 0;
+  [].forEach.call(document.querySelectorAll('.door'), function(d){
+    var show = !q || d.dataset.hay.indexOf(q) !== -1;
+    d.classList.toggle('gone', !show);
+    if(show){ shown++; d.classList.add('in'); }
+  });
+  [].forEach.call(document.querySelectorAll('.region'), function(h){
+    var any = document.querySelectorAll('.door[data-reg="' + h.dataset.reg + '"]:not(.gone)').length;
+    h.classList.toggle('gone', !any);
+    document.querySelector('.grid[data-reg="' + h.dataset.reg + '"]').style.display = any ? '' : 'none';
+  });
+  document.getElementById('empty').style.display = shown ? 'none' : 'block';
+  evaluate();
+});
+
+evaluate();
+</script>
+</body>
+</html>

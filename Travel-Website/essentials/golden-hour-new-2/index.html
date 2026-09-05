@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Golden Hour &amp; Best Photo Spots — Contact Sheet | Guide My Days</title>
+<meta name="robots" content="noindex,nofollow">
+<style>
+/* ============================================================
+   COMPETITION DESIGN 2 of 3 — "CONTACT SHEET"
+   Standalone. No shared CSS, no toolbar, not linked from the site.
+   New idea: 45 spots laid out as a photographer's contact sheet —
+   numbered 35mm frames on sprocketed film, each region its own roll.
+   Pick a frame and it enlarges into the loupe panel that follows you
+   down the page, grease-pencil ring and all.
+   ============================================================ */
+:root{
+  --paper:#f4f2ec; --sheet:#fffdf8; --ink:#20201c; --ink2:#6b695f; --line:#ddd9cc;
+  --film:#2a2824; --gold:#c98a1a; --terra:#c04e1a; --blue:#2f5fa8; --pencil:#c8342a;
+  --sans:ui-sans-serif,-apple-system,"Segoe UI",Inter,Helvetica,Arial,sans-serif;
+  --mono:ui-monospace,"SF Mono",Menlo,Consolas,monospace;
+  --shadow:rgba(40,35,25,.22);
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0; background:var(--paper); color:var(--ink);
+  font:400 15px/1.62 var(--sans); -webkit-font-smoothing:antialiased; overflow-x:hidden}
+.wrap{max-width:1280px; margin:0 auto; padding:0 clamp(16px,4vw,46px)}
+
+/* ---------- HERO ---------- */
+.hero{padding:76px 0 40px}
+.kick{font-size:11px; font-weight:800; letter-spacing:.3em; text-transform:uppercase; color:var(--terra);
+  display:flex; align-items:center; gap:14px; margin-bottom:22px}
+.kick::after{content:""; height:1px; flex:1; max-width:200px; background:linear-gradient(90deg,var(--terra),transparent)}
+h1{margin:0 0 22px; font-size:clamp(36px,6vw,74px); line-height:1.01; letter-spacing:-.035em; font-weight:800; max-width:15ch}
+h1 em{font-style:normal; display:block; color:var(--terra)}
+.reveal{opacity:0; transform:translateY(20px); animation:up .95s cubic-bezier(.19,1,.22,1) forwards}
+@keyframes up{to{opacity:1; transform:none}}
+.intro{max-width:64ch; color:var(--ink2); font-size:16px; line-height:1.78; margin:0 0 34px}
+
+/* ---------- CONTROLS ---------- */
+.bar{position:sticky; top:0; z-index:40; background:rgba(244,242,236,.95);
+  backdrop-filter:blur(10px); border-bottom:1px solid var(--line); padding:12px 0}
+.bar .wrap{display:flex; gap:12px; align-items:center; flex-wrap:wrap}
+.searchbox{position:relative; flex:1; min-width:210px; max-width:380px}
+.searchbox svg{position:absolute; left:15px; top:50%; transform:translateY(-50%); width:17px; height:17px; opacity:.45}
+.search{width:100%; font:400 14.5px/1 var(--sans); color:var(--ink2); background:#fff;
+  border:1px solid var(--line); border-radius:999px; padding:12px 18px 12px 42px; outline:none;
+  transition:border-color .2s, box-shadow .2s}
+.search::placeholder{color:var(--ink2); opacity:.75}
+.search:focus{border-color:var(--gold); box-shadow:0 0 0 5px rgba(201,138,26,.16)}
+.canisters{display:flex; gap:8px; flex-wrap:wrap}
+.can{border:1px solid var(--line); background:#fff; cursor:pointer; color:var(--ink);
+  font:800 10.5px/1 var(--mono); letter-spacing:.12em; text-transform:uppercase;
+  padding:11px 14px; border-radius:5px; transition:background .22s,color .22s,border-color .22s,transform .2s}
+.can:hover{transform:translateY(-2px)}
+.can[aria-pressed="true"]{background:var(--film); color:#f3e7c8; border-color:var(--film)}
+.can.sunrise[aria-pressed="true"]{background:var(--gold); border-color:var(--gold); color:#fff}
+.can.sunset[aria-pressed="true"]{background:var(--terra); border-color:var(--terra); color:#fff}
+.can.blue[aria-pressed="true"]{background:var(--blue); border-color:var(--blue); color:#fff}
+.count{margin-left:auto; font:800 10.5px/1 var(--mono); letter-spacing:.16em; color:var(--ink2)}
+
+/* ---------- SHEET LAYOUT ---------- */
+.sheetgrid{display:grid; grid-template-columns:1fr 340px; gap:30px; align-items:start; margin-top:34px}
+@media (max-width:1080px){.sheetgrid{grid-template-columns:1fr}}
+
+.roll{margin:0 0 34px; background:var(--film); border-radius:6px; padding:0 0 4px; overflow:hidden;
+  box-shadow:0 20px 40px -30px var(--shadow)}
+.rollhead{display:flex; align-items:center; gap:14px; padding:12px 16px 10px}
+.rollhead h2{margin:0; font:800 12px/1 var(--mono); letter-spacing:.22em; text-transform:uppercase; color:#f0e2bd}
+.rollhead span{font:700 10px/1 var(--mono); letter-spacing:.16em; color:#8f8874}
+.rollhead::after{content:""; flex:1; height:1px; background:rgba(240,226,189,.22)}
+/* sprocket strips */
+.sprock{height:13px; background-image:radial-gradient(circle at 7px 50%, #f4f2ec 3.4px, transparent 3.6px);
+  background-size:19px 13px; opacity:.85}
+
+.frames{display:grid; grid-template-columns:repeat(auto-fill,minmax(178px,1fr)); gap:7px; padding:7px 8px}
+.frame{
+  position:relative; display:block; text-align:left; border:0; cursor:pointer; font:inherit; color:inherit;
+  background:var(--sheet); border-radius:3px; padding:13px 13px 12px; overflow:hidden;
+  aspect-ratio:3/2; transition:transform .3s cubic-bezier(.19,1,.22,1), box-shadow .3s, filter .3s;
+}
+.frame.gone{display:none}
+.frame:hover{transform:scale(1.045); z-index:2; box-shadow:0 16px 28px -14px rgba(0,0,0,.5)}
+.frame .no{position:absolute; right:9px; top:8px; font:700 9px/1 var(--mono); color:#b8b2a0; letter-spacing:.06em}
+.frame .fn{font-size:14.5px; font-weight:800; letter-spacing:-.018em; line-height:1.22; margin:0 0 5px; padding-right:22px}
+.frame .fc{font:700 8.5px/1 var(--sans); letter-spacing:.13em; text-transform:uppercase; color:var(--ink2)}
+.frame .fm{margin:9px 0 0; font-size:11px; line-height:1.45; color:var(--ink2);
+  display:-webkit-box; -webkit-line-clamp:3; -webkit-box-orient:vertical; overflow:hidden}
+.frame .tag{position:absolute; left:0; bottom:0; height:4px; width:100%}
+.tag.sunrise{background:var(--gold)} .tag.sunset{background:var(--terra)} .tag.blue-hour{background:var(--blue)}
+/* grease-pencil selection ring */
+.frame .ring{position:absolute; inset:2px; border:3px solid var(--pencil); border-radius:6px;
+  opacity:0; transform:scale(1.06) rotate(-1.2deg); transition:opacity .25s, transform .3s cubic-bezier(.2,1.5,.4,1);
+  pointer-events:none; mix-blend-mode:multiply}
+.frame[aria-pressed="true"] .ring{opacity:.9; transform:none}
+.frame[aria-pressed="true"]{transform:scale(1.03)}
+
+/* ---------- LOUPE ---------- */
+.loupe{position:sticky; top:86px; background:var(--sheet); border:1px solid var(--line); border-radius:14px;
+  padding:26px 24px 24px; box-shadow:0 26px 50px -34px var(--shadow)}
+@media (max-width:1080px){.loupe{position:static}}
+.loupe .lno{font:700 10px/1 var(--mono); letter-spacing:.18em; color:var(--ink2)}
+.loupe h3{margin:12px 0 4px; font-size:26px; font-weight:800; letter-spacing:-.028em; line-height:1.14}
+.loupe .lc{font:700 10.5px/1 var(--sans); letter-spacing:.14em; text-transform:uppercase; color:var(--ink2)}
+.loupe .lt{display:inline-block; margin:16px 0 0; font:800 9.5px/1 var(--sans); letter-spacing:.15em;
+  text-transform:uppercase; padding:8px 12px; border-radius:4px; color:#fff}
+.lt.sunrise{background:var(--gold)} .lt.sunset{background:var(--terra)} .lt.blue-hour{background:var(--blue)}
+.loupe .lm{margin:20px 0 12px; font-size:15px; font-weight:700; line-height:1.55}
+.loupe .ld{margin:0; font-size:14px; line-height:1.7; color:var(--ink2)}
+.loupe .ldir{margin-top:16px; font:800 9px/1 var(--mono); letter-spacing:.16em; color:var(--gold)}
+.loupe .go{display:inline-flex; align-items:center; gap:9px; margin-top:22px; text-decoration:none;
+  font:800 10.5px/1 var(--sans); letter-spacing:.14em; text-transform:uppercase; color:#fff;
+  background:var(--film); padding:13px 18px; border-radius:999px; transition:transform .25s, background .25s}
+.loupe .go:hover{transform:translateY(-2px); background:var(--terra)}
+.loupe .go svg{width:13px; height:13px}
+.loupe .idle{color:var(--ink2); font-size:14px; line-height:1.7; margin:14px 0 0}
+
+.empty{padding:60px 0; text-align:center; color:var(--ink2); font-size:16px}
+.foot{padding:60px 0; font-size:11px; letter-spacing:.12em; text-transform:uppercase; color:var(--ink2)}
+@media (prefers-reduced-motion:reduce){*{animation:none !important; transition-duration:.01ms !important}}
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <div class="wrap">
+    <div class="kick reveal" style="animation-delay:.05s">Golden Hour &amp; Best Photo Spots</div>
+    <h1 class="reveal" style="animation-delay:.14s">The one shot everyone gets right, <em>because they knew where to stand.</em></h1>
+    <p class="intro reveal" style="animation-delay:.26s">The single best photo spot for 45 of the fleet's most visually distinctive destinations — the exact viewpoint, which direction to face, and whether it's a sunrise, sunset, or blue hour shot. Every entry links to its city guide. This covers one landmark per destination, not every good angle in the city.</p>
+  </div>
+</header>
+
+<div class="bar">
+  <div class="wrap">
+    <div class="searchbox">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+        <circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5" stroke-linecap="round"/>
+      </svg>
+      <input type="search" class="search" id="search" placeholder="City or landmark" aria-label="Search photo spots by city or landmark" autocomplete="off">
+    </div>
+    <div class="canisters" role="group" aria-label="Filter by light">
+      <button class="can"         aria-pressed="true"  data-f="all">All 45</button>
+      <button class="can sunrise" aria-pressed="false" data-f="sunrise">Sunrise</button>
+      <button class="can sunset"  aria-pressed="false" data-f="sunset">Sunset</button>
+      <button class="can blue"    aria-pressed="false" data-f="blue-hour">Blue hour</button>
+    </div>
+    <span class="count" id="count"></span>
+  </div>
+</div>
+
+<main class="wrap">
+  <div class="sheetgrid">
+    <div>
+      <div id="rolls"></div>
+      <div class="empty" id="empty" style="display:none">No photo spots match this filter.</div>
+    </div>
+    <aside class="loupe" id="loupe" aria-live="polite">
+      <div class="lno">LOUPE</div>
+      <h3>Pick a frame</h3>
+      <div class="lc">45 spots on five rolls</div>
+      <p class="idle">Every frame on the sheet is one destination's single best photo spot. Click one to blow it up here — the exact viewpoint, the direction to face, and the link to that city's guide.</p>
+    </aside>
+  </div>
+  <p class="foot">Guide My Days · Competition design &ldquo;Contact Sheet&rdquo; · not linked from the live site</p>
+</main>
+
+<script>
+var SPOTS = [{"h":"/guides/amsterdam.html","t":"sunset","n":"Amsterdam","c":"Netherlands","r":"europe","b":"Sunset","m":"Brouwersgracht, at the Prinsengracht end — face west down the canal","d":"One of the few Amsterdam canals that runs close to east–west, so the light travels straight down the water between the houseboats.","dir":"WEST"},{"h":"/guides/barcelona.html","t":"sunset","n":"Barcelona","c":"Spain","r":"europe","b":"Sunset","m":"Bunkers del Carmel — face south over the whole city to the sea","d":"A former anti-aircraft position turned informal viewpoint; the entire city, from Sagrada Família to the Mediterranean, sits below in one unobstructed sweep.","dir":"SOUTH"},{"h":"/guides/bruges.html","t":"sunrise","n":"Bruges","c":"Belgium","r":"europe","b":"Sunrise","m":"Rozenhoedkaai canal bend — face north toward the Belfry","d":"The classic postcard angle; canal boats and tour groups fill this corner by mid-morning, but the water is stillest and the corner empty at dawn.","dir":"NORTH"},{"h":"/guides/budapest.html","t":"sunset","n":"Budapest","c":"Hungary","r":"europe","b":"Sunset","m":"Fisherman's Bastion, Castle Hill — face east across the Danube to the Parliament","d":"The sun sets behind the photographer on this side of the river, lighting the Parliament building's dome and spires directly.","dir":"EAST"},{"h":"/guides/cinque-terre.html","t":"sunset","n":"Cinque Terre (Manarola)","c":"Italy","r":"europe","b":"Sunset","m":"The rocks below the cemetery, Punta Bonfiglio — face northwest toward the village","d":"Manarola's harbor faces almost due west, so the pastel houses stacked up the cliff light up directly as the sun drops.","dir":"NORTHWEST"},{"h":"/guides/dubrovnik.html","t":"sunset","n":"Dubrovnik","c":"Croatia","r":"europe","b":"Sunset","m":"Mount Srđ cable-car summit — face south over the Old City walls to the Adriatic","d":"From Srđ, the entire walled peninsula and the sea beyond both catch the same light at once.","dir":"SOUTH"},{"h":"/guides/edinburgh.html","t":"sunset","n":"Edinburgh","c":"Scotland","r":"europe","b":"Sunset","m":"Calton Hill — face west toward the Castle and the length of the Old Town","d":"The National Monument's columns frame the skyline; this is the one shot that holds the Castle, Arthur's Seat, and the Old Town ridge together.","dir":"WEST"},{"h":"/guides/florence.html","t":"sunset","n":"Florence","c":"Italy","r":"europe","b":"Sunset","m":"Piazzale Michelangelo — face north over the Arno to the Duomo","d":"The most-used viewpoint in Florence; the Duomo's dome catches direct light and the Arno reflects the sky.","dir":"NORTH"},{"h":"/guides/kotor.html","t":"sunrise","n":"Kotor","c":"Montenegro","r":"europe","b":"Sunrise","m":"The City Walls / St. John's Fortress climb — face south over the Bay of Kotor","d":"The bay's morning mist typically clears through sunrise, and the walls themselves catch first light before the switchback trail gets hot and crowded.","dir":"SOUTH"},{"h":"/guides/lake-como.html","t":"sunset","n":"Lake Como (Bellagio)","c":"Italy","r":"europe","b":"Sunset","m":"The lakefront promenade near Punta Spartivento — face north up the lake toward the mountains","d":"The lake narrows and points north here, so the light runs the length of the water toward the Alps.","dir":"NORTH"},{"h":"/guides/lisbon.html","t":"sunset","n":"Lisbon","c":"Portugal","r":"europe","b":"Sunset","m":"Miradouro da Senhora do Monte — face south over Alfama's rooftops to the Tagus","d":"The highest of Lisbon's viewpoints, wide enough to hold the castle, the river, and the 25 de Abril Bridge in one frame.","dir":"SOUTH"},{"h":"/guides/lucerne.html","t":"sunrise","n":"Lucerne","c":"Switzerland","r":"europe","b":"Sunrise","m":"Kapellbrücke (Chapel Bridge), lakeside end — face south toward Mt. Pilatus","d":"One of Europe's most-photographed wooden bridges, genuinely empty of crowds only in the first hour after sunrise.","dir":"SOUTH"},{"h":"/guides/mykonos.html","t":"sunset","n":"Mykonos","c":"Greece","r":"europe","b":"Sunset","m":"Little Venice — face west over the Aegean","d":"The waterfront houses and windmills sit directly on the water facing the open sea — where the town itself gathers to watch the sunset.","dir":"WEST"},{"h":"/guides/paris.html","t":"sunrise","n":"Paris","c":"France","r":"europe","b":"Sunrise","m":"Trocadéro Esplanade — face southeast across the Seine to the tower","d":"Empty of crowds before 8am; the tower's east face catches first light while the plaza itself stays in shade, giving strong contrast.","dir":"SOUTHEAST"},{"h":"/guides/porto.html","t":"sunset","n":"Porto","c":"Portugal","r":"europe","b":"Sunset","m":"Dom Luís I Bridge, upper deck — face west over Ribeira and the Douro","d":"The colorful riverside houses and port-wine boats both catch the light; the upper deck, trams and pedestrians only, has the cleanest sightline.","dir":"WEST"},{"h":"/guides/prague.html","t":"sunrise","n":"Prague","c":"Czech Republic","r":"europe","b":"Sunrise","m":"Charles Bridge, east end near the Old Town Bridge Tower — face west toward Prague Castle","d":"The bridge is packed with people by mid-morning; before 6am it's nearly empty and the castle catches first light across the Vltava.","dir":"WEST"},{"h":"/guides/rome.html","t":"sunset","n":"Rome","c":"Italy","r":"europe","b":"Sunset","m":"Gianicolo Hill terrace — face east over the domes and rooftops of central Rome","d":"St. Peter's dome and the historic center both catch the same warm light from this height.","dir":"EAST"},{"h":"/guides/reykjavik.html","t":"sunset","n":"Reykjavik","c":"Iceland","r":"europe","b":"Sunset","m":"Sun Voyager (Sólfar) sculpture, Sæbraut waterfront — face north over Faxaflói Bay toward Mt. Esja","d":"Best in summer, when the sun sets late enough to shoot after dinner — the steel sculpture silhouettes cleanly against the water and the mountain skyline.","dir":"NORTH"},{"h":"/guides/santorini.html","t":"sunset","n":"Santorini (Oia)","c":"Greece","r":"europe","b":"Sunset","m":"Oia Castle ruins — face west over the caldera","d":"The whitewashed town and volcanic cliffs face directly into the sunset — the single most photographed sunset spot in Greece.","dir":"WEST"},{"h":"/guides/seville.html","t":"sunset","n":"Seville","c":"Spain","r":"europe","b":"Sunset","m":"Metropol Parasol (Las Setas) rooftop walkway — face west over the old town","d":"The elevated wooden lattice gives a 360° platform; facing west puts the Cathedral's Giralda tower in silhouette.","dir":"WEST"},{"h":"/guides/sorrento.html","t":"sunset","n":"Sorrento","c":"Italy","r":"europe","b":"Sunset","m":"Marina Grande waterfront — face west over the Bay of Naples","d":"Vesuvius sits across the bay to the west-northwest, and the cliffside town lights up gold as the sun drops behind it.","dir":"WEST"},{"h":"/guides/venice.html","t":"sunset","n":"Venice","c":"Italy","r":"europe","b":"Sunset","m":"Ponte dell'Accademia — face northwest up the Grand Canal","d":"The palazzo façades and the canal water both pick up the same warm light, with gondolas passing through the frame.","dir":"NORTHWEST"},{"h":"/guides/vienna.html","t":"sunset","n":"Vienna","c":"Austria","r":"europe","b":"Sunset","m":"The Gloriette, Schönbrunn Palace gardens — face west over the palace and gardens toward the skyline","d":"The uphill Gloriette is the one spot that holds the palace, the formal gardens, and the Vienna skyline in a single frame.","dir":"WEST"},{"h":"/guides/bali.html","t":"sunset","n":"Bali","c":"Indonesia","r":"asia","b":"Sunset","m":"Tanah Lot temple — face west over the sea","d":"The temple sits on its own sea rock, cut off from the mainland at high tide, and silhouettes directly against the setting sun.","dir":"WEST"},{"h":"/guides/bangkok.html","t":"sunset","n":"Bangkok","c":"Thailand","r":"asia","b":"Sunset","m":"Tha Tien pier, east bank of the Chao Phraya — face west toward Wat Arun","d":"The Temple of Dawn's spires catch direct light from across the river, and the water carries the reflection.","dir":"WEST"},{"h":"/guides/dubai.html","t":"blue-hour","n":"Dubai","c":"United Arab Emirates","r":"asia","b":"Blue hour","m":"Burj Khalifa Lake promenade, near the Dubai Fountain — face north toward the Burj Khalifa","d":"The fountain's evening shows and the tower's lights both run through this window, against a sky that hasn't gone fully black.","dir":"NORTH"},{"h":"/guides/hoi-an.html","t":"blue-hour","n":"Hoi An","c":"Vietnam","r":"asia","b":"Blue hour","m":"The riverside along the Thu Bon, near the Japanese Covered Bridge — face over the river toward the lantern-lit Ancient Town","d":"The town's paper lanterns are lit at dusk, and their color reads strongest once the sky has darkened to blue but before it's fully black.","dir":""},{"h":"/guides/hong-kong.html","t":"blue-hour","n":"Hong Kong","c":"Hong Kong","r":"asia","b":"Blue hour","m":"Victoria Peak, upper viewing terrace — face north over the harbour and the Kowloon skyline","d":"The skyscraper lights come on as the sky is still dark blue, before full darkness flattens the contrast between buildings and water.","dir":"NORTH"},{"h":"/guides/kyoto.html","t":"sunrise","n":"Kyoto","c":"Japan","r":"asia","b":"Sunrise","m":"Fushimi Inari Taisha, the senbon torii tunnels — the path winds, so there's no single fixed direction","d":"The thousands of vermilion gates are shoulder-to-shoulder with visitors by mid-morning; arriving at opening, near sunrise, is the only way to shoot the tunnel empty.","dir":""},{"h":"/guides/maldives.html","t":"sunset","n":"Maldives","c":"Maldives","r":"asia","b":"Sunset","m":"An overwater bungalow jetty (most resort islands have one open to guests) — face west over the lagoon","d":"The shallow lagoon changes color fastest in the final hour of light, and the overwater villas silhouette cleanly against it.","dir":"WEST"},{"h":"/guides/petra.html","t":"sunrise","n":"Petra","c":"Jordan","r":"asia","b":"Sunrise","m":"The Treasury (Al-Khazneh), from the mouth of the Siq — face east toward the façade","d":"The narrow siq keeps the Treasury in shadow most of the day; direct sun only reaches the carved façade for a few hours around and after sunrise.","dir":"EAST"},{"h":"/guides/singapore.html","t":"blue-hour","n":"Singapore","c":"Singapore","r":"asia","b":"Blue hour","m":"Marina Bay Sands SkyPark or the Merlion Park waterfront — face southeast across Marina Bay to the skyline","d":"The Gardens by the Bay Supertrees light show and the skyline both peak in the same 20-minute window after sunset.","dir":"SOUTHEAST"},{"h":"/guides/tokyo.html","t":"sunset","n":"Tokyo","c":"Japan","r":"asia","b":"Sunset","m":"Shibuya Sky or the Tokyo Skytree observation deck — face west/southwest toward Mt. Fuji","d":"Fuji is only visible through Tokyo's haze on the clearest days, most common in winter; when it lines up, the skyline and the mountain both catch the same light.","dir":"WEST"},{"h":"/guides/zhangjiajie.html","t":"sunrise","n":"Zhangjiajie","c":"China","r":"asia","b":"Sunrise","m":"Yuanjiajie's \"Avatar Hallelujah Mountain\" viewing platform — face out over the sandstone pillars","d":"Morning mist settles between the rock columns and burns off within an hour or two, so early is the only window that shows it.","dir":""},{"h":"/guides/cairo.html","t":"sunset","n":"Cairo","c":"Egypt","r":"africa","b":"Sunset","m":"The Giza Plateau panoramic viewpoint, desert side — face east toward the pyramids","d":"Shooting from the desert side puts the pyramids between the camera and the city, with the sun behind the photographer lighting the stone faces.","dir":"EAST"},{"h":"/guides/cape-town.html","t":"sunset","n":"Cape Town","c":"South Africa","r":"africa","b":"Sunset","m":"Signal Hill — face south over the city bowl to Table Mountain","d":"The flat-topped mountain catches the last light while the city below starts switching on its lights, both in the same frame.","dir":"SOUTH"},{"h":"/guides/marrakech.html","t":"sunset","n":"Marrakech","c":"Morocco","r":"africa","b":"Sunset","m":"A rooftop café terrace at Jemaa el-Fna — face west toward the Koutoubia Mosque minaret","d":"The minaret is the tallest structure in the medina and silhouettes over the square just as the food stalls below light up for the evening.","dir":"WEST"},{"h":"/guides/bora-bora.html","t":"sunset","n":"Bora Bora","c":"French Polynesia","r":"americas","b":"Sunset","m":"Matira Point, the southern tip of the main island — face west over the lagoon toward Mt. Otemanu","d":"The overwater bungalows and the extinct volcano both silhouette against the lagoon's color, which is most saturated in the final hour of light.","dir":"WEST"},{"h":"/guides/machupicchu.html","t":"sunrise","n":"Machu Picchu","c":"Peru","r":"americas","b":"Sunrise","m":"The Sun Gate (Inti Punku) or the Guardian's House terrace — face southwest over the citadel","d":"On clear mornings the first light comes over the surrounding peaks and hits the terraces before the site fills with the day's second wave of visitors.","dir":"SOUTHWEST"},{"h":"/guides/new-york.html","t":"sunset","n":"New York","c":"United States","r":"americas","b":"Sunset","m":"The Manhattan Bridge walkway from DUMBO, Brooklyn — face northwest toward the Empire State Building","d":"The bridge's stone arch frames the skyline directly — the most-photographed skyline shot in the city.","dir":"NORTHWEST"},{"h":"/guides/rio-de-janeiro.html","t":"sunset","n":"Rio de Janeiro","c":"Brazil","r":"americas","b":"Sunset","m":"Sugarloaf Mountain (Pão de Açúcar) cable car, upper station — face southwest over Botafogo Bay","d":"Christ the Redeemer on Corcovado sits across the city in view, and the beaches light up gold as the sun drops toward the bay.","dir":"SOUTHWEST"},{"h":"/guides/san-francisco.html","t":"sunset","n":"San Francisco","c":"United States","r":"americas","b":"Sunset","m":"Battery Spencer, Marin Headlands — face southeast toward the Golden Gate Bridge and the skyline","d":"The one vantage point that holds the full bridge, the bay, and the downtown skyline together at eye level.","dir":"SOUTHEAST"},{"h":"/guides/sedona.html","t":"sunset","n":"Sedona","c":"United States","r":"americas","b":"Sunset","m":"Airport Mesa overlook — face north over the red rock formations","d":"Sedona's most accessible sunset viewpoint; the red sandstone deepens in color as the light drops, with Capitol Butte and Coffee Pot Rock both catching it.","dir":"NORTH"},{"h":"/guides/queenstown.html","t":"sunset","n":"Queenstown","c":"New Zealand","r":"oceania","b":"Sunset","m":"Bob's Peak, top of the Skyline Gondola — face south over Lake Wakatipu to the Remarkables","d":"The jagged Remarkables range catches alpenglow as the light fades, mirrored in the lake below.","dir":"SOUTH"},{"h":"/guides/sydney.html","t":"sunrise","n":"Sydney","c":"Australia","r":"oceania","b":"Sunrise","m":"Mrs Macquarie's Chair, the Royal Botanic Garden — face northeast toward the Opera House and Harbour Bridge","d":"The one spot that holds both landmarks together, and the Opera House's sails catch the first light while the harbour is still calm.","dir":"NORTHEAST"}];
+var REGIONS = [{"id": "europe", "t": "Europe"}, {"id": "asia", "t": "Asia &amp; Middle East"}, {"id": "africa", "t": "Africa"}, {"id": "americas", "t": "Americas"}, {"id": "oceania", "t": "Oceania"}];
+SPOTS.forEach(function(s,i){ s.i = i + 1; });
+
+function pad(n){ return (n < 10 ? '0' : '') + n; }
+
+document.getElementById('rolls').innerHTML = REGIONS.map(function(r){
+  var inR = SPOTS.filter(function(s){ return s.r === r.id; });
+  return '<section class="roll" data-r="' + r.id + '">' +
+    '<div class="rollhead"><h2>' + r.t + '</h2><span>' + inR.length + ' frames</span></div>' +
+    '<div class="sprock"></div>' +
+    '<div class="frames">' + inR.map(function(s){
+      return '<button class="frame" aria-pressed="false" data-i="' + s.i + '" data-t="' + s.t + '" data-hay="' +
+        (s.n + ' ' + s.c + ' ' + s.m).toLowerCase().replace(/"/g,'') + '">' +
+        '<span class="no">' + pad(s.i) + '</span>' +
+        '<span class="fn">' + s.n + '</span>' +
+        '<span class="fc">' + s.c + '</span>' +
+        '<span class="fm">' + s.m + '</span>' +
+        '<span class="tag ' + s.t + '"></span><span class="ring"></span>' +
+      '</button>';
+    }).join('') + '</div>' +
+    '<div class="sprock"></div>' +
+  '</section>';
+}).join('');
+
+var ARROW = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h13M13 6l6 6-6 6"/></svg>';
+
+function show(s){
+  document.getElementById('loupe').innerHTML =
+    '<div class="lno">FRAME ' + pad(s.i) + ' — ' + s.b.toUpperCase() + '</div>' +
+    '<h3>' + s.n + '</h3>' +
+    '<div class="lc">' + s.c + '</div>' +
+    '<span class="lt ' + s.t + '">' + s.b + '</span>' +
+    '<p class="lm">' + s.m + '</p>' +
+    '<p class="ld">' + s.d + '</p>' +
+    '<div class="ldir">' + (s.dir ? 'FACE ' + s.dir : 'NO SINGLE DIRECTION') + '</div>' +
+    '<a class="go" href="' + s.h + '">Open the guide ' + ARROW + '</a>';
+}
+
+document.getElementById('rolls').addEventListener('click', function(e){
+  var f = e.target.closest ? e.target.closest('.frame') : null;
+  if(!f) return;
+  [].forEach.call(document.querySelectorAll('.frame[aria-pressed="true"]'), function(o){ o.setAttribute('aria-pressed','false'); });
+  f.setAttribute('aria-pressed','true');
+  show(SPOTS[+f.dataset.i - 1]);
+});
+
+var state = { f:'all', q:'' };
+function apply(){
+  var shown = 0;
+  [].forEach.call(document.querySelectorAll('.frame'), function(f){
+    var okF = state.f === 'all' || f.dataset.t === state.f;
+    var okQ = !state.q || f.dataset.hay.indexOf(state.q) !== -1;
+    var show = okF && okQ;
+    f.classList.toggle('gone', !show);
+    if(show) shown++;
+  });
+  [].forEach.call(document.querySelectorAll('.roll'), function(r){
+    r.style.display = r.querySelectorAll('.frame:not(.gone)').length ? '' : 'none';
+  });
+  document.getElementById('empty').style.display = shown ? 'none' : 'block';
+  document.getElementById('count').textContent = pad(shown) + ' / 45 FRAMES';
+}
+document.getElementById('search').addEventListener('input', function(e){
+  state.q = e.target.value.trim().toLowerCase(); apply();
+});
+[].forEach.call(document.querySelectorAll('.can'), function(c){
+  c.addEventListener('click', function(){
+    [].forEach.call(document.querySelectorAll('.can'), function(o){ o.setAttribute('aria-pressed', String(o === c)); });
+    state.f = c.dataset.f; apply();
+  });
+});
+apply();
+</script>
+</body>
+</html>

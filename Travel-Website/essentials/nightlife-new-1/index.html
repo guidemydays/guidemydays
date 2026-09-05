@@ -1,0 +1,451 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>International Nightlife Guide — Night Clock | Guide My Days</title>
+<meta name="robots" content="noindex,nofollow">
+<style>
+/* ============================================================
+   COMPETITION DESIGN — "NIGHT CLOCK"
+   Standalone. No shared CSS, no toolbar, not linked from the site.
+   New idea: the page keeps time. Every city shows its REAL local
+   clock right now and where that lands on its own night — and a
+   14-hour arc (6pm to 8am) draws when bars fill, when rooms peak,
+   and the exact moment the last train goes.
+   Palette stays on the site's warm light ground; the night lives
+   inside the dial, not behind the text.
+   ============================================================ */
+
+:root{
+  --paper:#f7f4ee;
+  --paper2:#efe9df;
+  --ink:#1e1b26;
+  --ink2:#6a6472;
+  --line:#e2dbd0;
+  --night:#3b2f7a;
+  --night2:#6a4fb8;
+  --neon:#d63a86;
+  --amber:#c8811a;
+  --mint:#1f7a6a;
+  --shadow:rgba(40,30,60,.16);
+  --sans:ui-sans-serif,-apple-system,"Segoe UI",Inter,Helvetica,Arial,sans-serif;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  margin:0; background:var(--paper); color:var(--ink);
+  font:400 15px/1.62 var(--sans); -webkit-font-smoothing:antialiased; overflow-x:hidden;
+}
+.wrap{max-width:1120px; margin:0 auto; padding:0 clamp(18px,5vw,48px)}
+
+/* ================= HERO ================= */
+.hero{position:relative; overflow:hidden; padding:74px 0 64px;
+  background:radial-gradient(90% 120% at 88% 0%, #efe7fa 0%, rgba(239,231,250,0) 62%), var(--paper)}
+.hero .wrap{display:grid; grid-template-columns:1.15fr .85fr; gap:52px; align-items:center}
+@media (max-width:920px){.hero .wrap{grid-template-columns:1fr; gap:34px}}
+
+.kick{font-size:11px; font-weight:800; letter-spacing:.26em; text-transform:uppercase; color:var(--neon);
+  display:flex; align-items:center; gap:13px; margin-bottom:22px}
+.kick::after{content:""; height:1px; flex:1; max-width:180px; background:linear-gradient(90deg,var(--neon),transparent)}
+
+h1{margin:0 0 22px; font-size:clamp(38px,6vw,72px); line-height:1.02; letter-spacing:-.03em; font-weight:800}
+h1 em{font-style:normal; display:block;
+  background:linear-gradient(96deg,var(--night2),var(--neon) 58%,var(--amber));
+  -webkit-background-clip:text; background-clip:text; color:transparent;
+  background-size:220% 100%; animation:slide 9s ease-in-out infinite alternate}
+@keyframes slide{to{background-position:100% 0}}
+.h-line{overflow:hidden; display:block}
+.h-line > span{display:block; transform:translateY(105%); animation:up .95s cubic-bezier(.19,1,.22,1) forwards}
+@keyframes up{to{transform:none}}
+
+.intro{max-width:58ch; color:var(--ink2); font-size:16px; line-height:1.74; margin:0;
+  opacity:0; animation:fade .9s .6s forwards}
+@keyframes fade{to{opacity:1}}
+
+/* ---- the dial ---- */
+.dialbox{position:relative; justify-self:center; width:min(100%,380px); aspect-ratio:1}
+.dial{width:100%; height:100%; display:block; filter:drop-shadow(0 24px 44px rgba(40,25,80,.28))}
+.dial .ring-face{fill:url(#skyG)}
+.hand{transform-origin:200px 200px; transition:transform 1.2s cubic-bezier(.34,1.4,.4,1)}
+.tickm{stroke:#cfc6e6; stroke-width:1.5}
+.tickM{stroke:#efe7fa; stroke-width:2.5}
+.hourtxt{fill:#c9bfe6; font:700 13px/1 var(--sans); text-anchor:middle}
+.dial-mid{fill:#fff; font:800 30px/1 var(--sans); text-anchor:middle; letter-spacing:-.02em}
+.dial-sub{fill:#b9aede; font:700 9.5px/1 var(--sans); text-anchor:middle; letter-spacing:.22em}
+.spark{animation:tw 3.4s ease-in-out infinite}
+.spark:nth-child(2n){animation-delay:.9s} .spark:nth-child(3n){animation-delay:1.7s}
+@keyframes tw{0%,100%{opacity:.25}50%{opacity:1}}
+
+/* ================= SEARCH ================= */
+.searchrow{margin:8px 0 34px; position:relative}
+.search{
+  width:100%; max-width:520px; font:400 15px/1 var(--sans); color:var(--ink2);
+  background:#fff; border:1px solid var(--line); border-radius:999px;
+  padding:15px 20px 15px 46px; outline:none;
+  transition:border-color .2s, box-shadow .2s;
+}
+.search::placeholder{color:var(--ink2); opacity:.8}
+.search:focus{border-color:var(--night2); box-shadow:0 0 0 5px rgba(106,79,184,.14)}
+.searchrow svg{position:absolute; left:16px; top:50%; transform:translateY(-50%); width:18px; height:18px; opacity:.5}
+
+/* ================= REGION + CARDS ================= */
+.region{display:flex; align-items:center; gap:16px; margin:54px 0 20px}
+.region h2{margin:0; font-size:11px; font-weight:800; letter-spacing:.24em; text-transform:uppercase; color:var(--ink2)}
+.region::after{content:""; flex:1; height:1px; background:var(--line)}
+
+.grid{display:grid; gap:20px}
+
+.city{
+  background:#fff; border:1px solid var(--line); border-radius:18px; overflow:hidden;
+  opacity:0; transform:translateY(28px);
+  transition:opacity .6s, transform .6s cubic-bezier(.19,1,.22,1), box-shadow .35s, border-color .35s;
+}
+.city.in{opacity:1; transform:none}
+.city:hover{box-shadow:0 24px 46px -26px var(--shadow); border-color:#d2c8e4}
+
+.city-top{display:flex; align-items:center; gap:18px; padding:20px 24px 16px; flex-wrap:wrap}
+.city-name{font-size:24px; font-weight:800; letter-spacing:-.02em; margin:0}
+.city-country{font-size:12px; color:var(--ink2); letter-spacing:.06em; text-transform:uppercase; font-weight:700}
+.now{margin-left:auto; display:flex; align-items:center; gap:11px}
+.now-time{font-variant-numeric:tabular-nums; font-size:19px; font-weight:800; letter-spacing:-.01em}
+.state{
+  font:700 9.5px/1 var(--sans); letter-spacing:.14em; text-transform:uppercase;
+  padding:7px 11px; border-radius:4px; color:#fff; white-space:nowrap;
+}
+.state.s-quiet{background:#6b6577}
+.state.s-dinner{background:var(--amber)}
+.state.s-bars{background:var(--neon)}
+.state.s-peak{background:var(--night2)}
+.state.s-last{background:#8a3f18}
+.state.s-day{background:var(--mint)}
+
+/* the night arc */
+.arc{padding:4px 24px 18px}
+.arc-axis{position:relative; height:46px}
+.track{position:absolute; left:0; right:0; top:16px; height:12px; border-radius:999px;
+  background:linear-gradient(90deg,#f3edff,#efe9df 48%,#fff4e2)}
+.band{position:absolute; top:16px; height:12px; border-radius:999px; width:0;
+  transition:width 1.1s cubic-bezier(.19,1,.22,1) .25s}
+.band.b-bars{background:linear-gradient(90deg,rgba(214,58,134,.35),rgba(214,58,134,.6))}
+.band.b-peak{background:linear-gradient(90deg,var(--night2),var(--neon)); box-shadow:0 4px 12px -4px rgba(106,79,184,.7)}
+.stop{position:absolute; top:8px; width:2px; height:28px; background:var(--ink); border-radius:2px; opacity:0;
+  transition:opacity .5s .9s}
+.stop::after{content:attr(data-l); position:absolute; top:30px; left:50%; transform:translateX(-50%);
+  font:700 8.5px/1 var(--sans); letter-spacing:.1em; text-transform:uppercase; color:var(--ink); white-space:nowrap}
+.city.in .stop{opacity:1}
+.nowmark{position:absolute; top:4px; width:2px; height:36px; background:var(--mint); border-radius:2px}
+.nowmark::before{content:""; position:absolute; top:-5px; left:-3px; width:8px; height:8px; border-radius:50%;
+  background:var(--mint); animation:pulse 2s ease-out infinite}
+@keyframes pulse{0%{box-shadow:0 0 0 0 rgba(31,122,106,.5)}100%{box-shadow:0 0 0 12px rgba(31,122,106,0)}}
+.arc-scale{display:flex; justify-content:space-between; font:700 9px/1 var(--sans);
+  letter-spacing:.14em; color:var(--ink2); margin-top:4px}
+
+/* facts */
+.facts{border-top:1px solid var(--line); display:grid; grid-template-columns:repeat(2,1fr)}
+@media (max-width:760px){.facts{grid-template-columns:1fr}}
+.fact{padding:18px 24px; border-right:1px solid var(--line); border-bottom:1px solid var(--line)}
+.fact:nth-child(2n){border-right:none}
+.fact:nth-last-child(-n+2){border-bottom:none}
+@media (max-width:760px){.fact{border-right:none} .fact:nth-last-child(-n+2){border-bottom:1px solid var(--line)} .fact:last-child{border-bottom:none}}
+.fl{display:flex; align-items:center; gap:8px; font:800 9.5px/1 var(--sans); letter-spacing:.18em;
+  text-transform:uppercase; color:var(--night2); margin-bottom:8px}
+.fl i{width:6px; height:6px; border-radius:50%; background:currentColor; display:block}
+.fv{font-size:14px; line-height:1.65; color:var(--ink2); margin:0}
+
+.empty{padding:56px 0; text-align:center; color:var(--ink2); font-size:16px}
+
+.foot{padding:70px 0 60px; font-size:11px; letter-spacing:.12em; text-transform:uppercase; color:var(--ink2)}
+.note{margin:34px 0 0; padding:18px 22px; background:var(--paper2); border-left:3px solid var(--night2);
+  border-radius:0 10px 10px 0; font-size:13.5px; color:var(--ink2); max-width:74ch}
+
+@media (prefers-reduced-motion:reduce){
+  *{animation:none !important; transition-duration:.01ms !important}
+  .city{opacity:1; transform:none}
+}
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <div class="wrap">
+    <div>
+      <div class="kick">International Nightlife Guide</div>
+      <h1>
+        <span class="h-line"><span style="animation-delay:.05s">Same night out,</span></span>
+        <em class="h-line"><span style="animation-delay:.16s">nine completely</span></em>
+        <em class="h-line"><span style="animation-delay:.27s">different rulebooks.</span></em>
+      </h1>
+      <p class="intro">Bar and club hours, dress codes, door culture, and the safest way home after last call — city by city, for the fleet's nine biggest nightlife destinations: Madrid, Barcelona, Berlin, Ibiza, Bangkok, Tokyo, New York City, London, and Lisbon. Norms shift between neighborhoods and specific venues; treat each entry as the general pattern for that city, not a guarantee at every door.</p>
+    </div>
+
+    <div class="dialbox">
+      <svg class="dial" viewBox="0 0 400 400" aria-hidden="true">
+        <defs>
+          <radialGradient id="skyG" cx="50%" cy="34%" r="72%">
+            <stop offset="0" stop-color="#4b3a95"/>
+            <stop offset=".55" stop-color="#2c2260"/>
+            <stop offset="1" stop-color="#171238"/>
+          </radialGradient>
+          <linearGradient id="handG" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0" stop-color="#ff7ab8"/><stop offset="1" stop-color="#d63a86"/>
+          </linearGradient>
+        </defs>
+        <circle class="ring-face" cx="200" cy="200" r="186"/>
+        <circle cx="200" cy="200" r="186" fill="none" stroke="#d9d0ea" stroke-width="3"/>
+        <g id="ticks"></g>
+        <g id="stars"></g>
+        <g class="hand" id="hand">
+          <line x1="200" y1="200" x2="200" y2="58" stroke="url(#handG)" stroke-width="6" stroke-linecap="round"/>
+          <circle cx="200" cy="58" r="9" fill="#ff7ab8"/>
+        </g>
+        <circle cx="200" cy="200" r="7" fill="#fff"/>
+        <text class="dial-mid" x="200" y="252" id="dialCount">9</text>
+        <text class="dial-sub" x="200" y="272">CITIES ON THE CLOCK</text>
+      </svg>
+    </div>
+  </div>
+</header>
+
+<main class="wrap">
+
+  <div class="searchrow">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+      <circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5" stroke-linecap="round"/>
+    </svg>
+    <input type="search" class="search" id="search" placeholder="City" aria-label="Search by city" autocomplete="off">
+  </div>
+
+  <div id="list"></div>
+
+  <p class="note"><strong>How to read the arc:</strong> the strip under each city runs 6pm to 8am in that city's own time. The tinted band is when bars fill, the bright band is when rooms peak, the black mark is when late transport stops, and the green pulse is where that city is right now.</p>
+
+  <p class="foot">Guide My Days · Competition design “Night Clock” · not linked from the live site</p>
+</main>
+
+<script>
+var CITIES = [
+  { name:'Barcelona', country:'Spain', region:'europe', tz:'Europe/Madrid',
+    bars:23, peak:[2,4], stop:5, stopLabel:'Nitbus ends',
+    hours:'Dinner rarely starts before 9–10pm and bars fill after 11pm; clubs near Poble Espanyol and Port Olímpic don’t peak until 2–4am.',
+    dress:'Beach clubs near Barceloneta enforce smart-casual after dark despite being steps from the sand — swimwear and flip-flops are turned away once the sun is down.',
+    door:'Legal drinking age is 18. Larger clubs run bottle-service tables booked in advance, while general entry is cash or card, typically €15–25.',
+    transport:'The Metro runs all night on Friday, Saturday, and the eve of a public holiday; the Nitbus night-bus network covers every other night until around 5am.' },
+
+  { name:'Berlin', country:'Germany', region:'europe', tz:'Europe/Berlin',
+    bars:23, peak:[2,7], stop:4.5, stopLabel:'Day trains resume',
+    hours:'Clubs are known for running through an entire weekend without closing — Berghain, for example, can stay open from Saturday night through Monday morning.',
+    dress:'Doors favor all-black, minimal, alternative clothing over polished going-out wear; arriving in a large group or looking too dressed-up can hurt entry chances more than any one item.',
+    door:'Legal age is 18. Entry is famously subjective and staff give no reason for a refusal; cash is expected at most doors, and phone cameras are covered with a sticker once inside.',
+    transport:'The U-Bahn and S-Bahn run all night on Friday and Saturday; the N-series night bus and tram network covers every other night until day trains restart around 4–5am.' },
+
+  { name:'Ibiza', country:'Spain', region:'europe', tz:'Europe/Madrid',
+    bars:22, peak:[1,6], stop:6, stopLabel:'Discobus ends',
+    hours:'The island’s superclubs run on the same late Spanish rhythm as the mainland, with dedicated opening parties from around 4pm and closing parties that run past sunrise.',
+    dress:'Daytime pool parties are casual or swimwear; nighttime entry to the bigger rooms expects smart-casual and turns away sportswear at the door.',
+    door:'Legal age is 18. Tickets for headline nights sell online in advance and frequently sell out, so a walk-up on a big-name DJ night risks a sold-out door.',
+    transport:'The Discobus runs dedicated night routes linking the main resort towns to the clubs roughly midnight–6am in high season; taxis are the fallback but can mean a long wait on peak nights.' },
+
+  { name:'Lisbon', country:'Portugal', region:'europe', tz:'Europe/Lisbon',
+    bars:24, peak:[1,4], stop:1, stopLabel:'Metro closes',
+    hours:'Bairro Alto and Cais do Sodré don’t fill up until after midnight; bars there have little indoor seating, and the crowd spilling into the street is normal and licensed.',
+    dress:'Casual is the norm almost everywhere, including the larger clubs — door policy here is notably more relaxed than in Madrid or Ibiza.',
+    door:'Legal age is 18. Larger clubs such as Lux Frágil use a token system at the bar rather than paying per drink, and covers are modest by Western European standards.',
+    transport:'The Metro closes around 1am and doesn’t reopen until 6:30am; night buses cover the main routes, but Bairro Alto and Cais do Sodré are close enough to walk between.' },
+
+  { name:'London', country:'United Kingdom', region:'europe', tz:'Europe/London',
+    bars:21, peak:[23.5,3], stop:3, stopLabel:'Late licences end',
+    hours:'Standard licensing runs most pubs to 11pm–midnight; late licenses push some bars and clubs to 3am, with a handful of clubs later still.',
+    dress:'Traditional pubs have no dress code; West End clubs and members’ venues commonly enforce “smart” dress and refuse trainers, though smart trainers have become more accepted at some doors.',
+    door:'Legal age is 18. Larger clubs sell advance tickets online that are often cheaper than the door and guarantee entry, especially for a known DJ night.',
+    transport:'The Night Tube runs the Central, Victoria, Jubilee, Northern, and Piccadilly lines on Friday and Saturday nights; the night bus network covers the rest of the city every night of the week.' },
+
+  { name:'Madrid', country:'Spain', region:'europe', tz:'Europe/Madrid',
+    bars:23, peak:[3,5], stop:6, stopLabel:'Clubs close',
+    hours:'Dinner rarely starts before 9–10pm and bars fill after 11pm; clubs often don’t open until 1am and peak between 3–5am, some serving until 6am.',
+    dress:'Smart-casual is standard at most clubs; sneakers and shorts are commonly turned away at doors on Gran Vía and in Chueca.',
+    door:'Legal age is 18. Larger clubs run guest lists through apps that waive the cover charge, while a walk-in door typically costs €10–20 cash.',
+    transport:'The Metro runs 24 hours on Friday and Saturday nights, the easiest way home after clubbing on weekends; the Búho night-bus network covers every other night.' },
+
+  { name:'Bangkok', country:'Thailand', region:'asia', tz:'Asia/Bangkok',
+    bars:20, peak:[22,24], stop:1, stopLabel:'BTS / MRT stop',
+    hours:'Official closing time for most venues is 1–2am depending on the zone, though RCA and some tourist zones hold later licenses; rooftop bars typically wind down earlier, by midnight.',
+    dress:'Smart-casual is standard at rooftop bars and upscale clubs; flip-flops, tank tops, and shorts are commonly refused, especially at hotel rooftop venues.',
+    door:'Legal drinking age is 20. A passport or photo ID is expected for an age check, not just a driver’s-license photo, and some venues set a mandatory minimum drink purchase instead of a cover.',
+    transport:'The BTS Skytrain and MRT stop between midnight and 1am; after that it’s taxis, tuk-tuks, or Grab — agree on a meter or a price before getting into a tuk-tuk.' },
+
+  { name:'Tokyo', country:'Japan', region:'asia', tz:'Asia/Tokyo',
+    bars:19, peak:[21,24], stop:0.75, stopLabel:'Last train',
+    hours:'The last train is the defining constraint — most Metro and JR lines stop around midnight to 1am, which is why the “first train” near 5am is a fixture of a big night out.',
+    dress:'Dress codes vary sharply by venue — small live-music bars and dive bars are casual, while members-style lounges in Roppongi or Ginza expect smart-casual and can refuse sneakers.',
+    door:'Legal age is 20. Many bars charge a seating charge of a few hundred to a couple thousand yen just to sit down, separate from what’s ordered — worth asking before sitting if it isn’t posted.',
+    transport:'Missing the last train means an expensive taxi, an all-night karaoke box or internet café to wait it out, or staying out until the first trains resume around 5am — a common, accepted plan on weekend nights.' },
+
+  { name:'New York City', country:'United States', region:'americas', tz:'America/New_York',
+    bars:21, peak:[24,4], stop:4, stopLabel:'Last call, 4am',
+    hours:'Legal last call is 4am citywide, though many venues stop serving earlier by choice; the subway runs 24 hours, unusual among major nightlife cities.',
+    dress:'Most bars have no dress code, but a subset of clubs and lounges enforce “no sneakers, no athletic wear” — worth checking a venue’s own site before a weekend visit.',
+    door:'Legal age is 21. Larger clubs increasingly run guest lists through an app, and a name on the list before around 11pm often waives a cover that can otherwise run $20–40 cash.',
+    transport:'The subway’s 24-hour service is the most reliable late-night option, though waits grow long after 1am; ride-hailing apps are the common fallback.' }
+];
+
+var REGION_LABELS = { europe:'Europe', asia:'Asia', americas:'Americas' };
+var REGION_ORDER = ['europe','asia','americas'];
+
+/* ---------- the dial ---------- */
+(function(){
+  var ticks = document.getElementById('ticks');
+  var stars = document.getElementById('stars');
+  var ns = 'http://www.w3.org/2000/svg';
+  for(var h=0; h<24; h++){
+    var a = (h/24)*Math.PI*2 - Math.PI/2;
+    var major = h % 6 === 0;
+    var r1 = major ? 158 : 166, r2 = 176;
+    var l = document.createElementNS(ns,'line');
+    l.setAttribute('x1', 200+Math.cos(a)*r1); l.setAttribute('y1', 200+Math.sin(a)*r1);
+    l.setAttribute('x2', 200+Math.cos(a)*r2); l.setAttribute('y2', 200+Math.sin(a)*r2);
+    l.setAttribute('class', major ? 'tickM' : 'tickm');
+    ticks.appendChild(l);
+    if(major){
+      var t = document.createElementNS(ns,'text');
+      t.setAttribute('x', 200+Math.cos(a)*136); t.setAttribute('y', 200+Math.sin(a)*136+5);
+      t.setAttribute('class','hourtxt'); t.textContent = (h<10?'0':'')+h+':00';
+      ticks.appendChild(t);
+    }
+  }
+  for(var i=0;i<26;i++){
+    var ang = Math.random()*Math.PI*2, rad = 40 + Math.random()*95;
+    var c = document.createElementNS(ns,'circle');
+    c.setAttribute('cx', 200+Math.cos(ang)*rad); c.setAttribute('cy', 200+Math.sin(ang)*rad);
+    c.setAttribute('r', (Math.random()*1.6+.6).toFixed(2));
+    c.setAttribute('fill','#efe7fa'); c.setAttribute('class','spark');
+    stars.appendChild(c);
+  }
+  function spin(){
+    var d = new Date();
+    var frac = d.getHours() + d.getMinutes()/60;
+    document.getElementById('hand').style.transform = 'rotate(' + (frac/24*360) + 'deg)';
+  }
+  spin(); setInterval(spin, 30000);
+})();
+
+/* ---------- local time + night state ---------- */
+function localHour(tz){
+  try{
+    var s = new Intl.DateTimeFormat('en-GB',{timeZone:tz,hour:'2-digit',minute:'2-digit',hour12:false}).format(new Date());
+    var p = s.split(':');
+    return { h:+p[0], m:+p[1], text:s };
+  }catch(e){
+    var d = new Date();
+    return { h:d.getHours(), m:d.getMinutes(), text:('0'+d.getHours()).slice(-2)+':'+('0'+d.getMinutes()).slice(-2) };
+  }
+}
+function within(x, a, b){ return b > a ? (x >= a && x < b) : (x >= a || x < b); }
+
+function stateOf(c, hf){
+  var pk = c.peak, p0 = pk[0] % 24, p1 = pk[1] % 24;
+  if(within(hf, p0, p1)) return ['s-peak','Peak hours'];
+  if(within(hf, c.bars % 24, p0)) return ['s-bars','Bars filling'];
+  if(within(hf, 19, c.bars % 24)) return ['s-dinner','Dinner hours'];
+  if(within(hf, p1, (p1 + 2) % 24)) return ['s-last','Winding down'];
+  if(hf >= 6 && hf < 12) return ['s-day','Daytime'];
+  return ['s-quiet','Quiet now'];
+}
+
+/* arc runs 18:00 -> 08:00 = 14 hours */
+var A0 = 18, ASPAN = 14;
+function pos(h){
+  var x = h < A0 ? h + 24 : h;      /* 18..32 */
+  return Math.max(0, Math.min(100, ((x - A0) / ASPAN) * 100));
+}
+
+function card(c){
+  var t = localHour(c.tz);
+  var hf = t.h + t.m/60;
+  var st = stateOf(c, hf);
+  var barsL = pos(c.bars % 24);
+  var peakL = pos(c.peak[0] % 24), peakR = pos(c.peak[1] % 24);
+  var stopL = pos(c.stop % 24);
+  var nowL  = pos(hf);
+  var showNow = (hf >= A0 || hf < 8);
+
+  return '<article class="city" data-name="' + (c.name + ' ' + c.country).toLowerCase() + '">' +
+    '<div class="city-top">' +
+      '<div>' +
+        '<h3 class="city-name">' + c.name + '</h3>' +
+        '<div class="city-country">' + c.country + '</div>' +
+      '</div>' +
+      '<div class="now">' +
+        '<span class="now-time">' + t.text + '</span>' +
+        '<span class="state ' + st[0] + '">' + st[1] + '</span>' +
+      '</div>' +
+    '</div>' +
+
+    '<div class="arc">' +
+      '<div class="arc-axis">' +
+        '<div class="track"></div>' +
+        '<div class="band b-bars" data-l="' + barsL + '" data-w="' + Math.max(0, peakL - barsL) + '" style="left:' + barsL + '%"></div>' +
+        '<div class="band b-peak" data-l="' + peakL + '" data-w="' + Math.max(2, peakR - peakL) + '" style="left:' + peakL + '%"></div>' +
+        '<div class="stop" style="left:' + stopL + '%" data-l="' + c.stopLabel + '"></div>' +
+        (showNow ? '<div class="nowmark" style="left:' + nowL + '%"></div>' : '') +
+      '</div>' +
+      '<div class="arc-scale"><span>18:00</span><span>21:00</span><span>00:00</span><span>03:00</span><span>06:00</span><span>08:00</span></div>' +
+    '</div>' +
+
+    '<div class="facts">' +
+      '<div class="fact"><div class="fl"><i></i>Hours</div><p class="fv">' + c.hours + '</p></div>' +
+      '<div class="fact"><div class="fl"><i></i>Dress code</div><p class="fv">' + c.dress + '</p></div>' +
+      '<div class="fact"><div class="fl"><i></i>Door &amp; ID</div><p class="fv">' + c.door + '</p></div>' +
+      '<div class="fact"><div class="fl"><i></i>Late transport</div><p class="fv">' + c.transport + '</p></div>' +
+    '</div>' +
+  '</article>';
+}
+
+var searchVal = '';
+function render(){
+  var list = document.getElementById('list');
+  var filtered = CITIES.filter(function(c){
+    if(!searchVal) return true;
+    return (c.name + ' ' + c.country).toLowerCase().indexOf(searchVal) !== -1;
+  });
+  document.getElementById('dialCount').textContent = filtered.length;
+
+  if(filtered.length === 0){
+    list.innerHTML = '<div class="empty">No results for “' + searchVal + '”</div>';
+    return;
+  }
+  var grouped = {};
+  filtered.forEach(function(c){ (grouped[c.region] = grouped[c.region] || []).push(c); });
+
+  var html = '';
+  REGION_ORDER.forEach(function(r){
+    if(!grouped[r]) return;
+    html += '<div class="region"><h2>' + REGION_LABELS[r] + '</h2></div>';
+    html += '<div class="grid">' + grouped[r].map(card).join('') + '</div>';
+  });
+  list.innerHTML = html;
+  observe();
+}
+
+var io = new IntersectionObserver(function(es){
+  es.forEach(function(e){
+    if(!e.isIntersecting) return;
+    e.target.classList.add('in');
+    [].forEach.call(e.target.querySelectorAll('.band'), function(b){
+      setTimeout(function(){ b.style.width = b.dataset.w + '%'; }, 60);
+    });
+    io.unobserve(e.target);
+  });
+}, {threshold:.18});
+function observe(){ [].forEach.call(document.querySelectorAll('.city:not(.in)'), function(c){ io.observe(c); }); }
+
+document.getElementById('search').addEventListener('input', function(e){
+  searchVal = e.target.value.toLowerCase().trim();
+  render();
+});
+
+render();
+setInterval(render, 60000);
+</script>
+</body>
+</html>

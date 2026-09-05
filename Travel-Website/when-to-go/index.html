@@ -83,7 +83,7 @@
   display: inline-flex; align-items: center; justify-content: center;
   flex: 1 1 0; min-width: 0;
   font: inherit; font-size: clamp(0.86rem, 0.95vw, 0.94rem); font-weight: 600;
-  padding: 0.62em 1.4em;
+  padding: 0.62em 1.4em; text-align: center;
   border: 1.5px solid var(--nt-linen-ink, #5a3c0e); border-radius: 999px;
   background: var(--nt-linen-wash, #f5f0e6); color: var(--nt-linen-ink, #5a3c0e);
   text-decoration: none;
@@ -121,13 +121,20 @@ a.cf-spill-pill:visited { color: var(--nt-linen-ink, #5a3c0e); }
 .cf-block:first-child { margin-top: 0; }
 .cf-label { font-size: var(--fs-label,11px); text-transform: uppercase; letter-spacing: .06em;
   color: var(--muted,#6a6660); margin-bottom: 7px; }
-/* Month pills */
+/* Month pills — .cf-mon is the shared .selection-pill component (one month
+   picked from 12 otherwise-equal options, no per-item family colour, "this
+   one is chosen" carried by aria-pressed), tagged .cp-brown for its
+   wash/ink plus .hov-darken for its hover — same recipe as .cf-preset
+   above and essentials/festival-finder's .fa-spoke-btn month wheel. Only
+   the grid layout (squared, touching cells) stays page-local; border colour
+   comes from .cp-brown like every other selection pill on the site.
+   Color/hover/selected used to be hand-duplicated here across three
+   responsive rule sets, gated on pointer:fine/pointer:coarse — an
+   environment reporting neither (pointer:none) fell through to a fourth,
+   unstyled state: the rounded, gapped, mismatched pill this replaced. */
 .cf-months { font-family: inherit; display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); gap: 6px; }
-.cf-mon { display: inline-flex; align-items: center; justify-content: center; border: 1.5px solid var(--nt-linen-ink,#5a3c0e); border-radius: 6px; cursor: pointer;
-  padding: 10px 0; font-family: inherit; font-size: 13px; font-weight: 400; color: var(--nt-linen-ink,#5a3c0e);
-  background: var(--nt-linen-wash,#f5f0e6); transition: background .12s,color .12s,border-color .12s; }
-.cf-mon:hover { font-family: inherit; border-color: var(--nt-linen-ink,#5a3c0e); background: color-mix(in srgb, var(--nt-linen-wash,#f5f0e6) 75%, var(--nt-linen-ink,#5a3c0e) 25%); color: var(--nt-linen-ink,#5a3c0e); font-weight: 600; }
-.cf-mon.on { font-family: inherit; background: color-mix(in srgb, var(--nt-linen-wash,#f5f0e6) 55%, var(--nt-linen-ink,#5a3c0e) 45%); color: var(--nt-linen-ink,#5a3c0e); border-color: var(--nt-linen-ink,#5a3c0e); font-weight: 700; }
+.cf-mon { display: inline-flex; align-items: center; justify-content: center; border-radius: 6px; cursor: pointer;
+  padding: 10px 0; font-family: inherit; font-size: 13px; }
 
 /* Desktop-only: canonical squared+touching for the Forecast & Research 6-link
    row. Scoped to the Climate-Finder wrapper (.cf-research-row) so it doesn't
@@ -164,19 +171,16 @@ a.cf-spill-pill:visited { color: var(--nt-linen-ink, #5a3c0e); }
     box-shadow: none; transform: none;}
 }
 
-/* Desktop-only FORMATTING + BEHAVIOR per Brain/Reference/Icons-Formats-Logos/selection-pills-badges-pills-to-badge-dots/selection-pills-badges-pills-to-badge-dots.html#sec-desktop-pill-format.
-   Scoped to @media (min-width:601px) so mobile Form-B grid + base states stay
-   untouched. Only the .cf-months month row gets the canonical treatment —
-   sibling/research rows stay as-is (not enough pills to look right stretched
-   and squared). 12 month pills in a grid, gap:0 so borders touch; canonical
-   1.5px border, squared corners, black text, terracotta hover, neutral-grey
-   nt-grey-wash .on (pushed-down state — pills doc Rule 6 retires terracotta
-   from pill selected sitewide; .cf-mon convention uses .on, not .active). */
+/* Desktop-only LAYOUT for the month grid — 12 pills, gap:0 so the shared
+   1px .selection-pill borders touch and read as one squared grid instead
+   of loose rounded pills with gaps. Colour, hover and selected all come
+   from .selection-pill.cp-brown.hov-darken on the button itself now (see
+   the .cf-mon rule above) — this block sets height/padding/border-radius
+   only. Sibling/research rows stay as-is (not enough pills to look right
+   stretched and squared). */
 @media (min-width: 601px), (pointer: fine) {
   .cf-months { gap: 0; }
-  .cf-mon { height: 36px; padding: 0 14px; font-size: 13px; font-weight: 500; line-height: 1; color: var(--nt-linen-ink,#5a3c0e); border: 1.5px solid var(--nt-linen-ink,#5a3c0e); border-radius: 0; background: var(--nt-linen-wash,#f5f0e6); }
-  .cf-mon:hover { background: color-mix(in srgb, var(--nt-linen-wash,#f5f0e6) 75%, var(--nt-linen-ink,#5a3c0e) 25%); font-weight: 500; color: var(--nt-linen-ink,#5a3c0e); }
-  .cf-mon.on { background: color-mix(in srgb, var(--nt-linen-wash,#f5f0e6) 55%, var(--nt-linen-ink,#5a3c0e) 45%); border: 1.5px solid var(--nt-linen-ink,#5a3c0e); color: var(--nt-linen-ink,#5a3c0e); font-weight: 700; }
+  .cf-mon { height: 36px; padding: 0 14px; font-size: 13px; line-height: 1; border-radius: 0; }
 }
 /* Range row */
 .cf-rangerow { display: flex; align-items: center; flex-wrap: wrap; gap: 10px; }
@@ -378,10 +382,11 @@ a.cf-card:hover { border-color: var(--rust); box-shadow: 0 3px 10px rgba(192,78,
 a.cf-card:hover .cf-guide-pill { border-color: var(--nt-linen-ink,#5a3c0e); }
 /* Rainfall dry/wet badges — Solid Badge gold/blue (sb-* from web-travel-style.css) */
 @media (prefers-color-scheme: dark) {
-  .cf-mon.on { background: var(--surface2, #1e1c1a); border-color: #4a453e; color: var(--muted, #9a9690); }
-  /* Neutral dark hover, matching .selection-pill's own dark treatment
-     (terracotta retired sitewide, Rule 13). */
-  .cf-mon:hover, .cf-compare-btn:hover { background: var(--surface2, #1e1c1a); border-color: #4a453e; color: var(--muted, #9a9690); }
+  /* .cf-mon's own dark hover/selected is retired — .selection-pill's dark-mode
+     rule in web-travel-style.css already gives it this same neutral surface2
+     treatment (terracotta retired sitewide, Rule 13), now that .cf-mon carries
+     that shared class instead of hand-rolled colour. */
+  .cf-compare-btn:hover { background: var(--surface2, #1e1c1a); border-color: #4a453e; color: var(--muted, #9a9690); }
   .cf-compare-btn.selected { background: var(--surface2, #1e1c1a); border-color: #4a453e; color: var(--muted, #9a9690); }
   /* The selected UNIT chip gets the same ground as the selected MONTH chip
      directly above, and for the measured reason that rule already encodes:
@@ -606,16 +611,15 @@ a.cf-card:hover .cf-guide-pill { border-color: var(--nt-linen-ink,#5a3c0e); }
     var citySearch = '';
     var compareList = [];
 
-    /* Month pills */
+    /* Month pills — shared .selection-pill.cp-brown.hov-darken carries
+       colour/hover/selected; aria-pressed alone drives the selected look. */
     var monthsEl = document.getElementById('cf-months');
     monthsEl.innerHTML = MONTHS.map(function (m, i) {
-      return '<button type="button" class="cf-mon" data-m="' + i + '" aria-pressed="false">' + m + '</button>';
+      return '<button type="button" class="cf-mon selection-pill cp-brown hov-darken" data-m="' + i + '" aria-pressed="false">' + m + '</button>';
     }).join('');
     function paintMonths() {
       [].forEach.call(monthsEl.children, function (b, i) {
-        var sel = i === month;
-        b.classList.toggle('on', sel);
-        b.setAttribute('aria-pressed', String(sel));
+        b.setAttribute('aria-pressed', String(i === month));
       });
     }
     monthsEl.addEventListener('click', function (e) {

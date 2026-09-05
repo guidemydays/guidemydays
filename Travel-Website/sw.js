@@ -3122,7 +3122,8 @@
 /* 2026-09-05: fix site-wide search: word-start matching, drop residual Day N tag, de-gold title/mark colors toolbar.js -> v1178. CACHE to v1889. */
 /* 2026-09-05: guides-index-style.css -- de-gold #content-search (.cs-city/.cs-item hover/.cs-item mark) as part of the site-wide search fix (TVESearch.html §6). MIN_VERSIONS['guides-index-style.css'] to 58, CACHE to v1890. */
 /* 2026-09-05: bangalore guide ships — toolbar.js gains its HOTEL_ALT_DATA entry (4 price tiers), CHIP_DATA 'bangalore' -> BLR and BLR in LOUNGE_IATAS. MIN_VERSIONS['toolbar.js'] to 1179, CACHE to v1891. */
-var CACHE = 'travel-cache-v1891';
+/* 2026-09-05: weather.js — CLIMATE block re-baked with Bangalore's normals (bangalore guide ships). MIN_VERSIONS['weather.js'] to 25, CACHE to v1892. */
+var CACHE = 'travel-cache-v1892';
 /* 2026-08-27: airlines.css's .card-tags align-items fix changed a shared
    asset without raising its own floor -- MIN_VERSIONS['airlines.css'] to
    6, CACHE to v1662. */
@@ -3165,7 +3166,7 @@ var ICS_OUTBOX = 'gmd-ics-outbox';
 /* 2026-08-30: weather.js: Punta Cana climate normals added (244 cities). MIN_VERSIONS["weather.js"] to 19, CACHE to v1748. */
 /* 2026-08-30: search-autocomplete.js — reverted ARIA combobox pattern (role=listbox/option caused side-by-side layout regression). MIN_VERSIONS['search-autocomplete.js'] to 11, CACHE to v1749. */
 /* 2026-09-02: toolbar.js — remove false-affordance right hairline from stop-hours row (commit 981cca5d5). MIN_VERSIONS['toolbar.js'] to 1142, CACHE to v1816. */
-var MIN_VERSIONS = { 'guide-style.css': 292,'toolbar.js': 1179, 'mobile.css': 94, 'web-travel-style.css': 260, 'guides-index-style.css': 58, 'read-about.css': 8, 'best-of-features.js': 6, 'best-of-cross-data.js': 25, 'weather.js': 24,'trains.css': 30, 'trains.js': 6, 'airlines.css': 9, 'airlines.js': 10, 'passport.js': 6, 'search-autocomplete.js': 13, 'flag-render.js': 3 };
+var MIN_VERSIONS = { 'guide-style.css': 292,'toolbar.js': 1179, 'mobile.css': 94, 'web-travel-style.css': 260, 'guides-index-style.css': 58, 'read-about.css': 8, 'best-of-features.js': 6, 'best-of-cross-data.js': 25, 'weather.js': 25,'trains.css': 30, 'trains.js': 6, 'airlines.css': 9, 'airlines.js': 10, 'passport.js': 6, 'search-autocomplete.js': 13, 'flag-render.js': 3 };
 
 function rewriteAssetUrl(urlStr) {
   var u;

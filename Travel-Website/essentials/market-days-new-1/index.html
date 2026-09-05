@@ -1,0 +1,478 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex,nofollow">
+<title>Market Days — Design 1: The Week Board | Guide My Days</title>
+<link rel="stylesheet" href="/assets/web-travel-style.css">
+<link rel="stylesheet" href="/assets/mobile.css?v=53">
+<link rel="icon" href="/assets/icons/favicon-32.png" sizes="32x32" type="image/png">
+<link rel="apple-touch-icon" href="/assets/icons/apple-touch-icon.png">
+<meta name="theme-color" content="#f5f4f0" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#1a1917" media="(prefers-color-scheme: dark)">
+<style>
+/* ══════════════════════════════════════════════════════════════════
+   MARKET DAYS — NEW 1 · "The Week Board"
+   Design-competition entry. Standalone: nothing on the live site links
+   here and this page links to no other entry. Content is the live
+   Market Days page's content, unchanged — only the presentation is new.
+
+   The bold idea: the page is called Market Days and the live version is
+   sorted by CITY, so the one question it exists to answer — "it's
+   Tuesday, what's on?" — takes reading sixteen hours-lines to work out.
+   Here the week itself is the layout: seven columns, every market
+   filed under every day it actually trades, and the reader's own
+   today column raised and flagged. Sorting by city is still there,
+   one toggle away.
+
+   Nothing is invented. Each market's days come straight off its own
+   hours line, which is printed in full on the card; a market whose line
+   qualifies a day ("many closed Sunday", "some close Wednesdays") is
+   drawn on that day as a hollow chip, never a solid one.
+
+   Shared components used as-is: .search-input (TVESearch §0 standard
+   bar) and .pill/.pill-badge + cp-* tones, exactly as the live page.
+   ══════════════════════════════════════════════════════════════════ */
+
+.wb-shell { max-width: 1280px; margin: 0 auto; padding: 0 var(--gutter, 20px); }
+
+/* ── Hero ───────────────────────────────────────────────────────── */
+.wb-hero { padding: 54px 0 30px; }
+.wb-kicker {
+  display: inline-flex; align-items: center; gap: 9px;
+  font-size: 11px; font-weight: 800; letter-spacing: .2em; text-transform: uppercase;
+  color: #C04E1A; margin-bottom: 20px;
+}
+.wb-kicker::before { content: ""; width: 30px; height: 2px; background: #C04E1A; }
+.wb-title {
+  font-size: clamp(32px, 6vw, 60px); line-height: 1.03; font-weight: 800;
+  letter-spacing: -.03em; margin: 0 0 20px; max-width: 16ch; text-wrap: balance;
+}
+.wb-title em { font-style: normal; color: var(--muted); }
+.wb-intro { max-width: 68ch; font-size: 15px; line-height: 1.75; color: var(--muted); }
+
+.wb-rise { opacity: 0; transform: translateY(20px); }
+.wb-rise.in { opacity: 1; transform: none; transition: opacity .7s ease, transform .7s cubic-bezier(.22,1,.36,1); }
+
+/* ── Controls ───────────────────────────────────────────────────── */
+.wb-controls { padding: 20px 0 26px; }
+.wb-searchrow { display: flex; justify-content: center; margin-bottom: 18px; }
+.wb-searchrow .search-input { width: var(--search-w, 440px); max-width: 100%; }
+.wb-bar {
+  display: flex; flex-wrap: wrap; gap: 10px 14px; align-items: center; justify-content: center;
+  padding: 14px 18px; border-radius: 14px;
+  background: var(--surface2); border: 1px solid var(--border2);
+}
+.wb-bar-label { font-size: 11px; font-weight: 800; letter-spacing: .12em; text-transform: uppercase; color: var(--muted); }
+.wb-sep { width: 1px; align-self: stretch; background: var(--border2); }
+.wb-view {
+  display: inline-flex; border: 1px solid var(--border2); border-radius: 999px; overflow: hidden; background: var(--surface);
+}
+.wb-view button {
+  font: inherit; font-size: 11.5px; font-weight: 800; letter-spacing: .09em; text-transform: uppercase;
+  padding: 8px 16px; border: 0; background: none; color: var(--muted); cursor: pointer;
+  transition: background .18s, color .18s;
+}
+.wb-view button.on { background: #C04E1A; color: #fff; }
+.wb-view button:not(.on):hover { background: var(--surface2); color: var(--text); }
+
+/* ── The board ──────────────────────────────────────────────────── */
+.wb-board-scroll { overflow-x: auto; padding-bottom: 10px; scroll-snap-type: x proximity; }
+.wb-board { display: grid; grid-template-columns: repeat(7, minmax(178px, 1fr)); gap: 12px; min-width: 1000px; }
+
+.wb-col {
+  scroll-snap-align: start;
+  border-radius: 14px; padding: 0 0 14px;
+  background: var(--surface2); border: 1px solid var(--border2);
+  transition: background .25s, border-color .25s, transform .25s cubic-bezier(.22,1,.36,1);
+}
+.wb-col.today {
+  background: var(--surface); border-color: #C04E1A;
+  box-shadow: 0 14px 34px -22px rgba(192,78,26,.75);
+  transform: translateY(-6px);
+}
+.wb-colhead {
+  position: sticky; top: 0; z-index: 2;
+  padding: 14px 14px 12px; border-radius: 13px 13px 0 0;
+  background: inherit; border-bottom: 1px solid var(--border2);
+}
+.wb-day { font-size: 15px; font-weight: 800; letter-spacing: -.01em; }
+.wb-dayshort { font-size: 10.5px; font-weight: 800; letter-spacing: .16em; text-transform: uppercase; color: var(--muted); margin-top: 3px; }
+.wb-col.today .wb-day { color: #C04E1A; }
+.wb-today-flag {
+  display: inline-block; margin-left: 8px; vertical-align: 2px;
+  font-size: 9.5px; font-weight: 800; letter-spacing: .14em; text-transform: uppercase;
+  background: #C04E1A; color: #fff; padding: 3px 7px; border-radius: 3px;
+  animation: wbFlag 2.6s ease-in-out infinite;
+}
+@keyframes wbFlag { 0%,100% { opacity: 1; } 50% { opacity: .55; } }
+.wb-tally { font-size: 10.5px; letter-spacing: .1em; text-transform: uppercase; color: var(--muted); margin-top: 8px; }
+
+.wb-stack { padding: 12px 12px 0; display: flex; flex-direction: column; gap: 9px; }
+
+/* ── A chip ─────────────────────────────────────────────────────── */
+.wb-chip {
+  display: block; width: 100%; text-align: left; font: inherit; cursor: pointer;
+  background: var(--surface); border: 1px solid var(--border2); border-left: 4px solid var(--chip);
+  border-radius: 9px; padding: 10px 11px;
+  transition: transform .2s cubic-bezier(.22,1,.36,1), box-shadow .2s, border-color .2s;
+  animation: wbPop .45s cubic-bezier(.34,1.4,.64,1) both;
+}
+@keyframes wbPop { from { opacity: 0; transform: translateY(10px) scale(.96); } to { opacity: 1; transform: none; } }
+.wb-chip[hidden] { display: none !important; }
+.wb-chip:hover { transform: translateX(3px); box-shadow: 0 8px 20px -14px rgba(0,0,0,.6); }
+.wb-chip:focus-visible { outline: 2px solid #C04E1A; outline-offset: 2px; }
+.wb-chip.partial { border-left-style: dashed; background: transparent; }
+.wb-chip-name { display: block; font-size: 13px; font-weight: 700; line-height: 1.32; color: var(--text); }
+.wb-chip:hover .wb-chip-name { color: #C04E1A; }
+.wb-chip-city { display: block; font-size: 10.5px; letter-spacing: .1em; text-transform: uppercase; color: var(--muted); margin-top: 4px; }
+.wb-chip-note { display: block; font-size: 10.5px; color: var(--muted); font-style: italic; margin-top: 5px; }
+
+.wb-colempty { padding: 22px 14px; font-size: 12px; color: var(--muted); text-align: center; line-height: 1.6; }
+
+/* ── City view ──────────────────────────────────────────────────── */
+.wb-cities { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 22px; }
+.wb-cityblock { border-top: 3px solid var(--text); padding-top: 14px; }
+.wb-cityblock[hidden] { display: none !important; }
+.wb-cityname { font-size: 17px; font-weight: 800; letter-spacing: -.01em; }
+.wb-citycountry { font-size: 10.5px; letter-spacing: .14em; text-transform: uppercase; color: var(--muted); margin: 3px 0 12px; }
+.wb-cityblock .wb-stack { padding: 0; }
+
+/* ── Drawer ─────────────────────────────────────────────────────── */
+.wb-drawer {
+  position: fixed; z-index: 60; right: 0; top: 0; bottom: 0; width: min(460px, 100%);
+  background: var(--surface); border-left: 1px solid var(--border2);
+  box-shadow: -30px 0 70px -40px rgba(0,0,0,.7);
+  transform: translateX(102%); transition: transform .42s cubic-bezier(.22,1,.36,1);
+  overflow-y: auto; padding: 26px 26px 60px;
+}
+.wb-drawer.open { transform: none; }
+.wb-scrim {
+  position: fixed; inset: 0; z-index: 59; background: rgba(20,16,12,.42);
+  opacity: 0; pointer-events: none; transition: opacity .35s;
+}
+.wb-scrim.open { opacity: 1; pointer-events: auto; }
+.wb-close {
+  float: right; font: inherit; font-size: 20px; line-height: 1; cursor: pointer;
+  background: none; border: 1px solid var(--border2); border-radius: 50%;
+  width: 34px; height: 34px; color: var(--muted);
+}
+.wb-close:hover { border-color: var(--text); color: var(--text); }
+.wb-d-name { font-size: 22px; font-weight: 800; line-height: 1.2; letter-spacing: -.018em; margin: 6px 0 8px; max-width: 90%; }
+.wb-d-city { font-size: 11px; letter-spacing: .16em; text-transform: uppercase; color: var(--muted); margin-bottom: 18px; }
+.wb-d-field { margin-bottom: 16px; }
+.wb-d-label { font-size: 10px; font-weight: 800; letter-spacing: .16em; text-transform: uppercase; color: var(--muted); margin-bottom: 5px; }
+.wb-d-body { font-size: 14px; line-height: 1.68; }
+.wb-d-week { display: flex; gap: 5px; margin: 4px 0 0; }
+.wb-d-week span {
+  flex: 1; text-align: center; font-size: 10px; font-weight: 800; letter-spacing: .06em;
+  padding: 7px 0; border-radius: 6px; background: var(--surface2); color: var(--muted);
+  border: 1px solid var(--border2);
+}
+.wb-d-week span.on { background: #C04E1A; border-color: #C04E1A; color: #fff; }
+.wb-d-week span.part { border-style: dashed; border-color: #C04E1A; color: #C04E1A; }
+.wb-d-go {
+  display: inline-flex; align-items: center; gap: 8px; margin-top: 8px;
+  font-size: 11.5px; font-weight: 800; letter-spacing: .1em; text-transform: uppercase;
+  color: var(--text); text-decoration: none;
+  padding: 11px 20px; border: 1.5px solid var(--text); border-radius: 999px;
+  transition: background .2s, color .2s;
+}
+.wb-d-go:hover { background: var(--text); color: var(--bg); }
+
+.wb-legend { display: flex; flex-wrap: wrap; gap: 8px 20px; margin: 22px 0 0; font-size: 11.5px; color: var(--muted); }
+.wb-legend i { display: inline-block; width: 14px; height: 12px; border-left: 4px solid var(--muted); border-radius: 2px; margin-right: 6px; vertical-align: -1px; }
+.wb-legend i.dash { border-left-style: dashed; }
+
+.wb-foot { padding: 46px 0 76px; font-size: 12px; color: var(--muted); text-align: center; line-height: 1.75; }
+
+@media (max-width: 900px) {
+  .wb-board { min-width: 1120px; }
+}
+@media (max-width: 600px) and (pointer: coarse) {
+  .wb-hero { padding: 32px 0 22px; }
+  .wb-board { grid-template-columns: repeat(7, minmax(200px, 1fr)); min-width: 1420px; }
+  .wb-drawer { width: 100%; padding: 20px 18px 60px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .wb-chip, .wb-today-flag, .wb-rise { animation: none !important; opacity: 1 !important; transform: none !important; }
+  .wb-drawer { transition: none; }
+}
+</style>
+</head>
+<body>
+<div id="toolbar-mount" data-depth="2" data-maxwidth="1280" data-updated="2026-09-05"></div>
+<script src="/assets/toolbar.js?v=127"></script>
+
+<div class="wb-shell">
+  <header class="wb-hero">
+    <span class="wb-kicker wb-rise">Market Days</span>
+    <h1 class="wb-title wb-rise">Where the locals shop, <em>and what day to show up.</em></h1>
+    <p class="wb-intro wb-rise">Sixteen markets across thirteen cities that have run on a fixed weekly rhythm for years, not a one-off event — day, hours, and what's actually on sale, from Borough Market's cheese counters to Istanbul's Grand Bazaar. Every entry links to its city guide. This isn't every market on earth, just the ones stable and well-known enough to plan a morning around.</p>
+  </header>
+
+  <script src="/assets/search-autocomplete.js?v=8"></script>
+
+  <div class="wb-controls">
+    <div class="wb-searchrow">
+      <input type="search" id="wb-search" class="search-input" placeholder="City or market" aria-label="Search markets by city or name" autocomplete="off">
+    </div>
+    <div class="wb-bar">
+      <span class="wb-bar-label">Filter</span>
+      <button type="button" class="pill pill-badge nt-grey hov-darken is-on" data-filter="all" aria-pressed="true">All</button>
+      <button type="button" class="pill pill-badge cp-dark-teal hov-darken" data-filter="food" aria-pressed="false">Food &amp; produce</button>
+      <button type="button" class="pill pill-badge cp-brown hov-darken" data-filter="flea" aria-pressed="false">Flea &amp; antiques</button>
+      <button type="button" class="pill pill-badge cp-purple hov-darken" data-filter="craft" aria-pressed="false">Crafts &amp; design</button>
+      <button type="button" class="pill pill-badge cp-gold hov-darken" data-filter="bazaar" aria-pressed="false">Bazaar</button>
+      <span class="wb-sep"></span>
+      <span class="wb-bar-label">View</span>
+      <span class="wb-view">
+        <button type="button" id="wb-v-week" class="on">By day</button>
+        <button type="button" id="wb-v-city">By city</button>
+      </span>
+    </div>
+  </div>
+
+  <main>
+    <div class="wb-board-scroll" id="wb-weekview"><div class="wb-board" id="wb-board"></div></div>
+    <div class="wb-cities" id="wb-cityview" hidden></div>
+    <div class="wb-legend">
+      <span><i></i>Trades that day</span>
+      <span><i class="dash"></i>Trades that day with a qualifier on its own hours line</span>
+      <span>Colour is the market type</span>
+    </div>
+  </main>
+
+  <p class="wb-foot">Every day shown is read off that market's own published hours line, printed in full when you open it.<br>Hours change — check locally before you build a morning around one.</p>
+</div>
+
+<div class="wb-scrim" id="wb-scrim"></div>
+<aside class="wb-drawer" id="wb-drawer" role="dialog" aria-modal="true" aria-label="Market detail" tabindex="-1"></aside>
+
+<script>
+/* eslint-env browser */
+(function () {
+  var DATA = [{"href":"/guides/bangkok.html","type":"bazaar","key":"Chatuchak Weekend Market","city":"Bangkok","country":"Thailand","name":"Chatuchak Weekend Market","badgecls":"cp-gold","badge":"Bazaar","meta":"Saturday–Sunday · roughly 9:00–18:00","place":"Chatuchak district","desc":"One of the world's largest weekend markets — more than 8,000 stalls across 27 sections, selling everything from antiques to streetwear to houseplants."},{"href":"/guides/barcelona.html","type":"food","key":"La Boqueria","city":"Barcelona","country":"Spain","name":"La Boqueria","badgecls":"cp-dark-teal","badge":"Food & produce","meta":"Monday–Saturday · 8:00–20:30 · closed Sunday","place":"La Rambla, Ciutat Vella","desc":"Barcelona's flagship food market, just off La Rambla — produce, seafood, jamón, and tapas counters under a wrought-iron and stained-glass roof."},{"href":"/guides/berlin.html","type":"flea","key":"Mauerpark Flohmarkt","city":"Berlin","country":"Germany","name":"Mauerpark Flohmarkt","badgecls":"cp-brown","badge":"Flea & antiques","meta":"Sundays only · roughly 9:00–18:00","place":"Prenzlauer Berg","desc":"Berlin's best-known flea market, spread across the park that once sat inside the Wall's death strip — secondhand clothes, records, and furniture."},{"href":"/guides/istanbul.html","type":"bazaar","key":"Grand Bazaar","city":"Istanbul","country":"Turkey","name":"Grand Bazaar (Kapalıçarşı)","badgecls":"cp-gold","badge":"Bazaar","meta":"Monday–Saturday · 9:00–19:00 · closed Sunday","place":"Fatih, between Beyazıt and Nuruosmaniye","desc":"One of the world's oldest and largest covered markets — more than 4,000 shops under vaulted stone ceilings, trading on this site since the 15th century."},{"href":"/guides/istanbul.html","type":"food","key":"Spice Bazaar","city":"Istanbul","country":"Turkey","name":"Spice Bazaar (Mısır Çarşısı)","badgecls":"cp-dark-teal","badge":"Food & produce","meta":"Daily · roughly 8:00–19:30, shorter Sunday","place":"Eminönü, by the Golden Horn","desc":"A smaller, L-shaped covered market — spices, Turkish delight, and dried fruit stalls that have traded here since the 1660s."},{"href":"/guides/kyoto.html","type":"food","key":"Nishiki Market","city":"Kyoto","country":"Japan","name":"Nishiki Market","badgecls":"cp-dark-teal","badge":"Food & produce","meta":"Daily · most shops roughly 9:00–18:00","place":"Nakagyo-ku","desc":"A five-block covered arcade known as \"Kyoto's Kitchen\" — pickles, knives, tea, and street food from shops that have traded here for generations. Some close Wednesdays."},{"href":"/guides/london.html","type":"food","key":"Borough Market","city":"London","country":"England","name":"Borough Market","badgecls":"cp-dark-teal","badge":"Food & produce","meta":"Monday–Saturday · 10:00–17:00, fullest Wed–Sat · closed Sunday","place":"Southwark, by London Bridge station","desc":"London's oldest food market, trading on this site since the 13th century — cheesemongers, fishmongers, and prepared-food stalls fanning out from London Bridge."},{"href":"/guides/london.html","type":"flea","key":"Portobello Road Market","city":"London","country":"England","name":"Portobello Road Market","badgecls":"cp-brown","badge":"Flea & antiques","meta":"Antiques Saturday, 8:00–18:00 · general market Mon–Sat","place":"Notting Hill","desc":"Nearly a mile of stalls along one street — antiques and vintage dominate Saturdays, with fruit, veg, and fashion trading the rest of the week."},{"href":"/guides/london.html","type":"craft","key":"Camden Market","city":"London","country":"England","name":"Camden Market","badgecls":"cp-purple","badge":"Crafts & design","meta":"Daily · most stalls roughly 10:00–18:00","place":"Camden Town","desc":"A cluster of connected markets along Regent's Canal — crafts, vintage clothing, and street food packed into old stables and warehouses."},{"href":"/guides/madrid.html","type":"food","key":"Mercado de San Miguel","city":"Madrid","country":"Spain","name":"Mercado de San Miguel","badgecls":"cp-dark-teal","badge":"Food & produce","meta":"Daily · roughly 10:00–24:00, later Thu–Sat","place":"La Latina, next to Plaza Mayor","desc":"A restored 1916 iron-and-glass market building turned upscale food hall — tapas, wine, and pintxos counters rather than raw produce stalls."},{"href":"/guides/paris.html","type":"food","key":"Marché d'Aligre","city":"Paris","country":"France","name":"Marché d'Aligre","badgecls":"cp-dark-teal","badge":"Food & produce","meta":"Tuesday–Sunday mornings · roughly 7:30–13:30 · closed Monday","place":"Place d'Aligre, 12th arrondissement","desc":"One of Paris's last true neighborhood markets — a covered food hall and open-air produce stalls, with a small flea market for secondhand goods in the same square."},{"href":"/guides/santiago.html","type":"food","key":"Mercado Central","city":"Santiago","country":"Chile","name":"Mercado Central","badgecls":"cp-dark-teal","badge":"Food & produce","meta":"Daily · roughly 6:00–17:00, shorter Sunday","place":"Centro, near Estación Mapocho","desc":"A wrought-iron market hall built in 1872 — fish and seafood stalls surround the sit-down marisquerías at its center, a Santiago lunch institution."},{"href":"/guides/sao-paulo.html","type":"food","key":"Mercado Municipal","city":"São Paulo","country":"Brazil","name":"Mercado Municipal (Mercadão)","badgecls":"cp-dark-teal","badge":"Food & produce","meta":"Daily · roughly 6:00–18:00, Sunday until 16:00","place":"Centro","desc":"A 1933 stained-glass market hall famous for its mortadella sandwiches — produce, spices, and dried-fruit stalls beneath one of the city's grandest interiors."},{"href":"/guides/tokyo.html","type":"food","key":"Tsukiji Outer Market","city":"Tokyo","country":"Japan","name":"Tsukiji Outer Market","badgecls":"cp-dark-teal","badge":"Food & produce","meta":"Roughly 5:00–14:00 · many closed Sunday, hours vary by shop","place":"Tsukiji, Chuo","desc":"The retail market that stayed when Tsukiji's wholesale fish auction moved to Toyosu — sushi counters, knife shops, and grilled seafood skewers in narrow lanes."},{"href":"/guides/venice.html","type":"food","key":"Rialto Market","city":"Venice","country":"Italy","name":"Rialto Market (Mercato di Rialto)","badgecls":"cp-dark-teal","badge":"Food & produce","meta":"Monday–Saturday mornings · roughly 7:00–13:30","place":"San Polo, foot of the Rialto Bridge","desc":"Venice's produce and fish market, trading beside the Grand Canal for centuries — the fish hall (Pescaria) is closed Sunday and Monday."},{"href":"/guides/vienna.html","type":"food","key":"Naschmarkt","city":"Vienna","country":"Austria","name":"Naschmarkt","badgecls":"cp-dark-teal","badge":"Food & produce","meta":"Monday–Saturday · roughly 6:00–19:30, Sat until 18:00 · closed Sunday","place":"Between Wieden and Mariahilf","desc":"Vienna's largest and oldest market — produce, spices, and food stalls running along a narrow strip; a flea market takes over the western end on Saturdays."}];
+
+  var DAYS  = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+  var SHORT = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+
+  /* ── The week model ──────────────────────────────────────────────
+     `open` is the set of weekday indices (0 = Sunday) the market
+     trades, read straight off its own hours line in DATA. `part` is
+     the subset of those days the line itself qualifies — "many closed
+     Sunday", "some close Wednesdays", "shorter Sunday" — drawn as a
+     hollow chip so a qualifier is never flattened into a promise.
+     Nothing here is estimated; the full line is on every card.       */
+  var WEEK = {
+    'Chatuchak Weekend Market': { open: [0, 6] },
+    'La Boqueria':              { open: [1, 2, 3, 4, 5, 6] },
+    'Mauerpark Flohmarkt':      { open: [0] },
+    'Grand Bazaar':             { open: [1, 2, 3, 4, 5, 6] },
+    'Spice Bazaar':             { open: [0, 1, 2, 3, 4, 5, 6], part: [0], note: 'Shorter hours Sunday' },
+    'Nishiki Market':           { open: [0, 1, 2, 3, 4, 5, 6], part: [3], note: 'Some shops close Wednesdays' },
+    'Borough Market':           { open: [1, 2, 3, 4, 5, 6], note: 'Fullest Wed–Sat' },
+    'Portobello Road Market':   { open: [1, 2, 3, 4, 5, 6], note: 'Antiques on Saturday' },
+    'Camden Market':            { open: [0, 1, 2, 3, 4, 5, 6] },
+    'Mercado de San Miguel':    { open: [0, 1, 2, 3, 4, 5, 6], note: 'Later Thu–Sat' },
+    "Marché d'Aligre":          { open: [0, 2, 3, 4, 5, 6], note: 'Mornings only' },
+    'Mercado Central':          { open: [0, 1, 2, 3, 4, 5, 6], part: [0], note: 'Shorter hours Sunday' },
+    'Mercado Municipal':        { open: [0, 1, 2, 3, 4, 5, 6], part: [0], note: 'Sunday until 16:00' },
+    'Tsukiji Outer Market':     { open: [0, 1, 2, 3, 4, 5, 6], part: [0], note: 'Many shops closed Sunday' },
+    'Rialto Market':            { open: [1, 2, 3, 4, 5, 6], note: 'Fish hall closed Sun and Mon' },
+    'Naschmarkt':               { open: [1, 2, 3, 4, 5, 6], part: [6], note: 'Saturday flea market at the west end' }
+  };
+
+  var TONE = { food: '#2e5f5a', flea: '#6b4423', craft: '#6a3f8a', bazaar: '#8a6524' };
+
+  function esc(s) {
+    return String(s == null ? '' : s)
+      .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+  }
+  function weekOf(m) { return WEEK[m.key] || { open: [] }; }
+  function isPart(m, d) { var w = weekOf(m); return !!(w.part && w.part.indexOf(d) !== -1); }
+
+  /* ── Board ─────────────────────────────────────────────────────── */
+  var today = new Date().getDay();
+  var board = document.getElementById('wb-board');
+  var bh = '';
+  for (var d = 0; d < 7; d++) {
+    var isToday = d === today;
+    bh += '<section class="wb-col' + (isToday ? ' today' : '') + '" data-day="' + d + '">'
+       +    '<div class="wb-colhead">'
+       +      '<div class="wb-day">' + DAYS[d] + (isToday ? '<span class="wb-today-flag">Today</span>' : '') + '</div>'
+       +      '<div class="wb-dayshort">' + SHORT[d] + '</div>'
+       +      '<div class="wb-tally" data-tally="' + d + '"></div>'
+       +    '</div>'
+       +    '<div class="wb-stack">';
+    var any = 0;
+    DATA.forEach(function (m, i) {
+      var w = weekOf(m);
+      if (w.open.indexOf(d) === -1) { return; }
+      any++;
+      bh += chip(m, i, isPart(m, d), w.note);
+    });
+    bh += '</div>';
+    if (!any) { bh += '<div class="wb-colempty">Nothing on this day</div>'; }
+    bh += '</section>';
+  }
+  board.innerHTML = bh;
+
+  function chip(m, i, partial, note) {
+    return '<button type="button" class="wb-chip' + (partial ? ' partial' : '') + '"'
+         + ' data-i="' + i + '" data-type="' + esc(m.type) + '"'
+         + ' style="--chip:' + (TONE[m.type] || '#6a6660') + ';animation-delay:' + (0.03 * i).toFixed(2) + 's">'
+         +   '<span class="wb-chip-name">' + esc(m.name) + '</span>'
+         +   '<span class="wb-chip-city">' + esc(m.city) + '</span>'
+         +   (note ? '<span class="wb-chip-note">' + esc(note) + '</span>' : '')
+         + '</button>';
+  }
+
+  /* ── City view ─────────────────────────────────────────────────── */
+  var cityview = document.getElementById('wb-cityview');
+  var cities = [], byCity = {};
+  DATA.forEach(function (m, i) {
+    if (!byCity[m.city]) { byCity[m.city] = []; cities.push(m.city); }
+    byCity[m.city].push(i);
+  });
+  var ch = '';
+  cities.forEach(function (city) {
+    ch += '<section class="wb-cityblock" data-city="' + esc(city) + '">'
+       +    '<div class="wb-cityname">' + esc(city) + '</div>'
+       +    '<div class="wb-citycountry">' + esc(DATA[byCity[city][0]].country) + '</div>'
+       +    '<div class="wb-stack">';
+    byCity[city].forEach(function (i) { ch += chip(DATA[i], i, false, weekOf(DATA[i]).note); });
+    ch += '</div></section>';
+  });
+  cityview.innerHTML = ch;
+
+  /* ── Filtering ─────────────────────────────────────────────────── */
+  var keys = Array.prototype.slice.call(document.querySelectorAll('.wb-bar .pill-badge'));
+  var activeType = 'all';
+
+  function apply() {
+    Array.prototype.forEach.call(document.querySelectorAll('.wb-chip'), function (c) {
+      c.hidden = !(activeType === 'all' || c.getAttribute('data-type') === activeType);
+    });
+    Array.prototype.forEach.call(document.querySelectorAll('.wb-col'), function (col) {
+      var n = col.querySelectorAll('.wb-chip:not([hidden])').length;
+      var tally = col.querySelector('.wb-tally');
+      if (tally) { tally.textContent = n === 0 ? 'Nothing on' : (n === 1 ? 'One market' : n + ' markets'); }
+      var e = col.querySelector('.wb-colempty');
+      if (e) { e.hidden = n > 0; }
+    });
+    Array.prototype.forEach.call(document.querySelectorAll('.wb-cityblock'), function (b) {
+      b.hidden = b.querySelectorAll('.wb-chip:not([hidden])').length === 0;
+    });
+  }
+
+  keys.forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      var t = btn.getAttribute('data-filter');
+      activeType = (activeType === t) ? 'all' : t;
+      keys.forEach(function (b) {
+        var on = b.getAttribute('data-filter') === activeType;
+        b.classList.toggle('is-on', on);
+        b.setAttribute('aria-pressed', on ? 'true' : 'false');
+      });
+      apply();
+    });
+  });
+  apply();
+
+  /* ── View toggle ───────────────────────────────────────────────── */
+  var vWeek = document.getElementById('wb-v-week');
+  var vCity = document.getElementById('wb-v-city');
+  var weekview = document.getElementById('wb-weekview');
+  function setView(week) {
+    weekview.hidden = !week;
+    cityview.hidden = week;
+    vWeek.classList.toggle('on', week);
+    vCity.classList.toggle('on', !week);
+  }
+  vWeek.addEventListener('click', function () { setView(true); });
+  vCity.addEventListener('click', function () { setView(false); });
+
+  /* ── Drawer ────────────────────────────────────────────────────── */
+  var drawer = document.getElementById('wb-drawer');
+  var scrim = document.getElementById('wb-scrim');
+  var lastFocus = null;
+
+  function openDrawer(i) {
+    var m = DATA[i], w = weekOf(m);
+    var wk = '';
+    for (var d = 0; d < 7; d++) {
+      var on = w.open.indexOf(d) !== -1;
+      var cls = on ? (isPart(m, d) ? 'part' : 'on') : '';
+      wk += '<span class="' + cls + '">' + SHORT[d].charAt(0) + '</span>';
+    }
+    drawer.innerHTML =
+        '<button type="button" class="wb-close" aria-label="Close">&times;</button>'
+      + '<div class="wb-d-name">' + esc(m.name) + '</div>'
+      + '<div class="wb-d-city">' + esc(m.city) + ' &middot; ' + esc(m.country) + ' &middot; ' + esc(m.badge) + '</div>'
+      + '<div class="wb-d-field"><div class="wb-d-label">Trades on</div><div class="wb-d-week">' + wk + '</div></div>'
+      + '<div class="wb-d-field"><div class="wb-d-label">Hours, as published</div><div class="wb-d-body">' + esc(m.meta) + '</div></div>'
+      + '<div class="wb-d-field"><div class="wb-d-label">Where</div><div class="wb-d-body">' + esc(m.place) + '</div></div>'
+      + '<div class="wb-d-field"><div class="wb-d-label">What it is</div><div class="wb-d-body">' + esc(m.desc) + '</div></div>'
+      + '<a class="wb-d-go" href="' + esc(m.href) + '">Open the ' + esc(m.city) + ' guide</a>';
+    drawer.classList.add('open');
+    scrim.classList.add('open');
+    drawer.focus();
+    drawer.querySelector('.wb-close').addEventListener('click', closeDrawer);
+  }
+  function closeDrawer() {
+    drawer.classList.remove('open');
+    scrim.classList.remove('open');
+    if (lastFocus && lastFocus.focus) { lastFocus.focus(); }
+  }
+  scrim.addEventListener('click', closeDrawer);
+  document.addEventListener('keydown', function (e) { if (e.key === 'Escape') { closeDrawer(); } });
+  document.addEventListener('click', function (e) {
+    var c = e.target.closest ? e.target.closest('.wb-chip') : null;
+    if (!c) { return; }
+    lastFocus = c;
+    openDrawer(+c.getAttribute('data-i'));
+  });
+
+  /* ── Reveal ────────────────────────────────────────────────────── */
+  if ('IntersectionObserver' in window) {
+    var io = new IntersectionObserver(function (en) {
+      en.forEach(function (x) { if (x.isIntersecting) { x.target.classList.add('in'); io.unobserve(x.target); } });
+    }, { threshold: .15 });
+    Array.prototype.forEach.call(document.querySelectorAll('.wb-rise'), function (el, i) {
+      el.style.transitionDelay = (i * 0.1) + 's'; io.observe(el);
+    });
+    /* Safety net — see the note on the same guard elsewhere in this set:
+       if the observer never fires, nothing may stay invisible. */
+    setTimeout(function () {
+      if (document.querySelector('.wb-rise.in')) { return; }
+      Array.prototype.forEach.call(document.querySelectorAll('.wb-rise'), function (el) { el.classList.add('in'); });
+    }, 2500);
+  } else {
+    Array.prototype.forEach.call(document.querySelectorAll('.wb-rise'), function (el) { el.classList.add('in'); });
+  }
+
+  if (window.TVESearch) {
+    var input = document.getElementById('wb-search');
+    if (input) {
+      TVESearch.attach(input, {
+        items: DATA.map(function (m, i) { return { name: m.name, sub: m.city + ', ' + m.country, i: i }; }),
+        onPick: function (it) {
+          activeType = 'all';
+          keys.forEach(function (b) {
+            var on = b.getAttribute('data-filter') === 'all';
+            b.classList.toggle('is-on', on);
+            b.setAttribute('aria-pressed', on ? 'true' : 'false');
+          });
+          apply();
+          input.value = it.name;
+          openDrawer(it.i);
+        }
+      });
+    }
+  }
+}());
+</script>
+</body>
+</html>

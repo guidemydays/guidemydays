@@ -1,0 +1,518 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex,nofollow">
+<title>Night Markets — Design 1: Lantern Row | Guide My Days</title>
+<link rel="stylesheet" href="/assets/web-travel-style.css">
+<link rel="stylesheet" href="/assets/mobile.css?v=53">
+<link rel="icon" href="/assets/icons/favicon-32.png" sizes="32x32" type="image/png">
+<link rel="apple-touch-icon" href="/assets/icons/apple-touch-icon.png">
+<meta name="theme-color" content="#120e0a">
+<style>
+/* ══════════════════════════════════════════════════════════════════
+   NIGHT MARKETS — NEW 1 · "Lantern Row"
+   Design-competition entry. Standalone: nothing on the live site links
+   here and this page links to no other entry. Content is the live Night
+   Markets page's content, unchanged — only the presentation is new.
+
+   The bold idea: the page is set AT NIGHT. A night market does not
+   happen on a cream page. Every market hangs from a wire as a lit paper
+   lantern; the lantern's glow IS its pickpocket-risk tier, so the thing
+   the reader must know is carried by light rather than by a label they
+   have to read. Embers drift up the whole page behind the row.
+
+   Shared components used as-is: the site's .search-input (TVESearch §0
+   standard bar, 440×56, 999px oval — not reinvented) and the shared
+   .pill/.pill-badge + sb-green/sb-gold/sb-red/nt-grey tones for the
+   filter keys, exactly as the live page uses them. Nothing hand-rolled.
+   ══════════════════════════════════════════════════════════════════ */
+
+:root {
+  --nite-0: #0d0a08;      /* deepest sky   */
+  --nite-1: #171009;      /* street level  */
+  --nite-2: #221709;      /* panel ground  */
+  --nite-edge: #3a2a16;
+  --nite-ink: #f5e9d6;
+  --nite-dim: #b9a488;
+}
+/* The tier colour is NOT retyped here. Each lantern carries the shared
+   .sb-green / .sb-gold / .sb-red class, which sets --sb-fill and --sp-rgb
+   and nothing else on a plain element, and every glow below reads those.
+   Change the family in web-travel-style.css and these lanterns follow. */
+
+/* The page paints its own night. Deliberate: this entry is the dark one. */
+body { background: var(--nite-0); color: var(--nite-ink); }
+
+#lr-embers {
+  position: fixed; inset: 0; width: 100%; height: 100%;
+  pointer-events: none; z-index: 0; opacity: .55;
+}
+.lr-page { position: relative; z-index: 1; }
+
+/* ── Hero ───────────────────────────────────────────────────────── */
+.lr-hero {
+  position: relative; overflow: hidden;
+  padding: 62px var(--gutter, 20px) 54px;
+  background: radial-gradient(120% 100% at 50% -10%, #2a1b0c 0%, #150e08 55%, var(--nite-0) 100%);
+  border-bottom: 1px solid var(--nite-edge);
+}
+.lr-hero-inner { max-width: var(--rail, 1040px); margin: 0 auto; position: relative; }
+.lr-kicker {
+  display: inline-block; font-size: 11px; font-weight: 800; letter-spacing: .22em;
+  text-transform: uppercase; color: #ffcf6b;
+  padding: 6px 14px; border: 1px solid rgba(255,207,107,.35); border-radius: 999px;
+  margin-bottom: 20px;
+  animation: lrFadeUp .7s cubic-bezier(.22,1,.36,1) both;
+}
+.lr-title {
+  font-size: clamp(30px, 5.4vw, 54px); line-height: 1.06; font-weight: 800;
+  letter-spacing: -.022em; margin: 0 0 18px; max-width: 17ch; text-wrap: balance;
+}
+.lr-title em { font-style: normal; color: #ffcf6b; display: block; }
+.lr-title .w { display: inline-block; animation: lrFadeUp .8s cubic-bezier(.22,1,.36,1) both; }
+.lr-intro {
+  max-width: 66ch; font-size: 15px; line-height: 1.72; color: var(--nite-dim);
+  animation: lrFadeUp .9s .28s cubic-bezier(.22,1,.36,1) both;
+}
+.lr-intro a { color: #ffcf6b; text-decoration: underline; text-underline-offset: 3px; }
+@keyframes lrFadeUp { from { opacity: 0; transform: translateY(22px); } to { opacity: 1; transform: none; } }
+
+/* The hero's own lantern string, purely decorative. */
+.lr-string { position: absolute; top: 0; right: 0; width: 46%; height: 100%; pointer-events: none; opacity: .9; }
+@media (max-width: 900px) { .lr-string { display: none; } }
+
+/* ── Controls ───────────────────────────────────────────────────── */
+.lr-controls { max-width: var(--rail, 1040px); margin: 0 auto; padding: 34px var(--gutter, 20px) 0; }
+.lr-searchrow { display: flex; justify-content: center; margin-bottom: 20px; }
+.lr-searchrow .search-input { width: var(--search-w, 440px); max-width: 100%; }
+
+.lr-keys {
+  display: flex; flex-wrap: wrap; gap: 9px; align-items: center; justify-content: center;
+  padding: 13px 18px; border-radius: 14px;
+  background: rgba(34,23,9,.72); border: 1px solid var(--nite-edge);
+  backdrop-filter: blur(6px);
+}
+.lr-keys-label {
+  font-size: 11px; font-weight: 800; letter-spacing: .12em; text-transform: uppercase;
+  color: var(--nite-dim); margin-right: 4px;
+}
+.lr-keys .pill-badge { transition: transform .18s cubic-bezier(.22,1,.36,1), box-shadow .18s; }
+.lr-keys .pill-badge:hover { transform: translateY(-2px); }
+.lr-keys .pill-badge.is-on { box-shadow: 0 0 22px rgba(255,207,107,.42); }
+
+.lr-count {
+  text-align: center; font-size: 12px; letter-spacing: .1em; text-transform: uppercase;
+  font-weight: 700; color: var(--nite-dim); margin: 18px 0 4px;
+}
+
+/* ── The row ────────────────────────────────────────────────────── */
+.lr-wrap { max-width: var(--rail, 1040px); margin: 0 auto; padding: 8px var(--gutter, 20px) 90px; }
+
+.lr-city { margin-top: 46px; }
+.lr-city[hidden] { display: none !important; }
+.lr-city-head {
+  display: flex; align-items: baseline; gap: 12px; margin-bottom: 6px;
+  padding-bottom: 10px; border-bottom: 1px solid var(--nite-edge);
+}
+.lr-city-name { font-size: 20px; font-weight: 800; letter-spacing: -.01em; color: var(--nite-ink); }
+.lr-city-country { font-size: 12px; letter-spacing: .14em; text-transform: uppercase; color: var(--nite-dim); }
+
+/* The wire the lanterns hang from. */
+.lr-wire { position: relative; height: 26px; }
+.lr-wire::before {
+  content: ""; position: absolute; left: 0; right: 0; top: 12px; height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(212,154,78,.55) 12%, rgba(212,154,78,.55) 88%, transparent);
+}
+.lr-lane { display: grid; grid-template-columns: repeat(auto-fill, minmax(330px, 1fr)); gap: 22px; }
+
+/* ── A lantern ──────────────────────────────────────────────────── */
+.lr-lantern {
+  position: relative; display: block; color: inherit; text-decoration: none;
+  transform-origin: 50% -26px;
+  animation: lrDrop .85s cubic-bezier(.18,.9,.28,1.12) both;
+}
+.lr-lantern[hidden] { display: none !important; }
+@keyframes lrDrop {
+  0%   { opacity: 0; transform: translateY(-46px) scaleY(.86); }
+  70%  { opacity: 1; transform: translateY(6px)   scaleY(1.02); }
+  100% { opacity: 1; transform: none; }
+}
+/* A settled lantern breathes on its wire — 7s, barely there. */
+.lr-lantern .lr-body { animation: lrSway 7.5s ease-in-out infinite; transform-origin: 50% -30px; }
+@keyframes lrSway {
+  0%, 100% { transform: rotate(-.45deg); }
+  50%      { transform: rotate(.45deg); }
+}
+
+.lr-hang { display: block; width: 1px; height: 22px; margin: 0 auto; background: rgba(212,154,78,.55); }
+.lr-cap {
+  width: 46px; height: 9px; margin: 0 auto; border-radius: 3px 3px 0 0;
+  background: #5c4023; border: 1px solid #7a5a30; border-bottom: none;
+}
+
+.lr-body {
+  position: relative; border-radius: 16px; padding: 20px 20px 18px;
+  background: linear-gradient(180deg, rgba(46,31,14,.96), rgba(26,17,9,.96));
+  border: 1px solid var(--nite-edge);
+  box-shadow: 0 18px 40px -22px #000, 0 0 0 0 rgba(0,0,0,0);
+  transition: transform .28s cubic-bezier(.22,1,.36,1), box-shadow .28s, border-color .28s;
+}
+/* The glow IS the risk tier, read from the shared family on the lantern. */
+.lr-lantern .lr-body {
+  box-shadow: 0 18px 40px -22px #000, 0 0 34px -6px rgba(var(--sp-rgb), .36);
+  border-color: rgba(var(--sp-rgb), .36);
+}
+.lr-lantern[data-risk="high"] .lr-body {
+  box-shadow: 0 18px 40px -22px #000, 0 0 42px -4px rgba(var(--sp-rgb), .5);
+  border-color: rgba(var(--sp-rgb), .5);
+  animation: lrSway 7.5s ease-in-out infinite, lrPulse 3.2s ease-in-out infinite;
+}
+@keyframes lrPulse {
+  0%, 100% { box-shadow: 0 18px 40px -22px #000, 0 0 34px -8px rgba(var(--sp-rgb), .36); }
+  50%      { box-shadow: 0 18px 40px -22px #000, 0 0 54px -2px rgba(var(--sp-rgb), .66); }
+}
+.lr-lantern:hover .lr-body,
+.lr-lantern:focus-visible .lr-body { transform: translateY(-6px) scale(1.012); }
+.lr-lantern:focus-visible { outline: none; }
+.lr-lantern:focus-visible .lr-body { border-color: #ffcf6b; }
+
+/* The ribs of the paper shade. */
+.lr-body::before {
+  content: ""; position: absolute; inset: 0; border-radius: 16px; pointer-events: none;
+  background: repeating-linear-gradient(180deg, rgba(255,207,107,.055) 0 1px, transparent 1px 26px);
+}
+
+.lr-top { display: flex; align-items: flex-start; justify-content: space-between; gap: 12px; margin-bottom: 10px; }
+.lr-name { font-size: 17px; font-weight: 800; line-height: 1.25; letter-spacing: -.01em; color: #fff5e4; }
+.lr-lantern:hover .lr-name { color: #ffcf6b; }
+
+.lr-flame {
+  flex: 0 0 auto; width: 12px; height: 12px; border-radius: 50%; margin-top: 5px;
+  background: var(--sb-fill); box-shadow: 0 0 13px var(--sb-fill);
+}
+.lr-lantern[data-risk="high"] .lr-flame { animation: lrFlicker 1.6s steps(3, end) infinite; }
+@keyframes lrFlicker { 0%,100% { opacity: 1; } 45% { opacity: .55; } 70% { opacity: .9; } }
+
+.lr-when {
+  font-size: 12.5px; font-weight: 700; line-height: 1.6; color: #ffcf6b;
+  padding: 8px 11px; border-radius: 9px; margin-bottom: 8px;
+  background: rgba(255,207,107,.08); border: 1px solid rgba(255,207,107,.18);
+}
+.lr-place { font-size: 12.5px; color: var(--nite-dim); margin-bottom: 12px; }
+.lr-queue { font-size: 13px; line-height: 1.62; color: #ece0cd; margin-bottom: 10px; }
+.lr-queue strong { color: #ffcf6b; font-weight: 800; }
+.lr-pay {
+  display: inline-block; font-size: 11.5px; line-height: 1.5; color: var(--nite-dim);
+  padding: 5px 10px; border-radius: 7px;
+  background: rgba(255,255,255,.035); border: 1px solid rgba(255,255,255,.07);
+  margin-bottom: 12px;
+}
+.lr-skip {
+  font-size: 12.5px; line-height: 1.6; color: #f0dcc0;
+  border-left: 3px solid #C04E1A; border-radius: 0 8px 8px 0;
+  padding: 9px 12px; background: rgba(192,78,26,.12);
+}
+.lr-skip strong { color: #ffb69a; font-weight: 800; }
+
+.lr-go {
+  display: inline-flex; align-items: center; gap: 7px; margin-top: 14px;
+  font-size: 11.5px; font-weight: 800; letter-spacing: .1em; text-transform: uppercase;
+  color: #ffcf6b;
+}
+.lr-go span { transition: transform .22s cubic-bezier(.22,1,.36,1); }
+.lr-lantern:hover .lr-go span { transform: translateX(5px); }
+
+.lr-flash .lr-body { animation: lrFlash 1.5s ease; }
+@keyframes lrFlash {
+  0%   { box-shadow: 0 0 0 3px #ffcf6b, 0 0 60px rgba(255,207,107,.7); }
+  100% { box-shadow: 0 18px 40px -22px #000; }
+}
+
+.lr-empty {
+  text-align: center; padding: 70px 20px; color: var(--nite-dim);
+  font-size: 14px; letter-spacing: .04em;
+}
+.lr-empty[hidden] { display: none !important; }
+
+.lr-foot {
+  max-width: var(--rail, 1040px); margin: 0 auto; padding: 0 var(--gutter, 20px) 70px;
+  font-size: 12px; color: #7d6d59; text-align: center; line-height: 1.7;
+}
+
+@media (max-width: 600px) and (pointer: coarse) {
+  .lr-hero { padding: 46px 16px 40px; }
+  .lr-lane { grid-template-columns: 1fr; }
+  .lr-keys { justify-content: flex-start; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .lr-lantern, .lr-lantern .lr-body, .lr-title .w, .lr-kicker, .lr-intro,
+  .lr-lantern[data-risk="high"] .lr-body, .lr-lantern[data-risk="high"] .lr-flame {
+    animation: none !important;
+  }
+  #lr-embers { display: none; }
+}
+</style>
+</head>
+<body>
+<div id="toolbar-mount" data-depth="2" data-maxwidth="1040" data-updated="2026-09-05"></div>
+<script src="/assets/toolbar.js?v=127"></script>
+
+<canvas id="lr-embers" aria-hidden="true"></canvas>
+
+<div class="lr-page">
+
+  <header class="lr-hero">
+    <svg class="lr-string" viewBox="0 0 460 320" aria-hidden="true">
+      <defs>
+        <radialGradient id="lr-l1" cx="50%" cy="32%" r="80%">
+          <stop offset="0" stop-color="#ffcf6b"/><stop offset=".55" stop-color="#f0763a"/><stop offset="1" stop-color="#b23a1a"/>
+        </radialGradient>
+      </defs>
+      <path d="M-10 34 Q 230 96 470 30" fill="none" stroke="#d49a4e" stroke-opacity=".45" stroke-width="1.4"/>
+      <g opacity=".92">
+        <g transform="translate(66,0)">
+          <path d="M0 62 V78" stroke="#d49a4e" stroke-opacity=".5" stroke-width="1.2"/>
+          <ellipse cx="0" cy="104" rx="24" ry="30" fill="url(#lr-l1)" opacity=".92"/>
+          <animateTransform attributeName="transform" type="rotate" values="-2 0 60;2 0 60;-2 0 60" dur="8s" repeatCount="indefinite" additive="sum"/>
+        </g>
+        <g transform="translate(180,0)">
+          <path d="M0 84 V100" stroke="#d49a4e" stroke-opacity=".5" stroke-width="1.2"/>
+          <ellipse cx="0" cy="130" rx="30" ry="38" fill="url(#lr-l1)" opacity=".85"/>
+          <animateTransform attributeName="transform" type="rotate" values="2.4 0 82;-2.4 0 82;2.4 0 82" dur="9.5s" repeatCount="indefinite" additive="sum"/>
+        </g>
+        <g transform="translate(300,0)">
+          <path d="M0 76 V92" stroke="#d49a4e" stroke-opacity=".5" stroke-width="1.2"/>
+          <ellipse cx="0" cy="116" rx="20" ry="25" fill="url(#lr-l1)" opacity=".7"/>
+          <animateTransform attributeName="transform" type="rotate" values="-1.6 0 74;1.6 0 74;-1.6 0 74" dur="7s" repeatCount="indefinite" additive="sum"/>
+        </g>
+        <g transform="translate(404,0)">
+          <path d="M0 52 V68" stroke="#d49a4e" stroke-opacity=".5" stroke-width="1.2"/>
+          <ellipse cx="0" cy="92" rx="26" ry="33" fill="url(#lr-l1)" opacity=".8"/>
+          <animateTransform attributeName="transform" type="rotate" values="1.8 0 50;-1.8 0 50;1.8 0 50" dur="10.5s" repeatCount="indefinite" additive="sum"/>
+        </g>
+      </g>
+    </svg>
+
+    <div class="lr-hero-inner">
+      <span class="lr-kicker">Night Markets</span>
+      <h1 class="lr-title">
+        <span class="w" style="animation-delay:.06s">The&nbsp;stalls</span>
+        <span class="w" style="animation-delay:.12s">don't</span>
+        <span class="w" style="animation-delay:.18s">open</span>
+        <span class="w" style="animation-delay:.24s">until</span>
+        <span class="w" style="animation-delay:.30s">sunset,</span>
+        <em class="w" style="animation-delay:.40s">and the best dish is the one with the longest local queue.</em>
+      </h1>
+      <p class="lr-intro">Ten evening street-food markets across eight fleet cities — Bangkok, Taipei, Hong Kong, Marrakech, Singapore, Chiang Mai, Luang Prabang and Shanghai — with the neighbourhood, the best time to arrive, what's actually worth queuing for, whether the stalls take cards, a pickpocket-risk tier, and one tourist trap to skip. This covers evening street-food scenes that run on a fixed nightly or weekly clock, not a one-off event; for daytime weekly produce and flea markets, see <a href="/essentials/market-days/">Market Days</a>, and for annual festivals and named events, see <a href="/essentials/festival-finder/">Best Festivals &amp; Holidays</a>. Every entry links to its city guide.</p>
+    </div>
+  </header>
+
+  <script src="/assets/search-autocomplete.js?v=8"></script>
+
+  <div class="lr-controls">
+    <div class="lr-searchrow">
+      <input type="search" id="lr-search" class="search-input" placeholder="City or market" aria-label="Search night markets by city or name" autocomplete="off">
+    </div>
+    <div class="lr-keys" id="lr-keys">
+      <span class="lr-keys-label">Pickpocket risk</span>
+      <button type="button" class="pill pill-badge nt-grey hov-darken is-on" data-filter="all" aria-pressed="true">All</button>
+      <button type="button" class="pill pill-badge sb-green hov-darken" data-filter="low" aria-pressed="false">Low</button>
+      <button type="button" class="pill pill-badge sb-gold hov-darken" data-filter="moderate" aria-pressed="false">Moderate</button>
+      <button type="button" class="pill pill-badge sb-red hov-darken" data-filter="high" aria-pressed="false">High</button>
+    </div>
+    <div class="lr-count" id="lr-count"></div>
+  </div>
+
+  <main class="lr-wrap" id="lr-row"></main>
+
+  <div class="lr-empty" id="lr-empty" hidden>No markets match this filter.</div>
+
+  <p class="lr-foot">Hours and stall line-ups change. Check locally before you build an evening around one.</p>
+</div>
+
+<script>
+/* eslint-env browser */
+(function () {
+  var DATA = [{"href":"/guides/bangkok.html","risk":"low","key":"Jodd Fairs (RCA)","city":"Bangkok","country":"Thailand","name":"Jodd Fairs (RCA)","badge":"Low risk","badgecls":"sb-green","meta":"Thursday–Sunday · roughly 16:00–00:00 · arrive by 18:00, before the queues build","place":"Rama IX, next to Central Rama 9","dishes":"<strong>Queue for:<\/strong> grilled river prawns, boat noodles, giant banana roti crepes, lobster","pay":"Cash preferred · PromptPay QR at most stalls","trap":"<strong>Skip:<\/strong> the clothing stalls ringing the entrance are priced for passersby — the food lanes further in are where the real queues (and the better prices) are."},{"href":"/guides/bangkok.html","risk":"low","key":"Rot Fai Night Market Ratchada","city":"Bangkok","country":"Thailand","name":"Rot Fai Night Market Ratchada","badge":"Low risk","badgecls":"sb-green","meta":"Thursday–Sunday · roughly 17:00–00:00 · arrive by 18:00–19:00","place":"Din Daeng, behind Esplanade Ratchadaphisek","dishes":"<strong>Queue for:<\/strong> grilled pork skewers (moo ping), wok-tossed pad thai, mango sticky rice","pay":"Cash only at most stalls","trap":"<strong>Skip:<\/strong> the vintage-clothing and \"antique\" stalls mark up hard for a first offer — haggling down 30–40% here is normal, not rude."},{"href":"/guides/taipei.html","risk":"low","key":"Shilin Night Market","city":"Taipei","country":"Taiwan","name":"Shilin Night Market","badge":"Low risk","badgecls":"sb-green","meta":"Daily · roughly 16:00–00:00 · arrive by 18:00–19:00, ahead of the after-dinner crowd","place":"Shilin District, by Jiantan MRT (not Shilin MRT)","dishes":"<strong>Queue for:<\/strong> large fried chicken cutlet, oyster omelet, bubble tea, stinky tofu","pay":"Cash at most stalls · EasyCard and mobile pay at the larger vendors","trap":"<strong>Skip:<\/strong> a few stalls near the MRT exit sell a noticeably smaller cutlet at the same price as the famous oversized one — check the size before ordering, not just the sign."},{"href":"/guides/hong-kong.html","risk":"moderate","key":"Temple Street Night Market","city":"Hong Kong","country":"Hong Kong","name":"Temple Street Night Market","badge":"Moderate risk","badgecls":"sb-gold","meta":"Daily · roughly 18:00–00:00, busiest 20:00–22:00 · arrive after 19:00","place":"Yau Ma Tei / Jordan, Kowloon","dishes":"<strong>Queue for:<\/strong> clay-pot rice, curry fish balls, typhoon-shelter crab at the dai pai dong seafood stalls","pay":"Cash strongly preferred; few stalls take cards","trap":"<strong>Skip:<\/strong> unlicensed fortune tellers and tailors along the street quote a low headline price then upsell hard once you're seated — agree the full price before anything starts."},{"href":"/guides/marrakech.html","risk":"high","key":"Jemaa el-Fna","city":"Marrakech","country":"Morocco","name":"Jemaa el-Fna","badge":"High risk","badgecls":"sb-red","meta":"Food stalls set up around sunset (18:00–19:00) · arrive soon after opening","place":"Medina, the city's central square","dishes":"<strong>Queue for:<\/strong> whichever numbered food stall has the longest local queue, snail soup (babbouche), grilled meats and kebabs, fresh orange juice from the surrounding carts","pay":"Cash only (Moroccan dirhams)","trap":"<strong>Skip:<\/strong> unsolicited henna artists and animal handlers (snakes, monkeys) will grab a hand or place an animal on a shoulder for a photo, then demand a large payment — don't stop, don't make eye contact, and agree any price before anyone touches you or your belongings."},{"href":"/guides/singapore.html","risk":"low","key":"Lau Pa Sat & Boon Tat Street Satay Stalls","city":"Singapore","country":"Singapore","name":"Lau Pa Sat & Boon Tat Street Satay Stalls","badge":"Low risk","badgecls":"sb-green","meta":"Hawker hall open 24 hours; satay street sets up from about 19:00 · arrive 19:30–20:00","place":"Raffles Place, Downtown Core","dishes":"<strong>Queue for:<\/strong> chicken and mutton satay grilled streetside, Hokkien mee, char kway teow","pay":"Cash and card/PayNow both widely accepted","trap":"<strong>Skip the miscount:<\/strong> count your satay sticks as they're served — a handful of Boon Tat Street stalls have a long-running history of over-counting on the bill."},{"href":"/guides/singapore.html","risk":"low","key":"Newton Food Centre","city":"Singapore","country":"Singapore","name":"Newton Food Centre","badge":"Low risk","badgecls":"sb-green","meta":"Daily · roughly 17:00–02:00 · arrive 18:30–19:30, ahead of the tour-bus crowd","place":"Newton, near Newton MRT","dishes":"<strong>Queue for:<\/strong> chili crab, satay, barbecued stingray in sambal","pay":"Cash and card both accepted","trap":"<strong>Skip the dispute:<\/strong> ask to see seafood weighed and the price confirmed before it's cooked — Singapore's consumer watchdog has repeatedly flagged a few stalls here for disputed by-weight pricing with tourists."},{"href":"/guides/chiang-mai.html","risk":"low","key":"Sunday Walking Street","city":"Chiang Mai","country":"Thailand","name":"Sunday Walking Street (Ratchadamnoen Road)","badge":"Low risk","badgecls":"sb-green","meta":"Sundays only · roughly 16:00–00:00 · arrive by 17:00, before the street fills","place":"Old City, the length of Ratchadamnoen Road from Tha Phae Gate","dishes":"<strong>Queue for:<\/strong> khao soi, sai oua (northern Thai herbed sausage), mango sticky rice from the temple-courtyard food courts along the route","pay":"Cash only at nearly every stall","trap":"<strong>Skip:<\/strong> silver-look jewelry sold along the strip is often a cheaper alloy, not sterling silver — buy from stalls with a visible hallmark stamp."},{"href":"/guides/luang-prabang.html","risk":"low","key":"Luang Prabang Night Market","city":"Luang Prabang","country":"Laos","name":"Luang Prabang Night Market","badge":"Low risk","badgecls":"sb-green","meta":"Daily · roughly 17:00–22:00 · arrive 17:30–18:00 for the food alley","place":"Sisavangvong Road, closed to traffic each evening, toward Wat Xieng Thong","dishes":"<strong>Queue for:<\/strong> the food-stall alley behind the old market building — grilled Mekong river fish, Lao sausage, sticky rice, and the all-you-can-eat \"Lao buffet\" stalls","pay":"Cash only (Lao kip; Thai baht and US dollars often accepted too)","trap":"<strong>Skip:<\/strong> handicrafts sold as \"hand-woven local textiles\" are frequently machine-made imports — look for an Ock Pop Tok or local weaving-cooperative tag if authenticity matters to you."},{"href":"/guides/shanghai.html","risk":"moderate","key":"Yuyuan Bazaar","city":"Shanghai","country":"China","name":"Yuyuan Bazaar","badge":"Moderate risk","badgecls":"sb-gold","meta":"Shops run roughly 9:00–21:00, but the surrounding food streets stay busy into the evening · arrive 17:00–18:00, after the day-trip groups thin out","place":"Old City, around Yu Garden and the City God Temple","dishes":"<strong>Queue for:<\/strong> xiaolongbao soup dumplings (the line at Nanxiang Steamed Bun Restaurant is normal), scallion pancake, crab roe dumplings","pay":"WeChat Pay and Alipay near-universal; carry some cash as backup, foreign cards rarely work at stalls","trap":"<strong>Skip:<\/strong> a classic \"tea ceremony\" scam operates near here — a friendly local invites you to a nearby tea house for a tasting, then presents a bill for hundreds of dollars. Never follow a stranger's invitation to a tea tasting."}];
+
+  var RISK_LABEL = { low: 'Low risk', moderate: 'Moderate risk', high: 'High risk' };
+  var RISK_TONE  = { low: 'sb-green', moderate: 'sb-gold', high: 'sb-red' };
+
+  var row      = document.getElementById('lr-row');
+  var emptyEl  = document.getElementById('lr-empty');
+  var countEl  = document.getElementById('lr-count');
+  var keys     = Array.prototype.slice.call(document.querySelectorAll('#lr-keys .pill-badge'));
+  var activeRisk = 'all';
+
+  function esc(s) {
+    return String(s == null ? '' : s)
+      .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+  }
+
+  /* Group by city, in the order the cities appear in the data. */
+  var cities = [];
+  var byCity = {};
+  DATA.forEach(function (m) {
+    if (!byCity[m.city]) { byCity[m.city] = []; cities.push(m.city); }
+    byCity[m.city].push(m);
+  });
+
+  var html = '';
+  var n = 0;
+  cities.forEach(function (city) {
+    var list = byCity[city];
+    html += '<section class="lr-city" data-city="' + esc(city) + '">'
+          +   '<div class="lr-city-head">'
+          +     '<span class="lr-city-name">' + esc(city) + '</span>'
+          +     '<span class="lr-city-country">' + esc(list[0].country) + '</span>'
+          +   '</div>'
+          +   '<div class="lr-wire"></div>'
+          +   '<div class="lr-lane">';
+    list.forEach(function (m) {
+      var delay = (0.06 * (n % 8)).toFixed(2);
+      n++;
+      html += '<a class="lr-lantern ' + esc(RISK_TONE[m.risk] || '') + '" href="' + esc(m.href) + '" data-risk="' + esc(m.risk) + '"'
+            +   ' data-name="' + esc(m.key) + '" data-city="' + esc(m.city) + '"'
+            +   ' style="animation-delay:' + delay + 's">'
+            +   '<span class="lr-hang"></span><span class="lr-cap"></span>'
+            +   '<div class="lr-body">'
+            +     '<div class="lr-top">'
+            +       '<span class="lr-name">' + esc(m.name) + '</span>'
+            +       '<span class="lr-flame" title="' + esc(RISK_LABEL[m.risk]) + '"></span>'
+            +     '</div>'
+            +     '<div class="lr-when">' + esc(m.meta) + '</div>'
+            +     '<div class="lr-place">' + esc(m.place) + '</div>'
+            +     '<div class="lr-queue">' + m.dishes + '</div>'
+            +     '<div class="lr-pay">' + esc(m.pay) + '</div>'
+            +     '<div class="lr-skip">' + m.trap + '</div>'
+            +     '<span class="lr-go">Open the ' + esc(m.city) + ' guide <span>&rsaquo;</span></span>'
+            +   '</div>'
+            + '</a>';
+    });
+    html += '</div></section>';
+  });
+  row.innerHTML = html;
+
+  var sections = Array.prototype.slice.call(row.querySelectorAll('.lr-city'));
+  var lanterns = Array.prototype.slice.call(row.querySelectorAll('.lr-lantern'));
+
+  function setKeys(risk) {
+    keys.forEach(function (b) {
+      var on = b.getAttribute('data-filter') === risk;
+      b.classList.toggle('is-on', on);
+      b.setAttribute('aria-pressed', on ? 'true' : 'false');
+    });
+  }
+
+  function apply() {
+    var total = 0;
+    sections.forEach(function (sec) {
+      var visible = 0;
+      Array.prototype.forEach.call(sec.querySelectorAll('.lr-lantern'), function (el) {
+        var show = activeRisk === 'all' || el.getAttribute('data-risk') === activeRisk;
+        el.hidden = !show;
+        if (show) visible++;
+      });
+      sec.hidden = visible === 0;
+      total += visible;
+    });
+    emptyEl.hidden = total > 0;
+    countEl.textContent = total + (total === 1 ? ' market lit' : ' markets lit');
+  }
+
+  keys.forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      var risk = btn.getAttribute('data-filter');
+      activeRisk = (activeRisk === risk) ? 'all' : risk;
+      setKeys(activeRisk);
+      apply();
+    });
+  });
+  apply();
+
+  if (window.TVESearch) {
+    var input = document.getElementById('lr-search');
+    if (input) {
+      TVESearch.attach(input, {
+        items: lanterns.map(function (el) {
+          return {
+            name: el.getAttribute('data-name'),
+            sub: el.getAttribute('data-city'),
+            el: el
+          };
+        }),
+        onPick: function (it) {
+          activeRisk = 'all';
+          setKeys('all');
+          apply();
+          input.value = it.name;
+          if (it.el) {
+            it.el.scrollIntoView({ block: 'center', behavior: 'smooth' });
+            it.el.classList.add('lr-flash');
+            setTimeout(function () { it.el.classList.remove('lr-flash'); }, 1500);
+          }
+        }
+      });
+    }
+  }
+
+  /* ── Embers ──────────────────────────────────────────────────────
+     A cheap particle field: 60 sparks drifting up behind the row. It
+     stops entirely when the tab is hidden and never starts at all
+     under prefers-reduced-motion. */
+  var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var cv = document.getElementById('lr-embers');
+  if (cv && cv.getContext && !reduce) {
+    var ctx = cv.getContext('2d');
+    var dots = [];
+    var raf = null;
+
+    function size() {
+      var dpr = Math.min(window.devicePixelRatio || 1, 2);
+      cv.width = Math.floor(window.innerWidth * dpr);
+      cv.height = Math.floor(window.innerHeight * dpr);
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    }
+    function seed() {
+      dots = [];
+      for (var i = 0; i < 60; i++) {
+        dots.push({
+          x: Math.random() * window.innerWidth,
+          y: Math.random() * window.innerHeight,
+          r: Math.random() * 1.7 + 0.5,
+          v: Math.random() * 0.34 + 0.09,
+          d: Math.random() * Math.PI * 2,
+          a: Math.random() * 0.45 + 0.12
+        });
+      }
+    }
+    function frame() {
+      ctx.clearRect(0, 0, window.innerWidth, window.innerHeight);
+      for (var i = 0; i < dots.length; i++) {
+        var p = dots[i];
+        p.y -= p.v;
+        p.d += 0.012;
+        p.x += Math.sin(p.d) * 0.28;
+        if (p.y < -8) { p.y = window.innerHeight + 8; p.x = Math.random() * window.innerWidth; }
+        ctx.beginPath();
+        ctx.fillStyle = 'rgba(255,190,96,' + p.a.toFixed(3) + ')';
+        ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+        ctx.fill();
+      }
+      raf = window.requestAnimationFrame(frame);
+    }
+    function start() { if (raf === null) { raf = window.requestAnimationFrame(frame); } }
+    function stop() { if (raf !== null) { window.cancelAnimationFrame(raf); raf = null; } }
+
+    size(); seed(); start();
+    window.addEventListener('resize', function () { size(); seed(); });
+    document.addEventListener('visibilitychange', function () {
+      if (document.hidden) { stop(); } else { start(); }
+    });
+  }
+}());
+</script>
+</body>
+</html>

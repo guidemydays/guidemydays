@@ -1,0 +1,495 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex,nofollow">
+<title>Best Cruise Lines — Design 2: The Price Ladder | Guide My Days</title>
+<link rel="stylesheet" href="/assets/web-travel-style.css">
+<link rel="stylesheet" href="/assets/mobile.css?v=53">
+<link rel="icon" href="/assets/icons/favicon-32.png" sizes="32x32" type="image/png">
+<link rel="apple-touch-icon" href="/assets/icons/apple-touch-icon.png">
+<meta name="theme-color" content="#f5f4f0" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#1a1917" media="(prefers-color-scheme: dark)">
+<style>
+/* ══════════════════════════════════════════════════════════════════
+   BEST CRUISE LINES — NEW 2 · "The Price Ladder"
+   Design-competition entry. Standalone: nothing on the live site links
+   here and this page links to no other entry. Content is the live Best
+   Cruise Lines page's content, unchanged — only the presentation is new.
+
+   The bold idea: the live page states a starting nightly rate on all
+   twenty-nine cards and then buries it as the third line of a card, so
+   the reader cannot see that Carnival starts at $70 and Regent starts
+   at $900 without opening every card in turn. Here the price IS the
+   layout — one measured bar per line on a shared logarithmic scale —
+   and the reader can drag a BUDGET LINE across the chart to grey out
+   everything above what they will actually spend.
+
+   Every figure is the live page's own "Price Range" line, parsed from
+   it and shown in full when a row opens; nothing is estimated.
+
+   Shared components used as-is: the live page's own .badge + sb-* card
+   tags, and the .search-input standard bar (TVESearch §0).
+   ══════════════════════════════════════════════════════════════════ */
+
+.pl-shell { max-width: 1180px; margin: 0 auto; padding: 0 var(--gutter, 20px); }
+
+/* ── Hero ───────────────────────────────────────────────────────── */
+.pl-hero { padding: 52px 0 26px; }
+.pl-kicker { font-size: 11px; font-weight: 800; letter-spacing: .24em; text-transform: uppercase; color: #C04E1A; margin-bottom: 18px; }
+.pl-title {
+  font-size: clamp(32px, 6vw, 62px); line-height: 1.02; font-weight: 800;
+  letter-spacing: -.034em; margin: 0 0 20px; max-width: 15ch; text-wrap: balance;
+}
+.pl-title em { font-style: normal; color: var(--muted); }
+.pl-intro { max-width: 64ch; font-size: 15px; line-height: 1.76; color: var(--muted); }
+
+/* ── Controls ───────────────────────────────────────────────────── */
+.pl-controls { padding: 22px 0 0; }
+.pl-searchrow { display: flex; justify-content: center; margin-bottom: 18px; }
+.pl-searchrow .search-input { width: var(--search-w, 440px); max-width: 100%; }
+.pl-bar {
+  display: flex; flex-wrap: wrap; gap: 10px 16px; align-items: center; justify-content: center;
+  padding: 14px 18px; border-radius: 14px; background: var(--surface2); border: 1px solid var(--border2);
+}
+.pl-bar-label { font-size: 11px; font-weight: 800; letter-spacing: .14em; text-transform: uppercase; color: var(--muted); }
+.pl-sep { width: 1px; align-self: stretch; background: var(--border2); }
+.pl-seg { display: inline-flex; border: 1px solid var(--border2); border-radius: 999px; overflow: hidden; background: var(--surface); }
+.pl-seg button {
+  font: inherit; font-size: 11.5px; font-weight: 800; letter-spacing: .08em; text-transform: uppercase;
+  padding: 8px 15px; border: 0; background: none; color: var(--muted); cursor: pointer; transition: background .18s, color .18s;
+}
+.pl-seg button.on { background: var(--text); color: var(--bg); }
+.pl-seg button:not(.on):hover { background: var(--surface2); color: var(--text); }
+
+/* ── Budget slider ──────────────────────────────────────────────── */
+.pl-budget {
+  margin-top: 14px; padding: 16px 20px; border-radius: 14px;
+  background: var(--surface); border: 1px solid var(--border2);
+  display: flex; align-items: center; gap: 18px; flex-wrap: wrap;
+}
+.pl-budget-l { font-size: 11px; font-weight: 800; letter-spacing: .14em; text-transform: uppercase; color: var(--muted); }
+.pl-budget input[type="range"] { flex: 1; min-width: 220px; accent-color: #C04E1A; height: 22px; }
+.pl-budget-read { font-variant-numeric: tabular-nums; font-size: 21px; font-weight: 800; min-width: 6.5ch; text-align: center; }
+.pl-budget-read.off { font-size: 12px; letter-spacing: .12em; text-transform: uppercase; color: var(--muted); }
+.pl-budget-clear {
+  font: inherit; font-size: 11px; font-weight: 800; letter-spacing: .08em; text-transform: uppercase;
+  background: none; border: 1px solid var(--border2); border-radius: 999px; padding: 7px 14px;
+  cursor: pointer; color: var(--muted); transition: border-color .18s, color .18s;
+}
+.pl-budget-clear:hover { border-color: var(--text); color: var(--text); }
+.pl-budget-out { font-size: 12px; color: var(--muted); }
+
+/* ── The chart ──────────────────────────────────────────────────── */
+.pl-chart { margin-top: 30px; padding-bottom: 40px; position: relative; }
+.pl-axis {
+  position: sticky; top: 0; z-index: 5; background: var(--bg);
+  display: grid; grid-template-columns: 250px 1fr; align-items: end;
+  padding: 10px 0 6px; border-bottom: 2px solid var(--text);
+}
+.pl-axis-pad { font-size: 10px; font-weight: 800; letter-spacing: .16em; text-transform: uppercase; color: var(--muted); }
+.pl-scale { position: relative; height: 22px; }
+.pl-gridlabel {
+  position: absolute; bottom: 0; transform: translateX(-50%);
+  font-size: 10.5px; font-weight: 800; color: var(--muted); font-variant-numeric: tabular-nums; white-space: nowrap;
+}
+
+.pl-group { margin-top: 26px; }
+.pl-group[hidden] { display: none !important; }
+.pl-group-name {
+  font-size: 11px; font-weight: 800; letter-spacing: .2em; text-transform: uppercase;
+  color: var(--muted); padding: 0 0 8px; border-bottom: 1px solid var(--border2); margin-bottom: 2px;
+}
+
+.pl-row {
+  display: grid; grid-template-columns: 250px 1fr; align-items: stretch;
+  border-bottom: 1px solid var(--border2); transition: opacity .3s, filter .3s, background .2s;
+}
+.pl-row[hidden] { display: none !important; }
+.pl-row.over { opacity: .26; filter: grayscale(1); }
+.pl-row:hover { background: var(--surface2); }
+
+.pl-label { padding: 12px 14px 12px 2px; border: 0; background: none; font: inherit; text-align: left; cursor: pointer; }
+.pl-label-name { display: block; font-size: 13.5px; font-weight: 800; line-height: 1.3; }
+.pl-row:hover .pl-label-name { color: #C04E1A; }
+.pl-label-sub { display: block; font-size: 10.5px; letter-spacing: .1em; text-transform: uppercase; color: var(--muted); margin-top: 4px; }
+.pl-chev { display: inline-block; margin-left: 5px; font-size: 11px; color: var(--muted); transition: transform .25s cubic-bezier(.22,1,.36,1); }
+.pl-row.open .pl-chev { transform: rotate(90deg); }
+
+.pl-lane { position: relative; display: flex; align-items: center; overflow: hidden; }
+.pl-gridline { position: absolute; top: 0; bottom: 0; width: 1px; background: var(--border2); }
+.pl-bar-el {
+  position: absolute; left: 0; height: 20px; border-radius: 0 10px 10px 0;
+  transform: scaleX(0); transform-origin: left center;
+  animation: plGrow .85s cubic-bezier(.22,1,.36,1) both;
+}
+@keyframes plGrow { to { transform: scaleX(1); } }
+.pl-row[data-type="ocean"]      .pl-bar-el { background: #2f5fa8; }
+.pl-row[data-type="river"]      .pl-bar-el { background: #2e6b4a; }
+.pl-row[data-type="expedition"] .pl-bar-el { background: #C04E1A; }
+.pl-price {
+  position: absolute; font-size: 12px; font-weight: 800; font-variant-numeric: tabular-nums;
+  color: var(--text); white-space: nowrap; padding-left: 10px;
+  opacity: 0; animation: plFade .5s .55s ease both;
+}
+/* A bar past ~55% of the lane leaves no room for its own label beside it —
+   on a phone that ran the figure clean off the page. Long bars carry the
+   figure INSIDE, right-aligned against the bar's end. */
+.pl-price.inbar { text-align: right; padding-left: 0; padding-right: 10px; color: #fff; }
+.pl-price.inbar span { color: rgba(255,255,255,.78) !important; }
+@keyframes plFade { to { opacity: 1; } }
+
+.pl-cut {
+  position: absolute; top: 0; bottom: 0; width: 2px; background: #C04E1A; z-index: 4;
+  opacity: 0; transition: opacity .2s; pointer-events: none;
+}
+.pl-cut.on { opacity: 1; }
+.pl-cut::after {
+  content: "Your budget"; position: absolute; top: 4px; left: 6px;
+  font-size: 9.5px; font-weight: 800; letter-spacing: .12em; text-transform: uppercase;
+  color: #fff; background: #C04E1A; padding: 3px 7px; border-radius: 3px; white-space: nowrap;
+}
+
+/* ── Expanded ───────────────────────────────────────────────────── */
+.pl-detail { grid-column: 1 / -1; overflow: hidden; max-height: 0; transition: max-height .45s cubic-bezier(.22,1,.36,1); }
+.pl-row.open .pl-detail { max-height: 560px; }
+.pl-detail-in { padding: 6px 2px 26px; display: grid; gap: 18px; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); }
+.pl-d-desc { grid-column: 1 / -1; font-size: 15px; line-height: 1.68; max-width: 68ch; }
+.pl-d-l { font-size: 10px; font-weight: 800; letter-spacing: .16em; text-transform: uppercase; color: var(--muted); margin-bottom: 5px; }
+.pl-d-v { font-size: 13.5px; line-height: 1.6; }
+.pl-d-tags { grid-column: 1 / -1; display: flex; flex-wrap: wrap; gap: 7px; }
+.pl-d-go { grid-column: 1 / -1; display: flex; flex-wrap: wrap; gap: 10px; align-items: center; }
+.pl-d-go a {
+  display: inline-flex; align-items: center; gap: 8px; text-decoration: none;
+  font-size: 11.5px; font-weight: 800; letter-spacing: .09em; text-transform: uppercase;
+  color: var(--text); padding: 10px 18px; border: 1.5px solid var(--text); border-radius: 999px;
+  transition: background .2s, color .2s;
+}
+.pl-d-go a:hover { background: var(--text); color: var(--bg); }
+
+.pl-legend { display: flex; flex-wrap: wrap; gap: 8px 22px; margin-top: 22px; font-size: 11.5px; color: var(--muted); }
+.pl-legend i { display: inline-block; width: 20px; height: 10px; border-radius: 0 5px 5px 0; margin-right: 7px; vertical-align: -1px; }
+
+.pl-empty { text-align: center; padding: 70px 0; font-size: 12px; letter-spacing: .16em; text-transform: uppercase; color: var(--muted); }
+.pl-empty[hidden] { display: none !important; }
+.pl-flash { background: rgba(192,78,26,.10) !important; }
+
+.pl-foot { padding: 26px 0 80px; text-align: center; font-size: 12px; color: var(--muted); line-height: 1.8; }
+
+@media (max-width: 700px) {
+  .pl-axis, .pl-row { grid-template-columns: 150px 1fr; }
+  .pl-price { font-size: 10.5px; padding-left: 6px; }
+}
+@media (max-width: 600px) and (pointer: coarse) {
+  .pl-hero { padding: 30px 0 20px; }
+  .pl-bar { justify-content: flex-start; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .pl-bar-el { animation: none; transform: scaleX(1); }
+  .pl-price { animation: none; opacity: 1; }
+}
+</style>
+</head>
+<body>
+<div id="toolbar-mount" data-depth="2" data-maxwidth="1180" data-updated="2026-09-05"></div>
+<script src="/assets/toolbar.js?v=127"></script>
+
+<div class="pl-shell">
+  <header class="pl-hero">
+    <div class="pl-kicker">Best Cruise Lines</div>
+    <h1 class="pl-title">Ocean, river and expedition lines, <em>worth booking.</em></h1>
+    <p class="pl-intro">Every major ocean, river and expedition line worth booking — the regions it sails, what it is known for, the kind of traveller it suits and roughly what a week aboard costs. Filter by type to compare like with like rather than a river boat against a megaship.</p>
+  </header>
+
+  <script src="/assets/search-autocomplete.js?v=8"></script>
+
+  <div class="pl-controls">
+    <div class="pl-searchrow">
+      <input type="search" id="pl-search" class="search-input" placeholder="Cruise line" aria-label="Search cruise lines by name" autocomplete="off">
+    </div>
+    <div class="pl-bar">
+      <span class="pl-bar-label">Type</span>
+      <button type="button" class="pill pill-badge nt-brown hov-darken is-on" data-filter="all" aria-pressed="true">All</button>
+      <button type="button" class="pill pill-badge sb-blue hov-darken" data-filter="ocean" aria-pressed="false">Ocean</button>
+      <button type="button" class="pill pill-badge sb-green hov-darken" data-filter="river" aria-pressed="false">River</button>
+      <button type="button" class="pill pill-badge sb-red hov-darken" data-filter="expedition" aria-pressed="false">Expedition</button>
+      <span class="pl-sep"></span>
+      <span class="pl-bar-label">Order</span>
+      <span class="pl-seg">
+        <button type="button" id="pl-o-price" class="on">Cheapest first</button>
+        <button type="button" id="pl-o-tier">By tier</button>
+      </span>
+    </div>
+
+    <div class="pl-budget">
+      <span class="pl-budget-l">My budget, per night</span>
+      <input type="range" id="pl-cap" min="70" max="900" step="10" value="900" aria-label="Nightly budget per person">
+      <span class="pl-budget-read off" id="pl-cap-read">No limit</span>
+      <button type="button" class="pl-budget-clear" id="pl-cap-clear">Clear</button>
+      <span class="pl-budget-out" id="pl-cap-out"></span>
+    </div>
+  </div>
+
+  <main class="pl-chart">
+    <div class="pl-axis">
+      <div class="pl-axis-pad">Cruise line</div>
+      <div class="pl-scale" id="pl-scale"></div>
+    </div>
+    <div id="pl-rows" style="position:relative;">
+      <div class="pl-cut" id="pl-cut"></div>
+    </div>
+    <div class="pl-empty" id="pl-empty" hidden>No lines match this filter</div>
+    <div class="pl-legend">
+      <span><i style="background:#2f5fa8"></i>Ocean</span>
+      <span><i style="background:#2e6b4a"></i>River</span>
+      <span><i style="background:#C04E1A"></i>Expedition</span>
+      <span>Bar length is a logarithmic scale — $70 to $900 a night</span>
+    </div>
+  </main>
+
+  <p class="pl-foot">Every figure is the line's own published starting rate, per person per night, before taxes and fees.<br>Open a row for the full price line as the page states it.</p>
+</div>
+
+<script>
+/* eslint-env browser */
+(function () {
+  var DATA = [{"type":"ocean","name":"Royal Caribbean International","url":"https://www.royalcaribbean.com","tags":[{"cls":"sb-light-grey tag-midrange","label":"Mid-Range"},{"cls":"sb-blue tag-ocean","label":"Ocean"}],"desc":"The world's largest cruise line by tonnage, known for record-breaking megaships packed with onboard thrills — surf simulators, sky diving, Broadway shows, and go-kart tracks. Strong balance of entertainment and destination variety.","rows":[{"label":"Signature Regions","value":"Caribbean, Bahamas, Europe, Alaska, Asia, Australia"},{"label":"Known For","value":"Icon of the Seas (world's largest ship), CocoCay private island, entertainment variety"},{"label":"Price Range","value":"From ~$100/night per person (interior cabin)"}],"links":[{"href":"https://www.royalcaribbean.com","text":"royalcaribbean.com"}]},{"type":"ocean","name":"Carnival Cruise Line","url":"https://www.carnival.com","tags":[{"cls":"sb-green tag-budget","label":"Budget"},{"cls":"sb-blue tag-ocean","label":"Ocean"}],"desc":"America's most popular cruise line, built for fun-seekers and first-timers. Accessible pricing, lively atmosphere, and a wide range of short getaways from US home ports. Great for groups and families on a budget.","rows":[{"label":"Signature Regions","value":"Caribbean, Bahamas, Mexico, Bermuda"},{"label":"Known For","value":"Affordable 3–7 night sailings, Carnival Hub app, Seuss at Sea for families"},{"label":"Price Range","value":"From ~$70/night per person"}],"links":[{"href":"https://www.carnival.com","text":"carnival.com"}]},{"type":"ocean","name":"Norwegian Cruise Line (NCL)","url":"https://www.ncl.com","tags":[{"cls":"sb-light-grey tag-midrange","label":"Mid-Range"},{"cls":"sb-blue tag-ocean","label":"Ocean"}],"desc":"Pioneer of Freestyle Cruising — no assigned dining times or dress codes, giving passengers the flexibility to eat when and where they want. Known for diverse specialty restaurants, The Haven (ship-within-a-ship luxury enclave), and a strong entertainment lineup.","rows":[{"label":"Signature Regions","value":"Caribbean, Bermuda, Europe, Alaska, Hawaii, South America"},{"label":"Known For","value":"Freestyle dining, The Haven suites, Great Stirrup Cay private island"},{"label":"Price Range","value":"From ~$110/night per person"}],"links":[{"href":"https://www.ncl.com","text":"ncl.com"}]},{"type":"ocean","name":"MSC Cruises","url":"https://www.msccruises.com","tags":[{"cls":"sb-light-grey tag-midrange","label":"Mid-Range"},{"cls":"sb-blue tag-ocean","label":"Ocean"}],"desc":"The world's largest privately owned cruise line, headquartered in Geneva. Offers a European-style experience with a multinational atmosphere, modern megaships, and strong value across Mediterranean, Caribbean, and world itineraries. Growing rapidly in North America.","rows":[{"label":"Signature Regions","value":"Mediterranean, Caribbean, Northern Europe, South America, Dubai, Asia"},{"label":"Known For","value":"MSC Yacht Club (luxury enclave), new mega-ships, strong Mediterranean network"},{"label":"Price Range","value":"From ~$90/night per person"}],"links":[{"href":"https://www.msccruises.com","text":"msccruises.com"}]},{"type":"ocean","name":"Celebrity Cruises","url":"https://www.celebritycruises.com","tags":[{"cls":"sb-gold tag-premium","label":"Premium"},{"cls":"sb-blue tag-ocean","label":"Ocean"}],"desc":"Royal Caribbean Group's upscale brand, pitched squarely between mainstream and luxury. Modern ships, outstanding culinary programs, Galapagos sailings, and the adults-only Edge Villas. Attracts travelers who want elevated service without full luxury pricing.","rows":[{"label":"Signature Regions","value":"Caribbean, Europe, Galapagos, Alaska, Australia, Asia"},{"label":"Known For","value":"Celebrity Edge class ships, Le Voyage specialty restaurant, Galapagos expedition cruises"},{"label":"Price Range","value":"From ~$150/night per person"}],"links":[{"href":"https://www.celebritycruises.com","text":"celebritycruises.com"}]},{"type":"ocean","name":"Princess Cruises","url":"https://www.princess.com","tags":[{"cls":"sb-gold tag-premium","label":"Premium"},{"cls":"sb-blue tag-ocean","label":"Ocean"}],"desc":"The leading Alaska specialist and beloved for its Panama Canal sailings. Known for the MedallionClass technology platform — RFID medallion wearable for keyless cabin entry, food delivery anywhere onboard, and personalized service. Strong appeal to experienced cruisers.","rows":[{"label":"Signature Regions","value":"Alaska, Caribbean, Panama Canal, Europe, South Pacific, World Voyages"},{"label":"Known For","value":"MedallionClass wearable tech, Alaska Denali land tours, Grand Princess class ships"},{"label":"Price Range","value":"From ~$140/night per person"}],"links":[{"href":"https://www.princess.com","text":"princess.com"}]},{"type":"ocean","name":"Holland America Line","url":"https://www.hollandamerica.com","tags":[{"cls":"sb-gold tag-premium","label":"Premium"},{"cls":"sb-blue tag-ocean","label":"Ocean"}],"desc":"A premium line with 150+ years of maritime history, skewing to a more mature, destination-focused traveler. Well regarded for Alaska (including Denali rail), Holland's long world-voyage tradition, and the EXC (Explorations Central) enrichment program.","rows":[{"label":"Signature Regions","value":"Alaska, Caribbean, Europe, Panama Canal, Asia, World Grand Voyage"},{"label":"Known For","value":"Alaska expertise, world voyages, EXC enrichment program, Pinnacle Grill"},{"label":"Price Range","value":"From ~$160/night per person"}],"links":[{"href":"https://www.hollandamerica.com","text":"hollandamerica.com"}]},{"type":"ocean","name":"Cunard","url":"https://www.cunard.com","tags":[{"cls":"sb-gold tag-premium","label":"Premium"},{"cls":"sb-blue tag-ocean","label":"Ocean"}],"desc":"The original transatlantic ocean liner experience, with a heritage dating to 1839. Queen Mary 2 remains the only regularly scheduled transatlantic liner in service. Formal dress traditions, the legendary Queen's Room ballroom, and White Star service set it apart from all other lines.","rows":[{"label":"Signature Regions","value":"Transatlantic (New York–Southampton), Mediterranean, Caribbean, World Voyages"},{"label":"Known For","value":"Queen Mary 2 transatlantic crossing, White Glove service, Grills suites"},{"label":"Price Range","value":"From ~$180/night per person"}],"links":[{"href":"https://www.cunard.com","text":"cunard.com"}]},{"type":"ocean","name":"Disney Cruise Line","url":"https://www.disneycruise.com","tags":[{"cls":"sb-gold tag-premium","label":"Premium"},{"cls":"sb-blue tag-ocean","label":"Ocean"},{"cls":"sb-pink tag-family","label":"Family"}],"desc":"Premium family cruising with Disney magic on every deck — character meets, Broadway-caliber shows, themed restaurants, and Castaway Cay (Disney's own Bahamian island). Adults get their own restaurants, bars, and spa zones. Consistently rated the top family cruise line worldwide.","rows":[{"label":"Signature Regions","value":"Caribbean, Bahamas, Castaway Cay, Europe, Alaska"},{"label":"Known For","value":"Castaway Cay private island, character experiences, Palo adult dining, Wish class ships"},{"label":"Price Range","value":"From ~$250/night per person (premium family positioning)"}],"links":[{"href":"https://www.disneycruise.com","text":"disneycruise.com"}]},{"type":"ocean","name":"Viking Ocean Cruises","url":"https://www.vikingcruises.com","tags":[{"cls":"sb-dark-brown tag-luxury","label":"Luxury"},{"cls":"sb-blue tag-ocean","label":"Ocean"}],"desc":"Understated Scandinavian luxury on small, adults-only ships (no casino, no kids, no formal nights). Strong emphasis on destination immersion — longer port times, included shore excursions in every port, and culturally enriching programming. Highly consistent guest satisfaction ratings.","rows":[{"label":"Signature Regions","value":"Northern Europe, Mediterranean, Caribbean, West Africa, Americas, World Cruises"},{"label":"Known For","value":"Adults-only ships, included shore excursion per port, World Cruise itineraries"},{"label":"Price Range","value":"From ~$350/night per person"}],"links":[{"href":"https://www.vikingcruises.com","text":"vikingcruises.com"}]},{"type":"ocean","name":"Oceania Cruises","url":"https://www.oceaniacruises.com","tags":[{"cls":"sb-dark-brown tag-luxury","label":"Luxury"},{"cls":"sb-blue tag-ocean","label":"Ocean"}],"desc":"Built around the finest cuisine at sea — three exclusive Jacques Pépin–inspired restaurants, a Culinary Center for cooking classes, and an all-included beverage package on most sailings. Smaller, R-class and O-class ships access ports larger vessels cannot. Destination-intensive itineraries.","rows":[{"label":"Signature Regions","value":"Mediterranean, Caribbean, Asia, South America, Africa, Northern Europe"},{"label":"Known For","value":"Culinary Center, Jacques restaurant, destination-intensive itineraries"},{"label":"Price Range","value":"From ~$400/night per person"}],"links":[{"href":"https://www.oceaniacruises.com","text":"oceaniacruises.com"}]},{"type":"ocean","name":"Azamara","url":"https://www.azamara.com","tags":[{"cls":"sb-dark-brown tag-luxury","label":"Luxury"},{"cls":"sb-blue tag-ocean","label":"Ocean"}],"desc":"Port-intensive sailings on small boutique ships — often overnighting in-port and making late-night departures to maximize time ashore. Drinks and gratuities included. No ship-as-destination approach; Azamara is for travelers who come for the places, not the vessel.","rows":[{"label":"Signature Regions","value":"Mediterranean, Europe, Asia, South America, Caribbean"},{"label":"Known For","value":"Overnight port stays, AzAmazing Evenings private shore events, all-inclusive pricing"},{"label":"Price Range","value":"From ~$380/night per person"}],"links":[{"href":"https://www.azamara.com","text":"azamara.com"}]},{"type":"ocean","name":"Windstar Cruises","url":"https://www.windstarcruises.com","tags":[{"cls":"sb-dark-brown tag-luxury","label":"Luxury"},{"cls":"sb-blue tag-ocean","label":"Ocean"}],"desc":"Yacht-scale ships — including true sailing vessels with billowing sails — that anchor in harbors too small for mainstream cruise ships. Intimate onboard atmosphere with just 148–342 passengers. Feels far more like private yachting than traditional cruising.","rows":[{"label":"Signature Regions","value":"Mediterranean, Caribbean, Tahiti, Costa Rica, Alaska, Northern Europe"},{"label":"Known For","value":"Sailing ships (Star Breeze, Star Flyer), secluded anchorages, small-ship intimacy"},{"label":"Price Range","value":"From ~$400/night per person"}],"links":[{"href":"https://www.windstarcruises.com","text":"windstarcruises.com"}]},{"type":"ocean","name":"Silversea Cruises","url":"https://www.silversea.com","tags":[{"cls":"sb-rust tag-ultra","label":"Ultra-Luxury"},{"cls":"sb-blue tag-ocean","label":"Ocean"}],"desc":"All-suite, butler-attended ultra-luxury cruising on small ships — all drinks, dining, gratuities, and excursions included. Every passenger has a dedicated butler. Silversea operates both ocean and expedition vessels, making it the only line covering the full spectrum from Caribbean to Antarctica in one brand.","rows":[{"label":"Signature Regions","value":"Mediterranean, Caribbean, Antarctica, Arctic, Alaska, Asia, Africa, World Cruise"},{"label":"Known For","value":"All-suite butler service, fully all-inclusive pricing, Silver Nova ultra-luxury design"},{"label":"Price Range","value":"From ~$700/night per person"}],"links":[{"href":"https://www.silversea.com","text":"silversea.com"}]},{"type":"ocean","name":"Seabourn","url":"https://www.seabourn.com","tags":[{"cls":"sb-rust tag-ultra","label":"Ultra-Luxury"},{"cls":"sb-blue tag-ocean","label":"Ocean"}],"desc":"Legendary for anticipatory service — staff remember guests' names and preferences from their first voyage. Fully all-inclusive on small ships of 300–600 passengers. The Seabourn Experience includes open-bar dining, caviar in the surf, and Thomas Keller restaurant partnerships.","rows":[{"label":"Signature Regions","value":"Mediterranean, Caribbean, Northern Europe, Antarctica, Pacific, World Cruises"},{"label":"Known For","value":"Thomas Keller dining, Caviar in the Surf, personalized anticipatory service"},{"label":"Price Range","value":"From ~$750/night per person"}],"links":[{"href":"https://www.seabourn.com","text":"seabourn.com"}]},{"type":"ocean","name":"Regent Seven Seas Cruises","url":"https://www.rssc.com","tags":[{"cls":"sb-rust tag-ultra","label":"Ultra-Luxury"},{"cls":"sb-blue tag-ocean","label":"Ocean"}],"desc":"The most inclusive luxury cruise line on the market — airfare, shore excursions, specialty dining, drinks, spa treatments, and gratuities all bundled in. No upcharges, no hidden costs. Seven Seas Grandeur (2023) is among the most spacious ships ever launched per passenger.","rows":[{"label":"Signature Regions","value":"Mediterranean, Caribbean, Alaska, Asia, Australia, South America, World Voyages"},{"label":"Known For","value":"Truly all-inclusive (airfare + excursions), Seven Seas Grandeur, highest space ratio"},{"label":"Price Range","value":"From ~$900/night per person (all-inclusive)"}],"links":[{"href":"https://www.rssc.com","text":"rssc.com"}]},{"type":"ocean","name":"Explora Journeys","url":"https://www.explorajourneys.com","tags":[{"cls":"sb-rust tag-ultra","label":"Ultra-Luxury"},{"cls":"sb-blue tag-ocean","label":"Ocean"}],"desc":"MSC's ultra-luxury brand, launched 2023, with a distinctly residential, hotel-like approach to ocean travel. Designed by Sybille de Margerie, the ships feel more like floating boutique resorts — 18 restaurants and lounges, vast private terrace suites, and no rush to be anywhere.","rows":[{"label":"Signature Regions","value":"Mediterranean, Caribbean, Northern Europe, Americas"},{"label":"Known For","value":"Residential-style design, 18 F&B venues, terrace suites, no rush itineraries"},{"label":"Price Range","value":"From ~$800/night per person"}],"links":[{"href":"https://www.explorajourneys.com","text":"explorajourneys.com"}]},{"type":"river","name":"Viking River Cruises","url":"https://www.vikingrivercruises.com","tags":[{"cls":"sb-gold tag-premium","label":"Premium"},{"cls":"sb-teal tag-river","label":"River"}],"desc":"The dominant force in European river cruising, operating the world's largest river fleet. Standardized Longships built specifically for Europe's waterways, included excursions, Aquavit Terrace forward-facing dining, and no casino or entertainment-heavy approach. Adults-only, destination-first philosophy.","rows":[{"label":"Signature Rivers","value":"Rhine, Danube, Seine, Douro, Elbe, Nile, Mekong, Mississippi"},{"label":"Known For","value":"Viking Longships, included excursions every port, Christmas Markets sailings"},{"label":"Price Range","value":"From ~$300/night per person"}],"links":[{"href":"https://www.vikingrivercruises.com","text":"vikingrivercruises.com"}]},{"type":"river","name":"AmaWaterways","url":"https://www.amawaterways.com","tags":[{"cls":"sb-dark-brown tag-luxury","label":"Luxury"},{"cls":"sb-teal tag-river","label":"River"}],"desc":"A family-owned luxury river line with a strong culinary focus and active excursion programs — cycling tours, hiking, and wine-pairing dinners are core to the experience. Twin-balcony staterooms (French + outside) are a hallmark. Wine-themed sailings on the Rhône and Douro are particularly sought-after.","rows":[{"label":"Signature Rivers","value":"Rhine, Danube, Moselle, Douro, Rhône, Seine, Mekong, Chobe (Africa)"},{"label":"Known For","value":"Twin-balcony cabins, wine-themed sailings, cycling excursions"},{"label":"Price Range","value":"From ~$350/night per person"}],"links":[{"href":"https://www.amawaterways.com","text":"amawaterways.com"}]},{"type":"river","name":"Avalon Waterways","url":"https://www.avaloncruises.com","tags":[{"cls":"sb-gold tag-premium","label":"Premium"},{"cls":"sb-teal tag-river","label":"River"}],"desc":"Globus family brand offering Suite Ships with panoramic staterooms where the entire wall becomes a window. Open-air balconies, flexible shore excursions with multiple options per port, and excellent value in the premium tier. Good entry point into luxury river cruising.","rows":[{"label":"Signature Rivers","value":"Rhine, Danube, Seine, Douro, Rhône, Nile, Mekong"},{"label":"Known For","value":"Suite Ships with panoramic windows, Active & Discovery excursion options"},{"label":"Price Range","value":"From ~$280/night per person"}],"links":[{"href":"https://www.avaloncruises.com","text":"avaloncruises.com"}]},{"type":"river","name":"Scenic River Cruises","url":"https://www.scenic.com","tags":[{"cls":"sb-rust tag-ultra","label":"Ultra-Luxury"},{"cls":"sb-teal tag-river","label":"River"}],"desc":"Ultra-luxury river cruising with butler service for every stateroom, e-bikes onboard for independent exploration, and a fully all-inclusive price covering drinks, dining, excursions, and gratuities. Scenic Space-Ships feature heated marble floors, Scenic Sun Lounges, and a retractable rooftop.","rows":[{"label":"Signature Rivers","value":"Rhine, Danube, Moselle, Seine, Douro, Rhône, Mekong, Irrawaddy, Ganges"},{"label":"Known For","value":"Butler service, all-inclusive pricing, e-bikes, retractable rooftop Space-Ships"},{"label":"Price Range","value":"From ~$600/night per person"}],"links":[{"href":"https://www.scenic.com","text":"scenic.com"}]},{"type":"river","name":"Tauck River Cruises","url":"https://www.tauck.com/tours-and-cruises/european-river-cruises","tags":[{"cls":"sb-dark-brown tag-luxury","label":"Luxury"},{"cls":"sb-teal tag-river","label":"River"}],"desc":"Family-owned tour operator with an all-inclusive river cruise program built around exclusive access — private museum evenings, off-hours castle visits, and performances unavailable on other lines. Smaller ships, truly all-inclusive, and heavily guided with expert Tauck Directors on every sailing.","rows":[{"label":"Signature Rivers","value":"Rhine, Danube, Seine, Moselle, Douro, Rhône"},{"label":"Known For","value":"Exclusive after-hours access, Tauck Directors, fully all-inclusive, private experiences"},{"label":"Price Range","value":"From ~$500/night per person"}],"links":[{"href":"https://www.tauck.com/tours-and-cruises/european-river-cruises","text":"tauck.com"}]},{"type":"river","name":"Emerald Cruises","url":"https://www.emeraldcruises.com","tags":[{"cls":"sb-gold tag-premium","label":"Premium"},{"cls":"sb-teal tag-river","label":"River"}],"desc":"Contemporary-style river ships with a Wellness Studio, pool that converts to a cinema, and a younger traveler profile than traditional river lines. Emerald also operates luxury superyachts, giving it a bridge from river to open-water small-ship cruising.","rows":[{"label":"Signature Rivers","value":"Rhine, Danube, Seine, Douro, Rhône, and luxury yacht destinations in the Adriatic"},{"label":"Known For","value":"Indoor pool / Sky Cinema conversion, Wellness Studio, modern contemporary design"},{"label":"Price Range","value":"From ~$250/night per person"}],"links":[{"href":"https://www.emeraldcruises.com","text":"emeraldcruises.com"}]},{"type":"expedition","name":"Hurtigruten","url":"https://www.hurtigruten.com","tags":[{"cls":"sb-gold tag-premium","label":"Premium"},{"cls":"sb-red tag-expedition","label":"Expedition"}],"desc":"The original Norwegian coastal route — 34 ports between Bergen and Kirkenes, operated since 1893. Combines working ferry service with expedition-style tourism. Sailing year-round with Northern Lights sailings in winter and Midnight Sun itineraries in summer. The Coastal Express remains a bucket-list experience.","rows":[{"label":"Signature Regions","value":"Norwegian Coast, Svalbard, Greenland"},{"label":"Known For","value":"Bergen–Kirkenes Coastal Express, Northern Lights, Midnight Sun, 130+ year heritage"},{"label":"Price Range","value":"From ~$250/night per person"}],"links":[{"href":"https://www.hurtigruten.com","text":"hurtigruten.com"}]},{"type":"expedition","name":"HX (Hurtigruten Expeditions)","url":"https://www.hxlines.com","tags":[{"cls":"sb-dark-brown tag-luxury","label":"Luxury"},{"cls":"sb-red tag-expedition","label":"Expedition"}],"desc":"Hurtigruten's dedicated polar expedition brand, split off in 2023 under the HX name. Modern hybrid-powered ships with ice-strengthened hulls, onboard scientists and naturalists, and a science-forward approach to polar travel. Covers Antarctica, Arctic, Svalbard, and more remote territories.","rows":[{"label":"Signature Regions","value":"Antarctica, Arctic, Svalbard, Greenland, Iceland, Canadian Arctic"},{"label":"Known For","value":"Hybrid-electric polar ships, onboard scientists, off-ship landing programs"},{"label":"Price Range","value":"From ~$500/night per person"}],"links":[{"href":"https://www.hxlines.com","text":"hxlines.com"}]},{"type":"expedition","name":"Ponant","url":"https://www.ponant.com","tags":[{"cls":"sb-rust tag-ultra","label":"Ultra-Luxury"},{"cls":"sb-red tag-expedition","label":"Expedition"}],"desc":"French ultra-luxury expedition cruising with a fleet of distinctive blue-hulled Le Commandant Charcot (nuclear-powered icebreaker) and Le Lyrial-class ships. French art de vivre at sea — fine dining, Champagne landings, and small passenger counts (92–264) in the most remote destinations on earth.","rows":[{"label":"Signature Regions","value":"Antarctica, Arctic, North Pole, Greenland, Patagonia, Pacific, Indian Ocean"},{"label":"Known For","value":"Le Commandant Charcot (nuclear icebreaker), French culinary program, North Pole sailings"},{"label":"Price Range","value":"From ~$700/night per person"}],"links":[{"href":"https://www.ponant.com","text":"ponant.com"}]},{"type":"expedition","name":"Quark Expeditions","url":"https://www.quarkexpeditions.com","tags":[{"cls":"sb-gold tag-premium","label":"Premium"},{"cls":"sb-red tag-expedition","label":"Expedition"}],"desc":"The polar specialist, having operated more Antarctica voyages than any other line. Offers a range of ship sizes — from intimate boutique vessels to larger expedition ships with multiple Zodiac fleets. Adventure add-ons include mountaineering, kayaking, diving, and camping on the ice.","rows":[{"label":"Signature Regions","value":"Antarctica, Arctic, Canadian Arctic, Greenland, North Pole"},{"label":"Known For","value":"Antarctica expertise, Zodiac landings, camping on ice, mountaineering add-ons"},{"label":"Price Range","value":"From ~$600/night per person"}],"links":[{"href":"https://www.quarkexpeditions.com","text":"quarkexpeditions.com"}]},{"type":"expedition","name":"Lindblad / National Geographic","url":"https://www.expeditions.com","tags":[{"cls":"sb-dark-brown tag-luxury","label":"Luxury"},{"cls":"sb-red tag-expedition","label":"Expedition"}],"desc":"A 60-year partnership between Lindblad Expeditions and National Geographic puts credentialed naturalists, photographers, and scientists on every ship. Undersea specialists dive ahead of each landing to brief passengers. Sustainability-focused, Nat Geo branded, and science-first in remote destinations worldwide.","rows":[{"label":"Signature Regions","value":"Antarctica, Galapagos, Arctic, Alaska, Baja California, Pacific Islands, Patagonia"},{"label":"Known For","value":"Nat Geo partnership, underwater specialists, Galapagos sailings, photo instructors"},{"label":"Price Range","value":"From ~$650/night per person"}],"links":[{"href":"https://www.expeditions.com","text":"expeditions.com"}]},{"type":"expedition","name":"Aurora Expeditions","url":"https://www.auroraexpeditions.com.au","tags":[{"cls":"sb-dark-brown tag-luxury","label":"Luxury"},{"cls":"sb-red tag-expedition","label":"Expedition"}],"desc":"Australian-founded polar expedition specialist with a strong sustainability ethos and small-ship approach. Greg Mortimer (700 passenger capacity: 104 guests) features X-BOW hull technology for smoother polar crossings. Broad range of adventure add-ons and one of the most experienced expedition teams in the industry.","rows":[{"label":"Signature Regions","value":"Antarctica, Arctic, Svalbard, Greenland, Sub-Antarctic Islands, Pacific"},{"label":"Known For","value":"X-BOW hull technology, small-ship intimacy, strong sustainability practices"},{"label":"Price Range","value":"From ~$550/night per person"}],"links":[{"href":"https://www.auroraexpeditions.com.au","text":"auroraexpeditions.com.au"}]}];
+
+  var TIER_ORDER = ['Budget', 'Mid-Range', 'Premium', 'Luxury', 'Ultra-Luxury'];
+
+  function esc(s) {
+    return String(s == null ? '' : s)
+      .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+  }
+  function rowVal(m, label) {
+    for (var i = 0; i < m.rows.length; i++) {
+      if (m.rows[i].label === label) { return m.rows[i].value; }
+    }
+    return '';
+  }
+  function priceOf(m) {
+    /* Read the nightly figure straight out of the page's own price line. */
+    var s = rowVal(m, 'Price Range');
+    var hit = s.match(/\$\s*([\d,]+)/);
+    return hit ? +hit[1].replace(/,/g, '') : null;
+  }
+  function tierOf(m) {
+    for (var i = 0; i < m.tags.length; i++) {
+      if (TIER_ORDER.indexOf(m.tags[i].label) !== -1) { return m.tags[i].label; }
+    }
+    return 'Other';
+  }
+
+  var priced = DATA.map(function (m, i) {
+    return { m: m, i: i, price: priceOf(m), tier: tierOf(m) };
+  });
+  var LO = 70, HI = 900;
+  priced.forEach(function (p) {
+    if (p.price !== null) { LO = Math.min(LO, p.price); HI = Math.max(HI, p.price); }
+  });
+
+  var lnLo = Math.log(LO), lnHi = Math.log(HI);
+  function pct(v) {
+    var c = Math.max(LO, Math.min(HI, v));
+    return ((Math.log(c) - lnLo) / (lnHi - lnLo)) * 96 + 2;   /* 2%–98% of the lane */
+  }
+
+  /* Axis */
+  var GRID = [70, 100, 150, 200, 300, 450, 650, 900];
+  document.getElementById('pl-scale').innerHTML = GRID.map(function (g) {
+    return '<span class="pl-gridlabel" style="left:' + pct(g).toFixed(3) + '%">$' + g + '</span>';
+  }).join('');
+
+  var rowsEl = document.getElementById('pl-rows');
+  var cut = document.getElementById('pl-cut');
+
+  function rowHtml(p, order) {
+    var m = p.m;
+    var w = p.price === null ? 0 : pct(p.price);
+    var grid = GRID.map(function (g) {
+      return '<span class="pl-gridline" style="left:' + pct(g).toFixed(3) + '%"></span>';
+    }).join('');
+    var inbar = w >= 55;
+    var priceStyle = inbar
+      ? 'left:0;width:' + w.toFixed(3) + '%'
+      : 'left:' + w.toFixed(3) + '%';
+    var bar = p.price === null ? ''
+      : '<span class="pl-bar-el" style="width:' + w.toFixed(3) + '%;animation-delay:' + (0.03 * order).toFixed(2) + 's"></span>'
+      + '<span class="pl-price' + (inbar ? ' inbar' : '') + '" style="' + priceStyle + '">$' + p.price
+      + ' <span style="font-weight:600;color:var(--muted)">/ night</span></span>';
+    var tags = m.tags.map(function (t) { return '<span class="badge ' + esc(t.cls) + '">' + esc(t.label) + '</span>'; }).join('');
+    var facts = m.rows.map(function (r) {
+      return '<div><div class="pl-d-l">' + esc(r.label) + '</div><div class="pl-d-v">' + esc(r.value) + '</div></div>';
+    }).join('');
+    var books = m.links.map(function (l) {
+      return '<a href="' + esc(l.href) + '" target="_blank" rel="noopener">' + esc(l.text) + ' &nearr;</a>';
+    }).join('');
+
+    return '<div class="pl-row" data-type="' + esc(m.type) + '" data-price="' + (p.price === null ? '' : p.price) + '"'
+         +   ' data-name="' + esc(m.name) + '" data-tier="' + esc(p.tier) + '">'
+         +   '<button class="pl-label" type="button" aria-expanded="false">'
+         +     '<span class="pl-label-name">' + esc(m.name) + '<span class="pl-chev">&rsaquo;</span></span>'
+         +     '<span class="pl-label-sub">' + esc(p.tier) + ' &middot; ' + esc(m.type) + '</span>'
+         +   '</button>'
+         +   '<div class="pl-lane">' + grid + bar + '</div>'
+         +   '<div class="pl-detail"><div class="pl-detail-in">'
+         +     '<div class="pl-d-tags">' + tags + '</div>'
+         +     '<p class="pl-d-desc">' + esc(m.desc) + '</p>'
+         +     facts
+         +     (books ? '<div class="pl-d-go">' + books + '</div>' : '')
+         +   '</div></div>'
+         + '</div>';
+  }
+
+  var orderBy = 'price';
+
+  function render() {
+    var html = '';
+    if (orderBy === 'price') {
+      var list = priced.slice().sort(function (a, b) {
+        if (a.price === null) { return 1; }
+        if (b.price === null) { return -1; }
+        return a.price - b.price;
+      });
+      html += '<section class="pl-group"><div class="pl-group-name">Cheapest first &middot; ' + list.length + ' lines</div>';
+      list.forEach(function (p, n) { html += rowHtml(p, n); });
+      html += '</section>';
+    } else {
+      var n2 = 0;
+      TIER_ORDER.forEach(function (tier) {
+        var list2 = priced.filter(function (p) { return p.tier === tier; })
+          .sort(function (a, b) { return (a.price || 0) - (b.price || 0); });
+        if (!list2.length) { return; }
+        html += '<section class="pl-group" data-tier="' + esc(tier) + '"><div class="pl-group-name">' + esc(tier) + ' &middot; ' + list2.length + '</div>';
+        list2.forEach(function (p) { html += rowHtml(p, n2++); });
+        html += '</section>';
+      });
+    }
+    rowsEl.innerHTML = '<div class="pl-cut" id="pl-cut"></div>' + html;
+    cut = document.getElementById('pl-cut');
+    wire();
+    apply();
+    placeCut();
+  }
+
+  var activeType = 'all';
+  var cap = null;
+
+  function wire() {
+    Array.prototype.forEach.call(rowsEl.querySelectorAll('.pl-row'), function (r) {
+      var btn = r.querySelector('.pl-label');
+      btn.addEventListener('click', function () {
+        var open = r.classList.toggle('open');
+        btn.setAttribute('aria-expanded', open ? 'true' : 'false');
+      });
+    });
+  }
+
+  function apply() {
+    var total = 0, over = 0;
+    Array.prototype.forEach.call(rowsEl.querySelectorAll('.pl-row'), function (r) {
+      var show = activeType === 'all' || r.getAttribute('data-type') === activeType;
+      r.hidden = !show;
+      if (!show) { return; }
+      total++;
+      var p = r.getAttribute('data-price');
+      var isOver = cap !== null && p !== '' && +p > cap;
+      r.classList.toggle('over', isOver);
+      if (isOver) { over++; }
+    });
+    Array.prototype.forEach.call(rowsEl.querySelectorAll('.pl-group'), function (g) {
+      g.hidden = g.querySelectorAll('.pl-row:not([hidden])').length === 0;
+    });
+    document.getElementById('pl-empty').hidden = total > 0;
+    var out = document.getElementById('pl-cap-out');
+    out.textContent = cap === null ? '' : (total - over) + ' of ' + total + ' start at or below this';
+  }
+
+  function placeCut() {
+    if (!cut) { return; }
+    if (cap === null) { cut.classList.remove('on'); return; }
+    var lane = rowsEl.querySelector('.pl-lane');
+    if (!lane) { return; }
+    var box = rowsEl.getBoundingClientRect(), lb = lane.getBoundingClientRect();
+    cut.style.left = ((lb.left - box.left) + lb.width * (pct(cap) / 100)) + 'px';
+    cut.classList.add('on');
+  }
+
+  /* Type filter */
+  var keys = Array.prototype.slice.call(document.querySelectorAll('.pl-bar .pill-badge'));
+  keys.forEach(function (b) {
+    b.addEventListener('click', function () {
+      var t = b.getAttribute('data-filter');
+      activeType = (activeType === t) ? 'all' : t;
+      keys.forEach(function (x) {
+        var on = x.getAttribute('data-filter') === activeType;
+        x.classList.toggle('is-on', on);
+        x.setAttribute('aria-pressed', on ? 'true' : 'false');
+      });
+      apply();
+    });
+  });
+
+  /* Order */
+  var oPrice = document.getElementById('pl-o-price');
+  var oTier = document.getElementById('pl-o-tier');
+  oPrice.addEventListener('click', function () { orderBy = 'price'; oPrice.classList.add('on'); oTier.classList.remove('on'); render(); });
+  oTier.addEventListener('click', function () { orderBy = 'tier'; oTier.classList.add('on'); oPrice.classList.remove('on'); render(); });
+
+  /* Budget line. Starts OFF — nothing is preselected for the reader. */
+  var capIn = document.getElementById('pl-cap');
+  var capRead = document.getElementById('pl-cap-read');
+  var capClear = document.getElementById('pl-cap-clear');
+  capIn.addEventListener('input', function () {
+    cap = +capIn.value;
+    capRead.textContent = '$' + cap;
+    capRead.classList.remove('off');
+    apply(); placeCut();
+  });
+  capClear.addEventListener('click', function () {
+    cap = null; capIn.value = 900;
+    capRead.textContent = 'No limit'; capRead.classList.add('off');
+    apply(); placeCut();
+  });
+  window.addEventListener('resize', placeCut);
+
+  render();
+
+  if (window.TVESearch) {
+    var input = document.getElementById('pl-search');
+    if (input) {
+      TVESearch.attach(input, {
+        items: priced.map(function (p) {
+          return { name: p.m.name, sub: p.tier + ' · ' + p.m.type, key: p.m.name };
+        }),
+        onPick: function (it) {
+          activeType = 'all';
+          keys.forEach(function (x) {
+            var on = x.getAttribute('data-filter') === 'all';
+            x.classList.toggle('is-on', on);
+            x.setAttribute('aria-pressed', on ? 'true' : 'false');
+          });
+          cap = null; capIn.value = 900;
+          capRead.textContent = 'No limit'; capRead.classList.add('off');
+          apply(); placeCut();
+          input.value = it.name;
+          var el = null;
+          Array.prototype.forEach.call(rowsEl.querySelectorAll('.pl-row'), function (r) {
+            if (r.getAttribute('data-name') === it.key) { el = r; }
+          });
+          if (el) {
+            el.classList.add('open');
+            el.querySelector('.pl-label').setAttribute('aria-expanded', 'true');
+            el.scrollIntoView({ block: 'center', behavior: 'smooth' });
+            el.classList.add('pl-flash');
+            setTimeout(function () { el.classList.remove('pl-flash'); }, 1600);
+          }
+        }
+      });
+    }
+  }
+}());
+</script>
+</body>
+</html>

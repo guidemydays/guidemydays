@@ -224,8 +224,8 @@
 @keyframes cw-strip-in { from { opacity: 0; transform: translateY(-8px); } to { opacity: 1; transform: none; } }
 .cw-strip h3 { margin: 0 0 4px; font-size: var(--fs-body,16px); font-weight: 800; color: var(--text,#3d3a32); }
 .cw-used { margin: 0 0 8px; font-size: var(--fs-sub,12px); color: var(--muted,#6a6660); }
-.cw-gc { margin: 0; padding: 6px 0 0; font-size: var(--fs-sub,12px); line-height: 1.75; }
-.cw-gc b { display: inline-block; min-width: 8.5em; margin-right: 6px; color: var(--muted,#6a6660); font-weight: 800; text-transform: uppercase; letter-spacing: .06em; }
+.cw-gc { margin: 0; padding: 6px 0 0; font-size: var(--fs-body,16px); line-height: 1.75; }
+.cw-gc b { margin-right: 4px; color: var(--muted,#6a6660); font-weight: 800; }
 .cw-gc a { color: var(--text,#3d3a32); text-decoration: none; border-bottom: 1px solid rgba(192,78,26,.35); }
 .cw-gc a:hover { color: #C04E1A; border-bottom-color: #C04E1A; }
 .cw-gc a:visited { color: #3d3a32; }
@@ -243,7 +243,7 @@
 @media (max-width: 600px) and (pointer: coarse) {
   .index-section { padding: 0 14px; }
   .cw-grid { grid-template-columns: repeat(auto-fill, minmax(124px,1fr)); gap: 10px; }
-  .cw-gc b { display: block; min-width: 0; margin: 0 0 2px; }
+  .cw-gc b { margin-right: 4px; }
 }
 @media (prefers-reduced-motion: reduce) {
   .cw-coin.is-struck, .cw-tile, .cw-strip { animation: none !important; }
@@ -273,17 +273,7 @@
 /* The way out from the bottom of the list — the other half of the answer to
    the 2026-08-18 owner rule, now that the sort row scrolls away with its
    content like everything else on the site. */
-.cw-close-foot {
-  display: block; margin: 18px auto 0; font: inherit; font-size: var(--fs-sub,12px);
-  font-weight: 800; letter-spacing: .1em; text-transform: uppercase;
-  color: var(--muted,#6a6660); background: var(--surface,#fff);
-  border: 1px solid var(--border2,#e6e2da); border-radius: 999px; padding: 9px 20px; cursor: pointer;
-  transition: color .15s, border-color .15s, box-shadow .15s;
-}
-.cw-close-foot:hover { color: #C04E1A; border-color: rgba(192,78,26,.55); box-shadow: 0 0 0 5px rgba(192,78,26,.12); }
-@media (prefers-color-scheme: dark) {
-  .cw-close-foot { background: var(--surface2,#1e1c1a); color: var(--muted,#9a9690); border-color: var(--border2,#3a3630); }
-}
+#fx-close-foot { display: block; margin: 18px auto 0; text-transform: uppercase; letter-spacing: .1em; }
 </style>
 <script>(function(){try{var h=location.hash;if(h&&h.length>1){window.__tveDeep=decodeURIComponent(h.slice(1));history.replaceState(null,'',location.pathname+location.search);}}catch(e){}}());</script>
 </head>
@@ -342,7 +332,7 @@
           <path class="cw-arc" d="M6 62 C 62 6, 158 6, 214 62"/>
           <path class="cw-arc-live" d="M6 62 C 62 6, 158 6, 214 62"/>
         </svg>
-        <button id="fx-swap" class="selection-pill-sm nt-white" type="button">Swap</button>
+        <button id="fx-swap" class="selection-pill-sm mt mt-gunmetal hov2-press-metallic hov2-press-active-metallic" type="button">Swap</button>
       </div>
 
       <div class="cw-side">
@@ -370,11 +360,11 @@
       <span class="cw-sort-label">Sort</span>
       <button class="selection-pill-sm sp-rust hov-darken is-on" type="button" data-sort="most">Most value</button>
       <button class="selection-pill-sm sp-clay hov-darken" type="button" data-sort="least">Least value</button>
-      <button id="fx-close" class="cw-close-x" type="button" aria-label="Close the wall">&#10005;</button>
+      <button id="fx-close" class="cw-close-x" type="button" aria-label="Close">&#10005;</button>
     </div>
     <p class="cw-lede" id="cw-lede"></p>
     <div class="cw-grid" id="cw-grid"></div>
-    <button id="fx-close-foot" class="cw-close-foot" type="button">&#10005; Close the wall</button>
+    <button id="fx-close-foot" class="selection-pill-sm nt-grey hov-darken" type="button">&#10005; Close</button>
     <p class="cw-footer">Rates as of 5 September 2026 &middot; 94 countries &middot; Source: exchangerate-api.com</p>
   </div>
 </div>
@@ -451,7 +441,7 @@ var FXC=[["Austria","Austria","Europe","EUR","",[["Salzburg","/guides/salzburg.h
        the reverse rate is shown. */
     var chips=['1 '+ti+' = '+fmt(convert(1,ti,fi))+' '+fi];
     if(amt!==1) chips.unshift('1 '+fi+' = '+fmt(convert(1,fi,ti))+' '+ti);
-    document.getElementById('cw-chips').innerHTML=chips.map(function(c){ return '<span class="selection-pill-sm">'+esc(c)+'</span>'; }).join('');
+    document.getElementById('cw-chips').innerHTML=chips.map(function(c){ return '<span class="selection-pill-sm sp-cream">'+esc(c)+'</span>'; }).join('');
     var where=USED[ti]||[], elWhere=document.getElementById('cw-where');
     elWhere.hidden=where.length<2;
     elWhere.textContent=where.length<2?'':B.n+' is used in '+where.join(' · ')+'.';
@@ -466,13 +456,11 @@ var FXC=[["Austria","Austria","Europe","EUR","",[["Salzburg","/guides/salzburg.h
   }
 
   function guidesHTML(code){
-    var g=GUIDES[code]||[], out='';
-    for(var i=0;i<g.length;i++){
-      var links=[];
+    var g=GUIDES[code]||[], links=[];
+    for(var i=0;i<g.length;i++)
       for(var j=0;j<g[i][1].length;j++) links.push('<a href="'+g[i][1][j][1]+'">'+esc(g[i][1][j][0])+'</a>');
-      out+='<p class="cw-gc"><b>'+esc(g[i][0])+'</b>'+links.join('<span class="cw-sep"> · </span>')+'</p>';
-    }
-    return out || '<p class="cw-gc">No guides on this site use it yet.</p>';
+    if(!links.length) return '<p class="cw-gc">No guides on this site use it yet.</p>';
+    return '<p class="cw-gc"><b>Used:</b> '+links.join('<span class="cw-sep"> · </span>')+'</p>';
   }
 
   function renderWall(){

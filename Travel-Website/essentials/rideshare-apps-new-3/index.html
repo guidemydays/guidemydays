@@ -1,0 +1,2392 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="/assets/web-travel-style.css">
+<meta name="robots" content="noindex,nofollow">
+<title>Rideshare & Taxi Apps — New 3 (Blueprint) | Guide My Days</title>
+<style>
+.controls {
+  display: flex; flex-direction: column; gap: 14px; align-items: center;
+  margin: 0 0 40px; padding: 16px 18px;
+  background: color-mix(in srgb, var(--surface) 88%, transparent);
+  border: 1px solid var(--border2); border-radius: 16px;
+  box-shadow: 0 1px 2px rgba(0,0,0,.03);
+  backdrop-filter: blur(6px);
+}
+.pills { font-family: inherit; display: flex; gap: var(--fam-gap,10px); flex-wrap: wrap; justify-content: center; }
+.pill { font-family: inherit; }
+#no-results { display: none; color: var(--muted); font-size: 13px; margin-bottom: 12px; text-align: center; }
+
+.section-block { margin-top: 64px; }
+.section-block.hidden { display: none; }
+.section-head {
+  display: flex; align-items: center; gap: 16px;
+  padding-bottom: 18px; margin-bottom: 26px;
+  border-bottom: 3px solid var(--rust, #C04E1A);
+}
+.section-head .gm-icon {
+  width: 1.5em; height: 1.5em; flex-shrink: 0; padding: 9px; box-sizing: content-box;
+  border-radius: 50%;
+  background: color-mix(in srgb, var(--rust, #C04E1A) 10%, transparent);
+}
+.ra-sh-title { font-size: 21px; font-weight: 800; color: var(--text); letter-spacing: -.01em; text-transform: uppercase; }
+
+.card-row {
+  position: relative;
+  background: color-mix(in srgb, var(--surface) 94%, transparent);
+  border: 1px solid var(--border); border-radius: 14px;
+  border-top: 3px solid var(--text);
+  padding: 20px 22px 19px; display: flex; flex-direction: column;
+}
+.card-row.hidden { display: none; }
+@media (pointer: fine) {
+  .card-row { transition: border-color .15s, box-shadow .18s, transform .15s; }
+  .card-row:hover { border-top-color: var(--rust, #C04E1A); box-shadow: 0 10px 24px rgba(0,0,0,.09); transform: translateY(-3px); }
+}
+.card-row > div:first-child { padding-bottom: 11px; margin-bottom: 11px; border-bottom: 1px solid var(--border2); }
+.card-name { font-family: var(--font); font-size: 19px; font-weight: 700; color: var(--text); line-height: 1.2; letter-spacing: -.005em; }
+.card-type { display: inline-block; font-size: 11.5px; font-weight: 700; color: var(--muted); text-transform: uppercase; letter-spacing: .05em; margin-top: 7px; padding-left: 9px; border-left: 2px solid var(--rust, #C04E1A); }
+
+/* ── Network overview cards ── */
+.ra-net-count { font-size: 27px; font-weight: 800; color: var(--rust, #C04E1A); line-height: 1; }
+.ra-net-count span { font-size: 12px; font-weight: 700; color: var(--muted); text-transform: uppercase; letter-spacing: .04em; margin-left: 6px; }
+
+/* ── Fleet City Lookup table ── */
+.ra-table-wrap { overflow-x: auto; border: 1px solid var(--border2); border-radius: 12px; background: color-mix(in srgb, var(--surface) 94%, transparent); }
+.ra-table { width: 100%; border-collapse: collapse; font-size: 13.5px; min-width: 760px; }
+.ra-table thead th {
+  text-align: left; font-weight: 700; padding: 11px 14px;
+  background: var(--surface2, #f0ede8); border-bottom: 2px solid var(--rust, #C04E1A);
+  white-space: nowrap; font-size: 11.5px; text-transform: uppercase; letter-spacing: .04em; color: var(--muted);
+}
+.ra-table td { padding: 10px 14px; border-bottom: 1px solid var(--border2); vertical-align: top; }
+.ra-row.hidden { display: none; }
+.ra-row:hover { background: color-mix(in srgb, var(--rust, #C04E1A) 4%, transparent); }
+.ra-city { font-weight: 700; color: var(--text); white-space: nowrap; }
+.ra-country { color: var(--muted); white-space: nowrap; }
+.ra-app a { color: var(--text); font-weight: 700; }
+.ra-app a:visited { color: #3d3a32; }
+.ra-note { color: var(--muted); min-width: 260px; }
+.ra-fn-pill { display: inline-block; font-size: 13px; font-weight: 700; letter-spacing: .04em; text-transform: uppercase; padding: 6px 12px; border-radius: 6px; white-space: nowrap; }
+/* --sb-green/--sb-red aren't real root custom properties (only .sb-green/.sb-red
+   set --sb-fill/--sb-text, scoped to the class) -- these var() calls always fell
+   through to the fallback, which invented its own green/red instead of using the
+   real .sb-green/.sb-red fill. Markup now carries the real class (sb-green/sb-red
+   added alongside ra-fn-yes/ra-fn-no) so this reads the family's own --sp-wash --
+   for Solid Badge that's the fill itself (--sp-ink is fixed #000 for white-on-solid
+   text, not usable here since this is a tinted-background/colored-text pill). */
+.ra-fn-yes, .ra-fn-no { background: color-mix(in srgb, var(--sp-wash) 14%, transparent); color: var(--sp-wash); border: 1px solid color-mix(in srgb, var(--sp-wash) 40%, transparent); }
+.ra-fn-none { background: color-mix(in srgb, var(--muted) 14%, transparent); color: var(--muted); border: 1px solid color-mix(in srgb, var(--muted) 40%, transparent); }
+
+.ra-noapp-card
+@media (max-width: 600px) and (pointer: coarse) {
+  .ca-grid { grid-template-columns: 1fr; }
+  .pills { flex-wrap: wrap !important; gap: var(--fam-gap,10px) !important; }
+  .ra-note { min-width: 180px; }
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    .ra-fn-pill.ra-fn-no.sb-red { color: #e87878; }
+  }
+}
+</style>
+<link rel="stylesheet" href="/assets/mobile.css?v=53">
+<!-- seo:start — generated by Brain/scripts/build/build_seo.py · do not hand-edit -->
+<meta name="description" content="The correct ride-hailing or taxi-booking app for every fleet city — Uber, Bolt, Grab, and the regional and local networks that fill the gaps.">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Guide My Days">
+<meta property="og:locale" content="en_US">
+<meta property="og:title" content="Rideshare &amp; Taxi Apps by City">
+<meta property="og:description" content="The correct ride-hailing or taxi-booking app for every fleet city — Uber, Bolt, Grab, and the regional and local networks that fill the gaps.">
+<meta property="og:image" content="https://guidemydays.com/assets/og/default.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Guide My Days — Travel guides, planned day by day">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Rideshare &amp; Taxi Apps by City">
+<meta name="twitter:description" content="The correct ride-hailing or taxi-booking app for every fleet city — Uber, Bolt, Grab, and the regional and local networks that fill the gaps.">
+<meta name="twitter:image" content="https://guidemydays.com/assets/og/default.png">
+<link rel="icon" href="/assets/icons/favicon-32.png" sizes="32x32" type="image/png">
+<link rel="apple-touch-icon" href="/assets/icons/apple-touch-icon.png">
+<link rel="manifest" href="/manifest.webmanifest">
+<meta name="theme-color" content="#f5f4f0" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#1a1917" media="(prefers-color-scheme: dark)">
+<!-- seo:end -->
+</head>
+<body>
+<div class="wrap">
+
+  <div id="toolbar-mount" data-depth="2" data-maxwidth="1040" data-updated="2026-08-31"></div>
+<script src="/assets/toolbar.js?v=127"></script>
+
+  <div class="hero-band eb-hero">
+    <span class="eb-kicker">Rideshare &amp; Taxi Apps</span>
+    <div class="eb-copy">
+      <h1 class="eb-title">Which app to open <em>the moment you land.</em></h1>
+      <p class="eb-intro">The correct ride-hailing or taxi-booking app for every fleet city — Uber, Bolt, Grab, and the regional and local networks that fill the gaps. Search any city below, or browse by network. Every entry is pulled straight from that city's own guide, so it reflects what that guide's Getting Around section actually verified: which app operates there, whether it accepts a foreign phone number at sign-up, and what to expect on the ground.</p>
+    </div>
+    <div class="eb-graphic" aria-hidden="true"><svg viewBox="0 0 24 24" aria-hidden="true">
+      <path d="M5.8 10.4 7.5 6.6c.3-.8 1-1.3 1.9-1.3h5.2c.9 0 1.6.5 1.9 1.3l1.7 3.8z" fill="url(#gm-sky)" stroke="var(--c-sky-rim)" stroke-width="0.5"/>
+      <path d="M5.8 10.4 7.5 6.6c.3-.8 1-1.3 1.9-1.3h5.2c.9 0 1.6.5 1.9 1.3l1.7 3.8z" fill="url(#gm-gloss)"/>
+      <path d="M11.6 5.3h0.9v5.1h-0.9z" fill="url(#gm-navy)" stroke="var(--c-navy-rim)" stroke-width="0.5"/>
+      <rect x="2.4" y="9.9" width="19.2" height="6.5" rx="2.4" fill="url(#gm-navy)" stroke="var(--c-navy-rim)" stroke-width="0.5"/>
+      <rect x="6.6" y="6.4" width="4" height="2.4" rx="0.6" fill="url(#gm-paper)" stroke="var(--c-rim-cool)" stroke-width="0.6"/>
+      <circle cx="8.6" cy="7.6" r="0.75" fill="url(#gm-navy)" stroke="var(--c-navy-rim)" stroke-width="0.5"/>
+      <rect x="2.7" y="11.4" width="3.1" height="1.9" rx="0.95" fill="url(#gm-sun)" stroke="var(--c-sun-rim)" stroke-width="0.5"/>
+      <rect x="18.2" y="11.4" width="3.1" height="1.9" rx="0.95" fill="url(#gm-red)" stroke="var(--c-red-rim)" stroke-width="0.5"/>
+      <circle cx="6.8" cy="17.3" r="2.6" fill="url(#gm-tire)" stroke="var(--c-tire-rim)" stroke-width="0.5"/><circle cx="6.8" cy="17.3" r="1.1" fill="url(#gm-stone)" stroke="var(--c-stone-rim)" stroke-width="0.5"/>
+      <circle cx="17.2" cy="17.3" r="2.6" fill="url(#gm-tire)" stroke="var(--c-tire-rim)" stroke-width="0.5"/><circle cx="17.2" cy="17.3" r="1.1" fill="url(#gm-stone)" stroke="var(--c-stone-rim)" stroke-width="0.5"/>
+    </svg></div>
+  </div>
+  <div class="hero-ground">
+    <input type="search" class="search-input" id="ra-search" placeholder="City, country, or app" aria-label="Search" autocomplete="off">
+  </div>
+
+  <div class="controls">
+    <div class="pills">
+      <button class="pill is-on pill-badge nt-grey hov-darken" data-filter="all" aria-pressed="true">All</button>
+      <button class="pill pill-badge sb-pink hov-darken" data-filter="uber" aria-pressed="false">Uber</button>
+      <button class="pill pill-badge sb-blue hov-darken" data-filter="bolt" aria-pressed="false">Bolt</button>
+      <button class="pill pill-badge sb-dark-brown hov-darken" data-filter="grab" aria-pressed="false">Grab</button>
+      <button class="pill pill-badge sb-gold hov-darken" data-filter="other" aria-pressed="false">Other networks</button>
+      <button class="pill pill-badge sb-green hov-darken" data-filter="local" aria-pressed="false">Local apps</button>
+      <button class="pill pill-badge sb-red hov-darken" data-filter="noapp" aria-pressed="false">No app</button>
+    </div>
+  </div>
+
+  <div id="no-results" class="empty-state">Nothing matches your search.</div>
+
+  <!-- ═══════════════════════════════════════════
+       GLOBAL & REGIONAL NETWORKS
+  ═══════════════════════════════════════════ -->
+  <div class="section-block" data-section="networks">
+    <div class="section-head"><svg class="gm-icon" data-icon="ride-app" viewBox="0 0 24 24" aria-hidden="true"><use href="#gm-i-ride-app"/></svg><span class="ra-sh-title">Global &amp; Regional Networks</span></div>
+    <div class="ca-grid">
+
+      <div class="card-row" data-tags="uber networks">
+        <div>
+          <div class="card-name"><a href="https://www.uber.com" target="_blank" rel="noopener">Uber</a></div>
+          <div class="card-type">The default across most of the fleet</div>
+        </div>
+        <div class="card-note">
+          The primary app in <span class="ra-net-count">148<span>of 232 fleet cities</span></span> below — the Americas, most of Western Europe, Australia, the UK, and large parts of South and Southeast Asia. Almost always accepts a foreign phone number at sign-up (the verification code arrives by SMS, with a voice-call fallback where SMS is blocked), which is why it stays the practical default even on a first trip somewhere new.
+        </div>
+      </div>
+
+      <div class="card-row" data-tags="bolt networks">
+        <div>
+          <div class="card-name"><a href="https://bolt.eu" target="_blank" rel="noopener">Bolt</a></div>
+          <div class="card-type">Europe &amp; Africa · typically 15–25% cheaper than Uber</div>
+        </div>
+        <div class="card-note">
+          The primary app in <span class="ra-net-count">18<span>fleet cities</span></span> — strongest across Eastern and Central Europe and parts of Africa, and available as a secondary option in many Western European cities where Uber is also present. Estonia-based; operates in 50+ countries worldwide. Worth opening alongside Uber in any European city to compare fares.
+        </div>
+      </div>
+
+      <div class="card-row" data-tags="grab networks">
+        <div>
+          <div class="card-name"><a href="https://www.grab.com" target="_blank" rel="noopener">Grab</a></div>
+          <div class="card-type">The default across Southeast Asia</div>
+        </div>
+        <div class="card-note">
+          The primary app in <span class="ra-net-count">8<span>fleet cities</span></span> — Thailand, Vietnam, Singapore, Malaysia, the Philippines and Indonesia. Also bundles food delivery and, in some cities, digital payments in the same app. Uber sold its Southeast Asian operations to Grab in 2018, so Grab is the regional successor rather than a competitor there.
+        </div>
+      </div>
+
+      <div class="card-row ca-wide" data-tags="other networks didi cabify careem indrive kakao free-now go">
+        <div>
+          <div class="card-name"><span class="plain">Other multi-city networks</span></div>
+          <div class="card-type">23 fleet cities across these apps</div>
+        </div>
+        <div class="card-note">
+          <div class="mini-table-wrap"><table class="mini-table">
+            <tr><th>App</th><th>Where it's the local pick</th></tr>
+            <tr><td>Cabify</td><td>Spain, Portugal, and much of Latin America</td></tr>
+            <tr><td>DiDi</td><td>China's dominant network, also active in parts of Latin America and Australia</td></tr>
+            <tr><td>Careem</td><td>The Middle East's leading app before Uber acquired it in 2019 — still runs as its own brand across the Gulf</td></tr>
+            <tr><td>FREE NOW</td><td>Germany, Austria, Ireland, and the UK — a licensed-taxi-booking app rather than a private-driver network</td></tr>
+            <tr><td>GO</td><td>Japan's largest taxi-hailing app, aggregating licensed metered taxis</td></tr>
+            <tr><td>InDrive</td><td>Emerging markets, with user-negotiated fares rather than a fixed algorithm</td></tr>
+            <tr><td>Kakao T</td><td>South Korea's dominant ride-hailing and taxi app</td></tr>
+          </table></div>
+        </div>
+      </div>
+
+      <div class="card-row ca-wide" data-tags="local networks city-specific">
+        <div>
+          <div class="card-name"><span class="plain">City- or country-specific apps</span></div>
+          <div class="card-type">35 fleet cities have their own local app instead</div>
+        </div>
+        <div class="card-note">
+          A number of fleet cities run on a taxi-booking app that operates in that country (or even just that city) alone — Norway's NorgesTaxi, Italy's appTaxi, Iceland's Hreyfill, Curaçao's Click Curaçao, and more than twenty others. None of the global networks cover these places, so the local app is the only app-based option; search below for the specific city to see which one and how it works. See the "Local Apps" filter above for the full list.
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════
+       NO RIDESHARE APP — DO THIS INSTEAD
+  ═══════════════════════════════════════════ -->
+  <div class="section-block" data-section="noapp">
+    <div class="section-head"><svg class="gm-icon" data-icon="safety-guide" viewBox="0 0 24 24" aria-hidden="true"><use href="#gm-i-safety-guide"/></svg><span class="ra-sh-title">No App? Do This Instead</span></div>
+    <div class="ca-grid">
+      <div class="card-row ra-noapp-card" data-tags="local aruba aruba no app taxi">
+        <div>
+          <div class="card-name"><span class="plain">Aruba</span></div>
+          <div class="card-type">Aruba</div>
+        </div>
+        <div class="card-note">No ride-hailing app operates in Aruba — the taxi trade is licensed and capped by the government, so neither Uber nor any competitor is on the island. Rides are licensed taxis on published fixed fares, the Arubus route along the hotel strip, a rental car, or your hotel’s own shuttle.</div>
+      </div>
+      <div class="card-row ra-noapp-card" data-tags="local havana cuba no app taxi">
+        <div>
+          <div class="card-name"><span class="plain">Havana</span></div>
+          <div class="card-type">Cuba</div>
+        </div>
+        <div class="card-note">No ride-hailing apps operate in Havana — Uber, Bolt, and similar services do not cover Cuba. State taxis — yellow metered Cubataxi cabs — are the most reliable option for tourists; agree on the fare before you ride or ensure the meter is running. Bicitaxis are plentiful in Old Havana for short hops. Private taxi drivers negotiated at your hotel are the practical choice for the Viñales day trip.</div>
+      </div>
+      <div class="card-row ra-noapp-card" data-tags="local bora bora french polynesia no app taxi">
+        <div>
+          <div class="card-name"><span class="plain">Bora Bora</span></div>
+          <div class="card-type">French Polynesia</div>
+        </div>
+        <div class="card-note">No ride-hailing apps operate on the island. Transfers between the main motu and Vaitape use resort boats and hotel shuttles; bicycles and scooters are rentable from local operators in Vaitape for exploring the main island road.</div>
+      </div>
+      <div class="card-row ra-noapp-card" data-tags="local zakynthos greece no app taxi">
+        <div>
+          <div class="card-name"><span class="plain">Zakynthos</span></div>
+          <div class="card-type">Greece</div>
+        </div>
+        <div class="card-note">No rideshare apps operate on Zakynthos; a rental car is the standard way to reach the island&#x27;s beaches and viewpoints, and taxis can be arranged through hotels or flagged in Zakynthos Town for shorter journeys.</div>
+      </div>
+      <div class="card-row ra-noapp-card" data-tags="local pisa italy no app taxi">
+        <div>
+          <div class="card-name"><span class="plain">Pisa</span></div>
+          <div class="card-type">Italy</div>
+        </div>
+        <div class="card-note">No ride-hailing app operates in Pisa — Uber, Bolt and FreeNow stop at Florence. Taxis come from the CoTaPi cooperative: the ranks outside Pisa Centrale and at Piazza dei Miracoli, or a car booked through the hotel desk, which is a five-minute wait most of the day.</div>
+      </div>
+      <div class="card-row ra-noapp-card" data-tags="local petra jordan no app taxi">
+        <div>
+          <div class="card-name"><span class="plain">Petra</span></div>
+          <div class="card-type">Jordan</div>
+        </div>
+        <div class="card-note">No ride-hailing app operates in Wadi Musa — Uber and Careem stop at Amman and Aqaba. Taxis are hailed on Tourism Street or booked through the hotel desk, fares are agreed before setting off, and the Mövenpick sits a two-minute walk from the visitor centre gate.</div>
+      </div>
+      <div class="card-row ra-noapp-card" data-tags="local machu picchu peru no app taxi">
+        <div>
+          <div class="card-name"><span class="plain">Machu Picchu</span></div>
+          <div class="card-type">Peru</div>
+        </div>
+        <div class="card-note">Aguas Calientes is entirely pedestrian — there are no cars, motorbikes or ride-hailing apps in the town. Every stop in the guide is reachable on foot. The only motorised option is the Consettur shuttle bus that runs between the town centre and the ruins entrance.</div>
+      </div>
+      <div class="card-row ra-noapp-card" data-tags="local orcas island united states no app taxi">
+        <div>
+          <div class="card-name"><span class="plain">Orcas Island</span></div>
+          <div class="card-type">United States</div>
+        </div>
+        <div class="card-note">No rideshare apps operate on Orcas Island. Visitors travel by rental car — book before arrival — the island&#x27;s taxi service · Orcas Island Taxi · cash preferred, or the resort shuttle for guests.</div>
+      </div>
+      <div class="card-row ra-noapp-card" data-tags="local yellowstone united states no app taxi">
+        <div>
+          <div class="card-name"><span class="plain">Yellowstone</span></div>
+          <div class="card-type">United States</div>
+        </div>
+        <div class="card-note">No rideshare apps operate within the park; visitors navigate by rental car or guided tour, and the park&#x27;s concessionaire runs shuttle services between some thermal areas during peak season.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════
+       FLEET CITY LOOKUP
+  ═══════════════════════════════════════════ -->
+  <div class="section-block" data-section="lookup">
+    <div class="section-head"><svg class="gm-icon" data-icon="country-map" viewBox="0 0 24 24" aria-hidden="true"><use href="#gm-i-country-map"/></svg><span class="ra-sh-title">Fleet City Lookup</span></div>
+    <div class="ra-table-wrap">
+      <table class="ra-table">
+        <thead>
+          <tr><th>City</th><th>Country</th><th>App</th><th>Foreign number</th><th>Note</th></tr>
+        </thead>
+        <tbody id="ra-tbody">
+      <tr class="ra-row" data-tags="uber buenos aires argentina uber">
+        <td class="ra-city">Buenos Aires</td>
+        <td class="ra-country">Argentina</td>
+        <td class="ra-app"><a href="https://www.uber.com/ar/en/" target="_blank" rel="noopener">Uber</a></td>
+        <td class="ra-fn"><span class="ra-fn-pill ra-fn-yes sb-green">Accepted</span></td>
+        <td class="ra-note">Reliable app-based rides across Buenos Aires; the most familiar option for international visitors with foreign numbers accepted at sign-up.</td>
+      </tr>
+      <tr class="ra-row" data-tags="uber melbourne australia uber">
+        <td class="ra-city">Melbourne</td>
+        <td class="ra-country">Australia</td>
+        <td class="ra-app"><a href="https://www.uber.com/au/en/" target="_blank" rel="noopener">Uber</a></td>
+        <td class="ra-fn"><span class="ra-fn-pill ra-fn-yes sb-green">Accepted</span></td>
+        <td class="ra-note">Melbourne&#x27;s dominant rideshare platform, active across the CBD and the inner suburbs.</td>
+      </tr>
+      <tr class="ra-row" data-tags="uber sydney australia uber">
+        <td class="ra-city">Sydney</td>
+        <td class="ra-country">Australia</td>
+        <td class="ra-app"><a href="https://www.uber.com" target="_blank" rel="noopener">Uber</a></td>
+        <td class="ra-fn"><span class="ra-fn-pill ra-fn-yes sb-green">Accepted</span></td>
+        <td class="ra-note">Sydney&#x27;s largest ride-hailing network with consistently short wait times across the CBD, Darling Harbour and inner suburbs; UberX and UberXL cover virtually…</td>
+      </tr>
+      <tr class="ra-row" data-tags="uber salzburg austria uber">
+        <td class="ra-city">Salzburg</td>
+        <td class="ra-country">Austria</td>
+        <td class="ra-app"><a href="https://www.uber.com" target="_blank" rel="noopener">Uber</a></td>
+        <td class="ra-fn"><span class="ra-fn-pill ra-fn-yes sb-green">Accepted</span></td>
+        <td class="ra-note">Reliable coverage across Salzburg city; surge pricing can apply during festival season and late-night pick-ups near the Altstadt.</td>
+      </tr>
+      <tr class="ra-row" data-tags="uber vienna austria uber">
+        <td class="ra-city">Vienna</td>
+        <td class="ra-country">Austria</td>
+        <td class="ra-app"><a href="https://www.uber.com/at/en/" target="_blank" rel="noopener">Uber</a></td>
+        <td class="ra-fn"><span class="ra-fn-pill ra-fn-yes sb-green">Accepted</span></td>
+        <td class="ra-note">Uber operates across Vienna and is the most widely used ride-hailing app in the city; an existing international Uber account works without modification and…</td>
+      </tr>
+      <tr class="ra-row" data-tags="local the bahamas bahamas hop">
+        <td class="ra-city">The Bahamas</td>
+        <td class="ra-country">Bahamas</td>
+        <td class="ra-app"><a href="https://www.hopbahamas.com" target="_blank" rel="noopener">HOP</a></td>
+        <td class="ra-fn"><span class="ra-fn-pill ra-fn-yes sb-green">Accepted</span></td>
+        <td class="ra-note">Nassau’s most active ride app and the answer to the no-Uber problem: the fare is fixed on screen before the driver moves, instead of being argued at the kerb.</td>
+      </tr>
+      <tr class="ra-row" data-tags="uber barbados barbados uber">
+        <td class="ra-city">Barbados</td>
+        <td class="ra-country">Barbados</td>
+        <td class="ra-app"><a href="https://www.uber.com/global/en/cities/bridgetown/" target="_blank" rel="noopener">Uber</a></td>
+        <td class="ra-fn"><span class="ra-fn-pill ra-fn-yes sb-green">Accepted</span></td>
+        <td class="ra-note">Uber does run on Barbados, but the island&#x27;s taxi trade works on government-set flat fares agreed at the rank, and the ZR minibuses cover the coast roads for…</td>
+      </tr>
+      <tr class="ra-row" data-tags="uber bruges belgium uber">
+        <td class="ra-city">Bruges</td>
+        <td class="ra-country">Belgium</td>
+        <td class="ra-app"><a href="https://www.uber.com/global/en/r/cities/bruges-naq-fr/" target="_blank" rel="noopener">Uber</a></td>
+        <td class="ra-fn"><span class="ra-fn-pill ra-fn-yes sb-green">Accepted</span></td>
+        <td class="ra-note">Thin in Bruges: a handful of cars at most, usually waiting near the station and the ring road, and none inside the car-free core where most of the guide…</td>
+      </tr>
+      <tr class="ra-row" data-tags="uber brussels belgium uber">
+        <td class="ra-city">Brussels</td>
+        <td class="ra-country">Belgium</td>
+        <td class="ra-app"><a href="https://www.uber.com/be/en/" target="_blank" rel="noopener">Uber</a></td>
+        <td class="ra-fn"><span class="ra-fn-pill ra-fn-yes sb-green">Accepted</span></td>
+        <td class="ra-note">Reliable and widely used across Brussels; covers the city centre, EU Quarter and surrounding areas with foreign numbers accepted at sign-up.</td>
+      </tr>
+      <tr class="ra-row" data-tags="local paro bhutan drukride">
+        <td class="ra-city">Paro</td>
+        <td class="ra-country">Bhutan</td>
+        <td class="ra-app"><a href="https://drukride.com" target="_blank" rel="noopener">DrukRide</a></td>
+        <td class="ra-fn"><span class="ra-fn-pill ra-fn-yes sb-green">Accepted</span></td>
+        <td class="ra-note">Bhutan&#x27;s primary ride-hailing app covering Paro and Thimphu; the main option for visitors and foreign numbers sign up without issue.</td>
+      </tr>
+      <tr class="ra-row" data-tags="uber aracaju brazil uber">
+        <td class="ra-city">Aracaju</td>
+        <td class="ra-country">Brazil</td>
+        <td class="ra-app"><a href="https://www.uber.com" target="_blank" rel="noopener">Uber</a></td>
+        <td class="ra-fn"><span class="ra-fn-pill ra-fn-yes sb-green">Accepted</span></td>
+        <td class="ra-note">The practical way to move around Aracaju, which spreads along the coast with the Orla de Atalaia a fair distance from the centre.</td>
+      </tr>
+      <tr class="ra-row" data-tags="uber curitiba brazil uber">
+        <td class="ra-city">Curitiba</td>
+        <td class="ra-country">Brazil</td>
+        <td class="ra-app"><a href="https://www.uber.com" target="_blank" rel="noopener">Uber</a></td>
+        <td class="ra-fn"><span class="ra-fn-pill ra-fn-yes sb-green">Accepted</span></td>
+        <td class="ra-note">Available throughout Curitiba with good supply in the central districts and around the main green spaces; reliable for the longer runs out to Bosque Alemão…</td>
+      </tr>
+      <tr class="ra-row" data-tags="uber florianópolis brazil uber">
+        <td class="ra-city">Florianópolis</td>
+        <td class="ra-country">Brazil</td>
+        <td class="ra-app"><a href="https://www.uber.com" target="_blank" rel="noopener">Uber</a></td>
+        <td class="ra-fn"><span class="ra-fn-pill ra-fn-yes sb-green">Accepted</span></td>
+        <td class="ra-note">Widely available across the island and the most reliable option for reaching distant beach zones like Praia do Campeche, Pântano do Sul, and Lagoa da Conceição.</td>
+      </tr>
+      <tr class="ra-row" data-tags="uber fortaleza brazil uber">
+        <td class="ra-city">Fortaleza</td>
+        <td class="ra-country">Brazil</td>
+        <td class="ra-app"><a href="https://www.uber.com/br/pt-br/" target="_blank" rel="noopener">Uber</a></td>
+        <td class="ra-fn"><span class="ra-fn-pill ra-fn-yes sb-green">Accepted</span></td>
+        <td class="ra-note">Reliable and consistently available around Meireles and the beach front.</td>
+      </tr>
+      <tr class="ra-row" data-tags="uber foz do iguaçu brazil uber">
+        <td class="ra-city">Foz do Iguaçu</td>
+        <td class="ra-country">Brazil</td>
+        <td class="ra-app"><a href="https://www.uber.com" target="_blank" rel="noopener">Uber</a></td>
+        <td class="ra-fn"><span class="ra-fn-pill ra-fn-yes sb-green">Accepted</span></td>
+        <td class="ra-note">The only consistent ride option in the city and near the falls hotels; waits stretch to 15–20 min during morning park rush.</td>
+      </tr>
+      <tr class="ra-row" data-tags="uber joão pessoa brazil uber">
+        <td class="ra-city">João Pessoa</td>
+        <td class="ra-country">Brazil</td>
+        <td class="ra-app"><a href="https://www.uber.com" target="_blank" rel="noopener">Uber</a></td>
+        <td class="ra-fn"><span class="ra-fn-pill ra-fn-yes sb-green">Accepted</span></td>
+        <td class="ra-note">The most reliable option for visitors in João Pessoa.</td>
+      </tr>
+      <tr class="ra-row" data-tags="uber maceió brazil uber">
+        <td class="ra-city">Maceió</td>
+        <td class="ra-country">Brazil</td>
+        <td class="ra-app"><a href="https://www.uber.com" target="_blank" rel="noopener">Uber</a></td>
+        <td class="ra-fn"><span class="ra-fn-pill ra-fn-yes sb-green">Accepted</span></td>
+        <td class="ra-note">The most reliable ride-hailing option in Maceió with good coverage of the beach districts and the city centre; useful for reaching Pajuçara pier and the…</td>
+      </tr>
+      <tr class="ra-row" data-tags="uber natal brazil uber">
+        <td class="ra-city">Natal</td>
+        <td class="ra-country">Brazil</td>
+        <td class="ra-app"><a href="https://www.uber.com/global/en/r/cities/natal-rn-br/" target="_blank" rel="noopener">Uber</a></td>
+        <td class="ra-fn"><span class="ra-fn-pill ra-fn-yes sb-green">Accepted</span></td>
+        <td class="ra-note">Best coverage across Natal and Ponta Negra; the reliable option between the beach neighbourhoods and anywhere in the metro area.</td>
+      </tr>
+      <tr class="ra-row" data-tags="uber olinda brazil uber">
+        <td class="ra-city">Olinda</td>
+        <td class="ra-country">Brazil</td>
+        <td class="ra-app"><a href="https://www.uber.com" target="_blank" rel="noopener">Uber</a></td>
+        <td class="ra-fn"><span class="ra-fn-pill ra-fn-yes sb-green">Accepted</span></td>
+        <td class="ra-note">Uber operates across Recife and Olinda and accepts foreign phone numbers and payment cards; it is the most reliable option for rides from the historic…</td>
+      </tr>
+      <tr class="ra-row" data-tags="uber porto alegre brazil uber">
+        <td class="ra-city">Porto Alegre</td>
+        <td class="ra-country">Brazil</td>
+        <td class="ra-app"><a href="https://www.uber.com" target="_blank" rel="noopener">Uber</a></td>
+        <td class="ra-fn"><span class="ra-fn-pill ra-fn-yes sb-green">Accepted</span></td>
+        <td class="ra-note">Active throughout Porto Alegre with good coverage in Moinhos de Vento, Bom Fim, and the historic centre.</td>
+      </tr>
+      <tr class="ra-row" data-tags="uber recife brazil uber">
+        <td class="ra-city">Recife</td>
+        <td class="ra-country">Brazil</td>
+        <td class="ra-app"><a href="https://www.uber.com" target="_blank" rel="noopener">Uber</a></td>
+        <td class="ra-fn"><span class="ra-fn-pill ra-fn-yes sb-green">Accepted</span></td>
+        <td class="ra-note">Well established in Recife and covers the main visitor areas including Recife Antigo, Boa Viagem and the Brennand complex.</td>
+      </tr>
+      <tr class="ra-row" data-tags="uber rio de janeiro brazil uber">
+        <td class="ra-city">Rio de Janeiro</td>
+        <td class="ra-country">Brazil</td>
+        <td class="ra-app"><a href="https://www.uber.com/br/en/ride/" target="_blank" rel="noopener">Uber</a></td>
+        <td class="ra-fn"><span class="ra-fn-pill ra-fn-yes sb-green">Accepted</span></td>
+        <td class="ra-note">The most practical option for visitors across Rio&#x27;s spread-out neighbourhoods.</td>
+      </tr>
+      <tr class="ra-row" data-tags="uber salvador brazil uber">
+        <td class="ra-city">Salvador</td>
+        <td class="ra-country">Brazil</td>
+        <td class="ra-app"><a href="https://www.uber.com/br/pt-br/" target="_blank" rel="noopener">Uber</a></td>
+        <td class="ra-fn"><span class="ra-fn-pill ra-fn-yes sb-green">Accepted</span></td>
+        <td class="ra-note">Well-established across Salvador including Pelourinho, Barra and the Itaigara business district; UberX is the standard option and wait times are short…</td>
+      </tr>
+      <tr class="ra-row" data-tags="uber são luís brazil uber">
+        <td class="ra-city">São Luís</td>
+        <td class="ra-country">Brazil</td>
+        <td class="ra-app"><a href="https://www.uber.com" target="_blank" rel="noopener">Uber</a></td>
+        <td class="ra-fn"><span class="ra-fn-pill ra-fn-yes sb-green">Accepted</span></td>
+        <td class="ra-note">Uber operates island-wide in São Luís with solid availability in the Praia Grande historic centre, Renascença and the beach districts; the 25-minute ride…</td>
+      </tr>
+      <tr class="ra-row" data-tags="uber são paulo brazil uber">
+        <td class="ra-city">São Paulo</td>
+        <td class="ra-country">Brazil</td>
+        <td class="ra-app"><a href="https://www.uber.com/br/en/cities/sao-paulo/" target="_blank" rel="noopener">Uber</a></td>
+        <td class="ra-fn"><span class="ra-fn-pill ra-fn-yes sb-green">Accepted</span></td>
+        <td class="ra-note">The most reliable ride option for visitors; international payment cards work in-app, English-language interface, and fares are confirmed before booking.</td>
+      </tr>
+      <tr class="ra-row" data-tags="uber cartagena colombia uber">
+        <td class="ra-city">Cartagena</td>
+        <td class="ra-country">COLOMBIA</td>
+        <td class="ra-app"><a href="https://www.uber.com" target="_blank" rel="noopener">Uber</a></td>
+        <td class="ra-fn"><span class="ra-fn-pill ra-fn-yes sb-green">Accepted</span></td>
+        <td class="ra-note">Reliable across Bocagrande, Getsemaní, and the walled city; surge pricing applies during carnival week in February and during cruise-ship days when demand…</td>
+      </tr>
+      <tr class="ra-row" data-tags="uber banff canada uber">
+        <td class="ra-city">Banff</td>
+        <td class="ra-country">Canada</td>
+        <td class="ra-app"><a href="https://www.uber.com/global/en/cities/banff/" target="_blank" rel="noopener">Uber</a></td>
+        <td class="ra-fn"><span class="ra-fn-pill ra-fn-yes sb-green">Accepted</span></td>
+        <td class="ra-note">The main ride option in the townsite; useful for the hotel run and covering the 10 km stretch to the gondola base station.</td>
+      </tr>
+      <tr class="ra-row" data-tags="uber montréal canada uber">
+        <td class="ra-city">Montréal</td>
+        <td class="ra-country">Canada</td>
+        <td class="ra-app"><a href="https://www.uber.com" target="_blank" rel="noopener">Uber</a></td>
+        <td class="ra-fn"><span class="ra-fn-pill ra-fn-yes sb-green">Accepted</span></td>
+        <td class="ra-note">The dominant rideshare option in Montréal, available across the island.</td>
+      </tr>
+      <tr class="ra-row" data-tags="uber québec city canada uber">
+        <td class="ra-city">Québec City</td>
+        <td class="ra-country">Canada</td>
+        <td class="ra-app"><a href="https://www.uber.com" target="_blank" rel="noopener">Uber</a></td>
+        <td class="ra-fn"><span class="ra-fn-pill ra-fn-yes sb-green">Accepted</span></td>
+        <td class="ra-note">Available and reliable across the main visitor areas.</td>
+      </tr>
+      <tr class="ra-row" data-tags="uber toronto canada uber">
+        <td class="ra-city">Toronto</td>
+        <td class="ra-country">Canada</td>
+        <td class="ra-app"><a href="https://www.uber.com/" target="_blank" rel="noopener">Uber</a></td>
+        <td class="ra-fn"><span class="ra-fn-pill ra-fn-yes sb-green">Accepted</span></td>
+        <td class="ra-note">The primary ride-hailing option in Toronto, covering the downtown core, waterfront, and all inner-city neighbourhoods.</td>
+      </tr>
+      <tr class="ra-row" data-tags="uber vancouver canada uber">
+        <td class="ra-city">Vancouver</td>
+        <td class="ra-country">Canada</td>
+        <td class="ra-app"><a href="https://www.uber.com" target="_blank" rel="noopener">Uber</a></td>
+        <td class="ra-fn"><span class="ra-fn-pill ra-fn-yes sb-green">Accepted</span></td>
+        <td class="ra-note">Uber is widely used across Vancouver and operates using standard UberX cars; an existing account works without any changes and covers downtown and the North…</td>
+      </tr>
+      <tr class="ra-row" data-tags="uber victoria canada uber">
+        <td class="ra-city">Victoria</td>
+        <td class="ra-country">Canada</td>
+        <td class="ra-app"><a href="https://www.uber.com" target="_blank" rel="noopener">Uber</a></td>
+        <td class="ra-fn"><span class="ra-fn-pill ra-fn-yes sb-green">Accepted</span></td>
+        <td class="ra-note">Uber is the primary ride-hailing option in Victoria, covering downtown, Oak Bay, James Bay, and Saanich; an existing international Uber account works…</td>
+      </tr>
+      <tr class="ra-row" data-tags="uber whistler canada uber">
+        <td class="ra-city">Whistler</td>
+        <td class="ra-country">Canada</td>
+        <td class="ra-app"><a href="https://www.uber.com" target="_blank" rel="noopener">Uber</a></td>
+        <td class="ra-fn"><span class="ra-fn-pill ra-fn-yes sb-green">Accepted</span></td>
+        <td class="ra-note">Uber is the main ride-hailing option in Whistler, covering the Village, Creekside, and transfers to Squamish; an international Uber account works without…</td>
+      </tr>
+      <tr class="ra-row" data-tags="local cayman islands cayman islands drift">
+        <td class="ra-city">Cayman Islands</td>
+        <td class="ra-country">Cayman Islands</td>
+        <td class="ra-app"><a href="https://drift-global.com" target="_blank" rel="noopener">Drift</a></td>
+        <td class="ra-fn"><span class="ra-fn-pill ra-fn-yes sb-green">Accepted</span></td>
+        <td class="ra-note">Grand Cayman&#x27;s main ride-hailing app; covers George Town, Seven Mile Beach, and all major stops across the island; reliable for moving between the hotel…</td>
+      </tr>
+      <tr class="ra-row" data-tags="uber santiago chile uber">
+        <td class="ra-city">Santiago</td>
+        <td class="ra-country">Chile</td>
+        <td class="ra-app"><a href="https://www.uber.com" target="_blank" rel="noopener">Uber</a></td>
+        <td class="ra-fn"><span class="ra-fn-pill ra-fn-yes sb-green">Accepted</span></td>
+        <td class="ra-note">The dominant rideshare platform in Santiago — available across Las Condes, Lastarria, Miraflores, and the metro area.</td>
+      </tr>
+      <tr class="ra-row" data-tags="other beijing china didi">
+        <td class="ra-city">Beijing</td>
+        <td class="ra-country">China</td>
+        <td class="ra-app"><a href="https://www.didiglobal.com" target="_blank" rel="noopener">DiDi</a></td>
+        <td class="ra-fn"><span class="ra-fn-pill ra-fn-yes sb-green">Accepted</span></td>
+        <td class="ra-note">The only ride app that matters in mainland China.</td>
+      </tr>
+      <tr class="ra-row" data-tags="other chongqing china didi">
+        <td class="ra-city">Chongqing</td>
+        <td class="ra-country">China</td>
+        <td class="ra-app"><a href="https://web.didiglobal.com/" target="_blank" rel="noopener">DiDi</a></td>
+        <td class="ra-fn"><span class="ra-fn-pill ra-fn-yes sb-green">Accepted</span></td>
+        <td class="ra-note">The main ride-hailing app in Chongqing; covers all central districts including Jiefangbei, Jiangbei, and Shapingba; useful for navigating the city&#x27;s steep…</td>
+      </tr>
+      <tr class="ra-row" data-tags="other shanghai china didi">
+        <td class="ra-city">Shanghai</td>
+        <td class="ra-country">China</td>
+        <td class="ra-app"><a href="https://web.didiglobal.com" target="_blank" rel="noopener">DiDi</a></td>
+        <td class="ra-fn"><span class="ra-fn-pill ra-fn-yes sb-green">Accepted</span></td>
+        <td class="ra-note">China&#x27;s dominant ride-hailing app with extensive coverage across all of Shanghai&#x27;s main districts; the DiDi International version accepts foreign phone…</td>
+      </tr>
+      <tr class="ra-row" data-tags="other zhangjiajie china didi">
+        <td class="ra-city">Zhangjiajie</td>
+        <td class="ra-country">China</td>
+        <td class="ra-app"><a href="https://www.didiglobal.com" target="_blank" rel="noopener">DiDi</a></td>
+        <td class="ra-fn"><span class="ra-fn-pill ra-fn-yes sb-green">Accepted</span></td>
+        <td class="ra-note">DiDi is China&#x27;s main ride-hailing app and the most practical way to move between Wulingyuan town, the park entrances, and Zhangjiajie city; foreign-number…</td>
+      </tr>
+      <tr class="ra-row" data-tags="uber arenal costa rica uber">
+        <td class="ra-city">Arenal</td>
+        <td class="ra-country">Costa Rica</td>
+        <td class="ra-app"><a href="https://www.uber.com/" target="_blank" rel="noopener">Uber</a></td>
+        <td class="ra-fn"><span class="ra-fn-pill ra-fn-yes sb-green">Accepted</span></td>
+        <td class="ra-note">Operates throughout the La Fortuna and Arenal area; the most reliable option for reaching the volcano park, La Fortuna Waterfall, Tabacón hot springs and…</td>
+      </tr>
+      <tr class="ra-row" data-tags="uber manuel antonio costa rica uber">
+        <td class="ra-city">Manuel Antonio</td>
+        <td class="ra-country">Costa Rica</td>
+        <td class="ra-app"><a href="https://www.uber.com/" target="_blank" rel="noopener">Uber</a></td>
+        <td class="ra-fn"><span class="ra-fn-pill ra-fn-yes sb-green">Accepted</span></td>
+        <td class="ra-note">The main option between Quepos and Playa Espadilla.</td>
+      </tr>
+      <tr class="ra-row" data-tags="uber san josé costa rica uber">
+        <td class="ra-city">San José</td>
+        <td class="ra-country">Costa Rica</td>
+        <td class="ra-app"><a href="https://www.uber.com" target="_blank" rel="noopener">Uber</a></td>
+        <td class="ra-fn"><span class="ra-fn-pill ra-fn-yes sb-green">Accepted</span></td>
+        <td class="ra-note">The most reliable way around San José — cars reach La Sabana in a few minutes and fares across the centre run a fraction of a taxi&#x27;s.</td>
+      </tr>
+      <tr class="ra-row" data-tags="uber dubrovnik croatia uber">
+        <td class="ra-city">Dubrovnik</td>
+        <td class="ra-country">Croatia</td>
+        <td class="ra-app"><a href="https://www.uber.com/global/en/cities/dubrovnik/" target="_blank" rel="noopener">Uber</a></td>
+        <td class="ra-fn"><span class="ra-fn-pill ra-fn-yes sb-green">Accepted</span></td>
+        <td class="ra-note">Operates across Dubrovnik; useful for rides between the cruise port at Gruž, the bus station, and the Old City Pile Gate; supply is consistent in summer…</td>
+      </tr>
+      <tr class="ra-row" data-tags="bolt split croatia bolt">
+        <td class="ra-city">Split</td>
+        <td class="ra-country">Croatia</td>
+        <td class="ra-app"><a href="https://bolt.eu" target="_blank" rel="noopener">Bolt</a></td>
+        <td class="ra-fn"><span class="ra-fn-pill ra-fn-yes sb-green">Accepted</span></td>
+        <td class="ra-note">Split&#x27;s most-used ride-hailing app with reliable coverage across the city; upfront fares quoted before booking with no surge pricing on standard routes.</td>
+      </tr>
+      <tr class="ra-row" data-tags="local curaçao curaçao click curaçao">
+        <td class="ra-city">Curaçao</td>
+        <td class="ra-country">Curaçao</td>
+        <td class="ra-app"><a href="https://click-curacao.com" target="_blank" rel="noopener">Click Curaçao</a></td>
+        <td class="ra-fn"><span class="ra-fn-pill ra-fn-no sb-red">Not accepted</span></td>
+        <td class="ra-note">The primary ride-hailing app on the island; covers Willemstad and the main resort and beach areas; reliable for hotel pick-ups and moving between districts;…</td>
+      </tr>
+      <tr class="ra-row" data-tags="bolt prague czech republic bolt">
+        <td class="ra-city">Prague</td>
+        <td class="ra-country">Czech Republic</td>
+        <td class="ra-app"><a href="https://bolt.eu/" target="_blank" rel="noopener">Bolt</a></td>
+        <td class="ra-fn"><span class="ra-fn-pill ra-fn-yes sb-green">Accepted</span></td>
+        <td class="ra-note">Prague&#x27;s most-used ride-hailing app, with strong coverage across all central districts.</td>
+      </tr>
+      <tr class="ra-row" data-tags="bolt copenhagen denmark bolt">
+        <td class="ra-city">Copenhagen</td>
+        <td class="ra-country">Denmark</td>
+        <td class="ra-app"><a href="https://bolt.eu/en-dk/cities/copenhagen/" target="_blank" rel="noopener">Bolt</a></td>
+        <td class="ra-fn"><span class="ra-fn-pill ra-fn-yes sb-green">Accepted</span></td>
+        <td class="ra-note">The most widely used ride-hailing app in Copenhagen; good coverage across the city from Østerbro to Vesterbro and out to Frederiksberg; generally more…</td>
+      </tr>
+      <tr class="ra-row" data-tags="uber punta cana dominican republic uber">
+        <td class="ra-city">Punta Cana</td>
+        <td class="ra-country">Dominican Republic</td>
+        <td class="ra-app"><a href="https://www.uber.com" target="_blank" rel="noopener">Uber</a></td>
+        <td class="ra-fn"><span class="ra-fn-pill ra-fn-yes sb-green">Accepted</span></td>
+        <td class="ra-note">Reliable across the Bávaro–Cap Cana corridor; flat rates quoted before booking with no surge on standard routes; GPS routing handles the resort zone well;…</td>
+      </tr>
+      <tr class="ra-row" data-tags="local galápagos islands ecuador taxis">
+        <td class="ra-city">Galápagos Islands</td>
+        <td class="ra-country">Ecuador</td>
+        <td class="ra-app"><a href="https://www.galapagos.gob.ec" target="_blank" rel="noopener">Taxis</a></td>
+        <td class="ra-fn"><span class="ra-fn-pill ra-fn-none">Not required</span></td>
+        <td class="ra-note">White pickup trucks serve as taxis throughout Puerto Ayora; fares are fixed and agreed before boarding.</td>
+      </tr>
+      <tr class="ra-row" data-tags="uber cairo egypt uber">
+        <td class="ra-city">Cairo</td>
+        <td class="ra-country">Egypt</td>
+        <td class="ra-app"><a href="https://www.uber.com/" target="_blank" rel="noopener">Uber</a></td>
+        <td class="ra-fn"><span class="ra-fn-pill ra-fn-yes sb-green">Accepted</span></td>
+        <td class="ra-note">The default way to move around Cairo for a visitor — fixed fares in the app end the meter negotiation, cars are two to six minutes out around Tahrir and…</td>
+      </tr>
+      <tr class="ra-row" data-tags="bolt tallinn estonia bolt">
+        <td class="ra-city">Tallinn</td>
+        <td class="ra-country">Estonia</td>
+        <td class="ra-app"><a href="https://bolt.eu/" target="_blank" rel="noopener">Bolt</a></td>
+        <td class="ra-fn"><span class="ra-fn-pill ra-fn-yes sb-green">Accepted</span></td>
+        <td class="ra-note">Bolt is headquartered in Tallinn and operates the city&#x27;s dominant ride-hailing network; short wait times across the centre, upfront fares quoted before…</td>
+      </tr>
+      <tr class="ra-row" data-tags="bolt helsinki finland bolt">
+        <td class="ra-city">Helsinki</td>
+        <td class="ra-country">Finland</td>
+        <td class="ra-app"><a href="https://bolt.eu/en/cities/helsinki/" target="_blank" rel="noopener">Bolt</a></td>
+        <td class="ra-fn"><span class="ra-fn-pill ra-fn-yes sb-green">Accepted</span></td>
+        <td class="ra-note">Bolt is the main ride-hailing option in Helsinki, covering the city centre, Kallio, and Töölö.</td>
+      </tr>
+      <tr class="ra-row" data-tags="uber aix-en-provence france uber">
+        <td class="ra-city">Aix-en-Provence</td>
+        <td class="ra-country">France</td>
+        <td class="ra-app"><a href="https://www.uber.com/" target="_blank" rel="noopener">Uber</a></td>
+        <td class="ra-fn"><span class="ra-fn-pill ra-fn-yes sb-green">Accepted</span></td>
+        <td class="ra-note">Works reliably in Aix with international numbers and cards.</td>
+      </tr>
+      <tr class="ra-row" data-tags="uber annecy france uber">
+        <td class="ra-city">Annecy</td>
+        <td class="ra-country">France</td>
+        <td class="ra-app"><a href="https://www.uber.com" target="_blank" rel="noopener">Uber</a></td>
+        <td class="ra-fn"><span class="ra-fn-pill ra-fn-yes sb-green">Accepted</span></td>
+        <td class="ra-note">Operates in Annecy with standard international signup; the most practical option for reaching the lake-shore villages and viewpoints outside the compact old…</td>
+      </tr>
+      <tr class="ra-row" data-tags="uber bordeaux france uber">
+        <td class="ra-city">Bordeaux</td>
+        <td class="ra-country">France</td>
+        <td class="ra-app"><a href="https://www.uber.com" target="_blank" rel="noopener">Uber</a></td>
+        <td class="ra-fn"><span class="ra-fn-pill ra-fn-yes sb-green">Accepted</span></td>
+        <td class="ra-note">Works reliably across Bordeaux and out to the Saint-Émilion vineyards; prices are fixed at booking, so there are no surprises on long runs.</td>
+      </tr>
+      <tr class="ra-row" data-tags="local cannes france taxis de cannes">
+        <td class="ra-city">Cannes</td>
+        <td class="ra-country">France</td>
+        <td class="ra-app"><a href="http://www.taxis-cannes.com" target="_blank" rel="noopener">Taxis de Cannes</a></td>
+        <td class="ra-fn"><span class="ra-fn-pill ra-fn-none">Not required</span></td>
+        <td class="ra-note">The city&#x27;s official taxi cooperative, metered and licensed, with ranks at the station, the Palais and along La Croisette.</td>
+      </tr>
+      <tr class="ra-row" data-tags="uber colmar france uber">
+        <td class="ra-city">Colmar</td>
+        <td class="ra-country">France</td>
+        <td class="ra-app"><a href="https://www.uber.com/fr/en/r/cities/colmar-ges-fr/" target="_blank" rel="noopener">Uber</a></td>
+        <td class="ra-fn"><span class="ra-fn-pill ra-fn-yes sb-green">Accepted</span></td>
+        <td class="ra-note">Available in Colmar but supply is limited for a city this size; reliable for trips between the old town, the train station, and hotel areas; expect longer…</td>
+      </tr>
+      <tr class="ra-row" data-tags="uber lille france uber">
+        <td class="ra-city">Lille</td>
+        <td class="ra-country">France</td>
+        <td class="ra-app"><a href="https://www.uber.com/fr/en/" target="_blank" rel="noopener">Uber</a></td>
+        <td class="ra-fn"><span class="ra-fn-pill ra-fn-yes sb-green">Accepted</span></td>
+        <td class="ra-note">Active throughout central Lille and the metro area; reliable pickups from the Grand Place and around the two main train stations.</td>
+      </tr>
+      <tr class="ra-row" data-tags="uber lyon france uber">
+        <td class="ra-city">Lyon</td>
+        <td class="ra-country">France</td>
+        <td class="ra-app"><a href="https://www.uber.com" target="_blank" rel="noopener">Uber</a></td>
+        <td class="ra-fn"><span class="ra-fn-pill ra-fn-yes sb-green">Accepted</span></td>
+        <td class="ra-note">Reliable coverage across Lyon with generally short wait times in the Presqu&#x27;île and Part-Dieu areas; a good option for late-night journeys when the metro…</td>
+      </tr>
+      <tr class="ra-row" data-tags="uber marseille france uber">
+        <td class="ra-city">Marseille</td>
+        <td class="ra-country">France</td>
+        <td class="ra-app"><a href="https://www.uber.com/" target="_blank" rel="noopener">Uber</a></td>
+        <td class="ra-fn"><span class="ra-fn-pill ra-fn-yes sb-green">Accepted</span></td>
+        <td class="ra-note">Available across central Marseille and the main tourist areas; reliable for Vieux-Port to Saint-Charles station runs and for reaching the Calanques access…</td>
+      </tr>
+      <tr class="ra-row" data-tags="uber nice france uber">
+        <td class="ra-city">Nice</td>
+        <td class="ra-country">France</td>
+        <td class="ra-app"><a href="https://www.uber.com/fr/en/" target="_blank" rel="noopener">Uber</a></td>
+        <td class="ra-fn"><span class="ra-fn-pill ra-fn-none">Not required</span></td>
+        <td class="ra-note">The most reliable option in Nice; coverage spans the whole city and the Côte d&#x27;Azur.</td>
+      </tr>
+      <tr class="ra-row" data-tags="uber paris france uber">
+        <td class="ra-city">Paris</td>
+        <td class="ra-country">France</td>
+        <td class="ra-app"><a href="https://www.uber.com" target="_blank" rel="noopener">Uber</a></td>
+        <td class="ra-fn"><span class="ra-fn-pill ra-fn-yes sb-green">Accepted</span></td>
+        <td class="ra-note">The biggest fleet in Paris and the one with a car on the Champs-Élysées side in two or three minutes at most hours; prices jump at the evening peak and on…</td>
+      </tr>
+      <tr class="ra-row" data-tags="uber strasbourg france uber">
+        <td class="ra-city">Strasbourg</td>
+        <td class="ra-country">France</td>
+        <td class="ra-app"><a href="https://www.uber.com/global/en/r/cities/strasbourg-ges-fr/" target="_blank" rel="noopener">Uber</a></td>
+        <td class="ra-fn"><span class="ra-fn-pill ra-fn-yes sb-green">Accepted</span></td>
+        <td class="ra-note">Primary ride-hailing option in Strasbourg with upfront fares confirmed before booking; covers the city centre, Grande Île and both banks of the Rhine.</td>
+      </tr>
+      <tr class="ra-row" data-tags="bolt tbilisi georgia bolt">
+        <td class="ra-city">Tbilisi</td>
+        <td class="ra-country">Georgia</td>
+        <td class="ra-app"><a href="https://bolt.eu/en-ge/" target="_blank" rel="noopener">Bolt</a></td>
+        <td class="ra-fn"><span class="ra-fn-pill ra-fn-yes sb-green">Accepted</span></td>
+        <td class="ra-note">Tbilisi&#x27;s dominant ride-hailing app with consistent coverage across the city centre, Vake and Mtatsminda; upfront fares quoted before booking and short wait…</td>
+      </tr>
+      <tr class="ra-row" data-tags="uber berlin germany uber">
+        <td class="ra-city">Berlin</td>
+        <td class="ra-country">Germany</td>
+        <td class="ra-app"><a href="https://www.uber.com/de/en/" target="_blank" rel="noopener">Uber</a></td>
+        <td class="ra-fn"><span class="ra-fn-pill ra-fn-yes sb-green">Accepted</span></td>
+        <td class="ra-note">In Berlin Uber dispatches licensed private-hire cars and taxis rather than a fleet of its own, so fares sit close to a street taxi rather than below one.</td>
+      </tr>
+      <tr class="ra-row" data-tags="uber cologne germany uber">
+        <td class="ra-city">Cologne</td>
+        <td class="ra-country">Germany</td>
+        <td class="ra-app"><a href="https://www.uber.com" target="_blank" rel="noopener">Uber</a></td>
+        <td class="ra-fn"><span class="ra-fn-pill ra-fn-yes sb-green">Accepted</span></td>
+        <td class="ra-note">Good coverage across central Cologne and the main neighborhoods; reliable for evening trips to the Altstadt, Rheinauhafen, and beyond; works well alongside…</td>
+      </tr>
+      <tr class="ra-row" data-tags="uber frankfurt germany uber">
+        <td class="ra-city">Frankfurt</td>
+        <td class="ra-country">Germany</td>
+        <td class="ra-app"><a href="https://www.uber.com/de/de/" target="_blank" rel="noopener">Uber</a></td>
+        <td class="ra-fn"><span class="ra-fn-pill ra-fn-yes sb-green">Accepted</span></td>
+        <td class="ra-note">Reliable city-wide; the standard choice for transfers and cross-city rides.</td>
+      </tr>
+      <tr class="ra-row" data-tags="local hamburg germany free now">
+        <td class="ra-city">Hamburg</td>
+        <td class="ra-country">Germany</td>
+        <td class="ra-app"><a href="https://www.free-now.com/" target="_blank" rel="noopener">FREE NOW</a></td>
+        <td class="ra-fn"><span class="ra-fn-pill ra-fn-yes sb-green">Accepted</span></td>
+        <td class="ra-note">Free Now is the dominant ride-hailing app in Hamburg, aggregating local licensed taxis and private hire vehicles.</td>
+      </tr>
+      <tr class="ra-row" data-tags="local marktoberdorf germany free now">
+        <td class="ra-city">Marktoberdorf</td>
+        <td class="ra-country">Germany</td>
+        <td class="ra-app"><a href="https://free-now.com/" target="_blank" rel="noopener">FREE NOW</a></td>
+        <td class="ra-fn"><span class="ra-fn-pill ra-fn-yes sb-green">Accepted</span></td>
+        <td class="ra-note">Covers Marktoberdorf and the surrounding Ostallgäu district, connecting registered local taxi drivers.</td>
+      </tr>
+      <tr class="ra-row" data-tags="uber munich germany uber">
+        <td class="ra-city">Munich</td>
+        <td class="ra-country">Germany</td>
+        <td class="ra-app"><a href="https://www.uber.com" target="_blank" rel="noopener">Uber</a></td>
+        <td class="ra-fn"><span class="ra-fn-pill ra-fn-yes sb-green">Accepted</span></td>
+        <td class="ra-note">The city&#x27;s most convenient ride-hailing app — works throughout Munich, accepts foreign cards.</td>
+      </tr>
+      <tr class="ra-row" data-tags="uber stuttgart germany uber">
+        <td class="ra-city">Stuttgart</td>
+        <td class="ra-country">Germany</td>
+        <td class="ra-app"><a href="https://www.uber.com/global/en/r/cities/stuttgart-bw-de/" target="_blank" rel="noopener">Uber</a></td>
+        <td class="ra-fn"><span class="ra-fn-pill ra-fn-yes sb-green">Accepted</span></td>
+        <td class="ra-note">Widely available ride-hailing option across Stuttgart with upfront fares confirmed before booking; covers Mitte, Bad Cannstatt, Degerloch and the museum…</td>
+      </tr>
+      <tr class="ra-row" data-tags="uber athens greece uber">
+        <td class="ra-city">Athens</td>
+        <td class="ra-country">Greece</td>
+        <td class="ra-app"><a href="https://www.uber.com/gr/en/" target="_blank" rel="noopener">Uber</a></td>
+        <td class="ra-fn"><span class="ra-fn-pill ra-fn-yes sb-green">Accepted</span></td>
+        <td class="ra-note">In Greece this is Uber Taxi, not UberX — the app dispatches a licensed yellow Athens taxi on the regulated meter, so the fare matches a street hail.</td>
+      </tr>
+      <tr class="ra-row" data-tags="uber corfu greece uber">
+        <td class="ra-city">Corfu</td>
+        <td class="ra-country">Greece</td>
+        <td class="ra-app"><a href="https://www.uber.com/gr/en/" target="_blank" rel="noopener">Uber</a></td>
+        <td class="ra-fn"><span class="ra-fn-pill ra-fn-yes sb-green">Accepted</span></td>
+        <td class="ra-note">Available in Corfu Town though supply is limited compared to the mainland; useful for the hotel-to-town run and moving between beach areas; taxis from the…</td>
+      </tr>
+      <tr class="ra-row" data-tags="bolt crete greece bolt">
+        <td class="ra-city">Crete</td>
+        <td class="ra-country">Greece</td>
+        <td class="ra-app"><a href="https://bolt.eu" target="_blank" rel="noopener">Bolt</a></td>
+        <td class="ra-fn"><span class="ra-fn-pill ra-fn-yes sb-green">Accepted</span></td>
+        <td class="ra-note">Available in Heraklion covering the main districts from the old town to the port and the Archaeological Museum area; more affordable than taxis for most…</td>
+      </tr>
+      <tr class="ra-row" data-tags="uber mykonos greece uber">
+        <td class="ra-city">Mykonos</td>
+        <td class="ra-country">Greece</td>
+        <td class="ra-app"><a href="https://www.uber.com/gr/en/" target="_blank" rel="noopener">Uber</a></td>
+        <td class="ra-fn"><span class="ra-fn-pill ra-fn-yes sb-green">Accepted</span></td>
+        <td class="ra-note">Uber operates on Mykonos in taxi-partnership mode — the same metered fares as local taxis, bookable through the app.</td>
+      </tr>
+      <tr class="ra-row" data-tags="bolt rhodes greece bolt">
+        <td class="ra-city">Rhodes</td>
+        <td class="ra-country">Greece</td>
+        <td class="ra-app"><a href="https://bolt.eu" target="_blank" rel="noopener">Bolt</a></td>
+        <td class="ra-fn"><span class="ra-fn-pill ra-fn-yes sb-green">Accepted</span></td>
+        <td class="ra-note">The dominant ride-hailing app in Rhodes Town; well-covered across the New Town, Ialyssos, Faliraki and the main resort corridor.</td>
+      </tr>
+      <tr class="ra-row" data-tags="uber santorini greece uber">
+        <td class="ra-city">Santorini</td>
+        <td class="ra-country">Greece</td>
+        <td class="ra-app"><a href="https://www.uber.com/" target="_blank" rel="noopener">Uber</a></td>
+        <td class="ra-fn"><span class="ra-fn-pill ra-fn-yes sb-green">Accepted</span></td>
+        <td class="ra-note">Uber works island-wide on Santorini with solid availability in Oia and Fira; covers the full island including JTR arrivals, the Vlychada marina, and…</td>
+      </tr>
+      <tr class="ra-row" data-tags="uber hong kong hong kong uber">
+        <td class="ra-city">Hong Kong</td>
+        <td class="ra-country">Hong Kong</td>
+        <td class="ra-app"><a href="https://www.uber.com" target="_blank" rel="noopener">Uber</a></td>
+        <td class="ra-fn"><span class="ra-fn-pill ra-fn-yes sb-green">Accepted</span></td>
+        <td class="ra-note">Reliable across Hong Kong and accepts foreign numbers at sign-up.</td>
+      </tr>
+      <tr class="ra-row" data-tags="bolt budapest hungary bolt">
+        <td class="ra-city">Budapest</td>
+        <td class="ra-country">Hungary</td>
+        <td class="ra-app"><a href="https://bolt.eu/" target="_blank" rel="noopener">Bolt</a></td>
+        <td class="ra-fn"><span class="ra-fn-pill ra-fn-yes sb-green">Accepted</span></td>
+        <td class="ra-note">The app Budapest actually runs on — the largest fleet in the city, cars two to five minutes out anywhere in Pest and the Castle District, and fares under…</td>
+      </tr>
+      <tr class="ra-row" data-tags="local reykjavik iceland hreyfill">
+        <td class="ra-city">Reykjavik</td>
+        <td class="ra-country">Iceland</td>
+        <td class="ra-app"><a href="https://www.hreyfill.is/en/" target="_blank" rel="noopener">Hreyfill</a></td>
+        <td class="ra-fn"><span class="ra-fn-pill ra-fn-no sb-red">Not accepted</span></td>
+        <td class="ra-note">Reykjavik&#x27;s main taxi app.</td>
+      </tr>
+      <tr class="ra-row" data-tags="local bali indonesia gojek">
+        <td class="ra-city">Bali</td>
+        <td class="ra-country">Indonesia</td>
+        <td class="ra-app"><a href="https://www.gojek.com" target="_blank" rel="noopener">Gojek</a></td>
+        <td class="ra-fn"><span class="ra-fn-pill ra-fn-yes sb-green">Accepted</span></td>
+        <td class="ra-note">Dominant platform on the island; works across all tourist areas from Seminyak and Canggu through to Ubud and Amed — no local number required.</td>
+      </tr>
+      <tr class="ra-row" data-tags="local dublin ireland free now">
+        <td class="ra-city">Dublin</td>
+        <td class="ra-country">Ireland</td>
+        <td class="ra-app"><a href="https://free-now.com/ie/" target="_blank" rel="noopener">FREE NOW</a></td>
+        <td class="ra-fn"><span class="ra-fn-pill ra-fn-yes sb-green">Accepted</span></td>
+        <td class="ra-note">The dominant ride-hailing app in Dublin; broad supply across the city centre, Ballsbridge, Rathmines, and the Docklands; useful for rides to and from the…</td>
+      </tr>
+      <tr class="ra-row" data-tags="other amalfi italy apptaxi">
+        <td class="ra-city">Amalfi</td>
+        <td class="ra-country">Italy</td>
+        <td class="ra-app"><a href="https://www.apptaxi.it/" target="_blank" rel="noopener">appTaxi</a></td>
+        <td class="ra-fn"><span class="ra-fn-pill ra-fn-yes sb-green">Accepted</span></td>
+        <td class="ra-note">Italy&#x27;s certified taxi-booking app and the practical way to summon a licensed white taxi on the coast — for transfers to Sorrento or Naples as much as for…</td>
+      </tr>
+      <tr class="ra-row" data-tags="local bologna italy ittaxi">
+        <td class="ra-city">Bologna</td>
+        <td class="ra-country">Italy</td>
+        <td class="ra-app"><a href="https://www.ittaxi.it/" target="_blank" rel="noopener">itTaxi</a></td>
+        <td class="ra-fn"><span class="ra-fn-pill ra-fn-no sb-red">Not accepted</span></td>
+        <td class="ra-note">The city&#x27;s dominant ride-booking platform, covering all of Bologna&#x27;s licensed taxis.</td>
+      </tr>
+      <tr class="ra-row" data-tags="local capri italy taxi capri">
+        <td class="ra-city">Capri</td>
+        <td class="ra-country">Italy</td>
+        <td class="ra-app"><a href="https://www.capri.net/en/getting-around" target="_blank" rel="noopener">Taxi Capri</a></td>
+        <td class="ra-fn"><span class="ra-fn-pill ra-fn-none">Not required</span></td>
+        <td class="ra-note">White convertible Fiat 500s, minibuses and boats with fixed island fares; find stands in Capri Town and Anacapri — no app or pre-registration needed, fares…</td>
+      </tr>
+      <tr class="ra-row" data-tags="local cinque terre italy 5 terre transfer">
+        <td class="ra-city">Cinque Terre</td>
+        <td class="ra-country">Italy</td>
+        <td class="ra-app"><a href="https://www.5terretransfer.com" target="_blank" rel="noopener">5 Terre Transfer</a></td>
+        <td class="ra-fn"><span class="ra-fn-pill ra-fn-none">Not required</span></td>
+        <td class="ra-note">Private transfer service linking the villages with La Spezia, Pisa, and Genoa; the main option for luggage-heavy arrivals or late-night returns when the…</td>
+      </tr>
+      <tr class="ra-row" data-tags="other florence italy apptaxi">
+        <td class="ra-city">Florence</td>
+        <td class="ra-country">Italy</td>
+        <td class="ra-app"><a href="https://www.apptaxi.it" target="_blank" rel="noopener">appTaxi</a></td>
+        <td class="ra-fn"><span class="ra-fn-pill ra-fn-yes sb-green">Accepted</span></td>
+        <td class="ra-note">Dispatches Florence&#x27;s licensed radio-taxi fleet; fares run on the municipal tariff meter, which is lower than private hire; reliable for Piazzale…</td>
+      </tr>
+      <tr class="ra-row" data-tags="local lake como italy free now">
+        <td class="ra-city">Lake Como</td>
+        <td class="ra-country">Italy</td>
+        <td class="ra-app"><a href="https://free-now.com/it/" target="_blank" rel="noopener">FREE NOW</a></td>
+        <td class="ra-fn"><span class="ra-fn-pill ra-fn-yes sb-green">Accepted</span></td>
+        <td class="ra-note">The dominant taxi booking app on Lake Como.</td>
+      </tr>
+      <tr class="ra-row" data-tags="local lecce italy free now">
+        <td class="ra-city">Lecce</td>
+        <td class="ra-country">Italy</td>
+        <td class="ra-app"><a href="https://www.free-now.com" target="_blank" rel="noopener">FREE NOW</a></td>
+        <td class="ra-fn"><span class="ra-fn-pill ra-fn-yes sb-green">Accepted</span></td>
+        <td class="ra-note">The main ride-hailing option in Lecce with reasonable response times across the centro storico; availability can drop in early morning hours outside tourist…</td>
+      </tr>
+      <tr class="ra-row" data-tags="uber milan italy uber">
+        <td class="ra-city">Milan</td>
+        <td class="ra-country">Italy</td>
+        <td class="ra-app"><a href="https://www.uber.com/it/en/" target="_blank" rel="noopener">Uber</a></td>
+        <td class="ra-fn"><span class="ra-fn-pill ra-fn-yes sb-green">Accepted</span></td>
+        <td class="ra-note">Available in Milan as a premium tier only — UberBlack and UberVan, no UberX.</td>
+      </tr>
+      <tr class="ra-row" data-tags="local naples italy ittaxi">
+        <td class="ra-city">Naples</td>
+        <td class="ra-country">Italy</td>
+        <td class="ra-app"><a href="https://www.ittaxi.it/" target="_blank" rel="noopener">ItTaxi</a></td>
+        <td class="ra-fn"><span class="ra-fn-pill ra-fn-yes sb-green">Accepted</span></td>
+        <td class="ra-note">Italy&#x27;s official licensed taxi booking app — connects to Naples&#x27; metered taxi fleet at fixed rates.</td>
+      </tr>
+      <tr class="ra-row" data-tags="local rome italy free now">
+        <td class="ra-city">Rome</td>
+        <td class="ra-country">Italy</td>
+        <td class="ra-app"><a href="https://free-now.com/" target="_blank" rel="noopener">FREE NOW</a></td>
+        <td class="ra-fn"><span class="ra-fn-pill ra-fn-yes sb-green">Accepted</span></td>
+        <td class="ra-note">Rome&#x27;s main taxi-booking app, hailing licensed metered taxis directly.</td>
+      </tr>
+      <tr class="ra-row" data-tags="uber sardinia italy uber">
+        <td class="ra-city">Sardinia</td>
+        <td class="ra-country">Italy</td>
+        <td class="ra-app"><a href="https://www.uber.com/it/en/r/cities/olbia-sardegna-it/" target="_blank" rel="noopener">Uber</a></td>
+        <td class="ra-fn"><span class="ra-fn-pill ra-fn-yes sb-green">Accepted</span></td>
+        <td class="ra-note">Operates in Olbia; availability is lower than mainland Italian cities and wait times can be longer, especially outside peak season.</td>
+      </tr>
+      <tr class="ra-row" data-tags="uber sicily italy uber">
+        <td class="ra-city">Sicily</td>
+        <td class="ra-country">Italy</td>
+        <td class="ra-app"><a href="https://www.uber.com/it/en/" target="_blank" rel="noopener">Uber</a></td>
+        <td class="ra-fn"><span class="ra-fn-pill ra-fn-yes sb-green">Accepted</span></td>
+        <td class="ra-note">Available in Palermo via licensed taxi drivers on the Uber platform; covers the historic centre and main transport hubs.</td>
+      </tr>
+      <tr class="ra-row" data-tags="other siena italy apptaxi">
+        <td class="ra-city">Siena</td>
+        <td class="ra-country">Italy</td>
+        <td class="ra-app"><a href="https://apptaxi.it/en/siena/" target="_blank" rel="noopener">appTaxi</a></td>
+        <td class="ra-fn"><span class="ra-fn-pill ra-fn-yes sb-green">Accepted</span></td>
+        <td class="ra-note">Italy&#x27;s licensed-taxi booking app, connecting riders with Siena&#x27;s local radio-taxi fleet; all vehicles are metered taxis operating at official municipal…</td>
+      </tr>
+      <tr class="ra-row" data-tags="local sorrento italy free now">
+        <td class="ra-city">Sorrento</td>
+        <td class="ra-country">Italy</td>
+        <td class="ra-app"><a href="https://free-now.com" target="_blank" rel="noopener">FREE NOW</a></td>
+        <td class="ra-fn"><span class="ra-fn-pill ra-fn-yes sb-green">Accepted</span></td>
+        <td class="ra-note">Ireland-founded taxi-booking platform connecting riders with licensed local taxi drivers across Sorrento and the wider Campania coast; all vehicles operate…</td>
+      </tr>
+      <tr class="ra-row" data-tags="uber turin italy uber">
+        <td class="ra-city">Turin</td>
+        <td class="ra-country">Italy</td>
+        <td class="ra-app"><a href="https://www.uber.com" target="_blank" rel="noopener">Uber</a></td>
+        <td class="ra-fn"><span class="ra-fn-pill ra-fn-yes sb-green">Accepted</span></td>
+        <td class="ra-note">Uber operates in Turin through licensed NCC black-car drivers, making it pricier than in markets with standard UberX.</td>
+      </tr>
+      <tr class="ra-row" data-tags="local venice italy motoscafi venezia">
+        <td class="ra-city">Venice</td>
+        <td class="ra-country">Italy</td>
+        <td class="ra-app"><a href="https://www.motoscafivenezia.it" target="_blank" rel="noopener">Motoscafi Venezia</a></td>
+        <td class="ra-fn"><span class="ra-fn-pill ra-fn-yes sb-green">Accepted</span></td>
+        <td class="ra-note">Motoscafi Venezia operates licensed water taxis across the Venetian lagoon, providing the fastest and most flexible point-to-point transport between the…</td>
+      </tr>
+      <tr class="ra-row" data-tags="other verona italy apptaxi">
+        <td class="ra-city">Verona</td>
+        <td class="ra-country">Italy</td>
+        <td class="ra-app"><a href="https://apptaxi.it/en/verona/" target="_blank" rel="noopener">appTaxi</a></td>
+        <td class="ra-fn"><span class="ra-fn-pill ra-fn-yes sb-green">Accepted</span></td>
+        <td class="ra-note">appTaxi is Italy&#x27;s national licensed taxi booking app and the primary option in Verona; it aggregates metered taxis across the city and the sign-up flow…</td>
+      </tr>
+      <tr class="ra-row" data-tags="uber hiroshima japan uber">
+        <td class="ra-city">Hiroshima</td>
+        <td class="ra-country">Japan</td>
+        <td class="ra-app"><a href="https://www.uber.com/jp/en/" target="_blank" rel="noopener">Uber</a></td>
+        <td class="ra-fn"><span class="ra-fn-pill ra-fn-yes sb-green">Accepted</span></td>
+        <td class="ra-note">Available in central Hiroshima and accepts foreign numbers at sign-up.</td>
+      </tr>
+      <tr class="ra-row" data-tags="other kyoto japan go">
+        <td class="ra-city">Kyoto</td>
+        <td class="ra-country">Japan</td>
+        <td class="ra-app"><a href="https://go.mo-t.com" target="_blank" rel="noopener">GO</a></td>
+        <td class="ra-fn"><span class="ra-fn-pill ra-fn-yes sb-green">Accepted</span></td>
+        <td class="ra-note">Japan&#x27;s leading taxi-hailing app, covering Kyoto&#x27;s main areas including Gion, Fushimi Inari and the Arashiyama district.</td>
+      </tr>
+      <tr class="ra-row" data-tags="other osaka japan go">
+        <td class="ra-city">Osaka</td>
+        <td class="ra-country">Japan</td>
+        <td class="ra-app"><a href="https://go.goinc.jp/" target="_blank" rel="noopener">GO</a></td>
+        <td class="ra-fn"><span class="ra-fn-pill ra-fn-yes sb-green">Accepted</span></td>
+        <td class="ra-note">Japan&#x27;s most widely used ride-hailing service, operated by domestic taxi companies; accepts credit cards and covers Osaka city thoroughly with generally…</td>
+      </tr>
+      <tr class="ra-row" data-tags="other tokyo japan go">
+        <td class="ra-city">Tokyo</td>
+        <td class="ra-country">Japan</td>
+        <td class="ra-app"><a href="https://go.mo-t.com/en/" target="_blank" rel="noopener">GO</a></td>
+        <td class="ra-fn"><span class="ra-fn-pill ra-fn-yes sb-green">Accepted</span></td>
+        <td class="ra-note">Japan&#x27;s largest taxi-booking app, aggregating licensed metered taxis from multiple operators across the city.</td>
+      </tr>
+      <tr class="ra-row" data-tags="local luang prabang laos loca">
+        <td class="ra-city">Luang Prabang</td>
+        <td class="ra-country">Laos</td>
+        <td class="ra-app"><a href="https://loca.la" target="_blank" rel="noopener">LOCA</a></td>
+        <td class="ra-fn"><span class="ra-fn-pill ra-fn-yes sb-green">Accepted</span></td>
+        <td class="ra-note">Laos&#x27;s main ride-hailing app with good coverage of the Luang Prabang peninsula and surrounding areas; useful for reaching the Night Market, temples and…</td>
+      </tr>
+      <tr class="ra-row" data-tags="local luxembourg luxembourg webtaxi">
+        <td class="ra-city">Luxembourg</td>
+        <td class="ra-country">Luxembourg</td>
+        <td class="ra-app"><a href="https://www.webtaxi.lu/" target="_blank" rel="noopener">Webtaxi</a></td>
+        <td class="ra-fn"><span class="ra-fn-pill ra-fn-yes sb-green">Accepted</span></td>
+        <td class="ra-note">lu; any international mobile number that receives an SMS code works.</td>
+      </tr>
+      <tr class="ra-row" data-tags="bolt valletta malta bolt">
+        <td class="ra-city">Valletta</td>
+        <td class="ra-country">MALTA</td>
+        <td class="ra-app"><a href="https://bolt.eu" target="_blank" rel="noopener">Bolt</a></td>
+        <td class="ra-fn"><span class="ra-fn-pill ra-fn-yes sb-green">Accepted</span></td>
+        <td class="ra-note">Bolt is the dominant ride-hailing app in Malta, providing on-demand cars across Valletta and the island; the app uses transparent upfront fares and a…</td>
+      </tr>
+      <tr class="ra-row" data-tags="grab kuala lumpur malaysia grab">
+        <td class="ra-city">Kuala Lumpur</td>
+        <td class="ra-country">Malaysia</td>
+        <td class="ra-app"><a href="https://www.grab.com/my/" target="_blank" rel="noopener">Grab</a></td>
+        <td class="ra-fn"><span class="ra-fn-pill ra-fn-yes sb-green">Accepted</span></td>
+        <td class="ra-note">Grab is the dominant ride-hailing app in Malaysia, with fixed fares agreed before booking that remove the haggling street taxis are known for; surge pricing…</td>
+      </tr>
+      <tr class="ra-row" data-tags="uber maldives maldives uber">
+        <td class="ra-city">Maldives</td>
+        <td class="ra-country">Maldives</td>
+        <td class="ra-app"><a href="https://www.uber.com/" target="_blank" rel="noopener">Uber</a></td>
+        <td class="ra-fn"><span class="ra-fn-pill ra-fn-yes sb-green">Accepted</span></td>
+        <td class="ra-note">Operates in Malé; useful for rides within the capital island, including between the ferry terminals and Hulhulé.</td>
+      </tr>
+      <tr class="ra-row" data-tags="uber cancún mexico uber">
+        <td class="ra-city">Cancún</td>
+        <td class="ra-country">Mexico</td>
+        <td class="ra-app"><a href="https://www.uber.com/mx/es/ride/" target="_blank" rel="noopener">Uber</a></td>
+        <td class="ra-fn"><span class="ra-fn-pill ra-fn-yes sb-green">Accepted</span></td>
+        <td class="ra-note">Covers the Hotel Zone, Downtown and the run out to the terminals, and it is the app that removes the fare haggle the street taxis are known for.</td>
+      </tr>
+      <tr class="ra-row" data-tags="uber los cabos mexico uber">
+        <td class="ra-city">Los Cabos</td>
+        <td class="ra-country">Mexico</td>
+        <td class="ra-app"><a href="https://www.uber.com" target="_blank" rel="noopener">Uber</a></td>
+        <td class="ra-fn"><span class="ra-fn-pill ra-fn-yes sb-green">Accepted</span></td>
+        <td class="ra-note">The most practical way to get between Cabo San Lucas and San José del Cabo; also useful for reaching beaches and restaurants along the Corridor where taxis…</td>
+      </tr>
+      <tr class="ra-row" data-tags="other oaxaca mexico didi">
+        <td class="ra-city">Oaxaca</td>
+        <td class="ra-country">Mexico</td>
+        <td class="ra-app"><a href="https://web.didiglobal.com" target="_blank" rel="noopener">DiDi</a></td>
+        <td class="ra-fn"><span class="ra-fn-pill ra-fn-yes sb-green">Accepted</span></td>
+        <td class="ra-note">DiDi is the main ride app in Oaxaca — Uber pulled out of the city.</td>
+      </tr>
+      <tr class="ra-row" data-tags="uber puerto vallarta mexico uber">
+        <td class="ra-city">Puerto Vallarta</td>
+        <td class="ra-country">Mexico</td>
+        <td class="ra-app"><a href="https://www.uber.com/global/en/r/cities/puerto-vallarta-ja-mx/" target="_blank" rel="noopener">Uber</a></td>
+        <td class="ra-fn"><span class="ra-fn-pill ra-fn-yes sb-green">Accepted</span></td>
+        <td class="ra-note">Reliable and widely available in the hotel zone and Romantic Zone.</td>
+      </tr>
+      <tr class="ra-row" data-tags="local monaco monaco taxi monaco">
+        <td class="ra-city">Monaco</td>
+        <td class="ra-country">Monaco</td>
+        <td class="ra-app"><a href="https://www.cam.mc/" target="_blank" rel="noopener">Taxi Monaco</a></td>
+        <td class="ra-fn"><span class="ra-fn-pill ra-fn-yes sb-green">Accepted</span></td>
+        <td class="ra-note">Monaco&#x27;s official taxi app, hailing licensed cars via a metered fare with no surge pricing.</td>
+      </tr>
+      <tr class="ra-row" data-tags="local kotor montenegro montego">
+        <td class="ra-city">Kotor</td>
+        <td class="ra-country">Montenegro</td>
+        <td class="ra-app"><a href="https://montego.app/" target="_blank" rel="noopener">MonteGO</a></td>
+        <td class="ra-fn"><span class="ra-fn-pill ra-fn-none">Not required</span></td>
+        <td class="ra-note">Montenegro&#x27;s own ride-hailing app, built for a tourist-heavy country and accepting foreign numbers at sign-up.</td>
+      </tr>
+      <tr class="ra-row" data-tags="uber marrakech morocco uber">
+        <td class="ra-city">Marrakech</td>
+        <td class="ra-country">Morocco</td>
+        <td class="ra-app"><a href="https://www.uber.com" target="_blank" rel="noopener">Uber</a></td>
+        <td class="ra-fn"><span class="ra-fn-pill ra-fn-yes sb-green">Accepted</span></td>
+        <td class="ra-note">Operates across Marrakech including the Medina, Gueliz and Hivernage.</td>
+      </tr>
+      <tr class="ra-row" data-tags="other pokhara nepal indrive">
+        <td class="ra-city">Pokhara</td>
+        <td class="ra-country">Nepal</td>
+        <td class="ra-app"><a href="https://indrive.com/" target="_blank" rel="noopener">InDrive</a></td>
+        <td class="ra-fn"><span class="ra-fn-pill ra-fn-yes sb-green">Accepted</span></td>
+        <td class="ra-note">The one ride app a visitor can actually use in Pokhara: you name a fare, drivers counter-offer, and a Lakeside to Sarangkot or Devi&#x27;s Falls ride settles in…</td>
+      </tr>
+      <tr class="ra-row" data-tags="uber amsterdam netherlands uber">
+        <td class="ra-city">Amsterdam</td>
+        <td class="ra-country">Netherlands</td>
+        <td class="ra-app"><a href="https://www.uber.com" target="_blank" rel="noopener">Uber</a></td>
+        <td class="ra-fn"><span class="ra-fn-pill ra-fn-yes sb-green">Accepted</span></td>
+        <td class="ra-note">Works across Amsterdam with no Dutch number needed; practical for longer cross-city rides and late-night journeys when GVB trams stop running.</td>
+      </tr>
+      <tr class="ra-row" data-tags="uber rotterdam netherlands uber">
+        <td class="ra-city">Rotterdam</td>
+        <td class="ra-country">Netherlands</td>
+        <td class="ra-app"><a href="https://www.uber.com" target="_blank" rel="noopener">Uber</a></td>
+        <td class="ra-fn"><span class="ra-fn-pill ra-fn-yes sb-green">Accepted</span></td>
+        <td class="ra-note">Active across central Rotterdam with short wait times; UberX is the main tier and rates are comparable to local taxis for most routes across the city and to…</td>
+      </tr>
+      <tr class="ra-row" data-tags="uber queenstown new zealand uber">
+        <td class="ra-city">Queenstown</td>
+        <td class="ra-country">New Zealand</td>
+        <td class="ra-app"><a href="https://www.uber.com/global/en/r/cities/queenstown-ota-nz/" target="_blank" rel="noopener">Uber</a></td>
+        <td class="ra-fn"><span class="ra-fn-pill ra-fn-yes sb-green">Accepted</span></td>
+        <td class="ra-note">Widely available in central Queenstown and the main hotel areas.</td>
+      </tr>
+      <tr class="ra-row" data-tags="uber wellington new zealand uber">
+        <td class="ra-city">Wellington</td>
+        <td class="ra-country">New Zealand</td>
+        <td class="ra-app"><a href="https://www.uber.com" target="_blank" rel="noopener">Uber</a></td>
+        <td class="ra-fn"><span class="ra-fn-pill ra-fn-yes sb-green">Accepted</span></td>
+        <td class="ra-note">Uber is the main ride-hailing option in Wellington and covers the central city, Te Aro, and the waterfront; an international Uber account works without any…</td>
+      </tr>
+      <tr class="ra-row" data-tags="bolt bergen norway bolt">
+        <td class="ra-city">Bergen</td>
+        <td class="ra-country">Norway</td>
+        <td class="ra-app"><a href="https://bolt.eu/en-no/" target="_blank" rel="noopener">Bolt</a></td>
+        <td class="ra-fn"><span class="ra-fn-pill ra-fn-yes sb-green">Accepted</span></td>
+        <td class="ra-note">Bergen&#x27;s primary ride-hailing service; reliable for the city centre and hotel corridor, and foreign numbers register without issue.</td>
+      </tr>
+      <tr class="ra-row" data-tags="uber oslo norway uber">
+        <td class="ra-city">Oslo</td>
+        <td class="ra-country">Norway</td>
+        <td class="ra-app"><a href="https://www.uber.com" target="_blank" rel="noopener">Uber</a></td>
+        <td class="ra-fn"><span class="ra-fn-pill ra-fn-none">Not required</span></td>
+        <td class="ra-note">Uber operates reliably in Oslo with cars available across the city centre and inner neighbourhoods; wait times are short near Sentrum, Aker Brygge and…</td>
+      </tr>
+      <tr class="ra-row" data-tags="bolt tromsø norway bolt">
+        <td class="ra-city">Tromsø</td>
+        <td class="ra-country">Norway</td>
+        <td class="ra-app"><a href="https://bolt.eu" target="_blank" rel="noopener">Bolt</a></td>
+        <td class="ra-fn"><span class="ra-fn-pill ra-fn-yes sb-green">Accepted</span></td>
+        <td class="ra-note">Bolt is the dominant ride-hailing service in Tromsø, covering the compact city centre and surrounding residential areas.</td>
+      </tr>
+      <tr class="ra-row" data-tags="local ålesund norway norgestaxi">
+        <td class="ra-city">Ålesund</td>
+        <td class="ra-country">Norway</td>
+        <td class="ra-app"><a href="https://norgestaxi.no" target="_blank" rel="noopener">NorgesTaxi</a></td>
+        <td class="ra-fn"><span class="ra-fn-pill ra-fn-none">Not required</span></td>
+        <td class="ra-note">NorgesTaxi is Norway&#x27;s largest taxi network and the most reliable way to get around Ålesund after dark; the city is compact but its islands and steep hills…</td>
+      </tr>
+      <tr class="ra-row" data-tags="local muscat oman otaxi">
+        <td class="ra-city">Muscat</td>
+        <td class="ra-country">Oman</td>
+        <td class="ra-app"><a href="https://apps.apple.com/om/app/oman-taxi-otaxi/id1348254907" target="_blank" rel="noopener">OTaxi</a></td>
+        <td class="ra-fn"><span class="ra-fn-pill ra-fn-yes sb-green">Accepted</span></td>
+        <td class="ra-note">The official Oman government taxi app with metered fares across Muscat — government-regulated pricing with no surge during peak hours or events.</td>
+      </tr>
+      <tr class="ra-row" data-tags="grab palawan philippines grab">
+        <td class="ra-city">Palawan</td>
+        <td class="ra-country">PHILIPPINES</td>
+        <td class="ra-app"><a href="https://www.grab.com/ph/" target="_blank" rel="noopener">Grab</a></td>
+        <td class="ra-fn"><span class="ra-fn-pill ra-fn-yes sb-green">Accepted</span></td>
+        <td class="ra-note">The only ride-hailing app with cars in Puerto Princesa, and pick-ups cluster around Rizal Avenue, the Baywalk and Robinsons mall; coverage thins past the…</td>
+      </tr>
+      <tr class="ra-row" data-tags="other cusco peru indrive">
+        <td class="ra-city">Cusco</td>
+        <td class="ra-country">Peru</td>
+        <td class="ra-app"><a href="https://indrive.com/pe" target="_blank" rel="noopener">InDrive</a></td>
+        <td class="ra-fn"><span class="ra-fn-pill ra-fn-yes sb-green">Accepted</span></td>
+        <td class="ra-note">The most widely used ride-hailing app in Cusco; good coverage across the historic center, San Blas, and out to the main market and bus terminal areas; the…</td>
+      </tr>
+      <tr class="ra-row" data-tags="uber lima peru uber">
+        <td class="ra-city">Lima</td>
+        <td class="ra-country">Peru</td>
+        <td class="ra-app"><a href="https://www.uber.com/pe/en/" target="_blank" rel="noopener">Uber</a></td>
+        <td class="ra-fn"><span class="ra-fn-pill ra-fn-yes sb-green">Accepted</span></td>
+        <td class="ra-note">The most reliable option across Miraflores, Barranco and San Isidro; surge pricing is common on weekday evenings and during peak tourist season.</td>
+      </tr>
+      <tr class="ra-row" data-tags="bolt kraków poland bolt">
+        <td class="ra-city">Kraków</td>
+        <td class="ra-country">Poland</td>
+        <td class="ra-app"><a href="https://bolt.eu" target="_blank" rel="noopener">Bolt</a></td>
+        <td class="ra-fn"><span class="ra-fn-pill ra-fn-yes sb-green">Accepted</span></td>
+        <td class="ra-note">The most popular ride-hailing app in Kraków, with strong driver supply across the Old Town, Kazimierz and Nowa Huta.</td>
+      </tr>
+      <tr class="ra-row" data-tags="bolt azores portugal bolt">
+        <td class="ra-city">Azores</td>
+        <td class="ra-country">Portugal</td>
+        <td class="ra-app"><a href="https://bolt.eu" target="_blank" rel="noopener">Bolt</a></td>
+        <td class="ra-fn"><span class="ra-fn-pill ra-fn-yes sb-green">Accepted</span></td>
+        <td class="ra-note">The main ride-hailing option in Ponta Delgada; essential for reaching trailheads, caldeira viewpoints and Furnas — distances across the island are too far…</td>
+      </tr>
+      <tr class="ra-row" data-tags="uber cascais portugal uber">
+        <td class="ra-city">Cascais</td>
+        <td class="ra-country">Portugal</td>
+        <td class="ra-app"><a href="https://www.uber.com" target="_blank" rel="noopener">Uber</a></td>
+        <td class="ra-fn"><span class="ra-fn-pill ra-fn-yes sb-green">Accepted</span></td>
+        <td class="ra-note">Covers Cascais, the Estoril Coast, and Sintra; reliable for beach-to-beach hops and the run into Lisbon; faster pickup than street taxis at busy times.</td>
+      </tr>
+      <tr class="ra-row" data-tags="bolt lagos portugal bolt">
+        <td class="ra-city">Lagos</td>
+        <td class="ra-country">Portugal</td>
+        <td class="ra-app"><a href="https://bolt.eu/en/cities/algarve/" target="_blank" rel="noopener">Bolt</a></td>
+        <td class="ra-fn"><span class="ra-fn-pill ra-fn-yes sb-green">Accepted</span></td>
+        <td class="ra-note">Reliable and affordable ride option throughout the Algarve.</td>
+      </tr>
+      <tr class="ra-row" data-tags="uber lisbon portugal uber">
+        <td class="ra-city">Lisbon</td>
+        <td class="ra-country">Portugal</td>
+        <td class="ra-app"><a href="https://www.uber.com" target="_blank" rel="noopener">Uber</a></td>
+        <td class="ra-fn"><span class="ra-fn-pill ra-fn-yes sb-green">Accepted</span></td>
+        <td class="ra-note">The most reliable ride-hailing option in Lisbon with consistent coverage from Alfama to Belém and Parque das Nações; fares are competitive by Western…</td>
+      </tr>
+      <tr class="ra-row" data-tags="bolt madeira portugal bolt">
+        <td class="ra-city">Madeira</td>
+        <td class="ra-country">Portugal</td>
+        <td class="ra-app"><a href="https://bolt.eu" target="_blank" rel="noopener">Bolt</a></td>
+        <td class="ra-fn"><span class="ra-fn-pill ra-fn-yes sb-green">Accepted</span></td>
+        <td class="ra-note">The dominant ride-hailing app on Madeira, with good driver availability across Funchal and the western hotel corridor; significantly cheaper than taxis for…</td>
+      </tr>
+      <tr class="ra-row" data-tags="uber porto portugal uber">
+        <td class="ra-city">Porto</td>
+        <td class="ra-country">Portugal</td>
+        <td class="ra-app"><a href="https://www.uber.com" target="_blank" rel="noopener">Uber</a></td>
+        <td class="ra-fn"><span class="ra-fn-pill ra-fn-yes sb-green">Accepted</span></td>
+        <td class="ra-note">The biggest fleet in Porto and the one with a car on Avenida dos Aliados in two or three minutes; fares are low by European standards and fixed at booking,…</td>
+      </tr>
+      <tr class="ra-row" data-tags="uber sintra portugal uber">
+        <td class="ra-city">Sintra</td>
+        <td class="ra-country">Portugal</td>
+        <td class="ra-app"><a href="https://www.uber.com" target="_blank" rel="noopener">Uber</a></td>
+        <td class="ra-fn"><span class="ra-fn-pill ra-fn-yes sb-green">Accepted</span></td>
+        <td class="ra-note">Lisbon&#x27;s dominant ride-hailing platform with reliable coverage across Sintra, including the town centre and upper palace areas; upfront fares confirmed…</td>
+      </tr>
+      <tr class="ra-row" data-tags="uber puerto rico puerto rico uber">
+        <td class="ra-city">Puerto Rico</td>
+        <td class="ra-country">Puerto Rico</td>
+        <td class="ra-app"><a href="https://www.uber.com" target="_blank" rel="noopener">Uber</a></td>
+        <td class="ra-fn"><span class="ra-fn-pill ra-fn-yes sb-green">Accepted</span></td>
+        <td class="ra-note">The standard choice for getting around San Juan — well-covered across Old San Juan, Condado, Isla Verde, and Santurce, with reliable pick-up times.</td>
+      </tr>
+      <tr class="ra-row" data-tags="local doha qatar karwa">
+        <td class="ra-city">Doha</td>
+        <td class="ra-country">Qatar</td>
+        <td class="ra-app"><a href="https://www.karwa.qa/" target="_blank" rel="noopener">Karwa</a></td>
+        <td class="ra-fn"><span class="ra-fn-pill ra-fn-yes sb-green">Accepted</span></td>
+        <td class="ra-note">Qatar&#x27;s state taxi and ride-hailing service; metered, well-maintained vehicles and fixed fares to the main hotels; reliable across West Bay, Katara, and the…</td>
+      </tr>
+      <tr class="ra-row" data-tags="uber cape town south africa uber">
+        <td class="ra-city">Cape Town</td>
+        <td class="ra-country">SOUTH AFRICA</td>
+        <td class="ra-app"><a href="https://www.uber.com/za/en/" target="_blank" rel="noopener">Uber</a></td>
+        <td class="ra-fn"><span class="ra-fn-pill ra-fn-yes sb-green">Accepted</span></td>
+        <td class="ra-note">The dominant ride app across Cape Town from the Waterfront to the Southern Suburbs; expect surge pricing around Table Mountain and on weekend evenings.</td>
+      </tr>
+      <tr class="ra-row" data-tags="local seychelles seychelles koek">
+        <td class="ra-city">Seychelles</td>
+        <td class="ra-country">Seychelles</td>
+        <td class="ra-app"><a href="https://koek.sc/" target="_blank" rel="noopener">KOEK</a></td>
+        <td class="ra-fn"><span class="ra-fn-pill ra-fn-no sb-red">Not accepted</span></td>
+        <td class="ra-note">Seychelles&#x27; main ride-hailing app on Mahé, connecting riders with licensed local drivers for trips across the island.</td>
+      </tr>
+      <tr class="ra-row" data-tags="grab singapore singapore grab">
+        <td class="ra-city">Singapore</td>
+        <td class="ra-country">Singapore</td>
+        <td class="ra-app"><a href="https://www.grab.com" target="_blank" rel="noopener">Grab</a></td>
+        <td class="ra-fn"><span class="ra-fn-pill ra-fn-yes sb-green">Accepted</span></td>
+        <td class="ra-note">Southeast Asia&#x27;s dominant ride-hailing app with island-wide coverage in Singapore; accepts foreign phone numbers and international credit cards at sign-up.</td>
+      </tr>
+      <tr class="ra-row" data-tags="local sint maarten sint maarten sxm taxi app">
+        <td class="ra-city">Sint Maarten</td>
+        <td class="ra-country">Sint Maarten</td>
+        <td class="ra-app"><a href="https://sxmtaxi.com" target="_blank" rel="noopener">SXM Taxi App</a></td>
+        <td class="ra-fn"><span class="ra-fn-pill ra-fn-yes sb-green">Accepted</span></td>
+        <td class="ra-note">Sint Maarten&#x27;s licensed taxi booking app, connecting riders with the island&#x27;s regulated taxi union; vehicles operate at government-set flat rates for key…</td>
+      </tr>
+      <tr class="ra-row" data-tags="bolt ljubljana slovenia bolt">
+        <td class="ra-city">Ljubljana</td>
+        <td class="ra-country">Slovenia</td>
+        <td class="ra-app"><a href="https://bolt.eu/en-si/" target="_blank" rel="noopener">Bolt</a></td>
+        <td class="ra-fn"><span class="ra-fn-pill ra-fn-yes sb-green">Accepted</span></td>
+        <td class="ra-note">The dominant ride-hailing option in Ljubljana with reliable coverage throughout the city center and surrounding neighborhoods; response times are generally…</td>
+      </tr>
+      <tr class="ra-row" data-tags="other busan south korea kakao t">
+        <td class="ra-city">Busan</td>
+        <td class="ra-country">South Korea</td>
+        <td class="ra-app"><a href="https://www.kakaomobility.com" target="_blank" rel="noopener">Kakao T</a></td>
+        <td class="ra-fn"><span class="ra-fn-pill ra-fn-yes sb-green">Accepted</span></td>
+        <td class="ra-note">The app every taxi in Busan answers to — it hails ordinary metered cabs, so the fare is the city rate with no surge, and a car is usually under five minutes…</td>
+      </tr>
+      <tr class="ra-row" data-tags="other seoul south korea kakao t">
+        <td class="ra-city">Seoul</td>
+        <td class="ra-country">South Korea</td>
+        <td class="ra-app"><a href="https://www.kakaomobility.com" target="_blank" rel="noopener">Kakao T</a></td>
+        <td class="ra-fn"><span class="ra-fn-pill ra-fn-yes sb-green">Accepted</span></td>
+        <td class="ra-note">Korea&#x27;s dominant ride-hailing app — wider coverage than Uber across Seoul; English-language interface; foreign-issued Visa and Mastercard accepted without…</td>
+      </tr>
+      <tr class="ra-row" data-tags="uber barcelona spain uber">
+        <td class="ra-city">Barcelona</td>
+        <td class="ra-country">Spain</td>
+        <td class="ra-app"><a href="https://www.uber.com" target="_blank" rel="noopener">Uber</a></td>
+        <td class="ra-fn"><span class="ra-fn-pill ra-fn-yes sb-green">Accepted</span></td>
+        <td class="ra-note">In Barcelona Uber dispatches licensed city taxis rather than private-hire cars, so the vehicle that arrives is a black-and-yellow cab on the regulated tariff.</td>
+      </tr>
+      <tr class="ra-row" data-tags="other bilbao spain cabify">
+        <td class="ra-city">Bilbao</td>
+        <td class="ra-country">Spain</td>
+        <td class="ra-app"><a href="https://cabify.com" target="_blank" rel="noopener">Cabify</a></td>
+        <td class="ra-fn"><span class="ra-fn-pill ra-fn-no sb-red">Not accepted</span></td>
+        <td class="ra-note">The dominant ride-hailing option in Bilbao; more reliable than Uber in the Basque Country and covers the Guggenheim, Old Town and surrounding neighborhoods…</td>
+      </tr>
+      <tr class="ra-row" data-tags="other granada spain cabify">
+        <td class="ra-city">Granada</td>
+        <td class="ra-country">Spain</td>
+        <td class="ra-app"><a href="https://cabify.com/es" target="_blank" rel="noopener">Cabify</a></td>
+        <td class="ra-fn"><span class="ra-fn-pill ra-fn-no sb-red">Not accepted</span></td>
+        <td class="ra-note">Cabify is the dominant ride-hailing option in Granada, covering the Albaicín, Sacromonte, and the broader city.</td>
+      </tr>
+      <tr class="ra-row" data-tags="other madrid spain cabify">
+        <td class="ra-city">Madrid</td>
+        <td class="ra-country">Spain</td>
+        <td class="ra-app"><a href="https://cabify.com/es" target="_blank" rel="noopener">Cabify</a></td>
+        <td class="ra-fn"><span class="ra-fn-pill ra-fn-no sb-red">Not accepted</span></td>
+        <td class="ra-note">Madrid&#x27;s premium ride-hailing option, popular with business travellers; prices run slightly above Uber and Bolt but cars are typically newer and drivers…</td>
+      </tr>
+      <tr class="ra-row" data-tags="uber málaga spain uber">
+        <td class="ra-city">Málaga</td>
+        <td class="ra-country">Spain</td>
+        <td class="ra-app"><a href="https://www.uber.com" target="_blank" rel="noopener">Uber</a></td>
+        <td class="ra-fn"><span class="ra-fn-pill ra-fn-yes sb-green">Accepted</span></td>
+        <td class="ra-note">The easiest option in Málaga for visitors; good coverage across the centre and the beach district, with consistent wait times and in-app payment that needs…</td>
+      </tr>
+      <tr class="ra-row" data-tags="other san sebastián spain cabify">
+        <td class="ra-city">San Sebastián</td>
+        <td class="ra-country">Spain</td>
+        <td class="ra-app"><a href="https://cabify.com/es" target="_blank" rel="noopener">Cabify</a></td>
+        <td class="ra-fn"><span class="ra-fn-pill ra-fn-no sb-red">Not accepted</span></td>
+        <td class="ra-note">The Spanish-grown app and the one with the most licensed drivers in Donostia — fixed fares, clean cars and a reliable pick-up from the Maria Cristina within…</td>
+      </tr>
+      <tr class="ra-row" data-tags="other seville spain cabify">
+        <td class="ra-city">Seville</td>
+        <td class="ra-country">Spain</td>
+        <td class="ra-app"><a href="https://cabify.com" target="_blank" rel="noopener">Cabify</a></td>
+        <td class="ra-fn"><span class="ra-fn-pill ra-fn-no sb-red">Not accepted</span></td>
+        <td class="ra-note">Spain-focused ride app with good coverage of Seville&#x27;s city centre; operates with professional drivers and fixed prices.</td>
+      </tr>
+      <tr class="ra-row" data-tags="bolt tenerife spain bolt">
+        <td class="ra-city">Tenerife</td>
+        <td class="ra-country">Spain</td>
+        <td class="ra-app"><a href="https://bolt.eu/en-es/" target="_blank" rel="noopener">Bolt</a></td>
+        <td class="ra-fn"><span class="ra-fn-pill ra-fn-yes sb-green">Accepted</span></td>
+        <td class="ra-note">Operates across the northern tourist corridor including Puerto de la Cruz and Santa Cruz; upfront pricing and generally shorter wait times than street taxis…</td>
+      </tr>
+      <tr class="ra-row" data-tags="local toledo spain taxi toledo">
+        <td class="ra-city">Toledo</td>
+        <td class="ra-country">Spain</td>
+        <td class="ra-app"><a href="https://www.taxitoledo.es" target="_blank" rel="noopener">Taxi Toledo</a></td>
+        <td class="ra-fn"><span class="ra-fn-pill ra-fn-yes sb-green">Accepted</span></td>
+        <td class="ra-note">Toledo&#x27;s licensed taxi service covering the Old Town and surrounding areas.</td>
+      </tr>
+      <tr class="ra-row" data-tags="local colombo sri lanka pickme">
+        <td class="ra-city">Colombo</td>
+        <td class="ra-country">Sri Lanka</td>
+        <td class="ra-app"><a href="https://pickme.lk" target="_blank" rel="noopener">PickMe</a></td>
+        <td class="ra-fn"><span class="ra-fn-pill ra-fn-yes sb-green">Accepted</span></td>
+        <td class="ra-note">Sri Lanka&#x27;s main ride-hailing app; comprehensive Colombo coverage from the Fort to Mount Lavinia; reliable for metered fares without negotiation —…</td>
+      </tr>
+      <tr class="ra-row" data-tags="uber gothenburg sweden uber">
+        <td class="ra-city">Gothenburg</td>
+        <td class="ra-country">Sweden</td>
+        <td class="ra-app"><a href="https://www.uber.com/global/en/cities/gothenburg/" target="_blank" rel="noopener">Uber</a></td>
+        <td class="ra-fn"><span class="ra-fn-pill ra-fn-yes sb-green">Accepted</span></td>
+        <td class="ra-note">Uber operates in Gothenburg and is the most widely known ride-hailing option, reliable across the city centre and for later evenings.</td>
+      </tr>
+      <tr class="ra-row" data-tags="uber stockholm sweden uber">
+        <td class="ra-city">Stockholm</td>
+        <td class="ra-country">Sweden</td>
+        <td class="ra-app"><a href="https://www.uber.com/global/en/r/cities/stockholm-stockholm-se/" target="_blank" rel="noopener">Uber</a></td>
+        <td class="ra-fn"><span class="ra-fn-pill ra-fn-yes sb-green">Accepted</span></td>
+        <td class="ra-note">Widely available ride-hailing option across Stockholm with upfront fares confirmed before booking; reliable for trips between Gamla Stan, Östermalm and…</td>
+      </tr>
+      <tr class="ra-row" data-tags="uber geneva switzerland uber">
+        <td class="ra-city">Geneva</td>
+        <td class="ra-country">Switzerland</td>
+        <td class="ra-app"><a href="https://www.uber.com/ch/en/" target="_blank" rel="noopener">Uber</a></td>
+        <td class="ra-fn"><span class="ra-fn-pill ra-fn-yes sb-green">Accepted</span></td>
+        <td class="ra-note">Uber operates throughout Geneva and is the most reliable way to get a metered ride — surge pricing applies during major conferences and Geneva Motor Show…</td>
+      </tr>
+      <tr class="ra-row" data-tags="uber lucerne switzerland uber">
+        <td class="ra-city">Lucerne</td>
+        <td class="ra-country">Switzerland</td>
+        <td class="ra-app"><a href="https://www.uber.com/ch/en/" target="_blank" rel="noopener">Uber</a></td>
+        <td class="ra-fn"><span class="ra-fn-pill ra-fn-yes sb-green">Accepted</span></td>
+        <td class="ra-note">Available throughout Lucerne with reliable coverage; a practical option for reaching the train station, lakeside areas and the old town at any hour.</td>
+      </tr>
+      <tr class="ra-row" data-tags="uber zurich switzerland uber">
+        <td class="ra-city">Zurich</td>
+        <td class="ra-country">Switzerland</td>
+        <td class="ra-app"><a href="https://www.uber.com" target="_blank" rel="noopener">Uber</a></td>
+        <td class="ra-fn"><span class="ra-fn-pill ra-fn-yes sb-green">Accepted</span></td>
+        <td class="ra-note">Uber operates across Zurich and is a reliable option for getting between the city centre, Zürich HB, and the outer neighbourhoods; an international Uber…</td>
+      </tr>
+      <tr class="ra-row" data-tags="uber taipei taiwan uber">
+        <td class="ra-city">Taipei</td>
+        <td class="ra-country">Taiwan</td>
+        <td class="ra-app"><a href="https://www.uber.com/tw/en/" target="_blank" rel="noopener">Uber</a></td>
+        <td class="ra-fn"><span class="ra-fn-pill ra-fn-yes sb-green">Accepted</span></td>
+        <td class="ra-note">Operates across Taipei with reliable coverage; international cards register without issue, making it the most straightforward option for visitors who arrive…</td>
+      </tr>
+      <tr class="ra-row" data-tags="grab bangkok thailand grab">
+        <td class="ra-city">Bangkok</td>
+        <td class="ra-country">Thailand</td>
+        <td class="ra-app"><a href="https://www.grab.com/th/en/" target="_blank" rel="noopener">Grab</a></td>
+        <td class="ra-fn"><span class="ra-fn-pill ra-fn-yes sb-green">Accepted</span></td>
+        <td class="ra-note">The only ride app that matters in Bangkok: metered taxis routinely refuse the meter for visitors, while Grab settles the fare in baht before you get in.</td>
+      </tr>
+      <tr class="ra-row" data-tags="grab chiang mai thailand grab">
+        <td class="ra-city">Chiang Mai</td>
+        <td class="ra-country">Thailand</td>
+        <td class="ra-app"><a href="https://www.grab.com/th/en/" target="_blank" rel="noopener">Grab</a></td>
+        <td class="ra-fn"><span class="ra-fn-pill ra-fn-yes sb-green">Accepted</span></td>
+        <td class="ra-note">The primary ride-hailing app in Chiang Mai; covers the Old City, Nimman, Ping River area, and suburbs; reliable for moving between the night markets,…</td>
+      </tr>
+      <tr class="ra-row" data-tags="grab phuket thailand grab">
+        <td class="ra-city">Phuket</td>
+        <td class="ra-country">Thailand</td>
+        <td class="ra-app"><a href="https://www.grab.com/th/en/" target="_blank" rel="noopener">Grab</a></td>
+        <td class="ra-fn"><span class="ra-fn-pill ra-fn-yes sb-green">Accepted</span></td>
+        <td class="ra-note">The island&#x27;s default ride app, with cars and GrabCar pick-ups quick in Phuket Town and Patong and a marked pick-up point at arrivals; fares are fixed at…</td>
+      </tr>
+      <tr class="ra-row" data-tags="local istanbul turkey bitaksi">
+        <td class="ra-city">Istanbul</td>
+        <td class="ra-country">Turkey</td>
+        <td class="ra-app"><a href="https://www.bitaksi.com" target="_blank" rel="noopener">BiTaksi</a></td>
+        <td class="ra-fn"><span class="ra-fn-pill ra-fn-no sb-red">Not accepted</span></td>
+        <td class="ra-note">Istanbul&#x27;s own taxi-hailing app, connecting passengers with licensed yellow taxis across the city.</td>
+      </tr>
+      <tr class="ra-row" data-tags="local turks and caicos turks and caicos ridenow">
+        <td class="ra-city">Turks and Caicos</td>
+        <td class="ra-country">Turks and Caicos</td>
+        <td class="ra-app"><a href="https://ridenow247.com" target="_blank" rel="noopener">RideNow</a></td>
+        <td class="ra-fn"><span class="ra-fn-pill ra-fn-yes sb-green">Accepted</span></td>
+        <td class="ra-note">RideNow is the primary app-based car service in Providenciales, offering pre-scheduled and on-demand rides across the island; the sign-up flow accepts a…</td>
+      </tr>
+      <tr class="ra-row" data-tags="other abu dhabi united arab emirates careem">
+        <td class="ra-city">Abu Dhabi</td>
+        <td class="ra-country">United Arab Emirates</td>
+        <td class="ra-app"><a href="https://www.careem.com" target="_blank" rel="noopener">Careem</a></td>
+        <td class="ra-fn"><span class="ra-fn-pill ra-fn-yes sb-green">Accepted</span></td>
+        <td class="ra-note">The dominant ride-hailing app across the UAE and the Middle East, used by essentially everyone in Abu Dhabi.</td>
+      </tr>
+      <tr class="ra-row" data-tags="other dubai united arab emirates careem">
+        <td class="ra-city">Dubai</td>
+        <td class="ra-country">United Arab Emirates</td>
+        <td class="ra-app"><a href="https://www.careem.com/" target="_blank" rel="noopener">Careem</a></td>
+        <td class="ra-fn"><span class="ra-fn-pill ra-fn-yes sb-green">Accepted</span></td>
+        <td class="ra-note">The primary ride-hailing app in Dubai; well-supplied across Downtown, JBR, DIFC, and the Marina; fares are metered and transparent in the app before…</td>
+      </tr>
+      <tr class="ra-row" data-tags="uber cambridge united kingdom uber">
+        <td class="ra-city">Cambridge</td>
+        <td class="ra-country">United Kingdom</td>
+        <td class="ra-app"><a href="https://www.uber.com/en-GB/cities/cambridge/" target="_blank" rel="noopener">Uber</a></td>
+        <td class="ra-fn"><span class="ra-fn-pill ra-fn-yes sb-green">Accepted</span></td>
+        <td class="ra-note">The only ride app with real coverage in Cambridge, though the fleet is small — five to ten minutes to a car in the centre, longer on a college-term weekend;…</td>
+      </tr>
+      <tr class="ra-row" data-tags="uber edinburgh united kingdom uber">
+        <td class="ra-city">Edinburgh</td>
+        <td class="ra-country">United Kingdom</td>
+        <td class="ra-app"><a href="https://www.uber.com/" target="_blank" rel="noopener">Uber</a></td>
+        <td class="ra-fn"><span class="ra-fn-pill ra-fn-yes sb-green">Accepted</span></td>
+        <td class="ra-note">Well-supplied across central Edinburgh, Leith, and Morningside; useful for rides from the Old Town to the ferry terminal at Leith and for evening returns…</td>
+      </tr>
+      <tr class="ra-row" data-tags="uber glasgow united kingdom uber">
+        <td class="ra-city">Glasgow</td>
+        <td class="ra-country">United Kingdom</td>
+        <td class="ra-app"><a href="https://www.uber.com/gb/en/" target="_blank" rel="noopener">Uber</a></td>
+        <td class="ra-fn"><span class="ra-fn-pill ra-fn-yes sb-green">Accepted</span></td>
+        <td class="ra-note">Reliable coverage across Glasgow, including the West End, City Centre and Southside.</td>
+      </tr>
+      <tr class="ra-row" data-tags="uber london united kingdom uber">
+        <td class="ra-city">London</td>
+        <td class="ra-country">United Kingdom</td>
+        <td class="ra-app"><a href="https://www.uber.com" target="_blank" rel="noopener">Uber</a></td>
+        <td class="ra-fn"><span class="ra-fn-pill ra-fn-yes sb-green">Accepted</span></td>
+        <td class="ra-note">Operates throughout Greater London with consistent availability in all central areas; surge pricing applies during peak hours and late night, but generally…</td>
+      </tr>
+      <tr class="ra-row" data-tags="uber oxford united kingdom uber">
+        <td class="ra-city">Oxford</td>
+        <td class="ra-country">United Kingdom</td>
+        <td class="ra-app"><a href="https://www.uber.com" target="_blank" rel="noopener">Uber</a></td>
+        <td class="ra-fn"><span class="ra-fn-pill ra-fn-yes sb-green">Accepted</span></td>
+        <td class="ra-note">The only ride-hailing app licensed in Oxford and the one that actually has cars in the centre; pick-ups are quick around the station and Westgate, thinner…</td>
+      </tr>
+      <tr class="ra-row" data-tags="uber alaska united states uber">
+        <td class="ra-city">Alaska</td>
+        <td class="ra-country">United States</td>
+        <td class="ra-app"><a href="https://www.uber.com" target="_blank" rel="noopener">Uber</a></td>
+        <td class="ra-fn"><span class="ra-fn-pill ra-fn-yes sb-green">Accepted</span></td>
+        <td class="ra-note">The go-to ride-hailing option in Anchorage — available throughout the city and useful for reaching trailheads outside the walkable centre.</td>
+      </tr>
+      <tr class="ra-row" data-tags="uber atlanta united states uber">
+        <td class="ra-city">Atlanta</td>
+        <td class="ra-country">United States</td>
+        <td class="ra-app"><a href="https://www.uber.com/" target="_blank" rel="noopener">Uber</a></td>
+        <td class="ra-fn"><span class="ra-fn-pill ra-fn-yes sb-green">Accepted</span></td>
+        <td class="ra-note">Atlanta is spread out and MARTA rail reaches only a slice of it, so ride-hailing covers the gaps between Midtown, Buckhead, the BeltLine and Hartsfield-Jackson.</td>
+      </tr>
+      <tr class="ra-row" data-tags="uber austin united states uber">
+        <td class="ra-city">Austin</td>
+        <td class="ra-country">United States</td>
+        <td class="ra-app"><a href="https://www.uber.com" target="_blank" rel="noopener">Uber</a></td>
+        <td class="ra-fn"><span class="ra-fn-pill ra-fn-yes sb-green">Accepted</span></td>
+        <td class="ra-note">Austin is a sprawling city and its best-known destinations — South Congress, Zilker Park, East Sixth Street, the Domain — sit too far apart to walk; Uber is…</td>
+      </tr>
+      <tr class="ra-row" data-tags="uber bend united states uber">
+        <td class="ra-city">Bend</td>
+        <td class="ra-country">United States</td>
+        <td class="ra-app"><a href="https://www.uber.com" target="_blank" rel="noopener">Uber</a></td>
+        <td class="ra-fn"><span class="ra-fn-pill ra-fn-yes sb-green">Accepted</span></td>
+        <td class="ra-note">Well-covered across Bend including the Old Mill District and Cascade resort corridors; the main ride-hailing service in the area.</td>
+      </tr>
+      <tr class="ra-row" data-tags="uber big island united states uber">
+        <td class="ra-city">Big Island</td>
+        <td class="ra-country">United States</td>
+        <td class="ra-app"><a href="https://www.uber.com" target="_blank" rel="noopener">Uber</a></td>
+        <td class="ra-fn"><span class="ra-fn-pill ra-fn-yes sb-green">Accepted</span></td>
+        <td class="ra-note">Uber works reliably on the Kona side of the island; availability on the Hilo side is thinner and waits can be long — have a rental car as a backup for…</td>
+      </tr>
+      <tr class="ra-row" data-tags="uber boston united states uber">
+        <td class="ra-city">Boston</td>
+        <td class="ra-country">United States</td>
+        <td class="ra-app"><a href="https://www.uber.com/us/en/ride/" target="_blank" rel="noopener">Uber</a></td>
+        <td class="ra-fn"><span class="ra-fn-pill ra-fn-yes sb-green">Accepted</span></td>
+        <td class="ra-note">Well-covered across Boston including the Seaport, Back Bay and Cambridge; the most reliable ride-hailing option in the city with surge pricing lower than…</td>
+      </tr>
+      <tr class="ra-row" data-tags="uber boulder united states uber">
+        <td class="ra-city">Boulder</td>
+        <td class="ra-country">United States</td>
+        <td class="ra-app"><a href="https://www.uber.com/" target="_blank" rel="noopener">Uber</a></td>
+        <td class="ra-fn"><span class="ra-fn-pill ra-fn-yes sb-green">Accepted</span></td>
+        <td class="ra-note">Boulder&#x27;s main ride app, with cars usually 5–10 minutes out downtown and at the Residence Inn; rides to Chautauqua and the trailheads are short and cheap,…</td>
+      </tr>
+      <tr class="ra-row" data-tags="uber cape cod united states uber">
+        <td class="ra-city">Cape Cod</td>
+        <td class="ra-country">United States</td>
+        <td class="ra-app"><a href="https://www.uber.com/" target="_blank" rel="noopener">Uber</a></td>
+        <td class="ra-fn"><span class="ra-fn-pill ra-fn-yes sb-green">Accepted</span></td>
+        <td class="ra-note">The main ride option across the Cape from Hyannis to Provincetown; surge pricing on summer weekends and at ferry arrival times.</td>
+      </tr>
+      <tr class="ra-row" data-tags="uber carmel by the sea united states uber">
+        <td class="ra-city">Carmel by the Sea</td>
+        <td class="ra-country">United States</td>
+        <td class="ra-app"><a href="https://www.uber.com/" target="_blank" rel="noopener">Uber</a></td>
+        <td class="ra-fn"><span class="ra-fn-pill ra-fn-yes sb-green">Accepted</span></td>
+        <td class="ra-note">Covers Carmel, Pebble Beach, and the wider Monterey Peninsula; useful for the hop into Monterey or Point Lobos trailhead transfers; driver supply is limited…</td>
+      </tr>
+      <tr class="ra-row" data-tags="uber charlotte united states uber">
+        <td class="ra-city">Charlotte</td>
+        <td class="ra-country">United States</td>
+        <td class="ra-app"><a href="https://www.uber.com" target="_blank" rel="noopener">Uber</a></td>
+        <td class="ra-fn"><span class="ra-fn-pill ra-fn-yes sb-green">Accepted</span></td>
+        <td class="ra-note">Excellent coverage across Charlotte; reliable for moving between Uptown, South End, NoDa, and the University City area; the main ride option in a city with…</td>
+      </tr>
+      <tr class="ra-row" data-tags="uber chicago united states uber">
+        <td class="ra-city">Chicago</td>
+        <td class="ra-country">United States</td>
+        <td class="ra-app"><a href="https://www.uber.com" target="_blank" rel="noopener">Uber</a></td>
+        <td class="ra-fn"><span class="ra-fn-pill ra-fn-yes sb-green">Accepted</span></td>
+        <td class="ra-note">Excellent availability citywide; reliable for moving between neighborhoods, museums, and evening dining areas; surge pricing is common during Cubs and Bears…</td>
+      </tr>
+      <tr class="ra-row" data-tags="uber coeur d&#x27;alene united states uber">
+        <td class="ra-city">Coeur d&#x27;Alene</td>
+        <td class="ra-country">United States</td>
+        <td class="ra-app"><a href="https://uber.com" target="_blank" rel="noopener">Uber</a></td>
+        <td class="ra-fn"><span class="ra-fn-pill ra-fn-yes sb-green">Accepted</span></td>
+        <td class="ra-note">Available in Coeur d&#x27;Alene but coverage is limited compared to larger cities; reliable for downtown, the lakefront, and Resort area; expect longer waits…</td>
+      </tr>
+      <tr class="ra-row" data-tags="uber columbia united states uber">
+        <td class="ra-city">Columbia</td>
+        <td class="ra-country">United States</td>
+        <td class="ra-app"><a href="https://www.uber.com" target="_blank" rel="noopener">Uber</a></td>
+        <td class="ra-fn"><span class="ra-fn-pill ra-fn-yes sb-green">Accepted</span></td>
+        <td class="ra-note">Reliable coverage across downtown Columbia, the Vista, Five Points, and surrounding neighborhoods; the main ride option for a city with limited public…</td>
+      </tr>
+      <tr class="ra-row" data-tags="uber dallas united states uber">
+        <td class="ra-city">Dallas</td>
+        <td class="ra-country">United States</td>
+        <td class="ra-app"><a href="https://www.uber.com/" target="_blank" rel="noopener">Uber</a></td>
+        <td class="ra-fn"><span class="ra-fn-pill ra-fn-yes sb-green">Accepted</span></td>
+        <td class="ra-note">The most widely used ride-hailing option in Dallas with strong supply across Uptown, the Arts District, Deep Ellum, and out to the Bishop Arts District;…</td>
+      </tr>
+      <tr class="ra-row" data-tags="uber denver united states uber">
+        <td class="ra-city">Denver</td>
+        <td class="ra-country">United States</td>
+        <td class="ra-app"><a href="https://www.uber.com" target="_blank" rel="noopener">Uber</a></td>
+        <td class="ra-fn"><span class="ra-fn-pill ra-fn-yes sb-green">Accepted</span></td>
+        <td class="ra-note">Well-supplied across downtown Denver, LoDo, Capitol Hill, and the Highlands; reliable for longer cross-city runs including rides out to Red Rocks for…</td>
+      </tr>
+      <tr class="ra-row" data-tags="uber florida keys united states uber">
+        <td class="ra-city">Florida Keys</td>
+        <td class="ra-country">United States</td>
+        <td class="ra-app"><a href="https://www.uber.com" target="_blank" rel="noopener">Uber</a></td>
+        <td class="ra-fn"><span class="ra-fn-pill ra-fn-yes sb-green">Accepted</span></td>
+        <td class="ra-note">The primary ride option on the Keys with the most drivers in Key West; noticeably thinner coverage in the Middle and Upper Keys, where 15–20 min waits are…</td>
+      </tr>
+      <tr class="ra-row" data-tags="uber glacier national park united states uber">
+        <td class="ra-city">Glacier National Park</td>
+        <td class="ra-country">United States</td>
+        <td class="ra-app"><a href="https://www.uber.com" target="_blank" rel="noopener">Uber</a></td>
+        <td class="ra-fn"><span class="ra-fn-pill ra-fn-yes sb-green">Accepted</span></td>
+        <td class="ra-note">Uber operates in East Glacier, West Glacier, and Whitefish — the most practical option for trailheads when the park shuttle is not running.</td>
+      </tr>
+      <tr class="ra-row" data-tags="uber hilton head island united states uber">
+        <td class="ra-city">Hilton Head Island</td>
+        <td class="ra-country">United States</td>
+        <td class="ra-app"><a href="https://www.uber.com" target="_blank" rel="noopener">Uber</a></td>
+        <td class="ra-fn"><span class="ra-fn-pill ra-fn-yes sb-green">Accepted</span></td>
+        <td class="ra-note">Uber is the primary ride option on Hilton Head Island, covering the resort areas, beach parks, and the main dining strips.</td>
+      </tr>
+      <tr class="ra-row" data-tags="uber kauai united states uber">
+        <td class="ra-city">Kauai</td>
+        <td class="ra-country">United States</td>
+        <td class="ra-app"><a href="https://www.uber.com" target="_blank" rel="noopener">Uber</a></td>
+        <td class="ra-fn"><span class="ra-fn-pill ra-fn-yes sb-green">Accepted</span></td>
+        <td class="ra-note">Available across Kauai and accepts foreign numbers.</td>
+      </tr>
+      <tr class="ra-row" data-tags="uber key west united states uber">
+        <td class="ra-city">Key West</td>
+        <td class="ra-country">United States</td>
+        <td class="ra-app"><a href="https://www.uber.com" target="_blank" rel="noopener">Uber</a></td>
+        <td class="ra-fn"><span class="ra-fn-pill ra-fn-yes sb-green">Accepted</span></td>
+        <td class="ra-note">Reliable across Key West and accepts foreign numbers.</td>
+      </tr>
+      <tr class="ra-row" data-tags="uber la jolla united states uber">
+        <td class="ra-city">La Jolla</td>
+        <td class="ra-country">United States</td>
+        <td class="ra-app"><a href="https://www.uber.com" target="_blank" rel="noopener">Uber</a></td>
+        <td class="ra-fn"><span class="ra-fn-pill ra-fn-yes sb-green">Accepted</span></td>
+        <td class="ra-note">Well-served in La Jolla with reliable driver availability throughout the Village and Shores.</td>
+      </tr>
+      <tr class="ra-row" data-tags="uber lake tahoe united states uber">
+        <td class="ra-city">Lake Tahoe</td>
+        <td class="ra-country">United States</td>
+        <td class="ra-app"><a href="https://www.uber.com/" target="_blank" rel="noopener">Uber</a></td>
+        <td class="ra-fn"><span class="ra-fn-pill ra-fn-yes sb-green">Accepted</span></td>
+        <td class="ra-note">Reliable option across the basin with good coverage between South Lake Tahoe, Tahoe City, and the ski resorts; wait times increase on peak ski days.</td>
+      </tr>
+      <tr class="ra-row" data-tags="uber las vegas united states uber">
+        <td class="ra-city">Las Vegas</td>
+        <td class="ra-country">United States</td>
+        <td class="ra-app"><a href="https://www.uber.com/" target="_blank" rel="noopener">Uber</a></td>
+        <td class="ra-fn"><span class="ra-fn-pill ra-fn-yes sb-green">Accepted</span></td>
+        <td class="ra-note">The primary option on the Strip; high driver density at all hours though pickup from casino entrances can involve security-designated zones.</td>
+      </tr>
+      <tr class="ra-row" data-tags="uber los angeles united states uber">
+        <td class="ra-city">Los Angeles</td>
+        <td class="ra-country">United States</td>
+        <td class="ra-app"><a href="https://www.uber.com/" target="_blank" rel="noopener">Uber</a></td>
+        <td class="ra-fn"><span class="ra-fn-pill ra-fn-yes sb-green">Accepted</span></td>
+        <td class="ra-note">The primary ride-hailing option across Los Angeles with coverage spanning from the beach cities to the Valley and Downtown; surge pricing is common during…</td>
+      </tr>
+      <tr class="ra-row" data-tags="uber malibu united states uber">
+        <td class="ra-city">Malibu</td>
+        <td class="ra-country">United States</td>
+        <td class="ra-app"><a href="https://www.uber.com/" target="_blank" rel="noopener">Uber</a></td>
+        <td class="ra-fn"><span class="ra-fn-pill ra-fn-yes sb-green">Accepted</span></td>
+        <td class="ra-note">The most reliable option along the PCH corridor; wait times are longer than in LA proper due to Malibu&#x27;s spread-out geography, so booking a few minutes…</td>
+      </tr>
+      <tr class="ra-row" data-tags="uber marco island united states uber">
+        <td class="ra-city">Marco Island</td>
+        <td class="ra-country">United States</td>
+        <td class="ra-app"><a href="https://www.uber.com" target="_blank" rel="noopener">Uber</a></td>
+        <td class="ra-fn"><span class="ra-fn-pill ra-fn-yes sb-green">Accepted</span></td>
+        <td class="ra-note">Covers Marco Island and the greater Naples area.</td>
+      </tr>
+      <tr class="ra-row" data-tags="uber maui united states uber">
+        <td class="ra-city">Maui</td>
+        <td class="ra-country">United States</td>
+        <td class="ra-app"><a href="https://www.uber.com/us/en/ride/" target="_blank" rel="noopener">Uber</a></td>
+        <td class="ra-fn"><span class="ra-fn-pill ra-fn-yes sb-green">Accepted</span></td>
+        <td class="ra-note">Active across South Maui, West Maui and the Kahului corridor; the most reliable rideshare option on the island.</td>
+      </tr>
+      <tr class="ra-row" data-tags="uber miami united states uber">
+        <td class="ra-city">Miami</td>
+        <td class="ra-country">United States</td>
+        <td class="ra-app"><a href="https://www.uber.com" target="_blank" rel="noopener">Uber</a></td>
+        <td class="ra-fn"><span class="ra-fn-pill ra-fn-yes sb-green">Accepted</span></td>
+        <td class="ra-note">Miami&#x27;s dominant rideshare platform, available across South Beach, Brickell and Coconut Grove.</td>
+      </tr>
+      <tr class="ra-row" data-tags="local napa united states uber · lyft">
+        <td class="ra-city">Napa</td>
+        <td class="ra-country">United States</td>
+        <td class="ra-app"><a href="https://www.uber.com/" target="_blank" rel="noopener">Uber · Lyft</a></td>
+        <td class="ra-fn"><span class="ra-fn-pill ra-fn-no sb-red">Not accepted</span></td>
+        <td class="ra-note">The primary ride options in wine country, where there are no taxis and most winery visits require a car.</td>
+      </tr>
+      <tr class="ra-row" data-tags="uber naples, fl united states uber">
+        <td class="ra-city">Naples, FL</td>
+        <td class="ra-country">United States</td>
+        <td class="ra-app"><a href="https://www.uber.com/global/en/cities/naples/" target="_blank" rel="noopener">Uber</a></td>
+        <td class="ra-fn"><span class="ra-fn-pill ra-fn-yes sb-green">Accepted</span></td>
+        <td class="ra-note">Operates throughout Naples and Marco Island; standard surge pricing during peak season and after events at Artis—Naples.</td>
+      </tr>
+      <tr class="ra-row" data-tags="uber nashville united states uber">
+        <td class="ra-city">Nashville</td>
+        <td class="ra-country">United States</td>
+        <td class="ra-app"><a href="https://www.uber.com/global/en/cities/nashville/" target="_blank" rel="noopener">Uber</a></td>
+        <td class="ra-fn"><span class="ra-fn-pill ra-fn-yes sb-green">Accepted</span></td>
+        <td class="ra-note">Covers the whole metro, out to Franklin and Brentwood, and picks up reliably across downtown, the Gulch and East Nashville within a couple of minutes.</td>
+      </tr>
+      <tr class="ra-row" data-tags="uber new orleans united states uber">
+        <td class="ra-city">New Orleans</td>
+        <td class="ra-country">United States</td>
+        <td class="ra-app"><a href="https://www.uber.com" target="_blank" rel="noopener">Uber</a></td>
+        <td class="ra-fn"><span class="ra-fn-pill ra-fn-yes sb-green">Accepted</span></td>
+        <td class="ra-note">Main ride option across New Orleans; covers the French Quarter, CBD, Garden District, and Marigny without issues, and generally has shorter wait times than…</td>
+      </tr>
+      <tr class="ra-row" data-tags="uber new york united states uber">
+        <td class="ra-city">New York</td>
+        <td class="ra-country">United States</td>
+        <td class="ra-app"><a href="https://www.uber.com/" target="_blank" rel="noopener">Uber</a></td>
+        <td class="ra-fn"><span class="ra-fn-pill ra-fn-none">Not required</span></td>
+        <td class="ra-note">The most reliable option for in-city travel; coverage across all five boroughs and surge pricing is common during peak hours and rain.</td>
+      </tr>
+      <tr class="ra-row" data-tags="uber oahu united states uber">
+        <td class="ra-city">Oahu</td>
+        <td class="ra-country">United States</td>
+        <td class="ra-app"><a href="https://www.uber.com" target="_blank" rel="noopener">Uber</a></td>
+        <td class="ra-fn"><span class="ra-fn-pill ra-fn-none">Not required</span></td>
+        <td class="ra-note">Uber is the most-used ride-hailing service on Oʻahu.</td>
+      </tr>
+      <tr class="ra-row" data-tags="uber orlando united states uber">
+        <td class="ra-city">Orlando</td>
+        <td class="ra-country">United States</td>
+        <td class="ra-app"><a href="https://www.uber.com" target="_blank" rel="noopener">Uber</a></td>
+        <td class="ra-fn"><span class="ra-fn-pill ra-fn-yes sb-green">Accepted</span></td>
+        <td class="ra-note">Uber is the most-used ride app in Orlando.</td>
+      </tr>
+      <tr class="ra-row" data-tags="uber palm desert united states uber">
+        <td class="ra-city">Palm Desert</td>
+        <td class="ra-country">United States</td>
+        <td class="ra-app"><a href="https://www.uber.com" target="_blank" rel="noopener">Uber</a></td>
+        <td class="ra-fn"><span class="ra-fn-pill ra-fn-yes sb-green">Accepted</span></td>
+        <td class="ra-note">The deeper of the two pools across the Coachella Valley, with cars reaching La Quinta and Palm Desert inside ten minutes most of the day; the thin hours are…</td>
+      </tr>
+      <tr class="ra-row" data-tags="uber palo alto united states uber">
+        <td class="ra-city">Palo Alto</td>
+        <td class="ra-country">United States</td>
+        <td class="ra-app"><a href="https://www.uber.com" target="_blank" rel="noopener">Uber</a></td>
+        <td class="ra-fn"><span class="ra-fn-pill ra-fn-yes sb-green">Accepted</span></td>
+        <td class="ra-note">Dense coverage from Mountain View up the Peninsula into San Francisco, with a car at the Residence Inn in under five minutes most of the day; the Muir…</td>
+      </tr>
+      <tr class="ra-row" data-tags="uber pasadena united states uber">
+        <td class="ra-city">Pasadena</td>
+        <td class="ra-country">United States</td>
+        <td class="ra-app"><a href="https://www.uber.com" target="_blank" rel="noopener">Uber</a></td>
+        <td class="ra-fn"><span class="ra-fn-pill ra-fn-yes sb-green">Accepted</span></td>
+        <td class="ra-note">The deeper pool of the two across Pasadena and the San Gabriel foothills, with a car at the hotel in under five minutes most of the day; the Getty, Santa…</td>
+      </tr>
+      <tr class="ra-row" data-tags="uber pensacola united states uber">
+        <td class="ra-city">Pensacola</td>
+        <td class="ra-country">United States</td>
+        <td class="ra-app"><a href="https://www.uber.com" target="_blank" rel="noopener">Uber</a></td>
+        <td class="ra-fn"><span class="ra-fn-pill ra-fn-yes sb-green">Accepted</span></td>
+        <td class="ra-note">The bigger of the two fleets in Pensacola, with a car downtown in a few minutes and reliable pick-ups at the Naval Aviation Museum gate; Pensacola Beach and…</td>
+      </tr>
+      <tr class="ra-row" data-tags="uber philadelphia united states uber">
+        <td class="ra-city">Philadelphia</td>
+        <td class="ra-country">United States</td>
+        <td class="ra-app"><a href="https://www.uber.com/" target="_blank" rel="noopener">Uber</a></td>
+        <td class="ra-fn"><span class="ra-fn-pill ra-fn-yes sb-green">Accepted</span></td>
+        <td class="ra-note">Dense coverage across Center City, Old City and the Parkway museums, with a car at the Residence Inn in two or three minutes most of the day; fares surge…</td>
+      </tr>
+      <tr class="ra-row" data-tags="uber phoenix united states uber">
+        <td class="ra-city">Phoenix</td>
+        <td class="ra-country">United States</td>
+        <td class="ra-app"><a href="https://www.uber.com/" target="_blank" rel="noopener">Uber</a></td>
+        <td class="ra-fn"><span class="ra-fn-pill ra-fn-yes sb-green">Accepted</span></td>
+        <td class="ra-note">The deeper pool across metro Phoenix, with a car at the Hyatt Regency in under five minutes and reliable pick-ups at Sky Harbor&#x27;s dedicated zones; Taliesin…</td>
+      </tr>
+      <tr class="ra-row" data-tags="uber portland united states uber">
+        <td class="ra-city">Portland</td>
+        <td class="ra-country">United States</td>
+        <td class="ra-app"><a href="https://www.uber.com" target="_blank" rel="noopener">Uber</a></td>
+        <td class="ra-fn"><span class="ra-fn-pill ra-fn-yes sb-green">Accepted</span></td>
+        <td class="ra-note">Dense coverage from the Pearl across downtown and the east side, with a car at the Residence Inn in two or three minutes most of the day; the Multnomah…</td>
+      </tr>
+      <tr class="ra-row" data-tags="uber san diego united states uber">
+        <td class="ra-city">San Diego</td>
+        <td class="ra-country">United States</td>
+        <td class="ra-app"><a href="https://www.uber.com" target="_blank" rel="noopener">Uber</a></td>
+        <td class="ra-fn"><span class="ra-fn-pill ra-fn-yes sb-green">Accepted</span></td>
+        <td class="ra-note">The deepest driver pool in San Diego — a car reaches the Gaslamp in two or three minutes at any hour, and it is the only app that covers Coronado, Point…</td>
+      </tr>
+      <tr class="ra-row" data-tags="uber san francisco united states uber">
+        <td class="ra-city">San Francisco</td>
+        <td class="ra-country">United States</td>
+        <td class="ra-app"><a href="https://www.uber.com" target="_blank" rel="noopener">Uber</a></td>
+        <td class="ra-fn"><span class="ra-fn-pill ra-fn-yes sb-green">Accepted</span></td>
+        <td class="ra-note">Uber&#x27;s home city, and it shows: cars reach the Embarcadero in two or three minutes at any hour, and coverage runs out to Lands End, Twin Peaks and the…</td>
+      </tr>
+      <tr class="ra-row" data-tags="uber san jose united states uber">
+        <td class="ra-city">San Jose</td>
+        <td class="ra-country">United States</td>
+        <td class="ra-app"><a href="https://www.uber.com" target="_blank" rel="noopener">Uber</a></td>
+        <td class="ra-fn"><span class="ra-fn-pill ra-fn-yes sb-green">Accepted</span></td>
+        <td class="ra-note">The one ride app that covers all of Silicon Valley: a car reaches downtown San Jose in three or four minutes, and the runs out to Santana Row, the…</td>
+      </tr>
+      <tr class="ra-row" data-tags="uber san juan island united states uber">
+        <td class="ra-city">San Juan Island</td>
+        <td class="ra-country">United States</td>
+        <td class="ra-app"><a href="https://www.uber.com/" target="_blank" rel="noopener">Uber</a></td>
+        <td class="ra-fn"><span class="ra-fn-pill ra-fn-yes sb-green">Accepted</span></td>
+        <td class="ra-note">Works in name only on San Juan Island — a handful of drivers in summer, often none at all off-season, so a request from Friday Harbor can sit unanswered for…</td>
+      </tr>
+      <tr class="ra-row" data-tags="uber santa barbara united states uber">
+        <td class="ra-city">Santa Barbara</td>
+        <td class="ra-country">United States</td>
+        <td class="ra-app"><a href="https://www.uber.com/" target="_blank" rel="noopener">Uber</a></td>
+        <td class="ra-fn"><span class="ra-fn-pill ra-fn-yes sb-green">Accepted</span></td>
+        <td class="ra-note">The dependable option in Santa Barbara — a car reaches State Street in three or four minutes and the runs out to the Mission, the Botanic Garden and…</td>
+      </tr>
+      <tr class="ra-row" data-tags="uber santa cruz united states uber">
+        <td class="ra-city">Santa Cruz</td>
+        <td class="ra-country">United States</td>
+        <td class="ra-app"><a href="https://www.uber.com/" target="_blank" rel="noopener">Uber</a></td>
+        <td class="ra-fn"><span class="ra-fn-pill ra-fn-yes sb-green">Accepted</span></td>
+        <td class="ra-note">The more reliable of the two apps in Santa Cruz — a car reaches Ocean Street in a few minutes and the hops to the Boardwalk, Natural Bridges and Capitola…</td>
+      </tr>
+      <tr class="ra-row" data-tags="uber santa fe united states uber">
+        <td class="ra-city">Santa Fe</td>
+        <td class="ra-country">United States</td>
+        <td class="ra-app"><a href="https://www.uber.com" target="_blank" rel="noopener">Uber</a></td>
+        <td class="ra-fn"><span class="ra-fn-pill ra-fn-yes sb-green">Accepted</span></td>
+        <td class="ra-note">Reliable around the Plaza, Canyon Road and Museum Hill, where a car arrives in five minutes or so, and the only app that reaches Ten Thousand Waves and…</td>
+      </tr>
+      <tr class="ra-row" data-tags="uber santa monica united states uber">
+        <td class="ra-city">Santa Monica</td>
+        <td class="ra-country">United States</td>
+        <td class="ra-app"><a href="https://www.uber.com" target="_blank" rel="noopener">Uber</a></td>
+        <td class="ra-fn"><span class="ra-fn-pill ra-fn-yes sb-green">Accepted</span></td>
+        <td class="ra-note">The dominant rideshare option in Santa Monica and across Los Angeles.</td>
+      </tr>
+      <tr class="ra-row" data-tags="uber sarasota united states uber">
+        <td class="ra-city">Sarasota</td>
+        <td class="ra-country">United States</td>
+        <td class="ra-app"><a href="https://www.uber.com/" target="_blank" rel="noopener">Uber</a></td>
+        <td class="ra-fn"><span class="ra-fn-pill ra-fn-yes sb-green">Accepted</span></td>
+        <td class="ra-note">Reliable coverage across Sarasota, Siesta Key, and the Ringling campus area.</td>
+      </tr>
+      <tr class="ra-row" data-tags="uber scottsdale united states uber">
+        <td class="ra-city">Scottsdale</td>
+        <td class="ra-country">United States</td>
+        <td class="ra-app"><a href="https://www.uber.com/" target="_blank" rel="noopener">Uber</a></td>
+        <td class="ra-fn"><span class="ra-fn-pill ra-fn-yes sb-green">Accepted</span></td>
+        <td class="ra-note">Reliable coverage in Old Town, the Camelback corridor and resort areas; the standard way to move between stops across the valley.</td>
+      </tr>
+      <tr class="ra-row" data-tags="uber seattle united states uber">
+        <td class="ra-city">Seattle</td>
+        <td class="ra-country">United States</td>
+        <td class="ra-app"><a href="https://www.uber.com" target="_blank" rel="noopener">Uber</a></td>
+        <td class="ra-fn"><span class="ra-fn-pill ra-fn-yes sb-green">Accepted</span></td>
+        <td class="ra-note">Reliable coverage across Downtown, Capitol Hill, Ballard, and all major neighborhoods; the standard way to move between stops across the city.</td>
+      </tr>
+      <tr class="ra-row" data-tags="uber sedona united states uber">
+        <td class="ra-city">Sedona</td>
+        <td class="ra-country">United States</td>
+        <td class="ra-app"><a href="https://www.uber.com" target="_blank" rel="noopener">Uber</a></td>
+        <td class="ra-fn"><span class="ra-fn-pill ra-fn-yes sb-green">Accepted</span></td>
+        <td class="ra-note">Most reliable ride option in Sedona; coverage is good across Uptown and West Sedona, though wait times can be longer in rural canyon areas.</td>
+      </tr>
+      <tr class="ra-row" data-tags="local virgin islands united states taxi">
+        <td class="ra-city">Virgin Islands</td>
+        <td class="ra-country">United States</td>
+        <td class="ra-app"><a href="https://www.visitusvi.com/travel-information/transportation/" target="_blank" rel="noopener">Taxi</a></td>
+        <td class="ra-fn"><span class="ra-fn-pill ra-fn-none">Not required</span></td>
+        <td class="ra-note">USVI uses government-regulated safari taxis and regular cabs that run between the ferry terminals, cruise ship piers, beaches and main visitor areas on…</td>
+      </tr>
+      <tr class="ra-row" data-tags="uber washington dc united states uber">
+        <td class="ra-city">Washington DC</td>
+        <td class="ra-country">United States</td>
+        <td class="ra-app"><a href="https://www.uber.com/" target="_blank" rel="noopener">Uber</a></td>
+        <td class="ra-fn"><span class="ra-fn-pill ra-fn-yes sb-green">Accepted</span></td>
+        <td class="ra-note">Uber operates widely across Washington DC and the surrounding suburbs including Arlington and Bethesda; wait times in the city center average 3–6 minutes,…</td>
+      </tr>
+      <tr class="ra-row" data-tags="uber montevideo uruguay uber">
+        <td class="ra-city">Montevideo</td>
+        <td class="ra-country">Uruguay</td>
+        <td class="ra-app"><a href="https://www.uber.com" target="_blank" rel="noopener">Uber</a></td>
+        <td class="ra-fn"><span class="ra-fn-pill ra-fn-yes sb-green">Accepted</span></td>
+        <td class="ra-note">Uber operates throughout Montevideo.</td>
+      </tr>
+      <tr class="ra-row" data-tags="grab hanoi vietnam grab">
+        <td class="ra-city">Hanoi</td>
+        <td class="ra-country">Vietnam</td>
+        <td class="ra-app"><a href="https://www.grab.com/vn/en/" target="_blank" rel="noopener">Grab</a></td>
+        <td class="ra-fn"><span class="ra-fn-pill ra-fn-yes sb-green">Accepted</span></td>
+        <td class="ra-note">Grab is the go-to ride-hailing app in Hanoi, covering GrabCar and GrabBike across the city.</td>
+      </tr>
+      <tr class="ra-row" data-tags="grab hoi an vietnam grab">
+        <td class="ra-city">Hoi An</td>
+        <td class="ra-country">Vietnam</td>
+        <td class="ra-app"><a href="https://www.grab.com/vn/en/" target="_blank" rel="noopener">Grab</a></td>
+        <td class="ra-fn"><span class="ra-fn-pill ra-fn-yes sb-green">Accepted</span></td>
+        <td class="ra-note">The dominant ride-hailing option in Hoi An and accepts foreign numbers.</td>
+      </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+</div>
+
+<script>
+(function () {
+  var search  = document.getElementById('ra-search');
+  var pills   = document.querySelectorAll('.pill[data-filter]');
+  var noRes   = document.getElementById('no-results');
+  var current = 'all';
+
+  function rowMatchesFilter(el, fam) {
+    if (current === 'all') return true;
+    if (current === 'noapp') return el.classList.contains('ra-noapp-card');
+    return fam === current;
+  }
+
+  function applyFilters() {
+    var q = search.value.trim().toLowerCase();
+    var visible = 0;
+
+    document.querySelectorAll('.ra-row').forEach(function (r) {
+      var tags = r.dataset.tags || '';
+      var fam = tags.split(' ')[0];
+      var famOk = rowMatchesFilter(r, fam);
+      var qOk = !q || tags.indexOf(q) !== -1;
+      var show = famOk && qOk;
+      r.classList.toggle('hidden', !show);
+      if (show) visible++;
+    });
+
+    document.querySelectorAll('.ra-noapp-card').forEach(function (r) {
+      var tags = r.dataset.tags || '';
+      var famOk = (current === 'all' || current === 'noapp' || current === 'local');
+      var qOk = !q || tags.indexOf(q) !== -1;
+      var show = famOk && qOk;
+      r.classList.toggle('hidden', !show);
+      if (show) visible++;
+    });
+
+    document.querySelectorAll('.section-block[data-section="networks"] .card-row').forEach(function(r){
+      r.classList.toggle('hidden', current !== 'all');
+    });
+    document.querySelector('.section-block[data-section="networks"]').classList.toggle('hidden', current !== 'all');
+    document.querySelector('.section-block[data-section="noapp"]').classList.toggle('hidden', current !== 'all' && current !== 'noapp' && current !== 'local');
+    document.querySelector('.section-block[data-section="lookup"]').classList.toggle('hidden', current === 'noapp' && visible === 0);
+
+    noRes.style.display = (q && visible === 0) ? '' : 'none';
+  }
+
+  pills.forEach(function (p) {
+    p.addEventListener('click', function () {
+      pills.forEach(function (x) { x.classList.remove('is-on'); x.setAttribute('aria-pressed', 'false'); });
+      p.classList.add('is-on');
+      p.setAttribute('aria-pressed', 'true');
+      current = p.dataset.filter;
+      search.value = '';
+      applyFilters();
+    });
+  });
+
+  search.addEventListener('input', function () {
+    pills.forEach(function (x) { x.classList.remove('is-on'); x.setAttribute('aria-pressed', 'false'); });
+    var allBtn = document.querySelector('.pill[data-filter="all"]');
+    allBtn.classList.add('is-on');
+    allBtn.setAttribute('aria-pressed', 'true');
+    current = 'all';
+    applyFilters();
+  });
+}());
+</script>
+<script src="/assets/search-autocomplete.js?v=8"></script>
+<script>(function(){
+  if(!window.TVESearch) return;
+  var input=document.getElementById('ra-search'); if(!input) return;
+  var items=[];
+  document.querySelectorAll('.ra-row').forEach(function(row){
+    var city=row.querySelector('.ra-city'); var country=row.querySelector('.ra-country');
+    if(!city) return;
+    items.push({name:city.textContent.trim()+', '+(country?country.textContent.trim():''), text:(row.getAttribute('data-tags')||'')});
+  });
+  TVESearch.attach(input,{items:items});
+}());</script>
+<style id="v-layer">
+/* ══════════════════════════════════════════════════════════════════════════
+   VARIANT — "BLUEPRINT"
+   A competition redesign layer, inline and scoped to body.v-blueprint. Same
+   words, drawn instead of typeset.
+   Idea: the page as a drafting sheet. A measured grid under everything, panels
+   pinned with corner ticks and auto-numbered in the margin, a spine that draws
+   itself down the page as you read, and a HUD along the bottom edge that always
+   names where on the sheet you are.
+   ══════════════════════════════════════════════════════════════════════════ */
+
+body.v-blueprint {
+  --v-ink:   #17211f;
+  --v-quiet: #5e6b68;
+  --v-sheet: #eef1ee;
+  --v-line:  rgba(23,33,31,.10);
+  --v-line2: rgba(23,33,31,.22);
+  --v-hot:   #C04E1A;
+  --v-cyan:  #16706a;
+  --v-mono:  ui-monospace, "SF Mono", "Roboto Mono", Menlo, monospace;
+  --v-e:     cubic-bezier(.2,.8,.2,1);
+  background: var(--v-sheet);
+  background-image:
+    linear-gradient(var(--v-line) 1px, transparent 1px),
+    linear-gradient(90deg, var(--v-line) 1px, transparent 1px);
+  background-size: 34px 34px, 34px 34px;
+  color: var(--v-ink);
+  overflow-x: hidden;
+}
+@media (prefers-color-scheme: dark) {
+  body.v-blueprint {
+    --v-ink:   #dfe8e5;
+    --v-quiet: #8fa09c;
+    --v-sheet: #0d1413;
+    --v-line:  rgba(223,232,229,.07);
+    --v-line2: rgba(223,232,229,.18);
+    --v-hot:   #e07d45;
+    --v-cyan:  #4fbdb2;
+  }
+}
+
+/* ── hero: the title block of a drawing ───────────────────────────────── */
+body.v-blueprint .hero-band.eb-hero {
+  background: none !important;
+  border: 0 !important; border-radius: 0 !important; box-shadow: none !important;
+  max-width: 1160px !important;
+  margin: 0 auto clamp(30px, 5vw, 62px) !important;
+  padding: clamp(40px, 6vw, 84px) clamp(20px, 4vw, 48px) clamp(30px, 4vw, 52px) !important;
+  position: relative; display: block !important;
+}
+/* the four corner ticks of the title block */
+body.v-blueprint .hero-band.eb-hero::before,
+body.v-blueprint .hero-band.eb-hero::after {
+  content: ""; position: absolute; width: 26px; height: 26px; pointer-events: none;
+  border-color: var(--v-hot); border-style: solid;
+}
+body.v-blueprint .hero-band.eb-hero::before { left: 8px; top: 14px; border-width: 2px 0 0 2px; }
+body.v-blueprint .hero-band.eb-hero::after  { right: 8px; bottom: 14px; border-width: 0 2px 2px 0; }
+
+body.v-blueprint .eb-kicker {
+  font: 700 11px/1 var(--v-mono) !important;
+  letter-spacing: .26em !important; text-transform: uppercase !important;
+  color: var(--v-cyan) !important;
+  background: none !important; border: 0 !important; padding: 0 !important;
+  margin: 0 0 clamp(16px, 2.5vw, 26px) !important;
+  display: inline-block !important;
+}
+body.v-blueprint .eb-kicker::after {
+  content: "_"; animation: v-caret 1.05s steps(1) infinite; color: var(--v-hot);
+}
+@keyframes v-caret { 50% { opacity: 0; } }
+
+body.v-blueprint .eb-title {
+  font-size: clamp(30px, 5vw, 58px) !important;
+  line-height: 1.05 !important; letter-spacing: -.025em !important;
+  font-weight: 700 !important; color: var(--v-ink) !important;
+  margin: 0 0 clamp(18px, 2.6vw, 28px) !important; max-width: 19ch !important;
+}
+body.v-blueprint .eb-title em {
+  font-style: normal; color: var(--v-hot);
+  box-shadow: inset 0 -.14em 0 rgba(192,78,26,.2);
+}
+/* the title wipes in from the left, like a plotter pass */
+body.v-blueprint .eb-title,
+body.v-blueprint .eb-intro {
+  clip-path: inset(0 100% 0 0);
+  animation: v-plot 1.05s var(--v-e) forwards;
+}
+body.v-blueprint .eb-intro { animation-delay: .3s; }
+@keyframes v-plot { to { clip-path: inset(0 0 0 0); } }
+
+body.v-blueprint .eb-intro {
+  font: 400 clamp(14px, 1.3vw, 16px)/1.7 inherit !important;
+  color: var(--v-quiet) !important; max-width: 68ch !important;
+  padding-left: 16px; border-left: 2px solid var(--v-line2);
+}
+body.v-blueprint .eb-graphic {
+  position: absolute !important; right: clamp(10px, 3vw, 54px); top: clamp(28px, 5vw, 64px);
+  width: clamp(120px, 18vw, 230px) !important; height: auto !important;
+  opacity: .5; pointer-events: none;
+}
+body.v-blueprint .eb-graphic svg { width: 100%; height: auto; }
+/* a rotating survey reticle behind the hero mark */
+body.v-blueprint .eb-graphic::before {
+  content: ""; position: absolute; inset: -22%; border-radius: 50%;
+  border: 1px dashed var(--v-line2);
+  animation: v-spin 44s linear infinite;
+}
+@keyframes v-spin { to { transform: rotate(360deg); } }
+@media (max-width: 860px) { body.v-blueprint .eb-graphic { display: none !important; } }
+
+/* ── the spine: a rule that draws down the page as you scroll ─────────── */
+body.v-blueprint .v-spine {
+  position: fixed; left: max(12px, calc((100vw - 1160px) / 2 - 26px)); top: 0;
+  width: 2px; height: 100vh; z-index: 50; pointer-events: none;
+  background: var(--v-line);
+}
+body.v-blueprint .v-spine i {
+  position: absolute; left: 0; top: 0; width: 100%; height: 0;
+  background: linear-gradient(180deg, var(--v-hot), var(--v-cyan));
+}
+@media (max-width: 1280px) { body.v-blueprint .v-spine { display: none; } }
+
+/* ── sections get a drawn number in the margin ────────────────────────── */
+body.v-blueprint .wrap { max-width: 1160px; }
+body.v-blueprint .wrap h2 {
+  font-size: clamp(21px, 2.4vw, 32px) !important;
+  font-weight: 700 !important; letter-spacing: -.02em !important;
+  color: var(--v-ink) !important; position: relative;
+  margin-top: clamp(46px, 6vw, 84px) !important;
+  padding-top: 20px; border-top: 2px solid var(--v-ink) !important;
+}
+body.v-blueprint .wrap h2::before {
+  content: attr(data-n);
+  position: absolute; top: -13px; left: 0;
+  font: 700 10px/1 var(--v-mono); letter-spacing: .2em;
+  color: var(--v-sheet); background: var(--v-hot);
+  padding: 5px 8px;
+}
+body.v-blueprint .v-label {
+  font-family: var(--v-mono) !important; letter-spacing: .2em !important;
+  color: var(--v-cyan) !important;
+}
+
+/* ── panels: pinned to the sheet with corner ticks ────────────────────── */
+body.v-blueprint .v-pane  {
+  background: rgba(255,255,255,.66) !important;
+  border: 1px solid var(--v-line2) !important;
+  border-image: none !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+  position: relative;
+  transition: background .3s, border-color .3s, transform .35s var(--v-e);
+}
+@media (prefers-color-scheme: dark) {
+  body.v-blueprint .v-pane  { background: rgba(255,255,255,.035) !important; }
+}
+body.v-blueprint .v-pane::before,
+body.v-blueprint .v-pane::after {
+  content: ""; position: absolute; width: 9px; height: 9px;
+  border-color: var(--v-hot); border-style: solid;
+  opacity: 0; transition: opacity .3s, transform .35s var(--v-e);
+}
+body.v-blueprint .v-pane::before  { left: -1px; top: -1px; border-width: 2px 0 0 2px; transform: translate(4px, 4px); }
+body.v-blueprint .v-pane::after  { right: -1px; bottom: -1px; border-width: 0 2px 2px 0; transform: translate(-4px, -4px); }
+body.v-blueprint .v-pane:hover::before,
+body.v-blueprint .v-pane:hover::after { opacity: 1; transform: none; }
+body.v-blueprint .v-pane:hover  { border-color: var(--v-hot) !important; transform: translateY(-3px); }
+
+body.v-blueprint .v-stat {
+  font-family: var(--v-mono) !important; font-variant-numeric: tabular-nums;
+  font-size: clamp(28px, 3.6vw, 44px) !important; font-weight: 700 !important;
+  letter-spacing: -.03em !important; color: var(--v-hot) !important;
+}
+body.v-blueprint .v-chip {
+  background: none !important; border: 1px solid var(--v-line2) !important;
+  border-radius: 0 !important;
+  font-family: var(--v-mono) !important; font-size: 10px !important;
+  letter-spacing: .1em !important; text-transform: uppercase;
+  color: var(--v-quiet) !important;
+  transition: background .25s, color .25s, border-color .25s;
+}
+body.v-blueprint .v-chip:hover {
+  background: var(--v-cyan) !important; border-color: var(--v-cyan) !important; color: var(--v-sheet) !important;
+}
+body.v-blueprint .v-pane [class*="-bar-track"] { border-radius: 0 !important; background: var(--v-line2) !important; }
+body.v-blueprint .v-pane [class*="-bar-fill"] { border-radius: 0 !important; }
+
+body.v-blueprint .wrap table { border-collapse: collapse; font-variant-numeric: tabular-nums; }
+body.v-blueprint .wrap th {
+  font-family: var(--v-mono) !important; font-size: 10px !important;
+  letter-spacing: .16em !important; text-transform: uppercase;
+  background: var(--v-ink) !important; color: var(--v-sheet) !important; border: 0 !important;
+}
+body.v-blueprint .wrap td { border: 1px solid var(--v-line) !important; background: none !important; }
+body.v-blueprint .wrap tr:hover td { background: rgba(22,112,106,.08) !important; }
+body.v-blueprint .wrap a:hover { color: var(--v-hot) !important; }
+
+/* ── reveal: a plotter wipe, alternating direction ────────────────────── */
+body.v-blueprint .v-r { clip-path: inset(0 0 100% 0); opacity: .001; }
+body.v-blueprint .v-r.alt { clip-path: inset(0 100% 0 0); }
+body.v-blueprint .v-r.in {
+  clip-path: inset(0 0 0 0); opacity: 1;
+  transition: clip-path .8s var(--v-e), opacity .45s linear;
+  transition-delay: var(--sd, 0s);
+}
+
+/* ── the HUD along the bottom edge ────────────────────────────────────── */
+body.v-blueprint .v-hud {
+  position: fixed; left: 0; right: 0; bottom: 0; z-index: 80;
+  display: flex; align-items: center; gap: 14px;
+  padding: 7px clamp(10px, 3vw, 30px);
+  font: 600 10px/1 var(--v-mono); letter-spacing: .12em; text-transform: uppercase;
+  color: var(--v-quiet);
+  background: color-mix(in srgb, var(--v-sheet) 88%, transparent);
+  backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
+  border-top: 1px solid var(--v-line2);
+  pointer-events: none;
+}
+body.v-blueprint .v-hud .sec { color: var(--v-hot); flex: 1; min-width: 0;
+  overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+body.v-blueprint .v-hud .co { color: var(--v-cyan); }
+body.v-blueprint .v-hud .tr { width: clamp(40px, 14vw, 140px); height: 2px; background: var(--v-line2); flex-shrink: 0; }
+body.v-blueprint .v-hud .tr i { display: block; height: 100%; width: 0; background: var(--v-hot); }
+@media (max-width: 620px) { body.v-blueprint .v-hud .co { display: none; } }
+
+@media (prefers-reduced-motion: reduce) {
+  body.v-blueprint *,
+body.v-blueprint *::before,
+body.v-blueprint *::after {
+    animation: none !important; transition: none !important;
+  }
+  body.v-blueprint .v-r { clip-path: none; opacity: 1; }
+  body.v-blueprint .eb-title,
+body.v-blueprint .eb-intro { clip-path: none; }
+}
+</style>
+<script id="v-js">
+(function () {
+  var body = document.body;
+  body.classList.add('v-blueprint');
+  
+  /* Tag the page's own components by CLASS TOKEN, not by substring. An
+     attribute match like [class*="-card"] also catches the grid CONTAINER
+     (pt-cards), its kicker (pt-cards-head) and every inner part of a tile
+     (pt-tile-icon, pt-tile-body) — each would have been painted as a panel of
+     its own. Matching a whole token ending in -card/-tile/-panel hits only the
+     real thing. The site's canonical components (.badge, .pillbadge,
+     .selection-pill, .chevron-link-pill) are skipped outright: they are
+     governed by the pills/badges doc and keep their approved look here. */
+  (function tag() {
+    var scope = document.querySelector('.wrap');
+    if (!scope) return;
+    var SKIP = /(^|\s)(badge|pillbadge|selection-pill|selection-pill-sm|chevron-link-pill)(\s|$)/;
+    var els = scope.querySelectorAll('*');
+    for (var i = 0; i < els.length; i++) {
+      var el = els[i];
+      var c = ' ' + (el.getAttribute('class') || '') + ' ';
+      if (SKIP.test(c)) continue;
+      if (el.tagName === 'ARTICLE' || /\s[a-z0-9]+-(card|tile|panel)\s/.test(c)) el.classList.add('v-pane');
+      if (/\s[a-z0-9]+-chip\s/.test(c)) el.classList.add('v-chip');
+      if (/\s[a-z0-9]+-num\s/.test(c)) el.classList.add('v-stat');
+      if (/\s[a-z0-9]+-head\s/.test(c)) el.classList.add('v-label');
+    }
+  })();
+
+  var reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  /* spine */
+  var spine = document.createElement('div');
+  spine.className = 'v-spine';
+  spine.setAttribute('aria-hidden', 'true');
+  spine.innerHTML = '<i></i>';
+  body.appendChild(spine);
+  var spineFill = spine.firstChild;
+
+  /* HUD */
+  var hud = document.createElement('div');
+  hud.className = 'v-hud';
+  hud.setAttribute('aria-hidden', 'true');
+  hud.innerHTML = '<span class="sec">—</span><span class="tr"><i></i></span><span class="co">Y 0000</span>';
+  body.appendChild(hud);
+  var hudSec = hud.querySelector('.sec');
+  var hudTr = hud.querySelector('.tr i');
+  var hudCo = hud.querySelector('.co');
+
+  /* number the sections in the margin */
+  var heads = document.querySelectorAll('.wrap h2');
+  Array.prototype.forEach.call(heads, function (h, i) {
+    h.setAttribute('data-n', ('0' + (i + 1)).slice(-2));
+    if (!h.id) h.id = 'v-s' + i;
+  });
+
+  /* plotter-wipe reveal, alternating direction down the page */
+  var wrap = document.querySelector('.wrap');
+  if (wrap) {
+    var seen = [];
+    Array.prototype.forEach.call(
+      wrap.querySelectorAll(':scope > *, section > h2, section > h3, section > p, .v-pane, table'),
+      function (el) {
+        if (el.closest('.v-pane') && el.matches('p, h3, table')) return;
+        if (seen.indexOf(el) > -1) return;
+        seen.push(el);
+        el.classList.add('v-r');
+        if (seen.length % 2 === 0) el.classList.add('alt');
+      }
+    );
+    var io = new IntersectionObserver(function (es) {
+      var n = 0;
+      es.forEach(function (e) {
+        if (!e.isIntersecting) return;
+        e.target.style.setProperty('--sd', (n++ * 0.055) + 's');
+        e.target.classList.add('in');
+        io.unobserve(e.target);
+      });
+    }, { rootMargin: '0px 0px -6% 0px', threshold: 0.05 });
+    seen.forEach(function (el) { io.observe(el); });
+  }
+
+  /* count-up */
+  if (!reduce) {
+    var nio = new IntersectionObserver(function (es) {
+      es.forEach(function (e) {
+        if (!e.isIntersecting) return;
+        nio.unobserve(e.target);
+        var raw = e.target.textContent, m = raw.match(/(\d[\d,.]*)/);
+        if (!m) return;
+        var target = parseFloat(m[1].replace(/,/g, ''));
+        if (!isFinite(target) || target > 100000) return;
+        var dec = (m[1].split('.')[1] || '').length, t0 = performance.now();
+        var tick = function (t) {
+          var p = Math.min(1, (t - t0) / 850);
+          var v = target * (1 - Math.pow(1 - p, 3));
+          e.target.textContent = raw.replace(m[1], v.toFixed(dec).replace(/\B(?=(\d{3})+(?!\d))/g, ','));
+          if (p < 1) requestAnimationFrame(tick);
+        };
+        requestAnimationFrame(tick);
+      });
+    }, { threshold: 0.5 });
+    Array.prototype.forEach.call(document.querySelectorAll('.v-stat'), function (n) { nio.observe(n); });
+  }
+
+  /* which section am I in — drives both the HUD and the spine */
+  var current = '';
+  var pending = false;
+  var onScroll = function () {
+    if (pending) return;
+    pending = true;
+    requestAnimationFrame(function () {
+      pending = false;
+      var h = document.documentElement.scrollHeight - innerHeight;
+      var p = h > 0 ? Math.min(1, scrollY / h) : 0;
+      spineFill.style.height = (p * 100) + '%';
+      hudTr.style.width = (p * 100) + '%';
+      hudCo.textContent = 'Y ' + ('000' + Math.round(scrollY)).slice(-4);
+      var name = '';
+      Array.prototype.forEach.call(heads, function (hd) {
+        if (hd.getBoundingClientRect().top < innerHeight * 0.35) name = hd.textContent.trim();
+      });
+      if (!name && heads.length) name = document.title.split('|')[0].trim();
+      if (name !== current) { current = name; hudSec.textContent = name || '—'; }
+    });
+  };
+  addEventListener('scroll', onScroll, { passive: true });
+  onScroll();
+})();
+</script>
+
+</body>
+</html>

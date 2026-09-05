@@ -21,3 +21,10 @@
 2026-09-05 02:24 — mecca.html — FAIL @ index-filters — 0 checks — 3 filter(s): DAYS_DATA (trip length filter) — add id="dayN" to day blocks; THEME_DATA (trip-type filter) — add data-themes="…" to this guide's toolbar-mount → build_theme_tags.py --apply; data-lang (language filter) — add to build_lang_tags.py → --apply
 2026-09-05 02:30 — mecca.html — PASS — 913/913 passed, 0 failed
 2026-09-05 02:49 — mecca.html — PASS — 914/914 passed, 0 failed
+2026-09-05 10:39 — mecca.html — FAIL @ validate — 907/914 passed, 7 failed — Venue days fully covered — 🏛 (open days+hours) + 🚫 (closed days) together must a; Motion Rule — every motion row matches a valid pattern: 🚶 N · 🚕 M or 🚕 M or t; No hedging/uncertainty language in factual rows (hedges like "typically open", "; No "no booking needed" / "walk-in" phrases in .ticket-box or .tour-box (lead row; Every <!-- inclusion-bar: --> comment cites evidence (rating, count, or …
+2026-09-05 10:41 — mecca.html — FAIL @ validate — 913/914 passed, 1 failed — Every <!-- inclusion-bar: --> comment cites evidence (rating, count, or editoria
+2026-09-05 10:42 — mecca.html — FAIL @ validate — 911/914 passed, 3 failed — No 24-hour times (use 12-hour format); Dates — no year figures in shipped guide body (Day Structure.html Trip length — ; No parentheses in guide visible text — the guide format uses · separators only;
+2026-09-05 10:44 — mecca.html — PASS — 914/914 passed, 0 failed
+2026-09-05 10:45 — mecca.html — PASS — 914/914 passed, 0 failed
+2026-09-05 10:49 — mecca.html — FAIL @ verify-booking — 0 checks — https://en.wikipedia.org/wiki/Mount_Arafat
+2026-09-05 10:56 — mecca.html — PASS — 914/914 passed, 0 failed

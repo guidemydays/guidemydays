@@ -119,13 +119,7 @@
 }
 .cw-runs .cw-arc-live { animation: cw-run 1.05s cubic-bezier(.35,.05,.25,1) both; }
 @keyframes cw-run { from { stroke-dashoffset: 300; } to { stroke-dashoffset: 0; } }
-.cw-swap {
-  font: inherit; font-size: var(--fs-sub,12px); font-weight: 800; letter-spacing: .1em; text-transform: uppercase;
-  background: var(--surface,#fff); color: var(--muted,#6a6660);
-  border: 1px solid var(--border2,#e6e2da); border-radius: 999px; padding: 6px 14px; cursor: pointer;
-  transition: color .15s, border-color .15s, box-shadow .15s;
-}
-.cw-swap:hover { color: #C04E1A; border-color: rgba(192,78,26,.55); box-shadow: 0 0 0 5px rgba(192,78,26,.12); }
+#fx-swap { text-transform: uppercase; letter-spacing: .1em; font-size: var(--fs-sub,12px); font-weight: 800; }
 
 /* ── The reading ── */
 #cw-out[hidden], #cw-ask[hidden], #cw-wrap[hidden] { display: none !important; }
@@ -265,7 +259,6 @@
   .cw-bench { background: var(--surface2,#1e1c1a); border-color: var(--border2,#3a3630); }
   .cw-ctl { background: var(--surface2,#1e1c1a); }
   .cw-cap b { color: var(--text,#e8e5e0); }
-  .cw-swap { background: var(--surface2,#1e1c1a); color: var(--muted,#9a9690); border-color: var(--border2,#3a3630); }
   .cw-out-big, .cw-note { color: var(--rust,#D4663A); }
   .cw-out-sub { color: var(--text,#e8e5e0); }
   .cw-chip { background: var(--surface2,#1e1c1a); border-color: var(--border2,#3a3630); }
@@ -345,8 +338,8 @@
     <div class="cw-rail">
       <div class="cw-side">
         <div class="cw-coin" id="cw-coin-from" aria-hidden="true"><span id="cw-sym-from">?</span></div>
-        <div class="cw-cap" id="cw-cap-from"><b>From</b><i>the money you have</i></div>
-        <div class="cw-ctl cw-cur"><input type="text" id="fx-from" placeholder="Choose a currency" autocomplete="off" spellcheck="false" aria-label="From — the money you have"></div>
+        <div class="cw-cap" id="cw-cap-from"><b>From</b></div>
+        <div class="cw-ctl cw-cur"><input type="text" id="fx-from" placeholder="Choose a currency" autocomplete="off" spellcheck="false" aria-label="From currency"></div>
       </div>
 
       <div class="cw-track" id="cw-track">
@@ -354,13 +347,13 @@
           <path class="cw-arc" d="M6 62 C 62 6, 158 6, 214 62"/>
           <path class="cw-arc-live" d="M6 62 C 62 6, 158 6, 214 62"/>
         </svg>
-        <button id="fx-swap" class="cw-swap" type="button">Swap</button>
+        <button id="fx-swap" class="selection-pill-sm" type="button">Swap</button>
       </div>
 
       <div class="cw-side">
         <div class="cw-coin is-to" id="cw-coin-to" aria-hidden="true"><span id="cw-sym-to">?</span></div>
-        <div class="cw-cap" id="cw-cap-to"><b>To</b><i>the money you want</i></div>
-        <div class="cw-ctl cw-cur"><input type="text" id="fx-to" placeholder="Choose a currency" autocomplete="off" spellcheck="false" aria-label="To — the money you want"></div>
+        <div class="cw-cap" id="cw-cap-to"><b>To</b></div>
+        <div class="cw-ctl cw-cur"><input type="text" id="fx-to" placeholder="Choose a currency" autocomplete="off" spellcheck="false" aria-label="To currency"></div>
       </div>
     </div>
 
@@ -443,14 +436,14 @@ var FXC=[["Austria","Austria","Europe","EUR","",[["Salzburg","/guides/salzburg.h
     var C=code?FXR[code]:null;
     symEl.textContent=C?C.s:'?';
     capEl.innerHTML=C ? '<b>'+esc(C.n)+'</b><i>'+esc(code)+'</i>'
-                      : '<b>'+fallbackTitle+'</b><i>'+fallbackSub+'</i>';
+                      : '<b>'+fallbackTitle+'</b>'+(fallbackSub?'<i>'+fallbackSub+'</i>':'');
   }
 
   function render(){
     var amt=parseFloat(elAmt.value);
     var fi=iso(fromAnchor), ti=iso(toAnchor);
-    faceCoin(coinFrom,document.getElementById('cw-sym-from'),document.getElementById('cw-cap-from'),fi,'From','the money you have');
-    faceCoin(coinTo,document.getElementById('cw-sym-to'),document.getElementById('cw-cap-to'),ti,'To','the money you want');
+    faceCoin(coinFrom,document.getElementById('cw-sym-from'),document.getElementById('cw-cap-from'),fi,'From','');
+    faceCoin(coinTo,document.getElementById('cw-sym-to'),document.getElementById('cw-cap-to'),ti,'To','');
     /* No currency chosen, no reading — the page opens on nothing and shows
        nothing, the same call the live page makes. */
     if(!fi||!ti||isNaN(amt)){

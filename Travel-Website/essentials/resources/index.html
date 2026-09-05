@@ -5,69 +5,113 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link rel="stylesheet" href="/assets/web-travel-style.css">
 <title>More Resources | Guide My Days</title>
-<style>.tg-cluster {
-  margin-top: 28px;
+<style>
+/* ── More Resources — the Aurora design study, adapted onto the site ───────
+   Source study: Travel-Website/essentials/resources-new-aurora/index.html.
+   What carried over is its structure: a numbered section head with a hairline
+   running out to the rail, one dark panel per entry, and the uppercase
+   micro-label under the name. The panel-on-a-light-page arrangement is
+   /plugs/'s, and so are its browns -- #241a13 ground, #f3ece2 ink, #c8b39c
+   secondary -- rather than new values invented here.
+
+   What did NOT carry over, and why, so the next crib does not read the
+   absences as unfinished work (Twenty-ninth non-negotiable):
+
+   * the study's fixed constellation rail and its sticky control strip.
+     Seventy-fourth non-negotiable -- nothing on this site pins itself to the
+     viewport, and a control bar scrolls away with its page.
+   * its "8 entries / 4 sections" meta line and the live result tally.
+     Ninety-second non-negotiable -- no page shows an item count, at rest or
+     updating as a reader filters.
+   * the animated aurora field, the grain overlay and the near-black ground.
+     The site hero and the site background stay exactly as they are, so the
+     panels sit on the page's own ground instead of replacing it.
+   * every purple/teal/yellow gradient painting a fill, and the gradient rule
+     across the top of each card. Thirty-fifth non-negotiable -- one
+     terracotta, and no gradient paints a background. The card's top rule is
+     solid.
+   * the underlined title link. Underlines are banned site-wide, in every
+     state.
+
+   Terracotta INSIDE the panel is #D4663A, not #C04E1A: on this brown the
+   light value measures 2.81:1, under the 4.5 floor validate_dark_mode.py
+   enforces, and the dark partner measures 4.69:1. Same call /plugs/ made, and
+   the Thirty-fifth non-negotiable's own "each ground takes its own value".
+   OUTSIDE the panel -- the section number, which sits on the page ground --
+   the shared var(--rust) is used instead, because that token already flips to
+   #D4663A in dark mode on its own.
+
+   The panel is the same brown in both themes by design: it is the page's dark
+   surface, not a light card inverted. Dark mode only moves the ground beneath
+   it, which is the shared stylesheet's job, not this file's. */
+
+/* ── Section head ─────────────────────────────────────────────────────────
+   Replaces .tg-cluster / .tg-cluster-title. The number is the study's;
+   the hairline takes the width the old 2px full-bleed terracotta underline
+   used to, which read as a divider between sections rather than as a heading
+   for the one below it. */
+.rs-sec + .rs-sec { margin-top: 44px; }
+.rs-head { display: flex; align-items: baseline; gap: 14px; margin-bottom: 18px; }
+.rs-num {
+  flex: 0 0 auto;
+  font-size: var(--fs-label, 12px); font-weight: 800; letter-spacing: 0.2em;
+  color: var(--rust, #C04E1A); font-variant-numeric: tabular-nums;
 }
-.tg-cluster:first-child {
-  margin-top: 0;
+.rs-head h2 { flex: 0 0 auto; margin: 0; }
+/* Fills whatever the number and the title leave; a fixed width would be a
+   different length on every row. */
+.rs-rule { flex: 1 1 auto; min-width: 24px; height: 1px; background: var(--border2); }
+
+.rs-grid {
+  display: grid; gap: 14px;
+  grid-template-columns: repeat(auto-fill, minmax(288px, 1fr));
 }
-.tg-cluster-title {
-  font-size: 12px;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.06em;
-  color: var(--muted);
-  margin: 0 0 12px;
-  padding-bottom: 8px;
-  border-bottom: 2px solid var(--rust, #C04E1A);
+
+/* ── The entry panel ──────────────────────────────────────────────────────
+   overflow:hidden is load-bearing, not tidiness -- the top rule is a
+   ::before pinned to the panel's own corners and would otherwise square off
+   the 14px radius at both ends while it is scaled in. */
+.rs-card {
+  position: relative; overflow: hidden;
+  background: #241a13; border: 1px solid rgba(255,255,255,.08);
+  border-radius: 14px; padding: 20px 20px 18px;
+  box-shadow: 0 10px 30px rgba(36,26,19,.18);
+  transition: border-color .2s, transform .2s, box-shadow .2s;
 }
-.tg-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
-  gap: 16px;
-  margin-top: 0;
+.rs-card::before {
+  content: ""; position: absolute; left: 0; right: 0; top: 0; height: 2px;
+  background: #D4663A;
+  transform: scaleX(0); transform-origin: 0 50%; transition: transform .3s;
 }
-.tg-card {
-  background: var(--surface);
-  border: 1px solid var(--border2);
-  border-radius: 10px;
-  padding: 18px 18px 20px;
+.rs-card:hover {
+  border-color: rgba(212,102,58,.55); transform: translateY(-2px);
+  box-shadow: 0 14px 34px rgba(36,26,19,.26);
 }
-.tg-card-head {
-  display: flex;
-  align-items: flex-start;
-  justify-content: space-between;
-  gap: 10px;
-  margin-bottom: 10px;
-  padding-bottom: 10px;
-  border-bottom: 1px solid var(--border2);
+.rs-card:hover::before { transform: scaleX(1); }
+
+/* The whole name is the outbound link -- the study's own hierarchy, where the
+   site being described is the largest thing on the card. The trailing mark is
+   the approved single right angle quote drawn by CSS, never a character typed
+   into the label and never the banned north-east arrow. */
+.rs-name { margin: 0; font-size: 18px; font-weight: 700; letter-spacing: -0.01em; line-height: 1.25; }
+.rs-name a { color: #f3ece2; text-decoration: none; }
+/* Literal hex, never var(): browsers refuse to resolve a custom property
+   inside :visited, and the fallback is the global gold a{} rule. */
+.rs-name a:visited { color: #f3ece2; text-decoration: none; }
+.rs-name a:hover, .rs-name a:focus { color: #D4663A; text-decoration: none; }
+.rs-name a::after { content: "\203A"; margin-left: 5px; font-size: 17px; vertical-align: -1px; color: #c8b39c; }
+
+.rs-tag {
+  margin-top: 5px;
+  font-size: var(--fs-label, 12px); font-weight: 700;
+  letter-spacing: 0.14em; text-transform: uppercase; color: #c8b39c;
 }
-.tg-name {
-  font-size: 14px;
-  font-weight: 700;
-  color: var(--text);
-  line-height: 1.25;
-  margin-bottom: 8px;
-}
-.tg-tag {
-  font-size: 11.5px;
-  color: var(--muted);
-  font-weight: 600;
-  text-transform: uppercase;
-  letter-spacing: 0.04em;
-}
-.tg-desc {
-  font-size: 13px;
-  color: var(--text);
-  line-height: 1.5;
-}
+.rs-badges { margin-top: 13px; }
+.rs-desc { margin-top: 13px; font-size: var(--fs-meta, 14px); line-height: 1.62; color: #d7c5b0; }
+
 @media (max-width: 600px) and (pointer: coarse) {
-  .tg-grid { grid-template-columns: 1fr; }
-}
-@media (prefers-color-scheme: dark) {
-  :root:not([data-theme="light"]) {
-    .chevron-link-pill { color: var(--text); }
-  }
+  .rs-grid { grid-template-columns: 1fr; }
+  .rs-sec + .rs-sec { margin-top: 34px; }
 }
 </style>
 <link rel="stylesheet" href="/assets/mobile.css?v=53">
@@ -120,121 +164,93 @@
 
 <div class="wrap">
 
-  <div class="tg-cluster">
-    <h2 class="tg-cluster-title">Editorial Guides</h2>
-    <div class="tg-grid">
-
-      <div class="tg-card">
-        <div class="tg-card-head">
-          <div>
-            <div class="tg-name"><a class="chevron-link-pill" href="https://www.fodors.com" target="_blank" rel="noopener">Fodor's</a></div>
-            <div class="tg-tag">Editorial Guide</div>
-          </div>
-          <span class="badge sb-green">Active</span>
-        </div>
-        <div class="tg-desc">Curated city guides, hotel and restaurant picks — strong editorial standard. Good starting point for building a shortlist of neighborhoods, museums, and dining.</div>
-      </div>
-
-      <div class="tg-card">
-        <div class="tg-card-head">
-          <div>
-            <div class="tg-name"><a class="chevron-link-pill" href="https://theculturetrip.com" target="_blank" rel="noopener">Culture Trip</a></div>
-            <div class="tg-tag">Editorial Guide</div>
-          </div>
-          <span class="badge sb-green">Active</span>
-        </div>
-        <div class="tg-desc">Culturally-driven destination articles with a focus on arts, food, and local perspective. Laid off its editorial staff in 2023, then acquired by U.S. News &amp; World Report in February 2024 — active again with new editorial coverage alongside the existing archive.</div>
-      </div>
-
-      <div class="tg-card">
-        <div class="tg-card-head">
-          <div>
-            <div class="tg-name"><a class="chevron-link-pill" href="https://www.roughguides.com" target="_blank" rel="noopener">Rough Guides</a></div>
-            <div class="tg-tag">Editorial Guide</div>
-          </div>
-          <span class="badge sb-green">Active</span>
-        </div>
-        <div class="tg-desc">In-depth destination coverage across history, culture, and practical detail. One of the most thorough written guides for understanding a place before you arrive.</div>
-      </div>
-
+  <section class="rs-sec">
+    <div class="rs-head">
+      <span class="rs-num">01</span>
+      <h2>Editorial Guides</h2>
+      <span class="rs-rule" aria-hidden="true"></span>
     </div>
-  </div>
-
-  <div class="tg-cluster">
-    <h2 class="tg-cluster-title">Inspiration &amp; Hidden Places</h2>
-    <div class="tg-grid">
-
-      <div class="tg-card">
-        <div class="tg-card-head">
-          <div>
-            <div class="tg-name"><a class="chevron-link-pill" href="https://www.atlasobscura.com" target="_blank" rel="noopener">Atlas Obscura</a></div>
-            <div class="tg-tag">Hidden Places</div>
-          </div>
-          <span class="badge sb-green">Active</span>
-        </div>
-        <div class="tg-desc">Hidden and unusual places around the world — the stops no mainstream guidebook covers. Excellent for finding something genuinely different in a city you've already been to.</div>
-      </div>
-
-      <div class="tg-card">
-        <div class="tg-card-head">
-          <div>
-            <div class="tg-name"><a class="chevron-link-pill" href="https://www.nationalgeographic.com/travel" target="_blank" rel="noopener">National Geographic</a></div>
-            <div class="tg-tag">Inspiration</div>
-          </div>
-          <span class="badge sb-green">Active</span>
-        </div>
-        <div class="tg-desc">Destination inspiration, best-of lists, and photography-driven guides. More useful for deciding where to go than for planning once you have a destination.</div>
-      </div>
-
+    <div class="rs-grid">
+      <article class="rs-card">
+        <h3 class="rs-name"><a href="https://www.fodors.com" target="_blank" rel="noopener">Fodor&#39;s</a></h3>
+        <div class="rs-tag">Editorial Guide</div>
+        <div class="rs-badges"><span class="badge sb-green">Active</span></div>
+        <div class="rs-desc">Curated city guides, hotel and restaurant picks — strong editorial standard. Good starting point for building a shortlist of neighborhoods, museums, and dining.</div>
+      </article>
+      <article class="rs-card">
+        <h3 class="rs-name"><a href="https://theculturetrip.com" target="_blank" rel="noopener">Culture Trip</a></h3>
+        <div class="rs-tag">Editorial Guide</div>
+        <div class="rs-badges"><span class="badge sb-green">Active</span></div>
+        <div class="rs-desc">Culturally-driven destination articles with a focus on arts, food, and local perspective. Laid off its editorial staff in 2023, then acquired by U.S. News &amp; World Report in February 2024 — active again with new editorial coverage alongside the existing archive.</div>
+      </article>
+      <article class="rs-card">
+        <h3 class="rs-name"><a href="https://www.roughguides.com" target="_blank" rel="noopener">Rough Guides</a></h3>
+        <div class="rs-tag">Editorial Guide</div>
+        <div class="rs-badges"><span class="badge sb-green">Active</span></div>
+        <div class="rs-desc">In-depth destination coverage across history, culture, and practical detail. One of the most thorough written guides for understanding a place before you arrive.</div>
+      </article>
     </div>
-  </div>
+  </section>
 
-  <div class="tg-cluster">
-    <h2 class="tg-cluster-title">Practical &amp; Regional</h2>
-    <div class="tg-grid">
-
-      <div class="tg-card">
-        <div class="tg-card-head">
-          <div>
-            <div class="tg-name"><a class="chevron-link-pill" href="https://www.ricksteves.com" target="_blank" rel="noopener">Rick Steves</a></div>
-            <div class="tg-tag">Europe</div>
-          </div>
-          <span class="badge sb-green">Active</span>
-        </div>
-        <div class="tg-desc">Practical Europe travel — neighborhood-level breakdowns, free audio guides, and crowd-management tips. Best for first-time visits to major European cities.</div>
-      </div>
-
+  <section class="rs-sec">
+    <div class="rs-head">
+      <span class="rs-num">02</span>
+      <h2>Inspiration &amp; Hidden Places</h2>
+      <span class="rs-rule" aria-hidden="true"></span>
     </div>
-  </div>
-
-  <div class="tg-cluster">
-    <h2 class="tg-cluster-title">Reference &amp; Reviews</h2>
-    <div class="tg-grid">
-
-      <div class="tg-card">
-        <div class="tg-card-head">
-          <div>
-            <div class="tg-name"><a class="chevron-link-pill" href="https://en.wikipedia.org" target="_blank" rel="noopener">Wikipedia</a></div>
-            <div class="tg-tag">Reference</div>
-          </div>
-          <span class="badge sb-green">Active</span>
-        </div>
-        <div class="tg-desc">Primary reference for stop history, context, and factual detail. Every stop's Wikipedia article is the first read before building any itinerary entry.</div>
-      </div>
-
-      <div class="tg-card">
-        <div class="tg-card-head">
-          <div>
-            <div class="tg-name"><a class="chevron-link-pill" href="https://www.tripadvisor.com" target="_blank" rel="noopener">TripAdvisor</a></div>
-            <div class="tg-tag">Reviews</div>
-          </div>
-          <span class="badge sb-green">Active</span>
-        </div>
-        <div class="tg-desc">Attraction rankings, traveler reviews, and things to do by category. Best used for cross-referencing ratings rather than as a primary discovery source.</div>
-      </div>
-
+    <div class="rs-grid">
+      <article class="rs-card">
+        <h3 class="rs-name"><a href="https://www.atlasobscura.com" target="_blank" rel="noopener">Atlas Obscura</a></h3>
+        <div class="rs-tag">Hidden Places</div>
+        <div class="rs-badges"><span class="badge sb-green">Active</span></div>
+        <div class="rs-desc">Hidden and unusual places around the world — the stops no mainstream guidebook covers. Excellent for finding something genuinely different in a city you&#39;ve already been to.</div>
+      </article>
+      <article class="rs-card">
+        <h3 class="rs-name"><a href="https://www.nationalgeographic.com/travel" target="_blank" rel="noopener">National Geographic</a></h3>
+        <div class="rs-tag">Inspiration</div>
+        <div class="rs-badges"><span class="badge sb-green">Active</span></div>
+        <div class="rs-desc">Destination inspiration, best-of lists, and photography-driven guides. More useful for deciding where to go than for planning once you have a destination.</div>
+      </article>
     </div>
-  </div>
+  </section>
+
+  <section class="rs-sec">
+    <div class="rs-head">
+      <span class="rs-num">03</span>
+      <h2>Practical &amp; Regional</h2>
+      <span class="rs-rule" aria-hidden="true"></span>
+    </div>
+    <div class="rs-grid">
+      <article class="rs-card">
+        <h3 class="rs-name"><a href="https://www.ricksteves.com" target="_blank" rel="noopener">Rick Steves</a></h3>
+        <div class="rs-tag">Europe</div>
+        <div class="rs-badges"><span class="badge sb-green">Active</span></div>
+        <div class="rs-desc">Practical Europe travel — neighborhood-level breakdowns, free audio guides, and crowd-management tips. Best for first-time visits to major European cities.</div>
+      </article>
+    </div>
+  </section>
+
+  <section class="rs-sec">
+    <div class="rs-head">
+      <span class="rs-num">04</span>
+      <h2>Reference &amp; Reviews</h2>
+      <span class="rs-rule" aria-hidden="true"></span>
+    </div>
+    <div class="rs-grid">
+      <article class="rs-card">
+        <h3 class="rs-name"><a href="https://en.wikipedia.org" target="_blank" rel="noopener">Wikipedia</a></h3>
+        <div class="rs-tag">Reference</div>
+        <div class="rs-badges"><span class="badge sb-green">Active</span></div>
+        <div class="rs-desc">Primary reference for stop history, context, and factual detail. Every stop&#39;s Wikipedia article is the first read before building any itinerary entry.</div>
+      </article>
+      <article class="rs-card">
+        <h3 class="rs-name"><a href="https://www.tripadvisor.com" target="_blank" rel="noopener">TripAdvisor</a></h3>
+        <div class="rs-tag">Reviews</div>
+        <div class="rs-badges"><span class="badge sb-green">Active</span></div>
+        <div class="rs-desc">Attraction rankings, traveler reviews, and things to do by category. Best used for cross-referencing ratings rather than as a primary discovery source.</div>
+      </article>
+    </div>
+  </section>
 
 </div><!-- /wrap -->
 

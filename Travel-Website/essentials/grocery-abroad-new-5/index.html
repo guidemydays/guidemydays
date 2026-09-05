@@ -1,0 +1,414 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex,nofollow">
+<link rel="stylesheet" href="/assets/web-travel-style.css">
+<link rel="stylesheet" href="/assets/mobile.css?v=53">
+<link rel="icon" href="/assets/icons/favicon-32.png" sizes="32x32" type="image/png">
+<meta name="theme-color" content="#f5f4f0" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#1a1917" media="(prefers-color-scheme: dark)">
+<title>Grocery &amp; Pharmacy Delivery Abroad — New 5 (The Aisle) | Guide My Days</title>
+<style>
+
+/* ═══ GROCERY · NEW 2 — "The Aisle" ═════════════════════════════════════
+   Read as a supermarket seen from the trolley. Each region is an aisle
+   under a hanging overhead sign that sways; each country is a carton
+   standing on a shelf board with its flag as the label. Tap a carton and
+   it tips forward and drops its three lines into the basket panel below
+   the shelf. The hanging sign and the shelf board are drawn in CSS —
+   nothing else on the site builds a shelf or tips a card on its base. */
+
+body.v-aisle { --al-green:#2c6a2c; --al-red:#a82c2c; --al-board:#c9b788; }
+
+/* Search bar — the shared control, untouched. Every dimension, colour and
+   state comes from web-travel-style.css's input[type="search"] rule and the
+   shared search-autocomplete.js wiring (TVESearch.html § 0); this page adds
+   only the centring row and the gap, never a size, radius or colour. */
+.pg-search-row { display:flex; justify-content:center; margin:var(--search-gap,32px) 0 0; }
+.pg-search-row .search-input { max-width:100%; }
+.al-controls { display:flex; flex-direction:column; align-items:center; gap:14px; margin:6px 0 0; }
+.al-pills { display:flex; flex-wrap:wrap; gap:8px; justify-content:center; }
+
+.al-lead { text-align:center; font-size:13px; color:var(--muted); line-height:1.65; max-width:66ch; margin:22px auto 0; }
+
+/* ── the two notes, as shelf-edge talkers ── */
+.al-talkers { display:grid; grid-template-columns:repeat(auto-fit,minmax(280px,1fr)); gap:16px; margin:24px 0 6px; }
+.al-talker {
+  background:var(--surface,#fff); border:1px solid var(--border2,#e6e2da); border-radius:6px;
+  padding:0 0 14px; overflow:hidden; box-shadow:0 3px 10px rgba(0,0,0,.05);
+}
+.al-talker-h {
+  background:var(--al-green); color:#fff; padding:9px 14px;
+  font-size:11px; font-weight:700; letter-spacing:.16em; text-transform:uppercase;
+}
+.al-talker p { font-size:12.5px; line-height:1.6; color:var(--text); margin:12px 14px 0; }
+
+/* ── an aisle ── */
+.al-aisle { margin-top:52px; }
+.al-sign {
+  width:max-content; max-width:100%; margin:0 auto 6px; position:relative;
+  background:linear-gradient(180deg,var(--surface,#fff),var(--surface2,#f0ede8));
+  border:1.5px solid var(--al-green); border-radius:5px; padding:9px 22px;
+  font-size:12.5px; font-weight:700; letter-spacing:.2em; text-transform:uppercase; color:var(--al-green);
+  transform-origin:top center; animation:al-sway 6s ease-in-out infinite;
+}
+.al-sign::before, .al-sign::after {
+  content:''; position:absolute; top:-14px; width:1px; height:14px; background:var(--border,#d8d4cc);
+}
+.al-sign::before { left:22px; } .al-sign::after { right:22px; }
+@keyframes al-sway { 0%,100% { transform:rotate(-.7deg); } 50% { transform:rotate(.7deg); } }
+.al-aisle-n { display:block; text-align:center; font-size:11px; letter-spacing:.18em; color:var(--muted); text-transform:uppercase; margin-bottom:22px; }
+
+/* ── the shelf ── */
+.al-shelf { position:relative; padding-bottom:16px; }
+.al-shelf::after {
+  content:''; position:absolute; left:0; right:0; bottom:0; height:10px; border-radius:2px;
+  background:linear-gradient(180deg,var(--al-board),#8a7748);
+  box-shadow:0 3px 8px rgba(0,0,0,.16);
+}
+.al-cartons { display:grid; grid-template-columns:repeat(auto-fill,minmax(120px,1fr)); gap:14px; align-items:end; }
+
+/* ── a carton ── */
+.al-carton {
+  font:inherit; text-align:center; cursor:pointer; padding:14px 8px 12px;
+  background:linear-gradient(180deg,var(--warm,#fdf8f0),var(--surface,#fff));
+  border:1px solid var(--border,#d8d4cc); border-radius:3px 3px 1px 1px;
+  box-shadow:inset 0 -3px 0 rgba(0,0,0,.05);
+  transform-origin:bottom center;
+  transition:transform .24s cubic-bezier(.2,.9,.3,1.1), box-shadow .24s, border-color .2s;
+  opacity:0;
+}
+.al-carton.in { opacity:1; animation:al-drop .5s cubic-bezier(.2,.9,.3,1.15) both; }
+@keyframes al-drop { from { opacity:0; transform:translateY(-22px) scaleY(1.06); } to { opacity:1; transform:none; } }
+.al-carton .flag-svg { width:34px; height:34px; display:block; margin:0 auto 8px; border-radius:3px; }
+.al-c-name { font-size:12px; font-weight:700; color:var(--text); line-height:1.25; }
+.al-carton:hover { transform:rotateX(9deg) translateY(-3px); box-shadow:0 10px 18px rgba(0,0,0,.12); border-color:var(--al-green); }
+.al-carton.on {
+  border-color:var(--al-green); border-width:2px;
+  transform:rotateX(13deg) translateY(-5px);
+  box-shadow:0 14px 22px rgba(0,0,0,.15);
+}
+.al-carton.hidden { display:none; }
+.al-aisle.hidden { display:none; }
+
+/* ── the basket: where a picked carton lands ── */
+.al-basket {
+  margin-top:22px; border:1px solid var(--border2,#e6e2da); border-radius:8px;
+  background:var(--warm,#fdf8f0); overflow:hidden; max-height:0; opacity:0;
+  transition:max-height .4s cubic-bezier(.2,.7,.2,1), opacity .3s, margin .3s;
+}
+.al-basket.open { max-height:640px; opacity:1; }
+.al-basket-h {
+  display:flex; align-items:center; gap:10px; padding:12px 16px;
+  border-bottom:1px solid var(--border2,#e6e2da); background:var(--surface,#fff);
+}
+.al-basket-h .flag-svg { width:26px; height:26px; border-radius:3px; }
+.al-basket-name { font-size:16px; font-weight:700; }
+.al-basket-close { margin-left:auto; font:inherit; font-size:20px; line-height:1; background:none; border:0; color:var(--muted); cursor:pointer; padding:2px 6px; }
+.al-basket-close:hover { color:var(--al-red); }
+.al-row { display:grid; grid-template-columns:118px 1fr; gap:12px; padding:13px 16px; border-top:1px solid var(--border2,#e6e2da); }
+.al-row:first-of-type { border-top:0; }
+.al-row-l { font-size:10.5px; font-weight:700; letter-spacing:.13em; text-transform:uppercase; color:var(--al-green); padding-top:2px; }
+.al-row-l.ph { color:var(--al-red); }
+.al-row-v { font-size:13px; line-height:1.6; color:var(--text); }
+
+.al-empty { display:none; text-align:center; color:var(--muted); font-size:14px; padding:44px 0; }
+
+@media (max-width:560px) {
+  .al-cartons { grid-template-columns:repeat(3,1fr); gap:10px; }
+  .al-row { grid-template-columns:1fr; gap:3px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .al-sign { animation:none; }
+  .al-carton { animation:none; opacity:1; transition:none; }
+  .al-basket { transition:none; }
+}
+
+</style>
+</head>
+<body class="v-aisle">
+<div id="toolbar-mount" data-depth="2" data-maxwidth="1000" data-updated="2026-09-05"></div>
+<script src="/assets/toolbar.js?v=127"></script>
+
+  <div class="hero-band eb-hero">
+    <span class="eb-kicker">Grocery &amp; Pharmacy Delivery Abroad</span>
+    <div class="eb-copy">
+      <h1 class="eb-title">The supermarket on the corner has a different name <em>in every country.</em></h1>
+      <p class="eb-intro">Supermarket and pharmacy chain names by country, so you recognize one on sight instead of hunting for an unfamiliar logo — plus which grocery and pharmacy delivery services actually operate there, and whether they deliver to a hotel or a short-term rental. No prices and no what-to-buy advice: this is a where-to-buy and delivery-availability reference only. For what to pack from home before you go, see <a href="/essentials/packing/">Travel Packing</a>; for water safety, see <a href="/essentials/tap-water/">Tap Water</a>.</p>
+    </div>
+    <div class="eb-graphic" aria-hidden="true"><svg viewBox="0 0 24 24" aria-hidden="true"><defs>
+      <linearGradient id="ga-cart" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#7fbf7f"/><stop offset="1" stop-color="#2c6a2c"/></linearGradient>
+      <linearGradient id="ga-cross" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#f08a8a"/><stop offset="1" stop-color="#a82c2c"/></linearGradient>
+    </defs>
+      <path d="M2.5 3h2.4l.9 3M5.8 6h15.2l-1.8 8.2a1.6 1.6 0 0 1-1.56 1.3H8.9a1.6 1.6 0 0 1-1.56-1.24L5.8 6z" fill="none" stroke="url(#ga-cart)" stroke-width="1.4" stroke-linejoin="round" stroke-linecap="round"/>
+      <circle cx="9.4" cy="19.6" r="1.35" fill="url(#gm-tire)" stroke="var(--c-tire-rim)" stroke-width="0.4"/>
+      <circle cx="17.4" cy="19.6" r="1.35" fill="url(#gm-tire)" stroke="var(--c-tire-rim)" stroke-width="0.4"/>
+      <rect x="16" y="2.6" width="7" height="7" rx="1.4" fill="url(#ga-cross)" stroke="#6a1a1a" stroke-width="0.5"/>
+      <rect x="16" y="2.6" width="7" height="7" rx="1.4" fill="url(#gm-gloss)"/>
+      <path d="M19.5 4.1v3.6M17.7 5.9h3.6" stroke="#fff" stroke-width="1.1" stroke-linecap="round"/>
+    </svg></div>
+  </div>
+<div class="wrap">
+  <div class="pg-search-row"><input type="search" class="search-input" id="al-search" placeholder="Country or chain" aria-label="Search by country or chain" autocomplete="off" spellcheck="false"></div>
+  <div class="al-controls">
+    <div class="al-pills" id="al-pills">
+      <button type="button" class="pill selection-pill nt-brown hov-darken is-on" data-r="all" aria-pressed="true">All</button>
+      <button type="button" class="pill selection-pill cp-terracotta hov-darken" data-r="europe" aria-pressed="false">Europe</button>
+      <button type="button" class="pill selection-pill cp-blue hov-darken" data-r="namerica" aria-pressed="false">North America</button>
+      <button type="button" class="pill selection-pill cp-dark-teal hov-darken" data-r="latam" aria-pressed="false">Latin America</button>
+      <button type="button" class="pill selection-pill cp-purple hov-darken" data-r="asiapac" aria-pressed="false">Asia-Pacific</button>
+      <button type="button" class="pill selection-pill cp-gold hov-darken" data-r="mea" aria-pressed="false">Middle East &amp; Africa</button>
+    </div>
+  </div>
+  <p class="al-lead">30 countries across five regions. Chains are the ones a visitor is most likely to actually see on the street — this is not a ranking or a recommendation of one over another.</p>
+  <div class="al-talkers">
+    <div class="al-talker"><div class="al-talker-h">Finding the nearest one</div><p>Search the chain's name, or just "supermarket" / "pharmacy", on Google Maps or Apple Maps once you have your hotel or Airbnb's exact address — every GuideMyDays guide's hotel banner lists it. Both show current opening hours and whether a branch is open right now.</p><p>In city centers, a small-format branch of the country's dominant chain (Tesco Express, Carrefour City, Sainsbury's Local, a 7-Eleven) is usually within a few minutes' walk of any central hotel, even where the full-size supermarket is further out.</p></div>
+    <div class="al-talker"><div class="al-talker-h">Hotel vs. Airbnb: how delivery arrives</div><p><strong>Hotel</strong> — most hotels don't let a courier up to the room directly. Give the delivery app the hotel's name and street address, and add "hold for guest [name], arriving via front desk" in the delivery notes. The front desk holds the order and calls or texts the room; ask at check-in if you're expecting a delivery so staff know to expect it.</p><p><strong>Short-term rental</strong> — there's no front desk, so building access matters more than the street address: unit number, buzzer or intercom code, gate or lockbox code, and floor. Put that in the app's delivery notes, and message your host in advance if the building needs a code or a doorman to let a courier in. Without an answer, most couriers leave the order at the main entrance or mailbox area.</p></div>
+  </div>
+  <section class="al-aisle" data-r="europe">
+    <div class="al-sign">Europe</div>
+    <span class="al-aisle-n">Aisle 1 &middot; 9 countries</span>
+    <div class="al-shelf"><div class="al-cartons">
+      <button type="button" class="al-carton rv" data-k="europe0" data-text="france">
+        <svg class="flag-svg" viewBox="0 0 36 36" aria-hidden="true"><use href="/assets/flags/sprite.svg#flag-10062"></use></svg><span class="al-c-name">France</span>
+      </button>
+      <button type="button" class="al-carton rv" data-k="europe1" data-text="italy">
+        <svg class="flag-svg" viewBox="0 0 36 36" aria-hidden="true"><use href="/assets/flags/sprite.svg#flag-10087"></use></svg><span class="al-c-name">Italy</span>
+      </button>
+      <button type="button" class="al-carton rv" data-k="europe2" data-text="spain">
+        <svg class="flag-svg" viewBox="0 0 36 36" aria-hidden="true"><use href="/assets/flags/sprite.svg#flag-10056"></use></svg><span class="al-c-name">Spain</span>
+      </button>
+      <button type="button" class="al-carton rv" data-k="europe3" data-text="portugal">
+        <svg class="flag-svg" viewBox="0 0 36 36" aria-hidden="true"><use href="/assets/flags/sprite.svg#flag-10151"></use></svg><span class="al-c-name">Portugal</span>
+      </button>
+      <button type="button" class="al-carton rv" data-k="europe4" data-text="united kingdom uk">
+        <svg class="flag-svg" viewBox="0 0 36 36" aria-hidden="true"><use href="/assets/flags/sprite.svg#flag-10064"></use></svg><span class="al-c-name">United Kingdom</span>
+      </button>
+      <button type="button" class="al-carton rv" data-k="europe5" data-text="germany">
+        <svg class="flag-svg" viewBox="0 0 36 36" aria-hidden="true"><use href="/assets/flags/sprite.svg#flag-10046"></use></svg><span class="al-c-name">Germany</span>
+      </button>
+      <button type="button" class="al-carton rv" data-k="europe6" data-text="switzerland">
+        <svg class="flag-svg" viewBox="0 0 36 36" aria-hidden="true"><use href="/assets/flags/sprite.svg#flag-10034"></use></svg><span class="al-c-name">Switzerland</span>
+      </button>
+      <button type="button" class="al-carton rv" data-k="europe7" data-text="netherlands">
+        <svg class="flag-svg" viewBox="0 0 36 36" aria-hidden="true"><use href="/assets/flags/sprite.svg#flag-10136"></use></svg><span class="al-c-name">Netherlands</span>
+      </button>
+      <button type="button" class="al-carton rv" data-k="europe8" data-text="greece">
+        <svg class="flag-svg" viewBox="0 0 36 36" aria-hidden="true"><use href="/assets/flags/sprite.svg#flag-10071"></use></svg><span class="al-c-name">Greece</span>
+      </button>
+    </div></div>
+    <div class="al-basket" id="basket-europe">
+      <div class="al-basket-h"><span class="al-basket-flag"></span><span class="al-basket-name"></span><button type="button" class="al-basket-close" aria-label="Close">&times;</button></div>
+      <div class="al-basket-b"></div>
+    </div>
+  </section>
+  <section class="al-aisle" data-r="namerica">
+    <div class="al-sign">North America</div>
+    <span class="al-aisle-n">Aisle 2 &middot; 3 countries</span>
+    <div class="al-shelf"><div class="al-cartons">
+      <button type="button" class="al-carton rv" data-k="namerica0" data-text="united states usa us">
+        <svg class="flag-svg" viewBox="0 0 36 36" aria-hidden="true"><use href="/assets/flags/sprite.svg#flag-10194"></use></svg><span class="al-c-name">United States</span>
+      </button>
+      <button type="button" class="al-carton rv" data-k="namerica1" data-text="canada">
+        <svg class="flag-svg" viewBox="0 0 36 36" aria-hidden="true"><use href="/assets/flags/sprite.svg#flag-10030"></use></svg><span class="al-c-name">Canada</span>
+      </button>
+      <button type="button" class="al-carton rv" data-k="namerica2" data-text="mexico">
+        <svg class="flag-svg" viewBox="0 0 36 36" aria-hidden="true"><use href="/assets/flags/sprite.svg#flag-10129"></use></svg><span class="al-c-name">Mexico</span>
+      </button>
+    </div></div>
+    <div class="al-basket" id="basket-namerica">
+      <div class="al-basket-h"><span class="al-basket-flag"></span><span class="al-basket-name"></span><button type="button" class="al-basket-close" aria-label="Close">&times;</button></div>
+      <div class="al-basket-b"></div>
+    </div>
+  </section>
+  <section class="al-aisle" data-r="latam">
+    <div class="al-sign">Latin America</div>
+    <span class="al-aisle-n">Aisle 3 &middot; 3 countries</span>
+    <div class="al-shelf"><div class="al-cartons">
+      <button type="button" class="al-carton rv" data-k="latam0" data-text="brazil">
+        <svg class="flag-svg" viewBox="0 0 36 36" aria-hidden="true"><use href="/assets/flags/sprite.svg#flag-10024"></use></svg><span class="al-c-name">Brazil</span>
+      </button>
+      <button type="button" class="al-carton rv" data-k="latam1" data-text="argentina">
+        <svg class="flag-svg" viewBox="0 0 36 36" aria-hidden="true"><use href="/assets/flags/sprite.svg#flag-10008"></use></svg><span class="al-c-name">Argentina</span>
+      </button>
+      <button type="button" class="al-carton rv" data-k="latam2" data-text="colombia">
+        <svg class="flag-svg" viewBox="0 0 36 36" aria-hidden="true"><use href="/assets/flags/sprite.svg#flag-10039"></use></svg><span class="al-c-name">Colombia</span>
+      </button>
+    </div></div>
+    <div class="al-basket" id="basket-latam">
+      <div class="al-basket-h"><span class="al-basket-flag"></span><span class="al-basket-name"></span><button type="button" class="al-basket-close" aria-label="Close">&times;</button></div>
+      <div class="al-basket-b"></div>
+    </div>
+  </section>
+  <section class="al-aisle" data-r="asiapac">
+    <div class="al-sign">Asia-Pacific</div>
+    <span class="al-aisle-n">Aisle 4 &middot; 11 countries</span>
+    <div class="al-shelf"><div class="al-cartons">
+      <button type="button" class="al-carton rv" data-k="asiapac0" data-text="japan">
+        <svg class="flag-svg" viewBox="0 0 36 36" aria-hidden="true"><use href="/assets/flags/sprite.svg#flag-10090"></use></svg><span class="al-c-name">Japan</span>
+      </button>
+      <button type="button" class="al-carton rv" data-k="asiapac1" data-text="china">
+        <svg class="flag-svg" viewBox="0 0 36 36" aria-hidden="true"><use href="/assets/flags/sprite.svg#flag-10038"></use></svg><span class="al-c-name">China</span>
+      </button>
+      <button type="button" class="al-carton rv" data-k="asiapac2" data-text="south korea">
+        <svg class="flag-svg" viewBox="0 0 36 36" aria-hidden="true"><use href="/assets/flags/sprite.svg#flag-10098"></use></svg><span class="al-c-name">South Korea</span>
+      </button>
+      <button type="button" class="al-carton rv" data-k="asiapac3" data-text="singapore">
+        <svg class="flag-svg" viewBox="0 0 36 36" aria-hidden="true"><use href="/assets/flags/sprite.svg#flag-10164"></use></svg><span class="al-c-name">Singapore</span>
+      </button>
+      <button type="button" class="al-carton rv" data-k="asiapac4" data-text="thailand">
+        <svg class="flag-svg" viewBox="0 0 36 36" aria-hidden="true"><use href="/assets/flags/sprite.svg#flag-10181"></use></svg><span class="al-c-name">Thailand</span>
+      </button>
+      <button type="button" class="al-carton rv" data-k="asiapac5" data-text="vietnam">
+        <svg class="flag-svg" viewBox="0 0 36 36" aria-hidden="true"><use href="/assets/flags/sprite.svg#flag-10201"></use></svg><span class="al-c-name">Vietnam</span>
+      </button>
+      <button type="button" class="al-carton rv" data-k="asiapac6" data-text="philippines">
+        <svg class="flag-svg" viewBox="0 0 36 36" aria-hidden="true"><use href="/assets/flags/sprite.svg#flag-10146"></use></svg><span class="al-c-name">Philippines</span>
+      </button>
+      <button type="button" class="al-carton rv" data-k="asiapac7" data-text="indonesia">
+        <svg class="flag-svg" viewBox="0 0 36 36" aria-hidden="true"><use href="/assets/flags/sprite.svg#flag-10080"></use></svg><span class="al-c-name">Indonesia</span>
+      </button>
+      <button type="button" class="al-carton rv" data-k="asiapac8" data-text="india">
+        <svg class="flag-svg" viewBox="0 0 36 36" aria-hidden="true"><use href="/assets/flags/sprite.svg#flag-10083"></use></svg><span class="al-c-name">India</span>
+      </button>
+      <button type="button" class="al-carton rv" data-k="asiapac9" data-text="australia">
+        <svg class="flag-svg" viewBox="0 0 36 36" aria-hidden="true"><use href="/assets/flags/sprite.svg#flag-10010"></use></svg><span class="al-c-name">Australia</span>
+      </button>
+      <button type="button" class="al-carton rv" data-k="asiapac10" data-text="new zealand">
+        <svg class="flag-svg" viewBox="0 0 36 36" aria-hidden="true"><use href="/assets/flags/sprite.svg#flag-10140"></use></svg><span class="al-c-name">New Zealand</span>
+      </button>
+    </div></div>
+    <div class="al-basket" id="basket-asiapac">
+      <div class="al-basket-h"><span class="al-basket-flag"></span><span class="al-basket-name"></span><button type="button" class="al-basket-close" aria-label="Close">&times;</button></div>
+      <div class="al-basket-b"></div>
+    </div>
+  </section>
+  <section class="al-aisle" data-r="mea">
+    <div class="al-sign">Middle East &amp; Africa</div>
+    <span class="al-aisle-n">Aisle 5 &middot; 4 countries</span>
+    <div class="al-shelf"><div class="al-cartons">
+      <button type="button" class="al-carton rv" data-k="mea0" data-text="united arab emirates uae dubai abu dhabi">
+        <svg class="flag-svg" viewBox="0 0 36 36" aria-hidden="true"><use href="/assets/flags/sprite.svg#flag-10002"></use></svg><span class="al-c-name">United Arab Emirates</span>
+      </button>
+      <button type="button" class="al-carton rv" data-k="mea1" data-text="qatar doha">
+        <svg class="flag-svg" viewBox="0 0 36 36" aria-hidden="true"><use href="/assets/flags/sprite.svg#flag-10154"></use></svg><span class="al-c-name">Qatar</span>
+      </button>
+      <button type="button" class="al-carton rv" data-k="mea2" data-text="egypt cairo">
+        <svg class="flag-svg" viewBox="0 0 36 36" aria-hidden="true"><use href="/assets/flags/sprite.svg#flag-10054"></use></svg><span class="al-c-name">Egypt</span>
+      </button>
+      <button type="button" class="al-carton rv" data-k="mea3" data-text="south africa">
+        <svg class="flag-svg" viewBox="0 0 36 36" aria-hidden="true"><use href="/assets/flags/sprite.svg#flag-10206"></use></svg><span class="al-c-name">South Africa</span>
+      </button>
+    </div></div>
+    <div class="al-basket" id="basket-mea">
+      <div class="al-basket-h"><span class="al-basket-flag"></span><span class="al-basket-name"></span><button type="button" class="al-basket-close" aria-label="Close">&times;</button></div>
+      <div class="al-basket-b"></div>
+    </div>
+  </section>
+  <div class="al-empty" id="al-empty">No country matches that search.</div>
+</div><!-- /wrap -->
+<script>
+var AL = {"europe0": {"country": "France", "flag": "10062", "lines": [["Supermarkets", "Carrefour, Monoprix, Franprix, Casino."], ["Pharmacies", "No single national chain — every pharmacy carries the same green cross sign; the Pharmacie de Garde system designates which one stays open nights, Sundays and holidays."], ["Delivery", "Carrefour Livraison, Monoprix+ (via Amazon); Uber Eats and Deliveroo both carry a \"Courses\" (groceries) tab in major cities."]], "text": "france"}, "europe1": {"country": "Italy", "flag": "10087", "lines": [["Supermarkets", "Conad, Esselunga, Coop, Carrefour."], ["Pharmacies", "Farmacia — independent, marked by a green cross; no single dominant chain, though multi-city networks like LloydsFarmacia also operate."], ["Delivery", "Esselunga a Casa, Carrefour Italia; Glovo and Just Eat both carry grocery sections in larger cities."]], "text": "italy"}, "europe2": {"country": "Spain", "flag": "10056", "lines": [["Supermarkets", "Mercadona, Carrefour, Dia."], ["Pharmacies", "Farmacia — independent, green cross sign; Spanish law restricts pharmacy ownership to licensed pharmacists, so there's no nationwide chain."], ["Delivery", "Mercadona's own online ordering, Carrefour Online; Glovo carries both grocery and pharmacy delivery in most cities."]], "text": "spain"}, "europe3": {"country": "Portugal", "flag": "10151", "lines": [["Supermarkets", "Continente, Pingo Doce, Lidl."], ["Pharmacies", "Farmácia — independent, green cross sign; no single dominant national chain."], ["Delivery", "Continente Online; Uber Eats and Glovo both carry grocery sections."]], "text": "portugal"}, "europe4": {"country": "United Kingdom", "flag": "10064", "lines": [["Supermarkets", "Tesco, Sainsbury's, Waitrose, ASDA."], ["Pharmacies", "Boots, Superdrug."], ["Delivery", "Ocado, Tesco and Sainsbury's each run their own delivery; Deliveroo and Uber Eats both carry grocery-shop sections for smaller top-up orders."]], "text": "united kingdom uk"}, "europe5": {"country": "Germany", "flag": "10046", "lines": [["Supermarkets", "Rewe, Edeka, Lidl, Aldi."], ["Pharmacies", "dm and Rossmann are drugstores for toiletries and OTC items; prescription medicine only comes from an Apotheke, independently owned and marked with a red \"A\" sign."], ["Delivery", "Rewe Lieferservice; quick-commerce apps (Flink and similar) have consolidated repeatedly in Germany — confirm one is still live in-app before relying on it."]], "text": "germany"}, "europe6": {"country": "Switzerland", "flag": "10034", "lines": [["Supermarkets", "Migros, Coop."], ["Pharmacies", "Amavita, Sun Store — both national chains."], ["Delivery", "Coop@home, LeShop.ch (Migros-owned)."]], "text": "switzerland"}, "europe7": {"country": "Netherlands", "flag": "10136", "lines": [["Supermarkets", "Albert Heijn (AH), Jumbo."], ["Pharmacies", "Kruidvat and Etos are drugstores for OTC items and toiletries; prescription medicine comes from an Apotheek."], ["Delivery", "AH's own bezorgservice, Picnic (grocery-only quick delivery); the earlier wave of 10-minute delivery apps has shrunk sharply, so check current app-store availability."]], "text": "netherlands"}, "europe8": {"country": "Greece", "flag": "10071", "lines": [["Supermarkets", "AB Vasilopoulos, Sklavenitis, Carrefour."], ["Pharmacies", "Farmakeio — independent, green cross sign; no single dominant chain."], ["Delivery", "e-fresh (AB Vasilopoulos), Sklavenitis online; Wolt is very widely used for both restaurant and grocery delivery."]], "text": "greece"}, "namerica0": {"country": "United States", "flag": "10194", "lines": [["Supermarkets", "Walmart, Kroger, Safeway, Publix, Whole Foods — exact chain coverage varies by state and city."], ["Pharmacies", "CVS, Walgreens, Rite Aid."], ["Delivery", "Instacart (multi-retailer), Amazon Fresh / Whole Foods via Amazon, Walmart+; CVS and Walgreens each run their own same-day delivery for prescriptions and OTC items."]], "text": "united states usa us"}, "namerica1": {"country": "Canada", "flag": "10030", "lines": [["Supermarkets", "Loblaws, Sobeys, Metro."], ["Pharmacies", "Shoppers Drug Mart (Pharmaprix in Quebec), Rexall."], ["Delivery", "Instacart operates nationwide across most major chains; Shoppers Drug Mart runs its own same-day delivery in larger cities."]], "text": "canada"}, "namerica2": {"country": "Mexico", "flag": "10129", "lines": [["Supermarkets", "Walmart de México (Bodega Aurrera, Walmart Express), Soriana, Chedraui."], ["Pharmacies", "Farmacias Guadalajara, Farmacias del Ahorro, Farmacias Similares — the last also runs low-cost walk-in clinics."], ["Delivery", "Rappi is dominant for both groceries and pharmacy items; Uber Eats carries a grocery tab in major cities."]], "text": "mexico"}, "latam0": {"country": "Brazil", "flag": "10024", "lines": [["Supermarkets", "Pão de Açúcar, Carrefour, Extra."], ["Pharmacies", "Droga Raia, Drogasil (both part of RaiaDrogasil), Pacheco."], ["Delivery", "iFood is the dominant platform and carries grocery and pharmacy sections alongside restaurants; Rappi also operates in major cities."]], "text": "brazil"}, "latam1": {"country": "Argentina", "flag": "10008", "lines": [["Supermarkets", "Coto, Carrefour, Disco, Jumbo."], ["Pharmacies", "Farmacity — the largest chain, often open late or 24 hours in city centers."], ["Delivery", "Rappi and PedidosYa both carry grocery and pharmacy sections; Farmacity also runs its own delivery app."]], "text": "argentina"}, "latam2": {"country": "Colombia", "flag": "10039", "lines": [["Supermarkets", "Éxito, Carulla, Jumbo."], ["Pharmacies", "Farmatodo, La Rebaja."], ["Delivery", "Rappi, founded in Colombia, is the dominant platform nationwide for both groceries and pharmacy items."]], "text": "colombia"}, "asiapac0": {"country": "Japan", "flag": "10090", "lines": [["Supermarkets", "AEON, Ito-Yokado, Life; convenience stores (7-Eleven, Lawson, FamilyMart) work as everyday grocery top-up stops."], ["Pharmacies", "Matsumoto Kiyoshi, Sundrug, Sugi Pharmacy — drugstores for toiletries and OTC items; prescriptions are filled at a separate yakkyoku (薬局)."], ["Delivery", "Amazon Fresh (Tokyo and Osaka areas only), Rakuten Seiyu Netsuper — coverage is far more limited outside major metro areas than in the US or Europe."]], "text": "japan"}, "asiapac1": {"country": "China", "flag": "10038", "lines": [["Supermarkets", "RT-Mart, Carrefour China, Walmart China; Sam's Club is also present in major cities."], ["Pharmacies", "Independent pharmacies (药店) are everywhere and unbranded nationally, though chains like Yifeng Pharmacy operate regionally."], ["Delivery", "Meituan and Ele.me both dominate — the same apps used for restaurant delivery also carry full grocery and pharmacy sections, and are the default way most residents shop."]], "text": "china"}, "asiapac2": {"country": "South Korea", "flag": "10098", "lines": [["Supermarkets", "E-Mart, Lotte Mart, Homeplus."], ["Pharmacies", "Independent pharmacies (약국), marked by a cross sign — no dominant nationwide retail chain; prescriptions and OTC medicine are both handled there."], ["Delivery", "Coupang is the dominant e-commerce/grocery platform, known for next-day and even same-day \"Rocket\" delivery; Baemin also carries grocery sections."]], "text": "south korea"}, "asiapac3": {"country": "Singapore", "flag": "10164", "lines": [["Supermarkets", "FairPrice, Cold Storage, Sheng Siong."], ["Pharmacies", "Guardian, Watsons — drugstore chains for OTC items and toiletries; prescriptions are filled at a polyclinic, hospital, or select outlets with a licensed pharmacist."], ["Delivery", "FairPrice Group's own app; Grab's GrabMart carries groceries and pharmacy items across the city."]], "text": "singapore"}, "asiapac4": {"country": "Thailand", "flag": "10181", "lines": [["Supermarkets", "Tops Market, Big C, Villa Market — Villa Market is popular with expats and tourists for imported goods."], ["Pharmacies", "Boots and Watsons both operate in Thailand; independent pharmacies are common and can dispense many medicines over the counter that need a prescription elsewhere."], ["Delivery", "Grab's GrabMart and LINE MAN both carry full grocery and pharmacy sections and are the standard way to order either in Bangkok and other major cities."]], "text": "thailand"}, "asiapac5": {"country": "Vietnam", "flag": "10201", "lines": [["Supermarkets", "Co.opmart, WinMart, GO! (formerly Big C)."], ["Pharmacies", "Pharmacity, Long Châu — both national chains, easy to spot by signage."], ["Delivery", "Grab's GrabMart is the standard app for both groceries and pharmacy items in major cities."]], "text": "vietnam"}, "asiapac6": {"country": "Philippines", "flag": "10146", "lines": [["Supermarkets", "SM Supermarket, Robinsons Supermarket, Puregold."], ["Pharmacies", "Mercury Drug — by far the largest and most recognizable chain, found in nearly every neighborhood and mall; Watsons."], ["Delivery", "GrabMart and foodpanda both carry grocery and pharmacy sections; Mercury Drug also runs its own delivery in Metro Manila and other major cities."]], "text": "philippines"}, "asiapac7": {"country": "Indonesia", "flag": "10080", "lines": [["Supermarkets", "Indomaret and Alfamart function as the everyday top-up stop on nearly every block; Hypermart and Transmart cover full shops."], ["Pharmacies", "Kimia Farma, Guardian, Watsons."], ["Delivery", "GrabMart and Gojek's GoFood/GoMart both dominate — the same super-apps used for ride-hailing also carry grocery and pharmacy delivery."]], "text": "indonesia"}, "asiapac8": {"country": "India", "flag": "10083", "lines": [["Supermarkets", "Reliance Fresh, Reliance Smart, DMart, Spencer's — exact chain presence varies significantly by city."], ["Pharmacies", "Apollo Pharmacy, MedPlus — both national chains with a large footprint in major cities."], ["Delivery", "Blinkit, Zepto and Swiggy's Instamart dominate quick grocery delivery in major metros, often under 15 minutes; 1mg and Apollo 24|7 handle pharmacy delivery, frequently same-day."]], "text": "india"}, "asiapac9": {"country": "Australia", "flag": "10010", "lines": [["Supermarkets", "Coles, Woolworths, IGA."], ["Pharmacies", "Chemist Warehouse — the largest chain by far and known for discount pricing; Priceline Pharmacy, Terry White Chemmart."], ["Delivery", "Coles Online and Woolworths each run their own delivery; Amazon Fresh in Sydney and Melbourne; Uber Eats carries a grocery/pharmacy tab in most cities."]], "text": "australia"}, "asiapac10": {"country": "New Zealand", "flag": "10140", "lines": [["Supermarkets", "Woolworths NZ (rebranded from Countdown), New World, Pak'nSave."], ["Pharmacies", "Unichem, Life Pharmacy — both national franchise networks."], ["Delivery", "Woolworths NZ and New World both run their own online ordering and delivery; Uber Eats also carries grocery sections in Auckland, Wellington and Christchurch."]], "text": "new zealand"}, "mea0": {"country": "United Arab Emirates", "flag": "10002", "lines": [["Supermarkets", "Carrefour, Spinneys, Lulu Hypermarket, Union Coop."], ["Pharmacies", "Life Pharmacy, Aster Pharmacy, Boots — all run multi-branch chains across Dubai and Abu Dhabi."], ["Delivery", "InstaShop, Talabat, Careem NOW all carry full grocery and pharmacy sections and deliver quickly across the city."]], "text": "united arab emirates uae dubai abu dhabi"}, "mea1": {"country": "Qatar", "flag": "10154", "lines": [["Supermarkets", "Carrefour, Lulu Hypermarket, Al Meera."], ["Pharmacies", "Independent pharmacies are common; Al Muftah Pharmacy also operates a multi-branch network."], ["Delivery", "Talabat and Snoonu both carry grocery and pharmacy sections and are the standard apps for both in Doha."]], "text": "qatar doha"}, "mea2": {"country": "Egypt", "flag": "10054", "lines": [["Supermarkets", "Carrefour, Spinneys, Metro Market, Kazyon."], ["Pharmacies", "Seif Pharmacy, El Ezaby Pharmacy — both large national chains, many branches open 24 hours."], ["Delivery", "Talabat and InstaShop both carry grocery and pharmacy sections in Cairo, Alexandria and other major cities."]], "text": "egypt cairo"}, "mea3": {"country": "South Africa", "flag": "10206", "lines": [["Supermarkets", "Woolworths (upmarket, unrelated to the chains of the same name in the UK or Australia), Pick n Pay, Checkers, Spar."], ["Pharmacies", "Clicks, Dis-Chem — both large national chains."], ["Delivery", "Checkers Sixty60 is widely used for fast grocery delivery; Pick n Pay ASAP and Mr D Food also carry a grocery tab."]], "text": "south africa"}};
+
+(function () {
+  var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var els = document.querySelectorAll('.rv');
+  if (reduce || !('IntersectionObserver' in window)) { els.forEach(function (e) { e.classList.add('in'); }); return; }
+  var io = new IntersectionObserver(function (entries) {
+    entries.forEach(function (en) { if (en.isIntersecting) { en.target.classList.add('in'); io.unobserve(en.target); } });
+  }, { threshold: 0.06, rootMargin: '0px 0px -30px 0px' });
+  els.forEach(function (e) { io.observe(e); });
+}());
+
+(function () {
+  var active = 'all';
+  var inp = document.getElementById('al-search');
+  var empty = document.getElementById('al-empty');
+  var fold = function (s) { return s.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase(); };
+
+  function flagHTML(code) {
+    return '<svg class="flag-svg" viewBox="0 0 36 36" aria-hidden="true"><use href="/assets/flags/sprite.svg#flag-' + code + '"></use></svg>';
+  }
+
+  function closeAll() {
+    document.querySelectorAll('.al-basket').forEach(function (b) { b.classList.remove('open'); });
+    document.querySelectorAll('.al-carton').forEach(function (c) { c.classList.remove('on'); });
+  }
+
+  document.querySelectorAll('.al-carton').forEach(function (c) {
+    c.addEventListener('click', function () {
+      var d = AL[c.dataset.k];
+      if (!d) return;
+      var wasOn = c.classList.contains('on');
+      var aisle = c.closest('.al-aisle');
+      closeAll();
+      if (wasOn) return;
+      c.classList.add('on');
+      var basket = aisle.querySelector('.al-basket');
+      basket.querySelector('.al-basket-flag').innerHTML = flagHTML(d.flag);
+      basket.querySelector('.al-basket-name').textContent = d.country;
+      basket.querySelector('.al-basket-b').innerHTML = d.lines.map(function (l) {
+        var ph = /^pharmac/i.test(l[0]) ? ' ph' : '';
+        return '<div class="al-row"><span class="al-row-l' + ph + '">' + l[0] + '</span><span class="al-row-v">' + l[1] + '</span></div>';
+      }).join('');
+      basket.classList.add('open');
+    });
+  });
+
+  document.querySelectorAll('.al-basket-close').forEach(function (b) {
+    b.addEventListener('click', closeAll);
+  });
+
+  function apply() {
+    var q = fold(inp.value.trim());
+    var shown = 0;
+    document.querySelectorAll('.al-aisle').forEach(function (a) {
+      var n = 0;
+      a.querySelectorAll('.al-carton').forEach(function (c) {
+        var d = AL[c.dataset.k];
+        var hay = fold(d.country + ' ' + d.text + ' ' + d.lines.map(function (l) { return l[1]; }).join(' '));
+        var on = (active === 'all' || a.dataset.r === active) && (!q || hay.indexOf(q) !== -1);
+        c.classList.toggle('hidden', !on);
+        c.classList.add('in');
+        if (on) n++;
+      });
+      a.classList.toggle('hidden', n === 0);
+      shown += n;
+    });
+    empty.style.display = shown ? 'none' : 'block';
+  }
+
+  document.querySelectorAll('#al-pills .pill').forEach(function (p) {
+    p.addEventListener('click', function () {
+      document.querySelectorAll('#al-pills .pill').forEach(function (x) { x.classList.remove('is-on'); x.setAttribute('aria-pressed', 'false'); });
+      p.classList.add('is-on'); p.setAttribute('aria-pressed', 'true');
+      active = p.dataset.r; closeAll(); apply();
+    });
+  });
+  inp.addEventListener('input', apply);
+}());
+</script>
+<script src="/assets/search-autocomplete.js?v=8"></script>
+<script>
+/* Typeahead comes from the shared component — TVESearch.attach(), never a
+   hand-rolled suggestion list (TVESearch.html § 5). Picking a suggestion
+   drops its name into the box and the page's own filter above runs on the
+   resulting input event. */
+(function () {
+  if (!window.TVESearch) return;
+  var inp = document.getElementById('al-search');
+  if (!inp) return;
+  TVESearch.attach(inp, { items: (function () {
+    var out = [];
+    Object.keys(AL).forEach(function (k) { out.push({ name: AL[k].country, sub: '' }); });
+    return out;
+  }()), onPick: function (it) {
+    inp.value = it.name;
+    inp.dispatchEvent(new Event('input'));
+  } });
+}());
+</script>
+</body>
+</html>

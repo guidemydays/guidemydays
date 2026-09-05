@@ -1,0 +1,418 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex,nofollow">
+<link rel="stylesheet" href="/assets/web-travel-style.css">
+<link rel="stylesheet" href="/assets/mobile.css?v=53">
+<link rel="icon" href="/assets/icons/favicon-32.png" sizes="32x32" type="image/png">
+<meta name="theme-color" content="#f5f4f0" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#1a1917" media="(prefers-color-scheme: dark)">
+<title>Restaurants &amp; Reservations — New 5 (The Floor Plan) | Guide My Days</title>
+<style>
+
+/* ═══ RESTAURANTS · NEW 2 — "The Floor Plan" ════════════════════════════
+   The page is read as a dining room seen from above. Each section is a
+   room; each platform is a table drawn in plan view with its own seats,
+   and picking a table writes it up on the maître d's pad held open beside
+   the room. A pool of candlelight follows the selected table. No other
+   page on the site draws a plan view or pairs a grid with a sticky pad. */
+
+body.v-plan { --fp-ink:#C04E1A; --fp-line:var(--border,#d8d4cc); }
+
+/* ── Preamble: the service rules, printed on the back of the plan ── */
+.fp-rules { margin:26px 0 4px; border:1px solid var(--border2,#e6e2da); border-radius:8px; background:var(--warm,#fdf8f0); overflow:hidden; }
+.fp-rules-h {
+  font-size:11px; letter-spacing:.22em; text-transform:uppercase; font-weight:700;
+  color:#fff; background:var(--fp-ink); padding:10px 16px;
+}
+.fp-rule { display:flex; gap:14px; padding:13px 16px; border-top:1px solid var(--border2,#e6e2da); }
+.fp-rule:first-of-type { border-top:0; }
+.fp-rule-n {
+  flex:none; width:26px; height:26px; border-radius:50%; border:1px solid var(--fp-ink);
+  color:var(--fp-ink); font-size:12px; font-weight:800; display:grid; place-items:center;
+  transform:scale(.4); opacity:0; transition:transform .45s cubic-bezier(.3,1.5,.5,1), opacity .35s;
+}
+.fp-rule.in .fp-rule-n { transform:none; opacity:1; }
+.fp-rule-t strong { display:block; font-size:13.5px; color:var(--text); margin-bottom:4px; }
+.fp-rule-t span { font-size:12.5px; color:var(--muted); line-height:1.55; }
+
+/* ── Layout: plan on the left, pad on the right ── */
+.fp-wrap { display:grid; grid-template-columns:minmax(0,1fr) 320px; gap:26px; align-items:start; margin-top:34px; }
+.fp-pad-col { position:sticky; top:16px; }
+
+/* ── A room ── */
+.fp-room { margin-bottom:34px; }
+.fp-room-h { display:flex; align-items:baseline; gap:10px; margin-bottom:5px; }
+.fp-room-name { font-size:15px; font-weight:700; color:var(--text); }
+.fp-room-c { font-size:11px; letter-spacing:.14em; text-transform:uppercase; color:var(--muted); }
+.fp-room-note { font-size:12.5px; color:var(--muted); line-height:1.6; margin:0 0 14px; }
+.fp-floor {
+  display:grid; grid-template-columns:repeat(auto-fill,minmax(132px,1fr)); gap:22px;
+  padding:22px 18px; border:1px solid var(--fp-line); border-radius:10px;
+  /* the parquet: a faint plan grid */
+  background:
+    repeating-linear-gradient(0deg,   rgba(0,0,0,.028) 0 1px, transparent 1px 22px),
+    repeating-linear-gradient(90deg,  rgba(0,0,0,.028) 0 1px, transparent 1px 22px),
+    var(--surface,#fff);
+}
+
+/* ── A table in plan view ── */
+.fp-table {
+  position:relative; aspect-ratio:1/.86; border-radius:12px; cursor:pointer;
+  background:var(--warm,#fdf8f0); border:1.5px solid var(--fp-line);
+  display:grid; place-items:center; padding:10px; text-align:center;
+  font:inherit; color:var(--text);
+  transition:transform .2s cubic-bezier(.2,.7,.2,1), border-color .2s, box-shadow .3s;
+  opacity:0; transform:scale(.9);
+}
+.fp-table.in { opacity:1; transform:none; transition:opacity .45s, transform .45s cubic-bezier(.2,.7,.2,1), border-color .2s, box-shadow .3s; }
+/* four seats, drawn as chairs pulled up to the table */
+.fp-seat { position:absolute; width:16px; height:7px; border-radius:4px; background:var(--fp-line); transition:background .2s, transform .3s; }
+.fp-seat.n { top:-11px;  left:50%; margin-left:-8px; }
+.fp-seat.s { bottom:-11px; left:50%; margin-left:-8px; }
+.fp-seat.w { left:-11px;  top:50%; margin-top:-8px; width:7px; height:16px; }
+.fp-seat.e { right:-11px; top:50%; margin-top:-8px; width:7px; height:16px; }
+.fp-table:hover { transform:translateY(-3px); border-color:var(--fp-ink); }
+.fp-table:hover .fp-seat { background:var(--fp-ink); }
+.fp-table.on {
+  border-color:var(--fp-ink); border-width:2px;
+  /* the candle: a warm pool of light that breathes */
+  box-shadow:0 0 0 4px rgba(192,78,26,.10), 0 0 26px 4px rgba(200,150,26,.30);
+  animation:fp-flicker 3.6s ease-in-out infinite;
+}
+@keyframes fp-flicker {
+  0%,100% { box-shadow:0 0 0 4px rgba(192,78,26,.10), 0 0 22px 3px rgba(200,150,26,.26); }
+  45%     { box-shadow:0 0 0 4px rgba(192,78,26,.13), 0 0 34px 7px rgba(200,150,26,.40); }
+  70%     { box-shadow:0 0 0 4px rgba(192,78,26,.11), 0 0 26px 4px rgba(200,150,26,.30); }
+}
+.fp-table.on .fp-seat { background:var(--fp-ink); transform:scale(1.12); }
+.fp-t-name { font-size:13px; font-weight:700; line-height:1.22; }
+.fp-t-sub  { font-size:10.5px; color:var(--muted); margin-top:4px; line-height:1.3; }
+.fp-table.hidden { display:none; }
+.fp-room.hidden { display:none; }
+
+/* ── The maître d's pad ── */
+.fp-pad {
+  border:1px solid var(--border2,#e6e2da); border-radius:4px; background:var(--surface,#fff);
+  box-shadow:0 8px 22px rgba(0,0,0,.07); overflow:hidden;
+}
+.fp-pad-top {
+  background:var(--fp-ink); color:#fff; padding:9px 14px;
+  font-size:10.5px; letter-spacing:.2em; text-transform:uppercase; font-weight:700;
+  display:flex; justify-content:space-between; align-items:center; gap:8px;
+}
+.fp-pad-body { padding:16px 16px 18px; min-height:210px; }
+.fp-pad-name { font-size:18px; font-weight:700; line-height:1.2; margin-bottom:8px; }
+.fp-pad-name a { color:var(--text); }
+.fp-pad-desc { font-size:12.8px; line-height:1.6; color:var(--text); margin:11px 0 0; }
+.fp-pad-reach { display:flex; flex-wrap:wrap; gap:6px; margin-top:13px; padding-top:12px; border-top:1px dashed var(--fp-line); }
+.fp-pad-hint { font-size:12.5px; color:var(--muted); line-height:1.6; }
+.fp-pad-body > * { animation:fp-write .34s ease both; }
+@keyframes fp-write { from { opacity:0; transform:translateY(6px); } to { opacity:1; transform:none; } }
+/* the pad's ruled lines */
+.fp-pad-body { background:repeating-linear-gradient(180deg, transparent 0 25px, rgba(0,0,0,.035) 25px 26px); }
+
+/* Search bar — the shared control, untouched. Every dimension, colour and
+   state comes from web-travel-style.css's input[type="search"] rule and the
+   shared search-autocomplete.js wiring (TVESearch.html § 0); this page adds
+   only the centring row and the gap, never a size, radius or colour. */
+.pg-search-row { display:flex; justify-content:center; margin:var(--search-gap,32px) 0 0; }
+.pg-search-row .search-input { max-width:100%; }
+
+@media (max-width:900px) {
+  .fp-wrap { grid-template-columns:1fr; }
+  .fp-pad-col { position:static; order:-1; }
+  .fp-pad-body { min-height:0; }
+}
+@media (max-width:520px) {
+  .fp-floor { grid-template-columns:repeat(2,1fr); gap:20px; padding:18px 14px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .fp-table, .fp-rule-n, .fp-pad-body > * { transition:none; animation:none; opacity:1; transform:none; }
+  .fp-table.on { animation:none; }
+}
+@media (prefers-color-scheme: dark) {
+  body.v-plan:not([data-theme="light"]) .fp-floor {
+    background:
+      repeating-linear-gradient(0deg,  rgba(255,255,255,.035) 0 1px, transparent 1px 22px),
+      repeating-linear-gradient(90deg, rgba(255,255,255,.035) 0 1px, transparent 1px 22px),
+      var(--surface,#232120);
+  }
+  body.v-plan:not([data-theme="light"]) .fp-pad-body { background:repeating-linear-gradient(180deg, transparent 0 25px, rgba(255,255,255,.05) 25px 26px); }
+}
+
+</style>
+</head>
+<body class="v-plan">
+<div id="toolbar-mount" data-depth="2" data-maxwidth="1080" data-updated="2026-09-05"></div>
+<script src="/assets/toolbar.js?v=127"></script>
+
+  <div class="hero-band eb-hero">
+    <span class="eb-kicker">Restaurants &amp; Reservations</span>
+    <div class="eb-copy">
+      <h1 class="eb-title">Never which site is best — <em>which one they list on.</em></h1>
+      <p class="eb-intro">Restaurant booking is the most stubbornly local corner of travel: a city's restaurants use whichever platform won that market, and the one you use at home is often invisible there. So the useful question is never which site is best — it is which one the restaurants where you are going actually list on. Below: the booking platforms by region, the guides worth trusting to pick the restaurant in the first place, and the tools for eating around a dietary restriction abroad.</p>
+    </div>
+    <div class="eb-graphic" aria-hidden="true"><svg viewBox="0 0 24 24" aria-hidden="true"><defs>
+      <linearGradient id="cst-mid5" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#a29a86"/><stop offset="1" stop-color="#4f4a3a"/></linearGradient>
+      <linearGradient id="cst-light5" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#e2ded2"/><stop offset="1" stop-color="#a29a86"/></linearGradient>
+    </defs>
+      <g fill="url(#cst-light5)" stroke="#4f4a3a" stroke-width="0.4">
+        <rect x="4.6" y="2" width="1.5" height="8.4" rx="0.7"/>
+        <rect x="7.4" y="2" width="1.5" height="8.4" rx="0.7"/>
+        <rect x="10.2" y="2" width="1.5" height="8.4" rx="0.7"/>
+      </g>
+      <g fill="url(#gm-gloss)">
+        <rect x="4.6" y="2" width="1.5" height="8.4" rx="0.7"/>
+        <rect x="7.4" y="2" width="1.5" height="8.4" rx="0.7"/>
+        <rect x="10.2" y="2" width="1.5" height="8.4" rx="0.7"/>
+      </g>
+      <path d="M5.35 9.6c0 1.6 1.2 2.8 2.75 2.8s2.75-1.2 2.75-2.8" fill="none" stroke="url(#cst-mid5)" stroke-width="1.3"/>
+      <rect x="7.3" y="11.6" width="1.5" height="10.4" rx="0.7" fill="url(#cst-mid5)" stroke="#4f4a3a" stroke-width="0.4"/>
+      <rect x="7.3" y="11.6" width="1.5" height="10.4" rx="0.7" fill="url(#gm-gloss)"/>
+      <path d="M17 2v7.8c0 1.6-1 2.6-2.4 2.8v9.4h1.5V12.6c1.4-.2 2.4-1.2 2.4-2.8V2z" fill="url(#cst-light5)" stroke="#4f4a3a" stroke-width="0.4"/>
+      <path d="M17 2v7.8c0 1.6-1 2.6-2.4 2.8v9.4h1.5V12.6c1.4-.2 2.4-1.2 2.4-2.8V2z" fill="url(#gm-gloss)"/>
+    </svg></div>
+  </div>
+<div class="wrap">
+  <div class="fp-rules">
+    <div class="fp-rules-h">Five things that decide whether you get the table</div>
+    <div class="fp-rule rv"><span class="fp-rule-n">1</span><span class="fp-rule-t"><strong>Book the platform the restaurant uses, not the one you know.</strong><span>Almost every restaurant sits on exactly one system. Check its own website or Instagram bio first; that link is the authoritative one, and the aggregators sometimes hold a smaller allocation than the restaurant's own page.</span></span></div>
+    <div class="fp-rule rv"><span class="fp-rule-n">2</span><span class="fp-rule-t"><strong>Learn the release rule.</strong><span>Tables open on a schedule — often 30 or 60 days ahead, frequently at midnight or 10am in the restaurant's local time zone. For a sought-after place, work out the exact moment in your own time zone and set an alarm; being one day late is the usual reason a booking fails.</span></span></div>
+    <div class="fp-rule rv"><span class="fp-rule-n">3</span><span class="fp-rule-t"><strong>A deposit is now normal.</strong><span>Card details, a per-person prepayment or a full ticketed price are standard at the top end, and cancellation windows of 24 to 72 hours are enforced. Read what happens if your flight moves.</span></span></div>
+    <div class="fp-rule rv"><span class="fp-rule-n">4</span><span class="fp-rule-t"><strong>Cancellation alerts do most of the work.</strong><span>Every major platform will notify you when a table frees up, and tables free up constantly. Set alerts for several nights rather than refreshing one.</span></span></div>
+    <div class="fp-rule rv"><span class="fp-rule-n">5</span><span class="fp-rule-t"><strong>Not every country books online at all.</strong><span>In much of southern Europe, Latin America and Asia the answer is a phone call, a WhatsApp message, or turning up — and a hotel concierge calling in the local language succeeds where a form fails.</span></span></div>
+  </div>
+  <div class="pg-search-row"><input type="search" class="search-input" id="fp-search" placeholder="Platform, guide or country" aria-label="Search platforms, guides and countries" autocomplete="off" spellcheck="false"></div>
+  <div class="fp-wrap">
+    <div class="fp-rooms">
+      <section class="fp-room">
+        <div class="fp-room-h"><span class="fp-room-name">Booking a Table — Multi-Country Platforms</span><span class="fp-room-c">6 tables</span></div>
+        <p class="fp-room-note">These four cover the most ground, but none is universal, and coverage is uneven inside a single country — a platform can be everywhere in the capital and absent two hours away. Their real advantage over calling is the notification: tell them the date and party size and they will alert you when someone cancels.</p>
+        <div class="fp-floor">
+          <button type="button" class="fp-table rv" data-k="s1c0" aria-label="Resy — open details">
+            <span class="fp-seat n"></span><span class="fp-seat s"></span><span class="fp-seat w"></span><span class="fp-seat e"></span>
+            <span><span class="fp-t-name">Resy</span><span class="fp-t-sub">Reservations</span></span>
+          </button>
+          <button type="button" class="fp-table rv" data-k="s1c1" aria-label="OpenTable — open details">
+            <span class="fp-seat n"></span><span class="fp-seat s"></span><span class="fp-seat w"></span><span class="fp-seat e"></span>
+            <span><span class="fp-t-name">OpenTable</span><span class="fp-t-sub">Reservations</span></span>
+          </button>
+          <button type="button" class="fp-table rv" data-k="s1c2" aria-label="TheFork — open details">
+            <span class="fp-seat n"></span><span class="fp-seat s"></span><span class="fp-seat w"></span><span class="fp-seat e"></span>
+            <span><span class="fp-t-name">TheFork</span><span class="fp-t-sub">Reservations · Europe</span></span>
+          </button>
+          <button type="button" class="fp-table rv" data-k="s1c3" aria-label="Tock — open details">
+            <span class="fp-seat n"></span><span class="fp-seat s"></span><span class="fp-seat w"></span><span class="fp-seat e"></span>
+            <span><span class="fp-t-name">Tock</span><span class="fp-t-sub">Prepaid · Tasting menus</span></span>
+          </button>
+          <button type="button" class="fp-table rv" data-k="s1c4" aria-label="Google Maps — open details">
+            <span class="fp-seat n"></span><span class="fp-seat s"></span><span class="fp-seat w"></span><span class="fp-seat e"></span>
+            <span><span class="fp-t-name">Google Maps</span><span class="fp-t-sub">Universal fallback</span></span>
+          </button>
+          <button type="button" class="fp-table rv" data-k="s1c5" aria-label="Quandoo — open details">
+            <span class="fp-seat n"></span><span class="fp-seat s"></span><span class="fp-seat w"></span><span class="fp-seat e"></span>
+            <span><span class="fp-t-name">Quandoo</span><span class="fp-t-sub">Reservations · Europe · Asia</span></span>
+          </button>
+        </div>
+      </section>
+      <section class="fp-room">
+        <div class="fp-room-h"><span class="fp-room-name">Booking a Table — Country Specialists</span><span class="fp-room-c">9 tables</span></div>
+        <p class="fp-room-note">In these countries the local platform is not an alternative to the international ones — it is where the restaurants are. Several expect a local phone number or ID, which is the single most common wall a visitor hits; where an English-language route exists it is noted below, and where it doesn't, a hotel concierge is the workaround.</p>
+        <div class="fp-floor">
+          <button type="button" class="fp-table rv" data-k="s2c0" aria-label="Tabelog — open details">
+            <span class="fp-seat n"></span><span class="fp-seat s"></span><span class="fp-seat w"></span><span class="fp-seat e"></span>
+            <span><span class="fp-t-name">Tabelog</span><span class="fp-t-sub">Japan · Reviews + booking</span></span>
+          </button>
+          <button type="button" class="fp-table rv" data-k="s2c1" aria-label="TableCheck — open details">
+            <span class="fp-seat n"></span><span class="fp-seat s"></span><span class="fp-seat w"></span><span class="fp-seat e"></span>
+            <span><span class="fp-t-name">TableCheck</span><span class="fp-t-sub">Japan · English booking</span></span>
+          </button>
+          <button type="button" class="fp-table rv" data-k="s2c2" aria-label="Pocket Concierge — open details">
+            <span class="fp-seat n"></span><span class="fp-seat s"></span><span class="fp-seat w"></span><span class="fp-seat e"></span>
+            <span><span class="fp-t-name">Pocket Concierge</span><span class="fp-t-sub">Japan · Fine dining</span></span>
+          </button>
+          <button type="button" class="fp-table rv" data-k="s2c3" aria-label="CatchTable — open details">
+            <span class="fp-seat n"></span><span class="fp-seat s"></span><span class="fp-seat w"></span><span class="fp-seat e"></span>
+            <span><span class="fp-t-name">CatchTable</span><span class="fp-t-sub">South Korea</span></span>
+          </button>
+          <button type="button" class="fp-table rv" data-k="s2c4" aria-label="Chope — open details">
+            <span class="fp-seat n"></span><span class="fp-seat s"></span><span class="fp-seat w"></span><span class="fp-seat e"></span>
+            <span><span class="fp-t-name">Chope</span><span class="fp-t-sub">Southeast Asia</span></span>
+          </button>
+          <button type="button" class="fp-table rv" data-k="s2c5" aria-label="Dianping — open details">
+            <span class="fp-seat n"></span><span class="fp-seat s"></span><span class="fp-seat w"></span><span class="fp-seat e"></span>
+            <span><span class="fp-t-name">Dianping</span><span class="fp-t-sub">Mainland China</span></span>
+          </button>
+          <button type="button" class="fp-table rv" data-k="s2c6" aria-label="EazyDiner — open details">
+            <span class="fp-seat n"></span><span class="fp-seat s"></span><span class="fp-seat w"></span><span class="fp-seat e"></span>
+            <span><span class="fp-t-name">EazyDiner</span><span class="fp-t-sub">India</span></span>
+          </button>
+          <button type="button" class="fp-table rv" data-k="s2c7" aria-label="Eat App — open details">
+            <span class="fp-seat n"></span><span class="fp-seat s"></span><span class="fp-seat w"></span><span class="fp-seat e"></span>
+            <span><span class="fp-t-name">Eat App</span><span class="fp-t-sub">Middle East</span></span>
+          </button>
+          <button type="button" class="fp-table rv" data-k="s2c8" aria-label="CoverManager — open details">
+            <span class="fp-seat n"></span><span class="fp-seat s"></span><span class="fp-seat w"></span><span class="fp-seat e"></span>
+            <span><span class="fp-t-name">CoverManager</span><span class="fp-t-sub">Spain · Portugal · Latin America</span></span>
+          </button>
+        </div>
+      </section>
+      <section class="fp-room">
+        <div class="fp-room-h"><span class="fp-room-name">Deciding Where to Eat — Guides &amp; Rankings</span><span class="fp-room-c">5 tables</span></div>
+        <p class="fp-room-note">Each of these is a different jury, and knowing whose opinion you are reading matters more than the score. Michelin sends anonymous inspectors against a fixed set of criteria; the ranked lists are voted on by industry panels and reward ambition and novelty; the national guides apply their own scales. None of them covers cheap and ordinary eating well — that is what the city critics further down are for.</p>
+        <div class="fp-floor">
+          <button type="button" class="fp-table rv" data-k="s3c0" aria-label="Michelin Guide — open details">
+            <span class="fp-seat n"></span><span class="fp-seat s"></span><span class="fp-seat w"></span><span class="fp-seat e"></span>
+            <span><span class="fp-t-name">Michelin Guide</span><span class="fp-t-sub">Anonymous inspectors</span></span>
+          </button>
+          <button type="button" class="fp-table rv" data-k="s3c1" aria-label="World's 50 Best Restaurants — open details">
+            <span class="fp-seat n"></span><span class="fp-seat s"></span><span class="fp-seat w"></span><span class="fp-seat e"></span>
+            <span><span class="fp-t-name">World's 50 Best Restaurants</span><span class="fp-t-sub">Industry panel vote</span></span>
+          </button>
+          <button type="button" class="fp-table rv" data-k="s3c2" aria-label="Gault&amp;Millau — open details">
+            <span class="fp-seat n"></span><span class="fp-seat s"></span><span class="fp-seat w"></span><span class="fp-seat e"></span>
+            <span><span class="fp-t-name">Gault&amp;Millau</span><span class="fp-t-sub">Europe · Scored out of 20</span></span>
+          </button>
+          <button type="button" class="fp-table rv" data-k="s3c3" aria-label="La Liste — open details">
+            <span class="fp-seat n"></span><span class="fp-seat s"></span><span class="fp-seat w"></span><span class="fp-seat e"></span>
+            <span><span class="fp-t-name">La Liste</span><span class="fp-t-sub">Aggregated guides</span></span>
+          </button>
+          <button type="button" class="fp-table rv" data-k="s3c4" aria-label="50 Top Pizza — open details">
+            <span class="fp-seat n"></span><span class="fp-seat s"></span><span class="fp-seat w"></span><span class="fp-seat e"></span>
+            <span><span class="fp-t-name">50 Top Pizza</span><span class="fp-t-sub">Pizza · Italy &amp; worldwide</span></span>
+          </button>
+        </div>
+      </section>
+      <section class="fp-room">
+        <div class="fp-room-h"><span class="fp-room-name">Deciding Where to Eat — City Critics &amp; Crowds</span><span class="fp-room-c">5 tables</span></div>
+        <p class="fp-room-note">Guides rank the top of the market; these cover the rest of it, which is most of what you will actually eat. The pattern that works is to cross two sources — a local critic for what is good, and a crowd platform for whether it is still open and what the queue is like at 8pm on a Friday.</p>
+        <div class="fp-floor">
+          <button type="button" class="fp-table rv" data-k="s4c0" aria-label="Eater — open details">
+            <span class="fp-seat n"></span><span class="fp-seat s"></span><span class="fp-seat w"></span><span class="fp-seat e"></span>
+            <span><span class="fp-t-name">Eater</span><span class="fp-t-sub">City guides · United States</span></span>
+          </button>
+          <button type="button" class="fp-table rv" data-k="s4c1" aria-label="The Infatuation — open details">
+            <span class="fp-seat n"></span><span class="fp-seat s"></span><span class="fp-seat w"></span><span class="fp-seat e"></span>
+            <span><span class="fp-t-name">The Infatuation</span><span class="fp-t-sub">Reviews by occasion</span></span>
+          </button>
+          <button type="button" class="fp-table rv" data-k="s4c2" aria-label="TripAdvisor — open details">
+            <span class="fp-seat n"></span><span class="fp-seat s"></span><span class="fp-seat w"></span><span class="fp-seat e"></span>
+            <span><span class="fp-t-name">TripAdvisor</span><span class="fp-t-sub">Crowd reviews · Worldwide</span></span>
+          </button>
+          <button type="button" class="fp-table rv" data-k="s4c3" aria-label="Yelp — open details">
+            <span class="fp-seat n"></span><span class="fp-seat s"></span><span class="fp-seat w"></span><span class="fp-seat e"></span>
+            <span><span class="fp-t-name">Yelp</span><span class="fp-t-sub">Crowd reviews · United States</span></span>
+          </button>
+          <button type="button" class="fp-table rv" data-k="s4c4" aria-label="Time Out — open details">
+            <span class="fp-seat n"></span><span class="fp-seat s"></span><span class="fp-seat w"></span><span class="fp-seat e"></span>
+            <span><span class="fp-t-name">Time Out</span><span class="fp-t-sub">City guides · International</span></span>
+          </button>
+        </div>
+      </section>
+      <section class="fp-room">
+        <div class="fp-room-h"><span class="fp-room-name">Eating with a Dietary Restriction</span><span class="fp-room-c">2 tables</span></div>
+        <p class="fp-room-note">A restriction that is routine at home can be genuinely difficult in a country whose staple dishes are built around it, and mainstream platforms filter for cuisine, not for what you cannot eat. These are the tools built for the problem — plus one habit worth adopting: carry a printed translation card explaining the restriction in the local language, because kitchens understand a card in a way they do not understand a conversation at the pass.</p>
+        <div class="fp-floor">
+          <button type="button" class="fp-table rv" data-k="s5c0" aria-label="HappyCow — open details">
+            <span class="fp-seat n"></span><span class="fp-seat s"></span><span class="fp-seat w"></span><span class="fp-seat e"></span>
+            <span><span class="fp-t-name">HappyCow</span><span class="fp-t-sub">Vegan · Vegetarian</span></span>
+          </button>
+          <button type="button" class="fp-table rv" data-k="s5c1" aria-label="Find Me Gluten Free — open details">
+            <span class="fp-seat n"></span><span class="fp-seat s"></span><span class="fp-seat w"></span><span class="fp-seat e"></span>
+            <span><span class="fp-t-name">Find Me Gluten Free</span><span class="fp-t-sub">Coeliac · Gluten-free</span></span>
+          </button>
+        </div>
+      </section>
+    </div>
+    <div class="fp-pad-col">
+      <div class="fp-pad">
+        <div class="fp-pad-top"><span>Maître d&rsquo;s pad</span><span id="fp-pad-no">&mdash;</span></div>
+        <div class="fp-pad-body" id="fp-pad-body">
+          <p class="fp-pad-hint">Pick a table on the plan and its write-up lands here &mdash; what the platform is, where it works, and what it is actually better at than the one next to it.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div><!-- /wrap -->
+<script>
+var FP = {"s1c0": {"url": "https://resy.com", "name": "Resy", "badgecls": "sb-blue", "badge": "Reservations", "desc": "Owned by American Express and weighted towards the restaurants that are hard to get into — chef-driven, newly opened, critically covered. Deepest in United States cities, with a growing presence in London and a few European capitals. Its Notify alerts are effective because the inventory turns over quickly, and some Amex cards unlock reserved tables that are otherwise invisible.", "reach": ["United States", "Canada", "United Kingdom", "Europe"]}, "s1c1": {"url": "https://www.opentable.com", "name": "OpenTable", "badgecls": "sb-blue", "badge": "Reservations", "desc": "The broadest single network, spanning neighbourhood restaurants and hotel dining rooms as well as destination ones — which is what makes it useful outside big cities, where the curated platforms list nothing. Owned by Booking Holdings, so it also appears inside Booking.com and KAYAK. Points earned per booking convert to restaurant credit slowly enough to be beside the point.", "reach": ["Worldwide"]}, "s1c2": {"url": "https://www.thefork.com", "name": "TheFork", "badgecls": "sb-blue", "badge": "Reservations · Europe", "desc": "TripAdvisor-owned and the default across continental Europe, trading as ElTenedor in Spain and holding the largest listing base in France and Italy. Routinely carries percentage discounts on the bill at quieter times, which is unusual — most platforms sell the table, this one also sells the deal. Also operates in Australia.", "reach": ["France", "Spain", "Italy", "Europe", "Australia"]}, "s1c3": {"url": "https://www.exploretock.com", "name": "Tock", "badgecls": "sb-blue", "badge": "Prepaid · Tasting menus", "desc": "Built for restaurants that sell a seat like a theatre ticket — you pay the tasting menu in advance and the booking is non-refundable or transferable rather than cancellable. That model concentrates the world's tasting-menu restaurants and many wineries here, so for a destination dinner it is often the only place the table exists. Budget for paying months ahead.", "reach": ["United States", "Europe", "Worldwide"]}, "s1c4": {"url": "https://www.google.com/maps", "name": "Google Maps", "badgecls": "sb-blue", "badge": "Universal fallback", "desc": "Not a booking platform, but the one place every restaurant on earth has a listing, with a Reserve button that hands off to whichever local system it uses — which is the fastest way to discover that a city runs on a platform you have never heard of. Also the most reliable source of current opening hours, which the booking sites frequently get wrong.", "reach": ["Worldwide"]}, "s1c5": {"url": "https://www.quandoo.com", "name": "Quandoo", "badgecls": "sb-blue", "badge": "Reservations · Europe · Asia", "desc": "Berlin-based, strongest in Germany, Austria and Switzerland, with coverage in Italy, the Netherlands, Singapore, Hong Kong and Australia. In the German-speaking countries it lists everyday neighbourhood restaurants that the international platforms skip — exactly the places worth eating in on a longer stay.", "reach": ["Germany", "Austria", "Switzerland", "Asia"]}, "s2c0": {"url": "https://tabelog.com/en/", "name": "Tabelog", "badgecls": "sb-teal", "badge": "Japan · Reviews + booking", "desc": "Japan's dominant restaurant database, and the country's real quality signal: its ratings are compressed, so anything above roughly 3.5 out of 5 is genuinely good and above 3.8 is exceptional — a scale that surprises visitors used to inflated five-star systems. The English site covers a subset; booking often still requires a Japanese phone number.", "reach": ["Japan"]}, "s2c1": {"url": "https://www.tablecheck.com/en/japan/", "name": "TableCheck", "badgecls": "sb-teal", "badge": "Japan · English booking", "desc": "The most visitor-friendly way into Japanese restaurants — an English interface, no Japanese phone number required, and used by a large number of hotel restaurants and mid-to-high-end independents in Tokyo, Kyoto and Osaka. When a Japanese restaurant can be booked online from abroad at all, this is frequently the system behind it.", "reach": ["Japan"]}, "s2c2": {"url": "https://pocket-concierge.jp/en/", "name": "Pocket Concierge", "badgecls": "sb-teal", "badge": "Japan · Fine dining", "desc": "American Express-owned and aimed squarely at foreign visitors booking Japan's top tables — sushi counters, kaiseki, restaurants that traditionally accept introductions only. Prepaid in advance, in English, with the language barrier handled. A short list at high prices, and for some of these rooms the only route in.", "reach": ["Japan"]}, "s2c3": {"url": "https://www.catchtable.co.kr", "name": "CatchTable", "badgecls": "sb-teal", "badge": "South Korea", "desc": "South Korea's main reservation app, holding most of Seoul's sought-after restaurants, with tables typically released on a fixed day and filled within minutes. Korean-language and generally expecting a Korean phone number, so a local contact or a hotel concierge is usually the practical route for a visitor. Naver handles a further slice of bookings.", "reach": ["South Korea"]}, "s2c4": {"url": "https://www.chope.co", "name": "Chope", "badgecls": "sb-teal", "badge": "Southeast Asia", "desc": "The reservation platform of record across Singapore, Hong Kong, Bangkok, Kuala Lumpur, Jakarta and Bali, in English throughout and accepting foreign cards. It also sells discounted dining vouchers, which in Singapore in particular take a real bite out of a bill that is otherwise expensive by regional standards.", "reach": ["Singapore", "Hong Kong", "Thailand", "Indonesia"]}, "s2c5": {"url": "https://www.dianping.com", "name": "Dianping", "badgecls": "sb-teal", "badge": "Mainland China", "desc": "China's restaurant review and booking platform, part of Meituan, and effectively the only comprehensive listing of where to eat in a Chinese city. Chinese-language, tied to a local payment method, and hard to use as a visitor without help — but worth having someone search it for you, because the international platforms list almost nothing.", "reach": ["China"]}, "s2c6": {"url": "https://www.eazydiner.com", "name": "EazyDiner", "badgecls": "sb-teal", "badge": "India", "desc": "India's main restaurant reservation platform, covering Delhi, Mumbai, Bengaluru and the other major cities, with same-day discounts attached to a large share of bookings. Zomato is the bigger name in the country but is oriented around delivery and reviews; for actually holding a table this is the one restaurants use.", "reach": ["India", "United Arab Emirates"]}, "s2c7": {"url": "https://eatapp.co", "name": "Eat App", "badgecls": "sb-teal", "badge": "Middle East", "desc": "Bahrain-founded and the reservation system behind a large share of restaurants across the Gulf — Dubai, Abu Dhabi, Doha, Riyadh and Bahrain — in English and accepting foreign cards. In a region where hotel restaurants dominate the fine-dining scene, it covers most of them.", "reach": ["United Arab Emirates", "Qatar", "Saudi Arabia", "Bahrain"]}, "s2c8": {"url": "https://www.covermanager.com", "name": "CoverManager", "badgecls": "sb-teal", "badge": "Spain · Portugal · Latin America", "desc": "Spanish, and the booking engine sitting behind an enormous number of Spanish, Portuguese and Latin American restaurants — including many of the region's best, which take reservations only through their own site. You rarely search it directly; you meet it when you click Reservar on a restaurant's page, which is precisely why the restaurant's own website is the link to follow.", "reach": ["Spain", "Portugal", "Mexico", "Latin America"]}, "s3c0": {"url": "https://guide.michelin.com", "name": "Michelin Guide", "badgecls": "sb-gold", "badge": "Anonymous inspectors", "desc": "Anonymous inspectors judging food alone — stars for cooking of a high standard, and the more useful Bib Gourmand for good food at a modest price, which is where the guide earns its keep for ordinary travellers. Coverage is limited to the regions it has chosen to enter, so an unstarred city may simply never have been visited rather than judged and found wanting.", "reach": ["Europe", "United States", "Japan", "Asia"]}, "s3c1": {"url": "https://www.theworlds50best.com", "name": "World's 50 Best Restaurants", "badgecls": "sb-gold", "badge": "Industry panel vote", "desc": "Voted by a large international panel of chefs, writers and well-travelled diners, with regional editions for Asia, Latin America and the Middle East and Africa. It rewards originality and influence rather than consistency, so it surfaces restaurants Michelin is slower to recognise — and books out the moment a list is published.", "reach": ["Worldwide"]}, "s3c2": {"url": "https://www.gaultmillau.com", "name": "Gault&amp;Millau", "badgecls": "sb-gold", "badge": "Europe · Scored out of 20", "desc": "A French guide scoring restaurants out of 20 and historically friendlier to modern, less formal cooking than Michelin. Strongest in France, Germany, Austria, Switzerland and the Benelux countries, where it frequently rates places the red guide has not reached — a useful second opinion in exactly those markets.", "reach": ["France", "Germany", "Austria", "Benelux"]}, "s3c3": {"url": "https://www.laliste.com", "name": "La Liste", "badgecls": "sb-gold", "badge": "Aggregated guides", "desc": "A French project that aggregates hundreds of guides and review sources into a single score per restaurant, across more than 200 countries. Because it averages several juries rather than applying one, it reaches far more places than any individual guide — useful for a country where none of the famous guides operates.", "reach": ["Worldwide"]}, "s3c4": {"url": "https://www.50toppizza.it/en/", "name": "50 Top Pizza", "badgecls": "sb-gold", "badge": "Pizza · Italy &amp; worldwide", "desc": "An Italian ranking of pizzerias, with world, European and United States editions, judged by anonymous visits. Narrow by design and genuinely authoritative within it — the fastest way to avoid the tourist-strip pizza in Naples, Rome or New York and find the place locals queue at instead.", "reach": ["Italy", "Europe", "United States"]}, "s4c0": {"url": "https://www.eater.com", "name": "Eater", "badgecls": "sb-green", "badge": "City guides · United States", "desc": "City-by-city food journalism with local editors, and two formats worth knowing: the Eater 38, an evergreen list of the restaurants that define a city, and the constantly refreshed heatmap of where to eat right now. Strongest across United States cities, with London coverage as well. Written for residents, which is what makes it reliable.", "reach": ["United States", "United Kingdom"]}, "s4c1": {"url": "https://www.theinfatuation.com", "name": "The Infatuation", "badgecls": "sb-green", "badge": "Reviews by occasion", "desc": "Reviews written around the question people actually ask — where to take a group of six, where to eat alone at the bar, where to go after a show — with a numeric score and no advertising in the reviews. Covers major United States cities plus London. Its guides by situation are more useful on a trip than any ranked list.", "reach": ["United States", "United Kingdom"]}, "s4c2": {"url": "https://www.tripadvisor.com/Restaurants", "name": "TripAdvisor", "badgecls": "sb-green", "badge": "Crowd reviews · Worldwide", "desc": "Enormous review volume in every country, which is both its use and its weakness: rankings skew towards restaurants that serve visitors, so the top of a city list is often the tourist trap rather than the good room. Read it for practical detail — whether the terrace is real, whether they take cards, how long the wait was — rather than for the ranking.", "reach": ["Worldwide"]}, "s4c3": {"url": "https://www.yelp.com", "name": "Yelp", "badgecls": "sb-green", "badge": "Crowd reviews · United States", "desc": "Still the deepest review base for everyday United States restaurants — the diner, the taqueria, the strip-mall place with no website — where the national publications and international platforms have nothing. Its waitlist feature also shows live queue times in some cities. Coverage outside North America is thin enough to ignore.", "reach": ["United States", "Canada"]}, "s4c4": {"url": "https://www.timeout.com", "name": "Time Out", "badgecls": "sb-green", "badge": "City guides · International", "desc": "Locally edited food and drink coverage for around forty cities worldwide, including many that Eater and The Infatuation do not reach — Lisbon, Barcelona, Tokyo, Melbourne, Buenos Aires. Its best-restaurants-in-{city} lists are updated rather than left to rot, which separates them from most travel listicles.", "reach": ["Worldwide"]}, "s5c0": {"url": "https://www.happycow.net", "name": "HappyCow", "badgecls": "sb-pink", "badge": "Vegan · Vegetarian", "desc": "A crowd-maintained global directory of vegan and vegetarian restaurants, plus ordinary places with reliable options, in over 180 countries — including small towns where nothing else lists anything. The distinction between fully vegan, vegetarian and veg-friendly is marked on each entry, which is the detail that decides whether a place is actually usable.", "reach": ["Worldwide"]}, "s5c1": {"url": "https://www.findmeglutenfree.com", "name": "Find Me Gluten Free", "badgecls": "sb-pink", "badge": "Coeliac · Gluten-free", "desc": "Reviews written by people with coeliac disease rather than by people avoiding gluten by choice, which is the difference that matters — the reviews discuss dedicated fryers, separate prep areas and staff understanding. Strongest in the United States and Europe; Italy is unusually well served, since coeliac diagnosis and certified restaurants are widespread there.", "reach": ["United States", "Europe", "Worldwide"]}};
+
+(function () {
+  var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var els = document.querySelectorAll('.rv');
+  if (reduce || !('IntersectionObserver' in window)) {
+    els.forEach(function (e) { e.classList.add('in'); });
+    return;
+  }
+  var io = new IntersectionObserver(function (entries) {
+    entries.forEach(function (en) {
+      if (en.isIntersecting) { en.target.classList.add('in'); io.unobserve(en.target); }
+    });
+  }, { threshold: 0.08, rootMargin: '0px 0px -30px 0px' });
+  els.forEach(function (e) { io.observe(e); });
+}());
+
+(function () {
+  var body = document.getElementById('fp-pad-body');
+  var no   = document.getElementById('fp-pad-no');
+  var tables = Array.prototype.slice.call(document.querySelectorAll('.fp-table'));
+
+  function open(btn) {
+    var c = FP[btn.dataset.k];
+    if (!c) return;
+    tables.forEach(function (t) { t.classList.toggle('on', t === btn); });
+    no.textContent = 'Table ' + (tables.indexOf(btn) + 1);
+    var reach = c.reach.map(function (r) { return '<span class="badge cp-light-grey">' + r + '</span>'; }).join('');
+    body.innerHTML =
+      '<div class="fp-pad-name"><a href="' + c.url + '" target="_blank" rel="noopener">' + c.name + '</a></div>' +
+      '<span class="badge ' + c.badgecls + '">' + c.badge + '</span>' +
+      '<p class="fp-pad-desc">' + c.desc + '</p>' +
+      '<div class="fp-pad-reach">' + reach + '</div>';
+  }
+
+  tables.forEach(function (t) { t.addEventListener('click', function () { open(t); }); });
+
+  var inp = document.getElementById('fp-search');
+  var fold = function (s) { return s.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase(); };
+  inp.addEventListener('input', function () {
+    var q = fold(inp.value.trim());
+    document.querySelectorAll('.fp-room').forEach(function (room) {
+      var shown = 0;
+      room.querySelectorAll('.fp-table').forEach(function (t) {
+        var c = FP[t.dataset.k];
+        var hay = fold(c.name + ' ' + c.badge + ' ' + c.desc + ' ' + c.reach.join(' '));
+        var hit = !q || hay.indexOf(q) !== -1;
+        t.classList.toggle('hidden', !hit);
+        t.classList.add('in');
+        if (hit) shown++;
+      });
+      room.classList.toggle('hidden', shown === 0);
+    });
+  });
+}());
+</script>
+<script src="/assets/search-autocomplete.js?v=8"></script>
+<script>
+/* Typeahead comes from the shared component — TVESearch.attach(), never a
+   hand-rolled suggestion list (TVESearch.html § 5). Picking a suggestion
+   drops its name into the box and the page's own filter above runs on the
+   resulting input event. */
+(function () {
+  if (!window.TVESearch) return;
+  var inp = document.getElementById('fp-search');
+  if (!inp) return;
+  TVESearch.attach(inp, { items: (function () {
+    var out = [];
+    Object.keys(FP).forEach(function (k) { out.push({ name: FP[k].name, sub: FP[k].badge }); });
+    return out;
+  }()), onPick: function (it) {
+    inp.value = it.name;
+    inp.dispatchEvent(new Event('input'));
+  } });
+}());
+</script>
+</body>
+</html>

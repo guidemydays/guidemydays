@@ -1,0 +1,560 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex,nofollow">
+<link rel="stylesheet" href="/assets/web-travel-style.css">
+<link rel="stylesheet" href="/assets/mobile.css?v=53">
+<link rel="icon" href="/assets/icons/favicon-32.png" sizes="32x32" type="image/png">
+<meta name="theme-color" content="#f5f4f0" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#1a1917" media="(prefers-color-scheme: dark)">
+<title>Restaurants &amp; Reservations — New 6 (Le Menu) | Guide My Days</title>
+<style>
+
+/* ═══ RESTAURANTS · NEW 3 — "Le Menu" ═══════════════════════════════════
+   Printed like the thing the page is about. One tall menu card, courses in
+   roman numerals, every platform set as a menu line — name at the left,
+   leader dots running across, its speciality set at the right where a price
+   would sit. Tapping a line opens the description the way a menu describes
+   a dish. The leader-dot line and the drawn course rule are new here; the
+   site has no menu-set typography anywhere else. */
+
+body.v-menu { --mn-ink:#C04E1A; --mn-gold:#8a6c1a; }
+
+.mn-card {
+  max-width:760px; margin:30px auto 0; background:var(--warm,#fdf8f0);
+  border:1px solid var(--border,#d8d4cc); border-radius:2px;
+  padding:44px 46px 50px; position:relative;
+  box-shadow:0 2px 0 var(--border2,#e6e2da), 0 18px 40px rgba(0,0,0,.06);
+}
+/* the folded corner of a printed card */
+.mn-card::after {
+  content:''; position:absolute; right:0; bottom:0; width:0; height:0; border-style:solid;
+  border-width:0 0 26px 26px; border-color:transparent transparent var(--bg,#f5f4f0) transparent;
+  filter:drop-shadow(-1px -1px 1.5px rgba(0,0,0,.10));
+}
+.mn-crest { text-align:center; margin-bottom:28px; }
+.mn-crest-r { display:block; width:64px; height:1px; margin:0 auto 12px; background:var(--mn-gold); transform:scaleX(0); animation:mn-draw .8s .1s cubic-bezier(.2,.7,.2,1) forwards; }
+@keyframes mn-draw { to { transform:scaleX(1); } }
+.mn-crest-t { font-size:11px; letter-spacing:.34em; text-transform:uppercase; color:var(--mn-gold); font-weight:700; }
+.mn-crest-s { font-size:12.5px; color:var(--muted); margin-top:8px; font-style:italic; }
+
+/* ── The five rules, set as the note at the head of a menu ── */
+.mn-notes { border-top:1px solid var(--border2,#e6e2da); border-bottom:1px solid var(--border2,#e6e2da); padding:20px 0 6px; margin-bottom:8px; }
+.mn-note { display:grid; grid-template-columns:34px 1fr; gap:2px 10px; margin-bottom:16px; }
+.mn-note-n { grid-row:1/3; font-size:22px; font-weight:300; color:var(--mn-gold); line-height:1; font-variant-numeric:oldstyle-nums; }
+.mn-note-h { font-size:13px; font-weight:700; color:var(--text); }
+.mn-note-b { font-size:12.5px; color:var(--muted); line-height:1.6; }
+
+/* ── Courses ── */
+.mn-course { margin-top:38px; }
+.mn-course-h { text-align:center; margin-bottom:6px; }
+.mn-course-n { font-size:11px; letter-spacing:.3em; color:var(--mn-gold); font-weight:700; display:block; margin-bottom:6px; }
+.mn-course-t { font-size:17px; font-weight:700; color:var(--text); letter-spacing:.01em; }
+.mn-course-rule { display:block; width:100%; height:1px; margin:12px 0 10px; background:linear-gradient(90deg,transparent,var(--mn-gold) 18%,var(--mn-gold) 82%,transparent); transform:scaleX(.15); opacity:0; transition:transform .8s cubic-bezier(.2,.7,.2,1), opacity .5s; }
+.mn-course.in .mn-course-rule { transform:scaleX(1); opacity:1; }
+.mn-course-note { font-size:12.5px; color:var(--muted); line-height:1.65; font-style:italic; text-align:center; max-width:60ch; margin:0 auto 18px; }
+
+/* ── A menu line ── */
+.mn-line { border:0; background:none; width:100%; text-align:left; font:inherit; padding:11px 0 10px; cursor:pointer; display:block; border-bottom:1px solid rgba(0,0,0,.05); }
+.mn-line-top { display:flex; align-items:baseline; gap:8px; }
+.mn-line-name { font-size:15px; font-weight:700; color:var(--text); flex:none; transition:color .18s; }
+.mn-line:hover .mn-line-name, .mn-line[aria-expanded="true"] .mn-line-name { color:var(--mn-ink); }
+.mn-leader { flex:1 1 auto; height:1em; border-bottom:1.5px dotted var(--border,#d8d4cc); transform:translateY(-3px); }
+.mn-line-right { flex:none; font-size:11.5px; letter-spacing:.06em; color:var(--mn-gold); text-transform:uppercase; font-weight:700; }
+.mn-body { overflow:hidden; max-height:0; transition:max-height .42s cubic-bezier(.2,.7,.2,1); }
+.mn-line[aria-expanded="true"] + .mn-body { max-height:520px; }
+.mn-body-in { padding:8px 0 14px; }
+.mn-desc { font-size:13px; line-height:1.65; color:var(--text); }
+.mn-desc::first-letter { font-size:20px; font-weight:700; color:var(--mn-ink); }
+.mn-reach { display:flex; flex-wrap:wrap; gap:6px; margin-top:11px; }
+.mn-visit { display:inline-block; margin-top:11px; font-size:12px; font-weight:700; letter-spacing:.05em; color:var(--mn-ink); }
+.mn-visit::after { content:' \203A'; }
+
+/* Search bar — the shared control, untouched. Every dimension, colour and
+   state comes from web-travel-style.css's input[type="search"] rule and the
+   shared search-autocomplete.js wiring (TVESearch.html § 0); this page adds
+   only the centring row and the gap, never a size, radius or colour. */
+.pg-search-row { display:flex; justify-content:center; margin:var(--search-gap,32px) 0 0; }
+.pg-search-row .search-input { max-width:100%; }
+.mn-line-wrap.hidden, .mn-course.hidden { display:none; }
+.mn-empty { display:none; text-align:center; color:var(--muted); font-size:13.5px; font-style:italic; margin-top:26px; }
+
+@media (max-width:640px) {
+  .mn-card { padding:30px 20px 36px; margin-top:20px; }
+  .mn-line-top { flex-wrap:wrap; }
+  .mn-leader { display:none; }
+  .mn-line-right { width:100%; margin-top:3px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .mn-crest-r, .mn-course-rule { animation:none; transition:none; transform:none; opacity:1; }
+  .mn-body { transition:none; }
+}
+@media (prefers-color-scheme: dark) {
+  body.v-menu:not([data-theme="light"]) .mn-card::after { border-color:transparent transparent var(--bg,#1a1917) transparent; }
+  body.v-menu:not([data-theme="light"]) .mn-line { border-bottom-color:rgba(255,255,255,.07); }
+}
+
+</style>
+</head>
+<body class="v-menu">
+<div id="toolbar-mount" data-depth="2" data-maxwidth="900" data-updated="2026-09-05"></div>
+<script src="/assets/toolbar.js?v=127"></script>
+
+  <div class="hero-band eb-hero">
+    <span class="eb-kicker">Restaurants &amp; Reservations</span>
+    <div class="eb-copy">
+      <h1 class="eb-title">Never which site is best — <em>which one they list on.</em></h1>
+      <p class="eb-intro">Restaurant booking is the most stubbornly local corner of travel: a city's restaurants use whichever platform won that market, and the one you use at home is often invisible there. So the useful question is never which site is best — it is which one the restaurants where you are going actually list on. Below: the booking platforms by region, the guides worth trusting to pick the restaurant in the first place, and the tools for eating around a dietary restriction abroad.</p>
+    </div>
+    <div class="eb-graphic" aria-hidden="true"><svg viewBox="0 0 24 24" aria-hidden="true"><defs>
+      <linearGradient id="cst-mid5" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#a29a86"/><stop offset="1" stop-color="#4f4a3a"/></linearGradient>
+      <linearGradient id="cst-light5" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#e2ded2"/><stop offset="1" stop-color="#a29a86"/></linearGradient>
+    </defs>
+      <g fill="url(#cst-light5)" stroke="#4f4a3a" stroke-width="0.4">
+        <rect x="4.6" y="2" width="1.5" height="8.4" rx="0.7"/>
+        <rect x="7.4" y="2" width="1.5" height="8.4" rx="0.7"/>
+        <rect x="10.2" y="2" width="1.5" height="8.4" rx="0.7"/>
+      </g>
+      <g fill="url(#gm-gloss)">
+        <rect x="4.6" y="2" width="1.5" height="8.4" rx="0.7"/>
+        <rect x="7.4" y="2" width="1.5" height="8.4" rx="0.7"/>
+        <rect x="10.2" y="2" width="1.5" height="8.4" rx="0.7"/>
+      </g>
+      <path d="M5.35 9.6c0 1.6 1.2 2.8 2.75 2.8s2.75-1.2 2.75-2.8" fill="none" stroke="url(#cst-mid5)" stroke-width="1.3"/>
+      <rect x="7.3" y="11.6" width="1.5" height="10.4" rx="0.7" fill="url(#cst-mid5)" stroke="#4f4a3a" stroke-width="0.4"/>
+      <rect x="7.3" y="11.6" width="1.5" height="10.4" rx="0.7" fill="url(#gm-gloss)"/>
+      <path d="M17 2v7.8c0 1.6-1 2.6-2.4 2.8v9.4h1.5V12.6c1.4-.2 2.4-1.2 2.4-2.8V2z" fill="url(#cst-light5)" stroke="#4f4a3a" stroke-width="0.4"/>
+      <path d="M17 2v7.8c0 1.6-1 2.6-2.4 2.8v9.4h1.5V12.6c1.4-.2 2.4-1.2 2.4-2.8V2z" fill="url(#gm-gloss)"/>
+    </svg></div>
+  </div>
+<div class="wrap">
+  <div class="mn-card">
+    <div class="mn-crest">
+      <span class="mn-crest-r"></span>
+      <span class="mn-crest-t">Reservations</span>
+      <p class="mn-crest-s">Twenty-seven platforms, guides and tools &mdash; set out in five courses.</p>
+    </div>
+    <div class="mn-notes">
+      <div class="mn-note"><span class="mn-note-n">1</span><span class="mn-note-h">Book the platform the restaurant uses, not the one you know.</span><span class="mn-note-b">Almost every restaurant sits on exactly one system. Check its own website or Instagram bio first; that link is the authoritative one, and the aggregators sometimes hold a smaller allocation than the restaurant's own page.</span></div>
+      <div class="mn-note"><span class="mn-note-n">2</span><span class="mn-note-h">Learn the release rule.</span><span class="mn-note-b">Tables open on a schedule — often 30 or 60 days ahead, frequently at midnight or 10am in the restaurant's local time zone. For a sought-after place, work out the exact moment in your own time zone and set an alarm; being one day late is the usual reason a booking fails.</span></div>
+      <div class="mn-note"><span class="mn-note-n">3</span><span class="mn-note-h">A deposit is now normal.</span><span class="mn-note-b">Card details, a per-person prepayment or a full ticketed price are standard at the top end, and cancellation windows of 24 to 72 hours are enforced. Read what happens if your flight moves.</span></div>
+      <div class="mn-note"><span class="mn-note-n">4</span><span class="mn-note-h">Cancellation alerts do most of the work.</span><span class="mn-note-b">Every major platform will notify you when a table frees up, and tables free up constantly. Set alerts for several nights rather than refreshing one.</span></div>
+      <div class="mn-note"><span class="mn-note-n">5</span><span class="mn-note-h">Not every country books online at all.</span><span class="mn-note-b">In much of southern Europe, Latin America and Asia the answer is a phone call, a WhatsApp message, or turning up — and a hotel concierge calling in the local language succeeds where a form fails.</span></div>
+    </div>
+    <div class="pg-search-row"><input type="search" class="search-input" id="mn-search" placeholder="Platform, guide or country" aria-label="Search platforms, guides and countries" autocomplete="off" spellcheck="false"></div>
+    <section class="mn-course rv">
+      <div class="mn-course-h"><span class="mn-course-n">I</span><span class="mn-course-t">Booking a Table — Multi-Country Platforms</span><span class="mn-course-rule"></span></div>
+      <p class="mn-course-note">These four cover the most ground, but none is universal, and coverage is uneven inside a single country — a platform can be everywhere in the capital and absent two hours away. Their real advantage over calling is the notification: tell them the date and party size and they will alert you when someone cancels.</p>
+      <div class="mn-line-wrap">
+        <button type="button" class="mn-line" aria-expanded="false" aria-controls="mnb1">
+          <span class="mn-line-top"><span class="mn-line-name">Resy</span><span class="mn-leader"></span><span class="mn-line-right">Reservations</span></span>
+        </button>
+        <div class="mn-body" id="mnb1">
+          <div class="mn-body-in">
+            <p class="mn-desc">Owned by American Express and weighted towards the restaurants that are hard to get into — chef-driven, newly opened, critically covered. Deepest in United States cities, with a growing presence in London and a few European capitals. Its Notify alerts are effective because the inventory turns over quickly, and some Amex cards unlock reserved tables that are otherwise invisible.</p>
+            <div class="mn-reach"><span class="badge cp-light-grey">United States</span><span class="badge cp-light-grey">Canada</span><span class="badge cp-light-grey">United Kingdom</span><span class="badge cp-light-grey">Europe</span></div>
+            <a class="mn-visit" href="https://resy.com" target="_blank" rel="noopener">Open Resy</a>
+          </div>
+        </div>
+      </div>
+      <div class="mn-line-wrap">
+        <button type="button" class="mn-line" aria-expanded="false" aria-controls="mnb2">
+          <span class="mn-line-top"><span class="mn-line-name">OpenTable</span><span class="mn-leader"></span><span class="mn-line-right">Reservations</span></span>
+        </button>
+        <div class="mn-body" id="mnb2">
+          <div class="mn-body-in">
+            <p class="mn-desc">The broadest single network, spanning neighbourhood restaurants and hotel dining rooms as well as destination ones — which is what makes it useful outside big cities, where the curated platforms list nothing. Owned by Booking Holdings, so it also appears inside Booking.com and KAYAK. Points earned per booking convert to restaurant credit slowly enough to be beside the point.</p>
+            <div class="mn-reach"><span class="badge cp-light-grey">Worldwide</span></div>
+            <a class="mn-visit" href="https://www.opentable.com" target="_blank" rel="noopener">Open OpenTable</a>
+          </div>
+        </div>
+      </div>
+      <div class="mn-line-wrap">
+        <button type="button" class="mn-line" aria-expanded="false" aria-controls="mnb3">
+          <span class="mn-line-top"><span class="mn-line-name">TheFork</span><span class="mn-leader"></span><span class="mn-line-right">Reservations · Europe</span></span>
+        </button>
+        <div class="mn-body" id="mnb3">
+          <div class="mn-body-in">
+            <p class="mn-desc">TripAdvisor-owned and the default across continental Europe, trading as ElTenedor in Spain and holding the largest listing base in France and Italy. Routinely carries percentage discounts on the bill at quieter times, which is unusual — most platforms sell the table, this one also sells the deal. Also operates in Australia.</p>
+            <div class="mn-reach"><span class="badge cp-light-grey">France</span><span class="badge cp-light-grey">Spain</span><span class="badge cp-light-grey">Italy</span><span class="badge cp-light-grey">Europe</span><span class="badge cp-light-grey">Australia</span></div>
+            <a class="mn-visit" href="https://www.thefork.com" target="_blank" rel="noopener">Open TheFork</a>
+          </div>
+        </div>
+      </div>
+      <div class="mn-line-wrap">
+        <button type="button" class="mn-line" aria-expanded="false" aria-controls="mnb4">
+          <span class="mn-line-top"><span class="mn-line-name">Tock</span><span class="mn-leader"></span><span class="mn-line-right">Prepaid · Tasting menus</span></span>
+        </button>
+        <div class="mn-body" id="mnb4">
+          <div class="mn-body-in">
+            <p class="mn-desc">Built for restaurants that sell a seat like a theatre ticket — you pay the tasting menu in advance and the booking is non-refundable or transferable rather than cancellable. That model concentrates the world's tasting-menu restaurants and many wineries here, so for a destination dinner it is often the only place the table exists. Budget for paying months ahead.</p>
+            <div class="mn-reach"><span class="badge cp-light-grey">United States</span><span class="badge cp-light-grey">Europe</span><span class="badge cp-light-grey">Worldwide</span></div>
+            <a class="mn-visit" href="https://www.exploretock.com" target="_blank" rel="noopener">Open Tock</a>
+          </div>
+        </div>
+      </div>
+      <div class="mn-line-wrap">
+        <button type="button" class="mn-line" aria-expanded="false" aria-controls="mnb5">
+          <span class="mn-line-top"><span class="mn-line-name">Google Maps</span><span class="mn-leader"></span><span class="mn-line-right">Universal fallback</span></span>
+        </button>
+        <div class="mn-body" id="mnb5">
+          <div class="mn-body-in">
+            <p class="mn-desc">Not a booking platform, but the one place every restaurant on earth has a listing, with a Reserve button that hands off to whichever local system it uses — which is the fastest way to discover that a city runs on a platform you have never heard of. Also the most reliable source of current opening hours, which the booking sites frequently get wrong.</p>
+            <div class="mn-reach"><span class="badge cp-light-grey">Worldwide</span></div>
+            <a class="mn-visit" href="https://www.google.com/maps" target="_blank" rel="noopener">Open Google Maps</a>
+          </div>
+        </div>
+      </div>
+      <div class="mn-line-wrap">
+        <button type="button" class="mn-line" aria-expanded="false" aria-controls="mnb6">
+          <span class="mn-line-top"><span class="mn-line-name">Quandoo</span><span class="mn-leader"></span><span class="mn-line-right">Reservations · Europe · Asia</span></span>
+        </button>
+        <div class="mn-body" id="mnb6">
+          <div class="mn-body-in">
+            <p class="mn-desc">Berlin-based, strongest in Germany, Austria and Switzerland, with coverage in Italy, the Netherlands, Singapore, Hong Kong and Australia. In the German-speaking countries it lists everyday neighbourhood restaurants that the international platforms skip — exactly the places worth eating in on a longer stay.</p>
+            <div class="mn-reach"><span class="badge cp-light-grey">Germany</span><span class="badge cp-light-grey">Austria</span><span class="badge cp-light-grey">Switzerland</span><span class="badge cp-light-grey">Asia</span></div>
+            <a class="mn-visit" href="https://www.quandoo.com" target="_blank" rel="noopener">Open Quandoo</a>
+          </div>
+        </div>
+      </div>
+    </section>
+    <section class="mn-course rv">
+      <div class="mn-course-h"><span class="mn-course-n">II</span><span class="mn-course-t">Booking a Table — Country Specialists</span><span class="mn-course-rule"></span></div>
+      <p class="mn-course-note">In these countries the local platform is not an alternative to the international ones — it is where the restaurants are. Several expect a local phone number or ID, which is the single most common wall a visitor hits; where an English-language route exists it is noted below, and where it doesn't, a hotel concierge is the workaround.</p>
+      <div class="mn-line-wrap">
+        <button type="button" class="mn-line" aria-expanded="false" aria-controls="mnb7">
+          <span class="mn-line-top"><span class="mn-line-name">Tabelog</span><span class="mn-leader"></span><span class="mn-line-right">Japan · Reviews + booking</span></span>
+        </button>
+        <div class="mn-body" id="mnb7">
+          <div class="mn-body-in">
+            <p class="mn-desc">Japan's dominant restaurant database, and the country's real quality signal: its ratings are compressed, so anything above roughly 3.5 out of 5 is genuinely good and above 3.8 is exceptional — a scale that surprises visitors used to inflated five-star systems. The English site covers a subset; booking often still requires a Japanese phone number.</p>
+            <div class="mn-reach"><span class="badge cp-light-grey">Japan</span></div>
+            <a class="mn-visit" href="https://tabelog.com/en/" target="_blank" rel="noopener">Open Tabelog</a>
+          </div>
+        </div>
+      </div>
+      <div class="mn-line-wrap">
+        <button type="button" class="mn-line" aria-expanded="false" aria-controls="mnb8">
+          <span class="mn-line-top"><span class="mn-line-name">TableCheck</span><span class="mn-leader"></span><span class="mn-line-right">Japan · English booking</span></span>
+        </button>
+        <div class="mn-body" id="mnb8">
+          <div class="mn-body-in">
+            <p class="mn-desc">The most visitor-friendly way into Japanese restaurants — an English interface, no Japanese phone number required, and used by a large number of hotel restaurants and mid-to-high-end independents in Tokyo, Kyoto and Osaka. When a Japanese restaurant can be booked online from abroad at all, this is frequently the system behind it.</p>
+            <div class="mn-reach"><span class="badge cp-light-grey">Japan</span></div>
+            <a class="mn-visit" href="https://www.tablecheck.com/en/japan/" target="_blank" rel="noopener">Open TableCheck</a>
+          </div>
+        </div>
+      </div>
+      <div class="mn-line-wrap">
+        <button type="button" class="mn-line" aria-expanded="false" aria-controls="mnb9">
+          <span class="mn-line-top"><span class="mn-line-name">Pocket Concierge</span><span class="mn-leader"></span><span class="mn-line-right">Japan · Fine dining</span></span>
+        </button>
+        <div class="mn-body" id="mnb9">
+          <div class="mn-body-in">
+            <p class="mn-desc">American Express-owned and aimed squarely at foreign visitors booking Japan's top tables — sushi counters, kaiseki, restaurants that traditionally accept introductions only. Prepaid in advance, in English, with the language barrier handled. A short list at high prices, and for some of these rooms the only route in.</p>
+            <div class="mn-reach"><span class="badge cp-light-grey">Japan</span></div>
+            <a class="mn-visit" href="https://pocket-concierge.jp/en/" target="_blank" rel="noopener">Open Pocket Concierge</a>
+          </div>
+        </div>
+      </div>
+      <div class="mn-line-wrap">
+        <button type="button" class="mn-line" aria-expanded="false" aria-controls="mnb10">
+          <span class="mn-line-top"><span class="mn-line-name">CatchTable</span><span class="mn-leader"></span><span class="mn-line-right">South Korea</span></span>
+        </button>
+        <div class="mn-body" id="mnb10">
+          <div class="mn-body-in">
+            <p class="mn-desc">South Korea's main reservation app, holding most of Seoul's sought-after restaurants, with tables typically released on a fixed day and filled within minutes. Korean-language and generally expecting a Korean phone number, so a local contact or a hotel concierge is usually the practical route for a visitor. Naver handles a further slice of bookings.</p>
+            <div class="mn-reach"><span class="badge cp-light-grey">South Korea</span></div>
+            <a class="mn-visit" href="https://www.catchtable.co.kr" target="_blank" rel="noopener">Open CatchTable</a>
+          </div>
+        </div>
+      </div>
+      <div class="mn-line-wrap">
+        <button type="button" class="mn-line" aria-expanded="false" aria-controls="mnb11">
+          <span class="mn-line-top"><span class="mn-line-name">Chope</span><span class="mn-leader"></span><span class="mn-line-right">Southeast Asia</span></span>
+        </button>
+        <div class="mn-body" id="mnb11">
+          <div class="mn-body-in">
+            <p class="mn-desc">The reservation platform of record across Singapore, Hong Kong, Bangkok, Kuala Lumpur, Jakarta and Bali, in English throughout and accepting foreign cards. It also sells discounted dining vouchers, which in Singapore in particular take a real bite out of a bill that is otherwise expensive by regional standards.</p>
+            <div class="mn-reach"><span class="badge cp-light-grey">Singapore</span><span class="badge cp-light-grey">Hong Kong</span><span class="badge cp-light-grey">Thailand</span><span class="badge cp-light-grey">Indonesia</span></div>
+            <a class="mn-visit" href="https://www.chope.co" target="_blank" rel="noopener">Open Chope</a>
+          </div>
+        </div>
+      </div>
+      <div class="mn-line-wrap">
+        <button type="button" class="mn-line" aria-expanded="false" aria-controls="mnb12">
+          <span class="mn-line-top"><span class="mn-line-name">Dianping</span><span class="mn-leader"></span><span class="mn-line-right">Mainland China</span></span>
+        </button>
+        <div class="mn-body" id="mnb12">
+          <div class="mn-body-in">
+            <p class="mn-desc">China's restaurant review and booking platform, part of Meituan, and effectively the only comprehensive listing of where to eat in a Chinese city. Chinese-language, tied to a local payment method, and hard to use as a visitor without help — but worth having someone search it for you, because the international platforms list almost nothing.</p>
+            <div class="mn-reach"><span class="badge cp-light-grey">China</span></div>
+            <a class="mn-visit" href="https://www.dianping.com" target="_blank" rel="noopener">Open Dianping</a>
+          </div>
+        </div>
+      </div>
+      <div class="mn-line-wrap">
+        <button type="button" class="mn-line" aria-expanded="false" aria-controls="mnb13">
+          <span class="mn-line-top"><span class="mn-line-name">EazyDiner</span><span class="mn-leader"></span><span class="mn-line-right">India</span></span>
+        </button>
+        <div class="mn-body" id="mnb13">
+          <div class="mn-body-in">
+            <p class="mn-desc">India's main restaurant reservation platform, covering Delhi, Mumbai, Bengaluru and the other major cities, with same-day discounts attached to a large share of bookings. Zomato is the bigger name in the country but is oriented around delivery and reviews; for actually holding a table this is the one restaurants use.</p>
+            <div class="mn-reach"><span class="badge cp-light-grey">India</span><span class="badge cp-light-grey">United Arab Emirates</span></div>
+            <a class="mn-visit" href="https://www.eazydiner.com" target="_blank" rel="noopener">Open EazyDiner</a>
+          </div>
+        </div>
+      </div>
+      <div class="mn-line-wrap">
+        <button type="button" class="mn-line" aria-expanded="false" aria-controls="mnb14">
+          <span class="mn-line-top"><span class="mn-line-name">Eat App</span><span class="mn-leader"></span><span class="mn-line-right">Middle East</span></span>
+        </button>
+        <div class="mn-body" id="mnb14">
+          <div class="mn-body-in">
+            <p class="mn-desc">Bahrain-founded and the reservation system behind a large share of restaurants across the Gulf — Dubai, Abu Dhabi, Doha, Riyadh and Bahrain — in English and accepting foreign cards. In a region where hotel restaurants dominate the fine-dining scene, it covers most of them.</p>
+            <div class="mn-reach"><span class="badge cp-light-grey">United Arab Emirates</span><span class="badge cp-light-grey">Qatar</span><span class="badge cp-light-grey">Saudi Arabia</span><span class="badge cp-light-grey">Bahrain</span></div>
+            <a class="mn-visit" href="https://eatapp.co" target="_blank" rel="noopener">Open Eat App</a>
+          </div>
+        </div>
+      </div>
+      <div class="mn-line-wrap">
+        <button type="button" class="mn-line" aria-expanded="false" aria-controls="mnb15">
+          <span class="mn-line-top"><span class="mn-line-name">CoverManager</span><span class="mn-leader"></span><span class="mn-line-right">Spain · Portugal · Latin America</span></span>
+        </button>
+        <div class="mn-body" id="mnb15">
+          <div class="mn-body-in">
+            <p class="mn-desc">Spanish, and the booking engine sitting behind an enormous number of Spanish, Portuguese and Latin American restaurants — including many of the region's best, which take reservations only through their own site. You rarely search it directly; you meet it when you click Reservar on a restaurant's page, which is precisely why the restaurant's own website is the link to follow.</p>
+            <div class="mn-reach"><span class="badge cp-light-grey">Spain</span><span class="badge cp-light-grey">Portugal</span><span class="badge cp-light-grey">Mexico</span><span class="badge cp-light-grey">Latin America</span></div>
+            <a class="mn-visit" href="https://www.covermanager.com" target="_blank" rel="noopener">Open CoverManager</a>
+          </div>
+        </div>
+      </div>
+    </section>
+    <section class="mn-course rv">
+      <div class="mn-course-h"><span class="mn-course-n">III</span><span class="mn-course-t">Deciding Where to Eat — Guides &amp; Rankings</span><span class="mn-course-rule"></span></div>
+      <p class="mn-course-note">Each of these is a different jury, and knowing whose opinion you are reading matters more than the score. Michelin sends anonymous inspectors against a fixed set of criteria; the ranked lists are voted on by industry panels and reward ambition and novelty; the national guides apply their own scales. None of them covers cheap and ordinary eating well — that is what the city critics further down are for.</p>
+      <div class="mn-line-wrap">
+        <button type="button" class="mn-line" aria-expanded="false" aria-controls="mnb16">
+          <span class="mn-line-top"><span class="mn-line-name">Michelin Guide</span><span class="mn-leader"></span><span class="mn-line-right">Anonymous inspectors</span></span>
+        </button>
+        <div class="mn-body" id="mnb16">
+          <div class="mn-body-in">
+            <p class="mn-desc">Anonymous inspectors judging food alone — stars for cooking of a high standard, and the more useful Bib Gourmand for good food at a modest price, which is where the guide earns its keep for ordinary travellers. Coverage is limited to the regions it has chosen to enter, so an unstarred city may simply never have been visited rather than judged and found wanting.</p>
+            <div class="mn-reach"><span class="badge cp-light-grey">Europe</span><span class="badge cp-light-grey">United States</span><span class="badge cp-light-grey">Japan</span><span class="badge cp-light-grey">Asia</span></div>
+            <a class="mn-visit" href="https://guide.michelin.com" target="_blank" rel="noopener">Open Michelin Guide</a>
+          </div>
+        </div>
+      </div>
+      <div class="mn-line-wrap">
+        <button type="button" class="mn-line" aria-expanded="false" aria-controls="mnb17">
+          <span class="mn-line-top"><span class="mn-line-name">World's 50 Best Restaurants</span><span class="mn-leader"></span><span class="mn-line-right">Industry panel vote</span></span>
+        </button>
+        <div class="mn-body" id="mnb17">
+          <div class="mn-body-in">
+            <p class="mn-desc">Voted by a large international panel of chefs, writers and well-travelled diners, with regional editions for Asia, Latin America and the Middle East and Africa. It rewards originality and influence rather than consistency, so it surfaces restaurants Michelin is slower to recognise — and books out the moment a list is published.</p>
+            <div class="mn-reach"><span class="badge cp-light-grey">Worldwide</span></div>
+            <a class="mn-visit" href="https://www.theworlds50best.com" target="_blank" rel="noopener">Open World's 50 Best Restaurants</a>
+          </div>
+        </div>
+      </div>
+      <div class="mn-line-wrap">
+        <button type="button" class="mn-line" aria-expanded="false" aria-controls="mnb18">
+          <span class="mn-line-top"><span class="mn-line-name">Gault&amp;Millau</span><span class="mn-leader"></span><span class="mn-line-right">Europe · Scored out of 20</span></span>
+        </button>
+        <div class="mn-body" id="mnb18">
+          <div class="mn-body-in">
+            <p class="mn-desc">A French guide scoring restaurants out of 20 and historically friendlier to modern, less formal cooking than Michelin. Strongest in France, Germany, Austria, Switzerland and the Benelux countries, where it frequently rates places the red guide has not reached — a useful second opinion in exactly those markets.</p>
+            <div class="mn-reach"><span class="badge cp-light-grey">France</span><span class="badge cp-light-grey">Germany</span><span class="badge cp-light-grey">Austria</span><span class="badge cp-light-grey">Benelux</span></div>
+            <a class="mn-visit" href="https://www.gaultmillau.com" target="_blank" rel="noopener">Open Gault&amp;Millau</a>
+          </div>
+        </div>
+      </div>
+      <div class="mn-line-wrap">
+        <button type="button" class="mn-line" aria-expanded="false" aria-controls="mnb19">
+          <span class="mn-line-top"><span class="mn-line-name">La Liste</span><span class="mn-leader"></span><span class="mn-line-right">Aggregated guides</span></span>
+        </button>
+        <div class="mn-body" id="mnb19">
+          <div class="mn-body-in">
+            <p class="mn-desc">A French project that aggregates hundreds of guides and review sources into a single score per restaurant, across more than 200 countries. Because it averages several juries rather than applying one, it reaches far more places than any individual guide — useful for a country where none of the famous guides operates.</p>
+            <div class="mn-reach"><span class="badge cp-light-grey">Worldwide</span></div>
+            <a class="mn-visit" href="https://www.laliste.com" target="_blank" rel="noopener">Open La Liste</a>
+          </div>
+        </div>
+      </div>
+      <div class="mn-line-wrap">
+        <button type="button" class="mn-line" aria-expanded="false" aria-controls="mnb20">
+          <span class="mn-line-top"><span class="mn-line-name">50 Top Pizza</span><span class="mn-leader"></span><span class="mn-line-right">Pizza · Italy &amp; worldwide</span></span>
+        </button>
+        <div class="mn-body" id="mnb20">
+          <div class="mn-body-in">
+            <p class="mn-desc">An Italian ranking of pizzerias, with world, European and United States editions, judged by anonymous visits. Narrow by design and genuinely authoritative within it — the fastest way to avoid the tourist-strip pizza in Naples, Rome or New York and find the place locals queue at instead.</p>
+            <div class="mn-reach"><span class="badge cp-light-grey">Italy</span><span class="badge cp-light-grey">Europe</span><span class="badge cp-light-grey">United States</span></div>
+            <a class="mn-visit" href="https://www.50toppizza.it/en/" target="_blank" rel="noopener">Open 50 Top Pizza</a>
+          </div>
+        </div>
+      </div>
+    </section>
+    <section class="mn-course rv">
+      <div class="mn-course-h"><span class="mn-course-n">IV</span><span class="mn-course-t">Deciding Where to Eat — City Critics &amp; Crowds</span><span class="mn-course-rule"></span></div>
+      <p class="mn-course-note">Guides rank the top of the market; these cover the rest of it, which is most of what you will actually eat. The pattern that works is to cross two sources — a local critic for what is good, and a crowd platform for whether it is still open and what the queue is like at 8pm on a Friday.</p>
+      <div class="mn-line-wrap">
+        <button type="button" class="mn-line" aria-expanded="false" aria-controls="mnb21">
+          <span class="mn-line-top"><span class="mn-line-name">Eater</span><span class="mn-leader"></span><span class="mn-line-right">City guides · United States</span></span>
+        </button>
+        <div class="mn-body" id="mnb21">
+          <div class="mn-body-in">
+            <p class="mn-desc">City-by-city food journalism with local editors, and two formats worth knowing: the Eater 38, an evergreen list of the restaurants that define a city, and the constantly refreshed heatmap of where to eat right now. Strongest across United States cities, with London coverage as well. Written for residents, which is what makes it reliable.</p>
+            <div class="mn-reach"><span class="badge cp-light-grey">United States</span><span class="badge cp-light-grey">United Kingdom</span></div>
+            <a class="mn-visit" href="https://www.eater.com" target="_blank" rel="noopener">Open Eater</a>
+          </div>
+        </div>
+      </div>
+      <div class="mn-line-wrap">
+        <button type="button" class="mn-line" aria-expanded="false" aria-controls="mnb22">
+          <span class="mn-line-top"><span class="mn-line-name">The Infatuation</span><span class="mn-leader"></span><span class="mn-line-right">Reviews by occasion</span></span>
+        </button>
+        <div class="mn-body" id="mnb22">
+          <div class="mn-body-in">
+            <p class="mn-desc">Reviews written around the question people actually ask — where to take a group of six, where to eat alone at the bar, where to go after a show — with a numeric score and no advertising in the reviews. Covers major United States cities plus London. Its guides by situation are more useful on a trip than any ranked list.</p>
+            <div class="mn-reach"><span class="badge cp-light-grey">United States</span><span class="badge cp-light-grey">United Kingdom</span></div>
+            <a class="mn-visit" href="https://www.theinfatuation.com" target="_blank" rel="noopener">Open The Infatuation</a>
+          </div>
+        </div>
+      </div>
+      <div class="mn-line-wrap">
+        <button type="button" class="mn-line" aria-expanded="false" aria-controls="mnb23">
+          <span class="mn-line-top"><span class="mn-line-name">TripAdvisor</span><span class="mn-leader"></span><span class="mn-line-right">Crowd reviews · Worldwide</span></span>
+        </button>
+        <div class="mn-body" id="mnb23">
+          <div class="mn-body-in">
+            <p class="mn-desc">Enormous review volume in every country, which is both its use and its weakness: rankings skew towards restaurants that serve visitors, so the top of a city list is often the tourist trap rather than the good room. Read it for practical detail — whether the terrace is real, whether they take cards, how long the wait was — rather than for the ranking.</p>
+            <div class="mn-reach"><span class="badge cp-light-grey">Worldwide</span></div>
+            <a class="mn-visit" href="https://www.tripadvisor.com/Restaurants" target="_blank" rel="noopener">Open TripAdvisor</a>
+          </div>
+        </div>
+      </div>
+      <div class="mn-line-wrap">
+        <button type="button" class="mn-line" aria-expanded="false" aria-controls="mnb24">
+          <span class="mn-line-top"><span class="mn-line-name">Yelp</span><span class="mn-leader"></span><span class="mn-line-right">Crowd reviews · United States</span></span>
+        </button>
+        <div class="mn-body" id="mnb24">
+          <div class="mn-body-in">
+            <p class="mn-desc">Still the deepest review base for everyday United States restaurants — the diner, the taqueria, the strip-mall place with no website — where the national publications and international platforms have nothing. Its waitlist feature also shows live queue times in some cities. Coverage outside North America is thin enough to ignore.</p>
+            <div class="mn-reach"><span class="badge cp-light-grey">United States</span><span class="badge cp-light-grey">Canada</span></div>
+            <a class="mn-visit" href="https://www.yelp.com" target="_blank" rel="noopener">Open Yelp</a>
+          </div>
+        </div>
+      </div>
+      <div class="mn-line-wrap">
+        <button type="button" class="mn-line" aria-expanded="false" aria-controls="mnb25">
+          <span class="mn-line-top"><span class="mn-line-name">Time Out</span><span class="mn-leader"></span><span class="mn-line-right">City guides · International</span></span>
+        </button>
+        <div class="mn-body" id="mnb25">
+          <div class="mn-body-in">
+            <p class="mn-desc">Locally edited food and drink coverage for around forty cities worldwide, including many that Eater and The Infatuation do not reach — Lisbon, Barcelona, Tokyo, Melbourne, Buenos Aires. Its best-restaurants-in-{city} lists are updated rather than left to rot, which separates them from most travel listicles.</p>
+            <div class="mn-reach"><span class="badge cp-light-grey">Worldwide</span></div>
+            <a class="mn-visit" href="https://www.timeout.com" target="_blank" rel="noopener">Open Time Out</a>
+          </div>
+        </div>
+      </div>
+    </section>
+    <section class="mn-course rv">
+      <div class="mn-course-h"><span class="mn-course-n">V</span><span class="mn-course-t">Eating with a Dietary Restriction</span><span class="mn-course-rule"></span></div>
+      <p class="mn-course-note">A restriction that is routine at home can be genuinely difficult in a country whose staple dishes are built around it, and mainstream platforms filter for cuisine, not for what you cannot eat. These are the tools built for the problem — plus one habit worth adopting: carry a printed translation card explaining the restriction in the local language, because kitchens understand a card in a way they do not understand a conversation at the pass.</p>
+      <div class="mn-line-wrap">
+        <button type="button" class="mn-line" aria-expanded="false" aria-controls="mnb26">
+          <span class="mn-line-top"><span class="mn-line-name">HappyCow</span><span class="mn-leader"></span><span class="mn-line-right">Vegan · Vegetarian</span></span>
+        </button>
+        <div class="mn-body" id="mnb26">
+          <div class="mn-body-in">
+            <p class="mn-desc">A crowd-maintained global directory of vegan and vegetarian restaurants, plus ordinary places with reliable options, in over 180 countries — including small towns where nothing else lists anything. The distinction between fully vegan, vegetarian and veg-friendly is marked on each entry, which is the detail that decides whether a place is actually usable.</p>
+            <div class="mn-reach"><span class="badge cp-light-grey">Worldwide</span></div>
+            <a class="mn-visit" href="https://www.happycow.net" target="_blank" rel="noopener">Open HappyCow</a>
+          </div>
+        </div>
+      </div>
+      <div class="mn-line-wrap">
+        <button type="button" class="mn-line" aria-expanded="false" aria-controls="mnb27">
+          <span class="mn-line-top"><span class="mn-line-name">Find Me Gluten Free</span><span class="mn-leader"></span><span class="mn-line-right">Coeliac · Gluten-free</span></span>
+        </button>
+        <div class="mn-body" id="mnb27">
+          <div class="mn-body-in">
+            <p class="mn-desc">Reviews written by people with coeliac disease rather than by people avoiding gluten by choice, which is the difference that matters — the reviews discuss dedicated fryers, separate prep areas and staff understanding. Strongest in the United States and Europe; Italy is unusually well served, since coeliac diagnosis and certified restaurants are widespread there.</p>
+            <div class="mn-reach"><span class="badge cp-light-grey">United States</span><span class="badge cp-light-grey">Europe</span><span class="badge cp-light-grey">Worldwide</span></div>
+            <a class="mn-visit" href="https://www.findmeglutenfree.com" target="_blank" rel="noopener">Open Find Me Gluten Free</a>
+          </div>
+        </div>
+      </div>
+    </section>
+    <p class="mn-empty" id="mn-empty">No line on the menu matches that.</p>
+  </div>
+</div><!-- /wrap -->
+<script>
+
+(function () {
+  var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var els = document.querySelectorAll('.rv');
+  if (reduce || !('IntersectionObserver' in window)) {
+    els.forEach(function (e) { e.classList.add('in'); });
+    return;
+  }
+  var io = new IntersectionObserver(function (entries) {
+    entries.forEach(function (en) {
+      if (en.isIntersecting) { en.target.classList.add('in'); io.unobserve(en.target); }
+    });
+  }, { threshold: 0.08, rootMargin: '0px 0px -30px 0px' });
+  els.forEach(function (e) { io.observe(e); });
+}());
+
+(function () {
+  document.querySelectorAll('.mn-line').forEach(function (b) {
+    b.addEventListener('click', function () {
+      var open = b.getAttribute('aria-expanded') === 'true';
+      b.setAttribute('aria-expanded', open ? 'false' : 'true');
+    });
+  });
+  var inp = document.getElementById('mn-search');
+  var empty = document.getElementById('mn-empty');
+  var fold = function (s) { return s.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase(); };
+  inp.addEventListener('input', function () {
+    var q = fold(inp.value.trim());
+    var any = false;
+    document.querySelectorAll('.mn-course').forEach(function (co) {
+      var shown = 0;
+      co.querySelectorAll('.mn-line-wrap').forEach(function (w) {
+        var hit = !q || fold(w.textContent).indexOf(q) !== -1;
+        w.classList.toggle('hidden', !hit);
+        if (hit) shown++;
+      });
+      co.classList.toggle('hidden', shown === 0);
+      co.classList.add('in');
+      if (shown) any = true;
+    });
+    empty.style.display = any ? 'none' : 'block';
+  });
+}());
+</script>
+<script src="/assets/search-autocomplete.js?v=8"></script>
+<script>
+/* Typeahead comes from the shared component — TVESearch.attach(), never a
+   hand-rolled suggestion list (TVESearch.html § 5). Picking a suggestion
+   drops its name into the box and the page's own filter above runs on the
+   resulting input event. */
+(function () {
+  if (!window.TVESearch) return;
+  var inp = document.getElementById('mn-search');
+  if (!inp) return;
+  TVESearch.attach(inp, { items: (function () {
+    var out = [];
+    document.querySelectorAll('.mn-line').forEach(function (b) { out.push({ name: b.querySelector('.mn-line-name').textContent.trim(), sub: b.querySelector('.mn-line-right').textContent.trim() }); });
+    return out;
+  }()), onPick: function (it) {
+    inp.value = it.name;
+    inp.dispatchEvent(new Event('input'));
+  } });
+}());
+</script>
+</body>
+</html>

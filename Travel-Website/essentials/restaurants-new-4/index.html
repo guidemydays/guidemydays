@@ -1,0 +1,445 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex,nofollow">
+<link rel="stylesheet" href="/assets/web-travel-style.css">
+<link rel="stylesheet" href="/assets/mobile.css?v=53">
+<link rel="icon" href="/assets/icons/favicon-32.png" sizes="32x32" type="image/png">
+<meta name="theme-color" content="#f5f4f0" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#1a1917" media="(prefers-color-scheme: dark)">
+<title>Restaurants &amp; Reservations — New 4 (The Ticket Rail) | Guide My Days</title>
+<style>
+
+/* ═══ RESTAURANTS · NEW 1 — "The Ticket Rail" ═══════════════════════════
+   A reservation is a ticket. Every platform is a perforated stub hanging on
+   a rail, dealt out of a stack when its section scrolls in; the category
+   badge is a rubber stamp that presses into the card on hover. Nothing on
+   the live site uses a torn-stub silhouette or a press-in stamp — the two
+   devices this page is built on. */
+
+body.v-rail { --tk-ink:#C04E1A; --tk-card:var(--warm,#fdf8f0); }
+
+/* ── The five rules, as a strip of numbered stamps ── */
+.tk-rules { display:grid; grid-template-columns:repeat(auto-fit,minmax(210px,1fr)); gap:14px; margin:26px 0 10px; }
+.tk-rule {
+  position:relative; background:var(--surface,#fff); border:1px solid var(--border2,#e6e2da);
+  border-radius:2px; padding:34px 16px 16px; overflow:hidden;
+  box-shadow:0 1px 0 var(--border2,#e6e2da);
+}
+.tk-rule::before {
+  /* the punched ticket number, stamped into the corner */
+  content:attr(data-n); position:absolute; top:-8px; left:-6px;
+  font-size:56px; font-weight:800; line-height:1; color:var(--tk-ink);
+  opacity:.13; letter-spacing:-.04em;
+}
+.tk-rule::after {
+  content:''; position:absolute; left:0; right:0; top:0; height:3px;
+  background:linear-gradient(90deg,var(--tk-ink),transparent);
+  transform:scaleX(0); transform-origin:left; transition:transform .6s cubic-bezier(.2,.7,.2,1);
+}
+.tk-rule.in::after { transform:scaleX(1); }
+.tk-rule-h { font-size:13.5px; font-weight:700; color:var(--text); line-height:1.3; margin-bottom:7px; }
+.tk-rule-b { font-size:12.5px; color:var(--muted); line-height:1.55; }
+.tk-rules-lead {
+  text-align:center; font-size:12px; font-weight:700; letter-spacing:.2em;
+  text-transform:uppercase; color:var(--muted); margin:30px 0 0;
+}
+
+/* ── Search + section jumps ── */
+/* Search bar — the shared control, untouched. Every dimension, colour and
+   state comes from web-travel-style.css's input[type="search"] rule and the
+   shared search-autocomplete.js wiring (TVESearch.html § 0); this page adds
+   only the centring row and the gap, never a size, radius or colour. */
+.pg-search-row { display:flex; justify-content:center; margin:var(--search-gap,32px) 0 0; }
+.pg-search-row .search-input { max-width:100%; }
+.tk-bar { display:flex; flex-direction:column; align-items:center; gap:8px; margin:0 0 6px; }
+.tk-jumps { display:flex; flex-wrap:wrap; gap:8px; justify-content:center; }
+.tk-jump {
+  font:inherit; font-size:12px; font-weight:600; letter-spacing:.04em;
+  padding:7px 14px; border-radius:999px; cursor:pointer; text-decoration:none;
+  border:1px solid var(--border2,#e6e2da); background:var(--warm,#fdf8f0); color:var(--muted);
+  transition:transform .15s, border-color .15s, color .15s;
+}
+.tk-jump:hover { transform:translateY(-2px); border-color:var(--tk-ink); color:var(--tk-ink); }
+
+/* ── Section header — a torn strip with a punched hole at each end ── */
+.tk-sec { margin-top:46px; scroll-margin-top:20px; }
+.tk-sec-head { display:flex; align-items:center; gap:12px; margin-bottom:6px; }
+.tk-sec-no {
+  flex:none; width:30px; height:30px; border-radius:50%;
+  border:1.5px dashed var(--tk-ink); color:var(--tk-ink);
+  display:grid; place-items:center; font-size:12px; font-weight:800;
+  animation:tk-spin 22s linear infinite;
+}
+@keyframes tk-spin { to { transform:rotate(360deg); } }
+.tk-sec-title { font-size:16px; font-weight:700; color:var(--text); letter-spacing:.01em; }
+.tk-sec-rule { flex:1 1 auto; height:1px; background:repeating-linear-gradient(90deg,var(--border,#d8d4cc) 0 5px,transparent 5px 10px); }
+.tk-sec-note { font-size:12.5px; color:var(--muted); line-height:1.6; max-width:70ch; margin:0 0 16px 42px; }
+
+/* ── The rail ── */
+.tk-rail {
+  display:flex; gap:16px; overflow-x:auto; scroll-snap-type:x mandatory;
+  padding:8px 4px 18px; scrollbar-width:thin;
+}
+.tk-rail::-webkit-scrollbar { height:7px; }
+.tk-rail::-webkit-scrollbar-thumb { background:var(--border,#d8d4cc); border-radius:99px; }
+
+/* ── The stub ── */
+.tk {
+  position:relative; flex:0 0 300px; scroll-snap-align:start;
+  background:var(--tk-card); border:1px solid var(--border2,#e6e2da);
+  border-radius:3px; padding:18px 18px 16px 26px;
+  /* the tear: a column of notches punched down the left edge */
+  transition:transform .22s cubic-bezier(.2,.7,.2,1), box-shadow .22s, border-color .22s;
+  opacity:0; transform:translateY(26px) rotate(-1.4deg);
+}
+.tk.in { opacity:1; transform:none; transition:opacity .5s ease, transform .5s cubic-bezier(.2,.7,.2,1), box-shadow .22s, border-color .22s; }
+.tk::before {
+  content:''; position:absolute; left:10px; top:8px; bottom:8px; width:1px;
+  background:repeating-linear-gradient(180deg,var(--border,#d8d4cc) 0 3px,transparent 3px 7px);
+}
+.tk::after {
+  content:''; position:absolute; left:-6px; top:calc(50% - 6px); width:12px; height:12px;
+  border-radius:50%; background:var(--bg,#f5f4f0); border:1px solid var(--border2,#e6e2da);
+}
+.tk:hover { transform:translateY(-5px); box-shadow:0 14px 26px rgba(0,0,0,.10); border-color:var(--tk-ink); }
+.tk-name { font-size:15.5px; font-weight:700; line-height:1.2; margin-bottom:9px; }
+.tk-name a { color:var(--text); text-decoration:none; border-bottom:1px solid transparent; transition:border-color .15s,color .15s; }
+.tk:hover .tk-name a { color:var(--tk-ink); border-bottom-color:currentColor; }
+/* the rubber stamp — sits skewed and presses flat on hover */
+.tk-stamp {
+  display:inline-block; transform:rotate(-2.5deg); transform-origin:left center;
+  transition:transform .2s cubic-bezier(.3,1.4,.5,1), filter .2s;
+}
+.tk:hover .tk-stamp { transform:rotate(0) scale(.97); filter:saturate(1.15); }
+.tk-desc { font-size:12.8px; color:var(--text); line-height:1.58; margin-top:11px; }
+.tk-reach { display:flex; flex-wrap:wrap; gap:6px; margin-top:12px; padding-top:11px; border-top:1px dashed var(--border,#d8d4cc); }
+.tk-count { font-size:11px; letter-spacing:.16em; text-transform:uppercase; color:var(--muted); margin-left:42px; }
+
+.tk-empty { display:none; text-align:center; padding:44px 10px; color:var(--muted); font-size:14px; }
+.tk-sec.hidden, .tk.hidden { display:none; }
+
+@media (max-width:640px) {
+  .tk-rail { display:grid; grid-template-columns:1fr; overflow:visible; }
+  .tk { flex:none; }
+  .tk-sec-note { margin-left:0; }
+  .tk-count { margin-left:0; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .tk, .tk-rule::after { transition:none; opacity:1; transform:none; }
+  .tk-sec-no { animation:none; }
+}
+@media (prefers-color-scheme: dark) {
+  body.v-rail:not([data-theme="light"]) .tk::after { background:var(--bg,#1a1917); }
+}
+
+</style>
+</head>
+<body class="v-rail">
+<div id="toolbar-mount" data-depth="2" data-maxwidth="1000" data-updated="2026-09-05"></div>
+<script src="/assets/toolbar.js?v=127"></script>
+
+  <div class="hero-band eb-hero">
+    <span class="eb-kicker">Restaurants &amp; Reservations</span>
+    <div class="eb-copy">
+      <h1 class="eb-title">Never which site is best — <em>which one they list on.</em></h1>
+      <p class="eb-intro">Restaurant booking is the most stubbornly local corner of travel: a city's restaurants use whichever platform won that market, and the one you use at home is often invisible there. So the useful question is never which site is best — it is which one the restaurants where you are going actually list on. Below: the booking platforms by region, the guides worth trusting to pick the restaurant in the first place, and the tools for eating around a dietary restriction abroad.</p>
+    </div>
+    <div class="eb-graphic" aria-hidden="true"><svg viewBox="0 0 24 24" aria-hidden="true"><defs>
+      <linearGradient id="cst-mid5" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#a29a86"/><stop offset="1" stop-color="#4f4a3a"/></linearGradient>
+      <linearGradient id="cst-light5" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#e2ded2"/><stop offset="1" stop-color="#a29a86"/></linearGradient>
+    </defs>
+      <g fill="url(#cst-light5)" stroke="#4f4a3a" stroke-width="0.4">
+        <rect x="4.6" y="2" width="1.5" height="8.4" rx="0.7"/>
+        <rect x="7.4" y="2" width="1.5" height="8.4" rx="0.7"/>
+        <rect x="10.2" y="2" width="1.5" height="8.4" rx="0.7"/>
+      </g>
+      <g fill="url(#gm-gloss)">
+        <rect x="4.6" y="2" width="1.5" height="8.4" rx="0.7"/>
+        <rect x="7.4" y="2" width="1.5" height="8.4" rx="0.7"/>
+        <rect x="10.2" y="2" width="1.5" height="8.4" rx="0.7"/>
+      </g>
+      <path d="M5.35 9.6c0 1.6 1.2 2.8 2.75 2.8s2.75-1.2 2.75-2.8" fill="none" stroke="url(#cst-mid5)" stroke-width="1.3"/>
+      <rect x="7.3" y="11.6" width="1.5" height="10.4" rx="0.7" fill="url(#cst-mid5)" stroke="#4f4a3a" stroke-width="0.4"/>
+      <rect x="7.3" y="11.6" width="1.5" height="10.4" rx="0.7" fill="url(#gm-gloss)"/>
+      <path d="M17 2v7.8c0 1.6-1 2.6-2.4 2.8v9.4h1.5V12.6c1.4-.2 2.4-1.2 2.4-2.8V2z" fill="url(#cst-light5)" stroke="#4f4a3a" stroke-width="0.4"/>
+      <path d="M17 2v7.8c0 1.6-1 2.6-2.4 2.8v9.4h1.5V12.6c1.4-.2 2.4-1.2 2.4-2.8V2z" fill="url(#gm-gloss)"/>
+    </svg></div>
+  </div>
+<div class="wrap">
+  <p class="tk-rules-lead">Five things that decide whether you get the table</p>
+  <div class="tk-rules">
+    <div class="tk-rule rv" data-n="1"><div class="tk-rule-h">Book the platform the restaurant uses, not the one you know.</div><div class="tk-rule-b">Almost every restaurant sits on exactly one system. Check its own website or Instagram bio first; that link is the authoritative one, and the aggregators sometimes hold a smaller allocation than the restaurant's own page.</div></div>
+    <div class="tk-rule rv" data-n="2"><div class="tk-rule-h">Learn the release rule.</div><div class="tk-rule-b">Tables open on a schedule — often 30 or 60 days ahead, frequently at midnight or 10am in the restaurant's local time zone. For a sought-after place, work out the exact moment in your own time zone and set an alarm; being one day late is the usual reason a booking fails.</div></div>
+    <div class="tk-rule rv" data-n="3"><div class="tk-rule-h">A deposit is now normal.</div><div class="tk-rule-b">Card details, a per-person prepayment or a full ticketed price are standard at the top end, and cancellation windows of 24 to 72 hours are enforced. Read what happens if your flight moves.</div></div>
+    <div class="tk-rule rv" data-n="4"><div class="tk-rule-h">Cancellation alerts do most of the work.</div><div class="tk-rule-b">Every major platform will notify you when a table frees up, and tables free up constantly. Set alerts for several nights rather than refreshing one.</div></div>
+    <div class="tk-rule rv" data-n="5"><div class="tk-rule-h">Not every country books online at all.</div><div class="tk-rule-b">In much of southern Europe, Latin America and Asia the answer is a phone call, a WhatsApp message, or turning up — and a hotel concierge calling in the local language succeeds where a form fails.</div></div>
+  </div>
+  <div class="pg-search-row"><input type="search" class="search-input" id="tk-search" placeholder="Platform, guide or country" aria-label="Search platforms, guides and countries" autocomplete="off" spellcheck="false"></div>
+  <div class="tk-bar">
+    <div class="tk-jumps">
+      <a class="tk-jump" href="#tks1">Multi-Country Platforms</a>
+      <a class="tk-jump" href="#tks2">Country Specialists</a>
+      <a class="tk-jump" href="#tks3">Guides &amp; Rankings</a>
+      <a class="tk-jump" href="#tks4">City Critics &amp; Crowds</a>
+      <a class="tk-jump" href="#tks5">Eating with a Dietary Restriction</a>
+    </div>
+  </div>
+  <section class="tk-sec" id="tks1">
+    <div class="tk-sec-head"><span class="tk-sec-no" aria-hidden="true">01</span><span class="tk-sec-title">Booking a Table — Multi-Country Platforms</span><span class="tk-sec-rule"></span></div>
+    <p class="tk-sec-note">These four cover the most ground, but none is universal, and coverage is uneven inside a single country — a platform can be everywhere in the capital and absent two hours away. Their real advantage over calling is the notification: tell them the date and party size and they will alert you when someone cancels.</p>
+    <div class="tk-rail">
+      <article class="tk rv">
+        <div class="tk-name"><a href="https://resy.com" target="_blank" rel="noopener">Resy</a></div>
+        <span class="tk-stamp"><span class="badge sb-blue">Reservations</span></span>
+        <p class="tk-desc">Owned by American Express and weighted towards the restaurants that are hard to get into — chef-driven, newly opened, critically covered. Deepest in United States cities, with a growing presence in London and a few European capitals. Its Notify alerts are effective because the inventory turns over quickly, and some Amex cards unlock reserved tables that are otherwise invisible.</p>
+        <div class="tk-reach"><span class="badge cp-light-grey">United States</span><span class="badge cp-light-grey">Canada</span><span class="badge cp-light-grey">United Kingdom</span><span class="badge cp-light-grey">Europe</span></div>
+      </article>
+      <article class="tk rv">
+        <div class="tk-name"><a href="https://www.opentable.com" target="_blank" rel="noopener">OpenTable</a></div>
+        <span class="tk-stamp"><span class="badge sb-blue">Reservations</span></span>
+        <p class="tk-desc">The broadest single network, spanning neighbourhood restaurants and hotel dining rooms as well as destination ones — which is what makes it useful outside big cities, where the curated platforms list nothing. Owned by Booking Holdings, so it also appears inside Booking.com and KAYAK. Points earned per booking convert to restaurant credit slowly enough to be beside the point.</p>
+        <div class="tk-reach"><span class="badge cp-light-grey">Worldwide</span></div>
+      </article>
+      <article class="tk rv">
+        <div class="tk-name"><a href="https://www.thefork.com" target="_blank" rel="noopener">TheFork</a></div>
+        <span class="tk-stamp"><span class="badge sb-blue">Reservations · Europe</span></span>
+        <p class="tk-desc">TripAdvisor-owned and the default across continental Europe, trading as ElTenedor in Spain and holding the largest listing base in France and Italy. Routinely carries percentage discounts on the bill at quieter times, which is unusual — most platforms sell the table, this one also sells the deal. Also operates in Australia.</p>
+        <div class="tk-reach"><span class="badge cp-light-grey">France</span><span class="badge cp-light-grey">Spain</span><span class="badge cp-light-grey">Italy</span><span class="badge cp-light-grey">Europe</span><span class="badge cp-light-grey">Australia</span></div>
+      </article>
+      <article class="tk rv">
+        <div class="tk-name"><a href="https://www.exploretock.com" target="_blank" rel="noopener">Tock</a></div>
+        <span class="tk-stamp"><span class="badge sb-blue">Prepaid · Tasting menus</span></span>
+        <p class="tk-desc">Built for restaurants that sell a seat like a theatre ticket — you pay the tasting menu in advance and the booking is non-refundable or transferable rather than cancellable. That model concentrates the world's tasting-menu restaurants and many wineries here, so for a destination dinner it is often the only place the table exists. Budget for paying months ahead.</p>
+        <div class="tk-reach"><span class="badge cp-light-grey">United States</span><span class="badge cp-light-grey">Europe</span><span class="badge cp-light-grey">Worldwide</span></div>
+      </article>
+      <article class="tk rv">
+        <div class="tk-name"><a href="https://www.google.com/maps" target="_blank" rel="noopener">Google Maps</a></div>
+        <span class="tk-stamp"><span class="badge sb-blue">Universal fallback</span></span>
+        <p class="tk-desc">Not a booking platform, but the one place every restaurant on earth has a listing, with a Reserve button that hands off to whichever local system it uses — which is the fastest way to discover that a city runs on a platform you have never heard of. Also the most reliable source of current opening hours, which the booking sites frequently get wrong.</p>
+        <div class="tk-reach"><span class="badge cp-light-grey">Worldwide</span></div>
+      </article>
+      <article class="tk rv">
+        <div class="tk-name"><a href="https://www.quandoo.com" target="_blank" rel="noopener">Quandoo</a></div>
+        <span class="tk-stamp"><span class="badge sb-blue">Reservations · Europe · Asia</span></span>
+        <p class="tk-desc">Berlin-based, strongest in Germany, Austria and Switzerland, with coverage in Italy, the Netherlands, Singapore, Hong Kong and Australia. In the German-speaking countries it lists everyday neighbourhood restaurants that the international platforms skip — exactly the places worth eating in on a longer stay.</p>
+        <div class="tk-reach"><span class="badge cp-light-grey">Germany</span><span class="badge cp-light-grey">Austria</span><span class="badge cp-light-grey">Switzerland</span><span class="badge cp-light-grey">Asia</span></div>
+      </article>
+    </div>
+  </section>
+  <section class="tk-sec" id="tks2">
+    <div class="tk-sec-head"><span class="tk-sec-no" aria-hidden="true">02</span><span class="tk-sec-title">Booking a Table — Country Specialists</span><span class="tk-sec-rule"></span></div>
+    <p class="tk-sec-note">In these countries the local platform is not an alternative to the international ones — it is where the restaurants are. Several expect a local phone number or ID, which is the single most common wall a visitor hits; where an English-language route exists it is noted below, and where it doesn't, a hotel concierge is the workaround.</p>
+    <div class="tk-rail">
+      <article class="tk rv">
+        <div class="tk-name"><a href="https://tabelog.com/en/" target="_blank" rel="noopener">Tabelog</a></div>
+        <span class="tk-stamp"><span class="badge sb-teal">Japan · Reviews + booking</span></span>
+        <p class="tk-desc">Japan's dominant restaurant database, and the country's real quality signal: its ratings are compressed, so anything above roughly 3.5 out of 5 is genuinely good and above 3.8 is exceptional — a scale that surprises visitors used to inflated five-star systems. The English site covers a subset; booking often still requires a Japanese phone number.</p>
+        <div class="tk-reach"><span class="badge cp-light-grey">Japan</span></div>
+      </article>
+      <article class="tk rv">
+        <div class="tk-name"><a href="https://www.tablecheck.com/en/japan/" target="_blank" rel="noopener">TableCheck</a></div>
+        <span class="tk-stamp"><span class="badge sb-teal">Japan · English booking</span></span>
+        <p class="tk-desc">The most visitor-friendly way into Japanese restaurants — an English interface, no Japanese phone number required, and used by a large number of hotel restaurants and mid-to-high-end independents in Tokyo, Kyoto and Osaka. When a Japanese restaurant can be booked online from abroad at all, this is frequently the system behind it.</p>
+        <div class="tk-reach"><span class="badge cp-light-grey">Japan</span></div>
+      </article>
+      <article class="tk rv">
+        <div class="tk-name"><a href="https://pocket-concierge.jp/en/" target="_blank" rel="noopener">Pocket Concierge</a></div>
+        <span class="tk-stamp"><span class="badge sb-teal">Japan · Fine dining</span></span>
+        <p class="tk-desc">American Express-owned and aimed squarely at foreign visitors booking Japan's top tables — sushi counters, kaiseki, restaurants that traditionally accept introductions only. Prepaid in advance, in English, with the language barrier handled. A short list at high prices, and for some of these rooms the only route in.</p>
+        <div class="tk-reach"><span class="badge cp-light-grey">Japan</span></div>
+      </article>
+      <article class="tk rv">
+        <div class="tk-name"><a href="https://www.catchtable.co.kr" target="_blank" rel="noopener">CatchTable</a></div>
+        <span class="tk-stamp"><span class="badge sb-teal">South Korea</span></span>
+        <p class="tk-desc">South Korea's main reservation app, holding most of Seoul's sought-after restaurants, with tables typically released on a fixed day and filled within minutes. Korean-language and generally expecting a Korean phone number, so a local contact or a hotel concierge is usually the practical route for a visitor. Naver handles a further slice of bookings.</p>
+        <div class="tk-reach"><span class="badge cp-light-grey">South Korea</span></div>
+      </article>
+      <article class="tk rv">
+        <div class="tk-name"><a href="https://www.chope.co" target="_blank" rel="noopener">Chope</a></div>
+        <span class="tk-stamp"><span class="badge sb-teal">Southeast Asia</span></span>
+        <p class="tk-desc">The reservation platform of record across Singapore, Hong Kong, Bangkok, Kuala Lumpur, Jakarta and Bali, in English throughout and accepting foreign cards. It also sells discounted dining vouchers, which in Singapore in particular take a real bite out of a bill that is otherwise expensive by regional standards.</p>
+        <div class="tk-reach"><span class="badge cp-light-grey">Singapore</span><span class="badge cp-light-grey">Hong Kong</span><span class="badge cp-light-grey">Thailand</span><span class="badge cp-light-grey">Indonesia</span></div>
+      </article>
+      <article class="tk rv">
+        <div class="tk-name"><a href="https://www.dianping.com" target="_blank" rel="noopener">Dianping</a></div>
+        <span class="tk-stamp"><span class="badge sb-teal">Mainland China</span></span>
+        <p class="tk-desc">China's restaurant review and booking platform, part of Meituan, and effectively the only comprehensive listing of where to eat in a Chinese city. Chinese-language, tied to a local payment method, and hard to use as a visitor without help — but worth having someone search it for you, because the international platforms list almost nothing.</p>
+        <div class="tk-reach"><span class="badge cp-light-grey">China</span></div>
+      </article>
+      <article class="tk rv">
+        <div class="tk-name"><a href="https://www.eazydiner.com" target="_blank" rel="noopener">EazyDiner</a></div>
+        <span class="tk-stamp"><span class="badge sb-teal">India</span></span>
+        <p class="tk-desc">India's main restaurant reservation platform, covering Delhi, Mumbai, Bengaluru and the other major cities, with same-day discounts attached to a large share of bookings. Zomato is the bigger name in the country but is oriented around delivery and reviews; for actually holding a table this is the one restaurants use.</p>
+        <div class="tk-reach"><span class="badge cp-light-grey">India</span><span class="badge cp-light-grey">United Arab Emirates</span></div>
+      </article>
+      <article class="tk rv">
+        <div class="tk-name"><a href="https://eatapp.co" target="_blank" rel="noopener">Eat App</a></div>
+        <span class="tk-stamp"><span class="badge sb-teal">Middle East</span></span>
+        <p class="tk-desc">Bahrain-founded and the reservation system behind a large share of restaurants across the Gulf — Dubai, Abu Dhabi, Doha, Riyadh and Bahrain — in English and accepting foreign cards. In a region where hotel restaurants dominate the fine-dining scene, it covers most of them.</p>
+        <div class="tk-reach"><span class="badge cp-light-grey">United Arab Emirates</span><span class="badge cp-light-grey">Qatar</span><span class="badge cp-light-grey">Saudi Arabia</span><span class="badge cp-light-grey">Bahrain</span></div>
+      </article>
+      <article class="tk rv">
+        <div class="tk-name"><a href="https://www.covermanager.com" target="_blank" rel="noopener">CoverManager</a></div>
+        <span class="tk-stamp"><span class="badge sb-teal">Spain · Portugal · Latin America</span></span>
+        <p class="tk-desc">Spanish, and the booking engine sitting behind an enormous number of Spanish, Portuguese and Latin American restaurants — including many of the region's best, which take reservations only through their own site. You rarely search it directly; you meet it when you click Reservar on a restaurant's page, which is precisely why the restaurant's own website is the link to follow.</p>
+        <div class="tk-reach"><span class="badge cp-light-grey">Spain</span><span class="badge cp-light-grey">Portugal</span><span class="badge cp-light-grey">Mexico</span><span class="badge cp-light-grey">Latin America</span></div>
+      </article>
+    </div>
+  </section>
+  <section class="tk-sec" id="tks3">
+    <div class="tk-sec-head"><span class="tk-sec-no" aria-hidden="true">03</span><span class="tk-sec-title">Deciding Where to Eat — Guides &amp; Rankings</span><span class="tk-sec-rule"></span></div>
+    <p class="tk-sec-note">Each of these is a different jury, and knowing whose opinion you are reading matters more than the score. Michelin sends anonymous inspectors against a fixed set of criteria; the ranked lists are voted on by industry panels and reward ambition and novelty; the national guides apply their own scales. None of them covers cheap and ordinary eating well — that is what the city critics further down are for.</p>
+    <div class="tk-rail">
+      <article class="tk rv">
+        <div class="tk-name"><a href="https://guide.michelin.com" target="_blank" rel="noopener">Michelin Guide</a></div>
+        <span class="tk-stamp"><span class="badge sb-gold">Anonymous inspectors</span></span>
+        <p class="tk-desc">Anonymous inspectors judging food alone — stars for cooking of a high standard, and the more useful Bib Gourmand for good food at a modest price, which is where the guide earns its keep for ordinary travellers. Coverage is limited to the regions it has chosen to enter, so an unstarred city may simply never have been visited rather than judged and found wanting.</p>
+        <div class="tk-reach"><span class="badge cp-light-grey">Europe</span><span class="badge cp-light-grey">United States</span><span class="badge cp-light-grey">Japan</span><span class="badge cp-light-grey">Asia</span></div>
+      </article>
+      <article class="tk rv">
+        <div class="tk-name"><a href="https://www.theworlds50best.com" target="_blank" rel="noopener">World's 50 Best Restaurants</a></div>
+        <span class="tk-stamp"><span class="badge sb-gold">Industry panel vote</span></span>
+        <p class="tk-desc">Voted by a large international panel of chefs, writers and well-travelled diners, with regional editions for Asia, Latin America and the Middle East and Africa. It rewards originality and influence rather than consistency, so it surfaces restaurants Michelin is slower to recognise — and books out the moment a list is published.</p>
+        <div class="tk-reach"><span class="badge cp-light-grey">Worldwide</span></div>
+      </article>
+      <article class="tk rv">
+        <div class="tk-name"><a href="https://www.gaultmillau.com" target="_blank" rel="noopener">Gault&amp;Millau</a></div>
+        <span class="tk-stamp"><span class="badge sb-gold">Europe · Scored out of 20</span></span>
+        <p class="tk-desc">A French guide scoring restaurants out of 20 and historically friendlier to modern, less formal cooking than Michelin. Strongest in France, Germany, Austria, Switzerland and the Benelux countries, where it frequently rates places the red guide has not reached — a useful second opinion in exactly those markets.</p>
+        <div class="tk-reach"><span class="badge cp-light-grey">France</span><span class="badge cp-light-grey">Germany</span><span class="badge cp-light-grey">Austria</span><span class="badge cp-light-grey">Benelux</span></div>
+      </article>
+      <article class="tk rv">
+        <div class="tk-name"><a href="https://www.laliste.com" target="_blank" rel="noopener">La Liste</a></div>
+        <span class="tk-stamp"><span class="badge sb-gold">Aggregated guides</span></span>
+        <p class="tk-desc">A French project that aggregates hundreds of guides and review sources into a single score per restaurant, across more than 200 countries. Because it averages several juries rather than applying one, it reaches far more places than any individual guide — useful for a country where none of the famous guides operates.</p>
+        <div class="tk-reach"><span class="badge cp-light-grey">Worldwide</span></div>
+      </article>
+      <article class="tk rv">
+        <div class="tk-name"><a href="https://www.50toppizza.it/en/" target="_blank" rel="noopener">50 Top Pizza</a></div>
+        <span class="tk-stamp"><span class="badge sb-gold">Pizza · Italy &amp; worldwide</span></span>
+        <p class="tk-desc">An Italian ranking of pizzerias, with world, European and United States editions, judged by anonymous visits. Narrow by design and genuinely authoritative within it — the fastest way to avoid the tourist-strip pizza in Naples, Rome or New York and find the place locals queue at instead.</p>
+        <div class="tk-reach"><span class="badge cp-light-grey">Italy</span><span class="badge cp-light-grey">Europe</span><span class="badge cp-light-grey">United States</span></div>
+      </article>
+    </div>
+  </section>
+  <section class="tk-sec" id="tks4">
+    <div class="tk-sec-head"><span class="tk-sec-no" aria-hidden="true">04</span><span class="tk-sec-title">Deciding Where to Eat — City Critics &amp; Crowds</span><span class="tk-sec-rule"></span></div>
+    <p class="tk-sec-note">Guides rank the top of the market; these cover the rest of it, which is most of what you will actually eat. The pattern that works is to cross two sources — a local critic for what is good, and a crowd platform for whether it is still open and what the queue is like at 8pm on a Friday.</p>
+    <div class="tk-rail">
+      <article class="tk rv">
+        <div class="tk-name"><a href="https://www.eater.com" target="_blank" rel="noopener">Eater</a></div>
+        <span class="tk-stamp"><span class="badge sb-green">City guides · United States</span></span>
+        <p class="tk-desc">City-by-city food journalism with local editors, and two formats worth knowing: the Eater 38, an evergreen list of the restaurants that define a city, and the constantly refreshed heatmap of where to eat right now. Strongest across United States cities, with London coverage as well. Written for residents, which is what makes it reliable.</p>
+        <div class="tk-reach"><span class="badge cp-light-grey">United States</span><span class="badge cp-light-grey">United Kingdom</span></div>
+      </article>
+      <article class="tk rv">
+        <div class="tk-name"><a href="https://www.theinfatuation.com" target="_blank" rel="noopener">The Infatuation</a></div>
+        <span class="tk-stamp"><span class="badge sb-green">Reviews by occasion</span></span>
+        <p class="tk-desc">Reviews written around the question people actually ask — where to take a group of six, where to eat alone at the bar, where to go after a show — with a numeric score and no advertising in the reviews. Covers major United States cities plus London. Its guides by situation are more useful on a trip than any ranked list.</p>
+        <div class="tk-reach"><span class="badge cp-light-grey">United States</span><span class="badge cp-light-grey">United Kingdom</span></div>
+      </article>
+      <article class="tk rv">
+        <div class="tk-name"><a href="https://www.tripadvisor.com/Restaurants" target="_blank" rel="noopener">TripAdvisor</a></div>
+        <span class="tk-stamp"><span class="badge sb-green">Crowd reviews · Worldwide</span></span>
+        <p class="tk-desc">Enormous review volume in every country, which is both its use and its weakness: rankings skew towards restaurants that serve visitors, so the top of a city list is often the tourist trap rather than the good room. Read it for practical detail — whether the terrace is real, whether they take cards, how long the wait was — rather than for the ranking.</p>
+        <div class="tk-reach"><span class="badge cp-light-grey">Worldwide</span></div>
+      </article>
+      <article class="tk rv">
+        <div class="tk-name"><a href="https://www.yelp.com" target="_blank" rel="noopener">Yelp</a></div>
+        <span class="tk-stamp"><span class="badge sb-green">Crowd reviews · United States</span></span>
+        <p class="tk-desc">Still the deepest review base for everyday United States restaurants — the diner, the taqueria, the strip-mall place with no website — where the national publications and international platforms have nothing. Its waitlist feature also shows live queue times in some cities. Coverage outside North America is thin enough to ignore.</p>
+        <div class="tk-reach"><span class="badge cp-light-grey">United States</span><span class="badge cp-light-grey">Canada</span></div>
+      </article>
+      <article class="tk rv">
+        <div class="tk-name"><a href="https://www.timeout.com" target="_blank" rel="noopener">Time Out</a></div>
+        <span class="tk-stamp"><span class="badge sb-green">City guides · International</span></span>
+        <p class="tk-desc">Locally edited food and drink coverage for around forty cities worldwide, including many that Eater and The Infatuation do not reach — Lisbon, Barcelona, Tokyo, Melbourne, Buenos Aires. Its best-restaurants-in-{city} lists are updated rather than left to rot, which separates them from most travel listicles.</p>
+        <div class="tk-reach"><span class="badge cp-light-grey">Worldwide</span></div>
+      </article>
+    </div>
+  </section>
+  <section class="tk-sec" id="tks5">
+    <div class="tk-sec-head"><span class="tk-sec-no" aria-hidden="true">05</span><span class="tk-sec-title">Eating with a Dietary Restriction</span><span class="tk-sec-rule"></span></div>
+    <p class="tk-sec-note">A restriction that is routine at home can be genuinely difficult in a country whose staple dishes are built around it, and mainstream platforms filter for cuisine, not for what you cannot eat. These are the tools built for the problem — plus one habit worth adopting: carry a printed translation card explaining the restriction in the local language, because kitchens understand a card in a way they do not understand a conversation at the pass.</p>
+    <div class="tk-rail">
+      <article class="tk rv">
+        <div class="tk-name"><a href="https://www.happycow.net" target="_blank" rel="noopener">HappyCow</a></div>
+        <span class="tk-stamp"><span class="badge sb-pink">Vegan · Vegetarian</span></span>
+        <p class="tk-desc">A crowd-maintained global directory of vegan and vegetarian restaurants, plus ordinary places with reliable options, in over 180 countries — including small towns where nothing else lists anything. The distinction between fully vegan, vegetarian and veg-friendly is marked on each entry, which is the detail that decides whether a place is actually usable.</p>
+        <div class="tk-reach"><span class="badge cp-light-grey">Worldwide</span></div>
+      </article>
+      <article class="tk rv">
+        <div class="tk-name"><a href="https://www.findmeglutenfree.com" target="_blank" rel="noopener">Find Me Gluten Free</a></div>
+        <span class="tk-stamp"><span class="badge sb-pink">Coeliac · Gluten-free</span></span>
+        <p class="tk-desc">Reviews written by people with coeliac disease rather than by people avoiding gluten by choice, which is the difference that matters — the reviews discuss dedicated fryers, separate prep areas and staff understanding. Strongest in the United States and Europe; Italy is unusually well served, since coeliac diagnosis and certified restaurants are widespread there.</p>
+        <div class="tk-reach"><span class="badge cp-light-grey">United States</span><span class="badge cp-light-grey">Europe</span><span class="badge cp-light-grey">Worldwide</span></div>
+      </article>
+    </div>
+  </section>
+  <div class="tk-empty" id="tk-empty">Nothing matches that. Clear the search to see all 27 platforms and guides.</div>
+</div><!-- /wrap -->
+<script>
+
+(function () {
+  var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var els = document.querySelectorAll('.rv');
+  if (reduce || !('IntersectionObserver' in window)) {
+    els.forEach(function (e) { e.classList.add('in'); });
+    return;
+  }
+  var io = new IntersectionObserver(function (entries) {
+    entries.forEach(function (en) {
+      if (en.isIntersecting) { en.target.classList.add('in'); io.unobserve(en.target); }
+    });
+  }, { threshold: 0.08, rootMargin: '0px 0px -30px 0px' });
+  els.forEach(function (e) { io.observe(e); });
+}());
+
+(function () {
+  var inp = document.getElementById('tk-search');
+  var empty = document.getElementById('tk-empty');
+  if (!inp) return;
+  var fold = function (s) { return s.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase(); };
+  inp.addEventListener('input', function () {
+    var q = fold(inp.value.trim());
+    var any = false;
+    document.querySelectorAll('.tk-sec').forEach(function (sec) {
+      var shown = 0;
+      sec.querySelectorAll('.tk').forEach(function (card) {
+        var hit = !q || fold(card.textContent).indexOf(q) !== -1;
+        card.classList.toggle('hidden', !hit);
+        card.classList.add('in');
+        if (hit) shown++;
+      });
+      sec.classList.toggle('hidden', shown === 0);
+      if (shown) any = true;
+    });
+    empty.style.display = any ? 'none' : 'block';
+  });
+}());
+</script>
+<script src="/assets/search-autocomplete.js?v=8"></script>
+<script>
+/* Typeahead comes from the shared component — TVESearch.attach(), never a
+   hand-rolled suggestion list (TVESearch.html § 5). Picking a suggestion
+   drops its name into the box and the page's own filter above runs on the
+   resulting input event. */
+(function () {
+  if (!window.TVESearch) return;
+  var inp = document.getElementById('tk-search');
+  if (!inp) return;
+  TVESearch.attach(inp, { items: (function () {
+    var out = [];
+    document.querySelectorAll('.tk').forEach(function (c) { out.push({ name: c.querySelector('.tk-name').textContent.trim(), sub: c.querySelector('.badge').textContent.trim() }); });
+    return out;
+  }()), onPick: function (it) {
+    inp.value = it.name;
+    inp.dispatchEvent(new Event('input'));
+  } });
+}());
+</script>
+</body>
+</html>

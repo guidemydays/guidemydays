@@ -11605,3 +11605,13 @@ window.TVE.home = (function () {
   _injectStopTypeFilter();
 
 }());
+
+/* Load the shared site footer (copyright + contact) on every page that loads
+   this file. Kept in its own asset rather than folded in here — it decides
+   per-page whether to actually render via its own path exclusion list — so
+   this stays a one-line hook and never grows into toolbar logic. */
+(function () {
+  var s = document.createElement('script');
+  s.src = '/assets/site-footer.js';
+  document.body.appendChild(s);
+}());

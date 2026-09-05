@@ -5200,6 +5200,16 @@ window.TVE.home = (function () {
       { name: 'Hilton Suites Jabal Omar Makkah', note: 'Hilton family — Ibrahim Al Khalil Street, Ajyad, 24h reception, AC, 7 min walk to Masjid al-Haram · 9.0 Booking.com', url: 'https://www.booking.com/hotel/sa/hilton-suites-makkah.html', tier: 'luxury' },
       { name: 'Jabal Omar Hyatt Regency Makkah', note: 'Hyatt family — Ibrahim Al Khalil Road, Ajyad, 24h reception, AC, 7 min walk to Masjid al-Haram · 8.8 Booking.com', url: 'https://www.booking.com/hotel/sa/hyatt-regency-makkah.html', tier: 'luxury' }
     ], price: { budget: 'SAR 190–420', mid: 'SAR 420–520', expensive: 'SAR 520–650', luxury: 'SAR 650+' } },
+    'shenzhen': { h: [
+      { name: 'Atour X Hotel Gangxia Shenzhen Convention Center Branch', note: 'Independent — Gangxia, Futian, beside the Convention Center and two metro lines · 9.0 Booking.com', url: 'https://www.booking.com/hotel/cn/shen-zhen-hui-zhan-zhong-xin-lian-he-yan-chang-ya-duo-xjiu-dian.html', tier: 'budget' },
+      { name: 'Atour Hotel Shenzhen CBD Futian Metro Station', note: 'Independent — Futian CBD, over the metro, walking distance to Ping An Finance Centre · 9.2 Booking.com', url: 'https://www.booking.com/hotel/cn/shen-zhen-cbdfu-tian-di-tie-zhan-ya-duo-jiu-dian-shen-zhen.html', tier: 'budget' },
+      { name: 'Fraser Suites Shenzhen', note: 'Independent — Futian, serviced apartments with rooftop pool and sauna, king studios · 9.2 Booking.com', url: 'https://www.booking.com/hotel/cn/shen-zhen-hui-sheng-ge-guo-ji-gong-yu-fraser-suites-shenzhen-shenzhen.html', tier: 'mid' },
+      { name: 'Hampton by Hilton Shenzhen Futian Huaqiangbei', note: 'Hilton family — Huaqiangbei, Futian, 24h reception, breakfast included · 9.0 Booking.com', url: 'https://www.booking.com/hotel/cn/shen-zhen-fu-tian-hua-qiang-bei-xi-er-dun-huan-peng-jiu-dian.html', tier: 'mid' },
+      { name: 'Hilton Shenzhen Futian', note: 'Hilton family — central Futian, outdoor pool, sauna, superior king rooms · 8.3 Booking.com', url: 'https://www.booking.com/hotel/cn/hilton-shenzhen-futian.html', tier: 'expensive' },
+      { name: 'Four Seasons Hotel Shenzhen', note: 'Independent — Futian, directly opposite the Convention and Exhibition Center, indoor and outdoor pools · 9.0 Booking.com', url: 'https://www.booking.com/hotel/cn/four-seasons-shenzhen.html', tier: 'expensive' },
+      { name: 'The St. Regis Shenzhen', note: 'Independent — Luohu, high floors of the Kingkey 100 tower, butler service · 9.1 Booking.com', url: 'https://www.booking.com/hotel/cn/st-regis-shenzhen.html', tier: 'luxury' },
+      { name: 'The Ritz-Carlton, Shenzhen', note: 'Marriott family — Fuhua 3rd Road, Futian CBD, spa and hot tub, twin and king rooms · 9.1 Booking.com', url: 'https://www.booking.com/hotel/cn/the-ritz-carlton-shenzhen.html', tier: 'luxury' }
+    ], price: { budget: 'CNY 700–850', mid: 'CNY 900–1,050', expensive: 'CNY 1,150–1,300', luxury: 'CNY 1,400–2,200' } },
     'bangalore': { h: [
       { name: 'Radisson Blu Atria Bengaluru', note: 'Radisson Blu — second-tier international brand, Palace Road, spa, pool, 24h reception, AC, 25 min walk to MG Road · 7.9 Booking.com', url: 'https://www.booking.com/hotel/in/radisson-blu-atria-bengaluru.html', tier: 'budget' },
       { name: 'Hyatt Centric MG Road Bangalore', note: 'Hyatt family — first-tier international brand, right on MG Road, spa, 24h reception, AC, steps from Cubbon Park · 7.8 Booking.com', url: 'https://www.booking.com/hotel/in/hyatt-bangalore-mg-road.html', tier: 'mid' },
@@ -5351,6 +5361,13 @@ window.TVE.home = (function () {
       { name: 'Le Pélican', note: 'Independent — Rue des Marquisats on the lakeshore below the old town, heated outdoor pool, restaurant, 24h reception · 8.8 Booking.com', url: 'https://www.booking.com/hotel/fr/le-pelican-annecy1.html', tier: 'expensive' },
       { name: 'Impérial Palace Annecy', note: 'Independent — lakefront property in central Annecy, La Voile gastronomic restaurant with terrace, spa with pool and hammam · 8.8 Booking.com', url: 'https://www.booking.com/hotel/fr/imperial-palace.html', tier: 'luxury' }
     ], price: { budget: '€80–210', mid: '€145–320', expensive: '€175–390', luxury: '€215–370' } },
+    'antalya': { h: [
+      { name: 'Sultan Pension', note: 'Independent — Old Town Kaleiçi, 3-star, beachfront garden pension a 4-minute walk from Mermerli Beach · 9.1 Booking.com', url: 'https://www.booking.com/hotel/tr/sultan-pension.html', tier: 'budget' },
+      { name: 'Antalya D&D Terrace', note: 'Independent — Antalya, an 11-minute walk from Old City Marina · 9.2 Booking.com', url: 'https://www.booking.com/hotel/tr/antalya-d-amp-d-terrace.html', tier: 'budget' },
+      { name: 'Arkk Homes', note: 'Independent — Old Town Kaleiçi, 4-star, mountain-view rooms a 10-minute walk from Mermerli Beach · 9.1 Booking.com', url: 'https://www.booking.com/hotel/tr/arkk-homes.html', tier: 'mid' },
+      { name: 'DoubleTree by Hilton Antalya City Centre', note: 'Hilton DoubleTree brand — Antalya City Center, 1.4 miles from Mermerli Beach · 8.0 Booking.com', url: 'https://www.booking.com/hotel/tr/doubletree-by-hilton-antalya-city-centre.html', tier: 'expensive' },
+      { name: 'Minyon Hotel', note: 'Independent — Old Town Kaleiçi, 1.9 miles from Konyaaltı Beach · 9.3 Booking.com', url: 'https://www.booking.com/hotel/tr/madegnyon.html', tier: 'luxury' }
+    ], price: { budget: 'TRY 3,500–5,000', mid: 'TRY 5,000–8,500', expensive: 'TRY 8,500–9,500', luxury: 'TRY 9,500+' } },
     'aracaju': { h: [
       { name: 'Via Mar Praia Hotel', note: 'Independent — Av. Santos Dumont on the Atalaia beachfront, year-round outdoor pool, free parking, 24h reception · 9.0 Booking.com', url: 'https://www.booking.com/hotel/br/via-mar-praia.html', tier: 'budget' },
       { name: 'Hotel da Costa by Nobile', note: 'Nobile Hotels — beachfront on Orla de Atalaia, outdoor pool with sea view, breakfast highly rated · 8.8 Booking.com', url: 'https://www.booking.com/hotel/br/da-costa.html', tier: 'budget' },
@@ -6496,7 +6513,17 @@ window.TVE.home = (function () {
       { name: 'Hyatt Centric Montevideo', note: 'Hyatt brand — downtown on Rincón, panoramic city views, fitness centre, 24h front desk · 8.9 Booking.com', url: 'https://www.booking.com/hotel/uy/hyatt-centric-montevideo.html', tier: 'expensive' },
       { name: 'Sofitel Montevideo Casino Carrasco & Spa', note: 'Sofitel brand — 1921 Casino Carrasco landmark on the Rambla, indoor pool and spa, 24h front desk · 9.0 Booking.com', url: 'https://www.booking.com/hotel/uy/sofitel-montevideo-casino-carrasco.html', tier: 'luxury' }
     ], price: { budget: 'USD 60–100', mid: 'USD 100–170', expensive: 'USD 170–280', luxury: 'USD 280+' } },
-    'moscow': { h: [
+    'saint-petersburg': { h: [
+      { name: 'Nevsky Forum Hotel', tier: 'budget', note: 'Independent — 29 rooms on Nevsky Prospekt with Mayakovskaya metro at the door, 24h front desk', url: 'https://www.booking.com/hotel/ru/nevsky-forum.html' },
+      { name: 'Hotel Nevsky 74', tier: 'budget', note: 'Independent — Nevsky Prospekt address 5 min from the Anichkov Bridge, 24h front desk', url: 'https://www.booking.com/hotel/ru/nevsky-74-saint-petersburg.html' },
+      { name: 'Novotel Saint Petersburg Center', tier: 'mid', note: 'Accor — the title-card hotel, rebuilt 2024, gym and Turkish steam room, 3 min walk to Nevsky Prospekt', url: 'https://www.booking.com/hotel/ru/st-petersburg-centre.html' },
+      { name: 'Comfort Hotel', tier: 'mid', note: 'Independent — 600 m from the historic centre, quieter side-street location', url: 'https://www.booking.com/hotel/ru/comfort-saint-petersburg.html' },
+      { name: 'Petro Palace Hotel', tier: 'expensive', note: 'Independent — between Nevsky Prospekt and St Isaac\u2019s, indoor pool, 5 min walk to Palace Square', url: 'https://www.booking.com/hotel/ru/petro-palace.html' },
+      { name: 'Domina Saint-Petersburg', tier: 'expensive', note: 'Independent — 19th-century mansion on the quiet Moika embankment a step from St Isaac\u2019s', url: 'https://www.booking.com/hotel/ru/domina-prestige-st-petersburg.html' },
+      { name: 'Grand Hotel Europe', tier: 'luxury', note: 'Independent — on Nevsky Prospekt at Arts Square, the city\u2019s grand hotel for 150 years', url: 'https://www.booking.com/hotel/ru/belmond-grand-europe.html' },
+      { name: 'Astoria Hotel', tier: 'luxury', note: 'Independent — facing St Isaac\u2019s Cathedral on Bolshaya Morskaya, landmark Art Nouveau building', url: 'https://www.booking.com/hotel/ru/astoria.html' }],
+    price: { budget: '₽4,000–8,000', mid: '₽8,000–16,000', expensive: '₽16,000–30,000', luxury: '₽30,000+' } },
+  'moscow': { h: [
       { name: 'CityComfort Hotel Kitay-Gorod', note: 'Independent — old Kitay-Gorod quarter, 5 min walk to Lubyanka, 15 min walk to Red Square, 24h front desk · 8.0 Booking.com', url: 'https://www.booking.com/hotel/ru/city-comfort.html', tier: 'budget' },
       { name: 'Minima Kitay-Gorod', note: 'Independent — compact budget rooms 10 min walk from Red Square and Saint Basil’s, 24h reception', url: 'https://www.booking.com/hotel/ru/kitay-gorod.html', tier: 'budget' },
       { name: 'Budapest Hotel', note: 'Independent — 19th-century building steps from the Bolshoi Theatre, 24h front desk, free cancellation · 8.2 Booking.com', url: 'https://www.booking.com/hotel/ru/budapest.html', tier: 'mid' },
@@ -6703,6 +6730,16 @@ window.TVE.home = (function () {
       { name: 'Hilton Garden Inn Arcadia/Pasadena Area', note: 'Hilton Garden Inn brand — 199 North Second Avenue in Arcadia, 15 min by car, heated outdoor pool, 24h reception · 8.5 Booking.com', url: 'https://www.booking.com/hotel/us/hilton-garden-inn-arcadia-pasadena-area-arcadia.html', tier: 'budget' },
       { name: 'Courtyard by Marriott Los Angeles Pasadena/Monrovia', note: 'Marriott Courtyard brand — 700 West Huntington Drive in Monrovia, 15 min by car, heated outdoor pool, 24h reception, free parking · 8.4 Booking.com', url: 'https://www.booking.com/hotel/us/courtyard-los-angeles-pasadena-monrovia.html', tier: 'budget' }
     ], price: { budget: '$110–190', mid: '$190–260', expensive: '$260–400', luxury: '$400+' } },
+    'pattaya': { h: [
+      { name: 'Ibis Pattaya', note: 'Accor family — Central Pattaya, near Terminal 21, 24h reception, AC, quiet side road a short walk from Beach Road · 7.8 Booking.com', url: 'https://www.booking.com/hotel/th/ibis-pattaya.html', tier: 'budget' },
+      { name: 'Arbour Hotel and Residence', note: 'Independent — Pattaya 3rd Road, Nongprue, 24h reception, AC, pool, strong guest-review consensus · 9.1 Booking.com', url: 'https://www.booking.com/hotel/th/arbour-and-residence.html', tier: 'budget' },
+      { name: 'Grande Centre Point Pattaya', note: 'Independent — Central Pattaya, 24h reception, AC, pool, near Central Pattaya Beach · 9.1 Booking.com', url: 'https://www.booking.com/hotel/th/grande-centre-point-pattaya.html', tier: 'mid' },
+      { name: 'Holiday Inn Pattaya', note: 'IHG family — first-tier international brand, Pattaya Beach Road, beachfront, 24h reception, AC · 8.9 Booking.com', url: 'https://www.booking.com/hotel/th/holiday-inn-pattaya.html', tier: 'mid' },
+      { name: 'Amari Pattaya', note: 'Independent — North Pattaya, beachfront, 24h reception, AC, adults-only pool and kids’ aqua park · 8.7 Booking.com', url: 'https://www.booking.com/hotel/th/amari-pattaya.html', tier: 'expensive' },
+      { name: 'InterContinental Pattaya Resort by IHG', note: 'IHG family — first-tier international brand, Pratamnak Hill, private beach, 24h reception, AC · 8.8 Booking.com', url: 'https://www.booking.com/hotel/th/inter-continental-pattaya-resort.html', tier: 'expensive' },
+      { name: 'Meliá Pattaya Hotel', note: 'Meliá family — first-tier international brand, Nongprue, beachfront, 24h reception, AC · 9.1 Booking.com', url: 'https://www.booking.com/hotel/th/melia-pattaya.html', tier: 'luxury' },
+      { name: 'Centara Grand Mirage Beach Resort Pattaya', note: 'Independent — North Pattaya, large beachfront resort, multiple pools and water park, 24h reception, AC · 8.6 Booking.com', url: 'https://www.booking.com/hotel/th/centara-grand-mirage-beach-resort-pattaya.html', tier: 'luxury' }
+    ], price: { budget: 'THB 1,200–2,600', mid: 'THB 2,600–3,800', expensive: 'THB 3,800–5,800', luxury: 'THB 5,800–9,500' } },
     'pensacola': { h: [
       { name: 'Portofino Island Resort', note: 'Independent — Santa Rosa Island, Gulf Spa, multiple pools, direct Gulf of Mexico beachfront · 8.7 Booking.com', url: 'https://www.booking.com/hotel/us/portofino-island-resort.html', tier: 'luxury' },
       { name: 'Fairfield by Marriott Inn & Suites Pensacola Beach', note: 'Marriott family — Pensacola Beach beachfront, two pools, lazy river, breakfast included · 9.1 Booking.com', url: 'https://www.booking.com/hotel/us/fairfield-by-marriott-inn-suites-pensacola-beach.html', tier: 'mid' },
@@ -10212,6 +10249,7 @@ window.TVE.home = (function () {
       'amalfi':            {iata:'NAP', name:'Naples International'},
       'amsterdam':         {iata:'AMS', name:'Amsterdam Schiphol'},
       'annecy':            {iata:'GVA', name:'Geneva International'},
+      'antalya':           {iata:'AYT', name:'Antalya Airport'},
       'antigua-guatemala': {iata:'GUA', name:'La Aurora International'},
       'aracaju':           {iata:'AJU', name:'Aracaju Marechal Cunha Machado'},
       'arenal':            {iata:'SJO', name:'Juan Santamaría International'},
@@ -10224,6 +10262,7 @@ window.TVE.home = (function () {
       'bali':              {iata:'DPS', name:'Ngurah Rai International'},
       'banff':             {iata:'YYC', name:'Calgary International'},
       'bangkok':           {iata:'BKK', name:'Suvarnabhumi Airport'},
+      'pattaya':           {iata:'BKK', name:'Suvarnabhumi Airport'},
       'barbados':          {iata:'BGI', name:'Grantley Adams International'},
       'barcelona':         {iata:'BCN', name:'Barcelona El Prat'},
       'beijing':           {iata:'PEK', name:'Beijing Capital International'},
@@ -10352,6 +10391,7 @@ window.TVE.home = (function () {
       'montevideo':        {iata:'MVD', name:'Carrasco International'},
       'montreal':          {iata:'YUL', name:'Montréal-Trudeau International'},
       'moscow':            {iata:'SVO', name:'Sheremetyevo International'},
+      'saint-petersburg':  {iata:'LED', name:'Pulkovo'},
       'mumbai':            {iata:'BOM', name:'Chhatrapati Shivaji Maharaj International'},
       'nairobi':           {iata:'NBO', name:'Jomo Kenyatta International'},
       'munich':            {iata:'MUC', name:'Munich International'},
@@ -10424,6 +10464,7 @@ window.TVE.home = (function () {
       'seattle':           {iata:'SEA', name:'Seattle-Tacoma International'},
       'sedona':            {iata:'PHX', name:'Phoenix Sky Harbor'},
       'seoul':             {iata:'ICN', name:'Incheon International'},
+      'shenzhen':          {iata:'SZX', name:'Shenzhen Bao\'an International'},
       'seville':           {iata:'SVQ', name:'Seville Airport'},
       'seychelles':        {iata:'SEZ', name:'Seychelles International'},
       'shanghai':          {iata:'PVG', name:'Shanghai Pudong International'},
@@ -10477,21 +10518,21 @@ window.TVE.home = (function () {
        list) while every European guide jumped to its country rather than to
        its airport. */
     var LOUNGE_IATAS = [
-      'ABQ','AES','AGP','AJU','AMM','AMS','ANC','ARN','ATH','ATL','AUA','AUH','AUS','BCN','BDS','BER',
-      'BGI','BGO','BIO','BKK','BLQ','BLR','BNA','BOB','BOD','BOM','BOS','BRU','BSL','BUD','CAE','CAI','CDG',
-      'CFU','CGN','CKG','CLT','CMB','CNX','CPH','CPT','CTA','CTG','CUN','CUR','CUZ','CWB','DAD','DBV',
-      'DCA','DEL','DEN','DFW','DOH','DPS','DTW','DUB','DUS','DXB','DYG','EDI','EYW','EZE','FAO','FCA',
-      'FCO','FHR','FLN','FLR','FNC','FOR','FRA','GCM','GEG','GIG','GLA','GOT','GPS','GRU','GRX','GUA',
-      'GVA','HAM','HAN','HAV','HEL','HER','HHH','HIJ','HKG','HKT','HND','HNL','IAD','IAH','ICN','IGU',
-      'IST','JED','JFK','JMK','JPA','JTR','KEF','KIX','KOA','KRK','KTM','KUL','KWI','LAS','LAX','LGA','LGW',
-      'LHR','LIH','LIM','LIS','LJU','LOS','LPB','LPQ','LUX','LYS','MAD','MAN','MBJ','MCO','MCT','MCZ',
-      'MEL','MFM','MIA','MLA','MLE','MRS','MSP','MSY','MUC','MVD','MXP','NAP','NAS','NAT','NBO','NCE','OAX',
-      'OGG','OLB','OPO','ORD','ORS','ORY','OSL','OTP','PBH','PDL','PDX','PEK','PHL','PHX','PLS','PMI',
-      'PNS','POA','PPS','PRG','PSA','PSP','PUJ','PUS','PVG','PVR','RAK','RDM','REC','RHO','RIX','RNO',
-      'RSW','RUH','SAN','SCL','SEA','SEZ','SFO','SIN','SJC','SJD','SJO','SJU','SKG','SLC','SLZ','SOF',
-      'SPU','SRQ','SSA','STR','STT','SVO','SVQ','SXB','SXM','SYD','SZG','TBS','TFS','TIV','TLL','TLV',
-      'TOS','TPE','TRN','VCE','VIE','VLC','VNO','VRN','WLG','YQB','YUL','YVR','YYC','YYZ','ZAG','ZNZ',
-      'ZQN','ZRH','ZTH'
+      'ABQ','AES','AGP','AJU','AMM','AMS','ANC','ARN','ATH','ATL','AUA','AUH','AUS','AYT','BCN','BDS',
+      'BER','BGI','BGO','BIO','BKK','BLQ','BLR','BNA','BOB','BOD','BOM','BOS','BRU','BSL','BUD','CAE',
+      'CAI','CDG','CFU','CGN','CKG','CLT','CMB','CNX','CPH','CPT','CTA','CTG','CUN','CUR','CUZ','CWB',
+      'DAD','DBV','DCA','DEL','DEN','DFW','DOH','DPS','DTW','DUB','DUS','DXB','DYG','EDI','EYW','EZE',
+      'FAO','FCA','FCO','FHR','FLN','FLR','FNC','FOR','FRA','GCM','GEG','GIG','GLA','GOT','GPS','GRU',
+      'GRX','GUA','GVA','HAM','HAN','HAV','HEL','HER','HHH','HIJ','HKG','HKT','HND','HNL','IAD','IAH',
+      'ICN','IGU','IST','JED','JFK','JMK','JPA','JTR','KEF','KIX','KOA','KRK','KTM','KUL','KWI','LAS',
+      'LAX','LED','LGA','LGW','LHR','LIH','LIM','LIS','LJU','LOS','LPB','LPQ','LUX','LYS','MAD','MAN',
+      'MBJ','MCO','MCT','MCZ','MEL','MFM','MIA','MLA','MLE','MRS','MSP','MSY','MUC','MVD','MXP','NAP',
+      'NAS','NAT','NBO','NCE','OAX','OGG','OLB','OPO','ORD','ORS','ORY','OSL','OTP','PBH','PDL','PDX',
+      'PEK','PHL','PHX','PLS','PMI','PNS','POA','PPS','PRG','PSA','PSP','PUJ','PUS','PVG','PVR','RAK',
+      'RDM','REC','RHO','RIX','RNO','RSW','RUH','SAN','SCL','SEA','SEZ','SFO','SIN','SJC','SJD','SJO',
+      'SJU','SKG','SLC','SLZ','SOF','SPU','SRQ','SSA','STR','STT','SVO','SVQ','SXB','SXM','SYD','SZG',
+      'SZX','TBS','TFS','TIV','TLL','TLV','TOS','TPE','TRN','VCE','VIE','VLC','VNO','VRN','WLG','YQB',
+      'YUL','YVR','YYC','YYZ','ZAG','ZNZ','ZQN','ZRH','ZTH'
     ];
 
     function _inject() {

@@ -235,16 +235,6 @@ var PG=[["Austria","Austria","Europe","230V / 50Hz","CF"],["Belgium","Belgium","
     return 'Type '+a.slice(0,-1).join(', ')+' or '+a[a.length-1];
   }
 
-  /* The dropdown's city line: at most three of the country's guide cities, and
-     the one that starts with what has been typed leads — so a reader who
-     typed "Tokyo" can see why Japan is in the list. The full set stays
-     searchable through the item's hidden text. */
-  function cityLine(names,q){
-    var a=names.slice(), k;
-    if(q) for(k=0;k<a.length;k++){ if(a[k].toLowerCase().indexOf(q)===0){ a.unshift(a.splice(k,1)[0]); break; } }
-    return a.slice(0,3).join(' \u00b7 ')+(a.length>3?' \u00b7 \u2026':'');
-  }
-
   /* Same letters joined with "and", for the instruction line: a country
      with several types in use needs all of them covered, not any one. */
   function typeAnd(t){
@@ -293,14 +283,14 @@ var PG=[["Austria","Austria","Europe","230V / 50Hz","CF"],["Belgium","Belgium","
     var items=[];
     for(i=0;i<PG.length;i++){
       var r=PG[i];
-      /* The grey line beside a country names that country's guide cities and
-         nothing else (owner rule 2026-09-05): the reader asked for country and
-         city, not the socket spec repeated on every row. The region, the plug
-         types and the voltage move to `text`, which the shared typeahead
-         matches on exactly as it does `sub` — so "who uses Type G", "Europe"
-         and "230V" still answer from this one box, they just stop printing.
-         That is the one thing the retired table could do that a per-country
-         lookup cannot, and it is still here. */
+      /* One row per country, name only — the socket spec stops printing (owner
+         rule 2026-09-05). The region, the plug types and the voltage move to
+         `text`, which the shared typeahead matches on exactly as it does
+         `sub`, so "who uses Type G", "Europe" and "230V" still answer from
+         this one box. That is the one thing the retired table could do that a
+         per-country lookup cannot, and it is still here. They ride the COUNTRY
+         row alone: on a city row too, one "Europe" would return the country
+         and every city in it. */
       items.push({name:r[1], text:r[2]+' '+typeList(r[4])+' '+r[3].split(' / ')[0], anchor:r[0]});
     }
     /* Guide cities are the "or City" half of the placeholder: typing a shipped
@@ -317,23 +307,25 @@ var PG=[["Austria","Austria","Europe","230V / 50Hz","CF"],["Belgium","Belgium","
          case. Case-fold once here rather than trust every key matches r[1]. */
       var byUpper={};
       for(var k in map){ if(k!=='_by_slug') byUpper[k.toUpperCase()]=map[k]; }
-      for(var j=0;j<items.length;j++){
+      var rows=[], j;
+      for(j=0;j<items.length;j++){
         var cities=map[items[j].name]||byUpper[items[j].name.toUpperCase()];
-        if(cities&&cities.length){
-          var names=cities.map(function(c){return c.city;});
-          items[j]._cities=names;
-          items[j].sub=cityLine(names,'');
-          items[j].text+=' '+names.join(' ');
+        if(!cities) continue;
+        for(var c=0;c<cities.length;c++){
+          /* A city row is shaped like every other place row on the site — bold
+             place, grey country (owner rule 2026-09-05, "like the rest of the
+             site"): the landing page's destinations, Time Zones and the guides
+             index all build {name:city, sub:country} and this reads the same.
+             It carries no `text`: the country row above already answers the
+             region/type/voltage queries, once. A city whose name IS its
+             country (Hong Kong, Macau, Singapore) would only draw the country
+             twice, so it is left to the country row. */
+          if(cities[c].city===items[j].name) continue;
+          rows.push({name:cities[c].city, sub:items[j].name, anchor:items[j].anchor});
         }
       }
+      for(j=0;j<rows.length;j++) items.push(rows[j]);
     }).catch(function(){}).then(function(){
-      /* Re-cut every city line from what has been typed BEFORE the shared
-         typeahead renders: this listener is registered ahead of attach(), so on
-         the same 'input' event it runs first and render() reads fresh subs. */
-      input.addEventListener('input',function(){
-        var q=(input.value||'').trim().toLowerCase(), j;
-        for(j=0;j<items.length;j++) if(items[j]._cities) items[j].sub=cityLine(items[j]._cities,q);
-      });
       TVESearch.attach(input,{items:items,onPick:function(it){ show(it.anchor); }});
     });
   }

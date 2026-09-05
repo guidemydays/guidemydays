@@ -2144,12 +2144,12 @@ window.TVE.home = (function () {
       '.tb-sd-guide,.tb-sd-page{display:block;text-decoration:none;padding:7px 9px;border-radius:8px;' +
         'border-top:1px solid var(--border2,#e6e2da)}' +
       '.tb-search-drop>a:first-child{border-top:none}' +
-      '.tb-sd-guide:hover,.tb-sd-page:hover{background:rgba(184,134,11,.08)}' +
-      '.tb-sd-title{display:block;font-weight:700;font-size:13px;color:var(--accent,#8a6c1a);margin-bottom:2px}' +
+      '.tb-sd-guide:hover,.tb-sd-page:hover{background:var(--bg,#f5f3ef)}' +
+      '.tb-sd-title{display:block;font-weight:700;font-size:13px;color:var(--text,#1a1917);margin-bottom:2px}' +
       '.tb-sd-sub{display:block;font-size:12px;color:var(--muted,#6a6660)}' +
       '.tb-sd-item{display:block;font-size:12.5px;color:var(--text,#1a1917);padding:2px 0}' +
       '.tb-sd-empty{font-size:12.5px;color:var(--muted,#6a6660);padding:18px 10px;text-align:center}' +
-      '.tb-search-drop mark{background:rgba(184,134,11,.28);color:inherit;border-radius:2px;padding:0 1px}' +
+      '.tb-search-drop mark{background:var(--border2,#e6e2da);color:inherit;border-radius:2px;padding:0 1px}' +
       '@media (max-width: 1260px) and (pointer: coarse){.tb-search{display:none!important}}';
     document.head.appendChild(tbSearchCSS);
 
@@ -2194,12 +2194,26 @@ window.TVE.home = (function () {
         .catch(function () { tbLoading = false; });
     }
     // every token must be found somewhere in the text — order-independent,
-    // and a token can match mid-word (this is the "all words or parts of
-    // words" match the hero box does not do).
+    // word-start only (same wsMatch boundary rule as search-autocomplete.js
+    // TVESearch.html §2): a token matches at position 0 or right after a
+    // space/-/(/,/./ boundary. Plain mid-word substring matching was tried
+    // 2026-09-04 and produced exactly the false positives §2 warns about —
+    // "df" hit "Hjørundfjord", "Eidfjord", "DFF", "JMSDF", "Godfather" — see
+    // TVESearch.html §6 bug log.
+    function tbWordStart(tf, token) {
+      var i = tf.indexOf(token);
+      while (i >= 0) {
+        if (i === 0) return i;
+        var prev = tf[i - 1];
+        if (prev === ' ' || prev === '-' || prev === '(' || prev === ',' || prev === '.' || prev === '/') return i;
+        i = tf.indexOf(token, i + 1);
+      }
+      return -1;
+    }
     function tbTokenRanges(tf, tokens) {
       var ranges = [];
       for (var i = 0; i < tokens.length; i++) {
-        var pos = tf.indexOf(tokens[i]);
+        var pos = tbWordStart(tf, tokens[i]);
         if (pos < 0) return null;
         ranges.push([pos, tokens[i].length]);
       }

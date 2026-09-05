@@ -3051,10 +3051,20 @@
       return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c];
     });
   }
-  function label(sid) {
-    var m = /^day(\d+)$/.exec(sid);
-    if (m) return 'Day ' + m[1];
-    return (data.labels && data.labels[sid]) || '';
+  // Word-start match: q matches only at position 0 or right after a
+  // space/-/(/,/./ boundary (same rule as search-autocomplete.js's wsMatch /
+  // toolbar.js's tbWordStart) — see TVESearch.html §2 and §6 bug log. Plain
+  // indexOf let mid-word substrings through ("re" inside "regional", "df"
+  // inside "Godfather"), the exact false positive the doc warns against.
+  function wordStart(tf, q) {
+    var i = tf.indexOf(q);
+    while (i >= 0) {
+      if (i === 0) return i;
+      var prev = tf[i - 1];
+      if (prev === ' ' || prev === '-' || prev === '(' || prev === ',' || prev === '.' || prev === '/') return i;
+      i = tf.indexOf(q, i + 1);
+    }
+    return -1;
   }
   function hl(text, pos, len) {
     if (pos < 0) return esc(text);
@@ -3067,15 +3077,15 @@
     for (var gi = 0; gi < data.guides.length; gi++) {
       var g = data.guides[gi], items = [], best = 9;
       for (var ei = 0; ei < g.e.length; ei++) {
-        var tf = g.e[ei][2], pos = tf.indexOf(ql);
+        var tf = g.e[ei][2], pos = wordStart(tf, ql);
         if (pos < 0) continue;
-        var sc = tf === ql ? 0 : pos === 0 ? 1 : /\s/.test(tf.charAt(pos - 1) || ' ') ? 2 : 3;
+        var sc = tf === ql ? 0 : pos === 0 ? 1 : 2;
         items.push({ t: g.e[ei][0], s: g.e[ei][1], pos: pos, sc: sc });
         if (sc < best) best = sc;
       }
       if (!items.length) continue;
       items.sort(function (a, b) { return a.sc - b.sc; });
-      if (g.cf.indexOf(ql) >= 0) best = Math.min(best, 1);
+      if (wordStart(g.cf, ql) >= 0) best = Math.min(best, 1);
       groups.push({ city: g.c, url: g.u, score: best, items: items.slice(0, 4), qn: n });
     }
     groups.sort(function (a, b) { return a.score - b.score || a.city.localeCompare(b.city); });
@@ -3086,13 +3096,13 @@
     for (var pi = 0; pi < pages.length; pi++) {
       var p = pages[pi], pitems = [], pbest = 9;
       for (var pe = 0; pe < p.e.length; pe++) {
-        var ptf = p.e[pe][2], ppos = ptf.indexOf(ql);
+        var ptf = p.e[pe][2], ppos = wordStart(ptf, ql);
         if (ppos < 0) continue;
-        var psc = ptf === ql ? 0 : ppos === 0 ? 1 : /\s/.test(ptf.charAt(ppos - 1) || ' ') ? 2 : 3;
+        var psc = ptf === ql ? 0 : ppos === 0 ? 1 : 2;
         pitems.push({ t: p.e[pe][0], pos: ppos, sc: psc });
         if (psc < pbest) pbest = psc;
       }
-      if (!pitems.length && p.tf.indexOf(ql) < 0) continue;
+      if (!pitems.length && wordStart(p.tf, ql) < 0) continue;
       pitems.sort(function (a, b) { return a.sc - b.sc; });
       pageHits.push({ title: p.t, url: p.u, score: pbest, items: pitems.slice(0, 3), qn: n });
     }
@@ -3127,10 +3137,8 @@
     shown.forEach(function (gr) {
       out += '<div class="cs-guide"><a class="cs-city" href="' + gr.url + '">' + esc(gr.city) + '</a><div class="cs-items">';
       gr.items.forEach(function (it) {
-        var lab = label(it.s);
         out += '<a class="cs-item" href="' + gr.url + '#' + it.s + '">' +
-          '<span>' + hl(it.t, it.pos, gr.qn) + '</span>' +
-          (lab ? '<span class="cs-sec">' + lab + '</span>' : '') + '</a>';
+          '<span>' + hl(it.t, it.pos, gr.qn) + '</span></a>';
       });
       out += '</div></div>';
     });

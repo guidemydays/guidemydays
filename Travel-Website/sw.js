@@ -3110,7 +3110,8 @@
 /* 2026-09-05: fix a stray digit ('comb55ox' -> 'combobox') accidentally typed into an unrelated 2026-08-30 changelog comment by a bad patch script in the previous commit -- comment text only, no code changed. Also actually bumps MIN_VERSIONS['guides-index-style.css'] to 55 this time (the previous attempt silently no-op'd on the wrong string offset). CACHE to v1877. */
 /* 2026-09-04: guide-page 7-day weather strip (_injectWeatherStrip) -- owner: swap the beige/tan chrome for light pastel blue. Strip background #f3efe6->#eaf5fc, border/NOW-divider/toggle border #e3dccd->#cfe6f5, hover bg #ece5d6->#dcedf8, °C/°F toggle active fill #8a6c1a->#2f6fad (steel blue, still >=4.5:1 white-text contrast). Day/temp text colors untouched. toolbar.js -> v1173. CACHE to v1878. */
 /* 2026-09-04: currency exchange icon (#1326) redesign -- bold solid-color coin discs replace the pale-face/tiny-text coins that blurred at real pill size toolbar.js -> v1174. CACHE to v1879. */
-var CACHE = 'travel-cache-v1879';
+/* 2026-09-04: currency exchange icon (#1326) spacing fix -- coins pulled apart, arrows shortened to leave a gap on both ends toolbar.js -> v1175. CACHE to v1880. */
+var CACHE = 'travel-cache-v1880';
 /* 2026-08-27: airlines.css's .card-tags align-items fix changed a shared
    asset without raising its own floor -- MIN_VERSIONS['airlines.css'] to
    6, CACHE to v1662. */
@@ -3153,7 +3154,7 @@ var ICS_OUTBOX = 'gmd-ics-outbox';
 /* 2026-08-30: weather.js: Punta Cana climate normals added (244 cities). MIN_VERSIONS["weather.js"] to 19, CACHE to v1748. */
 /* 2026-08-30: search-autocomplete.js — reverted ARIA combobox pattern (role=listbox/option caused side-by-side layout regression). MIN_VERSIONS['search-autocomplete.js'] to 11, CACHE to v1749. */
 /* 2026-09-02: toolbar.js — remove false-affordance right hairline from stop-hours row (commit 981cca5d5). MIN_VERSIONS['toolbar.js'] to 1142, CACHE to v1816. */
-var MIN_VERSIONS = { 'guide-style.css': 290,'toolbar.js': 1174, 'mobile.css': 94, 'web-travel-style.css': 259, 'guides-index-style.css': 55, 'read-about.css': 8, 'best-of-features.js': 6, 'best-of-cross-data.js': 25, 'weather.js': 24,'trains.css': 30, 'trains.js': 6, 'airlines.css': 9, 'airlines.js': 10, 'passport.js': 6, 'search-autocomplete.js': 12, 'flag-render.js': 3 };
+var MIN_VERSIONS = { 'guide-style.css': 290,'toolbar.js': 1175, 'mobile.css': 94, 'web-travel-style.css': 259, 'guides-index-style.css': 55, 'read-about.css': 8, 'best-of-features.js': 6, 'best-of-cross-data.js': 25, 'weather.js': 24,'trains.css': 30, 'trains.js': 6, 'airlines.css': 9, 'airlines.js': 10, 'passport.js': 6, 'search-autocomplete.js': 12, 'flag-render.js': 3 };
 
 function rewriteAssetUrl(urlStr) {
   var u;

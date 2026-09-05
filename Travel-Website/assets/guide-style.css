@@ -418,11 +418,17 @@ a:hover { text-decoration: underline; }
 /* 4 columns so 7 action pills auto-place 4-over-3 instead of the old
    content-sized flex row, which let 6 short pills crowd one line and left
    "Currency" alone stretched full-width on the line under them. Equal grid
-   tracks make every pill the same size. */
+   tracks make every pill the same size.
+   !important on display/grid-template-columns/gap: toolbar.js's
+   _injectICSExport sets style="display:flex;gap:0;..." INLINE on this
+   element at creation time, and an inline style beats any external rule
+   regardless of selector specificity — without !important this whole
+   grid was silently inert and the row kept rendering as the old flex
+   row. Confirmed live via getComputedStyle before this fix. */
 #ics-pill-row {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 8px;
+  display: grid !important;
+  grid-template-columns: repeat(4, 1fr) !important;
+  gap: 8px !important;
   margin-top: 36px;
   margin-bottom: 14px;
 }

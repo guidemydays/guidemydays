@@ -786,11 +786,24 @@ var CI=[
   function boot() { layout(); reveal(); apply(); paintSlots(); }
   boot();
 
+  /* The swarm is positioned from its own measured width, so it has to be
+     laid out again the moment that width actually exists or changes —
+     a first paint before fonts settle, a container that sizes late, or a
+     plain window resize would otherwise leave all 264 dots stacked on the
+     left edge. ResizeObserver covers every one of those; the resize
+     listener is the fallback where it isn't available. */
+  if ('ResizeObserver' in window) {
+    var ro = new ResizeObserver(function () { layout(); });
+    ro.observe(swarm);
+  }
+
   var t;
   window.addEventListener('resize', function () {
     clearTimeout(t);
     t = setTimeout(layout, 160);
   });
+  window.addEventListener('load', layout);
+  if (document.fonts && document.fonts.ready) document.fonts.ready.then(layout);
 })();
 </script>
 </body>

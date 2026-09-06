@@ -1,6 +1,6 @@
 # Build state — Mumbai
 Started: 2026-08-28
-Last updated: 2026-08-28
+Last updated: 2026-09-06 (ship gate auto-flipped 5 build_state boxes on clean ship)
 
 ## Phase 0 — Session start
 - [x] Brain/Reference/Ship-Validate/Build-Time-Heads-Up.html — READ THIS FIRST. Why a
@@ -105,13 +105,13 @@ Last updated: 2026-08-28
 - [x] Stops Map page ({slug}-stops-map.html built or run build_guide_map.py)
 
 ## Phase 6 — Ship gate
-- [ ] Brain/Reference/Ship-Validate/Ship Checklist.html
+- [x] Brain/Reference/Ship-Validate/Ship Checklist.html
 - [x] optimize_route.py run (no --dry-run) — REQUIRED on every build AND every
       rebuild; hard-fail gate. Then READ the plan it printed and hand-fix any day
       that reads wrong (timed stop on the wrong day, "near" stop across a river,
       demoted anchor sight), then `--restamp`. Regenerate the stripped .next banners.
-- [ ] validate_itinerary.py passes
-- [ ] THE SIX GATES THAT FAIL EVERY GUIDE UNTIL THEY ARE DONE (owner rule 2026-08-21:
+- [x] validate_itinerary.py passes
+- [x] THE SIX GATES THAT FAIL EVERY GUIDE UNTIL THEY ARE DONE (owner rule 2026-08-21:
       "if a guide do not have it will fail or at least needs to mark why does not have it").
       FIVE of the six take NO waiver at all; only Position 2c (6) has one, and it wants a reason.
       The six: hotel tiers · motion links · Getting Around ships · Food Delivery ships ·
@@ -131,10 +131,10 @@ Last updated: 2026-08-28
                               guide carries at least one somewhere or says why it carries
                               none: an accessibility-checked comment naming what was walked,
                               20+ characters. "no" is not an answer.
-- [ ] every extra populated or carries negative-finding line (Getting Around and Food Delivery
+- [x] every extra populated or carries negative-finding line (Getting Around and Food Delivery
       are the exception both ways: never omitted, and an empty one says so on an .extras-empty
       line — the negative-finding carve-out)
-- [ ] Read About page built, linked both ways
+- [x] Read About page built, linked both ways
 
 ## Timing
 > Auto-stamped. stub → ship PASS is the real build duration;

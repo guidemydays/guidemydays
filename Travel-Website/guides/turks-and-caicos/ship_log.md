@@ -25,3 +25,6 @@
 2026-07-05 14:37 — turks-and-caicos.html — FAIL — 0 checks
 2026-07-15 18:50 — turks-and-caicos.html — FAIL — 0 checks
 2026-07-15 18:56 — turks-and-caicos.html — PASS — 0 checks
+2026-09-06 15:59 — turks-and-caicos.html — FAIL @ verify — 0 checks — https://www.orderup.cc
+2026-09-06 16:03 — turks-and-caicos.html — PASS — 928/928 passed, 0 failed
+2026-09-06 16:03 — turks-and-caicos.html — PASS — 928/928 passed, 0 failed

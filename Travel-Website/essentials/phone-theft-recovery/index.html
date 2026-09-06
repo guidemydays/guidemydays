@@ -16,38 +16,121 @@
   border-bottom: 2px solid var(--border2);
 }
 
-/* ── Numbered sequence — reused verbatim from Medical Emergency Abroad's .eseq,
-   so the fixed order the hero promises is visible in the layout, not just
-   stated in prose. ── */
-.eseq { position: relative; margin-bottom: 6px; }
-.eseq-item { display: flex; gap: 16px; padding-bottom: 22px; position: relative; }
-.eseq-item:last-child { padding-bottom: 0; }
-.eseq-item::before {
-  content: ''; position: absolute; left: 15px; top: 32px; bottom: 0;
-  width: 2px; background: var(--border2);
+/* ── Lock strip — a live clock + status row and a slide-to-unlock control.
+   The slide starts the elapsed-time clock in the progress strip below it,
+   so the two mechanics are one control, not two competing ones. ── */
+.ptr-lock {
+  margin: 26px 0 22px; padding: 20px clamp(18px,3vw,26px);
+  background: var(--surface); border: 1px solid var(--border2); border-radius: 12px;
 }
-.eseq-item:last-child::before { display: none; }
-.eseq-num {
-  flex-shrink: 0; width: 32px; height: 32px; border-radius: 50%;
-  background: color-mix(in srgb, var(--rust,#C04E1A) 12%, var(--surface));
-  border: 2px solid var(--rust,#C04E1A); color: var(--rust,#C04E1A);
-  font-size: 13px; font-weight: 800;
-  display: flex; align-items: center; justify-content: center;
-  position: relative; z-index: 1;
+.ptr-lock-status {
+  display: flex; align-items: center; gap: 14px; flex-wrap: wrap;
+  font-family: var(--font-mono); font-size: 11px; letter-spacing: .1em; text-transform: uppercase;
+  color: var(--muted); margin-bottom: 16px;
 }
-.eseq-body { flex: 1; padding-top: 3px; }
-.eseq-title { font-size: 14.5px; font-weight: 700; color: var(--text); margin-bottom: 5px; }
-.eseq-text { font-size: 13px; color: var(--muted); line-height: 1.6; }
-.eseq-text + .eseq-text { margin-top: 8px; }
-.eseq-text strong { color: var(--text); font-weight: 600; }
+.ptr-lock-clock {
+  font-family: var(--font-mono); font-size: 22px; font-weight: 700; letter-spacing: -.02em;
+  color: var(--text); font-variant-numeric: tabular-nums;
+}
+.ptr-lock-sig { display: inline-flex; gap: 3px; align-items: flex-end; }
+.ptr-lock-sig i {
+  width: 3px; background: var(--muted); border-radius: 1px; font-style: normal;
+  animation: ptr-sigfade 2.4s ease-in-out infinite;
+}
+.ptr-lock-sig i:nth-child(1) { height: 5px; }
+.ptr-lock-sig i:nth-child(2) { height: 8px; animation-delay: .2s; }
+.ptr-lock-sig i:nth-child(3) { height: 11px; animation-delay: .4s; }
+.ptr-lock-sig i:nth-child(4) { height: 14px; animation-delay: .6s; }
+@keyframes ptr-sigfade { 0%,100% { opacity: 1; } 50% { opacity: .25; } }
+.ptr-lock-label { margin-left: auto; }
+.ptr-lock-slider {
+  position: relative; width: 100%; max-width: 460px; height: 60px; border-radius: 999px;
+  background: var(--warm); border: 1px solid var(--border2); overflow: hidden;
+  cursor: grab; user-select: none; touch-action: none;
+}
+.ptr-lock-slider.done { cursor: default; border-color: color-mix(in srgb, var(--rust,#C04E1A) 45%, var(--border2)); }
+.ptr-lock-fill {
+  position: absolute; inset: 0; width: 0;
+  background: color-mix(in srgb, var(--rust,#C04E1A) 22%, transparent);
+  transition: width .12s linear;
+}
+.ptr-lock-hint {
+  position: absolute; inset: 0; display: flex; align-items: center; justify-content: center;
+  font-size: 13px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; color: var(--muted);
+}
+.ptr-lock-slider.done .ptr-lock-hint { color: var(--rust,#C04E1A); }
+.ptr-lock-knob {
+  position: absolute; top: 4px; left: 4px; width: 52px; height: 52px; border-radius: 50%;
+  background: var(--surface); border: 1px solid var(--border2);
+  box-shadow: 0 2px 8px rgba(61,58,50,.18); transition: transform .12s linear;
+}
 
-/* ── Sources — same page-local pattern as Medical Emergency Abroad ── */
-.sources { margin-top: 32px; padding-top: 18px; }
-.sources h2 { font-size: 13px; font-weight: 600; margin-bottom: 10px; color: var(--text); }
-.source-list { list-style: none; display: flex; flex-direction: column; gap: 5px; }
-.source-list li { font-size: var(--fs-sub,12px); color: var(--muted); }
-.source-list a { color: var(--accent); text-decoration: none; }
-.source-list a:visited { color: #8a6c1a; }
+/* ── Progress strip — elapsed time since the lock-down started, plus jump
+   links to each stage below. Scrolls away with the page (Seventy-fourth
+   non-negotiable — no position:sticky/fixed control bar on this site). ── */
+.ptr-progress {
+  display: flex; align-items: center; gap: 16px; flex-wrap: wrap;
+  padding: 12px 0; margin-bottom: 22px; border-top: 1px solid var(--border2); border-bottom: 1px solid var(--border2);
+}
+.ptr-progress-label {
+  font-size: 11px; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; color: var(--muted);
+}
+.ptr-progress-time {
+  font-family: var(--font-mono); font-size: 18px; font-weight: 700; color: var(--rust,#C04E1A);
+  font-variant-numeric: tabular-nums;
+}
+.ptr-progress-jump { margin-left: auto; display: flex; gap: 7px; }
+.ptr-progress-jump a {
+  display: inline-flex; align-items: center; justify-content: center;
+  font-family: var(--font-mono); font-size: 11px; font-weight: 700; text-decoration: none; line-height: 1;
+  color: var(--muted); border: 1px solid var(--border2); border-radius: 999px; padding: 5px 11px;
+  transition: color .16s ease, border-color .16s ease;
+}
+.ptr-progress-jump a:hover { color: var(--rust,#C04E1A); border-color: var(--rust,#C04E1A); }
+
+/* ── Bands — replace the plain numbered sequence with an elapsed-time
+   column, so the fixed order the hero promises reads as "how soon," not
+   just "which step." ── */
+.ptr-band { margin-bottom: 34px; scroll-margin-top: 18px; }
+.ptr-bhead {
+  display: grid; grid-template-columns: minmax(96px,130px) 1fr; gap: 18px; align-items: start;
+  padding-bottom: 12px; border-bottom: 2px solid var(--text); margin-bottom: 4px;
+}
+.ptr-time {
+  font-family: var(--font-mono); font-weight: 800; letter-spacing: -.02em; line-height: .92;
+  font-size: 26px; color: var(--tone);
+}
+.ptr-time small {
+  display: block; font-size: 10px; font-weight: 700; letter-spacing: .16em; text-transform: uppercase;
+  color: var(--muted); margin-top: 6px;
+}
+.ptr-bhead h2 { margin: 0; font-size: 20px; font-weight: 800; letter-spacing: -.01em; line-height: 1.25; }
+.ptr-rows { display: grid; }
+.ptr-row {
+  display: grid; grid-template-columns: minmax(96px,130px) 1fr; gap: 18px;
+  padding: 18px 0; border-bottom: 1px solid var(--border2);
+}
+.ptr-row:last-child { border-bottom: 0; }
+.ptr-tick {
+  font-family: var(--font-mono); font-size: 11px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase;
+  color: var(--muted); padding-top: 4px; position: relative;
+}
+.ptr-tick::before {
+  content: ''; position: absolute; left: -13px; top: 8px; width: 7px; height: 7px; border-radius: 50%;
+  background: var(--tone); box-shadow: 0 0 0 4px color-mix(in srgb, var(--tone) 16%, transparent);
+}
+.ptr-row h3 { margin: 0 0 5px; font-size: 14.5px; font-weight: 700; color: var(--text); }
+.ptr-row p { margin: 0; font-size: 13px; color: var(--muted); line-height: 1.6; }
+.ptr-row p strong { color: var(--text); font-weight: 600; }
+.ptr-hot  { --tone: var(--rust,#C04E1A); }
+.ptr-warm { --tone: var(--gold,#c8961a); }
+.ptr-cool { --tone: var(--en-teal-rim,#3d9a89); }
+.ptr-deep { --tone: var(--navy,#1a3a8b); }
+@media (max-width: 640px) {
+  .ptr-bhead, .ptr-row { grid-template-columns: 1fr; gap: 8px; }
+  .ptr-tick::before { display: none; }
+  .ptr-progress-jump { margin-left: 0; }
+}
 
 /* ── Print-optimized emergency card ─────────────────────────────────────
    A condensed, fill-in-before-you-go quick reference. Screen: a bordered
@@ -76,8 +159,16 @@
 .tc-fill-row { font-size: 12.5px; color: var(--muted); display: flex; flex-direction: column; gap: 3px; }
 .tc-fill-line { border-bottom: 1px solid var(--border2); height: 20px; }
 
+/* ── Sources — same page-local pattern as Medical Emergency Abroad ── */
+.sources { margin-top: 32px; padding-top: 18px; }
+.sources h2 { font-size: 13px; font-weight: 600; margin-bottom: 10px; color: var(--text); }
+.source-list { list-style: none; display: flex; flex-direction: column; gap: 5px; }
+.source-list li { font-size: var(--fs-sub,12px); color: var(--muted); }
+.source-list a { color: var(--accent); text-decoration: none; }
+.source-list a:visited { color: #8a6c1a; }
+
 @media print {
-  #toolbar-mount, .hero-band, .alert-banner, .section-head, .eseq,
+  #toolbar-mount, .hero-band, .ptr-lock, .ptr-progress, .alert-banner, .section-head, .ptr-band,
   .sources, .print-btn { display: none !important; }
   body, .wrap { background: #fff !important; max-width: 100% !important; padding: 0 !important; margin: 0 !important; }
   .theft-card { border: 1px solid #999 !important; box-shadow: none !important; border-top: 3px solid #999 !important; }
@@ -85,6 +176,9 @@
   .tc-step b { color: #000 !important; }
   .tc-fill-line { border-bottom: 1px solid #666 !important; }
   @page { margin: 1.2cm; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .ptr-lock-sig i { animation: none !important; }
 }
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme="light"]) {
@@ -149,174 +243,221 @@
 
 <div class="wrap">
 
+  <!-- ── Lock strip: what a locked screen looks like, and the control that starts it ── -->
+  <div class="ptr-lock">
+    <div class="ptr-lock-status">
+      <span class="ptr-lock-clock" id="ptrClock">--:--</span>
+      <span class="ptr-lock-sig" aria-hidden="true"><i></i><i></i><i></i><i></i></span>
+      <span class="ptr-lock-label" id="ptrStatusText">No SIM · Device unreachable</span>
+    </div>
+    <div class="ptr-lock-slider" id="ptrSlider" role="button" tabindex="0"
+         aria-label="Slide to start the lock-down sequence and start timing your response">
+      <div class="ptr-lock-fill" id="ptrFill"></div>
+      <div class="ptr-lock-hint" id="ptrHint">Slide to start the lock-down</div>
+      <div class="ptr-lock-knob" id="ptrKnob"></div>
+    </div>
+  </div>
+
+  <!-- ── Progress strip: elapsed time since the slide above, plus jump links ── -->
+  <div class="ptr-progress">
+    <span class="ptr-progress-label">Time since you started</span>
+    <span class="ptr-progress-time" id="ptrElapsed">00:00</span>
+    <span class="ptr-progress-jump"><a href="#s1">1</a><a href="#s2">2</a><a href="#s3">3</a><a href="#s4">4</a><a href="#s5">5</a></span>
+  </div>
+
   <div class="alert-banner">
     <strong>Lock the phone remotely before you do anything else — from any other device, in minutes.</strong> Everything below matters, but a phone that is still unlocked is a live risk to your accounts for every minute it stays that way. If you don't have another device to hand, borrow one — a hotel desk, a travel companion, or any browser will do for the first step.
   </div>
 
   <!-- ── 1. Lock it down remotely ─────────────────────────────────────── -->
-  <div class="section-head">1. Lock It Down Remotely, First</div>
-  <div class="eseq">
-    <div class="eseq-item">
-      <div class="eseq-num">1</div>
-      <div class="eseq-body">
-        <div class="eseq-title">iPhone — Lost Mode, from any browser or device</div>
-        <div class="eseq-text">At <strong>icloud.com/find</strong> (or the Find My app on another Apple device), select the missing iPhone and choose <strong>Mark As Lost</strong>. This locks the screen with a passcode, displays a phone number and message you choose, and suspends Apple Pay on the device — without needing the phone's own passcode. It does not erase anything, so it doesn't undo an insurance claim or a police report that references the device's condition.</div>
+  <section class="ptr-band ptr-hot" id="s1">
+    <div class="ptr-bhead">
+      <div class="ptr-time">0–5<small>minutes</small></div>
+      <h2>Lock It Down Remotely, First</h2>
+    </div>
+    <div class="ptr-rows">
+      <div class="ptr-row">
+        <span class="ptr-tick">+0 min</span>
+        <div>
+          <h3>iPhone — Lost Mode, from any browser or device</h3>
+          <p>At <strong>icloud.com/find</strong> (or the Find My app on another Apple device), select the missing iPhone and choose <strong>Mark As Lost</strong>. This locks the screen with a passcode, displays a phone number and message you choose, and suspends Apple Pay on the device — without needing the phone's own passcode. It does not erase anything, so it doesn't undo an insurance claim or a police report that references the device's condition.</p>
+        </div>
+      </div>
+      <div class="ptr-row">
+        <span class="ptr-tick">+2 min</span>
+        <div>
+          <h3>Android — Find My Device, the same way</h3>
+          <p>At <strong>android.com/find</strong>, signed into the same Google account, select the device and choose <strong>Secure Device</strong>. It locks the screen, can show a message and callback number on the lock screen, and signs the device out of the Google account for anything that requires re-authentication.</p>
+        </div>
+      </div>
+      <div class="ptr-row">
+        <span class="ptr-tick">+4 min</span>
+        <div>
+          <h3>Suspend the line with your carrier</h3>
+          <p>A separate step from locking the device — call or use your carrier's app to suspend the SIM or eSIM. This stops calls, texts and data on that number immediately and prevents roaming charges from racking up on a phone you no longer control.</p>
+        </div>
+      </div>
+      <div class="ptr-row">
+        <span class="ptr-tick">if needed</span>
+        <div>
+          <h3>Erase remotely — the fallback, not the first move</h3>
+          <p>Erase (the same Find My / Find My Device screen) wipes the device the next time it connects to the internet. Use it only once you accept you won't get the phone back, since it also erases the ability to track its location going forward. Lost Mode or Secure Device already protects your accounts without giving that up — erase later if you need to.</p>
+        </div>
       </div>
     </div>
-    <div class="eseq-item">
-      <div class="eseq-num">2</div>
-      <div class="eseq-body">
-        <div class="eseq-title">Android — Find My Device, the same way</div>
-        <div class="eseq-text">At <strong>android.com/find</strong>, signed into the same Google account, select the device and choose <strong>Secure Device</strong>. It locks the screen, can show a message and callback number on the lock screen, and signs the device out of the Google account for anything that requires re-authentication.</div>
-      </div>
-    </div>
-    <div class="eseq-item">
-      <div class="eseq-num">3</div>
-      <div class="eseq-body">
-        <div class="eseq-title">Suspend the line with your carrier</div>
-        <div class="eseq-text">A separate step from locking the device — call or use your carrier's app to suspend the SIM or eSIM. This stops calls, texts and data on that number immediately and prevents roaming charges from racking up on a phone you no longer control.</div>
-      </div>
-    </div>
-    <div class="eseq-item">
-      <div class="eseq-num">4</div>
-      <div class="eseq-body">
-        <div class="eseq-title">Erase remotely — the fallback, not the first move</div>
-        <div class="eseq-text">Erase (the same Find My / Find My Device screen) wipes the device the next time it connects to the internet. Use it only once you accept you won't get the phone back, since it also erases the ability to track its location going forward. Lost Mode or Secure Device already protects your accounts without giving that up — erase later if you need to.</div>
-      </div>
-    </div>
-  </div>
+  </section>
 
   <!-- ── 2. File the police report ────────────────────────────────────── -->
-  <div class="section-head">2. File the Police Report</div>
-  <div class="eseq">
-    <div class="eseq-item">
-      <div class="eseq-num">1</div>
-      <div class="eseq-body">
-        <div class="eseq-title">In person, the same day — this is mandatory for insurance</div>
-        <div class="eseq-text">A travel insurance or device claim needs an official report number, not a description of what happened. This has to be filed in person at a police station — a commissariat in France, a comisaría in Spain and most of Latin America, a questura or polizia station in Italy — while you're still in the country. It cannot usually be done after you've flown home.</div>
+  <section class="ptr-band ptr-warm" id="s2">
+    <div class="ptr-bhead">
+      <div class="ptr-time">0–3<small>hours</small></div>
+      <h2>File the Police Report</h2>
+    </div>
+    <div class="ptr-rows">
+      <div class="ptr-row">
+        <span class="ptr-tick">same day</span>
+        <div>
+          <h3>In person, the same day — this is mandatory for insurance</h3>
+          <p>A travel insurance or device claim needs an official report number, not a description of what happened. This has to be filed in person at a police station — a commissariat in France, a comisaría in Spain and most of Latin America, a questura or polizia station in Italy — while you're still in the country. It cannot usually be done after you've flown home.</p>
+        </div>
+      </div>
+      <div class="ptr-row">
+        <span class="ptr-tick">ask the desk</span>
+        <div>
+          <h3>Find the right station</h3>
+          <p>Ask your hotel desk for the nearest station that handles reports for tourists — in cities with heavy tourist traffic there is often one used to the process and quicker than a random local precinct.</p>
+        </div>
+      </div>
+      <div class="ptr-row">
+        <span class="ptr-tick">bring</span>
+        <div>
+          <h3>Bring, and know</h3>
+          <p>Your passport, the approximate time and location of the theft, and the phone's <strong>IMEI number</strong> if you have it saved (dial <strong>*#06#</strong> on the phone before you travel to find it, or check the original box or your Apple/Google account online — Find My and Find My Device both display it for a registered device).</p>
+        </div>
+      </div>
+      <div class="ptr-row">
+        <span class="ptr-tick">wording</span>
+        <div>
+          <h3>Say theft, not loss — the wording matters for the claim</h3>
+          <p>Describe it as stolen (<em>robado / volé / rubato / gestohlen</em>), not lost — insurers treat the two very differently and most travel policies exclude simple loss entirely. Ask for a copy of the report itself (a <em>denuncia</em> or <em>déclaration</em>) with its reference number before you leave the station; the claim can't be filed without it.</p>
+        </div>
       </div>
     </div>
-    <div class="eseq-item">
-      <div class="eseq-num">2</div>
-      <div class="eseq-body">
-        <div class="eseq-title">Find the right station</div>
-        <div class="eseq-text">Ask your hotel desk for the nearest station that handles reports for tourists — in cities with heavy tourist traffic there is often one used to the process and quicker than a random local precinct.</div>
-      </div>
-    </div>
-    <div class="eseq-item">
-      <div class="eseq-num">3</div>
-      <div class="eseq-body">
-        <div class="eseq-title">Bring, and know</div>
-        <div class="eseq-text">Your passport, the approximate time and location of the theft, and the phone's <strong>IMEI number</strong> if you have it saved (dial <strong>*#06#</strong> on the phone before you travel to find it, or check the original box or your Apple/Google account online — Find My and Find My Device both display it for a registered device).</div>
-      </div>
-    </div>
-    <div class="eseq-item">
-      <div class="eseq-num">4</div>
-      <div class="eseq-body">
-        <div class="eseq-title">Say theft, not loss — the wording matters for the claim</div>
-        <div class="eseq-text">Describe it as stolen (<em>robado / volé / rubato / gestohlen</em>), not lost — insurers treat the two very differently and most travel policies exclude simple loss entirely. Ask for a copy of the report itself (a <em>denuncia</em> or <em>déclaration</em>) with its reference number before you leave the station; the claim can't be filed without it.</div>
-      </div>
-    </div>
-  </div>
+  </section>
 
   <!-- ── 3. What was exposed ──────────────────────────────────────────── -->
-  <div class="section-head">3. What Was Exposed — Act on This First</div>
-  <div class="eseq">
-    <div class="eseq-item">
-      <div class="eseq-num">1</div>
-      <div class="eseq-body">
-        <div class="eseq-title">Banking and payment apps</div>
-        <div class="eseq-text">Call your bank's international line (usually on the back of the card, or saved separately from your phone — see the checklist below) and ask them to block any card tied to Apple Pay or Google Pay on that device. A locked phone can sometimes still authorize a payment that was already queued before it locked.</div>
+  <section class="ptr-band ptr-hot" id="s3">
+    <div class="ptr-bhead">
+      <div class="ptr-time">same<small>day</small></div>
+      <h2>What Was Exposed — Act on This First</h2>
+    </div>
+    <div class="ptr-rows">
+      <div class="ptr-row">
+        <span class="ptr-tick">first</span>
+        <div>
+          <h3>Banking and payment apps</h3>
+          <p>Call your bank's international line (usually on the back of the card, or saved separately from your phone — see the checklist below) and ask them to block any card tied to Apple Pay or Google Pay on that device. A locked phone can sometimes still authorize a payment that was already queued before it locked.</p>
+        </div>
+      </div>
+      <div class="ptr-row">
+        <span class="ptr-tick">second</span>
+        <div>
+          <h3>Email — change this password first</h3>
+          <p>From another device, change your primary email password before anything else. Email is the recovery path for almost every other account, so securing it first is what stops one stolen phone from becoming several compromised accounts.</p>
+        </div>
+      </div>
+      <div class="ptr-row">
+        <span class="ptr-tick">third</span>
+        <div>
+          <h3>Two-factor authenticator apps</h3>
+          <p>If an authenticator app lived only on that phone, use the backup codes you saved when you first set up two-factor on each account, or that service's own account-recovery flow. Keep a running note of which accounts you still can't get back into — you'll need it for both the recovery process and, if any of them are financial, your bank.</p>
+        </div>
+      </div>
+      <div class="ptr-row">
+        <span class="ptr-tick">fourth</span>
+        <div>
+          <h3>Saved passwords</h3>
+          <p>If a password manager was unlocked, or the phone itself was unlocked, when it was taken, treat every password stored on it as compromised. Work outward from what matters most — email and banking, then anything with a stored payment method — rather than trying to change everything at once.</p>
+        </div>
       </div>
     </div>
-    <div class="eseq-item">
-      <div class="eseq-num">2</div>
-      <div class="eseq-body">
-        <div class="eseq-title">Email — change this password first</div>
-        <div class="eseq-text">From another device, change your primary email password before anything else. Email is the recovery path for almost every other account, so securing it first is what stops one stolen phone from becoming several compromised accounts.</div>
-      </div>
-    </div>
-    <div class="eseq-item">
-      <div class="eseq-num">3</div>
-      <div class="eseq-body">
-        <div class="eseq-title">Two-factor authenticator apps</div>
-        <div class="eseq-text">If an authenticator app lived only on that phone, use the backup codes you saved when you first set up two-factor on each account, or that service's own account-recovery flow. Keep a running note of which accounts you still can't get back into — you'll need it for both the recovery process and, if any of them are financial, your bank.</div>
-      </div>
-    </div>
-    <div class="eseq-item">
-      <div class="eseq-num">4</div>
-      <div class="eseq-body">
-        <div class="eseq-title">Saved passwords</div>
-        <div class="eseq-text">If a password manager was unlocked, or the phone itself was unlocked, when it was taken, treat every password stored on it as compromised. Work outward from what matters most — email and banking, then anything with a stored payment method — rather than trying to change everything at once.</div>
-      </div>
-    </div>
-  </div>
+  </section>
 
   <!-- ── 4. Getting back online ───────────────────────────────────────── -->
-  <div class="section-head">4. Getting Back Online</div>
-  <div class="eseq">
-    <div class="eseq-item">
-      <div class="eseq-num">1</div>
-      <div class="eseq-body">
-        <div class="eseq-title">A temporary SIM or eSIM on a backup device</div>
-        <div class="eseq-text">Any carrier shop, kiosk or supermarket counter in most countries sells a prepaid SIM with your passport — this gets a local number back on a spare phone or a device a travel companion can lend you. See Phone &amp; SIM Abroad for how to buy one and what it costs by region.</div>
+  <section class="ptr-band ptr-cool" id="s4">
+    <div class="ptr-bhead">
+      <div class="ptr-time">day 1<small>onward</small></div>
+      <h2>Getting Back Online</h2>
+    </div>
+    <div class="ptr-rows">
+      <div class="ptr-row">
+        <span class="ptr-tick">step 1</span>
+        <div>
+          <h3>A temporary SIM or eSIM on a backup device</h3>
+          <p>Any carrier shop, kiosk or supermarket counter in most countries sells a prepaid SIM with your passport — this gets a local number back on a spare phone or a device a travel companion can lend you. See Phone &amp; SIM Abroad for how to buy one and what it costs by region.</p>
+        </div>
+      </div>
+      <div class="ptr-row">
+        <span class="ptr-tick">step 2</span>
+        <div>
+          <h3>Restoring WhatsApp or Signal</h3>
+          <p>Reinstall the app on the new device with the new temporary number, or — if you kept your original number through an eSIM transfer — restore your chat history from your last cloud backup. Either way, contacts see a "new device" notice, which is expected and not itself a security problem.</p>
+        </div>
+      </div>
+      <div class="ptr-row">
+        <span class="ptr-tick">stopgap</span>
+        <div>
+          <h3>A hotel business center or a borrowed device — enough for now</h3>
+          <p>Fine for reading one-time codes and checking email while you arrange a permanent fix. Avoid logging into banking or anything with saved payment details from a shared or public computer — use it for recovery steps only, not day-to-day access.</p>
+        </div>
+      </div>
+      <div class="ptr-row">
+        <span class="ptr-tick">tell people</span>
+        <div>
+          <h3>Tell close contacts through a different channel</h3>
+          <p>A quick email or a call from the hotel to whoever you'd normally text lets them know your number is temporarily down — so a message that looks like it's from your old number, asking for money or codes, is recognized as suspicious rather than acted on.</p>
+        </div>
       </div>
     </div>
-    <div class="eseq-item">
-      <div class="eseq-num">2</div>
-      <div class="eseq-body">
-        <div class="eseq-title">Restoring WhatsApp or Signal</div>
-        <div class="eseq-text">Reinstall the app on the new device with the new temporary number, or — if you kept your original number through an eSIM transfer — restore your chat history from your last cloud backup. Either way, contacts see a "new device" notice, which is expected and not itself a security problem.</div>
-      </div>
-    </div>
-    <div class="eseq-item">
-      <div class="eseq-num">3</div>
-      <div class="eseq-body">
-        <div class="eseq-title">A hotel business center or a borrowed device — enough for now</div>
-        <div class="eseq-text">Fine for reading one-time codes and checking email while you arrange a permanent fix. Avoid logging into banking or anything with saved payment details from a shared or public computer — use it for recovery steps only, not day-to-day access.</div>
-      </div>
-    </div>
-    <div class="eseq-item">
-      <div class="eseq-num">4</div>
-      <div class="eseq-body">
-        <div class="eseq-title">Tell close contacts through a different channel</div>
-        <div class="eseq-text">A quick email or a call from the hotel to whoever you'd normally text lets them know your number is temporarily down — so a message that looks like it's from your old number, asking for money or codes, is recognized as suspicious rather than acted on.</div>
-      </div>
-    </div>
-  </div>
+  </section>
 
   <!-- ── 5. Filing the claim ──────────────────────────────────────────── -->
-  <div class="section-head">5. Filing the Insurance Claim</div>
-  <div class="eseq">
-    <div class="eseq-item">
-      <div class="eseq-num">1</div>
-      <div class="eseq-body">
-        <div class="eseq-title">What to gather</div>
-        <div class="eseq-text">The police report and its reference number, proof you owned the device (a receipt, or your Apple/Google account showing it registered to you), and the IMEI if you have it. Keep the original police report — insurers generally want it, not a photo of a photo.</div>
+  <section class="ptr-band ptr-deep" id="s5">
+    <div class="ptr-bhead">
+      <div class="ptr-time">back<small>home</small></div>
+      <h2>Filing the Insurance Claim</h2>
+    </div>
+    <div class="ptr-rows">
+      <div class="ptr-row">
+        <span class="ptr-tick">gather</span>
+        <div>
+          <h3>What to gather</h3>
+          <p>The police report and its reference number, proof you owned the device (a receipt, or your Apple/Google account showing it registered to you), and the IMEI if you have it. Keep the original police report — insurers generally want it, not a photo of a photo.</p>
+        </div>
+      </div>
+      <div class="ptr-row">
+        <span class="ptr-tick">check</span>
+        <div>
+          <h3>Check which policy is actually covering this</h3>
+          <p>Travel insurance typically covers a stolen phone under "personal effects," usually with a per-item sub-limit well below the phone's value. A dedicated phone or gadget insurance policy is a separate product and usually pays out closer to replacement cost — check both if you're not sure which one applies. See Travel Insurance for how personal-effects coverage generally works.</p>
+        </div>
+      </div>
+      <div class="ptr-row">
+        <span class="ptr-tick">notify</span>
+        <div>
+          <h3>Notify quickly, then file within the window</h3>
+          <p>Most insurers want the theft reported to them within 24–48 hours, with a full written claim inside a separate, longer deadline — commonly around 30 days. Both windows vary by insurer, so confirm yours rather than assuming.</p>
+        </div>
+      </div>
+      <div class="ptr-row">
+        <span class="ptr-tick">expect</span>
+        <div>
+          <h3>What insurers typically ask for</h3>
+          <p>The police report, proof of ownership, and often a short written statement of what happened, in your own words. Some also ask whether the device was ever left unattended — answer plainly; it affects the outcome less often than travelers assume, but a claim written to avoid the question reads worse than one that just answers it.</p>
+        </div>
       </div>
     </div>
-    <div class="eseq-item">
-      <div class="eseq-num">2</div>
-      <div class="eseq-body">
-        <div class="eseq-title">Check which policy is actually covering this</div>
-        <div class="eseq-text">Travel insurance typically covers a stolen phone under "personal effects," usually with a per-item sub-limit well below the phone's value. A dedicated phone or gadget insurance policy is a separate product and usually pays out closer to replacement cost — check both if you're not sure which one applies. See Travel Insurance for how personal-effects coverage generally works.</div>
-      </div>
-    </div>
-    <div class="eseq-item">
-      <div class="eseq-num">3</div>
-      <div class="eseq-body">
-        <div class="eseq-title">Notify quickly, then file within the window</div>
-        <div class="eseq-text">Most insurers want the theft reported to them within 24–48 hours, with a full written claim inside a separate, longer deadline — commonly around 30 days. Both windows vary by insurer, so confirm yours rather than assuming.</div>
-      </div>
-    </div>
-    <div class="eseq-item">
-      <div class="eseq-num">4</div>
-      <div class="eseq-body">
-        <div class="eseq-title">What insurers typically ask for</div>
-        <div class="eseq-text">The police report, proof of ownership, and often a short written statement of what happened, in your own words. Some also ask whether the device was ever left unattended — answer plainly; it affects the outcome less often than travelers assume, but a claim written to avoid the question reads worse than one that just answers it.</div>
-      </div>
-    </div>
-  </div>
+  </section>
 
   <!-- ── Print-optimized emergency card ───────────────────────────────── -->
   <div class="section-head">Quick Reference — Print This Before You Go</div>
@@ -362,6 +503,71 @@
 (function () {
   var btn = document.getElementById('print-card-btn');
   if (btn) btn.addEventListener('click', function () { window.print(); });
+}());
+</script>
+<script>
+(function () {
+  /* Live clock in the lock-status row. */
+  var clockEl = document.getElementById('ptrClock');
+  function tick() {
+    var d = new Date();
+    clockEl.textContent = String(d.getHours()).padStart(2, '0') + ':' + String(d.getMinutes()).padStart(2, '0');
+  }
+  tick(); setInterval(tick, 20000);
+
+  /* Slide-to-unlock: on completion, scroll to the first band and start the elapsed clock. */
+  var sl = document.getElementById('ptrSlider'), knob = document.getElementById('ptrKnob'),
+      fill = document.getElementById('ptrFill'), hint = document.getElementById('ptrHint'),
+      statusText = document.getElementById('ptrStatusText'), elapsedEl = document.getElementById('ptrElapsed');
+  var drag = false, done = false, elapsedTimer = null;
+
+  function span() { return sl.clientWidth - knob.offsetWidth - 8; }
+  function setX(x) {
+    x = Math.max(0, Math.min(span(), x));
+    knob.style.transform = 'translateX(' + x + 'px)';
+    fill.style.width = (x + knob.offsetWidth + 4) + 'px';
+    return x;
+  }
+  function startElapsed() {
+    var t0 = Date.now();
+    elapsedTimer = setInterval(function () {
+      var s = Math.floor((Date.now() - t0) / 1000);
+      elapsedEl.textContent = String(Math.floor(s / 60)).padStart(2, '0') + ':' + String(s % 60).padStart(2, '0');
+    }, 1000);
+  }
+  function finish() {
+    if (done) return;
+    done = true; sl.classList.add('done');
+    hint.textContent = 'Locked — the clock is running';
+    statusText.textContent = 'Locked · Find My / Find My Device active';
+    setX(span());
+    startElapsed();
+    document.getElementById('s1').scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }
+  function reset() { if (!done) { knob.style.transform = ''; fill.style.width = '0'; } }
+
+  sl.addEventListener('pointerdown', function (e) { if (done) return; drag = true; sl.setPointerCapture(e.pointerId); });
+  sl.addEventListener('pointermove', function (e) {
+    if (!drag || done) return;
+    var x = setX(e.clientX - sl.getBoundingClientRect().left - knob.offsetWidth / 2);
+    if (x >= span() - 2) { drag = false; finish(); }
+  });
+  sl.addEventListener('pointerup', function () { drag = false; reset(); });
+  sl.addEventListener('pointercancel', function () { drag = false; reset(); });
+  sl.addEventListener('keydown', function (e) {
+    if (done) return;
+    if (e.key === 'Enter' || e.key === ' ' || e.key === 'ArrowRight') { e.preventDefault(); finish(); }
+  });
+
+  /* Reveal each band's rows as they scroll into view. */
+  if ('IntersectionObserver' in window) {
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (e) {
+        if (e.isIntersecting) { e.target.style.opacity = 1; io.unobserve(e.target); }
+      });
+    }, { threshold: .1 });
+    document.querySelectorAll('.ptr-band').forEach(function (b) { io.observe(b); });
+  }
 }());
 </script>
 </body>

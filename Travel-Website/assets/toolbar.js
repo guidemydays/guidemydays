@@ -2127,8 +2127,8 @@ window.TVE.home = (function () {
          which is why this box rendered oversized with two overlapping icons on pages that load that
          stylesheet (the landing page, essentials pages). Matching their attribute selector plus the
          class keeps every property here winning without needing !important. */
-      'input[type="search"].tb-search-input{-webkit-appearance:none;appearance:none;width:170px;height:30px;border-radius:999px;background:#fff;' +
-        'border:1.5px solid transparent;color:#1a1917;font:inherit;font-size:12px;' +
+      'input[type="search"].tb-search-input{-webkit-appearance:none;appearance:none;width:170px;height:30px;border-radius:999px;background:var(--surface,#fff);' +
+        'border:1.5px solid transparent;color:var(--text,#1a1917);font:inherit;font-size:12px;' +
         'padding:0 12px 0 32px;box-shadow:0 2px 8px rgba(107,68,35,.08);transition:border-color .15s,width .15s}' +
       'input[type="search"].tb-search-input::placeholder{color:#9a8367}' +
       'input[type="search"].tb-search-input::-webkit-search-decoration,input[type="search"].tb-search-input::-webkit-search-cancel-button,' +

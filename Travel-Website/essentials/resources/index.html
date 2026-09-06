@@ -10,21 +10,12 @@
    Study: Travel-Website/essentials/resources-new-aurora/index.html.
 
    The arrangement is /plugs/'s, at page scale: the site hero on top, a beige
-   ground under it, and ONE card on that ground holding everything the
+   ground under it, and ONE dark card on that ground holding everything the
    study holds — its search and entry count, its section rail, its numbered
    display heads, its glass cards, its drifting light and its film grain.
    Nothing of the study is left out and nothing of it leaks onto the page:
-   the accent quartet, the card's own ground and its type all live inside
-   .rs-stage and are scoped to it, never to :root.
-
-   2026-09-06 owner rule: the card's ground went from dark brown to the
-   site's own cream-to-tan (Brain/Reference/Icons-Formats-Logos/Beige
-   Gradient.html — the same linear-gradient(150deg,#f8f1e2,#ecdec2) the Best
-   Of hero and the essentials hero bands already carry), with that doc's own
-   dark ink, #3d2f1f, standing in for the old white-on-dark type. The aurora
-   quartet, the glass cards and the grain are the same treatment, not a new
-   one — only the ground and the blend modes that read against it changed;
-   see the two spots below still carrying that reasoning.
+   the accent quartet, the dark-brown ground and the white-on-dark type all
+   live inside .rs-stage and are scoped to it, never to :root.
 
    Two mechanical translations the containment forces, both of which also
    happen to be what the Seventy-fourth non-negotiable asks for:
@@ -72,51 +63,55 @@
    overflow:hidden is load-bearing twice over: it crops the aurora layer to
    the card's rounded corners, and it stops the card's own scroll-reveal
    transforms from widening the page. isolation:isolate gives the blobs'
-   mix-blend-mode:multiply a stacking context of its own — without it the blend
+   mix-blend-mode:screen a stacking context of its own — without it the blend
    reaches through to the beige and the light turns to mud. */
 .rs-stage {
   --a1:#ffc14d; --a2:#2cb1bc; --a3:#ff9e2c; --a4:#ffe08a;
-  --ink:#3d2f1f;
-  --paper:var(--ink); --paper-dim:#6b5946; --paper-dimmer:#8a7965;
-  --line:rgba(61,47,31,.16);
-  --glass:rgba(255,255,255,.5); --glass-2:rgba(255,255,255,.72);
+  --ink:#4b3020;
+  --paper:#f2f3f8; --paper-dim:#a9b0c8; --paper-dimmer:#7b839d;
+  --line:rgba(255,255,255,.14);
+  /* 2026-09-06 owner rule: ONLY the .rs-card glass itself goes yellow/beige,
+     not the ground — --glass/--glass-2 are consumed nowhere else, so this is
+     the single, fully scoped knob for that. Was a neutral white tint
+     (rgba(255,255,255,.055/.09)); now the same --a4 pale-yellow the aurora
+     blobs already carry, just as a translucent card fill instead of a glow. */
+  --glass:rgba(255,224,138,.10); --glass-2:rgba(255,224,138,.17);
   position: relative; overflow: hidden; isolation: isolate;
-  background: linear-gradient(150deg, #f8f1e2 0%, #ecdec2 100%); border-radius: 22px;
-  box-shadow: 0 20px 50px rgba(61,47,31,.18);
+  background: var(--ink); border-radius: 22px;
+  box-shadow: 0 20px 50px rgba(26,25,23,.18);
 }
 
 /* The study spreads these four across a whole VIEWPORT, with a lot of dark
    between them, and they stay put while the page scrolls past. Packed into a
-   card they overlap almost everywhere instead. Held well under full strength
-   with a wider blur, which is the same light at card scale rather than a
-   weaker version of it.
+   card they overlap almost everywhere instead — and screen is additive, so at
+   the study's own .55 the four of them blend to a pale wash and the dark-brown
+   ground disappears entirely. Held well under that with a wider blur, which is
+   the same light at card scale rather than a weaker version of it.
 
-   2026-09-06: the ground flipped from dark brown to cream, and the blend mode
-   flipped with it — screen only ever lightens, so against a ground already
-   this light it would have bleached the whole card white. multiply tints
-   toward each blob's own hue instead, which is the same "light pooling on
-   the ground" idea translated for a light ground: gold/amber/pale-yellow
-   read as warm sunlit patches, not grey haze. THREE OF THE FOUR STAY WARM
-   (owner rule 2026-09-05, unchanged by the ground swap). --a2 stays teal
-   deliberately: it is NOT only a blob — it also colours .rs-num, .rs-kicker
-   and the link hover, so warming it would silently repaint the type. One
-   cool note also keeps the four from flattening into a single gold smear. */
+   THREE OF THE FOUR ARE WARM NOW (owner rule 2026-09-05). The study's quartet
+   was tuned to glow against a blue-black; on the brown ground the two cool
+   blobs read as grey haze instead of light, because screen-blending a cool hue
+   onto a warm ground cancels rather than lifts. Gold/amber/pale-yellow is the
+   same light doing its job on this ground. --a2 stays teal deliberately: it is
+   NOT only a blob — it also colours .rs-num, .rs-kicker and the link hover, so
+   warming it would silently repaint the type. One cool note also keeps the
+   four from flattening into a single gold smear. */
 .rs-field {
   position: absolute; inset: -18% -10%; z-index: 0; pointer-events: none;
   filter: blur(92px) saturate(150%);
 }
-.rs-field i { position: absolute; display: block; border-radius: 50%; mix-blend-mode: multiply; will-change: transform; }
+.rs-field i { position: absolute; display: block; border-radius: 50%; mix-blend-mode: screen; will-change: transform; }
 /* Heights are a fraction of the card, not of its width, so a tall card gets
    four separated glows down its length rather than one continuous smear.
-   Opacity is PER BLOB, not one value on the layer, because multiply does not
-   weigh the four equally either: a pale-yellow blob barely darkens the cream
-   under it, while gold and orange visibly deepen it. The ladder below is
-   what keeps the cream reading as cream, tinted rather than muddied, from
-   the search row to the last card. */
-.rs-field i:nth-child(1) { opacity: .40; width: 42%; height: 26%; left: -8%;  top: 1%;  background: radial-gradient(circle at 40% 40%, var(--a1), transparent 66%); animation: rs-drift1 26s ease-in-out infinite; }
+   Opacity is PER BLOB, not one value on the layer, because screen-blending
+   does not weigh the four equally: measured across the card's full height,
+   purple and teal stay dark while coral and — far worse — yellow blow the
+   ground out to a pale wash under them. The ladder below is what keeps the
+   brown reading as brown from the search row to the last card. */
+.rs-field i:nth-child(1) { opacity: .30; width: 42%; height: 26%; left: -8%;  top: 1%;  background: radial-gradient(circle at 40% 40%, var(--a1), transparent 66%); animation: rs-drift1 26s ease-in-out infinite; }
 .rs-field i:nth-child(2) { opacity: .30; width: 36%; height: 22%; right: -6%; top: 16%; background: radial-gradient(circle at 55% 45%, var(--a2), transparent 66%); animation: rs-drift2 32s ease-in-out infinite; }
-.rs-field i:nth-child(3) { opacity: .34; width: 34%; height: 22%; left: 22%;  top: 52%; background: radial-gradient(circle at 50% 50%, var(--a3), transparent 64%); animation: rs-drift3 38s ease-in-out infinite; }
-.rs-field i:nth-child(4) { opacity: .40; width: 24%; height: 16%; right: 12%; top: 76%; background: radial-gradient(circle at 50% 50%, var(--a4), transparent 62%); animation: rs-drift2 29s ease-in-out infinite reverse; }
+.rs-field i:nth-child(3) { opacity: .24; width: 34%; height: 22%; left: 22%;  top: 52%; background: radial-gradient(circle at 50% 50%, var(--a3), transparent 64%); animation: rs-drift3 38s ease-in-out infinite; }
+.rs-field i:nth-child(4) { opacity: .18; width: 24%; height: 16%; right: 12%; top: 76%; background: radial-gradient(circle at 50% 50%, var(--a4), transparent 62%); animation: rs-drift2 29s ease-in-out infinite reverse; }
 @keyframes rs-drift1 { 0%,100% { transform: translate3d(0,0,0) scale(1);    } 50% { transform: translate3d(7%,9%,0)   scale(1.16); } }
 @keyframes rs-drift2 { 0%,100% { transform: translate3d(0,0,0) scale(1.08); } 50% { transform: translate3d(-9%,11%,0) scale(.92);  } }
 @keyframes rs-drift3 { 0%,100% { transform: translate3d(0,0,0) scale(.95);  } 50% { transform: translate3d(6%,-13%,0) scale(1.2);  } }
@@ -124,9 +119,10 @@
 /* The study lays its noise on at .22 straight. Over a whole near-black
    viewport that reads as grain; over a card it reads as a flat grey veil,
    because feTurbulence renders a light mid-grey and there is not enough dark
-   around it to absorb the lift. mix-blend-mode:overlay modulates the ground
-   instead of adding to it, so the cream stays cream and the texture is still
-   there on the light ground too; the straight opacity comes down to match. */
+   around it to absorb the lift — measured on the page, the ground went from
+   its own hex to a mauve wash. mix-blend-mode:overlay modulates the ground
+   instead of adding to it, so the brown stays brown and the texture is still
+   there; the straight opacity comes down to match. */
 .rs-grain { position: absolute; inset: 0; z-index: 1; pointer-events: none; opacity: .10; mix-blend-mode: overlay; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3'/%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23n)' opacity='.5'/%3E%3C/svg%3E"); }
 
 .rs-inner { position: relative; z-index: 2; padding: clamp(26px, 4vw, 44px) clamp(20px, 4vw, 52px) clamp(44px, 6vw, 72px); }
@@ -152,9 +148,7 @@
   content: attr(data-label); position: absolute; right: 22px; top: 50%;
   transform: translateY(-50%) translateX(6px); white-space: nowrap;
   font-size: 11px; letter-spacing: .1em; text-transform: uppercase; font-weight: 700;
-  /* Literal light text, not var(--paper): this label's own chip stays a dark
-     brown regardless of the card's ground, so its text stays light too. */
-  color: #f8f1e2; background: rgba(61,47,31,.94); border: 1px solid var(--line);
+  color: var(--paper); background: rgba(75,48,32,.94); border: 1px solid var(--line);
   padding: 5px 9px; border-radius: 8px; opacity: 0; pointer-events: none; transition: .25s;
 }
 .rs-rail button:hover::after, .rs-rail button:focus-visible::after { opacity: 1; transform: translateY(-50%); }
@@ -175,16 +169,15 @@
 .rs-grid { display: grid; gap: 16px; margin-top: 26px; grid-template-columns: repeat(auto-fill, minmax(315px, 1fr)); }
 
 /* ── The card ─────────────────────────────────────────────────────────────
-   Translucent white over the light behind it, not an opaque panel. The
-   backdrop-filter IS the look; a solid fill here is what made the first
-   attempt look like a different page. On the cream ground the same idea
-   is a frosted-white pane lifting slightly off the gradient rather than a
-   dark pane glowing on it — var(--glass)/var(--glass-2) carry that lift,
-   at a higher alpha than the dark-ground version needed to actually read
-   against a ground this light. */
+   Translucent yellow/beige over the dark ground behind it, not an opaque
+   panel — 2026-09-06 owner rule, was translucent white. The backdrop-filter
+   IS the look; a solid fill here is what made the first attempt look like a
+   different page. The border and the pointer-highlight glow move to the
+   same warm tint here too, so the whole card — not just its fill — reads as
+   one yellow/beige glass pane rather than a gold fill in a white frame. */
 .rs-card {
   position: relative; overflow: hidden;
-  background: var(--glass); border: 1px solid var(--line); border-radius: 20px;
+  background: var(--glass); border: 1px solid rgba(255,224,138,.30); border-radius: 20px;
   padding: 22px 22px 20px; backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
   transform-style: preserve-3d;
   transition: transform .5s cubic-bezier(.2,.9,.2,1), border-color .35s, background .35s, opacity .5s;
@@ -196,12 +189,9 @@
 .rs-card::before {
   content: ""; position: absolute; inset: 0; border-radius: inherit; opacity: 0;
   transition: opacity .35s; pointer-events: none;
-  /* A white sheen is invisible on a card already this light; the pointer
-     highlight is a warm gold glow instead, from the same --a1 the aurora
-     blobs use, so hovering a card feels like the same light source. */
-  background: radial-gradient(340px circle at var(--mx,50%) var(--my,50%), rgba(255,193,77,.30), transparent 62%);
+  background: radial-gradient(340px circle at var(--mx,50%) var(--my,50%), rgba(255,224,138,.26), transparent 62%);
 }
-.rs-card:hover { border-color: rgba(61,47,31,.28); background: var(--glass-2); }
+.rs-card:hover { border-color: rgba(255,224,138,.5); background: var(--glass-2); }
 .rs-card:hover::before { opacity: 1; }
 .rs-card::after {
   content: ""; position: absolute; left: 0; right: 0; top: 0; height: 2px;
@@ -215,7 +205,7 @@
 /* Literal hex, never var(): a browser will not resolve a custom property
    inside :visited, and the unresolved value falls through to the global gold
    a{} rule. */
-.rs-name a:visited { color: #3d2f1f; text-decoration: none; }
+.rs-name a:visited { color: #f2f3f8; text-decoration: none; }
 .rs-name a:hover, .rs-name a:focus { color: #2cb1bc; text-decoration: none; }
 /* The study underlines the title on hover; underlines are banned site-wide,
    so the outbound mark is the approved single right angle quote drawn by CSS

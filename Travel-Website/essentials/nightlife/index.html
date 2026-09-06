@@ -14,12 +14,7 @@
 .wrap {
   --nl-night2: #6a4fb8;
   --nl-neon: #d63a86;
-  --nl-neon-chip: #a82b68;
-  --nl-amber: #c8811a;
-  --nl-amber-chip: #9c6512;
   --nl-mint: #1f7a6a;
-  --nl-quiet: #6b6577;
-  --nl-last: #8a3f18;
 }
 
 /* ── Hero clock dial ── */
@@ -63,16 +58,9 @@
 .nl-city-country { font-size: 11px; color: var(--muted); letter-spacing: .06em; text-transform: uppercase; font-weight: 700; margin-top: 3px; }
 .nl-now { margin-left: auto; display: flex; align-items: center; gap: 10px; }
 .nl-now-time { font-variant-numeric: tabular-nums; font-size: 17px; font-weight: 800; color: var(--text); }
-.nl-state {
-  font: 700 9.5px/1 var(--font,sans-serif); letter-spacing: .1em; text-transform: uppercase;
-  padding: 6px 10px; border-radius: 4px; white-space: nowrap;
-}
-.nl-state.s-quiet  { background: var(--nl-quiet); color: #fff; }
-.nl-state.s-dinner { background: var(--nl-amber-chip); color: #fff; }
-.nl-state.s-bars   { background: var(--nl-neon-chip); color: #fff; }
-.nl-state.s-peak   { background: var(--nl-night2); color: #fff; }
-.nl-state.s-last   { background: var(--nl-last); color: #fff; }
-.nl-state.s-day    { background: var(--nl-mint); color: #fff; }
+/* State chip shape + colour both come from the shared badge system —
+   `.badge` (web-travel-style.css) for shape, `.sb-*` for the fill. No
+   page-local colour here; see BADGE_PAGES in brain_check.py. */
 
 /* ── Night arc (6pm → 8am timeline) ── */
 .nl-arc { padding: 2px 22px 16px; }
@@ -134,7 +122,7 @@
   .eb-kicker, .eb-title, .eb-intro, .eb-intro a { color: #000 !important; }
   .eb-graphic { display: none !important; }
   .nl-city { break-inside: avoid; page-break-inside: avoid; border: 1px solid #999 !important; background: none !important; box-shadow: none !important; opacity: 1 !important; transform: none !important; }
-  .nl-state { background: none !important; color: #000 !important; border: 1px solid #999 !important; }
+  .nl-city .badge { background: none !important; color: #000 !important; border: 1px solid #999 !important; }
   .nl-band, .nl-nowmark, .nl-stop { display: none !important; }
   .nl-region { color: #000 !important; }
   .nl-region::before, .nl-region::after { background: #999 !important; }
@@ -359,12 +347,12 @@ function within(x, a, b) { return b > a ? (x >= a && x < b) : (x >= a || x < b);
 
 function stateOf(c, hf) {
   var pk = c.peak, p0 = pk[0] % 24, p1 = pk[1] % 24;
-  if (within(hf, p0, p1)) return ['s-peak', 'Peak hours'];
-  if (within(hf, c.bars % 24, p0)) return ['s-bars', 'Bars filling'];
-  if (within(hf, 19, c.bars % 24)) return ['s-dinner', 'Dinner hours'];
-  if (within(hf, p1, (p1 + 2) % 24)) return ['s-last', 'Winding down'];
-  if (hf >= 6 && hf < 12) return ['s-day', 'Daytime'];
-  return ['s-quiet', 'Quiet now'];
+  if (within(hf, p0, p1)) return ['sb-blue', 'Peak hours'];
+  if (within(hf, c.bars % 24, p0)) return ['sb-pink', 'Bars filling'];
+  if (within(hf, 19, c.bars % 24)) return ['sb-gold', 'Dinner hours'];
+  if (within(hf, p1, (p1 + 2) % 24)) return ['sb-rust', 'Winding down'];
+  if (hf >= 6 && hf < 12) return ['sb-light-blue', 'Daytime'];
+  return ['sb-dark-grey', 'Quiet now'];
 }
 
 /* arc runs 18:00 -> 08:00 = 14 hours */
@@ -398,7 +386,7 @@ function card(c) {
       '</div>' +
       '<div class="nl-now">' +
         '<span class="nl-now-time">' + t.text + '</span>' +
-        '<span class="nl-state ' + st[0] + '">' + st[1] + '</span>' +
+        '<span class="badge ' + st[0] + '">' + st[1] + '</span>' +
       '</div>' +
     '</div>' +
     '<div class="nl-arc">' +

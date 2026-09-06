@@ -11,37 +11,55 @@
    window.TravelClimate (set by assets/weather.js), never a second copy. */
 .cf-wrap { max-width: var(--rail); margin: 8px auto 0; padding: 0 var(--gutter); }
 
-/* ═══ HERO — this page only ═══════════════════════════════════════════════════
-   Owner-directed 2026-08-14. Same treatment as the landing page's feature cards
-   so the two read as one site: the warm radial wash, clamp()ed type that scales
-   with the viewport instead of stepping at breakpoints. Nothing below the hero
-   is affected. */
-.cf-hero {
-  margin: clamp(0.5rem, 1.5vw, 1.2rem) 0 clamp(1rem, 2.4vw, 1.6rem);
-  padding: clamp(1.8rem, 4vw, 3.2rem) clamp(1.4rem, 3.4vw, 2.8rem);
-  background:
-    radial-gradient(120% 140% at 0% 0%, rgba(192, 78, 26, 0.085), transparent 62%),
-    var(--surface2, #faf7f2);
-  border: 1px solid rgba(192, 78, 26, 0.2);
-  border-radius: clamp(0.7rem, 1.4vw, 1.1rem);
-  display: grid;
-  grid-template-columns: minmax(0, 1.08fr) minmax(0, 0.92fr);
-  gap: clamp(1.2rem, 3.2vw, 2.8rem);
-  align-items: center;
-}
-.cf-hero-copy { min-width: 0; }
+/* ═══ HERO — the shared beige-gradient card ═══════════════════════════════════
+   Owner-directed 2026-09-05: "try to make a new hero with the beige gradient
+   look the other pages". The page-local card that stood here since 2026-08-14
+   (a warm terracotta radial wash over --surface2, its own 1.08fr/0.92fr grid,
+   its own h1/lede type scale) is RETIRED. The hero is now the site's shared
+   `.hero-band.eb-hero` — the same cream-to-tan gradient, dot texture, rim and
+   12px radius carried by the 47+ essentials pages, ask-your-guide, currencies,
+   plugs and time-zones. Recipe: Brain/Reference/Icons-Formats-Logos/Beige
+   Gradient.html; the CSS itself is web-travel-style.css `.hero-band.eb-hero`.
+
+   Nothing page-local paints the hero any more: the title is `.eb-title` (its
+   `em` is the indented second line in #8a4a2c, not an inline terracotta run),
+   the lede is `.eb-intro` nested inside `.eb-copy` per the 2026-08-25 shape
+   check_eb_hero_intro_nested pins, and the top-right page badge is the bare
+   `.eb-kicker` reading this page's own toolbar link name ("When to Go").
+
+   The FORMAT_EXCEPTION this page was given on 2026-08-14 is untouched — still
+   no ALL-CAPS .page-header band and no Type A intro card above it, the hero IS
+   the top of the page. Only the card's own skin changed.
+
+   Two things stay page-local because only this page has them: the twelve-month
+   temperature spill that fills the right column, and the breakpoint it needs
+   (the shared card goes one-column at 640px; the spill needs it at 62rem,
+   where two columns get too narrow for twelve bars to read). */
 
 /* ═══ THE SPILL ═══════════════════════════════════════════════════════════
    The hero card's right half was empty at every width above 62rem. This
    fills it with the page's own subject: a temperate year of daytime highs
-   and overnight lows, one bar per month, each running lo -> hi and filled
-   on the site's temperature ramp (--c-temp-lo cool at the foot, --c-temp-hi
-   warm at the head). Both tokens already flip for dark mode.
+   and overnight lows, one bar per month, each running lo -> hi and filled on
+   the site's temperature ramp (--c-temp-lo cool at the foot, --c-temp-hi
+   warm at the head). Both tokens already flip for dark mode. Decorative: the
+   shape is a generic northern year, not one city's data, so it carries no
+   reading and needs no source. aria-hidden for exactly that reason.
 
    Not a new chart family — it is .cf-strip from the result cards at scale,
-   same absolutely-positioned bars, same 12 months. Decorative: the shape is
-   a generic northern year, not one city's data, so it carries no reading
-   and needs no source. aria-hidden for exactly that reason. */
+   same absolutely-positioned bars, same 12 months, and the ramp is what ties
+   it to them: every result card below prints its own high in --c-temp-hi and
+   its low in --c-temp-lo (.cf-hi / .cf-lo), so a bar that runs blue foot to
+   red head is the same reading drawn instead of typed.
+
+   THE RAMP IS ON ALL TWELVE, AT FULL STRENGTH (owner, 2026-09-05: "we need
+   to keep this part to match the cards below" · "it needs to have the
+   gradient in all of them"). The old .peak opacity split — two bars at 1,
+   the other ten at .62 — is retired: a faded gradient reads as a second,
+   weaker colour rather than the same one, which is exactly what the ramp
+   must not do here. The two tallest months are already the two tallest
+   months; nothing else marks them. A flat repaint was tried the same day
+   (both terracottas lifted off the cards' own mini-strips) and reversed on
+   sight — do not take the gradient off these bars again. */
 .cf-spill { display: block; }
 .cf-spill-plot {
   display: flex; align-items: flex-end; gap: clamp(3px, 0.7vw, 7px);
@@ -56,9 +74,7 @@
   position: absolute; left: 50%; transform: translateX(-50%);
   width: clamp(6px, 0.9vw, 10px); border-radius: 999px;
   background: linear-gradient(to top, var(--c-temp-lo, #3d5282), var(--c-temp-hi, #a61c00));
-  opacity: 0.62;
 }
-.cf-spill-col.peak > i { opacity: 1; }
 .cf-spill-months {
   display: flex; gap: clamp(3px, 0.7vw, 7px); margin-top: 9px;
 }
@@ -90,27 +106,28 @@
   transition: background .18s ease, border-color .18s ease, color .18s ease;
 }
 a.cf-spill-pill:visited { color: var(--nt-linen-ink, #5a3c0e); }
+/* The shared `.hero-band a` rule underlines every link inside the band and
+   `.hero-band.eb-hero a` repaints it in the hero's own ink — both outrank the
+   single-class `.cf-spill-pill` above, so once the card became an eb-hero the
+   pills would have come out underlined and in hero ink instead of linen.
+   Re-assert the pill's own two properties at matching weight, on the same
+   tokens it already used; nothing else about the pill changes. */
+.hero-band.eb-hero a.cf-spill-pill,
+.hero-band.eb-hero a.cf-spill-pill:visited,
+.hero-band.eb-hero a.cf-spill-pill:hover {
+  color: var(--nt-linen-ink, #5a3c0e); text-decoration: none;
+}
 .cf-spill-pill:hover, .cf-spill-pill:focus-visible, a.cf-spill-pill:hover:visited {
   background: color-mix(in srgb, var(--nt-linen-wash,#f5f0e6) 55%, var(--nt-linen-ink,#5a3c0e) 45%);
 }
 /* One column below 62rem: the spill sits under the lede rather than beside
    it, and shortens so it never pushes the month row below the fold. */
 @media (max-width: 62rem) {
-  .cf-hero { grid-template-columns: 1fr; gap: clamp(1.1rem, 4vw, 1.6rem); }
+  /* Scoped under .cf-wrap so it outranks the shared .hero-band.eb-hero grid
+     here without touching the 50+ other pages built on the same card. */
+  .cf-wrap .hero-band.eb-hero { grid-template-columns: 1fr; gap: clamp(1.1rem, 4vw, 1.6rem); }
   .cf-spill-plot { height: clamp(72px, 18vw, 104px); }
 }
-.cf-hero h1 {
-  font-size: clamp(1.7rem, 4.2vw, 3.1rem); line-height: 1.05;
-  letter-spacing: -0.03em; font-weight: 700; color: var(--text, #3d3a32);
-  margin: 0 0 clamp(0.6rem, 1.4vw, 1rem); max-width: 22ch; text-wrap: balance;
-  text-transform: none;
-}
-.cf-hero h1 em { font-style: normal; color: var(--rust, #C04E1A); }
-.cf-hero-lede {
-  font-size: clamp(0.95rem, 1.15vw, 1.08rem); line-height: 1.7;
-  color: var(--muted, #6a6660); max-width: 66ch; margin: 0;
-}
-.cf-hero-lede strong { color: var(--text, #3d3a32); font-weight: 600; }
 /* Date stamp: float out of vertical flow so the sibling pills tuck up under the banner (no blank line). */
 .cf-intro { color: var(--muted,#6a6660); font-size: var(--fs-sub,12px); margin: 2px 0 16px; }
 /* Controls card */
@@ -495,10 +512,11 @@ a.cf-card:hover .cf-guide-pill { border-color: var(--nt-linen-ink,#5a3c0e); }
        page, and an ALL-CAPS band above it repeats the tab you just clicked and
        pushes the tool down. Pinned by check_design_transition_intact so it
        cannot come back a third time. Do not re-add it. -->
-  <header class="cf-hero">
-    <div class="cf-hero-copy">
-      <h1>When to go, <em>by the weather you want</em>.</h1>
-      <p class="cf-hero-lede">Set the month you can travel, the daytime temperature you
+  <div class="hero-band eb-hero">
+    <span class="eb-kicker">When to Go</span>
+    <div class="eb-copy">
+      <h1 class="eb-title">When to go, <em>by the weather you want.</em></h1>
+      <p class="eb-intro">Set the month you can travel, the daytime temperature you
       are after and how much rain you will put up with &mdash; this returns every city on
       the site that matches. It answers the question people actually start with,
       <strong>somewhere warm, somewhere mild, somewhere dry</strong>, before they have
@@ -513,8 +531,8 @@ a.cf-card:hover .cf-guide-pill { border-color: var(--nt-linen-ink,#5a3c0e); }
         <div class="cf-spill-col"><i style="bottom:28%;height:29%"></i></div>
         <div class="cf-spill-col"><i style="bottom:40%;height:30%"></i></div>
         <div class="cf-spill-col"><i style="bottom:52%;height:32%"></i></div>
-        <div class="cf-spill-col peak"><i style="bottom:60%;height:34%"></i></div>
-        <div class="cf-spill-col peak"><i style="bottom:58%;height:34%"></i></div>
+        <div class="cf-spill-col"><i style="bottom:60%;height:34%"></i></div>
+        <div class="cf-spill-col"><i style="bottom:58%;height:34%"></i></div>
         <div class="cf-spill-col"><i style="bottom:47%;height:31%"></i></div>
         <div class="cf-spill-col"><i style="bottom:34%;height:26%"></i></div>
         <div class="cf-spill-col"><i style="bottom:20%;height:22%"></i></div>
@@ -529,7 +547,7 @@ a.cf-card:hover .cf-guide-pill { border-color: var(--nt-linen-ink,#5a3c0e); }
         <a href="/sunrise-sunset/" class="cf-spill-pill">Daylight by month</a>
       </div>
     </div>
-  </header>
+  </div>
 
   <div class="cf-presets" id="cf-presets">
     <button type="button" class="cf-preset selection-pill cp-brown hov-darken" data-preset="beach" aria-pressed="false">Beach weather</button>

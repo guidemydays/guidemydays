@@ -81,6 +81,7 @@ html { overflow-x: clip; scroll-behavior: smooth; }
 
   /* ── Typography ── */
   --font:     'Public Sans', sans-serif;
+  --font-mono: ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace;
   --fs-body:  16px;
   --fs-title: 22px;   /* page title size */
   --fs-h2:    18px;   /* section heading */
@@ -1736,6 +1737,39 @@ a.lounge-guide-link:visited { color: #6a6660; }
   background: #d9d5cb; border-color: rgba(79,74,62,.75); color: #4f4a3e;
 }
 a.chevron-link-pill:visited { color: #8a6c1a; }
+
+/* Single Pill -- selection-pills-badges-pills-to-badge-dots.html Rule 17
+   ("Single Pill -- a one-off category, not a color family"). The FIRST
+   component in this category: a pointer to one specific destination, never
+   a member of a selector/filter series (Rules 3/5/9 don't apply to it). It
+   carries no palette of its own -- --sp-ink comes from whichever tone class
+   (a cp-tone or sb-tone class) it's paired with, or falls back to
+   terracotta when paired with none. Unfilled at rest, border and text sharing one value via
+   currentColor. Its only approved hover is this invert -- never Darken,
+   Lift, Press, Glow, or Ring (Rule 7), which all assume a filled/tinted
+   rest state this pill doesn't have. First shipped as .prop-link in the
+   Where to Stay redesign study (essentials/where-to-stay-new-9/index.html). */
+.single-pill {
+  display: inline-flex; align-items: center; justify-content: center;
+  padding: 9px 14px; border-radius: 999px;
+  background: transparent; border: 1.5px solid currentColor;
+  color: var(--sb-fill, var(--sp-ink, var(--c-terracotta)));
+  font: 800 10px/1 var(--font-mono); letter-spacing: .14em; text-transform: uppercase;
+  text-decoration: none; transition: background .18s, color .18s;
+}
+/* Solid tones (.sb-*) set --sp-ink:#000 for their OWN internal hover math,
+   not as a usable foreground -- pairing .single-pill with .sb-rust would
+   render black text/border instead of rust without reading --sb-fill (the
+   tone's real color) first. Calm Pastel tones never set --sb-fill, so they
+   fall through to --sp-ink unaffected; a bare .single-pill falls through
+   to terracotta. Caught testing all three pairings before shipping. */
+.single-pill:hover { background: var(--sb-fill, var(--sp-ink, var(--c-terracotta))); color: var(--sb-text, #fff); }
+/* a:visited carries a type selector and outranks a bare .single-pill:hover on
+   specificity -- without the explicit :visited:hover pairing below, a
+   visited link's ink-colored text survives its own hover fill (same ink
+   color) and the label goes invisible. Caught live building this pill. */
+a.single-pill:visited { color: var(--sb-fill, var(--sp-ink, var(--c-terracotta))); }
+a.single-pill:visited:hover { color: var(--sb-text, #fff); }
 
 .agg-link::after,
 .prov-link::after,

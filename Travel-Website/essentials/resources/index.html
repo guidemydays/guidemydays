@@ -26,10 +26,11 @@
        it. A strip that pinned to the viewport would go on hovering over the
        beige long after the card had scrolled past it.
 
-   The entry count is the study's and ships at the owner's explicit direction
-   ("i want all that is in this page. ALL"), which is the Ninety-second
-   non-negotiable being overridden by the owner rather than a crib deciding
-   the rule does not apply — the Owner-override rule, x01.
+   The entry count shipped once at the owner's explicit override of the
+   Ninety-second non-negotiable ("i want all that is in this page. ALL") and
+   is REMOVED again as of 2026-09-06 — the override is lifted, not the rule:
+   this page now follows the Ninety-second non-negotiable like every other
+   page, no live item-count badge.
 
    Two things inside the card are the SITE's, not the study's, and are not
    restyled here by a single declaration: the search box, whose every
@@ -70,12 +71,17 @@
   --ink:#4b3020;
   --paper:#f2f3f8; --paper-dim:#a9b0c8; --paper-dimmer:#7b839d;
   --line:rgba(255,255,255,.14);
-  /* 2026-09-06 owner rule: ONLY the .rs-card glass itself goes yellow/beige,
+  /* 2026-09-06 owner rule: ONLY the .rs-card fill itself goes yellow/beige,
      not the ground — --glass/--glass-2 are consumed nowhere else, so this is
-     the single, fully scoped knob for that. Was a neutral white tint
-     (rgba(255,255,255,.055/.09)); now the same --a4 pale-yellow the aurora
-     blobs already carry, just as a translucent card fill instead of a glow. */
-  --glass:rgba(255,224,138,.10); --glass-2:rgba(255,224,138,.17);
+     the single, fully scoped knob for that. First pass kept the old ~10%
+     alpha and only warmed its hue, which still read as brown at that low an
+     opacity over a dark ground — a tint needs to be visibly light to read as
+     "beige," not just warm. This is a near-opaque warm cream-to-gold fill
+     (still <100% so a sliver of the ground's blur shows through, keeping it
+     a glass card and not a flat panel), high enough alpha to actually look
+     yellow/beige rather than gold-tinted-brown. */
+  --glass:linear-gradient(155deg, rgba(255,240,204,.94), rgba(255,214,140,.90));
+  --glass-2:linear-gradient(155deg, rgba(255,244,214,.97), rgba(255,223,156,.94));
   position: relative; overflow: hidden; isolation: isolate;
   background: var(--ink); border-radius: 22px;
   box-shadow: 0 20px 50px rgba(26,25,23,.18);
@@ -135,7 +141,6 @@
 .rs-controls { display: flex; gap: 16px 22px; align-items: center; flex-wrap: wrap; padding-bottom: clamp(26px, 4vw, 40px); }
 .rs-field-wrap { position: relative; width: var(--search-w, 440px); max-width: 100%; }
 .rs-field-wrap .search-input { margin-bottom: 0; }
-.rs-tally { font-size: 12px; letter-spacing: .14em; text-transform: uppercase; color: var(--paper-dimmer); font-weight: 600; }
 
 /* ── The section rail ─────────────────────────────────────────────────────
    Absolute inside the card, riding in its right padding. Gated on pointer
@@ -169,15 +174,22 @@
 .rs-grid { display: grid; gap: 16px; margin-top: 26px; grid-template-columns: repeat(auto-fill, minmax(315px, 1fr)); }
 
 /* ── The card ─────────────────────────────────────────────────────────────
-   Translucent yellow/beige over the dark ground behind it, not an opaque
-   panel — 2026-09-06 owner rule, was translucent white. The backdrop-filter
-   IS the look; a solid fill here is what made the first attempt look like a
-   different page. The border and the pointer-highlight glow move to the
-   same warm tint here too, so the whole card — not just its fill — reads as
-   one yellow/beige glass pane rather than a gold fill in a white frame. */
+   Near-opaque yellow/beige over the dark ground behind it — 2026-09-06 owner
+   rule, was translucent white, then (wrongly) a low-alpha warm tint that
+   still read as brown. The backdrop-filter is still there so the card isn't
+   a flat cutout, but the fill itself now carries almost all of the color:
+   at this alpha a reader sees a beige/gold card sitting on the brown ground,
+   not a hint of gold over visible brown. The border and pointer-highlight
+   move to the same warm family so the whole card reads as one piece.
+
+   Because the card itself is now light, the type inside it can no longer
+   use --paper/--paper-dim/--paper-dimmer (those are tuned for the dark
+   ground and would be near-illegible here) — .rs-name/.rs-kicker/.rs-body
+   below get their own dark, warm inks instead, scoped to the card the same
+   way --glass already is. */
 .rs-card {
   position: relative; overflow: hidden;
-  background: var(--glass); border: 1px solid rgba(255,224,138,.30); border-radius: 20px;
+  background: var(--glass); border: 1px solid rgba(196,150,74,.55); border-radius: 20px;
   padding: 22px 22px 20px; backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
   transform-style: preserve-3d;
   transition: transform .5s cubic-bezier(.2,.9,.2,1), border-color .35s, background .35s, opacity .5s;
@@ -189,9 +201,9 @@
 .rs-card::before {
   content: ""; position: absolute; inset: 0; border-radius: inherit; opacity: 0;
   transition: opacity .35s; pointer-events: none;
-  background: radial-gradient(340px circle at var(--mx,50%) var(--my,50%), rgba(255,224,138,.26), transparent 62%);
+  background: radial-gradient(340px circle at var(--mx,50%) var(--my,50%), rgba(255,255,255,.4), transparent 62%);
 }
-.rs-card:hover { border-color: rgba(255,224,138,.5); background: var(--glass-2); }
+.rs-card:hover { border-color: rgba(196,150,74,.8); background: var(--glass-2); }
 .rs-card:hover::before { opacity: 1; }
 .rs-card::after {
   content: ""; position: absolute; left: 0; right: 0; top: 0; height: 2px;
@@ -201,20 +213,22 @@
 .rs-card:hover::after { transform: scaleX(1); }
 
 .rs-name { margin: 0; font-size: 19.5px; font-weight: 750; letter-spacing: -.015em; line-height: 1.25; }
-.rs-name a { color: var(--paper); text-decoration: none; }
+.rs-name a { color: #3d2f1f; text-decoration: none; }
 /* Literal hex, never var(): a browser will not resolve a custom property
    inside :visited, and the unresolved value falls through to the global gold
    a{} rule. */
-.rs-name a:visited { color: #f2f3f8; text-decoration: none; }
-.rs-name a:hover, .rs-name a:focus { color: #2cb1bc; text-decoration: none; }
+.rs-name a:visited { color: #3d2f1f; text-decoration: none; }
+.rs-name a:hover, .rs-name a:focus { color: #1c7d85; text-decoration: none; }
 /* The study underlines the title on hover; underlines are banned site-wide,
    so the outbound mark is the approved single right angle quote drawn by CSS
    — never typed into the label, never the banned north-east arrow. */
-.rs-name a::after { content: "\203A"; margin-left: 6px; font-size: 18px; vertical-align: -1px; color: var(--paper-dimmer); }
+.rs-name a::after { content: "\203A"; margin-left: 6px; font-size: 18px; vertical-align: -1px; color: #8a6a45; }
 
-.rs-kicker { margin-top: 9px; font-size: 11px; font-weight: 700; letter-spacing: .16em; text-transform: uppercase; color: var(--a2); }
+/* Darker than --a2 on purpose: the raw accent teal is tuned for white text
+   on the dark ground and drops under 3:1 against this card's light fill. */
+.rs-kicker { margin-top: 9px; font-size: 11px; font-weight: 700; letter-spacing: .16em; text-transform: uppercase; color: #1c7d85; }
 .rs-badges { margin-top: 13px; }
-.rs-body { margin: 14px 0 0; font-size: 14.6px; line-height: 1.66; color: var(--paper-dim); }
+.rs-body { margin: 14px 0 0; font-size: 14.6px; line-height: 1.66; color: #5a4a38; }
 
 /* Never a floating string: the zero-results state is a bordered panel, the
    study's own and the essentials spec's § 6 shape. */
@@ -302,7 +316,6 @@
         <div class="rs-field-wrap">
           <input id="rs-search" class="search-input" type="search" placeholder="Resource or category" aria-label="Search the resources on this page" autocomplete="off" spellcheck="false">
         </div>
-        <span class="rs-tally" id="rs-tally"></span>
       </div>
 
         <section class="rs-sec" id="s1">
@@ -407,7 +420,6 @@
   var cards = Array.prototype.slice.call(document.querySelectorAll('.rs-card'));
   var secs = Array.prototype.slice.call(document.querySelectorAll('.rs-sec'));
   var input = document.getElementById('rs-search');
-  var tally = document.getElementById('rs-tally');
   var empty = document.getElementById('rs-empty');
 
   /* ── Reveal on scroll, staggered within a row ── */
@@ -458,7 +470,6 @@
     secs.forEach(function (s) {
       s.classList.toggle('rs-hidden', !s.querySelectorAll('.rs-card:not(.rs-hidden)').length);
     });
-    if (tally) tally.textContent = shown + (shown === 1 ? ' entry' : ' entries');
     if (empty) empty.classList.toggle('on', shown === 0);
   }
 

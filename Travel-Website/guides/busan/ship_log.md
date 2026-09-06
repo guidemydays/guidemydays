@@ -23,3 +23,5 @@
 2026-08-12 20:28 — busan.html — FAIL @ verify — 0 checks
 2026-08-12 20:29 — busan.html — FAIL @ validate — 897/898 passed, 1 failed — 🔗 DEAD URL — no URL cached in Brain/Data/verify_cache.json as 404/410 may appear in the guide (hard-fail; owner rule 202
 2026-08-12 20:34 — busan.html — PASS — 898/898 passed, 0 failed
+2026-09-06 18:01 — busan.html — FAIL @ final-gates-precheck — 0 checks — Fleet: Currency Guide coverage
+2026-09-06 18:14 — busan.html — PASS — 943/943 passed, 0 failed

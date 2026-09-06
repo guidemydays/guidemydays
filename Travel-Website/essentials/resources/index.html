@@ -5,69 +5,217 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link rel="stylesheet" href="/assets/web-travel-style.css">
 <title>More Resources | Guide My Days</title>
-<style>.tg-cluster {
-  margin-top: 28px;
+<style>
+/* ── More Resources — the whole Aurora study, inside one card, on beige ────
+   Study: Travel-Website/essentials/resources-new-aurora/index.html.
+
+   The arrangement is /plugs/'s, at page scale: the site hero on top, a beige
+   ground under it, and ONE dark card on that ground holding everything the
+   study holds — its search and entry count, its section rail, its numbered
+   display heads, its glass cards, its drifting light and its film grain.
+   Nothing of the study is left out and nothing of it leaks onto the page:
+   the accent quartet, the near-black ground and the white-on-dark type all
+   live inside .rs-stage and are scoped to it, never to :root.
+
+   Two mechanical translations the containment forces, both of which also
+   happen to be what the Seventy-fourth non-negotiable asks for:
+     * the study's aurora layer is position:fixed to the viewport; here it is
+       position:absolute inside the card, so the card's own overflow crops it.
+     * the study's section rail is fixed and its control strip sticky; here
+       the rail is absolute inside the card and the control row scrolls with
+       it. A strip that pinned to the viewport would go on hovering over the
+       beige long after the card had scrolled past it.
+
+   The entry count is the study's and ships at the owner's explicit direction
+   ("i want all that is in this page. ALL"), which is the Ninety-second
+   non-negotiable being overridden by the owner rather than a crib deciding
+   the rule does not apply — the Owner-override rule, x01.
+
+   Two things inside the card are the SITE's, not the study's, and are not
+   restyled here by a single declaration: the search box, whose every
+   dimension, radius and state comes from the shared .search-input tokens
+   (Forty-third non-negotiable, TVESearch § 0), and the status chip, which is
+   .badge.sb-green straight from the pills doc (its Rule 13). Both are hard
+   dependencies on the shared stylesheet, not page-local copies of it. */
+
+/* ── The beige ground the card sits on ────────────────────────────────────
+   Reuses the shared .hero-ground for the full-bleed geometry and the rail
+   padding (see `body > .hero-ground` in web-travel-style.css) so none of that
+   math is retyped here; only the fill changes. The fill is the site's own
+   beige — the .eb-hero cream-to-tan and its dot texture, verbatim from
+   Brain/Reference/Icons-Formats-Logos/Beige Gradient.html — so the hero above
+   and the ground below read as one surface with the card laid on it. */
+.rs-ground {
+  background:
+    radial-gradient(rgba(61,47,31,.2) 1.3px, transparent 1.3px) 0 0/22px 22px,
+    linear-gradient(150deg, #f8f1e2 0%, #ecdec2 100%);
+  padding-top: var(--search-gap, 32px);
+  padding-bottom: clamp(38px, 5vw, 64px);
 }
-.tg-cluster:first-child {
-  margin-top: 0;
+
+/* ── The card ─────────────────────────────────────────────────────────────
+   overflow:hidden is load-bearing twice over: it crops the aurora layer to
+   the card's rounded corners, and it stops the card's own scroll-reveal
+   transforms from widening the page. isolation:isolate gives the blobs'
+   mix-blend-mode:screen a stacking context of its own — without it the blend
+   reaches through to the beige and the light turns to mud. */
+.rs-stage {
+  --a1:#7f5af0; --a2:#2cb1bc; --a3:#f25f4c; --a4:#ffd803;
+  --ink:#0b0d14;
+  --paper:#f2f3f8; --paper-dim:#a9b0c8; --paper-dimmer:#7b839d;
+  --line:rgba(255,255,255,.14);
+  --glass:rgba(255,255,255,.055); --glass-2:rgba(255,255,255,.09);
+  position: relative; overflow: hidden; isolation: isolate;
+  background: var(--ink); border-radius: 22px;
+  box-shadow: 0 20px 50px rgba(61,47,31,.26);
 }
-.tg-cluster-title {
-  font-size: 12px;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.06em;
-  color: var(--muted);
-  margin: 0 0 12px;
-  padding-bottom: 8px;
-  border-bottom: 2px solid var(--rust, #C04E1A);
+
+/* The study spreads these four across a whole VIEWPORT, with a lot of dark
+   between them, and they stay put while the page scrolls past. Packed into a
+   card they overlap almost everywhere instead — and screen is additive, so at
+   the study's own .55 the four of them blend to a pale wash and the near-black
+   ground disappears entirely. Held down to .34 with a wider blur, which is the
+   same light at card scale rather than a weaker version of it. */
+.rs-field {
+  position: absolute; inset: -18% -10%; z-index: 0; pointer-events: none;
+  filter: blur(92px) saturate(150%);
 }
-.tg-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
-  gap: 16px;
-  margin-top: 0;
+.rs-field i { position: absolute; display: block; border-radius: 50%; mix-blend-mode: screen; will-change: transform; }
+/* Heights are a fraction of the card, not of its width, so a tall card gets
+   four separated glows down its length rather than one continuous smear.
+   Opacity is PER BLOB, not one value on the layer, because screen-blending
+   does not weigh the four equally: measured across the card's full height,
+   purple and teal stay dark while coral and — far worse — yellow blow the
+   ground out to a pale wash under them. The ladder below is what keeps the
+   near-black reading as near-black from the search row to the last card. */
+.rs-field i:nth-child(1) { opacity: .42; width: 42%; height: 26%; left: -8%;  top: 1%;  background: radial-gradient(circle at 40% 40%, var(--a1), transparent 66%); animation: rs-drift1 26s ease-in-out infinite; }
+.rs-field i:nth-child(2) { opacity: .38; width: 36%; height: 22%; right: -6%; top: 16%; background: radial-gradient(circle at 55% 45%, var(--a2), transparent 66%); animation: rs-drift2 32s ease-in-out infinite; }
+.rs-field i:nth-child(3) { opacity: .20; width: 34%; height: 22%; left: 22%;  top: 52%; background: radial-gradient(circle at 50% 50%, var(--a3), transparent 64%); animation: rs-drift3 38s ease-in-out infinite; }
+.rs-field i:nth-child(4) { opacity: .13; width: 24%; height: 16%; right: 12%; top: 76%; background: radial-gradient(circle at 50% 50%, var(--a4), transparent 62%); animation: rs-drift2 29s ease-in-out infinite reverse; }
+@keyframes rs-drift1 { 0%,100% { transform: translate3d(0,0,0) scale(1);    } 50% { transform: translate3d(7%,9%,0)   scale(1.16); } }
+@keyframes rs-drift2 { 0%,100% { transform: translate3d(0,0,0) scale(1.08); } 50% { transform: translate3d(-9%,11%,0) scale(.92);  } }
+@keyframes rs-drift3 { 0%,100% { transform: translate3d(0,0,0) scale(.95);  } 50% { transform: translate3d(6%,-13%,0) scale(1.2);  } }
+
+/* The study lays its noise on at .22 straight. Over a whole near-black
+   viewport that reads as grain; over a card it reads as a flat grey veil,
+   because feTurbulence renders a light mid-grey and there is not enough dark
+   around it to absorb the lift — measured on the page, the ground went from
+   #0b0d14 to a mauve wash. mix-blend-mode:overlay modulates the ground
+   instead of adding to it, so the black stays black and the texture is still
+   there; the straight opacity comes down to match. */
+.rs-grain { position: absolute; inset: 0; z-index: 1; pointer-events: none; opacity: .10; mix-blend-mode: overlay; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3'/%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23n)' opacity='.5'/%3E%3C/svg%3E"); }
+
+.rs-inner { position: relative; z-index: 2; padding: clamp(26px, 4vw, 44px) clamp(20px, 4vw, 52px) clamp(44px, 6vw, 72px); }
+
+/* ── Controls: the study's search and its entry count ─────────────────────
+   The field wrapper exists because TVESearch appends its dropdown to the
+   input's PARENT at left:0/right:0 — without a wrapper carrying the search's
+   own width, the suggestion list renders as wide as the whole card. Same fix
+   /plugs/ and the guides index use. */
+.rs-controls { display: flex; gap: 16px 22px; align-items: center; flex-wrap: wrap; padding-bottom: clamp(26px, 4vw, 40px); }
+.rs-field-wrap { position: relative; width: var(--search-w, 440px); max-width: 100%; }
+.rs-field-wrap .search-input { margin-bottom: 0; }
+.rs-tally { font-size: 12px; letter-spacing: .14em; text-transform: uppercase; color: var(--paper-dimmer); font-weight: 600; }
+
+/* ── The section rail ─────────────────────────────────────────────────────
+   Absolute inside the card, riding in its right padding. Gated on pointer
+   rather than on a width: it is a hover affordance with a hover-only label,
+   so a touch screen has no use for it at any size, and a width-only query is
+   what check_mobile_breakpoints_gated_on_pointer hard-fails. */
+.rs-rail { position: absolute; z-index: 3; right: 16px; top: 50%; transform: translateY(-50%); display: flex; flex-direction: column; gap: 14px; }
+.rs-rail button { width: 12px; height: 12px; padding: 0; border-radius: 50%; border: 1px solid var(--line); background: transparent; cursor: pointer; position: relative; transition: .3s; }
+.rs-rail button::after {
+  content: attr(data-label); position: absolute; right: 22px; top: 50%;
+  transform: translateY(-50%) translateX(6px); white-space: nowrap;
+  font-size: 11px; letter-spacing: .1em; text-transform: uppercase; font-weight: 700;
+  color: var(--paper); background: rgba(11,13,20,.9); border: 1px solid var(--line);
+  padding: 5px 9px; border-radius: 8px; opacity: 0; pointer-events: none; transition: .25s;
 }
-.tg-card {
-  background: var(--surface);
-  border: 1px solid var(--border2);
-  border-radius: 10px;
-  padding: 18px 18px 20px;
+.rs-rail button:hover::after, .rs-rail button:focus-visible::after { opacity: 1; transform: translateY(-50%); }
+.rs-rail button.on { background: linear-gradient(100deg, var(--a1), var(--a2)); border-color: transparent; box-shadow: 0 0 16px rgba(127,90,240,.7); transform: scale(1.35); }
+@media (pointer: coarse) { .rs-rail { display: none; } }
+
+/* ── Section head — the study's display scale ─────────────────────────────
+   Up to 38px at weight 800 with the ordinal in the teal accent. The site's
+   own 18px h2 here is what made the first attempt read as a list with
+   headings rather than as the study. */
+.rs-sec { margin-top: clamp(52px, 8vw, 96px); scroll-margin-top: 24px; }
+.rs-sec:first-of-type { margin-top: 0; }
+.rs-head { display: flex; align-items: baseline; gap: 16px; flex-wrap: wrap; }
+.rs-num { flex: 0 0 auto; font-size: 12px; font-weight: 800; letter-spacing: .2em; color: var(--a2); font-variant-numeric: tabular-nums; }
+.rs-head h2 { flex: 0 0 auto; margin: 0; font-size: clamp(24px, 3.4vw, 38px); font-weight: 800; letter-spacing: -.025em; line-height: 1.15; color: var(--paper); }
+.rs-rule { flex: 1 1 auto; min-width: 40px; height: 1px; background: linear-gradient(90deg, var(--line), transparent); }
+
+.rs-grid { display: grid; gap: 16px; margin-top: 26px; grid-template-columns: repeat(auto-fill, minmax(315px, 1fr)); }
+
+/* ── The card ─────────────────────────────────────────────────────────────
+   Translucent white over the light behind it, not an opaque panel. The
+   backdrop-filter IS the look; a solid fill here is what made the first
+   attempt look like a different page. */
+.rs-card {
+  position: relative; overflow: hidden;
+  background: var(--glass); border: 1px solid var(--line); border-radius: 20px;
+  padding: 22px 22px 20px; backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
+  transform-style: preserve-3d;
+  transition: transform .5s cubic-bezier(.2,.9,.2,1), border-color .35s, background .35s, opacity .5s;
 }
-.tg-card-head {
-  display: flex;
-  align-items: flex-start;
-  justify-content: space-between;
-  gap: 10px;
-  margin-bottom: 10px;
-  padding-bottom: 10px;
-  border-bottom: 1px solid var(--border2);
+/* .js is set by the script itself, so with JS off every card is simply
+   visible — the hidden state can never become the resting state. */
+.js .rs-card { opacity: 0; transform: translateY(26px); }
+.rs-card.in { opacity: 1; transform: none; }
+.rs-card::before {
+  content: ""; position: absolute; inset: 0; border-radius: inherit; opacity: 0;
+  transition: opacity .35s; pointer-events: none;
+  background: radial-gradient(340px circle at var(--mx,50%) var(--my,50%), rgba(255,255,255,.13), transparent 62%);
 }
-.tg-name {
-  font-size: 14px;
-  font-weight: 700;
-  color: var(--text);
-  line-height: 1.25;
-  margin-bottom: 8px;
+.rs-card:hover { border-color: rgba(255,255,255,.32); background: var(--glass-2); }
+.rs-card:hover::before { opacity: 1; }
+.rs-card::after {
+  content: ""; position: absolute; left: 0; right: 0; top: 0; height: 2px;
+  background: linear-gradient(90deg, var(--a1), var(--a2), var(--a4));
+  transform: scaleX(0); transform-origin: 0 50%; transition: transform .5s cubic-bezier(.2,.9,.2,1);
 }
-.tg-tag {
-  font-size: 11.5px;
-  color: var(--muted);
-  font-weight: 600;
-  text-transform: uppercase;
-  letter-spacing: 0.04em;
-}
-.tg-desc {
-  font-size: 13px;
-  color: var(--text);
-  line-height: 1.5;
-}
+.rs-card:hover::after { transform: scaleX(1); }
+
+.rs-name { margin: 0; font-size: 19.5px; font-weight: 750; letter-spacing: -.015em; line-height: 1.25; }
+.rs-name a { color: var(--paper); text-decoration: none; }
+/* Literal hex, never var(): a browser will not resolve a custom property
+   inside :visited, and the unresolved value falls through to the global gold
+   a{} rule. */
+.rs-name a:visited { color: #f2f3f8; text-decoration: none; }
+.rs-name a:hover, .rs-name a:focus { color: #2cb1bc; text-decoration: none; }
+/* The study underlines the title on hover; underlines are banned site-wide,
+   so the outbound mark is the approved single right angle quote drawn by CSS
+   — never typed into the label, never the banned north-east arrow. */
+.rs-name a::after { content: "\203A"; margin-left: 6px; font-size: 18px; vertical-align: -1px; color: var(--paper-dimmer); }
+
+.rs-kicker { margin-top: 9px; font-size: 11px; font-weight: 700; letter-spacing: .16em; text-transform: uppercase; color: var(--a2); }
+.rs-badges { margin-top: 13px; }
+.rs-body { margin: 14px 0 0; font-size: 14.6px; line-height: 1.66; color: var(--paper-dim); }
+
+/* Never a floating string: the zero-results state is a bordered panel, the
+   study's own and the essentials spec's § 6 shape. */
+.rs-empty { display: none; margin-top: 40px; padding: 44px; text-align: center; border: 1px dashed var(--line); border-radius: 20px; color: var(--paper-dim); font-size: 14.6px; }
+.rs-empty.on { display: block; }
+.rs-hidden { display: none !important; }
+
 @media (max-width: 600px) and (pointer: coarse) {
-  .tg-grid { grid-template-columns: 1fr; }
+  .rs-stage { border-radius: 16px; }
+  .rs-grid { grid-template-columns: 1fr; }
+  .rs-field-wrap { width: 100%; }
+  /* The blur is the most expensive thing on this page and a phone pays for it
+     on every scroll frame, across four animated layers. Halved here; the
+     glass is untouched, so the look survives and the scroll does not stutter. */
+  .rs-field { filter: blur(46px) saturate(140%); }
 }
-@media (prefers-color-scheme: dark) {
-  :root:not([data-theme="light"]) {
-    .chevron-link-pill { color: var(--text); }
-  }
+
+/* Four blurred layers animating indefinitely is exactly what a reader asking
+   for reduced motion is asking not to be given. The cards drop their hidden
+   start state here too, so nothing waits on an animation that never runs. */
+@media (prefers-reduced-motion: reduce) {
+  .rs-field i { animation: none; }
+  .rs-card { transition-duration: .001ms; }
+  .js .rs-card { opacity: 1; transform: none; }
 }
 </style>
 <link rel="stylesheet" href="/assets/mobile.css?v=53">
@@ -118,125 +266,222 @@
     </svg></div>
   </div>
 
-<div class="wrap">
+<div class="hero-ground rs-ground">
+  <div class="rs-stage">
+    <div class="rs-field" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
+    <div class="rs-grain" aria-hidden="true"></div>
 
-  <div class="tg-cluster">
-    <h2 class="tg-cluster-title">Editorial Guides</h2>
-    <div class="tg-grid">
+    <nav class="rs-rail" aria-label="Sections"><button type="button" data-target="s1" data-label="Editorial Guides" aria-label="Jump to Editorial Guides"></button><button type="button" data-target="s2" data-label="Inspiration &amp; Hidden Places" aria-label="Jump to Inspiration & Hidden Places"></button><button type="button" data-target="s3" data-label="Practical &amp; Regional" aria-label="Jump to Practical & Regional"></button><button type="button" data-target="s4" data-label="Reference &amp; Reviews" aria-label="Jump to Reference & Reviews"></button></nav>
 
-      <div class="tg-card">
-        <div class="tg-card-head">
-          <div>
-            <div class="tg-name"><a class="chevron-link-pill" href="https://www.fodors.com" target="_blank" rel="noopener">Fodor's</a></div>
-            <div class="tg-tag">Editorial Guide</div>
-          </div>
-          <span class="badge sb-green">Active</span>
+    <div class="rs-inner">
+
+      <div class="rs-controls">
+        <div class="rs-field-wrap">
+          <input id="rs-search" class="search-input" type="search" placeholder="Resource or category" aria-label="Search the resources on this page" autocomplete="off" spellcheck="false">
         </div>
-        <div class="tg-desc">Curated city guides, hotel and restaurant picks — strong editorial standard. Good starting point for building a shortlist of neighborhoods, museums, and dining.</div>
+        <span class="rs-tally" id="rs-tally"></span>
       </div>
 
-      <div class="tg-card">
-        <div class="tg-card-head">
-          <div>
-            <div class="tg-name"><a class="chevron-link-pill" href="https://theculturetrip.com" target="_blank" rel="noopener">Culture Trip</a></div>
-            <div class="tg-tag">Editorial Guide</div>
+        <section class="rs-sec" id="s1">
+          <div class="rs-head">
+            <span class="rs-num">01</span>
+            <h2>Editorial Guides</h2>
+            <span class="rs-rule" aria-hidden="true"></span>
           </div>
-          <span class="badge sb-green">Active</span>
-        </div>
-        <div class="tg-desc">Culturally-driven destination articles with a focus on arts, food, and local perspective. Laid off its editorial staff in 2023, then acquired by U.S. News &amp; World Report in February 2024 — active again with new editorial coverage alongside the existing archive.</div>
-      </div>
+          <div class="rs-grid">
+          <article class="rs-card" data-name="Fodor's">
+            <h3 class="rs-name"><a href="https://www.fodors.com" target="_blank" rel="noopener">Fodor&#39;s</a></h3>
+            <div class="rs-kicker">Editorial Guide</div>
+            <div class="rs-badges"><span class="badge sb-green">Active</span></div>
+            <p class="rs-body">Curated city guides, hotel and restaurant picks — strong editorial standard. Good starting point for building a shortlist of neighborhoods, museums, and dining.</p>
+          </article>
+          <article class="rs-card" data-name="Culture Trip">
+            <h3 class="rs-name"><a href="https://theculturetrip.com" target="_blank" rel="noopener">Culture Trip</a></h3>
+            <div class="rs-kicker">Editorial Guide</div>
+            <div class="rs-badges"><span class="badge sb-green">Active</span></div>
+            <p class="rs-body">Culturally-driven destination articles with a focus on arts, food, and local perspective. Laid off its editorial staff in 2023, then acquired by U.S. News &amp; World Report in February 2024 — active again with new editorial coverage alongside the existing archive.</p>
+          </article>
+          <article class="rs-card" data-name="Rough Guides">
+            <h3 class="rs-name"><a href="https://www.roughguides.com" target="_blank" rel="noopener">Rough Guides</a></h3>
+            <div class="rs-kicker">Editorial Guide</div>
+            <div class="rs-badges"><span class="badge sb-green">Active</span></div>
+            <p class="rs-body">In-depth destination coverage across history, culture, and practical detail. One of the most thorough written guides for understanding a place before you arrive.</p>
+          </article>
+          </div>
+        </section>
+        <section class="rs-sec" id="s2">
+          <div class="rs-head">
+            <span class="rs-num">02</span>
+            <h2>Inspiration &amp; Hidden Places</h2>
+            <span class="rs-rule" aria-hidden="true"></span>
+          </div>
+          <div class="rs-grid">
+          <article class="rs-card" data-name="Atlas Obscura">
+            <h3 class="rs-name"><a href="https://www.atlasobscura.com" target="_blank" rel="noopener">Atlas Obscura</a></h3>
+            <div class="rs-kicker">Hidden Places</div>
+            <div class="rs-badges"><span class="badge sb-green">Active</span></div>
+            <p class="rs-body">Hidden and unusual places around the world — the stops no mainstream guidebook covers. Excellent for finding something genuinely different in a city you&#39;ve already been to.</p>
+          </article>
+          <article class="rs-card" data-name="National Geographic">
+            <h3 class="rs-name"><a href="https://www.nationalgeographic.com/travel" target="_blank" rel="noopener">National Geographic</a></h3>
+            <div class="rs-kicker">Inspiration</div>
+            <div class="rs-badges"><span class="badge sb-green">Active</span></div>
+            <p class="rs-body">Destination inspiration, best-of lists, and photography-driven guides. More useful for deciding where to go than for planning once you have a destination.</p>
+          </article>
+          </div>
+        </section>
+        <section class="rs-sec" id="s3">
+          <div class="rs-head">
+            <span class="rs-num">03</span>
+            <h2>Practical &amp; Regional</h2>
+            <span class="rs-rule" aria-hidden="true"></span>
+          </div>
+          <div class="rs-grid">
+          <article class="rs-card" data-name="Rick Steves">
+            <h3 class="rs-name"><a href="https://www.ricksteves.com" target="_blank" rel="noopener">Rick Steves</a></h3>
+            <div class="rs-kicker">Europe</div>
+            <div class="rs-badges"><span class="badge sb-green">Active</span></div>
+            <p class="rs-body">Practical Europe travel — neighborhood-level breakdowns, free audio guides, and crowd-management tips. Best for first-time visits to major European cities.</p>
+          </article>
+          </div>
+        </section>
+        <section class="rs-sec" id="s4">
+          <div class="rs-head">
+            <span class="rs-num">04</span>
+            <h2>Reference &amp; Reviews</h2>
+            <span class="rs-rule" aria-hidden="true"></span>
+          </div>
+          <div class="rs-grid">
+          <article class="rs-card" data-name="Wikipedia">
+            <h3 class="rs-name"><a href="https://en.wikipedia.org" target="_blank" rel="noopener">Wikipedia</a></h3>
+            <div class="rs-kicker">Reference</div>
+            <div class="rs-badges"><span class="badge sb-green">Active</span></div>
+            <p class="rs-body">Primary reference for stop history, context, and factual detail. Every stop&#39;s Wikipedia article is the first read before building any itinerary entry.</p>
+          </article>
+          <article class="rs-card" data-name="TripAdvisor">
+            <h3 class="rs-name"><a href="https://www.tripadvisor.com" target="_blank" rel="noopener">TripAdvisor</a></h3>
+            <div class="rs-kicker">Reviews</div>
+            <div class="rs-badges"><span class="badge sb-green">Active</span></div>
+            <p class="rs-body">Attraction rankings, traveler reviews, and things to do by category. Best used for cross-referencing ratings rather than as a primary discovery source.</p>
+          </article>
+          </div>
+        </section>
 
-      <div class="tg-card">
-        <div class="tg-card-head">
-          <div>
-            <div class="tg-name"><a class="chevron-link-pill" href="https://www.roughguides.com" target="_blank" rel="noopener">Rough Guides</a></div>
-            <div class="tg-tag">Editorial Guide</div>
-          </div>
-          <span class="badge sb-green">Active</span>
-        </div>
-        <div class="tg-desc">In-depth destination coverage across history, culture, and practical detail. One of the most thorough written guides for understanding a place before you arrive.</div>
-      </div>
+      <div class="rs-empty" id="rs-empty">Nothing matches that search.</div>
 
     </div>
   </div>
+</div>
 
-  <div class="tg-cluster">
-    <h2 class="tg-cluster-title">Inspiration &amp; Hidden Places</h2>
-    <div class="tg-grid">
+<script src="/assets/search-autocomplete.js?v=8"></script>
+<script>
+(function () {
+  /* Set only once this script is running, so the cards' hidden start state
+     can never strand a reader whose JS never loaded. */
+  document.documentElement.classList.add('js');
+  var rm = matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-      <div class="tg-card">
-        <div class="tg-card-head">
-          <div>
-            <div class="tg-name"><a class="chevron-link-pill" href="https://www.atlasobscura.com" target="_blank" rel="noopener">Atlas Obscura</a></div>
-            <div class="tg-tag">Hidden Places</div>
-          </div>
-          <span class="badge sb-green">Active</span>
-        </div>
-        <div class="tg-desc">Hidden and unusual places around the world — the stops no mainstream guidebook covers. Excellent for finding something genuinely different in a city you've already been to.</div>
-      </div>
+  var cards = Array.prototype.slice.call(document.querySelectorAll('.rs-card'));
+  var secs = Array.prototype.slice.call(document.querySelectorAll('.rs-sec'));
+  var input = document.getElementById('rs-search');
+  var tally = document.getElementById('rs-tally');
+  var empty = document.getElementById('rs-empty');
 
-      <div class="tg-card">
-        <div class="tg-card-head">
-          <div>
-            <div class="tg-name"><a class="chevron-link-pill" href="https://www.nationalgeographic.com/travel" target="_blank" rel="noopener">National Geographic</a></div>
-            <div class="tg-tag">Inspiration</div>
-          </div>
-          <span class="badge sb-green">Active</span>
-        </div>
-        <div class="tg-desc">Destination inspiration, best-of lists, and photography-driven guides. More useful for deciding where to go than for planning once you have a destination.</div>
-      </div>
+  /* ── Reveal on scroll, staggered within a row ── */
+  if (!('IntersectionObserver' in window)) {
+    cards.forEach(function (c) { c.classList.add('in'); });
+  } else {
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (e) {
+        if (!e.isIntersecting) return;
+        var el = e.target, d = +(el.dataset.d || 0);
+        setTimeout(function () { el.classList.add('in'); }, rm ? 0 : d * 55);
+        io.unobserve(el);
+      });
+    }, { rootMargin: '0px 0px -8% 0px', threshold: 0.06 });
+    cards.forEach(function (c, i) { c.dataset.d = i % 4; io.observe(c); });
+    /* Backstop. The reveal is decoration; the content is not. If the observer
+       has not fired for a card within a second and a half — a prerender, a
+       hidden tab, a browser that throttles it — show everything anyway. */
+    setTimeout(function () { cards.forEach(function (c) { c.classList.add('in'); }); }, 1500);
+  }
 
-    </div>
-  </div>
+  /* ── Pointer sheen and tilt — mouse only, never against reduced motion.
+        A touch device reports pointer:coarse and gets neither, which keeps
+        the per-move style writes off the phone's scroll path. ── */
+  if (!rm && matchMedia('(pointer:fine)').matches) {
+    cards.forEach(function (c) {
+      c.addEventListener('pointermove', function (ev) {
+        var r = c.getBoundingClientRect();
+        c.style.setProperty('--mx', ((ev.clientX - r.left) / r.width * 100) + '%');
+        c.style.setProperty('--my', ((ev.clientY - r.top) / r.height * 100) + '%');
+        var rx = (((ev.clientY - r.top) / r.height) - 0.5) * -5;
+        var ry = (((ev.clientX - r.left) / r.width) - 0.5) * 5;
+        c.style.transform = 'perspective(900px) rotateX(' + rx + 'deg) rotateY(' + ry + 'deg) translateY(-4px)';
+      });
+      c.addEventListener('pointerleave', function () { c.style.transform = ''; });
+    });
+  }
 
-  <div class="tg-cluster">
-    <h2 class="tg-cluster-title">Practical &amp; Regional</h2>
-    <div class="tg-grid">
+  /* ── Search: filter the cards, hide a section that has nothing left ── */
+  function applyFilter() {
+    var q = input ? input.value.trim().toLowerCase() : '';
+    var shown = 0;
+    cards.forEach(function (c) {
+      var hit = !q || c.textContent.toLowerCase().indexOf(q) > -1;
+      c.classList.toggle('rs-hidden', !hit);
+      if (hit) shown++;
+    });
+    secs.forEach(function (s) {
+      s.classList.toggle('rs-hidden', !s.querySelectorAll('.rs-card:not(.rs-hidden)').length);
+    });
+    if (tally) tally.textContent = shown + (shown === 1 ? ' entry' : ' entries');
+    if (empty) empty.classList.toggle('on', shown === 0);
+  }
 
-      <div class="tg-card">
-        <div class="tg-card-head">
-          <div>
-            <div class="tg-name"><a class="chevron-link-pill" href="https://www.ricksteves.com" target="_blank" rel="noopener">Rick Steves</a></div>
-            <div class="tg-tag">Europe</div>
-          </div>
-          <span class="badge sb-green">Active</span>
-        </div>
-        <div class="tg-desc">Practical Europe travel — neighborhood-level breakdowns, free audio guides, and crowd-management tips. Best for first-time visits to major European cities.</div>
-      </div>
+  if (input) {
+    input.addEventListener('input', applyFilter);
+    /* Scoped to this page's own nine entries, never the guide fleet. */
+    if (window.TVESearch) {
+      TVESearch.attach(input, {
+        items: cards.map(function (c) {
+          return {
+            name: c.dataset.name,
+            sub: c.querySelector('.rs-kicker').textContent,
+            el: c
+          };
+        }),
+        onPick: function (it) {
+          input.value = it.name;
+          applyFilter();
+          it.el.scrollIntoView({ behavior: rm ? 'auto' : 'smooth', block: 'center' });
+        }
+      });
+    }
+  }
+  applyFilter();
 
-    </div>
-  </div>
-
-  <div class="tg-cluster">
-    <h2 class="tg-cluster-title">Reference &amp; Reviews</h2>
-    <div class="tg-grid">
-
-      <div class="tg-card">
-        <div class="tg-card-head">
-          <div>
-            <div class="tg-name"><a class="chevron-link-pill" href="https://en.wikipedia.org" target="_blank" rel="noopener">Wikipedia</a></div>
-            <div class="tg-tag">Reference</div>
-          </div>
-          <span class="badge sb-green">Active</span>
-        </div>
-        <div class="tg-desc">Primary reference for stop history, context, and factual detail. Every stop's Wikipedia article is the first read before building any itinerary entry.</div>
-      </div>
-
-      <div class="tg-card">
-        <div class="tg-card-head">
-          <div>
-            <div class="tg-name"><a class="chevron-link-pill" href="https://www.tripadvisor.com" target="_blank" rel="noopener">TripAdvisor</a></div>
-            <div class="tg-tag">Reviews</div>
-          </div>
-          <span class="badge sb-green">Active</span>
-        </div>
-        <div class="tg-desc">Attraction rankings, traveler reviews, and things to do by category. Best used for cross-referencing ratings rather than as a primary discovery source.</div>
-      </div>
-
-    </div>
-  </div>
-
-</div><!-- /wrap -->
-
+  /* ── The section rail ── */
+  var dots = Array.prototype.slice.call(document.querySelectorAll('.rs-rail button'));
+  dots.forEach(function (d) {
+    d.addEventListener('click', function () {
+      var t = document.getElementById(d.dataset.target);
+      if (t) t.scrollIntoView({ behavior: rm ? 'auto' : 'smooth', block: 'start' });
+    });
+  });
+  if ('IntersectionObserver' in window) {
+    var spy = new IntersectionObserver(function (entries) {
+      entries.forEach(function (e) {
+        dots.forEach(function (d) {
+          if (d.dataset.target === e.target.id) {
+            d.classList.toggle('on', e.isIntersecting && e.intersectionRatio > 0.12);
+          }
+        });
+      });
+    }, { threshold: [0, 0.12, 0.5] });
+    secs.forEach(function (s) { if (s.id) spy.observe(s); });
+  }
+}());
+</script>
 </body>
 </html>

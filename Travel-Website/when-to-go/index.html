@@ -187,17 +187,23 @@ a.cf-spill-pill:visited { color: var(--nt-linen-ink, #5a3c0e); }
   .cf-mon { height: 36px; padding: 0 14px; font-size: 13px; line-height: 1; border-radius: 0;
     border: none; border-left: 1px solid var(--border2,#e6e2da); }
   .cf-mon:first-child { border-left: none; }
+  /* .selection-pill.cp-brown (web-travel-style.css) paints border-color
+     rgba(0,0,0,.1) at 0-2-0 and beats the .cf-mon rule above, so the divider
+     was NOT the site's divider token at all. Restated at 0-3-0 — the exact
+     declaration .cf-seg button + button uses, so the two controls' dividers
+     are the same line. */
+  .cf-months .cf-mon + .cf-mon { border-left-color: var(--border2,#e6e2da); }
 }
-/* Rule 6 (2026-08-30): month buttons = interchangeable options → Selection Pill
-   exception → neutral grey active state, same as .wx-mon.on in weather/.
-   Selector uses the .cf-months parent to reach specificity 0-3-0, matching the
-   shared .selection-pill[aria-pressed="true"][class*="cp-"] !important rule (also
-   0-3-0), so later source order wins and neutral grey overrides cp-brown mix. */
-.cf-months .cf-mon[aria-pressed="true"] {
-  background: var(--nt-grey-wash,#f0ede8) !important;
-  color: var(--nt-grey-ink,#6a6660) !important;
-  border-color: rgba(var(--nt-grey-rgb,106,102,96),.75) !important;
-}
+/* The 2026-08-30 "Rule 6" neutral-grey active state that stood here is REMOVED
+   (owner, 2026-09-05: "fix the selection"). --nt-grey-wash #f0ede8 on this
+   grid's own #f5f0e6 linen ground is the same lightness — the chosen month
+   read as a dead or disabled cell, not a picked one. Nothing replaces it: with
+   the local override gone the shared
+   .selection-pill[aria-pressed="true"][class*="cp-"] rule takes the cell back
+   to color-mix(--sp-wash 58%, --sp-ink 42%) + --sp-ink, i.e. the same tan fill
+   and linen ink the selected Units / Rainfall segment carries below. No new
+   colour is authored here; weather/'s .wx-mon.on is a different page and is
+   left alone. */
 /* Range row */
 .cf-rangerow { display: flex; align-items: center; flex-wrap: wrap; gap: 10px; }
 .cf-rangerow .cf-to { color: var(--muted,#6a6660); }
@@ -213,8 +219,18 @@ a.cf-spill-pill:visited { color: var(--nt-linen-ink, #5a3c0e); }
 .cf-seg button + button { border-left: 1px solid var(--border2,#e6e2da); }
 .cf-seg button:hover { background: color-mix(in srgb, var(--nt-linen-wash,#f5f0e6) 75%, var(--nt-linen-ink,#5a3c0e) 25%); }
 .cf-seg button.on { background: color-mix(in srgb, var(--nt-linen-wash,#f5f0e6) 55%, var(--nt-linen-ink,#5a3c0e) 45%); }
-.cf-sort { height: 36px; padding: 0 28px 0 10px; border: 1px solid var(--border2,#e6e2da); border-radius: 6px;
-  font-family: var(--font); font-size: var(--fs-sub,12px); font-weight: 600; color: var(--nt-linen-ink,#5a3c0e); background-color: var(--nt-linen-wash,#f5f0e6); cursor: pointer; }
+/* Matches .cf-seg (Units / Rainfall) on all three axes the eye compares in
+   this row: the 1.5px --nt-linen-ink ring at 6px radius, the ink (the shared
+   `select` rule in web-travel-style.css strokes its chevron --muted grey —
+   the only part of this control that was not linen ink, so it is restated
+   here in #5a3c0e), and the hover, which is the same
+   color-mix(wash 75%, ink 25%) the segments use. background-COLOR on hover,
+   never the shorthand, or the chevron is wiped. Height is 33px, not 36 — the
+   same box .cf-seg computes to (30px of button + its 1.5px ring top and
+   bottom), so the three controls in this row sit on one line. */
+.cf-sort { height: 33px; padding: 0 28px 0 10px; border: 1.5px solid var(--nt-linen-ink,#5a3c0e); border-radius: 6px;
+  font-family: var(--font); font-size: var(--fs-sub,12px); font-weight: 600; color: var(--nt-linen-ink,#5a3c0e); background-color: var(--nt-linen-wash,#f5f0e6); cursor: pointer;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6' viewBox='0 0 10 6'%3E%3Cpath d='M1 1l4 4 4-4' stroke='%235a3c0e' stroke-width='1.5' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E"); }
 .cf-sort:hover { background-color: color-mix(in srgb, var(--nt-linen-wash,#f5f0e6) 75%, var(--nt-linen-ink,#5a3c0e) 25%); }
 .cf-sort:focus, .cf-sort:focus-visible { outline: none; border-color: var(--nt-linen-ink,#5a3c0e); }
 /* Summary */
@@ -276,11 +292,13 @@ a.cf-card:hover { border-color: var(--rust); box-shadow: 0 3px 10px rgba(192,78,
   .cf-sliderrow .cf-seg, .cf-sliderrow .cf-sort { width: 100% !important; }
 }
 /* Presets */
-/* The presets are now the only thing between the hero and Month, so they get a
-   quiet label rather than floating unattached under the card edge. */
-.cf-try-label { font-size: 11.5px; font-weight: 700; color: var(--muted);
-  text-transform: uppercase; letter-spacing: 0.06em; margin: 14px 0 5px; }
-.cf-presets { display: flex; flex-wrap: wrap; gap: 6px; margin: 0 0 12px; }
+/* The "TRY" kicker above this row and the "SEARCH CITY OR COUNTRY" label above
+   the search box were both removed 2026-09-05 (owner) — the pills and the
+   search box say what they are. .cf-try-label went with the markup rather than
+   being left behind as a dead rule. Margin is symmetric (Fifty-fourth
+   non-negotiable): the 12px that used to sit under this row now sits above it
+   too, in place of the label's own spacing. */
+.cf-presets { display: flex; flex-wrap: wrap; gap: 6px; margin: 12px 0; }
 /* .cf-preset is the shared .selection-pill component (one weather preset
    picked from 4 otherwise-equal options, no per-item family colour, "this
    one is chosen" carried by .is-on — assets/web-travel-style.css) tagged
@@ -292,7 +310,7 @@ a.cf-card:hover { border-color: var(--rust); box-shadow: 0 3px 10px rgba(192,78,
    border-radius:14px, which at this box's ~25px height already clips to a
    full stadium, i.e. visually identical to the shared class's 999px. Only
    this page's smaller footprint stays page-local now. */
-.cf-preset { font-size: 12px; padding: 5px 12px; }
+.cf-preset { font-size: 13px; padding: 7px 15px; }
 /* City search — explicit token overrides keep the 2026-08-27 gold/white sweep
    assertions alive even when the shared .search-input class handles the rest. */
 .cf-city-search { color: var(--text, #3d3a32); }
@@ -511,7 +529,6 @@ a.cf-card:hover .cf-guide-pill { border-color: var(--nt-linen-ink,#5a3c0e); }
     </div>
   </header>
 
-    <p class="cf-try-label">Try</p>
   <div class="cf-presets" id="cf-presets">
     <button type="button" class="cf-preset selection-pill cp-brown hov-darken" data-preset="beach" aria-pressed="false">Beach weather</button>
     <button type="button" class="cf-preset selection-pill cp-brown hov-darken" data-preset="spring" aria-pressed="false">Mild spring</button>
@@ -524,7 +541,6 @@ a.cf-card:hover .cf-guide-pill { border-color: var(--nt-linen-ink,#5a3c0e); }
       <div id="cf-months" class="cf-months"></div>
     </div>
     <div class="cf-block">
-      <div class="cf-label">Search city or country</div>
       <input type="search" id="cf-city-search" class="search-input cf-city-search" placeholder="City or country" autocomplete="off" spellcheck="false" aria-label="Search by city or country">
     </div>
     <div class="cf-block">

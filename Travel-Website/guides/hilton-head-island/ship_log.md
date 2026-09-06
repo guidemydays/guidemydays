@@ -31,3 +31,6 @@
 2026-07-19 05:26 — hilton-head-island.html — FAIL @ validate — 0 checks
 2026-07-19 05:27 — hilton-head-island.html — FAIL @ validate — 0 checks
 2026-07-19 05:32 — hilton-head-island.html — PASS — 0 checks
+2026-09-06 15:53 — hilton-head-island.html — FAIL @ verify-booking — 0 checks — https://en.wikipedia.org/wiki/Beaufort,_South_Carolina; https://en.wikipedia.org/wiki/Savannah_Historic_District
+2026-09-06 15:57 — hilton-head-island.html — FAIL @ mobile-render — 0 checks — off-standard pill sizing/wrap or horizontal overflow at 393px
+2026-09-06 16:05 — hilton-head-island.html — PASS — 932/932 passed, 0 failed

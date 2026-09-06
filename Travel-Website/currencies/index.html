@@ -157,6 +157,12 @@
   padding: 10px 0 12px; border-bottom: 1px solid var(--border2,#e6e2da);
 }
 .cw-sort-label { font-size: var(--fs-label,12px); font-weight: 800; color: var(--muted,#6a6660); text-transform: uppercase; letter-spacing: .14em; }
+/* Layout only, no restyle: .cw-sort is a wrapping flex row, and a flex item
+   may shrink below its content and break its own label across two lines. At
+   the small pill size the two labels happened to fit; at the standard size
+   (owner rule 2026-09-05 — "make a bit bigger") "Most value" broke in half
+   under ~900px. The row still wraps; each pill stays on one line. */
+.cw-sort .selection-pill { flex: 0 0 auto; white-space: nowrap; }
 .cw-close-x {
   margin-left: auto; font-size: 13px; line-height: 1; color: #7a7068;
   background: none; border: none; padding: 0; cursor: pointer; font-family: inherit; position: relative;
@@ -376,8 +382,8 @@
   <div class="cw-wrap" id="cw-wrap" hidden>
     <div class="cw-sort">
       <span class="cw-sort-label">Sort</span>
-      <button class="selection-pill-sm sp-rust hov-darken is-on" type="button" data-sort="most">Most value</button>
-      <button class="selection-pill-sm sp-clay hov-darken" type="button" data-sort="least">Least value</button>
+      <button class="selection-pill sp-rust hov-darken is-on" type="button" data-sort="most">Most value</button>
+      <button class="selection-pill sp-clay hov-darken" type="button" data-sort="least">Least value</button>
       <button id="fx-close" class="cw-close-x" type="button" aria-label="Close">&#10005;</button>
     </div>
     <p class="cw-lede" id="cw-lede"></p>
@@ -574,10 +580,10 @@ var FXC=[["Austria","Austria","Europe","EUR","",[["Salzburg","/guides/salzburg.h
      from rather than at the top of the document. */
   document.getElementById('fx-close').addEventListener('click',closeList);
   document.getElementById('fx-close-foot').addEventListener('click',closeList);
-  [].forEach.call(document.querySelectorAll('.cw-sort .selection-pill-sm'),function(p){
+  [].forEach.call(document.querySelectorAll('.cw-sort .selection-pill'),function(p){
     p.addEventListener('click',function(){
       sortMode=p.getAttribute('data-sort');
-      [].forEach.call(document.querySelectorAll('.cw-sort .selection-pill-sm'),function(q){ q.classList.toggle('is-on',q===p); });
+      [].forEach.call(document.querySelectorAll('.cw-sort .selection-pill'),function(q){ q.classList.toggle('is-on',q===p); });
       renderWall();
     });
   });

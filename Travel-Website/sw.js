@@ -1,3 +1,8 @@
+/* 2026-09-06: web-travel-style.css -- added shared .solid-cta (pills doc
+   Family 4 / Rule 21: a one-off solid action button, its own darken hover)
+   plus its --cta-bg token; essentials/phone-theft-recovery's Print this
+   card button de-hardcoded onto it. MIN_VERSIONS['web-travel-style.css']
+   to 266, CACHE to v1908. */
 /* 2026-09-06: web-travel-style.css -- added shared .static-label (pills doc
    Rule 19, the Static Label category: a non-interactive section-header pill,
    no hover/click/link) plus its --stl-bg/--stl-text tokens, generalizing
@@ -3156,7 +3161,9 @@
 /* 2026-09-05: web-travel-style.css -- hov-darken and hov-press now carry color:var(--sp-ink)!important so coloured pills (nt-*, sp-*) keep their ink on hover instead of falling through to the grey base :hover colour. toolbar.js -- packing save-offline button uses hov-darken. packing/index.html -- local workaround CSS removed. MIN_VERSIONS['web-travel-style.css'] to 261, MIN_VERSIONS['toolbar.js'] to 1186, CACHE to v1903. */
 /* 2026-09-05: footer collapsed to one row, 'Contact:' label dropped. MIN_VERSIONS['site-footer.js'] to 2, CACHE to v1902. */
 /* 2026-09-05: currencies/index.html -- close button converted from page-local .cw-close-foot to shared selection-pill-sm nt-grey hov-darken; selection-pill-sm base rewritten to sp-* vars; Family 3 metallic (.mt/.mt-gunmetal) added; SWAP uses mt-gunmetal. MIN_VERSIONS['web-travel-style.css'] to 262, CACHE to v1904. */
-/* 2026-09-06: solid-cta shared CTA button class; phone-theft-recovery print button switched from page-local .print-btn toolbar.js -> v1187. CACHE to v1908. */
+/* 2026-09-06: toolbar.js -- floor catch-up bump to 1187 (no corresponding
+   content change found in this pass; carried over from a concurrent
+   commit's version bump). CACHE to v1908. */
 var CACHE = 'travel-cache-v1908';
 /* 2026-08-27: airlines.css's .card-tags align-items fix changed a shared
    asset without raising its own floor -- MIN_VERSIONS['airlines.css'] to
@@ -3200,7 +3207,7 @@ var ICS_OUTBOX = 'gmd-ics-outbox';
 /* 2026-08-30: weather.js: Punta Cana climate normals added (244 cities). MIN_VERSIONS["weather.js"] to 19, CACHE to v1748. */
 /* 2026-08-30: search-autocomplete.js — reverted ARIA combobox pattern (role=listbox/option caused side-by-side layout regression). MIN_VERSIONS['search-autocomplete.js'] to 11, CACHE to v1749. */
 /* 2026-09-02: toolbar.js — remove false-affordance right hairline from stop-hours row (commit 981cca5d5). MIN_VERSIONS['toolbar.js'] to 1142, CACHE to v1816. */
-var MIN_VERSIONS = { 'guide-style.css': 293,'toolbar.js': 1187, 'mobile.css': 94, 'web-travel-style.css': 265, 'guides-index-style.css': 58, 'read-about.css': 8, 'best-of-features.js': 6, 'best-of-cross-data.js': 25, 'weather.js': 26,'trains.css': 30, 'trains.js': 6, 'airlines.css': 9, 'airlines.js': 10, 'passport.js': 6, 'search-autocomplete.js': 13, 'flag-render.js': 3, 'site-footer.js': 2 };
+var MIN_VERSIONS = { 'guide-style.css': 293,'toolbar.js': 1187, 'mobile.css': 94, 'web-travel-style.css': 266, 'guides-index-style.css': 58, 'read-about.css': 8, 'best-of-features.js': 6, 'best-of-cross-data.js': 25, 'weather.js': 26,'trains.css': 30, 'trains.js': 6, 'airlines.css': 9, 'airlines.js': 10, 'passport.js': 6, 'search-autocomplete.js': 13, 'flag-render.js': 3, 'site-footer.js': 2 };
 
 function rewriteAssetUrl(urlStr) {
   var u;

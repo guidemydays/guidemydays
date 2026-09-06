@@ -129,9 +129,6 @@
   letter-spacing: -.04em; color: #8a3f18; font-variant-numeric: tabular-nums; overflow-wrap: anywhere;
 }
 .cw-out-sub { margin: .55rem 0 0; font-size: clamp(.98rem,2.2vw,1.2rem); font-weight: 700; color: var(--text,#3d3a32); }
-.cw-chips { margin: 1rem 0 0; display: flex; flex-wrap: wrap; gap: 8px; justify-content: center; }
-.cw-chips .selection-pill-sm { font-variant-numeric: tabular-nums; cursor: default; }
-.cw-where { margin: .95rem auto 0; max-width: 70ch; font-size: var(--fs-body,16px); color: var(--muted,#6a6660); line-height: 1.65; }
 .cw-note { margin: .8rem auto 0; max-width: 70ch; font-size: var(--fs-sub,12px); color: #8a3f18; font-weight: 600; line-height: 1.6; }
 
 .cw-ask { margin-top: clamp(26px,4vw,42px); text-align: center; }
@@ -345,8 +342,6 @@
     <div class="cw-out" id="cw-out" hidden>
       <p class="cw-out-big" id="cw-big" role="status" aria-live="polite"></p>
       <p class="cw-out-sub" id="cw-sub"></p>
-      <div class="cw-chips" id="cw-chips"></div>
-      <p class="cw-where" id="cw-where" hidden></p>
       <p class="cw-note" id="cw-note" hidden></p>
     </div>
 
@@ -437,14 +432,13 @@ var FXC=[["Austria","Austria","Europe","EUR","",[["Salzburg","/guides/salzburg.h
     var A=FXR[fi], B=FXR[ti], out=convert(amt,fi,ti);
     document.getElementById('cw-big').textContent=B.s+fmt(out);
     document.getElementById('cw-sub').textContent=B.n+' — for '+A.s+fmt(amt)+' '+A.n;
-    /* At amt === 1 the forward rate only restates the reading above, so only
-       the reverse rate is shown. */
-    var chips=['1 '+ti+' = '+fmt(convert(1,ti,fi))+' '+fi];
-    if(amt!==1) chips.unshift('1 '+fi+' = '+fmt(convert(1,fi,ti))+' '+ti);
-    document.getElementById('cw-chips').innerHTML=chips.map(function(c){ return '<span class="selection-pill-sm sp-cream">'+esc(c)+'</span>'; }).join('');
-    var where=USED[ti]||[], elWhere=document.getElementById('cw-where');
-    elWhere.hidden=where.length<2;
-    elWhere.textContent=where.length<2?'':B.n+' is used in '+where.join(' · ')+'.';
+    /* NO RATE PILL. The card is the reading and the line that names it, and
+       nothing else: the pill restated the same fact a third time and in the
+       opposite direction (1 JPY = 0.0502 HKD under ¥19.92), so the reader had
+       to work out the two numbers were reciprocals — and a cream pill under a
+       terracotta number under a dark line put three type treatments in a card
+       that answers one question. Anyone who wants the rate the other way
+       types 1 in the other currency, or presses Swap. */
     var peg=(BYA[toAnchor]||[])[4]||'';
     var note=document.getElementById('cw-note');
     note.textContent=peg; note.hidden=!peg;

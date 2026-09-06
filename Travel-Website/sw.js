@@ -1,3 +1,9 @@
+/* 2026-09-06: guides-index-style.css + web-travel-style.css changed (a
+   concurrent site-audit commit landed the edit but never bumped the floor)
+   and the push guard caught it before it reached origin — no returning
+   browser or installed PWA would have loaded either file otherwise.
+   MIN_VERSIONS['web-travel-style.css'] to 269, MIN_VERSIONS['guides-index-style.css']
+   to 59, CACHE to v1913. */
 /* 2026-09-06: web-travel-style.css -- added shared .solid-cta (pills doc
    Family 4 / Rule 21: a one-off solid action button, its own darken hover)
    plus its --cta-bg token; essentials/phone-theft-recovery's Print this
@@ -3173,7 +3179,7 @@
    band's own fixed light background) shipping a web-travel-style.css change
    with no floor bump of its own. MIN_VERSIONS['web-travel-style.css'] to 268,
    CACHE to v1912. */
-var CACHE = 'travel-cache-v1912';
+var CACHE = 'travel-cache-v1913';
 /* 2026-08-27: airlines.css's .card-tags align-items fix changed a shared
    asset without raising its own floor -- MIN_VERSIONS['airlines.css'] to
    6, CACHE to v1662. */
@@ -3216,7 +3222,7 @@ var ICS_OUTBOX = 'gmd-ics-outbox';
 /* 2026-08-30: weather.js: Punta Cana climate normals added (244 cities). MIN_VERSIONS["weather.js"] to 19, CACHE to v1748. */
 /* 2026-08-30: search-autocomplete.js — reverted ARIA combobox pattern (role=listbox/option caused side-by-side layout regression). MIN_VERSIONS['search-autocomplete.js'] to 11, CACHE to v1749. */
 /* 2026-09-02: toolbar.js — remove false-affordance right hairline from stop-hours row (commit 981cca5d5). MIN_VERSIONS['toolbar.js'] to 1142, CACHE to v1816. */
-var MIN_VERSIONS = { 'guide-style.css': 293,'toolbar.js': 1189, 'mobile.css': 94, 'web-travel-style.css': 268, 'guides-index-style.css': 58, 'read-about.css': 8, 'best-of-features.js': 6, 'best-of-cross-data.js': 25, 'weather.js': 26,'trains.css': 30, 'trains.js': 6, 'airlines.css': 9, 'airlines.js': 10, 'passport.js': 6, 'search-autocomplete.js': 13, 'flag-render.js': 3, 'site-footer.js': 2 };
+var MIN_VERSIONS = { 'guide-style.css': 293,'toolbar.js': 1189, 'mobile.css': 94, 'web-travel-style.css': 269, 'guides-index-style.css': 59, 'read-about.css': 8, 'best-of-features.js': 6, 'best-of-cross-data.js': 25, 'weather.js': 26,'trains.css': 30, 'trains.js': 6, 'airlines.css': 9, 'airlines.js': 10, 'passport.js': 6, 'search-autocomplete.js': 13, 'flag-render.js': 3, 'site-footer.js': 2 };
 
 function rewriteAssetUrl(urlStr) {
   var u;

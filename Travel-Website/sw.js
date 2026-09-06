@@ -3165,7 +3165,8 @@
    content change found in this pass; carried over from a concurrent
    commit's version bump). CACHE to v1908. */
 /* 2026-09-06: toolbar site-search pill: background:#fff → var(--surface,#fff), color:#1a1917 → var(--text,#1a1917) — dark mode fix (BRIGHT SURFACE validator) toolbar.js -> v1188. CACHE to v1909. */
-var CACHE = 'travel-cache-v1909';
+/* 2026-09-06: web-travel-style.css: remove .tg-grid/.tg-card/.tg-card-head/.tg-name/.tg-tag/.tg-desc (zero users after /essentials/resources/ rebuild onto .rs-*); remove @media(max-width:600px) .tg-grid override; rewrote .sec-lead comment (removed .tg-grid reference) toolbar.js -> v1189. CACHE to v1910. */
+var CACHE = 'travel-cache-v1910';
 /* 2026-08-27: airlines.css's .card-tags align-items fix changed a shared
    asset without raising its own floor -- MIN_VERSIONS['airlines.css'] to
    6, CACHE to v1662. */
@@ -3208,7 +3209,7 @@ var ICS_OUTBOX = 'gmd-ics-outbox';
 /* 2026-08-30: weather.js: Punta Cana climate normals added (244 cities). MIN_VERSIONS["weather.js"] to 19, CACHE to v1748. */
 /* 2026-08-30: search-autocomplete.js — reverted ARIA combobox pattern (role=listbox/option caused side-by-side layout regression). MIN_VERSIONS['search-autocomplete.js'] to 11, CACHE to v1749. */
 /* 2026-09-02: toolbar.js — remove false-affordance right hairline from stop-hours row (commit 981cca5d5). MIN_VERSIONS['toolbar.js'] to 1142, CACHE to v1816. */
-var MIN_VERSIONS = { 'guide-style.css': 293,'toolbar.js': 1188, 'mobile.css': 94, 'web-travel-style.css': 266, 'guides-index-style.css': 58, 'read-about.css': 8, 'best-of-features.js': 6, 'best-of-cross-data.js': 25, 'weather.js': 26,'trains.css': 30, 'trains.js': 6, 'airlines.css': 9, 'airlines.js': 10, 'passport.js': 6, 'search-autocomplete.js': 13, 'flag-render.js': 3, 'site-footer.js': 2 };
+var MIN_VERSIONS = { 'guide-style.css': 293,'toolbar.js': 1189, 'mobile.css': 94, 'web-travel-style.css': 266, 'guides-index-style.css': 58, 'read-about.css': 8, 'best-of-features.js': 6, 'best-of-cross-data.js': 25, 'weather.js': 26,'trains.css': 30, 'trains.js': 6, 'airlines.css': 9, 'airlines.js': 10, 'passport.js': 6, 'search-autocomplete.js': 13, 'flag-render.js': 3, 'site-footer.js': 2 };
 
 function rewriteAssetUrl(urlStr) {
   var u;

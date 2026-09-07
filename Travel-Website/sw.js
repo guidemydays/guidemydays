@@ -3226,7 +3226,8 @@
 /* 2026-09-07: toolbar.js: single-stop days now get a Map day link too (plain map search instead of a route) so every day with a stop carries both header actions toolbar.js -> v1205. CACHE to v1935. */
 /* 2026-09-07: theatre masks -> #1895 grape/rose toolbar.js -> v1206. CACHE to v1936. */
 /* 2026-09-07: mobile-ux-fix: web-travel-style.css 272 — remove broken dark-mode #3d2f1f from .eb-title/.eb-intro; MIN_VERSIONS['web-travel-style.css'] to 272, CACHE to v1938. toolbar.js -> v1207. CACHE to v1937. */
-var CACHE = 'travel-cache-v1937';
+/* 2026-09-07: compare-cities-audit: sw.js floor fix — web-travel-style.css floor was logged as 272 in prior commit but code stayed 271; correcting now. MIN_VERSIONS['web-travel-style.css'] to 272, CACHE to v1938. */
+var CACHE = 'travel-cache-v1938';
 /* 2026-08-27: airlines.css's .card-tags align-items fix changed a shared
    asset without raising its own floor -- MIN_VERSIONS['airlines.css'] to
    6, CACHE to v1662. */
@@ -3270,7 +3271,7 @@ var ICS_OUTBOX = 'gmd-ics-outbox';
 /* 2026-08-30: search-autocomplete.js — reverted ARIA combobox pattern (role=listbox/option caused side-by-side layout regression). MIN_VERSIONS['search-autocomplete.js'] to 11, CACHE to v1749. */
 /* 2026-09-02: toolbar.js — remove false-affordance right hairline from stop-hours row (commit 981cca5d5). MIN_VERSIONS['toolbar.js'] to 1142, CACHE to v1816. */
 /* 2026-09-06: weather.js — Hammamet climate normals added; MIN_VERSIONS['weather.js'] to 27, CACHE to v1920. */
-var MIN_VERSIONS = { 'guide-style.css': 293,'toolbar.js': 1207, 'mobile.css': 94, 'web-travel-style.css': 271, 'guides-index-style.css': 62, 'read-about.css': 8, 'best-of-features.js': 6, 'best-of-cross-data.js': 25, 'weather.js': 28,'trains.css': 30, 'trains.js': 6, 'airlines.css': 9, 'airlines.js': 10, 'passport.js': 6, 'search-autocomplete.js': 13, 'flag-render.js': 3, 'site-footer.js': 2 };
+var MIN_VERSIONS = { 'guide-style.css': 293,'toolbar.js': 1207, 'mobile.css': 94, 'web-travel-style.css': 272, 'guides-index-style.css': 62, 'read-about.css': 8, 'best-of-features.js': 6, 'best-of-cross-data.js': 25, 'weather.js': 28,'trains.css': 30, 'trains.js': 6, 'airlines.css': 9, 'airlines.js': 10, 'passport.js': 6, 'search-autocomplete.js': 13, 'flag-render.js': 3, 'site-footer.js': 2 };
 
 function rewriteAssetUrl(urlStr) {
   var u;

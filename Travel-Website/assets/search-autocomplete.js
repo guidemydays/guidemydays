@@ -166,11 +166,20 @@
     var dd = document.createElement('div');
     dd.className = 'sa-suggest';
     dd.hidden = true;
+    var uid = 'tve-' + Math.random().toString(36).slice(2, 8);
+    dd.id = uid;
+    dd.setAttribute('role', 'listbox');
     (wrap || document.body).appendChild(dd);
+
+    input.setAttribute('role', 'combobox');
+    input.setAttribute('aria-autocomplete', 'list');
+    input.setAttribute('aria-expanded', 'false');
+    input.setAttribute('aria-haspopup', 'listbox');
+    input.setAttribute('aria-controls', uid);
 
     var active = -1, cur = [], justPicked = false;
 
-    function hide() { dd.hidden = true; dd.innerHTML = ''; active = -1; }
+    function hide() { dd.hidden = true; dd.innerHTML = ''; active = -1; input.setAttribute('aria-expanded', 'false'); input.removeAttribute('aria-activedescendant'); }
 
     function render() {
       // A pick fires a native 'input' (to run the page filter); don't re-open on it.
@@ -189,17 +198,18 @@
         .slice(0, limit);
       if (!cur.length) { hide(); return; }
       dd.innerHTML = cur.map(function (it, i) {
-        return '<button type="button" class="sa-row" data-i="' + i + '">' +
+        return '<button type="button" role="option" id="' + uid + '-' + i + '" class="sa-row" data-i="' + i + '">' +
           esc(it.name) + (it.sub ? '<span class="sa-sub"> · ' + esc(it.sub) + '</span>' : '') +
           '</button>';
       }).join('');
-      dd.hidden = false; active = -1;
+      dd.hidden = false; active = -1; input.setAttribute('aria-expanded', 'true');
     }
 
     function paint() {
       var rows = dd.querySelectorAll('.sa-row');
       for (var i = 0; i < rows.length; i++) rows[i].classList.toggle('active', i === active);
       if (active >= 0 && rows[active]) rows[active].scrollIntoView({ block: 'nearest' });
+      input.setAttribute('aria-activedescendant', active >= 0 ? uid + '-' + active : '');
     }
 
     function pick(i) {

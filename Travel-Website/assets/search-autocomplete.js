@@ -139,6 +139,20 @@
       .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
   }
 
+  // Wrap the first word-start occurrence of q in str with <b class="sa-hl">.
+  // Falls back to plain esc(str) when q is not found at a word boundary.
+  function hlName(str, q) {
+    var lower = str.toLowerCase();
+    var i = lower.indexOf(q);
+    while (i >= 0) {
+      if (i === 0 || lower[i - 1] === ' ' || lower[i - 1] === '-' || lower[i - 1] === '(' || lower[i - 1] === ',' || lower[i - 1] === '.' || lower[i - 1] === '/') {
+        return esc(str.slice(0, i)) + '<b class="sa-hl">' + esc(str.slice(i, i + q.length)) + '</b>' + esc(str.slice(i + q.length));
+      }
+      i = lower.indexOf(q, i + 1);
+    }
+    return esc(str);
+  }
+
   function attach(input, opts) {
     if (!input || input._tveAttached) return null;
     input._tveAttached = true;
@@ -199,7 +213,7 @@
       if (!cur.length) { hide(); return; }
       dd.innerHTML = cur.map(function (it, i) {
         return '<button type="button" role="option" id="' + uid + '-' + i + '" class="sa-row" data-i="' + i + '">' +
-          esc(it.name) + (it.sub ? '<span class="sa-sub"> · ' + esc(it.sub) + '</span>' : '') +
+          hlName(it.name, q) + (it.sub ? '<span class="sa-sub"> · ' + hlName(it.sub, q) + '</span>' : '') +
           '</button>';
       }).join('');
       dd.hidden = false; active = -1; input.setAttribute('aria-expanded', 'true');

@@ -1,3 +1,4 @@
+/* 2026-09-07: compare-cities-audit: guides/index.html + index.html — mobile fix for compare passport strip: .cmp-strip-q now stacks vertically and pp-mount/pp-input fill their container at ≤600px, preventing 137px overflow of the Entry/Flight-time pickers. CACHE to v1943. */
 /* 2026-09-06: guides-index-style.css -- saved-offline indicator dropped
    its own background/border entirely: #gm-i-offline-save already draws a
    complete circular badge (gradient fill, rim, gloss), so a tile behind
@@ -3231,7 +3232,7 @@
 /* 2026-09-07: search-audit: web-travel-style.css — .sa-row min-height 44px + display:flex for mobile tap target compliance. MIN_VERSIONS['web-travel-style.css'] to 273, CACHE to v1940. */
 /* 2026-09-07: search-audit: match highlighting — hlName() wraps query substring in <b class="sa-hl"> (font-weight:800) in name and sub; web-travel-style.css .sa-hl rule added. MIN_VERSIONS['search-autocomplete.js'] to 15, MIN_VERSIONS['web-travel-style.css'] to 274, CACHE to v1941. */
 /* 2026-09-07: compare-cities-audit: guides-index-style.css — added fallback value to --search-icon var() in #guide-pick-search (brain_check search-bar-standard). MIN_VERSIONS['guides-index-style.css'] to 63, CACHE to v1942. */
-var CACHE = 'travel-cache-v1942';
+var CACHE = 'travel-cache-v1943';
 /* 2026-08-27: airlines.css's .card-tags align-items fix changed a shared
    asset without raising its own floor -- MIN_VERSIONS['airlines.css'] to
    6, CACHE to v1662. */

@@ -3233,7 +3233,8 @@
 /* 2026-09-07: search-audit: match highlighting — hlName() wraps query substring in <b class="sa-hl"> (font-weight:800) in name and sub; web-travel-style.css .sa-hl rule added. MIN_VERSIONS['search-autocomplete.js'] to 15, MIN_VERSIONS['web-travel-style.css'] to 274, CACHE to v1941. */
 /* 2026-09-07: compare-cities-audit: guides-index-style.css — added fallback value to --search-icon var() in #guide-pick-search (brain_check search-bar-standard). MIN_VERSIONS['guides-index-style.css'] to 63, CACHE to v1942. */
 /* 2026-09-07: compare-cities-audit: guides/index.html + index.html — coarse-pointer tap target: .cmp-chip-x min-height/min-width raised from 32px to 44px (WCAG 2.5.5). .cmp-go-btn/.cmp-exit-btn gain min-width:44px. CACHE to v1944. */
-var CACHE = 'travel-cache-v1944';
+/* 2026-09-07: compare-cities-audit: guides/index.html + index.html — em-dash consistency: two &mdash; entities in compare table empty cells (Entry and Plug rows) converted to literal — to match all other empty-cell dashes. CACHE to v1945. */
+var CACHE = 'travel-cache-v1945';
 /* 2026-08-27: airlines.css's .card-tags align-items fix changed a shared
    asset without raising its own floor -- MIN_VERSIONS['airlines.css'] to
    6, CACHE to v1662. */

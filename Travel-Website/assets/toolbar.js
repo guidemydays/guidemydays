@@ -11102,6 +11102,15 @@ window.TVE.home = (function () {
      last stop = destination, everything between = waypoints. Zero guide HTML —
      every place string is already in the DOM.
 
+     ── Single-stop days ── a route needs two points, so a day with exactly one
+     resolved place opens that stop as a plain map search instead — every day
+     with at least one stop gets a Map day link, never just some of them. Owner
+     directive 2026-09-07, after a screenshot showed Day 4/5 carrying both
+     header actions and Day 6 (one stop) carrying only Copy day: "we can't have
+     some days with map the day and copy the days and others not ... i want
+     both in all days." validate/validate_day_actions_render.py is the
+     permanent render-level gate for this.
+
      ── Where the place string comes from, and why not "{name}, {city}" ──
      Each stop carries an authored 📍 row whose href is a Maps search URL
      (?api=1&query=Louvre Abu Dhabi Saadiyat Cultural District Abu Dhabi). That
@@ -11196,8 +11205,14 @@ window.TVE.home = (function () {
         /* A repeat of the previous token makes Maps draw a zero-length leg. */
         if (p && p !== places[places.length - 1]) places.push(p);
       });
-      /* One stop is not a route — the stop's own 📍 link already covers it. */
-      if (places.length < 2) return '';
+      if (!places.length) return '';
+
+      /* A single resolved place is not a route — open it as a plain map
+         search instead, so every day with a stop gets a Map day link. */
+      if (places.length === 1) {
+        return 'https://www.google.com/maps/search/?api=1' +
+          '&query=' + encodeURIComponent(places[0]);
+      }
 
       var origin = places.shift();
       var dest   = places.pop();
@@ -11236,8 +11251,8 @@ window.TVE.home = (function () {
         a.href = url;
         a.target = '_blank';
         a.rel = 'noopener';
-        a.setAttribute('aria-label', 'Open ' + label + ' as a route in Google Maps');
-        a.setAttribute('title', 'Open this day as one Google Maps route');
+        a.setAttribute('aria-label', 'Open ' + label + ' in Google Maps');
+        a.setAttribute('title', 'Open this day in Google Maps');
         a.innerHTML = _pinSvg + '<span>Map day</span>';
 
         a.addEventListener('click', function (e) { e.stopPropagation(); });

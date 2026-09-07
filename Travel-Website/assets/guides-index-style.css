@@ -107,32 +107,47 @@
   .dest-card:hover .dest-new-badge { border-color: rgba(255,255,255,0.55); background: rgba(255,255,255,0.15); color: #fff; }
 }
 .dest-card:active .dest-new-badge { border-color: rgba(255,255,255,0.4); background: rgba(255,255,255,0.1); color: #fff; }
-/* ── "Saved offline" badge — mirrors the Save for Offline button's own icon
-   and cream/tan pill coloring ── */
+/* ── "Saved offline" indicator — a corner tag, clear of the bookmark
+   button's own 40px column so the two never sit on top of each other.
+   `.pin-wrap .dest-offline-badge` shifts it left by exactly the button's
+   width on cards that carry one (the main mosaic); cards with no pin-btn
+   (e.g. the flight-time grid) keep the plain top-right corner. ── */
 .dest-offline-badge {
-  margin-left: auto;
-  flex-shrink: 0;
-  display: inline-flex;
-  align-items: center;
-  gap: 3px;
-  font-size: 10px;
-  font-weight: 700;
-  letter-spacing: 0.03em;
-  text-transform: uppercase;
-  padding: 2px 6px;
-  border-radius: 4px;
-  line-height: 14px;
-  border: 1.5px solid #dfc29d;
-  background: #f8f1e2;
-  color: #654321;
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 26px;
+  height: 26px;
+  display: flex;
+  align-items: flex-start;
+  justify-content: flex-end;
   pointer-events: none;
-  white-space: nowrap;
 }
-.dest-offline-badge svg { width: 10px; height: 10px; flex-shrink: 0; }
+.pin-wrap .dest-offline-badge { right: 40px; }
+.dest-offline-badge::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 0;
+  height: 0;
+  border-style: solid;
+  border-width: 0 26px 26px 0;
+  border-color: transparent #dfc29d transparent transparent;
+}
+.dest-offline-badge svg {
+  position: relative;
+  width: 11px;
+  height: 11px;
+  margin: 3px 3px 0 0;
+  color: #654321;
+}
 @media (hover:hover) {
-  .dest-card:hover .dest-offline-badge { border-color: rgba(255,255,255,0.55); background: rgba(255,255,255,0.15); color: #fff; }
+  .dest-card:hover .dest-offline-badge::before { border-color: transparent rgba(255,255,255,0.55) transparent transparent; }
+  .dest-card:hover .dest-offline-badge svg { color: #fff; }
 }
-.dest-card:active .dest-offline-badge { border-color: rgba(255,255,255,0.4); background: rgba(255,255,255,0.1); color: #fff; }
+.dest-card:active .dest-offline-badge::before { border-color: transparent rgba(255,255,255,0.4) transparent transparent; }
+.dest-card:active .dest-offline-badge svg { color: #fff; }
 /* ── Card subtitle — marquee day-trips for cluster guides (a city base that holds big excursions) ── */
 .dest-sub {
   flex-basis: 100%;
@@ -919,7 +934,8 @@ a.pt-open:visited { color: #3d3a32; }
   #lsp-topbar { background: var(--surface, #2a2825); border-color: var(--border, #3a3730); color: var(--accent, #c8a040); }
   /* NEW chip: cream fill with no dark twin reads as a bright chip on a dark card. */
   .dest-new-badge { background: var(--warm, #242220); border-color: #8a6c1a; color: #e8c97a; }
-  .dest-offline-badge { background: var(--warm, #242220); border-color: #8a6c1a; color: #e8c97a; }
+  .dest-offline-badge::before { border-color: transparent #8a6c1a transparent transparent; }
+  .dest-offline-badge svg { color: #e8c97a; }
   .dest-name { color: var(--text, #e8e5e0); }
   .cmp-v, .cmp-list { color: var(--text, #e8e5e0); }
   .cmp-tag { background: var(--warm, #242220); color: var(--text, #e8e5e0); }
@@ -967,7 +983,8 @@ a.pt-open:visited { color: #3d3a32; }
 :root[data-theme="dark"] #btn-my-trips:active { color: var(--accent, #c8a040) !important; }
 :root[data-theme="dark"] #lsp-topbar { background: var(--surface, #2a2825); border-color: var(--border, #3a3730); color: var(--accent, #c8a040); }
 :root[data-theme="dark"] .dest-new-badge { background: var(--warm, #242220); border-color: #8a6c1a; color: #e8c97a; }
-:root[data-theme="dark"] .dest-offline-badge { background: var(--warm, #242220); border-color: #8a6c1a; color: #e8c97a; }
+:root[data-theme="dark"] .dest-offline-badge::before { border-color: transparent #8a6c1a transparent transparent; }
+:root[data-theme="dark"] .dest-offline-badge svg { color: #e8c97a; }
 .tchip > :first-child,
 .ttchip > :first-child,
 .hcchip > :first-child,

@@ -3230,7 +3230,8 @@
 /* 2026-09-07: search-audit: search-autocomplete.js — ARIA combobox/listbox/option roles, aria-expanded, aria-activedescendant; .sa-row already has explicit display:block so the prior layout regression (v11 revert) does not recur. MIN_VERSIONS['search-autocomplete.js'] to 14, CACHE to v1939. */
 /* 2026-09-07: search-audit: web-travel-style.css — .sa-row min-height 44px + display:flex for mobile tap target compliance. MIN_VERSIONS['web-travel-style.css'] to 273, CACHE to v1940. */
 /* 2026-09-07: search-audit: match highlighting — hlName() wraps query substring in <b class="sa-hl"> (font-weight:800) in name and sub; web-travel-style.css .sa-hl rule added. MIN_VERSIONS['search-autocomplete.js'] to 15, MIN_VERSIONS['web-travel-style.css'] to 274, CACHE to v1941. */
-var CACHE = 'travel-cache-v1941';
+/* 2026-09-07: compare-cities-audit: guides-index-style.css — added fallback value to --search-icon var() in #guide-pick-search (brain_check search-bar-standard). MIN_VERSIONS['guides-index-style.css'] to 63, CACHE to v1942. */
+var CACHE = 'travel-cache-v1942';
 /* 2026-08-27: airlines.css's .card-tags align-items fix changed a shared
    asset without raising its own floor -- MIN_VERSIONS['airlines.css'] to
    6, CACHE to v1662. */
@@ -3274,7 +3275,7 @@ var ICS_OUTBOX = 'gmd-ics-outbox';
 /* 2026-08-30: search-autocomplete.js — reverted ARIA combobox pattern (role=listbox/option caused side-by-side layout regression). MIN_VERSIONS['search-autocomplete.js'] to 11, CACHE to v1749. */
 /* 2026-09-02: toolbar.js — remove false-affordance right hairline from stop-hours row (commit 981cca5d5). MIN_VERSIONS['toolbar.js'] to 1142, CACHE to v1816. */
 /* 2026-09-06: weather.js — Hammamet climate normals added; MIN_VERSIONS['weather.js'] to 27, CACHE to v1920. */
-var MIN_VERSIONS = { 'guide-style.css': 293,'toolbar.js': 1207, 'mobile.css': 94, 'web-travel-style.css': 274, 'guides-index-style.css': 62, 'read-about.css': 8, 'best-of-features.js': 6, 'best-of-cross-data.js': 25, 'weather.js': 28,'trains.css': 30, 'trains.js': 6, 'airlines.css': 9, 'airlines.js': 10, 'passport.js': 6, 'search-autocomplete.js': 15, 'flag-render.js': 3, 'site-footer.js': 2 };
+var MIN_VERSIONS = { 'guide-style.css': 293,'toolbar.js': 1207, 'mobile.css': 94, 'web-travel-style.css': 274, 'guides-index-style.css': 63, 'read-about.css': 8, 'best-of-features.js': 6, 'best-of-cross-data.js': 25, 'weather.js': 28,'trains.css': 30, 'trains.js': 6, 'airlines.css': 9, 'airlines.js': 10, 'passport.js': 6, 'search-autocomplete.js': 15, 'flag-render.js': 3, 'site-footer.js': 2 };
 
 function rewriteAssetUrl(urlStr) {
   var u;

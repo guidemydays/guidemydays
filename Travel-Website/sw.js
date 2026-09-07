@@ -1,3 +1,14 @@
+/* 2026-09-06: web-travel-style.css -- Family 1 Calm Pastel and Beiges-and-
+   Whites pills (the cp- family, the sp-rust/clay/espresso/saddle/sand/
+   cream/butter/amber/yellow tones, the nt-white/paper/linen/cream/tan/brown
+   tones, and the matching legend-key rows) now carry the pills doc's
+   permanent 2px own-ink border (was a near-invisible rgba(0,0,0,.1) or
+   rgba(var(--sp-rgb),.45) rim) on selection-pill, selection-pill-sm, badge,
+   pill-badge and legend-key. Retired the "beige" and "fog" tones (never
+   approved Family 1 names): sp-beige folded into cp-brown (Bronze, its
+   Family 1 equivalent) and nt-fog deleted outright (zero live consumers).
+   essentials/packing's stray body class sp-beige updated to cp-brown.
+   MIN_VERSIONS['web-travel-style.css'] to 271, CACHE to v1923. */
 /* 2026-09-06: guides-index-style.css -- saved-offline indicator on the
    guides-index destination cards is now a corner tag (clear of the
    bookmark button's own 40px column) instead of a text pill crowding it.
@@ -3190,7 +3201,7 @@
 /* 2026-09-06: place setting: fork moved out so its gap to the plate matches the knife's toolbar.js -> v1194. CACHE to v1918. */
 /* 2026-09-06: hammamet ship — HOTEL_ALT_DATA, airport chip data (NBE), LOUNGE_IATAS entries added toolbar.js -> v1195. CACHE to v1919. */
 /* 2026-09-06: web-travel-style.css — metallic pill press state fixed: radial-gradient replaces flat brightness() so the pressed surface reads the same gradient as hover but darker. MIN_VERSIONS['web-travel-style.css'] to 270, CACHE to v1922. */
-var CACHE = 'travel-cache-v1922';
+var CACHE = 'travel-cache-v1923';
 /* 2026-08-27: airlines.css's .card-tags align-items fix changed a shared
    asset without raising its own floor -- MIN_VERSIONS['airlines.css'] to
    6, CACHE to v1662. */
@@ -3234,7 +3245,7 @@ var ICS_OUTBOX = 'gmd-ics-outbox';
 /* 2026-08-30: search-autocomplete.js — reverted ARIA combobox pattern (role=listbox/option caused side-by-side layout regression). MIN_VERSIONS['search-autocomplete.js'] to 11, CACHE to v1749. */
 /* 2026-09-02: toolbar.js — remove false-affordance right hairline from stop-hours row (commit 981cca5d5). MIN_VERSIONS['toolbar.js'] to 1142, CACHE to v1816. */
 /* 2026-09-06: weather.js — Hammamet climate normals added; MIN_VERSIONS['weather.js'] to 27, CACHE to v1920. */
-var MIN_VERSIONS = { 'guide-style.css': 293,'toolbar.js': 1195, 'mobile.css': 94, 'web-travel-style.css': 270, 'guides-index-style.css': 60, 'read-about.css': 8, 'best-of-features.js': 6, 'best-of-cross-data.js': 25, 'weather.js': 27,'trains.css': 30, 'trains.js': 6, 'airlines.css': 9, 'airlines.js': 10, 'passport.js': 6, 'search-autocomplete.js': 13, 'flag-render.js': 3, 'site-footer.js': 2 };
+var MIN_VERSIONS = { 'guide-style.css': 293,'toolbar.js': 1195, 'mobile.css': 94, 'web-travel-style.css': 271, 'guides-index-style.css': 60, 'read-about.css': 8, 'best-of-features.js': 6, 'best-of-cross-data.js': 25, 'weather.js': 27,'trains.css': 30, 'trains.js': 6, 'airlines.css': 9, 'airlines.js': 10, 'passport.js': 6, 'search-autocomplete.js': 13, 'flag-render.js': 3, 'site-footer.js': 2 };
 
 function rewriteAssetUrl(urlStr) {
   var u;

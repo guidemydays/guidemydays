@@ -800,7 +800,10 @@ window.TVE.home = (function () {
         'wristwatch': ['0 0 24 24', '<rect x="8.4" y="1.2" width="7.2" height="5" rx="1.2" fill="url(#gm-stone)" stroke="var(--c-stone-rim)" stroke-width="0.5"/><rect x="8.4" y="17.8" width="7.2" height="5" rx="1.2" fill="url(#gm-stone)" stroke="var(--c-stone-rim)" stroke-width="0.5"/><circle cx="12" cy="12" r="6.6" fill="url(#gm-navy)" stroke="var(--c-navy-rim)" stroke-width="0.5"/><circle cx="12" cy="12" r="5" fill="url(#gm-paper)" stroke="var(--c-rim-cool)" stroke-width="0.6"/><g fill="none" stroke="var(--c-stone)" stroke-width="1.05" stroke-linecap="round"><path d="M12.00 7.90L12.00 7.20"/><path d="M14.05 8.45L14.40 7.84"/><path d="M15.55 9.95L16.16 9.60"/><path d="M16.10 12.00L16.80 12.00"/><path d="M15.55 14.05L16.16 14.40"/><path d="M14.05 15.55L14.40 16.16"/><path d="M12.00 16.10L12.00 16.80"/><path d="M9.95 15.55L9.60 16.16"/><path d="M8.45 14.05L7.84 14.40"/><path d="M7.90 12.00L7.20 12.00"/><path d="M8.45 9.95L7.84 9.60"/><path d="M9.95 8.45L9.60 7.84"/></g><g fill="none" stroke="var(--c-tire)" stroke-linecap="round"><path d="M12 12L10.38 10.86" stroke-width="1.52"/><path d="M12 12L14.56 10.52" stroke-width="1.20"/></g><circle cx="12" cy="12" r="0.7" fill="url(#gm-red)" stroke="var(--c-red-rim)" stroke-width="0.5"/>'],
     'closed': ['0.10 0.10 23.81 23.81', '<path d="M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20zm0 2c1.9 0 3.6.6 5 1.7L5.7 17A8 8 0 0 1 12 4zm0 16c-1.9 0-3.6-.6-5-1.7L18.3 7A8 8 0 0 1 12 20z" fill="url(#gm-red)" stroke="var(--c-red-rim)" stroke-width="0.5"/>'],
     'coffee': ['0 0 24 24', '<ellipse cx="11.4" cy="19.9" rx="10.2" ry="2.2" fill="url(#gm-tire)" stroke="var(--c-tire-rim)" stroke-width="0.5" opacity="0.13"/><ellipse cx="11.4" cy="19.4" rx="10.2" ry="2.6" fill="url(#gm-cocoa)" stroke="var(--c-cocoa-rim)" stroke-width="0.5"/><ellipse cx="11.4" cy="19.4" rx="10.2" ry="2.6" fill="url(#gm-gloss)"/><ellipse cx="11.4" cy="18.9" rx="7.4" ry="1.6" fill="url(#gm-cocoa)" stroke="var(--c-cocoa-rim)" stroke-width="0.5"/><ellipse cx="11.4" cy="18.9" rx="7.4" ry="1.6" fill="url(#gm-tire)" stroke="var(--c-tire-rim)" stroke-width="0.5" opacity="0.10"/><path d="M19.6 9.4a3.4 3.4 0 0 1 0 6.8h-1.6v-2.2h1.6a1.2 1.2 0 0 0 0-2.4h-1.6V9.4z" fill="url(#gm-cocoa)" stroke="var(--c-cocoa-rim)" stroke-width="0.5"/><path d="M3.4 8.2h15.4v3.4c0 3.9-3.4 6.8-7.7 6.8s-7.7-2.9-7.7-6.8z" fill="url(#gm-cocoa)" stroke="var(--c-cocoa-rim)" stroke-width="0.5"/><path d="M4.9 9.1c-.35 2.6-.2 4.6.7 6.3-1.4-1.3-2.1-3-2.2-5.2z" fill="url(#gm-gloss)"/><ellipse cx="11.1" cy="8.2" rx="7.7" ry="2.6" fill="url(#gm-cocoa)" stroke="var(--c-cocoa-rim)" stroke-width="0.5"/><ellipse cx="11.1" cy="8.2" rx="6.3" ry="2.0" fill="url(#gm-clay)" stroke="var(--c-clay-rim)" stroke-width="0.5"/><g fill="none" stroke="var(--c-cream)" stroke-width="0.8" stroke-linecap="round"><path d="M8.2 8.2c0-1 1.3-1.8 2.9-1.8s2.9.8 2.9 1.8-1.3 1.8-2.9 1.8-2.9-.8-2.9-1.8z"/><path d="M11.1 6.4v3.6"/></g><ellipse cx="11.1" cy="19.4" rx="4.4" ry="1.0" fill="url(#gm-cocoa)" stroke="var(--c-cocoa-rim)" stroke-width="0.5" opacity="0.5"/>'],
-    'dessert': ['0 0 24 24', '<ellipse cx="12" cy="18.66" rx="8.26" ry="1.47" fill="url(#gm-stone)" stroke="none" opacity="0.20"/><ellipse cx="12" cy="16.60" rx="9.60" ry="4.90" fill="url(#gm-paper)" stroke="var(--c-stone-rim)" stroke-width="0.6"/><ellipse cx="12" cy="16.60" rx="7.40" ry="3.60" fill="none" stroke="var(--c-rim-cool-rim)" stroke-width="0.45" opacity="0.75"/><g stroke-width="0.5"><ellipse cx="12" cy="14.35" rx="6.70" ry="3.90" fill="url(#gm-sun)" stroke="var(--c-sun-rim)" stroke-width="0.55"/><g fill="none" stroke="var(--c-sun-rim)" stroke-width="0.48" opacity="0.85" stroke-linecap="round"><path d="M5.60 13.90C7.10 11.90 9.20 10.85 11.80 10.85C14.40 10.85 16.50 11.90 17.90 13.75"/><path d="M6.00 15.70C7.50 13.95 9.50 13.05 11.90 13.05C14.30 13.05 16.20 13.95 17.50 15.45"/><path d="M7.40 17.20C8.65 16.15 10.15 15.65 11.90 15.65C13.65 15.65 15.10 16.15 16.20 17.10"/></g><path d="M8.90 12.35C9.90 11.25 11.35 10.75 13.00 10.90C14.80 11.05 16.00 11.95 16.35 13.40C15.45 14.60 14.00 15.15 12.20 14.95C10.25 14.75 9.05 13.80 8.90 12.35Z" fill="url(#gm-red)" stroke="var(--c-red-rim)" stroke-width="0.42"/><g fill="url(#gm-leaf)" stroke="var(--c-leaf-rim)" stroke-width="0.3"><ellipse cx="12.70" cy="10.05" rx="0.65" ry="1.10" transform="rotate(-22 12.7 10.05)"/><ellipse cx="14.25" cy="10.60" rx="0.60" ry="1.02" transform="rotate(22 14.25 10.6)"/></g></g>'],
+    /* Site-Icons.html #1381 — soup bowl (owner pick for Local Tastes,
+       replacing the previous entry — which carried an undeclared
+       --c-rim-cool-rim token and hard-failed check_icon_treatment). */
+    'dessert': ['0 0 24 24', '<g fill="none" stroke="var(--c-stone)" stroke-width="1.2" stroke-linecap="round" opacity="0.9"><path d="M9.4 5.4c-1.2-1.2-1.2-2.4 0-3.6"/><path d="M12 4.8c-1.2-1.2-1.2-2.4 0-3.6"/><path d="M14.6 5.4c-1.2-1.2-1.2-2.4 0-3.6"/></g><path d="M2.2 9.8h19.6c0 5.4-4.4 9-9.8 9s-9.8-3.6-9.8-9z" fill="url(#gm-cream)" stroke="var(--c-rim-warm)" stroke-width="0.6"/><ellipse cx="12" cy="10.2" rx="9.2" ry="2.4" fill="url(#gm-amber)" stroke="var(--c-amber-rim)" stroke-width="0.5"/><g fill="url(#gm-clay)" stroke="var(--c-clay-rim)" stroke-width="0.5"><circle cx="9" cy="10" r="0.8"/><circle cx="13.4" cy="10.6" r="0.7"/><circle cx="15.4" cy="9.6" r="0.6"/></g><rect x="0.8" y="18.4" width="22.4" height="2" rx="1" fill="url(#gm-stone)" stroke="var(--c-stone-rim)" stroke-width="0.5"/><ellipse cx="12" cy="13.6" rx="9.8" ry="4.6" fill="url(#gm-gloss)"/>'],
     'disney-parks': ['0 0 24 24', '<path d="M6.6 4.6h0.5v3h-0.5z" fill="url(#gm-stone)" stroke="var(--c-stone-rim)" stroke-width="0.5"/><path d="M6.6 4.6h0.5v3h-0.5z" fill="url(#gm-gloss)"/> <path d="M7.1 4.7 9.3 5.5 7.1 6.3z" fill="url(#gm-red)" stroke="var(--c-red-rim)" stroke-width="0.5"/> <path d="M16.9 4.6h0.5v3h-0.5z" fill="url(#gm-stone)" stroke="var(--c-stone-rim)" stroke-width="0.5"/> <path d="M17.4 4.7 19.6 5.5 17.4 6.3z" fill="url(#gm-red)" stroke="var(--c-red-rim)" stroke-width="0.5"/> <path d="M4.4 9.8 7 4.6l2.6 5.2z" fill="url(#gm-blue)" stroke="var(--c-blue-rim)" stroke-width="0.5"/> <path d="M14.4 9.8 17 4.6l2.6 5.2z" fill="url(#gm-blue)" stroke="var(--c-blue-rim)" stroke-width="0.5"/> <path d="M8.4 7.6 12 1.4l3.6 6.2z" fill="url(#gm-navy)" stroke="var(--c-navy-rim)" stroke-width="0.5"/> <rect x="4.7" y="9.8" width="4.6" height="12" fill="url(#gm-cream)" stroke="var(--c-rim-warm)" stroke-width="0.6"/> <rect x="14.7" y="9.8" width="4.6" height="12" fill="url(#gm-cream)" stroke="var(--c-rim-warm)" stroke-width="0.6"/> <rect x="8.6" y="7.6" width="6.8" height="14.2" fill="url(#gm-paper)" stroke="var(--c-rim-cool)" stroke-width="0.6" stroke-linejoin="round" /> <g fill="url(#gm-blue)" stroke="var(--c-blue-rim)" stroke-width="0.5"> <rect x="6.1" y="12.2" width="1.8" height="2.6" rx="0.9"/><rect x="16.1" y="12.2" width="1.8" height="2.6" rx="0.9"/> <rect x="11.2" y="10" width="1.7" height="2.5" rx="0.85"/> </g> <path d="M9.9 21.8v-4.2a2.1 2.1 0 0 1 4.2 0v4.2z" fill="url(#gm-rust)" stroke="var(--c-rust-rim)" stroke-width="0.5"/>'],
     'download': ['0 0 24 24', '<rect x="4.4" y="1.8" width="15.2" height="20.4" rx="2.6" fill="url(#gm-navy)" stroke="var(--c-navy-rim)" stroke-width="0.5"/><rect x="6" y="4.6" width="12" height="13.2" rx="1.1" fill="url(#gm-sky)" stroke="var(--c-sky-rim)" stroke-width="0.5"/><path d="M10.6 6.4h2.8v3.6h2L12 15.4 8.6 10h2z" fill="url(#gm-paper)" stroke="var(--c-rim-cool)" stroke-width="0.6"/><circle cx="12" cy="20.1" r="1.05" fill="url(#gm-stone)" stroke="var(--c-stone-rim)" stroke-width="0.5"/><rect x="4.4" y="1.8" width="15.2" height="20.4" rx="2.6" fill="url(#gm-gloss)"/>'],
     /* Icons Library.html #1456 — owner-directed terracotta recolor of #885's
@@ -8504,120 +8507,7 @@ window.TVE.home = (function () {
   })();
 
   
-  /* ── Quick Facts strip — real guide pages only ────────────────────────────
-     The four facts a reader checks before committing to an itinerary:
-     🗣️ language · 💰 cost tier · 🔌 plug type · 🌤️ best months. Each one
-     already lives on a Trip-Essentials page (Budget-Guide, Plug-Adapter-Guide,
-     When-to-Go); assets/quick-facts.json joins them per guide so reading all
-     four no longer costs four page visits. Built by
-     Brain/scripts/build/build_quick_facts.py, refreshed on every ship.
-
-     Anchored ABOVE .overview-section rather than below .title-page on purpose:
-     the weather strip anchors itself to .title-page and lands asynchronously,
-     so anchoring both to the banner would race for the same slot. Going in
-     above TRIP OVERVIEW instead makes the order deterministic no matter which
-     resolves first — banner → weather → quick facts → TRIP OVERVIEW.
-
-     Degrades silently: no JSON, no entry for this guide, or a partial entry
-     simply renders fewer pills (or nothing at all). Colors are theme tokens,
-     so the strip follows the dark-mode overrides in guide-style.css. */
   (function () {
-    if (!isRealGuide) return;
-    var _qfKey = 'tveqf';
-
-    function _build(data) {
-      if (document.getElementById('tve-quick-facts')) return;
-      var facts = data && data.facts && data.facts[curr];
-      if (!facts) return;
-
-      var anchor    = document.querySelector('.overview-section');
-      var titlePage = document.querySelector('.title-page');
-      if (!anchor && !titlePage) return;
-
-      /* [mark name, title-attribute label, value] — order is the reading order
-         the feature was specified with; a missing fact drops its pill entirely.
-         These were 🗣️ 💰 🔌 🌤️ as literal emoji until 2026-08-11. The strip is
-         BUILT here rather than authored in the guide, so the render-time mark
-         pass could not reach it — it has no markup to walk and the pills are
-         unclassed spans. Naming the mark at the source is the fix, and it drops
-         the emoji entirely rather than hiding it, because nothing reads this
-         strip's textContent. Shapes come from the same guide-style.css set as
-         every other mark, and from the toolbar icons of the very pages these
-         facts are sourced from (Budget-Guide, Plug-Adapter-Guide, When-to-Go). */
-      var items = [];
-      if (facts.lang)   items.push(['language', 'Language', facts.lang]);
-      if (facts.cost)   items.push(['money', 'Cost tier',
-                                    facts.cost + (facts.cost_detail ? ' · ' + facts.cost_detail : '')]);
-      if (facts.plug)   items.push(['plug', 'Plug type', facts.plug]);
-      if (facts.months) items.push(['sun', 'Best months', facts.months]);
-      if (!items.length) return;
-
-      var isMobile = window.TVE.isPhone();
-      var strip = document.createElement('div');
-      strip.id = 'tve-quick-facts';
-      /* Matches the weather strip's own margins so the two stack evenly. */
-      strip.style.cssText =
-        'display:flex;flex-wrap:wrap;gap:6px;width:100%;box-sizing:border-box;' +
-        'margin:' + (isMobile ? '12px 0' : '0 0 16px') + ';';
-
-            items.forEach(function (it) {
-        var pill = document.createElement('span');
-        pill.title = it[1];
-        pill.style.cssText =
-          'display:inline-flex;align-items:center;gap:5px;' +
-          'padding:5px 10px;border-radius:6px;' +
-          'background:var(--c-warm-bg,#f3efe6);' +
-          'border:1px solid var(--c-index-border,#e3dccd);' +
-          'font-size:12px;font-weight:500;line-height:1.35;' +
-          'color:var(--c-text-primary,#3d3a32);white-space:nowrap;';
-        var ico = document.createElement('span');
-        /* Drawn from GM_SPRITE, like every icon on the site. A key with no
-           drawing gets nothing rather than a flat single-colour mask: the mask
-           classes are retired along with the mark system. */
-        if (GM_SPRITE[it[0]]) {
-          ico.className = 'gm-icon';
-          ico.innerHTML = '<svg viewBox="0 0 24 24"><use href="#gm-i-' + it[0] + '"/></svg>';
-        }
-        ico.setAttribute('aria-hidden', 'true');
-        /* .gm-icon sizes itself at 1.2em; the pill's own font-size is 12px, so
-           the icon follows it without a second source of truth for the size. */
-        ico.style.cssText = 'line-height:1;flex-shrink:0;';
-        pill.appendChild(ico);
-        pill.appendChild(document.createTextNode(it[2]));
-        strip.appendChild(pill);
-      });
-
-      if (anchor) anchor.parentNode.insertBefore(strip, anchor);
-      else titlePage.insertAdjacentElement('afterend', strip);
-    }
-
-    function _run() {
-      try {
-        var hit = sessionStorage.getItem(_qfKey);
-        if (hit) { _build(JSON.parse(hit)); return; }
-      } catch (e) {}
-      var xhr = new XMLHttpRequest();
-      xhr.open('GET', base + 'assets/quick-facts.json', true);
-      xhr.timeout = 6000;
-      xhr.onload = function () {
-        if (xhr.status < 200 || xhr.status >= 300) return;
-        try {
-          var data = JSON.parse(xhr.responseText);
-          try { sessionStorage.setItem(_qfKey, xhr.responseText); } catch (e) {}
-          _build(data);
-        } catch (e) {}
-      };
-      xhr.send();
-    }
-
-    if (document.readyState === 'loading') {
-      document.addEventListener('DOMContentLoaded', _run);
-    } else {
-      _run();
-    }
-  })();
-
-    (function () {
     if (!isRealGuide) return;
 
     function _curFold(s) {

@@ -6822,14 +6822,18 @@ function render() {
       .then(function (r) { return r.text(); })
       .then(function (html) {
         var m = {};
-        /* The page's own CI array — [name, slug, country, flag, index, band, …],
+        /* The page's own CI array — [name, slug, country, id, index, tier, …],
            where the index is the price level against New York at 100. Keyed by
            SLUG as well as name: the slug is exact, and the name fold is only
            still here because a card can carry a display name the page spells
            differently. */
         /* (?:[^'\\]|\\.)+ not [^']+ — "Coeur d'Alene" writes its apostrophe
-           escaped, and the simpler class stopped dead on it, dropping the row. */
-        var re = /\['((?:[^'\\]|\\.)+)','([a-z0-9-]+)','[^']*','[^']*',([\d.]+),/g, x;
+           escaped, and the simpler class stopped dead on it, dropping the row.
+           Only ONE quoted field (country) sits between slug and the numeric id
+           — a stale second `'[^']*'` here (from before build_cost_page.py added
+           the id column) made every row fail to match, leaving BUDGET an empty
+           map and every "Average costs" option in Help Me Choose disabled. */
+        var re = /\['((?:[^'\\]|\\.)+)','([a-z0-9-]+)','[^']*',\d+,([\d.]+),/g, x;
         while ((x = re.exec(html))) {
           m[bkey(x[2])] = +x[3];
           m[bkey(x[1])] = +x[3];
@@ -7306,22 +7310,11 @@ function render() {
     });
   }
 
+  /* Result cards show the guide only — flag and name, no per-card flying-time/
+     IATA badge. `farOf`/`destCode`/`slugOf` stay: they still back the `fr`
+     (how-far) filter and its pruning. */
   function card(d, g, s) {
-        var far = (HOME && HOME.get()) ? farOf(d, g) : null;
-    var flt = '';
-    if (far && far.atHome) {
-      flt = '<span class="flt">' + '<svg class="gm-icon fdot" data-icon="dot-yellow" data-role="dot" viewBox="0 0 24 24" aria-hidden="true"><use href="#gm-i-dot-yellow"/></svg>' +
-            '<span class="ftime">Home</span><span class="fiata">' + esc(far.home) + '</span></span>';
-    } else if (far && far.text) {
-      /* The "~" is the whole label an estimate needs here — it is the same
-         number the list was narrowed by, and the picker's own footnote says
-         what it is measured from and that layovers are not in it. */
-      /* Destination code from FMAP first, airports.json second. */
-      var iata = (d.fmap[slugOf(g)] && d.fmap[slugOf(g)].i) || destCode(g);
-      flt = '<span class="flt"><span class="ftime">' + esc(far.text) + '</span>' +
-            (iata ? '<span class="fiata">' + esc(iata) + '</span>' : '') + '</span>';
-    }
-        return lpGuideCard(g.url, g.flag, g.name, flt);
+    return lpGuideCard(g.url, g.flag, g.name);
   }
 
   /* ── The go button and the facts line ─────────────────────────────────── */

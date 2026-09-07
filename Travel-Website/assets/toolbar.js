@@ -6092,6 +6092,14 @@ window.TVE.home = (function () {
       { name: 'Hotel Atlantic Hamburg, Autograph Collection', note: 'Marriott Autograph Collection — 1909 Außenalster lakefront landmark, historic grand hotel, waterfront dining, near Hauptbahnhof · 9.2 Booking.com', url: 'https://www.booking.com/hotel/de/hotel-atlantic-hamburg-autograph-collection.html', tier: 'expensive' },
       { name: 'The Fontenay Hamburg', note: "Independent luxury — 2018 Alster lake-view tower, rooftop pool, Lakeside spa, Mabühle restaurant, Hamburg's premier new-build address · 9.4 Booking.com", url: 'https://www.booking.com/hotel/de/the-fontenay.html', tier: 'luxury' }
     ], price: { budget: 'EUR 140–190', mid: 'EUR 190–260', expensive: 'EUR 320–420', luxury: 'EUR 480+' } },
+    'hammamet': { h: [
+      { name: 'AQI Venus Beach', note: 'Independent — 6-hectare garden in Yasmine Hammamet, private beach, 4 pools, 24h reception, AC · 9.3 Booking.com', url: 'https://www.booking.com/hotel/tn/club-venus.html', tier: 'budget' },
+      { name: 'Medina Solaria And Thalasso', note: 'Independent — Rue de la Médina, Yasmine Hammamet, 5-star all-inclusive, private beach, thalasso spa, 24h reception, AC · 9.0 Booking.com', url: 'https://www.booking.com/hotel/tn/solaria.html', tier: 'budget' },
+      { name: 'TUI BLUE Manar', note: 'Independent — Mrezga beachfront, family all-inclusive resort, pool and garden, 24h reception, AC · 9.3 Booking.com', url: 'https://www.booking.com/hotel/tn/tui-blue-manar.html', tier: 'mid' },
+      { name: 'Radisson Blu Resort & Thalasso Hammamet', note: 'Radisson Blu family — the one global-chain brand in Hammamet, Av. Hédi Nouira, 3km from the Kasbah and train station, thalasso spa · 7.2 Booking.com', url: 'https://www.booking.com/hotel/tn/radisson-blu-resort-amp-thalasso-hammamet.html', tier: 'mid' },
+      { name: 'One Resort Premium Hammamet', note: 'Independent — Hammamet Nord (Mrezga), premium all-inclusive, beachfront garden, 24h reception, AC · 9.1 Booking.com', url: 'https://www.booking.com/hotel/tn/one-resort-premium.html', tier: 'expensive' },
+      { name: 'La Badira', note: "This guide's title-card hotel — Leading Hotels of the World, Route Touristique Nord, Mrezga, private beach, 3 pools, Clarins spa, 24h reception, AC · 9.0 Booking.com, #1 of 136 on TripAdvisor", url: 'https://www.booking.com/hotel/tn/la-badira-hammamet.html', tier: 'luxury' }
+    ], price: { budget: 'TND 180–320', mid: 'TND 320–480', expensive: 'TND 480–750', luxury: 'TND 750+' } },
     'hanoi': { h: [
       { name: 'Hanoi La Siesta Classic', note: 'Independent — boutique hotel on Hang Be in the Old Quarter, Indochine-style decor, spa, rooftop terrace, 24h reception · 9.2 Booking.com', url: 'https://www.booking.com/hotel/vn/la-siesta-classic.html', tier: 'budget' },
       { name: 'The Oriental Jade Hotel', note: 'Independent — 92-94 Hang Trong in Hoan Kiem, rooftop infinity pool over the Old Quarter, spa and steam room, 24h reception · 9.6 Booking.com', url: 'https://www.booking.com/hotel/vn/the-oriental-jade-amp-spa.html', tier: 'mid' },
@@ -10333,6 +10341,7 @@ window.TVE.home = (function () {
       'gothenburg':        {iata:'GOT', name:'Gothenburg Landvetter'},
       'granada':           {iata:'GRX', name:'Federico García Lorca Granada–Jaén'},
       'hamburg':           {iata:'HAM', name:'Hamburg Airport'},
+      'hammamet':          {iata:'NBE', name:'Enfidha–Hammamet International'},
       'hanoi':             {iata:'HAN', name:'Noi Bai International'},
       'havana':            {iata:'HAV', name:'José Martí International'},
       'helsinki':          {iata:'HEL', name:'Helsinki-Vantaa'},
@@ -10528,7 +10537,7 @@ window.TVE.home = (function () {
       'ICN','IGU','IST','JED','JFK','JMK','JPA','JTR','KEF','KIX','KOA','KRK','KTM','KUL','KWI','LAS',
       'LAX','LED','LGA','LGW','LHR','LIH','LIM','LIS','LJU','LOS','LPB','LPQ','LUX','LYS','MAD','MAN',
       'MBJ','MCO','MCT','MCZ','MEL','MFM','MIA','MLA','MLE','MRS','MSP','MSY','MUC','MVD','MXP','NAP',
-      'NAS','NAT','NBO','NCE','OAX','OGG','OLB','OPO','ORD','ORS','ORY','OSL','OTP','PBH','PDL','PDX',
+      'NAS','NAT','NBE','NBO','NCE','OAX','OGG','OLB','OPO','ORD','ORS','ORY','OSL','OTP','PBH','PDL','PDX',
       'PEK','PHL','PHX','PLS','PMI','PNS','POA','PPS','PRG','PSA','PSP','PUJ','PUS','PVG','PVR','RAK',
       'RDM','REC','RHO','RIX','RNO','RSW','RUH','SAN','SCL','SEA','SEZ','SFO','SIN','SJC','SJD','SJO',
       'SJU','SKG','SLC','SLZ','SOF','SPU','SRQ','SSA','STR','STT','SVO','SVQ','SXB','SXM','SYD','SZG',

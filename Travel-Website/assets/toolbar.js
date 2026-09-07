@@ -1129,17 +1129,6 @@ window.TVE.home = (function () {
     'cal-export': { vb: '0.10 -0.90 23.81 23.81', m: '<path fill="currentColor" d="M19 3h-1V1h-2v2H8V1H6v2H5c-1.11 0-1.99.9-1.99 2L3 19c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 16H5V8h14v11zM7 10h5v5H7z"/>' },
     'country-map': { vb: '0 0 24 24', m: '<path fill="currentColor" d="M2 5.2 8.6 3v16L2 21.2z"/><path fill="currentColor" opacity=".42" d="M8.6 3 15.4 5.2v16L8.6 19z"/><path fill="currentColor" d="M15.4 5.2 22 3v16l-6.6 2.2z"/><path fill="var(--c-pill-bg,#fdf8f0)" d="M17.4 5.6a2.3 2.3 0 0 0-2.3 2.3c0 1.7 2.3 4.3 2.3 4.3s2.3-2.6 2.3-4.3a2.3 2.3 0 0 0-2.3-2.3z"/>' },
     'download': { vb: '0 0 24 24', m: '<path fill="none" stroke="currentColor" d="M12 4v11.4" stroke-width="2.3" stroke-linecap="round"/><path fill="none" stroke="currentColor" d="M6.8 10.2 12 15.4l5.2-5.2" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"/><path fill="none" stroke="currentColor" d="M5.4 19.6h13.2" stroke-width="2.3" stroke-linecap="round"/>' },
-    /* #375's currency glyph is DROPPED, not knocked out. It lives inside the
-       front coin, which at the shipped 15px is a 7.75px disc — the three
-       strokes land at ~2px total and render as a smudge that reads '\u2021',
-       not as money. Mono already drops what cannot resolve at this size (the
-       inner coins, the gloss, #12's dashed route line); this is the same call.
-       Two solid overlapping discs parted by a --c-pill-bg rim read as coins on
-       their own, and the rim follows the token into dark mode. The specimen
-       stays #375 rather than #379/#381, which draw a literal $ or EUR: this
-       pill converts the reader's own currency into the guide's, so the mark
-       must stay currency-neutral (Fiftieth non-negotiable). */
-    'exchange': { vb: '0 0 24 24', m: '<circle fill="currentColor" cx="8.4" cy="14.6" r="6.6"/><circle fill="currentColor" stroke="var(--c-pill-bg,#fdf8f0)" stroke-width="1.1" cx="16.2" cy="9.4" r="6.2"/>' },
     'check': { vb: '0 0 24 24', m: '<circle fill="currentColor" cx="12" cy="12" r="10.6"/><path fill="none" stroke="var(--c-pill-bg,#fdf8f0)" d="M6.8 12.4 10.4 16l6.8-8" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/>' },
     'pin': { vb: '0 0 24 24', m: '<path fill="currentColor" fill-rule="evenodd" d="M12 2a7 7 0 0 0-7 7c0 5.2 7 13 7 13s7-7.8 7-13a7 7 0 0 0-7-7zm0 9.5A2.5 2.5 0 1 1 12 6.5a2.5 2.5 0 0 1 0 5z"/>' }
   };

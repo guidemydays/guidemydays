@@ -3581,7 +3581,7 @@ window.TVE.home = (function () {
     'granada':'Europe/Madrid','hamburg':'Europe/Berlin',
     'hanoi':'Asia/Bangkok','helsinki':'Europe/Helsinki',
     'hilton-head-island':'America/New_York',
-    'hiroshima':'Asia/Tokyo','hoi-an':'Asia/Bangkok',
+    'hiroshima':'Asia/Tokyo','ho-chi-minh-city':'Asia/Bangkok','hoi-an':'Asia/Bangkok',
     'hong-kong':'Asia/Hong_Kong','istanbul':'Europe/Istanbul',
     'joão-pessoa':'America/Fortaleza',
     'kauai':'Pacific/Honolulu','keywest':'America/New_York',
@@ -5380,6 +5380,12 @@ window.TVE.home = (function () {
       { name: 'Four Seasons Hotel Abu Dhabi at Al Maryah Island', note: 'Four Seasons brand — Al Maryah Island, rooftop pool with city views, near The Galleria · 9.2 Booking.com', url: 'https://www.booking.com/hotel/ae/four-seasons-abu-dhabi-at-al-maryah-island.html', tier: 'luxury' },
       { name: 'Park Hyatt Abu Dhabi Hotel and Villas', note: 'Hyatt brand — beachfront on Saadiyat Island, outdoor pool, tennis courts, full-service spa · 9.2 Booking.com', url: 'https://www.booking.com/hotel/ae/park-hyatt-abu-dhabi-and-villas.html', tier: 'luxury' }
     ], price: { budget: 'AED 330–790', mid: 'AED 400–780', expensive: 'AED 420–1,120', luxury: 'AED 930–3,900' } },
+    'agra': { h: [
+      { name: 'The Taj Homes', note: 'Independent homestay — Taj East Gate Road near Shilpgram, walking distance to the Taj Mahal, 24h front desk · 9.3 Booking.com', url: 'https://www.booking.com/hotel/in/the-taj-homes.html', tier: 'budget' },
+      { name: 'Courtyard by Marriott Agra', note: 'Marriott Courtyard brand — Taj Nagri Phase II, Fatehabad Road, outdoor pool, spa, 24h reception · 8.4 Booking.com', url: 'https://www.booking.com/hotel/in/courtyard-by-marriott-agra.html', tier: 'mid' },
+      { name: 'ITC Mughal, A Luxury Collection Resort & Spa', note: 'Marriott Luxury Collection brand — 23 acres of gardens on Fatehabad Road, two outdoor pools, Kaya Kalp Spa · 8.2 Booking.com', url: 'https://www.booking.com/hotel/in/itc-mughal-agra.html', tier: 'expensive' },
+      { name: 'The Oberoi Amarvilas', note: 'Oberoi brand — 600m from the Taj Mahal with direct views from every room, outdoor pool, Oberoi Spa · 9.4 Booking.com', url: 'https://www.booking.com/hotel/in/the-oberoi-amarvilas-agra.html', tier: 'luxury' }
+    ], price: { budget: '₹1,800–2,800', mid: '₹6,500–9,500', expensive: '₹12,000–18,000', luxury: '₹35,000–65,000' } },
     'aix-en-provence': { h: [
       { name: 'Novotel Aix-en-Provence Pont de L\'Arc', note: 'Novotel first-tier brand — Avenue Arc de Meyran south of the centre, seasonal outdoor pool, free parking, 24h reception · 8.0 Booking.com', url: 'https://www.booking.com/hotel/fr/aix-en-provence-pont-de-l-arc-fenouilleres.html', tier: 'budget' },
       { name: 'Les Suites du Cours & Spa', note: 'Independent boutique — 5-star on Cours Mirabeau in the historic centre, spa with hot tub, soundproofed suites · 9.0 Booking.com', url: 'https://www.booking.com/hotel/fr/les-suites-du-cours.html', tier: 'mid' },
@@ -6212,6 +6218,16 @@ window.TVE.home = (function () {
       { name: 'Hilton Hiroshima', note: 'Hilton brand — modern 5-star in city centre, indoor pool, spa, fitness center, 1.6km from Peace Memorial Park · 9.2 Booking.com', url: 'https://www.booking.com/hotel/jp/hilton-hiroshima.html', tier: 'expensive' },
       { name: 'Grand Prince Hotel Hiroshima', note: 'Prince Hotels brand — waterfront hotel on the Motoyasu River, panoramic city views, spa, pool, closest major hotel to Peace Memorial Park · 8.9 Booking.com', url: 'https://www.booking.com/hotel/jp/grand-prince-hiroshima.html', tier: 'luxury' }
     ], price: { budget: 'JPY 10,000–18,000', mid: 'JPY 20,000–35,000', expensive: 'JPY 35,000–60,000', luxury: 'JPY 60,000+' } },
+    'ho-chi-minh-city': { h: [
+      { name: 'Bong Sen Hotel Saigon', note: 'Independent — Dong Khoi shopping street, District 1, 24h reception, rooftop pool · 8.2 Booking.com', url: 'https://www.booking.com/hotel/vn/bong-sen-saigon.html', tier: 'budget' },
+      { name: 'Me Saigon Boutique Hotel', note: 'Independent — District 1, 24h reception, AC, modern rooms · 9.0 Booking.com', url: 'https://www.booking.com/hotel/vn/me-saigon-boutique.html', tier: 'budget' },
+      { name: 'Sheraton Saigon Grand Opera Hotel', note: 'Marriott brand — Dong Khoi street facing the Opera House, District 1, rooftop pool, 24h reception · 8.8 Booking.com', url: 'https://www.booking.com/hotel/vn/sheraton-saigon.html', tier: 'mid' },
+      { name: 'Rex Hotel', note: 'Independent — historic 1927 landmark on Nguyen Hue Walking Street, District 1, rooftop garden bar, pool · 8.5 Booking.com', url: 'https://www.booking.com/hotel/vn/rex.html', tier: 'mid' },
+      { name: 'Hilton Saigon', note: 'Hilton brand — 11 Me Linh Square, District 1, riverfront, pool, spa, fitness center · 8.9 Booking.com', url: 'https://www.booking.com/hotel/vn/hilton-saigon.html', tier: 'expensive' },
+      { name: 'Renaissance Riverside Hotel Saigon', note: 'Marriott brand — Ton Duc Thang street on the Saigon River, District 1, rooftop pool, spa · 8.3 Booking.com', url: 'https://www.booking.com/hotel/vn/renaissance-riverside-saigon.html', tier: 'expensive' },
+      { name: 'Park Hyatt Saigon', note: 'Hyatt brand — Lam Son Square facing the Opera House, District 1, colonial-style architecture, spa, pool · 9.1 Booking.com', url: 'https://www.booking.com/hotel/vn/park-hyatt-saigon.html', tier: 'luxury' },
+      { name: 'The Reverie Saigon', note: 'Leading Hotels of the World — Nguyen Hue Walking Street, District 1, opulent Italian-designed interiors, spa, pool · 9.4 Booking.com', url: 'https://www.booking.com/hotel/vn/the-reverie-saigon.html', tier: 'luxury' }
+    ], price: { budget: 'VND 1,200,000–2,500,000', mid: 'VND 2,500,000–5,500,000', expensive: 'VND 5,500,000–11,000,000', luxury: 'VND 11,000,000+' } },
     'hoi-an': { h: [
       { name: 'La Siesta Hoi An Resort & Spa', note: 'Independent — Cam Nam Island, river-view pool, La Plage Spa, shuttle to beach · 9.3 Booking.com', url: 'https://www.booking.com/hotel/vn/la-siesta-hoi-an-resort-spa.html', tier: 'budget' },
       { name: 'Victoria Hội An Beach Resort & Spa', note: 'Victoria Hotels brand — beachfront between Old Town and Cua Dai Beach, pool, spa, traditional Vietnamese architecture · 8.8 Booking.com', url: 'https://www.booking.com/hotel/vn/victoria-hoi-an-beach-resort-and-spa.html', tier: 'mid' },
@@ -10244,6 +10260,7 @@ window.TVE.home = (function () {
     var CHIP_DATA = {
       'mexico-city':       {iata:'MEX', name:'Mexico City International (Benito Juárez)'},
       'abu-dhabi':         {iata:'AUH', name:'Abu Dhabi International'},
+      'agra':              {iata:'DEL', name:'Indira Gandhi International'},
       'aix-en-provence':   {iata:'MRS', name:'Marseille Provence'},
       'alaska':            {iata:'ANC', name:'Ted Stevens Anchorage International'},
       'alesund':           {iata:'AES', name:'Ålesund Airport, Vigra'},
@@ -10339,6 +10356,7 @@ window.TVE.home = (function () {
       'helsinki':          {iata:'HEL', name:'Helsinki-Vantaa'},
       'hilton-head-island': {iata:'HHH', name:'Hilton Head Airport'},
       'hiroshima':         {iata:'HIJ', name:'Hiroshima Airport'},
+      'ho-chi-minh-city':  {iata:'SGN', name:'Tan Son Nhat International'},
       'hoi-an':            {iata:'DAD', name:'Da Nang International'},
       'hong-kong':         {iata:'HKG', name:'Hong Kong International'},
       'istanbul':          {iata:'IST', name:'Istanbul Airport'},
@@ -10527,13 +10545,13 @@ window.TVE.home = (function () {
       'GRX','GUA','GVA','HAM','HAN','HAV','HEL','HER','HHH','HIJ','HKG','HKT','HND','HNL','IAD','IAH',
       'ICN','IGU','IST','JED','JFK','JMK','JPA','JTR','KEF','KIX','KOA','KRK','KTM','KUL','KWI','LAS',
       'LAX','LED','LGA','LGW','LHR','LIH','LIM','LIS','LJU','LOS','LPB','LPQ','LUX','LYS','MAD','MAN',
-      'MBJ','MCO','MCT','MCZ','MEL','MEX','MFM','MIA','MLA','MLE','MRS','MSP','MSY','MUC','MVD','MXP','NAP',
-      'NAS','NAT','NBE','NBO','NCE','OAX','OGG','OLB','OPO','ORD','ORS','ORY','OSL','OTP','PBH','PDL','PDX',
-      'PEK','PHL','PHX','PLS','PMI','PNS','POA','PPS','PRG','PSA','PSP','PUJ','PUS','PVG','PVR','RAK',
-      'RDM','REC','RHO','RIX','RNO','RSW','RUH','SAN','SCL','SEA','SEZ','SFO','SIN','SJC','SJD','SJO',
-      'SJU','SKG','SLC','SLZ','SOF','SPU','SRQ','SSA','STR','STT','SVO','SVQ','SXB','SXM','SYD','SZG',
-      'SZX','TBS','TFS','TIV','TLL','TLV','TOS','TPE','TRN','VCE','VIE','VLC','VNO','VRN','WLG','YQB',
-      'YUL','YVR','YYC','YYZ','ZAG','ZNZ','ZQN','ZRH','ZTH'
+      'MBJ','MCO','MCT','MCZ','MEL','MEX','MFM','MIA','MLA','MLE','MRS','MSP','MSY','MUC','MVD','MXP',
+      'NAP','NAS','NAT','NBE','NBO','NCE','OAX','OGG','OLB','OPO','ORD','ORS','ORY','OSL','OTP','PBH',
+      'PDL','PDX','PEK','PHL','PHX','PLS','PMI','PNS','POA','PPS','PRG','PSA','PSP','PUJ','PUS','PVG',
+      'PVR','RAK','RDM','REC','RHO','RIX','RNO','RSW','RUH','SAN','SCL','SEA','SEZ','SFO','SGN','SIN',
+      'SJC','SJD','SJO','SJU','SKG','SLC','SLZ','SOF','SPU','SRQ','SSA','STR','STT','SVO','SVQ','SXB',
+      'SXM','SYD','SZG','SZX','TBS','TFS','TIV','TLL','TLV','TOS','TPE','TRN','VCE','VIE','VLC','VNO',
+      'VRN','WLG','YQB','YUL','YVR','YYC','YYZ','ZAG','ZNZ','ZQN','ZRH','ZTH'
     ];
 
     function _inject() {

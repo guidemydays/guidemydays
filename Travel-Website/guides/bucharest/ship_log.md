@@ -12,3 +12,6 @@
 2026-09-03 11:43 — bucharest.html — FAIL @ final-gates-precheck — 0 checks — Fleet: Currency Guide coverage
 2026-09-03 11:49 — bucharest.html — FAIL @ final-gates-precheck — 0 checks — Fleet: Currency Guide coverage, Fleet: index.html inline data (CLIMATE_INLINE / COST_DATA / SAFETY_DATA)
 2026-09-03 14:00 — bucharest.html — PASS — 930 checks
+2026-09-07 14:37 — bucharest.html — FAIL @ validate — 937/938 passed, 1 failed — 🔗 DEAD URL — no URL cached in Brain/Data/verify_cache.json as 404/410 may appear
+2026-09-07 14:38 — bucharest.html — FAIL @ validate — 937/938 passed, 1 failed — 🔗 DEAD URL — no URL cached in Brain/Data/verify_cache.json as 404/410 may appear
+2026-09-07 14:45 — bucharest.html — PASS — 938/938 passed, 0 failed

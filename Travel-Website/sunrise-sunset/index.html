@@ -86,12 +86,22 @@
 /* Select hover border — slightly darker than the rest border for contrast. */
 .sun-pickers select:hover { border-color: var(--border-strong, #b0aca6); }
 .sun-pickers select:focus { border-color: var(--c-search-focus-border); outline: none; }
+/* The HERO-PILL box, not the 440px standard bar. TVESearch.html § 0 names
+   this page (with the guides index, Before You Go, When to Go and Weather by
+   city) as exempt from the standard bar's SHAPE -- a full-width/680px box
+   with a visible 1.5px var(--border2) line, against the standard's 440px and
+   transparent-border-plus-ambient-shadow edge. The exemption is SHAPE only:
+   there is no icon-colour exemption, so the magnifier reads the shared
+   var(--search-icon) token rather than a pasted copy of its SVG. The copy
+   that stood here was byte-identical to the token's LIGHT value and so never
+   picked up its dark-mode variant -- the icon stayed #6a6660 on a dark
+   surface where every other search box on the site goes #9a9690. */
 .sun-search .search-input {
   width: 100%; height: var(--search-h, 56px); box-sizing: border-box;
   font-size: 17px; border-radius: 999px;
   border: 1.5px solid var(--border2, #e6e2da);
   box-shadow: 0 6px 26px rgba(92,61,17,.07);
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='15' height='15' viewBox='0 0 13 13' fill='none'%3E%3Ccircle cx='5.5' cy='5.5' r='4.5' stroke='%236a6660' stroke-width='1.5'/%3E%3Cline x1='9.35' y1='9.35' x2='12' y2='12' stroke='%236a6660' stroke-width='1.5' stroke-linecap='round'/%3E%3C/svg%3E");
+  background-image: var(--search-icon);
   color: var(--muted, #6a6660);
 }
 /* Paired with pointer: coarse — a narrowed desktop window must not turn into
@@ -117,12 +127,23 @@
 .sun-months {
   display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); gap: 6px;
 }
-   .cp-* tone is applied: this pill never carried a colour identity of its
-   own (rest state was already plain neutral), so the bare class's own
-   neutral wash / #f0ede8 selected pairing is the correct match, not a
-   substitution. Only the compact sizing for this dense 6-across/4-across
-   grid stays page-local -- same carve-out .fa-spoke-btn kept for Festival
-   Finder's Year Wheel. */
+/* .sun-mon is the shared .selection-pill component tagged .cp-brown (Bronze)
+   for its wash and ink plus .hov-darken for its hover -- the same recipe
+   When to Go's .cf-mon and Festival Finder's .fa-spoke-btn month wheel use,
+   so the three month pickers read as one control. The tone is not optional:
+   .selection-pill's own colour tokens (--sp-wash / --sp-ink / --sp-rgb)
+   resolve only once a tone class sits beside it, and a toneless pill falls
+   back to a --warm/--muted/--border2 neutral that belongs to no family --
+   the pastel-with-no-edge look the pills doc's Family 1 gallery retired.
+   Selected comes from the shared
+   .selection-pill[aria-pressed="true"][class*="cp-"] rule (the wash mixed
+   58/42 toward its own ink), never a page-local active state.
+
+   This comment block previously had no opening `/*`, so the browser read
+   its prose as a selector and swallowed the .sun-mon rule that followed --
+   the compact sizing below was dead on the live page, and every month chip
+   rendered at .selection-pill's full 16px/8px-18px size. Only that sizing
+   is page-local, for this dense 6-across/4-across grid. */
 .sun-mon {
   font-size: 13px; font-weight: 600; padding: 9px 14px; min-width: 52px;
 }
@@ -158,11 +179,17 @@
 /* The return half of the pair. When to Go's hero already carries "Weather by
    city" and "Daylight by month"; this page linked back to neither, so the
    three timing pages were a one-way chain. Same shape as .cf-spill-pill. */
+/* Centred, not left-hung: the pair is a two-item block under a three-column
+   arc scale, so aligning it to the scale's first column left the second pill
+   stranded off-centre under MIDDAY. */
 .sun-spill-pills {
-  display: flex; flex-wrap: wrap; gap: 8px; margin: 16px 0 0;
+  display: flex; flex-wrap: wrap; justify-content: center; gap: 8px; margin: 16px 0 0;
 }
-/* Navigation pills use the shared .sibling-pill class (web-travel-style.css §383) —
-   sand tone, approved hover, equal-width equalized by JS below. */
+/* The pills themselves are the shared .selection-pill component tagged
+   .cp-brown (Bronze) + .hov-darken -- the same tone and component the month
+   row above uses, so the hero's two pill groups match. Equal width is
+   equalized by JS below (pills doc: an offsetWidth measurement is the only
+   reliable fix for that). */
 /* One column below 62rem — the same breakpoint .cf-hero collapses at, so the
    pair still matches at every width. The arc shortens rather than filling a
    phone screen; the pills stay, because they are navigation, not decoration. */
@@ -420,8 +447,8 @@
       <!-- The return links. When to Go's hero carries "Weather by city" and
            "Daylight by month"; this page pointed back at neither. -->
       <div class="sun-spill-pills">
-        <a href="/weather/" class="sibling-pill">Weather by city</a>
-        <a href="/when-to-go/" class="sibling-pill">When to go</a>
+        <a href="/weather/" class="sun-spill-pill selection-pill cp-brown hov-darken">Weather by city</a>
+        <a href="/when-to-go/" class="sun-spill-pill selection-pill cp-brown hov-darken">When to go</a>
       </div>
     </div>
   </header>
@@ -950,7 +977,7 @@ function render() {
     ABBR.forEach(function (label, i) {
       var b = document.createElement('button');
       b.type = 'button';
-      b.className = 'sun-mon selection-pill';
+      b.className = 'sun-mon selection-pill cp-brown hov-darken';
       b.textContent = label;
       b.setAttribute('aria-pressed', 'false');
       b.addEventListener('click', function () {
@@ -980,7 +1007,7 @@ function render() {
 (function() {
   var strip = document.querySelector('.sun-spill-pills');
   if (!strip) return;
-  var pills = strip.querySelectorAll('.sibling-pill');
+  var pills = strip.querySelectorAll('.sun-spill-pill');
   var maxW = 0;
   pills.forEach(function(p) { if (p.offsetWidth > maxW) maxW = p.offsetWidth; });
   pills.forEach(function(p) { p.style.minWidth = maxW + 'px'; });

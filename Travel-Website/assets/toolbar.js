@@ -5268,6 +5268,16 @@ window.TVE.home = (function () {
 
     var HOTEL_ALT_DATA = {
     /* entries added per guide during build — see Separation Map.md § Hotels & Rentals */
+    'mexico-city': { h: [
+      { name: 'Hotel Catedral', note: 'Independent — Centro Histórico, República de Guatemala, 2 min walk to the Metropolitan Cathedral, rooftop terrace, 24h reception, AC · 9.2 Booking.com', url: 'https://www.booking.com/hotel/mx/catedral-ciudad-de-mexico.html', tier: 'budget' },
+      { name: 'Historico Central Hotel', note: 'Independent — Centro Histórico, Bolívar, restored colonial building 3 min walk from the Zócalo, 24h reception, AC · 9.4 Booking.com', url: 'https://www.booking.com/hotel/mx/historico-central.html', tier: 'budget' },
+      { name: 'Sheraton Maria Isabel Mexico City Reforma', note: 'Marriott family (Sheraton) — Paseo de la Reforma facing the Angel of Independence, rooftop pool, 24h reception, AC · 8.7 Booking.com', url: 'https://www.booking.com/hotel/mx/sheraton-maria-isabel-towers.html', tier: 'mid' },
+      { name: 'Gran Hotel Ciudad de México', note: 'Independent — Centro Histórico overlooking the Zócalo, Art Nouveau stained-glass lobby, 24h reception, AC · 9.3 Booking.com', url: 'https://www.booking.com/hotel/mx/gran-ciudad-de-mexico.html', tier: 'mid' },
+      { name: 'Hilton Mexico City Reforma', note: 'Hilton family — this guide’s title-card hotel, Avenida Juárez at the edge of the Alameda, walk to Centro Histórico, pool, spa, 24h reception, AC · 9.0 Booking.com', url: 'https://www.booking.com/hotel/mx/hilton-mexico-city-reforma.html', tier: 'expensive' },
+      { name: 'Mexico City Marriott Reforma Hotel', note: 'Marriott family — Paseo de la Reforma, indoor and outdoor pools, spa, 24h reception, AC · 8.4 Booking.com', url: 'https://www.booking.com/hotel/mx/mexico-city-marriott-reforma.html', tier: 'expensive' },
+      { name: 'JW Marriott Hotel Mexico City Polanco', note: 'Marriott family — Polanco, steps from Museo Soumaya and Chapultepec, outdoor pool, spa, 24h reception, AC · 8.7 Booking.com', url: 'https://www.booking.com/hotel/mx/jw-marriott-mexico-city.html', tier: 'luxury' },
+      { name: 'Las Alcobas, a Luxury Collection Hotel, Mexico City', note: 'Marriott family (Luxury Collection) — Polanco on Presidente Masarik, spa, 24h reception, AC · 9.7 Booking.com', url: 'https://www.booking.com/hotel/mx/las-alcobas-df.html', tier: 'luxury' }
+    ], price: { budget: 'MXN 1,150–1,800', mid: 'MXN 2,500–3,200', expensive: 'MXN 3,150–4,000', luxury: 'MXN 9,000+' } },
     'shenzhen': { h: [
       { name: 'Atour X Hotel Gangxia Shenzhen Convention Center Branch', note: 'Independent — Gangxia, Futian, beside the Convention Center and two metro lines · 9.0 Booking.com', url: 'https://www.booking.com/hotel/cn/shen-zhen-hui-zhan-zhong-xin-lian-he-yan-chang-ya-duo-xjiu-dian.html', tier: 'budget' },
       { name: 'Atour Hotel Shenzhen CBD Futian Metro Station', note: 'Independent — Futian CBD, over the metro, walking distance to Ping An Finance Centre · 9.2 Booking.com', url: 'https://www.booking.com/hotel/cn/shen-zhen-cbdfu-tian-di-tie-zhan-ya-duo-jiu-dian-shen-zhen.html', tier: 'budget' },
@@ -10232,6 +10242,7 @@ window.TVE.home = (function () {
 
     /* city-slug → {iata, name}  (derived from index.html FMAP "i" field) */
     var CHIP_DATA = {
+      'mexico-city':       {iata:'MEX', name:'Mexico City International (Benito Juárez)'},
       'abu-dhabi':         {iata:'AUH', name:'Abu Dhabi International'},
       'aix-en-provence':   {iata:'MRS', name:'Marseille Provence'},
       'alaska':            {iata:'ANC', name:'Ted Stevens Anchorage International'},
@@ -10516,7 +10527,7 @@ window.TVE.home = (function () {
       'GRX','GUA','GVA','HAM','HAN','HAV','HEL','HER','HHH','HIJ','HKG','HKT','HND','HNL','IAD','IAH',
       'ICN','IGU','IST','JED','JFK','JMK','JPA','JTR','KEF','KIX','KOA','KRK','KTM','KUL','KWI','LAS',
       'LAX','LED','LGA','LGW','LHR','LIH','LIM','LIS','LJU','LOS','LPB','LPQ','LUX','LYS','MAD','MAN',
-      'MBJ','MCO','MCT','MCZ','MEL','MFM','MIA','MLA','MLE','MRS','MSP','MSY','MUC','MVD','MXP','NAP',
+      'MBJ','MCO','MCT','MCZ','MEL','MEX','MFM','MIA','MLA','MLE','MRS','MSP','MSY','MUC','MVD','MXP','NAP',
       'NAS','NAT','NBE','NBO','NCE','OAX','OGG','OLB','OPO','ORD','ORS','ORY','OSL','OTP','PBH','PDL','PDX',
       'PEK','PHL','PHX','PLS','PMI','PNS','POA','PPS','PRG','PSA','PSP','PUJ','PUS','PVG','PVR','RAK',
       'RDM','REC','RHO','RIX','RNO','RSW','RUH','SAN','SCL','SEA','SEZ','SFO','SIN','SJC','SJD','SJO',

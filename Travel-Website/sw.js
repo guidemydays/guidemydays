@@ -1,3 +1,15 @@
+/* 2026-09-08: web-travel-style.css -- .hov-press's real :hover rule mixed
+   the wash toward white for a visible lift, but that's a no-op when the
+   wash is ALREADY near-white -- confirmed by direct RGB-distance
+   measurement across all 17 Calm Pastel tones: Honey/Amber/Bronze/Rust
+   land 4-8 units from Rest (imperceptible), White Gold/White Slate land
+   at 0 (mathematically identical, wash is literally #ffffff). Added a
+   thin outward ring (box-shadow 0 0 0 3px, ink-colored, .3 opacity) as a
+   universal supplement -- guaranteed visible on every tone since it's
+   keyed to --sp-ink (always a real contrast color) rather than the wash;
+   deliberately smaller than Glow's ring (9px+22px) so the two mechanics
+   stay visually distinct. Same fix on Solid's .hov-press:hover.
+   MIN_VERSIONS['web-travel-style.css'] to 281, CACHE to v1964. */
 /* 2026-09-08: web-travel-style.css -- .hov-press's real :active rule
    (Calm Pastel and Solid alike) darkened only via filter:brightness(),
    which barely moves a near-white/pale wash -- the exact failure mode
@@ -3286,7 +3298,7 @@
 /* 2026-09-08: currencies/index.html — Least value sort pill recolored from sp-clay to sp-rust to match Most value (owner request); the pair is a true Selection Pill (mutually exclusive sort direction, toggled via is-on), so one shared color follows the pills doc's Rule 5 carve-out. Page is precached; CACHE to v1959. */
 /* 2026-09-08: toolbar.js: desktop nav pills recolored toolbar.js -> v1213. CACHE to v1961. */
 /* 2026-09-08: toolbar.js: desktop nav pill border widened to 2px per pills doc toolbar.js -> v1214. CACHE to v1963. */
-var CACHE = 'travel-cache-v1963';
+var CACHE = 'travel-cache-v1964';
 /* 2026-08-27: airlines.css's .card-tags align-items fix changed a shared
    asset without raising its own floor -- MIN_VERSIONS['airlines.css'] to
    6, CACHE to v1662. */
@@ -3330,7 +3342,7 @@ var ICS_OUTBOX = 'gmd-ics-outbox';
 /* 2026-08-30: search-autocomplete.js — reverted ARIA combobox pattern (role=listbox/option caused side-by-side layout regression). MIN_VERSIONS['search-autocomplete.js'] to 11, CACHE to v1749. */
 /* 2026-09-02: toolbar.js — remove false-affordance right hairline from stop-hours row (commit 981cca5d5). MIN_VERSIONS['toolbar.js'] to 1142, CACHE to v1816. */
 /* 2026-09-06: weather.js — Hammamet climate normals added; MIN_VERSIONS['weather.js'] to 27, CACHE to v1920. */
-var MIN_VERSIONS = { 'guide-style.css': 295,'toolbar.js': 1214, 'mobile.css': 94, 'web-travel-style.css': 280, 'guides-index-style.css': 63, 'read-about.css': 8, 'best-of-features.js': 6, 'best-of-cross-data.js': 25, 'weather.js': 28,'trains.css': 31, 'trains.js': 6, 'airlines.css': 9, 'airlines.js': 10, 'passport.js': 6, 'search-autocomplete.js': 17, 'flag-render.js': 3, 'site-footer.js': 2 };
+var MIN_VERSIONS = { 'guide-style.css': 295,'toolbar.js': 1214, 'mobile.css': 94, 'web-travel-style.css': 281, 'guides-index-style.css': 63, 'read-about.css': 8, 'best-of-features.js': 6, 'best-of-cross-data.js': 25, 'weather.js': 28,'trains.css': 31, 'trains.js': 6, 'airlines.css': 9, 'airlines.js': 10, 'passport.js': 6, 'search-autocomplete.js': 17, 'flag-render.js': 3, 'site-footer.js': 2 };
 
 function rewriteAssetUrl(urlStr) {
   var u;

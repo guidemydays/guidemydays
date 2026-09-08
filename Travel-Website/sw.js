@@ -1,3 +1,12 @@
+/* 2026-09-08: web-travel-style.css -- .hov-press's real :active rule
+   (Calm Pastel and Solid alike) darkened only via filter:brightness(),
+   which barely moves a near-white/pale wash -- the exact failure mode
+   that motivated switching :hover to color-mix() a commit ago, never
+   extended to :active. Switched :active to color-mix() toward the tone's
+   own ink (45% Calm Pastel, 70% ink/black Solid), matching how Metallic's
+   Press active already does it (pills doc Rule 22) -- filter dims the
+   label along with the background, color-mix doesn't.
+   MIN_VERSIONS['web-travel-style.css'] to 280, CACHE to v1962. */
 /* 2026-09-08: web-travel-style.css -- Calm Pastel's real .hov-press hover
    (.selection-pill/.selection-pill-sm/.pill-badge) was still mixing in only
    12% white, the pre-fix value the pills doc's own Press Hover section
@@ -3276,7 +3285,7 @@
 /* 2026-09-08: currencies/index.html — footer CLOSE pill (#fx-close-foot) recolored from nt-grey to the pills doc's canonical pastel Bronze (cp-brown), matching the same tone just applied to the landing page's Surprise me pill (owner request). Page is precached; CACHE to v1958. */
 /* 2026-09-08: currencies/index.html — Least value sort pill recolored from sp-clay to sp-rust to match Most value (owner request); the pair is a true Selection Pill (mutually exclusive sort direction, toggled via is-on), so one shared color follows the pills doc's Rule 5 carve-out. Page is precached; CACHE to v1959. */
 /* 2026-09-08: toolbar.js: desktop nav pills recolored toolbar.js -> v1213. CACHE to v1961. */
-var CACHE = 'travel-cache-v1961';
+var CACHE = 'travel-cache-v1962';
 /* 2026-08-27: airlines.css's .card-tags align-items fix changed a shared
    asset without raising its own floor -- MIN_VERSIONS['airlines.css'] to
    6, CACHE to v1662. */
@@ -3320,7 +3329,7 @@ var ICS_OUTBOX = 'gmd-ics-outbox';
 /* 2026-08-30: search-autocomplete.js — reverted ARIA combobox pattern (role=listbox/option caused side-by-side layout regression). MIN_VERSIONS['search-autocomplete.js'] to 11, CACHE to v1749. */
 /* 2026-09-02: toolbar.js — remove false-affordance right hairline from stop-hours row (commit 981cca5d5). MIN_VERSIONS['toolbar.js'] to 1142, CACHE to v1816. */
 /* 2026-09-06: weather.js — Hammamet climate normals added; MIN_VERSIONS['weather.js'] to 27, CACHE to v1920. */
-var MIN_VERSIONS = { 'guide-style.css': 295,'toolbar.js': 1213, 'mobile.css': 94, 'web-travel-style.css': 279, 'guides-index-style.css': 63, 'read-about.css': 8, 'best-of-features.js': 6, 'best-of-cross-data.js': 25, 'weather.js': 28,'trains.css': 31, 'trains.js': 6, 'airlines.css': 9, 'airlines.js': 10, 'passport.js': 6, 'search-autocomplete.js': 17, 'flag-render.js': 3, 'site-footer.js': 2 };
+var MIN_VERSIONS = { 'guide-style.css': 295,'toolbar.js': 1213, 'mobile.css': 94, 'web-travel-style.css': 280, 'guides-index-style.css': 63, 'read-about.css': 8, 'best-of-features.js': 6, 'best-of-cross-data.js': 25, 'weather.js': 28,'trains.css': 31, 'trains.js': 6, 'airlines.css': 9, 'airlines.js': 10, 'passport.js': 6, 'search-autocomplete.js': 17, 'flag-render.js': 3, 'site-footer.js': 2 };
 
 function rewriteAssetUrl(urlStr) {
   var u;

@@ -1050,6 +1050,14 @@ window.TVE.home = (function () {
     '.gm-ic{display:inline-block;vertical-align:-0.15em;flex-shrink:0}' +
         '.gm-icon{display:inline-block;width:1.2em;height:1.2em;vertical-align:-0.22em;flex-shrink:0}' +
     '.gm-icon svg,.gm-icon use{width:100%;height:100%}' +
+    /* The theatre-masks drawing is two overlapping ovals with small eye-hole
+       cutouts, so at the shared 1.2em it only fills ~80% of its box height
+       and ~48% of the box by ink coverage -- against neighbors like the
+       calendar, boot or exclamation mark that run 93-94% -- and reads
+       visibly smaller/lighter in every "Shows" pill and section title on
+       the site. Same fix as Currency and Pocket version, just via the
+       em-based .gm-icon path those two don't use. */
+    '.gm-icon[data-icon="theatre"]{width:1.5em;height:1.5em}' +
         'a.motion-route{margin-left:6px;display:inline-block;line-height:0;text-decoration:none}' +
     '';
 
@@ -7815,15 +7823,18 @@ window.TVE.home = (function () {
     var restaurants = collectExtras('restaurants').concat(collectExtras('downtown'));
     var shows = collectExtras('shows');
 
-    function pill(item, iconKey) {
+    /* A row carries NO icon of its own. Its group's title already names what
+       these are, and inside Stops the row icon was the pin from that very
+       title redrawn at 20px — three pins deep once the address line's own
+       12px pin was counted. The colour rail on .wn-pill (guide-style.css)
+       replaces the icon as the left anchor and does the job the icon never
+       did: it tells Stops from Restaurants when both groups are open. */
+    function pill(item) {
       var a = document.createElement('a');
       a.className = 'wn-pill';
       a.href = toDirections(item.href);
       a.target = '_blank';
       a.rel = 'noopener';
-      var iconSpan = document.createElement('span');
-      iconSpan.className = 'wn-pill-icon';
-      iconSpan.innerHTML = monoSVG(iconKey, 20);
       var body = document.createElement('span');
       body.className = 'wn-pill-body';
       var nameEl = document.createElement('span');
@@ -7831,16 +7842,12 @@ window.TVE.home = (function () {
       nameEl.textContent = item.name;
       var addrEl = document.createElement('span');
       addrEl.className = 'wn-pill-addr';
-      addrEl.innerHTML = monoSVG('pin', 12);
-      var addrText = document.createElement('span');
-      addrText.textContent = item.addr;
-      addrEl.appendChild(addrText);
+      addrEl.textContent = item.addr;
       body.appendChild(nameEl);
       body.appendChild(addrEl);
       var go = document.createElement('span');
       go.className = 'wn-pill-go';
       go.textContent = 'Directions ›';
-      a.appendChild(iconSpan);
       a.appendChild(body);
       a.appendChild(go);
       return a;
@@ -7856,7 +7863,7 @@ window.TVE.home = (function () {
       h.style.color = colorVar;
       h.innerHTML = monoSVG(iconKey, 15) + ' ' + label;
       g.appendChild(h);
-      items.slice(0, 3).forEach(function (it) { g.appendChild(pill(it, iconKey)); });
+      items.slice(0, 3).forEach(function (it) { g.appendChild(pill(it)); });
       return g;
     }
 

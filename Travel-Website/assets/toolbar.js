@@ -1332,7 +1332,7 @@ window.TVE.home = (function () {
     '.tb a:hover{color:#5a3c0e!important;background:transparent}' +
         '.tb-links>a,.tb-links>a:visited{' +
       'box-sizing:border-box;display:inline-flex;align-items:center;line-height:1.2;' +
-      'padding:8px 18px;border:1px solid rgba(90,60,14,.45);border-radius:999px;background:#f5f0e6}' +
+      'padding:8px 18px;border:2px solid #5a3c0e;border-radius:999px;background:#f5f0e6}' +
     '.tb-links>a:hover{box-shadow:0 0 0 6px rgba(90,60,14,.18),0 0 18px rgba(90,60,14,.35);border-color:#5a3c0e}' +
     /* SELECTED RING IS AN OUTLINE, NOT A BORDER — and that is a LAYOUT rule,
        not a style one. A border plus padding:4px 12px against the base
@@ -1351,7 +1351,7 @@ window.TVE.home = (function () {
        it; in a row of pills that same .55 is the hover value and the selected
        tab stopped standing out. Colour only — the BOX is identical in all three
        states, per the note above. */
-    '.tb a.tb-active{box-sizing:border-box;display:inline-flex;align-items:center;padding:8px 18px;color:#5a3c0e!important;background:#f5f0e6;border:1px solid #5a3c0e;border-radius:999px;font-weight:600;line-height:1.2}' +
+    '.tb a.tb-active{box-sizing:border-box;display:inline-flex;align-items:center;padding:8px 18px;color:#5a3c0e!important;background:#f5f0e6;border:2px solid #5a3c0e;border-radius:999px;font-weight:600;line-height:1.2}' +
     /* `.tb a:hover` above already fades the fill to transparent, but it ties
        in specificity with `.tb a.tb-active` and loses the source-order
        tiebreak, so the active tab kept its solid fill on hover while every
@@ -1368,10 +1368,10 @@ window.TVE.home = (function () {
        transparent. Kept in THIS rule rather than folded into the .tb-links>a
        block above: see the note there on check_toolbar_font_size_unified. */
     '.tb-ddbtn{display:inline-flex;align-items:center;gap:5px;font-size:14px;font-weight:600;color:#5a3c0e!important;' +
-      'padding:8px 18px;border:1px solid rgba(90,60,14,.45);border-radius:999px;background:#f5f0e6;white-space:nowrap;' +
+      'padding:8px 18px;border:2px solid #5a3c0e;border-radius:999px;background:#f5f0e6;white-space:nowrap;' +
       'cursor:pointer;font-family:inherit;transition:color .15s,background .15s,border-color .15s,box-shadow .15s}' +
     '.tb-ddbtn:hover{color:#5a3c0e!important;box-shadow:0 0 0 6px rgba(90,60,14,.18),0 0 18px rgba(90,60,14,.35);border-color:#5a3c0e}' +
-    '.tb-ddbtn.tb-active{box-sizing:border-box;display:inline-flex;align-items:center;color:#5a3c0e!important;background:#f5f0e6;border:1px solid #5a3c0e;border-radius:999px;font-weight:600;line-height:1.2}' +
+    '.tb-ddbtn.tb-active{box-sizing:border-box;display:inline-flex;align-items:center;color:#5a3c0e!important;background:#f5f0e6;border:2px solid #5a3c0e;border-radius:999px;font-weight:600;line-height:1.2}' +
     /* An OPEN dropdown gets the same terracotta ring as the active tab, so the
    menu is visibly attached to the tab it came from. It only changed text
    colour before, which was invisible against the other tabs. */

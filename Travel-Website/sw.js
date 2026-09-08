@@ -3299,7 +3299,7 @@
 /* 2026-09-08: toolbar.js: desktop nav pills recolored toolbar.js -> v1213. CACHE to v1961. */
 /* 2026-09-08: toolbar.js: desktop nav pill border widened to 2px per pills doc toolbar.js -> v1214. CACHE to v1963. */
 /* 2026-09-08: mexico-city HOTEL_ALT_DATA/CHIP_DATA/LOUNGE_IATAS toolbar.js -> v1215. CACHE to v1965. */
-/* 2026-09-08: ho-chi-minh-city hotel/chip/tz data toolbar.js -> v1216. CACHE to v1966. */
+/* 2026-09-08: agra guide ship -- toolbar.js: HOTEL_ALT_DATA['agra'], CHIP_DATA['agra'] (DEL). weather.js: Agra climate normals. MIN_VERSIONS['weather.js'] to 29, CACHE to v1966. */
 var CACHE = 'travel-cache-v1966';
 /* 2026-08-27: airlines.css's .card-tags align-items fix changed a shared
    asset without raising its own floor -- MIN_VERSIONS['airlines.css'] to
@@ -3344,7 +3344,7 @@ var ICS_OUTBOX = 'gmd-ics-outbox';
 /* 2026-08-30: search-autocomplete.js — reverted ARIA combobox pattern (role=listbox/option caused side-by-side layout regression). MIN_VERSIONS['search-autocomplete.js'] to 11, CACHE to v1749. */
 /* 2026-09-02: toolbar.js — remove false-affordance right hairline from stop-hours row (commit 981cca5d5). MIN_VERSIONS['toolbar.js'] to 1142, CACHE to v1816. */
 /* 2026-09-06: weather.js — Hammamet climate normals added; MIN_VERSIONS['weather.js'] to 27, CACHE to v1920. */
-var MIN_VERSIONS = { 'guide-style.css': 295,'toolbar.js': 1216, 'mobile.css': 94, 'web-travel-style.css': 281, 'guides-index-style.css': 63, 'read-about.css': 8, 'best-of-features.js': 6, 'best-of-cross-data.js': 25, 'weather.js': 28,'trains.css': 31, 'trains.js': 6, 'airlines.css': 9, 'airlines.js': 10, 'passport.js': 6, 'search-autocomplete.js': 17, 'flag-render.js': 3, 'site-footer.js': 2 };
+var MIN_VERSIONS = { 'guide-style.css': 295,'toolbar.js': 1215, 'mobile.css': 94, 'web-travel-style.css': 281, 'guides-index-style.css': 63, 'read-about.css': 8, 'best-of-features.js': 6, 'best-of-cross-data.js': 25, 'weather.js': 29,'trains.css': 31, 'trains.js': 6, 'airlines.css': 9, 'airlines.js': 10, 'passport.js': 6, 'search-autocomplete.js': 17, 'flag-render.js': 3, 'site-footer.js': 2 };
 
 function rewriteAssetUrl(urlStr) {
   var u;

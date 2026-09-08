@@ -1,3 +1,8 @@
+/* 2026-09-07: what's-nearby panel — the group-colour rail moves off
+   .wn-group-title and onto .wn-pill, and .wn-pill-addr drops its flex row
+   with the 12px pin. With toolbar.js no longer emitting a row icon (shipped
+   separately), the rail is what tells Stops from Restaurants when a panel
+   holds both. MIN_VERSIONS['guide-style.css'] to 295, CACHE to v1948. */
 /* 2026-09-07: compare-cities-audit: guides/index.html + index.html — mobile fix for compare passport strip: .cmp-strip-q now stacks vertically and pp-mount/pp-input fill their container at ≤600px, preventing 137px overflow of the Entry/Flight-time pickers. CACHE to v1943. */
 /* 2026-09-06: guides-index-style.css -- saved-offline indicator dropped
    its own background/border entirely: #gm-i-offline-save already draws a
@@ -3236,7 +3241,7 @@
 /* 2026-09-07: compare-cities-audit: guides/index.html + index.html — em-dash consistency: two &mdash; entities in compare table empty cells (Entry and Plug rows) converted to literal — to match all other empty-cell dashes. CACHE to v1945. */
 /* 2026-09-07: guide-style.css — #ics-pill-row .gm-icon (All Stops Map) forced to fixed 18px so it stops shrinking with the row's responsive font-size while its six JS-injected siblings hold steady. toolbar.js — Pocket version's phone-frame icon sized up 15->20 (same fix already applied to the Currency pill) since its narrow glyph reads smaller than the row's bolder icons. MIN_VERSIONS['guide-style.css'] to 294, MIN_VERSIONS['toolbar.js'] to 1208, CACHE to v1946. */
 /* 2026-09-07: toolbar.js: theatre-masks .gm-icon override sized up 1.2em->1.5em (two-oval glyph with eye-hole cutouts reads visibly smaller/lighter than bolder neighbors in the Shows pill and section title) toolbar.js -> v1209. CACHE to v1947. */
-var CACHE = 'travel-cache-v1947';
+var CACHE = 'travel-cache-v1948';
 /* 2026-08-27: airlines.css's .card-tags align-items fix changed a shared
    asset without raising its own floor -- MIN_VERSIONS['airlines.css'] to
    6, CACHE to v1662. */
@@ -3280,7 +3285,7 @@ var ICS_OUTBOX = 'gmd-ics-outbox';
 /* 2026-08-30: search-autocomplete.js — reverted ARIA combobox pattern (role=listbox/option caused side-by-side layout regression). MIN_VERSIONS['search-autocomplete.js'] to 11, CACHE to v1749. */
 /* 2026-09-02: toolbar.js — remove false-affordance right hairline from stop-hours row (commit 981cca5d5). MIN_VERSIONS['toolbar.js'] to 1142, CACHE to v1816. */
 /* 2026-09-06: weather.js — Hammamet climate normals added; MIN_VERSIONS['weather.js'] to 27, CACHE to v1920. */
-var MIN_VERSIONS = { 'guide-style.css': 294,'toolbar.js': 1209, 'mobile.css': 94, 'web-travel-style.css': 274, 'guides-index-style.css': 63, 'read-about.css': 8, 'best-of-features.js': 6, 'best-of-cross-data.js': 25, 'weather.js': 28,'trains.css': 30, 'trains.js': 6, 'airlines.css': 9, 'airlines.js': 10, 'passport.js': 6, 'search-autocomplete.js': 15, 'flag-render.js': 3, 'site-footer.js': 2 };
+var MIN_VERSIONS = { 'guide-style.css': 295,'toolbar.js': 1209, 'mobile.css': 94, 'web-travel-style.css': 274, 'guides-index-style.css': 63, 'read-about.css': 8, 'best-of-features.js': 6, 'best-of-cross-data.js': 25, 'weather.js': 28,'trains.css': 30, 'trains.js': 6, 'airlines.css': 9, 'airlines.js': 10, 'passport.js': 6, 'search-autocomplete.js': 15, 'flag-render.js': 3, 'site-footer.js': 2 };
 
 function rewriteAssetUrl(urlStr) {
   var u;

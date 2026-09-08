@@ -23,3 +23,8 @@
 2026-09-08 14:29 — san-jose.html — FAIL @ validate — 947/948 passed, 1 failed — Every 📖 sits inside a non-empty <a href> link (per Links.html 📖 Wikipedia — the
 2026-09-08 14:33 — san-jose.html — PASS — 948/948 passed, 0 failed
 2026-09-08 14:39 — san-jose.html — PASS — 948/948 passed, 0 failed
+2026-09-08 15:30 — san-jose.html — FAIL @ final-gates-precheck — 0 checks — Fleet: Currency Guide coverage
+2026-09-08 15:32 — san-jose.html — FAIL @ final-gates-precheck — 0 checks — Fleet: Currency Guide coverage
+2026-09-08 15:34 — san-jose.html — PASS — 947/947 passed, 0 failed
+2026-09-08 15:42 — san-jose.html — PASS — 947/947 passed, 0 failed
+2026-09-08 15:50 — san-jose.html — PASS — 947/947 passed, 0 failed

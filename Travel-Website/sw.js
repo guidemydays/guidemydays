@@ -3241,8 +3241,9 @@
 /* 2026-09-07: compare-cities-audit: guides/index.html + index.html — em-dash consistency: two &mdash; entities in compare table empty cells (Entry and Plug rows) converted to literal — to match all other empty-cell dashes. CACHE to v1945. */
 /* 2026-09-07: guide-style.css — #ics-pill-row .gm-icon (All Stops Map) forced to fixed 18px so it stops shrinking with the row's responsive font-size while its six JS-injected siblings hold steady. toolbar.js — Pocket version's phone-frame icon sized up 15->20 (same fix already applied to the Currency pill) since its narrow glyph reads smaller than the row's bolder icons. MIN_VERSIONS['guide-style.css'] to 294, MIN_VERSIONS['toolbar.js'] to 1208, CACHE to v1946. */
 /* 2026-09-07: toolbar.js: theatre-masks .gm-icon override sized up 1.2em->1.5em (two-oval glyph with eye-hole cutouts reads visibly smaller/lighter than bolder neighbors in the Shows pill and section title) toolbar.js -> v1209. CACHE to v1947. */
-/* 2026-09-07: route-ab motion-route chevron shrunk 1.2em/stroke2.4 -> 0.75em/stroke1.5 toolbar.js -> v1210. CACHE to v1949. */
-var CACHE = 'travel-cache-v1949';
+/* 2026-09-07: essentials/average-costs/ renamed to essentials/local-prices/ (owner rule: "Cost of Living" read as expat/relocation content, not traveler-facing) -- URL, title, hero copy, filter labels and the guide-fleet "Also on this site" pill (244 guides) all moved from "Cost of Living" to "Local Prices". toolbar.js RES_GROUPS entry and PAGE_ICON key updated to match. index.html's Destination Finder budget fetch repointed to the new URL. CACHE to v1949. */
+/* 2026-09-07: search-autocomplete.js — accent-fold added to city/country matching (fold(): NFD strip + ø/Ø->o) so "Curacao" finds "Curaçao", "Zurich" finds "Zürich", "Tromso" finds "Tromsø" across every TVESearch page; the one shared search left without the fold every other site search (toolbar.js airport lookup, passport.js) already has. MIN_VERSIONS['search-autocomplete.js'] to 16, CACHE to v1950. */
+var CACHE = 'travel-cache-v1950';
 /* 2026-08-27: airlines.css's .card-tags align-items fix changed a shared
    asset without raising its own floor -- MIN_VERSIONS['airlines.css'] to
    6, CACHE to v1662. */
@@ -3286,7 +3287,7 @@ var ICS_OUTBOX = 'gmd-ics-outbox';
 /* 2026-08-30: search-autocomplete.js — reverted ARIA combobox pattern (role=listbox/option caused side-by-side layout regression). MIN_VERSIONS['search-autocomplete.js'] to 11, CACHE to v1749. */
 /* 2026-09-02: toolbar.js — remove false-affordance right hairline from stop-hours row (commit 981cca5d5). MIN_VERSIONS['toolbar.js'] to 1142, CACHE to v1816. */
 /* 2026-09-06: weather.js — Hammamet climate normals added; MIN_VERSIONS['weather.js'] to 27, CACHE to v1920. */
-var MIN_VERSIONS = { 'guide-style.css': 295,'toolbar.js': 1210, 'mobile.css': 94, 'web-travel-style.css': 274, 'guides-index-style.css': 63, 'read-about.css': 8, 'best-of-features.js': 6, 'best-of-cross-data.js': 25, 'weather.js': 28,'trains.css': 30, 'trains.js': 6, 'airlines.css': 9, 'airlines.js': 10, 'passport.js': 6, 'search-autocomplete.js': 15, 'flag-render.js': 3, 'site-footer.js': 2 };
+var MIN_VERSIONS = { 'guide-style.css': 295,'toolbar.js': 1209, 'mobile.css': 94, 'web-travel-style.css': 274, 'guides-index-style.css': 63, 'read-about.css': 8, 'best-of-features.js': 6, 'best-of-cross-data.js': 25, 'weather.js': 28,'trains.css': 30, 'trains.js': 6, 'airlines.css': 9, 'airlines.js': 10, 'passport.js': 6, 'search-autocomplete.js': 16, 'flag-render.js': 3, 'site-footer.js': 2 };
 
 function rewriteAssetUrl(urlStr) {
   var u;

@@ -4,3 +4,4 @@
 > Format: YYYY-MM-DD HH:MM — guide.html — PASS|FAIL — N checks
 
 2026-06-15 19:35 — annecy.html — PASS — 0 checks
+2026-09-08 14:30 — annecy.html — FAIL @ verify-booking — 0 checks — https://en.wikipedia.org/wiki/Doussard

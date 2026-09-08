@@ -5,58 +5,158 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link rel="stylesheet" href="/assets/web-travel-style.css">
 <title>Car Rental Around the World | Guide My Days</title>
-<link rel="stylesheet" href="/assets/cars.css?v=7">
 <style>
-/* Region headers — icon-wrap box + terracotta underline, matching the
-   Tours & Tickets section-label pattern (2026-08-23). .rc-cont-label is
-   shared with private-transfers/ via cars.css; this override is page-local
-   (a <style> block only ever reaches this file) so private-transfers keeps
-   its plain label untouched. Icons are existing GM_SPRITE keys the toolbar
-   already injects globally (rental-cars, orbited-globe, pin, app-car) — no inline
-   symbols needed, class="gm-icon" is enough. */
-.rc-cont-label {
-  display: flex; align-items: center; gap: 10px;
-  padding-bottom: 10px;
-  border-bottom: 2px solid var(--rust, #C04E1A);
-}
-.rc-cont-icon-wrap {
-  width: 30px; height: 30px; border-radius: 8px; flex-shrink: 0;
-  background: var(--surface); border: 1px solid var(--border2);
-  display: flex; align-items: center; justify-content: center;
-}
-.rc-cont-icon-wrap .gm-icon { width: 18px; height: 18px; }
+/* ══════════════════════════════════════════════════════════════════
+   CAR RENTAL AROUND THE WORLD — "THE AGREEMENT"
+   Promoted from the design-competition study at
+   Brain/Reports/desing-proposals/worldwide-car-rental-new-4/index.html
+   (owner rule 2026-09-08). Content is the page's own — unchanged —
+   data; only the presentation and the search/filter behaviour are new.
 
-/* "Two things that decide the real cost" — was the back half of one dense
-   paragraph, now its own scannable panel (same shape as Tours & Tickets'
-   .tt-tips: numbered badge + body, 2-up grid). */
-.wcr-top { grid-column: 1 / -1; }
-.wcr-intro { font-size: 12.5px; color: var(--muted); line-height: 1.55; margin: -6px 0 16px; max-width: 720px; }
-.wcr-tips { background: var(--warm); border: 1px solid var(--border2); border-radius: 12px; padding: 16px 18px 18px; margin-bottom: 4px; }
-.wcr-tips-head { display: flex; align-items: center; gap: 9px; font-size: 12px; font-weight: 800; color: var(--accent); text-transform: uppercase; letter-spacing: .05em; padding-bottom: 11px; margin-bottom: 13px; border-bottom: 1px solid var(--border2); }
-.wcr-tips-head .gm-icon { width: 16px; height: 16px; }
-.wcr-tips-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px 24px; }
-.wcr-tip { display: flex; align-items: flex-start; gap: 11px; }
-.wcr-tip-num { flex-shrink: 0; width: 22px; height: 22px; border-radius: 50%; background: var(--rust); color: #fff; font-size: 11.5px; font-weight: 800; display: flex; align-items: center; justify-content: center; margin-top: 1px; }
-.wcr-tip-body { font-size: 12.5px; line-height: 1.55; color: var(--text); }
-.wcr-tip-body strong { color: var(--text); }
+   Follows the same promotion shape essentials/cruises/index.html ("The
+   Wake") just shipped: the site hero stays on top (Forty-first
+   non-negotiable), a .hero-ground sits under it, and ONE card on that
+   ground — .wca-stage — holds the whole idea: every company reads as
+   a numbered clause on a rental agreement, carbon-copy paper, a
+   verdict that lands as a rubber stamp. Regions are CHAPTERS in one
+   continuous scroll (never hidden panels — a reader can Cmd-F or keep
+   scrolling through all 22 without clicking a tab); the region rail is
+   a plain in-flow jump-nav, scroll-spy highlighted, never sticky
+   (Seventy-fourth non-negotiable — Rule 927 hard-fails a sticky one).
+   The study's own sticky tab strip and its "19 networks · 6 regions"
+   count line are both dropped for the same two reasons cruises dropped
+   its sticky rail and its per-chapter counts (Ninety-second
+   non-negotiable bans any badge whose whole job is counting a list).
 
-/* Jump-nav — small icon per destination, matching what each anchor scrolls to. */
-.rc-index .jump-btn { display: inline-flex; align-items: center; gap: 6px; }
-.rc-index .jump-btn .gm-icon { width: 14px; height: 14px; }
+   The search box is the site's own — every dimension, radius and
+   state comes from the shared .search-input tokens (Forty-third
+   non-negotiable, TVESearch § 0), not a page-local copy. Typing
+   filters the page live and collapses any chapter left empty, the
+   same shrink-to-match behaviour cruises and /essentials/resources/
+   already ship. The seven category tags (Global network, Value brand,
+   Europe, Premium fleet, Business fleet, Peer-to-peer, Regional
+   network) are real .badge elements in the shared Solid family
+   (sb-blue/sb-green/sb-light-blue/sb-gold/sb-dark-brown/sb-rust/
+   sb-teal) and double as filter pills (.pill-badge, same tones) — no
+   page-local pill/badge color, box or hover (pills doc Rule 13).
+   ══════════════════════════════════════════════════════════════════ */
 
-/* Card icon — the company's own country flag, .rc-icon (cars.css:
-   font-size 26px, flex-shrink, margin-top) was already sized for exactly
-   this and matches the .card-flag pattern the airline-network pages use
-   (airlines.css/airlines.js) — no page-local CSS needed. */
-
-@media (max-width: 700px) {
-  .wcr-tips-grid { grid-template-columns: 1fr; }
+.wca-stage {
+  --wca-card: #fffdf8; --wca-ink: #20201d; --wca-ink2: #46443e;
+  --wca-muted: #77746b; --wca-rule: #ded7c6; --wca-rule2: #ebe5d7;
+  --wca-red: #b1372c; --wca-blue: #1d4b7a; --wca-stamp: #8c2f22;
+  --wca-ok: #2f6b4a; --wca-warn: #9a6410;
+  --wca-mono: ui-monospace, "SF Mono", SFMono-Regular, Menlo, Consolas, "Courier New", monospace;
+  background: var(--wca-card);
+  background-image: repeating-linear-gradient(180deg, transparent 0 31px, rgba(177,55,44,.045) 31px 32px);
+  border: 1px solid var(--wca-rule);
+  border-radius: 12px;
+  color: var(--wca-ink2);
+  box-shadow: 0 1px 6px rgba(92,61,17,.05);
 }
 @media (prefers-color-scheme: dark) {
-  :root:not([data-theme="light"]) {
-    .wcr-tip-num { color: #2a1e00; }
-    .rc-cont-label { color: var(--rust-ink, #E0805A); }
+  .wca-stage {
+    --wca-card: #262320; --wca-ink: #ece8e1; --wca-ink2: #c7c2b8;
+    --wca-muted: #a39d90; --wca-rule: #453f36; --wca-rule2: #383329;
+    --wca-red: #e0805f; --wca-blue: #7fb0e8; --wca-stamp: #e0805f;
+    --wca-ok: #5fbb8e; --wca-warn: #e0b060;
+    background-image: repeating-linear-gradient(180deg, transparent 0 31px, rgba(224,128,95,.06) 31px 32px);
   }
+}
+.wca-inner { padding: clamp(24px, 4vw, 40px) clamp(20px, 4vw, 40px) clamp(40px, 6vw, 56px); }
+
+.wca-controls { padding-bottom: clamp(18px, 3vw, 26px); }
+.wca-field-wrap { position: relative; width: var(--search-w, 440px); max-width: 100%; margin: 0 auto 18px; }
+.wca-field-wrap .search-input { margin-bottom: 0; }
+.wca-keys { display: flex; flex-wrap: wrap; gap: var(--fam-gap, 10px); align-items: center; justify-content: center; }
+.wca-keys-label { font-size: var(--fs-sub, 12px); letter-spacing: .15em; text-transform: uppercase; color: var(--wca-muted); margin-right: 4px; }
+.wca-keys .filter-btn { font-family: inherit; }
+
+.wca-siblings { display: flex; justify-content: center; gap: 8px; margin: 0 0 clamp(22px, 3vw, 30px); flex-wrap: wrap; }
+
+.wca-formno {
+  font-family: var(--wca-mono); font-size: 10.5px; letter-spacing: .16em; text-transform: uppercase;
+  color: var(--wca-red); margin: 0 0 22px; padding-bottom: 15px; border-bottom: 3px double var(--wca-red);
+}
+.wca-clauses { display: grid; grid-template-columns: 1fr 1fr; border: 1.5px solid var(--wca-ink); margin: 0 0 26px; }
+.wca-clause-head { grid-column: 1 / -1; background: var(--wca-ink); color: var(--wca-card); font-family: var(--wca-mono); font-size: 10.5px; font-weight: 800; letter-spacing: .15em; text-transform: uppercase; padding: 10px 20px; }
+.wca-clause { padding: 18px 20px; font-size: 13.5px; line-height: 1.68; }
+.wca-clause + .wca-clause { border-left: 1.5px solid var(--wca-ink); }
+.wca-clause-n { font-family: var(--wca-mono); font-size: 10px; font-weight: 800; letter-spacing: .15em; text-transform: uppercase; color: var(--wca-red); margin-bottom: 8px; }
+.wca-clause strong { color: var(--wca-ink); }
+.wca-preamble { font-size: 13.5px; line-height: 1.72; margin: 0 0 28px; max-width: 78ch; }
+
+/* ── Region rail — in-flow, never sticky (Seventy-fourth non-negotiable) ── */
+.wca-rail {
+  display: flex; flex-wrap: wrap;
+  border-top: 1.5px solid var(--wca-ink); border-bottom: 1.5px solid var(--wca-ink);
+  margin-bottom: 0;
+}
+.wca-rail a {
+  flex: 1 1 130px; text-align: center; padding: 11px 8px 10px; text-decoration: none;
+  font-family: var(--wca-mono); font-size: 10.5px; font-weight: 800; letter-spacing: .1em; text-transform: uppercase;
+  color: var(--wca-muted); border-right: 1px solid var(--wca-rule);
+  transition: color .2s ease, background .2s ease;
+}
+.wca-rail a:last-child { border-right: 0; }
+.wca-rail a:hover, .wca-rail a.on { color: var(--wca-ink); background: var(--wca-rule2); }
+
+.wca-chapter { padding-top: clamp(30px, 4vw, 42px); }
+.wca-chapter[hidden] { display: none !important; }
+.wca-chapter-head { display: flex; align-items: flex-end; gap: 16px; flex-wrap: wrap; padding-bottom: 12px; margin-bottom: 18px; border-bottom: 1px solid var(--wca-rule); }
+.wca-chapter-no { font-family: var(--wca-mono); font-size: 10.5px; font-weight: 800; letter-spacing: .22em; color: var(--wca-red); }
+.wca-chapter-name { font-size: clamp(19px, 2.6vw, 27px); font-weight: 800; letter-spacing: -.02em; color: var(--wca-ink); }
+.wca-chapter-note { margin-left: auto; font-size: 12px; color: var(--wca-muted); max-width: 42ch; text-align: right; }
+.wca-rnote { font-size: 13px; line-height: 1.72; margin: 0 0 22px; max-width: 78ch; padding-left: 15px; border-left: 3px solid var(--wca-blue); }
+
+.wca-co { border-top: 1px solid var(--wca-rule); padding: 22px 0 20px; position: relative; display: grid; grid-template-columns: 50px 1fr 132px; gap: 20px; align-items: start; }
+.wca-co[hidden] { display: none !important; }
+.wca-co:last-child { border-bottom: 1px solid var(--wca-rule); }
+.wca-co-n { font-family: var(--wca-mono); font-size: 23px; font-weight: 800; color: var(--wca-rule); line-height: 1; padding-top: 3px; }
+.wca-co-name { font-size: 19px; font-weight: 800; letter-spacing: -.015em; margin: 0 0 8px; line-height: 1.2; color: var(--wca-ink); }
+.wca-co-name a { color: inherit; text-decoration: none; border-bottom: 2px solid var(--wca-rule2); }
+.wca-co-name a:hover { border-bottom-color: var(--wca-red); }
+.wca-co-tagrow { margin-bottom: 12px; }
+.wca-co-desc { font-size: 13px; line-height: 1.7; margin: 0 0 14px; max-width: 70ch; }
+.wca-co-verdict { font-size: 13.5px; line-height: 1.68; color: var(--wca-ink); margin: 0 0 13px; max-width: 70ch; background: var(--wca-rule2); border-left: 3px solid var(--wca-red); padding: 12px 15px; }
+.wca-co-verdict::before { content: 'VERDICT'; display: block; font-family: var(--wca-mono); font-size: 9px; font-weight: 800; letter-spacing: .16em; color: var(--wca-red); margin-bottom: 5px; }
+.wca-co ul { list-style: none; margin: 0; padding: 0; display: grid; gap: 8px; max-width: 70ch; }
+.wca-co li { font-size: 12.5px; line-height: 1.6; padding-left: 22px; position: relative; }
+.wca-co li::before { position: absolute; left: 0; top: 0; font-family: var(--wca-mono); font-size: 11px; font-weight: 800; }
+.wca-co li.g::before { content: '+'; color: var(--wca-ok); }
+.wca-co li.w::before { content: '!'; color: var(--wca-warn); }
+.wca-co-links { display: flex; gap: 15px; flex-wrap: wrap; margin-top: 15px; }
+.wca-co-links a { font-family: var(--wca-mono); font-size: 10.5px; font-weight: 700; letter-spacing: .05em; color: var(--wca-blue); text-decoration: none; border-bottom: 1px solid transparent; }
+.wca-co-links a:hover { border-bottom-color: var(--wca-blue); }
+
+.wca-stamp { justify-self: end; width: 128px; height: 128px; opacity: 0; transform: scale(2.1) rotate(-24deg); }
+.wca-co.in .wca-stamp { animation: wca-thud .55s cubic-bezier(.34,1.56,.64,1) .1s forwards; }
+@keyframes wca-thud {
+  0% { opacity: 0; transform: scale(2.1) rotate(-24deg); }
+  55% { opacity: 1; transform: scale(.94) rotate(-6deg); }
+  100% { opacity: 1; transform: scale(1) rotate(-9deg); }
+}
+.wca-stamp text { font-family: var(--wca-mono); font-weight: 800; fill: var(--wca-stamp); }
+.wca-stamp circle { stroke: var(--wca-stamp); }
+
+.wca-hit { animation: wca-flash 1.4s ease; }
+@keyframes wca-flash { 0%, 100% { background: transparent; } 18% { background: var(--wca-rule2); } }
+
+.wca-empty { display: none; text-align: center; padding: 46px 0; font-family: var(--wca-mono); font-size: 11px; letter-spacing: .18em; text-transform: uppercase; color: var(--wca-muted); }
+.wca-empty.on { display: block; }
+
+.wca-closing { margin-top: clamp(28px, 4vw, 40px); padding-top: 18px; border-top: 1px solid var(--wca-rule); font-size: 13px; line-height: 1.65; }
+
+@media (max-width: 860px) {
+  .wca-co { grid-template-columns: 34px 1fr; gap: 12px; }
+  .wca-stamp { grid-column: 1 / -1; justify-self: start; width: 96px; height: 96px; margin-top: 4px; }
+  .wca-co-n { font-size: 18px; }
+  .wca-clauses { grid-template-columns: 1fr; }
+  .wca-clause + .wca-clause { border-left: none; border-top: 1.5px solid var(--wca-ink); }
+  .wca-chapter-note { margin-left: 0; text-align: left; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .wca-stamp { animation: none !important; opacity: 1; transform: rotate(-9deg); }
 }
 </style>
 <link rel="stylesheet" href="/assets/mobile.css?v=53">
@@ -87,7 +187,7 @@
 <!-- seo:end -->
 </head>
 <body>
-<div id="toolbar-mount" data-depth="2" data-maxwidth="940" data-updated="2026-08-23"></div>
+<div id="toolbar-mount" data-depth="2" data-maxwidth="940" data-updated="2026-09-08"></div>
 <script src="/assets/toolbar.js?v=127"></script>
 
   <div class="hero-band eb-hero">
@@ -113,817 +213,365 @@
     </svg></div>
   </div>
 
-<div class="wrap">
+<div class="hero-ground">
+  <div class="wca-stage">
+    <div class="wca-inner">
 
-  <!-- JUMP NAV — reuses the .rc-index / .jump-btn pattern already defined for
-       anchor navigation in cars.css, in place of the retired .cont-nav strip
-       (that pattern named SEPARATE PAGES; this page has none left to name).
-       One page, six regions, each its own #anchor. -->
-  <nav class="rc-index" aria-label="Jump to a region">
-    <a class="jump-btn" href="#rc-worldwide"><svg class="gm-icon" data-icon="orbited-globe" data-role="icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#gm-i-orbited-globe"/></svg>Worldwide networks</a>
-    <a class="jump-btn" href="#rc-europe"><svg class="gm-icon" data-icon="pin" data-role="icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#gm-i-pin"/></svg>Europe</a>
-    <a class="jump-btn" href="#rc-north-america"><svg class="gm-icon" data-icon="pin" data-role="icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#gm-i-pin"/></svg>North America</a>
-    <a class="jump-btn" href="#rc-latin-america"><svg class="gm-icon" data-icon="pin" data-role="icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#gm-i-pin"/></svg>Latin America</a>
-    <a class="jump-btn" href="#rc-asia-pacific"><svg class="gm-icon" data-icon="pin" data-role="icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#gm-i-pin"/></svg>Asia &amp; Pacific</a>
-    <a class="jump-btn" href="#rc-africa-middle-east"><svg class="gm-icon" data-icon="pin" data-role="icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#gm-i-pin"/></svg>Africa &amp; Middle East</a>
-    <a class="jump-btn" href="/essentials/private-transfers/"><svg class="gm-icon" data-icon="app-car" data-role="icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#gm-i-app-car"/></svg>Private transfers</a>
-  </nav>
+      <div class="wca-controls">
+        <div class="wca-field-wrap">
+          <input type="search" id="wcr-search" class="search-input" placeholder="Rental company" aria-label="Search rental companies by name" autocomplete="off" spellcheck="false">
+        </div>
+        <div class="wca-keys" id="wca-keys">
+          <span class="wca-keys-label">Type</span>
+          <button type="button" class="filter-btn pill-badge nt-brown is-on hov-darken" data-filter="all" aria-pressed="true">All</button>
+          <button type="button" class="filter-btn pill-badge sb-blue hov-darken" data-filter="global" aria-pressed="false">Global network</button>
+          <button type="button" class="filter-btn pill-badge sb-teal hov-darken" data-filter="regional" aria-pressed="false">Regional network</button>
+          <button type="button" class="filter-btn pill-badge sb-green hov-darken" data-filter="value" aria-pressed="false">Value brand</button>
+          <button type="button" class="filter-btn pill-badge sb-gold hov-darken" data-filter="premium" aria-pressed="false">Premium fleet</button>
+          <button type="button" class="filter-btn pill-badge sb-dark-brown hov-darken" data-filter="business" aria-pressed="false">Business fleet</button>
+          <button type="button" class="filter-btn pill-badge sb-rust hov-darken" data-filter="p2p" aria-pressed="false">Peer-to-peer</button>
+          <button type="button" class="filter-btn pill-badge sb-light-blue hov-darken" data-filter="europe" aria-pressed="false">Europe</button>
+        </div>
+      </div>
 
-  <div class="wcr-siblings" style="display:flex;justify-content:center;gap:8px;margin:0 0 var(--search-gap, 32px);">
-    <a href="/essentials/idp-guide/" class="sibling-pill">International driving permit guide</a>
+      <div class="wca-siblings">
+        <a href="/essentials/idp-guide/" class="sibling-pill">International driving permit guide</a>
+        <a href="/essentials/private-transfers/" class="sibling-pill">Private transfers</a>
+      </div>
+
+      <p class="wca-formno">Form CR-1 · Car Rental Around the World — filed by region, not by badge</p>
+
+      <div class="wca-clauses">
+        <div class="wca-clause-head">Clause 0 — two things decide the real cost more than the headline rate</div>
+        <div class="wca-clause"><div class="wca-clause-n">0.1 — Position of desk</div><strong>Where the desk is.</strong> Inside the terminal or a shuttle ride away — after a long flight, that walk (or wait) is worth more than a few dollars a day on the rate.</div>
+        <div class="wca-clause"><div class="wca-clause-n">0.2 — Excess &amp; deposit</div><strong>What the excess and the hold come to.</strong> The insurance excess and the card hold on your deposit vary far more between companies than the day rate does, and neither shows up until checkout.</div>
+      </div>
+
+      <p class="wca-preamble">Three groups own most of the world's rental fleet — Hertz (with Dollar and Thrifty), Avis Budget (with Budget, Payless and Apex) and Enterprise (with National and Alamo) — plus Europcar and Sixt out of Europe. Because the sister brands often share one counter and one lot, the cheaper badge frequently hands over the same car with a stricter fuel policy and higher extra-driver fees. Which network is the answer depends far more on where you're driving than on the badge on the counter — that's why the companies below are filed under the region each one actually wins in.</p>
+
+      <nav class="wca-rail" id="wca-rail" aria-label="Region"></nav>
+
+      <main id="wca-log"></main>
+      <div class="wca-empty" id="wca-empty">No companies match this filter.</div>
+
+      <p class="wca-closing">Not looking for a car to drive yourself? <a href="/essentials/private-transfers/">Private transfers</a> covers the fixed-price, driver-included alternative — the aggregators, the airport specialists, and what the premium over a taxi actually buys.</p>
+
+    </div>
   </div>
+</div>
 
-  <div class="rc-grid">
-
-    <div class="wcr-top">
-      <p class="wcr-intro">Three groups own most of the world's rental fleet — Hertz (with Dollar and Thrifty), Avis Budget (with Budget, Payless and Apex) and Enterprise (with National and Alamo) — plus Europcar and Sixt out of Europe. Because the sister brands often share one counter and one lot, the cheaper badge frequently hands over the same car with a stricter fuel policy and higher extra-driver fees. Which network is the answer depends far more on where you're driving than on the badge on the counter — that's why the companies below are grouped by the region each one actually wins in.</p>
-      <div class="wcr-tips">
-        <div class="wcr-tips-head"><svg class="gm-icon" data-icon="rental-cars" data-role="icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#gm-i-rental-cars"/></svg>Two things that decide the real cost more than the headline rate</div>
-        <div class="wcr-tips-grid">
-          <div class="wcr-tip"><span class="wcr-tip-num">1</span><div class="wcr-tip-body"><strong>Where the desk is.</strong> Inside the terminal or a shuttle ride away — after a long flight, that walk (or wait) is worth more than a few dollars a day on the rate.</div></div>
-          <div class="wcr-tip"><span class="wcr-tip-num">2</span><div class="wcr-tip-body"><strong>What the excess and the hold come to.</strong> The insurance excess and the card hold on your deposit vary far more between companies than the day rate does, and neither shows up until checkout.</div></div>
-        </div>
-      </div>
-    </div>
-
-    <!-- ═══ WORLDWIDE ═══ -->
-    <div class="rc-region" id="rc-worldwide">
-      <div class="rc-region-head">
-        <div class="rc-cont-label" style="margin-top:0"><span class="rc-cont-icon-wrap"><svg class="gm-icon" data-icon="orbited-globe" data-role="icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#gm-i-orbited-globe"/></svg></span>Worldwide networks</div>
-      </div>
-      <div class="rc-cont-note">The four that price and operate on every continent. On an unfamiliar route these are the ones with a desk where you expect one, a phone number that answers, and a car waiting when the flight lands at midnight — which is what the premium over a regional operator buys.</div>
-
-      <div class="rc-grid">
-        <div class="rc-card">
-          <div class="rc-card-head">
-            <div class="rc-icon"><svg class="flag-svg" viewBox="0 0 36 36" aria-hidden="true" data-flag="10194"><use href="/assets/flags/sprite.svg#flag-10194"></use></svg></div>
-            <div>
-              <div class="rc-name"><a href="https://www.hertz.com" target="_blank" rel="noopener">Hertz</a></div>
-              <div class="rc-tag">Global network</div>
-            </div>
-          </div>
-          <div class="rc-desc">One of the three global networks, with the widest in-terminal airport presence — a desk you walk to rather than a shuttle to an off-site lot, which is what you want after a late arrival. Gold Plus Rewards skips the counter entirely at most large US and European airports. The group also owns Dollar and Thrifty, which sell from the same fleet at lower rates with fewer staff behind the desk.</div>
-          <div class="rc-review">
-            <div class="rc-review-label">Review</div>
-            <p class="rc-verdict">Reliable where it matters most — the arrival. The in-terminal desk and the counter-free loyalty pickup are worth real money on a late landing, and the fleet is consistent across continents.</p>
-            <ul class="rc-review-list">
-              <li class="rc-good">Most airports where the desk is inside the terminal, not a shuttle ride away</li>
-              <li class="rc-watch">Post-rental damage and fuel charges are billed more aggressively than at rivals — photograph the car at pickup and return</li>
-            </ul>
-          </div>
-          <div class="rc-actions"><a class="rc-site" href="https://www.hertz.com" target="_blank" rel="noopener">hertz.com</a><a class="rc-site" href="https://www.trustpilot.com/review/hertz.com" target="_blank" rel="noopener">Reviews</a></div>
-        </div>
-
-        <div class="rc-card">
-          <div class="rc-card-head">
-            <div class="rc-icon"><svg class="flag-svg" viewBox="0 0 36 36" aria-hidden="true" data-flag="10194"><use href="/assets/flags/sprite.svg#flag-10194"></use></svg></div>
-            <div>
-              <div class="rc-name"><a href="https://www.enterprise.com" target="_blank" rel="noopener">Enterprise</a></div>
-              <div class="rc-tag">Global network</div>
-            </div>
-          </div>
-          <div class="rc-desc">The largest network by number of branches, and the only one with real depth away from airports — ordinary neighbourhood offices in suburbs and small towns, which is what makes a local or one-way rental practical. Service is counter-heavy by design, with a walk-round of the car at handover. Owns National, aimed at frequent business renters who pick their own car from the aisle, and Alamo, the leisure brand at lower rates.</div>
-          <div class="rc-review">
-            <div class="rc-review-label">Review</div>
-            <p class="rc-verdict">The most consistent service of the global four, and the only one that works properly for a rental that does not start at an airport. The staffed handover catches damage disputes before they happen.</p>
-            <ul class="rc-review-list">
-              <li class="rc-good">Neighbourhood branches make local pickups and one-way trips practical</li>
-              <li class="rc-watch">Every pickup goes through a counter — slow at a busy airport, and several airport sites are off-site shuttles</li>
-            </ul>
-          </div>
-          <div class="rc-actions"><a class="rc-site" href="https://www.enterprise.com" target="_blank" rel="noopener">enterprise.com</a><a class="rc-site" href="https://www.trustpilot.com/review/enterprise.com" target="_blank" rel="noopener">Reviews</a></div>
-        </div>
-
-        <div class="rc-card">
-          <div class="rc-card-head">
-            <div class="rc-icon"><svg class="flag-svg" viewBox="0 0 36 36" aria-hidden="true" data-flag="10194"><use href="/assets/flags/sprite.svg#flag-10194"></use></svg></div>
-            <div>
-              <div class="rc-name"><a href="https://www.avis.com" target="_blank" rel="noopener">Avis</a></div>
-              <div class="rc-tag">Global network</div>
-            </div>
-          </div>
-          <div class="rc-desc">The third global name, closest in shape to Hertz: strong airport presence, business-oriented, and an Avis Preferred tier that bypasses the queue. Worth pricing against Hertz on every single booking — the two swap places constantly, and an identical car class can differ sharply depending on which of them has surplus fleet that week.</div>
-          <div class="rc-review">
-            <div class="rc-review-label">Review</div>
-            <p class="rc-verdict">A straight substitute for Hertz rather than a different proposition, which is exactly its value: the same coverage from a second supplier, so one bad rate never decides the trip.</p>
-            <ul class="rc-review-list">
-              <li class="rc-good">Preferred tier skips the queue, and rates undercut Hertz often enough to be worth the second search every time</li>
-              <li class="rc-watch">Counter upsell on insurance and upgrades is persistent — the excess cover you already hold on a credit card usually makes it unnecessary</li>
-            </ul>
-          </div>
-          <div class="rc-actions"><a class="rc-site" href="https://www.avis.com" target="_blank" rel="noopener">avis.com</a><a class="rc-site" href="https://www.trustpilot.com/review/avis.com" target="_blank" rel="noopener">Reviews</a></div>
-        </div>
-
-        <div class="rc-card">
-          <div class="rc-card-head">
-            <div class="rc-icon"><svg class="flag-svg" viewBox="0 0 36 36" aria-hidden="true" data-flag="10194"><use href="/assets/flags/sprite.svg#flag-10194"></use></svg></div>
-            <div>
-              <div class="rc-name"><a href="https://www.budget.com" target="_blank" rel="noopener">Budget</a></div>
-              <div class="rc-tag">Value brand</div>
-            </div>
-          </div>
-          <div class="rc-desc">Avis's value brand, drawing on the same fleet and frequently the same counter for a lower headline rate and fewer inclusions. The difference shows up in the extras rather than the car: additional-driver fees, one-way charges and fuel policies are tighter, so the two need comparing on the final total rather than the day rate.</div>
-          <div class="rc-review">
-            <div class="rc-review-label">Review</div>
-            <p class="rc-verdict">Genuinely cheaper on a simple booking — one driver, return to the same desk, full-to-full fuel. Add a second driver or a one-way leg and the saving against Avis disappears.</p>
-            <ul class="rc-review-list">
-              <li class="rc-good">Same cars and often the same lot as Avis for a lower base rate</li>
-              <li class="rc-watch">Extra-driver, one-way and fuel terms are stricter — compare the final total, never the day rate</li>
-            </ul>
-          </div>
-          <div class="rc-actions"><a class="rc-site" href="https://www.budget.com" target="_blank" rel="noopener">budget.com</a><a class="rc-site" href="https://www.trustpilot.com/review/budget.com" target="_blank" rel="noopener">Reviews</a></div>
-        </div>
-      </div>
-    </div>
-
-    <!-- ═══ EUROPE ═══ -->
-    <div class="rc-region" id="rc-europe">
-      <div class="rc-region-head">
-        <div class="rc-cont-label" style="margin-top:0"><span class="rc-cont-icon-wrap"><svg class="gm-icon" data-icon="pin" data-role="icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#gm-i-pin"/></svg></span>Europe</div>
-      </div>
-      <div class="rc-cont-note">The two European groups reach small cities and regional airports the American networks do not, and both rent from a newer fleet. Two things separate a European rental from an American one: manual transmission is the default almost everywhere, so an automatic must be booked explicitly and costs more, and cross-border travel needs declaring — several countries in the east and the Balkans are excluded from standard terms.</div>
-
-      <div class="rc-grid">
-        <div class="rc-card">
-          <div class="rc-card-head">
-            <div class="rc-icon"><svg class="flag-svg" viewBox="0 0 36 36" aria-hidden="true" data-flag="10062"><use href="/assets/flags/sprite.svg#flag-10062"></use></svg></div>
-            <div>
-              <div class="rc-name"><a href="https://www.europcar.com" target="_blank" rel="noopener">Europcar</a></div>
-              <div class="rc-tag">Europe</div>
-            </div>
-          </div>
-          <div class="rc-desc">The largest European-headquartered network, with far deeper coverage of small cities and regional airports than the American groups manage. One thing to plan around: manual transmission is the default across most of its European fleet, so an automatic has to be booked explicitly and costs more. Owns Goldcar and InterRent, the low-cost brands common at Mediterranean holiday airports.</div>
-          <div class="rc-review">
-            <div class="rc-review-label">Review</div>
-            <p class="rc-verdict">The network to book when the trip leaves the capitals. Coverage of provincial France, Italy, Germany and Spain is unmatched, and the cars are newer than the American groups rent at the same price.</p>
-            <ul class="rc-review-list">
-              <li class="rc-good">Branches in small cities and regional airports where the global brands have none</li>
-              <li class="rc-watch">Automatics are scarce and expensive, and desk hours at small branches close early and all weekend</li>
-            </ul>
-          </div>
-          <div class="rc-actions"><a class="rc-site" href="https://www.europcar.com" target="_blank" rel="noopener">europcar.com</a><a class="rc-site" href="https://www.trustpilot.com/review/europcar.com" target="_blank" rel="noopener">Reviews</a></div>
-        </div>
-
-        <div class="rc-card">
-          <div class="rc-card-head">
-            <div class="rc-icon"><svg class="flag-svg" viewBox="0 0 36 36" aria-hidden="true" data-flag="10046"><use href="/assets/flags/sprite.svg#flag-10046"></use></svg></div>
-            <div>
-              <div class="rc-name"><a href="https://www.sixt.com" target="_blank" rel="noopener">Sixt</a></div>
-              <div class="rc-tag">Premium fleet</div>
-            </div>
-          </div>
-          <div class="rc-desc">German, and independent of the three big groups. It rents a noticeably better class of car for the money — BMW, Mercedes and Audi turn up in mid-range categories where rivals offer economy hatchbacks — which makes it the one to check when the drive itself is part of the trip. Strongest in Germany and continental Europe, thinner in North America and Asia.</div>
-          <div class="rc-review">
-            <div class="rc-review-label">Review</div>
-            <p class="rc-verdict">The most car for the money anywhere in Europe, and the difference is not marginal — a mid-size booking regularly arrives as a German saloon. That is the whole case for it, and it holds.</p>
-            <ul class="rc-review-list">
-              <li class="rc-good">Newest fleet of any major, with premium marques in ordinary categories</li>
-              <li class="rc-watch">Insurance excess and the card hold on the deposit are among the highest — check both before the desk runs the card</li>
-            </ul>
-          </div>
-          <div class="rc-actions"><a class="rc-site" href="https://www.sixt.com" target="_blank" rel="noopener">sixt.com</a><a class="rc-site" href="https://www.trustpilot.com/review/sixt.com" target="_blank" rel="noopener">Reviews</a></div>
-        </div>
-
-        <div class="rc-card">
-          <div class="rc-card-head">
-            <div class="rc-icon"><svg class="flag-svg" viewBox="0 0 36 36" aria-hidden="true" data-flag="10056"><use href="/assets/flags/sprite.svg#flag-10056"></use></svg></div>
-            <div>
-              <div class="rc-name"><a href="https://www.goldcar.es" target="_blank" rel="noopener">Goldcar</a></div>
-              <div class="rc-tag">Value brand</div>
-            </div>
-          </div>
-          <div class="rc-desc">Europcar's low-cost brand, alongside InterRent, and the name behind a large share of the cheapest quotes at Spanish, Portuguese, Italian and Greek holiday airports. It sells a very low base rate and recovers the margin at the desk through fuel policy and insurance, so the price on the comparison site is rarely the price paid.</div>
-          <div class="rc-review">
-            <div class="rc-review-label">Review</div>
-            <p class="rc-verdict">The cheapest way to put a car on a Mediterranean holiday, provided the desk is handled deliberately. Arrive with your own excess cover and a full tank booked, decline everything offered, and the low rate survives contact with the counter.</p>
-            <ul class="rc-review-list">
-              <li class="rc-good">Consistently the lowest quote at southern European leisure airports</li>
-              <li class="rc-watch">Fuel-out policies, heavy insurance upsell and long summer queues at off-terminal depots</li>
-            </ul>
-          </div>
-          <div class="rc-actions"><a class="rc-site" href="https://www.goldcar.es" target="_blank" rel="noopener">goldcar.es</a><a class="rc-site" href="https://www.trustpilot.com/review/goldcar.es" target="_blank" rel="noopener">Reviews</a></div>
-        </div>
-      </div>
-    </div>
-
-    <!-- ═══ NORTH AMERICA ═══ -->
-    <div class="rc-region" id="rc-north-america">
-      <div class="rc-region-head">
-        <div class="rc-cont-label" style="margin-top:0"><span class="rc-cont-icon-wrap"><svg class="gm-icon" data-icon="pin" data-role="icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#gm-i-pin"/></svg></span>North America</div>
-      </div>
-      <div class="rc-cont-note">The continent where the value brands are worth taking seriously, because they rent the same cars from the same lots as their parents. It is also the one place where a peer-to-peer marketplace competes with the counters outright. Two costs that do not appear in the quote: the airport concession fee added to every on-site rental, and tolls, which are charged through a transponder the rental company bills at a daily rate whether or not a toll is driven.</div>
-
-      <div class="rc-grid">
-        <div class="rc-card">
-          <div class="rc-card-head">
-            <div class="rc-icon"><svg class="flag-svg" viewBox="0 0 36 36" aria-hidden="true" data-flag="10194"><use href="/assets/flags/sprite.svg#flag-10194"></use></svg></div>
-            <div>
-              <div class="rc-name"><a href="https://www.nationalcar.com" target="_blank" rel="noopener">National</a></div>
-              <div class="rc-tag">Business fleet</div>
-            </div>
-          </div>
-          <div class="rc-desc">Enterprise's business brand, built around the Emerald Aisle: a booked mid-size lets you walk to the aisle, take any car parked in it, and drive to the gate without stopping at a counter. Coverage is concentrated at airports and business districts rather than suburbs.</div>
-          <div class="rc-review">
-            <div class="rc-review-label">Review</div>
-            <p class="rc-verdict">The fastest pickup in the United States, and by a wide margin — plane to driving in under ten minutes at most large airports, with no queue and no upsell conversation.</p>
-            <ul class="rc-review-list">
-              <li class="rc-good">Emerald Aisle removes the counter entirely, and the aisle usually holds better cars than the class booked</li>
-              <li class="rc-watch">Priced for expense accounts — leisure rates rarely compete with Alamo from the same parent</li>
-            </ul>
-          </div>
-          <div class="rc-actions"><a class="rc-site" href="https://www.nationalcar.com" target="_blank" rel="noopener">nationalcar.com</a><a class="rc-site" href="https://www.trustpilot.com/review/nationalcar.com" target="_blank" rel="noopener">Reviews</a></div>
-        </div>
-
-        <div class="rc-card">
-          <div class="rc-card-head">
-            <div class="rc-icon"><svg class="flag-svg" viewBox="0 0 36 36" aria-hidden="true" data-flag="10194"><use href="/assets/flags/sprite.svg#flag-10194"></use></svg></div>
-            <div>
-              <div class="rc-name"><a href="https://www.alamo.com" target="_blank" rel="noopener">Alamo</a></div>
-              <div class="rc-tag">Value brand</div>
-            </div>
-          </div>
-          <div class="rc-desc">The leisure brand in the Enterprise group, sharing fleet and lots with National and Enterprise at lower rates. Self-service kiosks handle most pickups, and it is the group's strongest brand at holiday-destination airports in Florida, the Southwest and Hawaii.</div>
-          <div class="rc-review">
-            <div class="rc-review-label">Review</div>
-            <p class="rc-verdict">The value pick that does not punish a family booking — additional drivers are often included where rivals charge daily, which changes the total more than the day rate does.</p>
-            <ul class="rc-review-list">
-              <li class="rc-good">Spouse or partner frequently added free, and kiosks let you skip the desk</li>
-              <li class="rc-watch">Queues at holiday airports in peak weeks are the worst of the group — check in online first</li>
-            </ul>
-          </div>
-          <div class="rc-actions"><a class="rc-site" href="https://www.alamo.com" target="_blank" rel="noopener">alamo.com</a><a class="rc-site" href="https://www.trustpilot.com/review/alamo.com" target="_blank" rel="noopener">Reviews</a></div>
-        </div>
-
-        <div class="rc-card">
-          <div class="rc-card-head">
-            <div class="rc-icon"><svg class="flag-svg" viewBox="0 0 36 36" aria-hidden="true" data-flag="10194"><use href="/assets/flags/sprite.svg#flag-10194"></use></svg></div>
-            <div>
-              <div class="rc-name"><a href="https://www.dollar.com" target="_blank" rel="noopener">Dollar</a></div>
-              <div class="rc-tag">Value brand</div>
-            </div>
-          </div>
-          <div class="rc-desc">Hertz's value brand, renting from the same fleet at a lower rate with fewer staff behind the desk. It shares a counter with Thrifty at most US airports, so the two quote against each other from one queue and one lot.</div>
-          <div class="rc-review">
-            <div class="rc-review-label">Review</div>
-            <p class="rc-verdict">A real saving on the base rate that survives only if nothing is added at the desk. The car is the Hertz car; what is cut is the staffing, and the queue shows it.</p>
-            <ul class="rc-review-list">
-              <li class="rc-good">Frequently the lowest rate at a large US airport for the same fleet Hertz rents</li>
-              <li class="rc-watch">Heaviest counter upsell of the US brands, on prepaid fuel, toll passes and coverage</li>
-            </ul>
-          </div>
-          <div class="rc-actions"><a class="rc-site" href="https://www.dollar.com" target="_blank" rel="noopener">dollar.com</a><a class="rc-site" href="https://www.trustpilot.com/review/dollar.com" target="_blank" rel="noopener">Reviews</a></div>
-        </div>
-
-        <div class="rc-card">
-          <div class="rc-card-head">
-            <div class="rc-icon"><svg class="flag-svg" viewBox="0 0 36 36" aria-hidden="true" data-flag="10194"><use href="/assets/flags/sprite.svg#flag-10194"></use></svg></div>
-            <div>
-              <div class="rc-name"><a href="https://www.thrifty.com" target="_blank" rel="noopener">Thrifty</a></div>
-              <div class="rc-tag">Value brand</div>
-            </div>
-          </div>
-          <div class="rc-desc">The second Hertz value brand, sharing Dollar's counter, lot and fleet at most US airports. Because both quote independently on comparison sites, the two prices for what is physically the same car can differ by a wide margin on the same dates.</div>
-          <div class="rc-review">
-            <div class="rc-review-label">Review</div>
-            <p class="rc-verdict">Worth pricing purely because it is quoted separately from Dollar — the cheaper of the two wins with no difference in the car, the lot or the staff.</p>
-            <ul class="rc-review-list">
-              <li class="rc-good">Same fleet and counter as Dollar, sometimes materially cheaper on identical dates</li>
-              <li class="rc-watch">Also the same queue, the same upsell, and the same off-terminal lots in several cities</li>
-            </ul>
-          </div>
-          <div class="rc-actions"><a class="rc-site" href="https://www.thrifty.com" target="_blank" rel="noopener">thrifty.com</a><a class="rc-site" href="https://www.trustpilot.com/review/thrifty.com" target="_blank" rel="noopener">Reviews</a></div>
-        </div>
-
-        <div class="rc-card">
-          <div class="rc-card-head">
-            <div class="rc-icon"><svg class="flag-svg" viewBox="0 0 36 36" aria-hidden="true" data-flag="10194"><use href="/assets/flags/sprite.svg#flag-10194"></use></svg></div>
-            <div>
-              <div class="rc-name"><a href="https://turo.com" target="_blank" rel="noopener">Turo</a></div>
-              <div class="rc-tag">Peer-to-peer</div>
-            </div>
-          </div>
-          <div class="rc-desc">Not a rental company but a marketplace: cars are owned by individuals and handed over by their owners, in person or by lockbox. That puts vehicles and pickup points on the map where no counter exists, and makes specialty cars, long rentals and small towns cheaper than the majors can price them.</div>
-          <div class="rc-review">
-            <div class="rc-review-label">Review</div>
-            <p class="rc-verdict">Strong on price and on cars nobody rents — a pickup truck, a convertible, a week in a town with no rental desk. Weak on everything that depends on a company existing behind the transaction.</p>
-            <ul class="rc-review-list">
-              <li class="rc-good">Cheaper on rentals past a week, and reaches places the counters do not</li>
-              <li class="rc-watch">A cancelled host leaves no counter to fall back on; airport pickup is restricted in some cities and insurance is a separate product with its own excess</li>
-            </ul>
-          </div>
-          <div class="rc-actions"><a class="rc-site" href="https://turo.com" target="_blank" rel="noopener">turo.com</a><a class="rc-site" href="https://www.trustpilot.com/review/turo.com" target="_blank" rel="noopener">Reviews</a></div>
-        </div>
-      </div>
-    </div>
-
-    <!-- ═══ LATIN AMERICA ═══ -->
-    <div class="rc-region" id="rc-latin-america">
-      <div class="rc-region-head">
-        <div class="rc-cont-label" style="margin-top:0"><span class="rc-cont-icon-wrap"><svg class="gm-icon" data-icon="pin" data-role="icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#gm-i-pin"/></svg></span>Latin America</div>
-      </div>
-      <div class="rc-cont-note">The global brands operate here mostly as franchises, and the two Brazilian groups are far larger than any of them — Localiza alone runs a fleet several times the size of anything the American networks field in the region. Expect large credit-card holds, service in Portuguese or Spanish first, and mandatory local third-party liability cover that cannot be replaced by a card benefit.</div>
-
-      <div class="rc-grid">
-        <div class="rc-card">
-          <div class="rc-card-head">
-            <div class="rc-icon"><svg class="flag-svg" viewBox="0 0 36 36" aria-hidden="true" data-flag="10024"><use href="/assets/flags/sprite.svg#flag-10024"></use></svg></div>
-            <div>
-              <div class="rc-name"><a href="https://www.localiza.com" target="_blank" rel="noopener">Localiza</a></div>
-              <div class="rc-tag">Regional network</div>
-            </div>
-          </div>
-          <div class="rc-desc">The largest rental company in Latin America, and after absorbing Unidas in 2022 it manages a combined rental and fleet-management operation of roughly 658,000 vehicles. Branch coverage runs across Brazil and more than ten countries in the region, at airports and in city centres alike.</div>
-          <div class="rc-review">
-            <div class="rc-review-label">Review</div>
-            <p class="rc-verdict">The default across the region for a reason: the density is genuinely national rather than airport-only, so a one-way between Brazilian cities is a normal booking rather than a special arrangement.</p>
-            <ul class="rc-review-list">
-              <li class="rc-good">Coverage no international brand matches in Brazil, including inland cities and one-way returns</li>
-              <li class="rc-watch">The deposit hold is large and the contract is Portuguese-first — read the fuel and toll terms before signing</li>
-            </ul>
-          </div>
-          <div class="rc-actions"><a class="rc-site" href="https://www.localiza.com" target="_blank" rel="noopener">localiza.com</a><a class="rc-site" href="https://www.trustpilot.com/review/localiza.com" target="_blank" rel="noopener">Reviews</a></div>
-        </div>
-
-        <div class="rc-card">
-          <div class="rc-card-head">
-            <div class="rc-icon"><svg class="flag-svg" viewBox="0 0 36 36" aria-hidden="true" data-flag="10024"><use href="/assets/flags/sprite.svg#flag-10024"></use></svg></div>
-            <div>
-              <div class="rc-name"><a href="https://www.movida.com.br" target="_blank" rel="noopener">Movida</a></div>
-              <div class="rc-tag">Regional network</div>
-            </div>
-          </div>
-          <div class="rc-desc">Brazil's second rental group, with a total fleet of about 267,000 cars as of March 2026 and branches across every state and the federal district. It prices directly against Localiza, which is what makes it worth quoting rather than assuming the larger network is cheaper.</div>
-          <div class="rc-review">
-            <div class="rc-review-label">Review</div>
-            <p class="rc-verdict">A newer fleet than the size of the company suggests, and rates that undercut Localiza often enough to justify the second search on any Brazilian booking.</p>
-            <ul class="rc-review-list">
-              <li class="rc-good">Competitive pricing against the market leader with comparable Brazilian airport coverage</li>
-              <li class="rc-watch">Coverage outside Brazil is thin — for the rest of the region it is not a substitute</li>
-            </ul>
-          </div>
-          <div class="rc-actions"><a class="rc-site" href="https://www.movida.com.br" target="_blank" rel="noopener">movida.com.br</a><a class="rc-site" href="https://www.trustpilot.com/review/movida.com.br" target="_blank" rel="noopener">Reviews</a></div>
-        </div>
-      </div>
-    </div>
-
-    <!-- ═══ ASIA & PACIFIC ═══ -->
-    <div class="rc-region" id="rc-asia-pacific">
-      <div class="rc-region-head">
-        <div class="rc-cont-label" style="margin-top:0"><span class="rc-cont-icon-wrap"><svg class="gm-icon" data-icon="pin" data-role="icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#gm-i-pin"/></svg></span>Asia &amp; Pacific</div>
-      </div>
-      <div class="rc-cont-note">Japan and Korea are served almost entirely by domestic operators, and they are better than the international names on both coverage and fleet age. Two requirements decide whether a rental is possible at all here: an International Driving Permit is mandatory and checked at the desk in Japan and Korea, and Japanese expressway tolls are paid through an ETC card that is rented with the vehicle. Australia and New Zealand drive on the left, and their value operators run older cars than the majors.</div>
-
-      <div class="rc-grid">
-        <div class="rc-card">
-          <div class="rc-card-head">
-            <div class="rc-icon"><svg class="flag-svg" viewBox="0 0 36 36" aria-hidden="true" data-flag="10090"><use href="/assets/flags/sprite.svg#flag-10090"></use></svg></div>
-            <div>
-              <div class="rc-name"><a href="https://rent.toyota.co.jp/eng/" target="_blank" rel="noopener">Toyota Rent a Car</a></div>
-              <div class="rc-tag">Regional network</div>
-            </div>
-          </div>
-          <div class="rc-desc">Japan's largest rental network, with around 1,100 locations covering airports, city stations and small towns. Booking is available in English, and the fleet is drawn from current Toyota models, so the cars are newer and more uniform than at any international brand operating in the country.</div>
-          <div class="rc-review">
-            <div class="rc-review-label">Review</div>
-            <p class="rc-verdict">The straightforward answer for driving in Japan — a branch near almost any station worth starting from, English-language booking that works, and no surprises at the desk.</p>
-            <ul class="rc-review-list">
-              <li class="rc-good">Reach into rural Japan that no international brand comes close to, with a new fleet throughout</li>
-              <li class="rc-watch">Not the cheapest, and the ETC toll card, child seats and non-smoking terms each add a step at pickup</li>
-            </ul>
-          </div>
-          <a class="rc-site" href="https://rent.toyota.co.jp/eng/" target="_blank" rel="noopener">rent.toyota.co.jp</a>
-        </div>
-
-        <div class="rc-card">
-          <div class="rc-card-head">
-            <div class="rc-icon"><svg class="flag-svg" viewBox="0 0 36 36" aria-hidden="true" data-flag="10090"><use href="/assets/flags/sprite.svg#flag-10090"></use></svg></div>
-            <div>
-              <div class="rc-name"><a href="https://car.orix.co.jp/eng/" target="_blank" rel="noopener">ORIX Rent-A-Car</a></div>
-              <div class="rc-tag">Regional network</div>
-            </div>
-          </div>
-          <div class="rc-desc">Japan's second-largest rental fleet, run by the ORIX leasing group, with airport and city branches nationwide and a mixed-manufacturer fleet rather than a single brand's models.</div>
-          <div class="rc-review">
-            <div class="rc-review-label">Review</div>
-            <p class="rc-verdict">Consistently cheaper than Toyota Rent a Car for a comparable car at the main airports, which makes it the first quote to check on a Japanese trip that starts and ends at a hub.</p>
-            <ul class="rc-review-list">
-              <li class="rc-good">Lower rates than the market leader with good airport coverage</li>
-              <li class="rc-watch">English support at rural branches is thinner — keep pickups to airports and major stations</li>
-            </ul>
-          </div>
-          <a class="rc-site" href="https://car.orix.co.jp/eng/" target="_blank" rel="noopener">car.orix.co.jp</a>
-        </div>
-
-        <div class="rc-card">
-          <div class="rc-card-head">
-            <div class="rc-icon"><svg class="flag-svg" viewBox="0 0 36 36" aria-hidden="true" data-flag="10090"><use href="/assets/flags/sprite.svg#flag-10090"></use></svg></div>
-            <div>
-              <div class="rc-name"><a href="https://www.timescar-rental.com" target="_blank" rel="noopener">Times Car Rental</a></div>
-              <div class="rc-tag">Regional network</div>
-            </div>
-          </div>
-          <div class="rc-desc">Built on the Times car-park network, which puts its branches inside city centres rather than on the ring roads. That makes it the practical choice for a short rental that starts and ends in a Japanese city — a day trip out and back rather than a week on the road.</div>
-          <div class="rc-review">
-            <div class="rc-review-label">Review</div>
-            <p class="rc-verdict">Best positioned of the Japanese operators for a car picked up in town, and its hourly and half-day pricing suits a single excursion better than a daily rate does.</p>
-            <ul class="rc-review-list">
-              <li class="rc-good">Central city branches and short-duration pricing for day trips</li>
-              <li class="rc-watch">Fewer rural and small-airport locations than Toyota or ORIX — weak for a touring itinerary</li>
-            </ul>
-          </div>
-          <a class="rc-site" href="https://www.timescar-rental.com" target="_blank" rel="noopener">timescar-rental.com</a>
-        </div>
-
-        <div class="rc-card">
-          <div class="rc-card-head">
-            <div class="rc-icon"><svg class="flag-svg" viewBox="0 0 36 36" aria-hidden="true" data-flag="10098"><use href="/assets/flags/sprite.svg#flag-10098"></use></svg></div>
-            <div>
-              <div class="rc-name"><a href="https://www.lotterentacar.net" target="_blank" rel="noopener">Lotte Rent-a-Car</a></div>
-              <div class="rc-tag">Regional network</div>
-            </div>
-          </div>
-          <div class="rc-desc">South Korea's largest rental operator, with the deepest presence at Incheon and Gimpo and on Jeju, where renting a car is the normal way to see the island. English-language booking and airport service are established.</div>
-          <div class="rc-review">
-            <div class="rc-review-label">Review</div>
-            <p class="rc-verdict">The one to book for Jeju, where its depot scale means availability in peak weeks that smaller operators cannot promise. On the mainland a car is rarely worth it against the rail network.</p>
-            <ul class="rc-review-list">
-              <li class="rc-good">Dominant on Jeju and at the Seoul airports, with English service at both</li>
-              <li class="rc-watch">The International Driving Permit is checked strictly and a foreign licence alone will be refused</li>
-            </ul>
-          </div>
-          <div class="rc-actions"><a class="rc-site" href="https://www.lotterentacar.net" target="_blank" rel="noopener">lotterentacar.net</a><a class="rc-site" href="https://www.trustpilot.com/review/lotterentacar.net" target="_blank" rel="noopener">Reviews</a></div>
-        </div>
-
-        <div class="rc-card">
-          <div class="rc-card-head">
-            <div class="rc-icon"><svg class="flag-svg" viewBox="0 0 36 36" aria-hidden="true" data-flag="10140"><use href="/assets/flags/sprite.svg#flag-10140"></use></svg></div>
-            <div>
-              <div class="rc-name"><a href="https://www.apexrentals.co.nz" target="_blank" rel="noopener">Apex Car Rentals</a></div>
-              <div class="rc-tag">Value brand</div>
-            </div>
-          </div>
-          <div class="rc-desc">A New Zealand and Australian operator with depots at all major airports in both countries, acquired by Avis Budget Group in 2012 but sold and operated as a separate value brand. Fleet runs from small hatchbacks to eight- and twelve-seat vans.</div>
-          <div class="rc-review">
-            <div class="rc-review-label">Review</div>
-            <p class="rc-verdict">Priced well below the majors on a New Zealand road trip, and the pricing is honest — the quote is close to the amount charged, which is not true of every value brand.</p>
-            <ul class="rc-review-list">
-              <li class="rc-good">Transparent totals, no fuel games, and vans large enough for a group with luggage</li>
-              <li class="rc-watch">Cars carry more mileage than the majors', and depots are a shuttle from the terminal rather than inside it</li>
-            </ul>
-          </div>
-          <div class="rc-actions"><a class="rc-site" href="https://www.apexrentals.co.nz" target="_blank" rel="noopener">apexrentals.co.nz</a><a class="rc-site" href="https://www.trustpilot.com/review/apexrentals.co.nz" target="_blank" rel="noopener">Reviews</a></div>
-        </div>
-      </div>
-    </div>
-
-    <!-- ═══ AFRICA & MIDDLE EAST ═══ -->
-    <div class="rc-region" id="rc-africa-middle-east">
-      <div class="rc-region-head">
-        <div class="rc-cont-label" style="margin-top:0"><span class="rc-cont-icon-wrap"><svg class="gm-icon" data-icon="pin" data-role="icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#gm-i-pin"/></svg></span>Africa &amp; Middle East</div>
-      </div>
-      <div class="rc-cont-note">South Africa is the one market on the continent with a full domestic rental industry, and it is a good one — Avis Budget Southern Africa, Europcar SA, First Car Rental and Bidvest anchor the airports at OR Tambo, Cape Town and Durban. Elsewhere in Africa and across the Gulf, the global brands operate through local franchises, so the name on the desk is international but the fleet, terms and service are the franchisee's. Cross-border travel out of South Africa needs a written authorisation letter arranged before pickup.</div>
-
-      <div class="rc-grid">
-        <div class="rc-card">
-          <div class="rc-card-head">
-            <div class="rc-icon"><svg class="flag-svg" viewBox="0 0 36 36" aria-hidden="true" data-flag="10206"><use href="/assets/flags/sprite.svg#flag-10206"></use></svg></div>
-            <div>
-              <div class="rc-name"><a href="https://www.avis.co.za" target="_blank" rel="noopener">Avis Budget Southern Africa</a></div>
-              <div class="rc-tag">Regional network</div>
-            </div>
-          </div>
-          <div class="rc-desc">The regional Avis and Budget operation, and one of the anchor tenants at every major South African airport. It carries the widest one-way network in the country and the most established process for taking a car across a border into Namibia, Botswana or Eswatini.</div>
-          <div class="rc-review">
-            <div class="rc-review-label">Review</div>
-            <p class="rc-verdict">The safest booking for a South African self-drive that covers distance — the one-way coverage and the cross-border paperwork are handled routinely rather than as an exception.</p>
-            <ul class="rc-review-list">
-              <li class="rc-good">Depth at Johannesburg, Cape Town and Durban, plus one-way rentals between them</li>
-              <li class="rc-watch">Cross-border permits cost extra and must be arranged in advance — not something the desk can add on the day</li>
-            </ul>
-          </div>
-          <div class="rc-actions"><a class="rc-site" href="https://www.avis.co.za" target="_blank" rel="noopener">avis.co.za</a><a class="rc-site" href="https://www.trustpilot.com/review/avis.co.za" target="_blank" rel="noopener">Reviews</a></div>
-        </div>
-
-        <div class="rc-card">
-          <div class="rc-card-head">
-            <div class="rc-icon"><svg class="flag-svg" viewBox="0 0 36 36" aria-hidden="true" data-flag="10206"><use href="/assets/flags/sprite.svg#flag-10206"></use></svg></div>
-            <div>
-              <div class="rc-name"><a href="https://www.bidvestcarrental.co.za" target="_blank" rel="noopener">Bidvest Car Rental</a></div>
-              <div class="rc-tag">Regional network</div>
-            </div>
-          </div>
-          <div class="rc-desc">A subsidiary of the Bidvest Group, one of South Africa's largest business services companies, and a leading holder of corporate fleet contracts at OR Tambo and Cape Town International. Counters at all main airports.</div>
-          <div class="rc-review">
-            <div class="rc-review-label">Review</div>
-            <p class="rc-verdict">The best-maintained fleet of the South African operators, because it is built for corporate contracts rather than leisure turnover — the car handed over has usually had a proper service.</p>
-            <ul class="rc-review-list">
-              <li class="rc-good">Well-kept vehicles and quick airport counters aimed at business renters</li>
-              <li class="rc-watch">Leisure rates are rarely the cheapest — quote it against First Car Rental before booking</li>
-            </ul>
-          </div>
-          <div class="rc-actions"><a class="rc-site" href="https://www.bidvestcarrental.co.za" target="_blank" rel="noopener">bidvestcarrental.co.za</a><a class="rc-site" href="https://www.trustpilot.com/review/bidvestcarrental.co.za" target="_blank" rel="noopener">Reviews</a></div>
-        </div>
-
-        <div class="rc-card">
-          <div class="rc-card-head">
-            <div class="rc-icon"><svg class="flag-svg" viewBox="0 0 36 36" aria-hidden="true" data-flag="10206"><use href="/assets/flags/sprite.svg#flag-10206"></use></svg></div>
-            <div>
-              <div class="rc-name"><a href="https://www.firstcarrental.co.za" target="_blank" rel="noopener">First Car Rental</a></div>
-              <div class="rc-tag">Value brand</div>
-            </div>
-          </div>
-          <div class="rc-desc">A South African independent with counters at every major airport and a national branch network, competing with the international names on price rather than on scale.</div>
-          <div class="rc-review">
-            <div class="rc-review-label">Review</div>
-            <p class="rc-verdict">Usually the cheapest quote at a South African airport, and the service is closer to the majors than the price suggests. The constraint is fleet size, not quality.</p>
-            <ul class="rc-review-list">
-              <li class="rc-good">Undercuts Avis and Bidvest on most leisure bookings</li>
-              <li class="rc-watch">Smaller fleet sells out over December and January — book weeks ahead for the summer holidays</li>
-            </ul>
-          </div>
-          <div class="rc-actions"><a class="rc-site" href="https://www.firstcarrental.co.za" target="_blank" rel="noopener">firstcarrental.co.za</a><a class="rc-site" href="https://www.trustpilot.com/review/firstcarrental.co.za" target="_blank" rel="noopener">Reviews</a></div>
-        </div>
-      </div>
-    </div>
-
-    <div class="rc-section-note">Not looking for a car to drive yourself? <a href="/essentials/private-transfers/">Private transfers</a> covers the fixed-price, driver-included alternative — the aggregators, the airport specialists, and what the premium over a taxi actually buys.</div>
-
-  </div>
-
-</div><!-- /wrap -->
-
-<style id="v-layer">
-/* ══════════════════════════════════════════════════════════════════════════
-   VARIANT — "AURORA GLASS"
-   A competition redesign layer, inline and scoped to body.v-aurora. The page
-   keeps every word; only the material changes.
-   Idea: cards read as frosted glass panes. Depth does the work borders used
-   to do — panels tilt toward the pointer, edges catch light, and the section
-   you are reading is the one in focus. The hero and the page background are
-   the site standard (owner rule 2026-09-06) — only the panels, chips, tables
-   and interactions carry the glass treatment.
-   ══════════════════════════════════════════════════════════════════════════ */
-
-body.v-aurora {
-  --v-ink:   #21201d;
-  --v-quiet: #5d5a54;
-  --v-glass: rgba(255,255,255,.62);
-  --v-edge:  rgba(255,255,255,.85);
-  --v-hot:   #C04E1A;
-  --v-e:     cubic-bezier(.16,1,.3,1);
-  color: var(--v-ink);
-  position: relative;
-}
-@media (prefers-color-scheme: dark) {
-  body.v-aurora {
-    --v-ink:   #ece8e1;
-    --v-quiet: #a5a099;
-    --v-glass: rgba(38,36,33,.55);
-    --v-edge:  rgba(255,255,255,.14);
-    --v-hot:   #e8834a;
-  }
-}
-
-/* ── every surface becomes glass ──────────────────────────────────────── */
-body.v-aurora .v-pane,
-body.v-aurora .wrap details {
-  background: var(--v-glass) !important;
-  backdrop-filter: blur(18px) saturate(140%);
-  -webkit-backdrop-filter: blur(18px) saturate(140%);
-  border: 1px solid var(--v-edge) !important;
-  border-image: none !important;
-  border-radius: 20px !important;
-  box-shadow: 0 18px 44px -22px rgba(40,28,14,.34), inset 0 1px 0 rgba(255,255,255,.45) !important;
-  transform-style: preserve-3d;
-  transition: box-shadow .45s var(--v-e), transform .18s ease-out;
-  will-change: transform;
-}
-body.v-aurora .v-pane:hover  {
-  box-shadow: 0 34px 70px -26px rgba(40,28,14,.46), 0 0 0 1px rgba(192,78,26,.4), inset 0 1px 0 rgba(255,255,255,.6) !important;
-}
-/* the light that runs along the top edge when the pointer is on a pane */
-body.v-aurora .v-tilt { position: relative; }
-body.v-aurora .v-tilt::before {
-  content: ""; position: absolute; inset: 0; border-radius: inherit;
-  pointer-events: none; opacity: 0; transition: opacity .4s;
-  background: radial-gradient(220px 160px at var(--mx,50%) var(--my,50%), rgba(255,255,255,.5), transparent 70%);
-}
-@media (prefers-color-scheme: dark) {
-  body.v-aurora .v-tilt::before { background: radial-gradient(220px 160px at var(--mx,50%) var(--my,50%), rgba(255,190,140,.14), transparent 70%); }
-}
-body.v-aurora .v-tilt:hover::before { opacity: 1; }
-
-body.v-aurora .wrap h2 {
-  font-size: clamp(22px, 2.6vw, 34px) !important;
-  font-weight: 750 !important; letter-spacing: -.02em !important;
-  color: var(--v-ink) !important;
-  margin-top: clamp(40px, 5vw, 72px) !important;
-}
-body.v-aurora .v-label {
-  color: var(--v-hot) !important;
-  letter-spacing: .16em !important; text-transform: uppercase !important;
-  font-size: 11px !important; font-weight: 700 !important;
-}
-body.v-aurora .v-stat {
-  background: linear-gradient(150deg, var(--v-hot), #8a3c14 70%);
-  -webkit-background-clip: text; background-clip: text; color: transparent !important;
-  font-variant-numeric: tabular-nums;
-  font-size: clamp(30px, 4vw, 48px) !important;
-}
-@media (prefers-color-scheme: dark) {
-  body.v-aurora .v-stat { background: linear-gradient(150deg, #ffb27a, #e8834a 70%); -webkit-background-clip: text; background-clip: text; }
-}
-body.v-aurora .v-chip {
-  background: rgba(255,255,255,.5) !important;
-  border: 1px solid var(--v-edge) !important;
-  backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
-  border-radius: 999px !important;
-  transition: transform .3s var(--v-e), background .3s;
-}
-body.v-aurora .v-chip:hover { transform: translateY(-2px); background: rgba(192,78,26,.14) !important; }
-
-body.v-aurora .wrap table {
-  background: var(--v-glass); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
-  border-radius: 18px; overflow: hidden;
-  box-shadow: 0 18px 44px -24px rgba(40,28,14,.34);
-}
-body.v-aurora .wrap th { background: rgba(192,78,26,.1) !important; color: var(--v-hot) !important; border: 0 !important; }
-body.v-aurora .wrap td { border-bottom: 1px solid var(--v-edge) !important; background: none !important; }
-body.v-aurora .wrap tr:hover td { background: rgba(255,255,255,.34) !important; }
-
-/* ── reveal: out of focus until it is your turn ───────────────────────── */
-body.v-aurora .v-r { opacity: 0; transform: translateY(34px) scale(.985); filter: blur(9px); }
-body.v-aurora .v-r.in {
-  opacity: 1; transform: none; filter: none;
-  transition: opacity .85s var(--v-e), transform .85s var(--v-e), filter .85s var(--v-e);
-  transition-delay: var(--sd, 0s);
-}
-
-/* ── the reading meter ────────────────────────────────────────────────── */
-body.v-aurora .v-meter {
-  position: fixed; right: 20px; bottom: 20px; z-index: 70;
-  width: 54px; height: 54px; border-radius: 50%;
-  background: var(--v-glass); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
-  border: 1px solid var(--v-edge);
-  box-shadow: 0 14px 34px -14px rgba(40,28,14,.5);
-  display: grid; place-items: center;
-  font: 700 11px/1 ui-monospace, "SF Mono", Menlo, monospace;
-  color: var(--v-hot); letter-spacing: .02em;
-}
-body.v-aurora .v-meter svg { position: absolute; inset: 0; width: 100%; height: 100%; transform: rotate(-90deg); }
-body.v-aurora .v-meter circle { fill: none; stroke-width: 3; }
-body.v-aurora .v-meter .bg { stroke: rgba(192,78,26,.16); }
-body.v-aurora .v-meter .fg { stroke: var(--v-hot); stroke-linecap: round; transition: stroke-dashoffset .12s linear; }
-@media (max-width: 700px) { body.v-aurora .v-meter { width: 44px; height: 44px; font-size: 9px; right: 12px; bottom: 12px; } }
-
-@media (prefers-reduced-motion: reduce) {
-  body.v-aurora *,
-body.v-aurora *::before,
-body.v-aurora *::after {
-    animation: none !important; transition: none !important;
-  }
-  body.v-aurora .v-r { opacity: 1; transform: none; filter: none; }
-}
-</style>
-<script id="v-js">
+<script src="/assets/search-autocomplete.js?v=8"></script>
+<script>
+/* eslint-env browser */
 (function () {
-  var body = document.body;
-  body.classList.add('v-aurora');
-  
-  /* Tag the page's own components by CLASS TOKEN, not by substring. An
-     attribute match like [class*="-card"] also catches the grid CONTAINER
-     (pt-cards), its kicker (pt-cards-head) and every inner part of a tile
-     (pt-tile-icon, pt-tile-body) — each would have been painted as a panel of
-     its own. Matching a whole token ending in -card/-tile/-panel hits only the
-     real thing. The site's canonical components (.badge, .pillbadge,
-     .selection-pill, .chevron-link-pill) are skipped outright: they are
-     governed by the pills/badges doc and keep their approved look here. */
-  (function tag() {
-    var scope = document.querySelector('.wrap');
-    if (!scope) return;
-    var SKIP = /(^|\s)(badge|pillbadge|selection-pill|selection-pill-sm|chevron-link-pill)(\s|$)/;
-    var els = scope.querySelectorAll('*');
-    for (var i = 0; i < els.length; i++) {
-      var el = els[i];
-      var c = ' ' + (el.getAttribute('class') || '') + ' ';
-      if (SKIP.test(c)) continue;
-      if (el.tagName === 'ARTICLE' || /\s[a-z0-9-]+-(card|tile|panel)\s/.test(c)) el.classList.add('v-pane');
-      if (/\s[a-z0-9-]+-chip\s/.test(c)) el.classList.add('v-chip');
-      if (/\s[a-z0-9-]+-num\s/.test(c)) el.classList.add('v-stat');
-      if (/\s[a-z0-9-]+-head\s/.test(c)) el.classList.add('v-label');
-    }
-  })();
+  'use strict';
+  var REDUCED = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-  var reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var REGIONS = [
+    { key: 'worldwide', name: 'Worldwide networks', note: 'The four that price on every continent' },
+    { key: 'europe', name: 'Europe', note: 'Manual is the default — book automatic ahead' },
+    { key: 'north-america', name: 'North America', note: 'Same lot, same fleet, a lower badge' },
+    { key: 'latin-america', name: 'Latin America', note: "Brazil's two giants outsize the majors" },
+    { key: 'asia-pacific', name: 'Asia & Pacific', note: 'Domestic operators beat the international names' },
+    { key: 'africa-middle-east', name: 'Africa & Middle East', note: 'One full domestic market: South Africa' }
+  ];
 
-  /* reading meter */
-  var meter = document.createElement('div');
-  meter.className = 'v-meter';
-  meter.setAttribute('aria-hidden', 'true');
-  meter.innerHTML =
-    '<svg viewBox="0 0 54 54"><circle class="bg" cx="27" cy="27" r="24"/>' +
-    '<circle class="fg" cx="27" cy="27" r="24"/></svg><b>0%</b>';
-  body.appendChild(meter);
-  var ring = meter.querySelector('.fg');
-  var pct = meter.querySelector('b');
-  var C = 2 * Math.PI * 24;
-  ring.style.strokeDasharray = C;
-  ring.style.strokeDashoffset = C;
+  var CO = [
+    { region: 'worldwide', n: '01', cat: 'global', catLabel: 'Global network', badge: 'sb-blue', name: 'Hertz', url: 'https://www.hertz.com',
+      desc: "One of the three global networks, with the widest in-terminal airport presence — a desk you walk to rather than a shuttle to an off-site lot, which is what you want after a late arrival. Gold Plus Rewards skips the counter entirely at most large US and European airports. The group also owns Dollar and Thrifty, which sell from the same fleet at lower rates with fewer staff behind the desk.",
+      verdict: "Reliable where it matters most — the arrival. The in-terminal desk and the counter-free loyalty pickup are worth real money on a late landing, and the fleet is consistent across continents.",
+      good: "Most airports where the desk is inside the terminal, not a shuttle ride away",
+      watch: "Post-rental damage and fuel charges are billed more aggressively than at rivals — photograph the car at pickup and return",
+      links: [['https://www.hertz.com', 'hertz.com'], ['https://www.trustpilot.com/review/hertz.com', 'Reviews']] },
+    { region: 'worldwide', n: '02', cat: 'global', catLabel: 'Global network', badge: 'sb-blue', name: 'Enterprise', url: 'https://www.enterprise.com',
+      desc: "The largest network by number of branches, and the only one with real depth away from airports — ordinary neighbourhood offices in suburbs and small towns, which is what makes a local or one-way rental practical. Service is counter-heavy by design, with a walk-round of the car at handover. Owns National, aimed at frequent business renters who pick their own car from the aisle, and Alamo, the leisure brand at lower rates.",
+      verdict: "The most consistent service of the global four, and the only one that works properly for a rental that does not start at an airport. The staffed handover catches damage disputes before they happen.",
+      good: "Neighbourhood branches make local pickups and one-way trips practical",
+      watch: "Every pickup goes through a counter — slow at a busy airport, and several airport sites are off-site shuttles",
+      links: [['https://www.enterprise.com', 'enterprise.com'], ['https://www.trustpilot.com/review/enterprise.com', 'Reviews']] },
+    { region: 'worldwide', n: '03', cat: 'global', catLabel: 'Global network', badge: 'sb-blue', name: 'Avis', url: 'https://www.avis.com',
+      desc: "The third global name, closest in shape to Hertz: strong airport presence, business-oriented, and an Avis Preferred tier that bypasses the queue. Worth pricing against Hertz on every single booking — the two swap places constantly, and an identical car class can differ sharply depending on which of them has surplus fleet that week.",
+      verdict: "A straight substitute for Hertz rather than a different proposition, which is exactly its value: the same coverage from a second supplier, so one bad rate never decides the trip.",
+      good: "Preferred tier skips the queue, and rates undercut Hertz often enough to be worth the second search every time",
+      watch: "Counter upsell on insurance and upgrades is persistent — the excess cover you already hold on a credit card usually makes it unnecessary",
+      links: [['https://www.avis.com', 'avis.com'], ['https://www.trustpilot.com/review/avis.com', 'Reviews']] },
+    { region: 'worldwide', n: '04', cat: 'value', catLabel: 'Value brand', badge: 'sb-green', name: 'Budget', url: 'https://www.budget.com',
+      desc: "Avis's value brand, drawing on the same fleet and frequently the same counter for a lower headline rate and fewer inclusions. The difference shows up in the extras rather than the car: additional-driver fees, one-way charges and fuel policies are tighter, so the two need comparing on the final total rather than the day rate.",
+      verdict: "Genuinely cheaper on a simple booking — one driver, return to the same desk, full-to-full fuel. Add a second driver or a one-way leg and the saving against Avis disappears.",
+      good: "Same cars and often the same lot as Avis for a lower base rate",
+      watch: "Extra-driver, one-way and fuel terms are stricter — compare the final total, never the day rate",
+      links: [['https://www.budget.com', 'budget.com'], ['https://www.trustpilot.com/review/budget.com', 'Reviews']] },
 
-  /* reveal */
-  var wrap = document.querySelector('.wrap');
-  if (wrap) {
-    var seen = [];
-    Array.prototype.forEach.call(
-      wrap.querySelectorAll(':scope > *, section > h2, section > h3, section > p, .v-pane, table'),
-      function (el) {
-        if (el.closest('.v-pane') && el.matches('p, h3, table')) return;
-        if (seen.indexOf(el) > -1) return;
-        seen.push(el); el.classList.add('v-r');
-      }
-    );
-    var io = new IntersectionObserver(function (es) {
+    { region: 'europe', n: '05', cat: 'europe', catLabel: 'Europe', badge: 'sb-light-blue', name: 'Europcar', url: 'https://www.europcar.com',
+      desc: "The largest European-headquartered network, with far deeper coverage of small cities and regional airports than the American groups manage. One thing to plan around: manual transmission is the default across most of its European fleet, so an automatic has to be booked explicitly and costs more. Owns Goldcar and InterRent, the low-cost brands common at Mediterranean holiday airports.",
+      verdict: "The network to book when the trip leaves the capitals. Coverage of provincial France, Italy, Germany and Spain is unmatched, and the cars are newer than the American groups rent at the same price.",
+      good: "Branches in small cities and regional airports where the global brands have none",
+      watch: "Automatics are scarce and expensive, and desk hours at small branches close early and all weekend",
+      links: [['https://www.europcar.com', 'europcar.com'], ['https://www.trustpilot.com/review/europcar.com', 'Reviews']] },
+    { region: 'europe', n: '06', cat: 'premium', catLabel: 'Premium fleet', badge: 'sb-gold', name: 'Sixt', url: 'https://www.sixt.com',
+      desc: "German, and independent of the three big groups. It rents a noticeably better class of car for the money — BMW, Mercedes and Audi turn up in mid-range categories where rivals offer economy hatchbacks — which makes it the one to check when the drive itself is part of the trip. Strongest in Germany and continental Europe, thinner in North America and Asia.",
+      verdict: "The most car for the money anywhere in Europe, and the difference is not marginal — a mid-size booking regularly arrives as a German saloon. That is the whole case for it, and it holds.",
+      good: "Newest fleet of any major, with premium marques in ordinary categories",
+      watch: "Insurance excess and the card hold on the deposit are among the highest — check both before the desk runs the card",
+      links: [['https://www.sixt.com', 'sixt.com'], ['https://www.trustpilot.com/review/sixt.com', 'Reviews']] },
+    { region: 'europe', n: '07', cat: 'value', catLabel: 'Value brand', badge: 'sb-green', name: 'Goldcar', url: 'https://www.goldcar.es',
+      desc: "Europcar's low-cost brand, alongside InterRent, and the name behind a large share of the cheapest quotes at Spanish, Portuguese, Italian and Greek holiday airports. It sells a very low base rate and recovers the margin at the desk through fuel policy and insurance, so the price on the comparison site is rarely the price paid.",
+      verdict: "The cheapest way to put a car on a Mediterranean holiday, provided the desk is handled deliberately. Arrive with your own excess cover and a full tank booked, decline everything offered, and the low rate survives contact with the counter.",
+      good: "Consistently the lowest quote at southern European leisure airports",
+      watch: "Fuel-out policies, heavy insurance upsell and long summer queues at off-terminal depots",
+      links: [['https://www.goldcar.es', 'goldcar.es'], ['https://www.trustpilot.com/review/goldcar.es', 'Reviews']] },
+
+    { region: 'north-america', n: '08', cat: 'business', catLabel: 'Business fleet', badge: 'sb-dark-brown', name: 'National', url: 'https://www.nationalcar.com',
+      desc: "Enterprise's business brand, built around the Emerald Aisle: a booked mid-size lets you walk to the aisle, take any car parked in it, and drive to the gate without stopping at a counter. Coverage is concentrated at airports and business districts rather than suburbs.",
+      verdict: "The fastest pickup in the United States, and by a wide margin — plane to driving in under ten minutes at most large airports, with no queue and no upsell conversation.",
+      good: "Emerald Aisle removes the counter entirely, and the aisle usually holds better cars than the class booked",
+      watch: "Priced for expense accounts — leisure rates rarely compete with Alamo from the same parent",
+      links: [['https://www.nationalcar.com', 'nationalcar.com'], ['https://www.trustpilot.com/review/nationalcar.com', 'Reviews']] },
+    { region: 'north-america', n: '09', cat: 'value', catLabel: 'Value brand', badge: 'sb-green', name: 'Alamo', url: 'https://www.alamo.com',
+      desc: "The leisure brand in the Enterprise group, sharing fleet and lots with National and Enterprise at lower rates. Self-service kiosks handle most pickups, and it is the group's strongest brand at holiday-destination airports in Florida, the Southwest and Hawaii.",
+      verdict: "The value pick that does not punish a family booking — additional drivers are often included where rivals charge daily, which changes the total more than the day rate does.",
+      good: "Spouse or partner frequently added free, and kiosks let you skip the desk",
+      watch: "Queues at holiday airports in peak weeks are the worst of the group — check in online first",
+      links: [['https://www.alamo.com', 'alamo.com'], ['https://www.trustpilot.com/review/alamo.com', 'Reviews']] },
+    { region: 'north-america', n: '10', cat: 'value', catLabel: 'Value brand', badge: 'sb-green', name: 'Dollar', url: 'https://www.dollar.com',
+      desc: "Hertz's value brand, renting from the same fleet at a lower rate with fewer staff behind the desk. It shares a counter with Thrifty at most US airports, so the two quote against each other from one queue and one lot.",
+      verdict: "A real saving on the base rate that survives only if nothing is added at the desk. The car is the Hertz car; what is cut is the staffing, and the queue shows it.",
+      good: "Frequently the lowest rate at a large US airport for the same fleet Hertz rents",
+      watch: "Heaviest counter upsell of the US brands, on prepaid fuel, toll passes and coverage",
+      links: [['https://www.dollar.com', 'dollar.com'], ['https://www.trustpilot.com/review/dollar.com', 'Reviews']] },
+    { region: 'north-america', n: '11', cat: 'value', catLabel: 'Value brand', badge: 'sb-green', name: 'Thrifty', url: 'https://www.thrifty.com',
+      desc: "The second Hertz value brand, sharing Dollar's counter, lot and fleet at most US airports. Because both quote independently on comparison sites, the two prices for what is physically the same car can differ by a wide margin on the same dates.",
+      verdict: "Worth pricing purely because it is quoted separately from Dollar — the cheaper of the two wins with no difference in the car, the lot or the staff.",
+      good: "Same fleet and counter as Dollar, sometimes materially cheaper on identical dates",
+      watch: "Also the same queue, the same upsell, and the same off-terminal lots in several cities",
+      links: [['https://www.thrifty.com', 'thrifty.com'], ['https://www.trustpilot.com/review/thrifty.com', 'Reviews']] },
+    { region: 'north-america', n: '12', cat: 'p2p', catLabel: 'Peer-to-peer', badge: 'sb-rust', name: 'Turo', url: 'https://turo.com',
+      desc: "Not a rental company but a marketplace: cars are owned by individuals and handed over by their owners, in person or by lockbox. That puts vehicles and pickup points on the map where no counter exists, and makes specialty cars, long rentals and small towns cheaper than the majors can price them.",
+      verdict: "Strong on price and on cars nobody rents — a pickup truck, a convertible, a week in a town with no rental desk. Weak on everything that depends on a company existing behind the transaction.",
+      good: "Cheaper on rentals past a week, and reaches places the counters do not",
+      watch: "A cancelled host leaves no counter to fall back on; airport pickup is restricted in some cities and insurance is a separate product with its own excess",
+      links: [['https://turo.com', 'turo.com'], ['https://www.trustpilot.com/review/turo.com', 'Reviews']] },
+
+    { region: 'latin-america', n: '13', cat: 'regional', catLabel: 'Regional network', badge: 'sb-teal', name: 'Localiza', url: 'https://www.localiza.com',
+      desc: "The largest rental company in Latin America, and after absorbing Unidas in 2022 it manages a combined rental and fleet-management operation of roughly 658,000 vehicles. Branch coverage runs across Brazil and more than ten countries in the region, at airports and in city centres alike.",
+      verdict: "The default across the region for a reason: the density is genuinely national rather than airport-only, so a one-way between Brazilian cities is a normal booking rather than a special arrangement.",
+      good: "Coverage no international brand matches in Brazil, including inland cities and one-way returns",
+      watch: "The deposit hold is large and the contract is Portuguese-first — read the fuel and toll terms before signing",
+      links: [['https://www.localiza.com', 'localiza.com'], ['https://www.trustpilot.com/review/localiza.com', 'Reviews']] },
+    { region: 'latin-america', n: '14', cat: 'regional', catLabel: 'Regional network', badge: 'sb-teal', name: 'Movida', url: 'https://www.movida.com.br',
+      desc: "Brazil's second rental group, with a total fleet of about 267,000 cars as of March 2026 and branches across every state and the federal district. It prices directly against Localiza, which is what makes it worth quoting rather than assuming the larger network is cheaper.",
+      verdict: "A newer fleet than the size of the company suggests, and rates that undercut Localiza often enough to justify the second search on any Brazilian booking.",
+      good: "Competitive pricing against the market leader with comparable Brazilian airport coverage",
+      watch: "Coverage outside Brazil is thin — for the rest of the region it is not a substitute",
+      links: [['https://www.movida.com.br', 'movida.com.br'], ['https://www.trustpilot.com/review/movida.com.br', 'Reviews']] },
+
+    { region: 'asia-pacific', n: '15', cat: 'regional', catLabel: 'Regional network', badge: 'sb-teal', name: 'Toyota Rent a Car', url: 'https://rent.toyota.co.jp/eng/',
+      desc: "Japan's largest rental network, with around 1,100 locations covering airports, city stations and small towns. Booking is available in English, and the fleet is drawn from current Toyota models, so the cars are newer and more uniform than at any international brand operating in the country.",
+      verdict: "The straightforward answer for driving in Japan — a branch near almost any station worth starting from, English-language booking that works, and no surprises at the desk.",
+      good: "Reach into rural Japan that no international brand comes close to, with a new fleet throughout",
+      watch: "Not the cheapest, and the ETC toll card, child seats and non-smoking terms each add a step at pickup",
+      links: [['https://rent.toyota.co.jp/eng/', 'rent.toyota.co.jp']] },
+    { region: 'asia-pacific', n: '16', cat: 'regional', catLabel: 'Regional network', badge: 'sb-teal', name: 'ORIX Rent-A-Car', url: 'https://car.orix.co.jp/eng/',
+      desc: "Japan's second-largest rental fleet, run by the ORIX leasing group, with airport and city branches nationwide and a mixed-manufacturer fleet rather than a single brand's models.",
+      verdict: "Consistently cheaper than Toyota Rent a Car for a comparable car at the main airports, which makes it the first quote to check on a Japanese trip that starts and ends at a hub.",
+      good: "Lower rates than the market leader with good airport coverage",
+      watch: "English support at rural branches is thinner — keep pickups to airports and major stations",
+      links: [['https://car.orix.co.jp/eng/', 'car.orix.co.jp']] },
+    { region: 'asia-pacific', n: '17', cat: 'regional', catLabel: 'Regional network', badge: 'sb-teal', name: 'Times Car Rental', url: 'https://www.timescar-rental.com',
+      desc: "Built on the Times car-park network, which puts its branches inside city centres rather than on the ring roads. That makes it the practical choice for a short rental that starts and ends in a Japanese city — a day trip out and back rather than a week on the road.",
+      verdict: "Best positioned of the Japanese operators for a car picked up in town, and its hourly and half-day pricing suits a single excursion better than a daily rate does.",
+      good: "Central city branches and short-duration pricing for day trips",
+      watch: "Fewer rural and small-airport locations than Toyota or ORIX — weak for a touring itinerary",
+      links: [['https://www.timescar-rental.com', 'timescar-rental.com']] },
+    { region: 'asia-pacific', n: '18', cat: 'regional', catLabel: 'Regional network', badge: 'sb-teal', name: 'Lotte Rent-a-Car', url: 'https://www.lotterentacar.net',
+      desc: "South Korea's largest rental operator, with the deepest presence at Incheon and Gimpo and on Jeju, where renting a car is the normal way to see the island. English-language booking and airport service are established.",
+      verdict: "The one to book for Jeju, where its depot scale means availability in peak weeks that smaller operators cannot promise. On the mainland a car is rarely worth it against the rail network.",
+      good: "Dominant on Jeju and at the Seoul airports, with English service at both",
+      watch: "The International Driving Permit is checked strictly and a foreign licence alone will be refused",
+      links: [['https://www.lotterentacar.net', 'lotterentacar.net'], ['https://www.trustpilot.com/review/lotterentacar.net', 'Reviews']] },
+    { region: 'asia-pacific', n: '19', cat: 'value', catLabel: 'Value brand', badge: 'sb-green', name: 'Apex Car Rentals', url: 'https://www.apexrentals.co.nz',
+      desc: "A New Zealand and Australian operator with depots at all major airports in both countries, acquired by Avis Budget Group in 2012 but sold and operated as a separate value brand. Fleet runs from small hatchbacks to eight- and twelve-seat vans.",
+      verdict: "Priced well below the majors on a New Zealand road trip, and the pricing is honest — the quote is close to the amount charged, which is not true of every value brand.",
+      good: "Transparent totals, no fuel games, and vans large enough for a group with luggage",
+      watch: "Cars carry more mileage than the majors', and depots are a shuttle from the terminal rather than inside it",
+      links: [['https://www.apexrentals.co.nz', 'apexrentals.co.nz'], ['https://www.trustpilot.com/review/apexrentals.co.nz', 'Reviews']] },
+
+    { region: 'africa-middle-east', n: '20', cat: 'regional', catLabel: 'Regional network', badge: 'sb-teal', name: 'Avis Budget Southern Africa', url: 'https://www.avis.co.za',
+      desc: "The regional Avis and Budget operation, and one of the anchor tenants at every major South African airport. It carries the widest one-way network in the country and the most established process for taking a car across a border into Namibia, Botswana or Eswatini.",
+      verdict: "The safest booking for a South African self-drive that covers distance — the one-way coverage and the cross-border paperwork are handled routinely rather than as an exception.",
+      good: "Depth at Johannesburg, Cape Town and Durban, plus one-way rentals between them",
+      watch: "Cross-border permits cost extra and must be arranged in advance — not something the desk can add on the day",
+      links: [['https://www.avis.co.za', 'avis.co.za'], ['https://www.trustpilot.com/review/avis.co.za', 'Reviews']] },
+    { region: 'africa-middle-east', n: '21', cat: 'regional', catLabel: 'Regional network', badge: 'sb-teal', name: 'Bidvest Car Rental', url: 'https://www.bidvestcarrental.co.za',
+      desc: "A subsidiary of the Bidvest Group, one of South Africa's largest business services companies, and a leading holder of corporate fleet contracts at OR Tambo and Cape Town International. Counters at all main airports.",
+      verdict: "The best-maintained fleet of the South African operators, because it is built for corporate contracts rather than leisure turnover — the car handed over has usually had a proper service.",
+      good: "Well-kept vehicles and quick airport counters aimed at business renters",
+      watch: "Leisure rates are rarely the cheapest — quote it against First Car Rental before booking",
+      links: [['https://www.bidvestcarrental.co.za', 'bidvestcarrental.co.za'], ['https://www.trustpilot.com/review/bidvestcarrental.co.za', 'Reviews']] },
+    { region: 'africa-middle-east', n: '22', cat: 'value', catLabel: 'Value brand', badge: 'sb-green', name: 'First Car Rental', url: 'https://www.firstcarrental.co.za',
+      desc: "A South African independent with counters at every major airport and a national branch network, competing with the international names on price rather than on scale.",
+      verdict: "Usually the cheapest quote at a South African airport, and the service is closer to the majors than the price suggests. The constraint is fleet size, not quality.",
+      good: "Undercuts Avis and Bidvest on most leisure bookings",
+      watch: "Smaller fleet sells out over December and January — book weeks ahead for the summer holidays",
+      links: [['https://www.firstcarrental.co.za', 'firstcarrental.co.za'], ['https://www.trustpilot.com/review/firstcarrental.co.za', 'Reviews']] }
+  ];
+
+  function esc(s) {
+    return String(s == null ? '' : s)
+      .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+  }
+
+  /* Region rail — names only, never a count (Ninety-second non-negotiable). */
+  document.getElementById('wca-rail').innerHTML = REGIONS.map(function (r) {
+    return '<a href="#ch-' + r.key + '" data-ch="' + r.key + '">' + esc(r.name) + '</a>';
+  }).join('');
+
+  /* Chapters + clauses */
+  var html = '';
+  REGIONS.forEach(function (r, ri) {
+    var lines = CO.filter(function (c) { return c.region === r.key; });
+    html += '<section class="wca-chapter" id="ch-' + r.key + '" data-ch="' + r.key + '">'
+         +    '<div class="wca-chapter-head">'
+         +      '<span class="wca-chapter-no">Region ' + (ri + 1) + '</span>'
+         +      '<span class="wca-chapter-name">' + esc(r.name) + '</span>'
+         +      '<span class="wca-chapter-note">' + esc(r.note) + '</span>'
+         +    '</div>'
+         +    '<p class="wca-rnote">' + REGION_NOTE(r.key) + '</p>';
+    lines.forEach(function (m) {
+      var links = m.links.map(function (l) {
+        return '<a href="' + esc(l[0]) + '" target="_blank" rel="noopener">' + esc(l[1]) + '</a>';
+      }).join('');
+      html += '<article class="wca-co" data-cat="' + esc(m.cat) + '" data-name="' + esc(m.name) + '">'
+           +    '<div class="wca-co-n">' + esc(m.n) + '</div>'
+           +    '<div>'
+           +      '<h2 class="wca-co-name"><a href="' + esc(m.url) + '" target="_blank" rel="noopener">' + esc(m.name) + '</a></h2>'
+           +      '<div class="wca-co-tagrow"><span class="badge ' + esc(m.badge) + '">' + esc(m.catLabel) + '</span></div>'
+           +      '<p class="wca-co-desc">' + esc(m.desc) + '</p>'
+           +      '<p class="wca-co-verdict">' + esc(m.verdict) + '</p>'
+           +      '<ul><li class="g">' + esc(m.good) + '</li><li class="w">' + esc(m.watch) + '</li></ul>'
+           +      '<div class="wca-co-links">' + links + '</div>'
+           +    '</div>'
+           +    '<svg class="wca-stamp" viewBox="0 0 160 160" role="img" aria-label="' + esc(m.catLabel) + '"><circle cx="80" cy="80" r="72" fill="none" stroke-width="3" stroke-dasharray="3 6"/><circle cx="80" cy="80" r="60" fill="none" stroke-width="2"/><path id="ring' + esc(m.n) + '" d="M 80,26 A 54,54 0 1 1 79.9,26" fill="none"/><text font-size="9" letter-spacing="2.4"><textPath href="#ring' + esc(m.n) + '" startOffset="2%">' + esc(m.catLabel.toUpperCase()) + '</textPath></text><text x="80" y="86" text-anchor="middle" font-size="17" letter-spacing="1">' + esc(m.n) + '</text></svg>'
+           +  '</article>';
+    });
+    html += '</section>';
+  });
+  document.getElementById('wca-log').innerHTML = html;
+
+  function REGION_NOTE(key) {
+    var NOTES = {
+      'worldwide': "The four that price and operate on every continent. On an unfamiliar route these are the ones with a desk where you expect one, a phone number that answers, and a car waiting when the flight lands at midnight — which is what the premium over a regional operator buys.",
+      'europe': "The two European groups reach small cities and regional airports the American networks do not, and both rent from a newer fleet. Two things separate a European rental from an American one: manual transmission is the default almost everywhere, so an automatic must be booked explicitly and costs more, and cross-border travel needs declaring — several countries in the east and the Balkans are excluded from standard terms.",
+      'north-america': "The continent where the value brands are worth taking seriously, because they rent the same cars from the same lots as their parents. It is also the one place where a peer-to-peer marketplace competes with the counters outright. Two costs that do not appear in the quote: the airport concession fee added to every on-site rental, and tolls, which are charged through a transponder the rental company bills at a daily rate whether or not a toll is driven.",
+      'latin-america': "The global brands operate here mostly as franchises, and the two Brazilian groups are far larger than any of them — Localiza alone runs a fleet several times the size of anything the American networks field in the region. Expect large credit-card holds, service in Portuguese or Spanish first, and mandatory local third-party liability cover that cannot be replaced by a card benefit.",
+      'asia-pacific': "Japan and Korea are served almost entirely by domestic operators, and they are better than the international names on both coverage and fleet age. Two requirements decide whether a rental is possible at all here: an International Driving Permit is mandatory and checked at the desk in Japan and Korea, and Japanese expressway tolls are paid through an ETC card that is rented with the vehicle. Australia and New Zealand drive on the left, and their value operators run older cars than the majors.",
+      'africa-middle-east': "South Africa is the one market on the continent with a full domestic rental industry, and it is a good one — Avis Budget Southern Africa, Europcar SA, First Car Rental and Bidvest anchor the airports at OR Tambo, Cape Town and Durban. Elsewhere in Africa and across the Gulf, the global brands operate through local franchises, so the name on the desk is international but the fleet, terms and service are the franchisee's. Cross-border travel out of South Africa needs a written authorisation letter arranged before pickup."
+    };
+    return esc(NOTES[key] || '');
+  }
+
+  var cos = Array.prototype.slice.call(document.querySelectorAll('.wca-co'));
+  var chapters = Array.prototype.slice.call(document.querySelectorAll('.wca-chapter'));
+  var railLinks = Array.prototype.slice.call(document.querySelectorAll('.wca-rail a'));
+  var emptyEl = document.getElementById('wca-empty');
+  var keys = Array.prototype.slice.call(document.querySelectorAll('#wca-keys .pill-badge'));
+  var input = document.getElementById('wcr-search');
+  var activeType = 'all';
+
+  function setKeys(t) {
+    keys.forEach(function (b) {
+      var on = b.getAttribute('data-filter') === t;
+      b.classList.toggle('is-on', on);
+      b.setAttribute('aria-pressed', on ? 'true' : 'false');
+    });
+  }
+
+  /* Search + category filter together shrink the page to what matches —
+     the same shrink-to-match behaviour essentials/cruises/ and
+     essentials/resources/ already ship. A chapter with nothing left
+     hides too, instead of showing an empty region heading. */
+  function apply() {
+    var q = input ? input.value.trim().toLowerCase() : '';
+    var total = 0;
+    chapters.forEach(function (ch) {
       var n = 0;
-      es.forEach(function (e) {
-        if (!e.isIntersecting) return;
-        e.target.style.setProperty('--sd', (n++ * 0.07) + 's');
-        e.target.classList.add('in');
-        io.unobserve(e.target);
+      Array.prototype.forEach.call(ch.querySelectorAll('.wca-co'), function (co) {
+        var show = (activeType === 'all' || co.getAttribute('data-cat') === activeType)
+                && (!q || co.textContent.toLowerCase().indexOf(q) > -1);
+        co.hidden = !show;
+        if (show) { n++; }
       });
-    }, { rootMargin: '0px 0px -6% 0px', threshold: 0.05 });
-    seen.forEach(function (el) {
-      if (el.getBoundingClientRect().top < innerHeight * 0.92) { el.classList.add('in'); return; }
-      io.observe(el);
+      ch.hidden = n === 0;
+      total += n;
     });
-    setTimeout(function () {
-      seen.forEach(function (el) { el.classList.add('in'); });
-    }, 2500);
+    emptyEl.classList.toggle('on', total === 0);
   }
 
-  /* pointer tilt + edge light on every pane */
-  if (!reduce && matchMedia('(hover: hover)').matches) {
-    var panes = document.querySelectorAll('.v-pane');
-    Array.prototype.forEach.call(panes, function (p) {
-      p.classList.add('v-tilt');
-      var raf = 0;
-      p.addEventListener('pointermove', function (ev) {
-        if (raf) return;
-        raf = requestAnimationFrame(function () {
-          raf = 0;
-          var r = p.getBoundingClientRect();
-          var x = (ev.clientX - r.left) / r.width;
-          var y = (ev.clientY - r.top) / r.height;
-          p.style.setProperty('--mx', (x * 100) + '%');
-          p.style.setProperty('--my', (y * 100) + '%');
-          p.style.transform =
-            'perspective(900px) rotateX(' + ((0.5 - y) * 5).toFixed(2) + 'deg) rotateY(' +
-            ((x - 0.5) * 6).toFixed(2) + 'deg) translateZ(6px)';
-        });
-      });
-      p.addEventListener('pointerleave', function () { p.style.transform = ''; });
+  keys.forEach(function (b) {
+    b.addEventListener('click', function () {
+      var t = b.getAttribute('data-filter');
+      activeType = (activeType === t) ? 'all' : t;
+      setKeys(activeType);
+      apply();
     });
+  });
+
+  if (input) { input.addEventListener('input', apply); }
+  apply();
+
+  /* Stamp lands as its clause scrolls into view; rail highlights the
+     region currently in view. */
+  if ('IntersectionObserver' in window && !REDUCED) {
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (en) {
+        if (en.isIntersecting) { en.target.classList.add('in'); io.unobserve(en.target); }
+      });
+    }, { threshold: 0.15, rootMargin: '0px 0px -8% 0px' });
+    cos.forEach(function (co) { io.observe(co); });
+    setTimeout(function () { cos.forEach(function (co) { co.classList.add('in'); }); }, 2500);
+
+    var chIo = new IntersectionObserver(function (entries) {
+      entries.forEach(function (en) {
+        if (!en.isIntersecting) return;
+        var k = en.target.getAttribute('data-ch');
+        railLinks.forEach(function (a) { a.classList.toggle('on', a.getAttribute('data-ch') === k); });
+      });
+    }, { rootMargin: '-45% 0px -45% 0px' });
+    chapters.forEach(function (ch) { chIo.observe(ch); });
+  } else {
+    cos.forEach(function (co) { co.classList.add('in'); });
   }
 
-  /* count-up */
-  if (!reduce) {
-    var nio = new IntersectionObserver(function (es) {
-      es.forEach(function (e) {
-        if (!e.isIntersecting) return;
-        nio.unobserve(e.target);
-        if (e.target.children.length) return;
-        var raw = e.target.textContent, m = raw.match(/(\d[\d,.]*)/);
-        if (!m) return;
-        var target = parseFloat(m[1].replace(/,/g, ''));
-        if (!isFinite(target) || target > 100000) return;
-        var dec = (m[1].split('.')[1] || '').length, t0 = performance.now();
-        var tick = function (t) {
-          var p = Math.min(1, Math.max(0, (t - t0) / 1000));
-          var v = target * (1 - Math.pow(1 - p, 3));
-          e.target.textContent = raw.replace(m[1], v.toFixed(dec).replace(/\B(?=(\d{3})+(?!\d))/g, ','));
-          if (p < 1) requestAnimationFrame(tick);
-        };
-        requestAnimationFrame(tick);
-      });
-    }, { threshold: 0.5 });
-    Array.prototype.forEach.call(document.querySelectorAll('.v-stat'), function (n) { nio.observe(n); });
+  /* An incoming #ch-europe-style link scrolls straight to that region. */
+  var startHash = (location.hash || '').replace('#', '');
+  if (startHash) {
+    var target = document.getElementById(startHash);
+    if (target) { setTimeout(function () { target.scrollIntoView({ block: 'start' }); }, 60); }
   }
 
-  var pending = false;
-  var onScroll = function () {
-    if (pending) return;
-    pending = true;
-    requestAnimationFrame(function () {
-      pending = false;
-      var h = document.documentElement.scrollHeight - innerHeight;
-      var p = h > 0 ? Math.min(1, scrollY / h) : 0;
-      ring.style.strokeDashoffset = C * (1 - p);
-      pct.textContent = Math.round(p * 100) + '%';
+  /* Search — every company is in scope regardless of the active filter.
+     A pick resets the filter, scrolls the match into view, and flashes
+     it so the match is unmistakable. */
+  if (window.TVESearch && input) {
+    TVESearch.attach(input, {
+      items: cos.map(function (co) {
+        var region = REGIONS.filter(function (r) { return r.key === co.closest('.wca-chapter').getAttribute('data-ch'); })[0];
+        return { name: co.getAttribute('data-name'), sub: region ? region.name : '', el: co };
+      }),
+      onPick: function (it) {
+        activeType = 'all'; setKeys('all');
+        input.value = it.name;
+        apply();
+        if (it.el) {
+          it.el.scrollIntoView({ block: 'center', behavior: 'smooth' });
+          it.el.classList.remove('wca-hit');
+          void it.el.offsetWidth;
+          it.el.classList.add('wca-hit');
+        }
+      }
     });
-  };
-  addEventListener('scroll', onScroll, { passive: true });
-  onScroll();
+  }
 })();
 </script>
-
 </body>
 </html>

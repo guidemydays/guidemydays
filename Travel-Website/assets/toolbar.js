@@ -9343,7 +9343,7 @@ window.TVE.home = (function () {
       /* Missing entirely — average-costs sibling pills sat bare beside pills
          that draw one (check_also_on_site_pills_intact). The 'budget' icon
          key already exists in the catalogue below, just never wired here. */
-      'average-costs': 'budget',
+      'average-costs': 'budget', 'local-prices': 'budget',
       /* Stays — six pages all drew `neighborhoods`, which put five identical
          house marks down the Hotels & Stays strip. */
       'hotels': 'hotel', 'neighborhoods': 'neighborhoods',

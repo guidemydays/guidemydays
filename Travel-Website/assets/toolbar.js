@@ -4948,7 +4948,12 @@ window.TVE.home = (function () {
     if (!isRealGuide) return;
 
     var ON_HTML  = iconSVG(null, 15, 'check') + ' Full guide';
-    var OFF_HTML = iconSVG(null, 15, 'phone-frame') + ' Pocket version';
+    /* Sized up from the shared 15px other pills use — the phone-frame
+       glyph is a narrow vertical rectangle (about half the icon's own
+       width), so at 15px it reads visibly smaller than the bolder
+       full-width icons (calendar, map, printer) beside it in the same
+       row. Same fix as the Currency pill's iconSVG(null, 19, …) above. */
+    var OFF_HTML = iconSVG(null, 20, 'phone-frame') + ' Pocket version';
 
     var btn = document.createElement('a');
     btn.href = 'javascript:void(0)';

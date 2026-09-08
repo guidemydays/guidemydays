@@ -447,27 +447,32 @@ a.also-on-this-site-pill:active {
 }
 :root[data-theme="dark"] .sibling-pill:not([class*="sb-"]):not([class*="cp-"]) { color: var(--text); }
 
+/* The bare class carries the BOX and nothing else it does not read from the
+   element's own tone. Ground, rim and ink are --sp-wash / --sp-rgb / --sp-ink,
+   which resolve only once a tone class (cp-* / sp-* / sb-* / nt-* / mt-*) sits
+   beside it -- the same three tokens .selection-pill-sm carries below, and the
+   same rule the pills doc states for both sizes.
+   What stood here was a full NEUTRAL set -- a --warm ground, --muted ink, a
+   --border2 rim, an --nt-grey hover and selected pair, and a --surface2
+   dark-mode pair. That made a toneless pill come out as a finished-looking
+   grey component rather than the omission it is, which is exactly how the
+   month chips on sunrise-sunset and sports-calendar, 159 guide links on
+   nomad-visas and the landing carousel arrows all shipped with no tone at
+   all. Hover belongs to the .hov-* mechanics, selected to the tone-scoped
+   [aria-pressed="true"][class*="cp-"] rule further down; neither needs a
+   neutral of its own here, and a neutral here re-creates the fallback for
+   every page at once. */
 .selection-pill {
   font-family: inherit; box-sizing: border-box; display: inline-flex; align-items: center;
   justify-content: center;
   line-height: 1.2; font-size: 16px; font-weight: 600; padding: 8px 18px;
-  border: 1px solid var(--border2, var(--border2)); border-radius: 999px; background: var(--warm, #fdf8f0);
-  color: var(--muted, #6a6660); cursor: pointer; text-decoration: none; user-select: none;
-}
-@media (hover: hover) {
-  .selection-pill:hover { background: var(--nt-grey-wash, #f0ede8); border-color: rgba(var(--nt-grey-rgb, 106,102,96), .75); color: var(--nt-grey-ink, #6a6660); }
+  border: 1px solid rgba(var(--sp-rgb),.45); border-radius: 999px; background: var(--sp-wash);
+  color: var(--sp-ink); cursor: pointer; text-decoration: none; user-select: none;
 }
 .selection-pill.is-on,
 .selection-pill[aria-pressed="true"] {
-  background: var(--nt-grey-wash, #f0ede8); border-color: rgba(var(--nt-grey-rgb, 106,102,96), .75); color: var(--nt-grey-ink, #6a6660); font-weight: 600;
+  background: color-mix(in srgb, var(--sp-wash) 58%, var(--sp-ink) 42%); font-weight: 600;
 }
-@media (prefers-color-scheme: dark) {
-  .selection-pill { color: var(--muted, #9a9690); border-color: var(--border2, var(--border2)); }
-  .selection-pill:hover,
-  .selection-pill.is-on,
-  .selection-pill[aria-pressed="true"] { background: var(--surface2, var(--surface2)); color: var(--muted, #9a9690); border-color: #4a453e; }
-}
-:root[data-theme="dark"] .selection-pill { color: var(--muted, #9a9690); }
 
 /* 2026-09-01: .selection-pill-sm never had this base rule -- only the
    family-color compound rules (.selection-pill-sm.cp-* / .nt-* / .sp-* / .sb-*)

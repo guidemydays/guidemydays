@@ -1021,7 +1021,7 @@ window.TVE.home = (function () {
            #607 (same family, tighter span and thinner stroke). Replaces the
            map-card "route A to B" composition — a quiet "go to" cue instead
            of a competing icon on a mark used ~10,775 times fleet-wide. */
-        'route-ab': ['0 0 24 24', '<path d="M10 6.4 15.6 12 10 17.6" fill="none" stroke="#C04E1A" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/>'],
+        'route-ab': ['0 0 24 24', '<path d="M10 6.4 15.6 12 10 17.6" fill="none" stroke="#C04E1A" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>'],
         'squeeze': ['0 0 24 24', '<g data-norm="h19.5" transform="translate(1.364 1.364) scale(0.8864)"><path d="M0.5 1.0 L10.6 1.0 L8.6 6.4 L10.9 11.2 L9.4 16.0 L11.0 23.0 L0.5 23.0 Z" fill="url(#gm-rust)" stroke="var(--c-rust-rim)" stroke-width="0.564" stroke-linejoin="round"/><path d="M0.5 1.0 L10.6 1.0 L8.6 6.4 L10.9 11.2 L9.4 16.0 L11.0 23.0 L0.5 23.0 Z" fill="url(#gm-gloss)"/><path d="M23.5 1.0 L13.4 1.0 L15.4 6.4 L13.1 11.2 L14.6 16.0 L13.0 23.0 L23.5 23.0 Z" fill="url(#gm-rust)" stroke="var(--c-rust-rim)" stroke-width="0.564" stroke-linejoin="round"/><path d="M23.5 1.0 L13.4 1.0 L15.4 6.4 L13.1 11.2 L14.6 16.0 L13.0 23.0 L23.5 23.0 Z" fill="url(#gm-gloss)"/></g>'],
     'viaduct': ['0 0 24 24', '<path d="M2.0 2.25 L22.0 2.25 L22.0 4.85 L2.0 4.85 Z" fill="url(#gm-stone)" stroke="var(--c-stone-rim)" stroke-width="0.5" stroke-linejoin="round"/><path d="M2.0 2.25 L22.0 2.25 L22.0 4.85 L2.0 4.85 Z" fill="url(#gm-gloss)"/><path d="M3.2 4.85 L6.2 4.85 L6.2 19.15 L3.2 19.15 Z M10.5 4.85 L13.5 4.85 L13.5 19.15 L10.5 19.15 Z M17.8 4.85 L20.8 4.85 L20.8 19.15 L17.8 19.15 Z" fill="url(#gm-rust)" stroke="var(--c-rust-rim)" stroke-width="0.5" stroke-linejoin="round"/><path d="M3.2 4.85 L6.2 4.85 L6.2 19.15 L3.2 19.15 Z M10.5 4.85 L13.5 4.85 L13.5 19.15 L10.5 19.15 Z M17.8 4.85 L20.8 4.85 L20.8 19.15 L17.8 19.15 Z" fill="url(#gm-gloss)"/><g fill="none" stroke="var(--c-rust-rim)" stroke-width="1.5"><path d="M6.2 13.9 A2.15 2.15 0 0 1 10.5 13.9"/><path d="M13.5 13.9 A2.15 2.15 0 0 1 17.8 13.9"/></g><path d="M2.0 19.15 L22.0 19.15 L22.0 21.75 L2.0 21.75 Z" fill="url(#gm-rust)" stroke="var(--c-rust-rim)" stroke-width="0.5" stroke-linejoin="round"/><path d="M2.0 19.15 L22.0 19.15 L22.0 21.75 L2.0 21.75 Z" fill="url(#gm-gloss)"/>'],
     'walk': ['0 0 24 24', '<circle cx="13.2" cy="3.7" r="2.3" fill="url(#gm-tan)" stroke="var(--c-tan-rim)" stroke-width="0.5"/> <g fill="none" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round"> <path d="M13.2 7.6 11.6 12.8" stroke="var(--c-red)"/><path d="M12.4 9.2 15.8 11.4" stroke="var(--c-red)"/><path d="M12.6 8.9 9.4 11.2" stroke="var(--c-red)"/> <path d="M11.6 12.8 13.9 16.2 13.4 20.9" stroke="var(--c-navy)"/><path d="M11.6 12.8 9.4 16.4 7.9 20.4" stroke="var(--c-navy)"/></g>'],
@@ -1058,6 +1058,14 @@ window.TVE.home = (function () {
        the site. Same fix as Currency and Pocket version, just via the
        em-based .gm-icon path those two don't use. */
     '.gm-icon[data-icon="theatre"]{width:1.5em;height:1.5em}' +
+    /* At the shared 1.2em box the route-ab chevron's own auto-fit crop
+       (viewBox tightened to its stroke) reads oversized next to the plain
+       walk/drive text beside it in every motion row -- the one glyph on the
+       site drawn at full stroke weight in a box this small. Shrunk to
+       0.75em to sit like punctuation, not a button; the stroke-width itself
+       also dropped 2.4 -> 1.5 in the sprite above so the line thins along
+       with the box instead of just shrinking a still-bold mark. */
+    '.gm-icon[data-icon="route-ab"]{width:.75em;height:.75em}' +
         'a.motion-route{margin-left:6px;display:inline-block;line-height:0;text-decoration:none}' +
     '';
 

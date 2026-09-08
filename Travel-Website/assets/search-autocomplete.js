@@ -83,6 +83,20 @@
     'yellowstone':'Wyoming'
   };
 
+  // Accent-fold so "Malaga" finds "Málaga", "Curacao" finds "Curaçao",
+  // "Tromso" finds "Tromsø" — the reader is typing on a plain keyboard.
+  // Same fold every other site search already uses (toolbar.js airport
+  // lookup, passport.js, the guide title-city matcher) — TVESearch was the
+  // one search left without it. ø/Ø is handled separately: it is a distinct
+  // letter, not an accented "o", so NFD normalize never decomposes it.
+  // Every replacement here is one-character-for-one-character, so the
+  // folded string stays the same length as the input — hlName relies on
+  // that to slice highlight ranges out of the ORIGINAL (unfolded) string.
+  function fold(s) {
+    s = String(s == null ? '' : s);
+    return s.normalize ? s.normalize('NFD').replace(/[̀-ͯ]/g, '').replace(/ø/g, 'o').replace(/Ø/g, 'O') : s;
+  }
+
   function stateText(name, sub) {
     // Handle both " CA" (space-before) and ", CA" (comma-space) formats.
     var m = name && name.match(/[, ]+([A-Z]{2})\s*$/);
@@ -128,10 +142,10 @@
     it.name = _stripRawKey('name', it.name, it);
     it.sub  = _stripRawKey('sub',  it.sub,  it);
     it.text = _stripRawKey('text', it.text, it);
-    it._n = String(it.name || '').toLowerCase();
-    it._s = String(it.sub  || '').toLowerCase();
+    it._n = fold(it.name).toLowerCase();
+    it._s = fold(it.sub).toLowerCase();
     var extra = stateText(it.name, it.sub);
-    it._t = (String(it.text || '') + (extra ? ' ' + extra : '')).toLowerCase();
+    it._t = fold(String(it.text || '') + (extra ? ' ' + extra : '')).toLowerCase();
   }
 
   function esc(s) {
@@ -142,7 +156,7 @@
   // Wrap the first word-start occurrence of q in str with <b class="sa-hl">.
   // Falls back to plain esc(str) when q is not found at a word boundary.
   function hlName(str, q) {
-    var lower = str.toLowerCase();
+    var lower = fold(str).toLowerCase();
     var i = lower.indexOf(q);
     while (i >= 0) {
       if (i === 0 || lower[i - 1] === ' ' || lower[i - 1] === '-' || lower[i - 1] === '(' || lower[i - 1] === ',' || lower[i - 1] === '.' || lower[i - 1] === '/') {
@@ -198,7 +212,7 @@
     function render() {
       // A pick fires a native 'input' (to run the page filter); don't re-open on it.
       if (justPicked) { justPicked = false; hide(); return; }
-      var q = (input.value || '').trim().toLowerCase();
+      var q = fold((input.value || '').trim()).toLowerCase();
       if (q.length < minChars) { hide(); return; }
       cur = items.filter(function (it) { return match(it, q); })
         .sort(function (a, b) {

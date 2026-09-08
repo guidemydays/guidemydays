@@ -205,9 +205,22 @@ input.search:focus { border-color: var(--c-search-focus-border); box-shadow: non
    "true"]) so it can never compete with hover/selected, which are already
    !important and don't need this). --sp-wash/--sp-ink resolve to each cp-*
    class's own dark-mode color-mix automatically, so one rule covers every
-   viewport and both themes. */
+   viewport and both themes.
+   The rim is the FULL `border` shorthand, not `border-color` alone: the
+   desktop `.pills .pill { border: 1px solid var(--border2) }` block below
+   still sets the WIDTH, so a border-color-only restoration left every region
+   pill on a 1px rim of its own near-invisible wash -- the pastel-with-no-edge
+   look the pills doc's Family 1 gallery retired. `2px solid var(--sp-ink)` is
+   that gallery's one approved border. It is also the one declaration here
+   that is NOT scoped to the rest state: pills doc Rule 12 -- selected is a
+   background blend and "border stays exactly what it was at Rest" -- so the
+   rim belongs to every state, and scoping it away from [aria-pressed="true"]
+   is what left the selected "All" pill alone on the page's own 1px
+   var(--border2) rim. Background and ink stay rest-only; the shared
+   selected rule paints those with !important. */
+.pills .pill.selection-pill { border: 2px solid var(--sp-ink); }
 .pills .pill.selection-pill:not(.is-on):not([aria-pressed="true"]) {
-  background: var(--sp-wash); border-color: rgba(var(--sp-rgb),.45); color: var(--sp-ink);
+  background: var(--sp-wash); color: var(--sp-ink);
 }
 a.pill:visited { color: var(--muted, #6a6660); } /* note: browsers ignore CSS vars in :visited for security — hex fallback is intentional */
 

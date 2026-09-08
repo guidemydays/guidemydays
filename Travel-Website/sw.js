@@ -17,6 +17,15 @@
    small rounded tile (a ribbon reads as "clipped corner," which stopped
    making sense once it moved off the true corner to clear the bookmark
    button). MIN_VERSIONS['guides-index-style.css'] to 61, CACHE to v1924. */
+/* 2026-09-07: web-travel-style.css + trains.css -- every Family 1 Calm Pastel
+   pill keeps its permanent own-ink border in the CASCADE, not just in the
+   shared rule: nt-grey joined the Family 1 border group on all four
+   components (its #d9d5cb/#4f4a3e pair IS the doc's "Grey" swatch), the
+   shared .filter-btn.active terracotta rim is scoped off buttons that are
+   pill components with a tone of their own, and trains.css's
+   .filter-btn.active no longer repaints the rim with a wash tint.
+   MIN_VERSIONS['web-travel-style.css'] to 275, MIN_VERSIONS['trains.css']
+   to 31, CACHE to v1951. */
 /* 2026-09-06: web-travel-style.css -- Family 1 Calm Pastel and Beiges-and-
    Whites pills (the cp- family, the sp-rust/clay/espresso/saddle/sand/
    cream/butter/amber/yellow tones, the nt-white/paper/linen/cream/tan/brown
@@ -3243,7 +3252,7 @@
 /* 2026-09-07: toolbar.js: theatre-masks .gm-icon override sized up 1.2em->1.5em (two-oval glyph with eye-hole cutouts reads visibly smaller/lighter than bolder neighbors in the Shows pill and section title) toolbar.js -> v1209. CACHE to v1947. */
 /* 2026-09-07: essentials/average-costs/ renamed to essentials/local-prices/ (owner rule: "Cost of Living" read as expat/relocation content, not traveler-facing) -- URL, title, hero copy, filter labels and the guide-fleet "Also on this site" pill (244 guides) all moved from "Cost of Living" to "Local Prices". toolbar.js RES_GROUPS entry and PAGE_ICON key updated to match. index.html's Destination Finder budget fetch repointed to the new URL. CACHE to v1949. */
 /* 2026-09-07: search-autocomplete.js — accent-fold added to city/country matching (fold(): NFD strip + ø/Ø->o) so "Curacao" finds "Curaçao", "Zurich" finds "Zürich", "Tromso" finds "Tromsø" across every TVESearch page; the one shared search left without the fold every other site search (toolbar.js airport lookup, passport.js) already has. MIN_VERSIONS['search-autocomplete.js'] to 16, CACHE to v1950. */
-var CACHE = 'travel-cache-v1950';
+var CACHE = 'travel-cache-v1951';
 /* 2026-08-27: airlines.css's .card-tags align-items fix changed a shared
    asset without raising its own floor -- MIN_VERSIONS['airlines.css'] to
    6, CACHE to v1662. */
@@ -3287,7 +3296,7 @@ var ICS_OUTBOX = 'gmd-ics-outbox';
 /* 2026-08-30: search-autocomplete.js — reverted ARIA combobox pattern (role=listbox/option caused side-by-side layout regression). MIN_VERSIONS['search-autocomplete.js'] to 11, CACHE to v1749. */
 /* 2026-09-02: toolbar.js — remove false-affordance right hairline from stop-hours row (commit 981cca5d5). MIN_VERSIONS['toolbar.js'] to 1142, CACHE to v1816. */
 /* 2026-09-06: weather.js — Hammamet climate normals added; MIN_VERSIONS['weather.js'] to 27, CACHE to v1920. */
-var MIN_VERSIONS = { 'guide-style.css': 295,'toolbar.js': 1209, 'mobile.css': 94, 'web-travel-style.css': 274, 'guides-index-style.css': 63, 'read-about.css': 8, 'best-of-features.js': 6, 'best-of-cross-data.js': 25, 'weather.js': 28,'trains.css': 30, 'trains.js': 6, 'airlines.css': 9, 'airlines.js': 10, 'passport.js': 6, 'search-autocomplete.js': 16, 'flag-render.js': 3, 'site-footer.js': 2 };
+var MIN_VERSIONS = { 'guide-style.css': 295,'toolbar.js': 1209, 'mobile.css': 94, 'web-travel-style.css': 275, 'guides-index-style.css': 63, 'read-about.css': 8, 'best-of-features.js': 6, 'best-of-cross-data.js': 25, 'weather.js': 28,'trains.css': 31, 'trains.js': 6, 'airlines.css': 9, 'airlines.js': 10, 'passport.js': 6, 'search-autocomplete.js': 16, 'flag-render.js': 3, 'site-footer.js': 2 };
 
 function rewriteAssetUrl(urlStr) {
   var u;

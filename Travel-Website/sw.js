@@ -3264,7 +3264,8 @@
 /* 2026-09-08: mobile-ux-fix: add local-prices to PAGE_ICON toolbar.js -> v1210. CACHE to v1953. */
 /* 2026-09-08: sprite: re-add exchange outline key, fix hiking-boot tread ornament weight 0.5->0.8, alias delivery-car->ride-app toolbar.js -> v1211. CACHE to v1955. */
 /* 2026-09-08: sprite: restore delivery-car as array entry (baselined dup of ride-app); exchange coloured icon; hiking-boot ornament 0.5->0.8 toolbar.js -> v1212. CACHE to v1956. */
-var CACHE = 'travel-cache-v1956';
+/* 2026-09-08: index.html/web-travel-style.css — landing page's Compare cities "Surprise me" pill (.cmpx-mini) recolored from the Saddle tone to the pills doc's canonical pastel Bronze (owner request); added --sp-bronze-ink/-rgb/-wash root tokens. MIN_VERSIONS['web-travel-style.css'] to 278, CACHE to v1957. */
+var CACHE = 'travel-cache-v1957';
 /* 2026-08-27: airlines.css's .card-tags align-items fix changed a shared
    asset without raising its own floor -- MIN_VERSIONS['airlines.css'] to
    6, CACHE to v1662. */
@@ -3308,7 +3309,7 @@ var ICS_OUTBOX = 'gmd-ics-outbox';
 /* 2026-08-30: search-autocomplete.js — reverted ARIA combobox pattern (role=listbox/option caused side-by-side layout regression). MIN_VERSIONS['search-autocomplete.js'] to 11, CACHE to v1749. */
 /* 2026-09-02: toolbar.js — remove false-affordance right hairline from stop-hours row (commit 981cca5d5). MIN_VERSIONS['toolbar.js'] to 1142, CACHE to v1816. */
 /* 2026-09-06: weather.js — Hammamet climate normals added; MIN_VERSIONS['weather.js'] to 27, CACHE to v1920. */
-var MIN_VERSIONS = { 'guide-style.css': 295,'toolbar.js': 1212, 'mobile.css': 94, 'web-travel-style.css': 277, 'guides-index-style.css': 63, 'read-about.css': 8, 'best-of-features.js': 6, 'best-of-cross-data.js': 25, 'weather.js': 28,'trains.css': 31, 'trains.js': 6, 'airlines.css': 9, 'airlines.js': 10, 'passport.js': 6, 'search-autocomplete.js': 17, 'flag-render.js': 3, 'site-footer.js': 2 };
+var MIN_VERSIONS = { 'guide-style.css': 295,'toolbar.js': 1212, 'mobile.css': 94, 'web-travel-style.css': 278, 'guides-index-style.css': 63, 'read-about.css': 8, 'best-of-features.js': 6, 'best-of-cross-data.js': 25, 'weather.js': 28,'trains.css': 31, 'trains.js': 6, 'airlines.css': 9, 'airlines.js': 10, 'passport.js': 6, 'search-autocomplete.js': 17, 'flag-render.js': 3, 'site-footer.js': 2 };
 
 function rewriteAssetUrl(urlStr) {
   var u;

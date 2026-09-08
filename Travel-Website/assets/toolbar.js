@@ -9486,6 +9486,32 @@ window.TVE.home = (function () {
      on pages that gained nothing. */
   window.addEventListener('load', _injectAlsoOnSiteIcons);
 
+  /* The Local Prices pill's href and label are computed here, once, instead of
+     living as a literal string in all 244+ guide files (owner rule: no pill
+     should be hardcoded). Every guide still ships the pill itself — icon,
+     data-role="budget", the "also-on-this-site-pill" shell — the guide slug
+     just isn't retyped into it; this reads it back off the page's own URL. */
+  function _wireLocalPricesPill() {
+    var m = /\/guides\/([a-z0-9-]+)\.html$/.exec(location.pathname);
+    if (!m) return;
+    var svg = document.querySelector('a.also-on-this-site-pill svg[data-role="budget"]');
+    var a = svg && svg.closest('a.also-on-this-site-pill');
+    if (!a) return;
+    a.setAttribute('href', '/essentials/local-prices/#' + m[1]);
+    for (var i = a.childNodes.length - 1; i >= 0; i--) {
+      var n = a.childNodes[i];
+      if (n.nodeType === 3 && n.textContent.replace(/\s+/g, '')) {
+        n.textContent = ' Local Prices';
+        break;
+      }
+    }
+  }
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', _wireLocalPricesPill);
+  } else {
+    _wireLocalPricesPill();
+  }
+
   /* ── My Trip Notes — private per-stop annotations ────────────────────────
      A ✎ button in each .stop-header opens a one-line input under the stop
      name; the note saves to localStorage['tve-notes-{cityFolder}'] as a

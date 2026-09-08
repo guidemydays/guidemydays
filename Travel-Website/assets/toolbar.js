@@ -4898,14 +4898,14 @@ window.TVE.home = (function () {
     btn.id = 'tve-visited-btn';
     btn.innerHTML = visited
       ? iconSVG(null, 15, 'check') + ' I’ve Been'
-      : iconSVG(null, 15, 'pin-dropped') + ' I’ve Been';
+      : iconSVG(null, 15, 'pin') + ' I’ve Been';
 
     btn.addEventListener('click', function (e) {
       e.preventDefault(); e.stopPropagation();
       var nowVisited = !!localStorage.getItem(storageKey);
       if (nowVisited) {
         localStorage.removeItem(storageKey);
-        btn.innerHTML = iconSVG(null, 15, 'pin-dropped') + ' I’ve Been';
+        btn.innerHTML = iconSVG(null, 15, 'pin') + ' I’ve Been';
         btn.classList.remove('tve-been');
       } else {
         localStorage.setItem(storageKey, '1');
@@ -8709,7 +8709,7 @@ window.TVE.home = (function () {
          exchange glyph packs $ and € text into thin circles, so at 15px it
          reads visibly lighter/smaller than the bolder single-shape icons
          (calendar, map, phone, printer) beside it in the same row. */
-      pill.innerHTML = iconSVG(null, 19, 'currency-exchange') + ' Currency';
+      pill.innerHTML = iconSVG(null, 19, 'exchange') + ' Currency';
       pill.setAttribute('aria-expanded', 'false');
       pill.setAttribute('aria-controls', 'tve-cur-panel');
       pill.style.setProperty('flex', '1 1 auto', 'important');
@@ -10326,6 +10326,7 @@ window.TVE.home = (function () {
       'aruba':             {iata:'AUA', name:'Queen Beatrix International'},
       'athens':            {iata:'ATH', name:'Athens Eleftherios Venizelos'},
       'atlanta':           {iata:'ATL', name:'Hartsfield-Jackson Atlanta International'},
+      'auckland':          {iata:'AKL', name:'Auckland Airport'},
       'austin':            {iata:'AUS', name:'Austin–Bergstrom International'},
       'azores':            {iata:'PDL', name:'João Paulo II Airport'},
       'bahamas':           {iata:'NAS', name:'Lynden Pindling International'},
@@ -10592,7 +10593,7 @@ window.TVE.home = (function () {
        list) while every European guide jumped to its country rather than to
        its airport. */
     var LOUNGE_IATAS = [
-      'ABQ','AES','AGP','AJU','AMM','AMS','ANC','ARN','ATH','ATL','AUA','AUH','AUS','AYT','BCN','BDS',
+      'ABQ','AES','AGP','AJU','AKL','AMM','AMS','ANC','ARN','ATH','ATL','AUA','AUH','AUS','AYT','BCN','BDS',
       'BER','BGI','BGO','BIO','BKK','BLQ','BLR','BNA','BOB','BOD','BOM','BOS','BRU','BSL','BUD','CAE',
       'CAI','CDG','CFU','CGN','CKG','CLT','CMB','CNX','CPH','CPT','CTA','CTG','CUN','CUR','CUZ','CWB',
       'DAD','DBV','DCA','DEL','DEN','DFW','DOH','DPS','DTW','DUB','DUS','DXB','DYG','EDI','EYW','EZE',

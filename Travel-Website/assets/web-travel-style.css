@@ -1112,7 +1112,18 @@ input[type="text"]:focus,
   cursor: pointer; font-family: var(--font); font-size: 14px; font-weight: 600;
   color: var(--text, #1a1917);
 }
-.sa-row .sa-sub { font-weight: 400; color: var(--muted, #6a6660); }
+/* .sa-name wraps the highlighted <b> + rest of the name as ONE flex item.
+   Without it, the <b class="sa-hl"> and the plain text after it were two
+   separate flex children of .sa-row — each centered independently on the
+   cross axis, so once a long name wrapped to two lines inside a narrow
+   dropdown (a phone, or any row this narrow), the short bold prefix
+   centered itself over the MIDDLE of the wrapped block instead of sitting
+   at the start of its own first line, reading as overlapping text.
+   min-width:0 lets this item shrink/wrap inside the flex row at all —
+   a flex item's default min-width:auto would keep it at its content width
+   and push .sa-sub out instead of wrapping. */
+.sa-row .sa-name { flex: 1 1 auto; min-width: 0; }
+.sa-row .sa-sub { flex: 0 0 auto; font-weight: 400; color: var(--muted, #6a6660); }
 .sa-row:hover, .sa-row.active { background: var(--bg, #f5f3ef); }
 .sa-hl { font-weight: 800; font-style: normal; background: none; }
 .sa-empty { padding: 12px; font-size: 13px; color: var(--muted, #6a6660); text-align: center; }

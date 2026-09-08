@@ -227,7 +227,8 @@
       if (!cur.length) { hide(); return; }
       dd.innerHTML = cur.map(function (it, i) {
         return '<button type="button" role="option" id="' + uid + '-' + i + '" class="sa-row" data-i="' + i + '">' +
-          hlName(it.name, q) + (it.sub ? '<span class="sa-sub"> · ' + hlName(it.sub, q) + '</span>' : '') +
+          '<span class="sa-name">' + hlName(it.name, q) + '</span>' +
+          (it.sub ? '<span class="sa-sub"> · ' + hlName(it.sub, q) + '</span>' : '') +
           '</button>';
       }).join('');
       dd.hidden = false; active = -1; input.setAttribute('aria-expanded', 'true');

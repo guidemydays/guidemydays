@@ -204,14 +204,24 @@ a.cf-spill-pill:visited { color: var(--nt-linen-ink, #5a3c0e); }
   .cf-mon { height: 36px; padding: 0 14px; font-size: 13px; line-height: 1; border-radius: 0;
     border: none; border-left: 1px solid var(--border2,#e6e2da); }
   .cf-mon:first-child { border-left: none; }
-  /* .selection-pill.cp-brown (web-travel-style.css) paints border-color
-     rgba(0,0,0,.1) at 0-2-0 and beats the .cf-mon rule above, so the divider
-     has to be restated at 0-3-0 to land at all. It is the ring's own
-     --nt-linen-ink, not --border2 (owner 2026-09-05: "add the border in the
-     middle") — #e6e2da on this grid's #f5f0e6 ground barely read, so the
-     cells looked like one undivided strip. Same line as .cf-seg's dividers
-     below. */
+  /* .selection-pill.cp-brown (web-travel-style.css) sets the FULL shorthand
+     `border: 2px solid var(--sp-ink)` at 0-2-0, which beats the .cf-mon rule
+     above (0-1-0) on every longhand it touches — not just color. The line
+     below restates border-left-color at 0-3-0 to land the intended divider
+     tint (it is the ring's own --nt-linen-ink, not --border2 — owner
+     2026-09-05: "add the border in the middle" — #e6e2da on this grid's
+     #f5f0e6 ground barely read). But cp-brown's 2px WIDTH was never
+     restated, so it kept winning on every edge cp-brown supplies one for:
+     top/right/bottom on every cell, plus left on every cell but Jan. That
+     stacked a stray 2px cp-brown border UNDER the container's own 1.5px ring
+     along the whole top/bottom edge, and doubled every interior divider to
+     ~4px (2px trailing edge + 2px leading edge) instead of the intended 1px
+     hairline — worst at Jan's rounded corner, where the container ring and
+     cp-brown's unopposed top/bottom border overlap. Zeroing the width here
+     (color/style still come from cp-brown, now irrelevant at width:0) leaves
+     only the container ring and the one restated 1px left divider visible. */
   .cf-months .cf-mon + .cf-mon { border-left-color: var(--nt-linen-ink,#5a3c0e); }
+  .cf-months .cf-mon.selection-pill { border-top-width: 0; border-right-width: 0; border-bottom-width: 0; }
 }
 /* The 2026-08-30 "Rule 6" neutral-grey active state that stood here is REMOVED
    (owner, 2026-09-05: "fix the selection"). --nt-grey-wash #f0ede8 on this
@@ -1331,12 +1341,26 @@ a.cf-card:hover .cf-guide-pill { border-color: var(--nt-linen-ink,#5a3c0e); }
 </script>
 <script src="/assets/search-autocomplete.js?v=8"></script>
 <script>(function(){
-  if(!window.TVESearch) return;
-  var input=document.getElementById('cf-city-search'); if(!input) return;
-  TVESearch.attach(input,{items:window._cfSearchItems||[],onPick:function(it){
-    input.value=it.name;
-    input.dispatchEvent(new Event('input',{bubbles:true}));
-  }});
+  /* window._cfSearchItems is set inside start() above, which itself is
+     deferred to DOMContentLoaded whenever the doc is still loading at that
+     point -- true on every real page load, since this synchronous script
+     runs while the parser is still mid-document. Attaching here directly
+     ran before start() ever populated the array, so TVESearch.attach()
+     captured items:[] permanently (it snapshots opts.items once, it does
+     not read the global live) -- the dropdown existed and wired up
+     correctly, it just had nothing to ever match. Deferring this attach the
+     same way, registered after start()'s own DOMContentLoaded listener, so
+     it always runs after the array is populated. */
+  function go(){
+    if(!window.TVESearch) return;
+    var input=document.getElementById('cf-city-search'); if(!input) return;
+    TVESearch.attach(input,{items:window._cfSearchItems||[],onPick:function(it){
+      input.value=it.name;
+      input.dispatchEvent(new Event('input',{bubbles:true}));
+    }});
+  }
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', go);
+  else go();
 }());
 </script>
 </body>

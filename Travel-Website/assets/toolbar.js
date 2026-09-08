@@ -3564,6 +3564,7 @@ window.TVE.home = (function () {
     'copenhagen':'Europe/Copenhagen','corfu':'Europe/Athens',
     'crete':'Europe/Athens','curacao':'America/Curacao',
     'curitiba':'America/Sao_Paulo','cusco':'America/Lima',
+    'da-nang':'Asia/Bangkok',
     'dallas':'America/Chicago','delhi':'Asia/Kolkata','denver':'America/Denver',
     'doha':'Asia/Qatar','dubai':'Asia/Dubai',
     'dublin':'Europe/Dublin','dubrovnik':'Europe/Zagreb',
@@ -5268,6 +5269,16 @@ window.TVE.home = (function () {
 
     var HOTEL_ALT_DATA = {
     /* entries added per guide during build — see Separation Map.md § Hotels & Rentals */
+    'cappadocia': { h: [
+      { name: 'Peace Stone House', note: 'Independent — Göreme, 450 m from downtown, stone-cave rooms, breakfast included · 8.9 Booking.com', url: 'https://www.booking.com/hotel/tr/peace-stone-house.html', tier: 'budget' },
+      { name: 'Cappa Cave Hotel', note: 'Independent — Göreme, Avcılar Mahallesi, 300 m from downtown, cave-style rooms, breakfast included · 8.9 Booking.com', url: 'https://www.booking.com/hotel/tr/dora-cave.html', tier: 'budget' },
+      { name: 'Arif Cave Hotel', note: 'Independent — Göreme, 150 m from downtown, cave rooms carved into the rock, breakfast included · 9.8 Booking.com', url: 'https://www.booking.com/hotel/tr/arif-pension.html', tier: 'mid' },
+      { name: 'Imperial Cave Suites & Spa', note: 'Independent — Göreme, 250 m from downtown, private suites with spa access, breakfast included · 9.5 Booking.com', url: 'https://www.booking.com/hotel/tr/imperial-cave-hotel.html', tier: 'mid' },
+      { name: 'Kelebek Cave Hotel', note: 'Independent — this guide’s title-card hotel’s neighborhood, Aydinli Mahallesi, one of Göreme’s best-known cave hotels, terrace views, breakfast included · 9.3 Booking.com', url: 'https://www.booking.com/hotel/tr/kelebek-cave.html', tier: 'expensive' },
+      { name: 'Carus Cappadocia', note: 'Independent — Göreme, Gaferli Mahallesi, 20 m from downtown, sustainability-certified, stone deluxe rooms · 9.4 Booking.com', url: 'https://www.booking.com/hotel/tr/carus-cappadocia.html', tier: 'expensive' },
+      { name: 'Sultan Cave Suites', note: 'Independent — Göreme, Aydinli Mahallesi, 350 m from downtown, private suites with valley views · 9.1 Booking.com', url: 'https://www.booking.com/hotel/tr/sultan-cave-suites.html', tier: 'luxury' },
+      { name: 'Local Cave House', note: 'Independent — Göreme, 250 m from downtown, private cave suites, top-rated location in town · 9.5 Booking.com', url: 'https://www.booking.com/hotel/tr/local-cave-house.html', tier: 'luxury' }
+    ], price: { budget: 'TRY 2,850–3,300', mid: 'TRY 14,200–15,000', expensive: 'TRY 18,400–20,900', luxury: 'TRY 25,100+' } },
     'mexico-city': { h: [
       { name: 'Hotel Catedral', note: 'Independent — Centro Histórico, República de Guatemala, 2 min walk to the Metropolitan Cathedral, rooftop terrace, 24h reception, AC · 9.2 Booking.com', url: 'https://www.booking.com/hotel/mx/catedral-ciudad-de-mexico.html', tier: 'budget' },
       { name: 'Historico Central Hotel', note: 'Independent — Centro Histórico, Bolívar, restored colonial building 3 min walk from the Zócalo, 24h reception, AC · 9.4 Booking.com', url: 'https://www.booking.com/hotel/mx/historico-central.html', tier: 'budget' },
@@ -5994,6 +6005,16 @@ window.TVE.home = (function () {
       { name: 'Monasterio, A Belmond Hotel, Cusco', note: 'Belmond brand — 16th-century San Antonio Abad seminary on Plazoleta Nazarenas, baroque chapel, altitude oxygen service · 9.8 Booking.com', url: 'https://www.booking.com/hotel/pe/monasterio-cusco.html', tier: 'luxury' },
       { name: 'Inkaterra La Casona Relais & Chateaux', note: 'Relais & Châteaux — 16th-century colonial manor on Plaza de las Nazarenas, 11 suites with original Inca stonework · 9.1 Booking.com', url: 'https://www.booking.com/hotel/pe/inkaterra-la-casona.html', tier: 'luxury' }
     ], price: { budget: '$60–100', mid: '$100–200', expensive: '$200–400', luxury: '$400+' } },
+    'da-nang': { h: [
+      { name: 'Ruby Star Da Nang - Central My Khe Beach', note: 'Independent — Nguyen Van Thoai, My An, steps off the My Khe Beach strip, rooftop infinity pool, 24h reception, AC · 8.8 Booking.com', url: 'https://www.booking.com/hotel/vn/ruby-star-ngu-hanh-son.html', tier: 'budget' },
+      { name: 'PHUC LONG LUXURY Hotel Danang', note: 'Independent — 244 Vo Nguyen Giap, beachfront on the My Khe strip, rooftop infinity pool, 24h reception, AC · 9.1 Booking.com', url: 'https://www.booking.com/hotel/vn/phuc-long-luxury.html', tier: 'budget' },
+      { name: 'Novotel Danang Premier Han River', note: 'Novotel — first-tier international brand, 36 Bach Dang on the Han River downtown (a 15 min drive from the My Khe Beach strip), rooftop infinity pool, spa, 24h reception, AC · 8.8 Booking.com', url: 'https://www.booking.com/hotel/vn/novotel-danang-premier-han-river.html', tier: 'mid' },
+      { name: 'Four Points by Sheraton Danang', note: 'Marriott family — first-tier international brand, 118-120 Vo Nguyen Giap, beachfront on the My Khe strip, rooftop pool, spa, 24h reception, AC · 8.5 Booking.com', url: 'https://www.booking.com/hotel/vn/four-points-by-sheraton-danang.html', tier: 'mid' },
+      { name: 'Meliá Danang Beach Resort', note: 'Meliá — first-tier international brand, 19 Truong Sa, Ngu Hanh Son beachfront, private beach, spa, kids’ club, 24h reception, AC · 8.3 Booking.com', url: 'https://www.booking.com/hotel/vn/melia-danang.html', tier: 'expensive' },
+      { name: 'Hyatt Regency Danang Resort and Spa', note: 'Hyatt family — first-tier international brand, Hoa Hai Ward, Ngu Hanh Son beachfront, private beach, water slides, spa, 24h reception, AC · 8.7 Booking.com', url: 'https://www.booking.com/hotel/vn/hyatt-regency-danang-resort-and-spa.html', tier: 'expensive' },
+      { name: 'Danang Marriott Resort & Spa', note: 'Marriott family — first-tier international brand, 07 Truong Sa, Ngu Hanh Son beachfront, private beach, spa, 24h reception, AC · 9.1 Booking.com', url: 'https://www.booking.com/hotel/vn/da-nang-marriott-resort.html', tier: 'luxury' },
+      { name: 'Sheraton Grand Danang Beach Resort & Spa', note: 'Marriott family — first-tier international brand, Truong Sa, Ngu Hanh Son beachfront, private beach, water park, spa, 24h reception, AC · 8.9 Booking.com', url: 'https://www.booking.com/hotel/vn/sheraton-grand-danang-resort.html', tier: 'luxury' }
+    ], price: { budget: 'VND 1,550,000–2,100,000', mid: 'VND 3,150,000–3,800,000', expensive: 'VND 6,500,000–7,300,000', luxury: 'VND 7,500,000+' } },
     'dallas': { h: [
       { name: 'Courtyard by Marriott Dallas Downtown/Reunion District', note: 'Marriott Courtyard brand — 310 South Houston Street beside Union Station and Reunion Tower, bistro bar, 24h reception · 7.7 Booking.com', url: 'https://www.booking.com/hotel/us/courtyard-by-marriott-dallas-downtown-47-reunion-district.html', tier: 'budget' },
       { name: 'Hampton Inn & Suites Dallas Downtown', note: 'Hilton Hampton brand — 1700 Commerce Street in the Main Street District, indoor pool, breakfast included, 24h reception · 8.4 Booking.com', url: 'https://www.booking.com/hotel/us/commerce-street-suites-dallas-downtown-tx.html', tier: 'budget' },
@@ -6454,6 +6475,16 @@ window.TVE.home = (function () {
       { name: 'Le Place d\'Armes', note: 'Independent — Place d\'Armes historic core, 28 rooms in 1880s townhouses, Plëss restaurant · 9.0 Booking.com', url: 'https://www.booking.com/hotel/lu/le-place-d-armes.html', tier: 'expensive' },
       { name: 'Sofitel Luxembourg Europe', note: 'Sofitel brand — Kirchberg European Quarter, spa, contemporary design, close to EU institutions · 8.8 Booking.com', url: 'https://www.booking.com/hotel/lu/sofitel.html', tier: 'luxury' }
     ], price: { budget: '€80–140', mid: '€140–230', expensive: '€230–380', luxury: '€380+' } },
+    'luxor': { h: [
+      { name: 'Home of ISIS', note: 'Independent guesthouse — West Bank, terrace restaurant, garden, private bathrooms, 24h reception, AC · 9.9 Booking.com', url: 'https://www.booking.com/hotel/eg/home-of-isis-guesthouse.html', tier: 'budget' },
+      { name: 'El Nakhil Hotel', note: 'Independent — West Bank near the ferry landing, pool, garden, terrace, bar, 24h reception, AC · 9.1 Booking.com', url: 'https://www.booking.com/hotel/eg/el-nakhil.html', tier: 'budget' },
+      { name: 'Sonesta St. George Hotel - Convention Center', note: 'Sonesta brand — East Bank Corniche, health spa, fine dining, 24h reception, AC · 9.1 Booking.com', url: 'https://www.booking.com/hotel/eg/sonesta-st-george-luxor.html', tier: 'mid' },
+      { name: 'Steigenberger Nile Palace Luxor', note: 'Steigenberger brand — East Bank Nile-view rooms, pool, spa, 24h reception, AC · 9.0 Booking.com', url: 'https://www.booking.com/hotel/eg/steigenberger-nile-palace-luxor.html', tier: 'mid' },
+      { name: 'Jolie Ville Hotel & Spa Kings Island Luxor', note: 'Independent luxury — private Nile island, 165 acres of gardens, 3 pools, spa, 24h reception, AC · 8.7 Booking.com', url: 'https://www.booking.com/hotel/eg/jolie-ville-kings-island-luxor.html', tier: 'expensive' },
+      { name: 'Hilton Luxor Resort & Spa', note: 'Hilton brand — first-tier international brand, East Bank Nile-front, 2 infinity pools, spa, 24h reception, AC · 9.1 Booking.com', url: 'https://www.booking.com/hotel/eg/hilton-luxor-resort-spa.html', tier: 'expensive' },
+      { name: 'Pavillon Winter Luxor', note: 'Independent 5-star — Corniche El Nil beside Luxor Temple, pool, spa, 24h reception, AC · 9.0 Booking.com', url: 'https://www.booking.com/hotel/eg/new-winter-pavillon-palace.html', tier: 'luxury' },
+      { name: 'Al Moudira Hotel', note: 'Independent luxury — West Bank palace, oriental architecture, pool, spacious terrace, 24h reception, AC · 9.6 Booking.com', url: 'https://www.booking.com/hotel/eg/al-moudira.html', tier: 'luxury' }
+    ], price: { budget: '$20–40', mid: '$75–100', expensive: '$100–170', luxury: '$180–260' } },
     'lyon': { h: [
       { name: 'ibis Lyon Centre Gare Part-Dieu', note: 'Accor ibis brand — central Part-Dieu near TGV station and metro, 24h reception, air-conditioned rooms · 8.3 Booking.com', url: 'https://www.booking.com/hotel/fr/ibis-lyon-centre-part-dieu.html', tier: 'budget' },
       { name: 'Hôtel Carlton Lyon', note: 'Independent — Presqu\'île historic heart, Art Deco interiors, 83 rooms, walk to Place des Terreaux and major museums · 8.7 Booking.com', url: 'https://www.booking.com/hotel/fr/carlton-lyon.html', tier: 'mid' },
@@ -7556,7 +7587,17 @@ window.TVE.home = (function () {
       { name: 'Park Hyatt Zurich', note: 'Hyatt brand — Zurich West, outdoor pool, Parkhuus restaurant, spa, contemporary design, steps from Hauptbahnhof · 9.2 Booking.com', url: 'https://www.booking.com/hotel/ch/park-hyatt-zurich.html', tier: 'mid' },
       { name: 'Mandarin Oriental Savoy, Zurich', note: 'Mandarin Oriental brand — historic Savoy building on Paradeplatz, Fraumünster and Bahnhofstrasse 2 min walk, garden terrace, restaurant · 8.7 Booking.com', url: 'https://www.booking.com/hotel/ch/mandarin-oriental-savoy-zurich.html', tier: 'expensive' },
       { name: 'Baur au Lac', note: 'Independent luxury — 1844 lakefront hotel, private garden terrace, Pavillon and Rive Gauche restaurants · 9.3 Booking.com', url: 'https://www.booking.com/hotel/ch/baur-au-lac.html', tier: 'luxury' }
-    ], price: { budget: 'CHF 170–280', mid: 'CHF 280–450', expensive: 'CHF 450–650', luxury: 'CHF 650+' } }
+    ], price: { budget: 'CHF 170–280', mid: 'CHF 280–450', expensive: 'CHF 450–650', luxury: 'CHF 650+' } },
+    'jaipur': { h: [
+      { name: 'Fairfield by Marriott Jaipur', note: 'Marriott family (Fairfield) — Bani Park, outdoor pool, 24h reception, AC · 8.3 Booking.com', url: 'https://www.booking.com/hotel/in/fairfield-by-marriott-jaipur.html', tier: 'budget' },
+      { name: 'Fairfield by Marriott Jaipur Tonk Road', note: 'Marriott family (Fairfield) — Tonk Road, 24h reception, AC · 8.2 Booking.com', url: 'https://www.booking.com/hotel/in/fairfield-by-marriott-jaipur-tonk-road.html', tier: 'budget' },
+      { name: 'Jaipur Marriott Hotel', note: 'Marriott family — Tonk Road, outdoor pool, spa, 24h reception, AC · 8.3 Booking.com', url: 'https://www.booking.com/hotel/in/jaipur-marriott.html', tier: 'mid' },
+      { name: 'Hilton Jaipur', note: 'Hilton family — Bais Godam, central business district, 5 min walk to Birla Mandir, outdoor pool, 24h reception, AC · 8.4 Booking.com', url: 'https://www.booking.com/hotel/in/hilton-jaipur.html', tier: 'mid' },
+      { name: 'ITC Rajputana, a Luxury Collection Hotel, Jaipur', note: 'Marriott family (Luxury Collection) — this guide’s title-card hotel, Palace Road, Gopalbari, outdoor pool, spa, 24h reception, AC · 8.7 Booking.com', url: 'https://www.booking.com/hotel/in/itc-rajputana.html', tier: 'expensive' },
+      { name: 'DoubleTree by Hilton Jaipur Amer', note: 'Hilton family — hilltop 5-star beside Amer Fort, Aravalli Hills views, infinity pool, 24h reception, AC · 8.1 Booking.com', url: 'https://www.booking.com/hotel/in/doubletree-by-hilton-jaipur-amer.html', tier: 'expensive' },
+      { name: 'Rambagh Palace', note: 'Taj — independent, 9.0+ Booking.com bar cleared, former Jaipur royal residence near Hawa Mahal, gardens, spa, pool, 24h reception, AC · 9.5 Booking.com', url: 'https://www.booking.com/hotel/in/rambagh-palace.html', tier: 'luxury' },
+      { name: 'The Oberoi Rajvilas Jaipur', note: 'Oberoi — independent, 9.0+ Booking.com bar cleared, 32-acre walled resort on Goner Road, private pool villas, spa, 24h reception, AC · 9.8 Booking.com', url: 'https://www.booking.com/hotel/in/the-oberoi-rajvilas-jaipur.html', tier: 'luxury' }
+    ], price: { budget: '₹5,600–9,000', mid: '₹6,500–12,000', expensive: '₹10,000–22,000', luxury: '₹28,000+' } }
   };
 
     var AN_NEIGHBORHOOD_CITIES = {
@@ -10268,6 +10309,7 @@ window.TVE.home = (function () {
       'amsterdam':         {iata:'AMS', name:'Amsterdam Schiphol'},
       'annecy':            {iata:'GVA', name:'Geneva International'},
       'antalya':           {iata:'AYT', name:'Antalya Airport'},
+      'cappadocia':        {iata:'NAV', name:'Nevşehir Kapadokya Airport'},
       'antigua-guatemala': {iata:'GUA', name:'La Aurora International'},
       'aracaju':           {iata:'AJU', name:'Aracaju Marechal Cunha Machado'},
       'arenal':            {iata:'SJO', name:'Juan Santamaría International'},
@@ -10328,6 +10370,7 @@ window.TVE.home = (function () {
       'curacao':           {iata:'CUR', name:'Hato International'},
       'curitiba':          {iata:'CWB', name:'Curitiba Afonso Pena'},
       'cusco':             {iata:'CUZ', name:'Alejandro Velasco Astete International'},
+      'da-nang':           {iata:'DAD', name:'Da Nang International'},
       'dallas':            {iata:'DFW', name:'Dallas/Fort Worth International'},
       'bangalore':         {iata:'BLR', name:'Kempegowda International'},
       'delhi':             {iata:'DEL', name:'Indira Gandhi International'},
@@ -10360,6 +10403,7 @@ window.TVE.home = (function () {
       'hoi-an':            {iata:'DAD', name:'Da Nang International'},
       'hong-kong':         {iata:'HKG', name:'Hong Kong International'},
       'istanbul':          {iata:'IST', name:'Istanbul Airport'},
+      'jaipur':            {iata:'JAI', name:'Jaipur International Airport'},
       'jerusalem':         {iata:'TLV', name:'Ben Gurion Airport'},
       'joao-pessoa':       {iata:'JPA', name:'João Pessoa Castro Pinto'},
       'kauai':             {iata:'LIH', name:'Lihue Airport'},
@@ -10387,6 +10431,7 @@ window.TVE.home = (function () {
       'luang-prabang':     {iata:'LPQ', name:'Luang Prabang International'},
       'lucerne':           {iata:'ZRH', name:'Zurich International'},
       'luxembourg':        {iata:'LUX', name:'Luxembourg Findel'},
+      'luxor':             {iata:'LXR', name:'Luxor International'},
       'lyon':              {iata:'LYS', name:'Lyon Saint-Exupéry'},
       'macau':             {iata:'MFM', name:'Macau International Airport'},
       'maceio':            {iata:'MCZ', name:'Zumbi dos Palmares International'},
@@ -10543,15 +10588,15 @@ window.TVE.home = (function () {
       'DAD','DBV','DCA','DEL','DEN','DFW','DOH','DPS','DTW','DUB','DUS','DXB','DYG','EDI','EYW','EZE',
       'FAO','FCA','FCO','FHR','FLN','FLR','FNC','FOR','FRA','GCM','GEG','GIG','GLA','GOT','GPS','GRU',
       'GRX','GUA','GVA','HAM','HAN','HAV','HEL','HER','HHH','HIJ','HKG','HKT','HND','HNL','IAD','IAH',
-      'ICN','IGU','IST','JED','JFK','JMK','JPA','JTR','KEF','KIX','KOA','KRK','KTM','KUL','KWI','LAS',
-      'LAX','LED','LGA','LGW','LHR','LIH','LIM','LIS','LJU','LOS','LPB','LPQ','LUX','LYS','MAD','MAN',
-      'MBJ','MCO','MCT','MCZ','MEL','MEX','MFM','MIA','MLA','MLE','MRS','MSP','MSY','MUC','MVD','MXP',
-      'NAP','NAS','NAT','NBE','NBO','NCE','OAX','OGG','OLB','OPO','ORD','ORS','ORY','OSL','OTP','PBH',
-      'PDL','PDX','PEK','PHL','PHX','PLS','PMI','PNS','POA','PPS','PRG','PSA','PSP','PUJ','PUS','PVG',
-      'PVR','RAK','RDM','REC','RHO','RIX','RNO','RSW','RUH','SAN','SCL','SEA','SEZ','SFO','SGN','SIN',
-      'SJC','SJD','SJO','SJU','SKG','SLC','SLZ','SOF','SPU','SRQ','SSA','STR','STT','SVO','SVQ','SXB',
-      'SXM','SYD','SZG','SZX','TBS','TFS','TIV','TLL','TLV','TOS','TPE','TRN','VCE','VIE','VLC','VNO',
-      'VRN','WLG','YQB','YUL','YVR','YYC','YYZ','ZAG','ZNZ','ZQN','ZRH','ZTH'
+      'ICN','IGU','IST','JAI','JED','JFK','JMK','JPA','JTR','KEF','KIX','KOA','KRK','KTM','KUL','KWI',
+      'LAS','LAX','LED','LGA','LGW','LHR','LIH','LIM','LIS','LJU','LOS','LPB','LPQ','LUX','LXR','LYS',
+      'MAD','MAN','MBJ','MCO','MCT','MCZ','MEL','MEX','MFM','MIA','MLA','MLE','MRS','MSP','MSY','MUC',
+      'MVD','MXP','NAP','NAS','NAT','NAV','NBE','NBO','NCE','OAX','OGG','OLB','OPO','ORD','ORS','ORY','OSL',
+      'OTP','PBH','PDL','PDX','PEK','PHL','PHX','PLS','PMI','PNS','POA','PPS','PRG','PSA','PSP','PUJ',
+      'PUS','PVG','PVR','RAK','RDM','REC','RHO','RIX','RNO','RSW','RUH','SAN','SCL','SEA','SEZ','SFO',
+      'SGN','SIN','SJC','SJD','SJO','SJU','SKG','SLC','SLZ','SOF','SPU','SRQ','SSA','STR','STT','SVO',
+      'SVQ','SXB','SXM','SYD','SZG','SZX','TBS','TFS','TIV','TLL','TLV','TOS','TPE','TRN','VCE','VIE',
+      'VLC','VNO','VRN','WLG','YQB','YUL','YVR','YYC','YYZ','ZAG','ZNZ','ZQN','ZRH','ZTH'
     ];
 
     function _inject() {

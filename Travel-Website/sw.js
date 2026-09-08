@@ -1,3 +1,16 @@
+/* 2026-09-08: web-travel-style.css + toolbar.js + airlines.js +
+   guides-index-style.css -- the remaining 12 legacy pill class names
+   renamed sitewide to match the pills doc's own Family 1 names directly
+   (cp-grey, cp-dusty-teal, cp-soft-mint, cp-honey, cp-bronze, nt-bronze,
+   cp-peachy-blush, cp-dusty-rose, cp-soft-plum, cp-rust, cp-muted-brick,
+   nt-white-slate, nt-sand), dropping the redundant alias comments. Grey's
+   color also corrected (was matched to itself, not the doc): the doc's
+   real Grey is #d1d1d1/#3c3734, not #d9d5cb/#4f4a3e. airlines.js and
+   toolbar.js's ALL_PILL/packing-toggle updated; guides-index-style.css's
+   .cmp-chip repointed off --nt-white-slate-* (was reading the now-renamed
+   --nt-white-* root var by name). MIN_VERSIONS['web-travel-style.css'] to
+   284, MIN_VERSIONS['toolbar.js'] to 1220, MIN_VERSIONS['airlines.js'] to
+   11, MIN_VERSIONS['guides-index-style.css'] to 64, CACHE to v1974. */
 /* 2026-09-08: web-travel-style.css + toolbar.js -- nt-brown renamed to
    nt-saddle, its ink/wash corrected from #6b4423/#f7eee5 to the pills doc's
    official Saddle (#491512/#d5c7b9, confirmed against the doc's own demo
@@ -3327,7 +3340,7 @@
    weather.js, index.html, guides/index.html. MIN_VERSIONS['weather.js'] to 32,
    CACHE to v1970. */
 /* 2026-09-08: fix ALL_PILL nt-brown → nt-saddle; add Auckland HOTEL_ALT_DATA toolbar.js -> v1219. CACHE to v1973. */
-var CACHE = 'travel-cache-v1973';
+var CACHE = 'travel-cache-v1974';
 /* 2026-08-27: airlines.css's .card-tags align-items fix changed a shared
    asset without raising its own floor -- MIN_VERSIONS['airlines.css'] to
    6, CACHE to v1662. */
@@ -3371,7 +3384,7 @@ var ICS_OUTBOX = 'gmd-ics-outbox';
 /* 2026-08-30: search-autocomplete.js — reverted ARIA combobox pattern (role=listbox/option caused side-by-side layout regression). MIN_VERSIONS['search-autocomplete.js'] to 11, CACHE to v1749. */
 /* 2026-09-02: toolbar.js — remove false-affordance right hairline from stop-hours row (commit 981cca5d5). MIN_VERSIONS['toolbar.js'] to 1142, CACHE to v1816. */
 /* 2026-09-06: weather.js — Hammamet climate normals added; MIN_VERSIONS['weather.js'] to 27, CACHE to v1920. */
-var MIN_VERSIONS = { 'guide-style.css': 295,'toolbar.js': 1219, 'mobile.css': 94, 'web-travel-style.css': 283, 'guides-index-style.css': 63, 'read-about.css': 8, 'best-of-features.js': 6, 'best-of-cross-data.js': 25, 'weather.js': 32,'trains.css': 31, 'trains.js': 6, 'airlines.css': 9, 'airlines.js': 10, 'passport.js': 6, 'search-autocomplete.js': 17, 'flag-render.js': 3, 'site-footer.js': 2 };
+var MIN_VERSIONS = { 'guide-style.css': 295,'toolbar.js': 1220, 'mobile.css': 94, 'web-travel-style.css': 284, 'guides-index-style.css': 64, 'read-about.css': 8, 'best-of-features.js': 6, 'best-of-cross-data.js': 25, 'weather.js': 32,'trains.css': 31, 'trains.js': 6, 'airlines.css': 9, 'airlines.js': 11, 'passport.js': 6, 'search-autocomplete.js': 17, 'flag-render.js': 3, 'site-footer.js': 2 };
 
 function rewriteAssetUrl(urlStr) {
   var u;

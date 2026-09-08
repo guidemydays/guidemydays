@@ -2430,7 +2430,7 @@ window.TVE.home = (function () {
             var maxH = 0;
       pills.forEach(function (p) { maxH = Math.max(maxH, p.getBoundingClientRect().height); });
       pills.forEach(function (p) { p.style.minHeight = maxH + 'px'; });
-            var ALL_PILL = ['nt-saddle', 'nt-grey', 'sb-dark-grey', 'sb-light-grey', 'cp-dark-grey', 'cp-light-grey'];
+            var ALL_PILL = ['nt-saddle', 'nt-grey', 'sb-dark-grey', 'sb-light-grey', 'cp-grey', 'cp-light-grey'];
       var sized = pills.filter(function (p) {
         return !ALL_PILL.some(function (g) { return p.classList.contains(g); });
       });
@@ -4667,7 +4667,7 @@ window.TVE.home = (function () {
        as bare gold text with no box at all while Reset/Print were real
        pills. Matches them now, same as the packing page's own <style>
        comments on .reset-btn/.print-btn already assumed it did. */
-    btn.className = isPacking ? 'toggle-btn selection-pill-sm nt-tan hov-darken' : 'overview-extra-link';
+    btn.className = isPacking ? 'toggle-btn selection-pill-sm nt-sand hov-darken' : 'overview-extra-link';
     btn.id = 'tve-offline-btn';
     var restLabel = (isPacking
       ? '<svg viewBox="0 0 24 24" aria-hidden="true"><use href="#gm-i-download"/></svg>&nbsp;Save for Offline'

@@ -5269,6 +5269,16 @@ window.TVE.home = (function () {
 
     var HOTEL_ALT_DATA = {
     /* entries added per guide during build — see Separation Map.md § Hotels & Rentals */
+    'auckland': { h: [
+      { name: 'Hotel Grand Chancellor Auckland', note: 'Independent — Wellesley Street West, Auckland CBD, restaurant, gym, 24h reception, AC · 8.9 Booking.com', url: 'https://www.booking.com/hotel/nz/grand-chancellor-auckland.html', tier: 'budget' },
+      { name: 'Adina Apartment Hotel Auckland Britomart', note: 'Independent — Tapora Street, Britomart/Quay Park, serviced apartments with kitchenette, 24h reception, AC · 8.7 Booking.com', url: 'https://www.booking.com/hotel/nz/adina-apartment-auckland-britomart.html', tier: 'budget' },
+      { name: 'Pullman Auckland Hotel & Apartments', note: 'Accor family (Pullman) — first-tier international brand, Princes Street, Auckland CBD, indoor pool, spa, 24h reception, AC · 8.5 Booking.com', url: 'https://www.booking.com/hotel/nz/pullman-auckland-hotel-and-apartments.html', tier: 'mid' },
+      { name: 'Hilton Auckland', note: 'Hilton family — first-tier international brand, this guide’s title-card hotel, Princes Wharf on the waterfront, rooftop pool, 24h reception, AC · 8.5 Booking.com', url: 'https://www.booking.com/hotel/nz/hilton-auckland.html', tier: 'mid' },
+      { name: 'Sofitel Auckland Viaduct Harbour', note: 'Accor family (Sofitel) — first-tier international brand, Viaduct Harbour Avenue, indoor pool, spa, 24h reception, AC · 8.7 Booking.com', url: 'https://www.booking.com/hotel/nz/viaduct-harbour.html', tier: 'expensive' },
+      { name: 'JW Marriott Auckland', note: 'Marriott family — first-tier international brand, Albert Street, Britomart, indoor pool, 24h reception, AC · 8.5 Booking.com', url: 'https://www.booking.com/hotel/nz/jw-marriott-auckland.html', tier: 'expensive' },
+      { name: 'Park Hyatt Auckland', note: 'Hyatt family — first-tier international brand, Halsey Street, Wynyard Quarter waterfront, infinity pool, spa, 24h reception, AC · 9.1 Booking.com', url: 'https://www.booking.com/hotel/nz/park-hyatt-auckland.html', tier: 'luxury' },
+      { name: 'InterContinental Auckland by IHG', note: 'IHG family (InterContinental) — first-tier international brand, Queen Street, Britomart waterfront, spa, 24h reception, AC · 9.1 Booking.com', url: 'https://www.booking.com/hotel/nz/intercontinental-hotels-auckland-an-ihg.html', tier: 'luxury' }
+    ], price: { budget: 'NZD 190–250', mid: 'NZD 300–360', expensive: 'NZD 360–450', luxury: 'NZD 800+' } },
     'cappadocia': { h: [
       { name: 'Peace Stone House', note: 'Independent — Göreme, 450 m from downtown, stone-cave rooms, breakfast included · 8.9 Booking.com', url: 'https://www.booking.com/hotel/tr/peace-stone-house.html', tier: 'budget' },
       { name: 'Cappa Cave Hotel', note: 'Independent — Göreme, Avcılar Mahallesi, 300 m from downtown, cave-style rooms, breakfast included · 8.9 Booking.com', url: 'https://www.booking.com/hotel/tr/dora-cave.html', tier: 'budget' },

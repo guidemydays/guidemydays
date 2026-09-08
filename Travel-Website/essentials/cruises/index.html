@@ -221,7 +221,7 @@
         </div>
         <div class="cr-keys" id="cr-keys">
           <span class="cr-keys-label">Type</span>
-          <button type="button" class="filter-btn pill-badge nt-brown is-on hov-darken" data-filter="all" aria-pressed="true">All</button>
+          <button type="button" class="filter-btn pill-badge nt-grey is-on hov-darken" data-filter="all" aria-pressed="true">All</button>
           <button type="button" class="filter-btn pill-badge sb-blue hov-darken" data-filter="ocean" aria-pressed="false">Ocean</button>
           <button type="button" class="filter-btn pill-badge sb-green hov-darken" data-filter="river" aria-pressed="false">River</button>
           <button type="button" class="filter-btn pill-badge sb-red hov-darken" data-filter="expedition" aria-pressed="false">Expedition</button>
@@ -315,6 +315,23 @@
     });
   }
 
+  /* A band's .cr-tags/.cr-desc/.cr-fact fade in via the .cr-band.in CSS
+     transition, one-shot from the IntersectionObserver below. That
+     transition is keyed to a real scroll encounter — round-tripping a band
+     through display:none (Type filter hide/show) and back leaves it stuck
+     at its pre-transition opacity:0 indefinitely, since there's no second
+     scroll event to fire it again. A filter-driven reveal has no business
+     waiting on a scroll-in fade anyway, so force it to its end state with
+     the transition switched off rather than resting on the CSS finishing
+     a transition it has no real trigger for. */
+  function revealNow(b) {
+    var kids = b.querySelectorAll('.cr-tags, .cr-desc, .cr-fact');
+    Array.prototype.forEach.call(kids, function (k) { k.style.transition = 'none'; });
+    b.classList.add('in');
+    void b.offsetHeight;
+    Array.prototype.forEach.call(kids, function (k) { k.style.transition = ''; });
+  }
+
   /* Search + type together shrink the page to what matches, exactly like
      /essentials/resources/'s own live filter — a chapter with nothing left
      hides too, instead of showing an empty heading. */
@@ -326,8 +343,10 @@
       Array.prototype.forEach.call(ch.querySelectorAll('.cr-band'), function (b) {
         var show = (activeType === 'all' || b.getAttribute('data-type') === activeType)
                 && (!q || b.textContent.toLowerCase().indexOf(q) > -1);
+        var wasHidden = b.hidden;
         b.classList.toggle('cr-hidden', !show);
         b.hidden = !show;
+        if (show && wasHidden) { revealNow(b); }
         if (show) { n++; }
       });
       ch.hidden = n === 0;

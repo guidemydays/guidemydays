@@ -32,6 +32,18 @@
      * the study's chapter rail was position:sticky; here it is a plain
        in-flow bar that scrolls away with its page like every other
        control strip on the site (Rule 927 hard-fails a sticky one).
+
+   FIXED 2026-09-08 (owner: the live page was missing the wave effect):
+   a single sea band anchored bottom:0 inside .cr-stage was never actually
+   seen — .cr-stage wraps all twenty-nine lines and runs ~13,500px tall, so
+   the wave sat at the literal bottom of the whole page, ~50 screens down.
+   Same fix the Aurora study's .rs-field already uses for the same problem
+   (a decorative layer must scale to the CARD's height, not park at one of
+   its edges): .cr-sea now ships twice, once at the top (immediately in
+   view when the card scrolls on screen) and once at the bottom (unchanged,
+   the "sailing into it" close). Both stay position:absolute inside the
+   overflow:hidden card — neither is position:fixed/sticky to the
+   viewport, so the Seventy-fourth non-negotiable still holds.
    The study's chapter-rail item counts are dropped for the same reason
    the resources card carries none — the Ninety-second non-negotiable
    bans any badge whose whole job is counting what's in a list. The
@@ -60,7 +72,9 @@
   box-shadow: 0 20px 50px rgba(6,22,32,.28);
 }
 
-#cr-sea { position: absolute; left: 0; right: 0; bottom: 0; height: 34vh; z-index: 0; pointer-events: none; opacity: .5; }
+.cr-sea { position: absolute; left: 0; right: 0; z-index: 0; pointer-events: none; opacity: .5; }
+.cr-sea-top { top: 0; height: clamp(140px, 20vw, 220px); }
+.cr-sea-bottom { bottom: 0; height: 34vh; }
 .cr-inner { position: relative; z-index: 2; padding: clamp(26px, 4vw, 44px) clamp(20px, 4vw, 44px) clamp(44px, 6vw, 64px); }
 
 /* ── Controls ───────────────────────────────────────────────────── */
@@ -200,7 +214,19 @@
 
 <div class="hero-ground cr-ground">
   <div class="cr-stage">
-    <svg id="cr-sea" viewBox="0 0 1440 320" preserveAspectRatio="none" aria-hidden="true">
+    <svg class="cr-sea cr-sea-top" viewBox="0 0 1440 320" preserveAspectRatio="none" aria-hidden="true">
+      <g fill="#113343" opacity=".7">
+        <path d="M0 180 Q 180 130 360 180 T 720 180 T 1080 180 T 1440 180 V 320 H 0 Z">
+          <animateTransform attributeName="transform" type="translate" values="0 0;-360 0;0 0" dur="14s" repeatCount="indefinite"/>
+        </path>
+      </g>
+      <g fill="#0c2733" opacity=".85">
+        <path d="M-360 220 Q -180 176 0 220 T 360 220 T 720 220 T 1080 220 T 1440 220 T 1800 220 V 320 H -360 Z">
+          <animateTransform attributeName="transform" type="translate" values="0 0;360 0;0 0" dur="19s" repeatCount="indefinite"/>
+        </path>
+      </g>
+    </svg>
+    <svg class="cr-sea cr-sea-bottom" viewBox="0 0 1440 320" preserveAspectRatio="none" aria-hidden="true">
       <g fill="#113343" opacity=".7">
         <path d="M0 180 Q 180 130 360 180 T 720 180 T 1080 180 T 1440 180 V 320 H 0 Z">
           <animateTransform attributeName="transform" type="translate" values="0 0;-360 0;0 0" dur="14s" repeatCount="indefinite"/>

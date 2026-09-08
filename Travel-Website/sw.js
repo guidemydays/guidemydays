@@ -3265,7 +3265,8 @@
 /* 2026-09-08: sprite: re-add exchange outline key, fix hiking-boot tread ornament weight 0.5->0.8, alias delivery-car->ride-app toolbar.js -> v1211. CACHE to v1955. */
 /* 2026-09-08: sprite: restore delivery-car as array entry (baselined dup of ride-app); exchange coloured icon; hiking-boot ornament 0.5->0.8 toolbar.js -> v1212. CACHE to v1956. */
 /* 2026-09-08: index.html/web-travel-style.css — landing page's Compare cities "Surprise me" pill (.cmpx-mini) recolored from the Saddle tone to the pills doc's canonical pastel Bronze (owner request); added --sp-bronze-ink/-rgb/-wash root tokens. MIN_VERSIONS['web-travel-style.css'] to 278, CACHE to v1957. */
-var CACHE = 'travel-cache-v1957';
+/* 2026-09-08: currencies/index.html — footer CLOSE pill (#fx-close-foot) recolored from nt-grey to the pills doc's canonical pastel Bronze (cp-brown), matching the same tone just applied to the landing page's Surprise me pill (owner request). Page is precached; CACHE to v1958. */
+var CACHE = 'travel-cache-v1958';
 /* 2026-08-27: airlines.css's .card-tags align-items fix changed a shared
    asset without raising its own floor -- MIN_VERSIONS['airlines.css'] to
    6, CACHE to v1662. */

@@ -314,7 +314,7 @@
   transition: background .18s ease, color .18s ease, box-shadow .18s ease;
 }
 a.lp-btn:visited { color: rgb(253, 248, 240); }
-.lp-btn:hover, .lp-btn:focus-visible, a.lp-btn:hover:visited {
+.lp-btn:focus-visible {
   /* Filled-CTA-inverts-on-hover grammar (same as .fnd-go, .land-cta below):
      the button is solid terracotta at rest, so on hover/inversion the ink
      should be that same terracotta, not gold -- the glow already uses
@@ -322,6 +322,19 @@ a.lp-btn:visited { color: rgb(253, 248, 240); }
   background: transparent; color: var(--rust, #C04E1A);
   box-shadow: 0 0 0 6px rgba(192,78,26,.18), 0 0 18px rgba(192,78,26,.35);
     text-decoration: none;
+}
+/* :hover gated to real hover-capable pointers (owner report 2026-09-09): a
+   touchscreen tap has no sustained hover, but the browser applies :hover on
+   tap anyway, and since this link navigates away immediately the inverted +
+   glowing state was the last thing painted before the page unloaded -- a
+   visible flash on every tap. A real mouse still gets the full invert+glow
+   while it lingers over the button, same as before this fix. */
+@media (hover: hover) {
+  .lp-btn:hover, a.lp-btn:hover:visited {
+    background: transparent; color: var(--rust, #C04E1A);
+    box-shadow: 0 0 0 6px rgba(192,78,26,.18), 0 0 18px rgba(192,78,26,.35);
+    text-decoration: none;
+  }
 }
 /* .lp-wtg and .lp-btn.ghost were removed 2026-08-15 with the When to Go block —
    see the note at the hero markup. .ghost had no other caller on this page. */
@@ -2208,7 +2221,7 @@ summary.res-head:focus-visible { outline: 2px solid var(--rust, #C04E1A); outlin
   .lp-btn, #cf-submit.lp-btn, #fnd-go.fnd-go, #fnd-more.fnd-more {
     background: #C04E1A; border-color: #C04E1A; color: var(--warm, #fdf8f0);
   }
-    .lp-btn:hover, .lp-btn:focus-visible {
+    .lp-btn:focus-visible {
     background: transparent; color: #c8a040;
     box-shadow: 0 0 0 6px rgba(212,102,58,.22), 0 0 18px rgba(212,102,58,.4);
   }
@@ -2273,6 +2286,18 @@ summary.res-head:focus-visible { outline: 2px solid var(--rust, #C04E1A); outlin
   }
   .lp-tools-band-t, .lp-plan-band-t { color: var(--ink); }
   .lp-tools-band-d, .lp-plan-band-d { color: var(--ink-soft); }
+}
+/* :hover half of the dark-mode .lp-btn rule above, split out to a combined
+   query (plain CSS can't nest @media) and gated to real hover-capable
+   pointers -- see the light-mode .lp-btn :hover/:focus-visible split above
+   for why: a touchscreen tap triggers :hover with no way to un-hover, so the
+   inverted+glowing state was the last frame painted before the tapped link
+   navigated away. */
+@media (prefers-color-scheme: dark) and (hover: hover) {
+  .lp-btn:hover {
+    background: transparent; color: #c8a040;
+    box-shadow: 0 0 0 6px rgba(212,102,58,.22), 0 0 18px rgba(212,102,58,.4);
+  }
 }
 
 /* Moved out of html/:root[data-theme="dark"] on 2026-08-18: the manual

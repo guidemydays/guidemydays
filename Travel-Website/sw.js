@@ -1,3 +1,10 @@
+/* 2026-09-08: index.html -- corrected a stale .lp comment. It claimed "the site
+   ships no @font-face anywhere ... so the system stack stays," which was never
+   true of this page: toolbar.js injects the Google Fonts Public Sans <link>
+   into every page's <head> on load (verified live -- body/h1 computed
+   font-family is "Public Sans", sans-serif, per Formatting.html § 1). Comment
+   now says why .lp adds no display font of its own instead of claiming none
+   loads. No CSS/behavior change. CACHE to v1982. */
 /* 2026-09-08: guides/index.html "Surprise me" bug report -- two fixes.
    (1) web-travel-style.css: --sp-saddle-wash had no real dark-mode twin
    (every sibling sp-* token's dark copy was already identical to light
@@ -3388,7 +3395,7 @@
    any name the ellipsis actually truncates. MIN_VERSIONS['guides-index-style.css']
    to 65, CACHE to v1980. */
 /* 2026-09-08: guides/index.html Surprise-me fix: toolbar.js _gmSprite split (inject early, fit on DOMContentLoaded) fixes the late-popping shuffle icon toolbar.js -> v1223. CACHE to v1981. */
-var CACHE = 'travel-cache-v1981';
+var CACHE = 'travel-cache-v1982';
 /* 2026-08-27: airlines.css's .card-tags align-items fix changed a shared
    asset without raising its own floor -- MIN_VERSIONS['airlines.css'] to
    6, CACHE to v1662. */

@@ -8994,13 +8994,29 @@ window.TVE.home = (function () {
      come from climate.json. Response is cached in sessionStorage under
      'wx-{slug}' so only the first page-load per session hits the network.
      Degrades silently when offline or when the city has no coordinate entry.
-     Rendered between .title-page and .overview-section. */
+     Rendered between .title-page and .overview-section.
+
+     Owner-reported: the strip used to be built and inserted only once the
+     climate.json + Open-Meteo round trip finished (1-2.5s on a good
+     connection, longer on a slow one), so the pill row and Trip Overview
+     sat ~110px higher than their final position until it popped in and
+     shoved everything down -- read as the page "taking forever" even when
+     the fetch itself wasn't slow. The box is now created and inserted
+     IMMEDIATELY, with a "Loading weather…" placeholder and the same
+     min-height the populated content settles at, so later filling it in is
+     a content swap in place, not a layout shift. Every path that can fail
+     (climate.json 404/parse error, city missing from climate.json, the
+     forecast call itself erroring or timing out) removes the placeholder
+     rather than leaving "Loading weather…" stuck forever. */
   function _injectWeatherStrip() {
     if (!isRealGuide) return;
     if (!navigator.onLine) return;
 
+    var titlePage = document.querySelector('.title-page');
     var cityEl = document.querySelector('.title-city');
-    if (!cityEl) return;
+    if (!titlePage || !cityEl) return;
+    if (document.getElementById('tve-wx-strip')) return;
+
     var rawCity = cityEl.textContent.trim();
     var cityLower = rawCity.toLowerCase();
     /* Normalize for accent-insensitive matching (handles Zürich, Montréal, Tromsø, etc.) */
@@ -9037,36 +9053,53 @@ window.TVE.home = (function () {
     }
     function _wxConv(c) { return _wxUnit() === 'F' ? Math.round(c * 9 / 5 + 32) : Math.round(c); }
 
-    function _renderStrip(data) {
-      var titlePage = document.querySelector('.title-page');
-      if (!titlePage || document.getElementById('tve-wx-strip')) return;
+    var isMobile = window.TVE.isPhone();
+
+    /* ── Outer strip — clickable link to Google Weather, present from the
+       first paint. min-height matches the populated row's own content
+       height (icon + day label + temp, measured live) so filling it in
+       doesn't resize the box. */
+    var strip = document.createElement('a');
+    strip.id = 'tve-wx-strip';
+    strip.href = 'https://www.google.com/search?q=weather+' + encodeURIComponent(rawCity);
+    strip.target = '_blank';
+    strip.rel = 'noopener';
+    strip.style.cssText =
+      'display:flex;align-items:center;text-decoration:none;width:100%;' +
+      'background:#eaf5fc;border:1px solid #cfe6f5;border-radius:6px;' +
+      /* margin: 16px both breakpoints (owner-reported: 36px desktop /
+         12px mobile read as "too much space, and inconsistent with
+         the gap to the next pill row" -- 16px matches .title-page's
+         own margin-bottom AND #ics-pill-row's own inline
+         margin-bottom:16px (toolbar.js _injectICSExport), so the
+         whole title-page -> strip -> pill-row -> Trip Overview run
+         now reads as one even rhythm instead of 36/36/16 or 12/12/26. */
+      'padding:' + (isMobile ? '5px 6px' : '6px 10px') + ';margin:16px 0;font-family:inherit;box-sizing:border-box;' +
+      /* 76px measured live off the populated row (icon+day+temp stack) at
+         both 390px and 1280px -- matching it here means the loading ->
+         populated swap doesn't resize the box at all, not just "close". */
+      'min-height:76px;overflow:hidden;cursor:pointer;transition:background .15s;';
+    strip.addEventListener('mouseenter', function () { strip.style.background = '#dcedf8'; });
+    strip.addEventListener('mouseleave', function () { strip.style.background = '#eaf5fc'; });
+
+    var loadingNote = document.createElement('div');
+    loadingNote.style.cssText = 'width:100%;text-align:center;font-size:12px;color:#9a9690;';
+    loadingNote.textContent = 'Loading weather…';
+    strip.appendChild(loadingNote);
+
+    titlePage.insertAdjacentElement('afterend', strip);
+
+    /* Fills the ALREADY-PRESENT #tve-wx-strip with real content -- never
+       creates or re-inserts the outer element, so nothing below it moves. */
+    function _populate(data) {
+      var stripEl = document.getElementById('tve-wx-strip');
+      if (!stripEl) return;
 
       var daily = data.daily;
-      if (!daily || !daily.time || !daily.time.length) return;
+      if (!daily || !daily.time || !daily.time.length) { stripEl.remove(); return; }
 
       var u = _wxUnit();
-      var isMobile = window.TVE.isPhone();
-
-      /* ── Outer strip — clickable link to Google Weather ── */
-      var strip = document.createElement('a');
-      strip.id = 'tve-wx-strip';
-      strip.href = 'https://www.google.com/search?q=weather+' + encodeURIComponent(rawCity);
-      strip.target = '_blank';
-      strip.rel = 'noopener';
-      strip.style.cssText =
-        'display:flex;align-items:center;text-decoration:none;width:100%;' +
-        'background:#eaf5fc;border:1px solid #cfe6f5;border-radius:6px;' +
-                /* margin: 16px both breakpoints (owner-reported: 36px desktop /
-                   12px mobile read as "too much space, and inconsistent with
-                   the gap to the next pill row" -- 16px matches .title-page's
-                   own margin-bottom AND #ics-pill-row's own inline
-                   margin-bottom:16px (toolbar.js _injectICSExport), so the
-                   whole title-page -> strip -> pill-row -> Trip Overview run
-                   now reads as one even rhythm instead of 36/36/16 or 12/12/26. */
-                'padding:' + (isMobile ? '5px 6px' : '6px 10px') + ';margin:16px 0;font-family:inherit;box-sizing:border-box;' +
-        'overflow:hidden;cursor:pointer;transition:background .15s;';
-      strip.addEventListener('mouseenter', function () { strip.style.background = '#dcedf8'; });
-      strip.addEventListener('mouseleave', function () { strip.style.background = '#eaf5fc'; });
+      stripEl.innerHTML = '';
 
       /* 7 days on desktop AND mobile — the strip is now width:100% and each column
          is flex:1 min-width:0, so all 7 always fit; icons/temps shrink smoothly on
@@ -9128,10 +9161,10 @@ window.TVE.home = (function () {
         nowTemp.textContent = _wxConv(data.current.temperature_2m) + '°' + u;
         nowBlock.appendChild(nowTemp);
 
-        strip.appendChild(nowBlock);
+        stripEl.appendChild(nowBlock);
       }
 
-      strip.appendChild(grid);
+      stripEl.appendChild(grid);
 
       /* °C/°F toggle */
       var toggle = document.createElement('div');
@@ -9150,22 +9183,18 @@ window.TVE.home = (function () {
           e.preventDefault();
           e.stopPropagation();
           try { localStorage.setItem('guideTempUnit', t); } catch (ex) {}
-          var old = document.getElementById('tve-wx-strip');
-          if (old) old.remove();
-          _renderStrip(data);
+          _populate(data);
         });
         toggle.appendChild(btn);
       });
-      strip.appendChild(toggle);
-
-      titlePage.insertAdjacentElement('afterend', strip);
+      stripEl.appendChild(toggle);
     }
 
     function _fetchForecast(lat, lon) {
       var cacheKey = 'wx-' + cityLower.replace(/\s+/g, '-');
       var hit = sessionStorage.getItem(cacheKey);
       if (hit) {
-        try { _renderStrip(JSON.parse(hit)); return; } catch(e) {}
+        try { _populate(JSON.parse(hit)); return; } catch(e) {}
       }
       var url = 'https://api.open-meteo.com/v1/forecast' +
         '?latitude=' + lat + '&longitude=' + lon +
@@ -9180,9 +9209,16 @@ window.TVE.home = (function () {
           try {
             var data = JSON.parse(xhr.responseText);
             try { sessionStorage.setItem(cacheKey, xhr.responseText); } catch(e) {}
-            _renderStrip(data);
-          } catch(e) {}
+            _populate(data);
+          } catch(e) {
+            var el = document.getElementById('tve-wx-strip'); if (el) el.remove();
+          }
+        } else {
+          var el2 = document.getElementById('tve-wx-strip'); if (el2) el2.remove();
         }
+      };
+      xhr.onerror = xhr.ontimeout = function () {
+        var el = document.getElementById('tve-wx-strip'); if (el) el.remove();
       };
       xhr.send();
     }
@@ -9195,7 +9231,10 @@ window.TVE.home = (function () {
     cxhr.open('GET', base + 'assets/climate.json?d=' + _climateBust, true);
     cxhr.timeout = 6000;
     cxhr.onload = function () {
-      if (cxhr.status < 200 || cxhr.status >= 300) return;
+      if (cxhr.status < 200 || cxhr.status >= 300) {
+        var el = document.getElementById('tve-wx-strip'); if (el) el.remove();
+        return;
+      }
       try {
         var climate = JSON.parse(cxhr.responseText);
         var entry = null;
@@ -9203,9 +9242,17 @@ window.TVE.home = (function () {
           if (k === '_meta') continue;
           if (_normCity(k) === cityNorm) { entry = climate[k]; break; }
         }
-        if (!entry || entry.lat == null || entry.lon == null) return;
+        if (!entry || entry.lat == null || entry.lon == null) {
+          var el2 = document.getElementById('tve-wx-strip'); if (el2) el2.remove();
+          return;
+        }
         _fetchForecast(entry.lat, entry.lon);
-      } catch(e) {}
+      } catch(e) {
+        var el3 = document.getElementById('tve-wx-strip'); if (el3) el3.remove();
+      }
+    };
+    cxhr.onerror = cxhr.ontimeout = function () {
+      var el = document.getElementById('tve-wx-strip'); if (el) el.remove();
     };
     cxhr.send();
   }

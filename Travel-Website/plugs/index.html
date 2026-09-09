@@ -280,6 +280,20 @@ var PG=[["Austria","Austria","Europe","230V / 50Hz","CF"],["Belgium","Belgium","
   input.addEventListener('input',function(){ elRes.hidden=true; });
 
   if(window.TVESearch){
+    /* Common alternate names/abbreviations that share no substring with the
+       stored display name, so the shared word-start matcher cannot find them
+       on its own — "us"/"usa" for United States, "uk" for United Kingdom
+       (which otherwise only ever surfaces Ukraine), "uae"/"nz"/"dr"/"png" for
+       the countries the site itself already keys by that short form (PG's own
+       anchors), plus a few common English names for a stored official name
+       (Czechia, Ivory Coast, Holland, Burma) and "St Maarten" for the Sint
+       Maarten entry. Folded into `text` alongside the region/type/voltage
+       words below — never the display name itself, which stays the
+       official form. */
+    var ALIASES={'United States':'US USA','United Kingdom':'UK Britain','United Arab Emirates':'UAE',
+      'New Zealand':'NZ','Dominican Republic':'DR','Papua New Guinea':'PNG','Czech Republic':'Czechia',
+      "Côte d'Ivoire":'Ivory Coast','Netherlands':'Holland','Myanmar':'Burma','Sint Maarten':'St Maarten',
+      'South Africa':'SA'};
     var items=[];
     for(i=0;i<PG.length;i++){
       var r=PG[i];
@@ -291,7 +305,8 @@ var PG=[["Austria","Austria","Europe","230V / 50Hz","CF"],["Belgium","Belgium","
          per-country lookup cannot, and it is still here. They ride the COUNTRY
          row alone: on a city row too, one "Europe" would return the country
          and every city in it. */
-      items.push({name:r[1], text:r[2]+' '+typeList(r[4])+' '+r[3].split(' / ')[0], anchor:r[0]});
+      var alias=ALIASES[r[1]];
+      items.push({name:r[1], text:r[2]+' '+typeList(r[4])+' '+r[3].split(' / ')[0]+(alias?' '+alias:''), anchor:r[0]});
     }
     /* Guide cities are the "or City" half of the placeholder: typing a shipped
        guide's city (e.g. "Tokyo") must resolve to its own country's plug entry,
@@ -326,7 +341,15 @@ var PG=[["Austria","Austria","Europe","230V / 50Hz","CF"],["Belgium","Belgium","
       }
       for(j=0;j<rows.length;j++) items.push(rows[j]);
     }).catch(function(){}).then(function(){
-      TVESearch.attach(input,{items:items,onPick:function(it){ show(it.anchor); }});
+      /* minChars:2 — a single letter matches almost every entry at once (the
+         Fourth non-negotiable's "fixes broken things" carve-out: reported as
+         the plugs search returning a wall of barely-related results for one
+         keystroke). Two letters is already selective: "se" names the country
+         cleanly, "sp" is Spain and its cities alone. No other TVESearch page
+         sets this — it is this page's own 395-item country+city join that is
+         large enough for a single letter to flood the dropdown; a page-local
+         option, not a change to the shared library. */
+      TVESearch.attach(input,{items:items,minChars:2,onPick:function(it){ show(it.anchor); }});
     });
   }
 

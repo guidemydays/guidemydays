@@ -4683,7 +4683,7 @@ window.TVE.home = (function () {
        as bare gold text with no box at all while Reset/Print were real
        pills. Matches them now, same as the packing page's own <style>
        comments on .reset-btn/.print-btn already assumed it did. */
-    btn.className = isPacking ? 'toggle-btn selection-pill-sm cp-honey hov-darken' : 'overview-extra-link';
+    btn.className = isPacking ? 'toggle-btn selection-pill-sm cp-honey hov-press' : 'overview-extra-link';
     btn.id = 'tve-offline-btn';
     var restLabel = (isPacking
       ? '<svg viewBox="0 0 24 24" aria-hidden="true"><use href="#gm-i-download"/></svg>&nbsp;Save for Offline'

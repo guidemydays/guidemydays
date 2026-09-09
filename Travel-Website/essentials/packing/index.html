@@ -9,7 +9,7 @@
 .progress-track { background: var(--border2); border-radius: 2px; height: 3px; }
 .progress-fill { height: 3px; border-radius: 2px; background: var(--sp-ink); transition: width 0.35s ease; width: 0%; }
 /* Box, colour, and hover/active all come from the shared
-   .selection-pill-sm + .cp-honey + .hov-darken classes now (markup below).
+   .selection-pill-sm + .cp-honey + .hov-press classes now (markup below).
    This local rule is a layout hook only -- letter-spacing/case/margin, the
    parts .selection-pill-sm doesn't already set. */
 .reset-btn { margin-top: 14px; letter-spacing: 0.18em; text-transform: uppercase; }
@@ -134,7 +134,7 @@ html { scroll-behavior: smooth; }
 .critical-card { transition: box-shadow .18s, transform .18s; }
 .critical-card:hover { box-shadow: 0 4px 14px rgba(0,0,0,0.07); transform: translateY(-1px); }
 /* Same layout-hook-only pattern as .reset-btn above -- box/colour/hover
-   come from .selection-pill-sm + .cp-honey + .hov-darken. */
+   come from .selection-pill-sm + .cp-honey + .hov-press. */
 .print-btn { margin-top: 14px; margin-left: 8px; letter-spacing: 0.18em; text-transform: uppercase; }
 .summary {
  display: flex; align-items: center; gap: 20px;
@@ -170,11 +170,18 @@ html { scroll-behavior: smooth; }
    Bottom corners are square and the bottom border is dropped entirely --
    the .section-card's own 3px gold top border is the only seam, so the pill
    reads as flush with the card instead of carrying a second, competing edge
-   right above it. hov-press's mechanic leans on lightening the wash toward
-   white, which the pills doc itself notes does ~nothing once a wash is this
-   close to white already (Honey included) -- hov-darken mixes toward the
-   ink instead, which is the one that actually moves on a near-white tone. */
-.action-row .selection-pill-sm { border-radius: 6px 6px 0 0; border-bottom: none; }
+   right above it.
+   Owner: hover mechanic is hov-press. On its own, hov-press reads as no
+   hover at all on cp-honey specifically -- Calm Pastel pills already carry
+   a permanent 2px own-ink border at rest (web-travel-style.css line ~753),
+   so hov-press's border-color:var(--sp-ink) cue is a no-op, its background
+   lightens toward white which does ~nothing on an already-near-white wash,
+   and its outward ring is rgba(var(--sp-rgb),.3) -- for .cp-honey --sp-rgb
+   is the WASH's own rgb (255,246,222, near-white), not the ink's, so the
+   ring is nearly as invisible as the rest of it. --sp-rgb is redeclared to
+   the ink's rgb (122,90,18 = #7a5a12) here, scoped to just these three
+   pills, so the ring hov-press relies on actually shows up. */
+.action-row .selection-pill-sm { border-radius: 6px 6px 0 0; border-bottom: none; --sp-rgb: 122,90,18; }
 .trip-setup {
  display: flex; align-items: center; flex-wrap: wrap; gap: 8px 16px;
  margin-top: 16px; padding: 14px 20px;
@@ -226,7 +233,7 @@ html { scroll-behavior: smooth; }
 .item.checked .extras-circle { background: var(--surface2); border-color: var(--border); color: #b0aaa2; }
 .item.checked .extras-phrase { color: #b0aaa2; }
 /* Same layout-hook-only pattern as .reset-btn/.print-btn -- box/colour/
-   hover come from .selection-pill-sm + .cp-honey + .hov-darken (markup on
+   hover come from .selection-pill-sm + .cp-honey + .hov-press (markup on
    the toolbar.js-injected "Save for Offline" control). */
 .toggle-btn { letter-spacing: 0.18em; text-transform: uppercase; }
 .collapsible-card { border: 1px solid var(--border); border-top: 3px solid var(--gold); border-radius: 6px; overflow: hidden; margin-bottom: 16px; background: var(--surface); }
@@ -360,8 +367,8 @@ html { scroll-behavior: smooth; }
  </div>
  </div>
  <div class="action-row">
- <button class="reset-btn selection-pill-sm cp-honey hov-darken" onclick="resetAll()">↺ &nbsp;Reset all</button>
- <button data-icon="896" class="print-btn selection-pill-sm cp-honey hov-darken" onclick="window.print()"><svg data-fill="0.90" viewBox="0 0 24 24"><rect x="6.4" y="2.2" width="11.2" height="5.2" rx="0.6" fill="url(#gm-cream)" stroke="var(--c-rim-warm)" stroke-width="0.6"/><rect x="2.4" y="7.2" width="19.2" height="9.4" rx="2" fill="url(#gm-navy)" stroke="var(--c-navy-rim)" stroke-width="0.5"/><rect x="4.4" y="9.4" width="3.6" height="1.8" rx="0.9" fill="url(#gm-sky)" stroke="var(--c-sky-rim)" stroke-width="0.5"/><circle cx="18.6" cy="10.3" r="1.2" fill="url(#gm-green)" stroke="var(--c-green-rim)" stroke-width="0.5"/><rect x="6.4" y="14.2" width="11.2" height="7.6" rx="0.6" fill="url(#gm-paper)" stroke="var(--c-rim-cool)" stroke-width="0.6"/><rect x="8.4" y="16.6" width="7.2" height="1.3" rx="0.65" fill="url(#gm-stone)" stroke="var(--c-stone-rim)" stroke-width="0.5"/><rect x="8.4" y="19" width="4.6" height="1.3" rx="0.65" fill="url(#gm-stone)" stroke="var(--c-stone-rim)" stroke-width="0.5"/></svg>&nbsp;Print list</button>
+ <button class="reset-btn selection-pill-sm cp-honey hov-press" onclick="resetAll()">↺ &nbsp;Reset all</button>
+ <button data-icon="896" class="print-btn selection-pill-sm cp-honey hov-press" onclick="window.print()"><svg data-fill="0.90" viewBox="0 0 24 24"><rect x="6.4" y="2.2" width="11.2" height="5.2" rx="0.6" fill="url(#gm-cream)" stroke="var(--c-rim-warm)" stroke-width="0.6"/><rect x="2.4" y="7.2" width="19.2" height="9.4" rx="2" fill="url(#gm-navy)" stroke="var(--c-navy-rim)" stroke-width="0.5"/><rect x="4.4" y="9.4" width="3.6" height="1.8" rx="0.9" fill="url(#gm-sky)" stroke="var(--c-sky-rim)" stroke-width="0.5"/><circle cx="18.6" cy="10.3" r="1.2" fill="url(#gm-green)" stroke="var(--c-green-rim)" stroke-width="0.5"/><rect x="6.4" y="14.2" width="11.2" height="7.6" rx="0.6" fill="url(#gm-paper)" stroke="var(--c-rim-cool)" stroke-width="0.6"/><rect x="8.4" y="16.6" width="7.2" height="1.3" rx="0.65" fill="url(#gm-stone)" stroke="var(--c-stone-rim)" stroke-width="0.5"/><rect x="8.4" y="19" width="4.6" height="1.3" rx="0.65" fill="url(#gm-stone)" stroke="var(--c-stone-rim)" stroke-width="0.5"/></svg>&nbsp;Print list</button>
  </div>
 
  <div class="section-card">

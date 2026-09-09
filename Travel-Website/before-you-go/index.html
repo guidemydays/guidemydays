@@ -29,7 +29,13 @@
    doesn't leave a big empty band under the cards. !important beats the shared safe-area
    @supports rule (mobile.css) that otherwise forces the padding back to the 80px base. */
 body { padding-bottom: calc(24px + env(safe-area-inset-bottom, 0px)) !important; }
-.byg-wrap { width: 100%; box-sizing: border-box; padding: 0 32px; position: relative; }
+/* Matches the shared .wrap formula (web-travel-style.css) so the results
+   column stays aligned with the toolbar and .hero-ground above it -- this
+   used to be a flat 32px because .byg-wrap wrapped the hero too, but now
+   that the hero/hero-ground sit at body level on the shared rail (which
+   grows past 32px above ~1244px), a fixed 32px here reads as a lost margin
+   next to them on a wide screen. */
+.byg-wrap { max-width: var(--rail); margin: 0 auto; box-sizing: border-box; padding: 0 var(--gutter); position: relative; }
 /* Search stays centered on the page (middle column); month sits in the right column beside it */
 .byg-pick { margin: 35px 0 16px; display: grid; grid-template-columns: 1fr 360px 1fr; align-items: center; column-gap: 10px; }
 /* Muted, not gold -- same search-icon leftover already fixed this session
@@ -189,7 +195,6 @@ body { padding-bottom: calc(24px + env(safe-area-inset-bottom, 0px)) !important;
   .byg-cards { grid-template-columns: repeat(2, 1fr); }
 }
 @media (max-width: 700px) {
-  .byg-wrap { padding: 0 14px; }
   .byg-plug-card .byg-plug-type { min-width: 0; flex: 1 1 100%; }
   .byg-cards { grid-template-columns: 1fr; }
   .byg-col-stack { gap: 12px; }

@@ -23,10 +23,17 @@
 /* ── Port cards ── */
 .port-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 14px; }
 .port-card {
+  position: relative; overflow: hidden;
   background: var(--surface, #fff); border: 1px solid var(--border2, #e6e2da);
-  border-radius: 10px; padding: 16px 18px;
+  border-radius: 10px; padding: 16px 18px 16px 22px;
   box-shadow: 0 1px 6px rgba(92,61,17,.05);
+  transition: box-shadow .2s, transform .2s, opacity .5s, transform .5s;
 }
+.port-card::before {
+  content: ""; position: absolute; left: 0; top: 0; bottom: 0; width: 4px;
+  background: var(--sb-fill, var(--border2));
+}
+.port-card:hover { box-shadow: 0 10px 22px -12px rgba(92,61,17,.28); }
 .port-card.hidden { display: none; }
 .port-card-top { display: flex; align-items: flex-start; justify-content: space-between; gap: 10px; margin-bottom: 8px; }
 .port-name { font-size: 15px; font-weight: 800; color: var(--text, #3d3a32); line-height: 1.3; }
@@ -40,14 +47,31 @@
 }
 .port-fact.watch .port-fact-label { color: #8a4a10; }
 
+/* ── Access badge + clock-pressure gauge, stacked at the card's top-right ── */
+.port-access { display: flex; flex-direction: column; align-items: flex-end; gap: 6px; flex: none; }
+.port-pressure { display: inline-flex; gap: 3px; }
+.port-pressure i { display: block; width: 11px; height: 4px; border-radius: 2px; background: var(--border2, #e6e2da); font-style: normal; }
+.port-pressure i.on { background: #8a4a10; }
+.port-pressure-label {
+  font-size: 9px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted, #6a6660);
+}
+
 /* ── No-results state lives in a normal doc-flow slot below the grid — see § 6 ── */
 #empty-state { display: none; }
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme="light"]) {
     /* #8a4a10 at 10px on --card (#2a2825) = 2.15:1; switch to --text for legible uppercase labels. */
     .port-fact.watch .port-fact-label { color: var(--text); }
+    .port-pressure i.on { background: var(--text); }
     /* sb-green (#7cb384) fill — white text = 2.43:1. Dark text passes 6.9:1. */
   }
+}
+
+/* ── Reveal-on-scroll, same treatment as the rest of the page's motion budget ── */
+.port-card.cp-reveal { opacity: 0; transform: translateY(16px); }
+.port-card.cp-reveal.in { opacity: 1; transform: none; }
+@media (prefers-reduced-motion: reduce) {
+  .port-card.cp-reveal { opacity: 1; transform: none; transition: none; }
 }
 </style>
 <link rel="stylesheet" href="/assets/mobile.css?v=53">
@@ -91,17 +115,15 @@
     <div class="eb-graphic" aria-hidden="true"><svg viewBox="0 0 24 24" aria-hidden="true"><defs>
       <linearGradient id="cp-hull" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#8fb3ba"/><stop offset="1" stop-color="#2e454a"/></linearGradient>
       <linearGradient id="cp-deck" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#d3e2e4"/><stop offset="1" stop-color="#8fb3ba"/></linearGradient>
-      <linearGradient id="cp-pier" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#c98a54"/><stop offset="1" stop-color="#7a4a26"/></linearGradient>
     </defs>
-      <rect x="18.3" y="10.6" width="1.4" height="9.2" fill="url(#cp-pier)" stroke="#5a3418" stroke-width="0.3"/>
-      <rect x="21.3" y="10.6" width="1.4" height="9.2" fill="url(#cp-pier)" stroke="#5a3418" stroke-width="0.3"/>
-      <rect x="17" y="9.2" width="7" height="1.9" rx="0.4" fill="url(#cp-pier)" stroke="#5a3418" stroke-width="0.3"/>
-      <rect x="9.8" y="2" width="2.2" height="6.6" fill="url(#cp-hull)" stroke="#2e454a" stroke-width="0.4"/>
-      <path d="M12 2 13.7 2.6 12 3.2Z" fill="url(#cp-deck)" stroke="#2e454a" stroke-width="0.3"/>
-      <rect x="3.5" y="8.6" width="14.5" height="6" rx="1" fill="url(#cp-deck)" stroke="#2e454a" stroke-width="0.5"/>
-      <g fill="url(#cp-hull)" opacity="0.7"><circle cx="6.5" cy="11.6" r="0.55"/><circle cx="9.5" cy="11.6" r="0.55"/><circle cx="12.5" cy="11.6" r="0.55"/><circle cx="15.5" cy="11.6" r="0.55"/></g>
-      <path d="M1 19.4 3.2 14.6h14l2.2 4.8c-2.4 1.3-4.2-1.3-6.4-1.3s-4 2.6-6.2 2.6-4.2-2.6-6.6-2.6z" fill="url(#cp-hull)" stroke="#2e454a" stroke-width="0.5"/>
-      <path d="M1 19.4 3.2 14.6h14l2.2 4.8c-2.4 1.3-4.2-1.3-6.4-1.3s-4 2.6-6.2 2.6-4.2-2.6-6.6-2.6z" fill="url(#gm-gloss)"/>
+      <path d="M1 19.6 3.2 14.8h14l2.2 4.8c-2.4 1.3-4.2-1.3-6.4-1.3s-4 2.6-6.2 2.6-4.2-2.6-6.6-2.6z" fill="url(#cp-hull)" stroke="#2e454a" stroke-width="0.4"/>
+      <path d="M1 19.6 3.2 14.8h14l2.2 4.8c-2.4 1.3-4.2-1.3-6.4-1.3s-4 2.6-6.2 2.6-4.2-2.6-6.6-2.6z" fill="url(#gm-gloss)"/>
+      <rect x="4.4" y="10" width="10.4" height="5" rx="1" fill="url(#cp-deck)" stroke="#2e454a" stroke-width="0.4"/>
+      <g fill="url(#cp-hull)" opacity="0.75"><circle cx="6.6" cy="12.5" r="0.9"/><circle cx="9.4" cy="12.5" r="0.9"/><circle cx="12.2" cy="12.5" r="0.9"/></g>
+      <rect x="10.4" y="6" width="3.4" height="4.4" rx="0.8" fill="url(#cp-deck)" stroke="#2e454a" stroke-width="0.4"/>
+      <rect x="14.6" y="4.6" width="2" height="5.6" rx="0.6" fill="url(#cp-hull)" stroke="#2e454a" stroke-width="0.4"/>
+      <rect x="14.6" y="5.6" width="2" height="1.1" fill="#C04E1A"/>
+      <path d="M0 21.3c1.8 1 3.6 1 5.4 0s3.6-1 5.4 0 3.6 1 5.4 0 3.6-1 5.4 0" fill="none" stroke="url(#cp-hull)" stroke-width="0.9" stroke-linecap="round" opacity="0.4"/>
     </svg></div>
   </div>
 
@@ -109,6 +131,12 @@
 
   <div class="search-wrap">
     <input type="search" id="cp-search" class="search-input" placeholder="Port or country" aria-label="Search cruise ports" autocomplete="off" spellcheck="false" style="width:var(--search-w, 440px);max-width:100%;">
+  </div>
+
+  <div class="controls-row" role="group" aria-label="Filter by how the ship arrives">
+    <button type="button" class="filter-btn selection-pill cp-light-grey hov-darken" aria-pressed="true" data-access="all">All</button>
+    <button type="button" class="filter-btn selection-pill sb-green hov-darken" aria-pressed="false" data-access="dock">Dock</button>
+    <button type="button" class="filter-btn selection-pill sb-blue hov-darken" aria-pressed="false" data-access="tender">Tender</button>
   </div>
 
   <div class="jump-strip">
@@ -122,10 +150,14 @@
     <div class="region-heading">Caribbean &amp; Bahamas</div>
     <div class="port-grid">
 
-      <div class="port-card" id="port-nassau" data-port="nassau" data-region="caribbean" data-access="dock">
+      <div class="port-card sb-green" id="port-nassau" data-port="nassau" data-region="caribbean" data-access="dock" data-pressure="2">
         <div class="port-card-top">
           <div class="port-name">Nassau<span class="port-country">Bahamas</span></div>
-          <span class="badge sb-green">DOCK</span>
+          <div class="port-access">
+            <span class="badge sb-green">DOCK</span>
+            <span class="port-pressure" data-level="2" role="img" aria-label="Clock pressure: moderate" title="Clock pressure: moderate"><i class="on"></i><i class="on"></i><i></i></span>
+            <span class="port-pressure-label">Moderate</span>
+          </div>
         </div>
         <div class="port-desc">Prince George Wharf puts you straight into downtown — Bay Street and the Straw Market are a 2–5 min walk.</div>
         <div class="port-facts">
@@ -135,10 +167,14 @@
         </div>
       </div>
 
-      <div class="port-card" id="port-cozumel" data-port="cozumel" data-region="caribbean" data-access="dock">
+      <div class="port-card sb-green" id="port-cozumel" data-port="cozumel" data-region="caribbean" data-access="dock" data-pressure="2">
         <div class="port-card-top">
           <div class="port-name">Cozumel<span class="port-country">Mexico</span></div>
-          <span class="badge sb-green">DOCK</span>
+          <div class="port-access">
+            <span class="badge sb-green">DOCK</span>
+            <span class="port-pressure" data-level="2" role="img" aria-label="Clock pressure: moderate" title="Clock pressure: moderate"><i class="on"></i><i class="on"></i><i></i></span>
+            <span class="port-pressure-label">Moderate</span>
+          </div>
         </div>
         <div class="port-desc">Punta Langosta puts you in San Miguel town in under 5 min on foot; Puerta Maya and the International Pier are a ~10 min taxi from town but sit next to Paradise Beach and Chankanaab Park.</div>
         <div class="port-facts">
@@ -148,10 +184,14 @@
         </div>
       </div>
 
-      <div class="port-card" id="port-st-thomas" data-port="st thomas" data-region="caribbean" data-access="dock">
+      <div class="port-card sb-green" id="port-st-thomas" data-port="st thomas" data-region="caribbean" data-access="dock" data-pressure="2">
         <div class="port-card-top">
           <div class="port-name">St. Thomas<span class="port-country">US Virgin Islands</span></div>
-          <span class="badge sb-green">DOCK</span>
+          <div class="port-access">
+            <span class="badge sb-green">DOCK</span>
+            <span class="port-pressure" data-level="2" role="img" aria-label="Clock pressure: moderate" title="Clock pressure: moderate"><i class="on"></i><i class="on"></i><i></i></span>
+            <span class="port-pressure-label">Moderate</span>
+          </div>
         </div>
         <div class="port-desc">Havensight is a 15–20 min walk (or short taxi) to Charlotte Amalie; Crown Bay is farther out and needs a taxi.</div>
         <div class="port-facts">
@@ -161,10 +201,14 @@
         </div>
       </div>
 
-      <div class="port-card" id="port-st-maarten" data-port="st maarten philipsburg" data-region="caribbean" data-access="dock">
+      <div class="port-card sb-green" id="port-st-maarten" data-port="st maarten philipsburg" data-region="caribbean" data-access="dock" data-pressure="2">
         <div class="port-card-top">
           <div class="port-name">Philipsburg<span class="port-country">St. Maarten</span></div>
-          <span class="badge sb-green">DOCK</span>
+          <div class="port-access">
+            <span class="badge sb-green">DOCK</span>
+            <span class="port-pressure" data-level="2" role="img" aria-label="Clock pressure: moderate" title="Clock pressure: moderate"><i class="on"></i><i class="on"></i><i></i></span>
+            <span class="port-pressure-label">Moderate</span>
+          </div>
         </div>
         <div class="port-desc">The A.C. Wathey Cruise Facility is a 10–15 min walk (or free shuttle) to Front Street.</div>
         <div class="port-facts">
@@ -174,10 +218,14 @@
         </div>
       </div>
 
-      <div class="port-card" id="port-grand-cayman" data-port="grand cayman george town cayman islands" data-region="caribbean" data-access="tender">
+      <div class="port-card sb-blue" id="port-grand-cayman" data-port="grand cayman george town cayman islands" data-region="caribbean" data-access="tender" data-pressure="3">
         <div class="port-card-top">
           <div class="port-name">Grand Cayman<span class="port-country">Cayman Islands · George Town</span></div>
-          <span class="badge sb-blue">TENDER</span>
+          <div class="port-access">
+            <span class="badge sb-blue">TENDER</span>
+            <span class="port-pressure" data-level="3" role="img" aria-label="Clock pressure: tight" title="Clock pressure: tight"><i class="on"></i><i class="on"></i><i class="on"></i></span>
+            <span class="port-pressure-label">Tight</span>
+          </div>
         </div>
         <div class="port-desc">No cruise pier — small boats tender passengers to the North or South Terminal downtown, roughly 10–15 min each way. George Town itself is walkable from the terminal.</div>
         <div class="port-facts">
@@ -187,10 +235,14 @@
         </div>
       </div>
 
-      <div class="port-card" id="port-roatan" data-port="roatan honduras mahogany bay coxen hole" data-region="caribbean" data-access="dock">
+      <div class="port-card sb-green" id="port-roatan" data-port="roatan honduras mahogany bay coxen hole" data-region="caribbean" data-access="dock" data-pressure="2">
         <div class="port-card-top">
           <div class="port-name">Roatán<span class="port-country">Honduras</span></div>
-          <span class="badge sb-green">DOCK</span>
+          <div class="port-access">
+            <span class="badge sb-green">DOCK</span>
+            <span class="port-pressure" data-level="2" role="img" aria-label="Clock pressure: moderate" title="Clock pressure: moderate"><i class="on"></i><i class="on"></i><i></i></span>
+            <span class="port-pressure-label">Moderate</span>
+          </div>
         </div>
         <div class="port-desc">Mahogany Bay (Carnival's private terminal) has a beach right at the pier; Port of Roatán/Coxen Hole needs a 15–20 min taxi to West Bay Beach.</div>
         <div class="port-facts">
@@ -200,10 +252,14 @@
         </div>
       </div>
 
-      <div class="port-card" id="port-costa-maya" data-port="costa maya mahahual mexico" data-region="caribbean" data-access="dock">
+      <div class="port-card sb-green" id="port-costa-maya" data-port="costa maya mahahual mexico" data-region="caribbean" data-access="dock" data-pressure="3">
         <div class="port-card-top">
           <div class="port-name">Costa Maya<span class="port-country">Mexico</span></div>
-          <span class="badge sb-green">DOCK</span>
+          <div class="port-access">
+            <span class="badge sb-green">DOCK</span>
+            <span class="port-pressure" data-level="3" role="img" aria-label="Clock pressure: tight" title="Clock pressure: tight"><i class="on"></i><i class="on"></i><i class="on"></i></span>
+            <span class="port-pressure-label">Tight</span>
+          </div>
         </div>
         <div class="port-desc">A purpose-built terminal with its own pool and shops sits right at the pier; Mahahual town is a 10–15 min walk along the beach.</div>
         <div class="port-facts">
@@ -221,10 +277,14 @@
     <div class="region-heading">Mediterranean</div>
     <div class="port-grid">
 
-      <div class="port-card" id="port-barcelona" data-port="barcelona spain" data-region="mediterranean" data-access="dock">
+      <div class="port-card sb-green" id="port-barcelona" data-port="barcelona spain" data-region="mediterranean" data-access="dock" data-pressure="2">
         <div class="port-card-top">
           <div class="port-name">Barcelona<span class="port-country">Spain</span></div>
-          <span class="badge sb-green">DOCK</span>
+          <div class="port-access">
+            <span class="badge sb-green">DOCK</span>
+            <span class="port-pressure" data-level="2" role="img" aria-label="Clock pressure: moderate" title="Clock pressure: moderate"><i class="on"></i><i class="on"></i><i></i></span>
+            <span class="port-pressure-label">Moderate</span>
+          </div>
         </div>
         <div class="port-desc">World Trade Center terminals are a ~20 min walk from Las Ramblas; Adossat Quay terminals need the free shuttle bus into town (~15–20 min).</div>
         <div class="port-facts">
@@ -234,10 +294,14 @@
         </div>
       </div>
 
-      <div class="port-card" id="port-rome" data-port="rome civitavecchia italy vatican colosseum" data-region="mediterranean" data-access="dock">
+      <div class="port-card sb-green" id="port-rome" data-port="rome civitavecchia italy vatican colosseum" data-region="mediterranean" data-access="dock" data-pressure="3">
         <div class="port-card-top">
           <div class="port-name">Rome<span class="port-country">Italy · Civitavecchia</span></div>
-          <span class="badge sb-green">DOCK</span>
+          <div class="port-access">
+            <span class="badge sb-green">DOCK</span>
+            <span class="port-pressure" data-level="3" role="img" aria-label="Clock pressure: tight" title="Clock pressure: tight"><i class="on"></i><i class="on"></i><i class="on"></i></span>
+            <span class="port-pressure-label">Tight</span>
+          </div>
         </div>
         <div class="port-desc">Civitavecchia is a satellite port about 80 km/50 miles from central Rome. Train to Roma Termini or Roma San Pietro runs 45 min–1 hr; port shuttle plus coach can run 1.5 hrs with traffic.</div>
         <div class="port-facts">
@@ -247,10 +311,14 @@
         </div>
       </div>
 
-      <div class="port-card" id="port-naples" data-port="naples pompeii amalfi italy" data-region="mediterranean" data-access="dock">
+      <div class="port-card sb-green" id="port-naples" data-port="naples pompeii amalfi italy" data-region="mediterranean" data-access="dock" data-pressure="3">
         <div class="port-card-top">
           <div class="port-name">Naples<span class="port-country">Italy</span></div>
-          <span class="badge sb-green">DOCK</span>
+          <div class="port-access">
+            <span class="badge sb-green">DOCK</span>
+            <span class="port-pressure" data-level="3" role="img" aria-label="Clock pressure: tight" title="Clock pressure: tight"><i class="on"></i><i class="on"></i><i class="on"></i></span>
+            <span class="port-pressure-label">Tight</span>
+          </div>
         </div>
         <div class="port-desc">Molo Angioino/Stazione Marittima is a 10–15 min walk to the historic center.</div>
         <div class="port-facts">
@@ -260,10 +328,14 @@
         </div>
       </div>
 
-      <div class="port-card" id="port-villefranche" data-port="villefranche sur mer nice monaco france" data-region="mediterranean" data-access="tender">
+      <div class="port-card sb-blue" id="port-villefranche" data-port="villefranche sur mer nice monaco france" data-region="mediterranean" data-access="tender" data-pressure="2">
         <div class="port-card-top">
           <div class="port-name">Villefranche-sur-Mer<span class="port-country">France · for Nice &amp; Monaco</span></div>
-          <span class="badge sb-blue">TENDER</span>
+          <div class="port-access">
+            <span class="badge sb-blue">TENDER</span>
+            <span class="port-pressure" data-level="2" role="img" aria-label="Clock pressure: moderate" title="Clock pressure: moderate"><i class="on"></i><i class="on"></i><i></i></span>
+            <span class="port-pressure-label">Moderate</span>
+          </div>
         </div>
         <div class="port-desc">Ships anchor in the bay; the tender pier is steps from Villefranche's old town. Nice is ~20 min by train, Monaco ~30 min by train.</div>
         <div class="port-facts">
@@ -273,10 +345,14 @@
         </div>
       </div>
 
-      <div class="port-card" id="port-venice" data-port="venice italy marghera" data-region="mediterranean" data-access="dock">
+      <div class="port-card sb-green" id="port-venice" data-port="venice italy marghera" data-region="mediterranean" data-access="dock" data-pressure="3">
         <div class="port-card-top">
           <div class="port-name">Venice<span class="port-country">Italy</span></div>
-          <span class="badge sb-green">DOCK</span>
+          <div class="port-access">
+            <span class="badge sb-green">DOCK</span>
+            <span class="port-pressure" data-level="3" role="img" aria-label="Clock pressure: tight" title="Clock pressure: tight"><i class="on"></i><i class="on"></i><i class="on"></i></span>
+            <span class="port-pressure-label">Tight</span>
+          </div>
         </div>
         <div class="port-desc">Large ships (25,000+ gross tons) have been banned from the Giudecca Canal since August 2021 and now dock at Marghera on the mainland, shuttled into town; only smaller ships still dock near St. Mark's. Marghera to St. Mark's Square runs roughly 30–45 min by shuttle bus and water transfer.</div>
         <div class="port-facts">
@@ -286,10 +362,14 @@
         </div>
       </div>
 
-      <div class="port-card" id="port-santorini" data-port="santorini fira oia greece" data-region="mediterranean" data-access="tender">
+      <div class="port-card sb-blue" id="port-santorini" data-port="santorini fira oia greece" data-region="mediterranean" data-access="tender" data-pressure="3">
         <div class="port-card-top">
           <div class="port-name">Santorini<span class="port-country">Greece</span></div>
-          <span class="badge sb-blue">TENDER</span>
+          <div class="port-access">
+            <span class="badge sb-blue">TENDER</span>
+            <span class="port-pressure" data-level="3" role="img" aria-label="Clock pressure: tight" title="Clock pressure: tight"><i class="on"></i><i class="on"></i><i class="on"></i></span>
+            <span class="port-pressure-label">Tight</span>
+          </div>
         </div>
         <div class="port-desc">Both Athinios port and the Old Port of Fira (Skala) are too small for cruise ships to dock. Independent passengers tender to Skala; ship excursions tender to Athinios. From Skala, the cable car to Fira takes 3 minutes.</div>
         <div class="port-facts">
@@ -299,10 +379,14 @@
         </div>
       </div>
 
-      <div class="port-card" id="port-mykonos" data-port="mykonos tourlos greece delos" data-region="mediterranean" data-access="dock">
+      <div class="port-card sb-green" id="port-mykonos" data-port="mykonos tourlos greece delos" data-region="mediterranean" data-access="dock" data-pressure="2">
         <div class="port-card-top">
           <div class="port-name">Mykonos<span class="port-country">Greece</span></div>
-          <span class="badge sb-green">DOCK</span>
+          <div class="port-access">
+            <span class="badge sb-green">DOCK</span>
+            <span class="port-pressure" data-level="2" role="img" aria-label="Clock pressure: moderate" title="Clock pressure: moderate"><i class="on"></i><i class="on"></i><i></i></span>
+            <span class="port-pressure-label">Moderate</span>
+          </div>
         </div>
         <div class="port-desc">Ships dock at the New Port (Tourlos), about 2.5 km north of town; when ships anchor instead, tenders land right at the Old Port, steps from the main square. New Port to town is a 10–15 min shuttle or ~5 min taxi.</div>
         <div class="port-facts">
@@ -312,10 +396,14 @@
         </div>
       </div>
 
-      <div class="port-card" id="port-dubrovnik" data-port="dubrovnik gruz croatia old town" data-region="mediterranean" data-access="dock">
+      <div class="port-card sb-green" id="port-dubrovnik" data-port="dubrovnik gruz croatia old town" data-region="mediterranean" data-access="dock" data-pressure="2">
         <div class="port-card-top">
           <div class="port-name">Dubrovnik<span class="port-country">Croatia</span></div>
-          <span class="badge sb-green">DOCK</span>
+          <div class="port-access">
+            <span class="badge sb-green">DOCK</span>
+            <span class="port-pressure" data-level="2" role="img" aria-label="Clock pressure: moderate" title="Clock pressure: moderate"><i class="on"></i><i class="on"></i><i></i></span>
+            <span class="port-pressure-label">Moderate</span>
+          </div>
         </div>
         <div class="port-desc">Port of Gruž is about 3 km/2 miles from the Old Town — shuttle bus ~20 min, local bus 1A/1B ~10–15 min, taxi ~15 min. Most lines shuttle to Pile Gate, the main walking entrance.</div>
         <div class="port-facts">
@@ -325,10 +413,14 @@
         </div>
       </div>
 
-      <div class="port-card" id="port-kotor" data-port="kotor montenegro" data-region="mediterranean" data-access="dock">
+      <div class="port-card sb-green" id="port-kotor" data-port="kotor montenegro" data-region="mediterranean" data-access="dock" data-pressure="2">
         <div class="port-card-top">
           <div class="port-name">Kotor<span class="port-country">Montenegro</span></div>
-          <span class="badge sb-green">DOCK</span>
+          <div class="port-access">
+            <span class="badge sb-green">DOCK</span>
+            <span class="port-pressure" data-level="2" role="img" aria-label="Clock pressure: moderate" title="Clock pressure: moderate"><i class="on"></i><i class="on"></i><i></i></span>
+            <span class="port-pressure-label">Moderate</span>
+          </div>
         </div>
         <div class="port-desc">Ships tie up right at the edge of the Old Town walls — one of the most walkable ports on this list; the gate is a 2–5 min walk from the ship.</div>
         <div class="port-facts">
@@ -346,10 +438,14 @@
     <div class="region-heading">Pacific &amp; Alaska</div>
     <div class="port-grid">
 
-      <div class="port-card" id="port-sydney" data-port="sydney australia circular quay" data-region="pacific-alaska" data-access="dock">
+      <div class="port-card sb-green" id="port-sydney" data-port="sydney australia circular quay" data-region="pacific-alaska" data-access="dock" data-pressure="2">
         <div class="port-card-top">
           <div class="port-name">Sydney<span class="port-country">Australia</span></div>
-          <span class="badge sb-green">DOCK</span>
+          <div class="port-access">
+            <span class="badge sb-green">DOCK</span>
+            <span class="port-pressure" data-level="2" role="img" aria-label="Clock pressure: moderate" title="Clock pressure: moderate"><i class="on"></i><i class="on"></i><i></i></span>
+            <span class="port-pressure-label">Moderate</span>
+          </div>
         </div>
         <div class="port-desc">Overseas Passenger Terminal at Circular Quay is right in the city center — the Opera House and Harbour Bridge are a 2–10 min walk; White Bay Terminal (used for larger ships) is about 4 km out and needs a taxi or shuttle (15–20 min).</div>
         <div class="port-facts">
@@ -359,10 +455,14 @@
         </div>
       </div>
 
-      <div class="port-card" id="port-juneau" data-port="juneau alaska mendenhall glacier" data-region="pacific-alaska" data-access="dock">
+      <div class="port-card sb-green" id="port-juneau" data-port="juneau alaska mendenhall glacier" data-region="pacific-alaska" data-access="dock" data-pressure="2">
         <div class="port-card-top">
           <div class="port-name">Juneau<span class="port-country">Alaska</span></div>
-          <span class="badge sb-green">DOCK</span>
+          <div class="port-access">
+            <span class="badge sb-green">DOCK</span>
+            <span class="port-pressure" data-level="2" role="img" aria-label="Clock pressure: moderate" title="Clock pressure: moderate"><i class="on"></i><i class="on"></i><i></i></span>
+            <span class="port-pressure-label">Moderate</span>
+          </div>
         </div>
         <div class="port-desc">Multiple downtown docks put the historic district and the Mount Roberts Tramway a 5–10 min walk away.</div>
         <div class="port-facts">
@@ -372,10 +472,14 @@
         </div>
       </div>
 
-      <div class="port-card" id="port-ketchikan" data-port="ketchikan alaska creek street misty fjords" data-region="pacific-alaska" data-access="dock">
+      <div class="port-card sb-green" id="port-ketchikan" data-port="ketchikan alaska creek street misty fjords" data-region="pacific-alaska" data-access="dock" data-pressure="1">
         <div class="port-card-top">
           <div class="port-name">Ketchikan<span class="port-country">Alaska</span></div>
-          <span class="badge sb-green">DOCK</span>
+          <div class="port-access">
+            <span class="badge sb-green">DOCK</span>
+            <span class="port-pressure" data-level="1" role="img" aria-label="Clock pressure: easy" title="Clock pressure: easy"><i class="on"></i><i></i><i></i></span>
+            <span class="port-pressure-label">Easy</span>
+          </div>
         </div>
         <div class="port-desc">Right downtown — Creek Street and the historic district are a 2–5 min walk from the pier.</div>
         <div class="port-facts">
@@ -402,13 +506,17 @@
   var empty = document.getElementById('empty-state');
   var cards = Array.prototype.slice.call(document.querySelectorAll('.port-card'));
   var sections = Array.prototype.slice.call(document.querySelectorAll('.port-section'));
+  var accessBtns = Array.prototype.slice.call(document.querySelectorAll('.controls-row .filter-btn'));
+  var access = 'all';
 
   function filter() {
     var q = input.value.trim().toLowerCase();
     var visible = 0;
     cards.forEach(function (card) {
       var hay = card.getAttribute('data-port') + ' ' + card.textContent.toLowerCase();
-      var show = !q || hay.toLowerCase().indexOf(q) !== -1;
+      var okQ = !q || hay.toLowerCase().indexOf(q) !== -1;
+      var okA = access === 'all' || card.getAttribute('data-access') === access;
+      var show = okQ && okA;
       card.classList.toggle('hidden', !show);
       if (show) visible++;
     });
@@ -420,6 +528,29 @@
   }
 
   input.addEventListener('input', filter);
+
+  accessBtns.forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      accessBtns.forEach(function (b) { b.setAttribute('aria-pressed', String(b === btn)); });
+      access = btn.getAttribute('data-access');
+      filter();
+    });
+  });
+
+  if (window.IntersectionObserver) {
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('in');
+          io.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.12 });
+    cards.forEach(function (card) {
+      card.classList.add('cp-reveal');
+      io.observe(card);
+    });
+  }
 
   if (window.TVESearch) {
     var items = cards.map(function (card) {

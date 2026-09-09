@@ -409,8 +409,15 @@ pre { white-space: pre-wrap; }
 
 .tb-ham-open ~ .day-jump-btn { display: none !important; }
 
-/* Sunrise-Sunset: mobile city search fills the pickers row */
-#sun-city-search { width: 100% !important; max-width: 100% !important; margin-bottom: 0 !important; }
+/* Sunrise-Sunset: mobile city search fills the pickers row. This rule had no
+   media guard, so its !important width fired on desktop too and overrode
+   the 440px standard bar's wrap -- fixing that also requires the fix in
+   sunrise-sunset/index.html capping #sun-city-search-wrap at the same
+   var(--search-w, 440px), since #sun-city-search itself still resolves
+   100% of that wrap on phones where it's narrower than 440px. */
+@media (max-width: 600px) and (pointer: coarse) {
+  #sun-city-search { width: 100% !important; max-width: 100% !important; margin-bottom: 0 !important; }
+}
 
 /* Best-of / showcase card tap feedback — :hover doesn't fire on touch; :active gives the press response */
 .best-of-card:active, .showcase-card:active { opacity: 0.88; transform: scale(0.99); }

@@ -1013,11 +1013,14 @@ window.TVE.home = (function () {
     /* Site-Icons.html #1423 — the viaduct, for exposed heights. Straight
        from the catalogue, never redrawn. data-icon names the DRAWING, so a
        stop writes data-icon="viaduct" data-role="heights". */
-        /* Site-Icons.html #845 — bare rust chevron, the smaller variant of
-           #607 (same family, tighter span and thinner stroke). Replaces the
-           map-card "route A to B" composition — a quiet "go to" cue instead
-           of a competing icon on a mark used ~10,775 times fleet-wide. */
-        'route-ab': ['0 0 24 24', '<path d="M10 6.4 15.6 12 10 17.6" fill="none" stroke="#C04E1A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>'],
+        /* Site-Icons.html #596 "go to" — shaft + arrowhead, recolored to
+           terracotta. Replaces the #845 bare chevron (2026-09-09, owner):
+           the chevron's thin open bracket read as invisible on a phone even
+           after the box was sized up, so it's now the same arrow SHAPE as
+           the plain grey "→" already used mid-row in every motion line
+           (matched to its measured ~1em/16px render size), just in
+           terracotta instead of grey — a mark used ~10,775 times fleet-wide. */
+        'route-ab': ['0 0 24 24', '<path d="M3.6 12h14.2" fill="none" stroke="#C04E1A" stroke-width="2.6" stroke-linecap="round"/><path d="M13.6 6.6 19.8 12l-6.2 5.4" fill="none" stroke="#C04E1A" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/>'],
         'squeeze': ['0 0 24 24', '<g data-norm="h19.5" transform="translate(1.364 1.364) scale(0.8864)"><path d="M0.5 1.0 L10.6 1.0 L8.6 6.4 L10.9 11.2 L9.4 16.0 L11.0 23.0 L0.5 23.0 Z" fill="url(#gm-rust)" stroke="var(--c-rust-rim)" stroke-width="0.564" stroke-linejoin="round"/><path d="M0.5 1.0 L10.6 1.0 L8.6 6.4 L10.9 11.2 L9.4 16.0 L11.0 23.0 L0.5 23.0 Z" fill="url(#gm-gloss)"/><path d="M23.5 1.0 L13.4 1.0 L15.4 6.4 L13.1 11.2 L14.6 16.0 L13.0 23.0 L23.5 23.0 Z" fill="url(#gm-rust)" stroke="var(--c-rust-rim)" stroke-width="0.564" stroke-linejoin="round"/><path d="M23.5 1.0 L13.4 1.0 L15.4 6.4 L13.1 11.2 L14.6 16.0 L13.0 23.0 L23.5 23.0 Z" fill="url(#gm-gloss)"/></g>'],
     'viaduct': ['0 0 24 24', '<path d="M2.0 2.25 L22.0 2.25 L22.0 4.85 L2.0 4.85 Z" fill="url(#gm-stone)" stroke="var(--c-stone-rim)" stroke-width="0.5" stroke-linejoin="round"/><path d="M2.0 2.25 L22.0 2.25 L22.0 4.85 L2.0 4.85 Z" fill="url(#gm-gloss)"/><path d="M3.2 4.85 L6.2 4.85 L6.2 19.15 L3.2 19.15 Z M10.5 4.85 L13.5 4.85 L13.5 19.15 L10.5 19.15 Z M17.8 4.85 L20.8 4.85 L20.8 19.15 L17.8 19.15 Z" fill="url(#gm-rust)" stroke="var(--c-rust-rim)" stroke-width="0.5" stroke-linejoin="round"/><path d="M3.2 4.85 L6.2 4.85 L6.2 19.15 L3.2 19.15 Z M10.5 4.85 L13.5 4.85 L13.5 19.15 L10.5 19.15 Z M17.8 4.85 L20.8 4.85 L20.8 19.15 L17.8 19.15 Z" fill="url(#gm-gloss)"/><g fill="none" stroke="var(--c-rust-rim)" stroke-width="1.5"><path d="M6.2 13.9 A2.15 2.15 0 0 1 10.5 13.9"/><path d="M13.5 13.9 A2.15 2.15 0 0 1 17.8 13.9"/></g><path d="M2.0 19.15 L22.0 19.15 L22.0 21.75 L2.0 21.75 Z" fill="url(#gm-rust)" stroke="var(--c-rust-rim)" stroke-width="0.5" stroke-linejoin="round"/><path d="M2.0 19.15 L22.0 19.15 L22.0 21.75 L2.0 21.75 Z" fill="url(#gm-gloss)"/>'],
     'walk': ['0 0 24 24', '<circle cx="13.2" cy="3.7" r="2.3" fill="url(#gm-tan)" stroke="var(--c-tan-rim)" stroke-width="0.5"/> <g fill="none" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round"> <path d="M13.2 7.6 11.6 12.8" stroke="var(--c-red)"/><path d="M12.4 9.2 15.8 11.4" stroke="var(--c-red)"/><path d="M12.6 8.9 9.4 11.2" stroke="var(--c-red)"/> <path d="M11.6 12.8 13.9 16.2 13.4 20.9" stroke="var(--c-navy)"/><path d="M11.6 12.8 9.4 16.4 7.9 20.4" stroke="var(--c-navy)"/></g>'],
@@ -1061,12 +1064,11 @@ window.TVE.home = (function () {
        the site. Same fix as Currency and Pocket version, just via the
        em-based .gm-icon path those two don't use. */
     '.gm-icon[data-icon="theatre"]{width:1.5em;height:1.5em}' +
-    /* At the shared 1.2em box the route-ab chevron's own auto-fit crop
-       (viewBox tightened to its stroke) read oversized next to the plain
-       walk/drive text beside it in every motion row, so it was shrunk to
-       0.75em/1.5 stroke-width -- but the owner found that too small to see
-       on a phone screen (2026-09-09). Settled at 1em/2, a middle ground
-       between the original 1.2em/2.4 and the over-corrected 0.75em/1.5. */
+    /* route-ab sized to 1em to match the measured render width of the
+       plain grey "→" it sits beside in every motion row (both come out to
+       ~16px at the row's 16px base font) -- kept from the earlier chevron
+       sizing pass even though the glyph itself changed to a shaft+arrowhead
+       shape (2026-09-09, owner). */
     '.gm-icon[data-icon="route-ab"]{width:1em;height:1em}' +
         'a.motion-route{margin-left:6px;display:inline-block;line-height:0;text-decoration:none}' +
     '';

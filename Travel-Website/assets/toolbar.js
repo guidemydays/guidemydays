@@ -5303,6 +5303,16 @@ window.TVE.home = (function () {
 
     var HOTEL_ALT_DATA = {
     /* entries added per guide during build — see Separation Map.md § Hotels & Rentals */
+    'zermatt': { h: [
+      { name: 'Hotel Jägerhof', note: 'Independent — quiet Steinmatt quarter, Matterhorn views, breakfast and station transfer · 9.3 Booking.com', url: 'https://www.booking.com/hotel/ch/jagerhof-zermatt.html', tier: 'budget' },
+      { name: 'Hotel Walliserhof Zermatt', note: 'Independent — central Bahnhofstrasse, sauna and generous breakfast near the station · 9.0 Booking.com', url: 'https://www.booking.com/hotel/ch/walliserhof-zermatt.html', tier: 'budget' },
+      { name: 'Hotel Daniela', note: 'Independent — central village location, spa access and warm contemporary alpine rooms · 9.0 Booking.com', url: 'https://www.booking.com/hotel/ch/daniela.html', tier: 'mid' },
+      { name: 'Alpen Resort & Spa', note: 'Independent — near the railway station, pools, spa and family rooms · 9.1 Booking.com', url: 'https://www.booking.com/hotel/ch/best-western-alpen-resort.html', tier: 'mid' },
+      { name: 'SCHLOSS Zermatt', note: 'Independent — this guide’s title-card hotel beside the station, full spa and mountain-view rooms · 9.5 Booking.com', url: 'https://www.booking.com/hotel/ch/schlosshotel-zermatt.html', tier: 'expensive' },
+      { name: 'Firefly Luxury Suites', note: 'Independent — suite hotel near the Matterhorn Express, pool, spa and unusually spacious rooms · 9.5 Booking.com', url: 'https://www.booking.com/hotel/ch/firefly.html', tier: 'expensive' },
+      { name: 'The Omnia', note: 'Independent — design-led mountain lodge above the village centre, pool, spa and panoramic terrace · 9.7 Booking.com', url: 'https://www.booking.com/hotel/ch/the-omnia.html', tier: 'luxury' },
+      { name: 'Mont Cervin Palace', note: 'Independent — historic grand hotel on Bahnhofstrasse with pool, spa and polished service · 9.1 Booking.com', url: 'https://www.booking.com/hotel/ch/mont-cervin-palace.html', tier: 'luxury' }
+    ], price: { budget: 'CHF 160–240', mid: 'CHF 240–360', expensive: 'CHF 360–550', luxury: 'CHF 550+' } },
     'auckland': { h: [
       { name: 'Hotel Grand Chancellor Auckland', note: 'Independent — Wellesley Street West, Auckland CBD, restaurant, gym, 24h reception, AC · 8.9 Booking.com', url: 'https://www.booking.com/hotel/nz/grand-chancellor-auckland.html', tier: 'budget' },
       { name: 'Adina Apartment Hotel Auckland Britomart', note: 'Independent — Tapora Street, Britomart/Quay Park, serviced apartments with kitchenette, 24h reception, AC · 8.7 Booking.com', url: 'https://www.booking.com/hotel/nz/adina-apartment-auckland-britomart.html', tier: 'budget' },
@@ -10359,6 +10369,7 @@ window.TVE.home = (function () {
 
     /* city-slug → {iata, name}  (derived from index.html FMAP "i" field) */
     var CHIP_DATA = {
+      'zermatt':           {iata:'ZRH', name:'Zurich Airport'},
       'mexico-city':       {iata:'MEX', name:'Mexico City International (Benito Juárez)'},
       'abu-dhabi':         {iata:'AUH', name:'Abu Dhabi International'},
       'agra':              {iata:'DEL', name:'Indira Gandhi International'},

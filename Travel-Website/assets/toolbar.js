@@ -8682,21 +8682,6 @@ window.TVE.home = (function () {
         { minimumFractionDigits: dp, maximumFractionDigits: dp });
     }
 
-    /* Reference rate. It used to mirror fmt_rate() in update_currency_rates.py
-       so the pill's "US$1 ≈ …" line was byte-identical to the per-country rate
-       row on /currencies/ — those rows were deleted on 2026-08-18 and there is
-       nothing left to match, so this now mirrors the CONVERTER's own ladder on
-       that page instead. The tail matters more than it used to: with the reader
-       picking their own currency the pair can be weak-per-strong, and the old
-       fixed 3 dp printed "1 JPY ≈ $0.006", which is true and says nothing. */
-    function _curRate(r) {
-      if (r >= 100) return r.toLocaleString('en-US', { maximumFractionDigits: 0 });
-      if (r >= 1) return r.toLocaleString('en-US',
-        { minimumFractionDigits: 2, maximumFractionDigits: 2 });
-      if (r >= 0.01) return r.toLocaleString('en-US', { maximumFractionDigits: 4 });
-      return r.toLocaleString('en-US', { maximumFractionDigits: 6 });
-    }
-
     function _curJSON(key, file, cb) {
       try {
         var hit = sessionStorage.getItem(key);
@@ -8836,20 +8821,24 @@ window.TVE.home = (function () {
          input to nothing before it ever needs a second line. */
       mine.wrap.classList.add('tve-cur-mine');
 
-      var loc = _field(sym || c.iso, 'Amount in ' + c.name);
       var eq = document.createElement('span');
       eq.className = 'tve-cur-eq';
       eq.textContent = '=';
 
+      /* The destination side reads, it is never typed into — two synced
+         editable boxes (owner feedback: "makes no sense") is one box to type
+         in plus this plain total. aria-live announces it to screen readers on
+         every recalculation the same way a live input's own value change would. */
+      var result = document.createElement('span');
+      result.className = 'tve-cur-result';
+      result.setAttribute('aria-live', 'polite');
+      result.setAttribute('aria-label', 'Converted amount in ' + c.name);
+
       fields.appendChild(mine.wrap);
       fields.appendChild(eq);
-      fields.appendChild(loc.wrap);
+      fields.appendChild(result);
       panel.appendChild(fields);
 
-      /* Two-way binding. The `busy` latch stops the programmatic .value write
-         from re-entering through the other field's own input event, which would
-         round the number the reader is still typing out from under them. */
-      var busy = false;
       /* Cross rate through the US dollar, which is only the base the snapshot is
          quoted in — the panel is not anchored to it and never names it unless
          the reader picked it. `_mineRate` is looked up on every keystroke rather
@@ -8860,34 +8849,27 @@ window.TVE.home = (function () {
         for (var i = 0; i < picks.length; i++) if (picks[i].iso === iso) return picks[i].rate;
         return 0;
       }
-      function _bind(src, dst, factor) {
-        src.addEventListener('input', function () {
-          if (busy) return;
-          var f = factor();
-          if (!f) { dst.value = ''; return; }     /* no currency chosen yet */
-          busy = true;
-          var n = parseFloat(src.value);
-          dst.value = (src.value === '' || isNaN(n)) ? '' : _curAmt(n * f)
-            .replace(/,/g, '');   /* number inputs reject grouping separators */
-          busy = false;
-        });
+      /* Until the reader types an amount this shows what ONE unit of their
+         currency is worth — a live "1 USD ≈ ₽83.20" reference, not a blank —
+         so picking a currency alone already answers something. Typing a real
+         amount replaces that implied 1 with theirs. */
+      function _syncResult() {
+        var r = _mineRate();
+        if (!r) { result.textContent = ''; return; }    /* no currency chosen yet */
+        var n = parseFloat(mine.input.value);
+        var amt = (mine.input.value === '' || isNaN(n)) ? 1 : n;
+        result.textContent = sym + _curAmt(amt * (c.rate / r));
       }
-      _bind(mine.input, loc.input, function () { var r = _mineRate(); return r ? c.rate / r : 0; });
-      _bind(loc.input, mine.input, function () { var r = _mineRate(); return r ? r / c.rate : 0; });
+      _syncResult();
+      mine.input.addEventListener('input', _syncResult);
 
-      /* Both fields open EMPTY. The old panel seeded "10" on the left because
-         the left was always US dollars; with no currency chosen there is no
-         amount to seed and a number sitting beside a blank one reads as a
-         result the panel has not produced.
-         The placeholder is a WORD, not a specimen number: .tve-cur-in forces
+      /* The placeholder is a WORD, not a specimen number: .tve-cur-in forces
          -webkit-text-fill-color to the primary text colour (iOS greys the value
          without it), which paints the placeholder in that colour too — so a
-         numeric placeholder is indistinguishable from a typed value and the
-         empty panel read "10 JPY = $10.00", a conversion it had not done. The
+         numeric placeholder would be indistinguishable from a typed value. The
          ::placeholder rule in guide-style.css mutes it; the word makes it
          unmistakable even where that rule is overridden. */
       mine.input.placeholder = 'Amount';
-      loc.input.placeholder = 'Amount';
 
       /* ── Reference line — the rate, its currency, and the way out ── */
             var xBtn = document.createElement('button');
@@ -8906,10 +8888,16 @@ window.TVE.home = (function () {
       });
       panel.appendChild(xBtn);
 
+      /* Just the way out now — the "1 USD ≈ ₽83.20" reference this line used to
+         carry moved into .tve-cur-result itself (it shows that same live figure
+         the moment a currency is picked), so repeating it here would be the
+         same redundant-text complaint (owner feedback) one control lower. The
+         link goes to /currencies/ itself, not to /currencies/#Country: the
+         converter there now opens on nothing and the deep link would preselect
+         the destination as "To", which is the opposite of the question this
+         link asks — where else the same money goes further. */
       var note = document.createElement('div');
       note.className = 'tve-cur-note';
-      var lede = document.createTextNode('');
-      note.appendChild(lede);
       var more = document.createElement('a');
       more.className = 'tve-cur-more';
       more.href = base + 'currencies/';
@@ -8917,36 +8905,7 @@ window.TVE.home = (function () {
       note.appendChild(more);
       panel.appendChild(note);
 
-      /* The reference line follows the picker. Before a currency is chosen the
-         picker itself is already asking for one ("Your currency"), so the line
-         stays empty rather than repeating "Pick your currency to convert" —
-         owner feedback, that sentence was redundant with the control right
-         above it. Once a currency is picked, the line quotes the pair in the
-         reader's own terms — never "US$1 ≈ …", which is the anchoring this
-         pass removed. The link goes to /currencies/ itself, not to
-         /currencies/#Country: the converter there now opens on nothing and the
-         deep link would preselect the destination as "To", which is the
-         opposite of the question this sentence asks — where else the same
-         money goes further. */
-      function _syncNote() {
-        var iso = pick.value, r = _mineRate();
-        /* No trailing separator: .tve-cur-note holds the sentence at one end of
-           the line and the link at the other, so nothing follows the date. */
-        lede.nodeValue = (iso && r)
-          ? '1 ' + iso + ' ≈ ' + sym + _curRate(c.rate / r) + ' · ' +
-            c.name + ' (' + c.iso + ')' +
-            (cur._as_of ? ' · rates as of ' + cur._as_of : '')
-          : '';
-      }
-      _syncNote();
-      pick.addEventListener('change', function () {
-        _syncNote();
-        /* Re-convert whatever is already typed rather than clearing it: the
-           reader who picked the wrong currency wants the same number in the
-           right one, not an empty box. */
-        var evtSrc = mine.input.value !== '' ? mine.input : loc.input;
-        evtSrc.dispatchEvent(new Event('input'));
-      });
+      pick.addEventListener('change', _syncResult);
 
       pill.addEventListener('click', function (e) {
         e.preventDefault(); e.stopPropagation();

@@ -6951,6 +6951,16 @@ window.TVE.home = (function () {
       { name: 'Hotel Verdigris', note: 'Independent 4-star — 154 Yaowarat Road in the Old Town, adults-only, outdoor pool, 24h reception, AC · 9.1 Booking.com', url: 'https://www.booking.com/hotel/th/verdigris.html', tier: 'expensive' },
       { name: 'The Memory at On On Hotel', note: 'Independent — 19 Phang-Nga Road, the 1929 shophouse hotel of the Old Town, 24h reception, AC · 9.3 Booking.com', url: 'https://www.booking.com/hotel/th/the-memory-at-on-on.html', tier: 'budget' }
     ], price: { budget: 'THB 1,000–3,000', mid: 'THB 3,000–6,000', expensive: 'THB 6,000–12,000', luxury: 'THB 12,000+' } },
+    'playa-del-carmen': { h: [
+      { name: 'The Palm At Playa', note: 'Independent — Calle 26 Norte, Centro, boutique courtyard hotel 8 min walk to 5th Avenue, pool, 24h reception, AC · 4.6 TripAdvisor', url: 'https://www.booking.com/hotel/mx/the-palm-at-playa.html', tier: 'budget' },
+      { name: 'Hotel Casa Colibri', note: 'Independent — Avenida 1 Norte, Centro, beachfront boutique 3 min walk to 5th Avenue, breakfast included, 24h reception, AC · 8.5 Booking.com', url: 'https://www.booking.com/hotel/mx/colibri-beach.html', tier: 'budget' },
+      { name: 'Maya Villa Condo Hotel and Beachclub', note: 'Independent — 1 Avenida Norte, Centro, condo-style suites with kitchenettes 5 min walk to 5th Avenue, rooftop pool, 24h reception, AC · 8.6 Booking.com', url: 'https://www.booking.com/hotel/mx/maya-villa-condo.html', tier: 'mid' },
+      { name: 'The Fives Downtown Hotel & Residences, Curio Collection by Hilton', note: 'Hilton family (Curio Collection) — this guide’s title-card hotel, Avenida 10 Norte, Centro, 7 min walk to 5th Avenue and the beach, rooftop infinity pool, spa, 24h reception, AC · 4.5 TripAdvisor', url: 'https://www.booking.com/hotel/mx/the-fives-downtown-amp-residences-playa-del-carmen-curio-collection-by-hilton.html', tier: 'mid' },
+      { name: 'El Taj Oceanfront & Beachside Condo Hotel', note: 'Independent — Calle 14 Norte, Centro, oceanfront condo-hotel on the beach 6 min walk to 5th Avenue, spa, 24h reception, AC · 8.8 Booking.com', url: 'https://www.booking.com/hotel/mx/el-taj-condohotels.html', tier: 'expensive' },
+      { name: 'Hyatt Centric Playa del Carmen - Downtown House & Beach House', note: 'Hyatt family — Calle 12 between 5th Avenue and Avenida 10, right on 5th Avenue, rooftop pool, beach club, 24h reception, AC · 4.6 TripAdvisor', url: 'https://www.booking.com/hotel/mx/thompson-playa-del-carmen.html', tier: 'expensive' },
+      { name: 'Mahekal Beach Front Resort & Spa', note: 'Independent — Calle 38 Norte, oceanfront palapa-roof bungalows 15 min walk to 5th Avenue, private beach, spa, 24h reception, AC · 7.9 Booking.com', url: 'https://www.booking.com/hotel/mx/shangri-la-caribe-beach-resort.html', tier: 'luxury' },
+      { name: 'Wyndham Alltra Playa del Carmen Adults Only All Inclusive', note: 'Independent (Wyndham) — Constituyentes No 1, Centro, beachfront all-inclusive 4 min walk to 5th Avenue, spa, rooftop pool, 24h reception, AC · 8.4 Booking.com', url: 'https://www.booking.com/hotel/mx/gran-porto-real-resort-spa.html', tier: 'luxury' }
+    ], price: { budget: 'MXN 700–1600', mid: 'MXN 1600–2100', expensive: 'MXN 2100–3000', luxury: 'MXN 2900+' } },
     'pisa': { h: [
       { name: 'Grand Hotel Duomo', note: 'Independent — steps from Piazza dei Miracoli, rooftop terrace with Leaning Tower and Baptistery views, bar · 8.1 Booking.com', url: 'https://www.booking.com/hotel/it/grandhotelduomopisa.html', tier: 'expensive' },
       { name: 'NH Pisa', note: 'NH Hotels — Piazza della Stazione, 5-min walk from the Campo dei Miracoli, restaurant and bar · 8.3 Booking.com', url: 'https://www.booking.com/hotel/it/nh-pisa.html', tier: 'mid' },
@@ -10373,6 +10383,7 @@ window.TVE.home = (function () {
       'cairo':             {iata:'CAI', name:'Cairo International'},
       'cambridge':         {iata:'LHR', name:'London Heathrow'},
       'cancun':            {iata:'CUN', name:'Cancún International'},
+      'playa-del-carmen':  {iata:'CUN', name:'Cancún International'},
       'cannes':            {iata:'NCE', name:'Nice Côte d\'Azur'},
       'cape-cod':          {iata:'BOS', name:'Boston Logan International'},
       'cape-town':         {iata:'CPT', name:'Cape Town International'},

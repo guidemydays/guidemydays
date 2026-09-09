@@ -1424,35 +1424,23 @@ a.ask-card:focus-visible .ask-name { color: var(--rust, #C04E1A); }
   }
 }
 
-/* ── THE TWO STEP CAROUSELS — mobile AND desktop ─────────────────────────────
+/* ── THE STEP CAROUSEL — mobile AND desktop ──────────────────────────────────
    Same shell as `.lp-best-tile` (14px radius, same shadow, same terracotta
-   band), stacked one below the other. Shown at every width: the owner asked
-   for the carousel itself on desktop rather than the text-link list that used
-   to stand in for it there. */
-/* THE TWO CAROUSELS SHARE EVERY RULE BELOW — one selector list, never a
-   second copy of the block (check_css_duplication). Only two things differ
-   per step and they are stated separately at the end: the image's aspect
-   ratio, which is the crop it was captured at, and whether the crop ends
-   mid-content and therefore needs the fade. */
-/* The gap between the two carousels is the same clamp the other landing
-   sections use, not a flat 34px -- at desktop the tiles are ~800px tall and
-   34px between them reads as one run-on block. */
+   band). Shown at every width: the owner asked for the carousel itself on
+   desktop rather than the text-link list that used to stand in for it there.
+   Was two carousels side by side; merged into this one `.lp-combo` section
+   (owner rule 2026-09-09), so the grid below is single-column now. */
 .lp-carousels {
   display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: clamp(1rem, 2.2vw, 1.6rem);
+  grid-template-columns: 1fr;
   align-items: start;
   max-width: var(--lp-max, 1180px);
   margin: clamp(2.6rem, 5vw, 4rem) auto 0;
 }
-@media (max-width: 1000px) {
-  .lp-carousels { grid-template-columns: 1fr; gap: clamp(2.6rem, 5vw, 4rem); }
-}
-/* `min-width: 0` or a grid column refuses to shrink below its content and the
-   pair overflows the rail. The sections carry no margin of their own any more —
-   the gap belongs to the grid above, in one place. */
-.lp-tools, .lp-plan { display: block; min-width: 0; }
-.lp-combo { display: none; min-width: 0; }
+/* `min-width: 0` or the grid column refuses to shrink below its content and
+   overflows the rail. The section carries no margin of its own — `.lp-combo-tile`
+   below caps itself at 600px and centers, same as it did beside the other one. */
+.lp-combo { display: block; min-width: 0; }
 .lp-tools-tile, .lp-plan-tile, .lp-combo-tile {
   display: block;
   text-decoration: none;
@@ -2278,14 +2266,14 @@ summary.res-head:focus-visible { outline: 2px solid var(--rust, #C04E1A); outlin
      island. Swap to a warm dark gradient that echoes the page's own --card tone
      (#2a2825). Shadows darken too: the near-black rgba(23,21,15) values at .08/.10
      opacity are invisible against a dark ground. */
-  .lp-tools-tile, .lp-plan-tile {
+  .lp-tools-tile, .lp-plan-tile, .lp-combo-tile {
     box-shadow: 0 1px 3px rgba(0,0,0,.25), 0 8px 28px rgba(0,0,0,.4);
   }
-  .lp-tools-band, .lp-plan-band {
+  .lp-tools-band, .lp-plan-band, .lp-combo-band {
     background: linear-gradient(150deg, #2e2a22 0%, #251d14 100%);
   }
-  .lp-tools-band-t, .lp-plan-band-t { color: var(--ink); }
-  .lp-tools-band-d, .lp-plan-band-d { color: var(--ink-soft); }
+  .lp-tools-band-t, .lp-plan-band-t, .lp-combo-band-t { color: var(--ink); }
+  .lp-tools-band-d, .lp-plan-band-d, .lp-combo-band-d { color: var(--ink-soft); }
 }
 /* :hover half of the dark-mode .lp-btn rule above, split out to a combined
    query (plain CSS can't nest @media) and gated to real hover-capable
@@ -3428,25 +3416,16 @@ window.lpGuideCard = function (href, flag, name, extra) {
 </section>
 
 <div class="lp-carousels">
-<section class="lp-tools">
-  <a class="lp-tools-tile" href="/essentials/packing/">
-    <span class="lp-tools-shot">
-      <img src="/assets/landing/steps/pack-progress.png"
-           alt="The Packing Checklist part-way through a seven-day trip: the progress ring, the running total of what is still to pack, and the first items struck through"
-           loading="lazy" width="1101" height="687">
-    </span>
-    <span class="lp-tools-band">
-      <span class="lp-tools-band-t">212 items, and it counts them</span>
-      <span class="lp-tools-band-d">Quantities that follow the length of your trip, a running total of what is still to pack, and one tap to hide everything already done.</span>
-    </span>
-  </a>
-</section>
+<!-- The two step carousels (packing/plugs/weather, then map/time-zones/when-to-go)
+     are merged into this one carousel that pages through all six screenshots
+     (owner rule 2026-09-09) — one image per feature, framed on the content,
+     nothing hidden. The map leads the second half, by the same rule that put
+     packing first overall.
 
-<!-- CAROUSEL 2 — Map, Time Zones, When to Go (planning tools).
-     Same rules as carousel 1 above: one image per feature, framed on the
-     content, nothing hidden. The MAP LEADS, by the same owner rule that put
-     packing first over there; it came from carousel 1 in that pass.
-
+     pack-progress   /essentials/packing/ — mid-trip progress ring, running
+                     total, first items struck through.
+     plug-answer     /plugs/ — search a country, get its answer.
+     wx-chart        /weather/ — search a city, the whole year at once.
      map-pins        /maps/world/#mine=… @1200 — seed the list, fitBounds
                      Europe, crop from the right edge of #left-panel across.
      tz-grid         /time-zones/ @1100 — search Tokyo, frame the first 20
@@ -3454,20 +3433,6 @@ window.lpGuideCard = function (href, flag, name, extra) {
                      edge.
      wtg-results     /when-to-go/ @1100 — tap the first preset, then frame
                      .cf-results: city cards, each with its own high and low. -->
-<section class="lp-plan">
-  <a class="lp-plan-tile" href="/maps/world/">
-    <span class="lp-plan-shot">
-      <img src="/assets/landing/steps/map-pins.png"
-           alt="The world map over Europe, terracotta pins for the destinations still ahead and gold ones for the cities already marked"
-           loading="lazy" width="1101" height="687">
-    </span>
-    <span class="lp-plan-band">
-      <span class="lp-plan-band-t">Over 200 destinations, one map</span>
-      <span class="lp-plan-band-d">Terracotta for the ones still ahead, gold for the ones you have marked from their own guide, counted as the list grows.</span>
-    </span>
-  </a>
-</section>
-
 <section class="lp-combo">
   <a class="lp-combo-tile" href="/essentials/packing/">
     <span class="lp-combo-shot">
@@ -3484,14 +3449,12 @@ window.lpGuideCard = function (href, flag, name, extra) {
 </div>
 
 <script>
-/* ── The step carousels on the four tool tiles ───────────────────────────────
-   PHONE ONLY, by construction rather than by a second gate: the sections
-   themselves are display:none above the phone breakpoint, so nothing here is
-   ever seen on a desktop. The arrows still get built there, which is harmless
-   and is the price of not duplicating the media query in JS where it would
-   silently drift from the one in CSS.
+/* ── The step carousel on the tools tile ─────────────────────────────────────
+   Shown at every width (owner rule 2026-09-09): the two former carousels
+   (packing/plugs/weather, then map/time-zones/when-to-go) are merged into
+   the one `.lp-combo` section here, paging through all six screenshots.
 
-   Each entry is [file, width, height, endsMidContent, title, description].
+   Each entry is [file, width, height, endsMidContent, title, description, href].
    The WIDTH AND HEIGHT ARE REAL and are what set each step's aspect ratio —
    the crops are genuinely different shapes and a shared ratio would crop
    whichever is tallest, always from the bottom, which is exactly where the
@@ -3503,25 +3466,19 @@ window.lpGuideCard = function (href, flag, name, extra) {
    inside an anchor is invalid markup and makes every tap a guess between
    paging and opening the page.
 
-   No JavaScript, no carousel: each tile keeps step 1 in its markup and reads
+   No JavaScript, no carousel: the tile keeps step 1 in its markup and reads
    as the single-screenshot tile it was before, with no dead buttons. */
 (function () {
-  /* Each row now carries an 8th... no, 7th field: the href for THAT step,
-     because a carousel can walk across several different destination pages.
-     [file, width, height, endsMidContent, title, description, href]. */
   var STEPS = {
-    'lp-tools': [
+    'lp-combo': [
       ['pack-progress',   1101, 687, 1, '212 items, and it counts them', 'Quantities that follow the length of your trip, a running total of what is still to pack, and one tap to hide everything already done.', '/essentials/packing/'],
       ['plug-answer',     1101, 687, 1, 'Search a country. Get its real answer.', 'Which socket it uses, its voltage and frequency, and whether your own charger copes on the adapter alone or needs a converter as well.', '/plugs/'],
-      ['wx-chart',        1101, 687, 1, 'The shape of the whole year', 'Search a city and every month is there at once &mdash; the high, the low, the rain, and how many days of it.', '/weather/']
-    ],
-    'lp-plan': [
+      ['wx-chart',        1101, 687, 1, 'The shape of the whole year', 'Search a city and every month is there at once &mdash; the high, the low, the rain, and how many days of it.', '/weather/'],
       ['map-pins',        1101, 687, 0, 'Over 200 destinations, one map', 'Terracotta for the ones still ahead, gold for the ones you have marked from their own guide, counted as the list grows.', '/maps/world/'],
       ['tz-grid',         1101, 687, 1, 'Search a city. See the world from there.', 'Every destination on the site re-sorted around the place you searched &mdash; local time, UTC offset, closest first.', '/time-zones/'],
       ['wtg-results',     1101, 687, 1, 'Every city that matches', 'Say the month and the weather you want, and each city that fits comes back with its own high, low and rain &mdash; one tap from the guide.', '/when-to-go/']
     ]
   };
-    STEPS['lp-combo'] = STEPS['lp-tools'].concat(STEPS['lp-plan']);
 
   Object.keys(STEPS).forEach(function (key) {
     var sec = document.querySelector('.' + key);

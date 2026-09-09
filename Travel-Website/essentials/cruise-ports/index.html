@@ -7,9 +7,14 @@
 <title>Cruise Port Day Guide | Guide My Days</title>
 <style>
 /* ============================================================
-   CRUISE PORTS — "SHORE CLOCK" design, scoped under .cps so it
-   never touches the shared .wrap/.search/.count/.grid/.row/.empty
-   classes toolbar.js also uses on this page.
+   CRUISE PORTS — "SHORE CLOCK" design. Every class below is
+   prefixed sc- (unique to this page) on purpose: no selector
+   here is named "badge", "search", "controls", "wrap", "grid"
+   or "row" — those names are shared site vocabulary (toolbar.js
+   and sitewide sweeps recognize them and will "fix" them back
+   to shared defaults). This page is an intentional one-off
+   design exception, owner-approved — nothing here should be
+   auto-corrected by a fleet sweep that doesn't know that.
    ============================================================ */
 :root{
   --cp-paper:#f7f5f0;
@@ -25,131 +30,133 @@
   --cp-sans:ui-sans-serif,-apple-system,"Segoe UI",Inter,Helvetica,Arial,sans-serif;
   --cp-shadow:rgba(18,60,72,.18);
 }
-.cps{background:var(--cp-paper); color:var(--cp-ink);
+.sc{box-sizing:border-box}
+.sc{background:var(--cp-paper); color:var(--cp-ink);
   font:400 15px/1.62 var(--cp-sans); -webkit-font-smoothing:antialiased; overflow-x:hidden}
-.cps .wrap{max-width:1200px; margin:0 auto; padding:0 clamp(18px,5vw,52px)}
+.sc-wrap{max-width:1200px; margin:0 auto; padding:0 clamp(18px,5vw,52px)}
 
 /* ============ HERO ============ */
-.cps .hero{position:relative; overflow:hidden; padding:78px 0 0;
+.sc-hero{position:relative; overflow:hidden; padding:78px 0 0;
   background:linear-gradient(178deg,#fbfaf6 0%, #eef4f3 100%)}
-.cps .waves{position:absolute; left:0; right:0; bottom:0; height:150px; z-index:0}
-.cps .wave{fill:none; stroke:var(--cp-sea); stroke-width:2; opacity:.5}
-.cps .wave.w2{opacity:.3; stroke:var(--cp-teal)}
-.cps .wave.w3{opacity:.18; stroke:var(--cp-deep)}
-.cps .wave{animation:cpDrift 12s linear infinite}
-.cps .wave.w2{animation-duration:17s; animation-direction:reverse}
-.cps .wave.w3{animation-duration:23s}
+.sc-waves{position:absolute; left:0; right:0; bottom:0; height:150px; z-index:0}
+.sc-wave{fill:none; stroke:var(--cp-sea); stroke-width:2; opacity:.5}
+.sc-wave.sc-w2{opacity:.3; stroke:var(--cp-teal)}
+.sc-wave.sc-w3{opacity:.18; stroke:var(--cp-deep)}
+.sc-wave{animation:cpDrift 12s linear infinite}
+.sc-wave.sc-w2{animation-duration:17s; animation-direction:reverse}
+.sc-wave.sc-w3{animation-duration:23s}
 @keyframes cpDrift{to{transform:translateX(-200px)}}
 
-.cps .hero .wrap{position:relative; z-index:2; display:grid; grid-template-columns:1.2fr .8fr;
+.sc-hero .sc-wrap{position:relative; z-index:2; display:grid; grid-template-columns:1.2fr .8fr;
   gap:48px; align-items:center; padding-bottom:110px}
-@media (max-width:940px){.cps .hero .wrap{grid-template-columns:1fr; gap:30px; padding-bottom:120px}}
+@media (max-width:940px){.sc-hero .sc-wrap{grid-template-columns:1fr; gap:30px; padding-bottom:120px}}
 
-.cps .kick{font-size:11px; font-weight:800; letter-spacing:.26em; text-transform:uppercase; color:var(--cp-teal);
+.sc-kick{font-size:11px; font-weight:800; letter-spacing:.26em; text-transform:uppercase; color:var(--cp-teal);
   display:flex; align-items:center; gap:13px; margin-bottom:20px}
-.cps .kick::after{content:""; height:1px; flex:1; max-width:170px; background:linear-gradient(90deg,var(--cp-teal),transparent)}
+.sc-kick::after{content:""; height:1px; flex:1; max-width:170px; background:linear-gradient(90deg,var(--cp-teal),transparent)}
 
-.cps h1{margin:0 0 20px; font-size:clamp(34px,5.4vw,64px); line-height:1.04; letter-spacing:-.03em; font-weight:800; max-width:17ch}
-.cps h1 em{font-style:normal; color:var(--cp-deep); position:relative; display:inline-block}
-.cps h1 em::after{content:""; position:absolute; left:0; right:0; bottom:.08em; height:.14em;
+.sc h1{margin:0 0 20px; font-size:clamp(34px,5.4vw,64px); line-height:1.04; letter-spacing:-.03em; font-weight:800; max-width:17ch}
+.sc h1 em{font-style:normal; color:var(--cp-deep); position:relative; display:inline-block}
+.sc h1 em::after{content:""; position:absolute; left:0; right:0; bottom:.08em; height:.14em;
   background:linear-gradient(90deg,var(--cp-rope),var(--cp-coral)); transform:scaleX(0); transform-origin:left;
   animation:cpSwipe 1.1s .7s cubic-bezier(.19,1,.22,1) forwards; opacity:.55}
 @keyframes cpSwipe{to{transform:scaleX(1)}}
-.cps .reveal{opacity:0; transform:translateY(18px); animation:cpUp .9s cubic-bezier(.19,1,.22,1) forwards}
+.sc-reveal{opacity:0; transform:translateY(18px); animation:cpUp .9s cubic-bezier(.19,1,.22,1) forwards}
 @keyframes cpUp{to{opacity:1; transform:none}}
-.cps .intro{max-width:62ch; color:var(--cp-ink2); font-size:15.5px; line-height:1.75; margin:0}
-.cps .intro a{color:var(--cp-teal); font-weight:600}
+.sc-intro{max-width:62ch; color:var(--cp-ink2); font-size:15.5px; line-height:1.75; margin:0}
+.sc-intro a{color:var(--cp-teal); font-weight:600}
 
 /* the countdown ring */
-.cps .ring{justify-self:center; width:min(100%,300px); aspect-ratio:1; position:relative}
-.cps .ring svg{width:100%; height:100%; transform:rotate(-90deg)}
-.cps .ring-bg{fill:none; stroke:#dfe8e6; stroke-width:14}
-.cps .ring-fg{fill:none; stroke:url(#cpsRingG); stroke-width:14; stroke-linecap:round;
+.sc-ring{justify-self:center; width:min(100%,300px); aspect-ratio:1; position:relative}
+.sc-ring svg{width:100%; height:100%; transform:rotate(-90deg)}
+.sc-ring-bg{fill:none; stroke:#dfe8e6; stroke-width:14}
+.sc-ring-fg{fill:none; stroke:url(#cpsRingG); stroke-width:14; stroke-linecap:round;
   stroke-dasharray:534; stroke-dashoffset:534; transition:stroke-dashoffset 1.4s cubic-bezier(.19,1,.22,1)}
-.cps .ring-mid{position:absolute; inset:0; display:grid; place-content:center; text-align:center}
-.cps .ring-num{font-size:56px; font-weight:800; letter-spacing:-.04em; line-height:1; color:var(--cp-deep)}
-.cps .ring-lab{font-size:10px; font-weight:800; letter-spacing:.2em; text-transform:uppercase; color:var(--cp-ink2); margin-top:8px}
-.cps .ring-sub{font-size:12px; color:var(--cp-ink2); margin-top:4px}
-.cps .ship{position:absolute; left:50%; top:-6px; width:34px; height:34px; margin-left:-17px;
+.sc-ring-mid{position:absolute; inset:0; display:grid; place-content:center; text-align:center}
+.sc-ring-num{font-size:56px; font-weight:800; letter-spacing:-.04em; line-height:1; color:var(--cp-deep)}
+.sc-ring-lab{font-size:10px; font-weight:800; letter-spacing:.2em; text-transform:uppercase; color:var(--cp-ink2); margin-top:8px}
+.sc-ring-sub{font-size:12px; color:var(--cp-ink2); margin-top:4px}
+.sc-ship{position:absolute; left:50%; top:-6px; width:34px; height:34px; margin-left:-17px;
   animation:cpBob 4s ease-in-out infinite}
 @keyframes cpBob{0%,100%{transform:translateY(0) rotate(-2deg)}50%{transform:translateY(6px) rotate(2deg)}}
 
-/* ============ CONTROLS ============ */
-.cps .controls{background:rgba(247,245,240,.92); border-bottom:1px solid var(--cp-line); padding:14px 0}
-.cps .controls .wrap{display:flex; gap:14px; align-items:center; flex-wrap:wrap}
-.cps .searchbox{position:relative; flex:1; min-width:230px; max-width:420px}
-.cps .searchbox svg{position:absolute; left:15px; top:50%; transform:translateY(-50%); width:17px; height:17px; opacity:.45}
-.cps .search{width:100%; font:400 14.5px/1 var(--cp-sans); color:var(--cp-ink2); background:#fff;
+/* ============ CONTROLS BAR ============ */
+.sc-bar{background:rgba(247,245,240,.92); border-bottom:1px solid var(--cp-line); padding:14px 0}
+.sc-bar .sc-wrap{display:flex; gap:14px; align-items:center; flex-wrap:wrap}
+.sc-finder{position:relative; flex:1; min-width:230px; max-width:420px}
+.sc-finder svg{position:absolute; left:15px; top:50%; transform:translateY(-50%); width:17px; height:17px; opacity:.45}
+.sc-finder-field{width:100%; font:400 14.5px/1 var(--cp-sans); color:var(--cp-ink2); background:#fff;
   border:1px solid var(--cp-line); border-radius:999px; padding:13px 18px 13px 42px; outline:none;
   transition:border-color .2s, box-shadow .2s}
-.cps .search::placeholder{color:var(--cp-ink2); opacity:.75}
-.cps .search:focus{border-color:var(--cp-teal); box-shadow:0 0 0 5px rgba(28,125,134,.13)}
-.cps .seg{display:flex; background:#fff; border:1px solid var(--cp-line); border-radius:999px; padding:3px; gap:2px}
-.cps .seg button{border:0; background:transparent; font:800 11.5px/1 var(--cp-sans); letter-spacing:.1em;
+.sc-finder-field::placeholder{color:var(--cp-ink2); opacity:.75}
+.sc-finder-field:focus{border-color:var(--cp-teal); box-shadow:0 0 0 5px rgba(28,125,134,.13)}
+.sc-toggle{display:flex; background:#fff; border:1px solid var(--cp-line); border-radius:999px; padding:3px; gap:2px}
+.sc-toggle button{border:0; background:transparent; font:800 11.5px/1 var(--cp-sans); letter-spacing:.1em;
   text-transform:uppercase; color:var(--cp-ink2); padding:10px 16px; border-radius:999px; cursor:pointer;
   transition:background .22s, color .22s}
-.cps .seg button[aria-pressed="true"]{background:var(--cp-deep); color:#fff}
-.cps .count{margin-left:auto; font:800 11px/1 var(--cp-sans); letter-spacing:.18em; text-transform:uppercase; color:var(--cp-ink2)}
+.sc-toggle button[aria-pressed="true"]{background:var(--cp-deep); color:#fff}
+.sc-tally{margin-left:auto; font:800 11px/1 var(--cp-sans); letter-spacing:.18em; text-transform:uppercase; color:var(--cp-ink2)}
 
 /* ============ REGIONS ============ */
-.cps .region{margin:64px 0 22px; display:flex; align-items:baseline; gap:18px}
-.cps .region h2{margin:0; font-size:clamp(22px,3vw,34px); font-weight:800; letter-spacing:-.025em}
-.cps .region .n{font:800 11px/1 var(--cp-sans); letter-spacing:.2em; text-transform:uppercase; color:var(--cp-ink2)}
-.cps .region::after{content:""; flex:1; height:2px; background:linear-gradient(90deg,var(--cp-line),transparent)}
+.sc-region-head{margin:64px 0 22px; display:flex; align-items:baseline; gap:18px}
+.sc-region-head h2{margin:0; font-size:clamp(22px,3vw,34px); font-weight:800; letter-spacing:-.025em}
+.sc-region-head .sc-n{font:800 11px/1 var(--cp-sans); letter-spacing:.2em; text-transform:uppercase; color:var(--cp-ink2)}
+.sc-region-head::after{content:""; flex:1; height:2px; background:linear-gradient(90deg,var(--cp-line),transparent)}
 
-.cps .grid{display:grid; grid-template-columns:repeat(auto-fill,minmax(360px,1fr)); gap:22px}
+.sc-cards{display:grid; grid-template-columns:repeat(auto-fill,minmax(360px,1fr)); gap:22px}
 
-.cps .port{
+.sc-card{
   position:relative; background:#fff; border:1px solid var(--cp-line); border-radius:16px;
   overflow:hidden; display:flex; flex-direction:column;
   opacity:0; transform:translateY(26px);
   transition:opacity .55s, transform .55s cubic-bezier(.19,1,.22,1), box-shadow .32s, border-color .32s;
 }
-.cps .port.in{opacity:1; transform:none}
-.cps .port.gone{display:none}
-.cps .port:hover{box-shadow:0 26px 48px -28px var(--cp-shadow); border-color:#cfd9d4}
+.sc-card.sc-in{opacity:1; transform:none}
+.sc-card.sc-gone{display:none}
+.sc-card:hover{box-shadow:0 26px 48px -28px var(--cp-shadow); border-color:#cfd9d4}
 
 /* pier strip down the left */
-.cps .port::before{content:""; position:absolute; left:0; top:0; bottom:0; width:5px;
+.sc-card::before{content:""; position:absolute; left:0; top:0; bottom:0; width:5px;
   background:linear-gradient(180deg,var(--cp-teal),var(--cp-deep))}
-.cps .port[data-access="tender"]::before{background:linear-gradient(180deg,var(--cp-rope),var(--cp-coral))}
+.sc-card[data-access="tender"]::before{background:linear-gradient(180deg,var(--cp-rope),var(--cp-coral))}
 
-.cps .p-top{padding:20px 24px 14px 26px; display:flex; align-items:flex-start; gap:14px}
-.cps .p-name{font-size:21px; font-weight:800; letter-spacing:-.02em; margin:0 0 3px}
-.cps .p-country{font-size:11.5px; font-weight:700; letter-spacing:.1em; text-transform:uppercase; color:var(--cp-ink2)}
-.cps .acc{margin-left:auto; display:flex; flex-direction:column; align-items:flex-end; gap:8px}
-.cps .badge{font-family:var(--cp-sans); color:#fff}
-.cps .badge.dock{background:var(--cp-teal)}
-.cps .badge.tender{background:var(--cp-rope)}
+.sc-card-top{padding:20px 24px 14px 26px; display:flex; align-items:flex-start; gap:14px}
+.sc-name{font-size:21px; font-weight:800; letter-spacing:-.02em; margin:0 0 3px}
+.sc-country{font-size:11.5px; font-weight:700; letter-spacing:.1em; text-transform:uppercase; color:var(--cp-ink2)}
+.sc-access-col{margin-left:auto; display:flex; flex-direction:column; align-items:flex-end; gap:8px}
+.sc-tag{font:800 9.5px/1 var(--cp-sans); letter-spacing:.16em; text-transform:uppercase;
+  padding:7px 11px; border-radius:4px; color:#fff}
+.sc-tag.sc-dock{background:var(--cp-teal)}
+.sc-tag.sc-tender{background:var(--cp-rope)}
 
 /* clock pressure gauge */
-.cps .gauge{display:flex; align-items:center; gap:5px}
-.cps .gauge i{width:14px; height:5px; border-radius:3px; background:var(--cp-line); transition:background .4s; font-style:normal}
-.cps .port.in .gauge i.on{background:var(--cp-coral)}
-.cps .port.in .gauge.g-easy i.on{background:var(--cp-teal)}
-.cps .port.in .gauge.g-mod i.on{background:var(--cp-rope)}
-.cps .gauge-lab{font:800 8.5px/1 var(--cp-sans); letter-spacing:.14em; text-transform:uppercase; color:var(--cp-ink2)}
+.sc-gauge{display:flex; align-items:center; gap:5px}
+.sc-gauge i{width:14px; height:5px; border-radius:3px; background:var(--cp-line); transition:background .4s; font-style:normal}
+.sc-card.sc-in .sc-gauge i.sc-on{background:var(--cp-coral)}
+.sc-card.sc-in .sc-gauge.sc-g-easy i.sc-on{background:var(--cp-teal)}
+.sc-card.sc-in .sc-gauge.sc-g-mod i.sc-on{background:var(--cp-rope)}
+.sc-gauge-lab{font:800 8.5px/1 var(--cp-sans); letter-spacing:.14em; text-transform:uppercase; color:var(--cp-ink2)}
 
-.cps .p-desc{padding:0 24px 16px 26px; font-size:14.5px; line-height:1.65; color:var(--cp-ink2); margin:0}
+.sc-desc{padding:0 24px 16px 26px; font-size:14.5px; line-height:1.65; color:var(--cp-ink2); margin:0}
 
-.cps .rows{border-top:1px solid var(--cp-line); margin-top:auto}
-.cps .row{padding:15px 24px 15px 26px; border-bottom:1px solid var(--cp-line)}
-.cps .row:last-child{border-bottom:none}
-.cps .rl{display:inline-flex; align-items:center; gap:7px; font:800 9.5px/1 var(--cp-sans);
+.sc-facts{border-top:1px solid var(--cp-line); margin-top:auto}
+.sc-fact{padding:15px 24px 15px 26px; border-bottom:1px solid var(--cp-line)}
+.sc-fact:last-child{border-bottom:none}
+.sc-fact-lab{display:inline-flex; align-items:center; gap:7px; font:800 9.5px/1 var(--cp-sans);
   letter-spacing:.16em; text-transform:uppercase; margin-bottom:8px}
-.cps .rl.plan{color:var(--cp-teal)} .cps .rl.skip{color:var(--cp-ink2)} .cps .rl.watch{color:var(--cp-coral)}
-.cps .rl svg{width:13px; height:13px}
-.cps .rv{font-size:14px; line-height:1.62; color:var(--cp-ink2); margin:0}
-.cps .row.watch{background:linear-gradient(90deg,rgba(192,66,31,.06),transparent)}
-.cps .row.watch .rv{color:var(--cp-ink)}
-.cps .row.watch .rl svg{animation:cpTick 2.4s steps(8) infinite; transform-origin:50% 50%}
+.sc-fact-lab.sc-plan{color:var(--cp-teal)} .sc-fact-lab.sc-skip{color:var(--cp-ink2)} .sc-fact-lab.sc-watch{color:var(--cp-coral)}
+.sc-fact-lab svg{width:13px; height:13px}
+.sc-fact-body{font-size:14px; line-height:1.62; color:var(--cp-ink2); margin:0}
+.sc-fact.sc-watch{background:linear-gradient(90deg,rgba(192,66,31,.06),transparent)}
+.sc-fact.sc-watch .sc-fact-body{color:var(--cp-ink)}
+.sc-fact.sc-watch .sc-fact-lab svg{animation:cpTick 2.4s steps(8) infinite; transform-origin:50% 50%}
 @keyframes cpTick{to{transform:rotate(360deg)}}
 
-.cps .empty{padding:80px 0; text-align:center; color:var(--cp-ink2); font-size:16px}
-.cps .legend{margin:28px 0 60px; padding:18px 22px; background:var(--cp-paper2); border-left:3px solid var(--cp-deep);
+.sc-none{padding:80px 0; text-align:center; color:var(--cp-ink2); font-size:16px}
+.sc-legend{margin:28px 0 60px; padding:18px 22px; background:var(--cp-paper2); border-left:3px solid var(--cp-deep);
   border-radius:0 10px 10px 0; font-size:13.5px; color:var(--cp-ink2); max-width:78ch}
 
-@media (prefers-reduced-motion:reduce){.cps *{animation:none !important; transition-duration:.01ms !important} .cps .port{opacity:1; transform:none}}
+@media (prefers-reduced-motion:reduce){.sc *{animation:none !important; transition-duration:.01ms !important} .sc-card{opacity:1; transform:none}}
 </style>
 <link rel="stylesheet" href="/assets/mobile.css?v=53">
 <!-- seo:start — generated by Brain/scripts/build/build_seo.py · do not hand-edit -->
@@ -183,66 +190,66 @@
 <div id="toolbar-mount" data-depth="2" data-maxwidth="940" data-updated="2026-09-02"></div>
 <script src="/assets/toolbar.js?v=127"></script>
 
-<div class="cps">
-  <header class="hero">
-    <svg class="waves" viewBox="0 0 1200 150" preserveAspectRatio="none" aria-hidden="true">
-      <path class="wave"    d="M-200 100q100-30 200 0t200 0 200 0 200 0 200 0 200 0 200 0"/>
-      <path class="wave w2" d="M-200 118q100-34 200 0t200 0 200 0 200 0 200 0 200 0 200 0"/>
-      <path class="wave w3" d="M-200 136q100-26 200 0t200 0 200 0 200 0 200 0 200 0 200 0"/>
+<div class="sc">
+  <header class="sc-hero">
+    <svg class="sc-waves" viewBox="0 0 1200 150" preserveAspectRatio="none" aria-hidden="true">
+      <path class="sc-wave"       d="M-200 100q100-30 200 0t200 0 200 0 200 0 200 0 200 0 200 0"/>
+      <path class="sc-wave sc-w2" d="M-200 118q100-34 200 0t200 0 200 0 200 0 200 0 200 0 200 0"/>
+      <path class="sc-wave sc-w3" d="M-200 136q100-26 200 0t200 0 200 0 200 0 200 0 200 0 200 0"/>
     </svg>
 
-    <div class="wrap">
+    <div class="sc-wrap">
       <div>
-        <div class="kick reveal" style="animation-delay:.05s">Cruise Port Day Guide</div>
-        <h1 class="reveal" style="animation-delay:.14s">Dock or tender, six hours or eight — <em>what actually fits in a cruise port day.</em></h1>
-        <p class="intro reveal" style="animation-delay:.28s">A port-by-port reference for 19 of the most-visited cruise stops worldwide — whether the ship docks or tenders, how far the worthwhile sites sit from the pier, a plan that fits a 6–8 hour call, and what to skip when the clock is the real constraint. Built for cruise passengers with a fixed return time, not independent travelers planning their own schedule (see <a href="/essentials/day-trips/">Day Trips</a> for that, or <a href="/essentials/island-hopping/">Island Hopping Routes</a> for a multi-day circuit across several islands on your own schedule).</p>
+        <div class="sc-kick sc-reveal" style="animation-delay:.05s">Cruise Port Day Guide</div>
+        <h1 class="sc-reveal" style="animation-delay:.14s">Dock or tender, six hours or eight — <em>what actually fits in a cruise port day.</em></h1>
+        <p class="sc-intro sc-reveal" style="animation-delay:.28s">A port-by-port reference for 19 of the most-visited cruise stops worldwide — whether the ship docks or tenders, how far the worthwhile sites sit from the pier, a plan that fits a 6–8 hour call, and what to skip when the clock is the real constraint. Built for cruise passengers with a fixed return time, not independent travelers planning their own schedule (see <a href="/essentials/day-trips/">Day Trips</a> for that, or <a href="/essentials/island-hopping/">Island Hopping Routes</a> for a multi-day circuit across several islands on your own schedule).</p>
       </div>
 
-      <div class="ring">
+      <div class="sc-ring">
         <svg viewBox="0 0 200 200" aria-hidden="true">
           <defs><linearGradient id="cpsRingG" x1="0" y1="0" x2="1" y2="1">
             <stop offset="0" stop-color="#1c7d86"/><stop offset="1" stop-color="#b8813f"/>
           </linearGradient></defs>
-          <circle class="ring-bg" cx="100" cy="100" r="85"/>
-          <circle class="ring-fg" id="cpsRingFg" cx="100" cy="100" r="85"/>
+          <circle class="sc-ring-bg" cx="100" cy="100" r="85"/>
+          <circle class="sc-ring-fg" id="cpsRingFg" cx="100" cy="100" r="85"/>
         </svg>
-        <svg class="ship" viewBox="0 0 40 40" aria-hidden="true">
+        <svg class="sc-ship" viewBox="0 0 40 40" aria-hidden="true">
           <path d="M4 26h32l-4 9H8z" fill="#123c48"/>
           <rect x="11" y="14" width="18" height="12" rx="2" fill="#fff" stroke="#123c48" stroke-width="1.6"/>
           <rect x="15" y="8" width="10" height="6" rx="1.5" fill="#fff" stroke="#123c48" stroke-width="1.6"/>
           <circle cx="16" cy="20" r="1.6" fill="#1c7d86"/><circle cx="24" cy="20" r="1.6" fill="#1c7d86"/>
         </svg>
-        <div class="ring-mid">
-          <div class="ring-num" id="cpsRingNum">19</div>
-          <div class="ring-lab">Ports on the clock</div>
-          <div class="ring-sub" id="cpsRingSub">6 tight · 12 moderate · 1 easy</div>
+        <div class="sc-ring-mid">
+          <div class="sc-ring-num" id="cpsRingNum">19</div>
+          <div class="sc-ring-lab">Ports on the clock</div>
+          <div class="sc-ring-sub" id="cpsRingSub">6 tight · 12 moderate · 1 easy</div>
         </div>
       </div>
     </div>
   </header>
 
-  <div class="controls">
-    <div class="wrap">
-      <div class="searchbox">
+  <div class="sc-bar">
+    <div class="sc-wrap">
+      <div class="sc-finder">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
           <circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5" stroke-linecap="round"/>
         </svg>
-        <input type="search" class="search search-input" id="cp-search" placeholder="Port or country" aria-label="Search cruise ports" autocomplete="off" spellcheck="false">
+        <input type="search" class="sc-finder-field" id="cp-search" placeholder="Port or country" aria-label="Search cruise ports" autocomplete="off" spellcheck="false">
       </div>
-      <div class="seg" role="group" aria-label="Filter by how the ship arrives">
+      <div class="sc-toggle" role="group" aria-label="Filter by how the ship arrives">
         <button type="button" aria-pressed="true"  data-access="all">All</button>
         <button type="button" aria-pressed="false" data-access="dock">Dock</button>
         <button type="button" aria-pressed="false" data-access="tender">Tender</button>
       </div>
-      <span class="count" id="cp-count">19 ports</span>
+      <span class="sc-tally" id="cp-count">19 ports</span>
     </div>
   </div>
 
-  <div class="wrap">
+  <main class="sc-wrap">
     <div id="cp-list"></div>
-    <p class="legend"><strong>The gauge on each card</strong> reads three bars for the ports whose own "watch the clock" line calls out real risk of a late return, two for the ordinary ones, and one where the page itself says the port is lower-risk. It is a reading of that line, not a separate rating — the line it came from sits at the bottom of the same card.</p>
-  </div>
-</div><!-- /cps -->
+    <p class="sc-legend"><strong>The gauge on each card</strong> reads three bars for the ports whose own "watch the clock" line calls out real risk of a late return, two for the ordinary ones, and one where the page itself says the port is lower-risk. It is a reading of that line, not a separate rating — the line it came from sits at the bottom of the same card.</p>
+  </main>
+</div><!-- /sc -->
 
 <script src="/assets/search-autocomplete.js?v=8"></script>
 <script>
@@ -370,34 +377,34 @@ var CP_REGIONS = [
   ['mediterranean','Mediterranean'],
   ['pacific-alaska','Pacific &amp; Alaska']
 ];
-var CP_PRESSURE = {3:['Tight','g-tight'], 2:['Moderate','g-mod'], 1:['Easy','g-easy']};
+var CP_PRESSURE = {3:['Tight','sc-g-tight'], 2:['Moderate','sc-g-mod'], 1:['Easy','sc-g-easy']};
 
 var CP_ICON_PLAN  = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M4 12h6l3-6 3 12 2-6h2"/></svg>';
 var CP_ICON_SKIP  = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><circle cx="12" cy="12" r="8.5"/><path d="m6.5 17.5 11-11"/></svg>';
 var CP_ICON_CLOCK = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><circle cx="12" cy="12" r="8.5"/><path d="M12 7v5.4l3.4 2"/></svg>';
 
-function cpBars(p, cls){
+function cpGauge(p, cls){
   var s = '';
-  for(var i=1;i<=3;i++) s += '<i class="' + (i<=p?'on':'') + '"></i>';
-  return '<div class="gauge ' + cls + '" title="Clock pressure">' + s + '</div>';
+  for(var i=1;i<=3;i++) s += '<i class="' + (i<=p?'sc-on':'') + '"></i>';
+  return '<div class="sc-gauge ' + cls + '" title="Clock pressure">' + s + '</div>';
 }
 
 function cpCard(o){
   var pr = CP_PRESSURE[o.p];
-  return '<article class="port" id="' + o.id + '" data-access="' + o.a + '" data-hay="' + (o.n + ' ' + o.c).replace(/&amp;/g,'&').toLowerCase() + '">' +
-    '<div class="p-top">' +
-      '<div><h3 class="p-name">' + o.n + '</h3><div class="p-country">' + o.c + '</div></div>' +
-      '<div class="acc">' +
-        '<span class="badge ' + o.a + '">' + o.a + '</span>' +
-        cpBars(o.p, pr[1]) +
-        '<span class="gauge-lab">' + pr[0] + '</span>' +
+  return '<article class="sc-card" id="' + o.id + '" data-access="' + o.a + '" data-hay="' + (o.n + ' ' + o.c).replace(/&amp;/g,'&').toLowerCase() + '">' +
+    '<div class="sc-card-top">' +
+      '<div><h3 class="sc-name">' + o.n + '</h3><div class="sc-country">' + o.c + '</div></div>' +
+      '<div class="sc-access-col">' +
+        '<span class="sc-tag sc-' + o.a + '">' + o.a + '</span>' +
+        cpGauge(o.p, pr[1]) +
+        '<span class="sc-gauge-lab">' + pr[0] + '</span>' +
       '</div>' +
     '</div>' +
-    '<p class="p-desc">' + o.d + '</p>' +
-    '<div class="rows">' +
-      '<div class="row"><span class="rl plan">' + CP_ICON_PLAN + '6–8hr plan</span><p class="rv">' + o.plan + '</p></div>' +
-      '<div class="row"><span class="rl skip">' + CP_ICON_SKIP + 'Skip</span><p class="rv">' + o.skip + '</p></div>' +
-      '<div class="row watch"><span class="rl watch">' + CP_ICON_CLOCK + 'Watch the clock</span><p class="rv">' + o.w + '</p></div>' +
+    '<p class="sc-desc">' + o.d + '</p>' +
+    '<div class="sc-facts">' +
+      '<div class="sc-fact"><span class="sc-fact-lab sc-plan">' + CP_ICON_PLAN + '6–8hr plan</span><p class="sc-fact-body">' + o.plan + '</p></div>' +
+      '<div class="sc-fact"><span class="sc-fact-lab sc-skip">' + CP_ICON_SKIP + 'Skip</span><p class="sc-fact-body">' + o.skip + '</p></div>' +
+      '<div class="sc-fact sc-watch"><span class="sc-fact-lab sc-watch">' + CP_ICON_CLOCK + 'Watch the clock</span><p class="sc-fact-body">' + o.w + '</p></div>' +
     '</div>' +
   '</article>';
 }
@@ -405,17 +412,17 @@ function cpCard(o){
 var cpList = document.getElementById('cp-list');
 cpList.innerHTML = CP_REGIONS.map(function(rg){
   var inR = CP_PORTS.filter(function(o){ return o.r === rg[0]; });
-  return '<section class="region-block" id="' + rg[0] + '" data-r="' + rg[0] + '">' +
-    '<div class="region"><h2>' + rg[1] + '</h2><span class="n">' + inR.length + ' ports</span></div>' +
-    '<div class="grid">' + inR.map(cpCard).join('') + '</div>' +
+  return '<section class="sc-region" id="' + rg[0] + '" data-r="' + rg[0] + '">' +
+    '<div class="sc-region-head"><h2>' + rg[1] + '</h2><span class="sc-n">' + inR.length + ' ports</span></div>' +
+    '<div class="sc-cards">' + inR.map(cpCard).join('') + '</div>' +
   '</section>';
-}).join('') + '<div class="empty" id="cp-empty" style="display:none">No port matches that search — try a country name or a nearby city.</div>';
+}).join('') + '<div class="sc-none" id="cp-empty" style="display:none">No port matches that search — try a country name or a nearby city.</div>';
 
 /* ---- reveal ---- */
 var cpIo = new IntersectionObserver(function(es){
-  es.forEach(function(e){ if(e.isIntersecting){ e.target.classList.add('in'); cpIo.unobserve(e.target); } });
+  es.forEach(function(e){ if(e.isIntersecting){ e.target.classList.add('sc-in'); cpIo.unobserve(e.target); } });
 }, {threshold:.12});
-[].forEach.call(document.querySelectorAll('.cps .port'), function(p){ cpIo.observe(p); });
+[].forEach.call(document.querySelectorAll('.sc-card'), function(p){ cpIo.observe(p); });
 
 /* ---- countdown ring ---- */
 var cpRingFg = document.getElementById('cpsRingFg');
@@ -430,15 +437,15 @@ setTimeout(function(){ cpSetRing(CP_PORTS.length, CP_PORTS.length); }, 350);
 var cpQ = '', cpAcc = 'all';
 function cpApplyFilter(){
   var shown = 0;
-  [].forEach.call(document.querySelectorAll('.cps .port'), function(p){
+  [].forEach.call(document.querySelectorAll('.sc-card'), function(p){
     var okA = cpAcc === 'all' || p.dataset.access === cpAcc;
     var okQ = !cpQ || p.dataset.hay.indexOf(cpQ) !== -1;
     var show = okA && okQ;
-    p.classList.toggle('gone', !show);
+    p.classList.toggle('sc-gone', !show);
     if(show) shown++;
   });
-  [].forEach.call(document.querySelectorAll('.cps .region-block'), function(s){
-    s.style.display = s.querySelectorAll('.port:not(.gone)').length ? '' : 'none';
+  [].forEach.call(document.querySelectorAll('.sc-region'), function(s){
+    s.style.display = s.querySelectorAll('.sc-card:not(.sc-gone)').length ? '' : 'none';
   });
   document.getElementById('cp-empty').style.display = shown ? 'none' : 'block';
   document.getElementById('cp-count').textContent = shown + (shown === 1 ? ' port' : ' ports');
@@ -447,9 +454,9 @@ function cpApplyFilter(){
 document.getElementById('cp-search').addEventListener('input', function(e){
   cpQ = e.target.value.trim().toLowerCase(); cpApplyFilter();
 });
-[].forEach.call(document.querySelectorAll('.cps .seg button'), function(b){
+[].forEach.call(document.querySelectorAll('.sc-toggle button'), function(b){
   b.addEventListener('click', function(){
-    [].forEach.call(document.querySelectorAll('.cps .seg button'), function(o){ o.setAttribute('aria-pressed', String(o === b)); });
+    [].forEach.call(document.querySelectorAll('.sc-toggle button'), function(o){ o.setAttribute('aria-pressed', String(o === b)); });
     cpAcc = b.dataset.access; cpApplyFilter();
   });
 });

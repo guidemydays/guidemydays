@@ -287,10 +287,15 @@ a.cf-card { display: block; color: inherit; cursor: pointer;
   transition: border-color .15s, box-shadow .15s; }
 a.cf-card:hover { border-color: var(--rust); box-shadow: 0 3px 10px rgba(192,78,26,.12); }
 .cf-city { font-size: var(--fs-body,14px); font-weight: 700; color: var(--text, #1a1917);
-  display: flex; align-items: center; justify-content: space-between; gap: 4px;
+  display: flex; align-items: flex-start; justify-content: space-between; gap: 4px;
   /* clears the absolutely-positioned compare button (22px at right:6px) — without
      it the country label runs under the + and is clipped mid-word. */
   padding-right: 16px; }
+/* Long city names (e.g. "Glacier National Park") were splitting mid-word —
+   .cf-card is an <a>, and mobile.css's `a { word-break: break-word }` cascades
+   onto this flex child. min-width:0 lets it shrink and wrap at the flex item's
+   own line instead of the browser breaking words to avoid overflowing it. */
+.cf-city-name { min-width: 0; word-break: normal; overflow-wrap: normal; }
 .cf-country { font-size: 9.5px; color: var(--muted,#6a6660); letter-spacing: .02em; text-align: right; line-height: 1.2; }
 .cf-temps { display: flex; align-items: baseline; gap: 14px; margin-top: 8px; }
 .cf-hi { font-size: 26px; font-weight: 700; color: var(--c-temp-hi); line-height: 1; }
@@ -350,7 +355,19 @@ a.cf-card:hover { border-color: var(--rust); box-shadow: 0 3px 10px rgba(192,78,
    with border-radius:14px, which at this box's ~25px height already clips to
    a full stadium, i.e. visually identical to the shared class's 999px. Only
    this page's smaller footprint stays page-local now. */
-.cf-preset { font-size: 13px; padding: 7px 15px; }
+.cf-preset { font-size: 13px; padding: 7px 15px; position: relative; }
+/* mobile.css rule 7 gives every <button> a 16px !important font floor (an
+   iOS zoom-guard meant for typeable fields — TVESearch.html keeps its own
+   search input at 17px for the same reason) and a 44px tap-target
+   min-height. Neither belongs on a tap-only preset pill, and together they
+   were blowing this ~33px/13px pill up to 44px/16px on phones. Beat the
+   font floor with !important, drop the height floor back to auto (a plain
+   class selector already outranks mobile.css's bare `button` selector, no
+   !important needed there), and — same fix as .cf-compare-btn above — hand
+   the lost 44px tap target to a transparent ::after that overflows the
+   pill instead of growing it. */
+.cf-preset { font-size: 13px !important; min-height: auto; }
+.cf-preset::after { content: ''; position: absolute; inset: -6px 0; }
 /* City search — explicit token overrides keep the 2026-08-27 gold/white sweep
    assertions alive even when the shared .search-input class handles the rest. */
 .cf-city-search { color: var(--text, #3d3a32); }
@@ -1337,7 +1354,7 @@ a.cf-card:hover .cf-guide-pill { border-color: var(--nt-bronze-ink,#5a3c0e); }
           '">' + (cmpSel ? '' : '+') + '</button>';
         var guidePill = href ? '<span class="cf-guide-pill chevron-link-pill">Guide</span>' : '';
         return '<' + tag + attrs + '>' + cmpBtn +
-          '<div class="cf-city"><span>' + (rec.city || k) + '</span>' + rightSlot + '</div>' +
+          '<div class="cf-city"><span class="cf-city-name">' + (rec.city || k) + '</span>' + rightSlot + '</div>' +
           '<div class="cf-temps">' +
             '<div><div class="cf-hi">' + conv(rec.hi[month]) + '°</div><div class="cf-tlab">High</div></div>' +
             '<div><div class="cf-lo">' + conv(rec.lo[month]) + '°</div><div class="cf-tlab">Low</div></div>' +

@@ -246,10 +246,16 @@
   .lp-hero-art  { grid-column: 2; grid-row: 1; }
   .lp-hero-nav  { grid-column: 2; grid-row: 2; }
 }
-/* A finger needs a bigger target than a cursor: 40px, matching the stop controls
-   inside a guide (Thirty-third non-negotiable) rather than the 32px desktop dot. */
+/* A finger needs a bigger target than a cursor, but the 40px visible pill this
+   used to be read as oversized next to the fine print beside it. Same fix the
+   guide's own stop controls use (Thirty-third non-negotiable): keep the
+   visible pill at the desktop size and pad the tap target invisibly instead
+   of inflating the pill itself. */
 @media (max-width: 600px) and (pointer: coarse) {
-  .lp-hero-arrow { width: 2.5rem; height: 2.5rem; }
+  /* min-height overrides mobile.css's blanket `button { min-height: 44px }` —
+     without it the circle stretches to a 32×44 oval instead of staying round. */
+  .lp-hero-arrow { position: relative; min-height: 2rem; }
+  .lp-hero-arrow::after { content: ''; position: absolute; inset: -0.25rem; }
   .lp-hero-nav { gap: 0.55rem; }
 }
 .lp-hero-art span {

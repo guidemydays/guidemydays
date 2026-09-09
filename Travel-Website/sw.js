@@ -3453,7 +3453,8 @@
 /* 2026-09-09: toolbar.js: HOTEL_ALT_DATA['yogyakarta'] + CHIP_DATA['yogyakarta'] (YIA) + LOUNGE_IATAS + timezone map + data-themes fix (retired art/foodie tags removed) — Yogyakarta guide ship toolbar.js -> v1228. CACHE to v2004. */
 /* 2026-09-09: mobile ham menu top offset fix toolbar.js -> v1229. CACHE to v2005. */
 /* 2026-09-09: route-ab motion-arrow size bump (owner-reported, too small to see) toolbar.js -> v1230. CACHE to v2006. */
-var CACHE = 'travel-cache-v2006';
+/* 2026-09-09: mobile READ ABOUT {city} button read too big against the pill row below it (owner-reported screenshot) -- it inherited the TRIP OVERVIEW heading's font-size via an inline font-size:inherit meant for its desktop position, which became a 16.5px/700-weight full-width pill once toolbar.js relocates it under Trip Overview on phones. guide-style.css now overrides it to font-size:var(--fs-small)/font-weight:500 to match the pill row's own type. toolbar.js's CSS version guard bumped in lockstep so cached phones refetch. guide-style.css MIN_VERSIONS to 297, toolbar.js -> v1231, CACHE to v2008. */
+var CACHE = 'travel-cache-v2008';
 /* 2026-08-27: airlines.css's .card-tags align-items fix changed a shared
    asset without raising its own floor -- MIN_VERSIONS['airlines.css'] to
    6, CACHE to v1662. */
@@ -3497,7 +3498,11 @@ var ICS_OUTBOX = 'gmd-ics-outbox';
 /* 2026-08-30: search-autocomplete.js — reverted ARIA combobox pattern (role=listbox/option caused side-by-side layout regression). MIN_VERSIONS['search-autocomplete.js'] to 11, CACHE to v1749. */
 /* 2026-09-02: toolbar.js — remove false-affordance right hairline from stop-hours row (commit 981cca5d5). MIN_VERSIONS['toolbar.js'] to 1142, CACHE to v1816. */
 /* 2026-09-06: weather.js — Hammamet climate normals added; MIN_VERSIONS['weather.js'] to 27, CACHE to v1920. */
-var MIN_VERSIONS = { 'guide-style.css': 295,'toolbar.js': 1230, 'mobile.css': 95, 'web-travel-style.css': 295, 'guides-index-style.css': 70,'read-about.css': 8, 'best-of-features.js': 6, 'best-of-cross-data.js': 25, 'weather.js': 39,'trains.css': 31, 'trains.js': 6, 'airlines.css': 9, 'airlines.js': 11, 'passport.js': 6, 'search-autocomplete.js': 18, 'flag-render.js': 3, 'site-footer.js': 2 };
+/* 2026-09-09: guide-style.css -- .tve-cur-mine (the currency panel's picker+amount
+   label) was missing min-width:0, so its nested picker ignored its own 58% max-width
+   cap, rendered near its full intrinsic width and pushed the amount box and the close
+   X off the right edge of the phone screen. MIN_VERSIONS['guide-style.css'] to 296, CACHE to v2007. */
+var MIN_VERSIONS = { 'guide-style.css': 297,'toolbar.js': 1231, 'mobile.css': 95, 'web-travel-style.css': 295, 'guides-index-style.css': 70,'read-about.css': 8, 'best-of-features.js': 6, 'best-of-cross-data.js': 25, 'weather.js': 39,'trains.css': 31, 'trains.js': 6, 'airlines.css': 9, 'airlines.js': 11, 'passport.js': 6, 'search-autocomplete.js': 18, 'flag-render.js': 3, 'site-footer.js': 2 };
 
 function rewriteAssetUrl(urlStr) {
   var u;

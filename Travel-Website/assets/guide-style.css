@@ -640,7 +640,15 @@ a:hover { text-decoration: underline; }
   .tve-cur-row { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
   .tve-cur-field { display: inline-flex; align-items: center; gap: 6px; flex: 1 1 0; }
   .tve-cur-in { width: auto; flex: 1 1 0; min-width: 0; font-size: 16px; }
-  .tve-cur-mine { flex: 1 0 100%; }
+  /* min-width:0 here, not just on .tve-cur-pick below: .tve-cur-mine is a nested
+     flex container (the label wraps the picker + input), and a flex item's
+     default min-width:auto sizes it to its children's content-based minimum
+     BEFORE the pick's own max-width:58% ever applies (percentages resolve to
+     none against an as-yet-indefinite containing-block width during that pass).
+     Without this the picker ignored its 58% cap, rendered near its full
+     intrinsic width (~296px on a 317px row) and pushed the ✕ and the amount
+     box off the right edge of the phone screen. */
+  .tve-cur-mine { flex: 1 0 100%; min-width: 0; }
   .tve-cur-pick { font-size: 16px; flex: 1 1 auto; max-width: 58%; }
 }
 

@@ -284,16 +284,20 @@ var PG=[["Austria","Austria","Europe","230V / 50Hz","CF"],["Belgium","Belgium","
        let a guide-bearing country's name print twice in the same list (its
        own bare row, then again as another row's sub -- "Denmark" and
        "Copenhagen · Denmark" both in one dropdown). A country WITH a
-       shipped guide is represented only by its cities: bold place, grey
-       country, the same {name:city, sub:country} shape the landing page's
-       destinations, Time Zones and the guides index all build -- and typing
-       the country name still surfaces every one of them via `sub`, exactly
-       as typing "Spain" surfaces Barcelona and Madrid there. A country with
-       NO shipped guide has nothing to attach to, so it keeps its own
-       name-only row, carrying region/type/voltage in `text` so
-       "Europe"/"Type G"/"230V" can still find it. Fetch runs before
-       attach() so search-autocomplete.js's one-time field build sees the
-       final list, not an empty one it would never re-read. */
+       shipped guide is represented only by its cities, one row per city --
+       but country leads here (bold, {name:r[1]}) and city trails (grey,
+       {sub:cities[c].city}), the reverse of the {name:city, sub:country}
+       shape the landing page's destinations, Time Zones and the guides
+       index build (owner exception, documented in TVESearch.html § 7:
+       the plug a socket takes is a COUNTRY-level fact, so the country reads
+       as the primary label here, never the city). Typing the country name
+       still surfaces every one of its cities via `name`, and typing a city
+       name still finds it via `sub`. A country with NO shipped guide has
+       nothing to attach to, so it keeps its own name-only row, carrying
+       region/type/voltage in `text` so "Europe"/"Type G"/"230V" can still
+       find it. Fetch runs before attach() so search-autocomplete.js's
+       one-time field build sees the final list, not an empty one it would
+       never re-read. */
     function buildItems(map){
       var byUpper={};
       if(map) for(var k in map){ if(k!=='_by_slug') byUpper[k.toUpperCase()]=map[k]; }
@@ -312,7 +316,7 @@ var PG=[["Austria","Austria","Europe","230V / 50Hz","CF"],["Belgium","Belgium","
              would only draw the country twice, so it falls through to the
              name-only row below instead. */
           if(cities[c].city===r[1]) continue;
-          cityRows.push({name:cities[c].city, sub:r[1], anchor:r[0]});
+          cityRows.push({name:r[1], sub:cities[c].city, anchor:r[0]});
         }
         if(cityRows.length){ for(c=0;c<cityRows.length;c++) items.push(cityRows[c]); }
         else items.push({name:r[1], text:r[2]+' '+typeList(r[4])+' '+r[3].split(' / ')[0], anchor:r[0]});

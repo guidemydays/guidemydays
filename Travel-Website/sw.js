@@ -3458,7 +3458,8 @@
 /* 2026-09-09: web-travel-style.css -- .eb-hero's kicker badge is absolutely positioned, so on mobile (<=640px) it reserved no space above the title, leaving ~6px of clearance between the badge and the h1 (owner-reported screenshot on essentials/winery-tasting). Added margin-top:18px to .eb-copy in the existing mobile breakpoint. MIN_VERSIONS['web-travel-style.css'] to 296, CACHE to v2010. */
 /* 2026-09-09: mobile READ ABOUT {city} button read too big against the pill row below it (owner-reported screenshot) -- it inherited the TRIP OVERVIEW heading's font-size via an inline font-size:inherit meant for its desktop position, which became a 16.5px/700-weight full-width pill once toolbar.js relocates it under Trip Overview on phones. guide-style.css now overrides it to font-size:var(--fs-small)/font-weight:500 to match the pill row's own type. toolbar.js's CSS version guard bumped in lockstep so cached phones refetch. guide-style.css MIN_VERSIONS to 298, toolbar.js -> v1232. CACHE to v2011. */
 /* 2026-09-09: route-ab arrow shape change (chevron -> shaft+arrowhead, terracotta) toolbar.js -> v1233. CACHE to v2012. */
-var CACHE = 'travel-cache-v2012';
+/* 2026-09-09: guide-style.css -- #ics-pill-row's mobile margin-top (44px) didn't match the weather strip's own inline 12px margin (toolbar.js _injectWeatherStrip), so the gap below the strip was ~4x the 12px gap above it (owner-reported screenshot, NN54 above-equals-below). Set to 12px. MIN_VERSIONS['guide-style.css'] to 299, CACHE to v2013. */
+var CACHE = 'travel-cache-v2013';
 /* 2026-08-27: airlines.css's .card-tags align-items fix changed a shared
    asset without raising its own floor -- MIN_VERSIONS['airlines.css'] to
    6, CACHE to v1662. */
@@ -3506,7 +3507,7 @@ var ICS_OUTBOX = 'gmd-ics-outbox';
    label) was missing min-width:0, so its nested picker ignored its own 58% max-width
    cap, rendered near its full intrinsic width and pushed the amount box and the close
    X off the right edge of the phone screen. MIN_VERSIONS['guide-style.css'] to 296, CACHE to v2007. */
-var MIN_VERSIONS = { 'guide-style.css': 298,'toolbar.js': 1233, 'mobile.css': 96, 'web-travel-style.css': 296, 'guides-index-style.css': 70,'read-about.css': 8, 'best-of-features.js': 6, 'best-of-cross-data.js': 25, 'weather.js': 39,'trains.css': 31, 'trains.js': 6, 'airlines.css': 9, 'airlines.js': 11, 'passport.js': 6, 'search-autocomplete.js': 18, 'flag-render.js': 3, 'site-footer.js': 2 };
+var MIN_VERSIONS = { 'guide-style.css': 299,'toolbar.js': 1233, 'mobile.css': 96, 'web-travel-style.css': 296, 'guides-index-style.css': 70,'read-about.css': 8, 'best-of-features.js': 6, 'best-of-cross-data.js': 25, 'weather.js': 39,'trains.css': 31, 'trains.js': 6, 'airlines.css': 9, 'airlines.js': 11, 'passport.js': 6, 'search-autocomplete.js': 18, 'flag-render.js': 3, 'site-footer.js': 2 };
 
 function rewriteAssetUrl(urlStr) {
   var u;

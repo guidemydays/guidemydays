@@ -3472,7 +3472,14 @@
 /* 2026-09-09: Zermatt guide ship — weather.js gains Zermatt climate normals. MIN_VERSIONS['weather.js'] to 42, CACHE to v2019. */
 /* 2026-09-09: Zermatt hotel alternatives and ZRH airport chip toolbar.js -> v1236. CACHE to v2020. */
 /* 2026-09-09: guide-style.css + toolbar.js -- weather strip / #ics-pill-row spacing was 36/36/16 desktop and 12/12/26 mobile (owner-reported: too much space, inconsistent gap to next pill/text). Unified to 16px on every breakpoint. MIN_VERSIONS['guide-style.css'] to 301, MIN_VERSIONS['toolbar.js'] to 1237, CACHE to v2021. */
-var CACHE = 'travel-cache-v2021';
+/* 2026-09-09: currency panel, owner feedback round 2 -- (1) toolbar.js's _syncNote()
+   no longer writes "Pick your currency to convert ..." before a currency is chosen,
+   since the picker above it is already asking; (2) guide-style.css drops the
+   .tve-cur-pick/.tve-cur-in custom :focus border-color:#C04E1A (it showed on the
+   picker's auto-focus-on-open too, reading as an unwanted terracotta highlight) so
+   both fall back to the sitewide :focus-visible gold ring. toolbar.js -> v1238.
+   MIN_VERSIONS['guide-style.css'] to 302, CACHE to v2022. */
+var CACHE = 'travel-cache-v2022';
 /* 2026-08-27: airlines.css's .card-tags align-items fix changed a shared
    asset without raising its own floor -- MIN_VERSIONS['airlines.css'] to
    6, CACHE to v1662. */
@@ -3520,7 +3527,7 @@ var ICS_OUTBOX = 'gmd-ics-outbox';
    label) was missing min-width:0, so its nested picker ignored its own 58% max-width
    cap, rendered near its full intrinsic width and pushed the amount box and the close
    X off the right edge of the phone screen. MIN_VERSIONS['guide-style.css'] to 296, CACHE to v2007. */
-var MIN_VERSIONS = { 'guide-style.css': 301,'toolbar.js': 1237, 'mobile.css': 96, 'web-travel-style.css': 296, 'guides-index-style.css': 70,'read-about.css': 8, 'best-of-features.js': 6, 'best-of-cross-data.js': 25, 'weather.js': 42,'trains.css': 31, 'trains.js': 6, 'airlines.css': 9, 'airlines.js': 11, 'passport.js': 6, 'search-autocomplete.js': 18, 'flag-render.js': 3, 'site-footer.js': 2 };
+var MIN_VERSIONS = { 'guide-style.css': 302,'toolbar.js': 1238, 'mobile.css': 96, 'web-travel-style.css': 296, 'guides-index-style.css': 70,'read-about.css': 8, 'best-of-features.js': 6, 'best-of-cross-data.js': 25, 'weather.js': 42,'trains.css': 31, 'trains.js': 6, 'airlines.css': 9, 'airlines.js': 11, 'passport.js': 6, 'search-autocomplete.js': 18, 'flag-render.js': 3, 'site-footer.js': 2 };
 
 function rewriteAssetUrl(urlStr) {
   var u;

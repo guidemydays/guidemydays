@@ -8917,15 +8917,17 @@ window.TVE.home = (function () {
       note.appendChild(more);
       panel.appendChild(note);
 
-      /* The reference line follows the picker. Before a currency is chosen it
-         says what the panel is waiting for and still names the destination
-         currency, because that half is known from the guide and is the fixed
-         side of the conversion. After, it quotes the pair in the reader's own
-         terms — never "US$1 ≈ …", which is the anchoring this pass removed.
-         The link goes to /currencies/ itself, not to /currencies/#Country: the
-         converter there now opens on nothing and the deep link would preselect
-         the destination as "To", which is the opposite of the question this
-         sentence asks — where else the same money goes further. */
+      /* The reference line follows the picker. Before a currency is chosen the
+         picker itself is already asking for one ("Your currency"), so the line
+         stays empty rather than repeating "Pick your currency to convert" —
+         owner feedback, that sentence was redundant with the control right
+         above it. Once a currency is picked, the line quotes the pair in the
+         reader's own terms — never "US$1 ≈ …", which is the anchoring this
+         pass removed. The link goes to /currencies/ itself, not to
+         /currencies/#Country: the converter there now opens on nothing and the
+         deep link would preselect the destination as "To", which is the
+         opposite of the question this sentence asks — where else the same
+         money goes further. */
       function _syncNote() {
         var iso = pick.value, r = _mineRate();
         /* No trailing separator: .tve-cur-note holds the sentence at one end of
@@ -8934,9 +8936,7 @@ window.TVE.home = (function () {
           ? '1 ' + iso + ' ≈ ' + sym + _curRate(c.rate / r) + ' · ' +
             c.name + ' (' + c.iso + ')' +
             (cur._as_of ? ' · rates as of ' + cur._as_of : '')
-          : 'Pick your currency to convert · prices here are in ' +
-            c.name + ' (' + c.iso + ')' +
-            (cur._as_of ? ' · rates as of ' + cur._as_of : '');
+          : '';
       }
       _syncNote();
       pick.addEventListener('change', function () {

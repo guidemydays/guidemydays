@@ -47,41 +47,19 @@
 .wx-collab.on { color: var(--rust); font-weight: 700; }
 .wx-hint { margin-top: 6px; font-size: 12px; text-align: center; color: var(--muted); }
 .wx-mongrid { margin-top: 14px; display: grid; grid-template-columns: repeat(6,1fr); gap: 5px; }
-/* Rest/hover/selected colors and shape come from the shared .selection-pill +
-   .cp-rust classes in web-travel-style.css (same class the currencies page's
-   own pills use) -- only the grid touch-target height is page-local. */
-.wx-mon { min-height: 44px; }
+/* Everything -- color, shape, size -- comes from the shared
+   .selection-pill-sm + .cp-rust classes (same size as the °C/°F toggle
+   above); .selection-pill itself reads oversized packed 6-up in this
+   grid. No page-local rule needed. */
 .wx-rain { display: flex; justify-content: center; gap: 22px; margin-top: 14px;
   padding: 10px 0 0; border-top: 1px solid var(--border2); }
 .wx-rain .rlbl { font-size: 11px; text-transform: uppercase; letter-spacing: .06em; color: var(--c-rain); }
 .wx-rain .rval { font-size: 22px; font-weight: 700; color: var(--c-rain); line-height: 1.1; }
 .wx-note { color: var(--muted); font-size: 11px; margin-top: 14px; text-align: center; }
-/* ── Hero (2026-08-14) — the Before-You-Go pattern, same tokens and sizes, so
-   the redesigned pages read as one system. ── */
-.wx-hero { max-width: 1120px; margin: clamp(0.5rem, 1.5vw, 1.2rem) auto clamp(1.2rem, 2.6vw, 1.9rem);
-  padding: clamp(1.8rem, 4vw, 3.2rem) clamp(1.4rem, 3.4vw, 2.8rem);
-  background:
-    radial-gradient(120% 140% at 0% 0%, rgba(192, 78, 26, 0.085), transparent 62%),
-    var(--surface2, #faf7f2);
-  border: 1px solid rgba(192, 78, 26, 0.2);
-  border-radius: clamp(0.7rem, 1.4vw, 1.1rem);
-  text-align: center; }
-.wx-kicker { font-size: .72rem; font-weight: 700; letter-spacing: .14em; text-transform: uppercase;
-  color: var(--rust, #C04E1A); margin: 0 0 .6rem; }
-.wx-hero-h { font-size: clamp(2.1rem, 5.4vw, 3.9rem); line-height: 1.0; letter-spacing: -.035em;
-  font-weight: 700; color: var(--text, #17150f); margin: 0 auto clamp(.7rem, 1.6vw, 1.05rem);
-  max-width: 20ch; text-wrap: balance; }
-.wx-hero-h em { font-style: normal; color: var(--rust, #C04E1A); }
-.wx-hero-sub { font-size: clamp(.95rem, 1.25vw, 1.1rem); line-height: 1.6; color: var(--muted, #6a6660);
-  max-width: 56ch; margin: 0 auto var(--search-gap, 32px); }
-/* Box/icon/input/placeholder/focus/suggest rules come from the shared
-   .hero-search / .hero-search-icon component in web-travel-style.css
-   (2026-08-28 consolidation -- owner: "No exception change ALL to share").
-   The °C/°F toggle no longer lives in this field, so this page carries no
-   local variance on it at all. */
-@media (max-width: 700px) {
-  .wx-hero { padding-top: 1.5rem; }
-  }
+/* Hero is the shared .hero-band.eb-hero component (web-travel-style.css) —
+   same beige gradient, kicker pill and .eb-graphic icon slot as currencies,
+   packing, lounges and local-prices. The search field sits in the shared
+   .hero-ground band below it, same as those pages. */
 @media (prefers-color-scheme: dark) {
   /* --c-temp-hi #e05030 is 4.05:1 on #242220 (warm bg) — not AA; lighten to #f07050 (5.0:1) */
   :root { --c-temp-hi: #f07050; }
@@ -121,16 +99,25 @@
 <script src="/assets/weather.js?v=4"></script>
 <script src="/assets/search-autocomplete.js?v=8"></script>
 
-<div class="wx-hero">
-  <p class="wx-kicker">Weather by city</p>
-  <h1 class="wx-hero-h" id="wx-hero-h">Every destination, <em>month by month</em>.</h1>
-  <p class="wx-hero-sub" id="wx-hero-sub">Typical highs, lows and rainfall through the year — the shape of the whole year, not a single number.</p>
-  <div class="wx-search hero-search">
-    <span class="wx-search-icon hero-search-icon"><svg aria-hidden="true" style="display:block" width="19" height="19" viewBox="0 0 13 13" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="5.5" cy="5.5" r="4.5" stroke="currentColor" stroke-width="1.5"/><line x1="9.35" y1="9.35" x2="12" y2="12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></span>
-    <div id="wx-search-wrap" style="position:relative;flex:1;min-width:0;display:flex">
-      <input type="search" class="search-input" id="wx-city-search" placeholder="City or country" aria-label="Search for a city" autocomplete="off">
-    </div>
+<div class="hero-band eb-hero">
+  <span class="eb-kicker">Weather by city</span>
+  <div class="eb-copy">
+    <h1 class="eb-title" id="wx-hero-h">Every destination, <em>month by month.</em></h1>
+    <p class="eb-intro" id="wx-hero-sub">Typical highs, lows and rainfall through the year — the shape of the whole year, not a single number.</p>
   </div>
+  <div class="eb-graphic" aria-hidden="true"><svg viewBox="0 0 24 24" aria-hidden="true">
+    <circle cx="9.6" cy="9" r="4.6" fill="url(#gm-sun)" stroke="var(--c-sun-rim)" stroke-width="0.5"/><circle cx="9.6" cy="9" r="4.6" fill="url(#gm-gloss)"/>
+    <g stroke="var(--c-amber)" stroke-width="1.8" stroke-linecap="round">
+      <path d="M9.6 1.6v1.8"/><path d="M1.6 9h1.8"/><path d="M3.9 3.3 5.2 4.6"/>
+      <path d="M15.3 3.3 14 4.6"/><path d="M3.9 14.7 5.2 13.4"/>
+    </g>
+    <path d="M9 21.4a3.9 3.9 0 0 1 .4-7.8 5.2 5.2 0 0 1 9.7 1.3 3.2 3.2 0 0 1-.5 6.5z" fill="url(#gm-sky)" stroke="var(--c-sky-rim)" stroke-width="0.5"/>
+    <path d="M9.4 13.6a5.2 5.2 0 0 1 6 1.4 3.6 3.6 0 0 0-5.1 1.9 3.9 3.9 0 0 0-1.3-3.3z" fill="url(#gm-paper)" stroke="var(--c-rim-cool)" stroke-width="0.6" opacity="0.65"/>
+  </svg></div>
+</div>
+
+<div class="hero-ground">
+  <input type="search" class="search-input" id="wx-city-search" placeholder="City or country" aria-label="Search for a city" autocomplete="off">
 </div>
 
 <div class="wx-wrap">
@@ -160,11 +147,11 @@
     var cityName = DB[curKey] ? (DB[curKey].city || curKey) : '';
     if (!h || !sub) return;
     if (cityName) {
-      h.innerHTML = cityName + ', <em>month by month</em>.';
+      h.innerHTML = cityName + ', <em>month by month.</em>';
       sub.textContent = 'Typical highs, lows and rainfall in ' + cityName +
         ' through the year — long-run averages, not a forecast.';
     } else {
-      h.innerHTML = 'Every destination, <em>month by month</em>.';
+      h.innerHTML = 'Every destination, <em>month by month.</em>';
       sub.textContent = 'Typical highs, lows and rainfall through the year — the shape of the whole year, not a single number.';
     }
   }
@@ -201,7 +188,7 @@
     }
 
     var grid = MONTHS.map(function (mo, k) {
-      return '<button class="wx-mon selection-pill cp-rust hov-darken' + (k === selMonth ? ' is-on' : '') + '" data-mon="' + k + '" aria-pressed="' + (k === selMonth ? 'true' : 'false') + '">' + mo + '</button>';
+      return '<button class="wx-mon selection-pill-sm cp-rust hov-darken' + (k === selMonth ? ' is-on' : '') + '" data-mon="' + k + '" aria-pressed="' + (k === selMonth ? 'true' : 'false') + '">' + mo + '</button>';
     }).join('');
 
     var rainRow = '';

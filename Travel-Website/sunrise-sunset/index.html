@@ -59,11 +59,16 @@
    sits vertically centred lower in the row) was completely empty at the
    title's own height. Pulling the title row out to grid-column:1/-1 lets it
    use the full card width instead of wrapping tight against the icon while
-   that whole right-hand strip sat blank. */
-.sun-hero-top {
-  display: flex; align-items: flex-start; gap: clamp(20px, 3.5vw, 40px);
-  grid-column: 1 / -1;
-}
+   that whole right-hand strip sat blank.
+   A column stack, not the old icon+text row: the lede and notes used to live
+   inside the same flex row as the icon, so they started indented past the
+   icon's own width -- leaving the icon's own column (below its 204px height)
+   empty for the rest of the card. Only the title now shares a row with the
+   icon (.sun-hero-title-row below); the lede and notes are direct children
+   here so they start flush at the card's left edge, using the full width
+   under the icon too. */
+.sun-hero-top { display: flex; flex-direction: column; grid-column: 1 / -1; }
+.sun-hero-title-row { display: flex; align-items: flex-start; gap: clamp(20px, 3.5vw, 40px); }
 .sun-hero-ic {
   flex-shrink: 0; color: var(--rust, #C04E1A);
   display: flex; align-items: center;
@@ -72,8 +77,7 @@
 .sun-hero-h {
   font-size: clamp(1.6rem, 3.9vw, 2.9rem); line-height: 1.05;
   letter-spacing: -.03em; font-weight: 700; color: var(--text, #3d3a32);
-  margin: 0 0 clamp(0.5rem, 1.2vw, 0.85rem);
-  text-wrap: balance; text-transform: none;
+  margin: 0; text-wrap: balance; text-transform: none;
 }
 .sun-hero-h em {
   font-style: normal; color: inherit; display: block;
@@ -82,7 +86,8 @@
 .sun-hero-h em::first-line { color: var(--rust, #C04E1A); }
 .sun-hero-lede {
   font-size: clamp(0.93rem, 1.1vw, 1.05rem); line-height: 1.65;
-  color: var(--muted, #6a6660); max-width: 64ch; margin: 0;
+  color: var(--muted, #6a6660); max-width: 64ch;
+  margin: clamp(0.75rem, 1.6vw, 1.1rem) 0 0;
 }
 
 /* The search, in the hero. Two labelled fields on one baseline: the city is
@@ -137,7 +142,7 @@
 /* Paired with pointer: coarse — a narrowed desktop window must not turn into
    the mobile site (Toolbar.html § 42). */
 @media (max-width: 600px) and (pointer: coarse) {
-  .sun-hero-top { gap: 12px; }
+  .sun-hero-title-row { gap: 12px; }
 }
 
 /* ── Month pills ────────────────────────────────────────────────────────────
@@ -401,19 +406,19 @@
   <header class="sun-hero">
     <span class="eb-kicker">Daylight by Month</span>
     <div class="sun-hero-top">
-      <span class="sun-hero-ic"><svg width="34" height="34" viewBox="0 0 24 24" aria-hidden="true"><use href="#gm-i-horizon-sun"/></svg></span>
-      <div>
+      <div class="sun-hero-title-row">
+        <span class="sun-hero-ic"><svg width="34" height="34" viewBox="0 0 24 24" aria-hidden="true"><use href="#gm-i-horizon-sun"/></svg></span>
         <h1 class="sun-hero-h">When the sun comes up, <em>and how long it stays.</em></h1>
-        <p class="sun-hero-lede">Sunrise and sunset for every destination on the site,
-        month by month &mdash; enough to plan a sunrise viewpoint, judge how much daylight
-        a short winter day leaves you, or work out whether a late arrival lands in the
-        dark.</p>
-        <ul class="sun-note">
-          <li>Times are approximate (±15–30 min)</li>
-          <li>Mid-month estimate</li>
-          <li>Computed from latitude</li>
-        </ul>
       </div>
+      <p class="sun-hero-lede">Sunrise and sunset for every destination on the site,
+      month by month &mdash; enough to plan a sunrise viewpoint, judge how much daylight
+      a short winter day leaves you, or work out whether a late arrival lands in the
+      dark.</p>
+      <ul class="sun-note">
+        <li>Times are approximate (±15–30 min)</li>
+        <li>Mid-month estimate</li>
+        <li>Computed from latitude</li>
+      </ul>
     </div>
 
     <div class="sun-hero-copy">

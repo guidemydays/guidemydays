@@ -635,21 +635,19 @@ a:hover { text-decoration: underline; }
 }
 .tve-cur-more:hover { text-decoration: underline; }
 @media (max-width: 600px) and (pointer: coarse) {
-  /* A phone gets the wrapping flex row back — five grid columns on 393px is the
-     sliver bug the .tve-cur-mine comment in toolbar.js describes. */
-  .tve-cur-row { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
-  .tve-cur-field { display: inline-flex; align-items: center; gap: 6px; flex: 1 1 0; }
-  .tve-cur-in { width: auto; flex: 1 1 0; min-width: 0; font-size: 16px; }
-  /* min-width:0 here, not just on .tve-cur-pick below: .tve-cur-mine is a nested
-     flex container (the label wraps the picker + input), and a flex item's
-     default min-width:auto sizes it to its children's content-based minimum
-     BEFORE the pick's own max-width:58% ever applies (percentages resolve to
-     none against an as-yet-indefinite containing-block width during that pass).
-     Without this the picker ignored its 58% cap, rendered near its full
-     intrinsic width (~296px on a 317px row) and pushed the ✕ and the amount
-     box off the right edge of the phone screen. */
-  .tve-cur-mine { flex: 1 0 100%; min-width: 0; }
-  .tve-cur-pick { font-size: 16px; flex: 1 1 auto; max-width: 58%; }
+  /* The picker keeps owning-the-grid layout (.tve-cur-field stays display:contents
+     from the base rule above, unlike the flex-row swap this replaced) but now
+     spans row one alone (grid-column: 1/-1) instead of sharing a line with the
+     "your amount" input — that shared line is what squeezed the input to a
+     ~20px sliver on a 393px screen. justify-self:start plus the same 58% cap
+     the row used to give it keeps the picker at its old visual size now that
+     it is alone on its line; without justify-self it would stretch to fill the
+     full row width and read as a second, oversized pill. Row two auto-places
+     the remaining four items (your amount · = · destination symbol ·
+     destination amount) across the row's own columns, same as desktop. */
+  .tve-cur-row { grid-template-columns: minmax(64px, 1fr) auto auto minmax(64px, 1fr); row-gap: 10px; }
+  .tve-cur-pick { grid-column: 1 / -1; justify-self: start; width: auto; max-width: 58%; font-size: 16px; }
+  .tve-cur-in { font-size: 16px; }
 }
 
 /* Transient confirmation toast (Save for offline). Fixed bottom-centre, fades in,

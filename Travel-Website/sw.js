@@ -3461,7 +3461,15 @@
 /* 2026-09-09: guide-style.css -- #ics-pill-row's mobile margin-top (44px) didn't match the weather strip's own inline 12px margin (toolbar.js _injectWeatherStrip), so the gap below the strip was ~4x the 12px gap above it (owner-reported screenshot, NN54 above-equals-below). Set to 12px. MIN_VERSIONS['guide-style.css'] to 299, CACHE to v2013. */
 /* 2026-09-09: landing CTA hover flash fix toolbar.js -> v1234. CACHE to v2014. */
 /* 2026-09-09: landing CTA hover flash fix toolbar.js -> v1235. CACHE to v2015. */
-var CACHE = 'travel-cache-v2015';
+/* 2026-09-09: Zermatt guide ship — weather.js gains Zermatt climate normals. MIN_VERSIONS['weather.js'] to 40, CACHE to v2016. */
+/* 2026-09-09: climate.json + weather.js -- stale "Mecca" entry (no guide, no map pin, no card -- removed from the catalog once already on 2026-09-08 per the v1986/v1987 entries below, but had reappeared) dropped again from both files (owner-directed). MIN_VERSIONS['weather.js'] to 41, CACHE to v2017. */
+/* 2026-09-09: guide-style.css -- currency panel restyle (owner-directed): the picker
+   now spans its own row alone (grid-column:1/-1, justify-self:start so it keeps
+   its old width instead of stretching into a bigger pill) and both amount fields
+   share the row below it with the = and destination symbol, replacing the prior
+   flex-wrap phone layout that put the picker and the first amount box on one line.
+   MIN_VERSIONS['guide-style.css'] to 300, CACHE to v2018. */
+var CACHE = 'travel-cache-v2018';
 /* 2026-08-27: airlines.css's .card-tags align-items fix changed a shared
    asset without raising its own floor -- MIN_VERSIONS['airlines.css'] to
    6, CACHE to v1662. */
@@ -3509,7 +3517,7 @@ var ICS_OUTBOX = 'gmd-ics-outbox';
    label) was missing min-width:0, so its nested picker ignored its own 58% max-width
    cap, rendered near its full intrinsic width and pushed the amount box and the close
    X off the right edge of the phone screen. MIN_VERSIONS['guide-style.css'] to 296, CACHE to v2007. */
-var MIN_VERSIONS = { 'guide-style.css': 299,'toolbar.js': 1235, 'mobile.css': 96, 'web-travel-style.css': 296, 'guides-index-style.css': 70,'read-about.css': 8, 'best-of-features.js': 6, 'best-of-cross-data.js': 25, 'weather.js': 39,'trains.css': 31, 'trains.js': 6, 'airlines.css': 9, 'airlines.js': 11, 'passport.js': 6, 'search-autocomplete.js': 18, 'flag-render.js': 3, 'site-footer.js': 2 };
+var MIN_VERSIONS = { 'guide-style.css': 300,'toolbar.js': 1235, 'mobile.css': 96, 'web-travel-style.css': 296, 'guides-index-style.css': 70,'read-about.css': 8, 'best-of-features.js': 6, 'best-of-cross-data.js': 25, 'weather.js': 41,'trains.css': 31, 'trains.js': 6, 'airlines.css': 9, 'airlines.js': 11, 'passport.js': 6, 'search-autocomplete.js': 18, 'flag-render.js': 3, 'site-footer.js': 2 };
 
 function rewriteAssetUrl(urlStr) {
   var u;

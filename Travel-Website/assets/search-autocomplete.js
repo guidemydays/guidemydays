@@ -264,6 +264,7 @@
       else if (e.key === 'ArrowUp') { e.preventDefault(); if (rows.length) { active = Math.max(active - 1, 0); paint(); } }
       else if (e.key === 'Enter') { if (rows.length) { e.preventDefault(); pick(active >= 0 ? active : 0); } }
       else if (e.key === 'Escape') { hide(); }
+      else if (e.key === 'Tab') { hide(); }
     });
     document.addEventListener('click', function (e) {
       if (e.target !== input && !dd.contains(e.target)) hide();

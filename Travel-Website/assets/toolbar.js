@@ -1477,11 +1477,15 @@ window.TVE.home = (function () {
       /* The menu is position:fixed so it stays fully on-screen as the user
          scrolls — items never disappear off the top. The toolbar (.tb) is
          NOT fixed (scrolls away as usual); only the open menu panel is fixed.
-         top:0 covers the full viewport; overflow-y:auto scrolls inside the
-         panel; body overflow:hidden (set by toggleHamMenu) locks page scroll
-         so only the menu scrolls while it is open. */
-      '.tb-ham-menu{display:block;visibility:hidden;opacity:0;position:fixed;top:64px;left:0;right:0;bottom:0;' +
-        'background:#ffffff;border-top:1px solid #e6e2da;z-index:1001;padding:4px 0 calc(16px + env(safe-area-inset-bottom,0px));' +
+         top:78px matches the mobile .tb bar's own min-height:78px above, so the
+         panel starts exactly at the header's bottom edge — it used to say 64px,
+         a stale value from before the bar grew to 78px, which let the panel
+         start 14px UNDER the header and left "Guides" rendering 1px below the
+         logo row with no visible gap. overflow-y:auto scrolls inside the panel;
+         body overflow:hidden (set by toggleHamMenu) locks page scroll so only
+         the menu scrolls while it is open. */
+      '.tb-ham-menu{display:block;visibility:hidden;opacity:0;position:fixed;top:78px;left:0;right:0;bottom:0;' +
+        'background:#ffffff;border-top:1px solid #e6e2da;z-index:1001;padding:16px 0 calc(16px + env(safe-area-inset-bottom,0px));' +
         'overflow-y:auto;-webkit-overflow-scrolling:touch;overscroll-behavior:contain;' +
         'transform:translateY(-10px) translateZ(0);-webkit-transform:translateY(-10px) translateZ(0);will-change:transform,opacity;' +
         'transition:opacity .22s ease,transform .22s ease,visibility .22s}' +

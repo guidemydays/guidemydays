@@ -3687,7 +3687,7 @@ window.TVE.home = (function () {
     'virgin-islands':'America/St_Thomas',
     'washington-dc':'America/New_York',
     'wellington':'Pacific/Auckland','whistler':'America/Vancouver',
-    'yellowstone':'America/Denver','zakynthos':'Europe/Athens',
+    'yellowstone':'America/Denver','yogyakarta':'Asia/Jakarta','zakynthos':'Europe/Athens',
     'zhangjiajie':'Asia/Shanghai','zurich':'Europe/Zurich'
   };
 
@@ -7613,6 +7613,12 @@ window.TVE.home = (function () {
       { name: 'Lake Yellowstone Hotel', note: 'Xanterra — 1891 lakefront colonial structure, panoramic Yellowstone Lake views, inside the park, Sun Room dining', url: 'https://www.yellowstonenationalparklodges.com/lodging/summer-lodges/lake-yellowstone-hotel/', tier: 'expensive' },
       { name: 'Old Faithful Inn', note: 'Xanterra — 1904 National Historic Landmark log lodge beside Old Faithful geyser, lobby fireplace, Obsidian Dining Room', url: 'https://www.yellowstonenationalparklodges.com/lodging/summer-lodges/old-faithful-inn/', tier: 'luxury' }
     ], price: { budget: '$120–180', mid: '$180–280', expensive: '$280–400', luxury: '$400+' } },
+    'yogyakarta': { h: [
+      { name: 'Swiss-Belboutique Yogyakarta', note: 'Independent — Jalan Jendral Sudirman, Kotabaru, 328 ft from Tugu Monument, rooftop pool, 24h reception, AC · 9.2 Booking.com', url: 'https://www.booking.com/hotel/id/swiss-belhotel-yogyakarta.html', tier: 'budget' },
+      { name: 'Novotel Suites Yogyakarta Malioboro', note: 'Accor family (Novotel) — first-tier international brand, Jalan Perwakilan on Malioboro Street, all-suite rooms, 24h reception, AC · 8.6 Booking.com', url: 'https://www.booking.com/hotel/id/novotel-suites-yogyakarta-malioboro.html', tier: 'mid' },
+      { name: 'Meliá Purosani Yogyakarta', note: 'Meliá family — first-tier international brand, this guide’s title-card hotel, Jalan Suryotomo beside Malioboro, outdoor pool, spa, 24h reception, AC · 9.0 Booking.com', url: 'https://www.booking.com/hotel/id/melia-purosani.html', tier: 'expensive' },
+      { name: 'Hotel Tentrem Yogyakarta', note: 'Independent — Jalan Pangeran Mangkubumi at the north end of Malioboro, spa, garden, top-rated in the city · 9.3 Booking.com', url: 'https://www.booking.com/hotel/id/po-hotel-tentrem-yogyakarta-jetis.html', tier: 'luxury' }
+    ], price: { budget: 'IDR 800000–1000000', mid: 'IDR 1000000–1500000', expensive: 'IDR 1500000–2200000', luxury: 'IDR 2200000+' } },
     'zakynthos': { h: [
       { name: 'Zante Maris Hotel', note: 'Independent — Tsilivi beachfront, three pools, adults and family wings, all-inclusive option available · 8.4 Booking.com', url: 'https://www.booking.com/hotel/gr/zante-maris.html', tier: 'budget' },
       { name: 'Domes Aulus Zante · Autograph Collection', note: 'Marriott Autograph Collection — all-inclusive on Laganas Bay in Kalamaki, private beach, thalassotherapy spa, Ionian Sea views · 8.5 Booking.com', url: 'https://www.booking.com/hotel/gr/domesauluszante.html', tier: 'mid' },
@@ -10611,6 +10617,7 @@ window.TVE.home = (function () {
       'wellington':        {iata:'WLG', name:'Wellington International'},
       'whistler':          {iata:'YVR', name:'Vancouver International'},
       'yellowstone':       {iata:'DEN', name:'Denver International'},
+      'yogyakarta':        {iata:'YIA', name:'Yogyakarta International Airport'},
       'zakynthos':         {iata:'ZTH', name:'Zakynthos International'},
       'zanzibar':          {iata:'ZNZ', name:'Abeid Amani Karume International'},
       'zhangjiajie':       {iata:'DYG', name:'Zhangjiajie Hehua Airport'},
@@ -10641,7 +10648,7 @@ window.TVE.home = (function () {
       'PUS','PVG','PVR','RAK','RDM','REC','RHO','RIX','RNO','RSW','RUH','SAN','SCL','SEA','SEZ','SFO',
       'SGN','SIN','SJC','SJD','SJO','SJU','SKG','SLC','SLZ','SOF','SPU','SRQ','SSA','STR','STT','SVO',
       'SVQ','SXB','SXM','SYD','SZG','SZX','TBS','TFS','TIV','TLL','TLV','TOS','TPE','TRN','VCE','VIE',
-      'VLC','VNO','VRN','WLG','YQB','YUL','YVR','YYC','YYZ','ZAG','ZNZ','ZQN','ZRH','ZTH'
+      'VLC','VNO','VRN','WLG','YIA','YQB','YUL','YVR','YYC','YYZ','ZAG','ZNZ','ZQN','ZRH','ZTH'
     ];
 
     function _inject() {

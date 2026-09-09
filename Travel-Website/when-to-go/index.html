@@ -142,30 +142,42 @@ a.cf-spill-pill:visited { color: var(--nt-bronze-ink, #5a3c0e); }
    picked from 12 otherwise-equal options, no per-item family colour, "this
    one is chosen" carried by aria-pressed), tagged .cp-bronze for its
    wash/ink plus .hov-darken for its hover — same recipe as .cf-preset
-   above and essentials/festival-finder's .fa-spoke-btn month wheel. Only
-   the grid layout (squared, touching cells) stays page-local; border colour
-   comes from .cp-bronze like every other selection pill on the site.
-   Color/hover/selected used to be hand-duplicated here across three
-   responsive rule sets, gated on pointer:fine/pointer:coarse — an
-   environment reporting neither (pointer:none) fell through to a fourth,
-   unstyled state: the rounded, gapped, mismatched pill this replaced. */
+   above and essentials/festival-finder's .fa-spoke-btn month wheel. Every
+   cell is its own full pill — border, 999px radius and colour all come
+   from .selection-pill.cp-bronze unmodified (pills doc Family 1, Bronze
+   swatch); this page sets only the 12-across grid and the gap between
+   cells, on both breakpoints (owner 2026-09-08: every month reads as a
+   full pill, not just the picked one). */
 .cf-months { font-family: inherit; display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); gap: 6px; }
-.cf-mon { display: inline-flex; align-items: center; justify-content: center; border-radius: 6px; cursor: pointer;
-  padding: 10px 0; font-family: inherit; font-size: 13px; }
+.cf-mon { display: inline-flex; align-items: center; justify-content: center; cursor: pointer;
+  padding: 8px 2px; font-family: inherit; font-size: 13px; }
 
+/* Forecast & Research row colour — .cp-bronze, same tone as the Month and
+   Preset rows above (owner 2026-09-08: every pill on this page reads as one
+   family). .sibling-pill itself has no path to a .cp-* colour (that wiring
+   only covers .selection-pill/.selection-pill-sm/.badge/.pill-badge in
+   web-travel-style.css), so this page states border/background/color
+   directly off the vars .cp-bronze sets on the element (--sp-ink/--sp-wash) —
+   unscoped by breakpoint so mobile gets the same colour as desktop, unlike
+   the sizing rules below. Explicit hex on :visited — Chrome doesn't resolve
+   var() there. */
+.cf-research-row .sibling-pill {
+  border-color: var(--sp-ink); background: var(--sp-wash); color: var(--sp-ink);
+}
+.cf-research-row a.sibling-pill:visited { color: #5a3c0e; }
 /* Desktop-only: canonical squared+touching for the Forecast & Research 6-link
    row. Scoped to the Climate-Finder wrapper (.cf-research-row) so it doesn't
    leak into Weather or Festival-Finder, which use the same .sibling-pill class.
    Left-aligned per owner ("leave where it is"). It covered .cf-sibling-row too
    until 2026-08-17, when that row went with every other end-of-page cross-link
-   strip on the site. */
+   strip on the site. Layout/size only now — colour lives in the unscoped rule
+   above. */
 @media (min-width: 601px), (pointer: fine) {
   .cf-research-row { gap: 8px !important; }
   .cf-research-row .sibling-pill,
   .cf-research-row a.sibling-pill:visited {
     height: 36px; padding: 0 14px; font-size: 13px; font-weight: 500; line-height: 1;
-    color: var(--text, #3d3a32); background: var(--surface, #fff);
-    border: 1.5px solid var(--border2, #e6e2da); border-radius: 8px; margin-left: 0;
+    border-width: 1.5px; border-style: solid; border-radius: 8px; margin-left: 0;
   }
   /* Layout only — no fill, no colour. History, because the note that stood here
      was wrong in a way that kept the bug alive: on 2026-08-15 this rule set
@@ -188,40 +200,13 @@ a.cf-spill-pill:visited { color: var(--nt-bronze-ink, #5a3c0e); }
     box-shadow: none; transform: none;}
 }
 
-/* Desktop-only LAYOUT for the month grid — 12 pills, gap:0 so the shared
-   1px .selection-pill borders touch and read as one squared grid instead
-   of loose rounded pills with gaps. Colour, hover and selected all come
-   from .selection-pill.cp-bronze.hov-darken on the button itself now (see
-   the .cf-mon rule above) — this block sets height/padding/border-radius
-   only. Sibling/research rows stay as-is (not enough pills to look right
-   stretched and squared). */
+/* Desktop-only LAYOUT for the month grid — 12 individual pills, each its
+   own .selection-pill.cp-bronze oval (see the .cf-mon rule above); this
+   block only makes the row a bit taller than the compact base padding at
+   the wider desktop column width. No border/radius/colour of any kind
+   lives here — all of that is the shared class, unmodified. */
 @media (min-width: 601px), (pointer: fine) {
-  /* Same ring as .cf-seg (Units / Rainfall): the 1.5px --nt-bronze-ink border
-     and 6px radius live on the CONTAINER, the cells carry only the 1px
-     --border2 divider between them. Mobile keeps the Form B full-bleed
-     glued grid below — that band has no ring by spec. */
-  .cf-months { gap: 0; border: 1.5px solid var(--nt-bronze-ink,#5a3c0e); border-radius: 6px; overflow: hidden; }
-  .cf-mon { height: 36px; padding: 0 14px; font-size: 13px; line-height: 1; border-radius: 0;
-    border: none; border-left: 1px solid var(--border2,#e6e2da); }
-  .cf-mon:first-child { border-left: none; }
-  /* .selection-pill.cp-bronze (web-travel-style.css) sets the FULL shorthand
-     `border: 2px solid var(--sp-ink)` at 0-2-0, which beats the .cf-mon rule
-     above (0-1-0) on every longhand it touches — not just color. The line
-     below restates border-left-color at 0-3-0 to land the intended divider
-     tint (it is the ring's own --nt-bronze-ink, not --border2 — owner
-     2026-09-05: "add the border in the middle" — #e6e2da on this grid's
-     #f5f0e6 ground barely read). But cp-bronze's 2px WIDTH was never
-     restated, so it kept winning on every edge cp-bronze supplies one for:
-     top/right/bottom on every cell, plus left on every cell but Jan. That
-     stacked a stray 2px cp-bronze border UNDER the container's own 1.5px ring
-     along the whole top/bottom edge, and doubled every interior divider to
-     ~4px (2px trailing edge + 2px leading edge) instead of the intended 1px
-     hairline — worst at Jan's rounded corner, where the container ring and
-     cp-bronze's unopposed top/bottom border overlap. Zeroing the width here
-     (color/style still come from cp-bronze, now irrelevant at width:0) leaves
-     only the container ring and the one restated 1px left divider visible. */
-  .cf-months .cf-mon + .cf-mon { border-left-color: var(--nt-bronze-ink,#5a3c0e); }
-  .cf-months .cf-mon.selection-pill { border-top-width: 0; border-right-width: 0; border-bottom-width: 0; }
+  .cf-mon { height: 36px; padding: 0 10px; font-size: 13px; line-height: 1; }
 }
 /* The 2026-08-30 "Rule 6" neutral-grey active state that stood here is REMOVED
    (owner, 2026-09-05: "fix the selection"). --nt-grey-wash #f0ede8 on this
@@ -288,13 +273,13 @@ a.cf-card:hover { border-color: var(--rust); box-shadow: 0 3px 10px rgba(192,78,
 .cf-bar > span { position: absolute; left: 50%; transform: translateX(-50%); width: 4px; border-radius: 2px; }
 @media (max-width: 600px) and (pointer: coarse) {
   .cf-wrap { padding: 0 12px; }
-  /* Month pills — Form B glued grid (selection-pills-badges-pills-to-badge-dots.html#sec-pills-full-spec § Mobile behavior): 6-across,
-     gap:0, square corners, 46px tall, 12px font. Stretches the full page-wrap
-     content width like every other Form B tile row. */
-  .cf-months { font-family: inherit; grid-template-columns: repeat(6, minmax(0, 1fr)) !important; gap: 0 !important; margin: 0 -18px !important; }
+  /* Month pills — 6-across on mobile, same full-pill .selection-pill.cp-bronze
+     treatment as desktop (border/radius/colour all come from the shared
+     class), just a smaller cell and a tighter gap to fit six per row. */
+  .cf-months { font-family: inherit; grid-template-columns: repeat(6, minmax(0, 1fr)) !important; gap: 5px !important; }
   .cf-mon { font-family: inherit;
-    height: 46px !important; border-radius: 0 !important; font-size: 12px !important;
-    padding: 4px 6px !important; display: flex !important; align-items: center !important;
+    height: 44px !important; font-size: 12px !important;
+    padding: 4px 4px !important; display: flex !important; align-items: center !important;
     justify-content: center !important; text-align: center !important;
     white-space: normal !important; line-height: 1.12 !important;
   }
@@ -331,14 +316,11 @@ a.cf-card:hover { border-color: var(--rust); box-shadow: 0 3px 10px rgba(192,78,
 /* .cf-preset is the shared .selection-pill component (one weather preset
    picked from 4 otherwise-equal options, no per-item family colour, "this
    one is chosen" carried by .is-on — assets/web-travel-style.css) tagged
-   .sp-sand for its wash/ink — switched from .cp-bronze 2026-09-06 (owner) so
-   this row reads the exact same tone as the Forecast & Research row below
-   (.sibling-pill, unclassed, which resolves to --sp-sand-ink/-wash by
-   default) — plus .hov-darken for its hover. Was a hand-rolled
-   rgba(192,78,26,…) pill — the exact banned pattern
-   check_no_hand_rolled_selection_pill exists to catch — with
-   border-radius:14px, which at this box's ~25px height already clips to a
-   full stadium, i.e. visually identical to the shared class's 999px. Only
+   .cp-bronze for its wash/ink — same tone as the Month row above — plus
+   .hov-darken for its hover. Was a hand-rolled rgba(192,78,26,…) pill — the
+   exact banned pattern check_no_hand_rolled_selection_pill exists to catch —
+   with border-radius:14px, which at this box's ~25px height already clips to
+   a full stadium, i.e. visually identical to the shared class's 999px. Only
    this page's smaller footprint stays page-local now. */
 .cf-preset { font-size: 13px; padding: 7px 15px; }
 /* City search — explicit token overrides keep the 2026-08-27 gold/white sweep
@@ -569,10 +551,10 @@ a.cf-card:hover .cf-guide-pill { border-color: var(--nt-bronze-ink,#5a3c0e); }
   </div>
 
   <div class="cf-presets" id="cf-presets">
-    <button type="button" class="cf-preset selection-pill sp-sand hov-darken" data-preset="beach" aria-pressed="false">Beach weather</button>
-    <button type="button" class="cf-preset selection-pill sp-sand hov-darken" data-preset="spring" aria-pressed="false">Mild spring</button>
-    <button type="button" class="cf-preset selection-pill sp-sand hov-darken" data-preset="winter" aria-pressed="false">Winter escape</button>
-    <button type="button" class="cf-preset selection-pill sp-sand hov-darken" data-preset="autumn" aria-pressed="false">Cool autumn</button>
+    <button type="button" class="cf-preset selection-pill cp-bronze hov-darken" data-preset="beach" aria-pressed="false">Beach weather</button>
+    <button type="button" class="cf-preset selection-pill cp-bronze hov-darken" data-preset="spring" aria-pressed="false">Mild spring</button>
+    <button type="button" class="cf-preset selection-pill cp-bronze hov-darken" data-preset="winter" aria-pressed="false">Winter escape</button>
+    <button type="button" class="cf-preset selection-pill cp-bronze hov-darken" data-preset="autumn" aria-pressed="false">Cool autumn</button>
   </div>
 <div class="cf-controls">
     <div class="cf-block">
@@ -626,12 +608,12 @@ a.cf-card:hover .cf-guide-pill { border-color: var(--nt-bronze-ink,#5a3c0e); }
     <div style="margin:14px 0 14px;">
     <div style="font-size:11.5px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:0.06em;margin-bottom:5px;">Forecast &amp; Research</div>
     <div class="cf-research-row" style="display:flex;flex-wrap:wrap;gap:6px;">
-      <a href="https://forecast.weather.gov" target="_blank" rel="noopener" class="sibling-pill">Weather.gov</a>
-      <a href="https://www.accuweather.com" target="_blank" rel="noopener" class="sibling-pill">AccuWeather</a>
-      <a href="https://www.timeanddate.com/weather" target="_blank" rel="noopener" class="sibling-pill">Time and Date</a>
-      <a href="https://www.windy.com" target="_blank" rel="noopener" class="sibling-pill">Windy</a>
-      <a href="https://weather.com" target="_blank" rel="noopener" class="sibling-pill">Weather Channel</a>
-      <a href="https://www.weather25.com" target="_blank" rel="noopener" class="sibling-pill">Weather25</a>
+      <a href="https://forecast.weather.gov" target="_blank" rel="noopener" class="sibling-pill cp-bronze">Weather.gov</a>
+      <a href="https://www.accuweather.com" target="_blank" rel="noopener" class="sibling-pill cp-bronze">AccuWeather</a>
+      <a href="https://www.timeanddate.com/weather" target="_blank" rel="noopener" class="sibling-pill cp-bronze">Time and Date</a>
+      <a href="https://www.windy.com" target="_blank" rel="noopener" class="sibling-pill cp-bronze">Windy</a>
+      <a href="https://weather.com" target="_blank" rel="noopener" class="sibling-pill cp-bronze">Weather Channel</a>
+      <a href="https://www.weather25.com" target="_blank" rel="noopener" class="sibling-pill cp-bronze">Weather25</a>
     </div>
   </div>
 </div>

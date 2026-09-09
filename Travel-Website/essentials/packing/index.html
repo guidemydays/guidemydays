@@ -128,12 +128,17 @@
  .item { flex-wrap: wrap; }
  .qty-math { margin-left: 31px; padding-left: 0; white-space: normal; width: 100%; }
  /* The action-row's flat-bottom/no-border-bottom treatment (below, in the
-    unconditioned rule) assumes all three pills sit in one row directly on
+    unconditioned rule, and re-applied in full after it for this same
+    breakpoint -- see the mobile override right under that rule, needed for
+    specificity reasons) assumes all three pills sit in one row directly on
     top of the first .section-card -- true on desktop, but Save for Offline
-    wraps to its own row under Reset all/Print list on a narrow phone, so
-    only IT still touches the card. Give the first two their border and
-    corners back here or they read as cut open with nothing under them. */
- .action-row .selection-pill-sm:not(:last-child) { border-radius: 6px; border-bottom: 2px solid var(--sp-ink); }
+    wraps to its own row under Reset all/Print list on a narrow phone. Left
+    as-is, that wrapped pill fuses into whatever section card happens to
+    ship first (Pre-Trip Home Tasks here) -- it reads as if Save for Offline
+    belongs to that one category instead of the whole checklist. This gap
+    is the other half of that fix -- a real gap below the row so the last
+    pill doesn't touch the card under it. */
+ .action-row { margin-bottom: 8px; }
 }
 html { scroll-behavior: smooth; }
 .section-card  { transition: box-shadow .18s, transform .18s; }
@@ -189,6 +194,17 @@ html { scroll-behavior: smooth; }
    the ink's rgb (122,90,18 = #7a5a12) here, scoped to just these three
    pills, so the ring hov-press relies on actually shows up. */
 .action-row .selection-pill-sm { border-radius: 6px 6px 0 0; border-bottom: none; --sp-rgb: 122,90,18; }
+/* Placed after the flush rule above, not inside the earlier mobile block,
+   so equal specificity resolves by source order and this actually wins at
+   the breakpoint -- a :not(:last-child) version up there DOES win on
+   specificity (that's how Reset all/Print list already got their corners
+   back), but a same-selector version does not. Gives every pill (including
+   the one that wraps alone) its full border and rounded bottom back, so
+   the wrapped case above reads as three complete pills, not two pills plus
+   one that bleeds into the next card. */
+@media (max-width: 600px) and (pointer: coarse) {
+ .action-row .selection-pill-sm { border-radius: 6px; border-bottom: 2px solid var(--sp-ink); }
+}
 .trip-setup {
  display: flex; align-items: center; flex-wrap: wrap; gap: 8px 16px;
  margin-top: 16px; padding: 14px 20px;

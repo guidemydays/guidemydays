@@ -209,18 +209,18 @@
 .gi-band-d { display: block; margin-top: 5px; font-size: 13.5px; line-height: 1.5;
   color: rgba(255,255,255,.88); }
 
-/* The step counter and the two arrows. `.gi-arrow` is `.lp-hero-arrow` copied
-   value for value — that class is declared inside the landing page's own
-   <style>, so it cannot be reused from here; if either moves, move both. */
+/* The step counter and the two arrows. `.gi-arrow`'s box is `.lp-hero-arrow`
+   copied value for value — that class is declared inside the landing page's
+   own <style>, so it cannot be reused from here; if either moves, move both.
+   Color no longer lives here: the button carries `.selection-pill cp-bronze
+   hov-darken` (same recipe `.lp-hero-arrow` already uses with cp-rust) so the
+   ink/wash/hover come from the tone class instead of a page-local hardcoded
+   rust, and dark mode is correct for free. */
 .gi-steps-nav { display: flex; align-items: center; justify-content: flex-end;
   gap: .55rem; margin-top: .55rem; }
 .gi-steps-count { margin-right: auto; font-size: 12px; font-weight: 600;
   letter-spacing: .04em; color: var(--muted, #6a6660); font-variant-numeric: tabular-nums; }
-.gi-arrow { width: 2rem; height: 2rem; padding: 0; display: grid; place-items: center;
-  background: var(--warm, #fdf8f0); border: 1px solid rgba(192, 78, 26, .30); border-radius: 999px;
-  color: var(--brand, #a94e1c); cursor: pointer;
-  transition: background .18s ease, border-color .18s ease; }
-.gi-arrow:hover, .gi-arrow:focus-visible { background: var(--warm, #fdf4ed); border-color: rgba(192, 78, 26, .55); }
+.gi-arrow { width: 2rem; height: 2rem; padding: 0; display: grid; place-items: center; }
 .gi-arrow svg { width: 1rem; height: 1rem; fill: none; stroke: currentColor;
   stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
 /* A finger needs a bigger target than a cursor — the stop-control size inside a
@@ -274,9 +274,9 @@
      what changes is which of them a large filled area wants. Caught by
      validate_dark_mode.py — do not "simplify" it back to var(--rust). */
   .gi-band { background: #C04E1A; }
-  /* Copied from .lp-hero-arrow's own dark rule on the landing page — a
-     hardcoded #fff disc is the one BRIGHT SURFACE validate_dark_mode finds. */
-  .gi-arrow { background: var(--surface); border-color: var(--border); }
+  /* .gi-arrow no longer needs a dark-mode override here -- .cp-bronze's own
+     dark-mode --sp-ink/--sp-wash pair (web-travel-style.css) already resolves
+     correctly, the same way .lp-hero-arrow's cp-rust needs none either. */
   /* The filled CTA is the one thing here that does NOT take var(--rust) in dark
      mode, and the hexes are deliberate rather than drift. --rust is #D4663A on a
      dark ground — the LIFT that makes terracotta legible as ink or as a thin rim
@@ -819,7 +819,7 @@
       function button(label, step) {
         var b = document.createElement('button');
         b.type = 'button';
-        b.className = 'gi-arrow';
+        b.className = 'gi-arrow selection-pill cp-bronze hov-darken';
         b.setAttribute('aria-label', label);
         b.innerHTML = step < 0
           ? '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg>'

@@ -5289,6 +5289,35 @@
 </script>
 
 <script>
+/* ── Dest-name overflow tooltip — .dest-name now truncates with an ellipsis
+   (guides-index-style.css) whenever flag + name + badge don't fit on one
+   row, rather than wrapping the badge onto its own orphan line. A truncated
+   name must never be the reader's only view of it, so every card whose name
+   is actually cut gets a native title tooltip with the full text; a column
+   width change (resize, filter narrowing the grid) can start or stop the
+   truncation, so this re-checks on resize too, not just once at load. ── */
+(function () {
+  function syncDestNameTitles() {
+    document.querySelectorAll('.dest-name').forEach(function (el) {
+      if (el.scrollWidth > el.clientWidth + 1) {
+        el.title = el.textContent.trim();
+      } else if (el.hasAttribute('title')) {
+        el.removeAttribute('title');
+      }
+    });
+  }
+  var resizeTimer;
+  window.addEventListener('resize', function () {
+    clearTimeout(resizeTimer);
+    resizeTimer = setTimeout(syncDestNameTitles, 150);
+  });
+  if (document.readyState === 'loading') { document.addEventListener('DOMContentLoaded', syncDestNameTitles); }
+  else { syncDestNameTitles(); }
+  window._syncDestNameTitles = syncDestNameTitles;
+}());
+</script>
+
+<script>
 /* ── Help Me Choose — 4-step destination wizard ── */
 (function () {
   var btnHC   = document.getElementById('btn-help-choose');

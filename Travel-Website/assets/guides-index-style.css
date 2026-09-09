@@ -73,7 +73,11 @@
   padding: 6px 10px;
   display: flex;
   align-items: center;
-  flex-wrap: wrap;
+  /* nowrap, not wrap: a trailing badge (.dest-new-badge / .dest-offline-badge,
+     both margin-left:auto) must never be pushed onto an orphan second line
+     when the name is long — the name truncates instead (see .dest-name).
+     The flight-time view restores wrap for its own .flt/.fonward sub-lines. */
+  flex-wrap: nowrap;
   gap: 6px;
   text-decoration: none;
   color: inherit;
@@ -144,7 +148,13 @@
 .stat-line b { color: var(--text, #1a1917); font-weight: 600; font-variant-numeric: tabular-nums; }
 .stat-line--right { justify-content: flex-end; }
 .dest-flag { font-size: 15px; line-height: 1; flex-shrink: 0; }
-.dest-name { font-size: var(--fs-card-name); font-weight: 600; color: var(--text, #1a1917); }
+/* min-width:0 lets a flex item shrink below its content size at all; without
+   it a long name (e.g. "Antigua Guatemala") never yields the row width the
+   nowrap fix above depends on, and the badge is back to wrapping. Truncation
+   only ever fires when flag + name + badge can't all fit — see the .title
+   sync in guides/index.html, which surfaces the untruncated name on hover
+   whenever this ellipsis actually cuts something. */
+.dest-name { font-size: var(--fs-card-name); font-weight: 600; color: var(--text, #1a1917); min-width: 0; flex: 1 1 auto; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 /* ── Search ── */
 /* #guide-search now matches the landing page's #lp-guide-search 100% -- both
    use the shared .search-box-wrap component (web-travel-style.css) with no
@@ -500,7 +510,10 @@ body.mode-flights #guide-noresult { display: none !important; }
 #fnoresult button { font-family: inherit; font-size: 12px; margin-left: 8px; padding: 4px 12px; border: 1px solid #C04E1A; border-radius: 6px; background: var(--surface, #ffffff); color: var(--accent); cursor: pointer; }
 #fnoresult button:hover { background: #C04E1A; border-color: #C04E1A; color: #fdf8f0; }
 .flt-grid { column-width: 212px; column-gap: 4px; }
-.flt-grid .dest-card { border-radius: 8px; padding: 9px 12px; align-items: baseline; border-left-width: 5px; break-inside: avoid; -webkit-column-break-inside: avoid; margin: 0 0 4px; }
+/* Flight-time view keeps flex-wrap: wrap — .flt and .fonward below both
+   depend on flex-basis:100% to force their own line, which nowrap (the
+   default .dest-card rule) would collapse them out of. */
+.flt-grid .dest-card { border-radius: 8px; padding: 9px 12px; align-items: baseline; border-left-width: 5px; break-inside: avoid; -webkit-column-break-inside: avoid; margin: 0 0 4px; flex-wrap: wrap; }
 /* In flight view the day-trip subtitle is irrelevant and only adds random height */
 .flt-grid .dest-sub { display: none; }
 /* Pin the airport code to a fixed top-right spot so it doesn't drift with card content */

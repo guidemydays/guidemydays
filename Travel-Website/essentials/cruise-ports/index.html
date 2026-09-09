@@ -25,33 +25,36 @@
 .port-card {
   position: relative; overflow: hidden;
   background: var(--surface, #fff); border: 1px solid var(--border2, #e6e2da);
-  border-radius: 10px; padding: 16px 18px 16px 22px;
+  border-radius: 16px; padding: 18px 20px 18px 24px;
   box-shadow: 0 1px 6px rgba(92,61,17,.05);
-  transition: box-shadow .2s, transform .2s, opacity .5s, transform .5s;
+  transition: box-shadow .25s, transform .25s, opacity .5s, transform .5s;
 }
 .port-card::before {
-  content: ""; position: absolute; left: 0; top: 0; bottom: 0; width: 4px;
-  background: var(--sb-fill, var(--border2));
+  content: ""; position: absolute; left: 0; top: 0; bottom: 0; width: 5px;
+  background: linear-gradient(180deg, var(--sb-fill, var(--border2)), color-mix(in srgb, var(--sb-fill, var(--border2)) 45%, black 55%));
 }
-.port-card:hover { box-shadow: 0 10px 22px -12px rgba(92,61,17,.28); }
+.port-card:hover { box-shadow: 0 18px 32px -16px rgba(92,61,17,.32); transform: translateY(-2px); border-color: #cfd9d4; }
 .port-card.hidden { display: none; }
 .port-card-top { display: flex; align-items: flex-start; justify-content: space-between; gap: 10px; margin-bottom: 8px; }
-.port-name { font-size: 15px; font-weight: 800; color: var(--text, #3d3a32); line-height: 1.3; }
-.port-name .port-country { display: block; font-size: 11.5px; font-weight: 600; color: var(--muted, #6a6660); margin-top: 1px; }
-.port-desc { font-size: 12.5px; color: var(--muted, #6a6660); line-height: 1.55; margin: 0 0 12px; }
-.port-facts { display: flex; flex-direction: column; gap: 10px; }
-.port-fact { font-size: 12.5px; line-height: 1.55; color: var(--text, #3d3a32); }
+.port-name { font-size: 16px; font-weight: 800; letter-spacing: -.01em; color: var(--text, #3d3a32); line-height: 1.3; }
+.port-name .port-country { display: block; font-size: 11.5px; font-weight: 700; letter-spacing: .05em; text-transform: uppercase; color: var(--muted, #6a6660); margin-top: 2px; }
+.port-desc { font-size: 13px; color: var(--muted, #6a6660); line-height: 1.6; margin: 0 0 14px; }
+.port-facts { display: flex; flex-direction: column; gap: 10px; border-top: 1px solid var(--border2, #e6e2da); padding-top: 12px; margin-top: auto; }
+.port-fact { font-size: 13px; line-height: 1.55; color: var(--text, #3d3a32); }
 .port-fact-label {
-  display: block; font-size: 10px; font-weight: 700; letter-spacing: 0.1em;
-  text-transform: uppercase; color: var(--muted, #6a6660); margin-bottom: 2px;
+  display: inline-flex; align-items: center; gap: 6px;
+  font-size: 9.5px; font-weight: 800; letter-spacing: 0.12em;
+  text-transform: uppercase; color: var(--muted, #6a6660); margin-bottom: 6px;
 }
+.port-fact-label svg { width: 13px; height: 13px; flex: none; }
+.port-fact.watch { background: rgba(192,66,31,.06); margin: 0 -20px 0 -24px; padding: 0 20px 0 24px; }
 .port-fact.watch .port-fact-label { color: #8a4a10; }
 
 /* ── Access badge + clock-pressure gauge, stacked at the card's top-right ── */
 .port-access { display: flex; flex-direction: column; align-items: flex-end; gap: 6px; flex: none; }
 .port-pressure { display: inline-flex; gap: 3px; }
 .port-pressure i { display: block; width: 11px; height: 4px; border-radius: 2px; background: var(--border2, #e6e2da); font-style: normal; }
-.port-pressure i.on { background: #8a4a10; }
+.port-pressure i.on { background: var(--sb-fill, #8a4a10); }
 .port-pressure-label {
   font-size: 9px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted, #6a6660);
 }
@@ -62,8 +65,8 @@
   :root:not([data-theme="light"]) {
     /* #8a4a10 at 10px on --card (#2a2825) = 2.15:1; switch to --text for legible uppercase labels. */
     .port-fact.watch .port-fact-label { color: var(--text); }
-    .port-pressure i.on { background: var(--text); }
-    /* sb-green (#7cb384) fill — white text = 2.43:1. Dark text passes 6.9:1. */
+    .port-pressure[data-level] i.on { background: var(--text); }
+    /* sb-teal/sb-rust fills — white text passes on both. Dark text passes on the paler dark-mode surface. */
   }
 }
 
@@ -112,18 +115,12 @@
       <h1 class="eb-title">Dock or tender, six hours or eight — <em>what actually fits in a cruise port day.</em></h1>
       <p class="eb-intro">A port-by-port reference for 19 of the most-visited cruise stops worldwide — whether the ship docks or tenders, how far the worthwhile sites sit from the pier, a plan that fits a 6–8 hour call, and what to skip when the clock is the real constraint. Built for cruise passengers with a fixed return time, not independent travelers planning their own schedule (see <a href="/essentials/day-trips/">Day Trips</a> for that, or <a href="/essentials/island-hopping/">Island Hopping Routes</a> for a multi-day circuit across several islands on your own schedule).</p>
     </div>
-    <div class="eb-graphic" aria-hidden="true"><svg viewBox="0 0 24 24" aria-hidden="true"><defs>
-      <linearGradient id="cp-hull" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#8fb3ba"/><stop offset="1" stop-color="#2e454a"/></linearGradient>
-      <linearGradient id="cp-deck" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#d3e2e4"/><stop offset="1" stop-color="#8fb3ba"/></linearGradient>
-    </defs>
-      <path d="M1 19.6 3.2 14.8h14l2.2 4.8c-2.4 1.3-4.2-1.3-6.4-1.3s-4 2.6-6.2 2.6-4.2-2.6-6.6-2.6z" fill="url(#cp-hull)" stroke="#2e454a" stroke-width="0.4"/>
-      <path d="M1 19.6 3.2 14.8h14l2.2 4.8c-2.4 1.3-4.2-1.3-6.4-1.3s-4 2.6-6.2 2.6-4.2-2.6-6.6-2.6z" fill="url(#gm-gloss)"/>
-      <rect x="4.4" y="10" width="10.4" height="5" rx="1" fill="url(#cp-deck)" stroke="#2e454a" stroke-width="0.4"/>
-      <g fill="url(#cp-hull)" opacity="0.75"><circle cx="6.6" cy="12.5" r="0.9"/><circle cx="9.4" cy="12.5" r="0.9"/><circle cx="12.2" cy="12.5" r="0.9"/></g>
-      <rect x="10.4" y="6" width="3.4" height="4.4" rx="0.8" fill="url(#cp-deck)" stroke="#2e454a" stroke-width="0.4"/>
-      <rect x="14.6" y="4.6" width="2" height="5.6" rx="0.6" fill="url(#cp-hull)" stroke="#2e454a" stroke-width="0.4"/>
-      <rect x="14.6" y="5.6" width="2" height="1.1" fill="#C04E1A"/>
-      <path d="M0 21.3c1.8 1 3.6 1 5.4 0s3.6-1 5.4 0 3.6 1 5.4 0 3.6-1 5.4 0" fill="none" stroke="url(#cp-hull)" stroke-width="0.9" stroke-linecap="round" opacity="0.4"/>
+    <div class="eb-graphic" aria-hidden="true"><svg viewBox="0 0 40 40" aria-hidden="true">
+      <path d="M4 26h32l-4 9H8z" fill="#123c48"/>
+      <rect x="11" y="14" width="18" height="12" rx="2" fill="#fff" stroke="#123c48" stroke-width="1.6"/>
+      <rect x="15" y="8" width="10" height="6" rx="1.5" fill="#fff" stroke="#123c48" stroke-width="1.6"/>
+      <circle cx="16" cy="20" r="1.6" fill="#1c7d86"/><circle cx="24" cy="20" r="1.6" fill="#1c7d86"/>
+      <path d="M1 35.5c3.4 1.9 6.8 1.9 10.2 0s6.8-1.9 10.2 0 6.8 1.9 10.2 0 6.8-1.9 10.2 0" fill="none" stroke="#1c7d86" stroke-width="1.4" stroke-linecap="round" opacity="0.4"/>
     </svg></div>
   </div>
 
@@ -135,8 +132,8 @@
 
   <div class="controls-row" role="group" aria-label="Filter by how the ship arrives">
     <button type="button" class="filter-btn selection-pill cp-light-grey hov-darken" aria-pressed="true" data-access="all">All</button>
-    <button type="button" class="filter-btn selection-pill sb-green hov-darken" aria-pressed="false" data-access="dock">Dock</button>
-    <button type="button" class="filter-btn selection-pill sb-blue hov-darken" aria-pressed="false" data-access="tender">Tender</button>
+    <button type="button" class="filter-btn selection-pill sb-teal hov-darken" aria-pressed="false" data-access="dock">Dock</button>
+    <button type="button" class="filter-btn selection-pill sb-rust hov-darken" aria-pressed="false" data-access="tender">Tender</button>
   </div>
 
   <div class="jump-strip">
@@ -150,122 +147,122 @@
     <div class="region-heading">Caribbean &amp; Bahamas</div>
     <div class="port-grid">
 
-      <div class="port-card sb-green" id="port-nassau" data-port="nassau" data-region="caribbean" data-access="dock" data-pressure="2">
+      <div class="port-card sb-teal" id="port-nassau" data-port="nassau" data-region="caribbean" data-access="dock" data-pressure="2">
         <div class="port-card-top">
           <div class="port-name">Nassau<span class="port-country">Bahamas</span></div>
           <div class="port-access">
-            <span class="badge sb-green">DOCK</span>
-            <span class="port-pressure" data-level="2" role="img" aria-label="Clock pressure: moderate" title="Clock pressure: moderate"><i class="on"></i><i class="on"></i><i></i></span>
+            <span class="badge sb-teal">DOCK</span>
+            <span class="port-pressure sb-gold" data-level="2" role="img" aria-label="Clock pressure: moderate" title="Clock pressure: moderate"><i class="on"></i><i class="on"></i><i></i></span>
             <span class="port-pressure-label">Moderate</span>
           </div>
         </div>
         <div class="port-desc">Prince George Wharf puts you straight into downtown — Bay Street and the Straw Market are a 2–5 min walk.</div>
         <div class="port-facts">
-          <div class="port-fact"><span class="port-fact-label">6–8hr plan</span>Bay Street &amp; the Straw Market → Queen's Staircase and Fort Fincastle (15 min walk) → Cable Beach or Junkanoo Beach for a swim (10 min taxi) → back for lunch on Bay Street.</div>
-          <div class="port-fact"><span class="port-fact-label">Skip</span>An Atlantis day pass unless pre-booked — the price and crowds rarely pay off in one call. Blue Lagoon Island needs a ferry transfer that eats 1.5+ hrs round trip.</div>
-          <div class="port-fact watch"><span class="port-fact-label">Watch the clock</span>Bay Street traffic backs up near sail-away; build 45 min into any taxi return from the beach.</div>
+          <div class="port-fact"><span class="port-fact-label"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="M4 12h6l3-6 3 12 2-6h2"/></svg>6–8hr plan</span>Bay Street &amp; the Straw Market → Queen's Staircase and Fort Fincastle (15 min walk) → Cable Beach or Junkanoo Beach for a swim (10 min taxi) → back for lunch on Bay Street.</div>
+          <div class="port-fact"><span class="port-fact-label"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="8.5"/><path d="m6.5 17.5 11-11"/></svg>Skip</span>An Atlantis day pass unless pre-booked — the price and crowds rarely pay off in one call. Blue Lagoon Island needs a ferry transfer that eats 1.5+ hrs round trip.</div>
+          <div class="port-fact watch"><span class="port-fact-label"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="8.5"/><path d="M12 7v5.4l3.4 2"/></svg>Watch the clock</span>Bay Street traffic backs up near sail-away; build 45 min into any taxi return from the beach.</div>
         </div>
       </div>
 
-      <div class="port-card sb-green" id="port-cozumel" data-port="cozumel" data-region="caribbean" data-access="dock" data-pressure="2">
+      <div class="port-card sb-teal" id="port-cozumel" data-port="cozumel" data-region="caribbean" data-access="dock" data-pressure="2">
         <div class="port-card-top">
           <div class="port-name">Cozumel<span class="port-country">Mexico</span></div>
           <div class="port-access">
-            <span class="badge sb-green">DOCK</span>
-            <span class="port-pressure" data-level="2" role="img" aria-label="Clock pressure: moderate" title="Clock pressure: moderate"><i class="on"></i><i class="on"></i><i></i></span>
+            <span class="badge sb-teal">DOCK</span>
+            <span class="port-pressure sb-gold" data-level="2" role="img" aria-label="Clock pressure: moderate" title="Clock pressure: moderate"><i class="on"></i><i class="on"></i><i></i></span>
             <span class="port-pressure-label">Moderate</span>
           </div>
         </div>
         <div class="port-desc">Punta Langosta puts you in San Miguel town in under 5 min on foot; Puerta Maya and the International Pier are a ~10 min taxi from town but sit next to Paradise Beach and Chankanaab Park.</div>
         <div class="port-facts">
-          <div class="port-fact"><span class="port-fact-label">6–8hr plan</span>Snorkel or beach club at Chankanaab or Paradise Beach (walkable from Puerta Maya) → taxi into San Miguel for lunch on the malecón → duty-free shopping near the pier.</div>
-          <div class="port-fact"><span class="port-fact-label">Skip</span>Tulum ruins — the ferry to Playa del Carmen plus the drive eats most of a standard port day; only realistic on a call of 10+ hrs.</div>
-          <div class="port-fact watch"><span class="port-fact-label">Watch the clock</span>Pier-adjacent traffic backs up on multi-ship days.</div>
+          <div class="port-fact"><span class="port-fact-label"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="M4 12h6l3-6 3 12 2-6h2"/></svg>6–8hr plan</span>Snorkel or beach club at Chankanaab or Paradise Beach (walkable from Puerta Maya) → taxi into San Miguel for lunch on the malecón → duty-free shopping near the pier.</div>
+          <div class="port-fact"><span class="port-fact-label"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="8.5"/><path d="m6.5 17.5 11-11"/></svg>Skip</span>Tulum ruins — the ferry to Playa del Carmen plus the drive eats most of a standard port day; only realistic on a call of 10+ hrs.</div>
+          <div class="port-fact watch"><span class="port-fact-label"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="8.5"/><path d="M12 7v5.4l3.4 2"/></svg>Watch the clock</span>Pier-adjacent traffic backs up on multi-ship days.</div>
         </div>
       </div>
 
-      <div class="port-card sb-green" id="port-st-thomas" data-port="st thomas" data-region="caribbean" data-access="dock" data-pressure="2">
+      <div class="port-card sb-teal" id="port-st-thomas" data-port="st thomas" data-region="caribbean" data-access="dock" data-pressure="2">
         <div class="port-card-top">
           <div class="port-name">St. Thomas<span class="port-country">US Virgin Islands</span></div>
           <div class="port-access">
-            <span class="badge sb-green">DOCK</span>
-            <span class="port-pressure" data-level="2" role="img" aria-label="Clock pressure: moderate" title="Clock pressure: moderate"><i class="on"></i><i class="on"></i><i></i></span>
+            <span class="badge sb-teal">DOCK</span>
+            <span class="port-pressure sb-gold" data-level="2" role="img" aria-label="Clock pressure: moderate" title="Clock pressure: moderate"><i class="on"></i><i class="on"></i><i></i></span>
             <span class="port-pressure-label">Moderate</span>
           </div>
         </div>
         <div class="port-desc">Havensight is a 15–20 min walk (or short taxi) to Charlotte Amalie; Crown Bay is farther out and needs a taxi.</div>
         <div class="port-facts">
-          <div class="port-fact"><span class="port-fact-label">6–8hr plan</span>Skyride to Paradise Point for the harbor view (10 min from Havensight) → Charlotte Amalie for duty-free shopping → taxi to Magens Bay for a swim (20 min each way).</div>
-          <div class="port-fact"><span class="port-fact-label">Skip</span>A circle-island tour or a St. John ferry add-on — both leave little time for the beach.</div>
-          <div class="port-fact watch"><span class="port-fact-label">Watch the clock</span>Magens Bay taxi lines build before sail-away; agree a pickup time before you leave the beach.</div>
+          <div class="port-fact"><span class="port-fact-label"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="M4 12h6l3-6 3 12 2-6h2"/></svg>6–8hr plan</span>Skyride to Paradise Point for the harbor view (10 min from Havensight) → Charlotte Amalie for duty-free shopping → taxi to Magens Bay for a swim (20 min each way).</div>
+          <div class="port-fact"><span class="port-fact-label"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="8.5"/><path d="m6.5 17.5 11-11"/></svg>Skip</span>A circle-island tour or a St. John ferry add-on — both leave little time for the beach.</div>
+          <div class="port-fact watch"><span class="port-fact-label"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="8.5"/><path d="M12 7v5.4l3.4 2"/></svg>Watch the clock</span>Magens Bay taxi lines build before sail-away; agree a pickup time before you leave the beach.</div>
         </div>
       </div>
 
-      <div class="port-card sb-green" id="port-st-maarten" data-port="st maarten philipsburg" data-region="caribbean" data-access="dock" data-pressure="2">
+      <div class="port-card sb-teal" id="port-st-maarten" data-port="st maarten philipsburg" data-region="caribbean" data-access="dock" data-pressure="2">
         <div class="port-card-top">
           <div class="port-name">Philipsburg<span class="port-country">St. Maarten</span></div>
           <div class="port-access">
-            <span class="badge sb-green">DOCK</span>
-            <span class="port-pressure" data-level="2" role="img" aria-label="Clock pressure: moderate" title="Clock pressure: moderate"><i class="on"></i><i class="on"></i><i></i></span>
+            <span class="badge sb-teal">DOCK</span>
+            <span class="port-pressure sb-gold" data-level="2" role="img" aria-label="Clock pressure: moderate" title="Clock pressure: moderate"><i class="on"></i><i class="on"></i><i></i></span>
             <span class="port-pressure-label">Moderate</span>
           </div>
         </div>
         <div class="port-desc">The A.C. Wathey Cruise Facility is a 10–15 min walk (or free shuttle) to Front Street.</div>
         <div class="port-facts">
-          <div class="port-fact"><span class="port-fact-label">6–8hr plan</span>Front Street shopping and the boardwalk → taxi to Maho Beach to watch planes land over the sand (20 min) → Marigot on the French side only if the call is long.</div>
-          <div class="port-fact"><span class="port-fact-label">Skip</span>Trying to see both the Dutch and French sides in one call — pick one.</div>
-          <div class="port-fact watch"><span class="port-fact-label">Watch the clock</span>Maho Beach taxi stands get long right before all-aboard.</div>
+          <div class="port-fact"><span class="port-fact-label"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="M4 12h6l3-6 3 12 2-6h2"/></svg>6–8hr plan</span>Front Street shopping and the boardwalk → taxi to Maho Beach to watch planes land over the sand (20 min) → Marigot on the French side only if the call is long.</div>
+          <div class="port-fact"><span class="port-fact-label"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="8.5"/><path d="m6.5 17.5 11-11"/></svg>Skip</span>Trying to see both the Dutch and French sides in one call — pick one.</div>
+          <div class="port-fact watch"><span class="port-fact-label"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="8.5"/><path d="M12 7v5.4l3.4 2"/></svg>Watch the clock</span>Maho Beach taxi stands get long right before all-aboard.</div>
         </div>
       </div>
 
-      <div class="port-card sb-blue" id="port-grand-cayman" data-port="grand cayman george town cayman islands" data-region="caribbean" data-access="tender" data-pressure="3">
+      <div class="port-card sb-rust" id="port-grand-cayman" data-port="grand cayman george town cayman islands" data-region="caribbean" data-access="tender" data-pressure="3">
         <div class="port-card-top">
           <div class="port-name">Grand Cayman<span class="port-country">Cayman Islands · George Town</span></div>
           <div class="port-access">
-            <span class="badge sb-blue">TENDER</span>
+            <span class="badge sb-rust">TENDER</span>
             <span class="port-pressure" data-level="3" role="img" aria-label="Clock pressure: tight" title="Clock pressure: tight"><i class="on"></i><i class="on"></i><i class="on"></i></span>
             <span class="port-pressure-label">Tight</span>
           </div>
         </div>
         <div class="port-desc">No cruise pier — small boats tender passengers to the North or South Terminal downtown, roughly 10–15 min each way. George Town itself is walkable from the terminal.</div>
         <div class="port-facts">
-          <div class="port-fact"><span class="port-fact-label">6–8hr plan</span>Tender in early → taxi or bus to Seven Mile Beach (15 min) → a pre-booked Stingray City tour if the call allows a half-day → back to George Town for duty-free shopping before the last tender.</div>
-          <div class="port-fact"><span class="port-fact-label">Skip</span>Anything with a tight return schedule when the sea is rough — tender operations pause in high swell, and this is the port most likely to cut a call short.</div>
-          <div class="port-fact watch"><span class="port-fact-label">Watch the clock</span>Last tenders typically run 60–90 min before all-aboard, and lines lengthen fast on multi-ship days — don't cut this one close.</div>
+          <div class="port-fact"><span class="port-fact-label"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="M4 12h6l3-6 3 12 2-6h2"/></svg>6–8hr plan</span>Tender in early → taxi or bus to Seven Mile Beach (15 min) → a pre-booked Stingray City tour if the call allows a half-day → back to George Town for duty-free shopping before the last tender.</div>
+          <div class="port-fact"><span class="port-fact-label"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="8.5"/><path d="m6.5 17.5 11-11"/></svg>Skip</span>Anything with a tight return schedule when the sea is rough — tender operations pause in high swell, and this is the port most likely to cut a call short.</div>
+          <div class="port-fact watch"><span class="port-fact-label"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="8.5"/><path d="M12 7v5.4l3.4 2"/></svg>Watch the clock</span>Last tenders typically run 60–90 min before all-aboard, and lines lengthen fast on multi-ship days — don't cut this one close.</div>
         </div>
       </div>
 
-      <div class="port-card sb-green" id="port-roatan" data-port="roatan honduras mahogany bay coxen hole" data-region="caribbean" data-access="dock" data-pressure="2">
+      <div class="port-card sb-teal" id="port-roatan" data-port="roatan honduras mahogany bay coxen hole" data-region="caribbean" data-access="dock" data-pressure="2">
         <div class="port-card-top">
           <div class="port-name">Roatán<span class="port-country">Honduras</span></div>
           <div class="port-access">
-            <span class="badge sb-green">DOCK</span>
-            <span class="port-pressure" data-level="2" role="img" aria-label="Clock pressure: moderate" title="Clock pressure: moderate"><i class="on"></i><i class="on"></i><i></i></span>
+            <span class="badge sb-teal">DOCK</span>
+            <span class="port-pressure sb-gold" data-level="2" role="img" aria-label="Clock pressure: moderate" title="Clock pressure: moderate"><i class="on"></i><i class="on"></i><i></i></span>
             <span class="port-pressure-label">Moderate</span>
           </div>
         </div>
         <div class="port-desc">Mahogany Bay (Carnival's private terminal) has a beach right at the pier; Port of Roatán/Coxen Hole needs a 15–20 min taxi to West Bay Beach.</div>
         <div class="port-facts">
-          <div class="port-fact"><span class="port-fact-label">6–8hr plan</span>From Mahogany Bay — the beach and Bailey's Key dolphin encounter are walk-off. From Coxen Hole — taxi to West Bay Beach for the best sand and snorkeling.</div>
-          <div class="port-fact"><span class="port-fact-label">Skip</span>Trips to the mainland or the far east end — everything worthwhile is within 20 min of one of the two piers.</div>
-          <div class="port-fact watch"><span class="port-fact-label">Watch the clock</span>West Bay taxi returns bunch up at the same time as every other ship's all-aboard — agree a pickup time rather than flagging one down.</div>
+          <div class="port-fact"><span class="port-fact-label"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="M4 12h6l3-6 3 12 2-6h2"/></svg>6–8hr plan</span>From Mahogany Bay — the beach and Bailey's Key dolphin encounter are walk-off. From Coxen Hole — taxi to West Bay Beach for the best sand and snorkeling.</div>
+          <div class="port-fact"><span class="port-fact-label"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="8.5"/><path d="m6.5 17.5 11-11"/></svg>Skip</span>Trips to the mainland or the far east end — everything worthwhile is within 20 min of one of the two piers.</div>
+          <div class="port-fact watch"><span class="port-fact-label"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="8.5"/><path d="M12 7v5.4l3.4 2"/></svg>Watch the clock</span>West Bay taxi returns bunch up at the same time as every other ship's all-aboard — agree a pickup time rather than flagging one down.</div>
         </div>
       </div>
 
-      <div class="port-card sb-green" id="port-costa-maya" data-port="costa maya mahahual mexico" data-region="caribbean" data-access="dock" data-pressure="3">
+      <div class="port-card sb-teal" id="port-costa-maya" data-port="costa maya mahahual mexico" data-region="caribbean" data-access="dock" data-pressure="3">
         <div class="port-card-top">
           <div class="port-name">Costa Maya<span class="port-country">Mexico</span></div>
           <div class="port-access">
-            <span class="badge sb-green">DOCK</span>
+            <span class="badge sb-teal">DOCK</span>
             <span class="port-pressure" data-level="3" role="img" aria-label="Clock pressure: tight" title="Clock pressure: tight"><i class="on"></i><i class="on"></i><i class="on"></i></span>
             <span class="port-pressure-label">Tight</span>
           </div>
         </div>
         <div class="port-desc">A purpose-built terminal with its own pool and shops sits right at the pier; Mahahual town is a 10–15 min walk along the beach.</div>
         <div class="port-facts">
-          <div class="port-fact"><span class="port-fact-label">6–8hr plan</span>Beach club or the terminal's own pool for a short call → walk into Mahahual for lunch on the malecón, or a pre-booked Chacchoben Maya ruins tour on an 8+ hr call.</div>
-          <div class="port-fact"><span class="port-fact-label">Skip</span>Chacchoben independently on anything under 8 hrs — it's roughly 1.5 hrs each way by road.</div>
-          <div class="port-fact watch"><span class="port-fact-label">Watch the clock</span>Independent Chacchoben trips carry real risk of a late return; a ship-run excursion is the safer way to do that one.</div>
+          <div class="port-fact"><span class="port-fact-label"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="M4 12h6l3-6 3 12 2-6h2"/></svg>6–8hr plan</span>Beach club or the terminal's own pool for a short call → walk into Mahahual for lunch on the malecón, or a pre-booked Chacchoben Maya ruins tour on an 8+ hr call.</div>
+          <div class="port-fact"><span class="port-fact-label"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="8.5"/><path d="m6.5 17.5 11-11"/></svg>Skip</span>Chacchoben independently on anything under 8 hrs — it's roughly 1.5 hrs each way by road.</div>
+          <div class="port-fact watch"><span class="port-fact-label"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="8.5"/><path d="M12 7v5.4l3.4 2"/></svg>Watch the clock</span>Independent Chacchoben trips carry real risk of a late return; a ship-run excursion is the safer way to do that one.</div>
         </div>
       </div>
 
@@ -277,156 +274,156 @@
     <div class="region-heading">Mediterranean</div>
     <div class="port-grid">
 
-      <div class="port-card sb-green" id="port-barcelona" data-port="barcelona spain" data-region="mediterranean" data-access="dock" data-pressure="2">
+      <div class="port-card sb-teal" id="port-barcelona" data-port="barcelona spain" data-region="mediterranean" data-access="dock" data-pressure="2">
         <div class="port-card-top">
           <div class="port-name">Barcelona<span class="port-country">Spain</span></div>
           <div class="port-access">
-            <span class="badge sb-green">DOCK</span>
-            <span class="port-pressure" data-level="2" role="img" aria-label="Clock pressure: moderate" title="Clock pressure: moderate"><i class="on"></i><i class="on"></i><i></i></span>
+            <span class="badge sb-teal">DOCK</span>
+            <span class="port-pressure sb-gold" data-level="2" role="img" aria-label="Clock pressure: moderate" title="Clock pressure: moderate"><i class="on"></i><i class="on"></i><i></i></span>
             <span class="port-pressure-label">Moderate</span>
           </div>
         </div>
         <div class="port-desc">World Trade Center terminals are a ~20 min walk from Las Ramblas; Adossat Quay terminals need the free shuttle bus into town (~15–20 min).</div>
         <div class="port-facts">
-          <div class="port-fact"><span class="port-fact-label">6–8hr plan</span>Shuttle/walk to Las Ramblas → the Gothic Quarter and Barcelona Cathedral → taxi or metro to Sagrada Família (book timed entry ahead) → back via Passeig de Gràcia.</div>
-          <div class="port-fact"><span class="port-fact-label">Skip</span>Park Güell without a pre-booked timed ticket — same-day entry regularly sells out.</div>
-          <div class="port-fact watch"><span class="port-fact-label">Watch the clock</span>Sagrada Família and Park Güell both sit 20–30 min from the port by taxi — don't schedule both on one call unless it's 8+ hrs.</div>
+          <div class="port-fact"><span class="port-fact-label"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="M4 12h6l3-6 3 12 2-6h2"/></svg>6–8hr plan</span>Shuttle/walk to Las Ramblas → the Gothic Quarter and Barcelona Cathedral → taxi or metro to Sagrada Família (book timed entry ahead) → back via Passeig de Gràcia.</div>
+          <div class="port-fact"><span class="port-fact-label"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="8.5"/><path d="m6.5 17.5 11-11"/></svg>Skip</span>Park Güell without a pre-booked timed ticket — same-day entry regularly sells out.</div>
+          <div class="port-fact watch"><span class="port-fact-label"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="8.5"/><path d="M12 7v5.4l3.4 2"/></svg>Watch the clock</span>Sagrada Família and Park Güell both sit 20–30 min from the port by taxi — don't schedule both on one call unless it's 8+ hrs.</div>
         </div>
       </div>
 
-      <div class="port-card sb-green" id="port-rome" data-port="rome civitavecchia italy vatican colosseum" data-region="mediterranean" data-access="dock" data-pressure="3">
+      <div class="port-card sb-teal" id="port-rome" data-port="rome civitavecchia italy vatican colosseum" data-region="mediterranean" data-access="dock" data-pressure="3">
         <div class="port-card-top">
           <div class="port-name">Rome<span class="port-country">Italy · Civitavecchia</span></div>
           <div class="port-access">
-            <span class="badge sb-green">DOCK</span>
+            <span class="badge sb-teal">DOCK</span>
             <span class="port-pressure" data-level="3" role="img" aria-label="Clock pressure: tight" title="Clock pressure: tight"><i class="on"></i><i class="on"></i><i class="on"></i></span>
             <span class="port-pressure-label">Tight</span>
           </div>
         </div>
         <div class="port-desc">Civitavecchia is a satellite port about 80 km/50 miles from central Rome. Train to Roma Termini or Roma San Pietro runs 45 min–1 hr; port shuttle plus coach can run 1.5 hrs with traffic.</div>
         <div class="port-facts">
-          <div class="port-fact"><span class="port-fact-label">6–8hr plan</span>The tightest port day on this list — train straight in, then either the Vatican Museums/St. Peter's (pre-booked) or the Colosseum and Roman Forum, then straight back. There is no time for both on a typical call.</div>
-          <div class="port-fact"><span class="port-fact-label">Skip</span>Trying to see the Vatican and the Colosseum in the same visit — they're on opposite sides of the city and the transfer alone costs 2+ hrs round trip.</div>
-          <div class="port-fact watch"><span class="port-fact-label">Watch the clock</span>The port most likely to strand a passenger who misses the return train — build in a 2-hr buffer before all-aboard, non-negotiable.</div>
+          <div class="port-fact"><span class="port-fact-label"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="M4 12h6l3-6 3 12 2-6h2"/></svg>6–8hr plan</span>The tightest port day on this list — train straight in, then either the Vatican Museums/St. Peter's (pre-booked) or the Colosseum and Roman Forum, then straight back. There is no time for both on a typical call.</div>
+          <div class="port-fact"><span class="port-fact-label"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="8.5"/><path d="m6.5 17.5 11-11"/></svg>Skip</span>Trying to see the Vatican and the Colosseum in the same visit — they're on opposite sides of the city and the transfer alone costs 2+ hrs round trip.</div>
+          <div class="port-fact watch"><span class="port-fact-label"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="8.5"/><path d="M12 7v5.4l3.4 2"/></svg>Watch the clock</span>The port most likely to strand a passenger who misses the return train — build in a 2-hr buffer before all-aboard, non-negotiable.</div>
         </div>
       </div>
 
-      <div class="port-card sb-green" id="port-naples" data-port="naples pompeii amalfi italy" data-region="mediterranean" data-access="dock" data-pressure="3">
+      <div class="port-card sb-teal" id="port-naples" data-port="naples pompeii amalfi italy" data-region="mediterranean" data-access="dock" data-pressure="3">
         <div class="port-card-top">
           <div class="port-name">Naples<span class="port-country">Italy</span></div>
           <div class="port-access">
-            <span class="badge sb-green">DOCK</span>
+            <span class="badge sb-teal">DOCK</span>
             <span class="port-pressure" data-level="3" role="img" aria-label="Clock pressure: tight" title="Clock pressure: tight"><i class="on"></i><i class="on"></i><i class="on"></i></span>
             <span class="port-pressure-label">Tight</span>
           </div>
         </div>
         <div class="port-desc">Molo Angioino/Stazione Marittima is a 10–15 min walk to the historic center.</div>
         <div class="port-facts">
-          <div class="port-fact"><span class="port-fact-label">6–8hr plan</span>Pompeii by Circumvesuviana train (~40 min each way) is the best use of a full port day; a shorter call favors the historic center and a pizza lunch instead.</div>
-          <div class="port-fact"><span class="port-fact-label">Skip</span>The Amalfi Coast or Capri on anything under 8 hrs — the transfer plus the site doesn't fit a 6-hr call with any safety margin.</div>
-          <div class="port-fact watch"><span class="port-fact-label">Watch the clock</span>Circumvesuviana trains run infrequently and are a common source of late returns — leave Pompeii with real buffer.</div>
+          <div class="port-fact"><span class="port-fact-label"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="M4 12h6l3-6 3 12 2-6h2"/></svg>6–8hr plan</span>Pompeii by Circumvesuviana train (~40 min each way) is the best use of a full port day; a shorter call favors the historic center and a pizza lunch instead.</div>
+          <div class="port-fact"><span class="port-fact-label"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="8.5"/><path d="m6.5 17.5 11-11"/></svg>Skip</span>The Amalfi Coast or Capri on anything under 8 hrs — the transfer plus the site doesn't fit a 6-hr call with any safety margin.</div>
+          <div class="port-fact watch"><span class="port-fact-label"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="8.5"/><path d="M12 7v5.4l3.4 2"/></svg>Watch the clock</span>Circumvesuviana trains run infrequently and are a common source of late returns — leave Pompeii with real buffer.</div>
         </div>
       </div>
 
-      <div class="port-card sb-blue" id="port-villefranche" data-port="villefranche sur mer nice monaco france" data-region="mediterranean" data-access="tender" data-pressure="2">
+      <div class="port-card sb-rust" id="port-villefranche" data-port="villefranche sur mer nice monaco france" data-region="mediterranean" data-access="tender" data-pressure="2">
         <div class="port-card-top">
           <div class="port-name">Villefranche-sur-Mer<span class="port-country">France · for Nice &amp; Monaco</span></div>
           <div class="port-access">
-            <span class="badge sb-blue">TENDER</span>
-            <span class="port-pressure" data-level="2" role="img" aria-label="Clock pressure: moderate" title="Clock pressure: moderate"><i class="on"></i><i class="on"></i><i></i></span>
+            <span class="badge sb-rust">TENDER</span>
+            <span class="port-pressure sb-gold" data-level="2" role="img" aria-label="Clock pressure: moderate" title="Clock pressure: moderate"><i class="on"></i><i class="on"></i><i></i></span>
             <span class="port-pressure-label">Moderate</span>
           </div>
         </div>
         <div class="port-desc">Ships anchor in the bay; the tender pier is steps from Villefranche's old town. Nice is ~20 min by train, Monaco ~30 min by train.</div>
         <div class="port-facts">
-          <div class="port-fact"><span class="port-fact-label">6–8hr plan</span>Tender in → train to Nice for the Promenade des Anglais and old town, or to Monaco for the Casino district and the Prince's Palace → back to Villefranche for a coastal lunch.</div>
-          <div class="port-fact"><span class="port-fact-label">Skip</span>Combining Nice and Monaco in one call — the trains run in opposite directions along the coast; pick one.</div>
-          <div class="port-fact watch"><span class="port-fact-label">Watch the clock</span>Tender lines back up fast when several ships anchor the same day — confirm the last tender time at guest services first thing.</div>
+          <div class="port-fact"><span class="port-fact-label"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="M4 12h6l3-6 3 12 2-6h2"/></svg>6–8hr plan</span>Tender in → train to Nice for the Promenade des Anglais and old town, or to Monaco for the Casino district and the Prince's Palace → back to Villefranche for a coastal lunch.</div>
+          <div class="port-fact"><span class="port-fact-label"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="8.5"/><path d="m6.5 17.5 11-11"/></svg>Skip</span>Combining Nice and Monaco in one call — the trains run in opposite directions along the coast; pick one.</div>
+          <div class="port-fact watch"><span class="port-fact-label"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="8.5"/><path d="M12 7v5.4l3.4 2"/></svg>Watch the clock</span>Tender lines back up fast when several ships anchor the same day — confirm the last tender time at guest services first thing.</div>
         </div>
       </div>
 
-      <div class="port-card sb-green" id="port-venice" data-port="venice italy marghera" data-region="mediterranean" data-access="dock" data-pressure="3">
+      <div class="port-card sb-teal" id="port-venice" data-port="venice italy marghera" data-region="mediterranean" data-access="dock" data-pressure="3">
         <div class="port-card-top">
           <div class="port-name">Venice<span class="port-country">Italy</span></div>
           <div class="port-access">
-            <span class="badge sb-green">DOCK</span>
+            <span class="badge sb-teal">DOCK</span>
             <span class="port-pressure" data-level="3" role="img" aria-label="Clock pressure: tight" title="Clock pressure: tight"><i class="on"></i><i class="on"></i><i class="on"></i></span>
             <span class="port-pressure-label">Tight</span>
           </div>
         </div>
         <div class="port-desc">Large ships (25,000+ gross tons) have been banned from the Giudecca Canal since August 2021 and now dock at Marghera on the mainland, shuttled into town; only smaller ships still dock near St. Mark's. Marghera to St. Mark's Square runs roughly 30–45 min by shuttle bus and water transfer.</div>
         <div class="port-facts">
-          <div class="port-fact"><span class="port-fact-label">6–8hr plan</span>Shuttle in → St. Mark's Square and the Basilica → a gondola or vaporetto ride through the canals → the Rialto Bridge before heading back.</div>
-          <div class="port-fact"><span class="port-fact-label">Skip</span>Murano or Burano on anything but a full-day call — the vaporetto out is 30–45 min each way on top of the mainland shuttle.</div>
-          <div class="port-fact watch"><span class="port-fact-label">Watch the clock</span>The shuttle-plus-water-transfer combination is the slowest return trip on this list — confirm the last shuttle time before leaving the dock.</div>
+          <div class="port-fact"><span class="port-fact-label"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="M4 12h6l3-6 3 12 2-6h2"/></svg>6–8hr plan</span>Shuttle in → St. Mark's Square and the Basilica → a gondola or vaporetto ride through the canals → the Rialto Bridge before heading back.</div>
+          <div class="port-fact"><span class="port-fact-label"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="8.5"/><path d="m6.5 17.5 11-11"/></svg>Skip</span>Murano or Burano on anything but a full-day call — the vaporetto out is 30–45 min each way on top of the mainland shuttle.</div>
+          <div class="port-fact watch"><span class="port-fact-label"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="8.5"/><path d="M12 7v5.4l3.4 2"/></svg>Watch the clock</span>The shuttle-plus-water-transfer combination is the slowest return trip on this list — confirm the last shuttle time before leaving the dock.</div>
         </div>
       </div>
 
-      <div class="port-card sb-blue" id="port-santorini" data-port="santorini fira oia greece" data-region="mediterranean" data-access="tender" data-pressure="3">
+      <div class="port-card sb-rust" id="port-santorini" data-port="santorini fira oia greece" data-region="mediterranean" data-access="tender" data-pressure="3">
         <div class="port-card-top">
           <div class="port-name">Santorini<span class="port-country">Greece</span></div>
           <div class="port-access">
-            <span class="badge sb-blue">TENDER</span>
+            <span class="badge sb-rust">TENDER</span>
             <span class="port-pressure" data-level="3" role="img" aria-label="Clock pressure: tight" title="Clock pressure: tight"><i class="on"></i><i class="on"></i><i class="on"></i></span>
             <span class="port-pressure-label">Tight</span>
           </div>
         </div>
         <div class="port-desc">Both Athinios port and the Old Port of Fira (Skala) are too small for cruise ships to dock. Independent passengers tender to Skala; ship excursions tender to Athinios. From Skala, the cable car to Fira takes 3 minutes.</div>
         <div class="port-facts">
-          <div class="port-fact"><span class="port-fact-label">6–8hr plan</span>Tender to Skala → cable car to Fira → the caldera-edge path toward Oia for the classic view (bus or taxi back is faster than the full 2–3 hr walk) → cable car back down.</div>
-          <div class="port-fact"><span class="port-fact-label">Skip</span>Walking Fira-to-Oia both ways — beautiful but long; take the bus back to protect your return time.</div>
-          <div class="port-fact watch"><span class="port-fact-label">Watch the clock</span>Last tenders typically leave about 90 min before departure, and the cable car alone can carry a 20–30 min queue at peak times — start back with real margin.</div>
+          <div class="port-fact"><span class="port-fact-label"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="M4 12h6l3-6 3 12 2-6h2"/></svg>6–8hr plan</span>Tender to Skala → cable car to Fira → the caldera-edge path toward Oia for the classic view (bus or taxi back is faster than the full 2–3 hr walk) → cable car back down.</div>
+          <div class="port-fact"><span class="port-fact-label"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="8.5"/><path d="m6.5 17.5 11-11"/></svg>Skip</span>Walking Fira-to-Oia both ways — beautiful but long; take the bus back to protect your return time.</div>
+          <div class="port-fact watch"><span class="port-fact-label"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="8.5"/><path d="M12 7v5.4l3.4 2"/></svg>Watch the clock</span>Last tenders typically leave about 90 min before departure, and the cable car alone can carry a 20–30 min queue at peak times — start back with real margin.</div>
         </div>
       </div>
 
-      <div class="port-card sb-green" id="port-mykonos" data-port="mykonos tourlos greece delos" data-region="mediterranean" data-access="dock" data-pressure="2">
+      <div class="port-card sb-teal" id="port-mykonos" data-port="mykonos tourlos greece delos" data-region="mediterranean" data-access="dock" data-pressure="2">
         <div class="port-card-top">
           <div class="port-name">Mykonos<span class="port-country">Greece</span></div>
           <div class="port-access">
-            <span class="badge sb-green">DOCK</span>
-            <span class="port-pressure" data-level="2" role="img" aria-label="Clock pressure: moderate" title="Clock pressure: moderate"><i class="on"></i><i class="on"></i><i></i></span>
+            <span class="badge sb-teal">DOCK</span>
+            <span class="port-pressure sb-gold" data-level="2" role="img" aria-label="Clock pressure: moderate" title="Clock pressure: moderate"><i class="on"></i><i class="on"></i><i></i></span>
             <span class="port-pressure-label">Moderate</span>
           </div>
         </div>
         <div class="port-desc">Ships dock at the New Port (Tourlos), about 2.5 km north of town; when ships anchor instead, tenders land right at the Old Port, steps from the main square. New Port to town is a 10–15 min shuttle or ~5 min taxi.</div>
         <div class="port-facts">
-          <div class="port-fact"><span class="port-fact-label">6–8hr plan</span>Shuttle/tender into town → Little Venice and the windmill waterfront → a beach club at Paradise or Psarou if time allows (15–20 min taxi) → back for lunch in the old town.</div>
-          <div class="port-fact"><span class="port-fact-label">Skip</span>The ferry to Delos on a short call — roughly 30 min each way by boat, plus 1.5–2 hrs at the site.</div>
-          <div class="port-fact watch"><span class="port-fact-label">Watch the clock</span>Beach club taxis back into town get scarce right before other ships' all-aboard times too.</div>
+          <div class="port-fact"><span class="port-fact-label"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="M4 12h6l3-6 3 12 2-6h2"/></svg>6–8hr plan</span>Shuttle/tender into town → Little Venice and the windmill waterfront → a beach club at Paradise or Psarou if time allows (15–20 min taxi) → back for lunch in the old town.</div>
+          <div class="port-fact"><span class="port-fact-label"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="8.5"/><path d="m6.5 17.5 11-11"/></svg>Skip</span>The ferry to Delos on a short call — roughly 30 min each way by boat, plus 1.5–2 hrs at the site.</div>
+          <div class="port-fact watch"><span class="port-fact-label"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="8.5"/><path d="M12 7v5.4l3.4 2"/></svg>Watch the clock</span>Beach club taxis back into town get scarce right before other ships' all-aboard times too.</div>
         </div>
       </div>
 
-      <div class="port-card sb-green" id="port-dubrovnik" data-port="dubrovnik gruz croatia old town" data-region="mediterranean" data-access="dock" data-pressure="2">
+      <div class="port-card sb-teal" id="port-dubrovnik" data-port="dubrovnik gruz croatia old town" data-region="mediterranean" data-access="dock" data-pressure="2">
         <div class="port-card-top">
           <div class="port-name">Dubrovnik<span class="port-country">Croatia</span></div>
           <div class="port-access">
-            <span class="badge sb-green">DOCK</span>
-            <span class="port-pressure" data-level="2" role="img" aria-label="Clock pressure: moderate" title="Clock pressure: moderate"><i class="on"></i><i class="on"></i><i></i></span>
+            <span class="badge sb-teal">DOCK</span>
+            <span class="port-pressure sb-gold" data-level="2" role="img" aria-label="Clock pressure: moderate" title="Clock pressure: moderate"><i class="on"></i><i class="on"></i><i></i></span>
             <span class="port-pressure-label">Moderate</span>
           </div>
         </div>
         <div class="port-desc">Port of Gruž is about 3 km/2 miles from the Old Town — shuttle bus ~20 min, local bus 1A/1B ~10–15 min, taxi ~15 min. Most lines shuttle to Pile Gate, the main walking entrance.</div>
         <div class="port-facts">
-          <div class="port-fact"><span class="port-fact-label">6–8hr plan</span>Shuttle to Pile Gate → walk the Old Town walls (allow 1.5–2 hrs) → Stradun for lunch → cable car up Mount Srđ for the harbor view if time allows.</div>
-          <div class="port-fact"><span class="port-fact-label">Skip</span>A day trip to Kotor or the Elaphiti Islands — both need most of a full day on their own, leaving no time for the Old Town.</div>
-          <div class="port-fact watch"><span class="port-fact-label">Watch the clock</span>The city walls walk is 1.5–2 hrs with no shortcuts once started — don't begin it with less than 3 hrs before your shuttle deadline.</div>
+          <div class="port-fact"><span class="port-fact-label"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="M4 12h6l3-6 3 12 2-6h2"/></svg>6–8hr plan</span>Shuttle to Pile Gate → walk the Old Town walls (allow 1.5–2 hrs) → Stradun for lunch → cable car up Mount Srđ for the harbor view if time allows.</div>
+          <div class="port-fact"><span class="port-fact-label"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="8.5"/><path d="m6.5 17.5 11-11"/></svg>Skip</span>A day trip to Kotor or the Elaphiti Islands — both need most of a full day on their own, leaving no time for the Old Town.</div>
+          <div class="port-fact watch"><span class="port-fact-label"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="8.5"/><path d="M12 7v5.4l3.4 2"/></svg>Watch the clock</span>The city walls walk is 1.5–2 hrs with no shortcuts once started — don't begin it with less than 3 hrs before your shuttle deadline.</div>
         </div>
       </div>
 
-      <div class="port-card sb-green" id="port-kotor" data-port="kotor montenegro" data-region="mediterranean" data-access="dock" data-pressure="2">
+      <div class="port-card sb-teal" id="port-kotor" data-port="kotor montenegro" data-region="mediterranean" data-access="dock" data-pressure="2">
         <div class="port-card-top">
           <div class="port-name">Kotor<span class="port-country">Montenegro</span></div>
           <div class="port-access">
-            <span class="badge sb-green">DOCK</span>
-            <span class="port-pressure" data-level="2" role="img" aria-label="Clock pressure: moderate" title="Clock pressure: moderate"><i class="on"></i><i class="on"></i><i></i></span>
+            <span class="badge sb-teal">DOCK</span>
+            <span class="port-pressure sb-gold" data-level="2" role="img" aria-label="Clock pressure: moderate" title="Clock pressure: moderate"><i class="on"></i><i class="on"></i><i></i></span>
             <span class="port-pressure-label">Moderate</span>
           </div>
         </div>
         <div class="port-desc">Ships tie up right at the edge of the Old Town walls — one of the most walkable ports on this list; the gate is a 2–5 min walk from the ship.</div>
         <div class="port-facts">
-          <div class="port-fact"><span class="port-fact-label">6–8hr plan</span>Walk straight into the Old Town → St. Tryphon Cathedral and the stone streets → climb the city walls toward St. John's Fortress for the fjord view (1.5–2 hrs round trip, steep) → back for lunch.</div>
-          <div class="port-fact"><span class="port-fact-label">Skip</span>The full climb to the very top in high heat or with mobility concerns — the lower viewpoints give most of the same view for a fraction of the climb.</div>
-          <div class="port-fact watch"><span class="port-fact-label">Watch the clock</span>The fortress walk is entirely on foot with no shuttle option — turn back with a real time buffer.</div>
+          <div class="port-fact"><span class="port-fact-label"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="M4 12h6l3-6 3 12 2-6h2"/></svg>6–8hr plan</span>Walk straight into the Old Town → St. Tryphon Cathedral and the stone streets → climb the city walls toward St. John's Fortress for the fjord view (1.5–2 hrs round trip, steep) → back for lunch.</div>
+          <div class="port-fact"><span class="port-fact-label"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="8.5"/><path d="m6.5 17.5 11-11"/></svg>Skip</span>The full climb to the very top in high heat or with mobility concerns — the lower viewpoints give most of the same view for a fraction of the climb.</div>
+          <div class="port-fact watch"><span class="port-fact-label"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="8.5"/><path d="M12 7v5.4l3.4 2"/></svg>Watch the clock</span>The fortress walk is entirely on foot with no shuttle option — turn back with a real time buffer.</div>
         </div>
       </div>
 
@@ -438,54 +435,54 @@
     <div class="region-heading">Pacific &amp; Alaska</div>
     <div class="port-grid">
 
-      <div class="port-card sb-green" id="port-sydney" data-port="sydney australia circular quay" data-region="pacific-alaska" data-access="dock" data-pressure="2">
+      <div class="port-card sb-teal" id="port-sydney" data-port="sydney australia circular quay" data-region="pacific-alaska" data-access="dock" data-pressure="2">
         <div class="port-card-top">
           <div class="port-name">Sydney<span class="port-country">Australia</span></div>
           <div class="port-access">
-            <span class="badge sb-green">DOCK</span>
-            <span class="port-pressure" data-level="2" role="img" aria-label="Clock pressure: moderate" title="Clock pressure: moderate"><i class="on"></i><i class="on"></i><i></i></span>
+            <span class="badge sb-teal">DOCK</span>
+            <span class="port-pressure sb-gold" data-level="2" role="img" aria-label="Clock pressure: moderate" title="Clock pressure: moderate"><i class="on"></i><i class="on"></i><i></i></span>
             <span class="port-pressure-label">Moderate</span>
           </div>
         </div>
         <div class="port-desc">Overseas Passenger Terminal at Circular Quay is right in the city center — the Opera House and Harbour Bridge are a 2–10 min walk; White Bay Terminal (used for larger ships) is about 4 km out and needs a taxi or shuttle (15–20 min).</div>
         <div class="port-facts">
-          <div class="port-fact"><span class="port-fact-label">6–8hr plan</span>Opera House forecourt and the Royal Botanic Garden → Harbour Bridge lookout → ferry to Manly or Taronga Zoo if time allows (30 min each way) → The Rocks for lunch on the way back.</div>
-          <div class="port-fact"><span class="port-fact-label">Skip</span>The Blue Mountains — roughly 2 hrs each way by road or train, too far for a single port call.</div>
-          <div class="port-fact watch"><span class="port-fact-label">Watch the clock</span>Ferries run frequently, but the last one back from Manly needs a real buffer.</div>
+          <div class="port-fact"><span class="port-fact-label"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="M4 12h6l3-6 3 12 2-6h2"/></svg>6–8hr plan</span>Opera House forecourt and the Royal Botanic Garden → Harbour Bridge lookout → ferry to Manly or Taronga Zoo if time allows (30 min each way) → The Rocks for lunch on the way back.</div>
+          <div class="port-fact"><span class="port-fact-label"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="8.5"/><path d="m6.5 17.5 11-11"/></svg>Skip</span>The Blue Mountains — roughly 2 hrs each way by road or train, too far for a single port call.</div>
+          <div class="port-fact watch"><span class="port-fact-label"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="8.5"/><path d="M12 7v5.4l3.4 2"/></svg>Watch the clock</span>Ferries run frequently, but the last one back from Manly needs a real buffer.</div>
         </div>
       </div>
 
-      <div class="port-card sb-green" id="port-juneau" data-port="juneau alaska mendenhall glacier" data-region="pacific-alaska" data-access="dock" data-pressure="2">
+      <div class="port-card sb-teal" id="port-juneau" data-port="juneau alaska mendenhall glacier" data-region="pacific-alaska" data-access="dock" data-pressure="2">
         <div class="port-card-top">
           <div class="port-name">Juneau<span class="port-country">Alaska</span></div>
           <div class="port-access">
-            <span class="badge sb-green">DOCK</span>
-            <span class="port-pressure" data-level="2" role="img" aria-label="Clock pressure: moderate" title="Clock pressure: moderate"><i class="on"></i><i class="on"></i><i></i></span>
+            <span class="badge sb-teal">DOCK</span>
+            <span class="port-pressure sb-gold" data-level="2" role="img" aria-label="Clock pressure: moderate" title="Clock pressure: moderate"><i class="on"></i><i class="on"></i><i></i></span>
             <span class="port-pressure-label">Moderate</span>
           </div>
         </div>
         <div class="port-desc">Multiple downtown docks put the historic district and the Mount Roberts Tramway a 5–10 min walk away.</div>
         <div class="port-facts">
-          <div class="port-fact"><span class="port-fact-label">6–8hr plan</span>Mount Roberts Tramway for the mountain view (5 min from the pier) → downtown for shopping and a salmon lunch → shuttle to Mendenhall Glacier (~25 min each way) if time allows.</div>
-          <div class="port-fact"><span class="port-fact-label">Skip</span>Whale-watching and the glacier in the same call unless pre-booked as one combined tour — arranging both independently rarely leaves enough margin.</div>
-          <div class="port-fact watch"><span class="port-fact-label">Watch the clock</span>Mendenhall Glacier shuttles back up in peak season — book a return time rather than waiting to flag one down.</div>
+          <div class="port-fact"><span class="port-fact-label"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="M4 12h6l3-6 3 12 2-6h2"/></svg>6–8hr plan</span>Mount Roberts Tramway for the mountain view (5 min from the pier) → downtown for shopping and a salmon lunch → shuttle to Mendenhall Glacier (~25 min each way) if time allows.</div>
+          <div class="port-fact"><span class="port-fact-label"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="8.5"/><path d="m6.5 17.5 11-11"/></svg>Skip</span>Whale-watching and the glacier in the same call unless pre-booked as one combined tour — arranging both independently rarely leaves enough margin.</div>
+          <div class="port-fact watch"><span class="port-fact-label"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="8.5"/><path d="M12 7v5.4l3.4 2"/></svg>Watch the clock</span>Mendenhall Glacier shuttles back up in peak season — book a return time rather than waiting to flag one down.</div>
         </div>
       </div>
 
-      <div class="port-card sb-green" id="port-ketchikan" data-port="ketchikan alaska creek street misty fjords" data-region="pacific-alaska" data-access="dock" data-pressure="1">
+      <div class="port-card sb-teal" id="port-ketchikan" data-port="ketchikan alaska creek street misty fjords" data-region="pacific-alaska" data-access="dock" data-pressure="1">
         <div class="port-card-top">
           <div class="port-name">Ketchikan<span class="port-country">Alaska</span></div>
           <div class="port-access">
-            <span class="badge sb-green">DOCK</span>
-            <span class="port-pressure" data-level="1" role="img" aria-label="Clock pressure: easy" title="Clock pressure: easy"><i class="on"></i><i></i><i></i></span>
+            <span class="badge sb-teal">DOCK</span>
+            <span class="port-pressure sb-teal" data-level="1" role="img" aria-label="Clock pressure: easy" title="Clock pressure: easy"><i class="on"></i><i></i><i></i></span>
             <span class="port-pressure-label">Easy</span>
           </div>
         </div>
         <div class="port-desc">Right downtown — Creek Street and the historic district are a 2–5 min walk from the pier.</div>
         <div class="port-facts">
-          <div class="port-fact"><span class="port-fact-label">6–8hr plan</span>Creek Street and the Salmon Ladder → Saxman or the Totem Heritage Center for totem poles (10–15 min by shuttle) → a lumberjack show or salmon bake if pre-booked.</div>
-          <div class="port-fact"><span class="port-fact-label">Skip</span>Misty Fjords by float plane on a short call — a full 1.5–2 hr excursion best pre-booked through the ship rather than arranged independently.</div>
-          <div class="port-fact watch"><span class="port-fact-label">Watch the clock</span>One of the lower-risk ports on this list, but float-plane excursions run on their own schedule — confirm the return time before booking independently.</div>
+          <div class="port-fact"><span class="port-fact-label"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="M4 12h6l3-6 3 12 2-6h2"/></svg>6–8hr plan</span>Creek Street and the Salmon Ladder → Saxman or the Totem Heritage Center for totem poles (10–15 min by shuttle) → a lumberjack show or salmon bake if pre-booked.</div>
+          <div class="port-fact"><span class="port-fact-label"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="8.5"/><path d="m6.5 17.5 11-11"/></svg>Skip</span>Misty Fjords by float plane on a short call — a full 1.5–2 hr excursion best pre-booked through the ship rather than arranged independently.</div>
+          <div class="port-fact watch"><span class="port-fact-label"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="8.5"/><path d="M12 7v5.4l3.4 2"/></svg>Watch the clock</span>One of the lower-risk ports on this list, but float-plane excursions run on their own schedule — confirm the return time before booking independently.</div>
         </div>
       </div>
 

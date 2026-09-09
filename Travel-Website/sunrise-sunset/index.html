@@ -207,8 +207,21 @@
 /* The pills themselves are the shared .selection-pill component tagged
    .cp-bronze (Bronze) + .hov-darken -- the same tone and component the month
    row above uses, so the hero's two pill groups match. Equal width is
-   equalized by JS below (pills doc: an offsetWidth measurement is the only
-   reliable fix for that). */
+   equalized by the shared .paired-btn hook (toolbar.js _equalizePairButtons
+   -- pills doc Rule 9's "measure the widest, set that as min-width on both",
+   already reused this way on when-to-go's twin .cf-spill-pill; it also
+   re-measures on resize, unlike the old page-local one-shot script this
+   replaced). .selection-pill's base 8px 18px padding was sized for a
+   general-purpose pill, not this specific two-word-label pair -- at 18px a
+   side both pills together needed more room than a 375px phone's card has,
+   so the wider one ("Weather by city") got matched onto a min-width that
+   forced the row to wrap to two full rows instead of sitting side by side.
+   Trimmed to 9px (the same horizontal figure the pills doc's own .pillbadge
+   spec already uses) so the pair fits one row down to a 375px phone;
+   white-space:nowrap + flex:0 0 auto keep a tight row from shrinking the
+   text into an internal wrap instead of dropping the second pill to the
+   parent's next flex-wrap line. */
+.sun-spill-pill { padding: 8px 9px; white-space: nowrap; flex: 0 0 auto; }
 /* One column below 62rem — the same breakpoint .cf-hero collapses at, so the
    pair still matches at every width. The arc shortens rather than filling a
    phone screen; the pills stay, because they are navigation, not decoration. */
@@ -468,8 +481,8 @@
       <!-- The return links. When to Go's hero carries "Weather by city" and
            "Daylight by month"; this page pointed back at neither. -->
       <div class="sun-spill-pills">
-        <a href="/weather/" class="sun-spill-pill selection-pill cp-bronze hov-darken">Weather by city</a>
-        <a href="/when-to-go/" class="sun-spill-pill selection-pill cp-bronze hov-darken">When to go</a>
+        <a href="/weather/" class="sun-spill-pill selection-pill cp-bronze hov-darken paired-btn">Weather by city</a>
+        <a href="/when-to-go/" class="sun-spill-pill selection-pill cp-bronze hov-darken paired-btn">When to go</a>
       </div>
     </div>
   </header>
@@ -757,6 +770,7 @@ var CITIES = [
   {name:'Auckland', country:'New Zealand', tz:'Pacific/Auckland', region:'asiapac', url:'/guides/auckland.html'},
   {name:'Playa del Carmen', country:'Mexico', tz:'America/Cancun', region:'americas', url:'/guides/playa-del-carmen.html'},
   {name:'Yogyakarta', country:'Indonesia', tz:'Asia/Jakarta', region:'asiapac', url:'/guides/yogyakarta.html'},
+  {name:'Zermatt', country:'Switzerland', tz:'Europe/Zurich', region:'europe', url:'/guides/zermatt.html'},
 ];
 
 var CITY_LAT = {
@@ -1034,15 +1048,9 @@ function render() {
   }
 }());
 
-// Equal-width sibling pills (pills doc: JS offsetWidth measurement is the only reliable fix)
-(function() {
-  var strip = document.querySelector('.sun-spill-pills');
-  if (!strip) return;
-  var pills = strip.querySelectorAll('.sun-spill-pill');
-  var maxW = 0;
-  pills.forEach(function(p) { if (p.offsetWidth > maxW) maxW = p.offsetWidth; });
-  pills.forEach(function(p) { p.style.minWidth = maxW + 'px'; });
-}());
+// Equal-width sibling pills: now handled by the shared .paired-btn class
+// (toolbar.js _equalizePairButtons), which also re-measures on resize --
+// this page-local one-shot version didn't.
 </script>
 
 <script src="/assets/search-autocomplete.js?v=15"></script>

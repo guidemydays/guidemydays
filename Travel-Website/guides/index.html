@@ -4107,6 +4107,16 @@
       else enterCompare();
     });
   }
+  /* The page-level hash router runs before this module wires btnCompare, and
+     some browsers apply the fragment after inline scripts have run. Keep the
+     landing-page deep link reliable at both stages. */
+  function enterCompareFromHash() {
+    if (location.hash === '#compare' && !document.body.classList.contains('mode-compare')) enterCompare();
+  }
+  enterCompareFromHash();
+  window.addEventListener('hashchange', enterCompareFromHash);
+  document.addEventListener('DOMContentLoaded', enterCompareFromHash, { once: true });
+  window.addEventListener('load', enterCompareFromHash, { once: true });
   goBtn.addEventListener('click', showPanel);
   exitBtn.addEventListener('click', exitCompare);
 
@@ -5746,4 +5756,3 @@
 </script>
 </body>
 </html>
-

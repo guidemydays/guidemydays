@@ -306,8 +306,8 @@
               '<div style="position:absolute;top:' + top + 'px;height:' + barH + 'px;width:7px;border-radius:4px;' +
                 'background:' + (sel ? GOLD : 'rgba(138,108,26,.30)') + ';"></div>' +
             '</div>' +
-            '<div style="font-size:13px;margin-top:4px;color:' + (sel ? GOLD : MUTE) + ';' +
-              'font-weight:700;">' + MONTHS[j][0] + '</div>' +
+            '<div style="font-size:9px;margin-top:4px;color:' + (sel ? GOLD : MUTE) + ';' +
+              'font-weight:' + (sel ? '700' : '400') + ';">' + MONTHS[j][0] + '</div>' +
           '</div>';
       }
 

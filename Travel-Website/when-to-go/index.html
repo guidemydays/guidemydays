@@ -97,9 +97,25 @@
    pill on the site uses. */
 .cf-spill-pill {
   display: inline-flex; align-items: center; justify-content: center;
-  flex: 1 1 0; min-width: 0;
+  /* flex:1 1 0 used to split the row's full width evenly regardless of each
+     label's own length — "Weather by city" sat padded out with blank space
+     while "Daylight by month" got squeezed into the same share and wrapped
+     to two lines. Sized to content instead; the .paired-btn hook below
+     (toolbar.js _equalizePairButtons — the same "measure the widest, set
+     that as min-width on both" mechanic Rule 9 of the pills doc requires)
+     brings the shorter pill back up to match, so both still render the
+     same size without either carrying padding it doesn't need. Needs
+     white-space:nowrap + flex:0 0 auto too, or the same squeeze just moves
+     inside the pill: with wrapping still allowed, a tight row shrinks
+     "Daylight by month" back down and wraps its own text instead of
+     dropping to the parent's next flex-wrap line, which is the fallback
+     that's actually wanted here. 1.4em horizontal padding was also just
+     oversized for a two-word label — trimmed to 0.6em (owner: "extra
+     padding, remove") so both pills fit side by side down to a 375px
+     phone instead of stacking. */
+  white-space: nowrap; flex: 0 0 auto;
   font: inherit; font-size: clamp(0.86rem, 0.95vw, 0.94rem); font-weight: 600;
-  padding: 0.62em 1.4em; text-align: center;
+  padding: 0.62em 0.6em; text-align: center;
   border: 1.5px solid var(--nt-bronze-ink, #5a3c0e); border-radius: 999px;
   background: var(--nt-bronze-wash, #f5f0e6); color: var(--nt-bronze-ink, #5a3c0e);
   text-decoration: none;
@@ -589,8 +605,8 @@ a.cf-card:hover .cf-guide-pill { border-color: var(--nt-bronze-ink,#5a3c0e); }
         <span>J</span><span>A</span><span>S</span><span>O</span><span>N</span><span>D</span>
       </div>
             <div style="margin:44px 0 0;display:flex;flex-wrap:wrap;gap:8px;">
-        <a href="/weather/" class="cf-spill-pill">Weather by city</a>
-        <a href="/sunrise-sunset/" class="cf-spill-pill">Daylight by month</a>
+        <a href="/weather/" class="cf-spill-pill paired-btn">Weather by city</a>
+        <a href="/sunrise-sunset/" class="cf-spill-pill paired-btn">Daylight by month</a>
       </div>
     </div>
   </div>

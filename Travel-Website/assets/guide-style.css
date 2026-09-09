@@ -429,7 +429,13 @@ a:hover { text-decoration: underline; }
   display: grid !important;
   grid-template-columns: repeat(4, 1fr) !important;
   gap: 8px !important;
-  margin-top: 36px;
+  /* 16px, matching .title-page's own margin-bottom and this row's own
+     inline margin-bottom:16px (toolbar.js _injectICSExport) -- was 36px,
+     nearly 3x the 14px this rule itself claimed below it (that number is
+     dead: the inline margin-bottom always wins), reading as too much space
+     above the row and a different amount than the gap below it
+     (owner-reported). margin-bottom left as-is: inert either way. */
+  margin-top: 16px;
   margin-bottom: 14px;
 }
 /* "All Stops Map" is the one pill in this row still using the old
@@ -3127,14 +3133,15 @@ a.neigh-name:visited { color: #3d3a32; }
   .ovd-count { font-size: 14px; }
 
   #tve-wx-strip   { margin-bottom: 16px; }
-  /* margin-top matches the weather strip's own inline 12px (toolbar.js
-     _injectWeatherStrip, isMobile branch) -- at 44px this collapsed with
-     the strip's 12px to a 44px gap below the strip against only a 12px
-     gap above it (title-page to strip), breaking the fifty-fourth
-     non-negotiable's above-equals-below rule. Desktop's 36px/16px pair
-     already collapses symmetric (36/36) against the strip's own 36px/16px
-     margin, so only the mobile value was off. */
-  #ics-pill-row   { margin-top: 12px; margin-bottom: 26px; }
+  /* 16px, matching the weather strip's own inline margin (toolbar.js
+     _injectWeatherStrip -- now a flat 16px 0 on every breakpoint, not just
+     mobile) and this row's own inline margin-bottom:16px (_injectICSExport).
+     Was 44px against the strip's 12px, a 44px gap below the strip against
+     only 12px above it (owner-reported: too much space, and a different
+     amount than the gap to the next pill/text) -- 16px everywhere makes the
+     whole title-page -> strip -> pill-row -> Trip Overview run one even
+     rhythm on every breakpoint instead of tuning each one separately. */
+  #ics-pill-row   { margin-top: 16px; margin-bottom: 26px; }
   .overview-section,
   .day-block,
   .extras-section,

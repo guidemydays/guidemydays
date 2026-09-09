@@ -9097,7 +9097,14 @@ window.TVE.home = (function () {
       strip.style.cssText =
         'display:flex;align-items:center;text-decoration:none;width:100%;' +
         'background:#eaf5fc;border:1px solid #cfe6f5;border-radius:6px;' +
-                'padding:' + (isMobile ? '5px 6px' : '6px 10px') + ';margin:' + (isMobile ? '12px 0' : '36px 0 16px') + ';font-family:inherit;box-sizing:border-box;' +
+                /* margin: 16px both breakpoints (owner-reported: 36px desktop /
+                   12px mobile read as "too much space, and inconsistent with
+                   the gap to the next pill row" -- 16px matches .title-page's
+                   own margin-bottom AND #ics-pill-row's own inline
+                   margin-bottom:16px (toolbar.js _injectICSExport), so the
+                   whole title-page -> strip -> pill-row -> Trip Overview run
+                   now reads as one even rhythm instead of 36/36/16 or 12/12/26. */
+                'padding:' + (isMobile ? '5px 6px' : '6px 10px') + ';margin:16px 0;font-family:inherit;box-sizing:border-box;' +
         'overflow:hidden;cursor:pointer;transition:background .15s;';
       strip.addEventListener('mouseenter', function () { strip.style.background = '#dcedf8'; });
       strip.addEventListener('mouseleave', function () { strip.style.background = '#eaf5fc'; });

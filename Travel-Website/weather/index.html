@@ -16,11 +16,10 @@
 .wx-wrap { max-width: 460px; margin: 10px auto 0; padding: 0 14px; }
 .wx-panel { background: var(--warm, #fdf8f0); border: 1px solid var(--border); border-radius: 14px;
   box-shadow: 0 6px 26px rgba(0,0,0,.10); padding: 18px 18px 20px; }
-.wx-unit { display: inline-flex; border: 1.5px solid var(--border2, #e6e2da); border-radius: 6px; overflow: hidden; flex-shrink: 0; }
-.wx-unit button { display: inline-flex; align-items: center; justify-content: center;
-  border: none; cursor: pointer; padding: 6px 11px; font-size: 13px; font-weight: 400;
-  font-family: inherit; background: transparent; color: var(--muted, #6a6660); }
-.wx-unit button.on { background: var(--nt-grey-wash,#f0ede8); color: var(--nt-grey-ink,#6a6660); }
+/* Colors/shape/hover/selected come from the shared .selection-pill-sm +
+   .cp-rust classes (same family as the month pills below) -- only the
+   two-up layout is page-local. */
+.wx-unit { display: inline-flex; gap: 5px; flex-shrink: 0; }
 /* Scoped to this page only — .sa-row is the shared TVESearch dropdown row used
    on 70+ pages, so its own base rule (padding:9px 14px, font-size:14px,
    font-weight:600) stays untouched globally. Brain/Reference/Icons-Formats-Logos/
@@ -31,6 +30,7 @@
    the de-bolded input text per owner request. */
 #wx-panel .sa-row { padding: 12px 16px; font-size: 13px; font-weight: 400; }
 #wx-panel[hidden] { display: none !important; }
+.wx-panel-head { display: flex; align-items: center; justify-content: space-between; }
 .wx-month { margin-top: 16px; text-align: center; font-size: 13px; color: var(--muted); }
 .wx-bignums { display: flex; justify-content: center; gap: 28px; margin-top: 6px; }
 .wx-bignums .lbl { font-size: 11px; text-transform: uppercase; letter-spacing: .06em; }
@@ -47,18 +47,10 @@
 .wx-collab.on { color: var(--rust); font-weight: 700; }
 .wx-hint { margin-top: 6px; font-size: 12px; text-align: center; color: var(--muted); }
 .wx-mongrid { margin-top: 14px; display: grid; grid-template-columns: repeat(6,1fr); gap: 5px; }
-/* var(--surface) resolves to literal white in light mode -- no pill on this
-   site is ever white (Hundred-and-fourth non-negotiable). var(--warm), the
-   site's standard theme-aware neutral-pill rest background, instead. */
-.wx-mon { display: inline-flex; align-items: center; justify-content: center; border: 1.5px solid var(--border2, #e6e2da); border-radius: 6px; cursor: pointer; padding: 10px 0; min-height: 44px; font-size: 13px; font-weight: 400;
-  font-family: inherit; background: var(--warm, #fdf8f0); color: var(--muted, #6a6660); transition: background .12s,color .12s,border-color .12s; }
-.wx-mon:hover { border-color: rgba(var(--nt-grey-rgb,106,102,96),.75); background: var(--nt-grey-wash,#f0ede8); font-weight: 600; }
-/* 2026-08-30: retired the "inverted terracotta" selected-chip convention --
-   pills doc Rule 6 bans terracotta on pill hover/selected sitewide. Months
-   are interchangeable options (Rule 4's Selection Pill exception), so the
-   selected state is Neutral Grey, same token every other month/unit toggle
-   on the site now uses. */
-.wx-mon.on { background: var(--nt-grey-wash,#f0ede8); color: var(--nt-grey-ink,#6a6660); border-color: rgba(var(--nt-grey-rgb,106,102,96),.75); }
+/* Rest/hover/selected colors and shape come from the shared .selection-pill +
+   .cp-rust classes in web-travel-style.css (same class the currencies page's
+   own pills use) -- only the grid touch-target height is page-local. */
+.wx-mon { min-height: 44px; }
 .wx-rain { display: flex; justify-content: center; gap: 22px; margin-top: 14px;
   padding: 10px 0 0; border-top: 1px solid var(--border2); }
 .wx-rain .rlbl { font-size: 11px; text-transform: uppercase; letter-spacing: .06em; color: var(--c-rain); }
@@ -85,24 +77,14 @@
 /* Box/icon/input/placeholder/focus/suggest rules come from the shared
    .hero-search / .hero-search-icon component in web-travel-style.css
    (2026-08-28 consolidation -- owner: "No exception change ALL to share").
-   Only this page's genuine variance stays local: tighter right padding so
-   the °C/°F toggle sits flush inside the field. */
-.wx-search.hero-search { padding-right: 8px; }
-/* Inside the white hero pill the panel's "on" state (white fill, rust text) is
-   invisible — it needs a tint to read as selected. */
-.wx-search .wx-unit { flex-shrink: 0; border-radius: 999px; }
-.wx-search .wx-unit button { padding: 9px 14px; font-weight: 600; }
-/* Terracotta retired 2026-08-27, same pass as the search icon above -- neutral
-   ink matches .selection-pill.is-on / .pp-btn's own selected-state pairing. */
-.wx-search .wx-unit button.on { background: var(--bg, #f0ede8); color: var(--muted, #6a6660); }
+   The °C/°F toggle no longer lives in this field, so this page carries no
+   local variance on it at all. */
 @media (max-width: 700px) {
   .wx-hero { padding-top: 1.5rem; }
   }
 @media (prefers-color-scheme: dark) {
   /* --c-temp-hi #e05030 is 4.05:1 on #242220 (warm bg) — not AA; lighten to #f07050 (5.0:1) */
   :root { --c-temp-hi: #f07050; }
-  /* .wx-mon.on dark override retired -- nt-grey is theme-invariant, so the
-     base rule above already renders correctly here. */
 }
 
 </style>
@@ -148,10 +130,6 @@
     <div id="wx-search-wrap" style="position:relative;flex:1;min-width:0;display:flex">
       <input type="search" class="search-input" id="wx-city-search" placeholder="City or country" aria-label="Search for a city" autocomplete="off">
     </div>
-    <div class="wx-unit" id="wx-unit">
-      <button data-u="C" aria-label="Celsius" aria-pressed="false">°C</button>
-      <button data-u="F" aria-label="Fahrenheit" aria-pressed="false">°F</button>
-    </div>
   </div>
 </div>
 
@@ -172,9 +150,10 @@
   function setUnit(u) { try { localStorage.setItem('guideTempUnit', u); } catch (e) {} }
   function conv(c) { return unit() === 'F' ? Math.round(c * 9 / 5 + 32) : Math.round(c); }
 
-  /* The panel no longer builds a header: the search and the unit toggle live in
-     the hero above it and are wired ONCE, not rebuilt on every render — a
-     re-created input loses focus mid-typing and drops the TVESearch binding. */
+  /* The search input lives in the hero above the panel and is wired ONCE, not
+     rebuilt on every render — a re-created input loses focus mid-typing and
+     drops the TVESearch binding. The °C/°F toggle lives inside the panel
+     itself (rebuilt with it each render, same as the month pills). */
   function paintHero() {
     var h = document.getElementById('wx-hero-h');
     var sub = document.getElementById('wx-hero-sub');
@@ -194,7 +173,7 @@
     var u = unit();
     document.querySelectorAll('#wx-unit button').forEach(function (b) {
       var sel = b.dataset.u === u;
-      b.classList.toggle('on', sel);
+      b.classList.toggle('is-on', sel);
       b.setAttribute('aria-pressed', String(sel));
     });
   }
@@ -222,7 +201,7 @@
     }
 
     var grid = MONTHS.map(function (mo, k) {
-      return '<button class="wx-mon' + (k === selMonth ? ' on' : '') + '" data-mon="' + k + '" aria-pressed="' + (k === selMonth ? 'true' : 'false') + '">' + mo + '</button>';
+      return '<button class="wx-mon selection-pill cp-rust hov-darken' + (k === selMonth ? ' is-on' : '') + '" data-mon="' + k + '" aria-pressed="' + (k === selMonth ? 'true' : 'false') + '">' + mo + '</button>';
     }).join('');
 
     var rainRow = '';
@@ -236,7 +215,13 @@
       '</div>';
     }
 
-    return '<div class="wx-month">' + MONTHS_LONG[selMonth] + '</div>' +
+    return '<div class="wx-panel-head">' +
+        '<div class="wx-month">' + MONTHS_LONG[selMonth] + '</div>' +
+        '<div class="wx-unit" id="wx-unit">' +
+          '<button class="selection-pill-sm cp-rust hov-darken" data-u="C" aria-label="Celsius" aria-pressed="false">°C</button>' +
+          '<button class="selection-pill-sm cp-rust hov-darken" data-u="F" aria-label="Fahrenheit" aria-pressed="false">°F</button>' +
+        '</div>' +
+      '</div>' +
       '<div class="wx-bignums">' +
         '<div class="wx-hi" style="text-align:center;"><div class="lbl">High</div><div class="val">' + hi + '</div></div>' +
         '<div class="wx-divider"></div>' +
@@ -268,12 +253,10 @@
     panel.querySelectorAll('.wx-mon').forEach(function (b) {
       b.addEventListener('click', function () { selMonth = +b.dataset.mon; render(); });
     });
+    panel.querySelectorAll('#wx-unit button').forEach(function (b) {
+      b.addEventListener('click', function () { setUnit(b.dataset.u); render(); });
+    });
   }
-
-  /* Wired once — these elements are in the page, not rebuilt by render(). */
-  document.querySelectorAll('#wx-unit button').forEach(function (b) {
-    b.addEventListener('click', function () { setUnit(b.dataset.u); render(); });
-  });
 
   var data = window.TravelClimate || {};
   Object.keys(data).forEach(function (k) {

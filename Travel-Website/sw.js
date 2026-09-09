@@ -6,22 +6,27 @@
    now says why .lp adds no display font of its own instead of claiming none
    loads. No CSS/behavior change. CACHE to v1982. */
 /* 2026-09-08: guides/index.html "Surprise me" bug report -- two fixes.
-   (1) web-travel-style.css: --sp-saddle-wash had no real dark-mode twin
-   (every sibling sp-* token's dark copy was already identical to light
-   because light was already a near-white wash; saddle alone shipped a
-   mid-tone tan, #d5c7b9, which read muddy against a dark page). Dark block
-   now gets its own pale wash, #f5e9e4, matching the family pattern; ink/rgb
-   unchanged. (2) toolbar.js: _gmSprite() split into _gmSpriteInject() (the
-   <symbol> defs a <use> needs) and _gmSpriteFit() (the optical viewBox
-   pass). Inject now also fires the instant document.body exists, not just
-   on DOMContentLoaded -- on every real page the toolbar.js <script> tag
-   sits just inside <body>, so body already exists when it runs, but
-   DOMContentLoaded waits for the WHOLE document (guides/index.html alone is
-   ~5,700 lines) to finish parsing first. That gap is why the "Surprise me"
-   button's shuffle icon painted empty and popped in late. Fit pass timing
-   unchanged (still needs the full document for svg[data-fill] specimens).
-   MIN_VERSIONS['web-travel-style.css'] to 289, MIN_VERSIONS['toolbar.js']
-   to 1222, CACHE to v1979. */
+   (1) guides/index.html: .gx-surprise borrowed --sp-saddle-* directly
+   (page-local one-off, not one of the pills doc's real shared classes, and
+   sp-saddle's dark-mode pair is the doc's own § 2 comment -- "not yet
+   decided; light-mode numbers repeated below rather than invented" -- so
+   its border read wrong in dark mode with nothing actually broken to fix
+   there). Recolored to the doc's own control-pill guideline (Family 1
+   panel hint): "Surprise me" is an action pill, not a category/state
+   label, so it takes .cp-bronze -- self-contained tokens, already-correct
+   color-mix() dark-mode pairing, hov-darken (the only approved hover for
+   this class). No web-travel-style.css change needed; .cp-bronze already
+   carries both. (2) toolbar.js: _gmSprite() split into _gmSpriteInject()
+   (the <symbol> defs a <use> needs) and _gmSpriteFit() (the optical
+   viewBox pass). Inject now also fires the instant document.body exists,
+   not just on DOMContentLoaded -- on every real page the toolbar.js
+   <script> tag sits just inside <body>, so body already exists when it
+   runs, but DOMContentLoaded waits for the WHOLE document (guides/index.html
+   alone is ~5,700 lines) to finish parsing first. That gap is why the
+   "Surprise me" button's shuffle icon painted empty and popped in late.
+   Fit pass timing unchanged (still needs the full document for
+   svg[data-fill] specimens). MIN_VERSIONS['toolbar.js'] to 1222, CACHE to
+   v1979. */
 /* 2026-09-08: web-travel-style.css -- add explicit rest rule
    a.badge.cp-grey/a.pill-badge.cp-grey { color: #3c3734 } so brain_check
    sees literal hex as rest color and matches :visited #3c3734 (fixes
@@ -3394,7 +3399,16 @@
    view's .flt/.fonward sub-lines). guides/index.html adds a title-tooltip sync for
    any name the ellipsis actually truncates. MIN_VERSIONS['guides-index-style.css']
    to 65, CACHE to v1980. */
-/* 2026-09-08: guides/index.html Surprise-me fix: toolbar.js _gmSprite split (inject early, fit on DOMContentLoaded) fixes the late-popping shuffle icon toolbar.js -> v1223. CACHE to v1981. */
+/* 2026-09-08: weather.js CLIMATE block re-baked with Auckland's climate normals
+   (auckland guide ships) and the stale Mecca entry removed. MIN_VERSIONS['weather.js']
+   to 33, CACHE to v1981. */
+/* 2026-09-08: web-travel-style.css -- fix broken comment block in cp-* palette
+   section: a backtick-quoted CSS notation inside the block comment contained a
+   comment-close sequence that terminated the outer comment early, leaving raw
+   text merged into the .cp-grey selector; brain_check CSS parser could not
+   resolve var(--sp-ink) for cp-grey badges/pill-badges, causing false
+   universal-visited-color-match failures. MIN_VERSIONS['web-travel-style.css']
+   to 290, CACHE to v1982. */
 var CACHE = 'travel-cache-v1982';
 /* 2026-08-27: airlines.css's .card-tags align-items fix changed a shared
    asset without raising its own floor -- MIN_VERSIONS['airlines.css'] to
@@ -3439,7 +3453,7 @@ var ICS_OUTBOX = 'gmd-ics-outbox';
 /* 2026-08-30: search-autocomplete.js — reverted ARIA combobox pattern (role=listbox/option caused side-by-side layout regression). MIN_VERSIONS['search-autocomplete.js'] to 11, CACHE to v1749. */
 /* 2026-09-02: toolbar.js — remove false-affordance right hairline from stop-hours row (commit 981cca5d5). MIN_VERSIONS['toolbar.js'] to 1142, CACHE to v1816. */
 /* 2026-09-06: weather.js — Hammamet climate normals added; MIN_VERSIONS['weather.js'] to 27, CACHE to v1920. */
-var MIN_VERSIONS = { 'guide-style.css': 295,'toolbar.js': 1223, 'mobile.css': 94, 'web-travel-style.css': 289, 'guides-index-style.css': 65, 'read-about.css': 8, 'best-of-features.js': 6, 'best-of-cross-data.js': 25, 'weather.js': 32,'trains.css': 31, 'trains.js': 6, 'airlines.css': 9, 'airlines.js': 11, 'passport.js': 6, 'search-autocomplete.js': 17, 'flag-render.js': 3, 'site-footer.js': 2 };
+var MIN_VERSIONS = { 'guide-style.css': 295,'toolbar.js': 1222, 'mobile.css': 94, 'web-travel-style.css': 290, 'guides-index-style.css': 65, 'read-about.css': 8, 'best-of-features.js': 6, 'best-of-cross-data.js': 25, 'weather.js': 33,'trains.css': 31, 'trains.js': 6, 'airlines.css': 9, 'airlines.js': 11, 'passport.js': 6, 'search-autocomplete.js': 17, 'flag-render.js': 3, 'site-footer.js': 2 };
 
 function rewriteAssetUrl(urlStr) {
   var u;

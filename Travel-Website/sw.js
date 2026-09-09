@@ -3479,7 +3479,8 @@
    picker's auto-focus-on-open too, reading as an unwanted terracotta highlight) so
    both fall back to the sitewide :focus-visible gold ring. toolbar.js -> v1238.
    MIN_VERSIONS['guide-style.css'] to 302, CACHE to v2022. */
-var CACHE = 'travel-cache-v2022';
+/* 2026-09-09: mobile.css -- .pill-badge filter tabs still read oversized against their labels on mobile (owner feedback after the v96 fix) -- shrunk from height:40px/padding:0 12px/font-size:12px to height:34px/padding:0 10px/font-size:11px. MIN_VERSIONS['mobile.css'] to 97, CACHE to v2023. */
+var CACHE = 'travel-cache-v2023';
 /* 2026-08-27: airlines.css's .card-tags align-items fix changed a shared
    asset without raising its own floor -- MIN_VERSIONS['airlines.css'] to
    6, CACHE to v1662. */
@@ -3527,7 +3528,7 @@ var ICS_OUTBOX = 'gmd-ics-outbox';
    label) was missing min-width:0, so its nested picker ignored its own 58% max-width
    cap, rendered near its full intrinsic width and pushed the amount box and the close
    X off the right edge of the phone screen. MIN_VERSIONS['guide-style.css'] to 296, CACHE to v2007. */
-var MIN_VERSIONS = { 'guide-style.css': 302,'toolbar.js': 1238, 'mobile.css': 96, 'web-travel-style.css': 296, 'guides-index-style.css': 70,'read-about.css': 8, 'best-of-features.js': 6, 'best-of-cross-data.js': 25, 'weather.js': 42,'trains.css': 31, 'trains.js': 6, 'airlines.css': 9, 'airlines.js': 11, 'passport.js': 6, 'search-autocomplete.js': 18, 'flag-render.js': 3, 'site-footer.js': 2 };
+var MIN_VERSIONS = { 'guide-style.css': 302,'toolbar.js': 1238, 'mobile.css': 97, 'web-travel-style.css': 296, 'guides-index-style.css': 70,'read-about.css': 8, 'best-of-features.js': 6, 'best-of-cross-data.js': 25, 'weather.js': 42,'trains.css': 31, 'trains.js': 6, 'airlines.css': 9, 'airlines.js': 11, 'passport.js': 6, 'search-autocomplete.js': 18, 'flag-render.js': 3, 'site-footer.js': 2 };
 
 function rewriteAssetUrl(urlStr) {
   var u;

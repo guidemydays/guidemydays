@@ -3412,7 +3412,8 @@
 /* 2026-09-08: weather.js CLIMATE block re-baked again (concurrent guide ships
    during the Auckland publish drain kept adding climate normals). MIN_VERSIONS
    ['weather.js'] to 34, CACHE to v1983. */
-var CACHE = 'travel-cache-v1983';
+/* 2026-09-08: web-travel-style.css -- .hero-band.eb-hero .eb-title/.eb-intro had no dark-mode override; var(--text) resolved to the light dark-mode value (#e8e5e0) on this component's light cream card, making the headline/intro near-invisible in dark mode on currencies/packing/lounges/local-prices/when-to-go/weather and every other eb-hero page. Pinned both to the fixed dark ink #3d2f1f already used for this component's link color in dark mode. MIN_VERSIONS['web-travel-style.css'] to 291, CACHE to v1984. */
+var CACHE = 'travel-cache-v1984';
 /* 2026-08-27: airlines.css's .card-tags align-items fix changed a shared
    asset without raising its own floor -- MIN_VERSIONS['airlines.css'] to
    6, CACHE to v1662. */
@@ -3456,7 +3457,7 @@ var ICS_OUTBOX = 'gmd-ics-outbox';
 /* 2026-08-30: search-autocomplete.js — reverted ARIA combobox pattern (role=listbox/option caused side-by-side layout regression). MIN_VERSIONS['search-autocomplete.js'] to 11, CACHE to v1749. */
 /* 2026-09-02: toolbar.js — remove false-affordance right hairline from stop-hours row (commit 981cca5d5). MIN_VERSIONS['toolbar.js'] to 1142, CACHE to v1816. */
 /* 2026-09-06: weather.js — Hammamet climate normals added; MIN_VERSIONS['weather.js'] to 27, CACHE to v1920. */
-var MIN_VERSIONS = { 'guide-style.css': 295,'toolbar.js': 1222, 'mobile.css': 94, 'web-travel-style.css': 290, 'guides-index-style.css': 65, 'read-about.css': 8, 'best-of-features.js': 6, 'best-of-cross-data.js': 25, 'weather.js': 34,'trains.css': 31, 'trains.js': 6, 'airlines.css': 9, 'airlines.js': 11, 'passport.js': 6, 'search-autocomplete.js': 17, 'flag-render.js': 3, 'site-footer.js': 2 };
+var MIN_VERSIONS = { 'guide-style.css': 295,'toolbar.js': 1222, 'mobile.css': 94, 'web-travel-style.css': 291, 'guides-index-style.css': 65, 'read-about.css': 8, 'best-of-features.js': 6, 'best-of-cross-data.js': 25, 'weather.js': 34,'trains.css': 31, 'trains.js': 6, 'airlines.css': 9, 'airlines.js': 11, 'passport.js': 6, 'search-autocomplete.js': 17, 'flag-render.js': 3, 'site-footer.js': 2 };
 
 function rewriteAssetUrl(urlStr) {
   var u;

@@ -555,40 +555,35 @@ a:hover { text-decoration: underline; }
   content: ''; position: absolute; top: 50%; left: 50%;
   width: 44px; height: 44px; transform: translate(-50%, -50%);
 }
+/* picker (typed) · amount · = · converted total, all one line at every width
+   now — the picker holds a 3-4 character code, not a full currency name, so
+   it no longer needs a line of its own or a <select>'s content-based sizing.
+   Every item below carries min-width:0 or a fixed flex-basis: without that,
+   an input's automatic minimum size wins over max-width/flex-basis and the
+   row overflows, which is exactly how this panel's original bug happened. */
 .tve-cur-row {
-  display: grid;
-  /* picker · your amount · = · converted total. Two editable, synced amount
-     boxes (owner feedback: "makes no sense") became one box to type in plus a
-     plain text result — the destination side was never something the reader
-     needed to edit, only read, so it is not a box at all any more. */
-  grid-template-columns: auto minmax(64px, 1fr) auto auto;
+  display: flex;
   align-items: center;
-  column-gap: 10px;
+  gap: 8px;
   width: 100%;
   padding-right: 24px;   /* keeps the last box clear of the ✕ */
   box-sizing: border-box;
 }
-/* Layout-transparent: the label still owns its input for the accessibility tree,
-   but the picker and the amount box sit directly on the row's grid — which is
-   what lets the row span the panel instead of huddling in its left quarter
-   with the ✕ marooned at the far edge. */
-.tve-cur-field { display: contents; }
 .tve-cur-pick {
+  /* Typed, not chosen (owner feedback) — see toolbar.js. Sized for a code
+     ("USD"), not a full name; the <datalist> suggestion popup still shows
+     "USD — US Dollar" regardless of this box's own width. */
+  flex: 0 1 88px;
+  min-width: 50px;
   font-family: inherit;
-  /* Same type size and box padding as the two amount fields beside it: three
-     controls on one row read as one control set only when they share a height
-     and a size. The 11em cap keeps a long currency name from stretching the
-     picker column past the boxes it is measured against. */
   font-size: 14px;
   font-weight: 700;
   color: var(--c-action-text);
   background: var(--c-card-bg);
   border: 1px solid var(--c-next-border);
   border-radius: 4px;
-  padding: 6px 10px;
-  max-width: 11em;
-  min-width: 0;
-  cursor: pointer;
+  padding: 6px 8px;
+  cursor: text;
 }
 /* No custom :focus rule here (owner feedback: the terracotta border it drew on
    open — .tve-cur-pick is auto-focused whenever the panel opens, see toolbar.js
@@ -596,14 +591,30 @@ a:hover { text-decoration: underline; }
    rule at the top of this file already gives it a consistent ring and, unlike a
    bare :focus, only shows for keyboard/programmatic focus, not the auto-focus
    from a plain click. */
-.tve-cur-eq { font-size: 14px; color: var(--c-text-muted); }
+.tve-cur-eq { flex: 0 0 auto; font-size: 14px; color: var(--c-text-muted); }
 /* Read-only — the converted total, symbol folded in ("₽1,234.56"), not a
-   second input. aria-live on the element itself (toolbar.js) announces it. */
-.tve-cur-result { font-size: 14px; font-weight: 700; color: var(--c-action-text); text-align: right; white-space: nowrap; }
-.tve-cur-in {
-  width: auto;      /* the grid column sizes it — see .tve-cur-row */
+   second input. aria-live on the element itself (toolbar.js) announces it.
+   flex:1 so it takes whatever room the row has left, since it's the one
+   piece whose length genuinely varies with the number typed; ellipsis is a
+   safety net, not the expected case. */
+.tve-cur-result {
+  flex: 1 1 auto;
   min-width: 0;
-  padding: 6px 10px;
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--c-action-text);
+  text-align: right;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.tve-cur-in {
+  /* Fixed, modest width — an amount is a handful of digits, not a line of
+     text, so it doesn't need to grow and soak up the row's leftover space
+     (owner feedback: "does not need to be such a big bar"). */
+  flex: 0 0 60px;
+  min-width: 44px;
+  padding: 6px 8px;
   border: 1px solid var(--c-next-border);
   border-radius: 4px;
   background: var(--c-card-bg);
@@ -619,48 +630,23 @@ a:hover { text-decoration: underline; }
 }
 .tve-cur-in::-webkit-outer-spin-button,
 .tve-cur-in::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
-.tve-cur-in::placeholder {
+.tve-cur-in::placeholder,
+.tve-cur-pick::placeholder {
   color: var(--c-text-muted);
   -webkit-text-fill-color: var(--c-text-muted);
   font-weight: 400;
 }
 /* No custom :focus rule here either — see .tve-cur-pick above. */
-/* The sentence and its link hold the two ends of the line, so the panel's
-   bottom edge is as wide as its top one. They stack in reading order when the
-   sentence is too long to share a line. */
-.tve-cur-note {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-between;
-  align-items: baseline;
-  gap: 2px 16px;
-  width: 100%;
-  font-size: 12px;
-  line-height: 1.5;
-  color: var(--c-text-muted);
-}
-.tve-cur-more { color: var(--c-index-accent); text-decoration: none; font-weight: 600; white-space: nowrap; }
-.tve-cur-more:visited { color: #7a5c0e; }  /* literal hex — browsers don't resolve var() in :visited */
 @media (prefers-color-scheme: dark) {
   /* The standard's dark hover is #f5f3ef; the rest colour is shared. */
   .tve-cur-x:hover { color: #f5f3ef; }
 }
-.tve-cur-more:hover { text-decoration: underline; }
 @media (max-width: 600px) and (pointer: coarse) {
-  /* The picker keeps owning-the-grid layout (.tve-cur-field stays display:contents
-     from the base rule above, unlike the flex-row swap this replaced) but now
-     spans row one alone (grid-column: 1/-1) instead of sharing a line with the
-     "your amount" input — that shared line is what squeezed the input to a
-     ~20px sliver on a 393px screen. justify-self:start plus the same 58% cap
-     the row used to give it keeps the picker at its old visual size now that
-     it is alone on its line; without justify-self it would stretch to fill the
-     full row width and read as a second, oversized pill. Row two auto-places
-     the remaining three items (your amount · = · converted total) across the
-     row's own columns, same as desktop. */
-  .tve-cur-row { grid-template-columns: minmax(64px, 1fr) auto auto; row-gap: 10px; }
-  .tve-cur-pick { grid-column: 1 / -1; justify-self: start; width: auto; max-width: 58%; font-size: 16px; }
-  .tve-cur-in { font-size: 16px; }
-  .tve-cur-result { font-size: 16px; }
+  /* iOS-safe type size only now — the one-line layout above holds at every
+     width once the picker is a typed code instead of a <select> full of
+     currency names, so there is no longer a separate mobile structure to
+     maintain here. */
+  .tve-cur-pick, .tve-cur-in, .tve-cur-result { font-size: 16px; }
 }
 
 /* Transient confirmation toast (Save for offline). Fixed bottom-centre, fades in,

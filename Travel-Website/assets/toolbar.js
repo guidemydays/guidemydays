@@ -4862,6 +4862,17 @@ window.TVE.home = (function () {
       var actionRow = document.querySelector('.action-row');
       if (!actionRow) return;
       actionRow.appendChild(btn);
+      /* Equal-width pills (owner-reported: Reset all/Print list/Save for
+         Offline "should have the same size" -- each sized to its own label
+         instead, so the longest one, Save for Offline, wrapped alone onto
+         its own row under the two short ones). Matches the shared spec's own
+         note on this exact pattern (selection-pills-badges-pills-to-badge-
+         dots.html § 2): CSS Grid 1fr doesn't reliably equalize intrinsically-
+         sized children in practice, so the widest pill's own rendered width
+         is measured and applied to its siblings directly. */
+      var acPills = [].slice.call(actionRow.children);
+      var acWidest = Math.max.apply(null, acPills.map(function (p) { return p.getBoundingClientRect().width; }));
+      acPills.forEach(function (p) { p.style.width = acWidest + 'px'; });
       return;
     }
 
@@ -8771,55 +8782,47 @@ window.TVE.home = (function () {
       var fields = document.createElement('div');
       fields.className = 'tve-cur-row';
 
-      function _field(label, aria) {
-        var wrap = document.createElement('label');
-        wrap.className = 'tve-cur-field';
-        var tag = document.createElement('span');
-        tag.className = 'tve-cur-sym';
-        tag.textContent = label;
-        var input = document.createElement('input');
-        input.className = 'tve-cur-in';
-        input.type = 'number';
-        input.min = '0';
-        input.step = 'any';
-        input.setAttribute('inputmode', 'decimal');
-        input.setAttribute('aria-label', aria);
-        wrap.appendChild(tag);
-        wrap.appendChild(input);
-        return { wrap: wrap, input: input };
-      }
-
-            var mine = _field('', 'Amount in your currency');
-      var pick = document.createElement('select');
+      /* Typed, not chosen from a <select> (owner feedback) — a select's own
+         content-based intrinsic width was what the earlier overflow bug on
+         this row came from, and typing "USD" is faster than opening and
+         scrolling a picker to find it. <datalist> gives the same code+name
+         suggestions the old <option> list did without forcing a fixed
+         control width; it degrades to a plain text field wherever it isn't
+         supported, and matching by typed code (below) still works. */
+      var pick = document.createElement('input');
       pick.className = 'tve-cur-pick';
       pick.id = 'tve-cur-pick';
-      pick.setAttribute('aria-label', 'Your currency');
-      var opt0 = document.createElement('option');
-      opt0.value = '';
-      opt0.textContent = 'Your currency';
-      pick.appendChild(opt0);
+      pick.type = 'text';
+      pick.autocomplete = 'off';
+      pick.placeholder = 'Currency';
+      pick.setAttribute('list', 'tve-cur-list');
+      pick.setAttribute('aria-label', 'Your currency — type a code or name');
+
+      var list = document.createElement('datalist');
+      list.id = 'tve-cur-list';
       for (var pi = 0; pi < picks.length; pi++) {
         var o = document.createElement('option');
         o.value = picks[pi].iso;
         /* Code AND name: the code is what a reader looks for and what makes the
-           list scannable, the name is what tells them they found the right one.
-           The closed control truncates the long ones — the open dropdown never
-           does, so nothing is actually hidden. */
+           list scannable, the name is what tells them they found the right one. */
         o.textContent = picks[pi].iso + ' — ' + picks[pi].name;
-        o.title = picks[pi].name;
-        pick.appendChild(o);
+        list.appendChild(o);
       }
-      /* Replaces the empty .tve-cur-sym label the field was built with, so the
-         picker sits exactly where the "US$" tag used to. */
-      mine.wrap.replaceChild(pick, mine.wrap.firstChild);
-      /* Named so the phone rule can give THIS field its own line. The picker is
-         ~156px at the 16px iOS-safe size, and .tve-cur-field is flex:1 1 0 on a
-         phone — so on a 393px screen the picker ate the half-row and the amount
-         input beside it collapsed to a ~20px sliver behind the "=". The number
-         the reader had typed was still in there and invisible. Measured, not
-         guessed: the row does not wrap on its own, because flex shrinks the
-         input to nothing before it ever needs a second line. */
-      mine.wrap.classList.add('tve-cur-mine');
+
+      var amount = document.createElement('input');
+      amount.className = 'tve-cur-in';
+      amount.type = 'number';
+      amount.min = '0';
+      amount.step = 'any';
+      amount.setAttribute('inputmode', 'decimal');
+      amount.setAttribute('aria-label', 'Amount in your currency');
+      /* The placeholder is a WORD, not a specimen number: .tve-cur-in forces
+         -webkit-text-fill-color to the primary text colour (iOS greys the value
+         without it), which paints the placeholder in that colour too — so a
+         numeric placeholder would be indistinguishable from a typed value. The
+         ::placeholder rule in guide-style.css mutes it; the word makes it
+         unmistakable even where that rule is overridden. */
+      amount.placeholder = 'Amount';
 
       var eq = document.createElement('span');
       eq.className = 'tve-cur-eq';
@@ -8834,45 +8837,45 @@ window.TVE.home = (function () {
       result.setAttribute('aria-live', 'polite');
       result.setAttribute('aria-label', 'Converted amount in ' + c.name);
 
-      fields.appendChild(mine.wrap);
+      fields.appendChild(pick);
+      fields.appendChild(list);
+      fields.appendChild(amount);
       fields.appendChild(eq);
       fields.appendChild(result);
       panel.appendChild(fields);
 
       /* Cross rate through the US dollar, which is only the base the snapshot is
          quoted in — the panel is not anchored to it and never names it unless
-         the reader picked it. `_mineRate` is looked up on every keystroke rather
-         than captured once, because the picker can change under the binding. */
+         the reader picked it. Looked up on every keystroke rather than captured
+         once, because the typed code can change under the binding. */
       function _mineRate() {
-        var iso = pick.value;
+        var iso = pick.value.trim().toUpperCase();
         if (!iso) return 0;
         for (var i = 0; i < picks.length; i++) if (picks[i].iso === iso) return picks[i].rate;
         return 0;
       }
       /* Until the reader types an amount this shows what ONE unit of their
          currency is worth — a live "1 USD ≈ ₽83.20" reference, not a blank —
-         so picking a currency alone already answers something. Typing a real
+         so typing a currency alone already answers something. Typing a real
          amount replaces that implied 1 with theirs. */
       function _syncResult() {
         var r = _mineRate();
-        if (!r) { result.textContent = ''; return; }    /* no currency chosen yet */
-        var n = parseFloat(mine.input.value);
-        var amt = (mine.input.value === '' || isNaN(n)) ? 1 : n;
+        if (!r) { result.textContent = ''; return; }    /* no currency matched yet */
+        var n = parseFloat(amount.value);
+        var amt = (amount.value === '' || isNaN(n)) ? 1 : n;
         result.textContent = sym + _curAmt(amt * (c.rate / r));
       }
       _syncResult();
-      mine.input.addEventListener('input', _syncResult);
+      amount.addEventListener('input', _syncResult);
+      /* A typed field has no "change" event the way a <select> did — every
+         keystroke re-checks for a match, and the amount box gets its implied
+         "1" the moment one lands, same as the old select's change handler did. */
+      pick.addEventListener('input', function () {
+        if (_mineRate() && amount.value === '') amount.value = '1';
+        _syncResult();
+      });
 
-      /* The placeholder is a WORD, not a specimen number: .tve-cur-in forces
-         -webkit-text-fill-color to the primary text colour (iOS greys the value
-         without it), which paints the placeholder in that colour too — so a
-         numeric placeholder would be indistinguishable from a typed value. The
-         ::placeholder rule in guide-style.css mutes it; the word makes it
-         unmistakable even where that rule is overridden. */
-      mine.input.placeholder = 'Amount';
-
-      /* ── Reference line — the rate, its currency, and the way out ── */
-            var xBtn = document.createElement('button');
+      var xBtn = document.createElement('button');
       xBtn.type = 'button';
       xBtn.className = 'tve-cur-x';
       xBtn.textContent = '✕';
@@ -8887,25 +8890,6 @@ window.TVE.home = (function () {
         pill.focus();
       });
       panel.appendChild(xBtn);
-
-      /* Just the way out now — the "1 USD ≈ ₽83.20" reference this line used to
-         carry moved into .tve-cur-result itself (it shows that same live figure
-         the moment a currency is picked), so repeating it here would be the
-         same redundant-text complaint (owner feedback) one control lower. The
-         link goes to /currencies/ itself, not to /currencies/#Country: the
-         converter there now opens on nothing and the deep link would preselect
-         the destination as "To", which is the opposite of the question this
-         link asks — where else the same money goes further. */
-      var note = document.createElement('div');
-      note.className = 'tve-cur-note';
-      var more = document.createElement('a');
-      more.className = 'tve-cur-more';
-      more.href = base + 'currencies/';
-      more.textContent = 'See where your money is worth more ›';
-      note.appendChild(more);
-      panel.appendChild(note);
-
-      pick.addEventListener('change', _syncResult);
 
       pill.addEventListener('click', function (e) {
         e.preventDefault(); e.stopPropagation();

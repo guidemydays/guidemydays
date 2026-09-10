@@ -1020,12 +1020,6 @@ a.land-cta:hover:visited {
   height: 2.55rem; box-sizing: border-box;
 }
 .fnd-ctl.is-set { background: var(--bg, #f5f4f0); }
-.fnd-clear {
-  flex: 0 0 auto; margin-left: 2px; padding: 0 2px; border: 0; background: none;
-  border-radius: 0; font: inherit; font-size: 13px; line-height: 1; color: #7a7068;
-  cursor: pointer;
-}
-.fnd-clear:hover, .fnd-clear:focus-visible { color: #3d3a32; }
 /* A SET-ASIDE ANSWER — a value the reader chose that the finder could not apply
    (see relax()). It inherits from `.fnd-chip.is-off`, which it replaces now that
    there is no chip to mark: the rim goes dashed and loses its terracotta, so the
@@ -7598,26 +7592,6 @@ function render() {
       if (!ctl) return;
       var set = (picks[pair.field] || []).length > 0;
       ctl.classList.toggle('is-set', set);
-      /* The × lives only while there is something to clear, and it is built
-         once per control rather than re-created on every run — a button rebuilt
-         under a pointer swallows the click that was already on its way. */
-      var x = ctl.querySelector('.fnd-clear');
-      if (set && !x) {
-        x = document.createElement('button');
-        x.type = 'button';
-        x.className = 'fnd-clear';
-        x.setAttribute('aria-label', 'Clear this filter');
-        x.textContent = '✕';
-        x.addEventListener('click', function (ev) {
-          ev.preventDefault();
-          ev.stopPropagation();
-          pair.el.value = '';
-          addPick(pair.field, pair.el);
-        });
-        ctl.appendChild(x);
-      } else if (!set && x) {
-        x.remove();
-      }
     });
   }
 

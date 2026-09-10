@@ -3503,7 +3503,8 @@
    box shrunk to a fixed 60px (owner: "does not need to be such a big bar").
    toolbar.js -> v1242. MIN_VERSIONS['guide-style.css'] to 305, CACHE to
    v2027. */
-var CACHE = 'travel-cache-v2027';
+/* 2026-09-09: mobile.css -- packing page's Save for Offline pill (.toggle-btn) wasn't in the Reset all/Print list touch-target exemption, so it alone kept the generic mobile min-height (44px vs their 25px, owner-reported). Added .toggle-btn to the same exemption. MIN_VERSIONS['mobile.css'] to 98, CACHE to v2028. */
+var CACHE = 'travel-cache-v2028';
 /* 2026-08-27: airlines.css's .card-tags align-items fix changed a shared
    asset without raising its own floor -- MIN_VERSIONS['airlines.css'] to
    6, CACHE to v1662. */
@@ -3551,7 +3552,7 @@ var ICS_OUTBOX = 'gmd-ics-outbox';
    label) was missing min-width:0, so its nested picker ignored its own 58% max-width
    cap, rendered near its full intrinsic width and pushed the amount box and the close
    X off the right edge of the phone screen. MIN_VERSIONS['guide-style.css'] to 296, CACHE to v2007. */
-var MIN_VERSIONS = { 'guide-style.css': 305,'toolbar.js': 1242, 'mobile.css': 97, 'web-travel-style.css': 296, 'guides-index-style.css': 70,'read-about.css': 8, 'best-of-features.js': 6, 'best-of-cross-data.js': 25, 'weather.js': 42,'trains.css': 31, 'trains.js': 6, 'airlines.css': 9, 'airlines.js': 11, 'passport.js': 6, 'search-autocomplete.js': 18, 'flag-render.js': 3, 'site-footer.js': 2 };
+var MIN_VERSIONS = { 'guide-style.css': 305,'toolbar.js': 1242, 'mobile.css': 98, 'web-travel-style.css': 296, 'guides-index-style.css': 70,'read-about.css': 8, 'best-of-features.js': 6, 'best-of-cross-data.js': 25, 'weather.js': 42,'trains.css': 31, 'trains.js': 6, 'airlines.css': 9, 'airlines.js': 11, 'passport.js': 6, 'search-autocomplete.js': 18, 'flag-render.js': 3, 'site-footer.js': 2 };
 
 function rewriteAssetUrl(urlStr) {
   var u;

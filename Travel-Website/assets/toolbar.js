@@ -5363,6 +5363,36 @@ window.TVE.home = (function () {
 
     var HOTEL_ALT_DATA = {
     /* entries added per guide during build — see Separation Map.md § Hotels & Rentals */
+    'bogota': { h: [
+      { name: 'The Click Clack Hotel Bogotá', note: 'Independent boutique — Chicó, 2-min walk from Parque de la 93, rooftop bar and restaurant, 24h reception, AC · 9.1 Booking.com', url: 'https://www.booking.com/hotel/co/the-click-clack.html', tier: 'budget' },
+      { name: 'Avani Royal Zona T Bogotá Hotel', note: 'Independent — Zona Rosa, 5-min walk from Andino and El Retiro shopping centers, 24h reception, AC · 8.8 Booking.com', url: 'https://www.booking.com/hotel/co/boheme-royal.html', tier: 'budget' },
+      { name: 'AC Hotel by Marriott Bogotá Zona T', note: 'Marriott family — first-tier international brand, Zona Rosa, fitness center and rooftop bar, 24h reception, AC · 8.3 Booking.com', url: 'https://www.booking.com/hotel/co/ac-bogota.html', tier: 'mid' },
+      { name: 'EK Hotel by Preferred Hotels Group', note: 'Independent — Chicó financial district, 5-min walk from Parque de la 93, business center and sauna, 24h reception, AC · 9.1 Booking.com', url: 'https://www.booking.com/hotel/co/ek.html', tier: 'mid' },
+      { name: 'Bogotá Marriott Hotel', note: 'Marriott family — first-tier international brand, Salitre, indoor pool and full spa, 24h reception, AC · 9.0 Booking.com', url: 'https://www.booking.com/hotel/co/bogota-marriott.html', tier: 'expensive' },
+      { name: 'Embassy Suites by Hilton Bogotá - Rosales', note: 'Hilton family — first-tier international brand, Rosales (Zona G border), all-suite rooms with fitness center and spa, 24h reception, AC · 9.0 Booking.com', url: 'https://www.booking.com/hotel/co/embassy-suites-bogota-rosales-by-hilton.html', tier: 'expensive' },
+      { name: 'JW Marriott Hotel Bogotá', note: 'Marriott family — first-tier international brand, this guide’s title-card hotel, Zona Rosa/Chapinero financial district, 4 restaurants and full spa, 24h reception, AC · 9.0 Booking.com', url: 'https://www.booking.com/hotel/co/jw-marriott-bogota.html', tier: 'luxury' },
+      { name: 'Sofitel Bogotá Victoria Regia', note: 'Sofitel — first-tier international brand, Zona Rosa, a quarter mile from La Zona T, spa and indoor pool, 24h reception, AC · 9.1 Booking.com', url: 'https://www.booking.com/hotel/co/sofitel-bogota-victoria-regia.html', tier: 'luxury' }
+    ], price: { budget: 'COP 320,000–450,000', mid: 'COP 450,000–750,000', expensive: 'COP 750,000–1,300,000', luxury: 'COP 1,300,000+' } },
+    'medellin': { h: [
+      { name: '574 Hotel', note: 'Independent — El Poblado, Transversal 6, airport shuttle and 24h reception, AC · 9.0 Booking.com', url: 'https://www.booking.com/hotel/co/574.html', tier: 'budget' },
+      { name: 'Lettera Hotel', note: 'Independent — El Poblado, Calle 5F, garden terrace and rooftop, fitness center, 24h reception, AC · 9.3 Booking.com', url: 'https://www.booking.com/hotel/co/la-lettera.html', tier: 'budget' },
+      { name: 'Loma Verde Aparthotel', note: 'Independent — El Poblado, Calle 11, rooftop pool and sauna, family rooms, 24h reception, AC · 9.4 Booking.com', url: 'https://www.booking.com/hotel/co/loma-verde.html', tier: 'mid' },
+      { name: 'Hampton by Hilton Medellin', note: 'Hilton family — first-tier international brand, El Poblado, Calle 6 Sur, fitness center, 24h reception, AC · 8.6 Booking.com', url: 'https://www.booking.com/hotel/co/hampton-by-hilton-medellin.html', tier: 'mid' },
+      { name: 'Four Points by Sheraton Medellín', note: 'Marriott family — first-tier international brand, this guide’s title-card hotel, El Poblado, outdoor pool and spa, 24h reception, AC · 9.0 Booking.com', url: 'https://www.booking.com/hotel/co/four-points-by-sheraton-medellin.html', tier: 'expensive' },
+      { name: 'NH Collection Medellin Royal', note: 'NH Collection — first-tier international brand, El Poblado (Milla de Oro), outdoor pool and spa, 24h reception, AC · 8.7 Booking.com', url: 'https://www.booking.com/hotel/co/medellin-royal.html', tier: 'expensive' },
+      { name: 'The Charlee Hotel', note: 'Independent — El Poblado, Calle 9A, rooftop pool, adults-only, spa and nightlife scene, 24h reception, AC · 8.3 Booking.com', url: 'https://www.booking.com/hotel/co/the-charlee.html', tier: 'luxury' },
+      { name: 'InterContinental Medellin - Movich by IHG', note: 'InterContinental — first-tier international brand, El Poblado, tennis court, outdoor pool, full spa, 24h reception, AC · 8.4 Booking.com', url: 'https://www.booking.com/hotel/co/intercontinental-medellin.html', tier: 'luxury' }
+    ], price: { budget: 'COP 275,000–360,000', mid: 'COP 480,000–550,000', expensive: 'COP 655,000–680,000', luxury: 'COP 925,000+' } },
+    'fez': { h: [
+      { name: 'Riad YAMNA - Quiet Desire', note: 'Independent — Fes El Bali medina, Rue El Douh, traditional riad with terrace, 24h reception, AC · 9.0 Booking.com', url: 'https://www.booking.com/hotel/ma/riad-manya-fes.html', tier: 'budget' },
+      { name: 'Riad Chada Fez', note: 'Independent — Fes El Bali medina, Derb Zouiir near Bab Guissa, restored riad with terrace, 24h reception, AC · 9.5 Booking.com', url: 'https://www.booking.com/hotel/ma/riad-nafas-fez-fes.html', tier: 'budget' },
+      { name: 'Riad Dar Fes Lile', note: 'Independent — Fes El Bali medina, Derb Touimi, seasonal indoor pool and rooftop terrace, 24h reception, AC · 10.0 Booking.com', url: 'https://www.booking.com/hotel/ma/dar-bassidi-fes.html', tier: 'mid' },
+      { name: 'Riad Green House', note: 'Independent — Fes El Bali medina, Talaa Kbira, garden courtyard riad with tour desk and spa, 24h reception, AC · 9.6 Booking.com', url: 'https://www.booking.com/hotel/ma/green-house-fez.html', tier: 'mid' },
+      { name: 'Riad Inaya Fez', note: 'Independent — Fes El Bali medina near Bab Guissa, sun terrace and hammam, 24h reception, AC · 9.8 Booking.com', url: 'https://www.booking.com/hotel/ma/riad-inaya-fez.html', tier: 'expensive' },
+      { name: 'Riad Rcif & Spa Originale', note: 'Independent — Fes El Bali medina, Avenue Ben Mohamed El Alaoui, 5-star riad with year-round indoor pool and spa, 24h reception, AC · 9.2 Booking.com', url: 'https://www.booking.com/hotel/ma/riad-rcif.html', tier: 'expensive' },
+      { name: 'Algilà Fes Riad Medina Charme Hotel Spa', note: 'Independent — Fes El Bali medina, Akibat Sbaa, restored historic riad with hammam and spa, 24h reception, AC · 9.0 Booking.com', url: 'https://www.booking.com/hotel/ma/algila.html', tier: 'luxury' },
+      { name: 'Riad Mayfez Suites & Spa', note: 'Independent — Fes El Bali medina, Douh quarter, this guide’s title-card hotel’s neighborhood, heated outdoor pool and full spa, 24h reception, AC · 8.8 Booking.com', url: 'https://www.booking.com/hotel/ma/mayfez.html', tier: 'luxury' }
+    ], price: { budget: 'MAD 250–400', mid: 'MAD 750–900', expensive: 'MAD 1,000–1,400', luxury: 'MAD 1,800+' } },
     'zermatt': { h: [
       { name: 'Hotel Jägerhof', note: 'Independent — quiet Steinmatt quarter, Matterhorn views, breakfast and station transfer · 9.3 Booking.com', url: 'https://www.booking.com/hotel/ch/jagerhof-zermatt.html', tier: 'budget' },
       { name: 'Hotel Walliserhof Zermatt', note: 'Independent — central Bahnhofstrasse, sauna and generous breakfast near the station · 9.0 Booking.com', url: 'https://www.booking.com/hotel/ch/walliserhof-zermatt.html', tier: 'budget' },
@@ -8264,6 +8294,7 @@ window.TVE.home = (function () {
     'marrakech': [["Cathedrals", "cathedrals/"], ["Gardens", "gardens/"], ["Luxurious Hotels", "most-luxurious-hotels/"], ["Resorts", "resorts/"], ["Ultra Luxurious Resorts", "ultra-luxurious-resorts/"], ["UNESCO Sites", "unesco-sites/"]],
     'marseille': [["Castles", "castles/"], ["Wine Regions", "wine-regions/"]],
     'maui': [["Beaches", "beaches/"], ["Islands", "islands/"], ["Resorts", "resorts/"], ["Volcanoes", "volcanoes/"]],
+    'medellin': [["Mountains & Rock Formations", "mountains-and-rock-formations/"]],
     'melbourne': [["Gardens", "gardens/"], ["Hot Springs", "hot-springs/"], ["Kid-Friendly Destinations", "kids-friendly-places/"], ["Kids' Museums", "kids-museums/"], ["Observation Decks", "observation-decks/"], ["Resorts", "resorts/"]],
     'miami': [["Architecture", "architecture/"]],
     'milan': [["Architecture", "architecture/"], ["Art Museums", "art-museums/"], ["Castles", "castles/"], ["Cathedrals", "cathedrals/"], ["Kids' Museums", "kids-museums/"], ["Luxurious Hotels", "most-luxurious-hotels/"]],

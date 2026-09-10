@@ -211,7 +211,7 @@
 
     function render() {
       // A pick fires a native 'input' (to run the page filter); don't re-open on it.
-      if (justPicked) { justPicked = false; hide(); return; }
+      if (justPicked) { hide(); return; }
       var q = fold((input.value || '').trim()).toLowerCase();
       if (q.length < minChars) { hide(); return; }
       cur = items.filter(function (it) { return match(it, q); })
@@ -247,7 +247,11 @@
       justPicked = true;
       input.value = it.name;
       hide();
-      onPick(it);
+      try {
+        onPick(it);
+      } finally {
+        justPicked = false;
+      }
     }
 
     input.addEventListener('input', render);

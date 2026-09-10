@@ -1,3 +1,7 @@
+/* 2026-09-10: Fez guide ship -- toolbar.js gains CHIP_DATA + LOUNGE_IATAS
+   entries for fez (FEZ airport); weather.js re-baked with Fez climate normals.
+   MIN_VERSIONS['toolbar.js'] to 1250, MIN_VERSIONS['weather.js'] to 44,
+   CACHE to v2038. */
 /* 2026-09-10: toolbar.js -- HOTEL_ALT_DATA medellin+fez entries added; medellin
    added to CITY_BEST_OF_MAP. guide-style.css -- .tve-cur-note rule added.
    best-of-cross-data.js -- rebuilt after mountains-and-rock-formations gained
@@ -3533,7 +3537,7 @@
    three action pills (owner correction: widths stay natural, only height needed to
    match, already fixed separately in mobile.css). MIN_VERSIONS['toolbar.js'] to
    1246, CACHE to v2033. */
-var CACHE = 'travel-cache-v2037';
+var CACHE = 'travel-cache-v2038';
 /* 2026-08-27: airlines.css's .card-tags align-items fix changed a shared
    asset without raising its own floor -- MIN_VERSIONS['airlines.css'] to
    6, CACHE to v1662. */
@@ -3581,7 +3585,7 @@ var ICS_OUTBOX = 'gmd-ics-outbox';
    label) was missing min-width:0, so its nested picker ignored its own 58% max-width
    cap, rendered near its full intrinsic width and pushed the amount box and the close
    X off the right edge of the phone screen. MIN_VERSIONS['guide-style.css'] to 296, CACHE to v2007. */
-var MIN_VERSIONS = { 'guide-style.css': 306,'toolbar.js': 1249, 'mobile.css': 99, 'web-travel-style.css': 298, 'guides-index-style.css': 70,'read-about.css': 8, 'best-of-features.js': 6, 'best-of-cross-data.js': 26, 'weather.js': 43,'trains.css': 31, 'trains.js': 6, 'airlines.css': 9, 'airlines.js': 11, 'passport.js': 6, 'search-autocomplete.js': 18, 'flag-render.js': 3, 'site-footer.js': 2 };
+var MIN_VERSIONS = { 'guide-style.css': 306,'toolbar.js': 1250, 'mobile.css': 99, 'web-travel-style.css': 298, 'guides-index-style.css': 70,'read-about.css': 8, 'best-of-features.js': 6, 'best-of-cross-data.js': 26, 'weather.js': 44,'trains.css': 31, 'trains.js': 6, 'airlines.css': 9, 'airlines.js': 11, 'passport.js': 6, 'search-autocomplete.js': 18, 'flag-render.js': 3, 'site-footer.js': 2 };
 
 function rewriteAssetUrl(urlStr) {
   var u;

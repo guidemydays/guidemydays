@@ -10446,6 +10446,7 @@ window.TVE.home = (function () {
 
     /* city-slug → {iata, name}  (derived from index.html FMAP "i" field) */
     var CHIP_DATA = {
+      'fez':               {iata:'FEZ', name:'Fès–Saïss Airport'},
       'zermatt':           {iata:'ZRH', name:'Zurich Airport'},
       'mexico-city':       {iata:'MEX', name:'Mexico City International (Benito Juárez)'},
       'abu-dhabi':         {iata:'AUH', name:'Abu Dhabi International'},
@@ -10737,7 +10738,7 @@ window.TVE.home = (function () {
       'BER','BGI','BGO','BIO','BKK','BLQ','BLR','BNA','BOB','BOD','BOM','BOS','BRU','BSL','BUD','CAE',
       'CAI','CDG','CFU','CGN','CKG','CLT','CMB','CNX','CPH','CPT','CTA','CTG','CUN','CUR','CUZ','CWB',
       'DAD','DBV','DCA','DEL','DEN','DFW','DOH','DPS','DTW','DUB','DUS','DXB','DYG','EDI','EYW','EZE',
-      'FAO','FCA','FCO','FHR','FLN','FLR','FNC','FOR','FRA','GCM','GEG','GIG','GLA','GOT','GPS','GRU',
+      'FAO','FCA','FCO','FEZ','FHR','FLN','FLR','FNC','FOR','FRA','GCM','GEG','GIG','GLA','GOT','GPS','GRU',
       'GRX','GUA','GVA','HAM','HAN','HAV','HEL','HER','HHH','HIJ','HKG','HKT','HND','HNL','IAD','IAH',
       'ICN','IGU','IST','JAI','JED','JFK','JMK','JPA','JTR','KEF','KIX','KOA','KRK','KTM','KUL','KWI',
       'LAS','LAX','LED','LGA','LGW','LHR','LIH','LIM','LIS','LJU','LOS','LPB','LPQ','LUX','LXR','LYS',

@@ -5394,6 +5394,16 @@ window.TVE.home = (function () {
       { name: 'The Dean Galway', note: 'Independent lifestyle hotel — city-centre rooftop pool, restaurant and gym · 8.5 Booking.com', url: 'https://www.booking.com/hotel/ie/the-dean-galway.html', tier: 'expensive' },
       { name: 'Glenlo Abbey Hotel', note: 'Independent country-estate stay — lakeside grounds, spa and Pullman Restaurant outside central Galway · 9.0 Booking.com', url: 'https://www.booking.com/hotel/ie/glenlo-abbey.html', tier: 'luxury' }
     ], price: { budget: '€110–160', mid: '€160–240', expensive: '€240–360', luxury: '€360+' } },
+    'jakarta': { h: [
+      {name: "ASHLEY NEWAIR Menteng", note: "Independent; modern Superior Twin, AC, air purifier, 24h reception; 16 min walk from the guide hotel; bathroom privacy unconfirmed; cancellation varies by rate · 9.3 Booking.com", url: "https://www.booking.com/hotel/id/ashley-newair-menteng.en-gb.html", tier: "budget"},
+      {name: "Aloft Jakarta Wahid Hasyim", note: "Marriott; king bed, AC; 17 min walk; check current pool renovation status; bathroom privacy unconfirmed; cancellation varies by rate · 8.7 Booking.com", url: "https://www.booking.com/hotel/id/aloft-jakarta-wahid-hasyim.id.html", tier: "mid"},
+      {name: "Four Points by Sheraton Jakarta Thamrin", note: "Marriott; king bed, AC; 16 min walk; bathroom privacy unconfirmed; cancellation varies by rate · 7.9 Booking.com", url: "https://www.booking.com/hotel/id/four-points-by-sheraton-jakarta-thamrin.en-gb.html", tier: "mid"},
+      {name: "Sari Pacific Jakarta, Autograph Collection", note: "Marriott; renovated 30 m² Grand Deluxe King, AC; 11 min walk; bathroom privacy unconfirmed; cancellation varies by rate · 8.1 Booking.com", url: "https://www.booking.com/hotel/id/sari-pan-pacific-jakarta.id.html", tier: "expensive"},
+      {name: "Pullman Jakarta Indonesia", note: "Accor; this guide’s hotel; 39 m² Deluxe king or twin, AC; glass bathroom partition requires room-specific privacy confirmation; bathroom privacy unconfirmed; cancellation varies by rate · 8.2 Booking.com", url: "https://www.booking.com/hotel/id/pullman-jakarta-indonesia.html", tier: "expensive"},
+      {name: "Grand Hyatt Jakarta", note: "Hyatt; renovated 50 m² king or twin, AC; Plaza Indonesia complex about 12 min walk; request a quiet room; bathroom privacy unconfirmed; cancellation varies by rate · 9.1 Booking.com", url: "https://www.booking.com/hotel/id/grand-hyatt-jakarta-jakarta6.html", tier: "luxury"},
+      {name: "Park Hyatt Jakarta", note: "Hyatt; modern king room, AC; 25 min walk; bathroom privacy unconfirmed; cancellation varies by rate · 9.3 Booking.com", url: "https://www.booking.com/hotel/id/park-hyatt-jakarta.en-gb.html", tier: "luxury"},
+      {name: "Keraton at The Plaza", note: "Hyatt Unbound Collection; modern 64 m² two-queen room, AC; Plaza Indonesia complex about 12 min walk; bathroom privacy unconfirmed; cancellation varies by rate · 9.4 Booking.com", url: "https://www.booking.com/hotel/id/keraton-at-the-plaza-in-the-unbound-collection-by-hyatt.html", tier: "luxury"}
+    ], price: {budget: "IDR 1,000,000–1,400,000", mid: "IDR 1,400,000–2,100,000", expensive: "IDR 2,100,000–3,500,000", luxury: "IDR 3,500,000+"} },
     'medellin': { h: [
       { name: '574 Hotel', note: 'Independent — El Poblado, Transversal 6, airport shuttle and 24h reception, AC · 9.0 Booking.com', url: 'https://www.booking.com/hotel/co/574.html', tier: 'budget' },
       { name: 'Lettera Hotel', note: 'Independent — El Poblado, Calle 5F, garden terrace and rooftop, fitness center, 24h reception, AC · 9.3 Booking.com', url: 'https://www.booking.com/hotel/co/la-lettera.html', tier: 'budget' },
@@ -10472,6 +10482,7 @@ window.TVE.home = (function () {
       'fez':               {iata:'FEZ', name:'Fès–Saïss Airport'},
       'bogota':            {iata:'BOG', name:'El Dorado International Airport'},
       'galway':            {iata:'SNN', name:'Shannon Airport'},
+      'jakarta': {iata:'CGK', name:'Soekarno–Hatta International Airport'},
       'medellin':          {iata:'MDE', name:'José María Córdova International Airport'},
       'zermatt':           {iata:'ZRH', name:'Zurich Airport'},
       'mexico-city':       {iata:'MEX', name:'Mexico City International (Benito Juárez)'},
@@ -10778,7 +10789,8 @@ window.TVE.home = (function () {
       'ZQN','ZRH','ZTH',
         'SNN',
         'KLO',
-        'CEB'
+        'CEB',
+        'CGK'
     ];
 
     function _inject() {

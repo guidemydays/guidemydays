@@ -118,19 +118,29 @@
      every width this page actually renders at (0.95vw never clears it below
      a ~1449px viewport) -- next to sunrise-sunset's twin .sun-spill-pill,
      which reads the shared .selection-pill's flat 16px, that made this pair
-     visibly smaller and thinner at the same 600 weight. Matched to 16px/8px
-     9px padding, the exact values the twin uses, so the two pages' return
-     links read identically; on a phone narrower than ~415px this pair (its
-     longer label, "Daylight by month", needs more room than the twin's
-     "When to go") wraps to two full rows via the row's own flex-wrap
-     instead of forcing a squeeze -- a fallback that was already there for
-     exactly this. */
+     visibly smaller and thinner at the same 600 weight. Matched to the
+     twin's 16px/8px 9px padding here, the width both pills actually get on
+     any viewport >= ~407px (the .cf-wrap/.hero-band insets leave ~vw-82px
+     for the row; two pills at that size + an 8px gap need ~324px). Below
+     407px there isn't enough room for "Daylight by month" -- the twin's
+     own longer label, "Weather by city", is short enough to still fit, so
+     only this page needs the phone-width fallback below. */
   font: inherit; font-size: 16px; font-weight: 600;
   padding: 8px 9px; text-align: center;
   border: 1.5px solid var(--nt-bronze-ink, #5a3c0e); border-radius: 999px;
   background: var(--nt-bronze-wash, #f5f0e6); color: var(--nt-bronze-ink, #5a3c0e);
   text-decoration: none;
   transition: background .18s ease, border-color .18s ease, color .18s ease;
+}
+/* Below ~407px there's no padding value at 16px that keeps "Daylight by
+   month" + "Weather by city" on one row -- even 1px a side is a hair short
+   at exactly 375px, and razor-thin padding on a pill looks broken anyway.
+   15px/8px 4px fits with real margin down to ~369px (the narrowest phone
+   this site still needs to support), and is still a full 1.24px bigger
+   than the pre-fix 13.76px -- the best one-row fit available, short of a
+   size that no longer reads as "matching the twin". */
+@media (max-width: 420px) {
+  .cf-spill-pill { font-size: 15px; padding: 8px 4px; }
 }
 a.cf-spill-pill:visited { color: var(--nt-bronze-ink, #5a3c0e); }
 /* The shared `.hero-band a` rule underlines every link inside the band and
@@ -364,6 +374,14 @@ a.cf-card:hover { border-color: var(--rust); box-shadow: 0 3px 10px rgba(192,78,
   .cf-sliderrow > div { grid-column: 1 / -1 !important; display: flex !important; flex-direction: column !important; align-items: stretch !important; gap: 6px !important; }
   .cf-sliderrow > div .cf-label { margin: 0 !important; }
   .cf-sliderrow .cf-seg, .cf-sliderrow .cf-sort { width: 100% !important; }
+  /* width:100% above stretches the .cf-seg BOX, not its buttons -- .cf-seg's
+     own buttons are plain inline-flex children with no flex-grow, so Units'
+     two short °C/°F buttons sat at their natural ~45px each inside a
+     full-width row, leaving ~216px (71% of the control) blank on a 375px
+     phone. Rainfall's three longer labels (All/Dry/Wet) hid the same gap
+     better but had it too. Stretch every segment equally to fill the row,
+     same fix both controls needed. */
+  .cf-sliderrow .cf-seg button { flex: 1 1 0; }
 }
 /* Presets */
 /* The "TRY" kicker above this row and the "SEARCH CITY OR COUNTRY" label above

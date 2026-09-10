@@ -226,17 +226,21 @@
         .slice(0, limit);
       if (!cur.length) { hide(); return; }
       dd.innerHTML = cur.map(function (it, i) {
-        return '<button type="button" role="option" id="' + uid + '-' + i + '" class="sa-row" data-i="' + i + '">' +
+        return '<button type="button" role="option" tabindex="-1" aria-selected="false" id="' + uid + '-' + i + '" class="sa-row" data-i="' + i + '">' +
           '<span class="sa-name">' + hlName(it.name, q) + '</span>' +
           (it.sub ? '<span class="sa-sub"> · ' + hlName(it.sub, q) + '</span>' : '') +
           '</button>';
       }).join('');
       dd.hidden = false; active = -1; input.setAttribute('aria-expanded', 'true');
+      input.removeAttribute('aria-activedescendant');
     }
 
     function paint() {
       var rows = dd.querySelectorAll('.sa-row');
-      for (var i = 0; i < rows.length; i++) rows[i].classList.toggle('active', i === active);
+      for (var i = 0; i < rows.length; i++) {
+        rows[i].classList.toggle('active', i === active);
+        rows[i].setAttribute('aria-selected', i === active ? 'true' : 'false');
+      }
       if (active >= 0 && rows[active]) rows[active].scrollIntoView({ block: 'nearest' });
       input.setAttribute('aria-activedescendant', active >= 0 ? uid + '-' + active : '');
     }
@@ -260,6 +264,10 @@
       var b = e.target.closest ? e.target.closest('.sa-row') : null;
       if (!b) return;
       e.preventDefault();
+    });
+    dd.addEventListener('click', function (e) {
+      var b = e.target.closest ? e.target.closest('.sa-row') : null;
+      if (!b) return;
       pick(parseInt(b.getAttribute('data-i'), 10));
     });
     input.addEventListener('keydown', function (e) {

@@ -5424,6 +5424,16 @@ window.TVE.home = (function () {
       { name: 'Algilà Fes Riad Medina Charme Hotel Spa', note: 'Independent — Fes El Bali medina, Akibat Sbaa, restored historic riad with hammam and spa, 24h reception, AC · 9.0 Booking.com', url: 'https://www.booking.com/hotel/ma/algila.html', tier: 'luxury' },
       { name: 'Riad Mayfez Suites & Spa', note: 'Independent — Fes El Bali medina, Douh quarter, this guide’s title-card hotel’s neighborhood, heated outdoor pool and full spa, 24h reception, AC · 8.8 Booking.com', url: 'https://www.booking.com/hotel/ma/mayfez.html', tier: 'luxury' }
     ], price: { budget: 'MAD 250–400', mid: 'MAD 750–900', expensive: 'MAD 1,000–1,400', luxury: 'MAD 1,800+' } },
+    'tunis': { h: [
+      { name: 'Downtown Tunis Hotel', note: 'Independent — Ville Nouvelle, room service and 24h front desk · 8.1 Booking.com', url: 'https://www.booking.com/hotel/tn/downtown-tunis-tunis1.html', tier: 'budget' },
+      { name: 'Marigold Hotel', note: 'Independent — city center, restaurant and bar, 24h front desk · 8.3 Booking.com', url: 'https://www.booking.com/hotel/tn/marigold.html', tier: 'budget' },
+      { name: 'Hotel Carlton', note: 'Independent — Tunis Centre, steps from Avenue Habib Bourguiba, room service and airport shuttle · 8.4 Booking.com', url: 'https://www.booking.com/hotel/tn/carlton-tunis.html', tier: 'mid' },
+      { name: 'Dar El Médina', note: 'Independent boutique — inside the Medina, terrace and airport shuttle, 9.0 Wonderful · 9.0 Booking.com', url: 'https://www.booking.com/hotel/tn/dar-el-medina-tunis.html', tier: 'mid' },
+      { name: 'Tunis Marriott Hotel', note: 'Marriott family — first-tier international brand, Centre Urbain Nord near the airport, rooftop pool and spa, 24h reception, AC · 8.5 Booking.com', url: 'https://www.booking.com/hotel/tn/tunis-marriott.html', tier: 'expensive' },
+      { name: 'Radisson Blu Hotel & Convention Center, Tunis', note: 'Radisson family — first-tier international brand, spa and hot tub, 24h reception, AC · 8.5 Booking.com', url: 'https://www.booking.com/hotel/tn/radisson-blu-convention-center-tunis.html', tier: 'expensive' },
+      { name: 'Sheraton Tunis Hotel', note: 'Marriott family — first-tier international brand, spa and hot tub, 24h reception, AC · 8.4 Booking.com', url: 'https://www.booking.com/hotel/tn/sheraton-tunis-towers.html', tier: 'luxury' },
+      { name: 'Mövenpick Hotel du Lac Tunis', note: 'Mövenpick — first-tier international brand, Les Berges du Lac, spa, sauna and sustainability certification, 24h reception, AC · 8.2 Booking.com', url: 'https://www.booking.com/hotel/tn/movenpick-du-lac-tunis.html', tier: 'luxury' }
+    ], price: { budget: 'TND 175–280', mid: 'TND 280–370', expensive: 'TND 400–570', luxury: 'TND 580+' } },
     'zermatt': { h: [
       { name: 'Hotel Jägerhof', note: 'Independent — quiet Steinmatt quarter, Matterhorn views, breakfast and station transfer · 9.3 Booking.com', url: 'https://www.booking.com/hotel/ch/jagerhof-zermatt.html', tier: 'budget' },
       { name: 'Hotel Walliserhof Zermatt', note: 'Independent — central Bahnhofstrasse, sauna and generous breakfast near the station · 9.0 Booking.com', url: 'https://www.booking.com/hotel/ch/walliserhof-zermatt.html', tier: 'budget' },
@@ -10484,6 +10494,7 @@ window.TVE.home = (function () {
       'galway':            {iata:'SNN', name:'Shannon Airport'},
       'jakarta': {iata:'CGK', name:'Soekarno–Hatta International Airport'},
       'medellin':          {iata:'MDE', name:'José María Córdova International Airport'},
+      'tunis':             {iata:'TUN', name:'Tunis–Carthage International'},
       'zermatt':           {iata:'ZRH', name:'Zurich Airport'},
       'mexico-city':       {iata:'MEX', name:'Mexico City International (Benito Juárez)'},
       'abu-dhabi':         {iata:'AUH', name:'Abu Dhabi International'},
@@ -10790,7 +10801,8 @@ window.TVE.home = (function () {
         'SNN',
         'KLO',
         'CEB',
-        'CGK'
+        'CGK',
+        'TUN'
     ];
 
     function _inject() {

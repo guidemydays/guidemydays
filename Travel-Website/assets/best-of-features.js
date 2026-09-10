@@ -592,6 +592,7 @@
 
     var sortSel = document.createElement('select');
     sortSel.className = 'bo-sort-select';
+    sortSel.setAttribute('aria-label', 'Sort Best-Of guides');
     [['default','Sort: Default'],['az','A → Z'],['za','Z → A'],
      ['most','Most entries'],['least','Fewest entries']].forEach(function (o) {
       var opt = document.createElement('option');

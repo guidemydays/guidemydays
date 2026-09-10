@@ -5,154 +5,131 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link rel="stylesheet" href="/assets/web-travel-style.css">
 <title>Tipping Customs by Country | Guide My Days</title>
-<style>/* ── Tipping norm palette — 2026-08-27: the local --c-* hex quad is gone.
-   .country-card now also carries the real .cp-dusty-teal/.cp-honey/
-   .cp-rust/.cp-light-grey class (assigned in renderCard()'s NORM_CP
-   map), so .norm-*::before below reads --sp-ink straight from
-   web-travel-style.css. Ordering intent (strongest-expectation to
-   doesn't-apply) is unchanged, just no longer a hand-picked hex per step. */
-/* ── Filter pills ── */
-.controls { margin: var(--search-gap,32px) 0 20px; }
-.pills { display: flex; gap: var(--fam-gap,10px); flex-wrap: nowrap; justify-content: center; }
-/* .pill is a layout hook — box, colour, case and the selected state come from
-   the shared .pill-badge + .fam-* classes (markup writes pill pill-badge fam-*;
-   selection is .is-on). Never re-add a box or a colour here.
-   Spec: Brain/Reference/Icons-Formats-Logos/selection-pills-badges-pills-to-badge-dots/. */
-.pill { font-family: inherit; }
-#region-pills .pill.selection-pill:hover { filter: brightness(.94); }
-#region-pills .pill.selection-pill.is-on,
-#region-pills .pill.selection-pill[aria-pressed="true"] { filter: brightness(.82); }
-/* ── Norm strip (2026-09-01) — this is the mock-up's legend-strip
-   (Travel-Website/reports/mock-ups/tipping-region-radar-redesign.html):
-   a thin banded row of dot+label keys, never a second row of oval pill
-   buttons stacked under the region row. A second .selection-pill row read
-   as two equally-loud, same-shaped filter bars piled on each other, forced
-   an artificial equal-width match against six differently-worded region
-   pills, and needed .hov-darken removed to stop it mixing each sb-* color
-   toward muddy black on hover (--sp-ink is flat #000 for every sb-* family
-   — it was only ever meant for badge text-on-wash, never a hover mix).
-   The banded strip sidesteps all three: dots don't need equal widths, the
-   background tint makes it read as one distinct group at a glance, and its
-   hover/selected state is a plain background tint, not a color-mix. Still
-   a real filter — click a key, same multi-select model as before. */
-.norm-strip {
-  max-width: var(--rail); margin: 16px auto 0; padding: 10px 18px;
-  background: var(--surface2); border: 1px solid var(--border);
-  border-radius: 10px;
-  display: flex; flex-wrap: wrap; gap: 6px 16px; align-items: center;
-  justify-content: center;
+<style>
+/* The Check: the selected design applied beneath the shared essentials hero. */
+.c-calc {
+  max-width: 640px; margin: 0 auto 30px; background: var(--surface);
+  border: 1px solid var(--border2); border-radius: 18px; padding: 20px 24px;
+  box-shadow: 0 20px 44px -34px rgba(0,0,0,.45);
+  display: flex; align-items: center; justify-content: center; gap: 16px; flex-wrap: wrap;
 }
-.norm-strip-label {
-  font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: .08em;
-  color: var(--muted);
+.c-calc label { font-size: 12px; font-weight: 800; letter-spacing: .1em; text-transform: uppercase; color: var(--muted); }
+.c-amt {
+  font: inherit; font-size: 30px; font-weight: 800; color: var(--text); width: 160px; text-align: center;
+  background: var(--surface2); border: 1px solid var(--border2); border-radius: 12px; padding: 8px 12px;
+  -moz-appearance: textfield;
 }
-.norm-key {
-  display: inline-flex; align-items: center; gap: 7px;
-  font-family: inherit; font-size: 12.5px; font-weight: 600; color: var(--text);
+.c-amt::-webkit-outer-spin-button, .c-amt::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
+.c-amt:focus { outline: none; border-color: var(--accent); box-shadow: 0 0 0 4px color-mix(in srgb, var(--accent) 20%, transparent); }
+.c-calc-note { flex-basis: 100%; text-align: center; font-size: 12px; color: var(--muted); line-height: 1.6; margin: 0; }
+
+.t-controls { max-width: var(--rail); margin: 0 auto; }
+.t-pills { display: flex; flex-wrap: wrap; gap: var(--fam-gap,10px); justify-content: center; margin-bottom: 14px; }
+.t-pills .selection-pill { font-family: inherit; cursor: pointer; }
+.t-pills .selection-pill:hover { filter: brightness(.94); }
+.t-pills .selection-pill.is-on,
+.t-pills .selection-pill[aria-pressed="true"] { filter: brightness(.82); }
+.t-norms {
+  display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: 6px 14px;
+  background: var(--surface2); border: 1px solid var(--border2); border-radius: 12px;
+  padding: 10px 18px; max-width: 720px; margin: 0 auto;
+}
+.t-norms-label { font-size: 11px; font-weight: 800; letter-spacing: .1em; text-transform: uppercase; color: var(--muted); }
+.t-key {
+  display: inline-flex; align-items: center; justify-content: center; gap: 7px;
+  font: inherit; font-size: 12.5px; font-weight: 700; color: var(--text);
   background: transparent; border: 1px solid transparent; border-radius: 999px;
   padding: 5px 12px 5px 9px; cursor: pointer; line-height: 1;
+  transition: background .18s, border-color .18s;
 }
-.norm-key:hover { background: var(--surface); border-color: var(--border2,#e6e2da); }
-.norm-key.is-on,
-.norm-key[aria-pressed="true"] {
-  background: color-mix(in srgb, var(--sb-fill) 16%, var(--surface));
-  border-color: color-mix(in srgb, var(--sb-fill) 45%, var(--surface));
+.t-key:hover { background: var(--surface); border-color: var(--border2); }
+.t-key[aria-pressed="true"] {
+  background: color-mix(in srgb, var(--sb-fill) 18%, var(--surface));
+  border-color: color-mix(in srgb, var(--sb-fill) 48%, var(--surface));
   font-weight: 800;
 }
-.norm-dot { width: 10px; height: 10px; border-radius: 50%; background: var(--sb-fill); flex-shrink: 0; }
-/* ── Region headers (B — hairline rule) ── */
-.region-header {
-  display: flex; align-items: center; gap: 12px;
-  margin: 28px 0 0; padding: 0;
-  background: none; border: none; border-radius: 0;
-  color: var(--sub,#7A7368); font-size: 10px; font-weight: 700;
-  letter-spacing: .14em; text-transform: uppercase;
+.t-dot { width: 10px; height: 10px; border-radius: 50%; background: var(--sb-fill); flex-shrink: 0; }
+.t-empty { display: none; text-align: center; color: var(--muted); padding: 60px 20px; font-size: 15px; }
+.t-empty.on { display: block; }
+.c-count { min-height: 18px; text-align: center; font-size: 12px; color: var(--muted); margin: 18px 0 8px; }
+.c-stack {
+  max-width: var(--rail); margin: 0 auto 90px;
+  display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 22px; align-items: start;
 }
-.region-header::before, .region-header::after {
-  content: ''; flex: 1; height: 1px; background: var(--rule2,#e6e2da);
+
+.c-check {
+  position: relative; background: var(--surface); color: var(--text);
+  padding: 22px 22px 26px; border-radius: 4px;
+  box-shadow: 0 2px 0 rgba(0,0,0,.04), 0 18px 34px -26px rgba(0,0,0,.55);
+  opacity: 0; transform: translateY(26px) rotate(-.5deg);
+  transition: opacity .55s, transform .55s cubic-bezier(.2,.9,.25,1), box-shadow .25s;
+  --paper: var(--surface);
 }
-.region-header:first-child { margin-top: 0; }
-/* ── Region Radar redesign (2026-09-01) — grid of cards replaces the
-   connected hairline row list; layout only, same data/JS-model, same
-   approved .badge/.pill classes throughout. Mock-up:
-   Travel-Website/reports/mock-ups/tipping-region-radar-redesign.html */
-.country-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-  gap: 12px;
-  margin-top: 12px;
+.c-check.in { opacity: 1; transform: none; }
+.c-check:hover { box-shadow: 0 2px 0 rgba(0,0,0,.04), 0 26px 44px -24px rgba(0,0,0,.42); }
+.c-check::after {
+  content: ''; position: absolute; left: 0; right: 0; bottom: -9px; height: 10px;
+  background: var(--paper);
+  -webkit-mask: conic-gradient(from 45deg at 50% 0, transparent 90deg, black 0) 0 0/12px 100%;
+  mask: conic-gradient(from 45deg at 50% 0, transparent 90deg, black 0) 0 0/12px 100%;
 }
-/* ── Country cards ── */
-.country-card {
-  background: var(--surface);
-  border: 1px solid var(--border2,#e6e2da); border-radius: 10px;
-  padding: 16px 18px 16px 22px;
-  position: relative;
-  transition: box-shadow .15s, transform .15s, border-color .15s;
-}
-.country-card::before {
-  content: '';
-  position: absolute; top: 0; left: 0; bottom: 0;
-  width: 4px; border-radius: 0;
+.c-check::before {
+  content: ''; position: absolute; left: 0; right: 0; top: 0; height: 5px; border-radius: 4px 4px 0 0;
+  background: var(--sp-ink);
 }
 .country-card[class*="cp-"]::before { background: var(--sp-ink); }
-.country-card:hover {
-  box-shadow: 0 6px 18px rgba(0,0,0,.08); transform: translateY(-2px);
-  border-color: var(--accent);
+.c-ch-head { display: flex; align-items: center; gap: 10px; padding-top: 6px; padding-right: 88px; }
+.c-ch-head .fl { font-size: 22px; line-height: 1; }
+.c-ch-name { font-size: 18px; font-weight: 800; letter-spacing: -.01em; line-height: 1.15; }
+.c-ch-sub {
+  font-size: 10.5px; font-weight: 700; letter-spacing: .14em; text-transform: uppercase;
+  color: var(--muted); margin: 10px 0 0; display: flex; justify-content: space-between; gap: 10px; align-items: center;
 }
-.country-name { display: flex; align-items: center; gap: 7px; line-height: 1.2; }
-.country-flag { font-size: 18px; line-height: 1; }
-.country-cities { font-size: 11px; color: var(--muted); margin-top: 5px; margin-bottom: 10px; line-height: 1.55; }
-.norm-bar { display: flex; align-items: center; gap: 10px; margin-bottom: 10px; }
-.norm-chip {
-  /* hook — box from the shared .badge (JS writes norm-chip badge fam-*).
-     Was 10px / radius 6px; never re-add a box. */
-  flex-shrink: 0;
+.c-rule { border-top: 1px dashed var(--border); margin: 12px 0; }
+.c-lines { list-style: none; margin: 0; padding: 0; }
+.c-lines li { display: flex; align-items: baseline; gap: 6px; padding: 7px 0; font-size: 13px; opacity: 0; transform: translateY(6px); }
+.c-check.in .c-lines li { animation: cPrint .34s cubic-bezier(.2,.9,.25,1) forwards; }
+@keyframes cPrint { to { opacity: 1; transform: none; } }
+.c-lines .lab { color: var(--muted); white-space: nowrap; }
+.c-lines .dots { flex: 1; border-bottom: 1px dotted var(--border); transform: translateY(-3px); min-width: 14px; }
+.c-lines .val { font-weight: 800; text-align: right; }
+.c-total { margin-top: 14px; padding-top: 14px; border-top: 2px solid var(--text); display: flex; align-items: baseline; justify-content: space-between; gap: 10px; }
+.c-total .k { font-size: 11px; font-weight: 800; letter-spacing: .14em; text-transform: uppercase; color: var(--muted); }
+.c-total .v { font-size: 24px; font-weight: 800; letter-spacing: -.02em; font-variant-numeric: tabular-nums; }
+.c-total .v.words { font-size: 13px; font-weight: 700; color: var(--muted); text-align: right; line-height: 1.35; }
+.c-total .v.flash { animation: cFlash .5s; }
+@keyframes cFlash { 0% { color: var(--sp-ink); transform: scale(1.12); } 100% { color: inherit; transform: none; } }
+.c-stamp {
+  position: absolute; top: 16px; right: 14px; transform: rotate(-13deg) scale(.4); opacity: 0;
+  border: 2.5px solid var(--sp-ink); color: var(--sp-ink); border-radius: 6px;
+  font-size: 9.5px; font-weight: 800; letter-spacing: .12em; text-transform: uppercase; padding: 4px 8px;
+  pointer-events: none;
 }
-/* Norm intensity spectrum — decorative meter beside the badge, filled from
-   the SAME approved sb-* --sb-fill token the badge already carries (no new
-   hex introduced). Width per norm mirrors the mock-up's intensity read. */
-.spectrum { flex: 1; min-width: 40px; height: 5px; border-radius: 3px; background: var(--border2,#e6e2da); position: relative; overflow: hidden; }
-.spectrum-fill { position: absolute; left: 0; top: 0; height: 100%; border-radius: 3px; background: var(--sb-fill); }
-.spectrum-fill.expected    { width: 90%; }
-.spectrum-fill.appreciated { width: 60%; }
-.spectrum-fill.check       { width: 35%; }
-.spectrum-fill.skip        { width: 10%; }
-.tip-rows { display: flex; flex-direction: column; gap: 4px; }
-.tip-row  {
-  font-size: 12.5px; color: var(--text);
-  display: flex; gap: 8px;
-  padding: 3px 0;
-  border-bottom: 1px solid #f0ede8;
+.c-check.in .c-stamp { animation: cStamp .5s .42s cubic-bezier(.2,1.5,.4,1) forwards; }
+@keyframes cStamp { to { opacity: .82; transform: rotate(-13deg) scale(1); } }
+.c-note { font-size: 11.5px; line-height: 1.65; color: var(--muted); margin: 14px 0 0; }
+.c-cities {
+  font-size: 10.5px; line-height: 1.55; color: var(--muted); margin: 8px 0 0;
+  display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;
 }
-.tip-row:last-child { border-bottom: none; }
-.tip-label { color: var(--muted); flex-shrink: 0; width: 140px; }
-.tip-value { color: var(--text); font-weight: 500; }
-.tip-note  { font-size: 11.5px; color: var(--muted); margin-top: 7px; line-height: 1.45; }
-/* .empty-state lives in web-travel-style.css (shared) */
-/* ── Mobile ── */
+
+@media (prefers-reduced-motion: reduce) {
+  .wrap [class] { animation-duration: .001ms !important; animation-delay: 0ms !important; transition-duration: .001ms !important; }
+}
 @media (max-width: 600px) and (pointer: coarse) {
-  /* Horizontal bleed comes from the shared rule — (100vw - 100%)/2 off the .wrap
-     gutter. Restating it as a number here made the band stop short of the edge. */
-  .hero-band { padding-top: 32px; padding-bottom: 28px; }
-  .hero-title { font-size: 32px; }
-    .pills { flex-wrap: wrap !important; gap: var(--fam-gap,10px) !important; }
-  .country-grid { grid-template-columns: 1fr; }
-  .country-card { padding: 13px 14px 13px 18px; }
-  .tip-label { width: 120px; }
+  .c-calc { padding: 18px 14px; }
+  .c-stack { grid-template-columns: 1fr; }
+  .c-check { padding: 20px 16px 24px; }
+  .c-ch-head { padding-right: 76px; }
+  .c-lines li { align-items: flex-start; }
+  .c-lines .dots { display: none; }
+  .c-lines .val { margin-left: auto; }
 }
 @media (prefers-color-scheme: dark) {
-  /* Calm Pastel has no separate dark-mode set yet (doc note: "not yet
-     decided" — same as the sp-* tones it replaces), so light-mode fills carry
-     over unchanged — each pill is a self-contained light chip, readable on
-     any page background regardless of theme. */
-  #region-pills .pill.selection-pill:hover { filter: brightness(.9); }
-  #region-pills .pill.selection-pill.is-on,
-  #region-pills .pill.selection-pill[aria-pressed="true"] { filter: brightness(.8); }
-  .norm-key:hover { background: var(--surface); border-color: #4a453e; }
-  .region-header { color: var(--muted); }
-  /* .sb-gold (#c8aa4a), .sb-green (#7cb384), .sb-dark-grey (#8a867a) midtone fills —
-     white text reaches 2.26:1, 2.43:1, 3.64:1; dark text passes 9:1+. */
+  .t-pills .selection-pill:hover { filter: brightness(.9); }
+  .t-pills .selection-pill.is-on,
+  .t-pills .selection-pill[aria-pressed="true"] { filter: brightness(.8); }
 }
 
 </style>
@@ -211,26 +188,33 @@
     <input type="search" class="search-input" id="search" placeholder="Country or city" aria-label="Search by country or city" autocomplete="off">
   </div>
 
-  <div class="controls">
-    <div class="pills" id="region-pills">
-      <button class="pill selection-pill nt-saddle hov-darken" data-region="all" aria-pressed="true">All</button>
+  <div class="c-calc">
+    <label for="billAmt">Your bill</label>
+    <input type="number" id="billAmt" class="c-amt" value="100" min="0" step="5" inputmode="decimal" aria-label="Bill amount">
+    <p class="c-calc-note">Type a bill total and every check below re-totals itself &mdash; the restaurant line for each country, worked out on your number.</p>
+  </div>
+
+  <div class="t-controls">
+    <div class="t-pills" id="region-pills" role="group" aria-label="Filter by region">
+      <button class="pill selection-pill nt-saddle hov-darken is-on" data-region="all" aria-pressed="true">All</button>
       <button class="pill selection-pill cp-blue hov-darken" data-region="americas" aria-pressed="false">Americas</button>
       <button class="pill selection-pill cp-dusty-teal hov-darken" data-region="caribbean" aria-pressed="false">Caribbean</button>
       <button class="pill selection-pill cp-rust hov-darken" data-region="europe" aria-pressed="false">Europe</button>
       <button class="pill selection-pill cp-soft-plum hov-darken" data-region="asiapac" aria-pressed="false">Asia · Pacific</button>
       <button class="pill selection-pill cp-honey hov-darken" data-region="other" aria-pressed="false">M.E. &amp; Africa</button>
     </div>
+    <div class="t-norms" id="norm-keys" role="group" aria-label="Filter by tipping norm">
+      <span class="t-norms-label">Norm</span>
+      <button type="button" class="t-key sb-green" data-norm="expected" aria-pressed="false"><span class="t-dot"></span>Expected</button>
+      <button type="button" class="t-key sb-gold" data-norm="appreciated" aria-pressed="false"><span class="t-dot"></span>Appreciated</button>
+      <button type="button" class="t-key sb-blue" data-norm="check" aria-pressed="false"><span class="t-dot"></span>Check the bill</button>
+      <button type="button" class="t-key sb-dark-grey" data-norm="skip" aria-pressed="false"><span class="t-dot"></span>Not customary</button>
+    </div>
   </div>
 
-  <div class="norm-strip" id="norm-strip">
-    <span class="norm-strip-label">Norm:</span>
-    <button type="button" class="norm-key sb-green" data-norm="expected" aria-pressed="false"><span class="norm-dot"></span>Expected</button>
-    <button type="button" class="norm-key sb-gold" data-norm="appreciated" aria-pressed="false"><span class="norm-dot"></span>Appreciated</button>
-    <button type="button" class="norm-key sb-blue" data-norm="check" aria-pressed="false"><span class="norm-dot"></span>Check the bill</button>
-    <button type="button" class="norm-key sb-dark-grey" data-norm="skip" aria-pressed="false"><span class="norm-dot"></span>Not customary</button>
-  </div>
-
-  <div class="country-list" id="list"></div>
+  <p class="c-count" id="count" aria-live="polite"></p>
+  <div class="c-stack" id="stack"></div>
+  <p class="t-empty" id="empty">No country matches that.</p>
 
 </div>
 
@@ -1326,124 +1310,130 @@ var COUNTRIES = [
   },
 ];
 
-var activeRegion = 'all';
-var activeNorms  = [];   // multi-select — empty = no norm filter applied
-var searchVal    = '';
+var NORM_LABEL = { expected:'Expected', appreciated:'Appreciated', check:'Check the bill', skip:'Not customary' };
+var NORM_CP = { expected:'cp-dusty-teal', appreciated:'cp-honey', check:'cp-rust', skip:'cp-light-grey' };
+var NORM_PCT = { expected:90, appreciated:60, check:35, skip:10 };
+var REGION_LABEL = { americas:'Americas', caribbean:'Caribbean', europe:'Europe', asiapac:'Asia \u00b7 Pacific', other:'Middle East &amp; Africa' };
+var state = { region:'all', norms:[], q:'' };
 
-var REGION_LABELS = {
-  americas: 'Americas',
-  caribbean: 'Caribbean',
-  europe: 'Europe',
-  asiapac: 'Asia · Pacific',
-  other: 'Middle East & Africa'
-};
-var REGION_ORDER = ['americas','caribbean','europe','asiapac','other'];
-
-function norm(n) {
-  var map = {expected:'Expected', appreciated:'Appreciated', check:'Check Bill', skip:'Not Customary'};
-  return map[n] || n;
+function flagHTML(code) {
+  try { return (window.TVE && TVE.flag) ? TVE.flag.html(code) : ''; } catch (e) { return ''; }
 }
+function esc(s) {
+  return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+function matches(c) {
+  if (state.region !== 'all' && c.region !== state.region) return false;
+  if (state.norms.length && state.norms.indexOf(c.norm) < 0) return false;
+  if (state.q) {
+    var hay = (c.name + ' ' + (c.cities || '') + ' ' + NORM_LABEL[c.norm]).toLowerCase();
+    if (hay.indexOf(state.q) < 0) return false;
+  }
+  return true;
+}
+function restaurantRate(c) {
+  var line = null;
+  for (var i = 0; i < c.tips.length; i++) {
+    if (/restaurant/i.test(c.tips[i].label)) { line = c.tips[i].value; break; }
+  }
+  if (!line) return { rate:null, text:null };
+  var range = line.match(/(\d+(?:\.\d+)?)\s*[\u2013\u2014-]\s*(\d+(?:\.\d+)?)\s*%/);
+  if (range) return { rate:(Number(range[1]) + Number(range[2])) / 200, text:line };
+  var one = line.match(/(\d+(?:\.\d+)?)\s*%/);
+  if (one) return { rate:Number(one[1]) / 100, text:line };
+  return { rate:null, text:line };
+}
+function money(n) { return n.toFixed(2).replace(/\.00$/, ''); }
 
-var NORM_CP = { expected: 'cp-dusty-teal', appreciated: 'cp-honey', check: 'cp-rust', skip: 'cp-light-grey' };
-var NORM_SB = { expected: 'sb-green', appreciated: 'sb-gold', check: 'sb-blue', skip: 'sb-dark-grey' };
-function renderCard(c) {
-  var tipRows = c.tips.map(function(t) {
-    return '<div class="tip-row"><span class="tip-label">' + t.label + '</span><span class="tip-value">' + t.value + '</span></div>';
+var stack = document.getElementById('stack');
+var empty = document.getElementById('empty');
+var count = document.getElementById('count');
+var amt = document.getElementById('billAmt');
+var io = ('IntersectionObserver' in window) ? new IntersectionObserver(function(entries) {
+  entries.forEach(function(entry) {
+    if (entry.isIntersecting) { entry.target.classList.add('in'); io.unobserve(entry.target); }
+  });
+}, { rootMargin:'0px 0px -30px 0px' }) : null;
+
+function bill() {
+  var value = parseFloat(amt.value);
+  return (isFinite(value) && value > 0) ? value : 0;
+}
+function checkHTML(c) {
+  var lines = c.tips.map(function(t, i) {
+    return '<li style="animation-delay:' + (0.12 + i * 0.06) + 's"><span class="lab">' + esc(t.label) +
+      '</span><span class="dots"></span><span class="val">' + esc(t.value) + '</span></li>';
   }).join('');
-  var sbFam = NORM_SB[c.norm] || 'sb-dark-grey';
-  return '<div class="country-card norm-' + c.norm + ' ' + NORM_CP[c.norm] + '">' +
-    '<div class="country-name"><span class="country-flag">' + TVE.flag.html(c.flag) + '</span>' + c.name + '</div>' +
-    '<div class="country-cities">' + c.cities + '</div>' +
-    '<div class="norm-bar">' +
-      '<span class="norm-chip badge ' + sbFam + ' ' + c.norm + '">' + norm(c.norm) + '</span>' +
-      '<div class="spectrum"><div class="spectrum-fill ' + sbFam + ' ' + c.norm + '"></div></div>' +
-    '</div>' +
-    '<div class="tip-rows">' + tipRows + '</div>' +
-    (c.note ? '<div class="tip-note">' + c.note + '</div>' : '') +
-  '</div>';
+  var restaurant = restaurantRate(c);
+  var total = '<div class="c-total"><span class="k">Tip on your bill</span>' +
+    '<span class="v' + (restaurant.rate ? '' : ' words') + '" data-rate="' + (restaurant.rate || '') +
+    '" data-words="' + esc(restaurant.text || 'No restaurant line') + '">&mdash;</span></div>';
+  return '<article class="c-check country-card norm-' + c.norm + ' ' + NORM_CP[c.norm] + '" data-name="' + esc(c.name) + '">' +
+    '<span class="c-stamp">' + NORM_LABEL[c.norm] + '</span>' +
+    '<div class="c-ch-head"><span class="fl">' + flagHTML(c.flag) + '</span><span class="c-ch-name">' + esc(c.name) + '</span></div>' +
+    '<div class="c-ch-sub"><span>' + REGION_LABEL[c.region] + '</span><span>' + NORM_PCT[c.norm] + ' / 100</span></div>' +
+    '<div class="c-rule"></div><ul class="c-lines">' + lines + '</ul>' + total +
+    (c.cities ? '<p class="c-cities">' + esc(c.cities) + '</p>' : '') +
+    (c.note ? '<p class="c-note">' + esc(c.note) + '</p>' : '') + '</article>';
 }
-
+function retotal(flash) {
+  var value = bill();
+  Array.prototype.forEach.call(stack.querySelectorAll('.c-total .v'), function(el) {
+    var rate = el.dataset.rate;
+    if (!rate) { el.textContent = el.dataset.words; return; }
+    el.textContent = value ? money(value * parseFloat(rate)) : '\u2014';
+    if (flash) { el.classList.remove('flash'); void el.offsetWidth; el.classList.add('flash'); }
+  });
+}
 function render() {
-  var list = document.getElementById('list');
-  var filtered = COUNTRIES.filter(function(c) {
-    if (activeRegion !== 'all' && c.region !== activeRegion) return false;
-    if (activeNorms.length && activeNorms.indexOf(c.norm) === -1) return false;
-    if (searchVal && (c.name + ' ' + c.cities).toLowerCase().indexOf(searchVal) === -1) return false;
-    return true;
-  });
-  if (filtered.length === 0) {
-    list.innerHTML = '<div class="empty-state">' + (searchVal ? 'No results for "' + searchVal + '"' : 'No countries match this filter') + '</div>';
-    return;
-  }
-
-  // Group by region in canonical order (only regions that appear in filtered set)
-  var grouped = {};
-  filtered.forEach(function(c) {
-    if (!grouped[c.region]) grouped[c.region] = [];
-    grouped[c.region].push(c);
-  });
-
-  var html = '';
-  var regions = activeRegion === 'all'
-    ? REGION_ORDER.filter(function(r) { return grouped[r]; })
-    : [activeRegion];
-
-  regions.forEach(function(r) {
-    if (!grouped[r]) return;
-    if (activeRegion === 'all' || searchVal) {
-      html += '<div class="region-header">' + REGION_LABELS[r] + '</div>';
-    }
-    html += '<div class="country-grid">' + grouped[r].map(renderCard).join('') + '</div>';
-  });
-
-  list.innerHTML = html;
+  var list = COUNTRIES.filter(matches);
+  stack.innerHTML = list.map(checkHTML).join('');
+  empty.classList.toggle('on', list.length === 0);
+  count.textContent = (state.region !== 'all' || state.norms.length || state.q) ? list.length + ' matches' : '';
+  setTimeout(function() {
+    Array.prototype.forEach.call(stack.children, function(card) { card.classList.add('in'); });
+  }, 900);
+  Array.prototype.forEach.call(stack.children, function(card) { if (io) io.observe(card); else card.classList.add('in'); });
+  retotal(false);
 }
-
-document.getElementById('region-pills').addEventListener('click', function(e) {
-  var btn = e.target.closest('.pill');
-  if (!btn) return;
-  activeRegion = btn.dataset.region;
-  document.querySelectorAll('#region-pills .pill').forEach(function(p) { p.classList.remove('is-on'); p.setAttribute('aria-pressed', 'false'); });
-  btn.classList.add('is-on');
-  btn.setAttribute('aria-pressed', 'true');
-  render();
-});
-
-document.getElementById('norm-strip').addEventListener('click', function(e) {
-  var btn = e.target.closest('.norm-key');
-  if (!btn) return;
-  var n = btn.dataset.norm;
-  var idx = activeNorms.indexOf(n);
-  if (idx === -1) {
-    activeNorms.push(n);
-    btn.classList.add('is-on');
-    btn.setAttribute('aria-pressed', 'true');
-  } else {
-    activeNorms.splice(idx, 1);
-    btn.classList.remove('is-on');
-    btn.setAttribute('aria-pressed', 'false');
-  }
-  render();
-});
-
-document.getElementById('search').addEventListener('input', function(e) {
-  searchVal = e.target.value.toLowerCase().trim();
-  render();
-});
-
-/* Region pills match the width of the widest one (measure-the-widest-then-
-   match-min-width). The norm strip is dot+label, not pills — it sizes to
-   its own content like the mock-up's legend-strip does. */
+function wireControls() {
+  var pills = document.querySelectorAll('#region-pills [data-region]');
+  Array.prototype.forEach.call(pills, function(button) {
+    button.addEventListener('click', function() {
+      Array.prototype.forEach.call(pills, function(item) { item.classList.remove('is-on'); item.setAttribute('aria-pressed','false'); });
+      button.classList.add('is-on');
+      button.setAttribute('aria-pressed','true');
+      state.region = button.dataset.region;
+      render();
+    });
+  });
+  var keys = document.querySelectorAll('#norm-keys [data-norm]');
+  Array.prototype.forEach.call(keys, function(button) {
+    button.addEventListener('click', function() {
+      var norm = button.dataset.norm;
+      var index = state.norms.indexOf(norm);
+      if (index < 0) { state.norms.push(norm); button.setAttribute('aria-pressed','true'); }
+      else { state.norms.splice(index,1); button.setAttribute('aria-pressed','false'); }
+      render();
+    });
+  });
+  document.getElementById('search').addEventListener('input', function(event) {
+    state.q = event.target.value.trim().toLowerCase();
+    render();
+  });
+}
 function equalizePills() {
   var pills = [].slice.call(document.querySelectorAll('#region-pills .pill'));
   if (pills.length < 2) return;
-  pills.forEach(function (p) { p.style.minWidth = ''; });
+  pills.forEach(function(pill) { pill.style.minWidth = ''; });
   var max = 0;
-  pills.forEach(function (p) { max = Math.max(max, p.getBoundingClientRect().width); });
-  pills.forEach(function (p) { p.style.minWidth = max + 'px'; });
+  pills.forEach(function(pill) { max = Math.max(max, pill.getBoundingClientRect().width); });
+  pills.forEach(function(pill) { pill.style.minWidth = max + 'px'; });
 }
-window.addEventListener('resize', equalizePills);
 
+amt.addEventListener('input', function() { retotal(true); });
+window.addEventListener('resize', equalizePills);
+wireControls();
 render();
 equalizePills();
 </script>

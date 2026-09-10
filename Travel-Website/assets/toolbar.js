@@ -10447,6 +10447,8 @@ window.TVE.home = (function () {
     /* city-slug → {iata, name}  (derived from index.html FMAP "i" field) */
     var CHIP_DATA = {
       'fez':               {iata:'FEZ', name:'Fès–Saïss Airport'},
+      'bogota':            {iata:'BOG', name:'El Dorado International Airport'},
+      'medellin':          {iata:'MDE', name:'José María Córdova International Airport'},
       'zermatt':           {iata:'ZRH', name:'Zurich Airport'},
       'mexico-city':       {iata:'MEX', name:'Mexico City International (Benito Juárez)'},
       'abu-dhabi':         {iata:'AUH', name:'Abu Dhabi International'},
@@ -10734,21 +10736,22 @@ window.TVE.home = (function () {
        list) while every European guide jumped to its country rather than to
        its airport. */
     var LOUNGE_IATAS = [
-      'ABQ','AES','AGP','AJU','AKL','AMM','AMS','ANC','ARN','ATH','ATL','AUA','AUH','AUS','AYT','BCN','BDS',
-      'BER','BGI','BGO','BIO','BKK','BLQ','BLR','BNA','BOB','BOD','BOM','BOS','BRU','BSL','BUD','CAE',
-      'CAI','CDG','CFU','CGN','CKG','CLT','CMB','CNX','CPH','CPT','CTA','CTG','CUN','CUR','CUZ','CWB',
-      'DAD','DBV','DCA','DEL','DEN','DFW','DOH','DPS','DTW','DUB','DUS','DXB','DYG','EDI','EYW','EZE',
-      'FAO','FCA','FCO','FEZ','FHR','FLN','FLR','FNC','FOR','FRA','GCM','GEG','GIG','GLA','GOT','GPS','GRU',
-      'GRX','GUA','GVA','HAM','HAN','HAV','HEL','HER','HHH','HIJ','HKG','HKT','HND','HNL','IAD','IAH',
-      'ICN','IGU','IST','JAI','JED','JFK','JMK','JPA','JTR','KEF','KIX','KOA','KRK','KTM','KUL','KWI',
-      'LAS','LAX','LED','LGA','LGW','LHR','LIH','LIM','LIS','LJU','LOS','LPB','LPQ','LUX','LXR','LYS',
-      'MAD','MAN','MBJ','MCO','MCT','MCZ','MEL','MEX','MFM','MIA','MLA','MLE','MRS','MSP','MSY','MUC',
-      'MVD','MXP','NAP','NAS','NAT','NAV','NBE','NBO','NCE','OAX','OGG','OLB','OPO','ORD','ORS','ORY','OSL',
-      'OTP','PBH','PDL','PDX','PEK','PHL','PHX','PLS','PMI','PNS','POA','PPS','PRG','PSA','PSP','PUJ',
-      'PUS','PVG','PVR','RAK','RDM','REC','RHO','RIX','RNO','RSW','RUH','SAN','SCL','SEA','SEZ','SFO',
-      'SGN','SIN','SJC','SJD','SJO','SJU','SKG','SLC','SLZ','SOF','SPU','SRQ','SSA','STR','STT','SVO',
-      'SVQ','SXB','SXM','SYD','SZG','SZX','TBS','TFS','TIV','TLL','TLV','TOS','TPE','TRN','VCE','VIE',
-      'VLC','VNO','VRN','WLG','YIA','YQB','YUL','YVR','YYC','YYZ','ZAG','ZNZ','ZQN','ZRH','ZTH'
+      'ABQ','AES','AGP','AJU','AKL','AMM','AMS','ANC','ARN','ATH','ATL','AUA','AUH','AUS','AYT','BCN',
+      'BDS','BER','BGI','BGO','BIO','BKK','BLQ','BLR','BNA','BOB','BOD','BOG','BOM','BOS','BRU','BSL',
+      'BUD','CAE','CAI','CDG','CFU','CGN','CKG','CLT','CMB','CNX','CPH','CPT','CTA','CTG','CUN','CUR',
+      'CUZ','CWB','DAD','DBV','DCA','DEL','DEN','DFW','DOH','DPS','DTW','DUB','DUS','DXB','DYG','EDI',
+      'EYW','EZE','FAO','FCA','FCO','FEZ','FHR','FLN','FLR','FNC','FOR','FRA','GCM','GEG','GIG','GLA',
+      'GOT','GPS','GRU','GRX','GUA','GVA','HAM','HAN','HAV','HEL','HER','HHH','HIJ','HKG','HKT','HND',
+      'HNL','IAD','IAH','ICN','IGU','IST','JAI','JED','JFK','JMK','JPA','JTR','KEF','KIX','KOA','KRK',
+      'KTM','KUL','KWI','LAS','LAX','LED','LGA','LGW','LHR','LIH','LIM','LIS','LJU','LOS','LPB','LPQ',
+      'LUX','LXR','LYS','MAD','MAN','MBJ','MCO','MCT','MCZ','MDE','MEL','MEX','MFM','MIA','MLA','MLE','MRS',
+      'MSP','MSY','MUC','MVD','MXP','NAP','NAS','NAT','NAV','NBE','NBO','NCE','OAX','OGG','OLB','OPO',
+      'ORD','ORS','ORY','OSL','OTP','PBH','PDL','PDX','PEK','PHL','PHX','PLS','PMI','PNS','POA','PPS',
+      'PRG','PSA','PSP','PUJ','PUS','PVG','PVR','RAK','RDM','REC','RHO','RIX','RNO','RSW','RUH','SAN',
+      'SCL','SEA','SEZ','SFO','SGN','SIN','SJC','SJD','SJO','SJU','SKG','SLC','SLZ','SOF','SPU','SRQ',
+      'SSA','STR','STT','SVO','SVQ','SXB','SXM','SYD','SZG','SZX','TBS','TFS','TIV','TLL','TLV','TOS',
+      'TPE','TRN','VCE','VIE','VLC','VNO','VRN','WLG','YIA','YQB','YUL','YVR','YYC','YYZ','ZAG','ZNZ',
+      'ZQN','ZRH','ZTH'
     ];
 
     function _inject() {

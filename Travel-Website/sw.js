@@ -3542,14 +3542,49 @@
    normals added, orphaned Mecca entry removed). MIN_VERSIONS['weather.js'] to
    45, CACHE to v2040. */
 /* 2026-09-10: search-audit: align every autocomplete dropdown to its measured input bounds. MIN_VERSIONS['search-autocomplete.js'] to 22, CACHE to v2044. */
-/* 2026-09-10: push-guard fix -- several already-committed shared-asset changes
-   (guide-style.css, mobile.css, read-about.css, toolbar.js, trains.css,
-   web-travel-style.css) shipped without raising their own MIN_VERSIONS floor,
-   blocking the push. MIN_VERSIONS['guide-style.css'] to 308,
-   MIN_VERSIONS['mobile.css'] to 101, MIN_VERSIONS['read-about.css'] to 10,
-   MIN_VERSIONS['toolbar.js'] to 1254, MIN_VERSIONS['trains.css'] to 33,
-   MIN_VERSIONS['web-travel-style.css'] to 304, CACHE to v2045. */
-var CACHE = 'travel-cache-v2045';
+/* 2026-09-10: mobile UX audit — toolbar.js now inherits the active page
+   background token on coarse-pointer layouts, so dark-mode mobile toolbars no
+   longer fall back to the light page color. MIN_VERSIONS['toolbar.js'] to 1252,
+   CACHE to v2045. */
+/* 2026-09-10: web-travel-style.css -- make Best-Of continent chips and
+   chevron link pills use dark surfaces and readable dark-mode ink instead of
+   theme-invariant cream/grey fills. MIN_VERSIONS['web-travel-style.css'] to
+   299, CACHE to v2046. */
+/* 2026-09-10: web-travel-style.css + trains.css + airport-transfers -- make
+   the mobile hub chooser inherit theme ink, dark-theme the train-page end
+   CTAs, and raise airport-detail accent contrast to AA. MIN_VERSIONS for
+   web-travel-style.css to 300 and trains.css to 32; CACHE to v2047. */
+/* 2026-09-10: mobile.css + web-travel-style.css + cruise-ports -- let legacy
+   mobile headers inherit theme ink, complete dark text for light-grey badges
+   and visited grey pastel pills, and add a full dark palette to Cruise Ports.
+   MIN_VERSIONS mobile.css to 100, web-travel-style.css to 301; CACHE v2048. */
+/* 2026-09-10: web-travel-style.css -- extend the solid-badge dark ink map to
+   legend-key consumers, fixing gold/green luggage-storage legend contrast.
+   MIN_VERSIONS['web-travel-style.css'] to 302; CACHE to v2049. */
+/* 2026-09-10: Worldwide Car Rental dark mode now keeps its clause bar and item
+   numbers legible; light-blue solid badges gain dark ink. MIN_VERSIONS
+   ['web-travel-style.css'] to 303, CACHE to v2050. */
+/* 2026-09-10: landing-page CTAs and Best-Of band meet AA in dark mode;
+   When To Go units, sort, and guide indicators use dark control surfaces.
+   CACHE to v2051. */
+/* 2026-09-10: guide-family mobile dark pass -- adaptive weather strip,
+   readable shared guide accents, dark Read About canvas, and dark stops-map
+   day controls. MIN_VERSIONS guide-style.css to 307, toolbar.js to 1253,
+   read-about.css to 9; CACHE to v2052. */
+/* 2026-09-10: When To Go's hero chart keeps dark ink on its intentionally
+   light gradient in OS dark mode. CACHE to v2053. */
+/* 2026-09-10: merge — push-guard fix (guide-style.css to 308, mobile.css to
+   101, read-about.css to 10, toolbar.js to 1254, trains.css to 33,
+   web-travel-style.css to 304) reconciled with the mobile-ux audit series
+   above; MIN_VERSIONS below takes the max of both sides. CACHE to v2054. */
+/* 2026-09-10: merge commit gate — the merge itself re-touches guide-style.css,
+   mobile.css, read-about.css, toolbar.js, trains.css and web-travel-style.css
+   relative to this branch's own prior commit, so each floor is raised one
+   more step. MIN_VERSIONS['guide-style.css'] to 309,
+   MIN_VERSIONS['mobile.css'] to 102, MIN_VERSIONS['read-about.css'] to 11,
+   MIN_VERSIONS['toolbar.js'] to 1255, MIN_VERSIONS['trains.css'] to 34,
+   MIN_VERSIONS['web-travel-style.css'] to 305, CACHE to v2055. */
+var CACHE = 'travel-cache-v2055';
 /* 2026-08-27: airlines.css's .card-tags align-items fix changed a shared
    asset without raising its own floor -- MIN_VERSIONS['airlines.css'] to
    6, CACHE to v1662. */
@@ -3597,7 +3632,7 @@ var ICS_OUTBOX = 'gmd-ics-outbox';
    label) was missing min-width:0, so its nested picker ignored its own 58% max-width
    cap, rendered near its full intrinsic width and pushed the amount box and the close
    X off the right edge of the phone screen. MIN_VERSIONS['guide-style.css'] to 296, CACHE to v2007. */
-var MIN_VERSIONS = { 'guide-style.css': 308,'toolbar.js': 1254, 'mobile.css': 101, 'web-travel-style.css': 304, 'guides-index-style.css': 70,'read-about.css': 10, 'best-of-features.js': 6, 'best-of-cross-data.js': 26, 'weather.js': 45,'trains.css': 33, 'trains.js': 6, 'airlines.css': 9, 'airlines.js': 11, 'passport.js': 6, 'search-autocomplete.js': 22, 'flag-render.js': 3, 'site-footer.js': 2 };
+var MIN_VERSIONS = { 'guide-style.css': 309,'toolbar.js': 1255, 'mobile.css': 102, 'web-travel-style.css': 305, 'guides-index-style.css': 70,'read-about.css': 11, 'best-of-features.js': 6, 'best-of-cross-data.js': 26, 'weather.js': 45,'trains.css': 34, 'trains.js': 6, 'airlines.css': 9, 'airlines.js': 11, 'passport.js': 6, 'search-autocomplete.js': 22, 'flag-render.js': 3, 'site-footer.js': 2 };
 
 function rewriteAssetUrl(urlStr) {
   var u;

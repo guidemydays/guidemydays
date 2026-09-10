@@ -148,7 +148,11 @@ function pinIcon(color) {
 STOPS.filter(function(s) { return s.lat != null && s.lng != null; }).forEach(function(s) {
   var color = DAY_COLORS[String(s.day)] || '#C04E1A';
   var mapsUrl = 'https://www.google.com/maps/search/?api=1&query=' + encodeURIComponent(s.query);
-  var marker = L.marker([s.lat, s.lng], {icon: pinIcon(color)});
+  var marker = L.marker([s.lat, s.lng], {icon: pinIcon(color), title: s.name, alt: s.name});
+  marker.on('add', function() {
+    var el = marker.getElement();
+    if (el) el.setAttribute('aria-label', s.name + ', Day ' + s.day);
+  });
   marker.bindPopup(
     '<div class="stop-popup">' +
     '<strong>' + s.name + '</strong>' +

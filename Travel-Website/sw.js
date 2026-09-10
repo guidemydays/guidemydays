@@ -1,3 +1,11 @@
+/* 2026-09-09: web-travel-style.css -- added nt-light-grey (Family 3 tone matching
+   the pills doc's Family 1 Light Grey swatch, #e2e1de wash / #4a483f ink) so every
+   "All"/reset filter pill sitewide can carry the pills doc's Rule 5 requirement
+   that the All pill takes Light Grey specifically, not the prior "deepest tone"
+   wording. toolbar.js -- added 'nt-light-grey' to the fixed ALL_PILL tone list in
+   _equalizePillRows so those pills keep Rule 9's own-width exemption instead of
+   silently losing it once their class changed. MIN_VERSIONS['web-travel-style.css']
+   to 297, MIN_VERSIONS['toolbar.js'] to 1244, CACHE to v2031. */
 /* 2026-09-09: weather.js -- Yogyakarta climate normals added to the baked CLIMATE
    block (baked from assets/climate.json). MIN_VERSIONS['weather.js'] to 39, CACHE
    to v2003. */
@@ -3506,7 +3514,7 @@
 /* 2026-09-09: mobile.css -- packing page's Save for Offline pill (.toggle-btn) wasn't in the Reset all/Print list touch-target exemption, so it alone kept the generic mobile min-height (44px vs their 25px, owner-reported). Added .toggle-btn to the same exemption. MIN_VERSIONS['mobile.css'] to 98, CACHE to v2028. */
 /* 2026-09-09: push guard fix -- mobile.css changed in an earlier commit without its own MIN_VERSIONS floor raised, blocking every push behind it. MIN_VERSIONS['mobile.css'] to 99. CACHE to v2029. */
 /* 2026-09-09: route-ab dropped, destination name is now the motion-route link (motion-dest) toolbar.js -> v1243. CACHE to v2030. */
-var CACHE = 'travel-cache-v2030';
+var CACHE = 'travel-cache-v2031';
 /* 2026-08-27: airlines.css's .card-tags align-items fix changed a shared
    asset without raising its own floor -- MIN_VERSIONS['airlines.css'] to
    6, CACHE to v1662. */
@@ -3554,7 +3562,7 @@ var ICS_OUTBOX = 'gmd-ics-outbox';
    label) was missing min-width:0, so its nested picker ignored its own 58% max-width
    cap, rendered near its full intrinsic width and pushed the amount box and the close
    X off the right edge of the phone screen. MIN_VERSIONS['guide-style.css'] to 296, CACHE to v2007. */
-var MIN_VERSIONS = { 'guide-style.css': 305,'toolbar.js': 1243, 'mobile.css': 99, 'web-travel-style.css': 296, 'guides-index-style.css': 70,'read-about.css': 8, 'best-of-features.js': 6, 'best-of-cross-data.js': 25, 'weather.js': 42,'trains.css': 31, 'trains.js': 6, 'airlines.css': 9, 'airlines.js': 11, 'passport.js': 6, 'search-autocomplete.js': 18, 'flag-render.js': 3, 'site-footer.js': 2 };
+var MIN_VERSIONS = { 'guide-style.css': 305,'toolbar.js': 1244, 'mobile.css': 99, 'web-travel-style.css': 297, 'guides-index-style.css': 70,'read-about.css': 8, 'best-of-features.js': 6, 'best-of-cross-data.js': 25, 'weather.js': 42,'trains.css': 31, 'trains.js': 6, 'airlines.css': 9, 'airlines.js': 11, 'passport.js': 6, 'search-autocomplete.js': 18, 'flag-render.js': 3, 'site-footer.js': 2 };
 
 function rewriteAssetUrl(urlStr) {
   var u;

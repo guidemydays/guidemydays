@@ -2465,7 +2465,7 @@ window.TVE.home = (function () {
             var maxH = 0;
       pills.forEach(function (p) { maxH = Math.max(maxH, p.getBoundingClientRect().height); });
       pills.forEach(function (p) { p.style.minHeight = maxH + 'px'; });
-            var ALL_PILL = ['nt-saddle', 'nt-grey', 'sb-dark-grey', 'sb-light-grey', 'cp-grey', 'cp-light-grey'];
+            var ALL_PILL = ['nt-saddle', 'nt-grey', 'nt-light-grey', 'sb-dark-grey', 'sb-light-grey', 'cp-grey', 'cp-light-grey'];
       var sized = pills.filter(function (p) {
         return !ALL_PILL.some(function (g) { return p.classList.contains(g); });
       });

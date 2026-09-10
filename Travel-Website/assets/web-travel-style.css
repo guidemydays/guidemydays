@@ -847,6 +847,7 @@ a.badge.sb-teal:visited,       a.pill-badge.sb-teal:visited       { color: #fff;
     .badge.sb-gold,       .pill-badge.sb-gold       { color: #2a1e00; }
     .badge.sb-green,      .pill-badge.sb-green      { color: #1a3d22; }
     .badge.sb-dark-grey,  .pill-badge.sb-dark-grey  { color: #1a1917; }
+    .badge.sb-light-grey, .pill-badge.sb-light-grey { color: #1a1917; }
     .badge.sb-dark-brown, .pill-badge.sb-dark-brown { color: #1a2d3d; }
   }
 }
@@ -907,12 +908,21 @@ a.badge.sb-teal:visited,       a.pill-badge.sb-teal:visited       { color: #fff;
   .cp-soft-plum     { --sp-wash: color-mix(in srgb, #c8bcd9 22%, var(--surface)); --sp-ink: color-mix(in srgb, #362350 55%, white); }
   .cp-rust { --sp-wash: color-mix(in srgb, #f7f3ea 22%, var(--surface)); --sp-ink: color-mix(in srgb, #9a5030 55%, white); }
   .cp-muted-brick { --sp-wash: color-mix(in srgb, #d4a190 22%, var(--surface)); --sp-ink: color-mix(in srgb, #63301f 55%, white); }
+  /* The earlier anchor-specific light rules outrank the family compound
+     rule. Restore the element's dark family ink at equal specificity. */
+  a.badge[class*="cp-"],
+  a.pill-badge[class*="cp-"] { color: var(--sp-ink); }
   .nt-light-grey { --sp-wash: color-mix(in srgb, #e2e1de 22%, var(--surface)); --sp-ink: color-mix(in srgb, #4a483f 55%, white); }
   .nt-grey       { --sp-wash: color-mix(in srgb, #d1d1d1 22%, var(--surface)); --sp-ink: color-mix(in srgb, #3c3734 55%, white); }
   .nt-bronze      { --sp-wash: color-mix(in srgb, #f5f0e6 22%, var(--surface)); --sp-ink: color-mix(in srgb, #5a3c0e 55%, white); }
   .nt-amber      { --sp-wash: color-mix(in srgb, #fdf8f0 22%, var(--surface)); --sp-ink: color-mix(in srgb, #b8550a 55%, white); }
   .nt-sand        { --sp-wash: color-mix(in srgb, #dfc29d 22%, var(--surface)); --sp-ink: color-mix(in srgb, #654321 55%, white); }
   .nt-saddle     { --sp-wash: color-mix(in srgb, #d5c7b9 22%, var(--surface)); --sp-ink: color-mix(in srgb, #491512 55%, white); }
+
+  /* Chrome privacy rules reject custom properties and color-mix() in
+     :visited. Supply the computed dark ink literally for this linked tone. */
+  a.badge.cp-grey:visited,
+  a.pill-badge.cp-grey:visited { color: #94918f; }
 }
 
 /* 2026-08-30: NONE of the 6 nt-* tones ever had a .badge.nt-X/.pill-badge.nt-X

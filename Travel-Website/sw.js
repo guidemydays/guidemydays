@@ -3564,7 +3564,10 @@
 /* 2026-09-10: Worldwide Car Rental dark mode now keeps its clause bar and item
    numbers legible; light-blue solid badges gain dark ink. MIN_VERSIONS
    ['web-travel-style.css'] to 303, CACHE to v2050. */
-var CACHE = 'travel-cache-v2050';
+/* 2026-09-10: landing-page CTAs and Best-Of band meet AA in dark mode;
+   When To Go units, sort, and guide indicators use dark control surfaces.
+   CACHE to v2051. */
+var CACHE = 'travel-cache-v2051';
 /* 2026-08-27: airlines.css's .card-tags align-items fix changed a shared
    asset without raising its own floor -- MIN_VERSIONS['airlines.css'] to
    6, CACHE to v1662. */

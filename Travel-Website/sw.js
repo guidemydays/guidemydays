@@ -3490,7 +3490,8 @@
    now carries that job. toolbar.js -> v1239. MIN_VERSIONS['guide-style.css'] to
    303, CACHE to v2024. */
 /* 2026-09-09: toolbar.js -- weather strip now reserves its box up front (Loading weather... placeholder, 76px min-height) instead of being inserted only once climate.json + Open-Meteo resolve (owner-reported: page felt like it took forever to load because everything below jumped ~110px when the strip finally appeared). MIN_VERSIONS['toolbar.js'] to 1240, CACHE to v2025. */
-var CACHE = 'travel-cache-v2025';
+/* 2026-09-09: mobile Cafe/Restaurants Near Hotel/etc quick-jump row (owner-reported) -- switched from a rigid 3-column grid (every pill stretched to 1/3 width and a forced 46px height) to a flex-wrap row where each pill shrink-wraps to its own title, sized 14px (was 13px) with roomier padding. guide-style.css MIN_VERSIONS to 304, toolbar.js -> v1241. CACHE to v2026. */
+var CACHE = 'travel-cache-v2026';
 /* 2026-08-27: airlines.css's .card-tags align-items fix changed a shared
    asset without raising its own floor -- MIN_VERSIONS['airlines.css'] to
    6, CACHE to v1662. */
@@ -3538,7 +3539,7 @@ var ICS_OUTBOX = 'gmd-ics-outbox';
    label) was missing min-width:0, so its nested picker ignored its own 58% max-width
    cap, rendered near its full intrinsic width and pushed the amount box and the close
    X off the right edge of the phone screen. MIN_VERSIONS['guide-style.css'] to 296, CACHE to v2007. */
-var MIN_VERSIONS = { 'guide-style.css': 303,'toolbar.js': 1240, 'mobile.css': 97, 'web-travel-style.css': 296, 'guides-index-style.css': 70,'read-about.css': 8, 'best-of-features.js': 6, 'best-of-cross-data.js': 25, 'weather.js': 42,'trains.css': 31, 'trains.js': 6, 'airlines.css': 9, 'airlines.js': 11, 'passport.js': 6, 'search-autocomplete.js': 18, 'flag-render.js': 3, 'site-footer.js': 2 };
+var MIN_VERSIONS = { 'guide-style.css': 304,'toolbar.js': 1241, 'mobile.css': 97, 'web-travel-style.css': 296, 'guides-index-style.css': 70,'read-about.css': 8, 'best-of-features.js': 6, 'best-of-cross-data.js': 25, 'weather.js': 42,'trains.css': 31, 'trains.js': 6, 'airlines.css': 9, 'airlines.js': 11, 'passport.js': 6, 'search-autocomplete.js': 18, 'flag-render.js': 3, 'site-footer.js': 2 };
 
 function rewriteAssetUrl(urlStr) {
   var u;

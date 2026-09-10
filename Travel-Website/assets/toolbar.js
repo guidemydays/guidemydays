@@ -388,7 +388,7 @@ window.TVE.home = (function () {
 })();
 
 (function () {
-  var CURRENT = 103;
+  var CURRENT = 104;
   var link = document.querySelector('link[href*="guide-style.css"]');
   if (!link || !link.parentNode) return;
   var m = link.href.match(/[?&]v=(\d+)/);

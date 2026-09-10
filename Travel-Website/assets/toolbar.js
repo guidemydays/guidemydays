@@ -530,8 +530,6 @@ window.TVE.home = (function () {
   function _isCurrent(href) { return !!curr && _pageKey(href) === curr; }
 
   var curr       = _pageKey(location.pathname);
-  var prevHref = mount ? (mount.dataset.prev || '') : '';
-  var nextHref = mount ? (mount.dataset.next || '') : '';
 
     var NEW_WINDOW_DAYS = 21;
   function isNewEntry(entry) {
@@ -1854,12 +1852,6 @@ window.TVE.home = (function () {
      retired when guides flattened to /guides/{city}.html. It could only ever
      have returned the wrong thing. */
 
-  /* ── Prev / Next — arrows flanking the .overview-title ───────────────────── */
-  var btnStyle = 'display:inline-flex;align-items:center;justify-content:center;' +
-    'width:30px;height:30px;border-radius:6px;border:1.5px solid var(--c-navbtn-bd,#c4b896);' +
-    'background:var(--c-float-bg,#ffffff);color:var(--c-navbtn-text,#6b6860);font-size:18px;line-height:1;' +
-    'padding:0;text-decoration:none;flex-shrink:0;';
-
   /* ── Mobile hamburger menu ──────────────────────────────────────────────── */
   var hamLabel = document.createElement('a');
   hamLabel.className = 'tb-ham-label';
@@ -2954,47 +2946,6 @@ window.TVE.home = (function () {
     else document.addEventListener('DOMContentLoaded', injectAltitudeBanner);
   }
 
-  /* ── Best Of pages: prev/next arrows below the terracotta line ───────────── */
-  var isBestOf = /\/best-of\/best-/.test(location.pathname) && (prevHref || nextHref);
-  if (isBestOf) {
-    function injectBestOfArrows() {
-      var header = document.querySelector('.page-header');
-      if (!header) return;
-
-            var row = document.createElement('div');
-      row.style.cssText = 'display:flex;align-items:center;justify-content:space-between;' +
-        'gap:12px;margin:6px 0 4px;';
-
-      var bPrev = document.createElement('a');
-      bPrev.href = prevHref || '#';
-      bPrev.textContent = '‹';
-      bPrev.setAttribute('aria-label', 'Previous Best Of');
-      bPrev.style.cssText = btnStyle + 'flex-shrink:0;' + (prevHref ? '' : 'visibility:hidden;');
-
-      /* Centre spacer — keeps prev/next pinned to opposite edges */
-      var centre = document.createElement('div');
-      centre.style.cssText = 'flex:1;padding-left:16px;';
-
-      var bNext = document.createElement('a');
-      bNext.href = nextHref || '#';
-      bNext.textContent = '›';
-      bNext.setAttribute('aria-label', 'Next Best Of');
-      bNext.style.cssText = btnStyle + 'flex-shrink:0;' + (nextHref ? '' : 'visibility:hidden;');
-
-      row.appendChild(bPrev);
-      row.appendChild(centre);
-      row.appendChild(bNext);
-      /* Insert after .page-intro-card if present; otherwise fall back to after .page-header */
-      var introCard = document.querySelector('.page-intro-card');
-      var anchor = introCard || header;
-      anchor.parentNode.insertBefore(row, anchor.nextSibling);
-    }
-    if (document.readyState === 'loading') {
-      document.addEventListener('DOMContentLoaded', injectBestOfArrows);
-    } else {
-      injectBestOfArrows();
-    }
-  }
 
   /* ── Scroll up / down fixed buttons (right side, all pages) ─────────────── */
   var scrollWrap = document.createElement('div');

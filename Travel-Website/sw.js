@@ -3598,6 +3598,8 @@
 /* 2026-09-10: publish destination hotel and airport data toolbar.js -> v1256. CACHE to v2057. */
 /* 2026-09-10: publish destination hotel and airport data toolbar.js -> v1257. CACHE to v2058. */
 /* 2026-09-10: Cebu 5-day guide ship -- weather.js re-baked with Cebu climate normals; guides/index.html + index.html TZ_DATA/CLIMATE_INLINE gain Cebu. MIN_VERSIONS['weather.js'] to 47, CACHE to v2061. */
+/* 2026-09-10: toolbar.js -> 1260, weather.js -> 51 (pre-push guard, unblocking Galway push) toolbar.js -> v1258. CACHE to v2062. */
+/* 2026-09-10: Remove guide-to-guide prev/next arrow injection (chain retired 2026-09-10) toolbar.js -> v1259. CACHE to v2063. */
 var CACHE = 'travel-cache-v2064';
 /* 2026-08-27: airlines.css's .card-tags align-items fix changed a shared
    asset without raising its own floor -- MIN_VERSIONS['airlines.css'] to

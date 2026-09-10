@@ -5373,6 +5373,13 @@ window.TVE.home = (function () {
       { name: 'JW Marriott Hotel Bogotá', note: 'Marriott family — first-tier international brand, this guide’s title-card hotel, Zona Rosa/Chapinero financial district, 4 restaurants and full spa, 24h reception, AC · 9.0 Booking.com', url: 'https://www.booking.com/hotel/co/jw-marriott-bogota.html', tier: 'luxury' },
       { name: 'Sofitel Bogotá Victoria Regia', note: 'Sofitel — first-tier international brand, Zona Rosa, a quarter mile from La Zona T, spa and indoor pool, 24h reception, AC · 9.1 Booking.com', url: 'https://www.booking.com/hotel/co/sofitel-bogota-victoria-regia.html', tier: 'luxury' }
     ], price: { budget: 'COP 320,000–450,000', mid: 'COP 450,000–750,000', expensive: 'COP 750,000–1,300,000', luxury: 'COP 1,300,000+' } },
+    'galway': { h: [
+      { name: 'Skeffington Arms Hotel', note: 'Independent — directly on Eyre Square, lively central base with an on-site bar and 24h reception', url: 'https://www.booking.com/hotel/ie/skeffington-arms.html', tier: 'budget' },
+      { name: 'Nox Hotel Galway', note: 'Independent — Headford Road base with restaurant, bar, free parking and 24h reception', url: 'https://www.booking.com/hotel/ie/noxhotel.html', tier: 'budget' },
+      { name: 'Park House Hotel', note: 'Independent — refined city-centre stay beside Eyre Square with an acclaimed restaurant · 8.7 Booking.com', url: 'https://www.booking.com/hotel/ie/park-house.html', tier: 'mid' },
+      { name: 'The Dean Galway', note: 'Independent lifestyle hotel — city-centre rooftop pool, restaurant and gym · 8.5 Booking.com', url: 'https://www.booking.com/hotel/ie/the-dean-galway.html', tier: 'expensive' },
+      { name: 'Glenlo Abbey Hotel', note: 'Independent country-estate stay — lakeside grounds, spa and Pullman Restaurant outside central Galway · 9.0 Booking.com', url: 'https://www.booking.com/hotel/ie/glenlo-abbey.html', tier: 'luxury' }
+    ], price: { budget: '€110–160', mid: '€160–240', expensive: '€240–360', luxury: '€360+' } },
     'medellin': { h: [
       { name: '574 Hotel', note: 'Independent — El Poblado, Transversal 6, airport shuttle and 24h reception, AC · 9.0 Booking.com', url: 'https://www.booking.com/hotel/co/574.html', tier: 'budget' },
       { name: 'Lettera Hotel', note: 'Independent — El Poblado, Calle 5F, garden terrace and rooftop, fitness center, 24h reception, AC · 9.3 Booking.com', url: 'https://www.booking.com/hotel/co/la-lettera.html', tier: 'budget' },
@@ -10448,6 +10455,7 @@ window.TVE.home = (function () {
     var CHIP_DATA = {
       'fez':               {iata:'FEZ', name:'Fès–Saïss Airport'},
       'bogota':            {iata:'BOG', name:'El Dorado International Airport'},
+      'galway':            {iata:'SNN', name:'Shannon Airport'},
       'medellin':          {iata:'MDE', name:'José María Córdova International Airport'},
       'zermatt':           {iata:'ZRH', name:'Zurich Airport'},
       'mexico-city':       {iata:'MEX', name:'Mexico City International (Benito Juárez)'},
@@ -10751,7 +10759,8 @@ window.TVE.home = (function () {
       'SCL','SEA','SEZ','SFO','SGN','SIN','SJC','SJD','SJO','SJU','SKG','SLC','SLZ','SOF','SPU','SRQ',
       'SSA','STR','STT','SVO','SVQ','SXB','SXM','SYD','SZG','SZX','TBS','TFS','TIV','TLL','TLV','TOS',
       'TPE','TRN','VCE','VIE','VLC','VNO','VRN','WLG','YIA','YQB','YUL','YVR','YYC','YYZ','ZAG','ZNZ',
-      'ZQN','ZRH','ZTH'
+      'ZQN','ZRH','ZTH',
+        'SNN'
     ];
 
     function _inject() {

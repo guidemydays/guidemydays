@@ -3589,7 +3589,8 @@
    Nomad hover states use the canonical terracotta gradient; cream hero links
    keep dark ink in OS dark mode. MIN_VERSIONS mobile.css to 103,
    web-travel-style.css to 306; CACHE to v2056. */
-var CACHE = 'travel-cache-v2056';
+/* 2026-09-10: publish destination hotel and airport data toolbar.js -> v1256. CACHE to v2057. */
+var CACHE = 'travel-cache-v2057';
 /* 2026-08-27: airlines.css's .card-tags align-items fix changed a shared
    asset without raising its own floor -- MIN_VERSIONS['airlines.css'] to
    6, CACHE to v1662. */
@@ -3637,7 +3638,7 @@ var ICS_OUTBOX = 'gmd-ics-outbox';
    label) was missing min-width:0, so its nested picker ignored its own 58% max-width
    cap, rendered near its full intrinsic width and pushed the amount box and the close
    X off the right edge of the phone screen. MIN_VERSIONS['guide-style.css'] to 296, CACHE to v2007. */
-var MIN_VERSIONS = { 'guide-style.css': 309,'toolbar.js': 1255, 'mobile.css': 103, 'web-travel-style.css': 306, 'guides-index-style.css': 70,'read-about.css': 11, 'best-of-features.js': 6, 'best-of-cross-data.js': 26, 'weather.js': 45,'trains.css': 34, 'trains.js': 6, 'airlines.css': 9, 'airlines.js': 11, 'passport.js': 6, 'search-autocomplete.js': 22, 'flag-render.js': 3, 'site-footer.js': 2 };
+var MIN_VERSIONS = { 'guide-style.css': 309,'toolbar.js': 1256, 'mobile.css': 103, 'web-travel-style.css': 306, 'guides-index-style.css': 70,'read-about.css': 11, 'best-of-features.js': 6, 'best-of-cross-data.js': 26, 'weather.js': 45,'trains.css': 34, 'trains.js': 6, 'airlines.css': 9, 'airlines.js': 11, 'passport.js': 6, 'search-autocomplete.js': 22, 'flag-render.js': 3, 'site-footer.js': 2 };
 
 function rewriteAssetUrl(urlStr) {
   var u;

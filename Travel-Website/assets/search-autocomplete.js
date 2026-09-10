@@ -59,7 +59,7 @@
     'jackson':'Mississippi','jacksonville':'Florida',
     'kansas city':'Missouri','kauai':'Hawaii','key west':'Florida',
     'la jolla':'California','lake tahoe':'California',
-    'las vegas':'Nevada','lecce':'Italy','little rock':'Arkansas',
+    'las vegas':'Nevada','little rock':'Arkansas',
     'los angeles':'California','louisville':'Kentucky',
     'malibu':'California','maui':'Hawaii','miami':'Florida',
     'milwaukee':'Wisconsin','minneapolis':'Minnesota',
@@ -98,14 +98,25 @@
   }
 
   function stateText(name, sub) {
+    var label = String(sub || '').trim();
+    var fromSub = _US[label.toUpperCase()] || '';
+    if (!fromSub) {
+      Object.keys(_US).some(function (code) {
+        if (_US[code].toLowerCase() !== label.toLowerCase()) return false;
+        fromSub = _US[code];
+        return true;
+      });
+    }
+    // A supplied country label takes precedence over an ambiguous city name.
+    var isUS = /^(?:united states(?: of america)?|u\.?s\.?(?:a\.?)?)$/i.test(label);
+    if (label && !fromSub && !isUS) return '';
     // Handle both " CA" (space-before) and ", CA" (comma-space) formats.
     var m = name && name.match(/[, ]+([A-Z]{2})\s*$/);
     var fromName = (m && _US[m[1]]) ? _US[m[1]] : '';
-    var fromSub  = (sub && sub.length === 2) ? (_US[sub.toUpperCase()] || '') : '';
     // Fallback: bare city name lookup (e.g. "Atlanta", "Seattle" with no state suffix).
     var nameLower = String(name || '').toLowerCase().replace(/[, ]+[a-z]{2}\s*$/, '').trim();
     var fromCity  = _US_CITIES[nameLower] || '';
-    return fromName || fromSub || fromCity;
+    return fromSub || fromName || fromCity;
   }
 
   // Word-start match: q matches if it appears at position 0 or immediately after

@@ -1077,6 +1077,7 @@ window.TVE.home = (function () {
        shape (2026-09-09, owner). */
     '.gm-icon[data-icon="route-ab"]{width:1em;height:1em}' +
         'a.motion-route{margin-left:6px;display:inline-block;line-height:0;text-decoration:none}' +
+    'a.motion-dest,a.motion-dest:visited{color:var(--c-terra);text-decoration:underline;text-underline-offset:2px}' +
     '';
 
   /* One sprite and one style tag per page, inserted before anything asks for a
@@ -4279,6 +4280,64 @@ window.TVE.home = (function () {
     document.addEventListener('DOMContentLoaded', _injectAddrCopy);
   } else {
     _injectAddrCopy();
+  }
+
+  /* The end-of-row route-ab icon read as a dangling "continues to →" with
+     nothing after it (owner-reported, 2026-09-09) -- so instead of an icon,
+     the destination name itself becomes the Google-Maps-directions link, in
+     terracotta with an underline. Most rows end in plain text right after
+     the arrow ("... → Grand Palace <a class=motion-route>[icon]</a>"), so
+     that trailing name is what gets wrapped. A next-tram/next-metro row
+     already links each named stop individually, so its motion-route sits
+     right after an existing <a> -- there the icon is just dropped, since
+     the destination is already clickable and a second link to the same
+     place would be the same redundancy in a different shape. Anything else
+     (no arrow to anchor on, e.g. a trailing "5 min" with the name already
+     linked earlier in the row) also just drops the icon rather than
+     guessing at a name to link. */
+  function _motionRouteToText() {
+    if (!isRealGuide) return;
+    var links = [].slice.call(document.querySelectorAll('a.motion-route'));
+    links.forEach(function (a) {
+      var parent = a.parentNode;
+      if (!parent) return;
+      var prev = a.previousSibling;
+      if (prev && prev.nodeType === 3 && !prev.nodeValue.trim()) prev = prev.previousSibling;
+      if (prev && prev.nodeType === 1 && prev.tagName === 'A') {
+        parent.removeChild(a);
+        return;
+      }
+      if (prev && prev.nodeType === 3) {
+        var full = prev.nodeValue;
+        var idx = full.lastIndexOf('→');
+        if (idx === -1) { parent.removeChild(a); return; }
+        var after = full.slice(idx + 1);
+        var name = after.trim();
+        if (!name) { parent.removeChild(a); return; }
+        var nameStart = after.indexOf(name);
+        var before = full.slice(0, idx + 1) + after.slice(0, nameStart);
+        var trailing = after.slice(nameStart + name.length);
+        var link = document.createElement('a');
+        link.className = 'motion-dest';
+        link.href = a.href;
+        if (a.target) link.target = a.target;
+        if (a.rel) link.rel = a.rel;
+        var al = a.getAttribute('aria-label');
+        if (al) link.setAttribute('aria-label', al);
+        link.textContent = name;
+        prev.nodeValue = before;
+        parent.insertBefore(link, a);
+        parent.insertBefore(document.createTextNode(trailing), a);
+        parent.removeChild(a);
+        return;
+      }
+      parent.removeChild(a);
+    });
+  }
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', _motionRouteToText);
+  } else {
+    _motionRouteToText();
   }
 
     function stopActionRail(header) {

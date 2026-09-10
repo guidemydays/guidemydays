@@ -210,6 +210,19 @@
     dd.setAttribute('role', 'listbox');
     (wrap || document.body).appendChild(dd);
 
+    // Anchor the panel to the input itself. Some search wrappers are full-width
+    // flex rows, so the shared left:0/right:0 rule otherwise stretches the
+    // dropdown across the whole content rail on desktop.
+    function syncDropdownGeometry() {
+      if (!wrap) return;
+      var inputRect = input.getBoundingClientRect();
+      var wrapRect = wrap.getBoundingClientRect();
+      dd.style.left = Math.round(inputRect.left - wrapRect.left) + 'px';
+      dd.style.right = 'auto';
+      dd.style.transform = 'none';
+      dd.style.width = Math.round(inputRect.width) + 'px';
+    }
+
     input.setAttribute('role', 'combobox');
     input.setAttribute('aria-autocomplete', 'list');
     input.setAttribute('aria-expanded', 'false');
@@ -236,6 +249,7 @@
         })
         .slice(0, limit);
       if (!cur.length) { hide(); return; }
+      syncDropdownGeometry();
       dd.innerHTML = cur.map(function (it, i) {
         return '<button type="button" role="option" tabindex="-1" aria-selected="false" id="' + uid + '-' + i + '" class="sa-row" data-i="' + i + '">' +
           '<span class="sa-name">' + hlName(it.name, q) + '</span>' +
@@ -292,6 +306,7 @@
     document.addEventListener('click', function (e) {
       if (e.target !== input && !dd.contains(e.target)) hide();
     });
+    window.addEventListener('resize', syncDropdownGeometry);
 
     return { render: render, hide: hide, setItems: function (list) {
       items = (list || []).slice();

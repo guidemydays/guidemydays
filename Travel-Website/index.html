@@ -315,7 +315,7 @@
 }
 a.lp-btn:visited { color: rgb(253, 248, 240); }
 .lp-btn:focus-visible {
-  /* Filled-CTA-inverts-on-hover grammar (same as .fnd-go, .land-cta below):
+  /* Filled-CTA-inverts-on-hover grammar (same as .land-cta below):
      the button is solid terracotta at rest, so on hover/inversion the ink
      should be that same terracotta, not gold -- the glow already uses
      terracotta (rgba(192,78,26,…)), so the text was the one mismatched value. */
@@ -1088,47 +1088,6 @@ a.land-cta:hover:visited {
 /* A disabled select still has to read as a control, not as damage. */
 .fnd-ctl:has(select:disabled) { opacity: 0.55; }
 .fnd-ctl select:disabled { cursor: not-allowed; }
-/* OWNER-DIRECTED 2026-08-22: "change this button to terracota move to the
-   middle of the filter above and move up a bit."
-
-   FILLED, AND IT IS .fnd-go's BUTTON — owner, seeing the outlined first cut:
-   "this button is not matching the finding my destinations." So it takes that
-   rule field for field: filled var(--rust), 1px same-colour rim, #fff ink,
-   700 weight, clamp(0.95rem,1.2vw,1.05rem), 999px radius, 0.8em 1.7em padding,
-   and the same hover INVERSION rather than the card's Option-B tint. That is
-   why .fnd-more is no longer in the shared hover list below, and why it is now
-   in the dark-mode filled-CTA rule beside #fnd-go (cream on --rust measures
-   3.45:1 in dark; on #C04E1A it is 4.57:1).
-
-   This is still the filled-is-a-button grammar, not a breach of it: opening
-   more filters is an ACTION, not a selected value (Thirty-fifth non-negotiable).
-   The outlined first cut read as a chip precisely because it was one.
-
-   CENTRED on the rail, not on its own text. .lp-more and .lp-finder share
-   --lp-max, so `margin-left/right: auto` puts the button on the finder card's
-   own centre line — which is what "the middle of the filter above" means.
-   `width: fit-content` is load-bearing with `display: block`: without it a
-   block-level <button> can stretch and the auto margins have nothing to
-   distribute. Never centre by putting `text-align: center` on .lp-more — that
-   also centres every label inside the open panel.
-
-   MOVED UP by deleting this rule's own margin-top, not by shrinking .lp-more's.
-   The 54px above the button was TWO stacked margins doing one job (.lp-more's
-   gap plus this one), which is the collapse trap the Fifty-fourth non-negotiable
-   describes: the number written here was never the number on screen. One margin
-   owns the gap now — .lp-more's. */
-.fnd-more {
-  display: block; width: fit-content; margin: 0 auto;
-  background: var(--rust, #C04E1A); border: 1px solid var(--rust, #C04E1A);
-  color: #fff; font: inherit; font-weight: 700; font-size: clamp(0.95rem, 1.2vw, 1.05rem);
-  border-radius: 999px; padding: 0.8em 1.7em; cursor: pointer;
-  transition: background .15s, color .15s;
-}
-/* Same inversion as .fnd-go — a filled CTA empties on hover, it does not tint. */
-.fnd-more:hover, .fnd-more:focus-visible { background: transparent; color: var(--rust, #C04E1A); }
-.fnd-more::after { content: ' \25be'; }
-.fnd-more[aria-expanded="true"]::after { content: ' \25b4'; }
-#fnd-more-panel { margin-top: clamp(0.7rem, 1.6vw, 1rem); }
 .fnd-results { margin-top: clamp(0.9rem, 2vw, 1.3rem); border-top: 1px solid var(--border2,#e6e2da); padding-top: clamp(0.8rem, 1.8vw, 1.1rem); }
 .fnd-res-head { font-size: 1.05rem; color: var(--ink,#3d3a32); margin: 0 0 0.85rem; }
 .fnd-res-head b { color: var(--ink,#3d3a32); }
@@ -1149,20 +1108,9 @@ a.land-cta:hover:visited {
    `hidden` attribute says otherwise. Same trap `.fnd-ctl[hidden]` above solves. */
 .fnd-field[hidden] { display: none !important; }
 
-.fnd-go-row { display: flex; flex-wrap: wrap; align-items: center; gap: 0.7rem; margin-top: clamp(1rem, 2.2vw, 1.5rem); }
-.fnd-go {
-  display: inline-flex; align-items: center; justify-content: center; gap: 0.55rem;
-  background: var(--rust, #C04E1A); border: 1px solid var(--rust, #C04E1A);
-  color: #fff; font: inherit; font-weight: 700; cursor: pointer;
-  transition: background .15s, color .15s;
-}
-.fnd-go:hover, .fnd-go:focus-visible { background: transparent; color: var(--rust, #C04E1A); }
-.fnd-go-ic { width: 18px; height: 18px; display: block; flex: 0 0 auto; }
 .fnd-reset {
-    border: 1px solid var(--en-grey-rim,#8b8576); background: var(--en-grey-top,#f1efea);
+  border: 1px solid var(--en-grey-rim,#8b8576); background: var(--en-grey-top,#f1efea);
   color: var(--en-grey-text,#4f4a3e); font: inherit; cursor: pointer;
-}
-.fnd-go, .fnd-reset {
   font-size: clamp(0.9rem, 1.1vw, 1rem);
   border-radius: 999px; padding: 0.68em 1.45em;
 }
@@ -1176,13 +1124,6 @@ a.land-cta:hover:visited {
   border-color: rgba(var(--nt-grey-rgb),.75);
 }
 
-/* A filter set behind a shut panel has to stay visible somehow. Neither the ink
-   nor the rim can carry that any more — the button is filled terracotta at rest
-   and inverts on hover, so both are already spoken for. A soft terracotta halo
-   is the one signal left that survives BOTH states and both themes. Never go
-   back to `color:` or `border-color:` here: against a filled rest state the
-   first says nothing and the second is invisible. */
-.fnd-more.on { box-shadow: 0 0 0 3px rgba(192, 78, 26, .25); }
 /* The set-aside state moved to `.fnd-ctl.is-off` (see it above, by the frozen
    `.is-set` look): with no chip to mark, the control carries it. */
 /* THE LINE THAT SAYS WHY THE FORM IS SHUT. It sits between the airport's label
@@ -1196,16 +1137,6 @@ a.land-cta:hover:visited {
    deliberate pair — question, then a bold instruction under it — rather than
    two lines fighting for the same weight of attention. */
 .fnd-home-lede { margin: 0 0 0.4rem; font-size: 0.78rem; font-weight: 800; color: var(--muted,#6a6660); }
-/* The locked form. `.fnd-ctl:has(select:disabled)` already drops the pill to
-   opacity .55 and the shared hover rule already refuses it, so a locked field
-   is drawn exactly like a pruned one and nothing new is invented. All this adds
-   is the same treatment for the filled CTA, which has no select inside it. */
-.fnd-go:disabled {
-  opacity: 0.55; cursor: not-allowed;
-  background: var(--rust, #C04E1A); border-color: var(--rust, #C04E1A); color: #fff;
-}
-.fnd-go:disabled:hover { background: var(--rust, #C04E1A); color: #fff; }
-
 /* Result cards are the site's guide card (.dest-card in .flt-grid, from
    guides-index-style.css) — see lpGuideCard further down. The bespoke .rescard
    / .rc-* family that used to live here is deleted, not disabled: it existed
@@ -1292,19 +1223,6 @@ a.ask-card:focus-visible .ask-name { color: var(--rust, #C04E1A); }
   display: flex; align-items: center; justify-content: center;
   font-size: 0.9rem; color: var(--muted,#6a6660);
 }
-
-/* ── More ways to filter ──────────────────────────────────────────────────────
-   The open panel takes the same card chrome as the finder, so seven more
-   controls read as more of the same search rather than as loose fields
-   scattered on the page background. */
-.lp-more { max-width: var(--lp-max, 1180px); margin: clamp(1rem, 2.2vw, 1.5rem) auto 0; }
-#fnd-more-panel {
-  margin-top: clamp(0.7rem, 1.6vw, 1rem);
-  padding: clamp(1.1rem, 2.4vw, 1.7rem) clamp(0.8rem, 1.4vw, 1.1rem);
-  background: var(--surface, #fff);
-  border: 1px solid var(--border2,#e6e2da); border-radius: 14px;
-}
-#fnd-more-panel[hidden] { display: none !important; }
 
 /* ── Destination results ──────────────────────────────────────────────────── */
 
@@ -2227,16 +2145,13 @@ summary.res-head:focus-visible { outline: 2px solid var(--rust, #C04E1A); outlin
      the guides-index intro CTA (Forty-sixth non-negotiable). .lp-btn is back
      in this list — Saddle and #8a4a2c were both tried and reverted the same
      day; this is the original state. */
-  .lp-btn, #cf-submit.lp-btn, #fnd-go.fnd-go, #fnd-more.fnd-more {
+  .lp-btn, #cf-submit.lp-btn {
     background: #C04E1A; border-color: #C04E1A; color: var(--warm, #fdf8f0);
   }
     .lp-btn:focus-visible {
     background: transparent; color: #c8a040;
     box-shadow: 0 0 0 6px rgba(212,102,58,.22), 0 0 18px rgba(212,102,58,.4);
   }
-  #fnd-go.fnd-go:hover,
-  #fnd-more.fnd-more:hover, #fnd-more.fnd-more:focus-visible { background: var(--sp-rust-ink); border-color: var(--sp-rust-ink); }
-
   /* #tp-compare's cmp-go-btn/cmp-exit-btn are ID-scoped, so without this the
      light-mode rule above (background:#f7eee5) would outrank the shared dark
      rule in guides-index-style.css. Same toolbar dark values, restated here:
@@ -4191,7 +4106,7 @@ window.lpGuideCard = function (href, flag, name, extra) {
   window._lpData = load;
 }());
 </script>
-<script src="/assets/search-autocomplete.js?v=15"></script>
+<script src="/assets/search-autocomplete.js?v=16"></script>
 <script>
 var CITIES = [
   {name:'Paro', country:'Bhutan', tz:'Asia/Thimphu', region:'asiapac', flag:10026, guide:'Bhutan', url:'/guides/bhutan.html'},
@@ -5167,8 +5082,9 @@ function render() {
     }
   }
 
-  /* There is no button to enable any more — keep "Clear" in sync with
-     either a chosen home or any answer that differs from its empty/default state. */
+  /* There is no submit button to enable any more — the only state this has to
+     keep is whether "Clear" has anything to clear. A reader may answer the
+     narrowing questions before naming an airport, so those values count too. */
   function updateGo() {
     var hasHome = !!(window.TVE && window.TVE.home && window.TVE.home.get());
     var hasAnswer = SELECTS.some(function (id) {
@@ -7110,12 +7026,8 @@ function render() {
   /* THE AIRPORT COUNTS AS AN ANSWER (2026-08-23, with the go button's removal —
      owner: "why do we need a button if results shows as we chose stuff").
 
-     While there was a button, a reader who named their airport and pressed it
-     got the whole fleet ranked; `forced` is what let that through. With the
-     button gone, nothing forced anything, so naming the airport — the one field
-     the form REQUIRES before it unlocks the rest — produced an empty card and no
-     way to make it speak. The airport is an answer like any other: it is what
-     every flight time on every card is measured from. */
+     Naming the airport produces the full result set because the airport is an
+     answer like any other: it is what every flight time is measured from. */
   function anySet(s) {
     if (HOME && HOME.get()) return true;
     return !!(s.mo.length || s.wx.length || s.fr.length ||
@@ -7319,11 +7231,7 @@ function render() {
     return lpGuideCard(g.url, g.flag, g.name);
   }
 
-  /* ── The go button and the facts line ─────────────────────────────────── */
-    /* The go button's handler stood here. `forced` survives it: the flag also
-     marks a run the reader asked for rather than one a stray change event
-     produced, and the Clear button's visibility reads it. With no button to
-     press, the first run that has any answer set is the one that counts. */
+  /* ── Results ───────────────────────────────────────────────────────────── */
   /* Every filter is on screen the moment the door opens, so the datasets the
      pruning needs (budget, advisory, rates) and the Trains reveal are fetched
      on that first open — nobody who never opens the door pays for them. */
@@ -7516,24 +7424,6 @@ function render() {
     });
   }
 
-  /* Set by "Find My Destinations" and cleared by "Clear everything".
-
-     Owner, 2026-08-17: "this should give me tons of guides … i have to have the
-     right to leave all Any if i don't [care] about these." Leaving every field
-     on Any is a real answer to the four questions, not an unfinished form — and
-     pressing the button is the reader saying so out loud.
-
-     Until this existed the button DID NOTHING in that state. run() bailed at
-     the guard below, so with the home airport set and every select on Any — the
-     screenshot the owner sent — clicking it produced no list, no count, and no
-     message. Nothing on screen said why, because nothing on screen had changed.
-
-     A flag rather than an argument on purpose: run is handed to
-     addEventListener, Promise.then and loadAir, all of which call it with an
-     argument of their own (an Event, an array, nothing). A `force` parameter
-     would read every change event as a forced run. */
-  var forced = false;
-
   /* Set by the home-picker block at the foot of this IIFE, which is where
      syncFar and the two note elements live. A no-op until then, and a no-op
      forever on a page with no picker — run() must not care which. Not a
@@ -7549,7 +7439,7 @@ function render() {
     var s = state();
     /* The guard still holds for a plain change event: clearing your last filter
        should put the page back, not dump 237 cards you did not ask for. */
-    if (!anySet(s) && !forced) {
+    if (!anySet(s)) {
             if (DATA) pruneSelects(DATA, s); else unprune();
       out.hidden = true; out.innerHTML = ''; syncChrome(s); return;
     }
@@ -7623,17 +7513,8 @@ function render() {
   }
 
     function syncChrome(s) {
-    var n = s.ty.length + s.lg.length + s.ct.length + s.bd.length +
-            s.sf.length + s.co.length + s.tr.length + s.tz.length + s.cu.length + s.dl.length;
-    var btn = document.getElementById('fnd-more');
-    if (btn) {
-      btn.classList.toggle('on', n > 0);
-    }
     var reset = document.getElementById('fnd-reset');
-    /* Showing after a forced run too, or the reader who pressed the button with
-       everything on Any has 237 cards on screen and no control that puts them
-       away again. */
-    if (reset) reset.hidden = !anySet(s) && !forced;
+    if (reset) reset.hidden = !anySet(s);
   }
 
     function addPick(field, el) {
@@ -7721,23 +7602,12 @@ function render() {
     pair.el.addEventListener('change', function () { addPick(pair.field, pair.el); });
   });
 
-  /* The button is what the brief asked for and what a form is expected to have.
-     The controls also run on change, so it confirms rather than gates — nobody
-     sets four fields and then wonders why nothing happened. */
-  var go = document.getElementById('fnd-go');
-  if (go) go.addEventListener('click', function () {
-    forced = true;
-    run();
-    if (!out.hidden) out.scrollIntoView({ block: 'nearest', behavior: 'smooth' });
-  });
-
   /* One function, two callers: the button and a Back-button restore. It
      clears the AIRPORT too — "Clear everything" is the label, and the airport
      is an answer the reader gave like any other. HOME.clear() repaints the
      text box and both notes through the onChange subscription, so nothing
      here touches them directly. */
   function resetAll() {
-    forced = false;
     for (var k in picks) picks[k] = [];
     all.forEach(function (el) { el.value = ''; });
     if (HOME) HOME.clear();
@@ -7749,29 +7619,6 @@ function render() {
 
     window.addEventListener('pageshow', function (e) {
     if (e.persisted) resetAll();
-  });
-
-  var moreBtn = document.getElementById('fnd-more');
-  var morePanel = document.getElementById('fnd-more-panel');
-  if (moreBtn && morePanel) moreBtn.addEventListener('click', function () {
-    var opening = morePanel.hidden;
-    morePanel.hidden = !opening;
-    moreBtn.setAttribute('aria-expanded', String(opening));
-    /* The Trains field lives in this panel and shows itself off the listing, so
-       it has to be asked the moment the panel opens. Without this it stays
-       hidden until some OTHER control is touched — run() is what calls
-       syncTrain, and nothing calls run() on a panel that has no picks in it
-       yet. syncTrain, not run(): run() with nothing set clears the results
-       block, which would wipe an answer the reader is still reading. */
-    if (opening) syncTrain();
-    /* Budget and advisory options can only be pruned once their pages have
-       been read — fetch both the first time the panel opens (two small pages,
-       nobody who keeps the panel shut pays), then re-prune so no option in the
-       open panel can lead to zero guides. */
-    if (opening) loadRates();
-    if (opening && !BUDGET) {
-      loadBudget().then(function () { if (anySet(state())) run(); });
-    }
   });
 
   /* ── The home-city picker ─────────────────────────────────────────────────

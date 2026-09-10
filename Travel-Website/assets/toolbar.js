@@ -5373,6 +5373,20 @@ window.TVE.home = (function () {
       { name: 'JW Marriott Hotel Bogotá', note: 'Marriott family — first-tier international brand, this guide’s title-card hotel, Zona Rosa/Chapinero financial district, 4 restaurants and full spa, 24h reception, AC · 9.0 Booking.com', url: 'https://www.booking.com/hotel/co/jw-marriott-bogota.html', tier: 'luxury' },
       { name: 'Sofitel Bogotá Victoria Regia', note: 'Sofitel — first-tier international brand, Zona Rosa, a quarter mile from La Zona T, spa and indoor pool, 24h reception, AC · 9.1 Booking.com', url: 'https://www.booking.com/hotel/co/sofitel-bogota-victoria-regia.html', tier: 'luxury' }
     ], price: { budget: 'COP 320,000–450,000', mid: 'COP 450,000–750,000', expensive: 'COP 750,000–1,300,000', luxury: 'COP 1,300,000+' } },
+    'boracay': { h: [
+      { name: 'Coast Boracay', note: 'Independent — Balabag (Station 2), infinity pool and rooftop bar, short walk to Willy’s Rock, 24h reception, AC · 9.4 Booking.com', url: 'https://www.booking.com/hotel/ph/coast.html', tier: 'budget' },
+      { name: 'Four Points by Sheraton Boracay', note: 'Marriott family — first-tier international brand, this guide’s title-card hotel, Station 1, 3 restaurants and an infinity pool, 24h reception, AC · 8.2 Booking.com', url: 'https://www.booking.com/hotel/ph/fourpoints-sheraton-boracay.html', tier: 'mid' },
+      { name: 'Discovery Boracay', note: 'Independent — Station 1 beachfront near Willy’s Rock, spa and sunken-bar pool, 24h reception, AC · 9.3 Booking.com', url: 'https://www.booking.com/hotel/ph/discovery-shores-boracay.html', tier: 'expensive' },
+      { name: 'Shangri-La Boracay Resort and Spa', note: 'Shangri-La family — first-tier international brand, private beach at Barangay Yapak, full spa and multiple restaurants, 24h reception, AC · 9.5 Booking.com', url: 'https://www.booking.com/hotel/ph/shangri-la-s-boracay-resort-and-spa.html', tier: 'luxury' }
+    ], price: { budget: 'PHP 5,000–7,500', mid: 'PHP 7,500–11,000', expensive: 'PHP 16,000–21,000', luxury: 'PHP 21,000–34,000' } },
+    'cebu': { h: [
+      { name: 'Fairfield by Marriott Cebu Mandaue City', note: 'Marriott family — first-tier international brand, A.C. Cortes Avenue, Mandaue, air-conditioned rooms with mountain views, 24h reception, AC · 8.6 rating', url: 'https://www.booking.com/hotel/ph/fairfield-by-marriott-cebu-mandaue-city.html', tier: 'budget' },
+      { name: 'Seda Central Bloc Cebu City', note: 'Independent — Lahug, rooftop pool, short walk to Ayala Center Cebu, 24h reception, AC · 9.0 Booking.com', url: 'https://www.booking.com/hotel/ph/seda-central-bloc-cebu.html', tier: 'mid' },
+      { name: 'Radisson RED Cebu Mandaue', note: 'Radisson family — lifestyle-brand hotel, outdoor pool, Mandaue business district, 24h reception, AC · 9.4 Booking.com', url: 'https://www.booking.com/hotel/ph/radisson-red-cebu-mandaue.html', tier: 'mid' },
+      { name: 'Radisson Blu Cebu', note: 'Radisson family — second-tier international brand, joined to SM City Cebu mall, free parking, 24h reception, AC · 8.6 Booking.com', url: 'https://www.booking.com/hotel/ph/radisson-blu-cebu.html', tier: 'expensive' },
+      { name: 'Fili Hotel at Nustar Cebu', note: 'Independent — 5-star hotel at the Nustar Resort & Casino complex, infinity pool, 24h reception, AC · 9.1 Booking.com', url: 'https://www.booking.com/hotel/ph/fili-urban-resort-nustar-resort-and-casino.html', tier: 'expensive' },
+      { name: 'NUSTAR Hotel Cebu', note: 'Independent — flagship 5-star resort and casino, outdoor pool, spa, airport shuttle, 24h reception, AC · 9.5 Booking.com', url: 'https://www.booking.com/hotel/ph/nustar-cebu.html', tier: 'luxury' }
+    ], price: { budget: 'PHP 4,800–5,600', mid: 'PHP 6,000–6,800', expensive: 'PHP 6,800–8,200', luxury: 'PHP 8,500–12,000' } },
     'galway': { h: [
       { name: 'Skeffington Arms Hotel', note: 'Independent — directly on Eyre Square, lively central base with an on-site bar and 24h reception', url: 'https://www.booking.com/hotel/ie/skeffington-arms.html', tier: 'budget' },
       { name: 'Nox Hotel Galway', note: 'Independent — Headford Road base with restaurant, bar, free parking and 24h reception', url: 'https://www.booking.com/hotel/ie/noxhotel.html', tier: 'budget' },
@@ -10453,6 +10467,8 @@ window.TVE.home = (function () {
 
     /* city-slug → {iata, name}  (derived from index.html FMAP "i" field) */
     var CHIP_DATA = {
+      'boracay':           {iata:'KLO', name:'Kalibo International'},
+      'cebu':              {iata:'CEB', name:'Mactan-Cebu International'},
       'fez':               {iata:'FEZ', name:'Fès–Saïss Airport'},
       'bogota':            {iata:'BOG', name:'El Dorado International Airport'},
       'galway':            {iata:'SNN', name:'Shannon Airport'},
@@ -10760,7 +10776,9 @@ window.TVE.home = (function () {
       'SSA','STR','STT','SVO','SVQ','SXB','SXM','SYD','SZG','SZX','TBS','TFS','TIV','TLL','TLV','TOS',
       'TPE','TRN','VCE','VIE','VLC','VNO','VRN','WLG','YIA','YQB','YUL','YVR','YYC','YYZ','ZAG','ZNZ',
       'ZQN','ZRH','ZTH',
-        'SNN'
+        'SNN',
+        'KLO',
+        'CEB'
     ];
 
     function _inject() {

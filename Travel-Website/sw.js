@@ -3561,7 +3561,10 @@
 /* 2026-09-10: web-travel-style.css -- extend the solid-badge dark ink map to
    legend-key consumers, fixing gold/green luggage-storage legend contrast.
    MIN_VERSIONS['web-travel-style.css'] to 302; CACHE to v2049. */
-var CACHE = 'travel-cache-v2049';
+/* 2026-09-10: Worldwide Car Rental dark mode now keeps its clause bar and item
+   numbers legible; light-blue solid badges gain dark ink. MIN_VERSIONS
+   ['web-travel-style.css'] to 303, CACHE to v2050. */
+var CACHE = 'travel-cache-v2050';
 /* 2026-08-27: airlines.css's .card-tags align-items fix changed a shared
    asset without raising its own floor -- MIN_VERSIONS['airlines.css'] to
    6, CACHE to v1662. */
@@ -3609,7 +3612,7 @@ var ICS_OUTBOX = 'gmd-ics-outbox';
    label) was missing min-width:0, so its nested picker ignored its own 58% max-width
    cap, rendered near its full intrinsic width and pushed the amount box and the close
    X off the right edge of the phone screen. MIN_VERSIONS['guide-style.css'] to 296, CACHE to v2007. */
-var MIN_VERSIONS = { 'guide-style.css': 306,'toolbar.js': 1252, 'mobile.css': 100, 'web-travel-style.css': 302, 'guides-index-style.css': 70,'read-about.css': 8, 'best-of-features.js': 6, 'best-of-cross-data.js': 26, 'weather.js': 45,'trains.css': 32, 'trains.js': 6, 'airlines.css': 9, 'airlines.js': 11, 'passport.js': 6, 'search-autocomplete.js': 22, 'flag-render.js': 3, 'site-footer.js': 2 };
+var MIN_VERSIONS = { 'guide-style.css': 306,'toolbar.js': 1252, 'mobile.css': 100, 'web-travel-style.css': 303, 'guides-index-style.css': 70,'read-about.css': 8, 'best-of-features.js': 6, 'best-of-cross-data.js': 26, 'weather.js': 45,'trains.css': 32, 'trains.js': 6, 'airlines.css': 9, 'airlines.js': 11, 'passport.js': 6, 'search-autocomplete.js': 22, 'flag-render.js': 3, 'site-footer.js': 2 };
 
 function rewriteAssetUrl(urlStr) {
   var u;

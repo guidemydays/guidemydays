@@ -1302,7 +1302,7 @@ window.TVE.home = (function () {
       '.tb a.tb-brand-logo img.tb-logo-light{display:none}' +
       '.tb a.tb-brand-logo img.tb-logo-dark{display:block}}' +
             '@media (max-width: 1260px) and (pointer: coarse){' +
-            '.tb{background:var(--c-page-bg,#f5f4f0)!important}' +
+            '.tb{background:var(--c-page-bg,var(--bg,#f5f4f0))!important}' +
       '.tb a,.tb a:visited,.tb-ddbtn,.tb-ham{color:#C04E1A!important}' +
             '.tb a.tb-brand-logo{position:absolute;left:0;right:0;width:auto;padding:10px 0 0;flex:none;pointer-events:none;text-align:center}' +
       '.tb a.tb-brand-logo img{max-width:186px;margin:0 auto;display:inline-block;pointer-events:auto}' +
@@ -1465,7 +1465,7 @@ window.TVE.home = (function () {
        The row must be made to FIT 1260px instead — hence the tab gap cut from
        18px to 10px in the same pass. */
     '@media (max-width: 1260px) and (pointer: coarse){' +
-                        '.tb{position:relative;z-index:1002;padding:15px 0 14px;display:flex;align-items:center;justify-content:space-between;min-height:78px;border-bottom:none;background:var(--c-page-bg,#f5f4f0);box-shadow:none}' +
+                        '.tb{position:relative;z-index:1002;padding:15px 0 14px;display:flex;align-items:center;justify-content:space-between;min-height:78px;border-bottom:none;background:var(--c-page-bg,var(--bg,#f5f4f0));box-shadow:none}' +
       '.tb-inner{display:none !important}' +
       '.tb-scroll-wrap{display:none !important}' +
       '.tb::after{display:none}' +

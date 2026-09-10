@@ -3542,7 +3542,11 @@
    normals added, orphaned Mecca entry removed). MIN_VERSIONS['weather.js'] to
    45, CACHE to v2040. */
 /* 2026-09-10: search-audit: align every autocomplete dropdown to its measured input bounds. MIN_VERSIONS['search-autocomplete.js'] to 22, CACHE to v2044. */
-var CACHE = 'travel-cache-v2044';
+/* 2026-09-10: mobile UX audit — toolbar.js now inherits the active page
+   background token on coarse-pointer layouts, so dark-mode mobile toolbars no
+   longer fall back to the light page color. MIN_VERSIONS['toolbar.js'] to 1252,
+   CACHE to v2045. */
+var CACHE = 'travel-cache-v2045';
 /* 2026-08-27: airlines.css's .card-tags align-items fix changed a shared
    asset without raising its own floor -- MIN_VERSIONS['airlines.css'] to
    6, CACHE to v1662. */
@@ -3590,7 +3594,7 @@ var ICS_OUTBOX = 'gmd-ics-outbox';
    label) was missing min-width:0, so its nested picker ignored its own 58% max-width
    cap, rendered near its full intrinsic width and pushed the amount box and the close
    X off the right edge of the phone screen. MIN_VERSIONS['guide-style.css'] to 296, CACHE to v2007. */
-var MIN_VERSIONS = { 'guide-style.css': 306,'toolbar.js': 1251, 'mobile.css': 99, 'web-travel-style.css': 298, 'guides-index-style.css': 70,'read-about.css': 8, 'best-of-features.js': 6, 'best-of-cross-data.js': 26, 'weather.js': 45,'trains.css': 31, 'trains.js': 6, 'airlines.css': 9, 'airlines.js': 11, 'passport.js': 6, 'search-autocomplete.js': 22, 'flag-render.js': 3, 'site-footer.js': 2 };
+var MIN_VERSIONS = { 'guide-style.css': 306,'toolbar.js': 1252, 'mobile.css': 99, 'web-travel-style.css': 298, 'guides-index-style.css': 70,'read-about.css': 8, 'best-of-features.js': 6, 'best-of-cross-data.js': 26, 'weather.js': 45,'trains.css': 31, 'trains.js': 6, 'airlines.css': 9, 'airlines.js': 11, 'passport.js': 6, 'search-autocomplete.js': 22, 'flag-render.js': 3, 'site-footer.js': 2 };
 
 function rewriteAssetUrl(urlStr) {
   var u;

@@ -1055,7 +1055,7 @@ window.TVE.home = (function () {
     '--c-rust:#ff8420;--c-clay:#ff834b;--c-red:#ff6a55;--c-rose:#ff6685;' +
     '--c-plum:#e249e8;--c-sun:#ffcf4d;--c-amber:#ff9a34;--c-green:#74ef3f;' +
     '--c-leaf:#5fbf2a;--c-teal:#21e8d0;--c-blue:#3caefe;--c-navy:#2f7fc4;' +
-    '--c-sky:#66caff;--c-grape:#9d5fd6;--c-wine:#c9584a;--c-pine:#3fa876;--c-slate:#8ea3b2;--c-terra:#D4663A;--c-paper-shade:#dad4cb;--c-cream-shade:#cfc3ae;' +
+    '--c-sky:#66caff;--c-grape:#9d5fd6;--c-wine:#c9584a;--c-pine:#3fa876;--c-slate:#8ea3b2;--c-terra:#e0805f;--c-paper-shade:#dad4cb;--c-cream-shade:#cfc3ae;' +
     '--c-rim-warm:#e0873f;--c-rim-cool:#a9bac8;--c-tire-shade:#38312d;--c-tire-rim:#8d8480;--c-stone-shade:#736a60;--c-stone-rim:#b8b0a6;--c-tan-shade:#c79050;--c-tan-rim:#ffcd94;--c-cocoa-shade:#8e4e19;--c-cocoa-rim:#d39764;--c-rust-shade:#c46619;--c-rust-rim:#ffa963;--c-clay-shade:#c4653a;--c-clay-rim:#ffa881;--c-red-shade:#c25141;--c-red-rim:#ff9788;--c-rose-shade:#c24e65;--c-rose-rim:#ff94aa;--c-plum-shade:#a937ae;--c-plum-rim:#eb80ef;--c-sun-shade:#c7a13c;--c-sun-rim:#ffdd82;--c-amber-shade:#c47728;--c-amber-rim:#ffb871;--c-green-shade:#5aba31;--c-green-rim:#9ef479;--c-leaf-shade:#499320;--c-leaf-rim:#8fd26a;--c-teal-shade:#1ab5a2;--c-teal-rim:#64efde;--c-blue-shade:#2e86c4;--c-blue-rim:#76c6fe;--c-navy-shade:#225d8f;--c-navy-rim:#6da5d6;--c-sky-shade:#509ec7;--c-sky-rim:#94daff;--c-grape-shade:#73459c;--c-grape-rim:#ba8fe2;--c-wine-shade:#934036;--c-wine-rim:#d98a80;--c-pine-shade:#30805a;--c-pine-rim:#79c29f;--c-slate-shade:#6c7c87;--c-slate-rim:#b0bfc9;--c-terra-shade:#a8502a;--c-terra-rim:#f0a374}}' +
     '.gm-ic{display:inline-block;vertical-align:-0.15em;flex-shrink:0}' +
         '.gm-icon{display:inline-block;width:1.2em;height:1.2em;vertical-align:-0.22em;flex-shrink:0}' +
@@ -9130,7 +9130,7 @@ window.TVE.home = (function () {
     strip.rel = 'noopener';
     strip.style.cssText =
       'display:flex;align-items:center;text-decoration:none;width:100%;' +
-      'background:#eaf5fc;border:1px solid #cfe6f5;border-radius:6px;' +
+      'background:var(--c-alt-bg,#eaf5fc);border:1px solid var(--c-alt-border,#cfe6f5);border-radius:6px;' +
       /* margin: 16px both breakpoints (owner-reported: 36px desktop /
          12px mobile read as "too much space, and inconsistent with
          the gap to the next pill row" -- 16px matches .title-page's
@@ -9143,8 +9143,8 @@ window.TVE.home = (function () {
          both 390px and 1280px -- matching it here means the loading ->
          populated swap doesn't resize the box at all, not just "close". */
       'min-height:76px;overflow:hidden;cursor:pointer;transition:background .15s;';
-    strip.addEventListener('mouseenter', function () { strip.style.background = '#dcedf8'; });
-    strip.addEventListener('mouseleave', function () { strip.style.background = '#eaf5fc'; });
+    strip.addEventListener('mouseenter', function () { strip.style.background = 'color-mix(in srgb,var(--c-alt-bg,#eaf5fc) 88%,var(--c-alt-border,#4a7fa8) 12%)'; });
+    strip.addEventListener('mouseleave', function () { strip.style.background = 'var(--c-alt-bg,#eaf5fc)'; });
 
     var loadingNote = document.createElement('div');
     loadingNote.style.cssText = 'width:100%;text-align:center;font-size:12px;color:#9a9690;';
@@ -9180,7 +9180,7 @@ window.TVE.home = (function () {
 
         var dayDiv = document.createElement('div');
         dayDiv.style.cssText =
-          'font-size:' + (isMobile ? '10px' : '12px') + ';font-weight:700;color:#6b6860;letter-spacing:0.03em;line-height:1.2;';
+          'font-size:' + (isMobile ? '10px' : '12px') + ';font-weight:700;color:var(--c-alt-text,#3d3a32);letter-spacing:0.03em;line-height:1.2;';
         dayDiv.textContent = DAY[dt.getDay()];
 
         var iconDiv = document.createElement('div');
@@ -9189,7 +9189,7 @@ window.TVE.home = (function () {
 
         var tempDiv = document.createElement('div');
         tempDiv.style.cssText =
-          'font-size:' + (isMobile ? '10px' : '12px') + ';color:#3d3a32;white-space:nowrap;line-height:1.2;';
+          'font-size:' + (isMobile ? '10px' : '12px') + ';color:var(--c-alt-text,#3d3a32);white-space:nowrap;line-height:1.2;';
         tempDiv.textContent =
           _wxConv(daily.temperature_2m_max[i]) + '°/' +
           _wxConv(daily.temperature_2m_min[i]) + '°';
@@ -9205,11 +9205,11 @@ window.TVE.home = (function () {
         nowBlock.style.cssText =
           'display:flex;flex-direction:column;align-items:center;justify-content:center;' +
           'padding-right:' + (isMobile ? '6px' : '10px') + ';margin-right:' + (isMobile ? '4px' : '8px') + ';' +
-          'border-right:1px solid #cfe6f5;flex-shrink:0;gap:1px;';
+          'border-right:1px solid var(--c-alt-border,#cfe6f5);flex-shrink:0;gap:1px;';
 
         if (!isMobile) {
           var nowLabel = document.createElement('div');
-          nowLabel.style.cssText = 'font-size:8px;font-weight:700;color:#6b6860;letter-spacing:0.03em;';
+          nowLabel.style.cssText = 'font-size:8px;font-weight:700;color:var(--c-alt-text,#3d3a32);letter-spacing:0.03em;';
           nowLabel.textContent = 'NOW';
           nowBlock.appendChild(nowLabel);
         }
@@ -9221,7 +9221,7 @@ window.TVE.home = (function () {
 
         var nowTemp = document.createElement('div');
         nowTemp.style.cssText =
-          'font-size:' + (isMobile ? '10px' : '13px') + ';font-weight:700;color:#3d3a32;white-space:nowrap;';
+          'font-size:' + (isMobile ? '10px' : '13px') + ';font-weight:700;color:var(--c-alt-text,#3d3a32);white-space:nowrap;';
         nowTemp.textContent = _wxConv(data.current.temperature_2m) + '°' + u;
         nowBlock.appendChild(nowTemp);
 
@@ -9233,7 +9233,7 @@ window.TVE.home = (function () {
       /* °C/°F toggle */
       var toggle = document.createElement('div');
       toggle.style.cssText =
-        'display:inline-flex;flex-direction:column;border:1px solid #cfe6f5;border-radius:5px;overflow:hidden;' +
+        'display:inline-flex;flex-direction:column;border:1px solid var(--c-alt-border,#cfe6f5);border-radius:5px;overflow:hidden;' +
         'flex-shrink:0;align-self:stretch;margin-left:8px;';
       ['C','F'].forEach(function (t) {
         var btn = document.createElement('button');
@@ -9242,7 +9242,7 @@ window.TVE.home = (function () {
         btn.style.cssText =
           'border:none;cursor:pointer;flex:1;padding:0 7px;font-size:10px;font-weight:600;' +
           'background:' + (u === t ? '#2f6fad' : 'transparent') + ';' +
-          'color:' + (u === t ? '#fff' : '#9a9690') + ';';
+          'color:' + (u === t ? '#fff' : 'var(--c-alt-text,#3d3a32)') + ';';
         btn.addEventListener('click', function (e) {
           e.preventDefault();
           e.stopPropagation();

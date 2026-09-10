@@ -194,6 +194,15 @@
   .gi-carousels { grid-template-columns: 1fr; gap: clamp(2.6rem, 5vw, 4rem); }
 }
 .gi-tour, .gi-mine { display: block; min-width: 0; }
+.gi-combo { display: none; min-width: 0; }
+/* PHONE ONLY (owner rule 2026-09-09, same swap as the landing page's
+   lp-combo): gi-tour and gi-mine give way to the one combined carousel.
+   Desktop and tablet never see this. */
+@media (max-width: 600px) and (pointer: coarse) {
+  .gi-tour, .gi-mine { display: none; }
+  .gi-combo { display: block; }
+  .gi-carousels { grid-template-columns: 1fr; }
+}
 .gi-tile { display: block; text-decoration: none; border-radius: 14px;
   overflow: hidden; -webkit-tap-highlight-color: transparent;
   box-shadow: 0 1px 2px rgba(23,21,15,.08), 0 8px 24px rgba(23,21,15,.10);
@@ -685,6 +694,22 @@
       </a>
     </section>
 
+    <!-- PHONE ONLY (owner rule 2026-09-09, same as the landing page's lp-combo):
+         below 600px on a coarse pointer, gi-tour and gi-mine are hidden and
+         this one shows instead, paging through all six screenshots combined.
+         Desktop/tablet keep the two carousels above untouched — CSS swap below. -->
+    <section class="gi-combo">
+      <a class="gi-tile" href="/guides/rome">
+        <span class="gi-shot"><img src="/assets/guides-intro/guide-stop.png"
+          alt="A single stop in the Rome guide: Galleria Borghese with a two-hour estimate, a ticket link, opening hours, the day it closes, a copyable address, a photo of Bernini&rsquo;s Apollo and Daphne, and a row reading thirty-two minutes on foot or fourteen by ride app back to the hotel"
+          loading="lazy" width="1200" height="725"></span>
+        <span class="gi-band">
+          <span class="gi-band-t">Every stop, spelled out</span>
+          <span class="gi-band-d">How long people spend there, when it is open, the address in one tap &mdash; and the walk or the ride to the next one.</span>
+        </span>
+      </a>
+    </section>
+
   </div>
 
   <script>
@@ -788,6 +813,7 @@
          '/guides/rome']
       ]
     };
+    STEPS['gi-combo'] = STEPS['gi-tour'].concat(STEPS['gi-mine']);
 
     var bands = [];
     Object.keys(STEPS).forEach(function (key) {

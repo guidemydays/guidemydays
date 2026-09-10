@@ -5167,11 +5167,16 @@ function render() {
     }
   }
 
-  /* There is no button to enable any more — the only state this has to keep is
-     whether "Clear" has anything to clear. */
+  /* There is no button to enable any more — keep "Clear" in sync with
+     either a chosen home or any answer that differs from its empty/default state. */
   function updateGo() {
     var hasHome = !!(window.TVE && window.TVE.home && window.TVE.home.get());
-    if (clearBtn) clearBtn.hidden = !hasHome;
+    var hasAnswer = SELECTS.some(function (id) {
+      var el = document.getElementById(id);
+      if (!el) return false;
+      return id === 'tt-degree' ? el.value !== 'most' : el.value !== '';
+    });
+    if (clearBtn) clearBtn.hidden = !(hasHome || hasAnswer);
   }
 
   // Data extractors

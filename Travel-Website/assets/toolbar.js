@@ -4921,17 +4921,6 @@ window.TVE.home = (function () {
       var actionRow = document.querySelector('.action-row');
       if (!actionRow) return;
       actionRow.appendChild(btn);
-      /* Equal-width pills (owner-reported: Reset all/Print list/Save for
-         Offline "should have the same size" -- each sized to its own label
-         instead, so the longest one, Save for Offline, wrapped alone onto
-         its own row under the two short ones). Matches the shared spec's own
-         note on this exact pattern (selection-pills-badges-pills-to-badge-
-         dots.html § 2): CSS Grid 1fr doesn't reliably equalize intrinsically-
-         sized children in practice, so the widest pill's own rendered width
-         is measured and applied to its siblings directly. */
-      var acPills = [].slice.call(actionRow.children);
-      var acWidest = Math.max.apply(null, acPills.map(function (p) { return p.getBoundingClientRect().width; }));
-      acPills.forEach(function (p) { p.style.width = acWidest + 'px'; });
       return;
     }
 

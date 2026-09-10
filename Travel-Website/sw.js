@@ -3571,7 +3571,9 @@
    readable shared guide accents, dark Read About canvas, and dark stops-map
    day controls. MIN_VERSIONS guide-style.css to 307, toolbar.js to 1253,
    read-about.css to 9; CACHE to v2052. */
-var CACHE = 'travel-cache-v2052';
+/* 2026-09-10: When To Go's hero chart keeps dark ink on its intentionally
+   light gradient in OS dark mode. CACHE to v2053. */
+var CACHE = 'travel-cache-v2053';
 /* 2026-08-27: airlines.css's .card-tags align-items fix changed a shared
    asset without raising its own floor -- MIN_VERSIONS['airlines.css'] to
    6, CACHE to v1662. */

@@ -40,3 +40,8 @@
 2026-09-03 10:25 — kuwait-city.html — FAIL @ final-gates-precheck — 0 checks — Fleet: index.html inline data (CLIMATE_INLINE / COST_DATA / SAFETY_DATA)
 2026-09-03 10:53 — kuwait-city.html — FAIL @ final-gates-precheck — 0 checks — Fleet: Currency Guide coverage
 2026-09-03 11:14 — kuwait-city.html — PASS — 917/917 passed, 0 failed
+2026-09-11 19:44 — kuwait-city.html — FAIL @ validate — 925/926 passed, 1 failed — NE-SECT extra-section completeness — built or justified by section-specific rese
+2026-09-11 19:47 — kuwait-city.html — FAIL @ validate — 925/930 passed, 5 failed — Build-state tracker — Phase 5 (per-section build) all shipping-section rule file; Overview extras pills appear in canonical section order (Guide Structure.html / ; Weekly Closures pill preceded by | separator span (color:#d4b896) — added 2026-0; 🗂 Guide Structure — Extras section order matches canonical 17-element sequence (; Every bot-blocked booking URL has a log entry (3 URL(s) checked)
+2026-09-11 19:49 — kuwait-city.html — FAIL @ verify-booking — 0 checks — https://www.getyourguide.com/kuwait-city-l32578/from-kuwait-city-premium-full-day-sightseeing-tour-t950534/
+2026-09-11 19:49 — kuwait-city.html — VALIDATED — 930/930 passed, 0 failed
+2026-09-11 20:00 — kuwait-city.html — GATES_PASSED — 930/930 passed, 0 failed

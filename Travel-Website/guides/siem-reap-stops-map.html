@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="/assets/web-travel-style.css">
+<link rel="stylesheet" href="/assets/mobile.css">
+<link rel="stylesheet" href="/maps/vendor/leaflet.min.css">
+<link rel="stylesheet" href="/maps/vendor/MarkerCluster.min.css">
+<link rel="stylesheet" href="/assets/stops-map-style.css">
+<title>siem-reap — All Stops Map</title>
+</head>
+<body>
+<div data-toolbar data-depth="2" data-maxwidth="1400" data-title="siem-reap — All Stops"></div>
+<div id="filter-row">
+  <button class="day-btn active" data-day="all">All days</button>
+  <button class="day-btn" data-day="1" style="--dc:#C04E1A">Day 1</button>
+  <button class="day-btn" data-day="2" style="--dc:#4a90d9">Day 2</button>
+  <button class="day-btn" data-day="3" style="--dc:#7ab648">Day 3</button>
+  <button class="day-btn" data-day="4" style="--dc:#9b59b6">Day 4</button>
+  <button class="day-btn" data-day="5" style="--dc:#e67e22">Day 5</button>
+</div>
+<div id="map-wrap"><div id="map"></div></div>
+<script src="/maps/vendor/leaflet.min.js"></script>
+<script src="/maps/vendor/markercluster.min.js"></script>
+<script src="/assets/toolbar.js?v=100"></script>
+<script>
+const STOPS = [
+  {
+    "day": 1,
+    "name": "Angkor Wat",
+    "query": "Angkor Wat",
+    "lat": 13.412521,
+    "lng": 103.8665896
+  },
+  {
+    "day": 1,
+    "name": "Bayon",
+    "query": "Bayon Temple Angkor Thom",
+    "lat": 13.4412009,
+    "lng": 103.8593647
+  },
+  {
+    "day": 1,
+    "name": "Baphuon",
+    "query": "Baphuon Temple Angkor Thom",
+    "lat": 13.4437935,
+    "lng": 103.8562189
+  },
+  {
+    "day": 1,
+    "name": "Terrace of the Elephants",
+    "query": "Terrace of the Elephants Angkor Thom",
+    "lat": 13.4457855,
+    "lng": 103.8588744
+  },
+  {
+    "day": 2,
+    "name": "Ta Prohm",
+    "query": "Ta Prohm Temple",
+    "lat": 13.434717,
+    "lng": 103.8855199
+  },
+  {
+    "day": 2,
+    "name": "Preah Khan",
+    "query": "Preah Khan Temple Angkor",
+    "lat": 13.4619307,
+    "lng": 103.8716297
+  },
+  {
+    "day": 2,
+    "name": "Neak Pean",
+    "query": "Neak Pean Temple Angkor",
+    "lat": 13.4632367,
+    "lng": 103.8948473
+  },
+  {
+    "day": 2,
+    "name": "Ta Som",
+    "query": "Ta Som Temple Angkor",
+    "lat": 13.4645453,
+    "lng": 103.9132134
+  },
+  {
+    "day": 3,
+    "name": "Pre Rup",
+    "query": "Pre Rup Temple Angkor",
+    "lat": 13.4349829,
+    "lng": 103.9206233
+  },
+  {
+    "day": 3,
+    "name": "East Mebon",
+    "query": "East Mebon Temple Angkor",
+    "lat": 13.4466091,
+    "lng": 103.9201826
+  },
+  {
+    "day": 3,
+    "name": "Bakong",
+    "query": "Bakong Temple Roluos",
+    "lat": 13.3359237,
+    "lng": 103.9741084
+  },
+  {
+    "day": 3,
+    "name": "Banteay Samré",
+    "query": "Banteay Samre Temple",
+    "lat": 13.4421683,
+    "lng": 103.9591344
+  },
+  {
+    "day": 4,
+    "name": "Banteay Srei",
+    "query": "Banteay Srei",
+    "lat": 13.5991582,
+    "lng": 103.9630491
+  },
+  {
+    "day": 4,
+    "name": "Phnom Kulen",
+    "query": "Phnom Kulen National Park",
+    "lat": 13.613081,
+    "lng": 104.1062882
+  },
+  {
+    "day": 4,
+    "name": "Phnom Kulen Waterfall",
+    "query": "Phnom Kulen Waterfall",
+    "lat": 13.569114,
+    "lng": 104.1083175
+  },
+  {
+    "day": 4,
+    "name": "Beng Mealea",
+    "query": "Beng Mealea Temple",
+    "lat": 13.475867,
+    "lng": 104.2291614
+  },
+  {
+    "day": 5,
+    "name": "Kampong Phluk",
+    "query": "Kampong Phluk",
+    "lat": 13.2112409,
+    "lng": 103.9738652
+  },
+  {
+    "day": 5,
+    "name": "War Museum Cambodia",
+    "query": "War Museum Cambodia Siem Reap",
+    "lat": 13.3873505,
+    "lng": 103.8310353
+  },
+  {
+    "day": 5,
+    "name": "Angkor Silk Farm",
+    "query": "Angkor Silk Farm Puok",
+    "lat": 13.4371895,
+    "lng": 103.744861
+  },
+  {
+    "day": 5,
+    "name": "Wat Preah Prom Rath",
+    "query": "Wat Preah Prom Rath Siem Reap",
+    "lat": 13.3551504,
+    "lng": 103.8565313
+  }
+];
+const DAY_COLORS = {"1": "#C04E1A", "2": "#4a90d9", "3": "#7ab648", "4": "#9b59b6", "5": "#e67e22"};
+
+const map = L.map('map', {zoomControl: true});
+L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png', {
+  attribution: '\u00a9 <a href="https://www.openstreetmap.org/copyright">OSM</a> \u00a9 <a href="https://carto.com/">CARTO</a>',
+  subdomains: 'abcd', maxZoom: 19
+}).addTo(map);
+
+const cluster = L.markerClusterGroup({maxClusterRadius: 40, showCoverageOnHover: false});
+const markers = [];
+
+function pinIcon(color) {
+  return L.divIcon({
+    className: '',
+    html: `<div style="width:14px;height:14px;background:${color};border:2.5px solid #fff;border-radius:50%;box-shadow:0 1px 5px rgba(0,0,0,0.35)"></div>`,
+    iconSize: [14, 14], iconAnchor: [7, 7], popupAnchor: [0, -12]
+  });
+}
+
+STOPS.filter(s => s.lat != null && s.lng != null).forEach(s => {
+  const color = DAY_COLORS[String(s.day)] || '#C04E1A';
+  const mapsUrl = 'https://www.google.com/maps/search/?api=1&query=' + encodeURIComponent(s.query);
+  const marker = L.marker([s.lat, s.lng], {icon: pinIcon(color)});
+  marker.bindPopup(
+    '<div class="stop-popup">' +
+    '<strong>' + s.name + '</strong>' +
+    '<span class="day-tag" style="background:' + color + '">Day ' + s.day + '</span><br>' +
+    '<a href="' + mapsUrl + '" target="_blank">Open in Google Maps</a>' +
+    '</div>'
+  );
+  marker._day = s.day;
+  markers.push(marker);
+  cluster.addLayer(marker);
+});
+map.addLayer(cluster);
+
+function fitVisible(list) {
+  if (!list.length) return;
+  map.fitBounds(L.latLngBounds(list.map(m => m.getLatLng())), {padding: [44, 44]});
+}
+fitVisible(markers);
+
+document.querySelectorAll('.day-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.day-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    const day = btn.dataset.day;
+    cluster.clearLayers();
+    const visible = day === 'all' ? markers : markers.filter(m => String(m._day) === day);
+    visible.forEach(m => cluster.addLayer(m));
+    fitVisible(visible);
+  });
+});
+</script>
+</body>
+</html>

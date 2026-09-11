@@ -9,3 +9,6 @@
 2026-09-04 11:29 — zanzibar.html — FAIL @ verify — 0 checks — https://brightbeachtourandsafari.com/mnarani-marine-turtles-conservation-pond/
 2026-09-04 11:33 — zanzibar.html — FAIL @ verify-booking — 0 checks — https://en.wikipedia.org/wiki/Pingwe
 2026-09-04 11:36 — zanzibar.html — PASS — 929/929 passed, 0 failed
+2026-09-11 11:41 — zanzibar.html — FAIL @ validate — 930/931 passed, 1 failed — NE-SECT extra-section completeness — built or justified by section-specific rese
+2026-09-11 11:42 — zanzibar.html — VALIDATED — 931/931 passed, 0 failed
+2026-09-11 11:47 — zanzibar.html — GATES_PASSED — 931/931 passed, 0 failed

@@ -17,3 +17,6 @@
 2026-09-11 12:10 — antigua-guatemala.html — FAIL @ publish — 0 checks — Publication did not complete; guide remains pending.
 2026-09-11 19:15 — antigua-guatemala.html — VALIDATED — 975/975 passed, 0 failed
 2026-09-11 19:20 — antigua-guatemala.html — GATES_PASSED — 975/975 passed, 0 failed
+2026-09-11 20:29 — antigua-guatemala.html — VALIDATED — 975/975 passed, 0 failed
+2026-09-11 20:41 — antigua-guatemala.html — GATES_PASSED — 975/975 passed, 0 failed
+2026-09-11 20:41 — antigua-guatemala.html — FAIL @ publish — 0 checks — Publication did not complete; guide remains pending.

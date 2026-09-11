@@ -1,6 +1,7 @@
 /* 2026-09-11: refresh published guide assets and cache. */
 /* 2026-09-11: refresh published guide assets and cache. */
 /* 2026-09-11: refresh published guide assets and cache. */
+/* 2026-09-11: refresh published guide assets and cache. */
 /* 2026-09-10: refresh published guide assets and cache. */
 /* 2026-09-10: refresh published guide assets and cache. */
 /* 2026-09-10: refresh published guide assets and cache. */
@@ -3606,7 +3607,7 @@
 /* 2026-09-10: prev-next-nav-removal — strip guide-to-guide chain from all shipped guides. toolbar.js -> v1260. CACHE to v2065. */
 /* 2026-09-10: Siem Reap + Phnom Penh guide ship — toolbar.js HOTEL_ALT_DATA/CHIP_DATA/LOUNGE_IATAS for siem-reap (SAI) and phnom-penh (KTI); weather.js CLIMATE block gains Siem Reap + Phnom Penh climate normals. toolbar.js -> v1261, weather.js -> v51. CACHE to v2066. */
 /* 2026-09-11: european-trains/index.html — rename .rb-count → .rb-kicker (descriptive kicker text, not a count badge; NN 92 compliance). MIN_VERSIONS['trains.css'] to 35, CACHE to v2067. */
-var CACHE = 'travel-cache-v2070';
+var CACHE = 'travel-cache-v2071';
 /* 2026-08-27: airlines.css's .card-tags align-items fix changed a shared
    asset without raising its own floor -- MIN_VERSIONS['airlines.css'] to
    6, CACHE to v1662. */
@@ -3655,7 +3656,7 @@ var ICS_OUTBOX = 'gmd-ics-outbox';
    cap, rendered near its full intrinsic width and pushed the amount box and the close
    X off the right edge of the phone screen. MIN_VERSIONS['guide-style.css'] to 296, CACHE to v2007. */
 /* 2026-09-10: weather.js — Boracay climate normals added. MIN_VERSIONS['weather.js'] to 46, CACHE to v2060. */
-var MIN_VERSIONS = { 'guide-style.css': 309,'toolbar.js': 1262, 'mobile.css': 103, 'web-travel-style.css': 306, 'guides-index-style.css': 70,'read-about.css': 11, 'best-of-features.js': 7, 'best-of-cross-data.js': 26, 'weather.js': 54,'trains.css': 35, 'trains.js': 6, 'airlines.css': 9, 'airlines.js': 11, 'passport.js': 6, 'search-autocomplete.js': 22, 'flag-render.js': 3, 'site-footer.js': 2 };
+var MIN_VERSIONS = { 'guide-style.css': 309,'toolbar.js': 1263, 'mobile.css': 103, 'web-travel-style.css': 306, 'guides-index-style.css': 70,'read-about.css': 11, 'best-of-features.js': 7, 'best-of-cross-data.js': 26, 'weather.js': 55,'trains.css': 35, 'trains.js': 6, 'airlines.css': 9, 'airlines.js': 11, 'passport.js': 6, 'search-autocomplete.js': 22, 'flag-render.js': 3, 'site-footer.js': 2 };
 
 function rewriteAssetUrl(urlStr) {
   var u;

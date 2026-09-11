@@ -5345,6 +5345,16 @@ window.TVE.home = (function () {
       { name: 'The Dean Galway', note: 'Independent lifestyle hotel — city-centre rooftop pool, restaurant and gym · 8.5 Booking.com', url: 'https://www.booking.com/hotel/ie/the-dean-galway.html', tier: 'expensive' },
       { name: 'Glenlo Abbey Hotel', note: 'Independent country-estate stay — lakeside grounds, spa and Pullman Restaurant outside central Galway · 9.0 Booking.com', url: 'https://www.booking.com/hotel/ie/glenlo-abbey.html', tier: 'luxury' }
     ], price: { budget: '€110–160', mid: '€160–240', expensive: '€240–360', luxury: '€360+' } },
+    'hurghada': { h: [
+      { name: 'Canary Hotel', note: 'Independent budget stay in central Hurghada with air conditioning, 24-hour reception and easy access to El Dahar.', url: 'https://www.booking.com/hotel/eg/canary.html', tier: 'budget' },
+      { name: 'Elaria Hotel Hurgada', note: 'Value hotel near the promenade with a private beach area, airport transfers and 24-hour reception.', url: 'https://www.booking.com/hotel/eg/elaria-hurgada.html', tier: 'budget' },
+      { name: 'Hilton Hurghada Plaza Hotel', note: 'Hilton resort on Gabal El Hareem with Red Sea views, pools, private beach and full resort facilities.', url: 'https://www.booking.com/hotel/eg/hilton-hurghada-plaza.html', tier: 'mid' },
+      { name: 'DoubleTree by Hilton Mangroovy El Gouna Resort', note: 'Hilton resort at Mangroovy Beach in El Gouna with pools, beach access and lagoon-side dining.', url: 'https://www.booking.com/hotel/eg/doubletree-by-hilton-mangroovy-el-gouna-resort.html', tier: 'mid' },
+      { name: 'Hurghada Marriott Beach Resort', note: 'Marriott beachfront resort with a private island, Red Sea views, pool, gym and central marina access.', url: 'https://www.booking.com/hotel/eg/hurghada-marriott-red-sea-resort.html', tier: 'expensive' },
+      { name: 'Steigenberger Aqua Magic Red Sea', note: 'Steigenberger family resort on the Mamsha with extensive pools, water slides, private beach and several restaurants.', url: 'https://www.booking.com/hotel/eg/steigenberger-aqua-magic.html', tier: 'expensive' },
+      { name: 'Steigenberger Pure Lifestyle', note: 'Adults-only luxury resort with swim-up suites, private beach, attentive service and a central Mamsha location.', url: 'https://www.booking.com/hotel/eg/steigenberger-pure-lifestyle.html', tier: 'luxury' },
+      { name: 'The Chedi El Gouna', note: 'Luxury beachfront retreat in El Gouna with refined design, spa, pools and direct Red Sea access.', url: 'https://www.booking.com/hotel/eg/the-chedi-el-gouna.html', tier: 'luxury' }
+    ], price: { budget: 'EGP 1,800–3,000', mid: 'EGP 3,000–6,000', expensive: 'EGP 6,000–10,000', luxury: 'EGP 10,000+' } },
     'interlaken': { h: [
       { name: 'Hotel Alphorn', note: 'Independent — quiet west-side location near Interlaken West, garden and personal service · 9.0 Booking.com', url: 'https://www.booking.com/hotel/ch/alphorn.html', tier: 'budget' },
       { name: 'Swiss Inn & Apartments', note: 'Independent — central apartments and rooms near Interlaken West, kitchens available · 9.2 Booking.com', url: 'https://www.booking.com/hotel/ch/swiss-inn-interlaken.html', tier: 'budget' },
@@ -10466,6 +10476,7 @@ window.TVE.home = (function () {
 
     /* city-slug → {iata, name}  (derived from index.html FMAP "i" field) */
     var CHIP_DATA = {
+      'hurghada':          {iata:'HRG', name:'Hurghada International'},
       'interlaken':        {iata:'ZRH', name:'Zurich International'},
       'siem-reap':         {iata:'SAI', name:'Siem Reap Angkor International Airport'},
       'boracay':           {iata:'KLO', name:'Kalibo International'},
@@ -10779,7 +10790,8 @@ window.TVE.home = (function () {
       'RIX','RNO','RSW','RUH','SAI','SAN','SCL','SEA','SEZ','SFO','SGN','SIN','SJC','SJD','SJO','SJU','SKG',
       'SLC','SLZ','SNN','SOF','SPU','SRQ','SSA','STR','STT','SVO','SVQ','SXB','SXM','SYD','SZG','SZX',
       'TBS','TFS','TIV','TLL','TLV','TOS','TPE','TRN','TUN','VCE','VIE','VLC','VNO','VRN','WLG','YIA',
-      'YQB','YUL','YVR','YYC','YYZ','ZAG','ZNZ','ZQN','ZRH','ZTH'
+      'YQB','YUL','YVR','YYC','YYZ','ZAG','ZNZ','ZQN','ZRH','ZTH',
+        'HRG'
     ];
 
     function _inject() {

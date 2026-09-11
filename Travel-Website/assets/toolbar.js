@@ -5345,6 +5345,16 @@ window.TVE.home = (function () {
       { name: 'The Dean Galway', note: 'Independent lifestyle hotel — city-centre rooftop pool, restaurant and gym · 8.5 Booking.com', url: 'https://www.booking.com/hotel/ie/the-dean-galway.html', tier: 'expensive' },
       { name: 'Glenlo Abbey Hotel', note: 'Independent country-estate stay — lakeside grounds, spa and Pullman Restaurant outside central Galway · 9.0 Booking.com', url: 'https://www.booking.com/hotel/ie/glenlo-abbey.html', tier: 'luxury' }
     ], price: { budget: '€110–160', mid: '€160–240', expensive: '€240–360', luxury: '€360+' } },
+    'interlaken': { h: [
+      { name: 'Hotel Alphorn', note: 'Independent — quiet west-side location near Interlaken West, garden and personal service · 9.0 Booking.com', url: 'https://www.booking.com/hotel/ch/alphorn.html', tier: 'budget' },
+      { name: 'Swiss Inn & Apartments', note: 'Independent — central apartments and rooms near Interlaken West, kitchens available · 9.2 Booking.com', url: 'https://www.booking.com/hotel/ch/swiss-inn-interlaken.html', tier: 'budget' },
+      { name: 'Essential by Dorint Interlaken', note: 'Dorint brand — modern rooms beside Interlaken West, breakfast and 24h reception · 8.7 Booking.com', url: 'https://www.booking.com/hotel/ch/essential-by-dorint-interlaken.html', tier: 'mid' },
+      { name: 'Hotel Interlaken', note: 'Independent — historic Höheweg hotel near Interlaken Ost with Japanese garden · 8.8 Booking.com', url: 'https://www.booking.com/hotel/ch/interlaken.html', tier: 'mid' },
+      { name: 'Victoria-Jungfrau Grand Hotel & Spa', note: 'Independent grand hotel — landmark Höheweg address, full-service spa and Jungfrau views · 9.0 Booking.com', url: 'https://www.booking.com/hotel/ch/victoria-jungfrau-grand-spa.html', tier: 'expensive' },
+      { name: 'Hotel Zeit & Traum', note: 'Independent — design suites above Lake Thun in Beatenberg, private spa features · 9.4 Booking.com', url: 'https://www.booking.com/hotel/ch/zeit-traum.html', tier: 'expensive' },
+      { name: 'Grand Hotel Beau Rivage Interlaken', note: 'Independent grand hotel — Aare-side setting by Interlaken Ost, pool, spa and mountain views · 8.0 Booking.com', url: 'https://www.booking.com/hotel/ch/lindner-grand-beau-rivage.html', tier: 'luxury' },
+      { name: 'Hotel Gloria', note: 'Independent — Beatenberg panorama above Lake Thun with Jungfrau-facing rooms and restaurant · 9.1 Booking.com', url: 'https://www.booking.com/hotel/ch/gloria.html', tier: 'luxury' }
+    ], price: { budget: 'CHF 110–180', mid: 'CHF 180–280', expensive: 'CHF 280–450', luxury: 'CHF 450+' } },
     'jakarta': { h: [
       {name: "ASHLEY NEWAIR Menteng", note: "Independent; modern Superior Twin, AC, air purifier, 24h reception; 16 min walk from the guide hotel; bathroom privacy unconfirmed; cancellation varies by rate · 9.3 Booking.com", url: "https://www.booking.com/hotel/id/ashley-newair-menteng.en-gb.html", tier: "budget"},
       {name: "Aloft Jakarta Wahid Hasyim", note: "Marriott; king bed, AC; 17 min walk; check current pool renovation status; bathroom privacy unconfirmed; cancellation varies by rate · 8.7 Booking.com", url: "https://www.booking.com/hotel/id/aloft-jakarta-wahid-hasyim.id.html", tier: "mid"},
@@ -10456,6 +10466,7 @@ window.TVE.home = (function () {
 
     /* city-slug → {iata, name}  (derived from index.html FMAP "i" field) */
     var CHIP_DATA = {
+      'interlaken':        {iata:'ZRH', name:'Zurich International'},
       'siem-reap':         {iata:'SAI', name:'Siem Reap Angkor International Airport'},
       'boracay':           {iata:'KLO', name:'Kalibo International'},
       'cebu':              {iata:'CEB', name:'Mactan-Cebu International'},

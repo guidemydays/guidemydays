@@ -7453,6 +7453,14 @@ window.TVE.home = (function () {
       { name: 'San Domenico Palace, Taormina, A Four Seasons Hotel', note: 'Four Seasons brand — 14th-century Dominican monastery, cliffside garden, pool, Etna and Ionian Bay views · 9.3 Booking.com', url: 'https://www.booking.com/hotel/it/san-domenico-palace-taormina.html', tier: 'luxury' },
       { name: 'Belmond Grand Hotel Timeo', note: 'Belmond brand — 1873 hilltop above Taormina, pool, Teatro Greco views, La Terrazza restaurant · 9.4 Booking.com', url: 'https://www.booking.com/hotel/it/grand-hotel-timeo.html', tier: 'luxury' }
     ], price: { budget: '€120–200', mid: '€200–350', expensive: '€350–600', luxury: '€600+' } },
+    'siem-reap': { h: [
+      { name: 'Golden Temple Villa', note: 'Independent — Sok San Road, Svay Dangkum, garden pool, 5-min walk to Pub Street, 24h reception, AC · 9.6 Booking.com', url: 'https://www.booking.com/hotel/kh/golden-temple-villa-siem-reap1.html', tier: 'budget' },
+      { name: "Viroth's Hotel", note: 'Independent — Street 24, Wat Bo Village, boutique pool hotel near the riverside dining strip, 24h reception, AC · 9.9 Booking.com', url: 'https://www.booking.com/hotel/kh/viroth-hotel-new-wing.html', tier: 'mid' },
+      { name: 'Courtyard by Marriott Siem Reap Resort', note: 'Marriott family — first-tier international brand, Road 6A, Phum Chong Kaosou, large pool and spacious rooms, 24h reception, AC · 8.6 Booking.com', url: 'https://www.booking.com/hotel/kh/courtyard-by-marriott-siem-reap-resort.html', tier: 'mid' },
+      { name: 'Anantara Angkor Resort', note: 'Minor Hotels family — first-tier international brand, National Road 6, Svay Dangkum, spa and multiple pools, 24h reception, AC · 9.2 Booking.com', url: 'https://www.booking.com/hotel/kh/anantara-angkor-resort.html', tier: 'expensive' },
+      { name: 'Park Hyatt Siem Reap', note: 'Hyatt family — first-tier international brand, this guide\'s title-card hotel, Sivutha Blvd, courtyard pool and full spa, 24h reception, AC · 9.5 Booking.com', url: 'https://www.booking.com/hotel/kh/park-hyatt-siem-reap.html', tier: 'luxury' },
+      { name: 'Raffles Grand Hotel d\'Angkor', note: 'Raffles family — first-tier international brand, Charles de Gaulle Blvd, 1932 colonial landmark near the Royal Residence, full spa, 24h reception, AC · 9.6 Booking.com', url: 'https://www.booking.com/hotel/kh/raffles-grand-d-angkor.html', tier: 'luxury' }
+    ], price: { budget: '$25–45', mid: '$90–170', expensive: '$170–320', luxury: '$320+' } },
     'siena': { h: [
       { name: 'Albergo Bernini', note: 'Independent — Via della Sapienza 15, a short walk from the Campo, simple comfortable rooms in historic central Siena · 8.8 Booking.com', url: 'https://www.booking.com/hotel/it/albergo-bernini.html', tier: 'budget' },
       { name: 'Grand Hotel Continental Siena', note: 'Starhotels — Via Banchi di Sopra baroque palace in the heart of Siena, frescoed ceilings · 9.1 Booking.com', url: 'https://www.booking.com/hotel/it/grand-hotel-continental.html', tier: 'mid' },
@@ -7749,7 +7757,17 @@ window.TVE.home = (function () {
       { name: 'DoubleTree by Hilton Jaipur Amer', note: 'Hilton family — hilltop 5-star beside Amer Fort, Aravalli Hills views, infinity pool, 24h reception, AC · 8.1 Booking.com', url: 'https://www.booking.com/hotel/in/doubletree-by-hilton-jaipur-amer.html', tier: 'expensive' },
       { name: 'Rambagh Palace', note: 'Taj — independent, 9.0+ Booking.com bar cleared, former Jaipur royal residence near Hawa Mahal, gardens, spa, pool, 24h reception, AC · 9.5 Booking.com', url: 'https://www.booking.com/hotel/in/rambagh-palace.html', tier: 'luxury' },
       { name: 'The Oberoi Rajvilas Jaipur', note: 'Oberoi — independent, 9.0+ Booking.com bar cleared, 32-acre walled resort on Goner Road, private pool villas, spa, 24h reception, AC · 9.8 Booking.com', url: 'https://www.booking.com/hotel/in/the-oberoi-rajvilas-jaipur.html', tier: 'luxury' }
-    ], price: { budget: '₹5,600–9,000', mid: '₹6,500–12,000', expensive: '₹10,000–22,000', luxury: '₹28,000+' } }
+    ], price: { budget: '₹5,600–9,000', mid: '₹6,500–12,000', expensive: '₹10,000–22,000', luxury: '₹28,000+' } },
+    'phnom-penh': { h: [
+      { name: 'Rambutan Resort', note: 'independent — 9.0+ Booking.com bar cleared, Tuol Tom Poung, salt-water pool, garden, 24h reception, AC · 9.3 Booking.com', url: 'https://www.booking.com/hotel/kh/rambutan-resort.html', tier: 'budget' },
+      { name: 'The ONRA Hotel', note: 'independent — 9.0+ Booking.com bar not cleared but strong value, BKK1 city center, rooftop pool, 24h reception, AC · 8.4 Booking.com', url: 'https://www.booking.com/hotel/kh/the-onra-phnom-penh.html', tier: 'budget' },
+      { name: 'Crowne Plaza Phnom Penh', note: 'IHG family — Russian Federation Blvd, outdoor pool, 24h reception, AC · 9.0 Booking.com', url: 'https://www.booking.com/hotel/kh/crowne-plaza-phnom-penh.html', tier: 'mid' },
+      { name: 'The Pavilion', note: 'independent — 9.0+ Booking.com bar cleared, Daun Penh heritage property 4 min walk from the Royal Palace, two pools, spa, 24h reception, AC · 9.4 Booking.com', url: 'https://www.booking.com/hotel/kh/the-pavilion-phnom-penh.html', tier: 'mid' },
+      { name: 'Courtyard by Marriott Phnom Penh', note: 'Marriott family — this guide\'s title-card hotel\'s brand-ladder alternate, Daun Penh, Royal Palace and riverside views, outdoor pool, 24h reception, AC · 8.9 Booking.com', url: 'https://www.booking.com/hotel/kh/courtyard-by-marriott-phnom-penh.html', tier: 'expensive' },
+      { name: 'Novotel Phnom Penh BKK 1', note: 'Accor family — BKK1, outdoor pool, spa, 24h reception, AC · 9.4 Booking.com', url: 'https://www.booking.com/hotel/kh/novotel-phnom-penh-bkk-1.html', tier: 'expensive' },
+      { name: 'Shangri-La Phnom Penh', note: 'Shangri-La — independent, 9.0+ Booking.com bar cleared, riverside near Koh Pich, rooftop pool, spa, 24h reception, AC · 9.3 Booking.com', url: 'https://www.booking.com/hotel/kh/shangri-la-phnom-penh.html', tier: 'luxury' },
+      { name: 'Raffles Hotel Le Royal', note: 'Raffles — independent, 9.0+ Booking.com bar cleared, 1929 Daun Penh landmark near Wat Phnom, gardens, two pools, spa, 24h reception, AC · 9.2 Booking.com', url: 'https://www.booking.com/hotel/kh/raffles-le-royal.html', tier: 'luxury' }
+    ], price: { budget: '$35–55', mid: '$55–100', expensive: '$100–140', luxury: '$150–280' } }
   };
 
     var AN_NEIGHBORHOOD_CITIES = {
@@ -10438,6 +10456,7 @@ window.TVE.home = (function () {
 
     /* city-slug → {iata, name}  (derived from index.html FMAP "i" field) */
     var CHIP_DATA = {
+      'siem-reap':         {iata:'SAI', name:'Siem Reap Angkor International Airport'},
       'boracay':           {iata:'KLO', name:'Kalibo International'},
       'cebu':              {iata:'CEB', name:'Mactan-Cebu International'},
       'fez':               {iata:'FEZ', name:'Fès–Saïss Airport'},
@@ -10446,6 +10465,7 @@ window.TVE.home = (function () {
       'jakarta': {iata:'CGK', name:'Soekarno–Hatta International Airport'},
       'medellin':          {iata:'MDE', name:'José María Córdova International Airport'},
       'tunis':             {iata:'TUN', name:'Tunis–Carthage International'},
+      'phnom-penh':        {iata:'KTI', name:'Techo International Airport'},
       'zermatt':           {iata:'ZRH', name:'Zurich Airport'},
       'mexico-city':       {iata:'MEX', name:'Mexico City International (Benito Juárez)'},
       'abu-dhabi':         {iata:'AUH', name:'Abu Dhabi International'},
@@ -10735,25 +10755,20 @@ window.TVE.home = (function () {
     var LOUNGE_IATAS = [
       'ABQ','AES','AGP','AJU','AKL','AMM','AMS','ANC','ARN','ATH','ATL','AUA','AUH','AUS','AYT','BCN',
       'BDS','BER','BGI','BGO','BIO','BKK','BLQ','BLR','BNA','BOB','BOD','BOG','BOM','BOS','BRU','BSL',
-      'BUD','CAE','CAI','CDG','CFU','CGN','CKG','CLT','CMB','CNX','CPH','CPT','CTA','CTG','CUN','CUR',
-      'CUZ','CWB','DAD','DBV','DCA','DEL','DEN','DFW','DOH','DPS','DTW','DUB','DUS','DXB','DYG','EDI',
-      'EYW','EZE','FAO','FCA','FCO','FEZ','FHR','FLN','FLR','FNC','FOR','FRA','GCM','GEG','GIG','GLA',
-      'GOT','GPS','GRU','GRX','GUA','GVA','HAM','HAN','HAV','HEL','HER','HHH','HIJ','HKG','HKT','HND',
-      'HNL','IAD','IAH','ICN','IGU','IST','JAI','JED','JFK','JMK','JPA','JTR','KEF','KIX','KOA','KRK',
-      'KTM','KUL','KWI','LAS','LAX','LED','LGA','LGW','LHR','LIH','LIM','LIS','LJU','LOS','LPB','LPQ',
-      'LUX','LXR','LYS','MAD','MAN','MBJ','MCO','MCT','MCZ','MDE','MEL','MEX','MFM','MIA','MLA','MLE','MRS',
-      'MSP','MSY','MUC','MVD','MXP','NAP','NAS','NAT','NAV','NBE','NBO','NCE','OAX','OGG','OLB','OPO',
-      'ORD','ORS','ORY','OSL','OTP','PBH','PDL','PDX','PEK','PHL','PHX','PLS','PMI','PNS','POA','PPS',
-      'PRG','PSA','PSP','PUJ','PUS','PVG','PVR','RAK','RDM','REC','RHO','RIX','RNO','RSW','RUH','SAN',
-      'SCL','SEA','SEZ','SFO','SGN','SIN','SJC','SJD','SJO','SJU','SKG','SLC','SLZ','SOF','SPU','SRQ',
-      'SSA','STR','STT','SVO','SVQ','SXB','SXM','SYD','SZG','SZX','TBS','TFS','TIV','TLL','TLV','TOS',
-      'TPE','TRN','VCE','VIE','VLC','VNO','VRN','WLG','YIA','YQB','YUL','YVR','YYC','YYZ','ZAG','ZNZ',
-      'ZQN','ZRH','ZTH',
-        'SNN',
-        'KLO',
-        'CEB',
-        'CGK',
-        'TUN'
+      'BUD','CAE','CAI','CDG','CEB','CFU','CGK','CGN','CKG','CLT','CMB','CNX','CPH','CPT','CTA','CTG',
+      'CUN','CUR','CUZ','CWB','DAD','DBV','DCA','DEL','DEN','DFW','DOH','DPS','DTW','DUB','DUS','DXB',
+      'DYG','EDI','EYW','EZE','FAO','FCA','FCO','FEZ','FHR','FLN','FLR','FNC','FOR','FRA','GCM','GEG',
+      'GIG','GLA','GOT','GPS','GRU','GRX','GUA','GVA','HAM','HAN','HAV','HEL','HER','HHH','HIJ','HKG',
+      'HKT','HND','HNL','IAD','IAH','ICN','IGU','IST','JAI','JED','JFK','JMK','JPA','JTR','KEF','KIX',
+      'KLO','KOA','KRK','KTI','KTM','KUL','KWI','LAS','LAX','LED','LGA','LGW','LHR','LIH','LIM','LIS',
+      'LJU','LOS','LPB','LPQ','LUX','LXR','LYS','MAD','MAN','MBJ','MCO','MCT','MCZ','MDE','MEL','MEX',
+      'MFM','MIA','MLA','MLE','MRS','MSP','MSY','MUC','MVD','MXP','NAP','NAS','NAT','NAV','NBE','NBO',
+      'NCE','OAX','OGG','OLB','OPO','ORD','ORS','ORY','OSL','OTP','PBH','PDL','PDX','PEK','PHL','PHX',
+      'PLS','PMI','PNS','POA','PPS','PRG','PSA','PSP','PUJ','PUS','PVG','PVR','RAK','RDM','REC','RHO',
+      'RIX','RNO','RSW','RUH','SAI','SAN','SCL','SEA','SEZ','SFO','SGN','SIN','SJC','SJD','SJO','SJU','SKG',
+      'SLC','SLZ','SNN','SOF','SPU','SRQ','SSA','STR','STT','SVO','SVQ','SXB','SXM','SYD','SZG','SZX',
+      'TBS','TFS','TIV','TLL','TLV','TOS','TPE','TRN','TUN','VCE','VIE','VLC','VNO','VRN','WLG','YIA',
+      'YQB','YUL','YVR','YYC','YYZ','ZAG','ZNZ','ZQN','ZRH','ZTH'
     ];
 
     function _inject() {

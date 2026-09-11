@@ -20,3 +20,4 @@
 2026-09-11 20:20 — hurghada.html — FAIL @ status-dots — 0 checks
 2026-09-11 20:28 — hurghada.html — GATES_PASSED — 930/930 passed, 0 failed
 2026-09-11 20:28 — hurghada.html — FAIL @ publish — 0 checks — Publication did not complete; guide remains pending.
+2026-09-11 20:52 — hurghada.html — PUBLISHED — 930/930 passed, 0 failed

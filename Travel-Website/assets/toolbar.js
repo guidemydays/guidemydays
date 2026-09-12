@@ -674,11 +674,16 @@ window.TVE.home = (function () {
     'dot-white': ['0 0 24 24', '<defs><radialGradient id="dot-white" cx="34%" cy="28%" r="78%"><stop offset="0%" stop-color="#ffffff"/><stop offset="52%" stop-color="#efebe5"/><stop offset="100%" stop-color="#aea79e"/></radialGradient><radialGradient id="dot-white-b" cx="50%" cy="88%" r="46%"><stop offset="0%" stop-color="#ffffff" stop-opacity="0.55"/><stop offset="100%" stop-color="#ffffff" stop-opacity="0"/></radialGradient></defs><circle cx="12" cy="12" r="10.8" fill="url(#dot-white)"/><circle cx="12" cy="12" r="10.8" fill="url(#dot-white-b)"/><ellipse cx="9.1" cy="7.6" rx="4.3" ry="3" fill="url(#gm-paper)" stroke="var(--c-rim-cool)" stroke-width="0.6" opacity="0.42" transform="rotate(-28 9.1 7.6)"/><ellipse cx="8.2" cy="6.6" rx="1.9" ry="1.2" fill="url(#gm-paper)" stroke="var(--c-rim-cool)" stroke-width="0.6" opacity="0.55" transform="rotate(-28 8.2 6.6)"/>'],
 
     /* Catalogue #381 — the single dollar coin, verbatim from Site-Icons.html.
-       Registered here so the 🏨 Hotel Recommendations tier heads can draw the
-       $ / $$ / $$$ / $$$$ price ladder as 1·2·3·4 real coins. It is a REUSE of
-       the catalogue drawing, never a redraw, and never an emoji — CLAUDE.md
-       Twenty-eighth non-negotiable. Nothing else may add a second coin. */
+       Kept for the Local Prices pill. Hotel price tiers use the catalogue's
+       finished #1886-#1889 compositions below, never runtime repetitions. */
     'coin': ['0.10 0.10 23.81 23.81', '<circle cx="12" cy="12" r="9" fill="url(#gm-cream)" stroke="var(--c-rim-warm)" stroke-width="0.6"/><circle cx="12" cy="12" r="9" fill="url(#gm-gloss)"/> <path d="M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20zm0 18a8 8 0 1 1 0-16 8 8 0 0 1 0 16zm.6-8.7c-1.7-.5-2.2-.9-2.2-1.5 0-.7.7-1.2 1.8-1.2 1.2 0 1.7.6 1.7 1.4h1.6c0-1.2-.8-2.3-2.2-2.6V6h-2.2v1.4c-1.3.3-2.3 1.2-2.3 2.5 0 1.5 1.3 2.3 3.2 2.8 1.7.4 2 1 2 1.6 0 .5-.3 1.2-1.8 1.2-1.4 0-1.9-.6-2-1.4H8.6c.1 1.5 1.2 2.4 2.5 2.7V18h2.2v-1.4c1.4-.3 2.4-1.1 2.4-2.5 0-1.8-1.6-2.5-3.1-2.8z" fill="url(#gm-sun)" stroke="var(--c-sun-rim)" stroke-width="0.5"/>'],
+    /* Catalogue #1886-#1889 — the four finished Hotel Recommendations price
+       tier marks. GM_PRESERVE_VIEWBOX preserves their wide catalogue viewBoxes
+       through the general square optical-fit pass. */
+    'price-tier-budget': ['0.10 0.10 23.81 23.81', '<circle cx="12" cy="12" r="9" fill="url(#gm-cream)" stroke="var(--c-rim-warm)" stroke-width="0.6"/><circle cx="12" cy="12" r="9" fill="url(#gm-gloss)"/><path d="M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20zm0 18a8 8 0 1 1 0-16 8 8 0 0 1 0 16zm.6-8.7c-1.7-.5-2.2-.9-2.2-1.5 0-.7.7-1.2 1.8-1.2 1.2 0 1.7.6 1.7 1.4h1.6c0-1.2-.8-2.3-2.2-2.6V6h-2.2v1.4c-1.3.3-2.3 1.2-2.3 2.5 0 1.5 1.3 2.3 3.2 2.8 1.7.4 2 1 2 1.6 0 .5-.3 1.2-1.8 1.2-1.4 0-1.9-.6-2-1.4H8.6c.1 1.5 1.2 2.4 2.5 2.7V18h2.2v-1.4c1.4-.3 2.4-1.1 2.4-2.5 0-1.8-1.6-2.5-3.1-2.8z" fill="url(#gm-sun)" stroke="var(--c-sun-rim)" stroke-width="0.5"/>'],
+    'price-tier-mid': ['0.10 0.10 40.85 23.81', '<circle cx="12" cy="12" r="9" fill="url(#gm-cream)" stroke="var(--c-rim-warm)" stroke-width="0.6"/><circle cx="12" cy="12" r="9" fill="url(#gm-gloss)"/><path d="M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20zm0 18a8 8 0 1 1 0-16 8 8 0 0 1 0 16zm.6-8.7c-1.7-.5-2.2-.9-2.2-1.5 0-.7.7-1.2 1.8-1.2 1.2 0 1.7.6 1.7 1.4h1.6c0-1.2-.8-2.3-2.2-2.6V6h-2.2v1.4c-1.3.3-2.3 1.2-2.3 2.5 0 1.5 1.3 2.3 3.2 2.8 1.7.4 2 1 2 1.6 0 .5-.3 1.2-1.8 1.2-1.4 0-1.9-.6-2-1.4H8.6c.1 1.5 1.2 2.4 2.5 2.7V18h2.2v-1.4c1.4-.3 2.4-1.1 2.4-2.5 0-1.8-1.6-2.5-3.1-2.8z" fill="url(#gm-sun)" stroke="var(--c-sun-rim)" stroke-width="0.5"/><g transform="translate(17.04,0)"><circle cx="12" cy="12" r="9" fill="url(#gm-cream)" stroke="var(--c-rim-warm)" stroke-width="0.6"/><circle cx="12" cy="12" r="9" fill="url(#gm-gloss)"/><path d="M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20zm0 18a8 8 0 1 1 0-16 8 8 0 0 1 0 16zm.6-8.7c-1.7-.5-2.2-.9-2.2-1.5 0-.7.7-1.2 1.8-1.2 1.2 0 1.7.6 1.7 1.4h1.6c0-1.2-.8-2.3-2.2-2.6V6h-2.2v1.4c-1.3.3-2.3 1.2-2.3 2.5 0 1.5 1.3 2.3 3.2 2.8 1.7.4 2 1 2 1.6 0 .5-.3 1.2-1.8 1.2-1.4 0-1.9-.6-2-1.4H8.6c.1 1.5 1.2 2.4 2.5 2.7V18h2.2v-1.4c1.4-.3 2.4-1.1 2.4-2.5 0-1.8-1.6-2.5-3.1-2.8z" fill="url(#gm-sun)" stroke="var(--c-sun-rim)" stroke-width="0.5"/></g>'],
+    'price-tier-expensive': ['0.10 0.10 57.89 23.81', '<circle cx="12" cy="12" r="9" fill="url(#gm-cream)" stroke="var(--c-rim-warm)" stroke-width="0.6"/><circle cx="12" cy="12" r="9" fill="url(#gm-gloss)"/><path d="M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20zm0 18a8 8 0 1 1 0-16 8 8 0 0 1 0 16zm.6-8.7c-1.7-.5-2.2-.9-2.2-1.5 0-.7.7-1.2 1.8-1.2 1.2 0 1.7.6 1.7 1.4h1.6c0-1.2-.8-2.3-2.2-2.6V6h-2.2v1.4c-1.3.3-2.3 1.2-2.3 2.5 0 1.5 1.3 2.3 3.2 2.8 1.7.4 2 1 2 1.6 0 .5-.3 1.2-1.8 1.2-1.4 0-1.9-.6-2-1.4H8.6c.1 1.5 1.2 2.4 2.5 2.7V18h2.2v-1.4c1.4-.3 2.4-1.1 2.4-2.5 0-1.8-1.6-2.5-3.1-2.8z" fill="url(#gm-sun)" stroke="var(--c-sun-rim)" stroke-width="0.5"/><g transform="translate(17.04,0)"><circle cx="12" cy="12" r="9" fill="url(#gm-cream)" stroke="var(--c-rim-warm)" stroke-width="0.6"/><circle cx="12" cy="12" r="9" fill="url(#gm-gloss)"/><path d="M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20zm0 18a8 8 0 1 1 0-16 8 8 0 0 1 0 16zm.6-8.7c-1.7-.5-2.2-.9-2.2-1.5 0-.7.7-1.2 1.8-1.2 1.2 0 1.7.6 1.7 1.4h1.6c0-1.2-.8-2.3-2.2-2.6V6h-2.2v1.4c-1.3.3-2.3 1.2-2.3 2.5 0 1.5 1.3 2.3 3.2 2.8 1.7.4 2 1 2 1.6 0 .5-.3 1.2-1.8 1.2-1.4 0-1.9-.6-2-1.4H8.6c.1 1.5 1.2 2.4 2.5 2.7V18h2.2v-1.4c1.4-.3 2.4-1.1 2.4-2.5 0-1.8-1.6-2.5-3.1-2.8z" fill="url(#gm-sun)" stroke="var(--c-sun-rim)" stroke-width="0.5"/></g><g transform="translate(34.08,0)"><circle cx="12" cy="12" r="9" fill="url(#gm-cream)" stroke="var(--c-rim-warm)" stroke-width="0.6"/><circle cx="12" cy="12" r="9" fill="url(#gm-gloss)"/><path d="M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20zm0 18a8 8 0 1 1 0-16 8 8 0 0 1 0 16zm.6-8.7c-1.7-.5-2.2-.9-2.2-1.5 0-.7.7-1.2 1.8-1.2 1.2 0 1.7.6 1.7 1.4h1.6c0-1.2-.8-2.3-2.2-2.6V6h-2.2v1.4c-1.3.3-2.3 1.2-2.3 2.5 0 1.5 1.3 2.3 3.2 2.8 1.7.4 2 1 2 1.6 0 .5-.3 1.2-1.8 1.2-1.4 0-1.9-.6-2-1.4H8.6c.1 1.5 1.2 2.4 2.5 2.7V18h2.2v-1.4c1.4-.3 2.4-1.1 2.4-2.5 0-1.8-1.6-2.5-3.1-2.8z" fill="url(#gm-sun)" stroke="var(--c-sun-rim)" stroke-width="0.5"/></g>'],
+    'price-tier-luxury': ['0.10 0.10 74.93 23.81', '<circle cx="12" cy="12" r="9" fill="url(#gm-cream)" stroke="var(--c-rim-warm)" stroke-width="0.6"/><circle cx="12" cy="12" r="9" fill="url(#gm-gloss)"/><path d="M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20zm0 18a8 8 0 1 1 0-16 8 8 0 0 1 0 16zm.6-8.7c-1.7-.5-2.2-.9-2.2-1.5 0-.7.7-1.2 1.8-1.2 1.2 0 1.7.6 1.7 1.4h1.6c0-1.2-.8-2.3-2.2-2.6V6h-2.2v1.4c-1.3.3-2.3 1.2-2.3 2.5 0 1.5 1.3 2.3 3.2 2.8 1.7.4 2 1 2 1.6 0 .5-.3 1.2-1.8 1.2-1.4 0-1.9-.6-2-1.4H8.6c.1 1.5 1.2 2.4 2.5 2.7V18h2.2v-1.4c1.4-.3 2.4-1.1 2.4-2.5 0-1.8-1.6-2.5-3.1-2.8z" fill="url(#gm-sun)" stroke="var(--c-sun-rim)" stroke-width="0.5"/><g transform="translate(17.04,0)"><circle cx="12" cy="12" r="9" fill="url(#gm-cream)" stroke="var(--c-rim-warm)" stroke-width="0.6"/><circle cx="12" cy="12" r="9" fill="url(#gm-gloss)"/><path d="M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20zm0 18a8 8 0 1 1 0-16 8 8 0 0 1 0 16zm.6-8.7c-1.7-.5-2.2-.9-2.2-1.5 0-.7.7-1.2 1.8-1.2 1.2 0 1.7.6 1.7 1.4h1.6c0-1.2-.8-2.3-2.2-2.6V6h-2.2v1.4c-1.3.3-2.3 1.2-2.3 2.5 0 1.5 1.3 2.3 3.2 2.8 1.7.4 2 1 2 1.6 0 .5-.3 1.2-1.8 1.2-1.4 0-1.9-.6-2-1.4H8.6c.1 1.5 1.2 2.4 2.5 2.7V18h2.2v-1.4c1.4-.3 2.4-1.1 2.4-2.5 0-1.8-1.6-2.5-3.1-2.8z" fill="url(#gm-sun)" stroke="var(--c-sun-rim)" stroke-width="0.5"/></g><g transform="translate(34.08,0)"><circle cx="12" cy="12" r="9" fill="url(#gm-cream)" stroke="var(--c-rim-warm)" stroke-width="0.6"/><circle cx="12" cy="12" r="9" fill="url(#gm-gloss)"/><path d="M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20zm0 18a8 8 0 1 1 0-16 8 8 0 0 1 0 16zm.6-8.7c-1.7-.5-2.2-.9-2.2-1.5 0-.7.7-1.2 1.8-1.2 1.2 0 1.7.6 1.7 1.4h1.6c0-1.2-.8-2.3-2.2-2.6V6h-2.2v1.4c-1.3.3-2.3 1.2-2.3 2.5 0 1.5 1.3 2.3 3.2 2.8 1.7.4 2 1 2 1.6 0 .5-.3 1.2-1.8 1.2-1.4 0-1.9-.6-2-1.4H8.6c.1 1.5 1.2 2.4 2.5 2.7V18h2.2v-1.4c1.4-.3 2.4-1.1 2.4-2.5 0-1.8-1.6-2.5-3.1-2.8z" fill="url(#gm-sun)" stroke="var(--c-sun-rim)" stroke-width="0.5"/></g><g transform="translate(51.12,0)"><circle cx="12" cy="12" r="9" fill="url(#gm-cream)" stroke="var(--c-rim-warm)" stroke-width="0.6"/><circle cx="12" cy="12" r="9" fill="url(#gm-gloss)"/><path d="M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20zm0 18a8 8 0 1 1 0-16 8 8 0 0 1 0 16zm.6-8.7c-1.7-.5-2.2-.9-2.2-1.5 0-.7.7-1.2 1.8-1.2 1.2 0 1.7.6 1.7 1.4h1.6c0-1.2-.8-2.3-2.2-2.6V6h-2.2v1.4c-1.3.3-2.3 1.2-2.3 2.5 0 1.5 1.3 2.3 3.2 2.8 1.7.4 2 1 2 1.6 0 .5-.3 1.2-1.8 1.2-1.4 0-1.9-.6-2-1.4H8.6c.1 1.5 1.2 2.4 2.5 2.7V18h2.2v-1.4c1.4-.3 2.4-1.1 2.4-2.5 0-1.8-1.6-2.5-3.1-2.8z" fill="url(#gm-sun)" stroke="var(--c-sun-rim)" stroke-width="0.5"/></g>'],
     /* Site-Icons.html #406 — wallet and coin. Copied whole from the catalogue
        specimen. Help Me Choose's "Average costs" field only — kept separate
        from 'coin' (the Hotel Recommendations tier mark) since the two are
@@ -1037,6 +1042,12 @@ window.TVE.home = (function () {
        distinct pick here. */
     'delivery-car': ['0 0 24 24', '<g stroke-width="0.5"><path d="M1.5 15.4v-3.2c0-.9.5-1.5 1.35-1.7l1.9-.4 2.35-3.0c.4-.5.95-.8 1.65-.8h5.5c.72 0 1.3.3 1.7.8l2.35 3.0 1.9.4c.85.2 1.35.8 1.35 1.7v3.2z" fill="url(#gm-tire)" stroke="var(--c-tire-rim)" stroke-width="0.5" stroke-linejoin="round"/><path d="M8.6 7.2h2.9v2.9H6.3z" fill="url(#gm-slate)" stroke="var(--c-slate-rim)" stroke-width="0.4"/><path d="M12.5 7.2h2.6c.42 0 .75.2 1.0.5l1.7 2.4h-5.3z" fill="url(#gm-slate)" stroke="var(--c-slate-rim)" stroke-width="0.4"/><path d="M1.5 15.4v-3.2c0-.9.5-1.5 1.35-1.7l1.9-.4 2.35-3.0c.4-.5.95-.8 1.65-.8h5.5c.72 0 1.3.3 1.7.8l2.35 3.0 1.9.4c.85.2 1.35.8 1.35 1.7v3.2z" fill="url(#gm-gloss)"/><circle cx="6.6" cy="15.6" r="2.3" fill="url(#gm-tire)" stroke="var(--c-tire-rim)" stroke-width="0.5"/><circle cx="6.6" cy="15.6" r="0.97" fill="url(#gm-stone)" stroke="var(--c-stone-rim)" stroke-width="0.3"/><circle cx="17.4" cy="15.6" r="2.3" fill="url(#gm-tire)" stroke="var(--c-tire-rim)" stroke-width="0.5"/><circle cx="17.4" cy="15.6" r="0.97" fill="url(#gm-stone)" stroke="var(--c-stone-rim)" stroke-width="0.3"/></g>'],
   };
+  var GM_PRESERVE_VIEWBOX = {
+    'price-tier-budget': true,
+    'price-tier-mid': true,
+    'price-tier-expensive': true,
+    'price-tier-luxury': true
+  };
   /* Site-Icons.html #523 — train-ticket is the same drawing as tours-tickets.
      Alias via assignment so the two keys stay in sync automatically; extract_sprites()
      in icon_treatment.py skips this form and check_icon_not_redrawn never fires. */
@@ -1090,7 +1101,9 @@ window.TVE.home = (function () {
       var _e = GM_SPRITE[k];
       if (typeof _e === 'string') _e = GM_SPRITE[_e];
       if (!_e) continue;
-      out.push('<symbol id="gm-i-' + k + '" viewBox="' + _e[0] + '">' + _e[1] + '</symbol>');
+      out.push('<symbol id="gm-i-' + k + '" viewBox="' + _e[0] + '"' +
+        (GM_PRESERVE_VIEWBOX[k] ? ' data-preserve-viewbox="true"' : '') +
+        '>' + _e[1] + '</symbol>');
     }
     var wrap = document.createElement('div');
     wrap.id = 'gm-sprite';
@@ -1115,6 +1128,7 @@ window.TVE.home = (function () {
     Array.prototype.push.apply(syms, document.querySelectorAll('svg[data-fill]'));
     for (var i = 0; i < syms.length; i++) {
       var sy = syms[i], vb = sy.viewBox.baseVal;
+      if (sy.getAttribute('data-preserve-viewbox') === 'true') continue;
       if (!vb || !vb.width) continue;
       var x0 = 1e9, y0 = 1e9, x1 = -1e9, y1 = -1e9, any = false;
       var kids = sy.querySelectorAll('path,rect,circle,ellipse,line,polygon,polyline,text');
@@ -7910,31 +7924,29 @@ window.TVE.home = (function () {
     wrap.appendChild(h);
 
         var TIERS = [
-      ['budget',    'Budget',    1, 'hr-budget'],
-      ['mid',       'Mid',       2, 'hr-mid'],
-      ['expensive', 'Expensive', 3, 'hr-exp'],
-      ['luxury',    'Luxury',    4, 'hr-lux']
+      ['budget',    'Budget',    'price-tier-budget',    '0.10 0.10 23.81 23.81', 'hr-budget'],
+      ['mid',       'Mid',       'price-tier-mid',       '0.10 0.10 40.85 23.81', 'hr-mid'],
+      ['expensive', 'Expensive', 'price-tier-expensive', '0.10 0.10 57.89 23.81', 'hr-exp'],
+      ['luxury',    'Luxury',    'price-tier-luxury',    '0.10 0.10 74.93 23.81', 'hr-lux']
     ];
 
-    function coinRow(n) {
+    function coinRow(tier, iconKey, viewBox) {
       var s = document.createElement('span');
       s.className = 'hr-coins';
-      /* iconSVG draws the registered catalogue sprite. Never an emoji here and
-         never a hand-drawn shape — CLAUDE.md Twenty-eighth non-negotiable. */
-      var i, markup = '';
-      for (i = 0; i < n; i++) {
-        markup += '<svg viewBox="0.10 0.10 23.81 23.81" aria-hidden="true"><use href="#gm-i-coin"></use></svg>';
-      }
-      s.innerHTML = markup;
+      s.setAttribute('data-tier', tier);
+      /* One finished catalogue composition per tier (#1886-#1889). The overlap,
+         gradient and rims belong to the library specimen, not runtime CSS. */
+      s.innerHTML = '<svg viewBox="' + viewBox + '" data-icon="' + iconKey +
+        '" aria-hidden="true"><use href="#gm-i-' + iconKey + '"></use></svg>';
       return s;
     }
 
-    function tierHead(label, coins, cls, price) {
+    function tierHead(tier, label, iconKey, viewBox, cls, price) {
       var row = document.createElement('div');
       row.className = 'hr-tier ' + cls;
       var word = document.createElement('span');
       word.className = 'hr-word';
-      word.appendChild(coinRow(coins));
+      word.appendChild(coinRow(tier, iconKey, viewBox));
       word.appendChild(document.createTextNode(label));
       row.appendChild(word);
       /* The rule runs on BOTH sides of the range — the approved mock-up had the
@@ -8011,7 +8023,7 @@ window.TVE.home = (function () {
     TIERS.forEach(function (tr) {
       var list = entry.h.filter(function (x) { return x.tier === tr[0]; });
       if (!list.length) return;
-      wrap.appendChild(tierHead(tr[1], tr[2], tr[3], (entry.price || {})[tr[0]]));
+      wrap.appendChild(tierHead(tr[0], tr[1], tr[2], tr[3], tr[4], (entry.price || {})[tr[0]]));
       wrap.appendChild(gridOf(list));
     });
     var anCity = AN_NEIGHBORHOOD_CITIES[slug];
@@ -8877,11 +8889,9 @@ window.TVE.home = (function () {
       pill.href = 'javascript:void(0)';
       pill.className = 'overview-extra-link';
       pill.id = 'tve-cur-pill';
-      /* Sized up from the shared 15px other pills use — the two-coin
-         exchange glyph packs $ and € text into thin circles, so at 15px it
-         reads visibly lighter/smaller than the bolder single-shape icons
-         (calendar, map, phone, printer) beside it in the same row. */
-      pill.innerHTML = iconSVG(null, 19, 'exchange') + ' Currency';
+      /* Currency is catalogue #1464 everywhere; 19px keeps its two coins and
+         curved arrows optically balanced with the neighbouring controls. */
+      pill.innerHTML = iconSVG(null, 19, 'currency-exchange') + ' Currency';
       pill.setAttribute('aria-expanded', 'false');
       pill.setAttribute('aria-controls', 'tve-cur-panel');
       pill.style.setProperty('flex', '1 1 auto', 'important');
@@ -9537,7 +9547,7 @@ window.TVE.home = (function () {
      The class is left in place: guide markup is untouched and the mask stays as the
      fallback if this never runs. gm-drawn tells the stylesheet to drop the mask. */
   function _injectTicketFlags() {
-    var pairs = [['.ticket-flag', 'ticket-solid'], ['.free-flag', 'ticket-torn']];
+    var pairs = [['.ticket-flag', 'ticket'], ['.free-flag', 'ticket-torn']];
     for (var p = 0; p < pairs.length; p++) {
       var list = document.querySelectorAll(pairs[p][0]);
       for (var i = 0; i < list.length; i++) {
@@ -9608,7 +9618,7 @@ window.TVE.home = (function () {
       'sunrise-sunset': 'sunset', 'time-zones': 'clock',
       'festival-finder': 'pennant',
       /* Money */
-      'currencies': 'money', 'budget': 'budget', 'cards-atm': 'card',
+      'currencies': 'currency-exchange', 'budget': 'budget', 'cards-atm': 'card',
       'tipping': 'tipping',
       /* On the ground */
       'cars': 'rental-cars', 'worldwide-car-rental': 'rental-cars',

@@ -12,3 +12,4 @@
 2026-09-11 11:41 — zanzibar.html — FAIL @ validate — 930/931 passed, 1 failed — NE-SECT extra-section completeness — built or justified by section-specific rese
 2026-09-11 11:42 — zanzibar.html — VALIDATED — 931/931 passed, 0 failed
 2026-09-11 11:47 — zanzibar.html — GATES_PASSED — 931/931 passed, 0 failed
+2026-09-11 11:47 — zanzibar.html — PUBLISHED — 931/931 passed, 0 failed

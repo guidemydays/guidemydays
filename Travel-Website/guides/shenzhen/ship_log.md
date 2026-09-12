@@ -20,3 +20,4 @@
 2026-09-11 20:54 — shenzhen.html — FAIL @ surface-preflight — 0 checks — 2 gap(s): essentials/transit-cards/index.html — city not on page and not in NO_TRANSIT_CARD; essentials/day-trips/index.html — guide has day-trips entries but is absent from DATA
 2026-09-11 20:56 — shenzhen.html — VALIDATED — 982/982 passed, 0 failed
 2026-09-11 21:01 — shenzhen.html — GATES_PASSED — 982/982 passed, 0 failed
+2026-09-11 21:02 — shenzhen.html — PUBLISHED — 982/982 passed, 0 failed

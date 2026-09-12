@@ -5461,6 +5461,16 @@ window.TVE.home = (function () {
       { name: 'Sheraton Tunis Hotel', note: 'Marriott family — first-tier international brand, spa and hot tub, 24h reception, AC · 8.4 Booking.com', url: 'https://www.booking.com/hotel/tn/sheraton-tunis-towers.html', tier: 'luxury' },
       { name: 'Mövenpick Hotel du Lac Tunis', note: 'Mövenpick — first-tier international brand, Les Berges du Lac, spa, sauna and sustainability certification, 24h reception, AC · 8.2 Booking.com', url: 'https://www.booking.com/hotel/tn/movenpick-du-lac-tunis.html', tier: 'luxury' }
     ], price: { budget: 'TND 175–280', mid: 'TND 280–370', expensive: 'TND 400–570', luxury: 'TND 580+' } },
+    'zagreb': { h: [
+      { name: 'Hotel Magdalena', note: 'Independent — quiet southwest Zagreb base near Arena Zagreb, free parking, 24h reception, AC · 9.4 Booking.com', url: 'https://www.booking.com/hotel/hr/magdalena-zagreb.html', tier: 'budget' },
+      { name: 'Hotel Jarun', note: 'Independent — relaxed base near Lake Jarun, straightforward tram access, 24h reception, AC · 8.7 Booking.com', url: 'https://www.booking.com/hotel/hr/jarun.html', tier: 'budget' },
+      { name: 'Hilton Garden Inn Zagreb - Radnička', note: 'Hilton family — business-district base east of the centre, fitness room, 24h reception, AC · 8.8 Booking.com', url: 'https://www.booking.com/hotel/hr/hilton-garden-inn-zagreb-radnicka.html', tier: 'mid' },
+      { name: 'Hotel Dubrovnik', note: 'Independent — directly on Ban Jelačić Square, exceptionally central, 24h reception, AC · 8.6 Booking.com', url: 'https://www.booking.com/hotel/hr/dubrovnik.html', tier: 'mid' },
+      { name: 'Sheraton Zagreb Hotel', note: 'Marriott family — central Lower Town base with indoor pool and spa, 24h reception, AC · 8.8 Booking.com', url: 'https://www.booking.com/hotel/hr/sheratonzagreb.html', tier: 'expensive' },
+      { name: 'The Westin Zagreb', note: 'Marriott family — beside the Green Horseshoe with a pool and fitness centre, 24h reception, AC · 8.7 Booking.com', url: 'https://www.booking.com/hotel/hr/westinzagreb.html', tier: 'expensive' },
+      { name: 'Esplanade Zagreb Hotel', note: 'Independent landmark — 1925 Art Nouveau hotel beside the main station, spa, 24h reception, AC · 9.0 Booking.com', url: 'https://www.booking.com/hotel/hr/esplanade-zagreb-hotel.html', tier: 'luxury' },
+      { name: 'Met Boutique Hotel', note: 'Independent — five-star boutique stay steps from the Archaeological Museum, sauna, 24h reception, AC · 9.3 Booking.com', url: 'https://www.booking.com/hotel/hr/met-boutiqe.html', tier: 'luxury' }
+    ], price: { budget: '€70–110', mid: '€110–170', expensive: '€150–230', luxury: '€220–380' } },
     'zermatt': { h: [
       { name: 'Hotel Jägerhof', note: 'Independent — quiet Steinmatt quarter, Matterhorn views, breakfast and station transfer · 9.3 Booking.com', url: 'https://www.booking.com/hotel/ch/jagerhof-zermatt.html', tier: 'budget' },
       { name: 'Hotel Walliserhof Zermatt', note: 'Independent — central Bahnhofstrasse, sauna and generous breakfast near the station · 9.0 Booking.com', url: 'https://www.booking.com/hotel/ch/walliserhof-zermatt.html', tier: 'budget' },
@@ -8487,6 +8497,7 @@ window.TVE.home = (function () {
     'wellington': [["Lakes", "lakes/"]],
     'whistler': [["Ski Resorts", "ski-resorts/"]],
     'yellowstone': [["Best Fishing", "fishing/"], ["Hot Springs", "hot-springs/"], ["Mountains & Rock Formations", "mountains-and-rock-formations/"], ["UNESCO Sites", "unesco-sites/"], ["Volcanoes", "volcanoes/"]],
+    'zagreb': [["Unique Museums", "unique-museums/"]],
     'zakynthos': [["Beaches", "beaches/"]],
     'zhangjiajie': [["Mountains & Rock Formations", "mountains-and-rock-formations/"]],
     'zurich': [["Lakes", "lakes/"], ["Luxurious Hotels", "most-luxurious-hotels/"], ["Resorts", "resorts/"], ["Unique Museums", "unique-museums/"]]
@@ -10618,6 +10629,7 @@ window.TVE.home = (function () {
       'toulouse':          {iata:'TLS', name:'Toulouse–Blagnac'},
       'tunis':             {iata:'TUN', name:'Tunis–Carthage International'},
       'phnom-penh':        {iata:'KTI', name:'Techo International Airport'},
+      'zagreb': {iata:'ZAG', name:'Franjo Tuđman Airport Zagreb'},
       'zermatt':           {iata:'ZRH', name:'Zurich Airport'},
       'mexico-city':       {iata:'MEX', name:'Mexico City International (Benito Juárez)'},
       'abu-dhabi':         {iata:'AUH', name:'Abu Dhabi International'},

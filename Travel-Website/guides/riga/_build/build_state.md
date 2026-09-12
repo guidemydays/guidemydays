@@ -44,6 +44,9 @@ Last updated: 2026-08-23
 - [x] Michelin Restaurants - Extra Section.html
 - [x] Worth Knowing - Extra Section.html
 
+- [x] Heads Up - Extra Section.html
+- [x] Hiking - Extra Section.html
+
 ## Phase 6 — Ship gate
 - [x] Brain/Reference/Ship Checklist.html
 - [x] validate_itinerary.py passes

@@ -8840,11 +8840,26 @@ window.TVE.home = (function () {
         .replace(/_/g, ' ').trim().toLowerCase();
     }
 
-    /* Amounts: whole numbers once past 100 — ¥1,578 not ¥1,578.59. */
-    function _curAmt(v) {
-      var dp = Math.abs(v) >= 100 ? 0 : 2;
-      return v.toLocaleString('en-US',
-        { minimumFractionDigits: dp, maximumFractionDigits: dp });
+    /* Currency-aware output: Intl supplies each ISO's normal minor units, so
+       yen has no false decimals while dollars/euros keep cents. The compact
+       fallback preserves the converter on older embedded browsers. */
+    function _curMoney(v, item) {
+      try {
+        return new Intl.NumberFormat(undefined, {
+          style: 'currency', currency: item.iso, currencyDisplay: 'symbol'
+        }).format(v);
+      } catch (e) {
+        var dp = Math.abs(v) >= 100 ? 0 : 2;
+        return (item.sym || item.iso + ' ') + v.toLocaleString('en-US',
+          { minimumFractionDigits: dp, maximumFractionDigits: dp });
+      }
+    }
+
+    function _curRateAmount(v) {
+      var a = Math.abs(v);
+      var dp = a >= 100 ? 2 : a >= 1 ? 4 : a >= .01 ? 4 : 6;
+      return v.toLocaleString(undefined,
+        { minimumFractionDigits: 0, maximumFractionDigits: dp });
     }
 
     function _curJSON(key, file, cb) {
@@ -8938,7 +8953,7 @@ window.TVE.home = (function () {
         input.id = id;
         input.type = 'text';
         input.autocomplete = 'off';
-        input.placeholder = 'Currency';
+        input.placeholder = 'Code or name';
         input.setAttribute('list', 'tve-cur-list');
         input.setAttribute('aria-label', label + ' currency — type a code or name');
         return input;
@@ -8979,15 +8994,18 @@ window.TVE.home = (function () {
       var result = document.createElement('output');
       result.className = 'tve-cur-result';
       result.textContent = 'Result';
+      result.setAttribute('role', 'status');
       result.setAttribute('aria-live', 'polite');
+      result.setAttribute('aria-atomic', 'true');
       result.setAttribute('aria-label', 'Converted amount');
 
-      function _field(labelText) {
+      function _field(labelText, labelFor) {
         var field = document.createElement('div');
         field.className = 'tve-cur-field';
-        var label = document.createElement('div');
+        var label = document.createElement('label');
         label.className = 'tve-cur-label';
         label.textContent = labelText;
+        label.htmlFor = labelFor;
         var controls = document.createElement('div');
         controls.className = 'tve-cur-controls';
         field.appendChild(label);
@@ -8995,7 +9013,7 @@ window.TVE.home = (function () {
         return { field: field, controls: controls };
       }
 
-      var fromField = _field('From');
+      var fromField = _field('Convert from', pick.id);
       fromField.controls.appendChild(amount);
       fromField.controls.appendChild(pick);
 
@@ -9012,15 +9030,22 @@ window.TVE.home = (function () {
       bridge.appendChild(equals);
       bridge.appendChild(swap);
 
-      var toField = _field('To');
-      toField.controls.appendChild(toPick);
+      var toField = _field('Converted to', toPick.id);
       toField.controls.appendChild(result);
+      toField.controls.appendChild(toPick);
 
       fields.appendChild(fromField.field);
       fields.appendChild(bridge);
       fields.appendChild(toField.field);
       fields.appendChild(list);
       panel.appendChild(fields);
+
+      var meta = document.createElement('div');
+      meta.className = 'tve-cur-meta';
+      var rateLine = document.createElement('div');
+      rateLine.className = 'tve-cur-rate';
+      rateLine.textContent = 'Choose a From currency to begin';
+      meta.appendChild(rateLine);
 
       /* Cross rate through the US dollar, which is only the base the snapshot is
          quoted in — the panel is not anchored to it and never names it unless
@@ -9047,11 +9072,13 @@ window.TVE.home = (function () {
           result.textContent = 'Result';
           result.classList.add('is-empty');
           result.setAttribute('aria-label', 'Converted amount — waiting for amount and currencies');
+          rateLine.textContent = from && to ? 'Enter an amount to convert' : 'Choose both currencies to begin';
           return;
         }
         result.classList.remove('is-empty');
-        result.textContent = (to.sym || '') + _curAmt(n * (to.rate / from.rate));
+        result.textContent = _curMoney(n * (to.rate / from.rate), to);
         result.setAttribute('aria-label', result.textContent + ' ' + to.name);
+        rateLine.textContent = '1 ' + from.iso + ' = ' + _curRateAmount(to.rate / from.rate) + ' ' + to.iso;
       }
       _syncResult();
       amount.addEventListener('input', _syncResult);
@@ -9070,7 +9097,8 @@ window.TVE.home = (function () {
       var note = document.createElement('div');
       note.className = 'tve-cur-note';
       note.textContent = cur._as_of ? 'Rates as of ' + cur._as_of : 'Exchange rates refreshed monthly';
-      panel.appendChild(note);
+      meta.appendChild(note);
+      panel.appendChild(meta);
 
       var xBtn = document.createElement('button');
       xBtn.type = 'button';

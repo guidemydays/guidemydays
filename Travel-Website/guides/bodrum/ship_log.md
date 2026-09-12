@@ -14,3 +14,4 @@
 2026-09-12 00:25 — bodrum.html — GATES_PASSED — 979/979 passed, 0 failed
 2026-09-12 00:28 — bodrum.html — FAIL @ publish — 0 checks — Publication did not complete; guide remains pending.
 2026-09-12 00:31 — bodrum.html — FAIL @ publish — 0 checks — Publication did not complete; guide remains pending.
+2026-09-12 00:38 — bodrum.html — PUBLISHED — 979/979 passed, 0 failed

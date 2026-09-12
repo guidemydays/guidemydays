@@ -19,3 +19,4 @@
 2026-09-12 13:28 — zagreb.html — FAIL @ status-dots — 0 checks
 2026-09-12 13:31 — zagreb.html — FAIL @ verify — 0 checks — https://www.google.com/maps/search/?api=1&query=Canopy+by+Hilton+Zagreb+City+Centre; https://www.google.com/maps/dir/?api=1&origin=Canopy+by+Hilton+Zagreb+City+Centre&desti; https://www.google.com/maps/search/?api=1&query=King+Tomislav+Square+Zagreb
 2026-09-12 13:34 — zagreb.html — GATES_PASSED — 987/987 passed, 0 failed
+2026-09-12 13:38 — zagreb.html — PUBLISHED — 987/987 passed, 0 failed

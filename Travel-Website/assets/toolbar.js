@@ -5378,6 +5378,16 @@ window.TVE.home = (function () {
       { name: 'Fili Hotel at Nustar Cebu', note: 'Independent — 5-star hotel at the Nustar Resort & Casino complex, infinity pool, 24h reception, AC · 9.1 Booking.com', url: 'https://www.booking.com/hotel/ph/fili-urban-resort-nustar-resort-and-casino.html', tier: 'expensive' },
       { name: 'NUSTAR Hotel Cebu', note: 'Independent — flagship 5-star resort and casino, outdoor pool, spa, airport shuttle, 24h reception, AC · 9.5 Booking.com', url: 'https://www.booking.com/hotel/ph/nustar-cebu.html', tier: 'luxury' }
     ], price: { budget: 'PHP 4,800–5,600', mid: 'PHP 6,000–6,800', expensive: 'PHP 6,800–8,200', luxury: 'PHP 8,500–12,000' } },
+    'essaouira': { h: [
+      { name: 'Riad Dar Awil', note: 'Independent — quiet medina riad near Bab Marrakech, terrace, breakfast, 24h reception and air conditioning · 9.4 Booking.com', url: 'https://www.booking.com/hotel/ma/riad-dar-awil.html', tier: 'budget' },
+      { name: 'Cruiser Mogador Essaouira', note: 'Independent — two minutes from the beach, suites with kitchenettes, year-round pool, restaurant and air conditioning · 9.2 Booking.com', url: 'https://www.booking.com/hotel/ma/cruiser-mogador-essaouira.html', tier: 'budget' },
+      { name: 'Suite Azur Hotel', note: 'Independent — inside the medina, rooftop pool, hammam, breakfast, 24h reception and air conditioning · 9.0 Booking.com', url: 'https://www.booking.com/hotel/ma/suite-azur-essaouira.html', tier: 'mid' },
+      { name: 'Mama Lova Hôtel, Riad, Restaurant & Spa', note: 'Independent — central medina riad with restaurant, spa, terrace and individually styled rooms · 9.1 Booking.com', url: 'https://www.booking.com/hotel/ma/mama-lova-essaouira20.html', tier: 'mid' },
+      { name: 'Le Médina Essaouira Thalassa Sea & Spa - MGallery Collection', note: 'Accor MGallery — beachfront resort five minutes from the port, pool, thalassotherapy spa and air conditioning · 8.2 Booking.com', url: 'https://www.booking.com/hotel/ma/mgallery-thalassa-mogador-essaouira.html', tier: 'expensive' },
+      { name: 'Villa Quieta', note: 'Independent — beachfront villa with garden, outdoor pool, 24h reception and air conditioning · 9.4 Booking.com', url: 'https://www.booking.com/hotel/ma/villa-quieta.html', tier: 'expensive' },
+      { name: 'Salut Maroc!', note: 'Independent — design-led riad on the medina ramparts with ocean-facing terraces, restaurant and hammam · 9.0 Booking.com', url: 'https://www.booking.com/hotel/ma/salut-maroc.html', tier: 'luxury' },
+      { name: 'Maison Azen - Moroccan Luxury Stay', note: 'Independent adults-only retreat near Ghazoua with infinity pool, spa, gym, restaurant, 24h reception and air conditioning · 9.5 Booking.com', url: 'https://www.booking.com/hotel/ma/maison-sable-moroccan-luxury-stay.html', tier: 'luxury' }
+    ], price: { budget: 'MAD 500–900', mid: 'MAD 900–1,500', expensive: 'MAD 1,500–2,500', luxury: 'MAD 2,500+' } },
     'galway': { h: [
       { name: 'Skeffington Arms Hotel', note: 'Independent — directly on Eyre Square, lively central base with an on-site bar and 24h reception', url: 'https://www.booking.com/hotel/ie/skeffington-arms.html', tier: 'budget' },
       { name: 'Nox Hotel Galway', note: 'Independent — Headford Road base with restaurant, bar, free parking and 24h reception', url: 'https://www.booking.com/hotel/ie/noxhotel.html', tier: 'budget' },
@@ -10615,6 +10625,7 @@ window.TVE.home = (function () {
     /* city-slug → {iata, name}  (derived from index.html FMAP "i" field) */
     var CHIP_DATA = {
       'bodrum': {iata:'BJV', name:'Milas–Bodrum Airport'},
+      'essaouira':         {iata:'ESU', name:'Essaouira–Mogador Airport'},
       'hurghada':          {iata:'HRG', name:'Hurghada International'},
       'interlaken':        {iata:'ZRH', name:'Zurich International'},
       'sharm-el-sheikh':    {iata:'SSH', name:'Sharm El Sheikh International Airport'},
@@ -10936,7 +10947,8 @@ window.TVE.home = (function () {
         'HRG',
         'SSH',
         'BJV',
-        'TLS'
+        'TLS',
+        'ESU'
     ];
 
     function _inject() {

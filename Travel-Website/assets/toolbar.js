@@ -8558,7 +8558,9 @@ window.TVE.home = (function () {
      of it by the grouping pass further down this file. */
   (function () {
     if (!isRealGuide) return;
-    var _dtCacheKey = 'tvedtf';
+    // Bump when the generated reverse-index semantics change so an already-open
+    // session cannot keep injecting relationships the current generator rejects.
+    var _dtCacheKey = 'tvedtf2';
 
     function _dtfCss() {
       if (document.getElementById('tve-adtf-css')) return;

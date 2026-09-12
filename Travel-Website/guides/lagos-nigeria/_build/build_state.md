@@ -38,6 +38,13 @@ Pre-existing guide (predates _build/build_state.md requirement). Validation stub
 - [x] Getting Around - Extra Section.html
 - [x] Worth Knowing - Extra Section.html
 
+- [x] Local Tastes - Extra Section.html
+- [x] Train Stations Near Hotel - Extra Section.html
+- [x] Day Trips by Train - Extra Section.html
+- [x] Heads Up - Extra Section.html
+- [x] Hiking - Extra Section.html
+- [x] Michelin Restaurants - Extra Section.html
+
 ## Ship
 - [x] Ship Checklist.html
 - [x] Validator 0 failures

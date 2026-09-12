@@ -3624,7 +3624,6 @@
    and one 7px text gap across the guide fleet. MIN_VERSIONS['guide-style.css']
    to 312, CACHE to v2080. */
 /* 2026-09-12: refresh bookmark URL and flag migration toolbar.js -> v1266. CACHE to v2082. */
-/* 2026-09-12: guide currency panel now converts any currency to any currency with balanced desktop cards and a stacked mobile layout. MIN_VERSIONS['toolbar.js'] and MIN_VERSIONS['guide-style.css'] bumped; CACHE to v2083. */
 /* 2026-09-12: guide currency panel now converts any currency to any currency with balanced desktop cards and a stacked mobile layout. MIN_VERSIONS['toolbar.js'] and MIN_VERSIONS['guide-style.css'] bumped; CACHE to v2084. */
 var CACHE = 'travel-cache-v2084';
 /* 2026-08-27: airlines.css's .card-tags align-items fix changed a shared

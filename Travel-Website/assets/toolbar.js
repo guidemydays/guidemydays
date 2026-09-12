@@ -8953,7 +8953,7 @@ window.TVE.home = (function () {
         input.id = id;
         input.type = 'text';
         input.autocomplete = 'off';
-        input.placeholder = 'Code or name';
+        input.placeholder = 'Currency';
         input.setAttribute('list', 'tve-cur-list');
         input.setAttribute('aria-label', label + ' currency — type a code or name');
         return input;

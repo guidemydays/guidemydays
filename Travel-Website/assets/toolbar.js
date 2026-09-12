@@ -5395,6 +5395,12 @@ window.TVE.home = (function () {
       { name: 'Algilà Fes Riad Medina Charme Hotel Spa', note: 'Independent — Fes El Bali medina, Akibat Sbaa, restored historic riad with hammam and spa, 24h reception, AC · 9.0 Booking.com', url: 'https://www.booking.com/hotel/ma/algila.html', tier: 'luxury' },
       { name: 'Riad Mayfez Suites & Spa', note: 'Independent — Fes El Bali medina, Douh quarter, this guide’s title-card hotel’s neighborhood, heated outdoor pool and full spa, 24h reception, AC · 8.8 Booking.com', url: 'https://www.booking.com/hotel/ma/mayfez.html', tier: 'luxury' }
     ], price: { budget: 'MAD 250–400', mid: 'MAD 750–900', expensive: 'MAD 1,000–1,400', luxury: 'MAD 1,800+' } },
+    'sharm-el-sheikh': { h: [
+      { name: 'Falcon Naama Star Hotel', note: 'Independent — Naama Bay base with a pool and walkable seafront access · 8.0 Booking.com', url: 'https://www.booking.com/hotel/eg/falcon-naama-star.html', tier: 'budget' },
+      { name: 'Sierra Sharm El Sheikh', note: 'Independent — SOHO Square resort access, pool and beach shuttle · 9.4 Booking.com', url: 'https://www.booking.com/hotel/eg/sierra-sharm-el-sheikh.html', tier: 'mid' },
+      { name: 'DoubleTree by Hilton Sharks Bay Resort', note: 'Hilton family — Shark’s Bay resort with beach access and pools · 9.0 Booking.com', url: 'https://www.booking.com/hotel/eg/doubletree-by-hilton-sharks-bay-resort.html', tier: 'expensive' },
+      { name: 'Savoy Sharm El Sheikh', note: 'Independent — guide hotel beside SOHO Square and White Knight Beach · 8.9 Booking.com', url: 'https://www.booking.com/hotel/eg/savoy-sharm-el-sheikh.html', tier: 'luxury' }
+    ], price: { budget: 'EGP 2,500–4,000', mid: 'EGP 4,000–7,000', expensive: 'EGP 7,000–12,000', luxury: 'EGP 12,000+' } },
     'tunis': { h: [
       { name: 'Downtown Tunis Hotel', note: 'Independent — Ville Nouvelle, room service and 24h front desk · 8.1 Booking.com', url: 'https://www.booking.com/hotel/tn/downtown-tunis-tunis1.html', tier: 'budget' },
       { name: 'Marigold Hotel', note: 'Independent — city center, restaurant and bar, 24h front desk · 8.3 Booking.com', url: 'https://www.booking.com/hotel/tn/marigold.html', tier: 'budget' },
@@ -10478,6 +10484,7 @@ window.TVE.home = (function () {
     var CHIP_DATA = {
       'hurghada':          {iata:'HRG', name:'Hurghada International'},
       'interlaken':        {iata:'ZRH', name:'Zurich International'},
+      'sharm-el-sheikh':    {iata:'SSH', name:'Sharm El Sheikh International Airport'},
       'siem-reap':         {iata:'SAI', name:'Siem Reap Angkor International Airport'},
       'boracay':           {iata:'KLO', name:'Kalibo International'},
       'cebu':              {iata:'CEB', name:'Mactan-Cebu International'},
@@ -10791,7 +10798,8 @@ window.TVE.home = (function () {
       'SLC','SLZ','SNN','SOF','SPU','SRQ','SSA','STR','STT','SVO','SVQ','SXB','SXM','SYD','SZG','SZX',
       'TBS','TFS','TIV','TLL','TLV','TOS','TPE','TRN','TUN','VCE','VIE','VLC','VNO','VRN','WLG','YIA',
       'YQB','YUL','YVR','YYC','YYZ','ZAG','ZNZ','ZQN','ZRH','ZTH',
-        'HRG'
+        'HRG',
+        'SSH'
     ];
 
     function _inject() {

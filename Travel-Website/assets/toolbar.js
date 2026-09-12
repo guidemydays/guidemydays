@@ -5328,6 +5328,12 @@ window.TVE.home = (function () {
 
     var HOTEL_ALT_DATA = {
     /* entries added per guide during build — see Separation Map.md § Hotels & Rentals */
+    'bodrum': { h: [
+      { name: 'Merih Butik Hotel', note: 'Independent boutique — Kumbahçe, 10-min walk from the castle, garden courtyard, 24h reception, AC · 9.3 Booking.com', url: 'https://www.booking.com/hotel/tr/merih-butik.html', tier: 'budget' },
+      { name: 'Su Hotel - Bodrum', note: 'Independent — Tepecik, quiet passageway off Turgutreis Caddesi near the castle, outdoor pool, 24h reception, AC · 9.1 Booking.com', url: 'https://www.booking.com/hotel/tr/su.html', tier: 'mid' },
+      { name: 'El Vino Hotel & Suites', note: 'Independent — Ümürçe, overlooking the castle, rooftop restaurant and two pools, this guide’s title-card hotel, 24h reception, AC · 9.3 Booking.com', url: 'https://www.booking.com/hotel/tr/el-vino-suites.html', tier: 'expensive' },
+      { name: 'The Marmara Bodrum', note: 'Independent — hilltop above the old town, private beach club, spa and tennis courts, adults only, 24h reception, AC · 9.3 Booking.com', url: 'https://www.booking.com/hotel/tr/marmarabodrum.html', tier: 'luxury' }
+    ], price: { budget: 'TRY 2600–3300', mid: 'TRY 5200–6600', expensive: 'TRY 6800–8500', luxury: 'TRY 11500+' } },
     'bogota': { h: [
       { name: 'The Click Clack Hotel Bogotá', note: 'Independent boutique — Chicó, 2-min walk from Parque de la 93, rooftop bar and restaurant, 24h reception, AC · 9.1 Booking.com', url: 'https://www.booking.com/hotel/co/the-click-clack.html', tier: 'budget' },
       { name: 'Avani Royal Zona T Bogotá Hotel', note: 'Independent — Zona Rosa, 5-min walk from Andino and El Retiro shopping centers, 24h reception, AC · 8.8 Booking.com', url: 'https://www.booking.com/hotel/co/boheme-royal.html', tier: 'budget' },
@@ -8242,6 +8248,7 @@ window.TVE.home = (function () {
     'bhutan': [["Luxurious Hotels", "most-luxurious-hotels/"], ["Ultra Luxurious Resorts", "ultra-luxurious-resorts/"]],
     'big-island': [["Beaches", "beaches/"], ["Islands", "islands/"], ["Resorts", "resorts/"], ["Volcanoes", "volcanoes/"]],
     'bilbao': [["Architecture", "architecture/"]],
+    'bodrum': [["Wonders of the World", "wonders-of-the-world/"]],
     'bologna': [["Unique Museums", "unique-museums/"]],
     'bora-bora': [["Islands", "islands/"], ["Resorts", "resorts/"]],
     'bordeaux': [["Wine Regions", "wine-regions/"]],
@@ -8342,7 +8349,6 @@ window.TVE.home = (function () {
     'marrakech': [["Cathedrals", "cathedrals/"], ["Gardens", "gardens/"], ["Luxurious Hotels", "most-luxurious-hotels/"], ["Resorts", "resorts/"], ["Ultra Luxurious Resorts", "ultra-luxurious-resorts/"], ["UNESCO Sites", "unesco-sites/"]],
     'marseille': [["Castles", "castles/"], ["Wine Regions", "wine-regions/"]],
     'maui': [["Beaches", "beaches/"], ["Islands", "islands/"], ["Resorts", "resorts/"], ["Volcanoes", "volcanoes/"]],
-    'medellin': [["Mountains & Rock Formations", "mountains-and-rock-formations/"]],
     'melbourne': [["Gardens", "gardens/"], ["Hot Springs", "hot-springs/"], ["Kid-Friendly Destinations", "kids-friendly-places/"], ["Kids' Museums", "kids-museums/"], ["Observation Decks", "observation-decks/"], ["Resorts", "resorts/"]],
     'miami': [["Architecture", "architecture/"]],
     'milan': [["Architecture", "architecture/"], ["Art Museums", "art-museums/"], ["Castles", "castles/"], ["Cathedrals", "cathedrals/"], ["Kids' Museums", "kids-museums/"], ["Luxurious Hotels", "most-luxurious-hotels/"]],
@@ -10492,6 +10498,7 @@ window.TVE.home = (function () {
 
     /* city-slug → {iata, name}  (derived from index.html FMAP "i" field) */
     var CHIP_DATA = {
+      'bodrum': {iata:'BJV', name:'Milas–Bodrum Airport'},
       'hurghada':          {iata:'HRG', name:'Hurghada International'},
       'interlaken':        {iata:'ZRH', name:'Zurich International'},
       'sharm-el-sheikh':    {iata:'SSH', name:'Sharm El Sheikh International Airport'},
@@ -10809,7 +10816,8 @@ window.TVE.home = (function () {
       'TBS','TFS','TIV','TLL','TLV','TOS','TPE','TRN','TUN','VCE','VIE','VLC','VNO','VRN','WLG','YIA',
       'YQB','YUL','YVR','YYC','YYZ','ZAG','ZNZ','ZQN','ZRH','ZTH',
         'HRG',
-        'SSH'
+        'SSH',
+        'BJV'
     ];
 
     function _inject() {

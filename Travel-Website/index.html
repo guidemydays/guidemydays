@@ -170,13 +170,14 @@
 }
 @media (max-width: 600px) and (pointer: coarse) {
   .lp-hero-art {
-    grid-template-areas: "a" "d";
+    grid-template-areas: "a";
     grid-template-columns: minmax(0, 1fr);
-    grid-template-rows: auto auto;
+    grid-template-rows: auto;
     aspect-ratio: auto;
   }
   .lp-hero-art > a:nth-child(2),
-  .lp-hero-art > a:nth-child(3) { display: none; }
+  .lp-hero-art > a:nth-child(3),
+  .lp-hero-art > a:nth-child(4) { display: none; }
   .lp-hero-art > a { aspect-ratio: 16 / 10; }
 }
 .lp-hero-art a {
@@ -193,70 +194,19 @@
   transition: transform .5s cubic-bezier(.2,.6,.2,1);
 }
 .lp-hero-art a:hover img { transform: scale(1.06); }
-/* Carousel arrows. Injected by the script, so they exist only when they work —
-   a mosaic with no JavaScript shows four photographs and no dead buttons. They
-   sit under the mosaic on its right, deliberately quiet: the photographs are the
-   content and a pair of heavy chevrons over them would read as the subject. */
-.lp-hero-nav {
-  display: flex; justify-content: flex-end; gap: 0.4rem;
-  margin-top: clamp(0.4rem, 0.8vw, 0.6rem);
-  /* .lp-hero is a two-column grid and the script inserts this as a third child,
-     so without an explicit column it auto-places into row 2 column 1 — under the
-     headline, nowhere near the photographs it drives. Column 2 puts it on the
-     mosaic's side; the row block below is what puts it directly UNDER the
-     mosaic. The phone override sits in the max-width block below, where the
-     hero collapses to one column and column 2 no longer exists. */
-  grid-column: 2;
-}
-/* The stadium box comes from the shared .selection-pill class
-   (web-travel-style.css) — this rule only overrides the box shape for a round
-   icon button instead of a text pill. check_no_hand_rolled_selection_pill
-   (Cleanliness rule 954).
-   The tone is .cp-rust (Rust), which is where the chevron's colour now
-   comes from: .selection-pill's colour tokens resolve only once a tone class
-   sits beside it, so a toneless pill fell back to the shared neutral for its
-   ground and rim while a page-local `color` supplied the ink — a control
-   painted from two places. Rust is the Family 1 tone nearest the terracotta
-   this arrow already carried (#9a5030 against var(--brand)'s #a94e1c), so the
-   chevron keeps its identity and only the rim moves, to the 2px own-ink
-   border every Family 1 pill carries. */
 .lp-hero-arrow {
   width: 2rem; height: 2rem; padding: 0;
   display: grid; place-items: center;
 }
 .lp-hero-arrow svg { width: 1rem; height: 1rem; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
-/* Phone: the hero is ONE column here, and `grid-column: 2` on a one-column grid
-   does not fall back — it creates an implicit second column and the mosaic gets
-   half the width, rendering at 97px a tile. It must be reset to column 1.
-
-   This has to sit AFTER the .lp-hero-nav rule above, not inside the earlier
-   max-width block: same specificity, so source order decides, and up there the
-   base rule silently wins and the phone keeps the invented column. */
-@media (max-width: 62rem) {
-  .lp-hero-nav { grid-column: 1; }
-}
 @media (min-width: 62.0625rem) {
-  /* `row-gap: 0` is not tidying — it is half the fix. .lp-hero's `gap` was
-     written for the COLUMN gutter and never had a second row to apply to; the
-     moment there are four rows it also opens 56px between every one of them,
-     which lands 56px between the last photograph and the arrows on top of the
-     9.6px this rule already asks for. The columns keep their gutter. */
-  .lp-hero { grid-template-rows: auto auto 1fr; row-gap: 0; }
+  .lp-hero { grid-template-rows: auto 1fr; row-gap: 0; }
   .lp-hero-copy { grid-column: 1; grid-row: 1 / -1; align-self: center; }
   .lp-hero-art  { grid-column: 2; grid-row: 1; }
-  .lp-hero-nav  { grid-column: 2; grid-row: 2; }
 }
-/* A finger needs a bigger target than a cursor, but the 40px visible pill this
-   used to be read as oversized next to the fine print beside it. Same fix the
-   guide's own stop controls use (Thirty-third non-negotiable): keep the
-   visible pill at the desktop size and pad the tap target invisibly instead
-   of inflating the pill itself. */
 @media (max-width: 600px) and (pointer: coarse) {
-  /* min-height overrides mobile.css's blanket `button { min-height: 44px }` —
-     without it the circle stretches to a 32×44 oval instead of staying round. */
   .lp-hero-arrow { position: relative; min-height: 2rem; }
   .lp-hero-arrow::after { content: ''; position: absolute; inset: -0.25rem; }
-  .lp-hero-nav { gap: 0.55rem; }
 }
 .lp-hero-art span {
   position: absolute; left: 0; right: 0; bottom: 0;
@@ -1310,8 +1260,8 @@ a.ask-card:focus-visible .ask-name { color: var(--rust, #C04E1A); }
     text-align: right;
   }
 
-  /* The arrows, same control as the hero carousel's — .lp-hero-arrow is reused
-     rather than restyled, so the two never drift apart. They sit BELOW the tile
+  /* The arrows use the shared carousel control — .lp-hero-arrow is reused
+     rather than restyled. They sit BELOW the tile
      and outside its <a>: a button nested in an anchor is invalid and, worse,
      makes every tap ambiguous between paging and opening the page. */
   .lp-best-nav {
@@ -2179,7 +2129,7 @@ summary.res-head:focus-visible { outline: 2px solid var(--rust, #C04E1A); outlin
   .res-links a { border-bottom-color: rgba(232,228,220,0.09); }
   .res-links a:visited { color: #e8e5e0; }
 
-  /* The hero paging arrows were a hardcoded #ffffff disc — the one BRIGHT
+  /* The carousel paging arrows were a hardcoded #ffffff disc — the one BRIGHT
      SURFACE the audit found besides the contact card. */
   .lp-hero-arrow { background: var(--surface); border-color: var(--border); }
 
@@ -2381,13 +2331,13 @@ window.lpGuideCard = function (href, flag, name, extra) {
        Each tile links into the guide the photo came from, so it is navigation
        rather than decoration. Lazy + async so it never blocks first paint.
 
-       The four on screen are a turn of a carousel that walks all 237 guides,
-       four at a time, and the reader's own calendar day picks which turn it
+       The four on screen are a turn of a quality-curated destination gallery,
+       and the reader's own calendar day picks which turn it
        opens on — so the front door shows different cities each morning, and the
        same ones all day rather than reshuffling on every refresh. The four tiles
        below are both the no-JavaScript fallback and the shape the carousel
        paints into; see the script under this block. -->
-  <div class="lp-hero-art" aria-label="Photographs from four guides">
+  <div class="lp-hero-art" aria-label="Featured destination photographs">
     <a href="/guides/santorini.html" style="grid-area:a">
       <img src="/assets/hero/santorini.jpg" alt="Santorini" loading="lazy" decoding="async" width="1100" height="703">
       <span>Santorini</span>
@@ -2406,7 +2356,8 @@ window.lpGuideCard = function (href, flag, name, extra) {
     </a>
   </div>
   <script>
-  /* THE HERO CAROUSEL — every guide on the site takes a turn on the front door.
+  /* THE HOMEPAGE PHOTO GALLERY — only the strongest destination photographs
+     take a turn on the front door.
 
      EACH PICTURE HERE IS THAT GUIDE'S "PHOTO HERO" — the owner's term, and it
      means exactly this tile and nothing else on the site. Not a guide's stop
@@ -2417,10 +2368,10 @@ window.lpGuideCard = function (href, flag, name, extra) {
 
      One row per guide: [slug, city, alt, aspect-ratio] and an optional 5th
      field of 3 marking a photograph flagged for replacement, which keeps it out
-     of the biggest tile until it is replaced. 237 of them, four on screen at a
-     time. The table is authored A-Z and SHUFFLED at load under a fixed seed, so
-     no turn is a run of one region, and the walk advances four at a time over
-     237 turns without ever repeating a city on consecutive days. The markup above holds the first four as a no-JavaScript fallback and
+     of the biggest tile until it is replaced. The full table stays auditable,
+     then FEATURED narrows it to photographs good enough for this gallery. That
+     curated set is authored A-Z and SHUFFLED at load under a fixed seed, so no
+     turn is a run of one region. The markup above holds the first four as a no-JavaScript fallback and
      as the shape the carousel paints into — the tiles, their links and their
      captions are never rebuilt, only their contents swapped, so the grid and the
      hover behaviour stay exactly what they were before the carousel existed.
@@ -2428,7 +2379,7 @@ window.lpGuideCard = function (href, flag, name, extra) {
      WHICH FOUR YOU GET DEPENDS ON THE DAY. The reader's own calendar day picks
      the starting turn, so the front door is a different set of cities each
      morning and the same set all day — not a reshuffle on every refresh, which
-     reads as flicker rather than freshness. From there it advances on its own.
+     reads as flicker rather than freshness. There are no controls and no timer.
 
      THE PHOTOS ARE SOURCED FOR THIS BLOCK, not taken from the guides. They live
      in assets/hero/, one per city slug, with licence, author and sha256 recorded
@@ -2443,8 +2394,8 @@ window.lpGuideCard = function (href, flag, name, extra) {
      a valley, a harbour, an elevated view over the city. NOT a flower, NOT a
      building photographed as an object, NOT a studio object. Owner's words: "i do
      not want pictures of flowers, or buildings, or objects either." Candidates
-     were filtered to that rule before selection and every one of the 237 was then
-     looked at, which is the only step that catches what a filename cannot: a
+     are filtered to that rule before entering FEATURED, which is the only step
+     that catches what a filename cannot: a
      photograph of Baltimore filed under San Diego, Etna shot from the space
      station, a cruise ship for Curaçao, loading towers for Barbados.
 
@@ -2696,6 +2647,14 @@ window.lpGuideCard = function (href, flag, name, extra) {
       ['zurich','Zurich','Altstadt Zürich, Zurich',1.83]
     ];
 
+    /* The homepage is a curated gallery, not a second copy of the full guides
+       index. Only photographs that work as strong destination-wide images are
+       eligible for the daily turn on either desktop or mobile. */
+    var FEATURED = new Set([
+      'abu-dhabi','alaska','alesund','amalfi','arenal','aruba','athens','azores','bahamas','bali','banff','barbados','barcelona','beijing','bergen','bhutan','big-island','bora-bora','bordeaux','boston','boulder','budapest','busan','cancun','cape-cod','cape-town','capri','cascais','cayman-islands','cinque-terre','coeur-dalene','corfu','crete','curacao','dallas','denver','dubrovnik','edinburgh','florianopolis','florida-keys','fortaleza','foz-do-iguacu','frankfurt','galapagos-islands','glacier-national-park','hanoi','hilton-head-island','hong-kong','istanbul','kauai','keywest','kotor','kuala-lumpur','la-jolla','lake-como','lake-tahoe','lima','lisbon','london','los-angeles','los-cabos','lucerne','machupicchu','madeira','malaga','maldives','malibu','marco-island','marrakech','maui','melbourne','miami','monaco','montreal','mykonos','napa','naples-florida','new-york','nice','oahu','orcas-island','paris','philadelphia','phoenix','phuket','pisa','pokhara','porto','prague','puerto-vallarta','queenstown','rio-de-janeiro','rotterdam','salvador','salzburg','san-diego','san-francisco','san-jose-costa-rica','san-juan-island','san-sebastian','santa-barbara','santa-monica','santiago','santorini','sardinia','seattle','sedona','seychelles','shanghai','sicily','siena','singapore','sorrento','split','stockholm','sydney','taipei','tbilisi','tenerife','tokyo','toronto','tromso','turks-and-caicos','valletta','vancouver','venice','virgin-islands','wellington','whistler','yellowstone','zakynthos','zhangjiajie','zurich'
+    ]);
+    G = G.filter(function (row) { return FEATURED.has(row[0]); });
+
     var art = document.querySelector('.lp-hero-art');
     if (!art || !G.length) return;
     var tiles = art.querySelectorAll(':scope > a');
@@ -2765,52 +2724,10 @@ window.lpGuideCard = function (href, flag, name, extra) {
       }
     }
 
-    /* Warm the next turn's files so an advance does not show empty tiles. */
-    function prefetch(t) {
-      four(t).forEach(function (row) {
-        if (!row) return;
-        var im = new Image();
-        im.src = '/assets/hero/' + row[0] + '.jpg';
-      });
-    }
-
-    function go(step) {
-      turn = ((turn + step) % TURNS + TURNS) % TURNS;
-      paint(turn);
-      prefetch(turn + 1);
-    }
-
     paint(turn);
-    prefetch(turn + 1);
 
-    /* Controls. Built here rather than authored above so the block degrades to a
-       plain four-photo mosaic with no dead buttons when this script does not run. */
-    var nav = document.createElement('div');
-    nav.className = 'lp-hero-nav';
-    function button(label, step) {
-      var b = document.createElement('button');
-      b.type = 'button';
-      b.className = 'lp-hero-arrow selection-pill cp-rust hov-darken';
-      b.setAttribute('aria-label', label);
-      b.innerHTML = step < 0
-        ? '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg>'
-        : '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg>';
-      b.addEventListener('click', function () { go(step); });
-      return b;
-    }
-    nav.appendChild(button('Previous four guides', -1));
-    nav.appendChild(button('Next four guides', 1));
-    art.parentNode.insertBefore(nav, art.nextSibling);
-
-    /* NO AUTO-ADVANCE, DELIBERATELY, AND DO NOT ADD ONE BACK.
-
-       The set changes once a DAY and otherwise only when the reader presses an
-       arrow. It briefly advanced itself every 6s and the owner's word for that
-       was that the pictures "are rotating every second, not every day" — which
-       is exactly right: a front door that reshuffles under you turns a
-       photograph you were looking at into one you missed, and it makes the
-       daily change invisible, because nothing is stable long enough to be
-       noticed as today's. The arrows are the whole interaction. */
+    /* No controls and no auto-advance: today's curated photographs stay put.
+       The next set appears only after the reader refreshes on a new local day. */
   })();
   </script>
 </header>
@@ -3448,8 +3365,8 @@ window.lpGuideCard = function (href, flag, name, extra) {
    whichever is tallest, always from the bottom, which is exactly where the
    payoff sits (the result count, the gold pins).
 
-   The arrows are `.lp-hero-arrow`, the same control the hero and Best Of
-   carousels use — reused, never restyled, so the three cannot drift apart.
+   The arrows are `.lp-hero-arrow`, the shared control used by the Best Of and
+   step carousels — reused, never restyled, so those controls cannot drift apart.
    They are appended AFTER the tile because the tile is a single <a>: a button
    inside an anchor is invalid markup and makes every tap a guess between
    paging and opening the page.

@@ -5441,6 +5441,16 @@ window.TVE.home = (function () {
       { name: 'DoubleTree by Hilton Sharks Bay Resort', note: 'Hilton family — Shark’s Bay resort with beach access and pools · 9.0 Booking.com', url: 'https://www.booking.com/hotel/eg/doubletree-by-hilton-sharks-bay-resort.html', tier: 'expensive' },
       { name: 'Savoy Sharm El Sheikh', note: 'Independent — guide hotel beside SOHO Square and White Knight Beach · 8.9 Booking.com', url: 'https://www.booking.com/hotel/eg/savoy-sharm-el-sheikh.html', tier: 'luxury' }
     ], price: { budget: 'EGP 2,500–4,000', mid: 'EGP 4,000–7,000', expensive: 'EGP 7,000–12,000', luxury: 'EGP 12,000+' } },
+    'toulouse': { h: [
+      { name: 'Hôtel Ours Blanc Place Victor Hugo', note: 'Independent — Victor Hugo market area, central walkable address, air conditioning and 24h reception', url: 'https://www.booking.com/searchresults.html?ss=Hotel+Ours+Blanc+Place+Victor+Hugo+Toulouse', tier: 'budget' },
+      { name: 'Hôtel Albert 1er', note: 'Independent — Capitole quarter, family-run central hotel, air conditioning and 24h reception', url: 'https://www.booking.com/searchresults.html?ss=Hotel+Albert+1er+Toulouse', tier: 'budget' },
+      { name: 'Hôtel Innes by HappyCulture', note: 'HappyCulture — Jeanne d’Arc district, air conditioning and 24h reception', url: 'https://www.booking.com/searchresults.html?ss=Hotel+Innes+Toulouse', tier: 'mid' },
+      { name: 'Mercure Toulouse Centre Wilson Capitole', note: 'Accor Mercure brand — Place Wilson, central location, air conditioning and 24h reception', url: 'https://www.booking.com/searchresults.html?ss=Mercure+Toulouse+Centre+Wilson+Capitole', tier: 'mid' },
+      { name: 'Novotel Toulouse Centre Compans Caffarelli', note: 'Accor Novotel brand — Compans-Caffarelli gardens, pool, air conditioning and 24h reception', url: 'https://www.booking.com/searchresults.html?ss=Novotel+Toulouse+Centre+Compans+Caffarelli', tier: 'expensive' },
+      { name: 'Le Grand Balcon Hotel', note: 'Independent — beside Place du Capitole, air conditioning and 24h reception', url: 'https://www.booking.com/searchresults.html?ss=Le+Grand+Balcon+Toulouse', tier: 'expensive' },
+      { name: 'La Cour des Consuls Hotel and Spa Toulouse MGallery', note: 'Accor MGallery brand — Carmes mansion, spa, air conditioning and 24h reception', url: 'https://www.booking.com/searchresults.html?ss=La+Cour+des+Consuls+Toulouse', tier: 'luxury' },
+      { name: 'Boutique Hotel SOCLO', note: 'Independent — Compans-Caffarelli, garden and pool, air conditioning and 24h reception', url: 'https://www.booking.com/searchresults.html?ss=Boutique+Hotel+SOCLO+Toulouse', tier: 'luxury' }
+    ], price: { budget: '€70–110', mid: '€110–170', expensive: '€170–250', luxury: '€250–420' } },
     'tunis': { h: [
       { name: 'Downtown Tunis Hotel', note: 'Independent — Ville Nouvelle, room service and 24h front desk · 8.1 Booking.com', url: 'https://www.booking.com/hotel/tn/downtown-tunis-tunis1.html', tier: 'budget' },
       { name: 'Marigold Hotel', note: 'Independent — city center, restaurant and bar, 24h front desk · 8.3 Booking.com', url: 'https://www.booking.com/hotel/tn/marigold.html', tier: 'budget' },
@@ -10605,6 +10615,7 @@ window.TVE.home = (function () {
       'galway':            {iata:'SNN', name:'Shannon Airport'},
       'jakarta': {iata:'CGK', name:'Soekarno–Hatta International Airport'},
       'medellin':          {iata:'MDE', name:'José María Córdova International Airport'},
+      'toulouse':          {iata:'TLS', name:'Toulouse–Blagnac'},
       'tunis':             {iata:'TUN', name:'Tunis–Carthage International'},
       'phnom-penh':        {iata:'KTI', name:'Techo International Airport'},
       'zermatt':           {iata:'ZRH', name:'Zurich Airport'},
@@ -10912,7 +10923,8 @@ window.TVE.home = (function () {
       'YQB','YUL','YVR','YYC','YYZ','ZAG','ZNZ','ZQN','ZRH','ZTH',
         'HRG',
         'SSH',
-        'BJV'
+        'BJV',
+        'TLS'
     ];
 
     function _inject() {

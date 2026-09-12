@@ -531,17 +531,17 @@ a:hover { text-decoration: underline; }
 .tve-cur-panel {
   display: flex;
   flex-direction: column;
-  align-items: flex-start;
-  gap: 10px;
-  /* Anchor for the ✕ — see .tve-cur-x. */
+  align-items: stretch;
+  gap: 12px;
   position: relative;
-  /* -8px pulls the panel up through #ics-pill-row's 14px bottom margin so it
-     reads as the pill expanding rather than as a separate card below it. */
-  margin: -8px 0 16px;
-  padding: 12px 14px;
+  width: 100%;
+  max-width: 980px;
+  box-sizing: border-box;
+  margin: -8px auto 16px;
+  padding: 18px;
   background: var(--c-warm-bg);
   border: 1px solid var(--c-next-border);
-  border-radius: 6px;
+  border-radius: 10px;
 }
 #tve-cur-panel[hidden] { display: none; }
 .tve-cur-x {
@@ -555,26 +555,43 @@ a:hover { text-decoration: underline; }
   content: ''; position: absolute; top: 50%; left: 50%;
   width: 44px; height: 44px; transform: translate(-50%, -50%);
 }
-/* picker (typed) · amount · = · converted total, all one line at every width
-   now — the picker holds a 3-4 character code, not a full currency name, so
-   it no longer needs a line of its own or a <select>'s content-based sizing.
-   Every item below carries min-width:0 or a fixed flex-basis: without that,
-   an input's automatic minimum size wins over max-width/flex-basis and the
-   row overflows, which is exactly how this panel's original bug happened. */
 .tve-cur-row {
-  display: flex;
-  align-items: center;
-  gap: 8px;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
+  align-items: stretch;
+  gap: 12px;
   width: 100%;
-  padding-right: 24px;   /* keeps the last box clear of the ✕ */
+  padding-right: 26px;
   box-sizing: border-box;
 }
+.tve-cur-field {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 12px;
+  background: var(--c-card-bg);
+  border: 1px solid var(--c-next-border);
+  border-radius: 8px;
+}
+.tve-cur-label {
+  font-size: 11px;
+  line-height: 1;
+  font-weight: 800;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  color: var(--c-text-muted);
+}
+.tve-cur-controls {
+  display: grid;
+  grid-template-columns: minmax(88px, .8fr) minmax(96px, 1fr);
+  gap: 8px;
+  min-width: 0;
+}
 .tve-cur-pick {
-  /* Typed, not chosen (owner feedback) — see toolbar.js. Sized for a code
-     ("USD"), not a full name; the <datalist> suggestion popup still shows
-     "USD — US Dollar" regardless of this box's own width. */
-  flex: 0 1 88px;
-  min-width: 50px;
+  width: 100%;
+  min-width: 0;
+  box-sizing: border-box;
   font-family: inherit;
   font-size: 14px;
   font-weight: 700;
@@ -582,7 +599,7 @@ a:hover { text-decoration: underline; }
   background: var(--c-card-bg);
   border: 1px solid var(--c-next-border);
   border-radius: 4px;
-  padding: 6px 8px;
+  padding: 9px 10px;
   cursor: text;
 }
 /* No custom :focus rule here (owner feedback: the terracotta border it drew on
@@ -591,30 +608,57 @@ a:hover { text-decoration: underline; }
    rule at the top of this file already gives it a consistent ring and, unlike a
    bare :focus, only shows for keyboard/programmatic focus, not the auto-focus
    from a plain click. */
-.tve-cur-eq { flex: 0 0 auto; font-size: 14px; color: var(--c-text-muted); }
-/* Read-only — the converted total, symbol folded in ("₽1,234.56"), not a
-   second input. aria-live on the element itself (toolbar.js) announces it.
-   flex:1 so it takes whatever room the row has left, since it's the one
-   piece whose length genuinely varies with the number typed; ellipsis is a
-   safety net, not the expected case. */
+.tve-cur-eq {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+  font-size: 16px;
+  color: var(--c-text-muted);
+}
+.tve-cur-swap {
+  min-height: 36px;
+  padding: 7px 12px;
+  border: 1px solid var(--c-next-border);
+  border-radius: 999px;
+  background: var(--c-card-bg);
+  color: var(--c-action-text);
+  font: inherit;
+  font-size: 12px;
+  font-weight: 800;
+  cursor: pointer;
+}
+@media (hover: hover) {
+  .tve-cur-swap:hover { background: var(--c-pill-hover); border-color: var(--c-pill-bd-hover); }
+}
+.tve-cur-swap:disabled { opacity: .45; cursor: default; }
 .tve-cur-result {
-  flex: 1 1 auto;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  width: 100%;
   min-width: 0;
-  font-size: 14px;
-  font-weight: 700;
+  min-height: 40px;
+  box-sizing: border-box;
+  padding: 7px 10px;
+  border: 1px solid var(--c-next-border);
+  border-radius: 4px;
+  background: var(--c-warm-bg);
+  font-size: clamp(16px, 1.55vw, 20px);
+  font-weight: 800;
   color: var(--c-action-text);
   text-align: right;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
 }
+.tve-cur-result.is-empty { color: var(--c-text-muted); font-size: 14px; font-weight: 400; }
 .tve-cur-in {
-  /* Fixed, modest width — an amount is a handful of digits, not a line of
-     text, so it doesn't need to grow and soak up the row's leftover space
-     (owner feedback: "does not need to be such a big bar"). */
-  flex: 0 0 60px;
-  min-width: 44px;
-  padding: 6px 8px;
+  width: 100%;
+  min-width: 0;
+  box-sizing: border-box;
+  padding: 9px 10px;
   border: 1px solid var(--c-next-border);
   border-radius: 4px;
   background: var(--c-card-bg);
@@ -636,18 +680,31 @@ a:hover { text-decoration: underline; }
   -webkit-text-fill-color: var(--c-text-muted);
   font-weight: 400;
 }
-.tve-cur-note { font-size: 11px; color: var(--c-text-muted); margin-top: 4px; }
+.tve-cur-note {
+  width: 100%;
+  max-width: 920px;
+  margin: 0 auto;
+  font-size: 11px;
+  color: var(--c-text-muted);
+  text-align: right;
+}
 /* No custom :focus rule here either — see .tve-cur-pick above. */
 @media (prefers-color-scheme: dark) {
   /* The standard's dark hover is #f5f3ef; the rest colour is shared. */
   .tve-cur-x:hover { color: #f5f3ef; }
 }
-@media (max-width: 600px) and (pointer: coarse) {
-  /* iOS-safe type size only now — the one-line layout above holds at every
-     width once the picker is a typed code instead of a <select> full of
-     currency names, so there is no longer a separate mobile structure to
-     maintain here. */
+@media (max-width: 600px) and (pointer: coarse),
+       (max-width: 600px) and (pointer: fine) {
+  .tve-cur-panel { padding: 14px 12px; border-radius: 8px; }
+  .tve-cur-row { grid-template-columns: minmax(0, 1fr); gap: 10px; padding-right: 26px; }
+  .tve-cur-field { padding: 11px; }
+  .tve-cur-controls { grid-template-columns: minmax(0, 1fr) minmax(96px, .72fr); }
+  .tve-cur-eq { flex-direction: row; justify-content: center; }
+  .tve-cur-eq > span { display: none; }
+  .tve-cur-swap { min-height: 40px; padding: 8px 18px; }
   .tve-cur-pick, .tve-cur-in, .tve-cur-result { font-size: 16px; }
+  .tve-cur-result.is-empty { font-size: 16px; }
+  .tve-cur-note { text-align: center; }
 }
 
 /* Transient confirmation toast (Save for offline). Fixed bottom-centre, fades in,

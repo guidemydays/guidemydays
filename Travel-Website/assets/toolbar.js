@@ -8892,8 +8892,6 @@ window.TVE.home = (function () {
       var c = country && cur && cur.rates && cur.rates[_curFold(country)];
             if (!c || !c.rate) return;
 
-      var sym = c.sym || '';
-
       /* One <option> per distinct currency, from the file this pill already
          loads — no second data source, no new request. Rows are keyed by
          country (75 of them) and eleven share the euro, so dedupe by ISO. */
@@ -8934,21 +8932,23 @@ window.TVE.home = (function () {
       var fields = document.createElement('div');
       fields.className = 'tve-cur-row';
 
-      /* Typed, not chosen from a <select> (owner feedback) — a select's own
-         content-based intrinsic width was what the earlier overflow bug on
-         this row came from, and typing "USD" is faster than opening and
-         scrolling a picker to find it. <datalist> gives the same code+name
-         suggestions the old <option> list did without forcing a fixed
-         control width; it degrades to a plain text field wherever it isn't
-         supported, and matching by typed code (below) still works. */
-      var pick = document.createElement('input');
-      pick.className = 'tve-cur-pick';
-      pick.id = 'tve-cur-pick';
-      pick.type = 'text';
-      pick.autocomplete = 'off';
-      pick.placeholder = 'Currency';
-      pick.setAttribute('list', 'tve-cur-list');
-      pick.setAttribute('aria-label', 'Your currency — type a code or name');
+      function _picker(id, label) {
+        var input = document.createElement('input');
+        input.className = 'tve-cur-pick';
+        input.id = id;
+        input.type = 'text';
+        input.autocomplete = 'off';
+        input.placeholder = 'Currency';
+        input.setAttribute('list', 'tve-cur-list');
+        input.setAttribute('aria-label', label + ' currency — type a code or name');
+        return input;
+      }
+
+      var pick = _picker('tve-cur-pick', 'From');
+      var toPick = _picker('tve-cur-to', 'To');
+      /* A guide opens on its local currency because that is the useful target
+         in context, but the field remains editable for any-to-any conversion. */
+      toPick.value = c.iso;
 
       var list = document.createElement('datalist');
       list.id = 'tve-cur-list';
@@ -8976,56 +8976,101 @@ window.TVE.home = (function () {
          unmistakable even where that rule is overridden. */
       amount.placeholder = 'Amount';
 
-      var eq = document.createElement('span');
-      eq.className = 'tve-cur-eq';
-      eq.textContent = '=';
-
-      /* The destination side reads, it is never typed into — two synced
-         editable boxes (owner feedback: "makes no sense") is one box to type
-         in plus this plain total. aria-live announces it to screen readers on
-         every recalculation the same way a live input's own value change would. */
-      var result = document.createElement('span');
+      var result = document.createElement('output');
       result.className = 'tve-cur-result';
+      result.textContent = 'Result';
       result.setAttribute('aria-live', 'polite');
-      result.setAttribute('aria-label', 'Converted amount in ' + c.name);
+      result.setAttribute('aria-label', 'Converted amount');
 
-      fields.appendChild(pick);
+      function _field(labelText) {
+        var field = document.createElement('div');
+        field.className = 'tve-cur-field';
+        var label = document.createElement('div');
+        label.className = 'tve-cur-label';
+        label.textContent = labelText;
+        var controls = document.createElement('div');
+        controls.className = 'tve-cur-controls';
+        field.appendChild(label);
+        field.appendChild(controls);
+        return { field: field, controls: controls };
+      }
+
+      var fromField = _field('From');
+      fromField.controls.appendChild(amount);
+      fromField.controls.appendChild(pick);
+
+      var bridge = document.createElement('div');
+      bridge.className = 'tve-cur-eq';
+      var equals = document.createElement('span');
+      equals.textContent = '=';
+      equals.setAttribute('aria-hidden', 'true');
+      var swap = document.createElement('button');
+      swap.type = 'button';
+      swap.className = 'tve-cur-swap';
+      swap.textContent = 'Swap';
+      swap.setAttribute('aria-label', 'Swap from and to currencies');
+      bridge.appendChild(equals);
+      bridge.appendChild(swap);
+
+      var toField = _field('To');
+      toField.controls.appendChild(toPick);
+      toField.controls.appendChild(result);
+
+      fields.appendChild(fromField.field);
+      fields.appendChild(bridge);
+      fields.appendChild(toField.field);
       fields.appendChild(list);
-      fields.appendChild(amount);
-      fields.appendChild(eq);
-      fields.appendChild(result);
       panel.appendChild(fields);
 
       /* Cross rate through the US dollar, which is only the base the snapshot is
          quoted in — the panel is not anchored to it and never names it unless
          the reader picked it. Looked up on every keystroke rather than captured
          once, because the typed code can change under the binding. */
-      function _mineRate() {
-        var iso = pick.value.trim().toUpperCase();
-        if (!iso) return 0;
-        for (var i = 0; i < picks.length; i++) if (picks[i].iso === iso) return picks[i].rate;
-        return 0;
+      function _pickRate(input) {
+        var raw = input.value.trim();
+        var iso = raw.toUpperCase();
+        var name = _curFold(raw);
+        if (!raw) return null;
+        for (var i = 0; i < picks.length; i++) {
+          if (picks[i].iso === iso || _curFold(picks[i].name) === name) return picks[i];
+        }
+        return null;
       }
-      /* Until the reader types an amount this shows what ONE unit of their
-         currency is worth — a live "1 USD ≈ ₽83.20" reference, not a blank —
-         so typing a currency alone already answers something. Typing a real
-         amount replaces that implied 1 with theirs. */
+
       function _syncResult() {
-        var r = _mineRate();
-        if (!r) { result.textContent = ''; return; }    /* no currency matched yet */
+        var from = _pickRate(pick);
+        var to = _pickRate(toPick);
         var n = parseFloat(amount.value);
-        var amt = (amount.value === '' || isNaN(n)) ? 1 : n;
-        result.textContent = sym + _curAmt(amt * (c.rate / r));
+        var ready = from && to && amount.value !== '' && !isNaN(n);
+        swap.disabled = !(from && to);
+        if (!ready) {
+          result.textContent = 'Result';
+          result.classList.add('is-empty');
+          result.setAttribute('aria-label', 'Converted amount — waiting for amount and currencies');
+          return;
+        }
+        result.classList.remove('is-empty');
+        result.textContent = (to.sym || '') + _curAmt(n * (to.rate / from.rate));
+        result.setAttribute('aria-label', result.textContent + ' ' + to.name);
       }
       _syncResult();
       amount.addEventListener('input', _syncResult);
-      /* A typed field has no "change" event the way a <select> did — every
-         keystroke re-checks for a match, and the amount box gets its implied
-         "1" the moment one lands, same as the old select's change handler did. */
       pick.addEventListener('input', function () {
-        if (_mineRate() && amount.value === '') amount.value = '1';
+        if (_pickRate(pick) && amount.value === '') amount.value = '1';
         _syncResult();
       });
+      toPick.addEventListener('input', _syncResult);
+      swap.addEventListener('click', function () {
+        var fromValue = pick.value;
+        pick.value = toPick.value;
+        toPick.value = fromValue;
+        _syncResult();
+      });
+
+      var note = document.createElement('div');
+      note.className = 'tve-cur-note';
+      note.textContent = cur._as_of ? 'Rates as of ' + cur._as_of : 'Exchange rates refreshed monthly';
+      panel.appendChild(note);
 
       var xBtn = document.createElement('button');
       xBtn.type = 'button';

@@ -334,7 +334,7 @@
       <div class="cw-side">
         <div class="cw-coin" id="cw-coin-from" aria-hidden="true"><span id="cw-sym-from">?</span></div>
         <div class="cw-cap" id="cw-cap-from"><b>From</b></div>
-        <div class="cw-ctl cw-cur"><input type="text" id="fx-from" placeholder="Choose a currency" autocomplete="off" spellcheck="false" aria-label="From currency"></div>
+        <div class="cw-ctl cw-cur"><input type="text" id="fx-from" placeholder="Choose a currency" autocomplete="off" spellcheck="false" aria-labelledby="cw-cap-from"></div>
       </div>
 
       <div class="cw-track" id="cw-track">
@@ -342,13 +342,13 @@
           <path class="cw-arc" d="M6 62 C 62 6, 158 6, 214 62"/>
           <path class="cw-arc-live" d="M6 62 C 62 6, 158 6, 214 62"/>
         </svg>
-        <button id="fx-swap" class="selection-pill-sm mt mt-gunmetal hov2-press-metallic hov2-press-active-metallic" type="button">Swap</button>
+        <button id="fx-swap" class="selection-pill-sm mt mt-gunmetal hov2-press-metallic hov2-press-active-metallic" type="button" aria-label="Swap currencies">Swap</button>
       </div>
 
       <div class="cw-side">
         <div class="cw-coin is-to" id="cw-coin-to" aria-hidden="true"><span id="cw-sym-to">?</span></div>
         <div class="cw-cap" id="cw-cap-to"><b>To</b></div>
-        <div class="cw-ctl cw-cur"><input type="text" id="fx-to" placeholder="Choose a currency" autocomplete="off" spellcheck="false" aria-label="To currency"></div>
+        <div class="cw-ctl cw-cur"><input type="text" id="fx-to" placeholder="Choose a currency" autocomplete="off" spellcheck="false" aria-labelledby="cw-cap-to"></div>
       </div>
     </div>
 
@@ -359,15 +359,15 @@
     </div>
 
     <div class="cw-ask" id="cw-ask" hidden>
-      <button id="fx-yes" class="cw-yes" type="button">Show all currencies</button>
+      <button id="fx-yes" class="cw-yes" type="button" aria-expanded="false" aria-controls="cw-wrap">Show all currencies</button>
     </div>
   </div>
 
   <div class="cw-wrap" id="cw-wrap" hidden>
     <div class="cw-sort">
       <span class="cw-sort-label">Sort</span>
-      <button class="selection-pill cp-rust hov-darken is-on" type="button" data-sort="most">Most value</button>
-      <button class="selection-pill cp-blue hov-darken" type="button" data-sort="least">Least value</button>
+      <button class="selection-pill cp-rust hov-darken is-on" type="button" data-sort="most" aria-pressed="true">Most value</button>
+      <button class="selection-pill cp-blue hov-darken" type="button" data-sort="least" aria-pressed="false">Least value</button>
       <button id="fx-close" class="cw-close-x" type="button" aria-label="Close">&#10005;</button>
     </div>
     <p class="cw-lede" id="cw-lede"></p>
@@ -553,10 +553,11 @@ var FXC=[["Austria","Austria","Europe","EUR","",[["Salzburg","/guides/salzburg.h
     render();
   });
   document.getElementById('fx-yes').addEventListener('click',function(){
-    tableOpen=true; elAsk.hidden=true; elWrap.hidden=false; renderWall();
+    tableOpen=true; elAsk.hidden=true; this.setAttribute('aria-expanded','true'); elWrap.hidden=false; renderWall();
   });
   function closeList(){
     tableOpen=false; elWrap.hidden=true; elAsk.hidden=false; openIso='';
+    var yesBtn=document.getElementById('fx-yes'); if(yesBtn) yesBtn.setAttribute('aria-expanded','false');
     elOut.scrollIntoView({block:'start'});
   }
   /* One handler, two ways out: the ✕ in the sort row and the ✕ under the last
@@ -567,7 +568,7 @@ var FXC=[["Austria","Austria","Europe","EUR","",[["Salzburg","/guides/salzburg.h
   [].forEach.call(document.querySelectorAll('.cw-sort .selection-pill'),function(p){
     p.addEventListener('click',function(){
       sortMode=p.getAttribute('data-sort');
-      [].forEach.call(document.querySelectorAll('.cw-sort .selection-pill'),function(q){ q.classList.toggle('is-on',q===p); });
+      [].forEach.call(document.querySelectorAll('.cw-sort .selection-pill'),function(q){ q.classList.toggle('is-on',q===p); q.setAttribute('aria-pressed',q===p?'true':'false'); });
       renderWall();
     });
   });

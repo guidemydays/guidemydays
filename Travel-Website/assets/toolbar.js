@@ -2825,11 +2825,30 @@ window.TVE.home = (function () {
          existing bookmark broken forever — the repair has to travel with it.
          Kept byte-identical to the copy in guides/index.html: two writers, one
          store, and they have already drifted apart once. */
+      function canonicalPinHref(value) {
+        var h = String(value || '').trim().replace(/^\.?\/?(?=guides\/)/, '/');
+        if (!h) return '';
+        var link = document.createElement('a');
+        link.href = h;
+        h = (link.pathname || h).replace(/\/+$/, '');
+        var parts = h.split('/').filter(Boolean);
+        var guideAt = -1;
+        for (var i = 0; i < parts.length; i++) {
+          if (parts[i].toLowerCase() === 'guides') guideAt = i;
+        }
+        if (guideAt < 0 || !parts[guideAt + 1]) return h;
+        var last = parts[parts.length - 1];
+        if (/^index\.html?$/i.test(last) && parts.length > guideAt + 2) {
+          last = parts[parts.length - 2];
+        }
+        last = last.replace(/\.html?$/i, '').toLowerCase();
+        return last ? '/guides/' + last + '.html' : h;
+      }
       function normalizePins(arr) {
         var seen = {}, out = [], changed = false;
         (arr || []).forEach(function (p) {
           if (!p || !p.href) { changed = true; return; }
-          var h = String(p.href).replace(/^\.?\/?(?=guides\/)/, '/');
+          var h = canonicalPinHref(p.href);
           if (h !== p.href) { p.href = h; changed = true; }
           if (seen[h]) { changed = true; return; }
           seen[h] = 1; out.push(p);
@@ -2837,6 +2856,7 @@ window.TVE.home = (function () {
         if (changed) { try { localStorage.setItem(KEY, JSON.stringify(out)); } catch (e) {} }
         return out;
       }
+      href = canonicalPinHref(href);
       function getPins() {
         try {
           var raw = localStorage.getItem(KEY);

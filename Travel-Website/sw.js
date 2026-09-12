@@ -3623,7 +3623,8 @@
 /* 2026-09-12: Mobile guide section-jump pills now use one fixed 18px icon box
    and one 7px text gap across the guide fleet. MIN_VERSIONS['guide-style.css']
    to 312, CACHE to v2080. */
-var CACHE = 'travel-cache-v2081';
+/* 2026-09-12: refresh bookmark URL and flag migration toolbar.js -> v1266. CACHE to v2082. */
+var CACHE = 'travel-cache-v2082';
 /* 2026-08-27: airlines.css's .card-tags align-items fix changed a shared
    asset without raising its own floor -- MIN_VERSIONS['airlines.css'] to
    6, CACHE to v1662. */

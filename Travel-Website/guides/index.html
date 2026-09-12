@@ -5178,11 +5178,30 @@
      deploy, so the fix in toolbar.js only helps NEW bookmarks — this is what
      rescues the ones already saved. Kept byte-identical to the copy in
      toolbar.js: two writers, one store, and they have drifted apart once. */
+  function canonicalPinHref(value) {
+    var h = String(value || '').trim().replace(/^\.?\/?(?=guides\/)/, '/');
+    if (!h) return '';
+    var link = document.createElement('a');
+    link.href = h;
+    h = (link.pathname || h).replace(/\/+$/, '');
+    var parts = h.split('/').filter(Boolean);
+    var guideAt = -1;
+    for (var i = 0; i < parts.length; i++) {
+      if (parts[i].toLowerCase() === 'guides') guideAt = i;
+    }
+    if (guideAt < 0 || !parts[guideAt + 1]) return h;
+    var last = parts[parts.length - 1];
+    if (/^index\.html?$/i.test(last) && parts.length > guideAt + 2) {
+      last = parts[parts.length - 2];
+    }
+    last = last.replace(/\.html?$/i, '').toLowerCase();
+    return last ? '/guides/' + last + '.html' : h;
+  }
   function normalizePins(arr) {
     var seen = {}, out = [], changed = false;
     (arr || []).forEach(function (p) {
       if (!p || !p.href) { changed = true; return; }
-      var h = String(p.href).replace(/^\.?\/?(?=guides\/)/, '/');
+      var h = canonicalPinHref(p.href);
       if (h !== p.href) { p.href = h; changed = true; }
       if (seen[h]) { changed = true; return; }
       seen[h] = 1; out.push(p);
@@ -5211,32 +5230,33 @@
   }
   function removePin(href) { savePins(getPins().filter(function (p) { return p.href !== href; })); }
 
-  /* Pins added from inside a guide carry no flag (the guide page has no flag
-     element), so backfill it from the matching mosaic card and persist. */
-    function backfillFlags(pins) {
+  /* Guide-page and legacy pins may have no flag, an emoji-era flag, a clean URL,
+     or differently-cased title text. Resolve every known pin against the card,
+     then persist the card's canonical href, name and numeric sprite flag. */
+  function backfillFlags(pins) {
     var changed = false;
-    var cards = null;
-    pins.forEach(function (p) {
-      var card = p.href
-        ? document.querySelector('.mosaic .dest-card[href="' + p.href + '"]')
-        : null;
-      if (!card && p.name) {
-        if (!cards) cards = document.querySelectorAll('.mosaic .dest-card');
-        for (var i = 0; i < cards.length; i++) {
-          var nm = cards[i].querySelector('.dest-name');
-          if (nm && nm.textContent.trim() === p.name) { card = cards[i]; break; }
-        }
-        if (card) {
-          var fresh = card.getAttribute('href');
-          if (fresh && fresh !== p.href) { p.href = fresh; changed = true; }
-        }
-      }
-      if (!p.flag && card) {
-        var flagEl = card.querySelector('.dest-flag [data-flag]');
-        var flag = flagEl ? flagEl.getAttribute('data-flag') : '';
-        if (flag) { p.flag = flag; changed = true; }
-      }
+    var byHref = {};
+    var byName = {};
+    [].forEach.call(document.querySelectorAll('.mosaic .dest-card'), function (card) {
+      var href = canonicalPinHref(card.getAttribute('href'));
+      var nm = card.querySelector('.dest-name');
+      if (href) byHref[href] = card;
+      if (nm) byName[nm.textContent.trim().toLowerCase()] = card;
     });
+    pins.forEach(function (p) {
+      var key = canonicalPinHref(p.href);
+      var card = byHref[key] || byName[String(p.name || '').trim().toLowerCase()] || null;
+      if (!card) return;
+      var freshHref = card.getAttribute('href');
+      var freshNameEl = card.querySelector('.dest-name');
+      var freshName = freshNameEl ? freshNameEl.textContent.trim() : '';
+      var flagEl = card.querySelector('.dest-flag [data-flag]');
+      var freshFlag = flagEl ? flagEl.getAttribute('data-flag') : '';
+      if (freshHref && freshHref !== p.href) { p.href = freshHref; changed = true; }
+      if (freshName && freshName !== p.name) { p.name = freshName; changed = true; }
+      if (freshFlag && freshFlag !== String(p.flag || '')) { p.flag = freshFlag; changed = true; }
+    });
+    pins = normalizePins(pins);
     if (changed) savePins(pins);
     return pins;
   }
@@ -5249,7 +5269,8 @@
     strip.hidden = false;
     strip.innerHTML = pins.map(function (p) {
       var enc = encodeURIComponent(p.name);
-      var label = (p.flag ? TVE.flag.html(p.flag) + ' ' : '') + p.name;
+      var flag = /^\d+$/.test(String(p.flag || '')) ? p.flag : '';
+      var label = (flag ? TVE.flag.html(flag) + ' ' : '') + p.name;
       return '<div class="pinned-card">' +
         '<a class="pt-city-pill" href="' + p.href + '">' + label + '</a>' +
         '<a class="pt-open" href="/before-you-go/#' + enc + '">Before you go</a>' +

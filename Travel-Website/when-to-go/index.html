@@ -524,7 +524,10 @@ a.cf-card:hover { border-color: var(--rust); box-shadow: 0 3px 10px rgba(192,78,
   border-radius: 999px; border: 1.5px solid var(--nt-bronze-ink,#5a3c0e); color: var(--nt-bronze-ink,#5a3c0e); }
 .cf-guide-pill::after { font-size: 13px; }
 a.cf-card:hover .cf-guide-pill { border-color: var(--nt-bronze-ink,#5a3c0e); }
-/* Rainfall dry/wet badges — Solid Badge gold/blue (sb-* from web-travel-style.css) */
+/* Rainfall dry/moderate/wet badges — Solid Badge gold/light-blue/blue
+   (sb-* from web-travel-style.css). Every rainy-day value gets a category so
+   the middle 4–9-day band never looks like a partially rendered card. */
+.cf-rain-badge { margin-left: 6px; }
 @media (prefers-color-scheme: dark) {
   .cf-spill-months span { color: #5b5248; }
   /* .cf-mon's own dark hover/selected is retired — .selection-pill's dark-mode
@@ -1106,13 +1109,13 @@ a.cf-card:hover .cf-guide-pill { border-color: var(--nt-bronze-ink,#5a3c0e); }
           var mm = rec.rain[month] || 0;
           var rd = rec.rd[month] || 0;
           var rainBadge = rd <= 3
-            ? '<span class="badge sb-gold" style="margin-left:6px;">Dry</span>'
+            ? '<span class="badge sb-gold cf-rain-badge">Dry</span>'
             : rd >= 10
-            ? '<span class="badge sb-blue" style="margin-left:6px;">Wet</span>'
-            : '';
+            ? '<span class="badge sb-blue cf-rain-badge">Wet</span>'
+            : '<span class="badge sb-light-blue cf-rain-badge">Moderate</span>';
           rainHtml = '<div style="display:flex;flex-wrap:wrap;align-items:center;gap:8px 10px;margin-top:8px;padding-top:8px;border-top:1px solid var(--border2,#e6e2da);">' +
             '<div style="white-space:nowrap;"><span style="font-size:14px;font-weight:700;color:var(--c-rain);">' + mm + '</span><span style="font-size:11px;color:var(--muted,#6a6660);"> mm</span></div>' +
-            '<div style="display:flex;flex-wrap:wrap;align-items:center;row-gap:4px;"><span style="white-space:nowrap;"><span style="font-size:14px;font-weight:700;color:var(--c-rain);">' + rd + '</span><span style="font-size:11px;color:var(--muted,#6a6660);"> rainy days</span></span>' + rainBadge + '</div>' +
+            '<div style="display:flex;flex-wrap:wrap;align-items:center;row-gap:4px;"><span style="white-space:nowrap;"><span style="font-size:14px;font-weight:700;color:var(--c-rain);">' + rd + '</span><span style="font-size:11px;color:var(--muted,#6a6660);"> rainy ' + (rd === 1 ? 'day' : 'days') + '</span></span>' + rainBadge + '</div>' +
           '</div>';
         }
         var countryLine = CITY_COUNTRIES[k] ? '<div class="cf-country">' + CITY_COUNTRIES[k] + '</div>' : '';

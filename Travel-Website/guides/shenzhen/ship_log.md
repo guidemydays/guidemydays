@@ -14,3 +14,9 @@
 2026-09-05 10:58 — shenzhen.html — FAIL @ index-filters — 0 checks — 1 filter(s): data-lang (language filter) — add to build_lang_tags.py → --apply
 2026-09-05 11:03 — shenzhen.html — PASS — 966/966 passed, 0 failed
 2026-09-05 11:16 — shenzhen.html — PASS — 966/966 passed, 0 failed
+2026-09-11 20:48 — shenzhen.html — FAIL @ validate — 975/982 passed, 7 failed — Build-state tracker — Phase 5 (per-section build) all shipping-section rule file; Google Maps URLs match the locked pattern `https://www.google.com/maps/search/?a; Overview extras pill label text matches canonical name for every pill (owner-def; 🍽️ Downtown Restaurants — no seafood-focused restaurants (per Downtown Restauran; 🎭 Shows — extras-title must be exactly "🎭 Shows, Performances & Conce…
+2026-09-11 20:48 — shenzhen.html — FAIL @ validate — 981/982 passed, 1 failed — Google Maps URLs match the locked pattern `https://www.google.com/maps/search/?a
+2026-09-11 20:49 — shenzhen.html — VALIDATED — 982/982 passed, 0 failed
+2026-09-11 20:54 — shenzhen.html — FAIL @ surface-preflight — 0 checks — 2 gap(s): essentials/transit-cards/index.html — city not on page and not in NO_TRANSIT_CARD; essentials/day-trips/index.html — guide has day-trips entries but is absent from DATA
+2026-09-11 20:56 — shenzhen.html — VALIDATED — 982/982 passed, 0 failed
+2026-09-11 21:01 — shenzhen.html — GATES_PASSED — 982/982 passed, 0 failed

@@ -1539,45 +1539,20 @@ a.ask-card:focus-visible .ask-name { color: var(--rust, #C04E1A); }
 #tp-compare .cmp-count { order: 1; margin-right: auto; font-size: 0.85rem; font-weight: 400; }
 #tp-compare .cmp-go-btn, #tp-compare .cmp-exit-btn {
   order: 2; font-size: 0.95rem; font-weight: 400; border-radius: 999px; padding: 0.72em 1.4em;
-  background: var(--sp-wash); border: 1px solid rgba(var(--sp-rgb),.45); color: var(--sp-ink);
-  transition: box-shadow .15s, border-color .15s;
+  background: var(--sp-wash); border-color: var(--sp-ink); color: var(--sp-ink);
 }
-/* ONE hover rule, both buttons (fixed 2026-09-02 -- owner, live: "they have
-   two different hovers! how can we ship that!"). The 2026-08-27 fix this
-   replaces only patched .cmp-exit-btn's OWN hover (a specificity fight
-   against .paired-reset it could never win, see the history this comment
-   used to carry) without checking the result against its .paired-btn
-   sibling, so the pair still diverged -- exactly the class of bug
-   .paired-btn exists to prevent (assets/toolbar.js's _equalizePairButtons(),
-   same 2026-08-27 rule: "give the treatment to all", currently width-only).
-   Restores the shared saddle+glow hover both buttons already carry at REST
-   (line 2136) and that guides-index-style.css's own .cmp-go-btn/.cmp-exit-btn
-   base gives both buttons identically -- this #tp-compare scope was the
-   only place the pair ever split. Brain/scripts/paired_btn_hover_audit.py
-   now hard-fails any future re-split of a .paired-btn pair's hover. */
+/* ONE shared-token hover rule keeps this pair visibly identical. */
 #tp-compare .cmp-go-btn:not(:disabled):hover, #tp-compare .cmp-exit-btn:hover {
-  box-shadow: 0 0 0 6px rgba(var(--sp-rgb),.18), 0 0 18px rgba(var(--sp-rgb),.35);
-  border-color: var(--sp-ink);
+  background: color-mix(in srgb, var(--sp-wash) 75%, var(--sp-ink) 25%);
+  border-color: var(--sp-ink); color: var(--sp-ink); box-shadow: none;
 }
 
-/* ON A PHONE THE PAIR SHARES A ROW AND THE COUNT TAKES ITS OWN. Left to the
-   desktop rule the count's auto margin shoves the CTA to the right edge and the
-   second button drops to a third line under it, each a different width — three
-   ragged rows where the card has one column to work with (Thirty-third
-   non-negotiable: a phone is not a desktop page at a smaller size). Equal flex
-   basis, so the two read as the pair they are. */
+/* On a phone the count takes its own row and the equal-sized actions
+   stay content-width instead of stretching across the card. */
 @media (max-width: 560px) {
-  #tp-compare .cmp-count { flex: 1 1 100%; margin: 0; }
-  /* STACKED, FULL WIDTH, AND SAID OUT LOUD — measured, not guessed. The bar's
-     inner width on a 393px phone is 289px; mobile.css sets every button to 16px,
-     at which "Compare 5 cities" wants 158px and "Clear everything" 152px, so the
-     pair needs 322px and cannot share a row at any padding worth having. Two
-     full-width pills, primary first, is the honest answer — the alternative was
-     an equal-basis row that cut the CTA's own label off past its rounded end.
-     Full width is a PHONE decision only; the desktop rule above keeps them at
-     their own size (Forty-fourth non-negotiable's neighbours — a pill does not
-     go full-width on desktop). */
-  #tp-compare .cmp-go-btn, #tp-compare .cmp-exit-btn { flex: 1 1 100%; }
+  #tp-compare .cmp-sel-bar { justify-content: center; }
+  #tp-compare .cmp-count { flex: 1 1 100%; margin: 0; text-align: left; }
+  #tp-compare .cmp-go-btn, #tp-compare .cmp-exit-btn { flex: 0 0 auto; }
 }
 
 #tp-compare #compare-view[data-n="5"] .cmp-table td { padding-left: 9px; padding-right: 9px; }
@@ -1587,6 +1562,50 @@ a.ask-card:focus-visible .ask-name { color: var(--rust, #C04E1A); }
    scrolls inside its own box; the page never scrolls sideways. */
 #compare-view { overflow-x: auto; -webkit-overflow-scrolling: touch; }
 #compare-view table { min-width: 40rem; }
+.cmp-mobile-cards { display: none; }
+@media (max-width: 600px) and (pointer: coarse) {
+  #tp-compare .cmp-passport-strip { display: grid; width: 100%; gap: 12px; }
+  #tp-compare .cmp-strip-q {
+    width: 100%; min-width: 0; margin: 0;
+    display: grid; grid-template-columns: minmax(0, 7rem) minmax(0, 1fr);
+  }
+  #tp-compare .cmp-strip-q .pp-mount { display: block; width: 100%; min-width: 0; }
+  #tp-compare .cmp-strip-q .pp-btn,
+  #tp-compare .cmp-strip-q input.pp-input {
+    width: 100%; height: var(--search-h, 56px); min-height: var(--search-h, 56px);
+    box-sizing: border-box;
+  }
+  #tp-compare .cmp-strip-q .pp-btn { justify-content: center; text-align: center; }
+  #compare-view.has-mobile-cards { overflow-x: hidden; }
+  #compare-view.has-mobile-cards .cmp-table-wrap { display: none; }
+  #compare-view .cmp-mobile-cards { display: grid; gap: 14px; }
+  #compare-view .cmp-mobile-city {
+    overflow: hidden; border: 1px solid var(--border2,#e6e2da); border-radius: 12px;
+    background: var(--surface,#fff);
+  }
+  #compare-view .cmp-mobile-city-head {
+    padding: 12px 14px; border-bottom: 1px solid var(--border2,#e6e2da);
+    display: flex; align-items: center;
+  }
+  #compare-view .cmp-mobile-city-head .cmp-chip { width: 100%; justify-content: space-between; }
+  #compare-view .cmp-mobile-section {
+    margin: 0; padding: 9px 14px; background: var(--bg,#f0ede8);
+    color: var(--text,#3d3a32); font-size: 0.78rem; font-weight: 700;
+    letter-spacing: .04em; text-transform: uppercase;
+  }
+  #compare-view .cmp-mobile-row {
+    display: grid; grid-template-columns: minmax(0, 7rem) minmax(0, 1fr);
+    gap: 12px; align-items: start; padding: 10px 14px;
+    border-bottom: 1px solid var(--border2,#e6e2da);
+  }
+  #compare-view .cmp-mobile-row:last-child { border-bottom: 0; }
+  #compare-view .cmp-mobile-label {
+    color: var(--muted,#6a6660); font-size: 0.72rem; font-weight: 600;
+    letter-spacing: .06em; line-height: 1.35; text-transform: uppercase;
+  }
+  #compare-view .cmp-mobile-value { min-width: 0; font-size: 0.85rem; }
+  #compare-view .cmp-mobile-value .cmp-bars { max-width: 100%; }
+}
 /* The grafted mosaic is a hidden data source, never a visible list — compare
    mode sets .mosaic-wrap { display:'' } on both enter and exit, so the host it
    sits in has to be what keeps it out of sight. */
@@ -2149,24 +2168,6 @@ summary.res-head:focus-visible { outline: 2px solid var(--rust, #C04E1A); outlin
     .lp-btn:focus-visible {
     background: transparent; color: #c8a040;
     box-shadow: 0 0 0 6px rgba(212,102,58,.22), 0 0 18px rgba(212,102,58,.4);
-  }
-  /* #tp-compare's cmp-go-btn/cmp-exit-btn are ID-scoped, so without this the
-     light-mode rule above (background:#f7eee5) would outrank the shared dark
-     rule in guides-index-style.css. Same toolbar dark values, restated here:
-     no ground at rest, gold wash on hover. */
-  #tp-compare .cmp-go-btn, #tp-compare .cmp-exit-btn {
-    background: transparent; border-color: rgba(200,160,96,.42); color: #c8a060;
-  }
-  /* ONE hover rule, both buttons -- same 2026-09-02 fix as the light-mode
-     rule above. Dark mode had already converged on "flat, no glow" for both
-     buttons independently (this was always box-shadow:none, unlike the
-     light-mode glow it replaces) but still used two different colors, gold
-     wash for cmp-go-btn vs grey for cmp-exit-btn -- the identical drift,
-     one shade lighter. Unified on the gold wash both already agree is the
-     dark-mode tone for this pair (matches guides-index-style.css's own
-     dark-mode base, which never split the two buttons to begin with). */
-  #tp-compare .cmp-go-btn:not(:disabled):hover, #tp-compare .cmp-exit-btn:hover {
-    background: rgba(200,160,96,.12); border-color: rgba(200,160,96,.62); box-shadow: none;
   }
   /* .cmpx-mini's own dark-mode override retired 2026-09-02: it fixed to a
      hardcoded #1e1c1a/#4a453e neutral rather than a token, and is no longer
@@ -5478,8 +5479,8 @@ function render() {
     selBar.innerHTML =
       '<div class="cmp-sel-chips"></div>' +
       '<span class="cmp-count" id="cmp-count"></span>' +
-      '<button class="cmp-go-btn paired-btn" id="cmp-go" disabled>Pick 2–5 cities</button>' +
-            '<button class="cmp-exit-btn paired-btn" id="cmp-exit">Exit</button>';
+      '<button class="cmp-go-btn paired-btn selection-pill cp-bronze hov-darken" id="cmp-go" disabled>Pick 2–5 cities</button>' +
+      '<button class="cmp-exit-btn paired-btn selection-pill cp-bronze hov-darken" id="cmp-exit">Exit</button>';
     (document.getElementById('compare-mount') || document.body).appendChild(selBar);
 
     var goBtn   = document.getElementById('cmp-go');
@@ -6121,6 +6122,47 @@ function render() {
         .catch(function () { WORLD_STATS = {}; then(); });
     }
 
+    function buildMobileCompareCards() {
+      if (!(window.TVE && window.TVE.isPhone && window.TVE.isPhone())) return;
+      var table = compareView.querySelector('.cmp-table');
+      if (!table || !table.rows.length || table.rows[0].cells.length < 2) return;
+      var deck = document.createElement('div');
+      deck.className = 'cmp-mobile-cards';
+      for (var city = 1; city < table.rows[0].cells.length; city++) {
+        var card = document.createElement('section');
+        card.className = 'cmp-mobile-city';
+        var head = document.createElement('div');
+        head.className = 'cmp-mobile-city-head';
+        head.innerHTML = table.rows[0].cells[city].innerHTML;
+        card.appendChild(head);
+        for (var row = 1; row < table.rows.length; row++) {
+          var source = table.rows[row];
+          if (source.classList.contains('cmp-section-title')) {
+            var section = document.createElement('h3');
+            section.className = 'cmp-mobile-section';
+            section.textContent = source.textContent.trim();
+            card.appendChild(section);
+            continue;
+          }
+          if (source.cells.length <= city) continue;
+          var item = document.createElement('div');
+          item.className = 'cmp-mobile-row';
+          var label = document.createElement('div');
+          label.className = 'cmp-mobile-label';
+          label.innerHTML = source.cells[0].innerHTML;
+          var value = document.createElement('div');
+          value.className = 'cmp-mobile-value';
+          value.innerHTML = source.cells[city].innerHTML;
+          item.appendChild(label);
+          item.appendChild(value);
+          card.appendChild(item);
+        }
+        deck.appendChild(card);
+      }
+      table.parentNode.insertAdjacentElement('afterend', deck);
+      compareView.classList.add('has-mobile-cards');
+    }
+
     function showPanel() {
       if (!compareView || sel.length < 2) return;
       loadFacts(function () {
@@ -6150,6 +6192,7 @@ function render() {
         if (_hm && window.TVE && window.TVE.home && window.TVE.home.mount) {
           window.TVE.home.mount(_hm, { onPick: function () { showPanel(); } });
         }
+        buildMobileCompareCards();
         document.querySelector('.mosaic-wrap').style.display = 'none';
         var fv = document.getElementById('flight-view');
         if (fv) fv.style.display = 'none';

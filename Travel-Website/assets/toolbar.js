@@ -8679,7 +8679,7 @@ window.TVE.home = (function () {
         if (hit) { _dtfBuild(JSON.parse(hit)); return; }
       } catch (e) {}
       var xhr = new XMLHttpRequest();
-      xhr.open('GET', base + 'assets/day-trip-from.json', true);
+      xhr.open('GET', base + 'assets/day-trip-from.json?v=2', true);
       xhr.timeout = 6000;
       xhr.onload = function () {
         if (xhr.status < 200 || xhr.status >= 300) return;

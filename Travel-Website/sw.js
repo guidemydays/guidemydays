@@ -1,3 +1,8 @@
+/* 2026-09-13: push-guard catch-up — toolbar.js and weather.js changed on
+   already-landed commits (RES_GROUPS mobile-hamburger additions; 21 cities
+   baked into weather.js) without a MIN_VERSIONS bump, blocking every push
+   since. MIN_VERSIONS['toolbar.js'] to 1279, MIN_VERSIONS['weather.js'] to
+   69, CACHE to v2103. */
 /* 2026-09-13: web-travel-style.css -- consolidated 42 CSS-duplication-audit
    selectors (essentials Sources footnote, spec-table/region-block/apt-code
    family, misc essentials pairs, sunrise/sunset sky widget) out of per-page
@@ -3653,7 +3658,7 @@
 /* 2026-09-12: web-travel-style.css — restore --nt-grey-rgb focus ring on .cont-btn:focus-visible (regression in fcfa40d) and gate @media(max-width:600px) continent grid with (pointer:coarse). MIN_VERSIONS['web-travel-style.css'] to 308, CACHE to v2099. */
 /* 2026-09-12: weather.js — baked CLIMATE block in trips/index.html and weather.js re-synced with climate.json (21 cities that were missing after trips page moved back to public repo 2026-09-08). MIN_VERSIONS['weather.js'] to 67, CACHE to v2100. */
 /* 2026-09-13: toolbar.js: RES_GROUPS gained 10 essentials pages already live in the Trip Resources block (airport-fast-track, budget-airline-guide, night-trains, airport-transfers, rideshare-apps, idp-guide, pet-travel, insurance-entry-requirements, city-cards, island-hopping) — mobile hamburger was missing them toolbar.js -> v1277. CACHE to v2101. */
-var CACHE = 'travel-cache-v2102';
+var CACHE = 'travel-cache-v2103';
 /* 2026-08-27: airlines.css's .card-tags align-items fix changed a shared
    asset without raising its own floor -- MIN_VERSIONS['airlines.css'] to
    6, CACHE to v1662. */
@@ -3702,7 +3707,7 @@ var ICS_OUTBOX = 'gmd-ics-outbox';
    cap, rendered near its full intrinsic width and pushed the amount box and the close
    X off the right edge of the phone screen. MIN_VERSIONS['guide-style.css'] to 296, CACHE to v2007. */
 /* 2026-09-10: weather.js — Boracay climate normals added. MIN_VERSIONS['weather.js'] to 46, CACHE to v2060. */
-var MIN_VERSIONS = { 'guide-style.css': 319,'toolbar.js': 1277, 'mobile.css': 104, 'web-travel-style.css': 309, 'guides-index-style.css': 70,'read-about.css': 11, 'best-of-features.js': 7, 'best-of-cross-data.js': 26, 'weather.js': 67,'trains.css': 35, 'trains.js': 6, 'airlines.css': 9, 'airlines.js': 12, 'passport.js': 6, 'search-autocomplete.js': 22, 'flag-render.js': 3, 'site-footer.js': 2 };
+var MIN_VERSIONS = { 'guide-style.css': 319,'toolbar.js': 1279, 'mobile.css': 104, 'web-travel-style.css': 309, 'guides-index-style.css': 70,'read-about.css': 11, 'best-of-features.js': 7, 'best-of-cross-data.js': 26, 'weather.js': 69,'trains.css': 35, 'trains.js': 6, 'airlines.css': 9, 'airlines.js': 12, 'passport.js': 6, 'search-autocomplete.js': 22, 'flag-render.js': 3, 'site-footer.js': 2 };
 
 function rewriteAssetUrl(urlStr) {
   var u;

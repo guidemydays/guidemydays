@@ -8078,8 +8078,13 @@ window.TVE.home = (function () {
          read from — click the number you are reading. Only when the note really
          ends in that fragment AND the entry carries a url; a score is never
          invented and never linked to something it did not come from
-         (brain_check.check_hotel_alt_score_has_matching_url, rule 810). */
-      var m = hotel.url && /^(.*?)(\d(?:\.\d)?\s+Booking\.com)\s*$/.exec(hotel.note || '');
+         (brain_check.check_hotel_alt_score_has_matching_url, rule 810).
+         Platform list widened 2026-09-13 (hotel_rules.html §5b) beyond
+         Booking.com — a market Booking has withdrawn from falls back through
+         Expedia / TripAdvisor / Trivago / Hotels.com before the hotel's own
+         site, and the note names whichever platform the score actually
+         came from. */
+      var m = hotel.url && /^(.*?)(\d(?:\.\d)?\s+(?:Booking\.com|Expedia|TripAdvisor|Trivago|Hotels\.com))\s*$/.exec(hotel.note || '');
       if (m) {
         note.appendChild(document.createTextNode(m[1]));
         var src = document.createElement('a');

@@ -2807,7 +2807,6 @@
         var isSpecial   = countryName === 'specialized trips';
         var labelMatch  = q !== '' && countryName.indexOf(q) > -1;
         var any = false;
-        var sectionVisible = 0;
         var sectionCards = [].slice.call(r.querySelectorAll('.dest-card'));
         sectionCards.forEach(function (c) {
           var name   = ((c.querySelector('.dest-name') || {}).textContent || '').toLowerCase();
@@ -2824,18 +2823,9 @@
           /* a card only counts toward its section + the result tally if it also
              survives the season + theme filters (which hide via !important class) */
           var visible = match && !c.classList.contains('season-hide') && !c.classList.contains('theme-hide') && !c.classList.contains('lang-hide') && !c.classList.contains('days-hide') && !c.classList.contains('country-hide') && !c.classList.contains('continent-hide') && !c.classList.contains('new-hide');
-          if (visible) { any = true; shown++; sectionVisible++; }
+          if (visible) { any = true; shown++; }
         });
         r.style.display = any ? '' : 'none';
-        var cSpan = r.querySelector('.country-count');
-        if (cSpan) {
-          var total = sectionCards.length;
-          if (sectionVisible === total) {
-            cSpan.textContent = total + (total === 1 ? ' guide' : ' guides');
-          } else {
-            cSpan.textContent = sectionVisible + ' of ' + total + (total === 1 ? ' guide' : ' guides');
-          }
-        }
       });
       return shown;
     }
@@ -4202,15 +4192,13 @@
          to './guides/X/...'; without it the key there is the literal 'guides'
          for all five cities. */
       var climateKey = decodeURIComponent(href).split('/').pop().replace(/\.html$/, '');
-      /* country = parent .country block's label, minus the flag + guide count */
+      /* country = parent .country block's label, minus the flag */
       var country = '';
       var cBlock = card.closest ? card.closest('.country') : null;
       if (cBlock) {
         var cLbl = cBlock.querySelector('.country-label');
         if (cLbl) {
-          var cCnt = cLbl.querySelector('.country-count');
           country = cLbl.textContent
-            .replace(cCnt ? cCnt.textContent : '', '')
             .replace(/·\s*$/, '')
             .replace(/^[^A-Za-zÀ-ÿ]+/, '')
             .trim();
@@ -5591,9 +5579,7 @@
       if (cBlock) {
         var cLbl = cBlock.querySelector('.country-label');
         if (cLbl) {
-          var cCnt = cLbl.querySelector('.country-count');
           country = cLbl.textContent
-            .replace(cCnt ? cCnt.textContent : '', '')
             .replace(/·\s*$/, '').replace(/^[^A-Za-zÀ-ÿÀ-ɏ]+/, '').trim();
         }
       }

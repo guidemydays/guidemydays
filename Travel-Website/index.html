@@ -1413,12 +1413,11 @@ a.ask-card:focus-visible .ask-name { color: var(--rust, #C04E1A); }
 .cmpx-pick input { max-width: 100%; box-sizing: border-box; }
 .cmpx-pick label { display: block; font-size: 0.82rem; font-weight: 600; color: var(--muted,#6a6660); margin: 0 0 0.35rem; }
 .cmpx-fields { margin-bottom: clamp(0.9rem, 2vw, 1.2rem); }
-/* The count line and the two small controls beside it. .cmpx-count takes the
-   auto margin so the buttons stay right-aligned at every width and wrap under
-   it on a phone rather than squeezing the sentence. */
+/* The instruction line and the two small controls beside it. .cmpx-note takes
+   the auto margin so the buttons stay right-aligned at every width and wrap
+   under it on a phone rather than squeezing the sentence. */
 .cmpx-bar { display: flex; flex-wrap: wrap; align-items: center; gap: 0.6rem; margin: 0 0 0.55rem; }
-.cmpx-count { margin: 0 auto 0 0; font-size: 0.95rem; font-weight: 600; color: var(--text,#3d3a32); }
-.cmpx-count b { color: var(--text,#3d3a32); font-weight: 700; }
+.cmpx-note { margin: 0 auto 0 0; font-size: 0.95rem; font-weight: 600; color: var(--text,#3d3a32); }
 .cmpx-mini {
   display: inline-flex; align-items: center; gap: 0.4rem;
   border: 1px solid rgba(var(--sp-bronze-rgb),.45); background: var(--sp-bronze-wash);
@@ -1478,30 +1477,27 @@ a.ask-card:focus-visible .ask-name { color: var(--rust, #C04E1A); }
   padding: 16px 18px 18px; border-radius: 14px;
   display: flex; flex-wrap: wrap; align-items: center; gap: 10px 12px;
 }
-/* The hairline belongs to the CHIPS row, which is the one that spans the bar —
-   hung off the count instead it draws only under the count's own width, and
-   padding the buttons up to meet it is the kind of alignment hack that breaks
-   the moment a label changes length. :not(:empty) so an empty bar (nothing
-   picked yet) is not a rule with nothing above it. */
+/* The hairline belongs to the CHIPS row, which is the one that spans the bar.
+   :not(:empty) so an empty bar (nothing picked yet) is not a rule with
+   nothing above it. */
 #tp-compare .cmp-sel-chips { flex: 1 1 100%; gap: 8px; }
 #tp-compare .cmp-sel-chips:not(:empty) { padding-bottom: 13px; border-bottom: 1px solid var(--border2,#e6e2da); }
 #tp-compare .cmp-chip { border-radius: 999px; font-size: 0.9rem; padding: 0.34em 0.55em 0.34em 0.9em; }
-#tp-compare .cmp-count { order: 1; margin-right: auto; font-size: 0.85rem; font-weight: 400; }
 #tp-compare .cmp-go-btn, #tp-compare .cmp-exit-btn {
   order: 2; font-size: 0.95rem; font-weight: 400; border-radius: 999px; padding: 0.72em 1.4em;
   background: var(--sp-wash); border-color: var(--sp-ink); color: var(--sp-ink);
 }
+#tp-compare .cmp-go-btn { margin-left: auto; }
 /* ONE shared-token hover rule keeps this pair visibly identical. */
 #tp-compare .cmp-go-btn:not(:disabled):hover, #tp-compare .cmp-exit-btn:hover {
   background: color-mix(in srgb, var(--sp-wash) 75%, var(--sp-ink) 25%);
   border-color: var(--sp-ink); color: var(--sp-ink); box-shadow: none;
 }
 
-/* On a phone the count takes its own row and the equal-sized actions
-   stay content-width instead of stretching across the card. */
+/* On a phone the equal-sized actions stay content-width instead of
+   stretching across the card. */
 @media (max-width: 560px) {
   #tp-compare .cmp-sel-bar { justify-content: center; }
-  #tp-compare .cmp-count { flex: 1 1 100%; margin: 0; text-align: left; }
   #tp-compare .cmp-go-btn, #tp-compare .cmp-exit-btn { flex: 0 0 auto; }
 }
 
@@ -3058,7 +3054,7 @@ window.lpGuideCard = function (href, flag, name, extra) {
          here would contradict the column it introduces. -->
     
         <div class="cmpx-bar">
-      <p class="cmpx-count" id="cmpx-count"></p>
+      <p class="cmpx-note" id="cmpx-note"></p>
       <!-- SURPRISE ME picks five cities at random from the whole fleet.
            Filters were removed 2026-08-23 so hits() now returns every city A-Z.
            It is the one thing Compare can do that a search box never can: cities
@@ -5395,14 +5391,12 @@ function render() {
     selBar.className = 'cmp-sel-bar sp-saddle';
     selBar.innerHTML =
       '<div class="cmp-sel-chips"></div>' +
-      '<span class="cmp-count" id="cmp-count"></span>' +
       '<button class="cmp-go-btn paired-btn selection-pill cp-bronze hov-darken" id="cmp-go" disabled>Pick 2–5 cities</button>' +
       '<button class="cmp-exit-btn paired-btn selection-pill cp-bronze hov-darken" id="cmp-exit">Exit</button>';
     (document.getElementById('compare-mount') || document.body).appendChild(selBar);
 
     var goBtn   = document.getElementById('cmp-go');
     var exitBtn = document.getElementById('cmp-exit');
-    var countEl = document.getElementById('cmp-count');
 
     /* ── Language + type labels (compare rows) ── */
     var CMP_LANGS = { en:'English', fr:'French', es:'Spanish', it:'Italian', de:'German', pt:'Portuguese', nl:'Dutch', ja:'Japanese', zh:'Mandarin', ar:'Arabic', ko:'Korean', sv:'Swedish', no:'Norwegian', da:'Danish', fi:'Finnish', th:'Thai', tr:'Turkish', hr:'Croatian', cs:'Czech', el:'Greek', hu:'Hungarian', is:'Icelandic', id:'Indonesian', pl:'Polish', ru:'Russian', sl:'Slovenian', vi:'Vietnamese', si:'Sinhala', ta:'Tamil', tl:'Filipino', et:'Estonian', ms:'Malay', pap:'Papiamentu', qu:'Quechua', ur:'Urdu', hi:'Hindi', he:'Hebrew', uk:'Ukrainian', ro:'Romanian', bg:'Bulgarian', sr:'Serbian', sk:'Slovak', lt:'Lithuanian', lv:'Latvian', mt:'Maltese', ga:'Irish', cy:'Welsh', eu:'Basque', ca:'Catalan', gl:'Galician', af:'Afrikaans', xh:'Xhosa', zu:'Zulu', mi:'Māori', qu:'Quechua', crs:'Seychellois Creole', cnr:'Montenegrin', dv:'Dhivehi', dz:'Dzongkha', ka:'Georgian', lb:'Luxembourgish', lo:'Lao', ne:'Nepali', rm:'Romansh', yue:'Cantonese', ber:'Berber', ban:'Balinese', ty:'Tahitian', sc:'Sardinian', scn:'Sicilian', wuu:'Shanghainese', cjy:'Sichuanese', nan:'Taiwanese Hokkien', zap:'Zapotec', mix:'Mixtec' };
@@ -6140,7 +6134,6 @@ function render() {
          later than all three, and the label above changes on every pick, so
          nothing ever re-measures it after the first (nonexistent) pass. */
       if (window.TVE && window.TVE.equalizePairButtons) window.TVE.equalizePairButtons();
-      if (countEl) countEl.textContent = sel.length ? sel.length + ' of ' + MAX : '';
       selBar.classList.toggle('cmp-visible', document.body.classList.contains('mode-compare'));
       document.body.classList.toggle('cmp-full', sel.length >= MAX);
       if (btnCompare && !sel.length) btnCompare.innerHTML = '<svg viewBox="0 0 24 24" width="14" height="14" aria-hidden="true" style="vertical-align:middle;flex-shrink:0"><use href="#gm-i-compare"/></svg> <span class="pl">Compare cities</span>'; // icon: Site-Icons #548 (sprite `compare`) — never an emoji
@@ -6276,15 +6269,13 @@ function render() {
            flatten, and every data row of the table went to '—'. */
         var climateKey = _tableKeyFor(
           decodeURIComponent(href).split('/').pop().replace(/\.html$/, ''));
-        /* country = parent .country block's label, minus the flag + guide count */
+        /* country = parent .country block's label, minus the flag */
         var country = '';
         var cBlock = card.closest ? card.closest('.country') : null;
         if (cBlock) {
           var cLbl = cBlock.querySelector('.country-label');
           if (cLbl) {
-            var cCnt = cLbl.querySelector('.country-count');
             country = cLbl.textContent
-              .replace(cCnt ? cCnt.textContent : '', '')
               .replace(/·\s*$/, '')
               .replace(/^[^A-Za-zÀ-ÿ]+/, '')
               .trim();
@@ -6303,7 +6294,7 @@ function render() {
     var btnCmp = document.getElementById('view-compare');
     if (!list || !btnCmp) return;
 
-    var countEl = document.getElementById('cmpx-count');
+    var countEl = document.getElementById('cmpx-note');
     var shufBtn = document.getElementById('cmpx-shuffle');
     /* The four tables the row model reads, and the fold that keys them. They
        were declared beside the filter machinery and outlived it: model() still
@@ -6345,16 +6336,14 @@ function render() {
         var key  = KEYFOR(decodeURIComponent(href).split('/').pop().replace(/\.html$/, ''));
         var ci   = COSTS[key] || COSTS[name] || null;
         var si   = SAFE[key]  || SAFE[name]  || null;
-        /* country = the parent block's label, minus its flag and its guide count
-           — the same strip the engine does when it selects a card. */
+        /* country = the parent block's label, minus its flag — the same strip
+           the engine does when it selects a card. */
         var ctry = '', slug = '';
         if (grp) {
           slug = grp.getAttribute('data-country') || '';
           var lbl = grp.querySelector('.country-label');
           if (lbl) {
-            var cnt = lbl.querySelector('.country-count');
             ctry = lbl.textContent
-              .replace(cnt ? cnt.textContent : '', '')
               .replace(/·\s*$/, '')
               .replace(/^[^A-Za-zÀ-ÿ]+/, '')
               .trim();
@@ -6400,14 +6389,9 @@ function render() {
          does. Disabled instead, which the pill styling already dims. */
       if (shufBtn) shufBtn.disabled = !rows || rows.length < 2;
 
-      /* NO COUNT AT REST, EVER (Fifty-second non-negotiable): with nothing to
-         narrow by, rows.length IS the fleet size. The line says what to do
-         until the reader starts picking, and then says where they are. */
-      if (countEl) {
-        countEl.innerHTML = picked
-          ? '<b>' + picked + '</b> of ' + MAX_PICK + ' picked.'
-          : 'Pick 2 to 5.';
-      }
+      /* NO ITEM-COUNT BADGE, EVER (Ninety-second non-negotiable) — the line
+         says what to do and never how many are picked or how many exist. */
+      if (countEl) countEl.textContent = 'Pick 2 to 5.';
 
       /* No empty state left to write: the list is the whole fleet and there is
          no control that can empty it. */

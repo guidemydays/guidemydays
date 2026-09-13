@@ -5455,6 +5455,16 @@ window.TVE.home = (function () {
       { name: 'Algilà Fes Riad Medina Charme Hotel Spa', note: 'Independent — Fes El Bali medina, Akibat Sbaa, restored historic riad with hammam and spa, 24h reception, AC · 9.0 Booking.com', url: 'https://www.booking.com/hotel/ma/algila.html', tier: 'luxury' },
       { name: 'Riad Mayfez Suites & Spa', note: 'Independent — Fes El Bali medina, Douh quarter, this guide’s title-card hotel’s neighborhood, heated outdoor pool and full spa, 24h reception, AC · 8.8 Booking.com', url: 'https://www.booking.com/hotel/ma/mayfez.html', tier: 'luxury' }
     ], price: { budget: 'MAD 250–400', mid: 'MAD 750–900', expensive: 'MAD 1,000–1,400', luxury: 'MAD 1,800+' } },
+    'quito': { h: [
+      { name: 'Hotel Reina Isabel', note: 'Independent — La Mariscal, Av. Amazonas, sauna, hot tub and rooftop terrace, 24h reception, AC · 9.1 Booking.com', url: 'https://www.booking.com/hotel/ec/reina-isabel.html', tier: 'budget' },
+      { name: 'Boutique Hotel Casa Foch', note: 'Independent boutique — La Mariscal, garden courtyard and temporary art galleries, 24h reception · 9.3 Booking.com', url: 'https://www.booking.com/hotel/ec/casa-foch.html', tier: 'budget' },
+      { name: 'Wyndham Garden Quito', note: 'Independent-operated Wyndham property — La Carolina, business center and fitness center, 24h reception, AC · 8.9 Booking.com', url: 'https://www.booking.com/hotel/ec/wyndham-garden-quito.html', tier: 'mid' },
+      { name: 'Hilton Colón Quito', note: 'Hilton family — first-tier international brand, Av. Amazonas near La Mariscal, casino and multiple restaurants, 24h reception, AC · 8.2 Booking.com', url: 'https://www.booking.com/hotel/ec/hilton-colon-quito.html', tier: 'mid' },
+      { name: 'Sheraton Quito Hotel', note: 'Marriott family — first-tier international brand, La Carolina financial district, spa and rooftop pool, 24h reception, AC · 9.2 Booking.com', url: 'https://www.booking.com/hotel/ec/sheraton-quito.html', tier: 'expensive' },
+      { name: 'NH Collection Quito Royal', note: 'NH Collection — first-tier international brand, La Mariscal, spa and full gym, 24h reception, AC · 9.1 Booking.com', url: 'https://www.booking.com/hotel/ec/nh-collection-quito-royal.html', tier: 'expensive' },
+      { name: 'Illa Experience Hotel', note: 'Independent boutique — Old Town, García Moreno, Nuema restaurant and rooftop hot tub, 24h reception, AC · 9.3 Booking.com', url: 'https://www.booking.com/hotel/ec/illa-experience.html', tier: 'luxury' },
+      { name: 'Casa Gangotena', note: 'Independent boutique — Old Town, on Plaza San Francisco, Relais & Châteaux member, terrace views over the historic center, 24h reception, AC · 9.3 Booking.com', url: 'https://www.booking.com/hotel/ec/casa-gangotena-quito.html', tier: 'luxury' }
+    ], price: { budget: '$55–95', mid: '$115–155', expensive: '$155–230', luxury: '$290+' } },
     'sharm-el-sheikh': { h: [
       { name: 'Falcon Naama Star Hotel', note: 'Independent — Naama Bay base with a pool and walkable seafront access · 8.0 Booking.com', url: 'https://www.booking.com/hotel/eg/falcon-naama-star.html', tier: 'budget' },
       { name: 'Sierra Sharm El Sheikh', note: 'Independent — SOHO Square resort access, pool and beach shuttle · 9.4 Booking.com', url: 'https://www.booking.com/hotel/eg/sierra-sharm-el-sheikh.html', tier: 'mid' },
@@ -10638,6 +10648,7 @@ window.TVE.home = (function () {
       'essaouira':         {iata:'ESU', name:'Essaouira–Mogador Airport'},
       'hurghada':          {iata:'HRG', name:'Hurghada International'},
       'interlaken':        {iata:'ZRH', name:'Zurich International'},
+      'quito':             {iata:'UIO', name:'Mariscal Sucre International Airport'},
       'sharm-el-sheikh':    {iata:'SSH', name:'Sharm El Sheikh International Airport'},
       'siem-reap':         {iata:'SAI', name:'Siem Reap Angkor International Airport'},
       'boracay':           {iata:'KLO', name:'Kalibo International'},
@@ -10958,7 +10969,8 @@ window.TVE.home = (function () {
         'SSH',
         'BJV',
         'TLS',
-        'ESU'
+        'ESU',
+        'UIO'
     ];
 
     function _inject() {

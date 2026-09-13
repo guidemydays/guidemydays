@@ -5475,6 +5475,12 @@ window.TVE.home = (function () {
       { name: 'Illa Experience Hotel', note: 'Independent boutique — Old Town, García Moreno, Nuema restaurant and rooftop hot tub, 24h reception, AC · 9.3 Booking.com', url: 'https://www.booking.com/hotel/ec/illa-experience.html', tier: 'luxury' },
       { name: 'Casa Gangotena', note: 'Independent boutique — Old Town, on Plaza San Francisco, Relais & Châteaux member, terrace views over the historic center, 24h reception, AC · 9.3 Booking.com', url: 'https://www.booking.com/hotel/ec/casa-gangotena-quito.html', tier: 'luxury' }
     ], price: { budget: '$55–95', mid: '$115–155', expensive: '$155–230', luxury: '$290+' } },
+    'san-pedro-de-atacama': { h: [
+      { name: 'Hostal Copart', note: 'Independent — 5-min walk from the plaza and San Pedro Church, 24h reception, no AC (fan) · 9.6 Booking.com', url: 'https://www.booking.com/hotel/cl/hostal-copart.html', tier: 'budget' },
+      { name: 'Terrantai Lodge', note: 'Independent boutique — Tocopilla, this guide’s title-card hotel, colonial-style courtyard rooms, pool, 24h reception, no AC (fan + central heating) · 9.3 Booking.com', url: 'https://www.booking.com/hotel/cl/terrantai-lodge.html', tier: 'mid' },
+      { name: 'Nayara Alto Atacama', note: 'Independent all-inclusive desert lodge — adobe-and-stone architecture blending into the Cordillera de la Sal, 4 pools, spa, guided excursions included, 24h reception, no AC (thermal-mass adobe) · 9.5 Booking.com', url: 'https://www.booking.com/hotel/cl/alto-atacama-desert-lodge.html', tier: 'expensive' },
+      { name: 'Tierra Atacama', note: 'Independent all-inclusive desert lodge — Ayllu de Solor, spa, pool, private guided excursions and all meals included, 24h reception, no AC (adobe construction) · 9.9 Booking.com', url: 'https://www.booking.com/hotel/cl/tierra-atacama.html', tier: 'luxury' }
+    ], price: { budget: 'CLP 45,000–90,000', mid: 'CLP 200,000–310,000', expensive: 'CLP 750,000–870,000', luxury: 'CLP 1,700,000+' } },
     'sharm-el-sheikh': { h: [
       { name: 'Falcon Naama Star Hotel', note: 'Independent — Naama Bay base with a pool and walkable seafront access · 8.0 Booking.com', url: 'https://www.booking.com/hotel/eg/falcon-naama-star.html', tier: 'budget' },
       { name: 'Sierra Sharm El Sheikh', note: 'Independent — SOHO Square resort access, pool and beach shuttle · 9.4 Booking.com', url: 'https://www.booking.com/hotel/eg/sierra-sharm-el-sheikh.html', tier: 'mid' },
@@ -10660,6 +10666,7 @@ window.TVE.home = (function () {
       'hurghada':          {iata:'HRG', name:'Hurghada International'},
       'interlaken':        {iata:'ZRH', name:'Zurich International'},
       'quito':             {iata:'UIO', name:'Mariscal Sucre International Airport'},
+      'san-pedro-de-atacama': {iata:'CJC', name:'El Loa Airport, Calama'},
       'sharm-el-sheikh':    {iata:'SSH', name:'Sharm El Sheikh International Airport'},
       'siem-reap':         {iata:'SAI', name:'Siem Reap Angkor International Airport'},
       'boracay':           {iata:'KLO', name:'Kalibo International'},
@@ -10981,7 +10988,8 @@ window.TVE.home = (function () {
         'BJV',
         'TLS',
         'ESU',
-        'UIO'
+        'UIO',
+        'CJC'
     ];
 
     function _inject() {

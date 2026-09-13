@@ -1971,7 +1971,9 @@ window.TVE.home = (function () {
       ['essentials/lounges/',           'Lounges'],
       ['essentials/lounge-access/',     'Lounge Access Methods'],
       ['essentials/layover-city-guide/', 'Layover City Guide'],
-      ['essentials/airline-networks/',  'US Airline Networks']
+      ['essentials/airline-networks/',  'US Airline Networks'],
+      ['essentials/airport-fast-track/', 'Airport Fast Track & Priority Security'],
+      ['essentials/budget-airline-guide/', 'Flying Budget Airlines']
     ] },
     /* The four regional train guides reach the nav for the first time here —
        until now they were linked only from inside the European trains page. */
@@ -1984,14 +1986,17 @@ window.TVE.home = (function () {
       ['essentials/train-passes/',      'Train Passes'],
       ['essentials/scenic-trains/',     'Scenic Trains'],
       ['essentials/train-station-guide/', 'Train Station Survival Guide'],
-      ['essentials/day-trips/',         'Day Trips']
+      ['essentials/day-trips/',         'Day Trips'],
+      ['essentials/night-trains/',      'Night Train Guide']
     ] },
     { name: 'Getting around', links: [
       ['essentials/worldwide-car-rental/',          'Car Rental Around the World'],
       ['essentials/self-drive-routes/', 'Great Self-Drive Routes'],
       ['essentials/private-transfers/',             'Private Transfers'],
       ['essentials/transit-cards/',     'Transit Cards'],
-      ['essentials/storage/',           'Luggage Storage']
+      ['essentials/storage/',           'Luggage Storage'],
+      ['essentials/airport-transfers/', 'Airport-to-City Transfers'],
+      ['essentials/rideshare-apps/',    'Rideshare & Taxi Apps']
     ] },
     { name: 'Visas & docs', links: [
       ['essentials/visa/',              'Visas'],
@@ -2001,7 +2006,9 @@ window.TVE.home = (function () {
       ['essentials/trusted-traveler/',  'Trusted Traveler Programs'],
       ['essentials/visa-times/',        'Visa Processing Times'],
       ['essentials/nomad-visas/',       'Digital Nomad Visa Quick Reference'],
-      ['essentials/traveling-with-minors/', 'Traveling with Minors']
+      ['essentials/traveling-with-minors/', 'Traveling with Minors'],
+      ['essentials/idp-guide/',         'International Driving Permit'],
+      ['essentials/pet-travel/',        'Traveling with Pets']
     ] },
         { name: 'Stay & eat', links: [
       ['essentials/where-to-stay/',      'Where to Stay'],
@@ -2017,13 +2024,15 @@ window.TVE.home = (function () {
       ['essentials/mistakes/',          'First-timer Mistakes'],
       ['essentials/cultural-etiquette/', 'Cultural Faux Pas & Taboos'],
       ['essentials/medical-emergency-abroad/', 'Medical Emergency Abroad'],
-      ['essentials/phone-theft-recovery/', 'Phone Theft & Tech Recovery Abroad']
+      ['essentials/phone-theft-recovery/', 'Phone Theft & Tech Recovery Abroad'],
+      ['essentials/insurance-entry-requirements/', 'Insurance Entry Requirements']
     ] },
         { name: 'Plan', links: [
       ['essentials/sims/',              'Phone & SIM Abroad'],
       ['essentials/apps/',              'Travel Apps'],
       ['essentials/tours/',             'Tours & Tickets'],
-      ['essentials/resources/',         'More Resources']
+      ['essentials/resources/',         'More Resources'],
+      ['essentials/city-cards/',        'Museum City Cards & Attraction Passes']
     ] },
     { name: 'Trips planned by themes', links: [
       ['essentials/cruises/',           'Best Cruise Lines'],
@@ -2038,7 +2047,8 @@ window.TVE.home = (function () {
       ['essentials/golden-hour/',       'Golden Hour & Best Photo Spots'],
       ['essentials/best-tours/',        'Best Guided Tours'],
       ['essentials/winery-tasting/',    'Winery & Tasting Room Visits'],
-      ['essentials/rooftop-bars/',      'Rooftop Bars & Skyline Views']
+      ['essentials/rooftop-bars/',      'Rooftop Bars & Skyline Views'],
+      ['essentials/island-hopping/',    'Island Hopping Routes']
     ] }
   ];
 

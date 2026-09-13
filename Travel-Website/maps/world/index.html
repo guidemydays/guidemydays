@@ -210,22 +210,6 @@ function beenSet(slug, on) {
     else localStorage.removeItem(BEEN_PREFIX + slug);
   } catch (e) {}   /* private mode / storage full — marking just doesn't persist */
 }
-/* Counts every tve-visited- key, including guides with no pin on this map. */
-function beenCount() {
-  var n = 0;
-  try {
-    for (var i = 0; i < localStorage.length; i++) {
-      if ((localStorage.key(i) || '').indexOf(BEEN_PREFIX) === 0) n++;
-    }
-  } catch (e) {}
-  return n;
-}
-function beenPaintCount() {
-  var el = document.getElementById('visited-pill-count');
-  var n = beenCount();
-  if (el) el.textContent = n ? 'Visited · ' + n : 'Visited';
-}
-
 function toggleVisitedMobile(btn) {
   var on = btn.getAttribute('data-on') !== '1';
   btn.setAttribute('data-on', on ? '1' : '0');
@@ -258,10 +242,9 @@ function restoreMine() {
 
 /* ── Cross-page freshness ─────────────────────────────────────────────────
    The ONLY place a reader marks or unmarks a city is the I've Been pill on
-   that city's guide (see the note above beenPaintCount) — always a
-   DIFFERENT page from this one. Without this block the count and the gold
-   pins only ever reflect whatever was true the moment THIS page last
-   actually ran its own load script:
+   that city's guide — always a DIFFERENT page from this one. Without this
+   block the gold pins only ever reflect whatever was true the moment THIS
+   page last actually ran its own load script:
    - a same-tab Back into this map restores it from bfcache (pageshow,
      e.persisted) exactly as it was left, mark or unmark included;
    - a second tab already sitting on this map never re-runs anything when
@@ -269,13 +252,11 @@ function restoreMine() {
      signal for it at all on some mobile browsers, where visibilitychange is
      the backstop.
    This was the reported bug: marking "I've Been" on a guide didn't add to
-   the map, and un-marking left the count unchanged either way — both are
-   the same root cause, this page never repainting itself. */
+   the map — this page never repainting itself. */
 function repaintVisited() {
   var pill = document.getElementById('visited-pill-mobile');
   var on = pill && pill.getAttribute('data-on') === '1';
   if (on && window.applyVisitedFilter) window.applyVisitedFilter(true);
-  else beenPaintCount();
 }
 window.addEventListener('pageshow', function (e) { if (e.persisted) repaintVisited(); });
 window.addEventListener('storage', function (e) { if (!e.key || e.key.indexOf(BEEN_PREFIX) === 0) repaintVisited(); });
@@ -288,7 +269,7 @@ document.addEventListener('visibilitychange', function () { if (document.visibil
   <div id="map-mine" style="position:absolute;bottom:24px;left:50%;transform:translateX(-50%);z-index:1100;display:flex;flex-direction:column;align-items:center;gap:8px;">
     <div style="display:flex;align-items:center;gap:8px;">
       <button id="visited-pill-mobile" onclick="toggleVisitedMobile(this)" style="background:#fdf5d8;border:1.5px solid #d8c87a;border-radius:20px;height:28px;padding:0 16px;font-size:12px;font-weight:600;color:#7a6000;cursor:pointer;font-family:inherit;align-items:center;gap:7px;box-shadow:0 2px 10px rgba(0,0,0,0.15);white-space:nowrap;" aria-label="Show the cities you have marked">
-        <span style="width:8px;height:8px;border-radius:50%;background:#c8940a;flex-shrink:0;display:inline-block;"></span> <span id="visited-pill-count">Visited</span>
+        <span style="width:8px;height:8px;border-radius:50%;background:#c8940a;flex-shrink:0;display:inline-block;"></span> <span>Visited</span>
       </button>
     </div>
   </div>
@@ -1349,7 +1330,7 @@ function buildPins() {
     });
     const href = p[3];
     /* One behaviour, always: a pin opens its guide. There is no mode that
-       makes this do something else — see the note on beenPaintCount. */
+       makes this do something else. */
     m.on('click', () => { (window.top || window).location.href = href; });
     pinCluster.addLayer(m);
     pinMarkers.push(m);
@@ -1365,13 +1346,11 @@ function buildPins() {
       m.setIcon(on && beenHas(beenSlug(p[3])) ? beenIcon : pinIcon);
     });
     renderPinLabels();
-    beenPaintCount();
   };
 
-  /* A restored list is painted gold immediately, and the count says how many
-     landed — arriving at a map that looks unchanged is indistinguishable from
-     a link that did not work. Runs after the pins exist so the repaint has
-     something to repaint. */
+  /* A restored list is painted gold immediately — arriving at a map that
+     looks unchanged is indistinguishable from a link that did not work.
+     Runs after the pins exist so the repaint has something to repaint. */
   const restored = restoreMine();
   if (restored) {
     window.applyVisitedFilter(true);
@@ -1380,9 +1359,7 @@ function buildPins() {
     if (vm) { vm.style.background = '#c8940a'; vm.style.color = '#fff'; vm.style.borderColor = '#a07000'; }
     const dot = vm && vm.querySelector('span');
     if (dot) dot.style.background = 'rgba(255,255,255,0.7)';
-    beenPaintCount();
   }
-  beenPaintCount();
 
   window.addEventListener('message', function(e) {
     if (e.data && e.data.action === 'filterBeen') window.applyVisitedFilter && window.applyVisitedFilter(e.data.on);

@@ -12,3 +12,5 @@
 2026-09-13 10:22 — amman.html — FAIL @ validate — 933/934 passed, 1 failed — 🔗 DEAD URL — no URL cached in Brain/Data/verify_cache.json as 404/410 may appear
 2026-09-13 10:51 — amman.html — GATES_PASSED — 933/933 passed, 0 failed
 2026-09-13 10:53 — amman.html — FAIL @ publish — 0 checks — Publication did not complete; guide remains pending.
+2026-09-13 10:59 — amman.html — FAIL @ surface-preflight — 0 checks — 1 gap(s): Status Dots — guides_index.md entry missing
+2026-09-13 11:05 — amman.html — GATES_PASSED — 933/933 passed, 0 failed

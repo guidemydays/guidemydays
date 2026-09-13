@@ -7337,9 +7337,13 @@ window.TVE.home = (function () {
     ], price: { budget: 'SAR 200–400', mid: 'SAR 400–700', expensive: 'SAR 700–1,100', luxury: 'SAR 1,100+' } },
     'rio-de-janeiro': { h: [
       { name: 'Novotel Rio de Janeiro Leme', note: 'Novotel — Rua Gustavo Sampaio in Leme one block off the beach, rooftop pool, 24h reception, AC · 8.0 Booking.com', url: 'https://www.booking.com/hotel/br/novotel-rio-de-janeiro-leme.html', tier: 'budget' },
+      { name: 'Atlantis Copacabana Hotel', note: 'Independent — steps from both Copacabana and Ipanema beaches, rooftop pool, sauna, 24h reception, AC · 8.6 Booking.com', url: 'https://www.booking.com/hotel/br/atlantis-copacabana.html', tier: 'budget' },
       { name: 'JW Marriott Rio de Janeiro', note: 'Marriott family — Avenida Atlântica 2600 on Copacabana beach, rooftop pool, 24h reception, AC · 8.0 Booking.com', url: 'https://www.booking.com/hotel/br/jw-marriott-rio-de-janeiro.html', tier: 'mid' },
+      { name: 'PortoBay Rio Internacional', note: 'Independent — Copacabana beachfront on Avenida Atlântica, 24h reception, AC · 8.8 Booking.com', url: 'https://www.booking.com/hotel/br/porto-bay-rio-internacional.html', tier: 'mid' },
       { name: 'Hotel Fasano Rio de Janeiro', note: 'Fasano brand — Vieira Souto on Ipanema beachfront, rooftop pool, Fasano Al Mare restaurant · 9.0 Booking.com', url: 'https://www.booking.com/hotel/br/fasano-rio-de-janeiro.html', tier: 'expensive' },
-      { name: 'Copacabana Palace - A Belmond Hotel', note: 'Belmond — Copacabana beachfront since 1923, outdoor pool, Michelin-starred Cipriani · 9.5 Booking.com', url: 'https://www.booking.com/hotel/br/copacabana-palace.html', tier: 'luxury' }
+      { name: 'Emiliano Rio', note: 'Independent — Copacabana near the Ipanema border, spa, outdoor pool, 24h gym and reception, AC · 9.4 Booking.com', url: 'https://www.booking.com/hotel/br/emiliano-rio.html', tier: 'expensive' },
+      { name: 'Copacabana Palace - A Belmond Hotel', note: 'Belmond — Copacabana beachfront since 1923, outdoor pool, Michelin-starred Cipriani · 9.5 Booking.com', url: 'https://www.booking.com/hotel/br/copacabana-palace.html', tier: 'luxury' },
+      { name: 'JANEIRO Hotel', note: 'Independent — Leblon beachfront, rooftop terrace, spa, 24h reception, AC · 9.1 Booking.com', url: 'https://www.booking.com/hotel/br/janeiro-hotel.html', tier: 'luxury' }
     ], price: { budget: 'R$700–1,200', mid: 'R$1,200–2,500', expensive: 'R$2,500–5,000', luxury: 'R$5,000+' } },
     'rome': { h: [
       { name: 'Singer Palace Hotel Roma', note: 'Independent boutique — Via Alessandro Specchi by the Pantheon, rooftop bar over the centro storico, 24h reception, AC · 9.5 Booking.com', url: 'https://www.booking.com/hotel/it/singer-palace.html', tier: 'budget' },

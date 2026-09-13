@@ -5465,6 +5465,14 @@ window.TVE.home = (function () {
       { name: 'Algilà Fes Riad Medina Charme Hotel Spa', note: 'Independent — Fes El Bali medina, Akibat Sbaa, restored historic riad with hammam and spa, 24h reception, AC · 9.0 Booking.com', url: 'https://www.booking.com/hotel/ma/algila.html', tier: 'luxury' },
       { name: 'Riad Mayfez Suites & Spa', note: 'Independent — Fes El Bali medina, Douh quarter, this guide’s title-card hotel’s neighborhood, heated outdoor pool and full spa, 24h reception, AC · 8.8 Booking.com', url: 'https://www.booking.com/hotel/ma/mayfez.html', tier: 'luxury' }
     ], price: { budget: 'MAD 250–400', mid: 'MAD 750–900', expensive: 'MAD 1,000–1,400', luxury: 'MAD 1,800+' } },
+    'paphos': { h: [
+      { name: 'Axiothea Hotel', note: 'Independent — Old Town hill above the harbour, family-run, sea views, 24h reception, AC · 9.1 Booking.com', url: 'https://www.booking.com/hotel/cy/axiothea.html', tier: 'budget' },
+      { name: 'Anemi Hotel & Suites', note: 'Independent — Kato Paphos, spa and indoor/outdoor pools, 24h reception, AC · 8.7 Booking.com', url: 'https://www.booking.com/hotel/cy/anemi-apartments.html', tier: 'mid' },
+      { name: 'Serbellas Boutique Hotel', note: 'Independent 5-star — Kissonerga, spa, tennis court, wheelchair-accessible rooms, 24h reception, AC · 9.5 Booking.com', url: 'https://www.booking.com/hotel/cy/serbellas-boutique-kissonerga.html', tier: 'expensive' },
+      { name: 'King Jason Paphos – Designed for Adults, by Louis Hotels', note: 'Independent, adults only — Kato Paphos, indoor/outdoor pools and spa, 24h reception, AC · 9.4 Booking.com', url: 'https://www.booking.com/hotel/cy/louis-king-jason.html', tier: 'expensive' },
+      { name: 'Azia Resort & Spa', note: 'Independent 5-star — Chlorakas beachfront, golf nearby, kids’ club, 24h reception, AC · 9.1 Booking.com', url: 'https://www.booking.com/hotel/cy/azia-resort-and-spa.html', tier: 'luxury' },
+      { name: 'Thalassa Boutique Hotel & Spa', note: 'Independent 5-star, adults only — Coral Bay beachfront, spa and indoor/outdoor pools, 24h reception, AC · 9.4 Booking.com', url: 'https://www.booking.com/hotel/cy/thalassa-boutique-spa.html', tier: 'luxury' }
+    ], price: { budget: '€90–150', mid: '€150–260', expensive: '€260–400', luxury: '€400+' } },
     'quito': { h: [
       { name: 'Hotel Reina Isabel', note: 'Independent — La Mariscal, Av. Amazonas, sauna, hot tub and rooftop terrace, 24h reception, AC · 9.1 Booking.com', url: 'https://www.booking.com/hotel/ec/reina-isabel.html', tier: 'budget' },
       { name: 'Boutique Hotel Casa Foch', note: 'Independent boutique — La Mariscal, garden courtyard and temporary art galleries, 24h reception · 9.3 Booking.com', url: 'https://www.booking.com/hotel/ec/casa-foch.html', tier: 'budget' },
@@ -10665,6 +10673,7 @@ window.TVE.home = (function () {
       'essaouira':         {iata:'ESU', name:'Essaouira–Mogador Airport'},
       'hurghada':          {iata:'HRG', name:'Hurghada International'},
       'interlaken':        {iata:'ZRH', name:'Zurich International'},
+      'paphos': {iata:'PFO', name:'Paphos International Airport'},
       'quito':             {iata:'UIO', name:'Mariscal Sucre International Airport'},
       'san-pedro-de-atacama': {iata:'CJC', name:'El Loa Airport, Calama'},
       'sharm-el-sheikh':    {iata:'SSH', name:'Sharm El Sheikh International Airport'},
@@ -10989,7 +10998,8 @@ window.TVE.home = (function () {
         'TLS',
         'ESU',
         'UIO',
-        'CJC'
+        'CJC',
+        'PFO'
     ];
 
     function _inject() {

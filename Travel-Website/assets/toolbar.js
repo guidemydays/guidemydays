@@ -5358,6 +5358,16 @@ window.TVE.home = (function () {
 
     var HOTEL_ALT_DATA = {
     /* entries added per guide during build — see Separation Map.md § Hotels & Rentals */
+    'amman': { h: [
+      { name: 'Olive Hotel', note: 'Independent — Third Circle, Jabal Amman, walkable to Rainbow Street, 24h reception, AC · 8.6 Booking.com', url: 'https://www.booking.com/hotel/jo/olive.html', tier: 'budget' },
+      { name: 'Toledo Hotel', note: 'Independent — Abdali, near King Abdullah I Mosque, 24h reception, AC · 8.3 Booking.com', url: 'https://www.booking.com/hotel/jo/toledo-amman.html', tier: 'budget' },
+      { name: 'Grand Hyatt Amman', note: 'Hyatt family — first-tier international brand, Third Circle near downtown and the Citadel, 24h reception, AC · 8.3 Booking.com', url: 'https://www.booking.com/hotel/jo/grand-hyatt-amman-amman-po-box-831159.html', tier: 'mid' },
+      { name: 'Amman Marriott Hotel', note: 'Marriott family — first-tier international brand, Abdali, 24h reception, AC · 8.3 Booking.com', url: 'https://www.booking.com/hotel/jo/the-amman-marriott.html', tier: 'mid' },
+      { name: 'Signia by Hilton Amman', note: 'Hilton family — first-tier international brand, Abdali/Shmeisani business district, 24h reception, AC · 9.4 Booking.com', url: 'https://www.booking.com/hotel/jo/signia-by-hilton-amman.html', tier: 'expensive' },
+      { name: 'W Amman', note: 'Marriott family — first-tier international lifestyle brand, Abdali, 24h reception, AC · 8.8 Booking.com', url: 'https://www.booking.com/hotel/jo/w-amman.html', tier: 'expensive' },
+      { name: 'Four Seasons Hotel Amman', note: 'First-tier international luxury brand, Fifth Circle, 24h reception, AC · 9.0 Booking.com', url: 'https://www.booking.com/hotel/jo/four-seasons-amman.html', tier: 'luxury' },
+      { name: 'The Ritz-Carlton, Amman', note: 'Marriott family — first-tier international brand, Abdoun/Fifth Circle, 24h reception, AC · 9.6 Booking.com', url: 'https://www.booking.com/hotel/jo/the-ritz-carlton-amman.html', tier: 'luxury' }
+    ], price: { budget: 'JOD 45–55', mid: 'JOD 90–140', expensive: 'JOD 140–190', luxury: 'JOD 220–320' } },
     'bodrum': { h: [
       { name: 'Merih Butik Hotel', note: 'Independent boutique — Kumbahçe, 10-min walk from the castle, garden courtyard, 24h reception, AC · 9.3 Booking.com', url: 'https://www.booking.com/hotel/tr/merih-butik.html', tier: 'budget' },
       { name: 'Su Hotel - Bodrum', note: 'Independent — Tepecik, quiet passageway off Turgutreis Caddesi near the castle, outdoor pool, 24h reception, AC · 9.1 Booking.com', url: 'https://www.booking.com/hotel/tr/su.html', tier: 'mid' },
@@ -10644,6 +10654,7 @@ window.TVE.home = (function () {
 
     /* city-slug → {iata, name}  (derived from index.html FMAP "i" field) */
     var CHIP_DATA = {
+      'amman': {iata:'AMM', name:'Queen Alia International Airport'},
       'bodrum': {iata:'BJV', name:'Milas–Bodrum Airport'},
       'essaouira':         {iata:'ESU', name:'Essaouira–Mogador Airport'},
       'hurghada':          {iata:'HRG', name:'Hurghada International'},

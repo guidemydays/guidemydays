@@ -6872,9 +6872,13 @@ window.TVE.home = (function () {
     ], price: { budget: 'USD 80–160', mid: 'USD 200–400', expensive: 'USD 500–900', luxury: 'USD 1,200+' } },
     'malibu': { h: [
       { name: 'Malibu Country Inn', note: 'Independent — Point Dume area, ocean view from pool deck, fire pits, romantic 16-room inn · 9.0 Booking.com', url: 'https://www.booking.com/hotel/us/malibu-country-inn.html', tier: 'budget' },
+      { name: 'Malibu Private Beach Apartments', note: 'Independent — sea-view apartments, beach access · 8.6 Booking.com', url: 'https://www.booking.com/hotel/us/malibu-hilly-39-s-beach-boutique-apartments.html', tier: 'budget' },
       { name: 'Calamigos Guest Ranch and Beach Club', note: 'Independent — Malibu Canyon 5 acres, pool, horseback riding, farm-to-table dining · 9.3 Booking.com', url: 'https://www.booking.com/hotel/us/calamigos-guest-ranch.html', tier: 'mid' },
+      { name: 'Villa Graziadio Executive Center', note: 'Pepperdine University guest facility — modern rooms, ocean views · 8.8 Booking.com', url: 'https://www.booking.com/hotel/us/villa-graziadio-executive-center-at-pepperdine-university.html', tier: 'mid' },
       { name: 'The Surfrider Malibu', note: 'Independent boutique — 23033 Pacific Coast Highway opposite Malibu Pier, rooftop deck and restaurant, ocean-view rooms, AC · 9.0 Booking.com', url: 'https://www.booking.com/hotel/us/the-surfrider-malibu.html', tier: 'expensive' },
-      { name: 'Malibu Beach Inn', note: 'Independent boutique — Carbon Beach ("Billionaire\'s Beach"), 47 rooms each with ocean-view private balcony · 9.0 Booking.com', url: 'https://www.booking.com/hotel/us/malibu-beach-inn.html', tier: 'luxury' }
+      { name: 'Hotel June Malibu', note: 'Independent — Pacific Coast Highway, boutique rooms · 8.3 Booking.com', url: 'https://www.booking.com/hotel/us/malibu-riviera-motel-malibu.html', tier: 'expensive' },
+      { name: 'Malibu Beach Inn', note: 'Independent boutique — Carbon Beach ("Billionaire\'s Beach"), 47 rooms each with ocean-view private balcony · 9.0 Booking.com', url: 'https://www.booking.com/hotel/us/malibu-beach-inn.html', tier: 'luxury' },
+      { name: 'Stardust by AvantStay', note: 'Entire villa on Booking — the rental fallback for this tier: sea view, hot tub, pool table, private beach access · 9.6 Booking.com', url: 'https://www.booking.com/hotel/us/stardust-by-avantstay-views-hot-tub-pool-table.html', tier: 'luxury' }
     ], price: { budget: '$150–280', mid: '$250–450', expensive: '$350–600', luxury: '$600–1,200' } },
     'manuel-antonio': { h: [
       { name: 'Layan Hotel & Spa', note: 'Independent — 24-room boutique on the hill above Playa Espadilla, infinity pool, spa, restaurant, 24h front desk · 4.5 TripAdvisor', url: 'https://www.expedia.com/Quepos-Hotels-Layan-Hotel-Spa.h100447436.Hotel-Information', tier: 'budget' },
@@ -6901,9 +6905,13 @@ window.TVE.home = (function () {
     ], price: { budget: '$250–330', mid: '$330–450', expensive: '$450–650', luxury: '$650+' } },
     'marktoberdorf': { h: [
       { name: 'Trendic Hotel', note: 'Independent — staff-less design hotel on Frankenstraße, 24-hour code entry, sauna, free parking, 12 min walk to the Marktplatz · 8.8 Booking.com', url: 'https://www.booking.com/hotel/de/trendic.html', tier: 'budget' },
+      { name: 'Hotel St. Martin', note: 'Independent — central Marktoberdorf, restaurant on-site · 8.5 Booking.com', url: 'https://www.booking.com/hotel/de/st-martin.html', tier: 'budget' },
       { name: 'Beim Forchi', note: 'Entire holiday home on Booking — converted farm building with sauna and plunge pool on Schongauer Straße, the rental fallback: no mid-priced hotel in town runs a 24h desk · 9.2 Booking.com', url: 'https://www.booking.com/hotel/de/gemutlicher-kuhstall-mit-sauna.html', tier: 'mid' },
+      { name: 'Hotel Greinwald', note: 'Independent — Stadtmitte, restaurant and café on-site · 8.9 Booking.com', url: 'https://www.booking.com/hotel/de/cafe-greinwald.html', tier: 'mid' },
       { name: 'Das Weitblick Allgäu', note: 'Independent — 4-star spa hotel on Schongauer Straße with heated outdoor pool, 24h front desk, 1.9 km east of the centre · 8.9 Booking.com', url: 'https://www.booking.com/hotel/de/das-weitblick-allgau.html', tier: 'expensive' },
-      { name: 'Wellnesshotel Hanusel Hof', note: 'Independent — wellness-focused Allgäu retreat at Hellengerst, indoor and outdoor pools, thermal spa, hiking access into the Ammergauer Alps · 9.2 Booking.com', url: 'https://www.booking.com/hotel/de/hanusel-hof.html', tier: 'luxury' }
+      { name: 'Hubertus Apfeltrang', note: 'Braugasthof und Wellnesshotel — Allgäu brewery inn and wellness hotel · 9.5 Booking.com', url: 'https://www.booking.com/hotel/de/landgasthof-hubertus-apfeltrang.html', tier: 'expensive' },
+      { name: 'Wellnesshotel Hanusel Hof', note: 'Independent — wellness-focused Allgäu retreat at Hellengerst, indoor and outdoor pools, thermal spa, hiking access into the Ammergauer Alps · 9.2 Booking.com', url: 'https://www.booking.com/hotel/de/hanusel-hof.html', tier: 'luxury' },
+      { name: 'Villa Kirnach Private Spa Retreat', note: 'Entire villa on Booking — private spa in the Allgäu countryside, the rental fallback for this tier · 9.3 Booking.com', url: 'https://www.booking.com/hotel/de/villa-kirnach.html', tier: 'luxury' }
     ], price: { budget: '€90–120', mid: '€120–200', expensive: '€200–320', luxury: '€320+' } },
     'marrakech': { h: [
       { name: 'Riad Dar Les Freres', note: 'Independent riad — Derb Boutouil in the Kennaria quarter, roof terrace, 24h front desk, 25 min walk to the Sofitel · 9.2 Booking.com', url: 'https://www.booking.com/hotel/ma/riad-dar-les-freres.html', tier: 'budget' },

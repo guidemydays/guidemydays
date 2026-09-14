@@ -7562,7 +7562,9 @@ window.TVE.home = (function () {
     ], price: { budget: 'CAD 120–200', mid: 'CAD 200–320', expensive: 'CAD 320–500', luxury: 'CAD 500+' } },
     'queenstown': { h: [
       { name: 'Heartland Hotel Queenstown', note: 'Independent — town centre, walking distance to the waterfront and restaurants · 8.4 Booking.com', url: 'https://www.booking.com/hotel/nz/heartland-queenstown.html', tier: 'budget' },
+      { name: 'Quest Queenstown Apartments, Remarkables Park', note: 'Quest Apartment Hotels — Remarkables Park, 4.2 miles from town centre, kitchenette apartments, free WiFi, AC · 9.1 Booking.com', url: 'https://www.booking.com/hotel/nz/quest-queenstown.html', tier: 'budget' },
       { name: 'Novotel Queenstown Lakeside', note: 'Accor brand — lakefront, walking distance to the town centre, outdoor pool · 8.8 Booking.com', url: 'https://www.booking.com/hotel/nz/novotel-queenstown-lakeside.html', tier: 'mid' },
+      { name: 'The Central Hotel Queenstown, A Naumi Chapter', note: 'Naumi Hotels — town centre, walking distance to the waterfront and restaurants · 9.0 Booking.com', url: 'https://www.booking.com/hotel/nz/the-central-private-hotel-by-naumi-hotes.html', tier: 'mid' },
       { name: 'Hilton Queenstown Resort & Spa', note: 'Hilton brand — Peninsula Road lakefront, outdoor hot pool, spa, panoramic Lake Wakatipu views · 9.1 Booking.com', url: 'https://www.booking.com/hotel/nz/hilton-queenstown.html', tier: 'expensive' },
       { name: 'Rees Hotel & Luxury Apartments', note: 'Independent — lakefront panoramas, spa and pool, fine dining, private jetty · 9.2 Booking.com', url: 'https://www.booking.com/hotel/nz/the-rees-luxury-apartments.html', tier: 'expensive' },
       { name: 'Eichardt\'s Private Hotel', note: 'Independent boutique — lakefront, 5-suite private hotel, celebrated Eichardt\'s Bar, Queenstown historic building · 9.5 Booking.com', url: 'https://www.booking.com/hotel/nz/eichardt-private.html', tier: 'luxury' },

@@ -7357,6 +7357,7 @@ window.TVE.home = (function () {
     ], price: { budget: 'THB 1,200–2,600', mid: 'THB 2,600–3,800', expensive: 'THB 3,800–5,800', luxury: 'THB 5,800–9,500' } },
     'pensacola': { h: [
       { name: 'Portofino Island Resort', note: 'Independent — Santa Rosa Island, Gulf Spa, multiple pools, direct Gulf of Mexico beachfront · 8.7 Booking.com', url: 'https://www.booking.com/hotel/us/portofino-island-resort.html', tier: 'luxury' },
+      { name: 'Soundside Holiday Beach Resort', note: 'Independent resort — Soundside, 0.2 miles from downtown Pensacola Beach, outdoor pool, tennis court, beachfront · 9.4 Booking.com', url: 'https://www.booking.com/hotel/us/soundside-holiday-beach-resort.html', tier: 'luxury' },
       { name: 'Fairfield by Marriott Inn & Suites Pensacola Beach', note: 'Marriott family — Pensacola Beach beachfront, two pools, lazy river, breakfast included · 9.1 Booking.com', url: 'https://www.booking.com/hotel/us/fairfield-by-marriott-inn-suites-pensacola-beach.html', tier: 'mid' },
       { name: 'Margaritaville Beach Hotel', note: 'Margaritaville Hotels — Pensacola Beach waterfront, five pools, Landshark Bar & Grill · 8.9 Booking.com', url: 'https://www.booking.com/hotel/us/margaritaville-beach-hotel-pensacola-beach.html', tier: 'expensive' },
       { name: 'Hilton Pensacola Beach', note: 'Hilton brand — Gulf Breeze Parkway beachfront, outdoor pool, Seafood & Grille restaurant · 8.7 Booking.com', url: 'https://www.booking.com/hotel/us/hilton-pensacola-beach.html', tier: 'expensive' },

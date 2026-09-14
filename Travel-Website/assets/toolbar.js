@@ -5465,6 +5465,12 @@ window.TVE.home = (function () {
       { name: 'Algilà Fes Riad Medina Charme Hotel Spa', note: 'Independent — Fes El Bali medina, Akibat Sbaa, restored historic riad with hammam and spa, 24h reception, AC · 9.0 Booking.com', url: 'https://www.booking.com/hotel/ma/algila.html', tier: 'luxury' },
       { name: 'Riad Mayfez Suites & Spa', note: 'Independent — Fes El Bali medina, Douh quarter, this guide’s title-card hotel’s neighborhood, heated outdoor pool and full spa, 24h reception, AC · 8.8 Booking.com', url: 'https://www.booking.com/hotel/ma/mayfez.html', tier: 'luxury' }
     ], price: { budget: 'MAD 250–400', mid: 'MAD 750–900', expensive: 'MAD 1,000–1,400', luxury: 'MAD 1,800+' } },
+    'panama-city': { h: [
+      { name: 'AC Hotel by Marriott Panama City', note: 'Marriott family — first-tier international brand, Bella Vista financial district, rooftop bar and fitness center, 24h reception, AC · 8.1 Booking.com', url: 'https://www.booking.com/hotel/pa/ac-hotel-panama-city.html', tier: 'budget' },
+      { name: 'American Trade Hotel', note: 'Autograph Collection — Marriott family, a restored 1917 building on Plaza Herrera inside Casco Viejo itself, 24h reception, AC · 8.7 Booking.com', url: 'https://www.booking.com/hotel/pa/american-trade.html', tier: 'mid' },
+      { name: 'Hilton Panama', note: 'Hilton family — first-tier international brand, high-rise on Avenida Balboa with rooftop pool over the bay, 24h reception, AC · 8.7 Booking.com', url: 'https://www.booking.com/hotel/pa/hilton-panama.html', tier: 'expensive' },
+      { name: 'Sofitel Legend Casco Viejo', note: 'Sofitel — first-tier international brand, this guide’s title-card hotel, a restored 19th-century convent on the sea wall in Casco Viejo, 24h reception, AC · 9.5 Booking.com', url: 'https://www.booking.com/hotel/pa/sofitel-legend-casco-viejo.html', tier: 'luxury' }
+    ], price: { budget: '$110–140', mid: '$190–230', expensive: '$240–290', luxury: '$420–480' } },
     'paphos': { h: [
       { name: 'Axiothea Hotel', note: 'Independent — Old Town hill above the harbour, family-run, sea views, 24h reception, AC · 9.1 Booking.com', url: 'https://www.booking.com/hotel/cy/axiothea.html', tier: 'budget' },
       { name: 'Anemi Hotel & Suites', note: 'Independent — Kato Paphos, spa and indoor/outdoor pools, 24h reception, AC · 8.7 Booking.com', url: 'https://www.booking.com/hotel/cy/anemi-apartments.html', tier: 'mid' },
@@ -10962,6 +10968,7 @@ window.TVE.home = (function () {
       'essaouira':         {iata:'ESU', name:'Essaouira–Mogador Airport'},
       'hurghada':          {iata:'HRG', name:'Hurghada International'},
       'interlaken':        {iata:'ZRH', name:'Zurich International'},
+      'panama-city':       {iata:'PTY', name:'Tocumen International Airport'},
       'paphos': {iata:'PFO', name:'Paphos International Airport'},
       'quito':             {iata:'UIO', name:'Mariscal Sucre International Airport'},
       'san-pedro-de-atacama': {iata:'CJC', name:'El Loa Airport, Calama'},
@@ -11289,7 +11296,8 @@ window.TVE.home = (function () {
         'ESU',
         'UIO',
         'CJC',
-        'PFO'
+        'PFO',
+        'PTY'
     ];
 
     function _inject() {

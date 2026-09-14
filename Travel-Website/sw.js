@@ -1,6 +1,15 @@
+/* 2026-09-14: merge origin/main (Amman/Panama City/Paphos/San Pedro de Atacama
+   publishes) into the ship-dusseldorf branch -- toolbar.js/weather.js content
+   combined from both sides. MIN_VERSIONS['toolbar.js'] to 1305,
+   MIN_VERSIONS['weather.js'] to 79, CACHE to v2133. */
 /* 2026-09-14: ship dusseldorf -- toolbar.js HOTEL_ALT_DATA/CHIP_DATA/LOUNGE_IATAS
    additions, weather.js climate normals for the new guide. MIN_VERSIONS['toolbar.js']
    to 1304, MIN_VERSIONS['weather.js'] to 78, CACHE to v2132. */
+/* 2026-09-14: refresh published guide assets and cache. */
+/* 2026-09-14: refresh published guide assets and cache. */
+/* 2026-09-13: refresh published guide assets and cache. */
+/* 2026-09-13: refresh published guide assets and cache. */
+/* 2026-09-13: refresh published guide assets and cache. */
 /* 2026-09-13: refresh published guide assets and cache. */
 /* 2026-09-13: merge with Quito publish — toolbar.js and weather.js each
    carried further Quito-specific content in the merged commit, past the
@@ -3695,7 +3704,7 @@
 /* 2026-09-14: hotel-alt-tier-depth: malaga, maldives toolbar.js -> v1301. CACHE to v2129. */
 /* 2026-09-14: hotel-alt-tier-depth: malibu, marktoberdorf toolbar.js -> v1302. CACHE to v2130. */
 /* 2026-09-14: hotel-alt-tier-depth: lille (new) + re-fix lisbon, luxembourg, marrakech (reverted by intervening guide-fix commits) toolbar.js -> v1303. CACHE to v2131. */
-var CACHE = 'travel-cache-v2132';
+var CACHE = 'travel-cache-v2133';
 /* 2026-08-27: airlines.css's .card-tags align-items fix changed a shared
    asset without raising its own floor -- MIN_VERSIONS['airlines.css'] to
    6, CACHE to v1662. */
@@ -3744,7 +3753,7 @@ var ICS_OUTBOX = 'gmd-ics-outbox';
    cap, rendered near its full intrinsic width and pushed the amount box and the close
    X off the right edge of the phone screen. MIN_VERSIONS['guide-style.css'] to 296, CACHE to v2007. */
 /* 2026-09-10: weather.js — Boracay climate normals added. MIN_VERSIONS['weather.js'] to 46, CACHE to v2060. */
-var MIN_VERSIONS = { 'guide-style.css': 319,'toolbar.js': 1304, 'mobile.css': 104, 'web-travel-style.css': 309, 'guides-index-style.css': 70,'read-about.css': 11, 'best-of-features.js': 7, 'best-of-cross-data.js': 26, 'weather.js': 78,'trains.css': 35, 'trains.js': 6, 'airlines.css': 9, 'airlines.js': 12, 'passport.js': 6, 'search-autocomplete.js': 22, 'flag-render.js': 3, 'site-footer.js': 2 };
+var MIN_VERSIONS = { 'guide-style.css': 319,'toolbar.js': 1305, 'mobile.css': 104, 'web-travel-style.css': 309, 'guides-index-style.css': 70,'read-about.css': 11, 'best-of-features.js': 7, 'best-of-cross-data.js': 26, 'weather.js': 79,'trains.css': 35, 'trains.js': 6, 'airlines.css': 9, 'airlines.js': 12, 'passport.js': 6, 'search-autocomplete.js': 22, 'flag-render.js': 3, 'site-footer.js': 2 };
 
 function rewriteAssetUrl(urlStr) {
   var u;

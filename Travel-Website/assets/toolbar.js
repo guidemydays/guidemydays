@@ -7003,15 +7003,23 @@ window.TVE.home = (function () {
     ], price: { budget: '₹7,500–11,000', mid: '₹11,000–16,500', expensive: '₹16,500–25,000', luxury: '₹25,000+' } },
     'munich': { h: [
       { name: 'Motel One München-Sendlinger Tor', note: 'Motel One brand — Sendlinger Tor, design-led budget hotel, 24h reception, steps from the Old Town · 8.5 Booking.com', url: 'https://www.booking.com/hotel/de/motel-one-muenchen-sendlinger-tor.html', tier: 'budget' },
+      { name: 'Hotel MIO by AMANO', note: 'Independent — Altstadt-Lehel, bicycle rental, 24h front desk · 8.6 Booking.com', url: 'https://www.booking.com/hotel/de/mio-by-amano.html', tier: 'budget' },
       { name: 'Sofitel Munich Bayerpost', note: 'Accor Sofitel brand — Bayerstrasse 12 beside the Hauptbahnhof, indoor pool and spa, Délice La Brasserie · 8.9 Booking.com', url: 'https://www.booking.com/hotel/de/sofitel-munich-bayerpost.html', tier: 'mid' },
+      { name: 'Hotel Torbräu', note: 'Independent — Altstadt-Lehel, room service, airport shuttle · 8.9 Booking.com', url: 'https://www.booking.com/hotel/de/torbrau.html', tier: 'mid' },
       { name: 'Bayerischer Hof Munich', note: 'Independent grand hotel — Promenadeplatz 2 in the city centre, Blue Spa with rooftop pool, six restaurants, 24-hour butler · 9.0 Booking.com', url: 'https://www.booking.com/hotel/de/bayerischer-hof.html', tier: 'expensive' },
-      { name: 'Mandarin Oriental, Munich', note: 'Mandarin Oriental brand — Neuturmstraße in the Old Town, indoor pool and spa, Mark\'s Restaurant, close to the Hofbräuhaus · 9.2 Booking.com', url: 'https://www.booking.com/hotel/de/mandarin-oriental-munich.html', tier: 'luxury' }
+      { name: 'The Dean Munich, Autograph Collection', note: 'Marriott family (Autograph Collection) — Schwanthalerhöhe, spa, sauna · 7.6 Booking.com', url: 'https://www.booking.com/hotel/de/roomers-munich-autograph-collection.html', tier: 'expensive' },
+      { name: 'Mandarin Oriental, Munich', note: 'Mandarin Oriental brand — Neuturmstraße in the Old Town, indoor pool and spa, Mark\'s Restaurant, close to the Hofbräuhaus · 9.2 Booking.com', url: 'https://www.booking.com/hotel/de/mandarin-oriental-munich.html', tier: 'luxury' },
+      { name: 'BEYOND by Geisel', note: 'Independent, adults only — Altstadt-Lehel, room service · 9.3 Booking.com', url: 'https://www.booking.com/hotel/de/beyond-by-geisel.html', tier: 'luxury' }
     ], price: { budget: 'EUR 80–130', mid: 'EUR 130–220', expensive: 'EUR 220–360', luxury: 'EUR 360+' } },
     'muscat': { h: [
       { name: 'Al Falaj Hotel', note: 'Independent — Ruwi business district, outdoor pool, 24h front desk, short drive to Mutrah Souq · 7.8 Booking.com', url: 'https://www.booking.com/hotel/om/al-falaj.html', tier: 'budget' },
+      { name: 'Ramada Encore by Wyndham Muscat Al-Ghubra', note: 'Wyndham family — Al Ghubra, rooftop pool, spa · 8.7 Booking.com', url: 'https://www.booking.com/hotel/om/ramada-encore-by-wyndham-muscat-al-ghubrah.html', tier: 'budget' },
       { name: 'Sheraton Oman Hotel', note: 'Marriott brand — Al Khuwair, outdoor pool and fitness centre, 24h front desk, central location · 8.2 Booking.com', url: 'https://www.booking.com/hotel/om/sheraton-oman.html', tier: 'mid' },
+      { name: 'Aloft by Marriott Muscat', note: 'Marriott Aloft brand — hot tub, spa, sustainability-certified · 8.8 Booking.com', url: 'https://www.booking.com/hotel/om/aloft-muscat.html', tier: 'mid' },
       { name: 'InterContinental Muscat by IHG', note: 'IHG brand — Shati Al Qurum, direct beach access, palm gardens, five restaurants, spa · 8.9 Booking.com', url: 'https://www.booking.com/hotel/om/intercontinental-muscat.html', tier: 'expensive' },
-      { name: 'The Chedi Muscat', note: 'GHM brand — 21 acres on the Sea of Oman, three pools including The Long Pool, award-winning spa · 9.1 Booking.com', url: 'https://www.booking.com/hotel/om/the-chedi-muscat.html', tier: 'luxury' }
+      { name: 'Radisson Collection Muscat, Hormuz Grand', note: 'Radisson brand — spa, sauna · 8.6 Booking.com', url: 'https://www.booking.com/hotel/om/hormuz-grand.html', tier: 'expensive' },
+      { name: 'The Chedi Muscat', note: 'GHM brand — 21 acres on the Sea of Oman, three pools including The Long Pool, award-winning spa · 9.1 Booking.com', url: 'https://www.booking.com/hotel/om/the-chedi-muscat.html', tier: 'luxury' },
+      { name: 'Kempinski Hotel Muscat', note: 'Kempinski brand — beachfront, spa, hot tub, sustainability-certified · 9.2 Booking.com', url: 'https://www.booking.com/hotel/om/kempinski-muscat.html', tier: 'luxury' }
     ], price: { budget: 'OMR 35–60', mid: 'OMR 70–110', expensive: 'OMR 110–170', luxury: 'OMR 200+' } },
     'mykonos': { h: [
       { name: 'Pelican Bay Art Hotel', note: 'Independent boutique — Museum Square in Little Venice, Mykonos Town, sea-facing rooms, 24h front desk · 8.9 Booking.com', url: 'https://www.booking.com/hotel/gr/pelican-bay.html', tier: 'budget' },

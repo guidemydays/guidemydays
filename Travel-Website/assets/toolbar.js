@@ -6853,7 +6853,8 @@ window.TVE.home = (function () {
       { name: 'Grand Hôtel Beauvau Vieux-Port, Autograph Collection', note: 'Marriott Autograph — 1816 Vieux-Port landmark, panoramic harbour views, Brasserie Beauvau, historic Provençal character · 8.9 Booking.com' , url: 'https://www.booking.com/hotel/fr/grand-hotel-beauvau-vieux-port.html', tier: 'mid' },
       { name: 'Sofitel Marseille Vieux-Port', note: 'Sofitel brand — Old Port frontage, terrace views, spa, Les Trois Forts gastronomic restaurant · 8.8 Booking.com' , url: 'https://www.booking.com/hotel/fr/sofitel-marseille-vieux-port.html', tier: 'expensive' },
       { name: 'Hôtel C2 Marseille', note: 'Independent boutique — 19th-century merchant mansion near the Old Port, heated outdoor pool, 20 rooms, Sushi Shop & Le Reflet restaurant · 9.3 Booking.com' , url: 'https://www.booking.com/hotel/fr/hotel-c2-marseille.html', tier: 'expensive' },
-      { name: 'Les Bords de Mer · Fontenille Collection', note: 'Independent — 52 Corniche Kennedy above the water, rooftop heated pool, spa and hammam, sea-facing rooms · 9.1 Booking.com', url: 'https://www.booking.com/hotel/fr/les-bords-de-mer.html', tier: 'luxury' }
+      { name: 'Les Bords de Mer · Fontenille Collection', note: 'Independent — 52 Corniche Kennedy above the water, rooftop heated pool, spa and hammam, sea-facing rooms · 9.1 Booking.com', url: 'https://www.booking.com/hotel/fr/les-bords-de-mer.html', tier: 'luxury' },
+      { name: 'InterContinental Marseille - Hôtel Dieu', note: 'IHG InterContinental — the former Hôtel-Dieu hospital building overlooking the Vieux Port and Notre-Dame de la Garde, spa, 24h front desk · 8.6 Booking.com', url: 'https://www.booking.com/hotel/fr/marseille-dieu.html', tier: 'luxury' }
     ], price: { budget: '€70–120', mid: '€120–200', expensive: '€200–320', luxury: '€320+' } },
     'maui': { h: [
       { name: 'Maui Coast Hotel', note: 'Independent — South Kihei Road a block from Kamaole Beach, infinity pool, free resort shuttle, 24h front desk, 10 min drive to Wailea · 9.1 Booking.com', url: 'https://www.booking.com/hotel/us/maui-coast.html', tier: 'budget' },
@@ -6907,9 +6908,13 @@ window.TVE.home = (function () {
     ], price: { budget: '€100–200', mid: '€200–300', expensive: '€300–450', luxury: '€450+' } },
     'montevideo': { h: [
       { name: 'Cottage Hotel Montevideo', note: 'Independent boutique — Pocitos neighborhood, curated art collection, quiet residential atmosphere · 9.1 Booking.com', url: 'https://www.booking.com/hotel/uy/cottage-puerto-buceo.html', tier: 'budget' },
+      { name: 'Esplendor by Wyndham Montevideo Cervantes', note: 'Wyndham family — Montevideo Centro, sauna, airport shuttle, 24h front desk · 8.2 Booking.com', url: 'https://www.booking.com/hotel/uy/esplendor-cervantes-montevideo.html', tier: 'budget' },
       { name: 'Alma Histórica Boutique Hotel', note: 'Independent boutique — restored 1920s townhouse on Plaza Zabala in Ciudad Vieja, 24h reception, rooftop terrace, room-per-writer theming · 9.4 Booking.com', url: 'https://www.booking.com/hotel/uy/alma-historica-boutique.html', tier: 'mid' },
+      { name: 'FAUNA Montevideo', note: 'Independent, adults only — Ciudad Vieja, airport shuttle, 24h front desk · 9.6 Booking.com', url: 'https://www.booking.com/hotel/uy/fauna-montevideo-montevideo.html', tier: 'mid' },
       { name: 'Hyatt Centric Montevideo', note: 'Hyatt brand — downtown on Rincón, panoramic city views, fitness centre, 24h front desk · 8.9 Booking.com', url: 'https://www.booking.com/hotel/uy/hyatt-centric-montevideo.html', tier: 'expensive' },
-      { name: 'Sofitel Montevideo Casino Carrasco & Spa', note: 'Sofitel brand — 1921 Casino Carrasco landmark on the Rambla, indoor pool and spa, 24h front desk · 9.0 Booking.com', url: 'https://www.booking.com/hotel/uy/sofitel-montevideo-casino-carrasco.html', tier: 'luxury' }
+      { name: 'Costanero Hotel Montevideo - MGallery Collection', note: 'Accor MGallery — Pocitos on the Rambla, spa, sauna, sustainability-certified · 9.1 Booking.com', url: 'https://www.booking.com/hotel/uy/costanero-montevideo-mgallery.html', tier: 'expensive' },
+      { name: 'Sofitel Montevideo Casino Carrasco & Spa', note: 'Sofitel brand — 1921 Casino Carrasco landmark on the Rambla, indoor pool and spa, 24h front desk · 9.0 Booking.com', url: 'https://www.booking.com/hotel/uy/sofitel-montevideo-casino-carrasco.html', tier: 'luxury' },
+      { name: 'Hotel Montevideo - Leading Hotels of the World', note: 'The Leading Hotels of the World — Pocitos, rooftop pool, room service, 24h front desk · 9.2 Booking.com', url: 'https://www.booking.com/hotel/uy/montevideo.html', tier: 'luxury' }
     ], price: { budget: 'USD 60–100', mid: 'USD 100–170', expensive: 'USD 170–280', luxury: 'USD 280+' } },
     'saint-petersburg': { h: [
       { name: 'Nevsky Forum Hotel', tier: 'budget', note: 'Independent — 29 rooms on Nevsky Prospekt with Mayakovskaya metro at the door, 24h front desk', url: 'https://www.booking.com/hotel/ru/nevsky-forum.html' },
@@ -7805,9 +7810,13 @@ window.TVE.home = (function () {
     ], price: { budget: '€500–900', mid: '€900–1,500', expensive: '€1,500–2,500', luxury: '€2,500+' } },
     'verona': { h: [
       { name: 'Hotel Accademia', note: 'Independent — Via Scala near the Arena, garden courtyard, Il Carroarmato restaurant · 8.7 Booking.com', url: 'https://www.booking.com/hotel/it/accademia-verona.html', tier: 'budget' },
+      { name: 'Moxy Verona', note: 'Marriott Moxy — Porta Nuova, next to the train station, modern design budget rooms, 24h reception, AC · 8.9 Booking.com', url: 'https://www.booking.com/hotel/it/moxy-verona.html', tier: 'budget' },
       { name: 'NH Collection Verona Grand Hotel Palazzo di Verona', note: 'NH Collection brand — 18th-century Palazzo on Piazza San Zeno, rooftop terrace, central location · 9.0 Booking.com', url: 'https://www.booking.com/hotel/it/nh-verona-due-torri.html', tier: 'mid' },
+      { name: 'Hotel Giulietta e Romeo', note: 'Independent — Città Antica, steps from Piazza Bra and the Arena, 24h reception, AC · 9.2 Booking.com', url: 'https://www.booking.com/hotel/it/giuliettaeromeoverona.html', tier: 'mid' },
       { name: 'Hotel Gabbia d\'Oro', note: 'Independent boutique — 17th-century noble palazzo near Piazza delle Erbe, antique beds, garden courtyard · 9.0 Booking.com', url: 'https://www.booking.com/hotel/it/gabbia-d-oro.html', tier: 'expensive' },
-      { name: 'Due Torri Hotel', note: 'Autograph Collection (Marriott) — 14th-century palazzo near Piazza Brà, antique-furnished rooms, Arena Opera views · 9.1 Booking.com', url: 'https://www.booking.com/hotel/it/due-torri-hotel.html', tier: 'luxury' }
+      { name: 'Boutique Hotel Trieste', note: 'Independent, adults only — Città Antica, 24h reception, AC · 9.0 Booking.com', url: 'https://www.booking.com/hotel/it/trieste-verona.html', tier: 'expensive' },
+      { name: 'Due Torri Hotel', note: 'Autograph Collection (Marriott) — 14th-century palazzo near Piazza Brà, antique-furnished rooms, Arena Opera views · 9.1 Booking.com', url: 'https://www.booking.com/hotel/it/due-torri-hotel.html', tier: 'luxury' },
+      { name: 'VISTA Verona', note: 'Independent (Small Luxury Hotels of the World) — Città Antica, two minutes from Juliet\'s balcony, rooftop restaurant, spa with indoor pool, 24h reception, AC · 9.4 Booking.com', url: 'https://www.booking.com/hotel/it/vista-palazzo.html', tier: 'luxury' }
     ], price: { budget: '€80–150', mid: '€150–280', expensive: '€280–500', luxury: '€450+' } },
     'victoria': { h: [
       { name: 'DoubleTree by Hilton Hotel & Suites Victoria', note: 'Hilton DoubleTree — 777 Douglas Street downtown, rooftop terrace, outdoor heated pool, steps from Empress and Inner Harbour · 8.3 Booking.com', url: 'https://www.booking.com/hotel/ca/doubletree-by-hilton-victoria.html', tier: 'budget' },

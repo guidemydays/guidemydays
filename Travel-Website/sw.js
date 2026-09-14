@@ -3682,7 +3682,8 @@
 /* 2026-09-14: hotel-alt-tier-depth: nice toolbar.js -> v1293. CACHE to v2119. */
 /* 2026-09-14: hotel-alt-tier-depth: oahu toolbar.js -> v1294. CACHE to v2120. */
 /* 2026-09-14: push-guard catch-up -- weather.js changed again on an already-landed publish commit without a MIN_VERSIONS bump. MIN_VERSIONS['weather.js'] to 76, CACHE to v2121. */
-var CACHE = 'travel-cache-v2121';
+/* 2026-09-14: hotel-alt-tier-depth: oaxaca toolbar.js -> v1295. CACHE to v2122. */
+var CACHE = 'travel-cache-v2122';
 /* 2026-08-27: airlines.css's .card-tags align-items fix changed a shared
    asset without raising its own floor -- MIN_VERSIONS['airlines.css'] to
    6, CACHE to v1662. */
@@ -3731,7 +3732,7 @@ var ICS_OUTBOX = 'gmd-ics-outbox';
    cap, rendered near its full intrinsic width and pushed the amount box and the close
    X off the right edge of the phone screen. MIN_VERSIONS['guide-style.css'] to 296, CACHE to v2007. */
 /* 2026-09-10: weather.js — Boracay climate normals added. MIN_VERSIONS['weather.js'] to 46, CACHE to v2060. */
-var MIN_VERSIONS = { 'guide-style.css': 319,'toolbar.js': 1294, 'mobile.css': 104, 'web-travel-style.css': 309, 'guides-index-style.css': 70,'read-about.css': 11, 'best-of-features.js': 7, 'best-of-cross-data.js': 26, 'weather.js': 76,'trains.css': 35, 'trains.js': 6, 'airlines.css': 9, 'airlines.js': 12, 'passport.js': 6, 'search-autocomplete.js': 22, 'flag-render.js': 3, 'site-footer.js': 2 };
+var MIN_VERSIONS = { 'guide-style.css': 319,'toolbar.js': 1295, 'mobile.css': 104, 'web-travel-style.css': 309, 'guides-index-style.css': 70,'read-about.css': 11, 'best-of-features.js': 7, 'best-of-cross-data.js': 26, 'weather.js': 76,'trains.css': 35, 'trains.js': 6, 'airlines.css': 9, 'airlines.js': 12, 'passport.js': 6, 'search-autocomplete.js': 22, 'flag-render.js': 3, 'site-footer.js': 2 };
 
 function rewriteAssetUrl(urlStr) {
   var u;

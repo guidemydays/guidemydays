@@ -7139,9 +7139,13 @@ window.TVE.home = (function () {
     ], price: { budget: 'USD 150–280', mid: 'USD 280–420', expensive: 'USD 420–650', luxury: 'USD 650+' } },
     'oaxaca': { h: [
       { name: 'Hotel Ayook', note: '17th-century building turned 12-room hotel, garden terrace, adults-only, 13-min walk to Zócalo · 9.0 Booking.com', url: 'https://www.booking.com/hotel/mx/ayook.html', tier: 'budget' },
+      { name: 'Suites el Consuelo', note: 'Independent — Oaxaca Historic Centre, free Wifi, safe · 8.8 Booking.com', url: 'https://www.booking.com/hotel/mx/el-consuelo.html', tier: 'budget' },
       { name: 'Hotel Boutique Casa Catrina', note: '6-room artist bungalow, original artwork in every room, central patio breakfast, historic centre · 9.1 Booking.com', url: 'https://www.booking.com/hotel/mx/casa-catrina.html', tier: 'mid' },
+      { name: 'El Callejón Hotel Boutique', note: 'Independent — Oaxaca Historic Centre, room service, massage · 9.0 Booking.com', url: 'https://www.booking.com/hotel/mx/el-callejon-boutique.html', tier: 'mid' },
       { name: 'Hotel Azul de Oaxaca', note: 'Designed by 5 local architects, rooftop bar with city views, 3 on-site restaurants, steps from Santo Domingo · 9.1 Booking.com', url: 'https://www.booking.com/hotel/mx/azul-de-oaxaca.html', tier: 'expensive' },
-      { name: 'Grand Fiesta Americana Oaxaca', note: 'Grand Fiesta Americana (Grupo Posadas) — full-service resort with spa, indoor pool, fitness center, 2 restaurants, historic centre · 9.4 Booking.com', url: 'https://www.booking.com/hotel/mx/grand-fiesta-americana-oaxaca.html', tier: 'luxury' }
+      { name: 'Casa Bonita Hotel & Luxury Residence', note: 'Independent — spa, sauna · 8.3 Booking.com', url: 'https://www.booking.com/hotel/mx/casa-bonita-oaxaca.html', tier: 'expensive' },
+      { name: 'Grand Fiesta Americana Oaxaca', note: 'Grand Fiesta Americana (Grupo Posadas) — full-service resort with spa, indoor pool, fitness center, 2 restaurants, historic centre · 9.4 Booking.com', url: 'https://www.booking.com/hotel/mx/grand-fiesta-americana-oaxaca.html', tier: 'luxury' },
+      { name: 'Casa de Adobe Gallery & Luxury Boutique', note: 'Independent — spa, hot tub · 9.1 Booking.com', url: 'https://www.booking.com/hotel/mx/la-casa-de-adobe.html', tier: 'luxury' }
     ], price: { budget: 'MXN 2,600–3,900', mid: 'MXN 4,000–6,000', expensive: 'MXN 7,000–8,700', luxury: 'MXN 8,500+' } },
     'olinda': { h: [
       { name: 'Pousada Convento da Conceição', note: 'Restored 17th-century convent on Olinda\'s hilltop, 24h front desk, 2-min walk to Alto da Sé · 8.9 Booking.com', url: 'https://www.booking.com/hotel/br/convento-da-conceicao.html', tier: 'budget' },

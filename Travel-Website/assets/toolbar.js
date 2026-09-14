@@ -5368,6 +5368,12 @@ window.TVE.home = (function () {
       { name: 'Four Seasons Hotel Amman', note: 'First-tier international luxury brand, Fifth Circle, 24h reception, AC · 9.0 Booking.com', url: 'https://www.booking.com/hotel/jo/four-seasons-amman.html', tier: 'luxury' },
       { name: 'The Ritz-Carlton, Amman', note: 'Marriott family — first-tier international brand, Abdoun/Fifth Circle, 24h reception, AC · 9.6 Booking.com', url: 'https://www.booking.com/hotel/jo/the-ritz-carlton-amman.html', tier: 'luxury' }
     ], price: { budget: 'JOD 45–55', mid: 'JOD 90–140', expensive: 'JOD 140–190', luxury: 'JOD 220–320' } },
+    'belgrade': { h: [
+      { name: 'Garni Hotel Nevski', note: 'independent — Venizelosova, Stari Grad, 3 min walk to Knez Mihailova, 24h reception, AC · 9.0 Booking.com', url: 'https://www.booking.com/hotel/rs/nevski.html', tier: 'budget' },
+      { name: 'Courtyard by Marriott Belgrade City Center', note: 'Marriott family — this guide\'s title-card hotel, Vase Čarapića, Stari Grad, 24h reception, AC · 9.0 Booking.com', url: 'https://www.booking.com/hotel/rs/courtyard-by-marriott-belgrade-city-center.html', tier: 'mid' },
+      { name: 'Hilton Belgrade', note: 'Hilton family — Kralja Milana, Vračar, rooftop bar, spa, 24h reception, AC · 9.2 Booking.com', url: 'https://www.booking.com/hotel/rs/hilton-belgrade.html', tier: 'expensive' },
+      { name: 'Metropol Palace, Belgrade', note: 'Marriott family (Luxury Collection) — Bulevar kralja Aleksandra, Palilula, 1957 landmark, spa with 25m pool, 24h reception, AC · 8.8 Booking.com', url: 'https://www.booking.com/hotel/rs/metropol-palace.html', tier: 'luxury' }
+    ], price: { budget: 'RSD 9,000–14,000', mid: 'RSD 14,000–20,000', expensive: 'RSD 20,000–30,000', luxury: 'RSD 30,000+' } },
     'bodrum': { h: [
       { name: 'Merih Butik Hotel', note: 'Independent boutique — Kumbahçe, 10-min walk from the castle, garden courtyard, 24h reception, AC · 9.3 Booking.com', url: 'https://www.booking.com/hotel/tr/merih-butik.html', tier: 'budget' },
       { name: 'Su Hotel - Bodrum', note: 'Independent — Tepecik, quiet passageway off Turgutreis Caddesi near the castle, outdoor pool, 24h reception, AC · 9.1 Booking.com', url: 'https://www.booking.com/hotel/tr/su.html', tier: 'mid' },
@@ -10964,6 +10970,7 @@ window.TVE.home = (function () {
     /* city-slug → {iata, name}  (derived from index.html FMAP "i" field) */
     var CHIP_DATA = {
       'amman': {iata:'AMM', name:'Queen Alia International Airport'},
+      'belgrade':          {iata:'BEG', name:'Belgrade Nikola Tesla Airport'},
       'bodrum': {iata:'BJV', name:'Milas–Bodrum Airport'},
       'essaouira':         {iata:'ESU', name:'Essaouira–Mogador Airport'},
       'hurghada':          {iata:'HRG', name:'Hurghada International'},
@@ -11297,7 +11304,8 @@ window.TVE.home = (function () {
         'UIO',
         'CJC',
         'PFO',
-        'PTY'
+        'PTY',
+        'BEG'
     ];
 
     function _inject() {

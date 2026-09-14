@@ -6822,15 +6822,23 @@ window.TVE.home = (function () {
     ], price: { budget: 'R$250–420', mid: 'R$420–750', expensive: 'R$750–1,300', luxury: 'R$1,500–4,000' } },
     'machupicchu': { h: [
       { name: 'Hostal Rupa Wasi', note: 'Independent budget — Aguas Calientes town centre, clean rooms, hot water, close to shuttle bus stop and train station · 8.2 Booking.com', url: 'https://www.booking.com/hotel/pe/hostal-rupa-wasi.html', tier: 'budget' },
+      { name: 'Casa De Luz Hotel', note: 'Independent — Aguas Calientes town centre, 24h front desk · 8.8 Booking.com', url: 'https://www.booking.com/hotel/pe/hostal-la-pequea-a-casita.html', tier: 'budget' },
       { name: 'El Mapi by Inkaterra', note: 'Inkaterra brand — Aguas Calientes town centre, outdoor pool, contemporary eco-lodge style, steps from shuttle buses · 8.9 Booking.com', url: 'https://www.booking.com/hotel/pe/el-mapi-by-inkaterra.html', tier: 'mid' },
+      { name: 'Tierra Viva Machu Picchu Hotel', note: 'Tierra Viva chain — Aguas Calientes, 24h front desk · 8.9 Booking.com', url: 'https://www.booking.com/hotel/pe/tierra-viva-cusco.html', tier: 'mid' },
       { name: 'Inkaterra Machu Picchu Pueblo Hotel', note: 'Independent luxury — 83 casitas in cloud forest, 372 orchid species on-site, tea house, nature walks · 9.2 Booking.com', url: 'https://www.booking.com/hotel/pe/inkaterra-machu-picchu-pueblo.html', tier: 'expensive' },
-      { name: 'Belmond Sanctuary Lodge', note: 'Belmond brand — only hotel at the ruins gate, exclusive early private access before site opens, 31 rooms, Mapi restaurant · 9.2 Booking.com', url: 'https://www.booking.com/hotel/pe/belmond-sanctuary-lodge.html', tier: 'luxury' }
+      { name: 'Casa del Sol Machupicchu', note: 'Independent — Aguas Calientes, spa, 24h front desk · 8.6 Booking.com', url: 'https://www.booking.com/hotel/pe/casa-del-sol-machupicchu.html', tier: 'expensive' },
+      { name: 'Belmond Sanctuary Lodge', note: 'Belmond brand — only hotel at the ruins gate, exclusive early private access before site opens, 31 rooms, Mapi restaurant · 9.2 Booking.com', url: 'https://www.booking.com/hotel/pe/belmond-sanctuary-lodge.html', tier: 'luxury' },
+      { name: 'Sumaq Machu Picchu Hotel', note: 'Independent — Aguas Calientes riverside, spa, 24h front desk · 8.5 Booking.com', url: 'https://www.booking.com/hotel/pe/sumaq-machu-picchu.html', tier: 'luxury' }
     ], price: { budget: '$60–120', mid: '$120–300', expensive: '$300–600', luxury: '$600+' } },
     'madeira': { h: [
       { name: 'Bettencourt Boutique Hotel', note: 'Independent — 19th-century Funchal mansion, outdoor pool, garden with Monte Palace views, 12 rooms · 9.5 Booking.com', url: 'https://www.booking.com/hotel/pt/bettencourt-boutique-hotel.html', tier: 'budget' },
+      { name: 'Apartamentos Praça Amarela by Heart of Funchal', note: 'Independent — central Funchal apartments, kitchenette · 9.4 Booking.com', url: 'https://www.booking.com/hotel/pt/apartamentos-praca-amarela.html', tier: 'budget' },
       { name: 'Castanheiro Boutique Hotel', note: 'Independent — São Pedro, 250 m from downtown, air conditioning, sustainability certified · 9.3 Booking.com', url: 'https://www.booking.com/hotel/pt/castanheiro-boutique-hotel.html', tier: 'mid' },
+      { name: 'Hotel Cajú', note: 'Independent — central Funchal, modern rooms, 24h front desk · 9.2 Booking.com', url: 'https://www.booking.com/hotel/pt/caju-le-petit-funchal.html', tier: 'mid' },
       { name: 'Choupana Hills Boutique Hotel', note: 'Small Luxury Hotels — adults-only, thatched eco-bungalows above Funchal in eucalyptus forest, pool · 9.1 Booking.com', url: 'https://www.booking.com/hotel/pt/choupana-hills-resort-spa.html', tier: 'expensive' },
-      { name: 'Reid\'s Palace, A Belmond Hotel', note: 'Belmond brand — 1891 clifftop landmark, seawater pools, afternoon tea tradition, lush subtropical gardens · 9.2 Booking.com', url: 'https://www.booking.com/hotel/pt/reids-palace.html', tier: 'luxury' }
+      { name: 'Hotel Porto Mare', note: 'PortoBay — Lido seafront, spa, multiple pools · 8.9 Booking.com', url: 'https://www.booking.com/hotel/pt/porto-mare.html', tier: 'expensive' },
+      { name: 'Reid\'s Palace, A Belmond Hotel', note: 'Belmond brand — 1891 clifftop landmark, seawater pools, afternoon tea tradition, lush subtropical gardens · 9.2 Booking.com', url: 'https://www.booking.com/hotel/pt/reids-palace.html', tier: 'luxury' },
+      { name: 'The Cliff Bay', note: 'PortoBay — clifftop overlooking the Atlantic, pool, spa · 9.4 Booking.com', url: 'https://www.booking.com/hotel/pt/the-cliff-bay.html', tier: 'luxury' }
     ], price: { budget: '€60–120', mid: '€120–220', expensive: '€220–380', luxury: '€380+' } },
     'madrid': { h: [
       { name: 'ibis Madrid Centro', note: 'Accor ibis brand — Calle de la Salud near Gran Vía and Sol metro, 24h reception, air conditioning · 7.8 Booking.com', url: 'https://www.booking.com/hotel/es/ibis-madrid-centro.html', tier: 'budget' },
@@ -7176,9 +7184,13 @@ window.TVE.home = (function () {
     ], price: { budget: 'USD 120–220', mid: 'USD 200–350', expensive: 'USD 300–480', luxury: 'USD 400+' } },
     'orlando': { h: [
       { name: 'Loews Portofino Bay Hotel at Universal Orlando', tier: 'expensive', note: 'Loews brand — Italian Riviera theming, three pools, on-site Universal Express Pass access · 8.9 Booking.com', url: 'https://www.booking.com/hotel/us/loews-portofino-bay-at-universal-orlando.html' },
+      { name: 'Embassy Suites by Hilton Orlando International Drive Convention Center', tier: 'expensive', note: 'Hilton family — International Drive, hot tub · 8.3 Booking.com', url: 'https://www.booking.com/hotel/us/embassy-suites-orlando-international-drive-south-convention.html' },
       { name: 'Walt Disney World Swan Reserve', tier: 'mid', note: 'Autograph Collection (Marriott) — on Disney property, multilevel pool, three restaurants, complimentary MagicBand · 9.1 Booking.com', url: 'https://www.booking.com/hotel/us/walt-disney-world-swan-reserve.html' },
+      { name: 'The Delaney Hotel', tier: 'mid', note: 'Independent — Sodo Orlando, room service, fitness center · 9.3 Booking.com', url: 'https://www.booking.com/hotel/us/the-delaney.html' },
       { name: 'Four Seasons Resort Orlando at Walt Disney World Resort', tier: 'luxury', note: 'Four Seasons — on Disney property, Explorer Pool with lazy river, Capa steakhouse · 9.4 Booking.com', url: 'https://www.booking.com/hotel/us/four-seasons-resort-orlando.html' },
-      { name: 'JW Marriott Orlando Grande Lakes', tier: 'budget', note: 'Marriott JW brand — Grande Lakes, lazy river, Greg Norman golf, Whisper Creek Farm-inspired dining · 9.2 Booking.com', url: 'https://www.booking.com/hotel/us/jw-marriott-grande-lakes.html' }
+      { name: 'Waldorf Astoria Orlando - An Official Walt Disney World Hotel', tier: 'luxury', note: 'Hilton family (Waldorf Astoria) — on Disney property, sustainability-certified · 8.8 Booking.com', url: 'https://www.booking.com/hotel/us/waldorf-astoria-orlando.html' },
+      { name: 'JW Marriott Orlando Grande Lakes', tier: 'budget', note: 'Marriott JW brand — Grande Lakes, lazy river, Greg Norman golf, Whisper Creek Farm-inspired dining · 9.2 Booking.com', url: 'https://www.booking.com/hotel/us/jw-marriott-grande-lakes.html' },
+      { name: 'Hyatt Place across from Universal Orlando Resort', tier: 'budget', note: 'Hyatt family — Universal Orlando Resort Area, fitness center · 8.5 Booking.com', url: 'https://www.booking.com/hotel/us/hyatt-place-orlando-universal.html' }
     ], price: { budget: 'USD 200–400', mid: 'USD 350–600', expensive: 'USD 500–900', luxury: 'USD 800+' } },
     'osaka': { h: [
       { name: 'Courtyard by Marriott Osaka Honmachi', tier: 'budget', note: 'Marriott family — 2-3-7 Minami-Honmachi in the Chuo business district, Japanese public bath on site, soundproofed rooms · 8.8 Booking.com', url: 'https://www.booking.com/hotel/jp/courtyard-by-marriott-osaka-honmachi.html' },

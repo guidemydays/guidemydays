@@ -6957,9 +6957,13 @@ window.TVE.home = (function () {
     ], price: { budget: 'KES 13000–18500', mid: 'KES 18500–25500', expensive: 'KES 25500–34000', luxury: 'KES 34000+' } },
     'montreal': { h: [
       { name: 'Marriott Château Champlain', note: 'Marriott brand — distinctive half-moon windows on rue de la Gauchetière, indoor pool, steps from Windsor Station and the Bell Centre · 8.5 Booking.com', url: 'https://www.booking.com/hotel/ca/chateau-champlain-montreal.html', tier: 'budget' },
+      { name: 'Omni Mont-Royal Hotel', note: 'Independent — Golden Square Mile, 24h front desk, room service · 8.3 Booking.com', url: 'https://www.booking.com/hotel/ca/omni-mont-royal.html', tier: 'budget' },
       { name: 'Delta Hotels by Marriott Montreal', note: 'Marriott brand — central on rue de la Montagne, outdoor terrace, 24h front desk · 8.6 Booking.com', url: 'https://www.booking.com/hotel/ca/delta-montreal.html', tier: 'mid' },
+      { name: 'LHotel', note: 'Independent boutique — Old Montreal, fitness center, 24h front desk · 8.7 Booking.com', url: 'https://www.booking.com/hotel/ca/xix-siecle.html', tier: 'mid' },
       { name: 'Hotel William Gray', note: 'Independent — Old Montreal, rooftop terrace with Old Port views, STINT restaurant · 9.2 Booking.com', url: 'https://www.booking.com/hotel/ca/william-gray.html', tier: 'expensive' },
-      { name: 'Ritz-Carlton, Montréal', note: 'Ritz-Carlton brand — 1912 Sherbrooke Street landmark, spa with indoor pool, Maison Boulud gastronomic dining · 9.3 Booking.com', url: 'https://www.booking.com/hotel/ca/montreal-1228-sherbrooke.html', tier: 'luxury' }
+      { name: 'Le Centre Sheraton Montreal Hotel', note: 'Marriott Sheraton brand — Golden Square Mile, sauna, room service, 24h front desk · 8.6 Booking.com', url: 'https://www.booking.com/hotel/ca/le-centre-sheraton-montreal-quebec.html', tier: 'expensive' },
+      { name: 'Ritz-Carlton, Montréal', note: 'Ritz-Carlton brand — 1912 Sherbrooke Street landmark, spa with indoor pool, Maison Boulud gastronomic dining · 9.3 Booking.com', url: 'https://www.booking.com/hotel/ca/montreal-1228-sherbrooke.html', tier: 'luxury' },
+      { name: 'W Montreal', note: 'Marriott W brand — Old Montreal/Underground City, room service, 24h front desk · 8.9 Booking.com', url: 'https://www.booking.com/hotel/ca/w-montreal.html', tier: 'luxury' }
     ], price: { budget: 'CAD 100–160', mid: 'CAD 160–260', expensive: 'CAD 260–420', luxury: 'CAD 420+' } },
     'mumbai': { h: [
       { name: 'Radisson Blu Mumbai International Airport', note: 'Radisson Blu brand — near Chhatrapati Shivaji Maharaj Airport in Andheri (E), outdoor pool, spa, 24h reception · 8.7 Booking.com', url: 'https://www.booking.com/hotel/in/radisson-blu-mumbai-international-airport.html', tier: 'budget' },

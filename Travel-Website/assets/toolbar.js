@@ -5612,11 +5612,14 @@ window.TVE.home = (function () {
     ], price: { budget: '$70–140', mid: '$140–220', expensive: '$220–340', luxury: '$340+' } },
     'antigua-guatemala': { h: [
       { name: 'Posada San Sebastian', note: 'Independent guesthouse — 3ra Avenida Norte, a few blocks from Parque Central, garden courtyard, 24h front desk · 9.0 Booking.com', url: 'https://www.booking.com/hotel/gt/posada-san-sebastian.html', tier: 'budget' },
+      { name: 'Alana Hotel By ISH', note: 'Independent — 1 Calle El Chajón, garden terrace, on-site restaurant, 24h front desk · 9.0 Booking.com', url: 'https://www.booking.com/hotel/gt/alana-by-maya-ik.html', tier: 'budget' },
       { name: 'All Suite El Marques de Antigua', note: 'Independent all-suite hotel — 4th Avenue South, apartment-style suites with kitchenette, free parking, 24h front desk · 9.1 Booking.com', url: 'https://www.booking.com/hotel/gt/all-suite-el-marques-de-antigua.html', tier: 'mid' },
       { name: 'Ojalá', note: 'Independent boutique hotel — 7a Avenida Norte, garden courtyard bar with live music, easy walk to Parque Central, 24h front desk · 9.2 Booking.com', url: 'https://www.booking.com/hotel/gt/ojala.html', tier: 'mid' },
       { name: 'Camino Real Antigua', note: 'Camino Real — independent regional chain, 7a Calle Poniente, 5-star colonial-style property with spa and fitness center, 24h reception · 9.2 Booking.com', url: 'https://www.booking.com/hotel/gt/camino-real-antigua.html', tier: 'expensive' },
-      { name: 'Meson Panza Verde', note: 'Independent boutique inn — 5a Avenida Sur, renowned on-site restaurant and jazz bar, courtyard pool, 24h reception · 9.1 Booking.com', url: 'https://www.booking.com/hotel/gt/meson-panza-verde.html', tier: 'luxury' }
-    ], price: { budget: 'GTQ 530–730', mid: 'GTQ 650–900', expensive: 'GTQ 1,200–1,700', luxury: 'GTQ 1,750+' } },
+      { name: 'Pensativo House Hotel', note: 'Independent — 4a Avenida Sur, spa and massage, garden courtyard, chapel on-site, 24h front desk, AC · 9.0 Booking.com', url: 'https://www.booking.com/hotel/gt/pensativo-house-hotel.html', tier: 'expensive' },
+      { name: 'Meson Panza Verde', note: 'Independent boutique inn — 5a Avenida Sur, renowned on-site restaurant and jazz bar, courtyard pool, 24h reception · 9.1 Booking.com', url: 'https://www.booking.com/hotel/gt/meson-panza-verde.html', tier: 'luxury' },
+      { name: 'Hotel Museo Spa Casa Santo Domingo', note: 'Independent — Tercera Calle Oriente, converted 17th-century monastery with on-site museums, extensive spa, outdoor pool, 24h front desk, AC · 9.1 Booking.com', url: 'https://www.booking.com/hotel/gt/museo-casa-santo-domingo.html', tier: 'luxury' }
+    ], price: { budget: 'GTQ 280–730', mid: 'GTQ 650–900', expensive: 'GTQ 1,200–1,700', luxury: 'GTQ 1,750+' } },
     'sofia': { h: [
       { name: 'Aurora Sofia Hotel', note: 'Independent boutique — Bulgarska Morava Street, laptop-friendly rooms, AC, 24h reception, 19 min walk to the Archaeological Museum · 9.2 Booking.com', url: 'https://www.booking.com/hotel/bg/aurora-sofia.html', tier: 'budget' },
       { name: 'Hotel Via Serdika', note: 'Independent — Konstantin Stoilov Street, AC, 24h reception, 18 min walk to Alexander Nevsky Cathedral · 9.0 Booking.com', url: 'https://www.booking.com/hotel/bg/via-serdika-sofia.html', tier: 'budget' },

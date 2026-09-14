@@ -6754,9 +6754,13 @@ window.TVE.home = (function () {
     ], price: { budget: '$80–150', mid: '$150–300', expensive: '$300–600', luxury: '$600+' } },
     'luang-prabang': { h: [
       { name: 'Mekong Riverview Hotel', note: 'Independent — Khem Khong Road on the Mekong waterfront, river-view rooms with balconies, 24h reception · 8.5 Booking.com', url: 'https://www.booking.com/hotel/la/mekong-riverview.html', tier: 'budget' },
+      { name: 'My Dream Boutique Resort', note: 'Independent — outdoor pool, garden setting, 24h reception · 9.2 Booking.com', url: 'https://www.booking.com/hotel/la/my-dream-boutique-resort.html', tier: 'budget' },
       { name: 'Le Sen Boutique Hotel', note: 'Independent — Manomai Road in Ban Mano, outdoor pool, spa and gym, 24h reception, airport shuttle · 9.7 Booking.com', url: 'https://www.booking.com/hotel/la/le-sen-boutique.html', tier: 'mid' },
+      { name: 'Chic Stay HANA Boutique Hotel', note: 'Independent — boutique rooms, 24h reception · 9.5 Booking.com', url: 'https://www.booking.com/hotel/la/chic-stay-hana.html', tier: 'mid' },
       { name: 'La Résidence Phou Vao', note: 'Belmond — hilltop above the town with Phousi views, infinity pool, spa, 24h reception · 9.6 Booking.com', url: 'https://www.booking.com/hotel/la/la-residence-phou-vao.html', tier: 'expensive' },
-      { name: 'Rosewood Luang Prabang', note: 'Rosewood brand — jungle tented resort, 23 elegant tents and villas, waterfall views · 9.5 Booking.com', url: 'https://www.booking.com/hotel/la/rosewood-luang-prabang.html', tier: 'luxury' }
+      { name: 'Maison Dalabua', note: 'Independent — lotus-pond boutique property, pool, spa, 24h reception · 9.6 Booking.com', url: 'https://www.booking.com/hotel/la/maison-dalabua.html', tier: 'expensive' },
+      { name: 'Rosewood Luang Prabang', note: 'Rosewood brand — jungle tented resort, 23 elegant tents and villas, waterfall views · 9.5 Booking.com', url: 'https://www.booking.com/hotel/la/rosewood-luang-prabang.html', tier: 'luxury' },
+      { name: 'Avani+ Luang Prabang Hotel', note: 'Avani brand — riverside 5-star, pool, spa, 24h reception · 8.9 Booking.com', url: 'https://www.booking.com/hotel/la/avani-luang-prabang.html', tier: 'luxury' }
     ], price: { budget: '$40–80', mid: '$90–180', expensive: '$200–400', luxury: '$400+' } },
     'lucerne': { h: [
       { name: 'ibis Styles Lucerne City', note: 'Accor ibis Styles brand — Bundesplatz, 5-min walk to the old town, air-conditioned rooms, 24h reception · 8.0 Booking.com', url: 'https://www.booking.com/hotel/ch/ibis-styles-lucerne-city.html', tier: 'budget' },
@@ -7111,9 +7115,13 @@ window.TVE.home = (function () {
     ], price: { budget: 'USD 450–700', mid: 'USD 650–950', expensive: 'USD 850–1300', luxury: 'USD 1200+' } },
     'nice': { h: [
       { name: 'Hôtel Le Negresco', tier: 'luxury', note: 'Independent luxury — 1913 Promenade des Anglais landmark, Royal Suite, Michelin-starred Chantecler restaurant · 9.3 Booking.com', url: 'https://www.booking.com/hotel/fr/negresco.html' },
+      { name: 'Hôtel La Pérouse Nice Baie des Anges', tier: 'luxury', note: 'Independent — Vieux Nice clifftop, sauna, pool with a view · 8.8 Booking.com', url: 'https://www.booking.com/hotel/fr/la-perouse.html' },
       { name: 'Maison Albar - Le Victoria', tier: 'expensive', note: 'Independent 5-star — Avenue de Suède off Place Masséna, rooftop infinity pool, spa, 24h reception · 9.1 Booking.com', url: 'https://www.booking.com/hotel/fr/maison-albar-le-victoria.html' },
+      { name: 'Boscolo Nice Hotel & Spa, Autograph Collection', tier: 'expensive', note: 'Marriott family (Autograph Collection) — Nice City Centre, spa, sauna, sustainability-certified · 8.2 Booking.com', url: 'https://www.booking.com/hotel/fr/boscolo-exedra-nice-autograph-collection.html' },
       { name: 'NH Collection Nice', tier: 'mid', note: 'NH Collection — Place Masséna, rooftop pool with Baie des Anges views, Elixir Rooftop Bar · 9.0 Booking.com', url: 'https://www.booking.com/hotel/fr/nh-collection-nice.html' },
-      { name: 'Hotel Palais de la Mediterranee, in the Unbound Collection by Hyatt', tier: 'budget', note: 'Hyatt Unbound Collection — 1929 Art Deco façade at 13 Promenade des Anglais, beachfront, indoor and outdoor pools · 8.5 Booking.com', url: 'https://www.booking.com/hotel/fr/palais-de-la-mediterrannee.html' }
+      { name: 'Hotel Suisse', tier: 'mid', note: 'Independent — Promenade des Anglais, 24h front desk, room service · 8.3 Booking.com', url: 'https://www.booking.com/hotel/fr/hotelsuissenice.html' },
+      { name: 'Hotel Palais de la Mediterranee, in the Unbound Collection by Hyatt', tier: 'budget', note: 'Hyatt Unbound Collection — 1929 Art Deco façade at 13 Promenade des Anglais, beachfront, indoor and outdoor pools · 8.5 Booking.com', url: 'https://www.booking.com/hotel/fr/palais-de-la-mediterrannee.html' },
+      { name: 'Hotel Aparthotel AMMI Vieux Nice', tier: 'budget', note: 'Independent — Vieux Nice, airport shuttle · 9.3 Booking.com', url: 'https://www.booking.com/hotel/fr/apart-39-ammi-vieux-nice.html' }
     ], price: { budget: 'EUR 150–280', mid: 'EUR 250–400', expensive: 'EUR 380–600', luxury: 'EUR 550+' } },
     'oahu': { h: [
       { name: 'Hyatt Place Waikiki Beach', note: 'Hyatt family — 3-min walk to Waikiki Beach, 426 rooms with kitchenette, king or two-queen configurations · 7.6 Booking.com', url: 'https://www.booking.com/hotel/us/hyatt-place-waikiki-beach.html', tier: 'budget' },

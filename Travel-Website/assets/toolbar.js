@@ -6764,10 +6764,14 @@ window.TVE.home = (function () {
     ], price: { budget: '$40–80', mid: '$90–180', expensive: '$200–400', luxury: '$400+' } },
     'lucerne': { h: [
       { name: 'ibis Styles Lucerne City', note: 'Accor ibis Styles brand — Bundesplatz, 5-min walk to the old town, air-conditioned rooms, 24h reception · 8.0 Booking.com', url: 'https://www.booking.com/hotel/ch/ibis-styles-lucerne-city.html', tier: 'budget' },
+      { name: 'The Lubo', note: 'Independent — self check-in, central Lucerne · 8.2 Booking.com', url: 'https://www.booking.com/hotel/ch/lubo-luzern.html', tier: 'budget' },
       { name: 'Hotel des Balances', note: 'Independent — 13th-century guildhall on the Reuss in the Old Town, river-view rooms · 9.1 Booking.com', url: 'https://www.booking.com/hotel/ch/desbalances.html', tier: 'mid' },
+      { name: 'Radisson Blu Hotel, Lucerne', note: 'Radisson Blu — modern rooms, gym, 24h reception · 8.7 Booking.com', url: 'https://www.booking.com/hotel/ch/radisson-sas-lucerne.html', tier: 'mid' },
       { name: 'Art Deco Hotel Montana Luzern', note: 'Independent — hillside above old town, 1910 estate, lake panorama, funicular access · 9.2 Booking.com', url: 'https://www.booking.com/hotel/ch/art-deco-montana.html', tier: 'expensive' },
       { name: 'Hotel Schweizerhof Luzern', note: 'Independent — Schweizerhofquai 3a on the lakefront in the Old Town, spa and sauna, gym, 24h reception · 9.4 Booking.com', url: 'https://www.booking.com/hotel/ch/schweizerhof-luzern.html', tier: 'expensive' },
-      { name: 'Palace Luzern', note: 'Independent luxury — 1906 Belle Époque lakefront palace, indoor and outdoor pools, spa, Pilatus and Rigi views · 9.4 Booking.com', url: 'https://www.booking.com/hotel/ch/mandarin-oriental-palace-luzern.html', tier: 'luxury' }
+      { name: 'Renaissance Lucerne Hotel', note: 'Marriott family — central Lucerne, modern rooms, 24h reception · 8.1 Booking.com', url: 'https://www.booking.com/hotel/ch/renaissance-luzern.html', tier: 'expensive' },
+      { name: 'Palace Luzern', note: 'Independent luxury — 1906 Belle Époque lakefront palace, indoor and outdoor pools, spa, Pilatus and Rigi views · 9.4 Booking.com', url: 'https://www.booking.com/hotel/ch/mandarin-oriental-palace-luzern.html', tier: 'luxury' },
+      { name: 'HERMITAGE Lake Lucerne', note: 'Independent — beach club and lifestyle hotel on the lake, spa, 24h reception · 8.9 Booking.com', url: 'https://www.booking.com/hotel/ch/seehotel-hermitage.html', tier: 'luxury' }
     ], price: { budget: 'CHF 90–150', mid: 'CHF 150–270', expensive: 'CHF 270–450', luxury: 'CHF 450+' } },
     'luxembourg': { h: [
       { name: 'ibis Luxembourg Centre', note: 'Accor ibis brand — Gare quarter, 5-minute walk to Gare Centrale and city-centre tram, clean air-conditioned rooms, 24h reception · 7.8 Booking.com', url: 'https://www.booking.com/hotel/lu/ibisluxembourg.html', tier: 'budget' },
@@ -7125,9 +7129,13 @@ window.TVE.home = (function () {
     ], price: { budget: 'EUR 150–280', mid: 'EUR 250–400', expensive: 'EUR 380–600', luxury: 'EUR 550+' } },
     'oahu': { h: [
       { name: 'Hyatt Place Waikiki Beach', note: 'Hyatt family — 3-min walk to Waikiki Beach, 426 rooms with kitchenette, king or two-queen configurations · 7.6 Booking.com', url: 'https://www.booking.com/hotel/us/hyatt-place-waikiki-beach.html', tier: 'budget' },
+      { name: 'Hotel Renew', note: 'Independent — Waikiki, bicycle rental, beach access · 8.3 Booking.com', url: 'https://www.booking.com/hotel/us/renew.html', tier: 'budget' },
       { name: 'Waikiki Beach Marriott Resort & Spa', note: 'Marriott — twin-tower beachfront resort near Kapiolani Park, 3 pools, full-service spa · 8.0 Booking.com', url: 'https://www.booking.com/hotel/us/marriott-waikiki-beach-resort-and-spa.html', tier: 'mid' },
+      { name: 'The Ambassador Hotel of Waikiki, Tapestry Collection by Hilton', note: 'Hilton family (Tapestry Collection) — Waikiki, rooftop pool · 8.2 Booking.com', url: 'https://www.booking.com/hotel/us/the-ambassador-of-waikiki-tapestry-collection-by-hilton.html', tier: 'mid' },
       { name: 'Royal Hawaiian, a Luxury Collection Resort', note: 'Marriott Luxury Collection — 1927 "Pink Palace of the Pacific," oceanfront on central Waikiki Beach, four pools · 8.6 Booking.com', url: 'https://www.booking.com/hotel/us/the-royal-hawaiian.html', tier: 'expensive' },
-      { name: 'Four Seasons Resort Oahu at Ko Olina', note: 'Four Seasons brand — West Oahu lagoon beach, adults-focused pools, spa, away from Waikiki crowds · 9.1 Booking.com', url: 'https://www.booking.com/hotel/us/jw-marriott-ihilani-resort-spa.html', tier: 'luxury' }
+      { name: 'Ka Laʻi Waikiki Beach, LXR Hotels & Resorts', note: 'Hilton family (LXR) — Waikiki, spa, sustainability-certified · 9.0 Booking.com', url: 'https://www.booking.com/hotel/us/kalaiwaikikibeach.html', tier: 'expensive' },
+      { name: 'Four Seasons Resort Oahu at Ko Olina', note: 'Four Seasons brand — West Oahu lagoon beach, adults-focused pools, spa, away from Waikiki crowds · 9.1 Booking.com', url: 'https://www.booking.com/hotel/us/jw-marriott-ihilani-resort-spa.html', tier: 'luxury' },
+      { name: 'The Ritz-Carlton Residences, Waikiki Beach Hotel', note: 'Marriott Ritz-Carlton brand — Waikiki, infinity pool, hot tub · 9.0 Booking.com', url: 'https://www.booking.com/hotel/us/the-ritz-carlton-residences-waikiki-beach.html', tier: 'luxury' }
     ], price: { budget: 'USD 150–280', mid: 'USD 280–420', expensive: 'USD 420–650', luxury: 'USD 650+' } },
     'oaxaca': { h: [
       { name: 'Hotel Ayook', note: '17th-century building turned 12-room hotel, garden terrace, adults-only, 13-min walk to Zócalo · 9.0 Booking.com', url: 'https://www.booking.com/hotel/mx/ayook.html', tier: 'budget' },

@@ -7332,6 +7332,7 @@ window.TVE.home = (function () {
     ], price: { budget: '€180–280', mid: '€280–450', expensive: '€450–800', luxury: '€800+' } },
     'pasadena': { h: [
       { name: 'The Langham Huntington, Pasadena', note: 'Langham brand — 23-acre estate on South Oak Knoll, Olympic pool, formal gardens, 1914 landmark hotel · 8.6 Booking.com', url: 'https://www.booking.com/hotel/us/the-langham-huntington-spa-pasadena.html', tier: 'luxury' },
+      { name: 'The Ritz-Carlton, Los Angeles', note: 'Marriott Ritz-Carlton brand — L.A. LIVE district downtown, 20 min by car from Pasadena, spa, fitness center, 24h reception · 7.7 Booking.com', url: 'https://www.booking.com/hotel/us/ritz-carlton-los-angeles.html', tier: 'luxury' },
       { name: 'Hotel Dena, Pasadena Los Angeles, a Tribute Portfolio Hotel', note: 'Marriott Tribute Portfolio — 303 Cordova Street near the Convention Center, heated outdoor pool, restaurant and bar · 8.0 Booking.com', url: 'https://www.booking.com/hotel/us/sheraton-pasadena.html', tier: 'mid' },
       { name: 'Hyatt Place Pasadena', note: 'Hyatt Place brand — 399 East Green Street steps from Paseo Colorado, outdoor pool, fitness centre · 8.8 Booking.com', url: 'https://www.booking.com/hotel/us/hyatt-place-pasadena.html', tier: 'mid' },
       { name: 'Pasadena Hotel & Pool', note: 'Independent — 928 East Colorado Boulevard, rooftop pool with pool bar, restaurant, 4-star · 8.6 Booking.com', url: 'https://www.booking.com/hotel/us/pasadenahotelandpool.html', tier: 'expensive' },

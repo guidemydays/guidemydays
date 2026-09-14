@@ -6862,9 +6862,13 @@ window.TVE.home = (function () {
     ], price: { budget: '€120–200', mid: '€180–290', expensive: '€260–400', luxury: '€380+' } },
     'maldives': { h: [
       { name: 'Arena Beach Hotel', note: 'Independent guesthouse — Maafushi local island, pool, beach access, daily snorkeling package, 24h front desk · 8.5 Booking.com', url: 'https://www.booking.com/hotel/mv/arena-beach.html', tier: 'budget' },
+      { name: 'Ganduvaru Villa', note: 'Independent guesthouse — local island, beach access · 8.4 Booking.com', url: 'https://www.booking.com/hotel/mv/ganduvaru-villa.html', tier: 'budget' },
       { name: 'Bandos Maldives', note: 'Independent resort — North Malé Atoll, beach and lagoon bungalows, dive school, water sports centre, multiple restaurants · 8.7 Booking.com', url: 'https://www.booking.com/hotel/mv/bandos-island.html', tier: 'mid' },
+      { name: 'Kandima Maldives', note: 'Independent resort — Dhaalu Atoll, beach and water villas, multiple restaurants · 8.7 Booking.com', url: 'https://www.booking.com/hotel/mv/kandima-maldives.html', tier: 'mid' },
       { name: 'Baros Maldives', note: 'Independent boutique — North Malé Atoll, 75 overwater and beach villas, coral garden reef, Lighthouse fine-dining restaurant · 9.4 Booking.com', url: 'https://www.booking.com/hotel/mv/baros.html', tier: 'expensive' },
-      { name: 'Gili Lankanfushi', note: 'Independent luxury — adults-only overwater villas, direct lagoon access, no news no shoes philosophy, butler service · 9.6 Booking.com', url: 'https://www.booking.com/hotel/mv/gili-lankanfushi-maldives.html', tier: 'luxury' }
+      { name: 'Radisson Blu Resort Maldives', note: 'Radisson Blu — beach and water villas, multiple restaurants, spa · 9.1 Booking.com', url: 'https://www.booking.com/hotel/mv/radisson-blu-resort-maldives.html', tier: 'expensive' },
+      { name: 'Gili Lankanfushi', note: 'Independent luxury — adults-only overwater villas, direct lagoon access, no news no shoes philosophy, butler service · 9.6 Booking.com', url: 'https://www.booking.com/hotel/mv/gili-lankanfushi-maldives.html', tier: 'luxury' },
+      { name: 'Emerald Faarufushi Resort & Spa', note: 'Independent ultra-luxury — deluxe all-inclusive, overwater villas, spa · 9.9 Booking.com', url: 'https://www.booking.com/hotel/mv/faarufushi-maldives.html', tier: 'luxury' }
     ], price: { budget: 'USD 80–160', mid: 'USD 200–400', expensive: 'USD 500–900', luxury: 'USD 1,200+' } },
     'malibu': { h: [
       { name: 'Malibu Country Inn', note: 'Independent — Point Dume area, ocean view from pool deck, fire pits, romantic 16-room inn · 9.0 Booking.com', url: 'https://www.booking.com/hotel/us/malibu-country-inn.html', tier: 'budget' },
@@ -7208,9 +7212,13 @@ window.TVE.home = (function () {
     ], price: { budget: 'JPY 20,000–40,000', mid: 'JPY 35,000–60,000', expensive: 'JPY 50,000–80,000', luxury: 'JPY 80,000+' } },
     'oslo': { h: [
       { name: 'Grand Hotel Oslo by Scandic', tier: 'budget', note: 'Scandic brand — Karl Johans Gate landmark since 1874, Palmen restaurant, indoor pool, central Royal Palace proximity · 8.8 Booking.com', url: 'https://www.booking.com/hotel/no/grand.html' },
+      { name: 'Hotel Christiania Teater', tier: 'budget', note: 'Clarion Collection — Oslo City Centre, 24h front desk, fitness center · 8.6 Booking.com', url: 'https://www.booking.com/hotel/no/clarion-collection-hotel-christiania-theater.html' },
       { name: 'Hotel Continental Oslo', tier: 'mid', note: 'Independent — Stortingsgaten near the National Theatre, Theatercaféen brasserie, acclaimed art collection, 155 rooms · 9.0 Booking.com', url: 'https://www.booking.com/hotel/no/continental.html' },
+      { name: 'Karl Johan Hotel', tier: 'mid', note: 'Independent — Oslo City Centre, 24h front desk, fitness center · 8.8 Booking.com', url: 'https://www.booking.com/hotel/no/norlandia-karl-johan-hotell.html' },
       { name: 'Amerikalinjen', tier: 'expensive', note: 'Independent — 1919 Norwegian America Line headquarters, 122 rooms, three restaurants, rooftop bar · 9.2 Booking.com', url: 'https://www.booking.com/hotel/no/amerikalinjen.html' },
-      { name: 'The Thief', tier: 'luxury', note: 'Independent boutique — Tjuvholmen Sculpture Park waterfront, spa, contemporary art throughout · 9.3 Booking.com', url: 'https://www.booking.com/hotel/no/the-thief.html' }
+      { name: 'Sommerro', tier: 'expensive', note: 'Independent — Frogner, rooftop pool, sauna, sustainability-certified · 9.0 Booking.com', url: 'https://www.booking.com/hotel/no/sommerro-oslo-kommune1.html' },
+      { name: 'The Thief', tier: 'luxury', note: 'Independent boutique — Tjuvholmen Sculpture Park waterfront, spa, contemporary art throughout · 9.3 Booking.com', url: 'https://www.booking.com/hotel/no/the-thief.html' },
+      { name: 'Savoy 1918, a member of Small Luxury Hotels of The World', tier: 'luxury', note: 'Small Luxury Hotels of the World — Oslo City Centre, spa, room service · 9.3 Booking.com', url: 'https://www.booking.com/hotel/no/home-hotel-savoy.html' }
     ], price: { budget: 'NOK 1,500–2,500', mid: 'NOK 2,500–4,000', expensive: 'NOK 4,000–7,000', luxury: 'NOK 7,000+' } },
     'oxford': { h: [
       { name: 'Le Manoir aux Quat\'Saisons, A Belmond Hotel', note: 'Belmond brand — Raymond Blanc\'s two-Michelin-star retreat in Great Milton, 32 rooms, kitchen garden · 9.7 Booking.com', url: 'https://www.booking.com/hotel/gb/belmond-le-manoir-aux-quat-39-saisons.html', tier: 'luxury' },

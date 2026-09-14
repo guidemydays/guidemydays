@@ -5785,13 +5785,14 @@ window.TVE.home = (function () {
     ], price: { budget: 'R$685–740', mid: 'R$610–950', expensive: 'R$610–1,430', luxury: 'R$660–2,145' } },
     'arenal': { h: [
       { name: 'Hotel Los Lagos Spa & Resort', note: 'Independent — 6 km west of La Fortuna on the volcano road, thermal-spring pool complex with waterslides, spa, 24h reception · 9.1 Booking.com', url: 'https://www.booking.com/hotel/cr/los-lagos.html', tier: 'budget' },
+      { name: 'Casa la Fortuna 1', note: 'Independent — in La Fortuna town, straightforward budget rooms, 24h front desk, AC, free parking · 9.0 Booking.com', url: 'https://www.booking.com/hotel/cr/casa-la-fortuna-1.html', tier: 'budget' },
       { name: 'Hotel El Silencio del Campo', note: 'Independent — farmstead cabinas 5 km northwest of town, own hot-spring pools, spa, volcano views from the grounds · 9.4 Booking.com', url: 'https://www.booking.com/hotel/cr/el-silencio-del-campo.html', tier: 'mid' },
       { name: 'Arenal Manoa Hot Springs Resort', note: 'Independent — working-dairy setting on the volcano road, heated thermal pools, spa, 24h reception · 9.2 Booking.com', url: 'https://www.booking.com/hotel/cr/arenal-manoa.html', tier: 'mid' },
       { name: 'Arenal Kioro Suites & Spa', note: 'Independent — direct Arenal Volcano views, natural hot-springs pool complex, full-service spa · 8.9 Booking.com', url: 'https://www.booking.com/hotel/cr/arenal-kioro-suites-spa.html', tier: 'expensive' },
       { name: 'Lost Iguana Resort & Spa', note: 'Adults-only boutique — cloud-forest hillside, infinity pool with Arenal Volcano views · 9.0 Booking.com', url: 'https://www.booking.com/hotel/cr/lost-iguana-resort-spa.html', tier: 'expensive' },
       { name: 'Tabacón Thermal Resort & Spa', note: 'Small Luxury Hotels — natural volcanic thermal river on-site, waterfalls and pools up to 100°F, 900+ acres of rainforest · 9.1 Booking.com', url: 'https://www.booking.com/hotel/cr/tabacon-grand-spa-thermal-resort.html', tier: 'luxury' },
       { name: 'Nayara Springs', note: 'Small Luxury Hotels — adults-only, 35 private villas each with volcanic hot-spring plunge pool, Arenal Volcano views, 24-hour butler', url: 'https://www.booking.com/hotel/cr/nayara-springs.html', tier: 'luxury' }
-    ], price: { budget: '$205+', mid: '$235–510', expensive: '$170–700', luxury: '$430–2,400' } },
+    ], price: { budget: '$50–260', mid: '$235–510', expensive: '$170–700', luxury: '$430–2,400' } },
     'aruba': { h: [
       { name: 'Hyatt Place Aruba Airport', note: 'Hyatt Place brand — Oranjestad by the airport, rooftop pool and bar, fitness centre, 24h reception · 8.2 Booking.com', url: 'https://www.booking.com/hotel/aw/hyatt-place-aruba-airport.html', tier: 'budget' },
       { name: 'Courtyard by Marriott Aruba Resort', note: 'Marriott Courtyard brand — J.E. Irausquin Blvd on Eagle Beach, saltwater pool, private beach area, kids club · 8.6 Booking.com', url: 'https://www.booking.com/hotel/aw/the-mill-resort-and-suites.html', tier: 'mid' },

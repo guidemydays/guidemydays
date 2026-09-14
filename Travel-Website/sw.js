@@ -3689,7 +3689,7 @@
 /* 2026-09-14: hotel-alt-tier-depth: orcas-island toolbar.js -> v1298. CACHE to v2126. */
 /* 2026-09-14: hotel-alt-tier-depth: machupicchu, madeira toolbar.js -> v1299. CACHE to v2127. */
 /* 2026-09-14: hotel-alt-tier-depth: osaka toolbar.js -> v1300. CACHE to v2128. */
-/* 2026-09-14: hotel-alt-tier-depth: oslo toolbar.js -> v1301. CACHE to v2129. */
+/* 2026-09-14: hotel-alt-tier-depth: malaga, maldives toolbar.js -> v1301. CACHE to v2129. */
 var CACHE = 'travel-cache-v2129';
 /* 2026-08-27: airlines.css's .card-tags align-items fix changed a shared
    asset without raising its own floor -- MIN_VERSIONS['airlines.css'] to

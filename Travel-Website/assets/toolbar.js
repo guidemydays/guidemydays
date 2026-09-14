@@ -5465,6 +5465,14 @@ window.TVE.home = (function () {
       { name: 'Algilà Fes Riad Medina Charme Hotel Spa', note: 'Independent — Fes El Bali medina, Akibat Sbaa, restored historic riad with hammam and spa, 24h reception, AC · 9.0 Booking.com', url: 'https://www.booking.com/hotel/ma/algila.html', tier: 'luxury' },
       { name: 'Riad Mayfez Suites & Spa', note: 'Independent — Fes El Bali medina, Douh quarter, this guide’s title-card hotel’s neighborhood, heated outdoor pool and full spa, 24h reception, AC · 8.8 Booking.com', url: 'https://www.booking.com/hotel/ma/mayfez.html', tier: 'luxury' }
     ], price: { budget: 'MAD 250–400', mid: 'MAD 750–900', expensive: 'MAD 1,000–1,400', luxury: 'MAD 1,800+' } },
+    'paphos': { h: [
+      { name: 'Axiothea Hotel', note: 'Independent — Old Town hill above the harbour, family-run, sea views, 24h reception, AC · 9.1 Booking.com', url: 'https://www.booking.com/hotel/cy/axiothea.html', tier: 'budget' },
+      { name: 'Anemi Hotel & Suites', note: 'Independent — Kato Paphos, spa and indoor/outdoor pools, 24h reception, AC · 8.7 Booking.com', url: 'https://www.booking.com/hotel/cy/anemi-apartments.html', tier: 'mid' },
+      { name: 'Serbellas Boutique Hotel', note: 'Independent 5-star — Kissonerga, spa, tennis court, wheelchair-accessible rooms, 24h reception, AC · 9.5 Booking.com', url: 'https://www.booking.com/hotel/cy/serbellas-boutique-kissonerga.html', tier: 'expensive' },
+      { name: 'King Jason Paphos – Designed for Adults, by Louis Hotels', note: 'Independent, adults only — Kato Paphos, indoor/outdoor pools and spa, 24h reception, AC · 9.4 Booking.com', url: 'https://www.booking.com/hotel/cy/louis-king-jason.html', tier: 'expensive' },
+      { name: 'Azia Resort & Spa', note: 'Independent 5-star — Chlorakas beachfront, golf nearby, kids’ club, 24h reception, AC · 9.1 Booking.com', url: 'https://www.booking.com/hotel/cy/azia-resort-and-spa.html', tier: 'luxury' },
+      { name: 'Thalassa Boutique Hotel & Spa', note: 'Independent 5-star, adults only — Coral Bay beachfront, spa and indoor/outdoor pools, 24h reception, AC · 9.4 Booking.com', url: 'https://www.booking.com/hotel/cy/thalassa-boutique-spa.html', tier: 'luxury' }
+    ], price: { budget: '€90–150', mid: '€150–260', expensive: '€260–400', luxury: '€400+' } },
     'quito': { h: [
       { name: 'Hotel Reina Isabel', note: 'Independent — La Mariscal, Av. Amazonas, sauna, hot tub and rooftop terrace, 24h reception, AC · 9.1 Booking.com', url: 'https://www.booking.com/hotel/ec/reina-isabel.html', tier: 'budget' },
       { name: 'Boutique Hotel Casa Foch', note: 'Independent boutique — La Mariscal, garden courtyard and temporary art galleries, 24h reception · 9.3 Booking.com', url: 'https://www.booking.com/hotel/ec/casa-foch.html', tier: 'budget' },
@@ -5475,15 +5483,21 @@ window.TVE.home = (function () {
       { name: 'Illa Experience Hotel', note: 'Independent boutique — Old Town, García Moreno, Nuema restaurant and rooftop hot tub, 24h reception, AC · 9.3 Booking.com', url: 'https://www.booking.com/hotel/ec/illa-experience.html', tier: 'luxury' },
       { name: 'Casa Gangotena', note: 'Independent boutique — Old Town, on Plaza San Francisco, Relais & Châteaux member, terrace views over the historic center, 24h reception, AC · 9.3 Booking.com', url: 'https://www.booking.com/hotel/ec/casa-gangotena-quito.html', tier: 'luxury' }
     ], price: { budget: '$55–95', mid: '$115–155', expensive: '$155–230', luxury: '$290+' } },
+    'san-pedro-de-atacama': { h: [
+      { name: 'Hostal Copart', note: 'Independent — 5-min walk from the plaza and San Pedro Church, 24h reception, no AC (fan) · 9.6 Booking.com', url: 'https://www.booking.com/hotel/cl/hostal-copart.html', tier: 'budget' },
+      { name: 'Terrantai Lodge', note: 'Independent boutique — Tocopilla, this guide’s title-card hotel, colonial-style courtyard rooms, pool, 24h reception, no AC (fan + central heating) · 9.3 Booking.com', url: 'https://www.booking.com/hotel/cl/terrantai-lodge.html', tier: 'mid' },
+      { name: 'Nayara Alto Atacama', note: 'Independent all-inclusive desert lodge — adobe-and-stone architecture blending into the Cordillera de la Sal, 4 pools, spa, guided excursions included, 24h reception, no AC (thermal-mass adobe) · 9.5 Booking.com', url: 'https://www.booking.com/hotel/cl/alto-atacama-desert-lodge.html', tier: 'expensive' },
+      { name: 'Tierra Atacama', note: 'Independent all-inclusive desert lodge — Ayllu de Solor, spa, pool, private guided excursions and all meals included, 24h reception, no AC (adobe construction) · 9.9 Booking.com', url: 'https://www.booking.com/hotel/cl/tierra-atacama.html', tier: 'luxury' }
+    ], price: { budget: 'CLP 45,000–90,000', mid: 'CLP 200,000–310,000', expensive: 'CLP 750,000–870,000', luxury: 'CLP 1,700,000+' } },
     'sharm-el-sheikh': { h: [
       { name: 'Falcon Naama Star Hotel', note: 'Independent — Naama Bay base with a pool and walkable seafront access · 8.0 Booking.com', url: 'https://www.booking.com/hotel/eg/falcon-naama-star.html', tier: 'budget' },
       { name: 'Sierra Sharm El Sheikh', note: 'Independent — SOHO Square resort access, pool and beach shuttle · 9.4 Booking.com', url: 'https://www.booking.com/hotel/eg/sierra-sharm-el-sheikh.html', tier: 'mid' },
       { name: 'DoubleTree by Hilton Sharks Bay Resort', note: 'Hilton family — Shark’s Bay resort with beach access and pools · 9.0 Booking.com', url: 'https://www.booking.com/hotel/eg/doubletree-by-hilton-sharks-bay-resort.html', tier: 'expensive' },
       { name: 'Savoy Sharm El Sheikh', note: 'Independent — guide hotel beside SOHO Square and White Knight Beach · 8.9 Booking.com', url: 'https://www.booking.com/hotel/eg/savoy-sharm-el-sheikh.html', tier: 'luxury' },
-    { name: 'Naama Bay Suites & SPA', note: 'Independent — beachfront on Naama Bay, spa and wellness center, sea-view balconies · 9.3 Booking.com', url: 'https://www.booking.com/hotel/eg/naama-bay-suites-amp-spa.html', tier: 'budget' },
-    { name: 'Sunrise Remal Beach Resort', note: 'Independent — private beach at Ras Nasrani Bay, 5 pools, all-inclusive · 9.5 Booking.com', url: 'https://www.booking.com/hotel/eg/melia-sinai.html', tier: 'mid' },
-    { name: 'Renaissance Sharm El Sheikh Golden View Beach Resort', note: 'Marriott family — golden-sand beach between the Sinai mountains and Red Sea · 8.3 Booking.com', url: 'https://www.booking.com/hotel/eg/renaissance-golden-view-beach-resort.html', tier: 'expensive' },
-    { name: 'Four Seasons Resort Sharm El Sheikh', note: 'Four Seasons brand — Four Seasons Boulevard in El-Salam, private beach, multiple pools · 9.1 Booking.com', url: 'https://www.booking.com/hotel/eg/four-seasons-sharm-el-sheikh.html', tier: 'luxury' }
+      { name: 'Naama Bay Suites & SPA', note: 'Independent — beachfront on Naama Bay, spa and wellness center, sea-view balconies · 9.3 Booking.com', url: 'https://www.booking.com/hotel/eg/naama-bay-suites-amp-spa.html', tier: 'budget' },
+      { name: 'Sunrise Remal Beach Resort', note: 'Independent — private beach at Ras Nasrani Bay, 5 pools, all-inclusive · 9.5 Booking.com', url: 'https://www.booking.com/hotel/eg/melia-sinai.html', tier: 'mid' },
+      { name: 'Renaissance Sharm El Sheikh Golden View Beach Resort', note: 'Marriott family — golden-sand beach between the Sinai mountains and Red Sea · 8.3 Booking.com', url: 'https://www.booking.com/hotel/eg/renaissance-golden-view-beach-resort.html', tier: 'expensive' },
+      { name: 'Four Seasons Resort Sharm El Sheikh', note: 'Four Seasons brand — Four Seasons Boulevard in El-Salam, private beach, multiple pools · 9.1 Booking.com', url: 'https://www.booking.com/hotel/eg/four-seasons-sharm-el-sheikh.html', tier: 'luxury' }
     ], price: { budget: 'EGP 2,500–4,000', mid: 'EGP 4,000–7,000', expensive: 'EGP 7,000–12,000', luxury: 'EGP 12,000+' } },
     'toulouse': { h: [
       { name: 'Hôtel Ours Blanc Place Victor Hugo', note: 'Independent — Victor Hugo market area, central walkable address, air conditioning and 24h reception', url: 'https://www.booking.com/searchresults.html?ss=Hotel+Ours+Blanc+Place+Victor+Hugo+Toulouse', tier: 'budget' },
@@ -5598,7 +5612,7 @@ window.TVE.home = (function () {
       { name: 'Sense Hotel Sofia', note: 'Independent design hotel — Tsar Osvoboditel Boulevard steps from Parliament, rooftop pool and bar, spa, 24h reception · 9.0 Booking.com', url: 'https://www.booking.com/hotel/bg/sense-sofia.html', tier: 'expensive' },
       { name: 'Grand Hotel Millennium Sofia', note: 'Independent — Vitosha Boulevard, 5-star, panoramic spa and pool, 5 restaurants, 24h reception · 9.2 Booking.com', url: 'https://www.booking.com/hotel/bg/grand-millennium-sofia.html', tier: 'luxury' },
       { name: 'Juno Hotel Sofia, a Member of Design Hotels', note: 'Independent design hotel — Ivan Denkoglu Street, AC, 24h reception, 4 min walk to the Archaeological Museum · 9.2 Booking.com', url: 'https://www.booking.com/hotel/bg/juno-sofia.html', tier: 'luxury' },
-    { name: 'Hyatt Regency Sofia', note: 'Hyatt family — 1 Vasil Levski Square, 5-star, near Alexander Nevsky Cathedral · 9.0 Booking.com', url: 'https://www.booking.com/hotel/bg/hyatt-regency-sofia.html', tier: 'expensive' }
+      { name: 'Hyatt Regency Sofia', note: 'Hyatt family — 1 Vasil Levski Square, 5-star, near Alexander Nevsky Cathedral · 9.0 Booking.com', url: 'https://www.booking.com/hotel/bg/hyatt-regency-sofia.html', tier: 'expensive' }
     ], price: { budget: 'BGN 140–160', mid: 'BGN 175–190', expensive: 'BGN 340–350', luxury: 'BGN 380–435' } },
     'jerusalem': { h: [
       { name: 'Saladin Boutique Hotel', note: 'Independent boutique — inside the Old City in the Muslim Quarter, 5 min walk to the Western Wall, 24h front desk, king or twin rooms · 9.0 Booking.com', url: 'https://www.booking.com/hotel/il/saladin-boutique.html', tier: 'budget' },
@@ -5626,11 +5640,8 @@ window.TVE.home = (function () {
       { name: 'Bairro Alto Hotel', note: 'Independent — 18th-century Pombaline building in Chiado, rooftop bar with river and city views, Flores da Primavera restaurant, curated art · 9.4 Booking.com', url: 'https://www.booking.com/hotel/pt/bairro-alto.html', tier: 'luxury' },
       { name: 'Four Seasons Hotel Ritz Lisbon', note: 'Four Seasons brand — Eduardo VII Park, outdoor heated pool, Varanda restaurant with panoramic city views, full-service spa · 9.2 Booking.com', url: 'https://www.booking.com/hotel/pt/four-seasons-hotel-ritz.html', tier: 'luxury' },
       { name: 'InterContinental Lisbon by IHG', note: 'IHG InterContinental — Rua Castilho off Avenida da Liberdade, panoramic rooftop views, outdoor pool, spa · 8.9 Booking.com', url: 'https://www.booking.com/hotel/pt/intercontinental-lisbon.html', tier: 'expensive' },
-      { name: 'ME by Meliá Lisbon', note: 'Meliá brand — Avenida António Augusto de Aguiar in Avenidas Novas, rooftop pool, spa with sauna and steam room, 24h front desk · 9.4 Booking.com', url: 'https://www.booking.com/hotel/pt/me-lisbon-by-melia.html', tier: 'expensive' },
       { name: 'Sheraton Lisboa Hotel & Spa', note: 'Marriott Sheraton — Rua Latino Coelho near Marquês de Pombal, indoor heated pool, spa with hammam, 24h reception · 8.6 Booking.com', url: 'https://www.booking.com/hotel/pt/sheraton-lisboa-hotel-spa.html', tier: 'mid' },
-      { name: 'H10 Duque de Loule', note: 'H10 Hotels — Avenida Duque de Loule by Marquês de Pombal metro, rooftop bar, sustainability-certified · 9.3 Booking.com', url: 'https://www.booking.com/hotel/pt/h10-duque-de-loule.html', tier: 'mid' },
-      { name: 'Lisbon Marriott Hotel', note: 'Marriott full brand — Avenida dos Combatentes 45, outdoor pool, health club, 24h reception, walking distance to Sete Rios station · 8.2 Booking.com', url: 'https://www.booking.com/hotel/pt/lisbon-marriott.html', tier: 'budget' },
-      { name: 'Locke de Santa Joana', note: 'Locke aparthotel — Rua Camilo Castelo Branco in Santo António, courtyard pool, kitchenette rooms, vinyl lounge bar · 8.6 Booking.com', url: 'https://www.booking.com/hotel/pt/locke-de-santa-joana.html', tier: 'budget' }
+      { name: 'Lisbon Marriott Hotel', note: 'Marriott full brand — Avenida dos Combatentes 45, outdoor pool, health club, 24h reception, walking distance to Sete Rios station · 8.2 Booking.com', url: 'https://www.booking.com/hotel/pt/lisbon-marriott.html', tier: 'budget' }
     ], price: { budget: '€100–160', mid: '€160–260', expensive: '€250–400', luxury: '€400+' } },
     'ljubljana': { h: [
       { name: 'ibis Ljubljana Centre', note: 'Accor ibis brand — Trpinčeva ulica 4 near the train station, modern efficient rooms, 24h front desk, walkable to the Old Town in 15 min · 7.8 Booking.com', url: 'https://www.booking.com/hotel/si/ibis-ljubljana-centre.html', tier: 'budget' },
@@ -6744,13 +6755,10 @@ window.TVE.home = (function () {
     ], price: { budget: 'CHF 90–150', mid: 'CHF 150–270', expensive: 'CHF 270–450', luxury: 'CHF 450+' } },
     'luxembourg': { h: [
       { name: 'ibis Luxembourg Centre', note: 'Accor ibis brand — Gare quarter, 5-minute walk to Gare Centrale and city-centre tram, clean air-conditioned rooms, 24h reception · 7.8 Booking.com', url: 'https://www.booking.com/hotel/lu/ibisluxembourg.html', tier: 'budget' },
-      { name: 'B&B HOTEL Luxembourg Centre Cloche d\'Or', note: 'B&B Hotels — Cloche d\'Or district, air-conditioned rooms, 24h self-service check-in · 8.7 Booking.com', url: 'https://www.booking.com/hotel/lu/b-amp-b-luxembourg-centre-cloche-d-or.html', tier: 'budget' },
       { name: 'Meliá Luxembourg', note: 'Meliá Hotels — Kirchberg district, rooftop bar with city views, spa, near Philharmonie · 8.6 Booking.com', url: 'https://www.booking.com/hotel/lu/melia-luxembourg.html', tier: 'mid' },
-      { name: 'Park Inn by Radisson Luxembourg City', note: 'Radisson Hotel Group — near the Kirchberg tram line, modern rooms, gym, 24h front desk · 8.6 Booking.com', url: 'https://www.booking.com/hotel/lu/park-inn-luxembourg-city.html', tier: 'mid' },
       { name: 'Grand Hotel Cravat', note: 'Independent — listed building on Boulevard Roosevelt, Michelin-listed Frantz Mosa restaurant, Old Town views · 8.9 Booking.com', url: 'https://www.booking.com/hotel/lu/grandhotelcravat.html', tier: 'expensive' },
       { name: 'Le Place d\'Armes', note: 'Independent — Place d\'Armes historic core, 28 rooms in 1880s townhouses, Plëss restaurant · 9.0 Booking.com', url: 'https://www.booking.com/hotel/lu/le-place-d-armes.html', tier: 'expensive' },
-      { name: 'Sofitel Luxembourg Europe', note: 'Sofitel brand — Kirchberg European Quarter, spa, contemporary design, close to EU institutions · 8.8 Booking.com', url: 'https://www.booking.com/hotel/lu/sofitel.html', tier: 'luxury' },
-      { name: 'Sofitel Luxembourg Le Grand Ducal', note: 'Sofitel brand — near the Grand Ducal Palace and Pétrusse valley, spa, panoramic city views · 8.7 Booking.com', url: 'https://www.booking.com/hotel/lu/sofitel-le-grand-ducal-luxembourg.html', tier: 'luxury' }
+      { name: 'Sofitel Luxembourg Europe', note: 'Sofitel brand — Kirchberg European Quarter, spa, contemporary design, close to EU institutions · 8.8 Booking.com', url: 'https://www.booking.com/hotel/lu/sofitel.html', tier: 'luxury' }
     ], price: { budget: '€80–140', mid: '€140–230', expensive: '€230–380', luxury: '€380+' } },
     'luxor': { h: [
       { name: 'Home of ISIS', note: 'Independent guesthouse — West Bank, terrace restaurant, garden, private bathrooms, 24h reception, AC · 9.9 Booking.com', url: 'https://www.booking.com/hotel/eg/home-of-isis-guesthouse.html', tier: 'budget' },
@@ -6858,7 +6866,6 @@ window.TVE.home = (function () {
       { name: 'Novotel Marrakech Hivernage', note: 'Accor Novotel — same street as the Sofitel on Rue Haroun Errachid, infinity pool, 24h front desk · 7.1 Booking.com', url: 'https://www.booking.com/hotel/ma/suitehotel-marrakech.html', tier: 'mid' },
       { name: 'Le Méridien N\'Fis', note: 'Marriott family — Avenue Mohammed VI in Hivernage, garden pool, tennis, 24h front desk, 10 min walk to the Sofitel · 7.1 Booking.com', url: 'https://www.booking.com/hotel/ma/le-meridien-n-fis.html', tier: 'mid' },
       { name: 'Radisson Blu Marrakech, Carré Eden', note: 'Radisson Blu — Avenue Mohammed V in Gueliz, rooftop pool, spa, 24h front desk, 20 min walk to the Sofitel · 8.3 Booking.com', url: 'https://www.booking.com/hotel/ma/radisson-blu-marrakech-carre-eden.html', tier: 'expensive' },
-      { name: 'La Sultana Marrakech', note: 'Small Luxury Hotels of the World — Kasbah quarter, 10 min walk to Jemaa el-Fna, rooftop terrace, spa, indoor and outdoor pools, 24h front desk · 9.3 Booking.com', url: 'https://www.booking.com/hotel/ma/la-sultana-marrakech.html', tier: 'expensive' },
       { name: 'Mandarin Oriental, Marrakech', note: 'Independent luxury — 20 acres of olive groves and rose gardens off the Route du Golf Royal, private-pool villas, indoor and outdoor pools, spa · 9.1 Booking.com', url: 'https://www.booking.com/hotel/ma/mandarin-oriental-marrakech.html', tier: 'luxury' },
       { name: 'Royal Mansour Marrakech', note: 'Independent ultra-luxury — private riads with plunge pools, 2,500 sq m spa, three restaurants · 9.7 Booking.com', url: 'https://www.booking.com/hotel/ma/royal-mansour-marrakech.html', tier: 'luxury' },
       { name: 'Amanjena', note: 'Aman brand — Route de Ouarzazate rose-pink pavilions, two pools, hammam, golf access · 9.5 Booking.com', url: 'https://www.booking.com/hotel/ma/amanjena.html', tier: 'luxury' },
@@ -6957,10 +6964,13 @@ window.TVE.home = (function () {
     ], price: { budget: '₽3,500–6,000', mid: '₽8,000–13,000', expensive: '₽18,000–30,000', luxury: '₽32,000+' } },
     'nairobi': { h: [
       { name: 'Hyatt Place Nairobi Westlands', note: 'Hyatt family select-service — Lower Kabete Road by Sarit Centre, modern rooms, 24h reception · 9.2 Booking.com', url: 'https://www.booking.com/hotel/ke/hyatt-place-nairobi-westlands.html', tier: 'budget' },
+      { name: 'Emara Ole-Sereni', note: 'Independent — Mombasa Road overlooking Nairobi National Park, room service, airport shuttle · 8.7 Booking.com', url: 'https://www.booking.com/hotel/ke/emara-ole-sereni.html', tier: 'budget' },
       { name: 'Hilton Garden Inn Nairobi Airport', note: 'Hilton family — modern rooms near JKIA, outdoor pool, free airport shuttle, 24h reception · 8.6 Booking.com', url: 'https://www.booking.com/hotel/ke/hilton-garden-inn-nairobi-kenya.html', tier: 'mid' },
+      { name: 'Fairmont The Norfolk', note: 'Fairmont brand — 1904 landmark in Nairobi CBD, spa, sauna, sustainability-certified · 9.1 Booking.com', url: 'https://www.booking.com/hotel/ke/fairmont-the-norfolk.html', tier: 'mid' },
       { name: 'Sankara Nairobi, Autograph Collection', note: 'Marriott family (Autograph Collection) — Westlands nightlife district, rooftop pool bar, 24h reception · 8.2 Booking.com', url: 'https://www.booking.com/hotel/ke/sankara-nairobi.html', tier: 'expensive' },
       { name: 'Radisson Blu Hotel, Nairobi Upper Hill', note: 'Radisson Blu brand — Elgon Road in the Upper Hill business district, outdoor pool, 24h reception · 8.8 Booking.com', url: 'https://www.booking.com/hotel/ke/radisson-blu-nairobi.html', tier: 'expensive' },
-      { name: 'JW Marriott Hotel Nairobi', note: 'Marriott family flagship — Chiromo Lane in Westlands, infinity pool, spa, 12-min walk to the National Museum · 9.3 Booking.com', url: 'https://www.booking.com/hotel/ke/jw-marriott-nairobi.html', tier: 'luxury' }
+      { name: 'JW Marriott Hotel Nairobi', note: 'Marriott family flagship — Chiromo Lane in Westlands, infinity pool, spa, 12-min walk to the National Museum · 9.3 Booking.com', url: 'https://www.booking.com/hotel/ke/jw-marriott-nairobi.html', tier: 'luxury' },
+      { name: 'Villa Rosa Kempinski', note: 'Kempinski brand — Westlands, spa, hot tub, sustainability-certified · 8.9 Booking.com', url: 'https://www.booking.com/hotel/ke/villa-rosa-kempinski.html', tier: 'luxury' }
     ], price: { budget: 'KES 13000–18500', mid: 'KES 18500–25500', expensive: 'KES 25500–34000', luxury: 'KES 34000+' } },
     'montreal': { h: [
       { name: 'Marriott Château Champlain', note: 'Marriott brand — distinctive half-moon windows on rue de la Gauchetière, indoor pool, steps from Windsor Station and the Bell Centre · 8.5 Booking.com', url: 'https://www.booking.com/hotel/ca/chateau-champlain-montreal.html', tier: 'budget' },
@@ -6979,7 +6989,8 @@ window.TVE.home = (function () {
       { name: 'ITC Grand Central, a Luxury Collection Hotel', note: 'Marriott Luxury Collection brand — Parel, outdoor pool, 3 restaurants, spa, 24h reception · 8.9 Booking.com', url: 'https://www.booking.com/hotel/in/itc-grand-central-a-luxury-collection-hotel-mumbai.html', tier: 'mid' },
       { name: 'JW Marriott Mumbai Sahar', note: 'Marriott JW brand — Sahar Airport Road, outdoor pool, spa, 5 restaurants, 24h reception · 8.9 Booking.com', url: 'https://www.booking.com/hotel/in/jw-marriott-mumbai-sahar.html', tier: 'expensive' },
       { name: 'JW Marriott Mumbai Juhu', note: 'Marriott JW brand — Juhu Tara Road on Juhu Beach, 3 outdoor pools, Quan Spa, 6 dining options, beachfront · 8.7 Booking.com', url: 'https://www.booking.com/hotel/in/j-w-marriott-mumbai-india.html', tier: 'expensive' },
-      { name: 'The St. Regis Mumbai', note: 'Marriott St. Regis brand — Senapati Bapat Marg, Worli, outdoor pool, 9 restaurants, butler service, 24h reception · 9.1 Booking.com', url: 'https://www.booking.com/hotel/in/palladium-mumbai.html', tier: 'luxury' }
+      { name: 'The St. Regis Mumbai', note: 'Marriott St. Regis brand — Senapati Bapat Marg, Worli, outdoor pool, 9 restaurants, butler service, 24h reception · 9.1 Booking.com', url: 'https://www.booking.com/hotel/in/palladium-mumbai.html', tier: 'luxury' },
+      { name: 'The Taj Mahal Palace, Mumbai', note: 'Taj Hotels — 1903 landmark in Colaba beside the Gateway of India, spa, sustainability-certified, 24h reception · 9.2 Booking.com', url: 'https://www.booking.com/hotel/in/the-taj-mahal-palace-mumbai.html', tier: 'luxury' }
     ], price: { budget: '₹7,500–11,000', mid: '₹11,000–16,500', expensive: '₹16,500–25,000', luxury: '₹25,000+' } },
     'munich': { h: [
       { name: 'Motel One München-Sendlinger Tor', note: 'Motel One brand — Sendlinger Tor, design-led budget hotel, 24h reception, steps from the Old Town · 8.5 Booking.com', url: 'https://www.booking.com/hotel/de/motel-one-muenchen-sendlinger-tor.html', tier: 'budget' },
@@ -7606,9 +7617,9 @@ window.TVE.home = (function () {
       { name: 'The Peninsula Shanghai', note: 'Peninsula brand — 1929 Bund landmark, rooftop Peter Café & Bar, helicopter landing, Bund-view rooms · 9.4 Booking.com', url: 'https://www.booking.com/hotel/cn/the-peninsula-shanghai.html', tier: 'luxury' },
       { name: 'Waldorf Astoria Shanghai on the Bund', note: 'Hilton family — 1911 Shanghai Club, Bund-facing, indoor pool, Long Bar history · 9.3 Booking.com', url: 'https://www.booking.com/hotel/cn/waldorf-astoria-shanghai-on-the-bund.html', tier: 'luxury' },
       { name: 'Capella Shanghai, Jian Ye Li', note: 'Capella brand — nine restored 1930s shikumen townhouses in Jing\'an, outdoor pool, Cassio restaurant, intimate 35-villa complex · 9.5 Booking.com', url: 'https://www.booking.com/hotel/cn/capella-shanghai-jian-ye-li.html', tier: 'luxury' },
-    { name: 'SSAW Boutique Hotel Shanghai Bund', note: 'Independent boutique — Ren Min Road in Huangpu near Yu Garden and the Bund, 24h front desk, outdoor patio with skyline views · 9.2 Booking.com', url: 'https://www.booking.com/hotel/cn/zhong-xing-jun-ting.html', tier: 'budget' },
-    { name: 'Renaissance Shanghai Yu Garden Hotel', note: "Marriott family — South He Nan Road in Huangpu by Yu Garden, indoor pool, 6 dining options · 8.8 Booking.com", url: 'https://www.booking.com/hotel/cn/renaissance-shanghai-yuyuan.html', tier: 'mid' },
-    { name: 'Hyatt on the Bund Shanghai', note: "Hyatt family — Huang Pu Road in Hongkou at the Bund's north end, rooftop bar, Pudong skyline views · 8.5 Booking.com", url: 'https://www.booking.com/hotel/cn/shanghai-hyatt-on-the-bund.html', tier: 'expensive' }
+      { name: 'SSAW Boutique Hotel Shanghai Bund', note: 'Independent boutique — Ren Min Road in Huangpu near Yu Garden and the Bund, 24h front desk, outdoor patio with skyline views · 9.2 Booking.com', url: 'https://www.booking.com/hotel/cn/zhong-xing-jun-ting.html', tier: 'budget' },
+      { name: 'Renaissance Shanghai Yu Garden Hotel', note: "Marriott family — South He Nan Road in Huangpu by Yu Garden, indoor pool, 6 dining options · 8.8 Booking.com", url: 'https://www.booking.com/hotel/cn/renaissance-shanghai-yuyuan.html', tier: 'mid' },
+      { name: 'Hyatt on the Bund Shanghai', note: "Hyatt family — Huang Pu Road in Hongkou at the Bund's north end, rooftop bar, Pudong skyline views · 8.5 Booking.com", url: 'https://www.booking.com/hotel/cn/shanghai-hyatt-on-the-bund.html', tier: 'expensive' }
     ], price: { budget: '$90–160', mid: '$160–280', expensive: '$280–450', luxury: '$450+' } },
     'sicily': { h: [
       { name: 'Villa Magnolia B&B', note: 'Independent — Viale dei Giardini near Giardini Naxos, south of Taormina, pool and garden, easy coastal access · 9.3 Booking.com', url: 'https://www.booking.com/hotel/it/villa-magnolia-b-amp-b.html', tier: 'budget' },
@@ -7616,9 +7627,11 @@ window.TVE.home = (function () {
       { name: 'Verdura Resort', note: 'Rocco Forte Hotels — Sciacca seafront, three 18-hole golf courses, spa, three pools · 9.2 Booking.com', url: 'https://www.booking.com/hotel/it/verdura-resort.html', tier: 'expensive' },
       { name: 'San Domenico Palace, Taormina, A Four Seasons Hotel', note: 'Four Seasons brand — 14th-century Dominican monastery, cliffside garden, pool, Etna and Ionian Bay views · 9.3 Booking.com', url: 'https://www.booking.com/hotel/it/san-domenico-palace-taormina.html', tier: 'luxury' },
       { name: 'Belmond Grand Hotel Timeo', note: 'Belmond brand — 1873 hilltop above Taormina, pool, Teatro Greco views, La Terrazza restaurant · 9.4 Booking.com', url: 'https://www.booking.com/hotel/it/grand-hotel-timeo.html', tier: 'luxury' },
-    { name: 'B&B Giulia', note: 'Independent — Via David Herbert Lawrence in Taormina, 24h front desk, homemade breakfast, short walk to the Cathedral · 9.4 Booking.com', url: 'https://www.booking.com/hotel/it/giulia-taormina1.html', tier: 'budget' },
-    { name: 'Algilà Ortigia Charme Hotel', note: 'Independent — Via Vittorio Veneto on the Ortigia seafront in Syracuse, boutique 4-star, sea-facing rooms · 9.2 Booking.com', url: 'https://www.booking.com/hotel/it/algila-ortigia-charme.html', tier: 'mid' },
-    { name: 'San Giorgio Palace Hotel Ragusa Ibla', note: 'Independent — heart of Ragusa Ibla, panoramic Santa Domenica valley views, garden rooms · 9.2 Booking.com', url: 'https://www.booking.com/hotel/it/san-giorgio-palace.html', tier: 'expensive' }
+      { name: 'B&B Giulia', note: 'Independent — Via David Herbert Lawrence in Taormina, 24h front desk, homemade breakfast, short walk to the Cathedral · 9.4 Booking.com', url: 'https://www.booking.com/hotel/it/giulia-taormina1.html', tier: 'budget' },
+      { name: 'Algilà Ortigia Charme Hotel', note: 'Independent — Via Vittorio Veneto on the Ortigia seafront in Syracuse, boutique 4-star, sea-facing rooms · 9.2 Booking.com', url: 'https://www.booking.com/hotel/it/algila-ortigia-charme.html', tier: 'mid' },
+      { name: 'San Giorgio Palace Hotel Ragusa Ibla', note: 'Independent — heart of Ragusa Ibla, panoramic Santa Domenica valley views, garden rooms · 9.2 Booking.com', url: 'https://www.booking.com/hotel/it/san-giorgio-palace.html', tier: 'expensive' },
+      { name: 'Four Points by Sheraton Catania Hotel', note: 'Marriott family — Via Antonello Da Messina, outdoor pool, Etna and Ionian Sea views · 8.2 Booking.com', url: 'https://www.booking.com/hotel/it/sheraton-catania.html', tier: 'mid' },
+      { name: 'NH Collection Taormina', note: 'NH Collection — Via Circonvallazione, infinity pool, spa, rooftop bar with Ionian Sea and Etna views · 8.9 Booking.com', url: 'https://www.booking.com/hotel/it/nhcollectiontaormina.html', tier: 'expensive' }
     ], price: { budget: '€120–200', mid: '€200–350', expensive: '€350–600', luxury: '€600+' } },
     'siem-reap': { h: [
       { name: 'Golden Temple Villa', note: 'Independent — Sok San Road, Svay Dangkum, garden pool, 5-min walk to Pub Street, 24h reception, AC · 9.6 Booking.com', url: 'https://www.booking.com/hotel/kh/golden-temple-villa-siem-reap1.html', tier: 'budget' },
@@ -7627,8 +7640,8 @@ window.TVE.home = (function () {
       { name: 'Anantara Angkor Resort', note: 'Minor Hotels family — first-tier international brand, National Road 6, Svay Dangkum, spa and multiple pools, 24h reception, AC · 9.2 Booking.com', url: 'https://www.booking.com/hotel/kh/anantara-angkor-resort.html', tier: 'expensive' },
       { name: 'Park Hyatt Siem Reap', note: 'Hyatt family — first-tier international brand, this guide\'s title-card hotel, Sivutha Blvd, courtyard pool and full spa, 24h reception, AC · 9.5 Booking.com', url: 'https://www.booking.com/hotel/kh/park-hyatt-siem-reap.html', tier: 'luxury' },
       { name: 'Raffles Grand Hotel d\'Angkor', note: 'Raffles family — first-tier international brand, Charles de Gaulle Blvd, 1932 colonial landmark near the Royal Residence, full spa, 24h reception, AC · 9.6 Booking.com', url: 'https://www.booking.com/hotel/kh/raffles-grand-d-angkor.html', tier: 'luxury' },
-    { name: 'Royal Crown Hotel & Spa', note: 'Independent — Street 7 Markara in the Old Market Area, spa, poolside restaurant · 9.0 Booking.com', url: 'https://www.booking.com/hotel/kh/royal-crown-amp-spa.html', tier: 'budget' },
-    { name: 'Borei Angkor Resort & Spa', note: 'Independent — Slorkram, 5-star resort with spa and multiple pools · 9.4 Booking.com', url: 'https://www.booking.com/hotel/kh/borei.en-gb.html', tier: 'expensive' }
+      { name: 'Royal Crown Hotel & Spa', note: 'Independent — Street 7 Markara in the Old Market Area, spa, poolside restaurant · 9.0 Booking.com', url: 'https://www.booking.com/hotel/kh/royal-crown-amp-spa.html', tier: 'budget' },
+      { name: 'Borei Angkor Resort & Spa', note: 'Independent — Slorkram, 5-star resort with spa and multiple pools · 9.4 Booking.com', url: 'https://www.booking.com/hotel/kh/borei.en-gb.html', tier: 'expensive' }
     ], price: { budget: '$25–45', mid: '$90–170', expensive: '$170–320', luxury: '$320+' } },
     'siena': { h: [
       { name: 'Albergo Bernini', note: 'Independent — Via della Sapienza 15, a short walk from the Campo, simple comfortable rooms in historic central Siena · 8.8 Booking.com', url: 'https://www.booking.com/hotel/it/albergo-bernini.html', tier: 'budget' },
@@ -7636,9 +7649,9 @@ window.TVE.home = (function () {
       { name: 'Hotel Certosa di Maggiano', note: 'Independent — 14th-century Certosa monastery 1 km from Piazza del Campo, pool in the cloister garden · 9.5 Booking.com', url: 'https://www.booking.com/hotel/it/certosa-di-maggiano.html', tier: 'expensive' },
       { name: 'Castello di Casole, A Belmond Hotel', note: 'Belmond brand — 11th-century hilltop estate, wine tower, two pools, 4,200 acres of Tuscan countryside · 9.4 Booking.com', url: 'https://www.booking.com/hotel/it/castello-di-casole.html', tier: 'luxury' },
       { name: 'Relais La Suvera', note: 'Independent — 12th-century papal villa estate, vineyard, spa, antique-furnished rooms · 9.2 Booking.com', url: 'https://www.booking.com/hotel/it/relais-la-suvera.html', tier: 'luxury' },
-    { name: 'Hotel Athena', note: 'Independent — Via Paolo Mascagni inside the historic walls, valley-view terrace, free parking · 9.0 Booking.com', url: 'https://www.booking.com/hotel/it/hotelathenasiena.html', tier: 'budget' },
-    { name: 'Palazzetto Rosso - Art Hotel', note: 'Independent — Via dei Rossi near Piazza del Campo, art-themed rooms, lounge bar · 9.5 Booking.com', url: 'https://www.booking.com/hotel/it/palazzetto-rosso.html', tier: 'mid' },
-    { name: 'Villa del Sole Siena', note: 'Independent — Via del Sole, family-run boutique villa, garden setting · 9.5 Booking.com', url: 'https://www.booking.com/hotel/it/villa-del-sole-siena.html', tier: 'expensive' }
+      { name: 'Hotel Athena', note: 'Independent — Via Paolo Mascagni inside the historic walls, valley-view terrace, free parking · 9.0 Booking.com', url: 'https://www.booking.com/hotel/it/hotelathenasiena.html', tier: 'budget' },
+      { name: 'Palazzetto Rosso - Art Hotel', note: 'Independent — Via dei Rossi near Piazza del Campo, art-themed rooms, lounge bar · 9.5 Booking.com', url: 'https://www.booking.com/hotel/it/palazzetto-rosso.html', tier: 'mid' },
+      { name: 'Villa del Sole Siena', note: 'Independent — Via del Sole, family-run boutique villa, garden setting · 9.5 Booking.com', url: 'https://www.booking.com/hotel/it/villa-del-sole-siena.html', tier: 'expensive' }
     ], price: { budget: '€100–180', mid: '€180–300', expensive: '€300–500', luxury: '€500+' } },
     'singapore': { h: [
       { name: 'Rest Chinatown Hotel', note: 'Independent — Trengganu Street in Chinatown, 3-star, clean and central, MRT access to all sights · 8.0 Booking.com', url: 'https://www.booking.com/hotel/sg/jinshan-hotel.html', tier: 'budget' },
@@ -7647,29 +7660,29 @@ window.TVE.home = (function () {
       { name: 'Marina Bay Sands', note: 'Sands Hotels — three-tower complex on Marina Bay, infinity rooftop pool at 57 floors, celebrity chef restaurants · 9.0 Booking.com', url: 'https://www.booking.com/hotel/sg/marina-bay-sands.html', tier: 'expensive' },
       { name: 'Capella Singapore', note: 'Capella Hotels — Sentosa Island estate, three pools, spa, two Michelin-starred restaurants, colonial architecture', url: 'https://capellahotels.com/en/capella-singapore', tier: 'luxury' },
       { name: 'Raffles Singapore', note: 'Accor Raffles — 1887 colonial landmark on Beach Road, butler for every suite, Long Bar Singapore Sling · 9.4 Booking.com', url: 'https://www.booking.com/hotel/sg/raffles-the-plaza.html', tier: 'luxury' },
-    { name: 'Hotel Waterloo Singapore - Handwritten Collection', note: 'Accor soft brand — Waterloo Street near Bugis, pool, gym, restaurant and bar · 8.8 Booking.com', url: 'https://www.booking.com/hotel/sg/waterloo-singapore-handwritten-collection.html', tier: 'budget' },
-    { name: 'Courtyard by Marriott Singapore Novena', note: 'Marriott family — Irrawaddy Road in Novena, rooftop infinity pool, linked to 3 malls · 8.4 Booking.com', url: 'https://www.booking.com/hotel/sg/courtyard-by-marriott-singapore-novena-singapore12.en-gb.html', tier: 'mid' },
-    { name: 'JW Marriott Hotel Singapore South Beach', note: 'Marriott family — 30 Beach Road near City Hall, 2 sky gardens, 2 infinity pools · 8.9 Booking.com', url: 'https://www.booking.com/hotel/sg/jw-marriott-hotel-singapore-south-beach.html', tier: 'luxury' }
+      { name: 'Hotel Waterloo Singapore - Handwritten Collection', note: 'Accor soft brand — Waterloo Street near Bugis, pool, gym, restaurant and bar · 8.8 Booking.com', url: 'https://www.booking.com/hotel/sg/waterloo-singapore-handwritten-collection.html', tier: 'budget' },
+      { name: 'Courtyard by Marriott Singapore Novena', note: 'Marriott family — Irrawaddy Road in Novena, rooftop infinity pool, linked to 3 malls · 8.4 Booking.com', url: 'https://www.booking.com/hotel/sg/courtyard-by-marriott-singapore-novena-singapore12.en-gb.html', tier: 'mid' },
+      { name: 'JW Marriott Hotel Singapore South Beach', note: 'Marriott family — 30 Beach Road near City Hall, 2 sky gardens, 2 infinity pools · 8.9 Booking.com', url: 'https://www.booking.com/hotel/sg/jw-marriott-hotel-singapore-south-beach.html', tier: 'luxury' }
     ], price: { budget: 'SGD 180–260', mid: 'SGD 260–380', expensive: 'SGD 380–600', luxury: 'SGD 600+' } },
     'sint-maarten': { h: [
       { name: 'Divi Little Bay Beach Resort', note: 'Divi Resorts — Little Bay peninsula, three pools, private beach, dive centre, Aquamarine restaurant · 8.7 Booking.com', url: 'https://www.booking.com/hotel/sx/divi-little-bay-beach-resort.html', tier: 'budget' },
       { name: 'Sonesta Maho Beach Resort & Casino', note: 'Sonesta Hotels — Maho Beach, casino, pool, multiple bars · 8.5 Booking.com', url: 'https://www.booking.com/hotel/sx/sonesta-maho-beach-resort-casino-and-spa.html', tier: 'mid' },
       { name: 'JW Marriott St. Maarten Beach Resort & Spa', note: 'Marriott JW brand — Oyster Pond on Dawn Beach, pools, spa, private beach, views to St. Barths · 7.8 Booking.com', url: 'https://www.booking.com/hotel/sx/jw-marriott-st-maarten-beach-resort-spa.html', tier: 'expensive' },
       { name: 'Belmond La Samanna', note: 'Belmond brand — Baie Longue private beach, three pools, spa, French West Indies elegance · 9.4 Booking.com', url: 'https://www.booking.com/hotel/mf/la-samanna-french-west-indies.html', tier: 'luxury' },
-    { name: 'Holland House Beach Hotel', note: 'Independent — Frontstreet on Great Bay Beach in Philipsburg, Ocean Lounge restaurant and bar · 8.6 Booking.com', url: 'https://www.booking.com/hotel/sx/holland-house-beach.html', tier: 'budget' },
-    { name: 'Hilton Vacation Club Flamingo Beach Sint Maarten', note: 'Hilton family — Billy Folly Road in Pelican Key, infinity-edge pool, three beaches · 8.5 Booking.com', url: 'https://www.booking.com/hotel/sx/hilton-vacation-club-flamingo-beach-sint-maarten.html', tier: 'mid' },
-    { name: 'Simpson Bay Resort, Marina & Spa', note: 'Independent — Billy Folly Road on Simpson Bay Beach, 5 pools, casino, water sports center · 8.1 Booking.com', url: 'https://www.booking.com/hotel/sx/simpson-bay-resort-and-marina.en-gb.html', tier: 'expensive' },
-    { name: 'Sonesta Ocean Point Resort - All Inclusive - Adults Only', note: 'Sonesta Hotels — Rhine Road in Maho Reef, adults-only all-inclusive, 3 pools · 8.2 Booking.com', url: 'https://www.booking.com/hotel/sx/sonesta-ocean-point-resort-all-inclusive.html', tier: 'luxury' }
+      { name: 'Holland House Beach Hotel', note: 'Independent — Frontstreet on Great Bay Beach in Philipsburg, Ocean Lounge restaurant and bar · 8.6 Booking.com', url: 'https://www.booking.com/hotel/sx/holland-house-beach.html', tier: 'budget' },
+      { name: 'Hilton Vacation Club Flamingo Beach Sint Maarten', note: 'Hilton family — Billy Folly Road in Pelican Key, infinity-edge pool, three beaches · 8.5 Booking.com', url: 'https://www.booking.com/hotel/sx/hilton-vacation-club-flamingo-beach-sint-maarten.html', tier: 'mid' },
+      { name: 'Simpson Bay Resort, Marina & Spa', note: 'Independent — Billy Folly Road on Simpson Bay Beach, 5 pools, casino, water sports center · 8.1 Booking.com', url: 'https://www.booking.com/hotel/sx/simpson-bay-resort-and-marina.en-gb.html', tier: 'expensive' },
+      { name: 'Sonesta Ocean Point Resort - All Inclusive - Adults Only', note: 'Sonesta Hotels — Rhine Road in Maho Reef, adults-only all-inclusive, 3 pools · 8.2 Booking.com', url: 'https://www.booking.com/hotel/sx/sonesta-ocean-point-resort-all-inclusive.html', tier: 'luxury' }
     ], price: { budget: '$150–250', mid: '$250–400', expensive: '$400–700', luxury: '$700+' } },
     'sintra': { h: [
       { name: 'Tivoli Sintra Hotel', note: 'Tivoli Hotels — Praça da República facing the National Palace, valley and sea views, terrace · 8.8 Booking.com', url: 'https://www.booking.com/hotel/pt/tivoli-sintra.html', tier: 'budget' },
       { name: 'Lawrence\'s Hotel', note: 'Independent — Rua Consiglieri Pedroso in Sintra town, oldest hotel on the Iberian Peninsula (1764), garden, restaurant · 9.0 Booking.com', url: 'https://www.booking.com/hotel/pt/lawrence-s.html', tier: 'mid' },
       { name: 'Penha Longa Resort', note: 'Marriott — Sintra hills estate on Estrada da Lagoa Azul, two golf courses, Michelin-starred LAB restaurant, spa · 9.4 Booking.com', url: 'https://www.booking.com/hotel/pt/caesarparkhotel.html', tier: 'expensive' },
       { name: 'Valverde Sintra Palácio de Seteais', note: 'Leading Hotels of the World — 18th-century neoclassical palace on Rua Barbosa do Bocage, gardens, outdoor pool, valley views · 9.1 Booking.com', url: 'https://www.booking.com/hotel/pt/valverdesintrapalaciodeseteais.html', tier: 'luxury' },
-    { name: 'Águamel Sintra, Boutique Guest House', note: 'Independent — Escadinhas da Fonte da Pipa, family-run, breakfast buffet · 9.1 Booking.com', url: 'https://www.booking.com/hotel/pt/aguamel-sintra-boutique-guest-house.html', tier: 'budget' },
-    { name: 'Paço do Bispo Boutique House', note: 'Independent — Largo S. Brás near Pena National Palace, garden, outdoor pool · 9.2 Booking.com', url: 'https://www.booking.com/hotel/pt/paco-do-bispo.html', tier: 'mid' },
-    { name: 'Sintra Marmoris Palace', note: 'Independent — 19th-century manor house on Avª Barão de Almeida Santos, fully refurbished · 9.5 Booking.com', url: 'https://www.booking.com/hotel/pt/cintra-marmoris.html', tier: 'expensive' },
-    { name: 'Arribas Sintra Hotel', note: 'Independent — Atlantic oceanfront resort in Colares · 8.9 Booking.com', url: 'https://www.booking.com/hotel/pt/arribas.en-gb.html', tier: 'luxury' }
+      { name: 'Águamel Sintra, Boutique Guest House', note: 'Independent — Escadinhas da Fonte da Pipa, family-run, breakfast buffet · 9.1 Booking.com', url: 'https://www.booking.com/hotel/pt/aguamel-sintra-boutique-guest-house.html', tier: 'budget' },
+      { name: 'Paço do Bispo Boutique House', note: 'Independent — Largo S. Brás near Pena National Palace, garden, outdoor pool · 9.2 Booking.com', url: 'https://www.booking.com/hotel/pt/paco-do-bispo.html', tier: 'mid' },
+      { name: 'Sintra Marmoris Palace', note: 'Independent — 19th-century manor house on Avª Barão de Almeida Santos, fully refurbished · 9.5 Booking.com', url: 'https://www.booking.com/hotel/pt/cintra-marmoris.html', tier: 'expensive' },
+      { name: 'Arribas Sintra Hotel', note: 'Independent — Atlantic oceanfront resort in Colares · 8.9 Booking.com', url: 'https://www.booking.com/hotel/pt/arribas.en-gb.html', tier: 'luxury' }
     ], price: { budget: '€80–150', mid: '€150–280', expensive: '€280–500', luxury: '€500+' } },
     'sorrento': { h: [
       { name: 'Hotel Antiche Mura', note: 'Independent — Via Fuorimura in Sorrento\'s historic center, pool and garden terrace, walking distance to Piazza Tasso · Booking.com', url: 'https://www.booking.com/hotel/it/antiche-mura-sorrento.html', tier: 'budget' },
@@ -7677,9 +7690,9 @@ window.TVE.home = (function () {
       { name: 'Bellevue Syrene', note: 'Independent boutique — 1774 noble villa perched on Sorrento cliffs, saltwater pool cut into the rock, Bay of Naples views · 9.3 Booking.com', url: 'https://www.booking.com/hotel/it/bellevue-syrene.html', tier: 'expensive' },
       { name: 'Hotel Bristol Sorrento', note: 'Small Luxury Hotels — clifftop with lift to private sea platform, rooftop pool, Vesuvius panorama · 9.2 Booking.com', url: 'https://www.booking.com/hotel/it/bristol-sorrento.html', tier: 'expensive' },
       { name: 'Grand Hotel Excelsior Vittoria', note: 'Independent luxury — clifftop palazzo in Sorrento\'s main square, Bay of Naples panorama, La Serra spa, Mediterranean gardens · 9.5 Booking.com', url: 'https://www.booking.com/hotel/it/grande-albergo-excelsior-vittoria.html', tier: 'luxury' },
-    { name: 'Hotel Sorrento City', note: 'Independent — Corso Italia near the Circumvesuviana station, central location · 9.0 Booking.com', url: 'https://www.booking.com/hotel/it/sorrentocity.html', tier: 'budget' },
-    { name: 'Hilton Sorrento Palace', note: 'Hilton family — Via S. Antonio, citrus garden grounds, 4 restaurants, 2 pools · 9.0 Booking.com', url: 'https://www.booking.com/hotel/it/hilton-sorrento-palace.html', tier: 'mid' },
-    { name: 'Grand Hotel Cocumella', note: "Independent — cliff-top private beach in Sant'Agnello, historic property, pool and beach club · 9.2 Booking.com", url: 'https://www.booking.com/hotel/it/grand-cocumella.html', tier: 'luxury' }
+      { name: 'Hotel Sorrento City', note: 'Independent — Corso Italia near the Circumvesuviana station, central location · 9.0 Booking.com', url: 'https://www.booking.com/hotel/it/sorrentocity.html', tier: 'budget' },
+      { name: 'Hilton Sorrento Palace', note: 'Hilton family — Via S. Antonio, citrus garden grounds, 4 restaurants, 2 pools · 9.0 Booking.com', url: 'https://www.booking.com/hotel/it/hilton-sorrento-palace.html', tier: 'mid' },
+      { name: 'Grand Hotel Cocumella', note: "Independent — cliff-top private beach in Sant'Agnello, historic property, pool and beach club · 9.2 Booking.com", url: 'https://www.booking.com/hotel/it/grand-cocumella.html', tier: 'luxury' }
     ], price: { budget: '€90–160', mid: '€160–300', expensive: '€300–520', luxury: '€520+' } },
     'split': { h: [
       { name: 'Hotel As', note: 'Independent — Kopilica 8A in western Split, 3-star, pool, free parking, good value 15-min walk from Diocletian\'s Palace · 8.5 Booking.com', url: 'https://www.booking.com/hotel/hr/as.html', tier: 'budget' },
@@ -7687,9 +7700,9 @@ window.TVE.home = (function () {
       { name: 'Radisson Blu Resort & Spa, Split', note: 'Radisson brand — Stobreč beach and marina, spa, infinity pool · 8.4 Booking.com', url: 'https://www.booking.com/hotel/hr/radisson-blu-resort-split.html', tier: 'expensive' },
       { name: 'Le Méridien Lav Split', note: 'Marriott brand — Podstrana beachfront 9 km south, indoor and outdoor pools, spa, tennis and kids\' club · 8.6 Booking.com', url: 'https://www.booking.com/hotel/hr/le-meridien-lav-split.html', tier: 'expensive' },
       { name: 'Hotel Vestibul Palace', note: 'Independent boutique — 7 suites inside the Roman Diocletian\'s Palace UNESCO walls, unrivalled historic setting · 9.4 Booking.com', url: 'https://www.booking.com/hotel/hr/vestibul-palace.html', tier: 'luxury' },
-    { name: 'Murum Heritage Hotel', note: "Independent — within Diocletian's Palace walls, steps from Split City Museum · 9.6 Booking.com", url: 'https://www.booking.com/hotel/hr/murum-boutique-rooms.html', tier: 'budget' },
-    { name: 'Marvie Hotel & Health', note: 'Independent — Peričićeva 1, spa center, rooftop outdoor pool · 9.1 Booking.com', url: 'https://www.booking.com/hotel/hr/marvie.html', tier: 'mid' },
-    { name: 'Hotel Ambasador', note: 'Independent — Trumbićeva obala waterfront promenade, rooftop pool, spa and sauna · 9.5 Booking.com', url: 'https://www.booking.com/hotel/hr/ambasador-split1.html', tier: 'luxury' }
+      { name: 'Murum Heritage Hotel', note: "Independent — within Diocletian's Palace walls, steps from Split City Museum · 9.6 Booking.com", url: 'https://www.booking.com/hotel/hr/murum-boutique-rooms.html', tier: 'budget' },
+      { name: 'Marvie Hotel & Health', note: 'Independent — Peričićeva 1, spa center, rooftop outdoor pool · 9.1 Booking.com', url: 'https://www.booking.com/hotel/hr/marvie.html', tier: 'mid' },
+      { name: 'Hotel Ambasador', note: 'Independent — Trumbićeva obala waterfront promenade, rooftop pool, spa and sauna · 9.5 Booking.com', url: 'https://www.booking.com/hotel/hr/ambasador-split1.html', tier: 'luxury' }
     ], price: { budget: '€80–150', mid: '€150–250', expensive: '€250–420', luxury: '€420+' } },
     'stockholm': { h: [
       { name: 'NOFO Hotel, WorldHotels Crafted', note: 'Independent — Tjärhovsgatan 11 on Södermalm, 1700s courtyard building, garden restaurant, 24h reception, no AC · 9.0 Booking.com', url: 'https://www.booking.com/hotel/se/nofo.html', tier: 'budget' },
@@ -7722,8 +7735,8 @@ window.TVE.home = (function () {
       { name: 'EmiLu Design Hotel', note: 'Independent design hotel — Nadlerstraße 4 in Stuttgart-Mitte off Königstraße, sauna, 24h reception, AC · 9.0 Booking.com', url: 'https://www.booking.com/hotel/de/emilu-gmbh-stuttgart.html', tier: 'expensive' },
       { name: 'Marquardt Stuttgart', note: 'Independent — Bolzstraße by the Kunstmuseum, design hotel with BASA Restaurant · 9.0 Booking.com', url: 'https://www.booking.com/hotel/de/marquardt.html', tier: 'expensive' },
       { name: 'Steigenberger Graf Zeppelin', note: 'Steigenberger brand — Arnulf-Klett-Platz opposite the Hauptbahnhof, spa, 24h reception, AC · 8.1 Booking.com', url: 'https://www.booking.com/hotel/de/steigenberger-graf-zeppelin.html', tier: 'luxury' },
-    { name: 'Motel One Stuttgart-Mitte', note: 'Independent chain — Lautenschlagerstraße near Hauptbahnhof, 24h bar, AC · 8.5 Booking.com', url: 'https://www.booking.com/hotel/de/motel-one-stuttgart-hauptbahnhof.html', tier: 'budget' },
-    { name: 'Le Méridien Stuttgart', note: 'Marriott family — Willy-Brandt-Str. opposite Schlossgarten Park, indoor pool, 2 restaurants · 8.4 Booking.com', url: 'https://www.booking.com/hotel/de/le-meridien-stuttgart.html', tier: 'luxury' }
+      { name: 'Motel One Stuttgart-Mitte', note: 'Independent chain — Lautenschlagerstraße near Hauptbahnhof, 24h bar, AC · 8.5 Booking.com', url: 'https://www.booking.com/hotel/de/motel-one-stuttgart-hauptbahnhof.html', tier: 'budget' },
+      { name: 'Le Méridien Stuttgart', note: 'Marriott family — Willy-Brandt-Str. opposite Schlossgarten Park, indoor pool, 2 restaurants · 8.4 Booking.com', url: 'https://www.booking.com/hotel/de/le-meridien-stuttgart.html', tier: 'luxury' }
     ], price: { budget: '€80–120', mid: '€120–180', expensive: '€180–240', luxury: '€240+' } },
     'sydney': { h: [
       { name: 'Little National Hotel Sydney', note: 'Independent — Clarence Street in the CBD, compact design rooms, rooftop terrace and library lounge, gym, 24h reception, AC · 9.1 Booking.com', url: 'https://www.booking.com/hotel/au/little-national-sydney-sydney.html', tier: 'budget' },
@@ -7776,7 +7789,7 @@ window.TVE.home = (function () {
       { name: 'Palace Hotel Tallinn', note: 'Radisson Individuals — Vabaduse väljak 3 on Freedom Square, indoor pool and spa, 24h reception, AC · 9.1 Booking.com', url: 'https://www.booking.com/hotel/ee/palace-tallinn.html', tier: 'expensive' },
       { name: 'Nunne Boutique Hotel', note: 'Independent boutique — Nunne 14 against the Old Town wall, sauna and spa, 24h reception, AC · 9.4 Booking.com', url: 'https://www.booking.com/hotel/ee/nunne-boutique.html', tier: 'expensive' },
       { name: 'Schlössle Hotel', note: 'Small Luxury Hotels — 15th-century merchant house in medieval Old Town, oak-panelled rooms, intimate · 9.4 Booking.com' , url: 'https://www.booking.com/hotel/ee/schlossle.html', tier: 'luxury' },
-    { name: 'Hotel Telegraaf, Autograph Collection', note: 'Marriott family — Vene 9 in Old Town, 1878 building, indoor pool and spa · 9.1 Booking.com', url: 'https://www.booking.com/hotel/ee/telegraaf.html', tier: 'luxury' }
+      { name: 'Hotel Telegraaf, Autograph Collection', note: 'Marriott family — Vene 9 in Old Town, 1878 building, indoor pool and spa · 9.1 Booking.com', url: 'https://www.booking.com/hotel/ee/telegraaf.html', tier: 'luxury' }
     ], price: { budget: '€80–105', mid: '€105–140', expensive: '€140–200', luxury: '€200+' } },
     'tbilisi': { h: [
       { name: 'Moxy Tbilisi', note: 'Marriott Moxy brand — Saarbrücken Square on the left bank by the Dry Bridge, 24h reception, AC · 8.3 Booking.com', url: 'https://www.booking.com/hotel/ge/moxy-tbilisi.html', tier: 'budget' },
@@ -7789,7 +7802,7 @@ window.TVE.home = (function () {
       { name: 'Radisson Blu Iveria Hotel Tbilisi', note: 'Radisson Blu — Rose Revolution Square, outdoor pool, Shavi Lomi restaurant, spa · 8.8 Booking.com', url: 'https://www.booking.com/hotel/ge/radisson-sas-iveria-tbilisi.html', tier: 'expensive' },
       { name: 'Qarvasla Hotel', note: 'Independent — 36 Kote Afkhazi Street in Sololaki, restored caravanserai walls, 24h reception, AC · 9.4 Booking.com', url: 'https://www.booking.com/hotel/ge/qarvasla-tbilisi.html', tier: 'expensive' },
       { name: 'Stamba Hotel', note: 'Independent — 1930s Soviet-era publishing house on Merab Kostava Street, 8-metre loft ceilings, garden, 24h reception · 9.2 Booking.com', url: 'https://www.booking.com/hotel/ge/stamba-tbilisi.html', tier: 'luxury' },
-    { name: 'Ambassadori Tbilisi Hotel', note: 'Independent — Shavteli Street in Old Tbilisi, 5-star · 9.0 Booking.com', url: 'https://www.booking.com/hotel/ge/ambassadori-tbilisi.html', tier: 'luxury' }
+      { name: 'Ambassadori Tbilisi Hotel', note: 'Independent — Shavteli Street in Old Tbilisi, 5-star · 9.0 Booking.com', url: 'https://www.booking.com/hotel/ge/ambassadori-tbilisi.html', tier: 'luxury' }
     ], price: { budget: 'GEL 150–300', mid: 'GEL 300–500', expensive: 'GEL 500–900', luxury: 'GEL 900+' } },
     'tenerife': { h: [
       { name: 'DWO Nopal', note: 'Independent — Calle San Juan in the old town of Puerto de la Cruz, rooftop pool, 24h reception, AC · 9.0 Booking.com', url: 'https://www.booking.com/hotel/es/dwo-nopal.html', tier: 'budget' },
@@ -7798,9 +7811,9 @@ window.TVE.home = (function () {
       { name: 'Hotel Botanico y Oriental Spa Garden', note: 'Independent luxury — Avenida Richard J. Yeoward in Puerto de la Cruz, Oriental Spa Garden, indoor and outdoor pools, 24h reception · 9.3 Booking.com', url: 'https://www.booking.com/hotel/es/botanico-y-oriental-spa-garden.html', tier: 'expensive' },
       { name: 'Iberostar Grand Hotel El Mirador', note: 'Iberostar Grand — adults-only Costa Adeje cliffside, infinity pool, Michelin-guide dining · 9.3 Booking.com', url: 'https://www.booking.com/hotel/es/iberostar-grand-hotel-el-mirador.html', tier: 'luxury' },
       { name: 'Abama Resort Tenerife', note: 'Abama — clifftop west coast, two Michelin-star MB restaurant, golf, private beach · 9.2 Booking.com', url: 'https://www.booking.com/hotel/es/abama-resort.html', tier: 'luxury' },
-    { name: 'Hotel RIU Garoé', note: 'Independent — Puerto de la Cruz, spa, gym, year-round outdoor pool · 9.2 Booking.com', url: 'https://www.booking.com/hotel/es/riu-garoe.html', tier: 'budget' },
-    { name: 'Meliá Costa Atlantis Tenerife', note: 'Meliá brand — Avenida Venezuela on the beachfront in Puerto de la Cruz, spa, outdoor pool · 8.6 Booking.com', url: 'https://www.booking.com/hotel/es/melia-costa-atlantis-tenerife.html', tier: 'expensive' },
-    { name: 'AC Hotel by Marriott Tenerife', note: 'Marriott family — Calle Candelaria in Santa Cruz de Tenerife, near the harbor · 8.7 Booking.com', url: 'https://www.booking.com/hotel/es/ac-by-marriott-tenerife.html', tier: 'mid' }
+      { name: 'Hotel RIU Garoé', note: 'Independent — Puerto de la Cruz, spa, gym, year-round outdoor pool · 9.2 Booking.com', url: 'https://www.booking.com/hotel/es/riu-garoe.html', tier: 'budget' },
+      { name: 'Meliá Costa Atlantis Tenerife', note: 'Meliá brand — Avenida Venezuela on the beachfront in Puerto de la Cruz, spa, outdoor pool · 8.6 Booking.com', url: 'https://www.booking.com/hotel/es/melia-costa-atlantis-tenerife.html', tier: 'expensive' },
+      { name: 'AC Hotel by Marriott Tenerife', note: 'Marriott family — Calle Candelaria in Santa Cruz de Tenerife, near the harbor · 8.7 Booking.com', url: 'https://www.booking.com/hotel/es/ac-by-marriott-tenerife.html', tier: 'mid' }
     ], price: { budget: '€80–120', mid: '€120–200', expensive: '€200–300', luxury: '€300+' } },
     'tokyo': { h: [
       { name: 'Section L Shimbashi West', note: 'Section L — Nishi-Shimbashi 3-chome, apartment-style rooms with kitchenettes, sauna and gym, 24h reception, AC · 9.3 Booking.com', url: 'https://www.booking.com/hotel/jp/section-l-shinbashi-west.html', tier: 'budget' },
@@ -7822,8 +7835,8 @@ window.TVE.home = (function () {
       { name: 'Hotel Boutique Casón de los López', note: 'Independent boutique — Calle Sillería, 16th-century mansion with a patio, 24h reception, AC · 9.2 Booking.com', url: 'https://www.booking.com/hotel/es/cason-de-los-lopez.html', tier: 'expensive' },
       { name: 'Áurea Toledo by Eurostars', note: 'Independent — Bajada Pozo Amargo below the cathedral, spa, 24h reception, AC · 9.3 Booking.com', url: 'https://www.booking.com/hotel/es/aurea-toledo.html', tier: 'expensive' },
       { name: 'Eurostars Palacio Buenavista', note: 'Eurostars Hotels — Buenavista Palace 3 km west of the walls, outdoor pool, spa, city panoramas · 9.0 Booking.com', url: 'https://www.booking.com/hotel/es/eurostars-buenavista.html', tier: 'luxury' },
-    { name: 'Pintor El Greco', note: "Independent — 17th-century bakery in the Jewish quarter, steps from the El Greco Museum · 8.9 Booking.com", url: 'https://www.booking.com/hotel/es/pintorelgreco.html', tier: 'budget' },
-    { name: 'Eugenia de Montijo, Autograph Collection', note: 'Marriott family — former Empress palace near Toledo Cathedral, à la carte restaurant · 8.6 Booking.com', url: 'https://www.booking.com/hotel/es/palacio-eugenia-de-montijo.html', tier: 'luxury' }
+      { name: 'Pintor El Greco', note: "Independent — 17th-century bakery in the Jewish quarter, steps from the El Greco Museum · 8.9 Booking.com", url: 'https://www.booking.com/hotel/es/pintorelgreco.html', tier: 'budget' },
+      { name: 'Eugenia de Montijo, Autograph Collection', note: 'Marriott family — former Empress palace near Toledo Cathedral, à la carte restaurant · 8.6 Booking.com', url: 'https://www.booking.com/hotel/es/palacio-eugenia-de-montijo.html', tier: 'luxury' }
     ], price: { budget: '€90–140', mid: '€140–190', expensive: '€190–250', luxury: '€250+' } },
     'toronto': { h: [
       { name: 'Chelsea Hotel Toronto', note: 'Independent — 33 Gerrard Street W, downtown, indoor and outdoor pools, close to Yonge-Dundas Square · 8.0 Booking.com', url: 'https://www.booking.com/hotel/ca/toronto-chelsea.html', tier: 'budget' },
@@ -7831,48 +7844,49 @@ window.TVE.home = (function () {
       { name: 'Shangri-La Hotel Toronto', note: 'Shangri-La brand — University Avenue, indoor pool, CHI Spa, Bosk restaurant, close to the Financial District and Eaton Centre · 9.1 Booking.com', url: 'https://www.booking.com/hotel/ca/shangri-la-toronto.html', tier: 'expensive' },
       { name: 'The Hazelton Hotel', note: 'Independent luxury — Yorkville, private cinema, ONE Restaurant by Mark McEwan, spa · 9.3 Booking.com', url: 'https://www.booking.com/hotel/ca/the-hazelton.html', tier: 'luxury' },
       { name: 'Four Seasons Hotel Toronto', note: 'Four Seasons brand — Yorkville, outdoor pool, Café Boulud, spa, gallery-level art collection · 9.1 Booking.com', url: 'https://www.booking.com/hotel/ca/four-seasons-hotel-toronto.html', tier: 'luxury' },
-    { name: 'DoubleTree by Hilton Toronto Downtown', note: 'Hilton family — 108 Chestnut Street near Eaton Centre, indoor pool · 8.5 Booking.com', url: 'https://www.booking.com/hotel/ca/metropolitan-toronto.html', tier: 'budget' },
-    { name: 'Delta Hotels by Marriott Toronto', note: 'Marriott family — 75 Lower Simcoe Street in the Southcore Financial Centre · 8.9 Booking.com', url: 'https://www.booking.com/hotel/ca/delta-toronto-southcore-financial-centre.html', tier: 'mid' },
-    { name: 'Hyatt Regency Toronto', note: 'Hyatt family — 370 King Street West in the Entertainment District · 8.3 Booking.com', url: 'https://www.booking.com/hotel/ca/hyatt-regency-toronto.html', tier: 'expensive' }
+      { name: 'DoubleTree by Hilton Toronto Downtown', note: 'Hilton family — 108 Chestnut Street near Eaton Centre, indoor pool · 8.5 Booking.com', url: 'https://www.booking.com/hotel/ca/metropolitan-toronto.html', tier: 'budget' },
+      { name: 'Delta Hotels by Marriott Toronto', note: 'Marriott family — 75 Lower Simcoe Street in the Southcore Financial Centre · 8.9 Booking.com', url: 'https://www.booking.com/hotel/ca/delta-toronto-southcore-financial-centre.html', tier: 'mid' },
+      { name: 'Hyatt Regency Toronto', note: 'Hyatt family — 370 King Street West in the Entertainment District · 8.3 Booking.com', url: 'https://www.booking.com/hotel/ca/hyatt-regency-toronto.html', tier: 'expensive' }
     ], price: { budget: 'CAD 160–280', mid: 'CAD 280–430', expensive: 'CAD 430–680', luxury: 'CAD 680–1,300' } },
     'tromso': { h: [
       { name: 'Scandic Ishavshotel', note: 'Scandic brand — Arctic Ocean waterfront, panoramic views of the fjord and Tromsø Cathedral, 24h reception · 8.4 Booking.com', url: 'https://www.booking.com/hotel/no/scandic-ishavshotel.html', tier: 'budget' },
       { name: 'Thon Hotel Tromsø', note: 'Thon Hotels — city centre, harbor views, rooftop Tromsø Bar with panorama, 24h reception · 8.7 Booking.com', url: 'https://www.booking.com/hotel/no/thon-hotel-tromso.html', tier: 'mid' },
       { name: 'Clarion Hotel The Edge', note: 'Nordic Choice Hotels — waterfront, restaurants and bar overlooking the harbor and mountains, 24h reception · 8.5 Booking.com', url: 'https://www.booking.com/hotel/no/clarion-hotel-the-edge-tromso.html', tier: 'expensive' },
       { name: 'Radisson Blu Hotel, Tromsø', note: 'Radisson Blu — Sentrum waterfront with fjord views, Nordic Grill, spa with sauna, 24h reception · 8.6 Booking.com', url: 'https://www.booking.com/hotel/no/radisson-sas-tromso.html', tier: 'luxury' },
-    { name: 'Comfort Hotel Xpress Tromsø', note: 'Nordic Choice — Grønnegata, 192 rooms, central location · 8.2 Booking.com', url: 'https://www.booking.com/hotel/no/comfort-xpress-tromso.html', tier: 'budget' },
-    { name: 'First Hotel Skansen', note: 'First Hotels — Storgata by the Polar Museum, harbor-area location · 8.4 Booking.com', url: 'https://www.booking.com/hotel/no/enter-skansen.html', tier: 'mid' },
-    { name: 'St Elisabeth', note: 'Independent — Mellomvegen, indoor pool, spa and wellness center · 8.7 Booking.com', url: 'https://www.booking.com/hotel/no/enter-st-elisabeth-suites.html', tier: 'expensive' },
-    { name: 'The Dock 69 39 by Scandic', note: 'Scandic brand — Skansegata, newest hotel in Tromsø, 2 restaurants · 9.1 Booking.com', url: 'https://www.booking.com/hotel/no/the-dock-69-39-by-scandic.html', tier: 'luxury' }
+      { name: 'Comfort Hotel Xpress Tromsø', note: 'Nordic Choice — Grønnegata, 192 rooms, central location · 8.2 Booking.com', url: 'https://www.booking.com/hotel/no/comfort-xpress-tromso.html', tier: 'budget' },
+      { name: 'First Hotel Skansen', note: 'First Hotels — Storgata by the Polar Museum, harbor-area location · 8.4 Booking.com', url: 'https://www.booking.com/hotel/no/enter-skansen.html', tier: 'mid' },
+      { name: 'St Elisabeth', note: 'Independent — Mellomvegen, indoor pool, spa and wellness center · 8.7 Booking.com', url: 'https://www.booking.com/hotel/no/enter-st-elisabeth-suites.html', tier: 'expensive' },
+      { name: 'The Dock 69 39 by Scandic', note: 'Scandic brand — Skansegata, newest hotel in Tromsø, 2 restaurants · 9.1 Booking.com', url: 'https://www.booking.com/hotel/no/the-dock-69-39-by-scandic.html', tier: 'luxury' }
     ], price: { budget: 'NOK 1,100–1,800', mid: 'NOK 1,600–2,500', expensive: 'NOK 2,200–3,400', luxury: 'NOK 3,000–5,500' } },
     'turin': { h: [
       { name: 'Golden Palace Hotel', note: 'Independent — Via dell\'Arcivescovado, jazz bar, spa, walkable to Porta Palazzo market · 9.1 Booking.com', url: 'https://www.booking.com/hotel/it/golden-palace-torino.html', tier: 'budget' },
       { name: 'Starhotels Majestic Torino', note: 'Starhotels — Corso Vittorio Emanuele II, classic grandeur, restaurant, central Turin location · 8.9 Booking.com', url: 'https://www.booking.com/hotel/it/starhotels-majestic.html', tier: 'mid' },
       { name: 'NH Collection Piazza Carlina', note: 'NH Collection — elegant Piazza Carlina address in the Quadrilatero Romano, 66 rooms, central historic quarter · 8.8 Booking.com', url: 'https://www.booking.com/hotel/it/nh-collection-torino-piazza-carlina.html', tier: 'expensive' },
       { name: 'Le Méridien Turin Art + Tech', note: 'Marriott Le Méridien — Lingotto complex (converted FIAT factory), rooftop test track views, indoor pool, spa, design-forward interiors · 8.5 Booking.com', url: 'https://www.booking.com/hotel/it/le-meridien-art-tech.html', tier: 'luxury' },
-    { name: 'Liberty Hotel', note: 'Independent — Via Gioberti in Crocetta, near Porta Nuova station · 9.0 Booking.com', url: 'https://www.booking.com/hotel/it/residence-liberty.html', tier: 'budget' },
-    { name: 'Opera35 Boutique Hotel', note: 'Independent — Via della Rocca in the Historic Centre, garden and terrace, 24h front desk · 9.2 Booking.com', url: 'https://www.booking.com/hotel/it/opera-35.html', tier: 'mid' },
-    { name: 'Principi di Piemonte | UNA Esperienze', note: '1930s building steps from the Egyptian Museum, wellness center with indoor pool · 9.3 Booking.com', url: 'https://www.booking.com/hotel/it/principi-di-piemonte.html', tier: 'luxury' }
+      { name: 'Liberty Hotel', note: 'Independent — Via Gioberti in Crocetta, near Porta Nuova station · 9.0 Booking.com', url: 'https://www.booking.com/hotel/it/residence-liberty.html', tier: 'budget' },
+      { name: 'Opera35 Boutique Hotel', note: 'Independent — Via della Rocca in the Historic Centre, garden and terrace, 24h front desk · 9.2 Booking.com', url: 'https://www.booking.com/hotel/it/opera-35.html', tier: 'mid' },
+      { name: 'Principi di Piemonte | UNA Esperienze', note: '1930s building steps from the Egyptian Museum, wellness center with indoor pool · 9.3 Booking.com', url: 'https://www.booking.com/hotel/it/principi-di-piemonte.html', tier: 'luxury' },
+      { name: 'Turin Palace Hotel', note: 'Independent — Via Paolo Sacchi in Crocetta, near Porta Nuova station · 9.5 Booking.com', url: 'https://www.booking.com/hotel/it/turin-palace.html', tier: 'expensive' }
     ], price: { budget: 'EUR 90–150', mid: 'EUR 150–250', expensive: 'EUR 250–400', luxury: 'EUR 380–600' } },
     'turks-and-caicos': { h: [
       { name: 'Grace Bay Club', note: 'Independent — Grace Bay beachfront on Providenciales, three properties, pool, Infiniti Bar & Grill · 9.6 Booking.com', url: 'https://www.booking.com/hotel/tc/grace-bay-club.html', tier: 'budget' },
       { name: 'The Shore Club · Turks & Caicos', note: 'Independent luxury — Grace Bay beachfront, 22-acre estate, three pools, private beach club, three restaurants · 9.2 Booking.com', url: 'https://www.booking.com/hotel/tc/the-shore-club-turks-amp-caicos.html', tier: 'mid' },
       { name: 'The Ritz-Carlton · Turks & Caicos', note: 'Marriott Ritz-Carlton — Grace Bay Road on Providenciales, 88 butler-service suites, private beach, Sugar Mill spa · 8.6 Booking.com', url: 'https://www.booking.com/hotel/tc/the-ritz-carlton-turks-caicos.html', tier: 'expensive' },
       { name: 'COMO Parrot Cay', note: 'COMO brand — private island 30 min by boat, COMO Shambhala spa, pool villas, dive centre · 9.5 Booking.com', url: 'https://www.booking.com/hotel/tc/como-parrot-cay.html', tier: 'luxury' },
-    { name: 'Zenza Boutique Hotel', note: 'Independent — 1 Bridge Road, beachfront boutique · 9.2 Booking.com', url: 'https://www.booking.com/hotel/tc/zenza.html', tier: 'budget' },
-    { name: 'The Oasis at Grace Bay', note: 'Independent — Grace Bay, private beach area, outdoor pool · 8.9 Booking.com', url: 'https://www.booking.com/hotel/tc/the-oasis-at-grace-bay.html', tier: 'mid' },
-    { name: 'The Palms Turks and Caicos', note: '16 Princess Drive on Grace Bay Beach, infinity pool, spa · 9.1 Booking.com', url: 'https://www.booking.com/hotel/tc/the-regent-palms.html', tier: 'expensive' },
-    { name: 'H2O Life Style Resort', note: 'Independent — Long Bay Hills, beachfront · 9.1 Booking.com', url: 'https://www.booking.com/hotel/tc/h2o-lifestyle-resort.html', tier: 'luxury' }
+      { name: 'Zenza Boutique Hotel', note: 'Independent — 1 Bridge Road, beachfront boutique · 9.2 Booking.com', url: 'https://www.booking.com/hotel/tc/zenza.html', tier: 'budget' },
+      { name: 'The Oasis at Grace Bay', note: 'Independent — Grace Bay, private beach area, outdoor pool · 8.9 Booking.com', url: 'https://www.booking.com/hotel/tc/the-oasis-at-grace-bay.html', tier: 'mid' },
+      { name: 'The Palms Turks and Caicos', note: '16 Princess Drive on Grace Bay Beach, infinity pool, spa · 9.1 Booking.com', url: 'https://www.booking.com/hotel/tc/the-regent-palms.html', tier: 'expensive' },
+      { name: 'H2O Life Style Resort', note: 'Independent — Long Bay Hills, beachfront · 9.1 Booking.com', url: 'https://www.booking.com/hotel/tc/h2o-lifestyle-resort.html', tier: 'luxury' }
     ], price: { budget: '$350–650', mid: '$650–1,100', expensive: '$1,100–1,800', luxury: '$1,800+' } },
     'valletta': { h: [
       { name: 'Ursulino Malta', note: 'Independent boutique — within the historic city walls, curated rooms, intimate boutique atmosphere · 9.3 Booking.com', url: 'https://www.booking.com/hotel/mt/ursulino-valletta.html', tier: 'budget' },
       { name: 'The Phoenicia Malta', note: 'Small Luxury Hotels — 1947 landmark at city gate, outdoor pool in formal gardens, Malta\'s most storied hotel · 9.1 Booking.com', url: 'https://www.booking.com/hotel/mt/the-phoenicia-malta.html', tier: 'mid' },
       { name: 'Grand Hotel Excelsior', note: 'Preferred Hotels & Resorts — outside Valletta city gate, views of Marsamxett Harbour, outdoor pool, full-service spa · 8.8 Booking.com', url: 'https://www.booking.com/hotel/mt/excelsior-grand-malta.html', tier: 'expensive' },
       { name: 'Rosselli AX Privilege', note: 'AX Hotels — 17th-century Baroque palazzo in old Valletta, Michelin-starred Under Grain restaurant, personal butler service · 9.3 Booking.com', url: 'https://www.booking.com/hotel/mt/rosselli-valletta.html', tier: 'luxury' },
-    { name: 'La Falconeria Hotel', note: 'Independent — 62 Melita Street, boutique · 9.1 Booking.com', url: 'https://www.booking.com/hotel/mt/la-falconeria.html', tier: 'budget' },
-    { name: 'HPM Pjazza Merkanti - Boutique Living', note: 'Independent — Old Theatre Street, buffet breakfast · 8.8 Booking.com', url: 'https://www.booking.com/hotel/mt/pjazza-merkanti-suites.html', tier: 'mid' },
-    { name: 'Iniala Valletta', note: 'Independent — St. Barbara Bastion, 5-star, plunge pools in select rooms · 9.6 Booking.com', url: 'https://www.booking.com/hotel/mt/the-hideaway.html', tier: 'expensive' },
-    { name: 'Palazzo Consiglia - IK Collection', note: 'Independent — Saint Ursula Street, restored palazzo · 9.3 Booking.com', url: 'https://www.booking.com/hotel/mt/palazzo-consiglia.en-gb.html', tier: 'luxury' }
+      { name: 'La Falconeria Hotel', note: 'Independent — 62 Melita Street, boutique · 9.1 Booking.com', url: 'https://www.booking.com/hotel/mt/la-falconeria.html', tier: 'budget' },
+      { name: 'HPM Pjazza Merkanti - Boutique Living', note: 'Independent — Old Theatre Street, buffet breakfast · 8.8 Booking.com', url: 'https://www.booking.com/hotel/mt/pjazza-merkanti-suites.html', tier: 'mid' },
+      { name: 'Iniala Valletta', note: 'Independent — St. Barbara Bastion, 5-star, plunge pools in select rooms · 9.6 Booking.com', url: 'https://www.booking.com/hotel/mt/the-hideaway.html', tier: 'expensive' },
+      { name: 'Palazzo Consiglia - IK Collection', note: 'Independent — Saint Ursula Street, restored palazzo · 9.3 Booking.com', url: 'https://www.booking.com/hotel/mt/palazzo-consiglia.en-gb.html', tier: 'luxury' }
     ], price: { budget: '€120–220', mid: '€220–380', expensive: '€380–550', luxury: '€550+' } },
     'vancouver': { h: [
       { name: 'JW Marriott Parq Vancouver', note: 'Marriott JW brand — 39 Smithe Street in downtown Yaletown, rooftop pool, Pacific Rim views · 8.8 Booking.com', url: 'https://www.booking.com/hotel/ca/jw-marriott-parq-vancouver.html', tier: 'budget' },
@@ -10811,7 +10825,9 @@ window.TVE.home = (function () {
       'essaouira':         {iata:'ESU', name:'Essaouira–Mogador Airport'},
       'hurghada':          {iata:'HRG', name:'Hurghada International'},
       'interlaken':        {iata:'ZRH', name:'Zurich International'},
+      'paphos': {iata:'PFO', name:'Paphos International Airport'},
       'quito':             {iata:'UIO', name:'Mariscal Sucre International Airport'},
+      'san-pedro-de-atacama': {iata:'CJC', name:'El Loa Airport, Calama'},
       'sharm-el-sheikh':    {iata:'SSH', name:'Sharm El Sheikh International Airport'},
       'siem-reap':         {iata:'SAI', name:'Siem Reap Angkor International Airport'},
       'boracay':           {iata:'KLO', name:'Kalibo International'},
@@ -11133,7 +11149,9 @@ window.TVE.home = (function () {
         'BJV',
         'TLS',
         'ESU',
-        'UIO'
+        'UIO',
+        'CJC',
+        'PFO'
     ];
 
     function _inject() {

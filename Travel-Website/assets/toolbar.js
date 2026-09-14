@@ -5730,8 +5730,10 @@ window.TVE.home = (function () {
       { name: 'Thon Hotel Ålesund', note: 'Thon Hotels — central location, harbor-facing rooms · 8.7 Booking.com', url: 'https://www.booking.com/hotel/no/thon-alesund-alesund.html', tier: 'mid' },
       { name: 'Quality Hotel Waterfront', note: 'Nordic Choice — Nedre Strandgate on the harbour front, fitness centre, 24h reception · 8.0 Booking.com', url: 'https://www.booking.com/hotel/no/quality-waterfront.html', tier: 'mid' },
       { name: 'Quality Hotel Ålesund', note: 'Nordic Choice — Sorenskriver Bullsgate in the centre, fitness centre, room service, 24h reception · 8.4 Booking.com', url: 'https://www.booking.com/hotel/no/quality-hotel-alesund.html', tier: 'expensive' },
-      { name: 'Hotel 1904', note: 'Independent — Løvenvoldgata in the Art Nouveau quarter, garden terrace, restaurant and bar, 24h reception · 9.0 Booking.com', url: 'https://www.booking.com/hotel/no/hotel-1904.html', tier: 'luxury' }
-    ], price: { budget: 'NOK 1,150–1,810', mid: 'NOK 1,090–1,570', expensive: 'NOK 1,610–1,630', luxury: 'NOK 1,900–2,200' } },
+      { name: 'Thon Hotel Baronen', note: 'Thon Hotels — Kanalveien near the Moa district, roughly 25-min walk from the centre, 24h reception · 8.3 Booking.com', url: 'https://www.booking.com/hotel/no/thon-hotel-baronen.html', tier: 'expensive' },
+      { name: 'Hotel 1904', note: 'Independent — Løvenvoldgata in the Art Nouveau quarter, garden terrace, restaurant and bar, 24h reception · 9.0 Booking.com', url: 'https://www.booking.com/hotel/no/hotel-1904.html', tier: 'luxury' },
+      { name: 'Hotel Brosundet', note: 'Independent boutique — Apotekergt on the Brosundet canal in the centre, sauna, fitness centre, renowned restaurant, 24h reception · 8.9 Booking.com', url: 'https://www.booking.com/hotel/no/brosundet.html', tier: 'luxury' }
+    ], price: { budget: 'NOK 1,150–1,810', mid: 'NOK 1,090–1,570', expensive: 'NOK 1,610–2,700', luxury: 'NOK 1,900–2,800' } },
     'amalfi': { h: [
       { name: 'Hotel Antica Repubblica', note: 'Independent — historic centre off Salita Truglio, 170 m from the beach, soundproofed rooms, terrace · 9.6 Booking.com', url: 'https://www.booking.com/hotel/it/anticarepubblica.html', tier: 'budget' },
       { name: 'Hotel Floridiana', note: 'Independent — Via Brancia beside the Duomo steps, hot tub on the solarium terrace, free parking, 24h reception · 9.2 Booking.com', url: 'https://www.booking.com/hotel/it/hotelfloridiana.html', tier: 'budget' },

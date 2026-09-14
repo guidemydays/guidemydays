@@ -7391,7 +7391,9 @@ window.TVE.home = (function () {
       { name: 'Hyatt Paris Madeleine', note: 'Hyatt brand — 24 Boulevard Malesherbes in the 8th, spa and sauna, 24h reception · 8.5 Booking.com', url: 'https://www.booking.com/hotel/fr/hyatt-paris-madeleine.html', tier: 'expensive' },
       { name: 'Renaissance Paris Arc de Triomphe Hotel', note: 'Marriott Renaissance brand — 39 Avenue de Wagram by the Arc de Triomphe, terrace, 24h reception · 8.2 Booking.com', url: 'https://www.booking.com/hotel/fr/renaissance-paris-arc-de-triomphe.html', tier: 'expensive' },
       { name: 'Hyatt Regency Paris Etoile', note: 'Hyatt brand — 3 Place du Général Koenig at Porte Maillot, 34-floor tower with city views, 24h reception · 8.4 Booking.com', url: 'https://www.booking.com/hotel/fr/hyatt-regency-paris-etoile.html', tier: 'mid' },
-      { name: 'Best Western Plus Hotel Sydney Opera', note: 'Independent 3-star — 50 Rue des Mathurins in the 8th, AC, 24h reception, soundproofed rooms · 9.2 Booking.com', url: 'https://www.booking.com/hotel/fr/best-western-sydney-opera-paris1.html', tier: 'budget' }
+      { name: 'Hotel Malte - Astotel', note: 'Astotel group — 4-star in the historic Palais-Royal district, AC, 24h reception · 9.2 Booking.com', url: 'https://www.booking.com/hotel/fr/malteopera.html', tier: 'mid' },
+      { name: 'Best Western Plus Hotel Sydney Opera', note: 'Independent 3-star — 50 Rue des Mathurins in the 8th, AC, 24h reception, soundproofed rooms · 9.2 Booking.com', url: 'https://www.booking.com/hotel/fr/best-western-sydney-opera-paris1.html', tier: 'budget' },
+      { name: 'Hotel Acadia - Astotel', note: 'Astotel group — 3-star near Opéra, 24h front desk, AC · 9.3 Booking.com', url: 'https://www.booking.com/hotel/fr/acadiaopera.html', tier: 'budget' }
     ], price: { budget: '€180–280', mid: '€280–450', expensive: '€450–800', luxury: '€800+' } },
     'pasadena': { h: [
       { name: 'The Langham Huntington, Pasadena', note: 'Langham brand — 23-acre estate on South Oak Knoll, Olympic pool, formal gardens, 1914 landmark hotel · 8.6 Booking.com', url: 'https://www.booking.com/hotel/us/the-langham-huntington-spa-pasadena.html', tier: 'luxury' },

@@ -5645,10 +5645,13 @@ window.TVE.home = (function () {
     ], price: { budget: '€100–160', mid: '€160–260', expensive: '€250–400', luxury: '€400+' } },
     'ljubljana': { h: [
       { name: 'ibis Ljubljana Centre', note: 'Accor ibis brand — Trpinčeva ulica 4 near the train station, modern efficient rooms, 24h front desk, walkable to the Old Town in 15 min · 7.8 Booking.com', url: 'https://www.booking.com/hotel/si/ibis-ljubljana-centre.html', tier: 'budget' },
+      { name: 'B&B Hotel Ljubljana Park', note: 'B&B Hotels — Tabor 9, short walk to the city centre, AC, airport shuttle · 8.2 Booking.com', url: 'https://www.booking.com/hotel/si/park.html', tier: 'budget' },
       { name: 'Grand Hotel Union Ljubljana', note: 'Independent — 1905 Art Nouveau landmark on Revolution Square, Congress restaurant, spa with indoor pool, 24h reception · 8.9 Booking.com', url: 'https://www.booking.com/hotel/si/grand-union.html', tier: 'mid' },
+      { name: 'Radisson Blu Plaza Hotel, Ljubljana', note: 'Radisson Blu — Congress Centre area, 5-star, spa, 24h reception · 9.2 Booking.com', url: 'https://www.booking.com/hotel/si/plaza.html', tier: 'mid' },
       { name: 'Hotel Cubo', note: 'Independent boutique — design hotel in the Old Town pedestrian zone, terrace bar, 24h reception · 9.3 Booking.com', url: 'https://www.booking.com/hotel/si/cubo.html', tier: 'expensive' },
       { name: 'Hotel Vander Urbani Resort', note: 'Independent boutique — Old Town cobblestones, rooftop pool with castle views, Vander kitchen, 16 rooms, 24h reception · 9.2 Booking.com', url: 'https://www.booking.com/hotel/si/vander-urbani-resort.html', tier: 'expensive' },
-      { name: 'Zlata Ladjica Boutique Hotel', note: 'Independent boutique — Jurčičev trg on the river in the Old Town, spa, restaurant and bar, 24h reception · 9.7 Booking.com', url: 'https://www.booking.com/hotel/si/zlata-ladjica-boutique-ljubljana.html', tier: 'luxury' }
+      { name: 'Zlata Ladjica Boutique Hotel', note: 'Independent boutique — Jurčičev trg on the river in the Old Town, spa, restaurant and bar, 24h reception · 9.7 Booking.com', url: 'https://www.booking.com/hotel/si/zlata-ladjica-boutique-ljubljana.html', tier: 'luxury' },
+      { name: 'InterContinental Ljubljana by IHG', note: 'IHG InterContinental — 5-star, spa, panoramic city views, 24h reception · 9.0 Booking.com', url: 'https://www.booking.com/hotel/si/intercontinental-ljubljana.html', tier: 'luxury' }
     ], price: { budget: '€70–90', mid: '€90–160', expensive: '€160–280', luxury: '€280+' } },
     'melbourne': { h: [
       { name: 'AC Hotel by Marriott Melbourne Southbank', note: 'Marriott AC — Normanby Road in Southbank, rooftop infinity pool, 24h front desk, 25 min walk to Collins Street · 8.6 Booking.com', url: 'https://www.booking.com/hotel/au/ac-by-marriott-melbourne-southbank.html', tier: 'budget' },
@@ -6720,9 +6723,13 @@ window.TVE.home = (function () {
     ], price: { budget: '$60–100', mid: '$100–180', expensive: '$180–300', luxury: '$300+' } },
     'london': { h: [
       { name: 'Premier Inn London County Hall', note: 'Premier Inn brand — Southbank beside Westminster Bridge, Thames and London Eye views, 24h reception · 8.6 Booking.com', url: 'https://www.booking.com/hotel/gb/premier-inn-london-county-hall.html', tier: 'budget' },
+      { name: 'Kula London - Kensington', note: 'Kula aparthotel — Courtfield Gardens, kitchenette apartments, 5 min walk to Earl\'s Court station · 8.7 Booking.com', url: 'https://www.booking.com/hotel/gb/stay-kula-london-kensington.html', tier: 'budget' },
       { name: 'Hilton London Bankside', note: 'Hilton brand — Bankside SE1, rooftop bar, indoor heated pool, 24h reception, steps from Tate Modern · 8.7 Booking.com', url: 'https://www.booking.com/hotel/gb/hilton-london-bankside.html', tier: 'mid' },
+      { name: 'Mimi\'s Hotel Soho', note: 'Independent — Frith Street in Soho, AC, near Tottenham Court Road station · 8.0 Booking.com', url: 'https://www.booking.com/hotel/gb/mimi-39-s-soho.html', tier: 'mid' },
       { name: 'The Savoy', note: 'Fairmont brand — 1889 Thames Embankment landmark, Art Deco interior, Kaspar\'s Seafood Bar, indoor pool, 24h reception · 9.1 Booking.com', url: 'https://www.booking.com/hotel/gb/the-savoy-london.html', tier: 'expensive' },
-      { name: 'Claridge\'s', note: 'Independent luxury — Mayfair Art Deco landmark, legendary afternoon tea, Nobu at Claridge\'s, 24h reception · 9.4 Booking.com', url: 'https://www.booking.com/hotel/gb/claridges.html', tier: 'luxury' }
+      { name: 'Hyatt Regency London - The Churchill', note: 'Hyatt brand — 30 Portman Square in Marylebone, near Hyde Park and Oxford Street, 24h reception · 8.8 Booking.com', url: 'https://www.booking.com/hotel/gb/hyatt-regency-london-the-churchill.html', tier: 'expensive' },
+      { name: 'Claridge\'s', note: 'Independent luxury — Mayfair Art Deco landmark, legendary afternoon tea, Nobu at Claridge\'s, 24h reception · 9.4 Booking.com', url: 'https://www.booking.com/hotel/gb/claridges.html', tier: 'luxury' },
+      { name: 'Milestone Hotel Kensington', note: 'Red Carnation Hotels — 1 Kensington Court opposite Kensington Palace Gardens, 24h reception · 9.5 Booking.com', url: 'https://www.booking.com/hotel/gb/milestoneredcarnationhotels.html', tier: 'luxury' }
     ], price: { budget: '£120–190', mid: '£190–300', expensive: '£300–500', luxury: '£500+' } },
     'los-angeles': { h: [
       { name: 'Freehand Los Angeles', note: 'Independent — 416 West 8th Street in Downtown LA, design hotel with private rooms and poolside lounge, 10 min walk from LA LIVE · 8.3 Booking.com', url: 'https://www.booking.com/hotel/us/freehand-los-angeles.html', tier: 'budget' },
@@ -6835,7 +6842,9 @@ window.TVE.home = (function () {
     ], price: { budget: '$150–280', mid: '$250–450', expensive: '$350–600', luxury: '$600–1,200' } },
     'manuel-antonio': { h: [
       { name: 'Layan Hotel & Spa', note: 'Independent — 24-room boutique on the hill above Playa Espadilla, infinity pool, spa, restaurant, 24h front desk · 4.5 TripAdvisor', url: 'https://www.expedia.com/Quepos-Hotels-Layan-Hotel-Spa.h100447436.Hotel-Information', tier: 'budget' },
+      { name: 'Hotel Plaza Yara', note: 'Independent — kitchenette suites with jungle views, 5 min drive to the national park, pool, wildlife on-site · 9.5 Booking.com', url: 'https://www.booking.com/hotel/cr/plaza-yara.html', tier: 'budget' },
       { name: 'Shana by the Beach', note: 'Independent — hillside resort 800 m from Playa Espadilla, pool with Pacific view, spa, 24h front desk · 8.4 Booking.com', url: 'https://www.booking.com/hotel/cr/pacific-souss.html', tier: 'mid' },
+      { name: 'Igloo Beach Lodge', note: 'Independent — at the main beach entrance, AC, garden pool, restaurant and bar · 8.3 Booking.com', url: 'https://www.booking.com/hotel/cr/igloo-beach-lodge.html', tier: 'mid' },
       { name: 'Si Como No Resort & Spa', note: 'Independent — private wildlife refuge, two pools, TreeTops Spa, Claro Que Si restaurant · 9.3 Booking.com', url: 'https://www.booking.com/hotel/cr/si-como-no-resort.html', tier: 'expensive' },
       { name: 'La Mansion Inn', note: 'Independent — hilltop boutique, 20 suites with jungle canopy views, two pools · 9.2 Booking.com', url: 'https://www.booking.com/hotel/cr/la-mansion-inn.html', tier: 'expensive' },
       { name: 'Parador Nature Resort and Spa', note: 'Independent — 5-star on the Punta Quepos headland, infinity pools, spa, 24h front desk · 9.3 Booking.com', url: 'https://www.booking.com/hotel/cr/parador-resort-and-spa.html', tier: 'expensive' },
@@ -7006,27 +7015,43 @@ window.TVE.home = (function () {
     ], price: { budget: 'OMR 35–60', mid: 'OMR 70–110', expensive: 'OMR 110–170', luxury: 'OMR 200+' } },
     'mykonos': { h: [
       { name: 'Pelican Bay Art Hotel', note: 'Independent boutique — Museum Square in Little Venice, Mykonos Town, sea-facing rooms, 24h front desk · 8.9 Booking.com', url: 'https://www.booking.com/hotel/gr/pelican-bay.html', tier: 'budget' },
+      { name: 'Hotel Adonis', note: 'Independent — Mykonos Town centre, room service, massage · 8.5 Booking.com', url: 'https://www.booking.com/hotel/gr/adonis-mykonos.html', tier: 'budget' },
       { name: 'Boheme Hotel', note: 'Independent boutique — Mykonos Town, rooftop terrace with windmill views, 24h reception · 9.0 Booking.com', url: 'https://www.booking.com/hotel/gr/boheme.html', tier: 'mid' },
+      { name: 'She Mykonos Boutique Hotel', note: 'Independent boutique — Mykonos Town centre, pool with a view, room service · 9.1 Booking.com', url: 'https://www.booking.com/hotel/gr/myconnian-inn.html', tier: 'mid' },
       { name: 'Kivotos Mykonos', note: 'Independent boutique — Ornos Bay, two seawater pools, private beach, on-site cinema · 9.3 Booking.com', url: 'https://www.booking.com/hotel/gr/kivotos.html', tier: 'expensive' },
-      { name: 'Santa Marina, A Luxury Collection Resort', note: 'Marriott Luxury Collection — private beach on Ornos Bay, infinity pools, Caprice beach bar · 9.1 Booking.com', url: 'https://www.booking.com/hotel/gr/santamarinarestvillas.html', tier: 'luxury' }
+      { name: 'Semeli Hotel Mykonos', note: 'Independent — Mykonos Town centre, spa, hot tub · 9.2 Booking.com', url: 'https://www.booking.com/hotel/gr/semeli-mykonos.html', tier: 'expensive' },
+      { name: 'Santa Marina, A Luxury Collection Resort', note: 'Marriott Luxury Collection — private beach on Ornos Bay, infinity pools, Caprice beach bar · 9.1 Booking.com', url: 'https://www.booking.com/hotel/gr/santamarinarestvillas.html', tier: 'luxury' },
+      { name: 'Cavo Tagoo Mykonos', note: 'Independent — cliffside above Mykonos Town, iconic infinity pool carved into volcanic rock · 9.1 Booking.com', url: 'https://www.booking.com/hotel/gr/cavo-tagoo-mykonos1.html', tier: 'luxury' }
     ], price: { budget: 'EUR 120–220', mid: 'EUR 220–380', expensive: 'EUR 380–650', luxury: 'EUR 650+' } },
     'napa': { h: [
       { name: 'Napa Valley Marriott Hotel & Spa', note: 'Marriott brand — Solano Avenue, outdoor pool and fitness centre, 24h front desk, central Napa location · Booking.com', url: 'https://www.booking.com/hotel/us/napa-valley-marriott.html', tier: 'budget' },
+      { name: 'R Inn Napa', note: 'Independent, adults only — Downtown Napa, garden · 9.3 Booking.com', url: 'https://www.booking.com/hotel/us/r-inn-napa-napa.html', tier: 'budget' },
       { name: 'Meritage Resort and Spa', note: 'Independent — wine caves and spa, four pools, Estate Cave restaurant · 9.1 Booking.com', url: 'https://www.booking.com/hotel/us/the-meritage-resort-and-spa.html', tier: 'mid' },
+      { name: 'The Knoll Hotel Napa Valley, Tapestry Collection by Hilton', note: 'Hilton family (Tapestry Collection) — sustainability-certified, hot tub, fitness center · 8.6 Booking.com', url: 'https://www.booking.com/hotel/us/cambria-napa-valley.html', tier: 'mid' },
       { name: 'Carneros Resort and Spa', note: 'Independent — 28-acre farm-like resort in Carneros wine region, four pools, full-service spa, FARM restaurant · 9.3 Booking.com', url: 'https://www.booking.com/hotel/us/carneros-inn.html', tier: 'expensive' },
-      { name: 'Bardessono Hotel and Spa', note: 'Independent — LEED Platinum cedar-and-stone lodge on Yount Street in Yountville, rooftop pool, in-room spa treatments · 9.8 Booking.com', url: 'https://www.booking.com/hotel/us/bardessono.html', tier: 'luxury' }
+      { name: 'Napa River Inn', note: 'Independent — Downtown Napa on the riverfront, spa, massage · 9.1 Booking.com', url: 'https://www.booking.com/hotel/us/napa-river-inn.html', tier: 'expensive' },
+      { name: 'Bardessono Hotel and Spa', note: 'Independent — LEED Platinum cedar-and-stone lodge on Yount Street in Yountville, rooftop pool, in-room spa treatments · 9.8 Booking.com', url: 'https://www.booking.com/hotel/us/bardessono.html', tier: 'luxury' },
+      { name: 'SENZA Hotel', note: 'Independent — spa, hot tub · 8.9 Booking.com', url: 'https://www.booking.com/hotel/us/senza.html', tier: 'luxury' }
     ], price: { budget: 'USD 180–320', mid: 'USD 320–500', expensive: 'USD 500–700', luxury: 'USD 700+' } },
     'naples': { h: [
       { name: 'Relais Della Porta', note: 'Independent — Via Toledo above the Quartieri Spagnoli, soundproofed rooms, breakfast served in the room · 9.1 Booking.com', url: 'https://www.booking.com/hotel/it/relais-della-porta.html', tier: 'budget' },
+      { name: 'Eurostars Hotel Excelsior', note: 'Independent — Lungomare Caracciolo, room service, 24h front desk · 8.9 Booking.com', url: 'https://www.booking.com/hotel/it/eurostars-hotel-excelsior.html', tier: 'budget' },
       { name: 'Renaissance Naples Hotel Mediterraneo', note: 'Marriott brand — Via Ponte di Tappia in the historic centre, rooftop terrace with bay views, 24h front desk · 8.8 Booking.com', url: 'https://www.booking.com/hotel/it/renaissance-naples-hotel-mediterraneo.html', tier: 'mid' },
+      { name: 'De Bonart Naples, Curio Collection By Hilton', note: 'Hilton family (Curio Collection) — Corso Vittorio Emanuele historic centre · 8.9 Booking.com', url: 'https://www.booking.com/hotel/it/britannique.html', tier: 'mid' },
       { name: 'Grand Hotel Parker\'s Napoli', note: 'Independent — Corso Vittorio Emanuele, panoramic views over the Gulf of Naples, George\'s restaurant · 9.1 Booking.com', url: 'https://www.booking.com/hotel/it/grand-hotel-parker-s.html', tier: 'expensive' },
-      { name: 'Grand Hotel Vesuvio', note: 'Independent — Santa Lucia seafront, rooftop pool with Vesuvius views, 1882 heritage hotel · 9.2 Booking.com', url: 'https://www.booking.com/hotel/it/grand-vesuvio-napoli.html', tier: 'luxury' }
+      { name: 'Grand Hotel Oriente', note: 'Independent — Plebiscito, room service, 24h front desk · 8.8 Booking.com', url: 'https://www.booking.com/hotel/it/grand-oriente.html', tier: 'expensive' },
+      { name: 'Grand Hotel Vesuvio', note: 'Independent — Santa Lucia seafront, rooftop pool with Vesuvius views, 1882 heritage hotel · 9.2 Booking.com', url: 'https://www.booking.com/hotel/it/grand-vesuvio-napoli.html', tier: 'luxury' },
+      { name: 'Grand Hotel Santa Lucia', note: 'Independent — Santa Lucia seafront, Art-Nouveau landmark facing the Bay of Naples · 8.7 Booking.com', url: 'https://www.booking.com/hotel/it/grand-santa-lucia.html', tier: 'luxury' }
     ], price: { budget: 'EUR 80–130', mid: 'EUR 130–220', expensive: 'EUR 220–380', luxury: 'EUR 380+' } },
     'naples-florida': { h: [
       { name: 'Inn at Pelican Bay', note: 'Independent — Vanderbilt Beach Road in Pelican Bay, 24h reception, heated pool, tennis, spa · 9.1 Booking.com', url: 'https://www.booking.com/hotel/us/inn-at-pelican-bay.html', tier: 'budget' },
+      { name: 'Hyatt House Naples 5th Avenue', note: 'Hyatt family — pool with a view, hot tub · 8.7 Booking.com', url: 'https://www.booking.com/hotel/us/hyatt-house-naples-5th-avenue.html', tier: 'budget' },
       { name: 'Bellasera Resort', note: 'Independent — Tuscan-style suites on Ninth Street South, walkable to Fifth Avenue, courtyard pool and free beach shuttle · 9.4 Booking.com', url: 'https://www.booking.com/hotel/us/bellasera.html', tier: 'mid' },
+      { name: 'AC Hotel by Marriott Naples 5th Avenue', note: 'Marriott AC brand — rooftop pool, beach chairs/loungers · 8.5 Booking.com', url: 'https://www.booking.com/hotel/us/ac-by-marriott-naples-5th-avenue.html', tier: 'mid' },
       { name: 'LaPlaya Beach & Golf Resort', note: 'Noble House Hotels — Vanderbilt Beach, private beach, three pools, Baleen restaurant · 9.1 Booking.com', url: 'https://www.booking.com/hotel/us/laplaya-beach-golf-resort.html', tier: 'expensive' },
-      { name: 'The Ritz-Carlton Naples', note: 'Ritz-Carlton brand — Naples Beach, Artisan restaurant, beachfront terrace pools · 9.3 Booking.com', url: 'https://www.booking.com/hotel/us/ritz-carlton-naples.html', tier: 'luxury' }
+      { name: 'Hilton Naples', note: 'Hilton brand — hot tub, beach access · 8.9 Booking.com', url: 'https://www.booking.com/hotel/us/hilton-naples.html', tier: 'expensive' },
+      { name: 'The Ritz-Carlton Naples', note: 'Ritz-Carlton brand — Naples Beach, Artisan restaurant, beachfront terrace pools · 9.3 Booking.com', url: 'https://www.booking.com/hotel/us/ritz-carlton-naples.html', tier: 'luxury' },
+      { name: 'Inn on Fifth', note: 'Independent, Forbes 4-star — downtown Naples on Fifth Avenue South, full-service spa, rooftop pool · 8.7 Booking.com', url: 'https://www.booking.com/hotel/us/the-inn-on-fifth.html', tier: 'luxury' }
     ], price: { budget: 'USD 150–280', mid: 'USD 280–450', expensive: 'USD 450–700', luxury: 'USD 700+' } },
     'nashville': { h: [
       { name: 'Holiday Inn Nashville Downtown - Stadium', note: 'IHG Holiday Inn — 211 N. First Street across the river from Lower Broadway, 24h reception, year-round indoor pool, free stadium shuttle · 8.5 Booking.com', url: 'https://www.booking.com/hotel/us/days-inn-nashville-downtown-at-the-stadium.html', tier: 'budget' },
@@ -7043,9 +7068,13 @@ window.TVE.home = (function () {
     ], price: { budget: 'USD 120–200', mid: 'USD 200–320', expensive: 'USD 320–500', luxury: 'USD 500+' } },
     'natal': { h: [
       { name: 'Coral Plaza Apart Hotel', note: 'Independent — Rua Francisco Gurgel on the Ponta Negra beachfront, 24h reception, pool with a shallow kids section, apartment-style rooms · 9.3 Booking.com', url: 'https://www.booking.com/hotel/br/coral-plaza-apart.html', tier: 'budget' },
+      { name: 'Golden Tulip Natal Ponta Negra', note: 'Golden Tulip (Louvre Hotels) — Ponta Negra, pool with a view, room service · 9.1 Booking.com', url: 'https://www.booking.com/hotel/br/golden-tulip-ponta-negra.html', tier: 'budget' },
       { name: 'Rifóles Beach Hotel & Resort', note: 'Independent — beachfront on Ponta Negra, three pools, ocean views, close to Natal nightlife · 8.9 Booking.com', url: 'https://www.booking.com/hotel/br/rifoles-praia.html', tier: 'mid' },
+      { name: 'Majestic Ponta Negra Beach, WorldHotels Elite', note: 'WorldHotels Elite — Ponta Negra beachfront, room service, beach loungers · 9.0 Booking.com', url: 'https://www.booking.com/hotel/br/best-western-premier-majestic.html', tier: 'mid' },
       { name: 'Serhs Natal Grand Hotel', note: 'Serhs Hotels — Ponta Negra beachfront, outdoor pool, spa, large waterfront hotel · 8.7 Booking.com', url: 'https://www.booking.com/hotel/br/serhs-natal-grand.html', tier: 'expensive' },
-      { name: 'Pestana Natal Beach Resort', note: 'Pestana brand — Via Costeira beachfront, outdoor pool, Atlantic views, all-inclusive option · 8.5 Booking.com', url: 'https://www.booking.com/hotel/br/pestana-natal.html', tier: 'luxury' }
+      { name: 'Aquaria Natal Hotel', note: 'Independent — Ponta Negra beachfront, room service, massage · 9.0 Booking.com', url: 'https://www.booking.com/hotel/br/aquaria-natal.html', tier: 'expensive' },
+      { name: 'Pestana Natal Beach Resort', note: 'Pestana brand — Via Costeira beachfront, outdoor pool, Atlantic views, all-inclusive option · 8.5 Booking.com', url: 'https://www.booking.com/hotel/br/pestana-natal.html', tier: 'luxury' },
+      { name: 'Vogal Luxury Beach Hotel & SPA', note: 'Independent — Via Costeira beachfront, spa, sauna · 8.9 Booking.com', url: 'https://www.booking.com/hotel/br/vogal-luxury-beach-amp-spa-natal.html', tier: 'luxury' }
     ], price: { budget: 'BRL 300–500', mid: 'BRL 500–900', expensive: 'BRL 900–1500', luxury: 'BRL 1500+' } },
     'new-orleans': { h: [
       { name: 'French Market Inn', note: 'Independent — 509 Decatur Street in the French Quarter, courtyard saltwater pool, 24h reception · 9.2 Booking.com', url: 'https://www.booking.com/hotel/us/french-market-inn.html', tier: 'budget' },

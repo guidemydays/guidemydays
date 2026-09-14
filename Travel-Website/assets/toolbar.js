@@ -6381,6 +6381,7 @@ window.TVE.home = (function () {
     'cusco': { h: [
       { name: 'Hostal & Apartments El Triunfo', note: 'Independent — Calle Triunfo 379, a block off the Plaza de Armas, heated rooms, 24h reception, airport shuttle · 9.2 Booking.com', url: 'https://www.booking.com/hotel/pe/hostal-el-triunfo.html', tier: 'budget' },
       { name: 'Maytaq Wasin Boutique Hotel', note: 'Independent boutique — Santa Catalina Ancha 342 in the Centro Histórico, roof terrace, 24h reception · 9.2 Booking.com', url: 'https://www.booking.com/hotel/pe/maytaq-wasin-boutique.html', tier: 'budget' },
+      { name: 'Motto By Hilton Cusco', note: 'Hilton Motto brand — Calle Ruinas 502, 7-min walk to Plaza de Armas, 24h reception · 8.4 Booking.com', url: 'https://www.booking.com/hotel/pe/motto-by-hilton-cusco.html', tier: 'budget' },
       { name: 'Casa San Blas Cusco Boutique Hotel', note: 'Independent boutique — Tocuyeros 566 in San Blas, sun terrace over the rooftops, 24h reception · 9.4 Booking.com', url: 'https://www.booking.com/hotel/pe/sanblas.html', tier: 'mid' },
       { name: 'Hotel Rumi Punku', note: 'Independent — Calle Choquechaca 339 behind an Inca stone doorway, gardens and terraces, spa lounge, 24h reception · 9.3 Booking.com', url: 'https://www.booking.com/hotel/pe/rumi-punku.html', tier: 'mid' },
       { name: 'Aranwa Cusco Boutique Hotel', note: 'Aranwa Hotels — Calle San Juan de Dios, colonial mansion, 24h reception, air conditioning · 9.4 Booking.com', url: 'https://www.booking.com/hotel/pe/aranwa-cusco-boutique.html', tier: 'expensive' },

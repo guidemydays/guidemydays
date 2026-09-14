@@ -6792,9 +6792,13 @@ window.TVE.home = (function () {
     ], price: { budget: '$20–40', mid: '$75–100', expensive: '$100–170', luxury: '$180–260' } },
     'lyon': { h: [
       { name: 'ibis Lyon Centre Gare Part-Dieu', note: 'Accor ibis brand — central Part-Dieu near TGV station and metro, 24h reception, air-conditioned rooms · 8.3 Booking.com', url: 'https://www.booking.com/hotel/fr/ibis-lyon-centre-part-dieu.html', tier: 'budget' },
+      { name: 'OKKO Hotels Lyon Centre', note: 'OKKO Hotels — Pont Lafayette, modern rooms, 24h reception · 8.7 Booking.com', url: 'https://www.booking.com/hotel/fr/okko-hotels-lyon-pont-lafayette.html', tier: 'budget' },
       { name: 'Hôtel Carlton Lyon', note: 'Independent — Presqu\'île historic heart, Art Deco interiors, 83 rooms, walk to Place des Terreaux and major museums · 8.7 Booking.com', url: 'https://www.booking.com/hotel/fr/carlton-lyon.html', tier: 'mid' },
+      { name: 'Radisson Blu Hotel, Lyon', note: 'Radisson Blu — Part-Dieu district, modern rooms, gym, 24h reception · 8.0 Booking.com', url: 'https://www.booking.com/hotel/fr/radisson-blu-hotel-lyon.html', tier: 'mid' },
       { name: 'Sofitel Lyon Bellecour', note: 'Sofitel brand — Presqu\'île heart, spa with pool, Les Trois Dômes gastronomic restaurant with panoramic city views · 8.9 Booking.com', url: 'https://www.booking.com/hotel/fr/sofitel-lyon.html', tier: 'expensive' },
-      { name: 'Cour des Loges', note: 'Independent — Renaissance mansion in the Vieux-Lyon UNESCO quarter, heated pool, Les Loges restaurant, private courtyards · 9.2 Booking.com', url: 'https://www.booking.com/hotel/fr/cour-des-loges.html', tier: 'luxury' }
+      { name: 'InterContinental Lyon - Hotel Dieu', note: 'IHG InterContinental — the former Hôtel-Dieu hospital on the Rhône, spa, 24h reception · 9.1 Booking.com', url: 'https://www.booking.com/hotel/fr/intercontinental-hotels-lyon-dieu.html', tier: 'expensive' },
+      { name: 'Cour des Loges', note: 'Independent — Renaissance mansion in the Vieux-Lyon UNESCO quarter, heated pool, Les Loges restaurant, private courtyards · 9.2 Booking.com', url: 'https://www.booking.com/hotel/fr/cour-des-loges.html', tier: 'luxury' },
+      { name: 'Villa Florentine', note: 'Independent — Renaissance convent on Fourvière hill, pool, panoramic city views, spa · 9.3 Booking.com', url: 'https://www.booking.com/hotel/fr/villaflorentine.html', tier: 'luxury' }
     ], price: { budget: '€75–130', mid: '€130–220', expensive: '€220–380', luxury: '€380+' } },
     'macau': { h: [
       { name: 'Harbourview Hotel Macau', note: 'Independent — Avenida Dr. Sun Yat-Sen at Macau Fisherman\'s Wharf on the Outer Harbour, indoor pool, gym, 24h reception · 9.0 Booking.com', url: 'https://www.booking.com/hotel/mo/harbourview-macau.html', tier: 'budget' },
@@ -7149,9 +7153,13 @@ window.TVE.home = (function () {
     ], price: { budget: 'MXN 2,600–3,900', mid: 'MXN 4,000–6,000', expensive: 'MXN 7,000–8,700', luxury: 'MXN 8,500+' } },
     'olinda': { h: [
       { name: 'Pousada Convento da Conceição', note: 'Restored 17th-century convent on Olinda\'s hilltop, 24h front desk, 2-min walk to Alto da Sé · 8.9 Booking.com', url: 'https://www.booking.com/hotel/br/convento-da-conceicao.html', tier: 'budget' },
+      { name: 'Pousada Flor de Olinda', note: 'Independent — shuttle service, free Wifi · 8.9 Booking.com', url: 'https://www.booking.com/hotel/br/pousada-flor-de-olinda.html', tier: 'budget' },
       { name: 'Pousada dos Quatro Cantos', note: '19th-century colonial mansion, pool, on-site restaurant, heart of the historic center · 8.9 Booking.com', url: 'https://www.booking.com/hotel/br/pousada-dos-quatro-cantos.html', tier: 'mid' },
+      { name: 'Hotel Costeiro', note: 'Independent — garden, room service · 8.4 Booking.com', url: 'https://www.booking.com/hotel/br/costeiro.html', tier: 'mid' },
       { name: 'Pousada do Amparo', note: 'Five connected colonial buildings, pool, two on-site restaurants (Flor do Coco, Beijupirá) · 8.9 Booking.com', url: 'https://www.booking.com/hotel/br/pousada-do-amparo.html', tier: 'expensive' },
-      { name: 'Hotel 7 Colinas', note: '4-star sprawling garden estate beside São Francisco Convent, pool, sauna, fitness center, on-site restaurant · 9.2 Booking.com', url: 'https://www.booking.com/hotel/br/7-colinas.html', tier: 'luxury' }
+      { name: 'Vila Mar Hotel', note: 'Independent — garden, beach chairs/loungers · 8.6 Booking.com', url: 'https://www.booking.com/hotel/br/vila-mar-olinda.html', tier: 'expensive' },
+      { name: 'Hotel 7 Colinas', note: '4-star sprawling garden estate beside São Francisco Convent, pool, sauna, fitness center, on-site restaurant · 9.2 Booking.com', url: 'https://www.booking.com/hotel/br/7-colinas.html', tier: 'luxury' },
+      { name: 'Pousada Baobá e SPA', note: 'Independent — spa, room service, massage · 8.2 Booking.com', url: 'https://www.booking.com/hotel/br/pousada-baoba.html', tier: 'luxury' }
     ], price: { budget: 'BRL 200–350', mid: 'BRL 400–550', expensive: 'BRL 500–700', luxury: 'BRL 650+' } },
     'orcas-island': { h: [
       { name: 'Outlook Inn', tier: 'expensive', note: 'Independent boutique — Eastsound village center, wraparound deck with water views, farm-fresh breakfast · 9.2 Booking.com', url: 'https://www.booking.com/hotel/us/outlook-inn-eastsound.html' },

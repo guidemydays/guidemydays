@@ -5777,9 +5777,12 @@ window.TVE.home = (function () {
       { name: 'Via Mar Praia Hotel', note: 'Independent — Av. Santos Dumont on the Atalaia beachfront, year-round outdoor pool, free parking, 24h reception · 9.0 Booking.com', url: 'https://www.booking.com/hotel/br/via-mar-praia.html', tier: 'budget' },
       { name: 'Hotel da Costa by Nobile', note: 'Nobile Hotels — beachfront on Orla de Atalaia, outdoor pool with sea view, breakfast highly rated · 8.8 Booking.com', url: 'https://www.booking.com/hotel/br/da-costa.html', tier: 'budget' },
       { name: 'Celi Hotel Aracaju', note: 'Independent — Orla de Atalaia beachfront, Atlantic Ocean views, Maramar Restaurant, rooftop pool · 8.9 Booking.com', url: 'https://www.booking.com/hotel/br/celi-aracaju.html', tier: 'mid' },
+      { name: 'ARCUS Hotel Aracaju by ATLANTICA', note: 'Atlantica Hotels — near Orla de Atalaia, spa, fitness centre, outdoor pool, 24h reception, AC · 8.8 Booking.com', url: 'https://www.booking.com/hotel/br/comfort-aracaju.html', tier: 'mid' },
       { name: 'Quality Hotel Aracaju', note: 'Choice Hotels brand — semi-Olympic pool and spa, near Sergipe River and Beira-Mar Avenue · 9.0 Booking.com', url: 'https://www.booking.com/hotel/br/quality-aracaju.html', tier: 'expensive' },
-      { name: 'Del Mar Hotel', note: 'Independent — beachfront on Av. Santos Dumont in Atalaia, year-round outdoor pool, 24h reception, fitness centre · 9.0 Booking.com', url: 'https://www.booking.com/hotel/br/mercure-aracaju-del-mar.html', tier: 'luxury' }
-    ], price: { budget: 'R$685–740', mid: 'R$640+', expensive: 'R$610–1,430', luxury: 'R$660–2,145' } },
+      { name: 'Aquarios Praia Hotel', note: 'Independent — Av. Santos Dumont beachfront in Atalaia, extensive spa (sauna, steam bath, massage), outdoor pool, 24h reception, AC · 8.8 Booking.com', url: 'https://www.booking.com/hotel/br/aquarios-praia.html', tier: 'expensive' },
+      { name: 'Del Mar Hotel', note: 'Independent — beachfront on Av. Santos Dumont in Atalaia, year-round outdoor pool, 24h reception, fitness centre · 9.0 Booking.com', url: 'https://www.booking.com/hotel/br/mercure-aracaju-del-mar.html', tier: 'luxury' },
+      { name: 'Vidam Hotel Aracaju - Transamerica Collection', note: 'Transamerica Collection — beachfront, 5-star, infinity pool, spa and wellness centre, kids club, 24h reception, AC · 9.4 Booking.com', url: 'https://www.booking.com/hotel/br/vidam-hotel-aracaju.html', tier: 'luxury' }
+    ], price: { budget: 'R$685–740', mid: 'R$610–950', expensive: 'R$610–1,430', luxury: 'R$660–2,145' } },
     'arenal': { h: [
       { name: 'Hotel Los Lagos Spa & Resort', note: 'Independent — 6 km west of La Fortuna on the volcano road, thermal-spring pool complex with waterslides, spa, 24h reception · 9.1 Booking.com', url: 'https://www.booking.com/hotel/cr/los-lagos.html', tier: 'budget' },
       { name: 'Hotel El Silencio del Campo', note: 'Independent — farmstead cabinas 5 km northwest of town, own hot-spring pools, spa, volcano views from the grounds · 9.4 Booking.com', url: 'https://www.booking.com/hotel/cr/el-silencio-del-campo.html', tier: 'mid' },
@@ -6338,6 +6341,7 @@ window.TVE.home = (function () {
     ], price: { budget: '$150–200', mid: '$200–300', expensive: '$300–600', luxury: '$600+' } },
     'delhi': { h: [
       { name: 'Bloomrooms @ New Delhi Railway Station', note: 'Independent — Paharganj, near New Delhi Railway Station, 24h reception · 7.8 Booking.com', url: 'https://www.booking.com/hotel/in/bloomrooms-new-delhi-railway-station.html', tier: 'budget' },
+      { name: 'Neem Haveli', note: 'Independent restored heritage haveli — Old Delhi, Chandni Chowk, short walk to Jama Masjid and Red Fort, 24h reception, AC · 9.4 Booking.com', url: 'https://www.booking.com/hotel/in/neem-haveli-delhi.html', tier: 'budget' },
       { name: 'The Delhi Dreams', note: 'Independent — Desh Bandhu Gupta Road near Chandni Chowk, restaurant, bar, 24h reception · 9.1 Booking.com', url: 'https://www.booking.com/hotel/in/delhi-dreams.html', tier: 'mid' },
       { name: 'Novotel New Delhi City Centre', note: 'Novotel first-tier brand — Community Centre, Jhandewalan, outdoor pool, spa · 8.5 Booking.com', url: 'https://www.booking.com/hotel/in/novotel-new-delhi-city-centre.html', tier: 'mid' },
       { name: 'Le Méridien New Delhi', note: 'Marriott Le Méridien brand — Windsor Place, Connaught Place, outdoor pool, spa · 8.4 Booking.com', url: 'https://www.booking.com/hotel/in/le-ma-c-ridien-new-delhi.html', tier: 'expensive' },

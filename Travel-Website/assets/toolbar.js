@@ -6852,9 +6852,13 @@ window.TVE.home = (function () {
     ], price: { budget: '€80–140', mid: '€140–250', expensive: '€250–450', luxury: '€450+' } },
     'malaga': { h: [
       { name: 'Vincci Posada del Patio', note: 'Vincci Hotels — historic centre, Arabo-Nasrid 16th-century building, rooftop pool with city views · 9.0 Booking.com', url: 'https://www.booking.com/hotel/es/vincci-posada-del-patio.html', tier: 'budget' },
+      { name: 'Tandem Soho Suites', note: 'Independent — Soho district, modern suites, 24h reception · 9.1 Booking.com', url: 'https://www.booking.com/hotel/es/tandem-soho.html', tier: 'budget' },
       { name: 'AC Hotel Málaga Palacio by Marriott', note: 'Marriott family — rooftop pool with Alcazaba and port panorama, heart of historic center · 8.7 Booking.com', url: 'https://www.booking.com/hotel/es/acmalagapalacio.html', tier: 'mid' },
+      { name: 'ME by Meliá Malaga', note: 'Meliá brand — modern rooms, rooftop bar, 24h reception · 9.3 Booking.com', url: 'https://www.booking.com/hotel/es/me-malaga-by-melia.html', tier: 'mid' },
       { name: 'Parador de Málaga Gibralfaro', note: 'Paradores — inside Gibralfaro Castle walls, panoramic views of city and bay, seasonal pool, 24h reception · 8.7 Booking.com', url: 'https://www.booking.com/hotel/es/parador-de-malaga-gibralfaro.html', tier: 'expensive' },
-      { name: 'Gran Hotel Miramar GL', note: 'Mandarin Oriental managed — Paseo de Reding 1930s palace, Miramar Beach Club, heated pools · 9.0 Booking.com', url: 'https://www.booking.com/hotel/es/gran-hotel-miramar-malaga.html', tier: 'luxury' }
+      { name: 'Vincci Selección Posada del Patio', note: 'Vincci Selección — historic centre, spa, rooftop pool · 9.2 Booking.com', url: 'https://www.booking.com/hotel/es/vincci-seleccion-posada-del-patio-malaga.html', tier: 'expensive' },
+      { name: 'Gran Hotel Miramar GL', note: 'Mandarin Oriental managed — Paseo de Reding 1930s palace, Miramar Beach Club, heated pools · 9.0 Booking.com', url: 'https://www.booking.com/hotel/es/gran-hotel-miramar-malaga.html', tier: 'luxury' },
+      { name: 'Palacio Solecio', note: 'Small Luxury Hotels of the World — historic palace, spa, rooftop pool · 9.1 Booking.com', url: 'https://www.booking.com/hotel/es/palacio-solecio.html', tier: 'luxury' }
     ], price: { budget: '€120–200', mid: '€180–290', expensive: '€260–400', luxury: '€380+' } },
     'maldives': { h: [
       { name: 'Arena Beach Hotel', note: 'Independent guesthouse — Maafushi local island, pool, beach access, daily snorkeling package, 24h front desk · 8.5 Booking.com', url: 'https://www.booking.com/hotel/mv/arena-beach.html', tier: 'budget' },
@@ -7194,9 +7198,13 @@ window.TVE.home = (function () {
     ], price: { budget: 'USD 200–400', mid: 'USD 350–600', expensive: 'USD 500–900', luxury: 'USD 800+' } },
     'osaka': { h: [
       { name: 'Courtyard by Marriott Osaka Honmachi', tier: 'budget', note: 'Marriott family — 2-3-7 Minami-Honmachi in the Chuo business district, Japanese public bath on site, soundproofed rooms · 8.8 Booking.com', url: 'https://www.booking.com/hotel/jp/courtyard-by-marriott-osaka-honmachi.html' },
+      { name: 'Candeo Hotels Osaka Shinsaibashi', tier: 'budget', note: 'Independent — Dotonbori, hot tub, 24h front desk · 8.8 Booking.com', url: 'https://www.booking.com/hotel/jp/kandeohoteruzuda-ban-xin-zhai-qiao.html' },
       { name: 'InterContinental Osaka', tier: 'mid', note: 'IHG brand — Grand Front Osaka, 57th-floor Pierre restaurant panorama, spa and indoor pool · 9.0 Booking.com', url: 'https://www.booking.com/hotel/jp/intercontinental-osaka.html' },
+      { name: 'The Gate Hotel Osaka by Hulic', tier: 'mid', note: 'Independent — Shinsaibashi, massage, 24h front desk · 9.3 Booking.com', url: 'https://www.booking.com/hotel/jp/the-gate-osaka-by-hulic.html' },
       { name: 'Conrad Osaka', tier: 'expensive', note: 'Hilton family — Nakanoshima Festival City, sky infinity pool on 40th floor, harbor views · 9.2 Booking.com', url: 'https://www.booking.com/hotel/jp/conrad-osaka.html' },
-      { name: 'The Ritz-Carlton Osaka', tier: 'luxury', note: 'Ritz-Carlton brand — Umeda, indoor pool, Splendor spa, La Baie French restaurant · 9.3 Booking.com', url: 'https://www.booking.com/hotel/jp/the-ritz-carlton-osaka.html' }
+      { name: 'Swissotel Nankai Osaka', tier: 'expensive', note: 'Independent (Swissotel) — Namba, spa, hot tub, sustainability-certified · 8.7 Booking.com', url: 'https://www.booking.com/hotel/jp/swissotel-nankai-osaka-osaka.html' },
+      { name: 'The Ritz-Carlton Osaka', tier: 'luxury', note: 'Ritz-Carlton brand — Umeda, indoor pool, Splendor spa, La Baie French restaurant · 9.3 Booking.com', url: 'https://www.booking.com/hotel/jp/the-ritz-carlton-osaka.html' },
+      { name: 'W Osaka', tier: 'luxury', note: 'Marriott W brand — Shinsaibashi · 9.2 Booking.com', url: 'https://www.booking.com/hotel/jp/w-osaka.html' }
     ], price: { budget: 'JPY 20,000–40,000', mid: 'JPY 35,000–60,000', expensive: 'JPY 50,000–80,000', luxury: 'JPY 80,000+' } },
     'oslo': { h: [
       { name: 'Grand Hotel Oslo by Scandic', tier: 'budget', note: 'Scandic brand — Karl Johans Gate landmark since 1874, Palmen restaurant, indoor pool, central Royal Palace proximity · 8.8 Booking.com', url: 'https://www.booking.com/hotel/no/grand.html' },

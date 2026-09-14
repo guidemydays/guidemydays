@@ -5402,8 +5402,9 @@ window.TVE.home = (function () {
       { name: 'Radisson RED Cebu Mandaue', note: 'Radisson family — lifestyle-brand hotel, outdoor pool, Mandaue business district, 24h reception, AC · 9.4 Booking.com', url: 'https://www.booking.com/hotel/ph/radisson-red-cebu-mandaue.html', tier: 'mid' },
       { name: 'Radisson Blu Cebu', note: 'Radisson family — second-tier international brand, joined to SM City Cebu mall, free parking, 24h reception, AC · 8.6 Booking.com', url: 'https://www.booking.com/hotel/ph/radisson-blu-cebu.html', tier: 'expensive' },
       { name: 'Fili Hotel at Nustar Cebu', note: 'Independent — 5-star hotel at the Nustar Resort & Casino complex, infinity pool, 24h reception, AC · 9.1 Booking.com', url: 'https://www.booking.com/hotel/ph/fili-urban-resort-nustar-resort-and-casino.html', tier: 'expensive' },
-      { name: 'NUSTAR Hotel Cebu', note: 'Independent — flagship 5-star resort and casino, outdoor pool, spa, airport shuttle, 24h reception, AC · 9.5 Booking.com', url: 'https://www.booking.com/hotel/ph/nustar-cebu.html', tier: 'luxury' }
-    ], price: { budget: 'PHP 4,800–5,600', mid: 'PHP 6,000–6,800', expensive: 'PHP 6,800–8,200', luxury: 'PHP 8,500–12,000' } },
+      { name: 'NUSTAR Hotel Cebu', note: 'Independent — flagship 5-star resort and casino, outdoor pool, spa, airport shuttle, 24h reception, AC · 9.5 Booking.com', url: 'https://www.booking.com/hotel/ph/nustar-cebu.html', tier: 'luxury' },
+      { name: 'Marco Polo Plaza Cebu', note: 'Independent — Nivel Hills landmark hotel, 4 dining options, outdoor pool, mountain and sea views, 24h reception, AC · 8.9 Booking.com', url: 'https://www.booking.com/hotel/ph/marco-polo-plaza-cebu.html', tier: 'luxury' }
+    ], price: { budget: 'PHP 4,200–5,600', mid: 'PHP 6,000–6,800', expensive: 'PHP 6,800–8,200', luxury: 'PHP 8,500–13,500' } },
     'essaouira': { h: [
       { name: 'Riad Dar Awil', note: 'Independent — quiet medina riad near Bab Marrakech, terrace, breakfast, 24h reception and air conditioning · 9.4 Booking.com', url: 'https://www.booking.com/hotel/ma/riad-dar-awil.html', tier: 'budget' },
       { name: 'Cruiser Mogador Essaouira', note: 'Independent — two minutes from the beach, suites with kitchenettes, year-round pool, restaurant and air conditioning · 9.2 Booking.com', url: 'https://www.booking.com/hotel/ma/cruiser-mogador-essaouira.html', tier: 'budget' },
@@ -5696,10 +5697,14 @@ window.TVE.home = (function () {
     ], price: { budget: 'AED 330–790', mid: 'AED 400–780', expensive: 'AED 420–1,120', luxury: 'AED 930–3,900' } },
     'agra': { h: [
       { name: 'The Taj Homes', note: 'Independent homestay — Taj East Gate Road near Shilpgram, walking distance to the Taj Mahal, 24h front desk · 9.3 Booking.com', url: 'https://www.booking.com/hotel/in/the-taj-homes.html', tier: 'budget' },
+      { name: 'Max Guest House', note: 'Independent — Taj Ganj near Shaheed Nagar, family-run 3-star, walking distance to the Taj Mahal, 24h front desk, AC · 9.3 Booking.com', url: 'https://www.booking.com/hotel/in/max-guest-house.html', tier: 'budget' },
       { name: 'Courtyard by Marriott Agra', note: 'Marriott Courtyard brand — Taj Nagri Phase II, Fatehabad Road, outdoor pool, spa, 24h reception · 8.4 Booking.com', url: 'https://www.booking.com/hotel/in/courtyard-by-marriott-agra.html', tier: 'mid' },
+      { name: 'Hotel Raaj Palace', note: 'Independent — Taj Nagari Phase 2, 4-star, rooftop restaurant, fitness room, 24h reception, AC · 9.0 Booking.com', url: 'https://www.booking.com/hotel/in/raaj-palace-agra.html', tier: 'mid' },
       { name: 'ITC Mughal, A Luxury Collection Resort & Spa', note: 'Marriott Luxury Collection brand — 23 acres of gardens on Fatehabad Road, two outdoor pools, Kaya Kalp Spa · 8.2 Booking.com', url: 'https://www.booking.com/hotel/in/itc-mughal-agra.html', tier: 'expensive' },
-      { name: 'The Oberoi Amarvilas', note: 'Oberoi brand — 600m from the Taj Mahal with direct views from every room, outdoor pool, Oberoi Spa · 9.4 Booking.com', url: 'https://www.booking.com/hotel/in/the-oberoi-amarvilas-agra.html', tier: 'luxury' }
-    ], price: { budget: '₹1,800–2,800', mid: '₹6,500–9,500', expensive: '₹12,000–18,000', luxury: '₹35,000–65,000' } },
+      { name: 'Grand Mercure Agra', note: 'Accor brand (non-ladder) — Taj Ganj on Fatehabad Road, 5-star, rooftop pool and spa, 24h reception, AC · 9.1 Booking.com', url: 'https://www.booking.com/hotel/in/crystal-sarovar-premiere-agra.html', tier: 'expensive' },
+      { name: 'The Oberoi Amarvilas', note: 'Oberoi brand — 600m from the Taj Mahal with direct views from every room, outdoor pool, Oberoi Spa · 9.4 Booking.com', url: 'https://www.booking.com/hotel/in/the-oberoi-amarvilas-agra.html', tier: 'luxury' },
+      { name: 'Trident Agra', note: 'Oberoi Group sister brand — Fatehabad Road, 5-star, outdoor pool and spa, 24h reception, AC · 9.1 Booking.com', url: 'https://www.booking.com/hotel/in/trident-agra.html', tier: 'luxury' }
+    ], price: { budget: '₹1,700–2,800', mid: '₹6,500–9,500', expensive: '₹12,000–20,000', luxury: '₹25,000–65,000' } },
     'aix-en-provence': { h: [
       { name: 'Novotel Aix-en-Provence Pont de L\'Arc', note: 'Novotel first-tier brand — Avenue Arc de Meyran south of the centre, seasonal outdoor pool, free parking, 24h reception · 8.0 Booking.com', url: 'https://www.booking.com/hotel/fr/aix-en-provence-pont-de-l-arc-fenouilleres.html', tier: 'budget' },
       { name: 'Les Suites du Cours & Spa', note: 'Independent boutique — 5-star on Cours Mirabeau in the historic centre, spa with hot tub, soundproofed suites · 9.0 Booking.com', url: 'https://www.booking.com/hotel/fr/les-suites-du-cours.html', tier: 'mid' },

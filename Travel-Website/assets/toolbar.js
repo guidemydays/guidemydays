@@ -6812,10 +6812,13 @@ window.TVE.home = (function () {
     ], price: { budget: 'MOP 600–900', mid: 'MOP 950–1,200', expensive: 'MOP 1,300–1,800', luxury: 'MOP 2,400+' } },
     'maceio': { h: [
       { name: 'ibis Maceió', note: 'Accor ibis brand — Ponta Verde beachfront, air-conditioned rooms, 24h reception, walk to Pajuçara pier · 8.1 Booking.com', url: 'https://www.booking.com/hotel/br/ibis-maceio.html', tier: 'budget' },
+      { name: 'Hilton Garden Inn Maceió', note: 'Hilton family — modern rooms, 24h reception · 8.5 Booking.com', url: 'https://www.booking.com/hotel/br/hilton-garden-inn-maceio.html', tier: 'budget' },
       { name: 'Jatiúca Resort', note: 'Independent — beachfront on Jatiúca Beach, outdoor pool complex, buffet dining, family-friendly · 8.7 Booking.com', url: 'https://www.booking.com/hotel/br/jatiuca-resort.html', tier: 'mid' },
       { name: 'Ritz Suítes Hotel', note: 'Independent — Pajuçara beach access, rooftop pool with sea view, central Maceió location · 8.6 Booking.com', url: 'https://www.booking.com/hotel/br/ritz-suites-home-service.html', tier: 'mid' },
       { name: 'DoubleTree by Hilton Maceió', note: 'Hilton DoubleTree brand — Ponta Verde beachfront, rooftop pool with Atlantic views, fitness centre, 24h reception · 8.8 Booking.com', url: 'https://www.booking.com/hotel/br/doubletree-by-hilton-maceio.html', tier: 'expensive' },
-      { name: 'Kenoa – Exclusive Beach Spa & Resort', note: 'Small Luxury Hotels — Barra de São Miguel, 6-room adults-only eco-resort, private beach, 9.7 Booking.com', url: 'https://www.booking.com/hotel/br/kenoa-exclusive-beach-spa-resort.html', tier: 'luxury' }
+      { name: 'Ritz Lagoa da Anta Hotel & Wellness', note: 'Independent — wellness resort, spa, outdoor pool · 9.2 Booking.com', url: 'https://www.booking.com/hotel/br/ritz-lagoa-da-anta.html', tier: 'expensive' },
+      { name: 'Kenoa – Exclusive Beach Spa & Resort', note: 'Small Luxury Hotels — Barra de São Miguel, 6-room adults-only eco-resort, private beach, 9.7 Booking.com', url: 'https://www.booking.com/hotel/br/kenoa-exclusive-beach-spa-resort.html', tier: 'luxury' },
+      { name: 'Venti Hotel', note: 'Brisa Hotéis — boutique hotel and spa · 9.7 Booking.com', url: 'https://www.booking.com/hotel/br/venti-amp-spa.html', tier: 'luxury' }
     ], price: { budget: 'R$250–420', mid: 'R$420–750', expensive: 'R$750–1,300', luxury: 'R$1,500–4,000' } },
     'machupicchu': { h: [
       { name: 'Hostal Rupa Wasi', note: 'Independent budget — Aguas Calientes town centre, clean rooms, hot water, close to shuttle bus stop and train station · 8.2 Booking.com', url: 'https://www.booking.com/hotel/pe/hostal-rupa-wasi.html', tier: 'budget' },
@@ -7163,9 +7166,13 @@ window.TVE.home = (function () {
     ], price: { budget: 'BRL 200–350', mid: 'BRL 400–550', expensive: 'BRL 500–700', luxury: 'BRL 650+' } },
     'orcas-island': { h: [
       { name: 'Outlook Inn', tier: 'expensive', note: 'Independent boutique — Eastsound village center, wraparound deck with water views, farm-fresh breakfast · 9.2 Booking.com', url: 'https://www.booking.com/hotel/us/outlook-inn-eastsound.html' },
+      { name: 'West Beach Resort', tier: 'expensive', note: 'Independent — beachfront bungalows, spa, hot tub · 9.0 Booking.com', url: 'https://www.booking.com/hotel/us/west-beach-resort.html' },
       { name: 'Deer Harbor Inn', tier: 'mid', note: 'Independent — Deer Harbor overlook, cottage-style rooms, outdoor hot tub, kayak rentals · 9.1 Booking.com', url: 'https://www.booking.com/hotel/us/deer-harbor-inn.html' },
+      { name: 'Kangaroo House Bed & Breakfast', tier: 'mid', note: 'Independent, adults only — Eastsound, hot tub · 9.8 Booking.com', url: 'https://www.booking.com/hotel/us/kangaroo-house-bed-breakfast.html', tier: 'mid' },
       { name: 'Rosario Resort & Spa', tier: 'luxury', note: 'Independent — 1904 Moran estate on Cascade Bay, spa, pool, 40 acres of grounds · 8.4 Booking.com', url: 'https://www.booking.com/hotel/us/rosario-resort-spa.html' },
-      { name: 'Orcas Hotel', tier: 'budget', note: 'Independent — 1904 Victorian at the Orcas ferry landing, wraparound porch, farm-to-table bistro · 9.2 Booking.com', url: 'https://www.booking.com/hotel/us/orcas-hotel.html' }
+      { name: 'Madrona Suite', tier: 'luxury', note: 'Independent — Eastsound, garden, air conditioning · 9.6 Booking.com', url: 'https://www.booking.com/hotel/us/madrona-suite.html' },
+      { name: 'Orcas Hotel', tier: 'budget', note: 'Independent — 1904 Victorian at the Orcas ferry landing, wraparound porch, farm-to-table bistro · 9.2 Booking.com', url: 'https://www.booking.com/hotel/us/orcas-hotel.html' },
+      { name: 'The Landmark Inn on Orcas Island', tier: 'budget', note: 'Independent — Eastsound, beachfront, garden · 8.8 Booking.com', url: 'https://www.booking.com/hotel/us/the-landmark-orcas-island.html' }
     ], price: { budget: 'USD 120–220', mid: 'USD 200–350', expensive: 'USD 300–480', luxury: 'USD 400+' } },
     'orlando': { h: [
       { name: 'Loews Portofino Bay Hotel at Universal Orlando', tier: 'expensive', note: 'Loews brand — Italian Riviera theming, three pools, on-site Universal Express Pass access · 8.9 Booking.com', url: 'https://www.booking.com/hotel/us/loews-portofino-bay-at-universal-orlando.html' },

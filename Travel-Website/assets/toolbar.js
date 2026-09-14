@@ -6733,14 +6733,19 @@ window.TVE.home = (function () {
     ], price: { budget: '£120–190', mid: '£190–300', expensive: '£300–500', luxury: '£500+' } },
     'los-angeles': { h: [
       { name: 'Freehand Los Angeles', note: 'Independent — 416 West 8th Street in Downtown LA, design hotel with private rooms and poolside lounge, 10 min walk from LA LIVE · 8.3 Booking.com', url: 'https://www.booking.com/hotel/us/freehand-los-angeles.html', tier: 'budget' },
+      { name: 'AC Hotel by Marriott Downtown Los Angeles', note: 'Marriott family — Downtown LA, modern rooms, 24h front desk · 8.2 Booking.com', url: 'https://www.booking.com/hotel/us/ac-by-marriott-los-downtown-los-angeles.html', tier: 'budget' },
       { name: 'Omni Los Angeles Hotel', note: 'Omni Hotels — 251 South Olive Street on Bunker Hill, rooftop pool, spa and 24h reception, walking distance to The Broad · 9.0 Booking.com', url: 'https://www.booking.com/hotel/us/omni-los-angeles.html', tier: 'mid' },
+      { name: 'Hotel Figueroa, Unbound Collection by Hyatt', note: 'Hyatt family — historic 1926 hotel on South Figueroa Street in Downtown LA, pool, 24h front desk · 8.2 Booking.com', url: 'https://www.booking.com/hotel/us/figueroa.html', tier: 'mid' },
       { name: 'Sunset Tower Hotel', note: 'Independent — 1931 Art Deco landmark on the Sunset Strip, pool and terrace, Tower Bar restaurant · 9.1 Booking.com', url: 'https://www.booking.com/hotel/us/sunset-tower-hotel.html', tier: 'expensive' },
+      { name: 'InterContinental Los Angeles Downtown', note: 'IHG InterContinental — tallest hotel on the West Coast, Downtown LA, spa, 24h front desk · 8.7 Booking.com', url: 'https://www.booking.com/hotel/us/intercontinental-los-angeles-downtown.html', tier: 'expensive' },
       { name: 'The Beverly Hills Hotel', note: 'Dorchester Collection — 1912 Pink Palace on Sunset Boulevard, Polo Lounge, bungalows, pool · 9.2 Booking.com', url: 'https://www.booking.com/hotel/us/the-beverly-hills-hotel.html', tier: 'luxury' },
       { name: 'Shutters On The Beach', note: 'Independent — beachfront at 1 Pico Boulevard in Santa Monica, 5-star, spa, outdoor pool and direct sand access · 9.2 Booking.com', url: 'https://www.booking.com/hotel/us/shutters-on-the-beach.html', tier: 'luxury' }
     ], price: { budget: '$130–190', mid: '$220–320', expensive: '$350–500', luxury: '$600+' } },
     'los-cabos': { h: [
       { name: 'Hotel Mar de Cortez', note: 'Independent budget — Cabo San Lucas marina area, outdoor pool, steps from the malecon · 8.2 Booking.com', url: 'https://www.booking.com/hotel/mx/hotel-mar-de-cortez.html', tier: 'budget' },
+      { name: 'Club Regina Los Cabos', note: 'Independent — Medano Beach area, outdoor pool, kitchenette suites · 7.2 Booking.com', url: 'https://www.booking.com/hotel/mx/raintree-s-club-regina.html', tier: 'budget' },
       { name: 'Hyatt Ziva Los Cabos', note: 'Hyatt brand — beachfront all-inclusive on the Tourist Corridor, six restaurants, five pools, lazy river · 9.1 Booking.com', url: 'https://www.booking.com/hotel/mx/hyatt-ziva-los-cabos.html', tier: 'mid' },
+      { name: 'Hilton Los Cabos', note: 'Hilton family — Beach & Golf Resort on the Tourist Corridor, golf course, spa · 9.3 Booking.com', url: 'https://www.booking.com/hotel/mx/hilton-los-cabos-beach-golf-resort.html', tier: 'mid' },
       { name: 'Grand Velas Los Cabos', note: 'Velas Resorts — beachfront all-inclusive, six restaurants, Se Spa, infinity pool · 9.3 Booking.com', url: 'https://www.booking.com/hotel/mx/grand-velas-los-cabos.html', tier: 'expensive' },
       { name: 'Nobu Hotel Los Cabos', note: 'Nobu Hospitality — beachfront resort on the Tourist Corridor, Nobu restaurant, two pools, spa · 9.4 Booking.com', url: 'https://www.booking.com/hotel/mx/nobu-hotel-los-cabos.html', tier: 'expensive' },
       { name: 'Las Ventanas al Paraíso, A Rosewood Resort', note: 'Rosewood brand — beachfront estate, telescope observatory, three pools, Tequila & Ceviche Bar · 9.5 Booking.com', url: 'https://www.booking.com/hotel/mx/las-ventanas-al-paraiso.html', tier: 'luxury' },
@@ -7096,9 +7101,13 @@ window.TVE.home = (function () {
     ], price: { budget: 'USD 100–180', mid: 'USD 180–280', expensive: 'USD 280–450', luxury: 'USD 450+' } },
     'new-york': { h: [
       { name: 'The Mark Hotel', note: 'Independent luxury — 25 East 77th Street Upper East Side, largest suite in NYC, Jean-Georges Vongerichten restaurant · 9.4 Booking.com' , url: 'https://www.booking.com/hotel/us/the-mark-new-york.html', tier: 'luxury' },
+      { name: 'The Plaza, A Fairmont Hotel', note: 'Fairmont brand — Fifth Avenue at Central Park South, 1907 landmark · 8.6 Booking.com', url: 'https://www.booking.com/hotel/us/the-plaza.html', tier: 'luxury' },
       { name: 'The Carlyle, A Rosewood Hotel', note: 'Rosewood brand — 1930 Upper East Side landmark, Bemelmans Bar murals, Café Carlyle cabaret · 9.5 Booking.com' , url: 'https://www.booking.com/hotel/us/the-carlyle.html', tier: 'expensive' },
+      { name: 'The St. Regis New York', note: 'Marriott St. Regis brand — Fifth Avenue at 55th Street, steps from Central Park · 8.4 Booking.com', url: 'https://www.booking.com/hotel/us/st-regis-new-york.html', tier: 'expensive' },
       { name: 'The Peninsula New York', note: 'Peninsula brand — Fifth Avenue and 55th Street, rooftop pool and bar, Julie Spa, Clement Restaurant, prime Midtown position · 9.3 Booking.com' , url: 'https://www.booking.com/hotel/us/the-peninsula-new-york.html', tier: 'mid' },
-      { name: 'Four Seasons Hotel New York Downtown', note: 'Four Seasons brand — Tribeca, private plunge pools in suites, CUT by Wolfgang Puck restaurant, spa, Hudson River proximity · 9.2 Booking.com' , url: 'https://www.booking.com/hotel/us/four-seasons-hotel-new-york-downtown.html', tier: 'budget' }
+      { name: 'The Ritz-Carlton New York, Central Park', note: 'Ritz-Carlton brand — 50 Central Park South, Midtown · 8.0 Booking.com', url: 'https://www.booking.com/hotel/us/the-ritz-carlton-new-york-central-park.html', tier: 'mid' },
+      { name: 'Four Seasons Hotel New York Downtown', note: 'Four Seasons brand — Tribeca, private plunge pools in suites, CUT by Wolfgang Puck restaurant, spa, Hudson River proximity · 9.2 Booking.com' , url: 'https://www.booking.com/hotel/us/four-seasons-hotel-new-york-downtown.html', tier: 'budget' },
+      { name: 'JW Marriott Essex House New York', note: 'Marriott JW brand — facing Central Park, Midtown · 8.0 Booking.com', url: 'https://www.booking.com/hotel/us/j-e-house-new-york-new-york.html', tier: 'budget' }
     ], price: { budget: 'USD 450–700', mid: 'USD 650–950', expensive: 'USD 850–1300', luxury: 'USD 1200+' } },
     'nice': { h: [
       { name: 'Hôtel Le Negresco', tier: 'luxury', note: 'Independent luxury — 1913 Promenade des Anglais landmark, Royal Suite, Michelin-starred Chantecler restaurant · 9.3 Booking.com', url: 'https://www.booking.com/hotel/fr/negresco.html' },

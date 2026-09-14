@@ -7086,9 +7086,13 @@ window.TVE.home = (function () {
     ], price: { budget: 'BRL 300–500', mid: 'BRL 500–900', expensive: 'BRL 900–1500', luxury: 'BRL 1500+' } },
     'new-orleans': { h: [
       { name: 'French Market Inn', note: 'Independent — 509 Decatur Street in the French Quarter, courtyard saltwater pool, 24h reception · 9.2 Booking.com', url: 'https://www.booking.com/hotel/us/french-market-inn.html', tier: 'budget' },
+      { name: 'Le Pavillon, New Orleans, a Tribute Portfolio Hotel', note: 'Marriott family (Tribute Portfolio) — Downtown, fitness center, room service · 8.9 Booking.com', url: 'https://www.booking.com/hotel/us/le-pavillon-new-orleans-louisiana.html', tier: 'budget' },
       { name: "Place D'Armes Hotel", note: 'Independent — 625 St Ann Street beside Jackson Square, courtyard saltwater pool, 24h reception · 9.0 Booking.com', url: 'https://www.booking.com/hotel/us/place-d-armes.html', tier: 'mid' },
+      { name: 'The Royal Sonesta New Orleans', note: 'Independent (Sonesta) — French Quarter, heated pool · 8.2 Booking.com', url: 'https://www.booking.com/hotel/us/r-sonesta-new-orleans-louisiana.html', tier: 'mid' },
       { name: 'Hotel Monteleone', note: 'Independent — 1886 Royal Street icon, rotating Carousel Bar, rooftop pool, Hunt Room Grill · 9.1 Booking.com', url: 'https://www.booking.com/hotel/us/monteleone.html', tier: 'expensive' },
-      { name: 'The Ritz-Carlton, New Orleans', note: 'Ritz-Carlton brand — Canal Street landmark in 1907 Beaux-Arts building, spa, Club Lounge · 8.7 Booking.com', url: 'https://www.booking.com/hotel/us/nine-twenty-one-canal-street-new-orleans.html', tier: 'luxury' }
+      { name: 'The Roosevelt Hotel New Orleans, Waldorf Astoria Hotels & Resorts', note: 'Hilton family (Waldorf Astoria) — Downtown, spa, hot tub, sustainability-certified · 8.9 Booking.com', url: 'https://www.booking.com/hotel/us/the-roosevelt-new-orleans.html', tier: 'expensive' },
+      { name: 'The Ritz-Carlton, New Orleans', note: 'Ritz-Carlton brand — Canal Street landmark in 1907 Beaux-Arts building, spa, Club Lounge · 8.7 Booking.com', url: 'https://www.booking.com/hotel/us/nine-twenty-one-canal-street-new-orleans.html', tier: 'luxury' },
+      { name: 'JW Marriott New Orleans', note: 'Marriott JW brand — Downtown, pool with a view · 9.0 Booking.com', url: 'https://www.booking.com/hotel/us/jw-marriott-new-orleans.html', tier: 'luxury' }
     ], price: { budget: 'USD 100–180', mid: 'USD 180–280', expensive: 'USD 280–450', luxury: 'USD 450+' } },
     'new-york': { h: [
       { name: 'The Mark Hotel', note: 'Independent luxury — 25 East 77th Street Upper East Side, largest suite in NYC, Jean-Georges Vongerichten restaurant · 9.4 Booking.com' , url: 'https://www.booking.com/hotel/us/the-mark-new-york.html', tier: 'luxury' },

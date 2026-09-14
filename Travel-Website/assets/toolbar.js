@@ -5724,7 +5724,7 @@ window.TVE.home = (function () {
       { name: 'Renaissance Aix-en-Provence Hotel', note: 'Marriott Renaissance brand — Avenue Wolfgang Amadeus Mozart, 5-star, indoor and outdoor pools, spa, 24h reception, AC · 8.5 Booking.com', url: 'https://www.booking.com/hotel/fr/renaissance-aix-en-provence.html', tier: 'expensive' },
       { name: 'Villa Saint-Ange', note: 'Independent boutique — 18th-century bastide estate, heated pool, Provençal garden · 9.3 Booking.com', url: 'https://www.booking.com/hotel/fr/villa-saint-ange.html', tier: 'luxury' },
       { name: 'Villa Gallici Hôtel & Spa', note: 'Relais & Châteaux — 18th-century villa on Avenue de la Violette, year-round heated pool, Michelin-listed dining, cypress gardens · 9.4 Booking.com', url: 'https://www.booking.com/hotel/fr/villagallici.html', tier: 'luxury' }
-    ], price: { budget: '€110–135', mid: '€225–370', expensive: '€240–690', luxury: '€335–1,000' } },
+    ], price: { budget: '€85–135', mid: '€225–370', expensive: '€240–690', luxury: '€335–1,000' } },
     'alaska': { h: [
       { name: 'Hampton Inn Anchorage', note: 'Hilton Hampton brand — Credit Union Drive in midtown, indoor pool, free airport shuttle and free parking · 8.1 Booking.com', url: 'https://www.booking.com/hotel/us/hampton-inn-anchorage.html', tier: 'budget' },
       { name: 'SpringHill Suites Anchorage Midtown', note: 'Marriott SpringHill brand — all-suite on A Street, indoor pool and hot tub, free parking · 7.8 Booking.com', url: 'https://www.booking.com/hotel/us/springhill-suites-anchorage-midtown.html', tier: 'budget' },

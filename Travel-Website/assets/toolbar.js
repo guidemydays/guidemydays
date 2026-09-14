@@ -6379,6 +6379,12 @@ window.TVE.home = (function () {
       { name: 'Hotel Excelsior Dubrovnik', note: 'Independent — seafront promenade steps from Pile Gate, panoramic Lokrum and Old Town views, pools, Sensori Wellness Spa · 9.0 Booking.com', url: 'https://www.booking.com/hotel/hr/hotelexcelsiordubrovnik.html', tier: 'expensive' },
       { name: 'Villa Dubrovnik', note: 'Small Luxury Hotels — clifftop boutique south of the Old Town walls, private boat shuttle, infinity pool over the Adriatic, open-fire Restaurant · 9.5 Booking.com', url: 'https://www.booking.com/hotel/hr/villa-dubrovnik-dubrovnik.html', tier: 'luxury' }
     ], price: { budget: '€90–150', mid: '€150–280', expensive: '€280–480', luxury: '€480+' } },
+    'dusseldorf': { h: [
+      { name: 'Hampton by Hilton Dusseldorf City Centre', note: 'Hilton Hampton brand — Harkortstrasse, air conditioning, breakfast included, 24h reception, short walk to Hauptbahnhof · 8.4 Booking.com', url: 'https://www.booking.com/hotel/de/hampton-by-hilton-dusseldorf-nw.html', tier: 'budget' },
+      { name: 'Courtyard by Marriott Duesseldorf Hafen', note: 'Marriott Courtyard brand — Medienhafen harbor district, steps from the Gehry buildings, 24h reception · 8.5 Booking.com', url: 'https://www.booking.com/hotel/de/courtyard-duesseldorf-hafen.html', tier: 'mid' },
+      { name: 'Hilton Dusseldorf', note: 'Hilton brand — Rhine-side near the Altstadt and Congress Center, fitness centre, multiple dining venues, 24h reception · 8.1 Booking.com', url: 'https://www.booking.com/hotel/de/hilton-dusseldorf.html', tier: 'expensive' },
+      { name: 'Breidenbacher Hof', note: 'Independent — 1806 grande dame on Königsallee, Capitale Grand Cafe & Bistro, spa with pool, named Best Hotel of the Year 2026 (Die 101 Besten) · 9.1 Booking.com', url: 'https://www.booking.com/hotel/de/breidenbacher-hof.html', tier: 'luxury' }
+    ], price: { budget: '€90–150', mid: '€160–240', expensive: '€240–380', luxury: '€400+' } },
     'edinburgh': { h: [
       { name: 'Hampton by Hilton Edinburgh West End', note: 'Hilton Hampton brand — Fountainbridge, ten minutes on foot from Princes Street, breakfast included, 24h reception · 8.2 Booking.com', url: 'https://www.booking.com/hotel/gb/hampton-by-hilton-edinburgh-west-end.html', tier: 'budget' },
       { name: 'Residence Inn by Marriott Edinburgh', note: 'Marriott Residence Inn brand — Quartermile beside the Meadows, suites with kitchens, 24h reception · 8.4 Booking.com', url: 'https://www.booking.com/hotel/gb/residence-inn-by-marriott-edinburgh.html', tier: 'budget' },
@@ -11055,6 +11061,7 @@ window.TVE.home = (function () {
       'dubai':             {iata:'DXB', name:'Dubai International'},
       'dublin':            {iata:'DUB', name:'Dublin International'},
       'dubrovnik':         {iata:'DBV', name:'Dubrovnik Airport'},
+      'dusseldorf':        {iata:'DUS', name:'Düsseldorf Airport'},
       'edinburgh':         {iata:'EDI', name:'Edinburgh Airport'},
       'florence':          {iata:'FLR', name:'Florence Peretola'},
       'florianopolis':     {iata:'FLN', name:'Florianópolis Hercílio Luz'},

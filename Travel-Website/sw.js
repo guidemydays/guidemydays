@@ -3687,7 +3687,7 @@
 /* 2026-09-14: hotel-alt-tier-depth: lyon, maceio toolbar.js -> v1297. CACHE to v2124. */
 /* 2026-09-14: push-guard catch-up -- weather.js changed again on an already-landed publish commit without a MIN_VERSIONS bump. MIN_VERSIONS['weather.js'] to 77, CACHE to v2125. */
 /* 2026-09-14: hotel-alt-tier-depth: orcas-island toolbar.js -> v1298. CACHE to v2126. */
-/* 2026-09-14: hotel-alt-tier-depth: orlando toolbar.js -> v1299. CACHE to v2127. */
+/* 2026-09-14: hotel-alt-tier-depth: machupicchu, madeira toolbar.js -> v1299. CACHE to v2127. */
 var CACHE = 'travel-cache-v2127';
 /* 2026-08-27: airlines.css's .card-tags align-items fix changed a shared
    asset without raising its own floor -- MIN_VERSIONS['airlines.css'] to

@@ -6475,10 +6475,13 @@ window.TVE.home = (function () {
     ], price: { budget: '€130–145', mid: '€145–300', expensive: '€300–450', luxury: '€450+' } },
     'dubrovnik': { h: [
       { name: 'Hotel Lapad', note: 'Independent — Lapad Bay waterfront, outdoor pool, seaside terrace, 15 min ride to Old Town, 24h reception · 8.3 Booking.com', url: 'https://www.booking.com/hotel/hr/lapad-dubrovnik.html', tier: 'budget' },
+      { name: 'King Richards Royal Residence', note: 'Independent heritage hotel — Old Town, 2-min walk to Buza Beach, concierge, 24h reception, AC · 9.2 Booking.com', url: 'https://www.booking.com/hotel/hr/heritage-king-richards-royal-residence.html', tier: 'budget' },
       { name: 'Hotel Stari Grad', note: 'Independent — inside Dubrovnik\'s walled city, 8-room boutique, rooftop terrace with Old Town views · 9.4 Booking.com', url: 'https://www.booking.com/hotel/hr/stari-grad.html', tier: 'mid' },
+      { name: 'Boutique Hotel Porto', note: 'Independent — 11-min walk to Bellevue Beach, garden, restaurant, bar, 24h reception, AC · 9.0 Booking.com', url: 'https://www.booking.com/hotel/hr/porto-dubrovnik.html', tier: 'mid' },
       { name: 'Bellevue Hotel Dubrovnik', note: 'Independent — clifftop above a private cove, sea-view rooms, outdoor pool, Vapor restaurant · 9.1 Booking.com', url: 'https://www.booking.com/hotel/hr/bellevue-dubrovnik.html', tier: 'expensive' },
       { name: 'Hotel Excelsior Dubrovnik', note: 'Independent — seafront promenade steps from Pile Gate, panoramic Lokrum and Old Town views, pools, Sensori Wellness Spa · 9.0 Booking.com', url: 'https://www.booking.com/hotel/hr/hotelexcelsiordubrovnik.html', tier: 'expensive' },
-      { name: 'Villa Dubrovnik', note: 'Small Luxury Hotels — clifftop boutique south of the Old Town walls, private boat shuttle, infinity pool over the Adriatic, open-fire Restaurant · 9.5 Booking.com', url: 'https://www.booking.com/hotel/hr/villa-dubrovnik-dubrovnik.html', tier: 'luxury' }
+      { name: 'Villa Dubrovnik', note: 'Small Luxury Hotels — clifftop boutique south of the Old Town walls, private boat shuttle, infinity pool over the Adriatic, open-fire Restaurant · 9.5 Booking.com', url: 'https://www.booking.com/hotel/hr/villa-dubrovnik-dubrovnik.html', tier: 'luxury' },
+      { name: 'Hilton Imperial Dubrovnik', note: 'Hilton brand — doorstep of the Old Town, indoor pool, wellness centre with hammam, 24h reception, AC · 9.1 Booking.com', url: 'https://www.booking.com/hotel/hr/hilton-imperial-dubrovnik.html', tier: 'luxury' }
     ], price: { budget: '€90–150', mid: '€150–280', expensive: '€280–480', luxury: '€480+' } },
     'dusseldorf': { h: [
       { name: 'Hampton by Hilton Dusseldorf City Centre', note: 'Hilton Hampton brand — Harkortstrasse, air conditioning, breakfast included, 24h reception, short walk to Hauptbahnhof · 8.4 Booking.com', url: 'https://www.booking.com/hotel/de/hampton-by-hilton-dusseldorf-nw.html', tier: 'budget' },

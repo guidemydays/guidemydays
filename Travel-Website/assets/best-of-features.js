@@ -240,13 +240,15 @@
     var presentConts = CONT_ORDER.filter(function (c) { return pageContinents[c]; });
     if (presentConts.length > 1) {
       var chips = el('div', 'bo-continent-chips');
-      var allChip = el('button', 'bo-chip bo-active', 'All');
+      var continentTones = { Africa: 'cp-honey', Americas: 'cp-soft-mint',
+        Asia: 'cp-peachy-blush', Europe: 'cp-blue', Oceania: 'cp-soft-plum' };
+      var allChip = el('button', 'bo-chip selection-pill cp-grey hov-darken bo-active', 'All');
       allChip.type = 'button';
       allChip.setAttribute('aria-pressed', 'true');
       allChip.dataset.cont = '';
       chips.appendChild(allChip);
       presentConts.forEach(function (c) {
-        var chip = el('button', 'bo-chip', c);
+        var chip = el('button', 'bo-chip selection-pill ' + continentTones[c] + ' hov-darken', c);
         chip.type = 'button';
         chip.setAttribute('aria-pressed', 'false');
         chip.dataset.cont = c;

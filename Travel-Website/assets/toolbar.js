@@ -7644,10 +7644,13 @@ window.TVE.home = (function () {
     ], price: { budget: '€60–100', mid: '€100–170', expensive: '€170–280', luxury: '€280+' } },
     'puerto-rico': { h: [
       { name: 'Hampton Inn & Suites San Juan', note: 'Hilton brand — Isla Verde, 10 min from Condado, outdoor pool, breakfast included · 8.5 Booking.com', url: 'https://www.booking.com/hotel/pr/hampton-inn-suites-san-juan.html', tier: 'budget' },
+      { name: 'Trópica Beach Hotel', note: 'Independent boutique — Ocean Park, 24h reception, AC · 8.8 Booking.com', url: 'https://www.booking.com/hotel/pr/tropica-beach.html', tier: 'budget' },
       { name: 'Caribe Hilton', note: 'Hilton brand — San Geronimo Grounds, site of the original Piña Colada, private beach · 8.0 Booking.com', url: 'https://www.booking.com/hotel/pr/caribe-hilton.html', tier: 'mid' },
+      { name: 'AC Hotel by Marriott San Juan Condado', note: 'Marriott AC brand — Condado district, 24h reception, AC · 8.0 Booking.com', url: 'https://www.booking.com/hotel/pr/ac-hotel-marriott-san-juan.html', tier: 'mid' },
       { name: 'La Concha Resort, Puerto Rico, Autograph Collection', note: 'Marriott Autograph Collection — Condado Beach, 1950s concha-shell architecture, two pools, spa · 8.9 Booking.com', url: 'https://www.booking.com/hotel/pr/la-concha-renaissance-san-juan-resort.html', tier: 'expensive' },
       { name: 'Fairmont El San Juan Hotel', note: 'Fairmont brand — Isla Verde beachfront, historic 1958 mahogany lobby, three pools · 7.6 Booking.com', url: 'https://www.booking.com/hotel/pr/el-san-juan-casino.html', tier: 'expensive' },
-      { name: 'Dorado Beach, a Ritz-Carlton Reserve', note: 'Ritz-Carlton Reserve — 1,400-acre beachfront estate, six pools, two golf courses · 9.4 Booking.com', url: 'https://www.booking.com/hotel/pr/dorado-beach-a-ritz-carlton-reserve.html', tier: 'luxury' }
+      { name: 'Dorado Beach, a Ritz-Carlton Reserve', note: 'Ritz-Carlton Reserve — 1,400-acre beachfront estate, six pools, two golf courses · 9.4 Booking.com', url: 'https://www.booking.com/hotel/pr/dorado-beach-a-ritz-carlton-reserve.html', tier: 'luxury' },
+      { name: 'San Juan Marriott Resort and Stellaris Casino', note: 'Marriott brand — Isla Verde beachfront, casino, 24h reception, AC · 8.7 Booking.com', url: 'https://www.booking.com/hotel/pr/san-juan-marriott-resort-and-stellaris-casino.html', tier: 'luxury' }
     ], price: { budget: '$120–200', mid: '$200–320', expensive: '$320–520', luxury: '$520+' } },
     'puerto-vallarta': { h: [
       { name: 'Playa Los Arcos Hotel', note: 'Independent — Olas Altas beachfront, Romantic Zone, rooftop pool · 8.8 Booking.com', url: 'https://www.booking.com/hotel/mx/playa-los-arcos.html', tier: 'budget' },

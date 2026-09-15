@@ -4511,7 +4511,14 @@ function render() {
         /* `u` is web-root-relative ("guides/athens.html"); every internal link
            on this site is root-absolute (Thirtieth non-negotiable). */
         var href = g.u.charAt(0) === '/' ? g.u : '/' + g.u;
-        items.push({ name: g.c, sub: bySlug[href.replace('/guides/', '')] || '', href: href });
+        var sub = bySlug[href.replace('/guides/', '')] || '';
+        if (sub === 'United States') {
+          // Published guide names not yet present in the shared city table.
+          var extraStates = { "coeur d'alene": 'Idaho', 'hilton head island': 'South Carolina',
+            'marco island': 'Florida', 'naples, fl': 'Florida', 'virgin islands': 'U.S. Virgin Islands' };
+          sub = TVESearch.CITIES[g.c.toLowerCase()] || extraStates[g.c.toLowerCase()] || '';
+        }
+        items.push({ name: g.c, sub: sub, href: href });
       });
       if (!items.length) return;
       api.setItems(items);

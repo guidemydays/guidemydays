@@ -308,6 +308,24 @@ a.city-row.hidden { display: none; }
   <!-- Loaded ABOVE the band, not between it and .wrap: an element sitting
        there breaks `.hero-band + .wrap` and the page loses its 32px gap. -->
   <script src="/assets/search-autocomplete.js?v=16"></script>
+<script>
+// Keep US states visible while retaining country words as hidden match text.
+function searchStateItems(items) {
+  var aliases = { coeurdalene: 'Idaho', hiltonheadisland: 'South Carolina',
+    marcoisland: 'Florida', naplesfl: 'Florida', virginislands: 'U.S. Virgin Islands' };
+  items.forEach(function (item) {
+    var country = item.sub || '';
+    if (!/^(?:United States|USA)(?: · .*)?$/.test(country)) return;
+    var name = (item._city || item.name || '').toLowerCase();
+    var state = TVESearch.CITIES[name] || aliases[name.replace(/[^a-z]/g, '')];
+    if (!state) return;
+    item.sub = state;
+    item.text = (item.text || '') + ' ' + country;
+  });
+  return items;
+}
+</script>
+
   <div class="hero-band eb-hero">
     <span class="eb-kicker">Safety Guide</span>
     <div class="eb-copy">
@@ -837,7 +855,7 @@ a.city-row.hidden { display: none; }
       if (name && href) items.push({ name: name, sub: sub, text: text, href: href });
     });
     TVESearch.attach(inp, {
-      items: items,
+      items: searchStateItems(items),
       onPick: function (item) {
         inp.value = item.name;
         inp.dispatchEvent(new Event('input'));

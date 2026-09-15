@@ -4079,7 +4079,17 @@
       /* data-n = how many city columns are drawn — the 5-column compact CSS
          rule (#compare-view[data-n="5"]) depends on it being set here. */
       compareView.setAttribute('data-n', String(sel.length));
-      compareView.innerHTML = buildTable();
+      compareView.innerHTML = '<button type="button" class="cmp-exit-btn cmp-edit-btn">Change cities</button>' + buildTable();
+      /* Return to the existing card grid with the current picks intact. */
+      compareView.querySelector('.cmp-edit-btn').addEventListener('click', function () {
+        compareView.hidden = true;
+        compareView.innerHTML = '';
+        compareView.removeAttribute('data-n');
+        document.querySelector('.mosaic-wrap').style.display = '';
+        updateBar();
+        goBtn.focus();
+        selBar.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      });
       /* The picker is mounted after innerHTML, never emitted as markup: TVE.passport
          owns the control so every visa surface on the site shows the same one, and
          picking re-renders the table through the same path that drew it. */

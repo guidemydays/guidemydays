@@ -7708,11 +7708,13 @@ window.TVE.home = (function () {
     ], price: { budget: 'NZD 130–230', mid: 'NZD 230–380', expensive: 'NZD 380–620', luxury: 'NZD 620+' } },
     'recife': { h: [
       { name: 'El Aram Beach Boa Viagem', note: 'Independent — Rua dos Navegantes in Boa Viagem, outdoor pool, restaurant, 24h reception · 8.0 Booking.com', url: 'https://www.booking.com/hotel/br/canarius-palace.html', tier: 'budget' },
+      { name: 'Hotel Luzeiros Recife', note: 'Independent — Boa Viagem, restaurant, outdoor pool, 24h reception, AC · 9.2 Booking.com', url: 'https://www.booking.com/hotel/br/luzeiros-recife.html', tier: 'budget' },
       { name: 'Fity Hotel', note: 'Independent — Rua Dhalia two blocks off Boa Viagem beach, business hotel, valet parking, 24h reception · 8.6 Booking.com', url: 'https://www.booking.com/hotel/br/fity.html', tier: 'mid' },
       { name: 'Ritz Suítes Hotel Recife', note: 'Independent — Boa Viagem beachfront, outdoor pool, Sky Bar rooftop terrace · 8.8 Booking.com', url: 'https://www.booking.com/hotel/br/ritz-suites-recife.html', tier: 'mid' },
       { name: 'Bugan Recife Boa Viagem Hotel - by Atlantica', note: 'Atlantica Hotels — Avenida Engenheiro Domingos Ferreira in Boa Viagem, rooftop pool, sauna, 24h reception · 9.0 Booking.com', url: 'https://www.booking.com/hotel/br/bugan-recife-hotel-by-atlantica.html', tier: 'expensive' },
       { name: 'Mar Hotel Conventions', note: 'Independent — Rua Barão de Souza Leão in Boa Viagem, outdoor pool, kids club, 24h reception · 9.0 Booking.com', url: 'https://www.booking.com/hotel/br/marhotel-recife.html', tier: 'expensive' },
-      { name: 'Hotel Atlante Plaza', note: 'Independent 5-star — Avenida Boa Viagem beachfront, rooftop pool, full-service spa, 24h reception · 9.2 Booking.com', url: 'https://www.booking.com/hotel/br/atlanta-plaza.html', tier: 'luxury' }
+      { name: 'Hotel Atlante Plaza', note: 'Independent 5-star — Avenida Boa Viagem beachfront, rooftop pool, full-service spa, 24h reception · 9.2 Booking.com', url: 'https://www.booking.com/hotel/br/atlanta-plaza.html', tier: 'luxury' },
+      { name: 'Novotel Recife Marina', note: 'Novotel (Accor) first-tier brand — Recife Marina, fitness center, restaurant, 24h reception, AC · 9.2 Booking.com', url: 'https://www.booking.com/hotel/br/novotel-recife-marina.html', tier: 'luxury' }
     ], price: { budget: 'BRL 250–420', mid: 'BRL 420–700', expensive: 'BRL 700–1100', luxury: 'BRL 1100+' } },
     'reykjavik': { h: [
       { name: 'Reykjavik Lights Hotel by Keahotels', note: 'Keahotels — Suðurlandsbraut 12 east of the centre, free parking, 24h reception · 8.7 Booking.com', url: 'https://www.booking.com/hotel/is/reykjavik-lights.html', tier: 'budget' },

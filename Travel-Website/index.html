@@ -7167,14 +7167,18 @@ function render() {
   /* A zone's CURRENT offset from UTC, in minutes. One helper, used for the
      destination and for the origin, so the two can never be computed by two
      slightly different routes. */
+  var _ZONE_OFFSETS = Object.create(null);
   function zoneOffset(tz) {
     if (!tz) return null;
+    if (Object.prototype.hasOwnProperty.call(_ZONE_OFFSETS, tz)) return _ZONE_OFFSETS[tz];
     try {
       var now = new Date();
       var there = new Date(now.toLocaleString('en-US', { timeZone: tz }));
       var utc = new Date(now.toLocaleString('en-US', { timeZone: 'UTC' }));
-      return Math.round((there - utc) / 60000);
-    } catch (e) { return null; }
+      var offset = Math.round((there - utc) / 60000);
+      _ZONE_OFFSETS[tz] = offset;
+      return offset;
+    } catch (e) { _ZONE_OFFSETS[tz] = null; return null; }
   }
 
   /* ── JET LAG IS MEASURED FROM THE AIRPORT THE READER NAMED ────────────────

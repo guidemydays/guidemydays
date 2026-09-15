@@ -6629,9 +6629,13 @@ window.TVE.home = (function () {
     ], price: { budget: 'GBP 120–160', mid: 'GBP 160–220', expensive: 'GBP 220–320', luxury: 'GBP 320+' } },
     'gothenburg': { h: [
       { name: 'Comfort Hotel Goteborg', note: 'Nordic Choice — contemporary economy hotel near Centralstation, complimentary evening meal, 24-hour reception · 8.2 Booking.com', url: 'https://www.booking.com/hotel/se/comfort-hotel-goteborg.html', tier: 'budget' },
+      { name: 'Scandic Göteborg Central', note: 'Scandic brand — city centre, 8-min walk to Central Station, near Nordstan Shopping Mall, 24h reception · 9.0 Booking.com', url: 'https://www.booking.com/hotel/se/scandic-goteborg-central.html', tier: 'budget' },
       { name: 'Clarion Hotel Post', note: 'Nordic Choice Hotels — 1925 former Central Post Office on Drottningtorget, panoramic rooftop pool and bar, spa, largest hotel in Gothenburg · 8.7 Booking.com', url: 'https://www.booking.com/hotel/se/clarion-post.html', tier: 'mid' },
+      { name: 'Hyatt Place Gothenburg Central', note: 'Hyatt Place brand — directly above Gothenburg Central Station, 24h reception, AC · 8.5 Booking.com', url: 'https://www.booking.com/hotel/se/first-g.html', tier: 'mid' },
       { name: 'Elite Plaza Hotel Gothenburg', note: 'Elite Hotels — 1889 grand Victorian building in Inom Vallgraven, Råkulten restaurant, classic Scandinavian interiors · 8.8 Booking.com', url: 'https://www.booking.com/hotel/se/elite-plaza.html', tier: 'expensive' },
-      { name: 'Upper House', note: "Independent — Gothenburg's premier luxury address inside Gothia Towers, Atmosphere sky-high fine dining, rooftop pool, panoramic city views · 9.1 Booking.com", url: 'https://www.booking.com/hotel/se/upper-house.html', tier: 'luxury' }
+      { name: 'Radisson Blu Scandinavia Hotel', note: 'Radisson Blu brand (second-tier) — opposite Central Station on the canal system, 24h reception, AC · 9.2 Booking.com', url: 'https://www.booking.com/hotel/se/radisson-scandinavia.html', tier: 'expensive' },
+      { name: 'Upper House', note: "Independent — Gothenburg's premier luxury address inside Gothia Towers, Atmosphere sky-high fine dining, rooftop pool, panoramic city views · 9.1 Booking.com", url: 'https://www.booking.com/hotel/se/upper-house.html', tier: 'luxury' },
+      { name: 'Avalon Hotel', note: 'Independent — Kungsportsplatsen Square, 0.25 mi from Central Station, 24h reception, AC · 9.6 Booking.com', url: 'https://www.booking.com/hotel/se/avalon.html', tier: 'luxury' }
     ], price: { budget: 'SEK 700–1100', mid: 'SEK 1100–1900', expensive: 'SEK 1900–3200', luxury: 'SEK 3200+' } },
     'hamburg': { h: [
       { name: 'Hampton by Hilton Hamburg City Centre', note: 'Hilton family — limited-service budget tier in Hammerbrook, 10-min walk to Hauptbahnhof, gym, standard king or twin rooms · 7.9 Booking.com', url: 'https://www.booking.com/hotel/de/hampton-by-hilton-hamburg-city-centre.html', tier: 'budget' },

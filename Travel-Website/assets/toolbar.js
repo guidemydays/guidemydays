@@ -7592,11 +7592,14 @@ window.TVE.home = (function () {
     ], price: { budget: '$120–190', mid: '$190–280', expensive: '$280–450', luxury: '$450+' } },
     'phuket': { h: [
       { name: 'Arco Phuket Town', note: 'Independent — Thaling Chan Road in Phuket Town, saltwater pool, rooftop restaurant, 10-min walk to the Old Town shophouses · 9.5 Booking.com', url: 'https://www.booking.com/hotel/th/arco-phuket-town.html', tier: 'mid' },
+      { name: 'DoubleTree by Hilton Phuket Banthai Resort', note: 'Hilton DoubleTree brand — Patong Beach, 24h reception, AC · 8.6 Booking.com', url: 'https://www.booking.com/hotel/th/banthai-beach-resort-spa.html', tier: 'mid' },
       { name: 'Trisara', note: 'Independent luxury — private pool villas on Nai Thon Bay, Pru restaurant (Asia\'s 50 Best), beachfront setting · 9.6 Booking.com', url: 'https://www.booking.com/hotel/th/trisara.html', tier: 'luxury' },
       { name: 'Paresa Resort Phuket', note: 'Independent — Kamala cliff-edge, adults-only, eight pool villas, Aspara spa · 9.4 Booking.com', url: 'https://www.booking.com/hotel/th/paresa-resort-phuket.html', tier: 'luxury' },
       { name: 'Keemala Phuket', note: 'Small Luxury Hotels — Kamala rainforest, pool-villa-only property, Mala restaurant · 9.5 Booking.com', url: 'https://www.booking.com/hotel/th/keemala.html', tier: 'luxury' },
       { name: 'Hotel Verdigris', note: 'Independent 4-star — 154 Yaowarat Road in the Old Town, adults-only, outdoor pool, 24h reception, AC · 9.1 Booking.com', url: 'https://www.booking.com/hotel/th/verdigris.html', tier: 'expensive' },
-      { name: 'The Memory at On On Hotel', note: 'Independent — 19 Phang-Nga Road, the 1929 shophouse hotel of the Old Town, 24h reception, AC · 9.3 Booking.com', url: 'https://www.booking.com/hotel/th/the-memory-at-on-on.html', tier: 'budget' }
+      { name: 'Phuket Marriott Resort & Spa, Merlin Beach', note: 'Marriott brand — Tri-Trang Beach, spa, 24h reception, AC · 9.0 Booking.com', url: 'https://www.booking.com/hotel/th/phuket-marriott-resort-and-spa-merlin-beach.html', tier: 'expensive' },
+      { name: 'The Memory at On On Hotel', note: 'Independent — 19 Phang-Nga Road, the 1929 shophouse hotel of the Old Town, 24h reception, AC · 9.3 Booking.com', url: 'https://www.booking.com/hotel/th/the-memory-at-on-on.html', tier: 'budget' },
+      { name: 'Courtyard by Marriott Phuket Town', note: 'Marriott brand — Phuket Town, 24h reception, AC · 8.9 Booking.com', url: 'https://www.booking.com/hotel/th/courtyard-by-marriott-phuket-town.html', tier: 'budget' }
     ], price: { budget: 'THB 1,000–3,000', mid: 'THB 3,000–6,000', expensive: 'THB 6,000–12,000', luxury: 'THB 12,000+' } },
     'playa-del-carmen': { h: [
       { name: 'The Palm At Playa', note: 'Independent — Calle 26 Norte, Centro, boutique courtyard hotel 8 min walk to 5th Avenue, pool, 24h reception, AC · 4.6 TripAdvisor', url: 'https://www.booking.com/hotel/mx/the-palm-at-playa.html', tier: 'budget' },

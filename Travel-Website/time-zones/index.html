@@ -1236,6 +1236,24 @@ function renderSun() {
 </script>
 
 <script src="/assets/search-autocomplete.js?v=16"></script>
+<script>
+// Keep US states visible while retaining country words as hidden match text.
+function searchStateItems(items) {
+  var aliases = { coeurdalene: 'Idaho', hiltonheadisland: 'South Carolina',
+    marcoisland: 'Florida', naplesfl: 'Florida', virginislands: 'U.S. Virgin Islands' };
+  items.forEach(function (item) {
+    var country = item.sub || '';
+    if (!/^(?:United States|USA)(?: · .*)?$/.test(country)) return;
+    var name = (item._city || item.name || '').toLowerCase();
+    var state = TVESearch.CITIES[name] || aliases[name.replace(/[^a-z]/g, '')];
+    if (!state) return;
+    item.sub = state;
+    item.text = (item.text || '') + ' ' + country;
+  });
+  return items;
+}
+</script>
+
 <script>(function(){
   if(!window.TVESearch) return;
   var src=window.CITIES||[];
@@ -1243,7 +1261,7 @@ function renderSun() {
   var input=document.getElementById('search');
   if(input){
         TVESearch.attach(input,{
-      items:items,
+      items:searchStateItems(items),
       onPick:function(it){
         var city=src.filter(function(c){ return c.name===it.name; })[0];
         if(!city) return;
@@ -1256,7 +1274,7 @@ function renderSun() {
   if(sunInp){
     var sunItems=src.map(function(c,i){ return { name:c.name, sub:c.country, _idx:i }; });
     TVESearch.attach(sunInp,{
-      items:sunItems,
+      items:searchStateItems(sunItems),
       onPick:function(it){ _sunCityIdx=it._idx; renderSun(); }
     });
   }

@@ -3748,7 +3748,8 @@
 /* 2026-09-14: hotel-alt-tier-depth: florianopolis luxury + brand floor toolbar.js -> v1347. CACHE to v2175. */
 /* 2026-09-14: hotel-alt-tier-depth: porto brand floor toolbar.js -> v1348. CACHE to v2176. */
 /* 2026-09-14: hotel-alt-tier-depth: fortaleza luxury tier toolbar.js -> v1349. CACHE to v2177. */
-var CACHE = 'travel-cache-v2177';
+/* 2026-09-14: hotel-alt-tier-depth: bergen brand floor toolbar.js -> v1350. CACHE to v2178. */
+var CACHE = 'travel-cache-v2178';
 /* 2026-08-27: airlines.css's .card-tags align-items fix changed a shared
    asset without raising its own floor -- MIN_VERSIONS['airlines.css'] to
    6, CACHE to v1662. */
@@ -3797,7 +3798,7 @@ var ICS_OUTBOX = 'gmd-ics-outbox';
    cap, rendered near its full intrinsic width and pushed the amount box and the close
    X off the right edge of the phone screen. MIN_VERSIONS['guide-style.css'] to 296, CACHE to v2007. */
 /* 2026-09-10: weather.js — Boracay climate normals added. MIN_VERSIONS['weather.js'] to 46, CACHE to v2060. */
-var MIN_VERSIONS = { 'guide-style.css': 319,'toolbar.js': 1349, 'mobile.css': 104, 'web-travel-style.css': 309, 'guides-index-style.css': 70,'read-about.css': 11, 'best-of-features.js': 7, 'best-of-cross-data.js': 26, 'weather.js': 80,'trains.css': 35, 'trains.js': 6, 'airlines.css': 9, 'airlines.js': 12, 'passport.js': 6, 'search-autocomplete.js': 22, 'flag-render.js': 3, 'site-footer.js': 2 };
+var MIN_VERSIONS = { 'guide-style.css': 319,'toolbar.js': 1350, 'mobile.css': 104, 'web-travel-style.css': 309, 'guides-index-style.css': 70,'read-about.css': 11, 'best-of-features.js': 7, 'best-of-cross-data.js': 26, 'weather.js': 80,'trains.css': 35, 'trains.js': 6, 'airlines.css': 9, 'airlines.js': 12, 'passport.js': 6, 'search-autocomplete.js': 22, 'flag-render.js': 3, 'site-footer.js': 2 };
 
 function rewriteAssetUrl(urlStr) {
   var u;

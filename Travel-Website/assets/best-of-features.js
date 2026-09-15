@@ -231,11 +231,15 @@
     var presentConts = CONT_ORDER.filter(function (c) { return pageContinents[c]; });
     if (presentConts.length > 1) {
       var chips = el('div', 'bo-continent-chips');
-      var allChip = el('span', 'bo-chip bo-active', 'All');
+      var allChip = el('button', 'bo-chip bo-active', 'All');
+      allChip.type = 'button';
+      allChip.setAttribute('aria-pressed', 'true');
       allChip.dataset.cont = '';
       chips.appendChild(allChip);
       presentConts.forEach(function (c) {
-        var chip = el('span', 'bo-chip', c);
+        var chip = el('button', 'bo-chip', c);
+        chip.type = 'button';
+        chip.setAttribute('aria-pressed', 'false');
         chip.dataset.cont = c;
         chips.appendChild(chip);
       });
@@ -243,7 +247,10 @@
         var t = e.target.closest ? e.target.closest('.bo-chip') : null;
         if (!t) return;
         activeCont = t.dataset.cont || null;
-        [].slice.call(chips.children).forEach(function (c) { c.classList.toggle('bo-active', c === t); });
+        [].slice.call(chips.children).forEach(function (c) {
+          c.classList.toggle('bo-active', c === t);
+          c.setAttribute('aria-pressed', String(c === t));
+        });
         if (window._regionJumpReset) window._regionJumpReset();
         if (regionJumpEl) regionJumpEl.style.display = '';
         applyFilters(sections);

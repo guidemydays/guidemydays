@@ -4063,6 +4063,8 @@
     loadVisa(function () {
     loadAirports(function () {
     loadClimate(function() {
+      /* Picks may change while shared facts are loading. */
+      if (sel.length < 2 || !document.body.classList.contains('mode-compare')) return;
       compareView.hidden = false;
       /* data-n = how many city columns are drawn — the 5-column compact CSS
          rule (#compare-view[data-n="5"]) depends on it being set here. */
@@ -4117,8 +4119,16 @@
     selBar.querySelectorAll('.cmp-chip-x').forEach(function(b){
       b.addEventListener('click', function(e){ e.stopPropagation(); deselect(b.dataset.href); });
     });
-    /* if panel is open, refresh it */
-    if (!compareView.hidden) showPanel();
+    /* An incomplete selection returns to the picker, without stale columns. */
+    if (!compareView.hidden) {
+      if (sel.length >= 2) showPanel();
+      else {
+        compareView.hidden = true;
+        compareView.innerHTML = '';
+        compareView.removeAttribute('data-n');
+        document.querySelector('.mosaic-wrap').style.display = '';
+      }
+    }
   }
 
   function deselect(href) {

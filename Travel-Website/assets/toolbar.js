@@ -10351,6 +10351,8 @@ window.TVE.home = (function () {
       'train-passes': 'ticket', 'transit-cards': 'transit',
       /* Documents */
       'visa': 'visas', 'visa-times': 'clock-hourglass', 'nomad-visas': 'laptop',
+      'nomad-hubs': 'laptop', 'pilgrimage-routes': 'hiking-boot',
+      'stargazing': 'star', 'cycling-routes': 'hiking-boot', 'waterfalls': 'tropical-bay',
       'entry': 'entry-req', 'passport': 'passport', 'trusted': 'trusted',
       'trusted-traveler': 'trusted', 'vaccines': 'vaccines',
       'idp-guide': 'id-card-check',

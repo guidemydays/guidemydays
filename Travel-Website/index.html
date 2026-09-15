@@ -194,8 +194,12 @@
   transition: transform .5s cubic-bezier(.2,.6,.2,1);
 }
 .lp-hero-art a:hover img { transform: scale(1.06); }
+:root {
+  --lp-control-size: 44px;
+  --lp-resource-padding: 0.75rem;
+}
 .lp-hero-arrow {
-  width: 2rem; height: 2rem; padding: 0;
+  width: var(--lp-control-size); height: var(--lp-control-size); padding: 0;
   display: grid; place-items: center;
 }
 .lp-hero-arrow svg { width: 1rem; height: 1rem; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
@@ -203,10 +207,6 @@
   .lp-hero { grid-template-rows: auto 1fr; row-gap: 0; }
   .lp-hero-copy { grid-column: 1; grid-row: 1 / -1; align-self: center; }
   .lp-hero-art  { grid-column: 2; grid-row: 1; }
-}
-@media (max-width: 600px) and (pointer: coarse) {
-  .lp-hero-arrow { position: relative; min-height: 2rem; }
-  .lp-hero-arrow::after { content: ''; position: absolute; inset: -0.25rem; }
 }
 .lp-hero-art span {
   position: absolute; left: 0; right: 0; bottom: 0;
@@ -1677,7 +1677,7 @@ a.ask-card:focus-visible .ask-name { color: var(--rust, #C04E1A); }
 /* Baseline, not center: the count and the plus sit on the category name's
    baseline rather than on the box's middle, which is what makes the three
    read as one line of type instead of three objects in a row. */
-summary.res-head { list-style: none; cursor: pointer; display: flex; align-items: baseline; justify-content: space-between; gap: 0.5rem; padding: 0.42rem 0; border-bottom: 1.5px solid var(--ink, #17150f); }
+summary.res-head { list-style: none; cursor: pointer; display: flex; align-items: baseline; justify-content: space-between; gap: 0.5rem; min-height: var(--lp-control-size); box-sizing: border-box; padding: var(--lp-resource-padding) 0; border-bottom: 1.5px solid var(--ink, #17150f); }
 .res-head-right { display: flex; align-items: baseline; gap: 0.55rem; }
 summary.res-head::-webkit-details-marker { display: none; }
 summary.res-head:hover { color: var(--rust, #C04E1A); border-bottom-color: var(--rust, #C04E1A); }
@@ -3104,6 +3104,7 @@ window.lpGuideCard = function (href, flag, name, extra) {
     var img = tile.querySelector('.lp-best-shot img');
     var name = tile.querySelector('.lp-best-name');
     var bandT = tile.querySelector('.lp-best-band-t');
+    if (name) { name.setAttribute('aria-live', 'polite'); name.setAttribute('aria-atomic', 'true'); }
     if (!img) return;
 
     /* The reader's local calendar day — Date.UTC on the local Y/M/D is a whole
@@ -3169,6 +3170,8 @@ window.lpGuideCard = function (href, flag, name, extra) {
        between paging and opening the page. */
     var nav = document.createElement('div');
     nav.className = 'lp-best-nav';
+    nav.setAttribute('role', 'group');
+    nav.setAttribute('aria-label', 'Best Of category preview');
         var all = document.createElement('a');
     all.className = 'lp-best-all';
     all.href = '/best-of/';
@@ -3290,6 +3293,14 @@ window.lpGuideCard = function (href, flag, name, extra) {
     ]
   };
   STEPS['lp-combo'] = STEPS['lp-tools'].concat(STEPS['lp-plan']);
+  var STEP_ALT = {
+    'pack-progress': 'Packing Checklist showing trip length, packing progress and checked items',
+    'plug-answer': 'Plug adapter result showing the socket type, voltage and frequency for a country',
+    'wx-chart': 'Weather chart showing monthly high and low temperatures, rainfall and rainy days',
+    'map-pins': 'World map over Europe with terracotta destination pins and gold pins for marked cities',
+    'tz-grid': 'Time Zones results showing destination cards with local times and UTC offsets',
+    'wtg-results': 'When to Go results showing matching city cards with temperatures and rainfall'
+  };
 
   Object.keys(STEPS).forEach(function (key) {
     var sec = document.querySelector('.' + key);
@@ -3308,6 +3319,8 @@ window.lpGuideCard = function (href, flag, name, extra) {
     var at = ((day % rows.length) + rows.length) % rows.length;
     var count = document.createElement('span');
     count.className = 'lp-steps-count';
+    count.setAttribute('aria-live', 'polite');
+    count.setAttribute('aria-atomic', 'true');
 
         var band = sec.querySelector('[class$="-band"]');
     function reserve() {
@@ -3336,7 +3349,7 @@ window.lpGuideCard = function (href, flag, name, extra) {
       /* Set as a style, not an attribute — the CSS deliberately declares no
          aspect-ratio for these, so this is the only thing holding the box. */
       img.style.aspectRatio = r[1] + ' / ' + r[2];
-      img.alt = r[4];
+      img.alt = STEP_ALT[r[0]];
       shot.classList.toggle('is-cut', !!r[3]);
       title.innerHTML = r[4];
       desc.innerHTML = r[5];
@@ -3384,6 +3397,8 @@ window.lpGuideCard = function (href, flag, name, extra) {
 
     var nav = document.createElement('div');
     nav.className = 'lp-steps-nav';
+    nav.setAttribute('role', 'group');
+    nav.setAttribute('aria-label', key === 'lp-tools' ? 'Travel essentials preview' : key === 'lp-plan' ? 'Trip planning preview' : 'Travel tools preview');
     nav.appendChild(count);
     nav.appendChild(button('Previous step', -1));
     nav.appendChild(button('Next step', 1));

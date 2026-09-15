@@ -7504,7 +7504,9 @@ window.TVE.home = (function () {
       { name: 'Mövenpick Resort Petra', note: 'Mövenpick brand — Petra gate, walking distance to Treasury entrance, pool, Rüm Fusion restaurant · 8.8 Booking.com', url: 'https://www.booking.com/hotel/jo/movenpick-petra.html', tier: 'luxury' },
       { name: 'Petra Marriott Hotel', note: 'Marriott brand — beside the Petra visitors\' entrance, Al Iwan restaurant, outdoor pool · 8.5 Booking.com', url: 'https://www.booking.com/hotel/jo/petra-marriott.html', tier: 'luxury' },
       { name: 'Petra Canyon Hotel', note: 'Independent 4-star — Wadi Musa, five minutes by car from the gate, seasonal outdoor pool, 24h reception, AC, free parking · 9.6 Booking.com', url: 'https://www.booking.com/hotel/jo/petra-canyon.html', tier: 'mid' },
-      { name: 'Petra Sella Hotel', note: 'Independent 4-star — Tourism Street in Wadi Musa, 24h reception, AC, steam bath, free shuttle to the gate · 9.9 Booking.com', url: 'https://www.booking.com/hotel/jo/sella.html', tier: 'budget' }
+      { name: 'Petra Boutique Hotel', note: 'Independent 4-star — Wadi Musa, terrace, 24h reception · 9.4 Booking.com', url: 'https://www.booking.com/hotel/jo/petra-boutique.html', tier: 'mid' },
+      { name: 'Petra Sella Hotel', note: 'Independent 4-star — Tourism Street in Wadi Musa, 24h reception, AC, steam bath, free shuttle to the gate · 9.9 Booking.com', url: 'https://www.booking.com/hotel/jo/sella.html', tier: 'budget' },
+      { name: 'Town Season Hotel', note: 'Independent 3-star — Wadi Musa town, room service, 24h reception · 9.8 Booking.com', url: 'https://www.booking.com/hotel/jo/town-season.html', tier: 'budget' }
     ], price: { budget: 'JOD 30–55', mid: 'JOD 55–90', expensive: 'JOD 90–140', luxury: 'JOD 140+' } },
     'philadelphia': { h: [
       { name: 'The Logan Philadelphia, Curio Collection by Hilton', note: 'Hilton Curio — One Logan Square on the Parkway, indoor pool, spa, Urban Farmer steakhouse · 8.2 Booking.com', url: 'https://www.booking.com/hotel/us/the-logan-philadelphia.html', tier: 'expensive' },

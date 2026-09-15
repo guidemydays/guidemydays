@@ -6605,7 +6605,7 @@ function render() {
   function loadBudget() {
     if (BUDGET) return Promise.resolve(BUDGET);
     if (budgetPending) return budgetPending;
-    budgetPending = fetch('/essentials/average-costs/')
+    budgetPending = fetch('/essentials/local-prices/')
       .then(function (r) { return r.text(); })
       .then(function (html) {
         var m = {};
@@ -6622,8 +6622,8 @@ function render() {
            map and every "Average costs" option in Help Me Choose disabled. */
         var re = /\['((?:[^'\\]|\\.)+)','([a-z0-9-]+)','[^']*',\d+,([\d.]+),/g, x;
         while ((x = re.exec(html))) {
-          m[bkey(x[2])] = +x[3];
-          m[bkey(x[1])] = +x[3];
+          m[x[2]] = +x[3];
+          m['@name:' + bkey(x[1])] = +x[3];
         }
         BUDGET = m;
         return m;
@@ -6924,8 +6924,8 @@ function render() {
          price is DROPPED from a priced answer rather than padded into it. 205
          of the 237 are priced. */
       if (s.bd.length) {
-        var t = BUDGET ? (BUDGET[bkey(g.name)] !== undefined ? BUDGET[bkey(g.name)]
-                                                             : BUDGET[bkey(slugOf(g))])
+        var t = BUDGET ? (BUDGET[slugOf(g)] !== undefined ? BUDGET[slugOf(g)]
+                                                             : BUDGET['@name:' + bkey(g.name)])
                        : undefined;
         if (t === undefined) return false;
         if (!anyOf(s.bd, function (b) { return BUDGET_BAND[b](t); })) return false;

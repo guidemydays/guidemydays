@@ -1661,6 +1661,24 @@ function filterCat(btn, cat) {
 })();
 </script>
 <script src="/assets/search-autocomplete.js?v=16"></script>
+<script>
+// Keep US states visible while retaining country words as hidden match text.
+function searchStateItems(items) {
+  var aliases = { coeurdalene: 'Idaho', hiltonheadisland: 'South Carolina',
+    marcoisland: 'Florida', naplesfl: 'Florida', virginislands: 'U.S. Virgin Islands' };
+  items.forEach(function (item) {
+    var country = item.sub || '';
+    if (!/^(?:United States|USA)(?: · .*)?$/.test(country)) return;
+    var name = (item._city || item.name || '').toLowerCase();
+    var state = TVESearch.CITIES[name] || aliases[name.replace(/[^a-z]/g, '')];
+    if (!state) return;
+    item.sub = state;
+    item.text = (item.text || '') + ' ' + country;
+  });
+  return items;
+}
+</script>
+
 <script>(function () {
   if (!window.TVESearch) return;
   var input = document.getElementById('fm-search');
@@ -1674,7 +1692,7 @@ function filterCat(btn, cat) {
     seen[nm.toLowerCase()] = 1;
     items.push({ name: nm, sub: country ? country.textContent.trim() : '' });
   });
-  TVESearch.attach(input, { items: items });
+  TVESearch.attach(input, { items: searchStateItems(items) });
 }());</script>
 </body>
 </html>

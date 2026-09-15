@@ -10353,6 +10353,7 @@ window.TVE.home = (function () {
       'visa': 'visas', 'visa-times': 'clock-hourglass', 'nomad-visas': 'laptop',
       'nomad-hubs': 'laptop', 'pilgrimage-routes': 'hiking-boot',
       'best-of': 'trophy', 'natural-phenomena': 'star',
+      'self-drive-routes': 'rental-cars', 'hot-springs': 'tropical-bay',
       'stargazing': 'star', 'cycling-routes': 'compass', 'waterfalls': 'tropical-bay',
       'entry': 'entry-req', 'passport': 'passport', 'trusted': 'trusted',
       'trusted-traveler': 'trusted', 'vaccines': 'vaccines',

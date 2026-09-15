@@ -7659,10 +7659,13 @@ window.TVE.home = (function () {
     ], price: { budget: '€90–140', mid: '€140–200', expensive: '€200–300', luxury: '€300+' } },
     'porto-alegre': { h: [
       { name: 'Intercity Porto Alegre Aeroporto', note: 'Intercity Hotels — Navegantes beside Salgado Filho airport, outdoor pool, 24h reception; the pick for an early flight out · 9.1 Booking.com', url: 'https://www.booking.com/hotel/br/intercity-express-porto-alegre.html', tier: 'budget' },
+      { name: 'Eko Residence Hotel', note: 'Independent eco-hotel — near Santa Casa hospital district, solar energy, 24h reception, AC · 8.8 Booking.com', url: 'https://www.booking.com/hotel/br/eko-residence.html', tier: 'budget' },
       { name: 'Flat Avenida Independência', note: 'Independent — Avenida Independência 813 on the Centro edge, rooftop heated pool, sauna, 24h reception · 9.1 Booking.com', url: 'https://www.booking.com/hotel/br/flat-da-fatima.html', tier: 'mid' },
       { name: 'Hotel Laghetto Stilo Higienópolis', note: 'Laghetto Hotels — Avenida Inácio Vasconcelos in Higienópolis, rooftop pool, sauna, 24h reception · 9.0 Booking.com', url: 'https://www.booking.com/hotel/br/laghetto-stilo-higienopolis.html', tier: 'mid' },
       { name: 'ArtHotel Transamerica Collection', note: 'Transamerica Collection — Rua Coronel Lucas de Oliveira in Bela Vista, outdoor pool, art collection through the public rooms, 24h reception · 8.6 Booking.com', url: 'https://www.booking.com/hotel/br/rua-coronel-lucas-de-oliveira-porto-alegre.html', tier: 'expensive' },
-      { name: 'Hilton Porto Alegre', note: 'Hilton brand — Rua Olavo Barreto Viana 18 in Moinhos de Vento, indoor pool, spa, 24h reception · 8.5 Booking.com', url: 'https://www.booking.com/hotel/br/hilton-porto-alegre.html', tier: 'luxury' }
+      { name: 'DoubleTree by Hilton Porto Alegre', note: 'Hilton DoubleTree brand — near Prainha do Ibere, 24h reception, AC · 8.7 Booking.com', url: 'https://www.booking.com/hotel/br/doubletree-by-hilton-porto-alegre.html', tier: 'expensive' },
+      { name: 'Hilton Porto Alegre', note: 'Hilton brand — Rua Olavo Barreto Viana 18 in Moinhos de Vento, indoor pool, spa, 24h reception · 8.5 Booking.com', url: 'https://www.booking.com/hotel/br/hilton-porto-alegre.html', tier: 'luxury' },
+      { name: 'Hotel Deville Prime Porto Alegre', note: 'Independent 5-star — near Salgado Filho International Airport, 24h reception, AC · 9.2 Booking.com', url: 'https://www.booking.com/hotel/br/deville-porto-alegre-aeroporto.html', tier: 'luxury' }
     ], price: { budget: 'BRL 300–500', mid: 'BRL 500–800', expensive: 'BRL 800–1,300', luxury: 'BRL 1,300+' } },
     'prague': { h: [
       { name: 'Mosaic House Design Hotel', note: 'Independent — Smíchov, five minutes from the National Theatre, rooftop bar, 24h reception · 8.9 Booking.com', url: 'https://www.booking.com/hotel/cz/mosaic-house.html', tier: 'budget' },

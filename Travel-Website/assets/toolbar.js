@@ -7760,9 +7760,13 @@ window.TVE.home = (function () {
     ], price: { budget: '€80–150', mid: '€150–280', expensive: '€280–480', luxury: '€480+' } },
     'riga': { h: [
       { name: 'Wellton Old Riga Palace Hotel', note: 'Wellton — Aspazijas bulvāris in the Old Town, steps from the main squares, 24h reception, AC · 8.4 Booking.com', url: 'https://www.booking.com/hotel/lv/wellton-old-riga-palace.html', tier: 'budget' },
+      { name: 'Radisson Blu Ridzene Hotel, Riga', note: 'Radisson Blu brand — overlooks Esplanade Park, 5-min walk to Old Town, 24h reception, AC · 8.3 Booking.com', url: 'https://www.booking.com/hotel/lv/ridzene.html', tier: 'budget' },
       { name: 'AC Hotel by Marriott Riga', note: 'Marriott family — Elizabetes street in the Art Nouveau district, 10-minute walk to Old Town, rooftop bar, 24h reception, AC · 8.7 Booking.com', url: 'https://www.booking.com/hotel/lv/ac-hotel-by-marriott-riga.html', tier: 'mid' },
+      { name: 'Radisson Blu Elizabete Hotel, Riga', note: 'Radisson Blu brand — near the Freedom Monument, 24h reception, AC · 8.8 Booking.com', url: 'https://www.booking.com/hotel/lv/elizabete-riga.html', tier: 'mid' },
       { name: 'Hotel Bergs', note: 'Independent boutique — Elizabetes street in the quiet Bergs Bazaar courtyard, 12 rooms and suites, 24h reception, AC · 9.4 Booking.com', url: 'https://www.booking.com/hotel/lv/bergs.html', tier: 'expensive' },
-      { name: 'Grand Palace Hotel Riga', note: 'Preferred Hotels — Pils street on the Old Town edge opposite Riga Castle, classical interiors, spa, 24h reception, AC · 9.4 Booking.com', url: 'https://www.booking.com/hotel/lv/grand-palace-riga.html', tier: 'luxury' }
+      { name: 'Radisson Blu Latvija Conference & Spa Hotel, Riga', note: 'Radisson Blu brand — heart of Riga, spa, 24h reception, AC · 8.6 Booking.com', url: 'https://www.booking.com/hotel/lv/hotellatvija.html', tier: 'expensive' },
+      { name: 'Grand Palace Hotel Riga', note: 'Preferred Hotels — Pils street on the Old Town edge opposite Riga Castle, classical interiors, spa, 24h reception, AC · 9.4 Booking.com', url: 'https://www.booking.com/hotel/lv/grand-palace-riga.html', tier: 'luxury' },
+      { name: 'Grand Hotel Kempinski Riga', note: 'Kempinski brand — beside the Latvian National Opera, 24h reception, AC · 9.4 Booking.com', url: 'https://www.booking.com/hotel/lv/grand-kempinski-riga.html', tier: 'luxury' }
     ], price: { budget: '€70–120', mid: '€120–220', expensive: '€220–380', luxury: '€380+' } },
     'riyadh': { h: [
       { name: 'ibis Styles Riyadh Olaya', note: 'Accor ibis Styles — Olaya district, walkable to Kingdom Centre and Al Faisaliah, 24h reception, AC · 8.2 Booking.com', url: 'https://www.booking.com/hotel/sa/ibis-styles-riyadh-olaya.html', tier: 'budget' },

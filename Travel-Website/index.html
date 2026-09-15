@@ -5086,9 +5086,13 @@ function render() {
   function homeCard() {
     var h = window.TVE && window.TVE.home && window.TVE.home.get();
     if (!h || !h.city) return null;
-    var want = String(h.city).toLowerCase();
+    function cityKey(name) {
+      return String(name).replace(/\([^)]*\)/g, '').normalize('NFD')
+        .replace(/[\u0300-\u036f]/g, '').toLowerCase().trim();
+    }
+    var want = cityKey(h.city);
     for (var i = 0; i < allCards.length; i++) {
-      if (cityName(allCards[i]).toLowerCase() === want) return allCards[i];
+      if (cityKey(cityName(allCards[i])) === want) return allCards[i];
     }
     return null;
   }

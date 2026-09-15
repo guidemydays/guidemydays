@@ -7655,7 +7655,9 @@ window.TVE.home = (function () {
     ], price: { budget: '$120–200', mid: '$200–320', expensive: '$320–520', luxury: '$520+' } },
     'puerto-vallarta': { h: [
       { name: 'Playa Los Arcos Hotel', note: 'Independent — Olas Altas beachfront, Romantic Zone, rooftop pool · 8.8 Booking.com', url: 'https://www.booking.com/hotel/mx/playa-los-arcos.html', tier: 'budget' },
+      { name: 'The Westin Playa Vallarta, an All-Inclusive Resort', note: 'Marriott Westin brand — Marina Vallarta beachfront, all-inclusive, 24h reception, AC · 8.7 Booking.com', url: 'https://www.booking.com/hotel/mx/the-westin-playa-vallarta-an-all-inclusive-resort.html', tier: 'budget' },
       { name: 'Marriott Puerto Vallarta Resort & Spa', note: 'Marriott brand — hotel zone, beach access, multiple pools, marina views · 8.6 Booking.com', url: 'https://www.booking.com/hotel/mx/puertovallarta.html', tier: 'mid' },
+      { name: 'Sheraton Buganvilias Puerto Vallarta', note: 'Marriott Sheraton brand — Hotel Zone, convention center, beachfront, 24h reception, AC · 8.3 Booking.com', url: 'https://www.booking.com/hotel/mx/sheraton-buganvillas-resort-convention-center.html', tier: 'mid' },
       { name: 'Garza Blanca Preserve Resort & Spa', note: 'Independent luxury — hillside jungle preserve with private white-sand beach, infinity pools, adults-only towers · 9.3 Booking.com', url: 'https://www.booking.com/hotel/mx/garza-blanca-preserve-resort-spa.html', tier: 'expensive' },
       { name: 'Casa Velas Hotel Boutique', note: 'Independent boutique — adults-only, marina suite design, beach club, oceanfront pool · 9.2 Booking.com', url: 'https://www.booking.com/hotel/mx/casa-vellas-boutique.html', tier: 'expensive' },
       { name: 'Four Seasons Resort Punta Mita', note: 'Four Seasons — Punta Mita peninsula, two golf courses, Apuane Spa, private beach · 9.5 Booking.com', url: 'https://www.booking.com/hotel/mx/four-seasons-resort-punta-mita.html', tier: 'luxury' },

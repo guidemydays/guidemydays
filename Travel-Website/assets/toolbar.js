@@ -7559,12 +7559,14 @@ window.TVE.home = (function () {
     ], price: { budget: 'MXN 700–1600', mid: 'MXN 1600–2100', expensive: 'MXN 2100–3000', luxury: 'MXN 2900+' } },
     'pisa': { h: [
       { name: 'Grand Hotel Duomo', note: 'Independent — steps from Piazza dei Miracoli, rooftop terrace with Leaning Tower and Baptistery views, bar · 8.1 Booking.com', url: 'https://www.booking.com/hotel/it/grandhotelduomopisa.html', tier: 'expensive' },
+      { name: 'Hotel Bologna', note: 'Independent — historic center, elegant 4-star, 5 min walk from the train station, 24h reception, AC · 8.4 Booking.com', url: 'https://www.booking.com/hotel/it/hotelbolognapisa.html', tier: 'expensive' },
       { name: 'NH Pisa', note: 'NH Hotels — Piazza della Stazione, 5-min walk from the Campo dei Miracoli, restaurant and bar · 8.3 Booking.com', url: 'https://www.booking.com/hotel/it/nh-pisa.html', tier: 'mid' },
       { name: 'Grand Hotel Bonanno', note: 'Independent — near Cathedral Square, neoclassical palazzo, free bikes, garden · 8.8 Booking.com', url: 'https://www.booking.com/hotel/it/grand-hotel-bonanno.html', tier: 'mid' },
       { name: 'Hotel Minerva Pisa', note: 'Independent — Art Nouveau building, panoramic roof terrace, 3-min walk from the Leaning Tower · 9.0 Booking.com', url: 'https://www.booking.com/hotel/it/hotel-minerva-pisa.html', tier: 'mid' },
       { name: 'Prato dei Miracoli Residenza d\'Epoca', note: 'Independent residenza d\'epoca — 5 Piazza del Duomo, rooms facing the Leaning Tower, AC, lift · 9.5 Booking.com', url: 'https://www.booking.com/hotel/it/residenza-d-epoca-pisa.html', tier: 'luxury' },
       { name: 'Palazzo Feroci - Residenza d\'epoca', note: 'Independent 4-star — 2 Via della Faggiola, a 16th-century palazzo two streets from the Leaning Tower, garden, AC, lift · 9.4 Booking.com', url: 'https://www.booking.com/hotel/it/palazzo-feroci.html', tier: 'luxury' },
-      { name: 'Hotel Pisa Tower', note: 'Independent 3-star — 9 Piazza Manin at the Porta Nuova gate to the Campo dei Miracoli, garden, AC, 9.0 on Expedia · 8.7 Booking.com', url: 'https://www.booking.com/hotel/it/pisa-tower.html', tier: 'budget' }
+      { name: 'Hotel Pisa Tower', note: 'Independent 3-star — 9 Piazza Manin at the Porta Nuova gate to the Campo dei Miracoli, garden, AC, 9.0 on Expedia · 8.7 Booking.com', url: 'https://www.booking.com/hotel/it/pisa-tower.html', tier: 'budget' },
+      { name: 'Hotel Alessandro della Spina', note: 'Independent — 5 min walk from Pisa Centrale train station, 24h reception, AC · 8.5 Booking.com', url: 'https://www.booking.com/hotel/it/alessandrodellaspina.html', tier: 'budget' }
     ], price: { budget: '€80–120', mid: '€120–170', expensive: '€170–230', luxury: '€230+' } },
     'pokhara': { h: [
       { name: 'Temple Himalaya Hotel & Spa', note: 'Independent — Street No. 13 in Lakeside, outdoor pool, sauna, 24h reception, free airport shuttle · 9.2 Booking.com', url: 'https://www.booking.com/hotel/np/temple-himalaya-amp-spa.html', tier: 'mid' },

@@ -6548,7 +6548,8 @@ window.TVE.home = (function () {
       { name: 'Marina Park Hotel', note: 'Independent — Aldeota waterfront with Fortaleza Bay views, outdoor pool, rooftop bar · 8.6 Booking.com', url: 'https://www.booking.com/hotel/br/marina-park.html', tier: 'mid' },
       { name: 'Luzeiros Hotel Fortaleza', note: 'Independent — Meireles beachfront, sea-view pool, steps from Iracema Beach nightlife and restaurants · 8.4 Booking.com', url: 'https://www.booking.com/hotel/br/luzeiros.html', tier: 'expensive' },
       { name: 'Praiano Hotel', note: 'Independent — Avenida Beira Mar in Meireles, rooftop pool, kids\' club, 24h reception · 9.0 Booking.com', url: 'https://www.booking.com/hotel/br/praiano-fortaleza.html', tier: 'expensive' },
-      { name: 'Gran Marquise Hotel', note: 'Independent luxury — Meireles Av. Beira Mar beachfront, rooftop pool with Atlantic views, top-rated address in Fortaleza · 9.2 Booking.com', url: 'https://www.booking.com/hotel/br/gran-marquise.html', tier: 'luxury' }
+      { name: 'Gran Marquise Hotel', note: 'Independent luxury — Meireles Av. Beira Mar beachfront, rooftop pool with Atlantic views, top-rated address in Fortaleza · 9.2 Booking.com', url: 'https://www.booking.com/hotel/br/gran-marquise.html', tier: 'luxury' },
+      { name: 'Gran Mareiro Hotel', note: 'Independent — overlooking Praia do Futuro, beachfront, 24h reception, AC · 9.1 Booking.com', url: 'https://www.booking.com/hotel/br/gran-mareiro.html', tier: 'luxury' }
     ], price: { budget: 'R$280–650', mid: 'R$600–900', expensive: 'R$900–1,300', luxury: 'R$1,300+' } },
     'foz-do-iguacu': { h: [
       { name: 'JL Hotel by Bourbon', note: 'Bourbon Hotéis — Avenida Costa e Silva north of the centre, outdoor pool, fitness, soundproofed rooms · 9.0 Booking.com', url: 'https://www.booking.com/hotel/br/bourbon-foz-do-iguacu-business.html', tier: 'budget' },

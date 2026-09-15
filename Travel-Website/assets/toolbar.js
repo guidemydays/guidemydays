@@ -11545,12 +11545,12 @@ window.TVE.home = (function () {
       'LGW','LHR','LIH','LIM','LIS','LJU','LOS','LPB','LPQ','LUX','LXR','LYS','MAD','MAN','MBJ','MCO',
       'MCT','MCZ','MDE','MEL','MEX','MFM','MIA','MLA','MLE','MRS','MSP','MSY','MUC','MVD','MXP','NAP',
       'NAS','NAT','NAV','NBE','NBO','NCE','OAX','OGG','OLB','OPO','ORD','ORS','ORY','OSL','OTP','PBH',
-      'PDL','PDX','PEK','PHL','PHX','PLS','PMI','PNS','POA','PPS','PRG','PSA','PSP','PTY','PUJ','PUS',
-      'PVG','PVR','RAK','RDM','REC','RHO','RIX','RNO','RSW','RUH','SAI','SAN','SCL','SEA','SEZ','SFO',
-      'SGN','SIN','SJC','SJD','SJO','SJU','SKG','SLC','SLZ','SNN','SOF','SPU','SRQ','SSA','SSH','STR',
-      'STT','SVO','SVQ','SXB','SXM','SYD','SZG','SZX','TBS','TFS','TIV','TLL','TLS','TLV','TOS','TPE',
-      'TRN','TUN','UIO','VCE','VIE','VLC','VNO','VRN','WLG','YIA','YQB','YUL','YVR','YYC','YYZ','ZAG',
-      'ZNZ','ZQN','ZRH','ZTH'
+      'PDL','PDX','PEK','PFO','PHL','PHX','PLS','PMI','PNS','POA','PPS','PRG','PSA','PSP','PTY','PUJ',
+      'PUS','PVG','PVR','RAK','RDM','REC','RHO','RIX','RNO','RSW','RUH','SAI','SAN','SCL','SEA','SEZ',
+      'SFO','SGN','SIN','SJC','SJD','SJO','SJU','SKG','SLC','SLZ','SNN','SOF','SPU','SRQ','SSA','SSH',
+      'STR','STT','SVO','SVQ','SXB','SXM','SYD','SZG','SZX','TBS','TFS','TIV','TLL','TLS','TLV','TOS',
+      'TPE','TRN','TUN','UIO','VCE','VIE','VLC','VNO','VRN','WLG','YIA','YQB','YUL','YVR','YYC','YYZ',
+      'ZAG','ZNZ','ZQN','ZRH','ZTH'
     ];
 
     function _inject() {

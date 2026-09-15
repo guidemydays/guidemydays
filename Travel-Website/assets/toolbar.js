@@ -7623,8 +7623,11 @@ window.TVE.home = (function () {
     ], price: { budget: 'BRL 300–500', mid: 'BRL 500–800', expensive: 'BRL 800–1,300', luxury: 'BRL 1,300+' } },
     'prague': { h: [
       { name: 'Mosaic House Design Hotel', note: 'Independent — Smíchov, five minutes from the National Theatre, rooftop bar, 24h reception · 8.9 Booking.com', url: 'https://www.booking.com/hotel/cz/mosaic-house.html', tier: 'budget' },
+      { name: 'Hilton Prague Atrium', note: 'Hilton brand — city centre, a few steps from Old Town, 24h reception, AC · 8.4 Booking.com', url: 'https://www.booking.com/hotel/cz/hilton-prague.html', tier: 'budget' },
       { name: 'Hotel Josef', note: 'Independent design hotel — Josefov, minimalist interiors, terrace, 24h reception · 9.0 Booking.com', url: 'https://www.booking.com/hotel/cz/hotel-josef-prague.html', tier: 'mid' },
+      { name: 'Courtyard by Marriott Prague City', note: 'Marriott brand — opposite Flora shopping mall, 24h reception, AC · 8.6 Booking.com', url: 'https://www.booking.com/hotel/cz/courtyard-prague-flora.html', tier: 'mid' },
       { name: 'Hotel Paris Prague', note: 'Independent — 1907 Art Nouveau landmark near Old Town, Sarah Bernhardt restaurant, belle époque décor · 9.0 Booking.com', url: 'https://www.booking.com/hotel/cz/hotel-paris-prague.html', tier: 'expensive' },
+      { name: 'Hilton Prague Old Town', note: 'Hilton brand — Old Town, 24h reception, AC · 8.6 Booking.com', url: 'https://www.booking.com/hotel/cz/hilton-prague-old-town.html', tier: 'expensive' },
       { name: 'Four Seasons Hotel Prague', note: 'Four Seasons brand — Staré Město with Vltava views, spa with outdoor pool, CottoCrudo restaurant · 9.4 Booking.com', url: 'https://www.booking.com/hotel/cz/four-seasons-prague.html', tier: 'luxury' },
       { name: 'Mandarin Oriental Prague', note: 'Mandarin Oriental brand — Malá Strana, Spices Restaurant, spa with indoor pool, 13th-century chapel setting · 9.2 Booking.com', url: 'https://www.booking.com/hotel/cz/mandarin-oriental-prague.html', tier: 'luxury' }
     ], price: { budget: '€60–100', mid: '€100–170', expensive: '€170–280', luxury: '€280+' } },

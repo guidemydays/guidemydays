@@ -5536,6 +5536,12 @@ window.TVE.home = (function () {
       { name: 'Boutique Hotel SOCLO', note: 'Independent — Compans-Caffarelli, garden and pool, air conditioning and 24h reception', url: 'https://www.booking.com/searchresults.html?ss=Boutique+Hotel+SOCLO+Toulouse', tier: 'luxury' },
       { name: 'Pullman Toulouse Centre Ramblas', note: 'Accor Pullman brand — near Matabiau train station and Place du Capitole, air conditioning and 24h reception · 8.5 Booking.com', url: 'https://www.booking.com/hotel/fr/toulouse-centre.en-gb.html', tier: 'expensive' }
     ], price: { budget: '€70–110', mid: '€110–170', expensive: '€170–250', luxury: '€250–420' } },
+    'tulum': { h: [
+      { name: 'Elements Tulum Boutique Hotel', note: 'Independent — Tulum Centro, 15-min walk to downtown, king rooms with AC, 24h front desk · 9.0 Booking.com', url: 'https://www.booking.com/hotel/mx/elements-tulum-boutique.html', tier: 'budget' },
+      { name: 'Moxy Tulum', note: 'Marriott family — first-tier international brand, this guide’s title-card hotel, Aldea Zama on the Cobá corridor between town and beach, rooftop pool, 24h reception, AC · 8.4 Booking.com', url: 'https://www.booking.com/hotel/mx/moxy-tulum.html', tier: 'mid' },
+      { name: 'La Zebra Tulum, a Small Luxury Hotel', note: 'Independent — Tulum Beach zone, beachfront with restaurant and rooftop, 24h reception, AC · 9.2 Booking.com', url: 'https://www.booking.com/hotel/mx/la-zebra-tulum.html', tier: 'expensive' },
+      { name: 'Casa Malca', note: 'Independent — Tulum Beach zone, Pablo Escobar’s former beach house turned art-filled boutique hotel, 24h reception, AC · 9.2 Booking.com', url: 'https://www.booking.com/hotel/us/casa-malca-tulum.html', tier: 'luxury' }
+    ], price: { budget: 'MXN 700–1,150', mid: 'MXN 1,250–2,700', expensive: 'MXN 4,500–8,200', luxury: 'MXN 8,000+' } },
     'tunis': { h: [
       { name: 'Downtown Tunis Hotel', note: 'Independent — Ville Nouvelle, room service and 24h front desk · 8.1 Booking.com', url: 'https://www.booking.com/hotel/tn/downtown-tunis-tunis1.html', tier: 'budget' },
       { name: 'Marigold Hotel', note: 'Independent — city center, restaurant and bar, 24h front desk · 8.3 Booking.com', url: 'https://www.booking.com/hotel/tn/marigold.html', tier: 'budget' },
@@ -11243,6 +11249,7 @@ window.TVE.home = (function () {
       'jakarta': {iata:'CGK', name:'Soekarno–Hatta International Airport'},
       'medellin':          {iata:'MDE', name:'José María Córdova International Airport'},
       'toulouse':          {iata:'TLS', name:'Toulouse–Blagnac'},
+      'tulum':             {iata:'CUN', name:'Cancún International'},
       'tunis':             {iata:'TUN', name:'Tunis–Carthage International'},
       'phnom-penh':        {iata:'KTI', name:'Techo International Airport'},
       'zagreb': {iata:'ZAG', name:'Franjo Tuđman Airport Zagreb'},

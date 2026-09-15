@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="/assets/web-travel-style.css">
+<link rel="stylesheet" href="/assets/mobile.css">
+<link rel="stylesheet" href="/maps/vendor/leaflet.min.css">
+<link rel="stylesheet" href="/maps/vendor/MarkerCluster.min.css">
+<link rel="stylesheet" href="/assets/stops-map-style.css">
+<title>Tulum — All Stops Map</title>
+</head>
+<body>
+<div data-toolbar data-depth="2" data-maxwidth="1400" data-title="Tulum — All Stops"></div>
+<div id="filter-row">
+  <button class="day-btn active" data-day="all">All days</button>
+  <button class="day-btn" data-day="1" style="--dc:#C04E1A">Day 1</button>
+  <button class="day-btn" data-day="2" style="--dc:#4a90d9">Day 2</button>
+  <button class="day-btn" data-day="3" style="--dc:#7ab648">Day 3</button>
+  <button class="day-btn" data-day="4" style="--dc:#9b59b6">Day 4</button>
+  <button class="day-btn" data-day="5" style="--dc:#e67e22">Day 5</button>
+</div>
+<div id="map-wrap"><div id="map"></div></div>
+<script src="/maps/vendor/leaflet.min.js"></script>
+<script src="/maps/vendor/markercluster.min.js"></script>
+<script src="/assets/toolbar.js?v=100"></script>
+<script>
+const STOPS = [
+    {
+        "day": 1,
+        "name": "Tulum Ruins",
+        "query": "Zona Arqueologica de Tulum Carretera Federal 307 Tulum Mexico",
+        "lat": 20.2194909,
+        "lng": -87.4380392
+    },
+    {
+        "day": 1,
+        "name": "Gran Cenote",
+        "query": "Gran Cenote Carretera Tulum Coba Tulum Mexico",
+        "lat": 20.2465584,
+        "lng": -87.4641049
+    },
+    {
+        "day": 2,
+        "name": "Cobá",
+        "query": "Zona Arqueologica de Coba Coba Quintana Roo Mexico",
+        "lat": 20.4887815,
+        "lng": -87.7260038
+    },
+    {
+        "day": 3,
+        "name": "Muyil",
+        "query": "Zona Arqueologica de Muyil Carretera 307 Mexico",
+        "lat": null,
+        "lng": null
+    },
+    {
+        "day": 3,
+        "name": "Sian Ka'an Biosphere Reserve",
+        "query": "Sian Kaan Biosphere Reserve boat launch Muyil Mexico",
+        "lat": null,
+        "lng": null
+    },
+    {
+        "day": 4,
+        "name": "Akumal Bay",
+        "query": "Akumal Bay Quintana Roo Mexico",
+        "lat": 20.3946207,
+        "lng": -87.3216449
+    },
+    {
+        "day": 4,
+        "name": "Xel-Há",
+        "query": "Xel-Ha Park Carretera Chetumal Puerto Juarez Mexico",
+        "lat": 20.3185012,
+        "lng": -87.3582715
+    },
+    {
+        "day": 3,
+        "name": "Valladolid",
+        "query": "Parque Francisco Canton Rosado Valladolid Yucatan Mexico",
+        "lat": 20.6902015,
+        "lng": -88.2016598
+    },
+    {
+        "day": 5,
+        "name": "Ek Balam",
+        "query": "Zona Arqueologica de Ek Balam Yucatan Mexico",
+        "lat": 20.8882022,
+        "lng": -88.1351475
+    }
+];
+const DAY_COLORS = {"1": "#C04E1A", "2": "#4a90d9", "3": "#7ab648", "4": "#9b59b6", "5": "#e67e22"};
+
+const map = L.map('map', {zoomControl: true});
+L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png?key=cb1_3hx8_1_38a66e98cc1ffebece53532c', {
+  attribution: '\u00a9 <a href="https://www.openstreetmap.org/copyright">OSM</a> \u00a9 <a href="https://carto.com/">CARTO</a>',
+  subdomains: 'abcd', maxZoom: 19
+}).addTo(map);
+
+const cluster = L.markerClusterGroup({maxClusterRadius: 40, showCoverageOnHover: false});
+const markers = [];
+
+function pinIcon(color) {
+  return L.divIcon({
+    className: '',
+    html: `<div style="width:14px;height:14px;background:${color};border:2.5px solid #fff;border-radius:50%;box-shadow:0 1px 5px rgba(0,0,0,0.35)"></div>`,
+    iconSize: [14, 14], iconAnchor: [7, 7], popupAnchor: [0, -12]
+  });
+}
+
+STOPS.filter(s => s.lat != null && s.lng != null).forEach(s => {
+  const color = DAY_COLORS[String(s.day)] || '#C04E1A';
+  const mapsUrl = 'https://www.google.com/maps/search/?api=1&query=' + encodeURIComponent(s.query);
+  const marker = L.marker([s.lat, s.lng], {icon: pinIcon(color), title: s.name, alt: s.name});
+  marker.on('add', () => {
+    const el = marker.getElement();
+    if (el) el.setAttribute('aria-label', s.name + ', Day ' + s.day);
+  });
+  marker.bindPopup(
+    '<div class="stop-popup">' +
+    '<strong>' + s.name + '</strong>' +
+    '<span class="day-tag" style="background:' + color + '">Day ' + s.day + '</span><br>' +
+    '<a href="' + mapsUrl + '" target="_blank">Open in Google Maps</a>' +
+    '</div>'
+  );
+  marker._day = s.day;
+  markers.push(marker);
+  cluster.addLayer(marker);
+});
+map.addLayer(cluster);
+
+function fitVisible(list) {
+  if (!list.length) return;
+  map.fitBounds(L.latLngBounds(list.map(m => m.getLatLng())), {padding: [44, 44]});
+}
+fitVisible(markers);
+
+document.querySelectorAll('.day-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.day-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    const day = btn.dataset.day;
+    cluster.clearLayers();
+    const visible = day === 'all' ? markers : markers.filter(m => String(m._day) === day);
+    visible.forEach(m => cluster.addLayer(m));
+    fitVisible(visible);
+  });
+});
+</script>
+</body>
+</html>

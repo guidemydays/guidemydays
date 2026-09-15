@@ -7655,10 +7655,13 @@ window.TVE.home = (function () {
     ], price: { budget: 'DOP 13,000–25,000', mid: 'DOP 25,000–45,000', expensive: 'DOP 45,000–80,000', luxury: 'DOP 80,000+' } },
     'quebec-city': { h: [
       { name: 'Hôtel PUR, Trademark Collection by Wyndham', note: 'Wyndham brand — Saint-Roch district, modern design, rooftop terrace, steps from Old Quebec · 8.7 Booking.com', url: 'https://www.booking.com/hotel/ca/hotel-pur.html', tier: 'budget' },
+      { name: 'Auberge aux Deux Lions', note: 'Independent inn — Montcalm neighborhood, private bathrooms, 24h reception · 8.4 Booking.com', url: 'https://www.booking.com/hotel/ca/auberge-aux-deux-lions.html', tier: 'budget' },
       { name: 'Le Saint-Pierre Hotel', note: 'Independent boutique — Old Quebec Petit-Champlain district, 18th-century heritage, courtyard garden · 9.2 Booking.com', url: 'https://www.booking.com/hotel/ca/saint-pierre.html', tier: 'mid' },
+      { name: 'Hôtel Le Germain Québec', note: 'Le Germain Hotels — historic Dominion building near the Old Port, boutique design, 24h reception · 9.2 Booking.com', url: 'https://www.booking.com/hotel/ca/le-germain-dominion-quebec.html', tier: 'mid' },
       { name: 'Auberge Saint-Antoine', note: 'Independent luxury — Old Port waterfront, archaeological artifacts displayed throughout, rooftop terrace views · 9.4 Booking.com', url: 'https://www.booking.com/hotel/ca/auberge-saint-antoine.html', tier: 'expensive' },
       { name: 'Hotel-Musée Premières Nations', note: 'Independent — Wendake First Nations reserve, 55 rooms designed around indigenous culture, traditional cuisine · 9.3 Booking.com', url: 'https://www.booking.com/hotel/ca/h-musee-premieres-nations-wendake-quebec.html', tier: 'expensive' },
-      { name: 'Fairmont Le Château Frontenac', note: 'Fairmont brand — 1893 castle above the St. Lawrence, terrace pool, Champlain restaurant · 9.0 Booking.com', url: 'https://www.booking.com/hotel/ca/chateau-frontenac.html', tier: 'luxury' }
+      { name: 'Fairmont Le Château Frontenac', note: 'Fairmont brand — 1893 castle above the St. Lawrence, terrace pool, Champlain restaurant · 9.0 Booking.com', url: 'https://www.booking.com/hotel/ca/chateau-frontenac.html', tier: 'luxury' },
+      { name: 'Hilton Québec', note: 'Hilton brand — a few minutes\' walk to Old Quebec, Parliament and river views, 24h reception, AC · 8.8 Booking.com', url: 'https://www.booking.com/hotel/ca/hilton-quebec.html', tier: 'luxury' }
     ], price: { budget: 'CAD 120–200', mid: 'CAD 200–320', expensive: 'CAD 320–500', luxury: 'CAD 500+' } },
     'queenstown': { h: [
       { name: 'Heartland Hotel Queenstown', note: 'Independent — town centre, walking distance to the waterfront and restaurants · 8.4 Booking.com', url: 'https://www.booking.com/hotel/nz/heartland-queenstown.html', tier: 'budget' },

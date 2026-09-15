@@ -7670,6 +7670,7 @@ window.TVE.home = (function () {
     ], price: { budget: 'ISK 18,000–30,000', mid: 'ISK 30,000–50,000', expensive: 'ISK 50,000–80,000', luxury: 'ISK 80,000+' } },
     'rhodes': { h: [
       { name: 'Hotel Anastasia', note: 'Independent — Kritis street in Rhodes New Town, 5-minute walk to Mandraki port, clean rooms, 24h reception, AC · 8.3 Booking.com', url: 'https://www.booking.com/hotel/gr/anastasia-rodos.html', tier: 'budget' },
+      { name: 'Amphitryon City Hotel', note: 'Independent — Rhodes Town, 9-min walk to Akti Kanari beach, 24h reception, AC · 8.5 Booking.com', url: 'https://www.booking.com/hotel/gr/amphitryon-city.html', tier: 'budget' },
       { name: 'Aquamare Beach Hotel & Spa', note: 'Independent — Ialyssos beachfront, spa, outdoor pool, 24h reception, AC · 8.6 Booking.com', url: 'https://www.booking.com/hotel/gr/aquamare-beach.html', tier: 'mid' },
       { name: 'Elysian Luxury Hotel & World Spa', note: 'Independent — Kiotari beachfront, thalassotherapy spa, outdoor pool, 24h reception, AC · 9.1 Booking.com', url: 'https://www.booking.com/hotel/gr/elysian-luxury-hotel-world-spa.html', tier: 'mid' },
       { name: 'Naillac Boutique Hotel', note: 'Independent boutique — adults-only in Rhodes Town a short walk north of the walls, infinity pool, 24h reception, AC · 9.5 Booking.com', url: 'https://www.booking.com/hotel/gr/naillac-boutique-rodos.html', tier: 'expensive' },

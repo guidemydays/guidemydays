@@ -581,6 +581,24 @@ a.an-jump:visited { color: #8f6a3e; }
 
 <script src="/assets/search-autocomplete.js?v=16"></script>
 <script>
+// Keep US states visible while retaining country words as hidden match text.
+function searchStateItems(items) {
+  var aliases = { coeurdalene: 'Idaho', hiltonheadisland: 'South Carolina',
+    marcoisland: 'Florida', naplesfl: 'Florida', virginislands: 'U.S. Virgin Islands' };
+  items.forEach(function (item) {
+    var country = item.sub || '';
+    if (!/^(?:United States|USA)(?: · .*)?$/.test(country)) return;
+    var name = (item._city || item.name || '').toLowerCase();
+    var state = TVESearch.CITIES[name] || aliases[name.replace(/[^a-z]/g, '')];
+    if (!state) return;
+    item.sub = state;
+    item.text = (item.text || '') + ' ' + country;
+  });
+  return items;
+}
+</script>
+
+<script>
 /* ── City index ───────────────────────────────────────────────────────────
    guide  = path relative to Trip-Essentials/
    days   = day count in that guide
@@ -4360,7 +4378,7 @@ applyFilters();
   if (window.TVESearch) {
     const items = AN_LIVE_CITIES.map(c => ({ name: c.city, sub: c.country }))
       .concat(AN_DISTRICTS.map(d => ({ name: d.name.replace(/&amp;/g, '&'), sub: d.city })));
-    TVESearch.attach(inp, { items: items, onPick: it => runQuery(it.name) });
+    TVESearch.attach(inp, { items: searchStateItems(items), onPick: it => runQuery(it.name) });
   }
 
   inp.addEventListener('input', function () { runQuery(inp.value); });

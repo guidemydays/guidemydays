@@ -6186,6 +6186,7 @@ window.TVE.home = (function () {
 
     'cannes': { h: [
       { name: 'Carlton Cannes, a Regent Hotel', note: 'IHG Regent brand — iconic 1911 La Croisette palace, private beach concession, Belle Époque sea-view suites · 9.1 Booking.com', url: 'https://www.booking.com/hotel/fr/carlton-cannes-a-regent-hotel.html', tier: 'luxury' },
+      { name: 'Hôtel Martinez', note: 'Hyatt Unbound Collection brand — 73 Boulevard de la Croisette, the neighbourhood\'s own landmark reference point, beachfront, full-service spa, 24h reception, AC · 9.0 Booking.com', url: 'https://www.booking.com/hotel/fr/martinez.html', tier: 'luxury' },
       { name: 'Majestic Barrière Cannes', note: 'Barrière group — La Croisette landmark, two pools, private beach club, Fouquet\'s Cannes restaurant, full-service spa · 9.0 Booking.com', url: 'https://www.booking.com/hotel/fr/majestic-barriere.html', tier: 'expensive' },
       { name: 'Five Seas by Inwood Hotels', note: 'Independent boutique — 5-star, 328 feet from La Croisette and Palais des Festivals, rooftop pool, full-service spa · 9.1 Booking.com', url: 'https://www.booking.com/hotel/fr/five.html', tier: 'expensive' },
       { name: 'Mondrian Cannes', note: 'Mondrian brand — La Croisette, 75 rooms and suites with sea or city views, 8.9 Booking.com', url: 'https://www.booking.com/hotel/fr/grand-cannes.html', tier: 'expensive' },

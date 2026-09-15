@@ -6175,7 +6175,7 @@ window.TVE.home = (function () {
       { name: 'The Regent Aparthotel', note: 'Independent — 41 Regent Street on Parker\'s Piece, serviced apartments with kitchens, lounge bar, ten minutes on foot to the Fitzwilliam · 9.0 Booking.com', url: 'https://www.booking.com/hotel/gb/regent-cambridge.html', tier: 'expensive' },
       { name: 'University Arms, Autograph Collection', note: 'Marriott Autograph Collection brand — Regent Street on Parker\'s Piece, 1834 landmark rebuilt by John Simpson, Parker\'s Tavern, library, 24h reception, AC, valet parking · 8.5 Booking.com', url: 'https://www.booking.com/hotel/gb/universityarmshotel.html', tier: 'luxury' },
       { name: 'Hilton Cambridge City Centre', note: 'Hilton brand — 20 Downing Street, fitness centre, 24h reception, AC, valet parking · 8.2 Booking.com', url: 'https://www.booking.com/hotel/gb/hilton-cambridge-hotel.html', tier: 'luxury' }
-    ], price: { budget: '£70–100', mid: '£130–165', expensive: '£170–190', luxury: '£190–330+' } },
+    ], price: { budget: '£70–100', mid: '£130–165', expensive: '£170–190', luxury: '£190+' } },
 
     'cancun': { h: [
       { name: 'Nizuc Resort & Spa', note: 'Independent luxury — southernmost tip of the Hotel Zone, 5 pools, overwater hammam spa, private beach, adults-only · 9.2 Booking.com', url: 'https://www.booking.com/hotel/mx/nizuc-resort-amp-spa.html', tier: 'luxury' },

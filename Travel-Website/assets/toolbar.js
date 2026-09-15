@@ -329,7 +329,11 @@ window.TVE.home = (function () {
     });
     /* An abandoned query is not a choice: whatever was set comes back. */
     field.addEventListener('blur', function () {
-      setTimeout(function () { close(); paintField(); }, 120);
+      setTimeout(function () {
+        if (document.activeElement === field) return;
+        close();
+        paintField();
+      }, 120);
     });
     document.addEventListener('click', function (e) {
       if (!host.contains(e.target)) close();

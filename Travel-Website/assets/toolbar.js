@@ -5376,10 +5376,14 @@ window.TVE.home = (function () {
     ], price: { budget: 'RSD 9,000–14,000', mid: 'RSD 14,000–20,000', expensive: 'RSD 20,000–30,000', luxury: 'RSD 30,000+' } },
     'bodrum': { h: [
       { name: 'Merih Butik Hotel', note: 'Independent boutique — Kumbahçe, 10-min walk from the castle, garden courtyard, 24h reception, AC · 9.3 Booking.com', url: 'https://www.booking.com/hotel/tr/merih-butik.html', tier: 'budget' },
+      { name: 'Asterina Hotel', note: 'Independent — Turgutreis beachfront, water park, 24h reception, AC · 9.0 Booking.com', url: 'https://www.booking.com/hotel/tr/four-seas-apart.html', tier: 'budget' },
       { name: 'Su Hotel - Bodrum', note: 'Independent — Tepecik, quiet passageway off Turgutreis Caddesi near the castle, outdoor pool, 24h reception, AC · 9.1 Booking.com', url: 'https://www.booking.com/hotel/tr/su.html', tier: 'mid' },
+      { name: 'Ayaz Suites', note: 'Independent — Eskiçeşme, outdoor pool, hot tub/jacuzzi, 24h reception, AC · 9.6 Booking.com', url: 'https://www.booking.com/hotel/tr/ayaz-suites.html', tier: 'mid' },
       { name: 'El Vino Hotel & Suites', note: 'Independent — Ümürçe, overlooking the castle, rooftop restaurant and two pools, this guide’s title-card hotel, 24h reception, AC · 9.3 Booking.com', url: 'https://www.booking.com/hotel/tr/el-vino-suites.html', tier: 'expensive' },
-      { name: 'The Marmara Bodrum', note: 'Independent — hilltop above the old town, private beach club, spa and tennis courts, adults only, 24h reception, AC · 9.3 Booking.com', url: 'https://www.booking.com/hotel/tr/marmarabodrum.html', tier: 'luxury' }
-    ], price: { budget: 'TRY 2600–3300', mid: 'TRY 5200–6600', expensive: 'TRY 6800–8500', luxury: 'TRY 11500+' } },
+      { name: 'Le Méridien Bodrum Beach Resort', note: 'Marriott Le Méridien brand — Adabükü on the Bodrum peninsula, 5-star, indoor and outdoor pools, water park, extensive spa, 24h reception, AC · 8.6 Booking.com', url: 'https://www.booking.com/hotel/tr/le-meridien-bodrum.html', tier: 'expensive' },
+      { name: 'The Marmara Bodrum', note: 'Independent — hilltop above the old town, private beach club, spa and tennis courts, adults only, 24h reception, AC · 9.3 Booking.com', url: 'https://www.booking.com/hotel/tr/marmarabodrum.html', tier: 'luxury' },
+      { name: 'Doria Hotel Bodrum', note: 'Independent — Bitez beachfront, 5-star, infinity pool, extensive spa, 24h reception, AC · 8.1 Booking.com', url: 'https://www.booking.com/hotel/tr/doria-bodrum.html', tier: 'luxury' }
+    ], price: { budget: 'TRY 2600–3300', mid: 'TRY 5200–6600', expensive: 'TRY 6800–20000', luxury: 'TRY 11500–23000' } },
     'bogota': { h: [
       { name: 'The Click Clack Hotel Bogotá', note: 'Independent boutique — Chicó, 2-min walk from Parque de la 93, rooftop bar and restaurant, 24h reception, AC · 9.1 Booking.com', url: 'https://www.booking.com/hotel/co/the-click-clack.html', tier: 'budget' },
       { name: 'Avani Royal Zona T Bogotá Hotel', note: 'Independent — Zona Rosa, 5-min walk from Andino and El Retiro shopping centers, 24h reception, AC · 8.8 Booking.com', url: 'https://www.booking.com/hotel/co/boheme-royal.html', tier: 'budget' },

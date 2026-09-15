@@ -118,6 +118,15 @@
      SHOWCASE INIT
   ───────────────────────────────────────────── */
   function initShowcase() {
+    var phone = window.matchMedia('(max-width: 600px) and (pointer: coarse)');
+    function syncCardDetails() {
+      grid.querySelectorAll('details.showcase-more').forEach(function (details) {
+        details.open = !phone.matches;
+      });
+    }
+    syncCardDetails();
+    if (phone.addEventListener) phone.addEventListener('change', syncCardDetails);
+    else phone.addListener(syncCardDetails);
     var sections = collectSections();
     initCountryFilter(sections);
     injectToolbar(sections);

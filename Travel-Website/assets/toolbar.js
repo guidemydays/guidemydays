@@ -7714,6 +7714,7 @@ window.TVE.home = (function () {
     'quebec-city': { h: [
       { name: 'Hôtel PUR, Trademark Collection by Wyndham', note: 'Wyndham brand — Saint-Roch district, modern design, rooftop terrace, steps from Old Quebec · 8.7 Booking.com', url: 'https://www.booking.com/hotel/ca/hotel-pur.html', tier: 'budget' },
       { name: 'Auberge aux Deux Lions', note: 'Independent inn — Montcalm neighborhood, private bathrooms, 24h reception · 8.4 Booking.com', url: 'https://www.booking.com/hotel/ca/auberge-aux-deux-lions.html', tier: 'budget' },
+      { name: 'Courtyard by Marriott Quebec City', note: 'Marriott Courtyard brand — Les Rivières district, indoor pool, fitness center, 24h reception, AC · 8.8 Booking.com', url: 'https://www.booking.com/hotel/ca/courtyard-by-marriott-quebec-city.html', tier: 'budget' },
       { name: 'Le Saint-Pierre Hotel', note: 'Independent boutique — Old Quebec Petit-Champlain district, 18th-century heritage, courtyard garden · 9.2 Booking.com', url: 'https://www.booking.com/hotel/ca/saint-pierre.html', tier: 'mid' },
       { name: 'Hôtel Le Germain Québec', note: 'Le Germain Hotels — historic Dominion building near the Old Port, boutique design, 24h reception · 9.2 Booking.com', url: 'https://www.booking.com/hotel/ca/le-germain-dominion-quebec.html', tier: 'mid' },
       { name: 'Auberge Saint-Antoine', note: 'Independent luxury — Old Port waterfront, archaeological artifacts displayed throughout, rooftop terrace views · 9.4 Booking.com', url: 'https://www.booking.com/hotel/ca/auberge-saint-antoine.html', tier: 'expensive' },
@@ -7734,6 +7735,7 @@ window.TVE.home = (function () {
     'recife': { h: [
       { name: 'El Aram Beach Boa Viagem', note: 'Independent — Rua dos Navegantes in Boa Viagem, outdoor pool, restaurant, 24h reception · 8.0 Booking.com', url: 'https://www.booking.com/hotel/br/canarius-palace.html', tier: 'budget' },
       { name: 'Hotel Luzeiros Recife', note: 'Independent — Boa Viagem, restaurant, outdoor pool, 24h reception, AC · 9.2 Booking.com', url: 'https://www.booking.com/hotel/br/luzeiros-recife.html', tier: 'budget' },
+      { name: 'Motto By Hilton Recife', note: 'Hilton Motto brand — Recife Antigo historic district beside Marco Zero Square, rooftop bar, 24h reception, AC · 8.6 Booking.com', url: 'https://www.booking.com/hotel/br/motto-by-hilton-recife.html', tier: 'budget' },
       { name: 'Fity Hotel', note: 'Independent — Rua Dhalia two blocks off Boa Viagem beach, business hotel, valet parking, 24h reception · 8.6 Booking.com', url: 'https://www.booking.com/hotel/br/fity.html', tier: 'mid' },
       { name: 'Ritz Suítes Hotel Recife', note: 'Independent — Boa Viagem beachfront, outdoor pool, Sky Bar rooftop terrace · 8.8 Booking.com', url: 'https://www.booking.com/hotel/br/ritz-suites-recife.html', tier: 'mid' },
       { name: 'Bugan Recife Boa Viagem Hotel - by Atlantica', note: 'Atlantica Hotels — Avenida Engenheiro Domingos Ferreira in Boa Viagem, rooftop pool, sauna, 24h reception · 9.0 Booking.com', url: 'https://www.booking.com/hotel/br/bugan-recife-hotel-by-atlantica.html', tier: 'expensive' },

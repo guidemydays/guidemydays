@@ -997,7 +997,12 @@ function render() {
   if (!searchInput || !sel) return;
 
   var items = CITIES.map(function(c, i) {
-    return { name: c.name, sub: c.country, _idx: i };
+    var sub = c.country;
+    if (/^USA(?: · |$)|^United States$/.test(sub)) {
+      var aliases = { 'hilton head island': 'South Carolina', 'virgin islands': 'U.S. Virgin Islands' };
+      sub = TVESearch.CITIES[c.name.toLowerCase()] || aliases[c.name.toLowerCase()] || sub.replace(/^USA · /, '');
+    }
+    return { name: c.name, sub: sub, text: c.country, _idx: i };
   });
 
   TVESearch.attach(searchInput, {

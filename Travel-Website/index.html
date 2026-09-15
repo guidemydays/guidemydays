@@ -5983,6 +5983,8 @@ function render() {
       loadVisa(function () {
       loadAirports(function () {
       loadClimate(function() {
+        /* Picks may change while shared facts are loading. */
+        if (sel.length < 2 || !document.body.classList.contains('mode-compare')) return;
         compareView.hidden = false;
         /* HOW MANY COLUMNS THE TABLE IS DRAWING, on the element, so the CSS can
            tighten the cells at the one count that does not fit the rail. Five
@@ -6049,8 +6051,17 @@ function render() {
          source for that is the engine. Removing a chip with its ✕ used to leave
          the row in the list still ticked until the next keystroke. */
       if (window._cmpxSync) window._cmpxSync();
-      /* if panel is open, refresh it */
-      if (!compareView.hidden) showPanel();
+      /* An incomplete selection returns to the picker, without stale columns. */
+      if (!compareView.hidden) {
+        if (sel.length >= 2) showPanel();
+        else {
+          compareView.hidden = true;
+          compareView.innerHTML = '';
+          compareView.removeAttribute('data-n');
+          compareView.classList.remove('has-mobile-cards');
+          document.querySelector('.mosaic-wrap').style.display = '';
+        }
+      }
     }
 
     function deselect(href) {

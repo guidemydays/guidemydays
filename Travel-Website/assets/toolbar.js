@@ -5424,8 +5424,11 @@ window.TVE.home = (function () {
       { name: 'Skeffington Arms Hotel', note: 'Independent — directly on Eyre Square, lively central base with an on-site bar and 24h reception', url: 'https://www.booking.com/hotel/ie/skeffington-arms.html', tier: 'budget' },
       { name: 'Nox Hotel Galway', note: 'Independent — Headford Road base with restaurant, bar, free parking and 24h reception', url: 'https://www.booking.com/hotel/ie/noxhotel.html', tier: 'budget' },
       { name: 'Park House Hotel', note: 'Independent — refined city-centre stay beside Eyre Square with an acclaimed restaurant · 8.7 Booking.com', url: 'https://www.booking.com/hotel/ie/park-house.html', tier: 'mid' },
+      { name: 'HYDE Hotel', note: 'Independent boutique — next to the train and bus station, 1-min walk to Eyre Square, 24h reception, no AC (uncommon in this market) · 8.8 Booking.com', url: 'https://www.booking.com/hotel/ie/forstercourt.html', tier: 'mid' },
       { name: 'The Dean Galway', note: 'Independent lifestyle hotel — city-centre rooftop pool, restaurant and gym · 8.5 Booking.com', url: 'https://www.booking.com/hotel/ie/the-dean-galway.html', tier: 'expensive' },
-      { name: 'Glenlo Abbey Hotel', note: 'Independent country-estate stay — lakeside grounds, spa and Pullman Restaurant outside central Galway · 9.0 Booking.com', url: 'https://www.booking.com/hotel/ie/glenlo-abbey.html', tier: 'luxury' }
+      { name: 'The House Hotel', note: 'Ascend Hotel Collection — Latin Quarter off Quay Square, near the Spanish Arch, 24h reception · 8.2 Booking.com', url: 'https://www.booking.com/hotel/ie/the-house.html', tier: 'expensive' },
+      { name: 'Glenlo Abbey Hotel', note: 'Independent country-estate stay — lakeside grounds, spa and Pullman Restaurant outside central Galway · 9.0 Booking.com', url: 'https://www.booking.com/hotel/ie/glenlo-abbey.html', tier: 'luxury' },
+      { name: 'The g Hotel & Spa', note: 'Independent — Philip Treacy-designed landmark overlooking Lough Atalia, award-winning spa, gym, 24h reception · 8.7 Booking.com', url: 'https://www.booking.com/hotel/ie/the-g.html', tier: 'luxury' }
     ], price: { budget: '€110–160', mid: '€160–240', expensive: '€240–360', luxury: '€360+' } },
     'hurghada': { h: [
       { name: 'Canary Hotel', note: 'Independent budget stay in central Hurghada with air conditioning, 24-hour reception and easy access to El Dahar.', url: 'https://www.booking.com/hotel/eg/canary.html', tier: 'budget' },

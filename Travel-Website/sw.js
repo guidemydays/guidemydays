@@ -3778,7 +3778,8 @@
 /* 2026-09-14: hotel-alt-tier-depth: phuket budget/mid/expensive + brand floor toolbar.js -> v1377. CACHE to v2205. */
 /* 2026-09-14: hotel-alt-tier-depth: quebec-city brand floor toolbar.js -> v1378. CACHE to v2206. */
 /* 2026-09-14: belgrade guide -- toolbar.js LOUNGE_IATAS gains BEG (Nikola Tesla Airport) after adding its lounges to essentials/lounges/index.html toolbar.js -> v1379. CACHE to v2207. */
-var CACHE = 'travel-cache-v2207';
+/* 2026-09-14: belgrade guide -- toolbar.js LOUNGE_IATAS gains BEG (Nikola Tesla Airport) after adding its lounges to essentials/lounges/index.html toolbar.js -> v1380. CACHE to v2208. */
+var CACHE = 'travel-cache-v2208';
 /* 2026-08-27: airlines.css's .card-tags align-items fix changed a shared
    asset without raising its own floor -- MIN_VERSIONS['airlines.css'] to
    6, CACHE to v1662. */
@@ -3827,7 +3828,7 @@ var ICS_OUTBOX = 'gmd-ics-outbox';
    cap, rendered near its full intrinsic width and pushed the amount box and the close
    X off the right edge of the phone screen. MIN_VERSIONS['guide-style.css'] to 296, CACHE to v2007. */
 /* 2026-09-10: weather.js — Boracay climate normals added. MIN_VERSIONS['weather.js'] to 46, CACHE to v2060. */
-var MIN_VERSIONS = { 'guide-style.css': 319,'toolbar.js': 1379, 'mobile.css': 104, 'web-travel-style.css': 309, 'guides-index-style.css': 70,'read-about.css': 11, 'best-of-features.js': 7, 'best-of-cross-data.js': 26, 'weather.js': 80,'trains.css': 35, 'trains.js': 6, 'airlines.css': 9, 'airlines.js': 12, 'passport.js': 6, 'search-autocomplete.js': 22, 'flag-render.js': 3, 'site-footer.js': 2 };
+var MIN_VERSIONS = { 'guide-style.css': 319,'toolbar.js': 1380, 'mobile.css': 104, 'web-travel-style.css': 309, 'guides-index-style.css': 70,'read-about.css': 11, 'best-of-features.js': 7, 'best-of-cross-data.js': 26, 'weather.js': 80,'trains.css': 35, 'trains.js': 6, 'airlines.css': 9, 'airlines.js': 12, 'passport.js': 6, 'search-autocomplete.js': 22, 'flag-render.js': 3, 'site-footer.js': 2 };
 
 function rewriteAssetUrl(urlStr) {
   var u;

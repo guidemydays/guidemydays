@@ -6616,9 +6616,13 @@ window.TVE.home = (function () {
     ], price: { budget: 'USD 120–190', mid: 'USD 190–280', expensive: 'USD 280–400', luxury: 'USD 400+' } },
     'glasgow': { h: [
       { name: 'Kimpton Blythswood Square Hotel', note: 'IHG Kimpton brand — 1820 Georgian townhouse on Blythswood Square, indoor pool, Tempus spa, afternoon tea · 9.0 Booking.com', url: 'https://www.booking.com/hotel/gb/blythswood-square.html', tier: 'luxury' },
+      { name: 'voco Grand Central Glasgow', note: 'IHG voco brand — historic railway hotel above Glasgow Central Station, 24h reception, AC · 8.7 Booking.com', url: 'https://www.booking.com/hotel/gb/the-grand-central.html', tier: 'luxury' },
       { name: 'Hotel Indigo Glasgow', note: 'IHG brand — converted 1901 central fire station on Waterloo Street, design-led interiors, steps from Central Station · 8.7 Booking.com', url: 'https://www.booking.com/hotel/gb/indigo-glasgow.html', tier: 'mid' },
+      { name: 'Glasgow Marriott Hotel', note: 'Marriott brand — under a mile from Buchanan Street, 3-min walk to Anderston Rail Station, 24h reception, AC · 8.7 Booking.com', url: 'https://www.booking.com/hotel/gb/glasgow-marriott.html', tier: 'mid' },
       { name: 'Radisson Blu Hotel Glasgow', note: 'Radisson brand — Argyle Street in the city centre, indoor pool, Metro Bar & Grill, walking distance to Central Station · 8.4 Booking.com', url: 'https://www.booking.com/hotel/gb/radissonsashotelglasgow.html', tier: 'expensive' },
-      { name: 'Malmaison Glasgow', note: 'Malmaison brand — Merchant City in a converted church building, brasserie and bar, design rooms with character · 8.6 Booking.com', url: 'https://www.booking.com/hotel/gb/malmaison-glasgow.html', tier: 'budget' }
+      { name: 'Hilton Glasgow', note: 'Hilton brand — financial district, walking distance to shopping, 24h reception, AC · 8.5 Booking.com', url: 'https://www.booking.com/hotel/gb/hilton-glasgow.html', tier: 'expensive' },
+      { name: 'Malmaison Glasgow', note: 'Malmaison brand — Merchant City in a converted church building, brasserie and bar, design rooms with character · 8.6 Booking.com', url: 'https://www.booking.com/hotel/gb/malmaison-glasgow.html', tier: 'budget' },
+      { name: 'AC Hotel by Marriott Glasgow', note: 'Marriott AC brand — city centre, 24h reception, AC · 8.9 Booking.com', url: 'https://www.booking.com/hotel/gb/ac-by-marriott-glasgow.html', tier: 'budget' }
     ], price: { budget: 'GBP 120–160', mid: 'GBP 160–220', expensive: 'GBP 220–320', luxury: 'GBP 320+' } },
     'gothenburg': { h: [
       { name: 'Comfort Hotel Goteborg', note: 'Nordic Choice — contemporary economy hotel near Centralstation, complimentary evening meal, 24-hour reception · 8.2 Booking.com', url: 'https://www.booking.com/hotel/se/comfort-hotel-goteborg.html', tier: 'budget' },

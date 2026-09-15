@@ -7468,9 +7468,12 @@ window.TVE.home = (function () {
     ], price: { budget: '£60–120', mid: '£120–200', expensive: '£200–320', luxury: '£320+' } },
     'palawan': { h: [
       { name: 'The Funny Lion - Puerto Princesa', note: 'Independent — F. Ponce de Leon Road, outdoor pool, 24h reception, airport shuttle · 9.3 Booking.com', url: 'https://www.booking.com/hotel/ph/the-funny-lion-puerto-princesa.html', tier: 'expensive' },
+      { name: 'Cauayan Boutique Private Island', note: 'Independent — private island resort near El Nido, lush greenery setting · 9.5 Booking.com', url: 'https://www.booking.com/hotel/ph/cauayan-island-resort.html', tier: 'expensive' },
       { name: 'El Nido Resorts Pangulasian Island', note: 'El Nido Resorts — solar-powered adults-preferred island resort, white sand beach, three pools · 9.3 Booking.com', url: 'https://www.booking.com/hotel/ph/el-nido-resorts-pangulasian-island.html', tier: 'luxury' },
+      { name: 'Lagen Island Resort El Nido', note: 'El Nido Resorts — Lagen Island cove, forest-bordered beach, all-inclusive · 9.8 Booking.com', url: 'https://www.booking.com/hotel/ph/lagen-island-resort.html', tier: 'luxury' },
       { name: "Mongki's Pension House", note: 'Independent — Wescom Road in San Pedro, 24h reception, AC, airport transfers · 9.2 Booking.com', url: 'https://www.booking.com/hotel/ph/mongkis-pensionhouse.html', tier: 'budget' },
       { name: 'Carpe Diem Villas & Resort', note: 'Independent — F. Ponce de Leon Road, outdoor pool, spa, dive desk · 9.0 Booking.com', url: 'https://www.booking.com/hotel/ph/carpe-diem-villas-amp-resort-puerto-princesa.html', tier: 'mid' },
+      { name: 'H Hotel El Nido', note: 'Independent — vegan-friendly, restaurant and bar, 24h reception, AC · 9.2 Booking.com', url: 'https://www.booking.com/hotel/ph/h-el-nido-el-nido1.html', tier: 'mid' },
       { name: 'Casa Belina', note: 'Independent — 20 Pineda Road in San Pedro, AC rooms, 24h reception, free airport shuttle · 9.0 Booking.com', url: 'https://www.booking.com/hotel/ph/casa-belina.html', tier: 'budget' }
     ], price: { budget: 'PHP 1,000–2,500', mid: 'PHP 2,500–6,000', expensive: 'PHP 6,000–15,000', luxury: 'PHP 15,000+' } },
     'palm-desert': { h: [

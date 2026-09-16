@@ -979,6 +979,22 @@ a:hover { text-decoration: underline; }
 }
 a.lounge-arrival-chip:hover { background: #e8e6df; }
 a.lounge-arrival-chip:visited { color: #5a564a; }
+a.lounge-arrival-chip::after {
+  content: '›';
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+  width: 24px;
+  height: 24px;
+  flex: 0 0 24px;
+  border: 1px solid currentColor;
+  border-radius: 50%;
+  color: currentColor;
+  font-size: 18px;
+  font-weight: 700;
+  line-height: 1;
+}
 .dining-area-note {
   display: flex;
   align-items: center;
@@ -1190,7 +1206,7 @@ a.dining-area-note:visited { color: #C04E1A; }
   border: 0.5px solid var(--c-float-bd);
   border-radius: 4px;
   padding: 5px 9px;
-  color: var(--c-float-text);
+  color: var(--c-action-text);
   font-size: 14px;
   line-height: 1.2;
   /* 700 — the duration chip's own weight. */
@@ -1200,6 +1216,7 @@ a.dining-area-note:visited { color: #C04E1A; }
   text-decoration: none;
   transition: color .15s, border-color .15s;
 }
+.stop-row a[href*="en.wikipedia.org"]:visited { color: #5a3c0e; }
 .stop-row a[href*="en.wikipedia.org"] > svg.gm-icon {
   width: 24px;
   height: 24px;
@@ -1533,6 +1550,21 @@ div.train .train-time   { padding: 2px 0; }
 .worth-knowing.collapsed,
 #hotel-alternatives.collapsed {
   padding-bottom: 14px !important;
+}
+
+/* Section-heading marks share one 28px frame across the whole guide. */
+.extras-title > svg.gm-icon,
+.extras-title > svg.gm-ic {
+  width: 28px;
+  height: 28px;
+  flex: 0 0 28px;
+  margin: 0;
+}
+/* The catalogue train has a deliberately narrow front silhouette. Scale
+   the artwork, not its layout frame, to match neighbouring guide marks. */
+body:has(.day-block) svg.gm-icon[data-icon="train"] {
+  transform: scale(1.3);
+  transform-origin: center;
 }
 
 .extras-title .section-icon,
@@ -1999,7 +2031,8 @@ div.train .train-time   { padding: 2px 0; }
   .stop-num, .stop-name { color: var(--c-text-primary); }
   .stop-subtitle { color: #999; }
   .stop-block > .stop-row:has(> a[href*="en.wikipedia.org"]) { border-top-color: #38322a; }
-  .stop-row a[href*="en.wikipedia.org"] { background: #221e18; }
+  .stop-row a[href*="en.wikipedia.org"],
+  .stop-row a[href*="en.wikipedia.org"]:visited { background: #221e18; color: #c8a060; }
   .stop-row a[href*="en.wikipedia.org"]:hover { color: #D4663A; border-color: #D4663A; }
   .stop-row a,
   .stop-row a:visited { color: var(--c-action-text); }
@@ -2950,11 +2983,11 @@ a.neigh-name:visited { color: #3d3a32; }
 .hr-tier.hr-lux    { color: #6b2fa0; }
 
 .hr-coins { display: inline-flex; align-items: center; flex: none; }
-.hr-coins svg { display: block; width: 1.15em; height: 1.15em; }
-.hr-coins[data-tier="budget"] svg { width: 1.15em; }
-.hr-coins[data-tier="mid"] svg { width: 1.97em; }
-.hr-coins[data-tier="expensive"] svg { width: 2.80em; }
-.hr-coins[data-tier="luxury"] svg { width: 3.62em; }
+.hr-coins svg { display: block; width: 1.4em; height: 1.4em; }
+.hr-coins[data-tier="budget"] svg { width: 1.4em; }
+.hr-coins[data-tier="mid"] svg { width: 2.4em; }
+.hr-coins[data-tier="expensive"] svg { width: 3.4em; }
+.hr-coins[data-tier="luxury"] svg { width: 4.4em; }
 
 @media (prefers-color-scheme: dark) {
   a.neigh-name:visited { color: #e8e5e0; }
@@ -3598,6 +3631,10 @@ a.neigh-name:visited { color: #3d3a32; }
     width: 32px;
     justify-content: center;
   }
+  body:has(.day-block) :is(.ticket-box, .tour-box) > div > .ticket-flag {
+    min-height: 1.55em;
+    align-items: center;
+  }
   body:has(.day-block) :is(.ticket-box, .tour-box) > div > .free-flag {
     grid-column: 1 / -1;
     display: grid;
@@ -3609,7 +3646,7 @@ a.neigh-name:visited { color: #3d3a32; }
     justify-content: initial;
   }
   body:has(.day-block) :is(.ticket-box, .tour-box) .gm-tf-ico {
-    margin: 2px 0 0;
+    margin: 0;
   }
   body:has(.day-block) :is(.ticket-flag, .free-flag)::before {
     background-color: var(--c-slate, #526872);

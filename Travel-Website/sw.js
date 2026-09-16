@@ -3815,7 +3815,8 @@
 /* 2026-09-15: Complete selected icon treatment merged with Wadi Rum; preserve newer weather floor toolbar.js -> v1400. CACHE to v2236. */
 /* 2026-09-15: Blue-shirt walking motion, navy Been pin cluster and grey folded All Stops Map toolbar.js -> v1401. CACHE to v2237. */
 /* 2026-09-15: Merge Wadi Rum publication (weather.js -> v84) with concurrent toolbar.js v1401 icon work. CACHE to v2238. */
-var CACHE = 'travel-cache-v2238';
+/* Refresh canonical slate two-tone airplane and selected guide icons. */
+var CACHE = 'travel-cache-v2239';
 /* 2026-08-27: airlines.css's .card-tags align-items fix changed a shared
    asset without raising its own floor -- MIN_VERSIONS['airlines.css'] to
    6, CACHE to v1662. */
@@ -3864,7 +3865,7 @@ var ICS_OUTBOX = 'gmd-ics-outbox';
    cap, rendered near its full intrinsic width and pushed the amount box and the close
    X off the right edge of the phone screen. MIN_VERSIONS['guide-style.css'] to 296, CACHE to v2007. */
 /* 2026-09-10: weather.js — Boracay climate normals added. MIN_VERSIONS['weather.js'] to 46, CACHE to v2060. */
-var MIN_VERSIONS = { 'guide-style.css': 326,'toolbar.js': 1401, 'mobile.css': 105, 'web-travel-style.css': 312, 'guides-index-style.css': 70,'read-about.css': 11, 'best-of-features.js': 11, 'best-of-cross-data.js': 27, 'weather.js': 84,'trains.css': 35, 'trains.js': 6, 'airlines.css': 9, 'airlines.js': 12, 'passport.js': 6, 'search-autocomplete.js': 22, 'flag-render.js': 3, 'site-footer.js': 2 };
+var MIN_VERSIONS = { 'guide-style.css': 326,'toolbar.js': 1402, 'mobile.css': 105, 'web-travel-style.css': 312, 'guides-index-style.css': 70,'read-about.css': 11, 'best-of-features.js': 11, 'best-of-cross-data.js': 27, 'weather.js': 84,'trains.css': 35, 'trains.js': 6, 'airlines.css': 9, 'airlines.js': 12, 'passport.js': 6, 'search-autocomplete.js': 22, 'flag-render.js': 3, 'site-footer.js': 2 };
 
 function rewriteAssetUrl(urlStr) {
   var u;

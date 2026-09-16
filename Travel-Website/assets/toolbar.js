@@ -3474,7 +3474,7 @@ window.TVE.home = (function () {
         el.style.setProperty('flex', '1 1 auto', 'important');
         el.style.setProperty('align-items', 'center', 'important');
         el.style.setProperty('justify-content', 'center', 'important');
-        el.style.setProperty('text-align', 'center', 'important');
+        el.style.setProperty('text-align', 'left', 'important');
       }
       _flexPill(trigBtn);
       if (mapPill) _flexPill(mapPill);
@@ -4927,7 +4927,7 @@ window.TVE.home = (function () {
       btn.style.setProperty('flex', '1 1 auto', 'important');
       btn.style.setProperty('align-items', 'center', 'important');
       btn.style.setProperty('justify-content', 'center', 'important');
-      btn.style.setProperty('text-align', 'center', 'important');
+      btn.style.setProperty('text-align', 'left', 'important');
       pillRow.appendChild(btn);
       /* iOS :active workaround — touch events don't reliably fire :active */
       btn.addEventListener('touchstart', function () {
@@ -5008,7 +5008,7 @@ window.TVE.home = (function () {
       btn.style.setProperty('flex', '1 1 auto', 'important');
       btn.style.setProperty('align-items', 'center', 'important');
       btn.style.setProperty('justify-content', 'center', 'important');
-      btn.style.setProperty('text-align', 'center', 'important');
+      btn.style.setProperty('text-align', 'left', 'important');
       pillRow.appendChild(btn);
       btn.addEventListener('touchstart', function () {
         btn.classList.add('tve-pressed');
@@ -5077,7 +5077,7 @@ window.TVE.home = (function () {
       btn.style.setProperty('flex', '1 1 auto', 'important');
       btn.style.setProperty('align-items', 'center', 'important');
       btn.style.setProperty('justify-content', 'center', 'important');
-      btn.style.setProperty('text-align', 'center', 'important');
+      btn.style.setProperty('text-align', 'left', 'important');
       pillRow.appendChild(btn);
       /* iOS :active workaround — touch events don't reliably fire :active */
       btn.addEventListener('touchstart', function () {
@@ -5135,7 +5135,7 @@ window.TVE.home = (function () {
       btn.style.setProperty('flex', '1 1 auto', 'important');
       btn.style.setProperty('align-items', 'center', 'important');
       btn.style.setProperty('justify-content', 'center', 'important');
-      btn.style.setProperty('text-align', 'center', 'important');
+      btn.style.setProperty('text-align', 'left', 'important');
       pillRow.appendChild(btn);
       btn.addEventListener('touchstart', function () {
         btn.classList.add('tve-pressed');
@@ -9589,7 +9589,7 @@ window.TVE.home = (function () {
       pill.style.setProperty('flex', '1 1 auto', 'important');
       pill.style.setProperty('align-items', 'center', 'important');
       pill.style.setProperty('justify-content', 'center', 'important');
-      pill.style.setProperty('text-align', 'center', 'important');
+      pill.style.setProperty('text-align', 'left', 'important');
 
       /* ── Panel — hidden until the pill is tapped ── */
       var panel = document.createElement('div');

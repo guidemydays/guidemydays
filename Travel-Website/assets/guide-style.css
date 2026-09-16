@@ -437,17 +437,14 @@ a:hover { text-decoration: underline; }
   margin-top: 16px;
   margin-bottom: 14px;
 }
-/* "All Stops Map" is the one pill in this row still using the old
-   em-relative .gm-icon markup baked into the guide HTML — its six
-   siblings (Export to Calendar, Save for Offline, I've Been, Pocket
-   version, Print, Currency) are injected by toolbar.js at a fixed
-   18px regardless of viewport. Without this, All Stops Map's icon
-   shrinks with the row's own responsive font-size (down to ~14px on
-   narrow screens) while its neighbors hold steady, so it reads
-   visibly smaller than the rest of the row. Fixed to match. */
-#ics-pill-row > .overview-extra-link .gm-icon {
-  width: 18px;
-  height: 18px;
+/* The action row has one fixed vector-icon column and one label column.
+   Cover both sprite classes and authored SVGs without changing other rows. */
+#ics-pill-row > .overview-extra-link > svg {
+  width: 28px;
+  height: 28px;
+  min-width: 28px;
+  margin: 0;
+  flex-shrink: 0;
 }
 #ics-pill-row > .overview-extra-link {
   border: 1px solid var(--c-pill-bd);
@@ -498,6 +495,28 @@ a:hover { text-decoration: underline; }
      added later makes the row even again and this stops matching on its
      own, rather than leaving one pill mysteriously double width. */
   #ics-pill-row > #tve-cur-pill:nth-child(odd):last-child { grid-column: 1 / -1; }
+}
+
+#ics-pill-row > .overview-extra-link {
+  display: grid !important;
+  grid-template-columns: 28px minmax(0, 1fr);
+  align-items: center !important;
+  text-align: left !important;
+  column-gap: 10px !important;
+  padding: 12px 10px !important;
+  min-height: 60px;
+}
+@media (max-width: 600px) {
+  #ics-pill-row > .overview-extra-link {
+    grid-template-columns: 24px minmax(0, 1fr);
+    column-gap: 8px !important;
+    padding: 12px 8px !important;
+  }
+  #ics-pill-row > .overview-extra-link > svg {
+    width: 24px;
+    height: 24px;
+    min-width: 24px;
+  }
 }
 
 #ams-advisory { display:flex; align-items:flex-start; gap:10px; padding:10px 14px; background:var(--c-alt-bg); border-top:1px solid var(--c-alt-border); border-bottom:1px solid var(--c-alt-border); }

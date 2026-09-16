@@ -5559,6 +5559,15 @@ window.TVE.home = (function () {
       { name: 'Sheraton Tunis Hotel', note: 'Marriott family — first-tier international brand, spa and hot tub, 24h reception, AC · 8.4 Booking.com', url: 'https://www.booking.com/hotel/tn/sheraton-tunis-towers.html', tier: 'luxury' },
       { name: 'Mövenpick Hotel du Lac Tunis', note: 'Mövenpick — first-tier international brand, Les Berges du Lac, spa, sauna and sustainability certification, 24h reception, AC · 8.2 Booking.com', url: 'https://www.booking.com/hotel/tn/movenpick-du-lac-tunis.html', tier: 'luxury' }
     ], price: { budget: 'TND 175–280', mid: 'TND 280–370', expensive: 'TND 400–570', luxury: 'TND 580+' } },
+    'ushuaia': { h: [
+      { name: 'Original House Hotel Boutique', note: 'Independent — Yaganes 186, 24h reception, no AC (sub-polar climate) · 9.0 Booking.com', url: 'https://www.booking.com/hotel/ar/original-house-boutique.html', tier: 'budget' },
+      { name: 'Alto Andino Hotel', note: 'Independent — Gobernador Paz 868, near San Martín Ave, 24h reception, no AC · 9.1 Booking.com', url: 'https://www.booking.com/hotel/ar/alto-andino.html', tier: 'mid' },
+      { name: 'Tolkeyén Ushuaia Hotel', note: 'Independent — Del Tolkeyen 2145, Beagle Channel waterfront, 24h reception, no AC · 9.0 Booking.com', url: 'https://www.booking.com/hotel/ar/tolkeyen.html', tier: 'mid' },
+      { name: 'City Centro By Marriott Ushuaia Argentina', note: 'Marriott family — first-tier international brand, this guide’s title-card hotel, Gobernador Paz 268, Centro, 24h front desk, no AC · 9.0 Booking.com', url: 'https://www.booking.com/hotel/ar/city-centro-by-marriott-ushuaia-argentina.html', tier: 'expensive' },
+      { name: 'Cilene del Fuego Suites & Spa', note: 'Independent — Gdor. Deloqui 50, Centro, indoor pool and spa, 24h reception, no AC · 9.4 Booking.com', url: 'https://www.booking.com/hotel/ar/cilene-del-fuego.html', tier: 'expensive' },
+      { name: 'Arakur Ushuaia Resort & Spa', note: 'Independent — Cerro Alarkén 1, hilltop nature reserve above town, two pools and full spa, 24h reception, no AC · 9.5 Booking.com', url: 'https://www.booking.com/hotel/ar/arakur-ushuaia.html', tier: 'luxury' },
+      { name: 'Los Cauquenes Resort + Spa + Experiences', note: 'Independent — De la Ermita 3462, private Beagle Channel beach, full spa, 24h reception, no AC · 9.1 Booking.com', url: 'https://www.booking.com/hotel/ar/los-cauquenes-resort-spa.html', tier: 'luxury' }
+    ], price: { budget: '$70–150', mid: '$150–220', expensive: '$220–320', luxury: '$320+' } },
     'wadi-rum': { h: [
       { name: 'Hasan Zawaideh Camp', note: 'Independent Bedouin-run camp — Ad Deiseh, deluxe tents, breakfast included, hiking desk · 8.9 Booking.com', url: 'https://www.booking.com/hotel/jo/wadi-rum-experience.html', tier: 'budget' },
       { name: 'Wadi Rum Star Camp', note: 'Independent — Dissa desert behind Sun City Camp, balcony tents, free parking · 9.1 Booking.com', url: 'https://www.booking.com/hotel/jo/bedouin-man-camp-wdy-rm.html', tier: 'budget' },
@@ -11306,6 +11315,7 @@ window.TVE.home = (function () {
       'tulum':             {iata:'CUN', name:'Cancún International'},
       'tunis':             {iata:'TUN', name:'Tunis–Carthage International'},
       'phnom-penh':        {iata:'KTI', name:'Techo International Airport'},
+      'ushuaia':           {iata:'USH', name:'Malvinas Argentinas International'},
       'wadi-rum':          {iata:'AMM', name:'Queen Alia International Airport'},
       'zagreb': {iata:'ZAG', name:'Franjo Tuđman Airport Zagreb'},
       'zermatt':           {iata:'ZRH', name:'Zurich Airport'},
@@ -11613,7 +11623,8 @@ window.TVE.home = (function () {
       'STR','STT','SVO','SVQ','SXB','SXM','SYD','SZG','SZX','TBS','TFS','TIV','TLL','TLS','TLV','TOS',
       'TPE','TRN','TUN','UIO','VCE','VIE','VLC','VNO','VRN','WLG','YIA','YQB','YUL','YVR','YYC','YYZ',
       'ZAG','ZNZ','ZQN','ZRH','ZTH',
-        'JRO'
+        'JRO',
+        'USH'
     ];
 
     function _inject() {

@@ -3834,7 +3834,7 @@
 /* Hotel price tiers use complete catalogue #1886-#1889 compositions. */
 /* 2026-09-16: Merge Ushuaia publication while retaining aligned guide fact typography and icons. */
 /* 2026-09-16: Stop duration labels authored directly in every stop header toolbar.js -> v1416. CACHE to v2256. */
-var CACHE = 'travel-cache-v2257';
+var CACHE = 'travel-cache-v2258';
 /* 2026-08-27: airlines.css's .card-tags align-items fix changed a shared
    asset without raising its own floor -- MIN_VERSIONS['airlines.css'] to
    6, CACHE to v1662. */
@@ -3894,7 +3894,11 @@ var ICS_OUTBOX = 'gmd-ics-outbox';
 /* 2026-09-16: the expandable weekly-hours treatment now applies to
    varying schedules in every guide section, including cafes, restaurants,
    stations, shows and transport entries, not only itinerary ticket cards. */
-var MIN_VERSIONS = { 'guide-style.css': 339,'toolbar.js': 1417, 'mobile.css': 105, 'web-travel-style.css': 312, 'guides-index-style.css': 70,'read-about.css': 11, 'best-of-features.js': 11, 'best-of-cross-data.js': 27, 'weather.js': 86,'trains.css': 35, 'trains.js': 6, 'airlines.css': 9, 'airlines.js': 12, 'passport.js': 6, 'search-autocomplete.js': 22, 'flag-render.js': 3, 'site-footer.js': 2 };
+/* 2026-09-16: address-copy controls sit directly after their labels;
+   dining-area prompts reuse the established nearby-expander visual language;
+   empty-photo fallbacks attach to their stop cards without a white gutter;
+   tour-list calendars share the aligned factual-icon frame. */
+var MIN_VERSIONS = { 'guide-style.css': 340,'toolbar.js': 1418, 'mobile.css': 105, 'web-travel-style.css': 312, 'guides-index-style.css': 70,'read-about.css': 11, 'best-of-features.js': 11, 'best-of-cross-data.js': 27, 'weather.js': 86,'trains.css': 35, 'trains.js': 6, 'airlines.css': 9, 'airlines.js': 12, 'passport.js': 6, 'search-autocomplete.js': 22, 'flag-render.js': 3, 'site-footer.js': 2 };
 
 function rewriteAssetUrl(urlStr) {
   var u;

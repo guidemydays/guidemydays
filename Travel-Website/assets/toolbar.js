@@ -4232,7 +4232,11 @@ window.TVE.home = (function () {
         if (pop.classList.contains('open')) { closePop(); return; }
         openPop(btn, addr, mapsUrl);
       });
-      row.appendChild(btn);
+      var group = document.createElement('span');
+      group.className = 'addr-copy-group';
+      anchor.parentNode.insertBefore(group, anchor);
+      group.appendChild(anchor);
+      group.appendChild(btn);
     });
   }
   if (document.readyState === 'loading') {

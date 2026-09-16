@@ -3839,10 +3839,10 @@ window.TVE.home = (function () {
         'border-radius:0!important;margin:0!important;' +
         '-webkit-user-select:none;user-select:none;}' +
         '.tve-ph-lbl{flex:1;}' +
-                '.tve-ph-chv{font-size:15px;font-weight:700;color:#C04E1A;line-height:1;' +
+                '.tve-ph-chv{font-size:15px;font-weight:700;color:var(--c-action-text);line-height:1;' +
         'display:inline-flex;align-items:center;justify-content:center;flex:none;' +
         'width:22px;height:22px;border-radius:50%;' +
-        'border:1px solid #C04E1A;background:transparent;' +
+        'border:1px solid var(--c-action-text);background:transparent;' +
         'transition:transform .2s,background .15s;}' +
         '.tve-ph-wrap:hover .tve-ph-chv{background:#f5f0e6;}' +
         '.tve-ph-toggle[aria-expanded="true"] .tve-ph-chv{transform:rotate(90deg);}' +

@@ -9416,7 +9416,8 @@ window.TVE.home = (function () {
       pills.className = isUSDirectory ? 'also-in-country-directory' : 'also-in-country-pills';
       siblings.forEach(function (g) {
         var a = document.createElement('a');
-        a.className = isUSDirectory ? 'also-in-country-link' : 'also-in-country-pill';
+        a.className = 'also-in-country-pill';
+        if (isUSDirectory) a.className = 'also-in-country-link';
         /* ROOT-ABSOLUTE (Thirtieth non-negotiable, rule 4). This built the
            PRE-FLATTEN shape `../{dir}/{slug}`, which from /guides/paris.html
            resolves to /{dir}/{slug}.html — a 404 on every pill (verified:

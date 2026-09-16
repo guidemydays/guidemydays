@@ -3823,7 +3823,8 @@
 /* 2026-09-15: US guides use an alphabetical destination directory; refresh stylesheet and toolbar. */
 /* 2026-09-15: US guides use an alphabetical destination directory; refresh stylesheet and toolbar. */
 /* Neutral dining-area link and outlined brown opening arrow. */
-var CACHE = 'travel-cache-v2246';
+/* 2026-09-16: US guide country section uses one compact destination picker. */
+var CACHE = 'travel-cache-v2247';
 /* 2026-08-27: airlines.css's .card-tags align-items fix changed a shared
    asset without raising its own floor -- MIN_VERSIONS['airlines.css'] to
    6, CACHE to v1662. */
@@ -3872,7 +3873,7 @@ var ICS_OUTBOX = 'gmd-ics-outbox';
    cap, rendered near its full intrinsic width and pushed the amount box and the close
    X off the right edge of the phone screen. MIN_VERSIONS['guide-style.css'] to 296, CACHE to v2007. */
 /* 2026-09-10: weather.js — Boracay climate normals added. MIN_VERSIONS['weather.js'] to 46, CACHE to v2060. */
-var MIN_VERSIONS = { 'guide-style.css': 333,'toolbar.js': 1408, 'mobile.css': 105, 'web-travel-style.css': 312, 'guides-index-style.css': 70,'read-about.css': 11, 'best-of-features.js': 11, 'best-of-cross-data.js': 27, 'weather.js': 84,'trains.css': 35, 'trains.js': 6, 'airlines.css': 9, 'airlines.js': 12, 'passport.js': 6, 'search-autocomplete.js': 22, 'flag-render.js': 3, 'site-footer.js': 2 };
+var MIN_VERSIONS = { 'guide-style.css': 334,'toolbar.js': 1409, 'mobile.css': 105, 'web-travel-style.css': 312, 'guides-index-style.css': 70,'read-about.css': 11, 'best-of-features.js': 11, 'best-of-cross-data.js': 27, 'weather.js': 84,'trains.css': 35, 'trains.js': 6, 'airlines.css': 9, 'airlines.js': 12, 'passport.js': 6, 'search-autocomplete.js': 22, 'flag-render.js': 3, 'site-footer.js': 2 };
 
 function rewriteAssetUrl(urlStr) {
   var u;

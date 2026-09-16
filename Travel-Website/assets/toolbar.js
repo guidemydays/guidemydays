@@ -9408,33 +9408,54 @@ window.TVE.home = (function () {
       var h = document.createElement('div');
       h.className = 'extras-title';
       h.innerHTML = iconSVG(NAV_ICONS['map'], 15, 'map') + ' Also in ' + country;
-      var isUSDirectory = country === 'United States';
-      if (isUSDirectory) {
+      var content;
+      if (country === 'United States') {
         siblings.sort(function (a, b) { return a.city.localeCompare(b.city, 'en'); });
-      }
-      var pills = document.createElement(isUSDirectory ? 'ul' : 'div');
-      pills.className = isUSDirectory ? 'also-in-country-directory' : 'also-in-country-pills';
-      siblings.forEach(function (g) {
-        var a = document.createElement('a');
-        a.className = 'also-in-country-pill';
-        if (isUSDirectory) a.className = 'also-in-country-link';
-        /* ROOT-ABSOLUTE (Thirtieth non-negotiable, rule 4). This built the
-           PRE-FLATTEN shape `../{dir}/{slug}`, which from /guides/paris.html
-           resolves to /{dir}/{slug}.html — a 404 on every pill (verified:
-           /aix-en-provence/aix-en-provence.html → 404, /guides/aix-en-provence.html
-           → 200). `g.slug` already carries the .html. */
-        a.href = '/guides/' + g.slug;
-        a.textContent = g.city;
-        if (isUSDirectory) {
-          var item = document.createElement('li');
-          item.appendChild(a);
-          pills.appendChild(item);
-        } else {
+        var picker = document.createElement('form');
+        picker.className = 'also-in-country-picker';
+        var label = document.createElement('label');
+        label.htmlFor = 'also-in-country-select';
+        label.textContent = 'Choose another US guide';
+        var select = document.createElement('select');
+        select.id = 'also-in-country-select';
+        select.name = 'destination';
+        var placeholder = document.createElement('option');
+        placeholder.value = '';
+        placeholder.textContent = 'Select a destination';
+        select.appendChild(placeholder);
+        siblings.forEach(function (g) {
+          var option = document.createElement('option');
+          option.value = '/guides/' + g.slug;
+          option.textContent = g.city;
+          select.appendChild(option);
+        });
+        var open = document.createElement('button');
+        open.type = 'submit';
+        open.disabled = true;
+        open.textContent = 'Open guide';
+        select.addEventListener('change', function () { open.disabled = !select.value; });
+        picker.addEventListener('submit', function (e) {
+          e.preventDefault();
+          if (select.value) window.location.href = select.value;
+        });
+        picker.appendChild(label);
+        picker.appendChild(select);
+        picker.appendChild(open);
+        content = picker;
+      } else {
+        var pills = document.createElement('div');
+        pills.className = 'also-in-country-pills';
+        siblings.forEach(function (g) {
+          var a = document.createElement('a');
+          a.className = 'also-in-country-pill';
+          a.href = '/guides/' + g.slug;
+          a.textContent = g.city;
           pills.appendChild(a);
-        }
-      });
+        });
+        content = pills;
+      }
       wrap.appendChild(h);
-      wrap.appendChild(pills);
+      wrap.appendChild(content);
       /* Collapse — injected after DOMContentLoaded so _sectionCollapse missed it */
       wrap.dataset.collapseInited = '1';
       h.setAttribute('role', 'button');

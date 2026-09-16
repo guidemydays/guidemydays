@@ -3844,7 +3844,8 @@ window.TVE.home = (function () {
         '.tve-ph-toggle{display:flex!important;align-items:center;gap:7px;cursor:pointer;' +
         'border-radius:0!important;margin:0!important;' +
         '-webkit-user-select:none;user-select:none;}' +
-        '.tve-ph-lbl{flex:1;}' +
+        '.tve-ph-lbl{flex:1;display:grid;grid-template-columns:32px minmax(0,1fr);column-gap:8px;align-items:start;}' +
+        '.tve-ph-lbl>svg{justify-self:center;margin:0!important;}' +
                 '.tve-ph-chv{font-size:15px;font-weight:700;color:var(--c-action-text);line-height:1;' +
         'display:inline-flex;align-items:center;justify-content:center;flex:none;' +
         'width:22px;height:22px;border-radius:50%;' +

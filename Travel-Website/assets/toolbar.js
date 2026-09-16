@@ -3790,7 +3790,7 @@ window.TVE.home = (function () {
         /* Base row */
                                 '.tve-ph{' +
         'background:transparent;color:var(--c-text-primary,#3d3a32);' +
-        'font-weight:500;padding:0 14px;border-radius:0;' +
+        'font-weight:400;padding:0 14px;border-radius:0;' +
         'margin:6px -14px 0;line-height:1.55;font-size:inherit;}' +
         /* CLOCK ALIGNMENT — the label is inline, so the 15px <svg> iconSVG()
            emits defaults to vertical-align:baseline: its BOX bottom sits on the

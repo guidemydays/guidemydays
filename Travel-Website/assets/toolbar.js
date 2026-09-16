@@ -3515,58 +3515,7 @@ window.TVE.home = (function () {
   }
 
 
-  /* ── Stop duration chip — surfaces ⏰ value from each stop's box into header ──
-     For every .stop-block on a real guide page:
-       1. Find the ⏰ ~XX div inside .tour-box or .ticket-box
-       2. Extract the duration string (e.g. "~30 min", "~1.5 h")
-       3. Set display:flex on .stop-header
-       4. Append <span class="stop-dur"> with the value — the open/closed status
-          is inserted BEFORE it later, so the chip reads title → status → chip
-       5. Remove the source ⏰ div (cosmetic — the data was read first)
-     Stops without a ⏰ row are silently skipped (no chip, no layout change).
-     CSS for .stop-dur lives in guide-style.css. */
-  function _injectStopDuration() {
-    if (!isRealGuide) return;
-    var blocks = document.querySelectorAll('.stop-block');
-    if (!blocks.length) return;
-    [].forEach.call(blocks, function (sb) {
-      var durDiv = null, durText = '';
-      [].forEach.call(sb.querySelectorAll('.tour-box > div, .ticket-box > div'), function (div) {
-        if (durDiv) return;
-        var txt = div.textContent.trim();
-        if (_gmRole(div) === 'duration') {
-          durDiv = div;
-          durText = txt;   /* the glyph is an <svg> now, so the text is already clean */
-        }
-      });
-      if (!durDiv || !durText) return;
-      var header = sb.querySelector('.stop-header');
-      if (!header) return;
-      header.style.display = 'flex';
-      header.style.alignItems = 'center';
-      /* The name sizes to its content so the chip can sit against it, which is
-         the whole point of the 2026-08-10 layout. This used to set flex:1 —
-         name eats every spare pixel, chip lands on the right edge — and was
-         already being overwritten with these exact values a moment later by
-         _injectMarkStops, which needs the same thing for the ✓ control. The two
-         now agree instead of one silently undoing the other. */
-      var nameEl = header.querySelector('.stop-name');
-      if (nameEl) { nameEl.style.flex = '0 1 auto'; nameEl.style.minWidth = '0'; }
-      var chip = document.createElement('span');
-      chip.className = 'stop-dur';
-      chip.textContent = durText;
-      header.appendChild(chip);
-      durDiv.parentNode.removeChild(durDiv);
-    });
-  }
-  if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', _injectStopDuration);
-  } else {
-    _injectStopDuration();
-  }
-
-
-  /* ── Destination timezone map (guide folder slug → IANA) ─────────────────
+/* ── Destination timezone map (guide folder slug → IANA) ─────────────────
      Module scope: both _upgradeStopHours and _injectOpenNowStatus read it. */
   var _TVE_TZ = {
     'abu-dhabi':'Asia/Dubai','aix-en-provence':'Europe/Paris',
@@ -5288,8 +5237,7 @@ window.TVE.home = (function () {
       var header = sb.querySelector('.stop-header');
       if (!header) return;
 
-      /* Ensure flex layout — _injectStopDuration already sets it when a
-         duration chip is present; set it here for stops without one. */
+      /* The duration label is authored directly in the header. */
       header.style.display = 'flex';
       header.style.alignItems = 'center';
 

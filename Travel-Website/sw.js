@@ -3833,7 +3833,8 @@
 /* Regular aligned guide facts; approved book, hourglass, hotel-dining and Worth Knowing icons. */
 /* Hotel price tiers use complete catalogue #1886-#1889 compositions. */
 /* 2026-09-16: Merge Ushuaia publication while retaining aligned guide fact typography and icons. */
-var CACHE = 'travel-cache-v2255';
+/* 2026-09-16: Stop duration labels authored directly in every stop header toolbar.js -> v1416. CACHE to v2256. */
+var CACHE = 'travel-cache-v2256';
 /* 2026-08-27: airlines.css's .card-tags align-items fix changed a shared
    asset without raising its own floor -- MIN_VERSIONS['airlines.css'] to
    6, CACHE to v1662. */
@@ -3890,7 +3891,7 @@ var ICS_OUTBOX = 'gmd-ics-outbox';
    restored as the canonical guide marks; hotel-tier coins are larger and use
    yellow faces with dark detail for legibility; guide title icons share a
    28px frame and compact train/Nearby marks are optically normalized. */
-var MIN_VERSIONS = { 'guide-style.css': 339,'toolbar.js': 1415, 'mobile.css': 105, 'web-travel-style.css': 312, 'guides-index-style.css': 70,'read-about.css': 11, 'best-of-features.js': 11, 'best-of-cross-data.js': 27, 'weather.js': 86,'trains.css': 35, 'trains.js': 6, 'airlines.css': 9, 'airlines.js': 12, 'passport.js': 6, 'search-autocomplete.js': 22, 'flag-render.js': 3, 'site-footer.js': 2 };
+var MIN_VERSIONS = { 'guide-style.css': 339,'toolbar.js': 1416, 'mobile.css': 105, 'web-travel-style.css': 312, 'guides-index-style.css': 70,'read-about.css': 11, 'best-of-features.js': 11, 'best-of-cross-data.js': 27, 'weather.js': 86,'trains.css': 35, 'trains.js': 6, 'airlines.css': 9, 'airlines.js': 12, 'passport.js': 6, 'search-autocomplete.js': 22, 'flag-render.js': 3, 'site-footer.js': 2 };
 
 function rewriteAssetUrl(urlStr) {
   var u;

@@ -1,4 +1,5 @@
 /* 2026-09-15: refresh published guide assets and cache. */
+/* 2026-09-15: refresh published guide assets and cache. */
 /* 2026-09-15: Consistent terracotta guide text links; neutral factual labels, unchanged catalogue icons. */
 /* 2026-09-15: Consistent terracotta guide text links; neutral factual labels, unchanged catalogue icons. */
 /* 2026-09-15: Consistent terracotta guide text links; neutral factual labels, unchanged catalogue icons. */

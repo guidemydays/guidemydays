@@ -3684,7 +3684,7 @@ window.TVE.home = (function () {
   }
 
 
-  /* ── Stop hours — collapsed row, hover-expand week schedule ──────────────────
+  /* ── Guide hours — collapsed row, hover-expand week schedule ─────────────────
      Every guide already writes opening hours as a structured 🏛️ row inside the
      stop's .tour-box / .ticket-box, in one consistent authored shape:
 
@@ -3721,7 +3721,10 @@ window.TVE.home = (function () {
   function _upgradeStopHours() {
     if (!isRealGuide) return;
     var srcRows = [];
-    [].forEach.call(document.querySelectorAll('.tour-box > div, .ticket-box > div'), function (d) {
+    [].forEach.call(document.querySelectorAll(
+      '.tour-box > div, .ticket-box > div, .entry-body > div, ' +
+      '.station-box > div, .shows-box > div, .transit-box > div'
+    ), function (d) {
       if (_gmRole(d) === 'hours') srcRows.push(d);
     });
     if (!srcRows.length) return;
@@ -3752,27 +3755,39 @@ window.TVE.home = (function () {
            The scoped selector is what wins the specificity fight against
            `.tour-box > div` (0,1,1) beating `.tve-ph` (0,1,0). */
         '.tour-box > .tve-ph,.ticket-box > .tve-ph,' +
-        '.tour-box > .tve-ph-wrap,.ticket-box > .tve-ph-wrap{' +
+        '.tour-box > .tve-ph-wrap,.ticket-box > .tve-ph-wrap,' +
+        '.entry-body > .tve-ph,.entry-body > .tve-ph-wrap,' +
+        '.station-box > .tve-ph,.station-box > .tve-ph-wrap,' +
+        '.shows-box > .tve-ph,.shows-box > .tve-ph-wrap,' +
+        '.transit-box > .tve-ph,.transit-box > .tve-ph-wrap{' +
         'margin:6px -14px 0!important;}' +
         /* The row AFTER the band contributes the other outer half: 3px, not the
            card's usual 6px, because the band's own 3px padding-bottom already
            carries the inner half. Leaving 6px here stacks to 9px and the band
            sits low in its slot. */
         '.tour-box > .tve-ph + *,.ticket-box > .tve-ph + *,' +
-        '.tour-box > .tve-ph-wrap + *,.ticket-box > .tve-ph-wrap + *{' +
+        '.tour-box > .tve-ph-wrap + *,.ticket-box > .tve-ph-wrap + *,' +
+        '.entry-body > .tve-ph + *,.entry-body > .tve-ph-wrap + *,' +
+        '.station-box > .tve-ph + *,.station-box > .tve-ph-wrap + *,' +
+        '.shows-box > .tve-ph + *,.shows-box > .tve-ph-wrap + *,' +
+        '.transit-box > .tve-ph + *,.transit-box > .tve-ph-wrap + *{' +
         'margin-top:6px!important;}' +
         /* First VISIBLE row of the card. The authored 🏛️ rows the band replaces
            stay in the DOM as display:none, so :first-child never matches it — JS
            stamps this class instead. 2,127 cards across the fleet lead with 🏛️,
            so this is the common case, not an edge one: without it the band starts
            14px below the card's top edge where every plain first row starts at 8. */
-        '.tour-box > .tve-ph-top,.ticket-box > .tve-ph-top{margin-top:0!important;}' +
+        '.tour-box > .tve-ph-top,.ticket-box > .tve-ph-top,' +
+        '.entry-body > .tve-ph-top,.station-box > .tve-ph-top,' +
+        '.shows-box > .tve-ph-top,.transit-box > .tve-ph-top{margin-top:0!important;}' +
         /* Mirror of .tve-ph-top at the other end. A band that is the LAST
            visible row butts onto the photo strip, which pays 9.125px — the
            half-leading of the text row it was sized for. A tint has no
            leading, so the band supplies the missing 3.125 itself or it sits
            3px closer to the photo than every other gap in the card. */
-        '.tour-box > .tve-ph-end,.ticket-box > .tve-ph-end{margin-bottom:0!important;}' +
+        '.tour-box > .tve-ph-end,.ticket-box > .tve-ph-end,' +
+        '.entry-body > .tve-ph-end,.station-box > .tve-ph-end,' +
+        '.shows-box > .tve-ph-end,.transit-box > .tve-ph-end{margin-bottom:0!important;}' +
                 '.tve-ph-24{background:transparent!important;' +
         'color:var(--c-text-primary,#3d3a32)!important;}' +
         /* Authored 🏛️ row: hidden, but kept in the DOM so the Open Now

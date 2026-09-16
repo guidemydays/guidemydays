@@ -5506,6 +5506,12 @@ window.TVE.home = (function () {
       { name: 'Azia Resort & Spa', note: 'Independent 5-star — Chlorakas beachfront, golf nearby, kids’ club, 24h reception, AC · 9.1 Booking.com', url: 'https://www.booking.com/hotel/cy/azia-resort-and-spa.html', tier: 'luxury' },
       { name: 'Thalassa Boutique Hotel & Spa', note: 'Independent 5-star, adults only — Coral Bay beachfront, spa and indoor/outdoor pools, 24h reception, AC · 9.4 Booking.com', url: 'https://www.booking.com/hotel/cy/thalassa-boutique-spa.html', tier: 'luxury' }
     ], price: { budget: '€90–150', mid: '€150–260', expensive: '€260–400', luxury: '€400+' } },
+    'puerto-natales': { h: [
+      { name: 'Departamento Lulú', note: 'Independent apartment — Valdivia street, two-bedroom apartment with kitchen, 10-min walk to the main plaza, free WiFi · 9.2 Booking.com', url: 'https://www.booking.com/hotel/cl/departamento-lulu.html', tier: 'budget' },
+      { name: 'Hotel Vendaval', note: 'Independent — this guide’s title-card hotel, steps from the Plaza de Armas, restaurant and bar, 24h front desk · 9.1 Booking.com', url: 'https://www.booking.com/hotel/cl/vendaval.html', tier: 'mid' },
+      { name: 'Weskar Lodge Hotel', note: 'Independent lodge — Patagonian mountain backdrop, restaurant and bar, 24h front desk, free parking · 9.0 Booking.com', url: 'https://www.booking.com/hotel/cl/weskar-lodge.html', tier: 'expensive' },
+      { name: 'The Singular Patagonia', note: 'Independent luxury lodge — restored Frigorífico Bories building in Puerto Bories, spa, indoor and outdoor pools, 24h front desk · 9.6 Booking.com', url: 'https://www.booking.com/hotel/cl/the-singular-patagonia.html', tier: 'luxury' }
+    ], price: { budget: 'CLP 55,000–75,000', mid: 'CLP 120,000–160,000', expensive: 'CLP 200,000–260,000', luxury: 'CLP 800,000+' } },
     'quito': { h: [
       { name: 'Hotel Reina Isabel', note: 'Independent — La Mariscal, Av. Amazonas, sauna, hot tub and rooftop terrace, 24h reception, AC · 9.1 Booking.com', url: 'https://www.booking.com/hotel/ec/reina-isabel.html', tier: 'budget' },
       { name: 'Boutique Hotel Casa Foch', note: 'Independent boutique — La Mariscal, garden courtyard and temporary art galleries, 24h reception · 9.3 Booking.com', url: 'https://www.booking.com/hotel/ec/casa-foch.html', tier: 'budget' },
@@ -11300,6 +11306,7 @@ window.TVE.home = (function () {
       'interlaken':        {iata:'ZRH', name:'Zurich International'},
       'panama-city':       {iata:'PTY', name:'Tocumen International Airport'},
       'paphos': {iata:'PFO', name:'Paphos International Airport'},
+      'puerto-natales': {iata:'PNT', name:'Teniente Julio Gallardo Airport'},
       'quito':             {iata:'UIO', name:'Mariscal Sucre International Airport'},
       'san-pedro-de-atacama': {iata:'CJC', name:'El Loa Airport, Calama'},
       'sharm-el-sheikh':    {iata:'SSH', name:'Sharm El Sheikh International Airport'},
@@ -11624,7 +11631,8 @@ window.TVE.home = (function () {
       'TPE','TRN','TUN','UIO','VCE','VIE','VLC','VNO','VRN','WLG','YIA','YQB','YUL','YVR','YYC','YYZ',
       'ZAG','ZNZ','ZQN','ZRH','ZTH',
         'JRO',
-        'USH'
+        'USH',
+        'PNT'
     ];
 
     function _inject() {

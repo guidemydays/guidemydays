@@ -9408,19 +9408,29 @@ window.TVE.home = (function () {
       var h = document.createElement('div');
       h.className = 'extras-title';
       h.innerHTML = iconSVG(NAV_ICONS['map'], 15, 'map') + ' Also in ' + country;
-      var pills = document.createElement('div');
-      pills.className = 'also-in-country-pills';
+      var isUSDirectory = country === 'United States';
+      if (isUSDirectory) {
+        siblings.sort(function (a, b) { return a.city.localeCompare(b.city, 'en'); });
+      }
+      var pills = document.createElement(isUSDirectory ? 'ul' : 'div');
+      pills.className = isUSDirectory ? 'also-in-country-directory' : 'also-in-country-pills';
       siblings.forEach(function (g) {
         var a = document.createElement('a');
-        a.className = 'also-in-country-pill';
+        a.className = isUSDirectory ? 'also-in-country-link' : 'also-in-country-pill';
         /* ROOT-ABSOLUTE (Thirtieth non-negotiable, rule 4). This built the
            PRE-FLATTEN shape `../{dir}/{slug}`, which from /guides/paris.html
            resolves to /{dir}/{slug}.html — a 404 on every pill (verified:
            /aix-en-provence/aix-en-provence.html → 404, /guides/aix-en-provence.html
            → 200). `g.slug` already carries the .html. */
         a.href = '/guides/' + g.slug;
-                a.textContent = g.city;
-        pills.appendChild(a);
+        a.textContent = g.city;
+        if (isUSDirectory) {
+          var item = document.createElement('li');
+          item.appendChild(a);
+          pills.appendChild(item);
+        } else {
+          pills.appendChild(a);
+        }
       });
       wrap.appendChild(h);
       wrap.appendChild(pills);

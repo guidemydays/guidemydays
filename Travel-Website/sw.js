@@ -1,3 +1,4 @@
+/* 2026-09-15: refresh published guide assets and cache. */
 /* 2026-09-15: Consistent terracotta guide text links; neutral factual labels, unchanged catalogue icons. */
 /* 2026-09-15: Consistent terracotta guide text links; neutral factual labels, unchanged catalogue icons. */
 /* 2026-09-15: Consistent terracotta guide text links; neutral factual labels, unchanged catalogue icons. */
@@ -3805,7 +3806,6 @@
    its sole match. guide-style.css -> v321. CACHE to v2224. */
 /* 2026-09-15: Approved slate accessibility and grey utility icons; blue motion sedan toolbar.js -> v1393. CACHE to v2229. */
 /* 2026-09-15: Yellow illustrated sedan for Uber and ride-app entries toolbar.js -> v1394. CACHE to v2230. */
-/* 2026-09-15: Blue catalogue phone-frame for Pocket version toolbar.js -> v1395. CACHE to v2231. */
 var CACHE = 'travel-cache-v2231';
 /* 2026-08-27: airlines.css's .card-tags align-items fix changed a shared
    asset without raising its own floor -- MIN_VERSIONS['airlines.css'] to
@@ -3855,7 +3855,7 @@ var ICS_OUTBOX = 'gmd-ics-outbox';
    cap, rendered near its full intrinsic width and pushed the amount box and the close
    X off the right edge of the phone screen. MIN_VERSIONS['guide-style.css'] to 296, CACHE to v2007. */
 /* 2026-09-10: weather.js — Boracay climate normals added. MIN_VERSIONS['weather.js'] to 46, CACHE to v2060. */
-var MIN_VERSIONS = { 'guide-style.css': 325,'toolbar.js': 1395, 'mobile.css': 105, 'web-travel-style.css': 312, 'guides-index-style.css': 70,'read-about.css': 11, 'best-of-features.js': 11, 'best-of-cross-data.js': 27, 'weather.js': 82,'trains.css': 35, 'trains.js': 6, 'airlines.css': 9, 'airlines.js': 12, 'passport.js': 6, 'search-autocomplete.js': 22, 'flag-render.js': 3, 'site-footer.js': 2 };
+var MIN_VERSIONS = { 'guide-style.css': 325,'toolbar.js': 1395, 'mobile.css': 105, 'web-travel-style.css': 312, 'guides-index-style.css': 70,'read-about.css': 11, 'best-of-features.js': 11, 'best-of-cross-data.js': 27, 'weather.js': 83,'trains.css': 35, 'trains.js': 6, 'airlines.css': 9, 'airlines.js': 12, 'passport.js': 6, 'search-autocomplete.js': 22, 'flag-render.js': 3, 'site-footer.js': 2 };
 
 function rewriteAssetUrl(urlStr) {
   var u;

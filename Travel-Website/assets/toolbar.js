@@ -5363,6 +5363,12 @@ window.TVE.home = (function () {
       { name: 'Four Seasons Hotel Amman', note: 'First-tier international luxury brand, Fifth Circle, 24h reception, AC · 9.0 Booking.com', url: 'https://www.booking.com/hotel/jo/four-seasons-amman.html', tier: 'luxury' },
       { name: 'The Ritz-Carlton, Amman', note: 'Marriott family — first-tier international brand, Abdoun/Fifth Circle, 24h reception, AC · 9.6 Booking.com', url: 'https://www.booking.com/hotel/jo/the-ritz-carlton-amman.html', tier: 'luxury' }
     ], price: { budget: 'JOD 45–55', mid: 'JOD 90–140', expensive: 'JOD 140–190', luxury: 'JOD 220–320' } },
+    'arusha': { h: [
+      { name: 'Aves Executive Hotel', note: 'Independent — Mianzini, 23 min walk to the Clock Tower, 24h reception, AC · 8.1 Booking.com', url: 'https://www.booking.com/hotel/tz/aves-executive.html', tier: 'budget' },
+      { name: 'Westwood Residences', note: 'Independent serviced apartments — Kipanga Street, 22 min walk to the Clock Tower, 24h reception, AC · 9.3 Booking.com', url: 'https://www.booking.com/hotel/tz/westwood-residences.html', tier: 'mid' },
+      { name: 'Four Points by Sheraton Arusha, The Arusha Hotel', note: 'Marriott family — first-tier international brand, on the Clock Tower Roundabout itself, 24h reception, AC · 8.8 Booking.com', url: 'https://www.booking.com/hotel/tz/the-arusha.html', tier: 'expensive' },
+      { name: 'Gran Meliá Arusha', note: 'Meliá — first-tier international brand, this guide\'s title-card hotel, Simeon Road · Kimandolu, 24h reception, AC · 9.4 Booking.com', url: 'https://www.booking.com/hotel/tz/gran-melia-arusha.html', tier: 'luxury' }
+    ], price: { budget: 'TZS 70,000–100,000', mid: 'TZS 250,000–320,000', expensive: 'TZS 550,000–700,000', luxury: 'TZS 850,000+' } },
     'belgrade': { h: [
       { name: 'Garni Hotel Nevski', note: 'independent — Venizelosova, Stari Grad, 3 min walk to Knez Mihailova, 24h reception, AC · 9.0 Booking.com', url: 'https://www.booking.com/hotel/rs/nevski.html', tier: 'budget' },
       { name: 'Courtyard by Marriott Belgrade City Center', note: 'Marriott family — this guide\'s title-card hotel, Vase Čarapića, Stari Grad, 24h reception, AC · 9.0 Booking.com', url: 'https://www.booking.com/hotel/rs/courtyard-by-marriott-belgrade-city-center.html', tier: 'mid' },
@@ -11229,6 +11235,7 @@ window.TVE.home = (function () {
     /* city-slug → {iata, name}  (derived from index.html FMAP "i" field) */
     var CHIP_DATA = {
       'amman': {iata:'AMM', name:'Queen Alia International Airport'},
+      'arusha':            {iata:'JRO', name:'Kilimanjaro International Airport'},
       'belgrade':          {iata:'BEG', name:'Belgrade Nikola Tesla Airport'},
       'bodrum': {iata:'BJV', name:'Milas–Bodrum Airport'},
       'essaouira':         {iata:'ESU', name:'Essaouira–Mogador Airport'},
@@ -11556,7 +11563,8 @@ window.TVE.home = (function () {
       'SFO','SGN','SIN','SJC','SJD','SJO','SJU','SKG','SLC','SLZ','SNN','SOF','SPU','SRQ','SSA','SSH',
       'STR','STT','SVO','SVQ','SXB','SXM','SYD','SZG','SZX','TBS','TFS','TIV','TLL','TLS','TLV','TOS',
       'TPE','TRN','TUN','UIO','VCE','VIE','VLC','VNO','VRN','WLG','YIA','YQB','YUL','YVR','YYC','YYZ',
-      'ZAG','ZNZ','ZQN','ZRH','ZTH'
+      'ZAG','ZNZ','ZQN','ZRH','ZTH',
+        'JRO'
     ];
 
     function _inject() {

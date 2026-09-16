@@ -3779,20 +3779,11 @@ window.TVE.home = (function () {
       var _phCss = document.createElement('style');
       _phCss.id = 'tve-ph-css';
       _phCss.textContent =
-        /* ── Palette ──────────────────────────────────────────────────────────
-           Site tokens only — no green, no blue. The guide palette is warm:
-           --c-warm-bg #fdf8f0 is "the single shared background — all section
-           cards, boxes, banners", #C04E1A is the brand terracotta, and the
-           transit-banner pair (--c-next-bg #f5f0e6 / --c-next-border #bba070)
-           is the one other warm tone already in use. So:
-             terracotta rail = a specific schedule
-             tan-gold rail   = open around the clock
-           Dark mode uses the palette's own warm gold #c8a060, which the tokens
-           declare is "only ever a foreground — never a fill", so it is used for
-           rails, text and borders and never as a background. */
+        /* The hours label uses the body's theme token. Catalogue clocks and
+           the expansion chevron keep their own colors independently. */
         /* Base row */
                                 '.tve-ph{' +
-        'background:transparent;color:#C04E1A;' +
+        'background:transparent;color:var(--c-text-primary,#3d3a32);' +
         'font-weight:500;padding:0 14px;border-radius:0;' +
         'margin:6px -14px 0;line-height:1.55;font-size:inherit;}' +
         /* CLOCK ALIGNMENT — the label is inline, so the 15px <svg> iconSVG()
@@ -3831,7 +3822,7 @@ window.TVE.home = (function () {
            3px closer to the photo than every other gap in the card. */
         '.tour-box > .tve-ph-end,.ticket-box > .tve-ph-end{margin-bottom:0!important;}' +
                 '.tve-ph-24{background:transparent!important;' +
-        'color:#C04E1A!important;}' +
+        'color:var(--c-text-primary,#3d3a32)!important;}' +
         /* Authored 🏛️ row: hidden, but kept in the DOM so the Open Now
            filter can still read its textContent. */
                         '@media (min-width: 601px), (pointer: fine) {' +

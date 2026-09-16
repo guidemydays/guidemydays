@@ -102,7 +102,7 @@ body { opacity: 0; transition: none; }
   --c-ovd-stops:     #6f695d;
   --c-ovd-zebra:     #fbf8f2;
 
-  /* Links — global single token. Allowlist for overrides documented inline. */
+  /* Baseline link token; guide-only text-link skin is defined below. */
   --c-link:          #2867c4;   /* blue — restored 2026-06-01; matches guide_v2.css */
 
   /* Skip list */
@@ -1199,7 +1199,7 @@ a.dining-area-note:visited { color: #C04E1A; }
   margin: 4px 0;
 }
 .free-flag {
-  color: #C04E1A;
+  color: var(--c-text-primary);
 }
 .ticket-flag.gm-drawn::before,
 .free-flag.gm-drawn::before { content: none; }
@@ -1294,7 +1294,7 @@ a.dining-area-note:visited { color: #C04E1A; }
 /* Mirrors .tour-box: only <strong> name is bold; all other links are normal weight. */
 
 .ticket-box div:has(> svg[data-role="closed"]),
-.tour-box div:has(> svg[data-role="closed"]) { color: #C04E1A; }
+.tour-box div:has(> svg[data-role="closed"]) { color: var(--c-text-primary); }
 .ticket-box .stop-row:has(> svg[data-role="addr"]) a,
 .tour-box .stop-row:has(> svg[data-role="addr"]) a { color: #C04E1A; }
 
@@ -1951,8 +1951,6 @@ div.train .train-time   { padding: 2px 0; }
   .stop-row a[href*="en.wikipedia.org"]:hover { color: #D4663A; border-color: #D4663A; }
   .stop-row a,
   .stop-row a:visited { color: var(--c-action-text); }
-  .ticket-box div:has(> svg[data-role="closed"]),
-  .tour-box div:has(> svg[data-role="closed"]),
   .ticket-box .stop-row:has(> svg[data-role="addr"]) a,
   .tour-box .stop-row:has(> svg[data-role="addr"]) a { color: var(--c-action-text); }
   .ovd-count { color: #aaa49a; }
@@ -1998,7 +1996,7 @@ div.train .train-time   { padding: 2px 0; }
   .title-address::before { display: none !important; }
   .title-address a { display: block !important; position: relative; min-height: 0 !important; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
     background: var(--c-card-bg) !important; border: 1px solid var(--c-index-border); border-top: none;
-    border-radius: 0 0 8px 8px; padding: 0 32px 6px 11px !important; color: var(--c-pill-text) !important; }
+    border-radius: 0 0 8px 8px; padding: 0 32px 6px 11px !important; color: var(--c-guide-link, var(--c-link)) !important; }
   .title-address a::after { content: ''; position: absolute; right: 13px; top: 50%; width: 7px; height: 7px; border-top: 1.5px solid #C04E1A; border-right: 1.5px solid #C04E1A; transform: translateY(-50%) rotate(45deg); }
 
   html, body { overflow-x: hidden; max-width: 100%; }
@@ -3218,7 +3216,7 @@ a.neigh-name:visited { color: #3d3a32; }
     background: rgba(252, 165, 165, 0.13);
     border-color: rgba(252, 165, 165, 0.40);
   }
-  .free-flag { color: #e0805f; }
+  .free-flag { color: var(--c-text-primary); }
   .ticket-flag::before { background-color: #e0805f; }
   .free-flag::before { background-color: #e0805f; }
 }
@@ -3235,7 +3233,7 @@ a.neigh-name:visited { color: #3d3a32; }
 :root[data-theme="dark"] .next-metro { background: #232221; color: #9d988c; }
 :root[data-theme="dark"] .open-now-status.is-open { color: #a8d8b8; }
 :root[data-theme="dark"] .open-now-status.is-closed { color: #fca5a5; }
-:root[data-theme="dark"] .free-flag { color: #D4663A; }
+:root[data-theme="dark"] .free-flag { color: var(--c-text-primary); }
 :root[data-theme="dark"] .ticket-flag::before { background-color: #D4663A; }
 :root[data-theme="dark"] .free-flag::before { background-color: #D4663A; }
 
@@ -3421,4 +3419,48 @@ a.neigh-name:visited { color: #3d3a32; }
   .wn-pill:visited .wn-pill-name { color: #e8e5e0; }
   .wn-pill:visited .wn-pill-addr { color: #999; }
   .wn-pill:visited .wn-pill-go   { color: #c8a060; }
+}
+
+/* ─── GUIDE TEXT LINKS AND FACTUAL ROWS ──────────────────────────────────── */
+@media screen {
+  body:has(.day-block) {
+    --c-guide-link: #C04E1A;
+    --c-link: var(--c-guide-link);
+  }
+  body:has(.day-block) :is(.title-address, .stop-block, .extras-section, .train, #tours, #heads-up, #michelin)
+  a:not(:is(.overview-extra-link, .also-on-this-site-pill, .also-in-country-pill,
+    .nearby-guide-pill, .sibling-pill, .lounge-arrival-chip, .dining-area-note,
+    .wn-pill, .motion-route, [href*="en.wikipedia.org"])) {
+    color: var(--c-guide-link);
+    text-decoration: underline;
+    text-decoration-color: currentColor;
+    text-decoration-thickness: 1px;
+    text-underline-offset: 3px;
+    text-decoration-skip-ink: auto;
+  }
+  body:has(.day-block) :is(.title-address, .stop-block, .extras-section, .train, #tours, #heads-up, #michelin)
+  a:not(:is(.overview-extra-link, .also-on-this-site-pill, .also-in-country-pill,
+    .nearby-guide-pill, .sibling-pill, .lounge-arrival-chip, .dining-area-note,
+    .wn-pill, .motion-route, [href*="en.wikipedia.org"])):focus-visible {
+    outline: 2px solid var(--c-guide-link);
+    outline-offset: 3px;
+    border-radius: 2px;
+  }
+  body:has(.day-block) :is(.stop-block, .extras-section)
+  :is(.free-flag, div:has(> svg:is([data-role="hours"], [data-role="closed"],
+    [data-role="steps"], [data-role="uphill"], [data-role="long-walk"],
+    [data-role="heights"], [data-role="enclosed"]))) {
+    color: var(--c-text-primary);
+  }
+}
+@media screen and (hover: hover) {
+  body:has(.day-block) :is(.title-address, .stop-block, .extras-section, .train, #tours, #heads-up, #michelin)
+  a:not(:is(.overview-extra-link, .also-on-this-site-pill, .also-in-country-pill,
+    .nearby-guide-pill, .sibling-pill, .lounge-arrival-chip, .dining-area-note,
+    .wn-pill, .motion-route, [href*="en.wikipedia.org"])):hover {
+    text-decoration-thickness: 2px;
+  }
+}
+@media screen and (prefers-color-scheme: dark) {
+  body:has(.day-block) { --c-guide-link: #e0805f; }
 }

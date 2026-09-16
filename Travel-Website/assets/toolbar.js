@@ -1048,6 +1048,8 @@ window.TVE.home = (function () {
     'delivery-car': ['0 0 24 24', '<g stroke-width="0.5"><path d="M1.5 15.4v-3.2c0-.9.5-1.5 1.35-1.7l1.9-.4 2.35-3.0c.4-.5.95-.8 1.65-.8h5.5c.72 0 1.3.3 1.7.8l2.35 3.0 1.9.4c.85.2 1.35.8 1.35 1.7v3.2z" fill="url(#gm-blue)" stroke="var(--c-blue-rim)" stroke-width="0.5" stroke-linejoin="round" /><path d="M8.6 7.2h2.9v2.9H6.3z" fill="url(#gm-slate)" stroke="var(--c-slate-rim)" stroke-width="0.5" /><path d="M8.6 7.2h2.9v2.9H6.3z" fill="url(#gm-gloss)" stroke="none" /><path d="M12.5 7.2h2.6c.42 0 .75.2 1.0.5l1.7 2.4h-5.3z" fill="url(#gm-slate)" stroke="var(--c-slate-rim)" stroke-width="0.5" /><path d="M12.5 7.2h2.6c.42 0 .75.2 1.0.5l1.7 2.4h-5.3z" fill="url(#gm-gloss)" stroke="none" /><path d="M1.5 15.4v-3.2c0-.9.5-1.5 1.35-1.7l1.9-.4 2.35-3.0c.4-.5.95-.8 1.65-.8h5.5c.72 0 1.3.3 1.7.8l2.35 3.0 1.9.4c.85.2 1.35.8 1.35 1.7v3.2z" fill="url(#gm-gloss)" /><circle cx="6.6" cy="15.6" r="2.3" fill="url(#gm-tire)" stroke="var(--c-tire-rim)" stroke-width="0.5" /><circle cx="6.6" cy="15.6" r="0.97" fill="url(#gm-stone)" stroke="var(--c-stone-rim)" stroke-width="0.5" /><circle cx="17.4" cy="15.6" r="2.3" fill="url(#gm-tire)" stroke="var(--c-tire-rim)" stroke-width="0.5" /><circle cx="17.4" cy="15.6" r="0.97" fill="url(#gm-stone)" stroke="var(--c-stone-rim)" stroke-width="0.5" /></g>'],
   };
   var GM_PRESERVE_VIEWBOX = {
+    'ticket': true,
+    'ticket-torn': true,
     'price-tier-budget': true,
     'price-tier-mid': true,
     'price-tier-expensive': true,
@@ -10311,7 +10313,7 @@ window.TVE.home = (function () {
         var sp = document.createElement('span');
         sp.className = 'gm-tf-ico';
         sp.setAttribute('aria-hidden', 'true');
-        sp.innerHTML = '<svg viewBox="0 0 24 24"><use href="#gm-i-' + pairs[p][1] + '"/></svg>';
+        sp.innerHTML = '<svg viewBox="' + GM_SPRITE[pairs[p][1]][0] + '"><use href="#gm-i-' + pairs[p][1] + '"/></svg>';
         el.insertBefore(sp, el.firstChild);
       }
     }

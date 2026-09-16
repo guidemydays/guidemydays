@@ -1030,7 +1030,9 @@ window.TVE.home = (function () {
         'route-ab': ['0 0 24 24', '<path d="M3.6 12h14.2" fill="none" stroke="var(--c-blue)" stroke-width="2.6" stroke-linecap="round"/> <path d="M13.6 6.6 19.8 12l-6.2 5.4" fill="none" stroke="var(--c-blue)" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/>'],
     'squeeze': ['0 0 24 24', '<g data-norm="h19.5" transform="translate(1.364 1.364) scale(0.8864)"><path d="M0.5 1.0 L10.6 1.0 L8.6 6.4 L10.9 11.2 L9.4 16.0 L11.0 23.0 L0.5 23.0 Z" fill="url(#gm-slate)" stroke="var(--c-slate-rim)" stroke-width="0.564" stroke-linejoin="round"/><path d="M0.5 1.0 L10.6 1.0 L8.6 6.4 L10.9 11.2 L9.4 16.0 L11.0 23.0 L0.5 23.0 Z" fill="url(#gm-gloss)"/><path d="M23.5 1.0 L13.4 1.0 L15.4 6.4 L13.1 11.2 L14.6 16.0 L13.0 23.0 L23.5 23.0 Z" fill="url(#gm-slate)" stroke="var(--c-slate-rim)" stroke-width="0.564" stroke-linejoin="round"/><path d="M23.5 1.0 L13.4 1.0 L15.4 6.4 L13.1 11.2 L14.6 16.0 L13.0 23.0 L23.5 23.0 Z" fill="url(#gm-gloss)"/></g>'],
     'viaduct': ['0 0 24 24', '<path d="M0.5 7.0 L23.5 7.0 L23.5 9.4 L0.5 9.4 Z" fill="url(#gm-stone)" stroke="var(--c-stone-rim)" stroke-width="0.5" stroke-linejoin="round"/><path d="M0.5 7.0 L23.5 7.0 L23.5 9.4 L0.5 9.4 Z" fill="url(#gm-gloss)"/><path d="M2.0 9.4 L4.6 9.4 L4.6 19.6 L2.0 19.6 Z" fill="url(#gm-slate)" stroke="var(--c-slate-rim)" stroke-width="0.5" stroke-linejoin="round"/><path d="M2.0 9.4 L4.6 9.4 L4.6 19.6 L2.0 19.6 Z" fill="url(#gm-gloss)"/><path d="M10.7 9.4 L13.3 9.4 L13.3 19.6 L10.7 19.6 Z" fill="url(#gm-slate)" stroke="var(--c-slate-rim)" stroke-width="0.5" stroke-linejoin="round"/><path d="M10.7 9.4 L13.3 9.4 L13.3 19.6 L10.7 19.6 Z" fill="url(#gm-gloss)"/><path d="M19.4 9.4 L22.0 9.4 L22.0 19.6 L19.4 19.6 Z" fill="url(#gm-slate)" stroke="var(--c-slate-rim)" stroke-width="0.5" stroke-linejoin="round"/><path d="M19.4 9.4 L22.0 9.4 L22.0 19.6 L19.4 19.6 Z" fill="url(#gm-gloss)"/><g fill="none" stroke="var(--c-slate)" stroke-width="1.5"><path d="M4.6 15.2 A3.05 3.05 0 0 1 10.7 15.2"/><path d="M13.3 15.2 A3.05 3.05 0 0 1 19.4 15.2"/></g><path d="M0.5 19.6 L23.5 19.6 L23.5 22.0 L0.5 22.0 Z" fill="url(#gm-slate)" stroke="var(--c-slate-rim)" stroke-width="0.5" stroke-linejoin="round"/><path d="M0.5 19.6 L23.5 19.6 L23.5 22.0 L0.5 22.0 Z" fill="url(#gm-gloss)"/>'],
-    'walk': ['0 0 24 24', '<circle cx="13.2" cy="3.7" r="2.3" fill="url(#gm-tan)" stroke="var(--c-tan-rim)" stroke-width="0.5"/> <g fill="none" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round"> <path d="M13.2 7.6 11.6 12.8" stroke="var(--c-red)"/><path d="M12.4 9.2 15.8 11.4" stroke="var(--c-red)"/><path d="M12.6 8.9 9.4 11.2" stroke="var(--c-red)"/> <path d="M11.6 12.8 13.9 16.2 13.4 20.9" stroke="var(--c-navy)"/><path d="M11.6 12.8 9.4 16.4 7.9 20.4" stroke="var(--c-navy)"/></g>'],
+    'been': ['0 0 24 24', '<path d="M7.4 5a4.6 4.6 0 0 0-4.6 4.6c0 3.3 4.6 8.4 4.6 8.4s4.6-5.1 4.6-8.4A4.6 4.6 0 0 0 7.4 5z" fill="url(#gm-navy)" stroke="var(--c-navy-rim)" stroke-width="0.5" /><path d="M7.4 5a4.6 4.6 0 0 0-4.6 4.6c0 3.3 4.6 8.4 4.6 8.4s4.6-5.1 4.6-8.4A4.6 4.6 0 0 0 7.4 5z" fill="url(#gm-gloss)" /> <circle cx="7.4" cy="9.4" r="1.8" fill="url(#gm-cream)" stroke="var(--c-rim-warm)" stroke-width="0.6" /> <path d="M16.6 8a4.6 4.6 0 0 0-4.6 4.6c0 3.3 4.6 8.4 4.6 8.4s4.6-5.1 4.6-8.4A4.6 4.6 0 0 0 16.6 8z" fill="url(#gm-sky)" stroke="var(--c-sky-rim)" stroke-width="0.5" /> <path d="M16.6 8a4.6 4.6 0 0 0-4.6 4.6c0 3.3 4.6 8.4 4.6 8.4s4.6-5.1 4.6-8.4A4.6 4.6 0 0 0 16.6 8z" fill="url(#gm-gloss)" stroke="none" /><circle cx="16.6" cy="12.4" r="1.8" fill="url(#gm-cream)" stroke="var(--c-rim-warm)" stroke-width="0.6" />'],
+    'all-stops-map': ['0 0 24 24', '<g stroke-width="0.5"><path d="M2.0 5.6 8.4 3.2v15.4L2.0 21.0z" fill="url(#gm-slate)" stroke="var(--c-slate-rim)" stroke-width="0.5" /><path d="M2.0 5.6 8.4 3.2v15.4L2.0 21.0z" fill="url(#gm-gloss)" stroke="none" /><path d="M8.4 3.2 15.6 5.6v15.4L8.4 18.6z" fill="url(#gm-cream)" stroke="var(--c-rim-warm)" stroke-width="0.6" /><path d="M8.4 3.2 15.6 5.6v15.4L8.4 18.6z" fill="url(#gm-gloss)" stroke="none" /><path d="M15.6 5.6 22.0 3.2v15.4L15.6 21.0z" fill="url(#gm-slate)" stroke="var(--c-slate-rim)" stroke-width="0.5" /><path d="M15.6 5.6 22.0 3.2v15.4L15.6 21.0z" fill="url(#gm-gloss)" stroke="none" /><path d="M4.0 12.4q4.0-2.6 8.0 0t8.0-1.4" fill="none" stroke="var(--c-sun)" stroke-width="0.85" /><path d="M16.4 5.6a3.0 3.0 0 0 1 3.0 3.0c0 2.2-3.0 5.4-3.0 5.4s-3.0-3.2-3.0-5.4a3.0 3.0 0 0 1 3.0-3.0z" fill="url(#gm-red)" stroke="var(--c-red-rim)" stroke-width="0.5" /><path d="M16.4 5.6a3.0 3.0 0 0 1 3.0 3.0c0 2.2-3.0 5.4-3.0 5.4s-3.0-3.2-3.0-5.4a3.0 3.0 0 0 1 3.0-3.0z" fill="url(#gm-gloss)" stroke="none" /><circle cx="16.4" cy="8.6" r="1.1" fill="url(#gm-paper)" stroke="var(--c-rim-cool)" stroke-width="0.6" /></g>'],
+    'walk': ['0 0 24 24', '<circle cx="13.2" cy="3.7" r="2.3" fill="url(#gm-tan)" stroke="var(--c-tan-rim)" stroke-width="0.5"/><circle cx="13.2" cy="3.7" r="2.3" fill="url(#gm-gloss)"/> <g fill="none" stroke-linecap="round" stroke-linejoin="round"><path d="M13.2 7.6 11.6 12.8" stroke="var(--c-blue-rim)" stroke-width="3.1"/><path d="M12.4 9.2 15.8 11.4" stroke="var(--c-blue-rim)" stroke-width="3.1"/><path d="M12.6 8.9 9.4 11.2" stroke="var(--c-blue-rim)" stroke-width="3.1"/><path d="M13.2 7.6 11.6 12.8" stroke="url(#gm-blue)" stroke-width="2.1"/><path d="M12.4 9.2 15.8 11.4" stroke="url(#gm-blue)" stroke-width="2.1"/><path d="M12.6 8.9 9.4 11.2" stroke="url(#gm-blue)" stroke-width="2.1"/><path d="M13.2 7.6 11.6 12.8" stroke="url(#gm-gloss)" stroke-width="2.1"/><path d="M12.4 9.2 15.8 11.4" stroke="url(#gm-gloss)" stroke-width="2.1"/><path d="M12.6 8.9 9.4 11.2" stroke="url(#gm-gloss)" stroke-width="2.1"/><path d="M11.6 12.8 13.9 16.2 13.4 20.9" stroke="var(--c-navy-rim)" stroke-width="3.1"/><path d="M11.6 12.8 9.4 16.4 7.9 20.4" stroke="var(--c-navy-rim)" stroke-width="3.1"/><path d="M11.6 12.8 13.9 16.2 13.4 20.9" stroke="url(#gm-navy)" stroke-width="2.1"/><path d="M11.6 12.8 9.4 16.4 7.9 20.4" stroke="url(#gm-navy)" stroke-width="2.1"/><path d="M11.6 12.8 13.9 16.2 13.4 20.9" stroke="url(#gm-gloss)" stroke-width="2.1"/><path d="M11.6 12.8 9.4 16.4 7.9 20.4" stroke="url(#gm-gloss)" stroke-width="2.1"/></g>'],
     'warn': ['0 0 24 24', '<path d="M12 2.2c-.66 0-1.27.35-1.6.92L.7 20.3A1.85 1.85 0 0 0 2.3 23h19.4a1.85 1.85 0 0 0 1.6-2.7L13.6 3.12A1.85 1.85 0 0 0 12 2.2z" fill="url(#gm-amber)" stroke="var(--c-amber-rim)" stroke-width="0.5"/> <path d="M12 5.9 3.4 20.9h17.2z" fill="url(#gm-sun)" stroke="var(--c-sun-rim)" stroke-width="0.5"/> <rect x="10.9" y="9.6" width="2.2" height="6.1" rx="1.1" fill="url(#gm-cocoa)" stroke="var(--c-cocoa-rim)" stroke-width="0.5"/> <rect x="10.9" y="17" width="2.2" height="2.2" rx="1.1" fill="url(#gm-cocoa)" stroke="var(--c-cocoa-rim)" stroke-width="0.5"/>'],
     'lake-jetty': ['0 0 24 24', '<rect x="4.05" y="12.2" width="1.1" height="2.2" rx="0.4" fill="url(#gm-cocoa)" stroke="var(--c-cocoa-rim)" stroke-width="0.5"/><rect x="4.05" y="12.2" width="1.1" height="2.2" rx="0.4" fill="url(#gm-gloss)"/><path d="M4.6 6 7.8 12.6H1.4z" fill="url(#gm-leaf)" stroke="var(--c-leaf-rim)" stroke-width="0.5"/><path d="M4.6 6 6.712 9.712H2.488z" fill="url(#gm-green)" stroke="var(--c-green-rim)" stroke-width="0.5"/><rect x="18.85" y="12.2" width="1.1" height="2.2" rx="0.4" fill="url(#gm-cocoa)" stroke="var(--c-cocoa-rim)" stroke-width="0.5"/><path d="M19.4 6.4 22.4 12.6H16.4z" fill="url(#gm-leaf)" stroke="var(--c-leaf-rim)" stroke-width="0.5"/><path d="M19.4 6.4 21.38 9.88H17.42z" fill="url(#gm-green)" stroke="var(--c-green-rim)" stroke-width="0.5"/><path d="M1.8 16.6c1.6-2 4.4-3 8.4-3h5c3.4 0 6 .9 7.4 2.6.6.7.4 1.8-.6 2.4-2.2 1.4-5.2 2.1-9 2.1s-6.9-.7-9.4-2.1c-1.1-.6-1.3-1.6-.4-2z" fill="url(#gm-blue)" stroke="var(--c-blue-rim)" stroke-width="0.5"/><g fill="url(#gm-cocoa)" stroke="var(--c-cocoa-rim)" stroke-width="0.4"><rect x="9.6" y="12.6" width="4.8" height="1.7" rx="0.3"/><rect x="10" y="14.3" width="0.9" height="3.4" rx="0.3"/><rect x="13.1" y="14.3" width="0.9" height="3.4" rx="0.3"/></g><g fill="none" stroke="var(--c-paper)" stroke-width="0.85" stroke-linecap="round" opacity="0.85"><path d="M4.6 17.6c1.2 0 1.2.8 2.4.8s1.2-.8 2.4-.8M15 17.8c1.2 0 1.2.8 2.4.8s1.2-.8 2.4-.8"/></g>'],
     'waves': ['0 0 24 24', '<g stroke-linecap="round" fill="none"> <path d="M1.8 7.4c1.7 0 1.7 1.6 3.4 1.6s1.7-1.6 3.4-1.6 1.7 1.6 3.4 1.6 1.7-1.6 3.4-1.6 1.7 1.6 3.4 1.6 1.7-1.6 3.4-1.6" stroke="var(--c-sky)" stroke-width="2"/> <path d="M1.8 12c1.7 0 1.7 1.6 3.4 1.6S6.9 12 8.6 12s1.7 1.6 3.4 1.6S13.7 12 15.4 12s1.7 1.6 3.4 1.6S20.5 12 22.2 12" stroke="var(--c-blue)" stroke-width="2"/> <path d="M1.8 16.6c1.7 0 1.7 1.6 3.4 1.6s1.7-1.6 3.4-1.6 1.7 1.6 3.4 1.6 1.7-1.6 3.4-1.6 1.7 1.6 3.4 1.6 1.7-1.6 3.4-1.6" stroke="var(--c-navy)" stroke-width="2"/></g>'],
@@ -2705,7 +2707,7 @@ window.TVE.home = (function () {
           var pill = document.createElement('a');
           pill.className = 'overview-extra-link';
           pill.href = mapHref;
-          pill.innerHTML = iconSVG(null, 15, 'country-map') + ' All Stops Map';
+          pill.innerHTML = iconSVG(null, 15, 'all-stops-map') + ' All Stops Map';
           gelRow.appendChild(pill);
         }
       };
@@ -3457,7 +3459,10 @@ window.TVE.home = (function () {
       pillRow.id = 'ics-pill-row';
       pillRow.setAttribute('style', 'display:flex;gap:0;margin-bottom:16px;width:100%;');
       trigBtn.id = 'ics-cal-pill';
-      if (mapPill) mapPill.id = 'ics-map-pill';
+      if (mapPill) {
+        mapPill.id = 'ics-map-pill';
+        mapPill.innerHTML = iconSVG(null, 15, 'all-stops-map') + ' All Stops Map';
+      }
 
       /* Inline !important beats every stylesheet rule (ID selectors, class rules,
          mobile overrides) — CSS attribute-selector approach loses specificity on
@@ -4981,19 +4986,19 @@ window.TVE.home = (function () {
     btn.className = 'overview-extra-link' + (visited ? ' tve-been' : '');
     btn.id = 'tve-visited-btn';
     btn.innerHTML = visited
-      ? iconSVG(null, 15, 'check') + ' I’ve Been'
-      : iconSVG(null, 15, 'pin') + ' I’ve Been';
+      ? iconSVG(null, 15, 'been') + ' I’ve Been'
+      : iconSVG(null, 15, 'been') + ' I’ve Been';
 
     btn.addEventListener('click', function (e) {
       e.preventDefault(); e.stopPropagation();
       var nowVisited = !!localStorage.getItem(storageKey);
       if (nowVisited) {
         localStorage.removeItem(storageKey);
-        btn.innerHTML = iconSVG(null, 15, 'pin') + ' I’ve Been';
+        btn.innerHTML = iconSVG(null, 15, 'been') + ' I’ve Been';
         btn.classList.remove('tve-been');
       } else {
         localStorage.setItem(storageKey, '1');
-        btn.innerHTML = iconSVG(null, 15, 'check') + ' I’ve Been';
+        btn.innerHTML = iconSVG(null, 15, 'been') + ' I’ve Been';
         btn.classList.add('tve-been');
       }
     });

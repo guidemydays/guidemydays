@@ -5553,6 +5553,16 @@ window.TVE.home = (function () {
       { name: 'Sheraton Tunis Hotel', note: 'Marriott family — first-tier international brand, spa and hot tub, 24h reception, AC · 8.4 Booking.com', url: 'https://www.booking.com/hotel/tn/sheraton-tunis-towers.html', tier: 'luxury' },
       { name: 'Mövenpick Hotel du Lac Tunis', note: 'Mövenpick — first-tier international brand, Les Berges du Lac, spa, sauna and sustainability certification, 24h reception, AC · 8.2 Booking.com', url: 'https://www.booking.com/hotel/tn/movenpick-du-lac-tunis.html', tier: 'luxury' }
     ], price: { budget: 'TND 175–280', mid: 'TND 280–370', expensive: 'TND 400–570', luxury: 'TND 580+' } },
+    'wadi-rum': { h: [
+      { name: 'Hasan Zawaideh Camp', note: 'Independent Bedouin-run camp — Ad Deiseh, deluxe tents, breakfast included, hiking desk · 8.9 Booking.com', url: 'https://www.booking.com/hotel/jo/wadi-rum-experience.html', tier: 'budget' },
+      { name: 'Wadi Rum Star Camp', note: 'Independent — Dissa desert behind Sun City Camp, balcony tents, free parking · 9.1 Booking.com', url: 'https://www.booking.com/hotel/jo/bedouin-man-camp-wdy-rm.html', tier: 'budget' },
+      { name: 'Wadi Rum Alia Luxury Camp', note: 'Independent 5-star tented camp — Wadi Rum Village, terrace and shared lounge, breakfast &amp; dinner included · 9.3 Booking.com', url: 'https://www.booking.com/hotel/jo/bedouin-bunch-camp-wadi-rum-village.html', tier: 'mid' },
+      { name: 'Rahayeb Desert Camp', note: 'Independent Bedouin-run camp — Wadi Rum Protected Area, en-suite tents, half-board options · 8.8 Booking.com', url: 'https://www.booking.com/hotel/jo/rahayeb-desert-camp.html', tier: 'mid' },
+      { name: 'Najd Luxury Camp', note: 'Independent — Wadi Rum Road, garden and shared lounge, breakfast &amp; dinner included · 9.3 Booking.com', url: 'https://www.booking.com/hotel/jo/lma-luxury-camp.html', tier: 'expensive' },
+      { name: 'Victoria Luxury Camp', note: 'Independent — 0.1 miles from the village centre, deluxe queen tents, breakfast &amp; dinner included · 9.4 Booking.com', url: 'https://www.booking.com/hotel/jo/kareem-rum-camp.html', tier: 'expensive' },
+      { name: 'Sun City Camp', note: 'Independent — one of the reserve\'s best-known camps, Bedouin-style tents and Martian domes, zarb dinners · 8.7 Booking.com', url: 'https://www.booking.com/hotel/jo/sun-city-camp.html', tier: 'luxury' },
+      { name: 'Wadi Rum Bubble Luxotel', note: 'Independent 5-star glamping — transparent bubble suites near Disah, private bathrooms, hot tub, restaurant · 8.3 Booking.com', url: 'https://www.booking.com/hotel/jo/wadi-rum-bubble-luxotel.html', tier: 'luxury' }
+    ], price: { budget: 'JOD 40–55', mid: 'JOD 55–75', expensive: 'JOD 75–110', luxury: 'JOD 110–220' } },
     'zagreb': { h: [
       { name: 'Hotel Magdalena', note: 'Independent — quiet southwest Zagreb base near Arena Zagreb, free parking, 24h reception, AC · 9.4 Booking.com', url: 'https://www.booking.com/hotel/hr/magdalena-zagreb.html', tier: 'budget' },
       { name: 'Hotel Jarun', note: 'Independent — relaxed base near Lake Jarun, straightforward tram access, 24h reception, AC · 8.7 Booking.com', url: 'https://www.booking.com/hotel/hr/jarun.html', tier: 'budget' },
@@ -11258,6 +11268,7 @@ window.TVE.home = (function () {
       'tulum':             {iata:'CUN', name:'Cancún International'},
       'tunis':             {iata:'TUN', name:'Tunis–Carthage International'},
       'phnom-penh':        {iata:'KTI', name:'Techo International Airport'},
+      'wadi-rum':          {iata:'AMM', name:'Queen Alia International Airport'},
       'zagreb': {iata:'ZAG', name:'Franjo Tuđman Airport Zagreb'},
       'zermatt':           {iata:'ZRH', name:'Zurich Airport'},
       'mexico-city':       {iata:'MEX', name:'Mexico City International (Benito Juárez)'},

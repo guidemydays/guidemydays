@@ -604,6 +604,15 @@ a:hover { text-decoration: underline; }
   padding: 9px 10px;
   cursor: text;
 }
+/* The reader always has an open choice here — type any code or name, not just
+   what's already typed — so the native browser affordance for "open the full
+   list" is dead weight: on a completed code it re-shows that one code as its
+   only match, and its system-chrome triangle clashes with every other control
+   on the panel, which are all hand-drawn. Chromium renders it as the same
+   picker-indicator pseudo-element date inputs use; Firefox and Safari never
+   draw one on a plain text+datalist field, so this is a no-op there. */
+.tve-cur-pick::-webkit-calendar-picker-indicator,
+.tve-cur-pick::-webkit-list-button { display: none; }
 /* No custom :focus rule here (owner feedback: the terracotta border it drew on
    open — .tve-cur-pick is auto-focused whenever the panel opens, see toolbar.js
    — read as an unwanted highlight, not a focus cue) — the sitewide :focus-visible
@@ -647,8 +656,15 @@ a:hover { text-decoration: underline; }
   border: 1px solid var(--c-next-border);
   border-radius: 4px;
   background: var(--c-warm-bg);
-  font-size: clamp(17px, 1.7vw, 21px);
-  font-weight: 800;
+  /* Sized against its own neighbours, not the viewport at large: the phone
+     breakpoint below already sets every field in this row — pick, amount,
+     result — to the same 16px, and this is that same relationship at desktop
+     width. Before this it clamped up to 21px/800 against a 14px/700 amount
+     input right next to it, so a short zero-decimal result like "CLP 256"
+     read as an oversized, disproportionate block against everything else on
+     the panel — the field readers actually flagged as looking "huge." */
+  font-size: clamp(14px, 1.1vw, 16px);
+  font-weight: 700;
   color: var(--c-action-text);
   text-align: left;
   white-space: nowrap;

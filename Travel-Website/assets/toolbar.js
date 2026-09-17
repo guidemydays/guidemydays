@@ -2612,7 +2612,7 @@ window.TVE.home = (function () {
     function repositionUpdatedStamp() {
       var upd = document.querySelector('.title-page .title-updated') || document.querySelector('.title-updated');
       if (!upd) return;
-      var ids = ['tve-best-of-crosslinks', 'also-in-country', 'nearby-guides', 'also-on-this-site'];
+      var ids = ['tve-best-of-crosslinks', 'nearby-guides', 'also-on-this-site'];
       var last = null;
       ids.forEach(function(id) {
         var el = document.getElementById(id);
@@ -9372,161 +9372,6 @@ window.TVE.home = (function () {
     _injectNearbyGuidesTitle();
   }
 
-  /* ── "Also in [Country]" section — injected after #nearby-guides on
-     guide pages that share a country with ≥1 other fleet guide. Fetches
-     assets/country-guides.json (built by Brain/scripts/build/build_country_guides.py
-     after each ship). Countries with only one fleet guide get no section.
-     Uses sessionStorage to avoid re-fetching on same-tab navigation. */
-  (function () {
-    if (!isRealGuide) return;
-    var _cacheKey = 'tvecg';
-    function _build(data) {
-      /* `_by_slug` is keyed by FILENAME ("paris.html"); `curr` is _pageKey(),
-         which strips the extension ("paris"). They matched until the 2026-08-16
-         URL migration gave _pageKey its `.replace(/\.html$/i, '')`, and since then
-         this lookup has returned undefined on all 237 guides and bailed on the
-         next line — so "Also in [Country]" rendered on ZERO guides where it should
-         render on 192 (28 countries hold 2+ guides). Nothing errored: a country
-         the file does not know is a legitimate reason to render no section, which
-         is exactly why it read as a page with no peers rather than as a bug.
-         The 💱 Currency pill a few hundred lines below had the identical break and
-         was fixed on 2026-08-18; this one was missed in that pass. Try both
-         spellings so it cannot break again from either side. */
-      var bySlug = data['_by_slug'] || {};
-      var country = bySlug[curr] || bySlug[curr + '.html'];
-      if (!country) return;
-      /* The US fleet is too large for this footer section to stay useful. Its
-         destination picker duplicated Search while adding a full extra card. */
-      if (country === 'United States') return;
-      var peers = data[country];
-      if (!peers || peers.length < 2) return;
-      /* Same mismatch, and this half fails the other way: with `g.slug` carrying
-         the extension the filter never matched, so the moment the lookup above
-         starts working every guide lists ITSELF among its own peers. */
-      var siblings = peers.filter(function (g) {
-        return g.slug !== curr && g.slug !== curr + '.html';
-      });
-      if (!siblings.length) return;
-      /* Insert after #nearby-guides; fall back to after #also-on-this-site */
-      var anchor = document.getElementById('nearby-guides') || document.getElementById('also-on-this-site');
-      if (!anchor || !anchor.parentNode) return;
-      var wrap = document.createElement('div');
-      wrap.id = 'also-in-country';
-      wrap.className = 'extras-section';
-      var h = document.createElement('div');
-      h.className = 'extras-title';
-      h.innerHTML = iconSVG(NAV_ICONS['map'], 15, 'map') + ' Also in ' + country;
-      var content;
-      if (country === 'United States') {
-        siblings.sort(function (a, b) { return a.city.localeCompare(b.city, 'en'); });
-        var picker = document.createElement('form');
-        picker.className = 'also-in-country-picker';
-        var label = document.createElement('label');
-        label.htmlFor = 'also-in-country-select';
-        label.textContent = 'Choose another US guide';
-        var select = document.createElement('select');
-        select.id = 'also-in-country-select';
-        select.name = 'destination';
-        var placeholder = document.createElement('option');
-        placeholder.value = '';
-        placeholder.textContent = 'Select a destination';
-        select.appendChild(placeholder);
-        siblings.forEach(function (g) {
-          var option = document.createElement('option');
-          option.value = '/guides/' + g.slug;
-          option.textContent = g.city;
-          select.appendChild(option);
-        });
-        var open = document.createElement('button');
-        open.type = 'submit';
-        open.disabled = true;
-        open.textContent = 'Open guide';
-        select.addEventListener('change', function () { open.disabled = !select.value; });
-        picker.addEventListener('submit', function (e) {
-          e.preventDefault();
-          if (select.value) window.location.href = select.value;
-        });
-        picker.appendChild(label);
-        picker.appendChild(select);
-        picker.appendChild(open);
-        content = picker;
-      } else {
-        var pills = document.createElement('div');
-        pills.className = 'also-in-country-pills';
-        siblings.forEach(function (g) {
-          var a = document.createElement('a');
-          a.className = 'also-in-country-pill';
-          a.href = '/guides/' + g.slug;
-          a.textContent = g.city;
-          pills.appendChild(a);
-        });
-        content = pills;
-      }
-      wrap.appendChild(h);
-      wrap.appendChild(content);
-      /* Collapse — injected after DOMContentLoaded so _sectionCollapse missed it */
-      wrap.dataset.collapseInited = '1';
-      h.setAttribute('role', 'button');
-      h.setAttribute('tabindex', '0');
-      h.addEventListener('click', function () { wrap.classList.toggle('collapsed'); });
-      h.addEventListener('keydown', function (e) {
-        if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); wrap.classList.toggle('collapsed'); }
-      });
-      anchor.parentNode.insertBefore(wrap, anchor.nextSibling);
-      _fixPillGridOrphans(pills);
-            /* Re-anchor the stamp (and no-entries row) after the now-last footer section.
-         Uses the same DOM-last logic as repositionUpdatedStamp() — compareDocumentPosition
-         flag 4 = DOCUMENT_POSITION_FOLLOWING — so #also-in-country (just inserted)
-         is always found as the last section rather than hard-coding Best Of. */
-      (function () {
-        var _s = document.querySelector('.title-page .title-updated') || document.querySelector('.title-updated');
-        if (!_s) return;
-        var _sids = ['tve-best-of-crosslinks', 'also-in-country', 'nearby-guides', 'also-on-this-site'];
-        var _slast = null;
-        _sids.forEach(function (id) {
-          var el = document.getElementById(id);
-          if (!el) return;
-          if (!_slast || (_slast.compareDocumentPosition(el) & 4)) { _slast = el; }
-        });
-        if (!_slast || !_slast.parentNode) return;
-        var _sne = document.querySelector('.title-no-entries');
-        if (_sne) {
-          var _srow = document.createElement('div');
-          _srow.className = 'tve-stamp-row';
-          _srow.appendChild(_s);
-          _srow.appendChild(_sne);
-          _slast.parentNode.insertBefore(_srow, _slast.nextSibling);
-        } else {
-          _slast.parentNode.insertBefore(_s, _slast.nextSibling);
-        }
-      }());
-    }
-    function _run() {
-      try {
-        var hit = sessionStorage.getItem(_cacheKey);
-        if (hit) { _build(JSON.parse(hit)); return; }
-      } catch (e) {}
-      var xhr = new XMLHttpRequest();
-      xhr.open('GET', base + 'assets/country-guides.json', true);
-      xhr.timeout = 6000;
-      xhr.onload = function () {
-        if (xhr.status < 200 || xhr.status >= 300) return;
-        try {
-          var data = JSON.parse(xhr.responseText);
-          try { sessionStorage.setItem(_cacheKey, xhr.responseText); } catch (e) {}
-          _build(data);
-        } catch (e) {}
-      };
-      xhr.send();
-    }
-    if (document.readyState === 'loading') {
-      document.addEventListener('DOMContentLoaded', _run);
-    } else {
-      _run();
-    }
-  })();
-
-  
   (function () {
     if (!isRealGuide) return;
 
@@ -10366,7 +10211,7 @@ window.TVE.home = (function () {
   /* Tour transfer rows use the owner-selected blue minivan (#2214),
      while transportation keeps its distinct bus drawing elsewhere in a guide. */
   function _upgradeTourMinivans() {
-    var vans = document.querySelectorAll('#tours svg.gm-icon[data-icon="transportation"]');
+    var vans = document.querySelectorAll('#tours .entry-body svg.gm-icon[data-role="transit"]');
     for (var i = 0; i < vans.length; i++) {
       vans[i].setAttribute('data-icon', 'minivan');
       var use = vans[i].querySelector('use');

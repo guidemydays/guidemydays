@@ -3842,7 +3842,8 @@
 /* 2026-09-16: center the Free ticket mark in the shared factual-icon column. */
 /* 2026-09-18: restore neutral guide dining notes; guide-style.css -> v346, CACHE to v2266. */
 /* 2026-09-18: where-to-stay-audit catch-up — weather.js changed on already-landed commits without a MIN_VERSIONS bump, blocking pushes. MIN_VERSIONS['weather.js'] to 88, CACHE to v2267. */
-var CACHE = 'travel-cache-v2267';
+/* 2026-09-18: currency-audit: CACHE raised to v2268 — v2267 already on origin/main, need higher floor. */
+var CACHE = 'travel-cache-v2268';
 /* 2026-08-27: airlines.css's .card-tags align-items fix changed a shared
    asset without raising its own floor -- MIN_VERSIONS['airlines.css'] to
    6, CACHE to v1662. */

@@ -38,3 +38,7 @@
 2026-09-11 19:49 — kuwait-city.html — VALIDATED — 930/930 passed, 0 failed
 2026-09-11 20:00 — kuwait-city.html — GATES_PASSED — 930/930 passed, 0 failed
 2026-09-11 20:00 — kuwait-city.html — PUBLISHED — 930/930 passed, 0 failed
+2026-09-18 16:19 — kuwait-city.html — FAIL @ verify — 0 checks — https://en.wikipedia.org/wiki/Al_Qurain_Martyrs_Museum; https://tsck.org.kw/en/tickets/; https://www.talabat.com/kuwait; https://www.careem.com
+2026-09-18 16:24 — kuwait-city.html — FAIL @ verify-booking — 0 checks — https://en.wikipedia.org/wiki/Iraqi_invasion_of_Kuwait
+2026-09-18 16:26 — kuwait-city.html — FAIL @ verify-booking — 0 checks — https://en.wikipedia.org/wiki/Iraqi_invasion_of_Kuwait
+2026-09-18 16:39 — kuwait-city.html — GATES_PASSED — 932/932 passed, 0 failed

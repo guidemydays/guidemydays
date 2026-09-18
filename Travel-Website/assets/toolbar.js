@@ -1979,7 +1979,7 @@ window.TVE.home = (function () {
 
     var RES_GROUPS = [
     { name: 'Money', links: [
-      ['essentials/average-costs/',            'Average Costs'],
+      ['essentials/local-prices/',             'Local Prices'],
       ['essentials/cards-atm/',         'Cards & ATM'],
       ['essentials/tipping/',           'Tipping Guide']
     ] },

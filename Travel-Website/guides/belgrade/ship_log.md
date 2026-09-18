@@ -19,3 +19,12 @@
 2026-09-14 11:50 — belgrade.html — FAIL @ publish — 0 checks — Publication did not complete; guide remains pending.
 2026-09-14 11:52 — belgrade.html — FAIL @ publish — 0 checks — Targeted publication retry did not complete; retained job remains pending.
 2026-09-14 12:04 — belgrade.html — GATES_PASSED — 987/987 passed, 0 failed
+2026-09-18 13:33 — belgrade.html — VALIDATED — 989/989 passed, 0 failed
+2026-09-18 13:42 — belgrade.html — FAIL @ surface-preflight — 0 checks — 1 gap(s): essentials/tipping/index.html — country entry missing
+2026-09-18 13:53 — belgrade.html — GATES_PASSED — 989/989 passed, 0 failed
+2026-09-18 13:54 — belgrade.html — FAIL @ publish — 0 checks — Publication did not complete; guide remains pending.
+2026-09-18 14:00 — belgrade.html — FAIL @ publish — 0 checks — Targeted publication retry did not complete; retained job remains pending.
+2026-09-18 14:00 — belgrade.html — VALIDATED — 988/988 passed, 0 failed
+2026-09-18 14:13 — belgrade.html — GATES_PASSED — 989/989 passed, 0 failed
+2026-09-18 14:15 — belgrade.html — FAIL @ publish — 0 checks — Publication did not complete; guide remains pending.
+2026-09-18 14:17 — belgrade.html — FAIL @ publish — 0 checks — Targeted publication retry did not complete; retained job remains pending.

@@ -5,3 +5,7 @@
 
 2026-09-14 10:36 — dusseldorf.html — VALIDATED — 938/940 passed, 2 failed — 2 documented validator-rule conflicts accepted as residual (ROCCA weather-drift false positive, Schlossturm ticket-box/payment-status conflict) — see spawn_task chips task_41e8f6a5 and task_c2b6c2f2
 2026-09-14 10:42 — dusseldorf.html — VALIDATED — 940/940 passed, 0 failed — 0 hard failures; Climate-coverage FINAL GATE is advisory/warn-only per Validator Index and reports an unrelated fleet gap (San Pedro de Atacama in-progress build), not a dusseldorf.html issue
+2026-09-18 14:36 — dusseldorf.html — GATES_PASSED — 949/949 passed, 0 failed
+2026-09-18 14:36 — dusseldorf.html — FAIL @ publish — 0 checks — Publication did not complete; guide remains pending.
+2026-09-18 14:37 — dusseldorf.html — FAIL @ publish — 0 checks — Targeted publication retry did not complete; retained job remains pending.
+2026-09-18 14:39 — dusseldorf.html — FAIL @ publish — 0 checks — Targeted publication retry did not complete; retained job remains pending.

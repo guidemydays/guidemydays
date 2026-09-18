@@ -3839,7 +3839,8 @@
 /* 2026-09-16: Align free-ticket rows; Read More uses the duration surface and book-icon rim. MIN_VERSIONS['guide-style.css'] to 342, CACHE to v2261. */
 /* 2026-09-16: Downtown Restaurants uses catalogue 2226 navy sugar bowl; I've Been uses catalogue 2047 grey map pin. toolbar.js -> v1420. CACHE to v2262. */
 /* 2026-09-16: center the Free ticket mark in the shared factual-icon column. */
-var CACHE = 'travel-cache-v2265';
+/* 2026-09-18: restore neutral guide dining notes; guide-style.css -> v346, CACHE to v2266. */
+var CACHE = 'travel-cache-v2266';
 /* 2026-08-27: airlines.css's .card-tags align-items fix changed a shared
    asset without raising its own floor -- MIN_VERSIONS['airlines.css'] to
    6, CACHE to v1662. */
@@ -3905,7 +3906,7 @@ var ICS_OUTBOX = 'gmd-ics-outbox';
    tour-list calendars share the aligned factual-icon frame. */
 /* 2026-09-16: overview category icons use one fixed 20px frame; Read More uses the stop-card fill with the duration control's gold border. */
 /* 2026-09-16: restore warm guide facts, align icons, use catalogue 2214 for tour transfers, and retire Also in Country. */
-var MIN_VERSIONS = { 'guide-style.css': 345,'toolbar.js': 1421, 'mobile.css': 105, 'web-travel-style.css': 312, 'guides-index-style.css': 70,'read-about.css': 11, 'best-of-features.js': 11, 'best-of-cross-data.js': 27, 'weather.js': 86,'trains.css': 35, 'trains.js': 6, 'airlines.css': 9, 'airlines.js': 12, 'passport.js': 6, 'search-autocomplete.js': 22, 'flag-render.js': 3, 'site-footer.js': 2 };
+var MIN_VERSIONS = { 'guide-style.css': 346,'toolbar.js': 1421, 'mobile.css': 105, 'web-travel-style.css': 312, 'guides-index-style.css': 70,'read-about.css': 11, 'best-of-features.js': 11, 'best-of-cross-data.js': 27, 'weather.js': 86,'trains.css': 35, 'trains.js': 6, 'airlines.css': 9, 'airlines.js': 12, 'passport.js': 6, 'search-autocomplete.js': 22, 'flag-render.js': 3, 'site-footer.js': 2 };
 
 function rewriteAssetUrl(urlStr) {
   var u;

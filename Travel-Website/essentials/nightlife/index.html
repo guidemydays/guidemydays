@@ -164,9 +164,9 @@
 <body>
 <div class="wrap">
 
-  <div id="toolbar-mount" data-depth="2" data-maxwidth="760" data-updated="2026-09-18"></div>
-<script src="/assets/toolbar.js?v=127"></script>
+<div id="toolbar-mount" data-depth="2" data-maxwidth="760" data-updated="2026-09-18"></div>
 <script src="/assets/flag-render.js"></script>
+<script src="/assets/toolbar.js?v=127"></script>
 
   <div class="hero-band eb-hero">
     <span class="eb-kicker">International Nightlife Guide</span>
@@ -174,31 +174,7 @@
       <h1 class="eb-title">Same night out, <em>nine completely different rulebooks.</em></h1>
       <p class="eb-intro">Bar and club hours, dress codes, door culture, and the safest way home after last call &mdash; city by city, for the fleet&rsquo;s nine biggest nightlife destinations: Madrid, Barcelona, Berlin, Ibiza, Bangkok, Tokyo, New York City, London, and Lisbon. Norms shift between neighborhoods and specific venues; treat each entry as the general pattern for that city, not a guarantee at every door.</p>
     </div>
-    <div class="eb-graphic" aria-hidden="true">
-      <svg class="nl-dial" viewBox="0 0 400 400" aria-hidden="true">
-        <defs>
-          <radialGradient id="nl-skyG" cx="50%" cy="34%" r="72%">
-            <stop offset="0" stop-color="#4b3a95"/>
-            <stop offset=".55" stop-color="#2c2260"/>
-            <stop offset="1" stop-color="#171238"/>
-          </radialGradient>
-          <linearGradient id="nl-handG" x1="0" y1="0" x2="0" y2="1">
-            <stop offset="0" stop-color="#ff7ab8"/><stop offset="1" stop-color="#d63a86"/>
-          </linearGradient>
-        </defs>
-        <circle class="nl-ring-face" cx="200" cy="200" r="186"/>
-        <circle cx="200" cy="200" r="186" fill="none" stroke="#d9d0ea" stroke-width="3"/>
-        <g id="nl-ticks"></g>
-        <g id="nl-stars"></g>
-        <g class="nl-hand" id="nl-hand">
-          <line x1="200" y1="200" x2="200" y2="58" stroke="url(#nl-handG)" stroke-width="6" stroke-linecap="round"/>
-          <circle cx="200" cy="58" r="9" fill="#ff7ab8"/>
-        </g>
-        <circle cx="200" cy="200" r="7" fill="#fff"/>
-        <text class="nl-dial-mid" x="200" y="252" id="nl-dialCount">9</text>
-        <text class="nl-dial-sub" x="200" y="272">CITIES ON THE CLOCK</text>
-      </svg>
-    </div>
+    <div class="eb-graphic" aria-hidden="true"><svg class="gm-icon" data-icon="night-sky" data-role="hero" viewBox="0 0 24 24" aria-hidden="true"><use href="#gm-i-night-sky"/></svg></div>
   </div>
   <div class="hero-ground">
     <input type="search" class="search-input" id="search" placeholder="City" aria-label="Search by city" autocomplete="off">
@@ -368,6 +344,10 @@ function escapeHtml(s) {
   });
 }
 
+function flagHtml(code) {
+  return window.TVE && window.TVE.flag ? window.TVE.flag.html(code, 'nl-flag') : '';
+}
+
 function card(c) {
   var t = localHour(c.tz);
   var hf = t.h + t.m/60;
@@ -381,7 +361,7 @@ function card(c) {
   return '<article class="nl-city" data-name="' + (c.name + ' ' + c.country).toLowerCase() + '">' +
     '<div class="nl-city-top">' +
       '<div>' +
-        '<h3 class="nl-city-name">' + TVE.flag.html(c.flag, 'nl-flag') + c.name + '</h3>' +
+        '<h3 class="nl-city-name">' + flagHtml(c.flag) + c.name + '</h3>' +
         '<div class="nl-city-country">' + c.country + '</div>' +
       '</div>' +
       '<div class="nl-now">' +
@@ -469,7 +449,7 @@ setInterval(render, 60000);
   var input=document.getElementById('search'); if(!input) return;
   var list=window.CITIES||[];
   var items=list.map(function(c){ return {name:c.name, sub:c.country}; });
-  TVESearch.attach(input,{items:items});
+  window.TVESearch.attach(input,{items:items});
 }());</script>
 </body>
 </html>

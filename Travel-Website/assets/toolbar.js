@@ -2550,6 +2550,12 @@ window.TVE.home = (function () {
   }
   window.addEventListener('load', _equalizePillRows);
   window.addEventListener('resize', _equalizePillRows);
+  /* Public Sans is injected above rather than blocking the document. Re-run
+     after its final metrics arrive so equal widths survive the font swap. */
+  if (document.fonts) {
+    document.fonts.ready.then(_equalizePillRows);
+    document.fonts.addEventListener('loadingdone', _equalizePillRows);
+  }
 
     function _equalizePairButtons() {
     var buttons = [].slice.call(document.querySelectorAll('.paired-btn'));

@@ -2060,7 +2060,7 @@ window.TVE.home = (function () {
         { name: 'Plan', links: [
       ['essentials/sims/',              'Phone & SIM Abroad'],
       ['essentials/apps/',              'Travel Apps'],
-      ['essentials/tours/',             'Tours & Tickets'],
+      ['essentials/tours/',             'Tour & Ticket Booking Platforms'],
       ['essentials/resources/',         'More Resources'],
       ['essentials/city-cards/',        'Museum City Cards & Attraction Passes']
     ] },
@@ -2075,7 +2075,7 @@ window.TVE.home = (function () {
       ['essentials/nightlife/',         'International Nightlife Guide'],
       ['essentials/cruise-ports/',      'Cruise Port Day Guide'],
       ['essentials/golden-hour/',       'Golden Hour & Best Photo Spots'],
-      ['essentials/best-tours/',        'Best Guided Tours'],
+      ['essentials/best-tours/',        'Guided Tour Ideas'],
       ['essentials/winery-tasting/',    'Winery & Tasting Room Visits'],
       ['essentials/rooftop-bars/',      'Rooftop Bars & Skyline Views'],
       ['essentials/island-hopping/',    'Island Hopping Routes']

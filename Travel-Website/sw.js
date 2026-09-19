@@ -3871,7 +3871,8 @@
 /* 2026-09-19: re-equalize pill rows after web-font loading toolbar.js -> v1430. CACHE to v2287. */
 /* 2026-09-19: best-of audits — refresh Best Of cross-category data after content corrections. MIN_VERSIONS['best-of-cross-data.js'] to 29, CACHE to v2290. */
 /* 2026-09-19: Best Of favorite, rating and comparison controls use catalogue icons and expose accessible state. MIN_VERSIONS['best-of-features.js'] to 13, CACHE to v2291. */
-var CACHE = 'travel-cache-v2292';
+/* 2026-09-19: rename tour discovery pages toolbar.js -> v1433. CACHE to v2293. */
+var CACHE = 'travel-cache-v2293';
 /* 2026-08-27: airlines.css's .card-tags align-items fix changed a shared
    asset without raising its own floor -- MIN_VERSIONS['airlines.css'] to
    6, CACHE to v1662. */
@@ -3937,7 +3938,7 @@ var ICS_OUTBOX = 'gmd-ics-outbox';
    tour-list calendars share the aligned factual-icon frame. */
 /* 2026-09-16: overview category icons use one fixed 20px frame; Read More uses the stop-card fill with the duration control's gold border. */
 /* 2026-09-16: restore warm guide facts, align icons, use catalogue 2214 for tour transfers, and retire Also in Country. */
-var MIN_VERSIONS = { 'guide-style.css': 348,'toolbar.js': 1432, 'mobile.css': 105, 'web-travel-style.css': 319, 'guides-index-style.css': 70,'read-about.css': 11, 'best-of-features.js': 13, 'best-of-cross-data.js': 29, 'weather.js': 88,'trains.css': 36, 'trains.js': 7, 'airlines.css': 9, 'airlines.js': 12, 'passport.js': 6, 'search-autocomplete.js': 22, 'flag-render.js': 3, 'site-footer.js': 3 };
+var MIN_VERSIONS = { 'guide-style.css': 348,'toolbar.js': 1433, 'mobile.css': 105, 'web-travel-style.css': 319, 'guides-index-style.css': 70,'read-about.css': 11, 'best-of-features.js': 13, 'best-of-cross-data.js': 29, 'weather.js': 88,'trains.css': 36, 'trains.js': 7, 'airlines.css': 9, 'airlines.js': 12, 'passport.js': 6, 'search-autocomplete.js': 22, 'flag-render.js': 3, 'site-footer.js': 3 };
 
 function rewriteAssetUrl(urlStr) {
   var u;

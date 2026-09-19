@@ -11,3 +11,4 @@
 2026-09-18 16:36 — corfu.html — VALIDATED — 974/974 passed, 0 failed
 2026-09-18 16:38 — corfu.html — FAIL @ verify — 0 checks — http://odysseus.culture.gr/h/3/eh355.jsp?obj_id=954; http://odysseus.culture.gr/h/2/eh255.jsp?obj_id=27065; https://archaeologicalmuseums.gr/en/museum/5df34af3deca5e2d79e8c165; https://achillion-corfu.gr/opening-hours/?lang=en; https://en.wikipedia.org/wiki/Palea_Peritheia; … +6 more
 2026-09-18 16:56 — corfu.html — GATES_PASSED — 974/974 passed, 0 failed
+2026-09-18 16:58 — corfu.html — PUBLISHED — 974/974 passed, 0 failed

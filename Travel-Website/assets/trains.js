@@ -4,33 +4,13 @@
   var noRes = document.getElementById('train-noresult');
   var nav = document.getElementById('jump-nav');
 
-  /* ---- Card spine colour (2026-08-23 redesign; Enamel-aware 2026-08-25) ----
-     Reads each card's own .type-badge fam-* class and writes --spine, which
-     trains.css turns into a 4px inset-shadow bar. Pure presentation, driven
-     entirely off markup every card already carries — no HTML change needed
-     on any of the five continent pages for this to take effect.
-     The badges themselves were swapped Vibrant -> Enamel on 2026-08-25
-     (fam-orange -> fam-en fam-en-orange); a card's .type-badge no longer
-     carries the bare fam-* class this used to key off, so every spine was
-     silently falling through to the CSS default (--fam-grey-ink) regardless
-     of category. fam-en-* is checked first and maps to the matching
-     --en-*-text token (Enamel's ink-equivalent); the bare fam-* branch stays
-     as a fallback for any card that hasn't migrated. */
-  var SPINE_FAM = ['orange', 'red', 'green', 'purple', 'pink', 'yellow', 'grey'];
+  /* Match each card spine to the canonical solid badge family already in its markup. */
   function applyCardSpines() {
     document.querySelectorAll('.train-card').forEach(function (card) {
       var badge = card.querySelector('.type-badge');
       if (!badge) return;
-      for (var i = 0; i < SPINE_FAM.length; i++) {
-        if (badge.classList.contains('fam-en-' + SPINE_FAM[i])) {
-          card.style.setProperty('--spine', 'var(--en-' + SPINE_FAM[i] + '-text)');
-          return;
-        }
-        if (badge.classList.contains('fam-' + SPINE_FAM[i])) {
-          card.style.setProperty('--spine', 'var(--fam-' + SPINE_FAM[i] + '-ink)');
-          return;
-        }
-      }
+      var spine = window.getComputedStyle(badge).getPropertyValue('--sb-fill').trim();
+      if (spine) card.style.setProperty('--spine', spine);
     });
   }
   applyCardSpines();
@@ -46,10 +26,14 @@
       more.type = 'button';
       more.className = 'ctag ctag-more';
       more.textContent = '+' + hidden.length + ' more';
+      more.setAttribute('aria-expanded', 'false');
+      more.setAttribute('aria-label', 'Show ' + hidden.length + ' more countries');
       more.addEventListener('click', function () {
         var expanding = more.classList.toggle('is-open');
         hidden.forEach(function (t) { t.classList.toggle('ctag-hidden', !expanding); });
-        more.textContent = expanding ? 'show less' : '+' + hidden.length + ' more';
+        more.textContent = expanding ? 'Show less' : '+' + hidden.length + ' more';
+        more.setAttribute('aria-expanded', String(expanding));
+        more.setAttribute('aria-label', expanding ? 'Show fewer countries' : 'Show ' + hidden.length + ' more countries');
       });
       row.appendChild(more);
     });
@@ -122,7 +106,19 @@
     if (noRes) noRes.style.display = (shown === 0 && q) ? 'block' : 'none';
   }
 
-  if (searchEl) { searchEl.addEventListener('input', applyFilters); searchEl.addEventListener('search', applyFilters); }
+  function applySearch() {
+    if (searchEl && searchEl.value.trim() && activeType !== 'all') {
+      activeType = 'all';
+      document.querySelectorAll('.filter-btn').forEach(function (b) {
+        var selected = b.dataset.ftype === 'all';
+        b.classList.toggle('active', selected);
+        b.setAttribute('aria-pressed', String(selected));
+      });
+    }
+    applyFilters();
+  }
+
+  if (searchEl) { searchEl.addEventListener('input', applySearch); searchEl.addEventListener('search', applySearch); }
 
   // ---- City guide links inside route-item text nodes ----
   // Curated, not generated from the guides folder: a slug like `bend`,
@@ -201,10 +197,6 @@
     var names = Object.keys(nameMap).sort(function (a, b) { return b.length - a.length; });
     var escaped = names.map(function (n) { return n.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'); });
     var re = new RegExp('\\b(' + escaped.join('|') + ')\\b', 'g');
-    // inject subtle link style once
-    var s = document.createElement('style');
-    s.textContent = '.route-item a.city-link{color:var(--accent,#8a6c1a);text-decoration:none;}.route-item a.city-link:visited{color:#8a6c1a;}.route-item a.city-link:hover{text-decoration:none;}';
-    document.head.appendChild(s);
     document.querySelectorAll('.route-item').forEach(function (el) {
       // walk text nodes only to avoid touching existing markup
       var walker = document.createTreeWalker(el, NodeFilter.SHOW_TEXT, null, false);

@@ -3852,7 +3852,8 @@
 /* 2026-09-19: continental train guides use catalogue train art, canonical badge-colour spines, text-only routes, accessible country expanders and independent search. MIN_VERSIONS['trains.css'] and MIN_VERSIONS['trains.js'] raised; cache refreshed. */
 /* 2026-09-19: add Digital Nomad Hub Cities to Visas & docs menu toolbar.js -> v1424. CACHE to v2274. */
 /* 2026-09-19: flights-airports audit — raise light-mode source-link contrast. web-travel-style.css -> v314. CACHE to v2275. */
-var CACHE = 'travel-cache-v2275';
+/* 2026-09-19: preserve the shared search magnifier in automatic dark mode by changing the late input override from a background shorthand to background-color. web-travel-style.css -> v315. CACHE to v2276. */
+var CACHE = 'travel-cache-v2276';
 /* 2026-08-27: airlines.css's .card-tags align-items fix changed a shared
    asset without raising its own floor -- MIN_VERSIONS['airlines.css'] to
    6, CACHE to v1662. */
@@ -3918,7 +3919,7 @@ var ICS_OUTBOX = 'gmd-ics-outbox';
    tour-list calendars share the aligned factual-icon frame. */
 /* 2026-09-16: overview category icons use one fixed 20px frame; Read More uses the stop-card fill with the duration control's gold border. */
 /* 2026-09-16: restore warm guide facts, align icons, use catalogue 2214 for tour transfers, and retire Also in Country. */
-var MIN_VERSIONS = { 'guide-style.css': 346,'toolbar.js': 1424, 'mobile.css': 105, 'web-travel-style.css': 314, 'guides-index-style.css': 70,'read-about.css': 11, 'best-of-features.js': 11, 'best-of-cross-data.js': 27, 'weather.js': 88,'trains.css': 36, 'trains.js': 7, 'airlines.css': 9, 'airlines.js': 12, 'passport.js': 6, 'search-autocomplete.js': 22, 'flag-render.js': 3, 'site-footer.js': 3 };
+var MIN_VERSIONS = { 'guide-style.css': 346,'toolbar.js': 1424, 'mobile.css': 105, 'web-travel-style.css': 315, 'guides-index-style.css': 70,'read-about.css': 11, 'best-of-features.js': 11, 'best-of-cross-data.js': 27, 'weather.js': 88,'trains.css': 36, 'trains.js': 7, 'airlines.css': 9, 'airlines.js': 12, 'passport.js': 6, 'search-autocomplete.js': 22, 'flag-render.js': 3, 'site-footer.js': 3 };
 
 function rewriteAssetUrl(urlStr) {
   var u;

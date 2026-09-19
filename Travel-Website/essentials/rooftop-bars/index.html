@@ -12,6 +12,7 @@
 
 .controls { display: flex; flex-direction: column; gap: 10px; align-items: center; margin-bottom: 14px; }
 .pill-row { display: flex; flex-wrap: wrap; gap: var(--fam-gap,10px); justify-content: center; margin-top: 24px; }
+.fpill.is-on { background: #58554d !important; color: #fff !important; }
 
 .rb-block {
   background: var(--surface); border: 1px solid var(--border); border-radius: 6px;
@@ -105,7 +106,7 @@
 <!-- seo:end -->
 </head>
 <body>
-<div id="toolbar-mount" data-depth="2" data-maxwidth="760" data-updated="2026-09-02"></div>
+<div id="toolbar-mount" data-depth="2" data-maxwidth="760" data-updated="2026-09-19"></div>
 <script src="/assets/toolbar.js?v=127"></script>
 
   <div class="hero-band eb-hero">
@@ -126,10 +127,10 @@
 
   <div class="controls">
     <div class="pill-row">
-      <button class="fpill is-on pill-badge sb-light-grey hov-darken" data-filter="all">All bars</button>
-      <button class="fpill pill-badge sb-green hov-darken" data-filter="walk">Walk-in OK</button>
-      <button class="fpill pill-badge sb-blue hov-darken" data-filter="rec">Reserve ahead</button>
-      <button class="fpill pill-badge sb-dark-grey hov-darken" data-filter="req">Reservation required</button>
+      <button class="fpill is-on pill-badge sb-light-grey hov-darken" data-filter="all" aria-pressed="true">All bars</button>
+      <button class="fpill pill-badge sb-green hov-darken" data-filter="walk" aria-pressed="false">Walk-in OK</button>
+      <button class="fpill pill-badge sb-blue hov-darken" data-filter="rec" aria-pressed="false">Reserve ahead</button>
+      <button class="fpill pill-badge sb-dark-grey hov-darken" data-filter="req" aria-pressed="false">Reservation required</button>
     </div>
 
     <div id="rb-list">
@@ -142,7 +143,7 @@
               <span class="rb-city">Bangkok, Thailand</span>
               <span class="rb-name">Moon Bar (Vertigo &amp; Moon Bar, Banyan Tree Bangkok)</span>
               <span class="rb-venue">61st floor, on the hotel's converted helipad — a 360&deg; view over the city</span>
-              <span class="rb-detail"><span class="rb-fl">Currently</span> <strong>Closed for renovation</strong> from mid-June 2026, with an expected reopening around <strong>28 November 2026</strong> (subject to change) &mdash; confirm on <a href="https://www.banyantree.com/thailand/bangkok/dining/vertigo" target="_blank" rel="noopener">Banyan Tree's own page</a> before planning around it.</span>
+              <span class="rb-detail"><span class="rb-fl">Currently</span> <strong>Closed for renovation</strong> from 16 June 2026 onward. Banyan Tree has not published a reopening date &mdash; confirm on <a href="https://www.banyantree.com/thailand/bangkok/dining/vertigo" target="_blank" rel="noopener">the hotel's own page</a> before planning around it.</span>
               <span class="rb-detail"><span class="rb-fl">Access &amp; dress</span> Smart casual — no shorts or flip-flops; closed shoes and long pants expected of gentlemen.</span>
               <span class="rb-detail"><span class="rb-fl">Reservation</span> Moon Bar (the bar side) has historically been walk-in, no booking needed; Vertigo (the restaurant side) takes reservations. In normal operation the bar opens 5pm, restaurant 6&ndash;10:30pm.</span>
               <span class="rb-detail"><span class="rb-fl">Cost</span> No cover for the bar; à la carte cocktails and a full dinner menu on the restaurant side.</span>
@@ -415,6 +416,21 @@
   var noRes   = document.getElementById('no-results');
   var active  = 'all';
 
+  function syncPills() {
+    pills.forEach(function (p) {
+      var on = p.classList.contains('is-on');
+      p.setAttribute('aria-pressed', on ? 'true' : 'false');
+      if (on) {
+        p.style.setProperty('background-color','#58554d','important');
+        p.style.setProperty('color','#fff','important');
+      } else {
+        p.style.removeProperty('background-color');
+        p.style.removeProperty('color');
+      }
+    });
+  }
+  syncPills();
+
   function applyFilters() {
     var q = search.value.trim().toLowerCase();
     var visible = 0;
@@ -445,8 +461,10 @@
 
   pills.forEach(function (p) {
     p.addEventListener('click', function () {
-      pills.forEach(function (x) { x.classList.remove('is-on'); });
+      pills.forEach(function (x) { x.classList.remove('is-on'); x.setAttribute('aria-pressed','false'); });
       p.classList.add('is-on');
+      p.setAttribute('aria-pressed','true');
+      syncPills();
       active = p.dataset.filter;
       applyFilters();
     });

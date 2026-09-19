@@ -420,7 +420,7 @@
              find panel built below — a full page adds nothing on a phone. */
           if (b.dataset.m === 'find' &&
               window.matchMedia && window.matchMedia('(min-width: 760px)').matches) {
-            location.href = '../when-to-go/' +
+            location.href = '/when-to-go/' +
               '?mon=' + fMonth + '&minc=' + Math.round(fMinC) +
               '&maxc=' + Math.round(fMaxC) + '&u=' + unit();
             return;

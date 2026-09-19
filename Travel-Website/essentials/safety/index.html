@@ -217,7 +217,7 @@ a.city-row.hidden { display: none; }
   font-size: 12.5px;
   padding: 5px 10px;
 }
-@media (max-width: 600px) and (pointer: coarse) {
+@media (max-width: 600px) {
   .city-grid { columns: 2; }
   .legend { display: flex !important; flex-direction: column !important; gap: var(--search-gap, 32px) !important; padding: var(--search-gap, 32px) 0 !important; margin: 0 0 12px !important; justify-content: flex-start !important; align-items: center !important; }
   /* Level pills — Form B glued 2×2 grid, matching Vaccines and Tap-Water. */
@@ -301,7 +301,7 @@ a.city-row.hidden { display: none; }
 <!-- seo:end -->
 </head>
 <body>
-<div id="toolbar-mount" data-depth="2" data-maxwidth="940" data-updated="2026-08-23"></div>
+<div id="toolbar-mount" data-depth="2" data-maxwidth="940" data-updated="2026-09-19"></div>
 <!-- toolbar.js ?v= is FROZEN — cache-busting via sw.js MIN_VERSIONS only -->
 <script src="/assets/toolbar.js?v=122"></script>
 
@@ -357,10 +357,10 @@ function searchStateItems(items) {
   <div class="legend">
     <input type="search" id="city-search" class="search-input" placeholder="City or country" aria-label="Filter cities">
     <div class="pills tve-glue-m" id="level-pills">
-      <button class="pill pill-badge has-icon sb-green hov-darken" data-filter="l1" onclick="filterLevel(this,'l1')"><svg class="gm-icon" data-icon="dot-green" data-role="dot" viewBox="0 0 24 24" aria-hidden="true"><use href="#gm-i-dot-green"/></svg> Level 1 — Normal precautions</button>
-      <button class="pill pill-badge has-icon sb-gold hov-darken" data-filter="l2" onclick="filterLevel(this,'l2')"><svg class="gm-icon" data-icon="dot-yellow" data-role="dot" viewBox="0 0 24 24" aria-hidden="true"><use href="#gm-i-dot-yellow"/></svg> Level 2 — Increased caution</button>
-      <button class="pill pill-badge has-icon sb-red hov-darken" data-filter="l3" onclick="filterLevel(this,'l3')"><svg class="gm-icon" data-icon="dot-red" data-role="dot" viewBox="0 0 24 24" aria-hidden="true"><use href="#gm-i-dot-red"/></svg> Level 3 — Reconsider travel</button>
-      <button class="pill pill-badge has-icon sb-dark-grey hov-darken" data-filter="l4" onclick="filterLevel(this,'l4')"><svg class="gm-icon" data-icon="dot-black" data-role="dot" viewBox="0 0 24 24" aria-hidden="true"><use href="#gm-i-dot-black"/></svg> Level 4 — Do not travel</button>
+      <button class="pill pill-badge has-icon sb-green hov-darken" data-filter="l1" aria-pressed="false" onclick="filterLevel(this,'l1')"><svg class="gm-icon" data-icon="dot-green" data-role="dot" viewBox="0 0 24 24" aria-hidden="true"><use href="#gm-i-dot-green"/></svg> Level 1 — Normal precautions</button>
+      <button class="pill pill-badge has-icon sb-gold hov-darken" data-filter="l2" aria-pressed="false" onclick="filterLevel(this,'l2')"><svg class="gm-icon" data-icon="dot-yellow" data-role="dot" viewBox="0 0 24 24" aria-hidden="true"><use href="#gm-i-dot-yellow"/></svg> Level 2 — Increased caution</button>
+      <button class="pill pill-badge has-icon sb-red hov-darken" data-filter="l3" aria-pressed="false" onclick="filterLevel(this,'l3')"><svg class="gm-icon" data-icon="dot-red" data-role="dot" viewBox="0 0 24 24" aria-hidden="true"><use href="#gm-i-dot-red"/></svg> Level 3 — Reconsider travel</button>
+      <button class="pill pill-badge has-icon sb-dark-grey hov-darken" data-filter="l4" aria-pressed="false" onclick="filterLevel(this,'l4')"><svg class="gm-icon" data-icon="dot-black" data-role="dot" viewBox="0 0 24 24" aria-hidden="true"><use href="#gm-i-dot-black"/></svg> Level 4 — Do not travel</button>
     </div>
   </div>
 
@@ -758,8 +758,8 @@ function searchStateItems(items) {
   window.filterLevel = function (btn, level) {
     if (searchInput.value) { searchInput.value = ''; searchInput.dispatchEvent(new Event('input')); }
     const on = btn.classList.contains('is-on');
-    document.querySelectorAll('#level-pills .pill').forEach(p => p.classList.remove('is-on'));
-    if (!on) btn.classList.add('is-on');
+    document.querySelectorAll('#level-pills .pill').forEach(p => { p.classList.remove('is-on'); p.setAttribute('aria-pressed', 'false'); });
+    if (!on) { btn.classList.add('is-on'); btn.setAttribute('aria-pressed', 'true'); }
     document.querySelectorAll('.level-section').forEach(s => {
       s.classList.toggle('hidden', !on && s.id !== 'section-' + level);
     });
@@ -771,7 +771,7 @@ function searchStateItems(items) {
     /* A search spans every level, so it clears the level filter and brings all
        four sections back (same mutual exclusion the other pages use). */
     if (query) {
-      document.querySelectorAll('#level-pills .pill').forEach(p => p.classList.remove('is-on'));
+      document.querySelectorAll('#level-pills .pill').forEach(p => { p.classList.remove('is-on'); p.setAttribute('aria-pressed', 'false'); });
       document.querySelectorAll('.level-section').forEach(s => s.classList.remove('hidden'));
     }
     let visibleCount = 0;

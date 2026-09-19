@@ -206,39 +206,14 @@ body { padding-bottom: calc(24px + env(safe-area-inset-bottom, 0px)) !important;
      dark-mode hover treatment. */
 }
 
-/* Hero is the shared .hero-band.eb-hero component (web-travel-style.css) --
-   same beige gradient, kicker pill and .eb-graphic icon slot as currencies,
-   weather, packing, lounges and local-prices. The search field sits in the
-   shared .hero-ground band below it, same as those pages. .hero-search's own
-   680px pill rendered far wider here than the standard 440px bar the guides
-   index and When to Go use for the same "city or country" field, so this
-   caps the pill at the same var(--search-w, 440px) instead -- the icon +
-   input + guide-pill flex layout inside is untouched, it just has less
-   width to lay out in. */
-.byg-search.hero-search { padding-right: 6px; max-width: var(--search-w, 440px); }
-/* Autocomplete panel is positioned against the field, not the page. */
+/* The search is the canonical plain 440px bar. The retired .hero-search
+   wrapper required a hand-drawn magnifier and changed the field's border,
+   padding and focus treatment. search-input supplies the shared
+   var(--search-icon) in both themes; search-box-wrap anchors autocomplete. */
+.byg-search { margin: 0 auto; }
 .byg-search .sa-suggest { top: calc(100% + 8px); }
-/* .hero-ground .search-input (web-travel-style.css) targets a *plain*
-   search-input dropped straight into the band -- Weather/Currencies use that
-   pattern. .byg-search is the pill-shaped .hero-search component instead, so
-   its own flex sizing needs to outrank that shared rule (same specificity,
-   .hero-ground's is later in the sheet and would otherwise cap the input at
-   440px and break its flex fill). */
-.hero-ground .byg-search.hero-search .search-input { max-width: none; margin: 0; }
-.hero-ground #byg-guide-slot { flex-shrink: 0; }
-.hero-ground .byg-guide-pill { height: 46px; border-radius: 999px; padding: 0 22px; font-size: .95rem;
-  background: var(--rust, #C04E1A); border-color: var(--rust, #C04E1A); color: #fff; }
-.hero-ground .byg-guide-pill:hover { background: transparent; color: var(--rust, #C04E1A); box-shadow: none; }
-/* The hero pill is FILLED terracotta, so its label stays white after a visit.
-   Without this, web-travel-style.css's `a.byg-guide-pill:visited{color:#c8961a}`
-   wins on specificity — (0,2,1) against this block's (0,2,0) — and a visited
-   pill renders gold on terracotta at 1.80:1, effectively unreadable, against
-   4.83:1 for white. That visited rule is correct for the pill's OUTLINED rest
-   state elsewhere on the page and predates the hero's filled variant; this
-   scopes the exception rather than changing it. Literal hex, not var(): custom
-   properties are never resolved inside a :visited rule (history-sniffing
-   defence), so the var() form would silently do nothing. */
-.hero-ground a.byg-guide-pill:visited { color: #ffffff; }
+.hero-ground .byg-guide-slot { display: flex; justify-content: center; }
+.hero-ground .byg-guide-slot:not(:empty) { margin-top: 12px; }
 /* Month pills — .byg-mchip is the shared .selection-pill component (one
    month picked from 12 otherwise-equal options, no per-item family colour,
    "this one is chosen" carried by aria-pressed), tagged .cp-bronze for its
@@ -255,7 +230,6 @@ body { padding-bottom: calc(24px + env(safe-area-inset-bottom, 0px)) !important;
   .byg-mchip { height: 36px; padding: 0 10px; font-size: 13px; line-height: 1; }
 }
 @media (max-width: 700px) {
-  .hero-ground .byg-guide-pill { height: 40px; padding: 0 16px; font-size: .88rem; }
   /* 6-across grid on mobile, same full-pill treatment as desktop -- border/
      radius/colour all come from the shared class, just a smaller cell. */
   .byg-months { font-family: inherit; grid-template-columns: repeat(6, minmax(0, 1fr)) !important;
@@ -316,11 +290,10 @@ body { padding-bottom: calc(24px + env(safe-area-inset-bottom, 0px)) !important;
   </svg></div>
 </div>
 <div class="hero-ground">
-  <div class="byg-search hero-search">
-    <span class="byg-search-icon hero-search-icon"><svg style="display:block" width="19" height="19" viewBox="0 0 13 13" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="5.5" cy="5.5" r="4.5" stroke="currentColor" stroke-width="1.5"/><line x1="9.35" y1="9.35" x2="12" y2="12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></span>
+  <div class="byg-search search-box-wrap">
     <input type="search" class="search-input" id="byg-find" placeholder="City or country" aria-label="Search by city or country" autocomplete="off">
-    <span id="byg-guide-slot"></span>
   </div>
+  <div id="byg-guide-slot" class="byg-guide-slot"></div>
   <div class="byg-months" id="byg-months" aria-label="Month"></div>
   <select class="byg-month-select" id="byg-month" hidden aria-hidden="true" tabindex="-1"></select>
   <div id="byg-unit" style="display:none;">

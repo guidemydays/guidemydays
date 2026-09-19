@@ -182,9 +182,11 @@ html { overflow-x: clip; scroll-behavior: smooth; }
     --green:    #5aaa5e;   /* canonical dark GREEN family text */
     --gold:     #d4a830;
     --red:      #d44040;
-    --bo-title-ink: #e8e5e0;
-    --bo-title-accent: #D4663A;
-    --bo-copy-ink: rgba(232,229,224,.78);
+    /* Best Of heroes keep a light cream panel in both themes, so their ink
+       must stay dark rather than following the page's dark-mode text tokens. */
+    --bo-title-ink: #3d2f1f;
+    --bo-title-accent: #8a4a2c;
+    --bo-copy-ink: rgba(61,47,31,.72);
 
     /* ── Badge family, dark. Enamel only — Vibrant/Ink/Stamp retired 2026-08-28. ── */
     --en-yellow-top:#4a3a0e; --en-yellow-bot:#2b2006; --en-yellow-rim:#e8b84a; --en-yellow-rimrgb:232,184,74; --en-yellow-text:#ffe9a8;
@@ -2600,6 +2602,42 @@ body > .hero-ground {
 .badge.is-on[class*="sb-"], .pill-badge.is-on[class*="sb-"] {
   background: color-mix(in srgb, var(--sp-wash) 65%, black 35%) !important;
   color: var(--sb-text) !important;
+}
+
+/* Solid tones with dark ink need the selected blend to move lighter, not
+   darker.  Darkening these fills collapses the ink and background toward the
+   same luminance (the neutral "All" pills reached 1:1 in dark mode). */
+.selection-pill.is-on.sb-dark-grey, .selection-pill[aria-pressed="true"].sb-dark-grey,
+.selection-pill.is-on.sb-light-grey, .selection-pill[aria-pressed="true"].sb-light-grey,
+.selection-pill.is-on.sb-dark-brown, .selection-pill[aria-pressed="true"].sb-dark-brown,
+.selection-pill.is-on.sb-light-blue, .selection-pill[aria-pressed="true"].sb-light-blue,
+.selection-pill.is-on.sb-green, .selection-pill[aria-pressed="true"].sb-green,
+.selection-pill.is-on.sb-gold, .selection-pill[aria-pressed="true"].sb-gold,
+.selection-pill-sm.is-on.sb-dark-grey, .selection-pill-sm[aria-pressed="true"].sb-dark-grey,
+.selection-pill-sm.is-on.sb-light-grey, .selection-pill-sm[aria-pressed="true"].sb-light-grey,
+.selection-pill-sm.is-on.sb-dark-brown, .selection-pill-sm[aria-pressed="true"].sb-dark-brown,
+.selection-pill-sm.is-on.sb-light-blue, .selection-pill-sm[aria-pressed="true"].sb-light-blue,
+.selection-pill-sm.is-on.sb-green, .selection-pill-sm[aria-pressed="true"].sb-green,
+.selection-pill-sm.is-on.sb-gold, .selection-pill-sm[aria-pressed="true"].sb-gold,
+.badge.is-on.sb-dark-grey, .pill-badge.is-on.sb-dark-grey,
+.badge.is-on.sb-light-grey, .pill-badge.is-on.sb-light-grey,
+.badge.is-on.sb-dark-brown, .pill-badge.is-on.sb-dark-brown,
+.badge.is-on.sb-light-blue, .pill-badge.is-on.sb-light-blue,
+.badge.is-on.sb-green, .pill-badge.is-on.sb-green,
+.badge.is-on.sb-gold, .pill-badge.is-on.sb-gold {
+  background: color-mix(in srgb, var(--sp-wash) 72%, white 28%) !important;
+  color: var(--sb-text) !important;
+}
+
+/* The approved darken interaction crosses to light ink for these same tones;
+   retaining their resting dark ink on the darkened fill fails contrast. */
+.sb-dark-grey.hov-darken:hover, .sb-light-grey.hov-darken:hover,
+.sb-dark-brown.hov-darken:hover, .sb-light-blue.hov-darken:hover,
+.sb-green.hov-darken:hover, .sb-gold.hov-darken:hover,
+.sb-dark-grey.hov-darken:active, .sb-light-grey.hov-darken:active,
+.sb-dark-brown.hov-darken:active, .sb-light-blue.hov-darken:active,
+.sb-green.hov-darken:active, .sb-gold.hov-darken:active {
+  color: #fff !important;
 }
 
 

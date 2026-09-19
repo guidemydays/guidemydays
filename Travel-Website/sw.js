@@ -3848,7 +3848,8 @@
 /* 2026-09-18: currency-audit: CACHE raised to v2268 — v2267 already on origin/main, need higher floor. */
 /* 2026-09-18: money-audit: fix stale average-costs link in RES_GROUPS Money group → local-prices toolbar.js -> v1422. CACHE to v2269. */
 /* 2026-09-19: canonical airline icon and bounded mobile menu toolbar.js -> v1423. CACHE to v2271. */
-var CACHE = 'travel-cache-v2271';
+/* 2026-09-19: flights-airports audit — contrast-safe solid-badge inks and footer text. web-travel-style.css -> v313, site-footer.js -> v3. CACHE to v2272. */
+var CACHE = 'travel-cache-v2272';
 /* 2026-08-27: airlines.css's .card-tags align-items fix changed a shared
    asset without raising its own floor -- MIN_VERSIONS['airlines.css'] to
    6, CACHE to v1662. */
@@ -3914,7 +3915,7 @@ var ICS_OUTBOX = 'gmd-ics-outbox';
    tour-list calendars share the aligned factual-icon frame. */
 /* 2026-09-16: overview category icons use one fixed 20px frame; Read More uses the stop-card fill with the duration control's gold border. */
 /* 2026-09-16: restore warm guide facts, align icons, use catalogue 2214 for tour transfers, and retire Also in Country. */
-var MIN_VERSIONS = { 'guide-style.css': 346,'toolbar.js': 1423, 'mobile.css': 105, 'web-travel-style.css': 312, 'guides-index-style.css': 70,'read-about.css': 11, 'best-of-features.js': 11, 'best-of-cross-data.js': 27, 'weather.js': 88,'trains.css': 35, 'trains.js': 6, 'airlines.css': 9, 'airlines.js': 12, 'passport.js': 6, 'search-autocomplete.js': 22, 'flag-render.js': 3, 'site-footer.js': 2 };
+var MIN_VERSIONS = { 'guide-style.css': 346,'toolbar.js': 1423, 'mobile.css': 105, 'web-travel-style.css': 313, 'guides-index-style.css': 70,'read-about.css': 11, 'best-of-features.js': 11, 'best-of-cross-data.js': 27, 'weather.js': 88,'trains.css': 35, 'trains.js': 6, 'airlines.css': 9, 'airlines.js': 12, 'passport.js': 6, 'search-autocomplete.js': 22, 'flag-render.js': 3, 'site-footer.js': 3 };
 
 function rewriteAssetUrl(urlStr) {
   var u;

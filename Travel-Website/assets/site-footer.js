@@ -31,12 +31,16 @@
     style.textContent =
       '.site-footer{max-width:940px;margin:48px auto 24px;padding:20px 24px 0;' +
       'border-top:1px solid rgba(0,0,0,.08);text-align:center;' +
-      'font-size:13px;line-height:1.7;color:#9a948a}' +
+      'font-size:13px;line-height:1.7;color:var(--muted,#6a6660)}' +
       '.site-footer p{margin:0 0 4px}' +
-      '.site-footer a{color:#9a948a;text-decoration:underline}' +
-      '.site-footer a:hover{color:#6d685f}' +
+      '.site-footer a{color:var(--muted,#6a6660);text-decoration:underline}' +
+      '.site-footer a:visited{color:#6a6660}' +
+      '.site-footer a:hover{color:var(--text,#3d3a32)}' +
       '@media (prefers-color-scheme:dark){' +
-      '.site-footer{border-top-color:rgba(255,255,255,.14)}}';
+      ':root:not([data-theme="light"]) .site-footer{border-top-color:rgba(255,255,255,.14)}' +
+      ':root:not([data-theme="light"]) .site-footer a:visited{color:#9a9690}}' +
+      ':root[data-theme="dark"] .site-footer{border-top-color:rgba(255,255,255,.14)}' +
+      ':root[data-theme="dark"] .site-footer a:visited{color:#9a9690}';
     document.head.appendChild(style);
 
     /* A plain <div>, not a <footer> element: a leftover rule from the retired

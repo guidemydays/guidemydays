@@ -35,7 +35,7 @@
 <!-- seo:end -->
 </head>
 <body>
-<div data-toolbar data-depth="2" data-maxwidth="1400" data-title="siem-reap — All Stops"></div>
+<div data-toolbar data-depth="2" data-maxwidth="1400" data-title="Siem Reap — All Stops"></div>
 <div id="filter-row">
   <button class="day-btn active" data-day="all">All days</button>
   <button class="day-btn" data-day="1" style="--dc:#C04E1A">Day 1</button>
@@ -152,8 +152,8 @@ const STOPS = [
     "day": 4,
     "name": "Phnom Kulen Waterfall",
     "query": "Phnom Kulen Waterfall",
-    "lat": 13.569114,
-    "lng": 104.1083175
+    "lat": 13.5674166,
+    "lng": 104.1056787
   },
   {
     "day": 4,
@@ -180,8 +180,8 @@ const STOPS = [
     "day": 5,
     "name": "Angkor Silk Farm",
     "query": "Angkor Silk Farm Puok",
-    "lat": 13.4371895,
-    "lng": 103.744861
+    "lat": 13.4368503,
+    "lng": 103.7453483
   },
   {
     "day": 5,
@@ -213,7 +213,11 @@ function pinIcon(color) {
 STOPS.filter(s => s.lat != null && s.lng != null).forEach(s => {
   const color = DAY_COLORS[String(s.day)] || '#C04E1A';
   const mapsUrl = 'https://www.google.com/maps/search/?api=1&query=' + encodeURIComponent(s.query);
-  const marker = L.marker([s.lat, s.lng], {icon: pinIcon(color)});
+  const marker = L.marker([s.lat, s.lng], {icon: pinIcon(color), title: s.name, alt: s.name});
+  marker.on('add', () => {
+    const el = marker.getElement();
+    if (el) el.setAttribute('aria-label', s.name + ', Day ' + s.day);
+  });
   marker.bindPopup(
     '<div class="stop-popup">' +
     '<strong>' + s.name + '</strong>' +

@@ -1979,7 +1979,7 @@ window.TVE.home = (function () {
 
     var RES_GROUPS = [
     { name: 'Money', links: [
-      ['essentials/local-prices/',             'Local Prices'],
+      ['essentials/average-costs/',            'Average Costs'],
       ['essentials/cards-atm/',         'Cards & ATM'],
       ['essentials/tipping/',           'Tipping Guide']
     ] },
@@ -2035,7 +2035,6 @@ window.TVE.home = (function () {
       ['essentials/trusted-traveler/',  'Trusted Traveler Programs'],
       ['essentials/visa-times/',        'Visa Processing Times'],
       ['essentials/nomad-visas/',       'Digital Nomad Visa Quick Reference'],
-      ['essentials/nomad-hubs/',        'Digital Nomad Hub Cities'],
       ['essentials/traveling-with-minors/', 'Traveling with Minors'],
       ['essentials/idp-guide/',         'International Driving Permit'],
       ['essentials/pet-travel/',        'Traveling with Pets']

@@ -128,10 +128,16 @@
   color: var(--muted, #6a6660);
 }
 #sun-city-search-wrap { max-width: var(--search-w, 440px); }
+#sun-search-empty { max-width: var(--search-w, 440px); box-sizing: border-box; }
+#sun-search-empty[hidden] { display: none; }
 /* Paired with pointer: coarse — a narrowed desktop window must not turn into
    the mobile site (Toolbar.html § 42). */
 @media (max-width: 600px) and (pointer: coarse) {
-  .sun-hero-top { gap: 12px; }
+  .sun-hero-top { flex-direction: column; align-items: center; gap: 12px; }
+  .sun-hero-top > div { width: 100%; }
+  .sun-hero-ic svg { width: 116px; height: 116px; }
+  .sun-search .search-input,
+  #sun-city-search-wrap { width: 100%; max-width: 100%; box-sizing: border-box; }
 }
 
 /* ── Month pills ────────────────────────────────────────────────────────────
@@ -246,6 +252,17 @@
    this page, not where the CSS rules for them are defined — those markup
    tokens are untouched. ── */
 
+/* The calculation has always produced day length (`r.len`) and the hero
+   explicitly promises it, but the result card previously discarded it. Keep
+   the three answers on one stable grid so sunrise/daylight/sunset scan as a
+   single result at every viewport. */
+#sun-output .sky-times {
+  display: grid; grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
+  align-items: end;
+}
+#sun-output .sky-time-block.is-daylight { text-align: center; }
+#sun-output .sky-time-block.is-end { text-align: right; }
+
 /* Note line — lives inside .sun-band */
 .sun-note {
   display: flex; flex-wrap: wrap; gap: 0 6px;
@@ -268,7 +285,7 @@
 /* ── Mobile ── */
 @media (max-width: 520px) {
   .sky-bg { padding: 28px 18px 22px; }
-  .sky-time-value { font-size: 22px; }
+  #sun-output .sky-time-value { font-size: 20px; }
   .sky-special { padding: 40px 24px; }
   .sun-pickers { max-width: 100%; }
   .sun-hero-h em { padding-left: 4%; }
@@ -303,7 +320,7 @@
 </head>
 <body>
 <div class="wrap">
-  <div id="toolbar-mount" data-depth="1" data-maxwidth="1100" data-updated="2026-08-09"></div>
+  <div id="toolbar-mount" data-depth="1" data-maxwidth="1100" data-updated="2026-09-19"></div>
 <script src="/assets/toolbar.js?v=127"></script>
 <script src="/assets/flag-render.js"></script>
 
@@ -336,6 +353,7 @@
         <div id="sun-city-search-wrap">
           <input id="sun-city-search" class="search-input" type="search" autocomplete="off" spellcheck="false" placeholder="City or country" aria-label="Search city or country for sunrise and sunset times">
         </div>
+        <p id="sun-search-empty" class="empty-state" role="status" aria-live="polite" hidden>No destinations match that search.</p>
       </div>
       <div class="sun-field sun-field-month">
         <span class="sun-field-lab">Month</span>
@@ -711,6 +729,7 @@ var CITIES = [
   {name:'Wadi Rum', country:'Jordan', tz:'Asia/Amman', region:'other', url:'/guides/wadi-rum.html'},
   {name:'Ushuaia', country:'Argentina', tz:'America/Argentina/Ushuaia', region:'americas', url:'/guides/ushuaia.html'},
   {name:'Puerto Natales', country:'Chile', tz:'America/Punta_Arenas', region:'americas', guide:'puerto-natales', url:'/guides/puerto-natales.html'},
+  {name:'Siem Reap', country:'Cambodia', tz:'Asia/Phnom_Penh', region:'asiapac', flag:10093, guide:'siem-reap', url:'/guides/siem-reap.html'},
 ];
 
 var CITY_LAT = {
@@ -763,7 +782,20 @@ var CITY_LAT = {
   'Singapore':1,'Sydney':-34,'Taipei':25,'Tokyo':36,'Wellington':-41,
   'Zhangjiajie':29,
   'Abu Dhabi':24,'Cairo':30,'Doha':25,'Dubai':25,'Riyadh':25,
-  'Cape Town':-34,'Marrakech':32,'Muscat':24,'Paro':27,'Petra':30,'Pokhara':28,'Seychelles':-5
+  'Cape Town':-34,'Marrakech':32,'Muscat':24,'Paro':27,'Petra':30,'Pokhara':28,'Seychelles':-5,
+  'Jerusalem':32,'Nairobi':-1,'Kuwait City':29,'La Paz':-16,
+  'Antigua Guatemala':15,'Sofia':43,'Montego Bay':18,'Zanzibar':-6,
+  'Macau':22,'Bangalore':13,'Shenzhen':23,'Antalya':37,'Saint Petersburg':60,
+  'Pattaya':13,'Hammamet':36,'Mexico City':19,'Agra':27,
+  'Ho Chi Minh City':11,'Luxor':26,'Da Nang':16,'Jaipur':27,
+  'Cappadocia':39,'Auckland':-37,'Playa del Carmen':21,'Yogyakarta':-8,
+  'Zermatt':46,'Fez':34,'Bogotá':5,'Medellín':6,'Galway':53,
+  'Boracay':12,'Cebu':10,'Jakarta':-6,'Tunis':37,'Phnom Penh':12,
+  'Interlaken':47,'Hurghada':27,'Sharm el-Sheikh':28,'Bodrum':37,
+  'Toulouse':44,'Zagreb':46,'Essaouira':32,'Quito':0,'Amman':32,
+  'Düsseldorf':51,'San Pedro de Atacama':-23,'Paphos':35,'Panama City':9,
+  'Belgrade':45,'Tulum':20,'Arusha':-3,'Wadi Rum':30,
+  'Ushuaia':-55,'Puerto Natales':-52,'Siem Reap':13
 };
 
 function getSunLat(c) {
@@ -913,7 +945,8 @@ function render() {
     + '<div class="sky-arc-wrap">' + arc + '</div>'
     + '<div class="sky-times">'
     + '<div class="sky-time-block"><div class="sky-time-label">Sunrise</div><div class="sky-time-value">' + fmtTime(r.sr) + '</div></div>'
-    + '<div class="sky-time-block" style="text-align:right"><div class="sky-time-label">Sunset</div><div class="sky-time-value">' + fmtTime(r.ss) + '</div></div>'
+    + '<div class="sky-time-block is-daylight"><div class="sky-time-label">Daylight</div><div class="sky-time-value">' + fmtLen(r.len) + '</div></div>'
+    + '<div class="sky-time-block is-end"><div class="sky-time-label">Sunset</div><div class="sky-time-value">' + fmtTime(r.ss) + '</div></div>'
     + '</div>'
     + '</div>'
     + '</div>';
@@ -1014,8 +1047,18 @@ function render() {
     onPick: function(item) {
       sel.value = item._idx;
       searchInput.value = item.name + ' · ' + item.sub;
+      document.getElementById('sun-search-empty').hidden = true;
       render();
     }
+  });
+
+  searchInput.addEventListener('input', function () {
+    var q = searchInput.value.trim().toLowerCase();
+    var hasMatch = !q || CITIES.some(function (c) {
+      return c.name.toLowerCase().indexOf(q) !== -1 ||
+        c.country.toLowerCase().indexOf(q) !== -1;
+    });
+    document.getElementById('sun-search-empty').hidden = hasMatch;
   });
 }());</script>
 </body>

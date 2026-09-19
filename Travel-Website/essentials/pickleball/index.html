@@ -70,6 +70,7 @@ html { scroll-behavior: smooth; }
 /* ============ FILTER CHIPS (shared pattern) ============ */
 .pb-filter-row { display: flex; flex-wrap: wrap; gap: var(--fam-gap,10px); margin-bottom: 18px; justify-content: center; }
 .pb-chip { font-family: inherit; }
+.pb-chip.is-on { background: #58554d !important; color: #fff !important; }
 
 /* ============ US MAP ============ */
 .pb-map-wrap { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 16px 16px 10px; margin-bottom: 20px; overflow-x: auto; }
@@ -237,7 +238,7 @@ html { scroll-behavior: smooth; }
 }
 
 @media (max-width: 600px) and (pointer: coarse) {
-  .pb-nav { display: grid; grid-template-columns: repeat(2, 1fr); gap: 0; }
+  .pb-nav { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0; }
   .pb-nav a { height: 46px; padding: 4px 6px; border-radius: 0; line-height: 1.12; white-space: normal; text-align: center; }
   .pb-toolbelt { grid-template-columns: 1fr; }
   .pb-podium { grid-template-columns: 1fr; gap: 8px; }
@@ -289,7 +290,7 @@ html { scroll-behavior: smooth; }
 </head>
 <body>
 
-<div id="toolbar-mount" data-depth="2" data-maxwidth="940" data-updated="2026-09-18"></div>
+<div id="toolbar-mount" data-depth="2" data-maxwidth="940" data-updated="2026-09-19"></div>
 <script src="/assets/toolbar.js?v=127"></script>
 <script src="/assets/flag-render.js"></script>
 
@@ -297,18 +298,9 @@ html { scroll-behavior: smooth; }
     <span class="eb-kicker">Best Places to Play Pickleball</span>
     <div class="eb-copy">
       <h1 class="eb-title">Where the game is <em>biggest.</em></h1>
-      <p class="eb-intro">The cities and resorts where the game is biggest — chosen on court count, how much dedicated open play they run, and how easy it is for a visitor with no membership to get on a court. US hotspots first, then the rest of the world, with a court finder for any city you are heading to and the numbers behind the sport's growth.</p>
+      <p class="eb-intro">The US cities and resorts where the game is biggest — chosen on court access, how much dedicated open play they run, and how easy it is for a visitor with no membership to get on court. Use the court finders for any city, check the current growth numbers, and confirm tournament dates before planning a trip.</p>
     </div>
-    <div class="eb-graphic" aria-hidden="true"><svg viewBox="0 0 24 24" aria-hidden="true"><defs>
-      <linearGradient id="isl-mid4" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#cba85c"/><stop offset="1" stop-color="#6e5527"/></linearGradient>
-      <linearGradient id="cyn-mid4" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#a67f52"/><stop offset="1" stop-color="#533c22"/></linearGradient>
-    </defs>
-      <ellipse cx="10.4" cy="9.4" rx="6.6" ry="7.4" transform="rotate(-24 10.4 9.4)" fill="url(#isl-mid4)" stroke="#6e5527" stroke-width="0.5"/>
-      <ellipse cx="10.4" cy="9.4" rx="6.6" ry="7.4" transform="rotate(-24 10.4 9.4)" fill="url(#gm-gloss)"/>
-      <rect x="9" y="16.2" width="2.8" height="6" rx="1.2" fill="url(#cyn-mid4)" stroke="#533c22" stroke-width="0.5"/>
-      <circle cx="18.4" cy="17.4" r="3.4" fill="url(#isl-mid4)" stroke="#6e5527" stroke-width="0.5"/>
-      <g fill="#6e5527" opacity="0.55"><circle cx="17.4" cy="15.8" r="0.35"/><circle cx="19.4" cy="17.4" r="0.35"/><circle cx="18.2" cy="19" r="0.35"/><circle cx="16.8" cy="17.6" r="0.35"/></g>
-    </svg></div>
+    <div class="eb-graphic" aria-hidden="true"><svg class="gm-icon" data-icon="paddle" data-role="hero" viewBox="0 0 24 24" aria-hidden="true"><use href="#gm-i-paddle"/></svg></div>
   </div>
 
 <div id="pb-map-tooltip" class="pb-map-tooltip"></div>
@@ -323,7 +315,6 @@ html { scroll-behavior: smooth; }
   <nav class="pb-nav" aria-label="Jump to section">
     <a href="#sec-finder">Find Courts</a>
     <a href="#sec-us">US Hotspots</a>
-    <a href="#sec-world">World Hotspots</a>
     <a href="#sec-growth">Stats &amp; Growth</a>
   </nav>
 
@@ -376,12 +367,6 @@ html { scroll-behavior: smooth; }
 
 <div id="below-us-grid">
 
-  <!-- COURTS BY STATE -->
-  <div class="section-title" id="sec-states">Courts by State — Top 15</div>
-  <div class="pb-bubble-wrap">
-    <div class="pb-bubble-cloud" id="state-bubbles"></div>
-  </div>
-
   <!-- STATS & GROWTH -->
   <div class="section-title" id="sec-growth">Stats &amp; Growth</div>
   <div class="pb-rings-grid">
@@ -393,11 +378,8 @@ html { scroll-behavior: smooth; }
       </div>
     </div>
     <div class="pb-ring-wrap">
-      <div class="pb-ring-title">Player Demographics by Age</div>
-      <div class="pb-ring-row">
-        <div class="pb-donut" id="age-donut"></div>
-        <div class="pb-donut-legend" id="age-legend"></div>
-      </div>
+      <div class="pb-ring-title">Who is playing now</div>
+      <div class="pb-tip-body"><strong>Ages 13–24 now have the highest participation rate.</strong> Women account for 42.9% of US players, up from 38.6% in 2020. Those are the current demographic findings published by <a href="https://sfia.org/resources/sfia-releases-2026-pickleball-single-sport-report-team-sports-reports-to-follow/" target="_blank" rel="noopener">SFIA in June 2026</a>.</div>
     </div>
   </div>
 
@@ -408,11 +390,13 @@ html { scroll-behavior: smooth; }
   <!-- TOURNAMENTS -->
   <div class="section-title" id="sec-tournaments">Major Tournaments &amp; Pro Tours</div>
   <div class="pb-timeline-wrap">
-    <div class="pb-timeline-title">2025 Pro Tour Calendar</div>
+    <div class="pb-timeline-title">Late 2026 tournament calendar</div>
     <div class="pb-timeline-scroll">
       <div class="pb-timeline" id="tour-timeline"></div>
     </div>
   </div>
+
+  <div class="pb-toolbelt-head">Calendar checked against the <a href="https://www.ppatour.com/events/" target="_blank" rel="noopener">PPA Tour schedule</a>, <a href="https://www.theapp.global/" target="_blank" rel="noopener">APP Tour schedule</a>, and <a href="https://usapickleball.org/" target="_blank" rel="noopener">USA Pickleball</a>. Dates and venues can change; confirm with the organizer before booking travel.</div>
 
   <div class="pb-tips-grid">
     <div class="pb-tip-card">
@@ -428,35 +412,6 @@ html { scroll-behavior: smooth; }
       <div class="pb-tip-body">A pickleball paddle fits in a carry-on backpack. Most courts rent balls for free or sell them at reception. Announce your DUPR rating when joining open play so you're matched well. Arrive with a loaner paddle story if needed.</div>
     </div>
   </div>
-
-  <!-- WORLD HOTSPOTS -->
-  <div class="section-title" id="sec-world">Pickleball — Where in the World</div>
-
-  <div class="pb-scoreboard pb-sb-light">
-    <div class="pb-scoreboard-track" id="world-scoreboard"></div>
-  </div>
-
-  <div class="pb-map-wrap">
-    <div id="pb-world-map"></div>
-    <div class="pb-legend">
-      <div class="pb-leg"><div class="pb-leg-box pb-leg-1"></div> Dominant</div>
-      <div class="pb-leg"><div class="pb-leg-box pb-leg-2"></div> Established</div>
-      <div class="pb-leg"><div class="pb-leg-box pb-leg-3"></div> Growing</div>
-      <div class="pb-leg"><div class="pb-leg-box pb-leg-4"></div> Emerging</div>
-    </div>
-  </div>
-
-  <div class="pb-filter-row" id="world-filters">
-    <span class="pb-chip is-on pill-badge sb-light-grey hov-darken" data-wf="all" role="button" tabindex="0" aria-pressed="true">All Countries</span>
-    <span class="pb-chip pill-badge sb-green hov-darken" data-wf="dominant" role="button" tabindex="0">Dominant</span>
-    <span class="pb-chip pill-badge sb-blue hov-darken" data-wf="established" role="button" tabindex="0">Established</span>
-    <span class="pb-chip pill-badge sb-teal hov-darken" data-wf="growing" role="button" tabindex="0">Growing</span>
-    <span class="pb-chip pill-badge sb-gold hov-darken" data-wf="emerging" role="button" tabindex="0">Emerging</span>
-  </div>
-
-  <div class="pb-medal-grid" id="world-medals"></div>
-
-  <div class="pb-wbar-wrap" id="world-bars"></div>
 
 </div>
 
@@ -576,37 +531,18 @@ var CITIES = [
          ['indoor','Chicken N Pickle','Indoor/outdoor complex · food + bar on-site · 2571 Glenfield Ave']]}
 ];
 
-var STATES = [
-  {st:'Florida',        abbr:'FL', courts:1400, players:'4.2M', top:'Naples'},
-  {st:'California',     abbr:'CA', courts:1200, players:'3.8M', top:'Palm Desert'},
-  {st:'Arizona',        abbr:'AZ', courts:980,  players:'3.1M', top:'Scottsdale'},
-  {st:'Texas',          abbr:'TX', courts:870,  players:'2.9M', top:'Austin'},
-  {st:'North Carolina', abbr:'NC', courts:650,  players:'2.0M', top:'Charlotte'},
-  {st:'Washington',     abbr:'WA', courts:600,  players:'1.8M', top:'Seattle/Bainbridge'},
-  {st:'Colorado',       abbr:'CO', courts:560,  players:'1.6M', top:'Denver'},
-  {st:'Georgia',        abbr:'GA', courts:520,  players:'1.5M', top:'Atlanta'},
-  {st:'Utah',           abbr:'UT', courts:500,  players:'1.4M', top:'St. George'},
-  {st:'Tennessee',      abbr:'TN', courts:440,  players:'1.2M', top:'Nashville'},
-  {st:'Oregon',         abbr:'OR', courts:390,  players:'1.1M', top:'Portland'},
-  {st:'Nevada',         abbr:'NV', courts:360,  players:'1.0M', top:'Las Vegas'},
-  {st:'Pennsylvania',   abbr:'PA', courts:340,  players:'0.9M', top:'Philadelphia'},
-  {st:'New York',       abbr:'NY', courts:320,  players:'0.9M', top:'New York City'},
-  {st:'Michigan',       abbr:'MI', courts:300,  players:'0.8M', top:'Grand Rapids'}
-];
-
 var GROWTH = [{y:'2020',v:4.2},{y:'2021',v:4.8},{y:'2022',v:8.9},{y:'2023',v:13.6},{y:'2024',v:19.8},{y:'2025',v:24.3}];
-var AGE = [{g:'18–34',pct:28,color:'#C04E1A'},{g:'35–49',pct:22,color:'#D4663A'},{g:'50–64',pct:33,color:'#e8b87a'},{g:'65+',pct:17,color:'#ece6dd'}];
 
 var TIER_META = {major:{label:'Major',fam:'sb-gold'}, ppa:{label:'PPA',fam:'sb-green'}, app:{label:'APP',fam:'sb-blue'}};
 var TOURNAMENTS = [
-  {name:'US Open Pickleball Championships',loc:'Naples, FL',month:3,tier:'major'},
-  {name:'PPA Masters — Indian Wells',loc:'Palm Desert, CA',month:2,tier:'ppa'},
-  {name:'APP Slam at WestWorld',loc:'Scottsdale, AZ',month:0,tier:'app'},
-  {name:'PPA ATX Slam',loc:'Austin, TX',month:1,tier:'ppa'},
-  {name:'APP Houston Open',loc:'Houston, TX',month:4,tier:'app'},
-  {name:'Huntsman World Senior Games',loc:'St. George, UT',month:9,tier:'major'},
-  {name:'National Pickleball Championships',loc:'Mesa, AZ',month:10,tier:'major'},
-  {name:'US Pickleball National Championships',loc:'Surprise, AZ',month:10,tier:'major'}
+  {name:'PPA Arizona Open',loc:'Mesa, AZ · Sep 14–20',month:8,tier:'ppa'},
+  {name:'PPA Las Vegas Open',loc:'Las Vegas, NV · Sep 28–Oct 4',month:8,tier:'ppa'},
+  {name:'APP Columbus Open',loc:'Columbus, OH · Oct 1–4',month:9,tier:'app'},
+  {name:'PPA Chicago Cup',loc:'Chicago, IL · Oct 5–11',month:9,tier:'ppa'},
+  {name:'USA Pickleball National Championships',loc:'San Diego, CA · Oct 31–Nov 8',month:9,tier:'major'},
+  {name:'PPA Pickleball World Championships',loc:'Farmers Branch, TX · Nov 2–8',month:10,tier:'ppa'},
+  {name:'PPA Daytona Beach Open',loc:'Holly Hill, FL · Nov 16–22',month:10,tier:'ppa'},
+  {name:'PPA Malibu',loc:'Malibu, CA · Dec 14–20',month:11,tier:'ppa'}
 ];
 var MONTHS = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
 
@@ -638,9 +574,9 @@ function esc(s){ return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;'); }
    ============================================================ */
 (function(){
   var DATA=[
-    ['24.3M','US players (2025)'],['82,000+','US pickleball courts'],['#1','fastest-growing US sport · 5 yrs running'],
-    ['172%','player growth · past 3 yrs'],['100+','countries playing'],['$31M+','pro prize money (2026 PPA+MLP)'],
-    ['2M+','DUPR rated players worldwide'],['18,258','US court locations (venues)'],['1976','first official tournament · Tukwila, WA']
+    ['24.3M','US players in 2025 · SFIA'],['5 years','fastest-growing US sport · SFIA'],
+    ['171.8%','US growth from 2022–2025 · SFIA'],['7.5M','core US players in 2025 · SFIA'],
+    ['42.9%','women among US players · SFIA'],['13–24','highest-participation age group · SFIA']
   ];
   var el=document.getElementById('hero-scoreboard');
   if(!el) return;
@@ -657,9 +593,7 @@ function esc(s){ return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;'); }
     ['https://usapickleball.org/places-to-play/','USA Pickleball Places2Play','Official US database · 82,000+ courts · filter indoor/outdoor'],
     ['https://www.google.com/maps/search/pickleball+courts+near+me/','Google Maps','Fastest search · hours, reviews & directions'],
     ['https://www.globalpickleball.network/pickleball-courts/courts','Global Pickleball Network','International community directory · courts worldwide'],
-    ['https://www.pickleheads.com/courts','Pickleheads','Courts + open play sessions near you'],
-    ['https://globalpickleballfederation.org/court-locator/','Global Pickleball Federation','Worldwide court locator · 18,700+ places'],
-    ['https://www.worldpickleballfederation.org','World Pickleball Federation','Global governing body · rules & rankings · est. 2025 merger']
+    ['https://www.pickleheads.com/courts','Pickleheads','Courts + open play sessions near you']
   ];
   var el=document.getElementById('toolbelt');
   if(!el) return;
@@ -852,28 +786,6 @@ function cityNameHTML(c){
 })();
 
 /* ============================================================
-   STATE BUBBLE CLOUD
-   ============================================================ */
-(function(){
-  var el=document.getElementById('state-bubbles');
-  if(!el) return;
-  var max=STATES[0].courts, min=STATES[STATES.length-1].courts;
-  var maxD=132, minD=54;
-  el.innerHTML=STATES.map(function(s){
-    var pct=(s.courts-min)/(max-min);
-    var d=Math.round(minD+pct*(maxD-minD));
-    var fs=Math.max(13,Math.round(d*0.22));
-    return '<div class="pb-bubble-item" title="'+esc(s.st)+' · '+s.courts+' courts · '+s.players+' players · top city '+esc(s.top)+'">'+
-      '<div class="pb-bubble" style="width:'+d+'px;height:'+d+'px">'+
-        '<div class="pb-bubble-name" style="font-size:'+fs+'px">'+esc(s.abbr)+'</div>'+
-        '<div class="pb-bubble-val" style="font-size:'+Math.max(8,Math.round(fs*0.5))+'px">'+s.courts.toLocaleString()+'</div>'+
-      '</div>'+
-      '<div class="pb-bubble-caption">'+esc(s.st)+'</div>'+
-    '</div>';
-  }).join('');
-})();
-
-/* ============================================================
    GROWTH RINGS
    ============================================================ */
 (function(){
@@ -897,37 +809,13 @@ function cityNameHTML(c){
 })();
 
 /* ============================================================
-   AGE DONUT
-   ============================================================ */
-(function(){
-  var el=document.getElementById('age-donut');
-  var leg=document.getElementById('age-legend');
-  if(!el) return;
-  var acc=0, stops=[];
-  AGE.forEach(function(d){
-    var start=acc/100*360;
-    acc+=d.pct;
-    var end=acc/100*360;
-    stops.push(d.color+' '+start.toFixed(1)+'deg '+end.toFixed(1)+'deg');
-  });
-  el.style.background='conic-gradient('+stops.join(',')+')';
-  if(leg){
-    leg.innerHTML=AGE.map(function(d){
-      return '<div class="pb-donut-leg-row"><div class="pb-donut-dot" style="background:'+d.color+'"></div><div class="pb-donut-leg-lbl">'+d.g+'</div><div class="pb-donut-leg-val">'+d.pct+'%</div></div>';
-    }).join('');
-  }
-})();
-
-/* ============================================================
    GROWTH BOTTOM SCOREBOARD + WORLD SCOREBOARD
    ============================================================ */
 (function(){
   var GROWTH_STATS=[
-    ['1965','year invented · Bainbridge Island, WA'],['11 min','avg game time · beginner level'],
-    ['39','new courts per day · 2025 peak'],['31%','players under age 35'],
-    ['7.5M','core players · 8+ games/yr'],['4.5M','new players joined in 2025'],
-    ['~48 yrs','median player age (US, 2025)'],['25+','avg sessions/yr · core players'],
-    ['1,330','US players per court venue']
+    ['1965','year invented · Bainbridge Island, WA'],['479%','US participation growth · 2020–2025'],
+    ['7.5M','core US players · 8+ games/yr'],['42.9%','women among US players'],
+    ['13–24','highest-participation age group'],['24.3M','US players in 2025']
   ];
   var el=document.getElementById('growth-scoreboard');
   if(el){
@@ -935,10 +823,7 @@ function cityNameHTML(c){
       return '<div class="pb-sb-tile"><div class="pb-sb-val">'+esc(d[0])+'</div><div class="pb-sb-label">'+esc(d[1])+'</div></div>';
     }).join('');
   }
-  var WORLD_STATS=[
-    ['80+','countries playing'],['50M+','global players (APP est.)'],['2×','global growth · 3 years'],
-    ['21','national federations · World Pickleball Federation'],['6','continents with organized play']
-  ];
+  var WORLD_STATS=[];
   var wel=document.getElementById('world-scoreboard');
   if(wel){
     wel.innerHTML=WORLD_STATS.map(function(d){
@@ -1050,12 +935,25 @@ function cityNameHTML(c){
     if(belowGrid) belowGrid.style.display=searchTerm?'none':'';
   }
 
-  chips.forEach(function(chip){ chip.setAttribute('aria-pressed','false'); });
+  function syncChipState(){
+    chips.forEach(function(c){
+      var on=c.classList.contains('is-on');
+      c.setAttribute('aria-pressed',on?'true':'false');
+      if(on){
+        c.style.setProperty('background-color','#58554d','important');
+        c.style.setProperty('color','#fff','important');
+      } else {
+        c.style.removeProperty('background-color');
+        c.style.removeProperty('color');
+      }
+    });
+  }
+  syncChipState();
   chips.forEach(function(chip){
     chip.addEventListener('click',function(){
       chips.forEach(function(c){c.classList.remove('is-on'); c.setAttribute('aria-pressed','false');});
       chip.classList.add('is-on');
-      chip.setAttribute('aria-pressed','true');
+      syncChipState();
       activeFilter=chip.getAttribute('data-f');
       applyFilters();
     });

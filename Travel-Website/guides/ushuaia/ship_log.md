@@ -15,3 +15,5 @@
 2026-09-15 20:17 — ushuaia.html — GATES_PASSED — 968/968 passed, 0 failed
 2026-09-15 20:18 — ushuaia.html — FAIL @ publish — 0 checks — Publication did not complete; guide remains pending.
 2026-09-15 20:19 — ushuaia.html — FAIL @ publish — 0 checks — Targeted publication retry did not complete; retained job remains pending.
+2026-09-19 14:38 — ushuaia.html — VALIDATED — 975/975 passed, 0 failed
+2026-09-19 14:45 — ushuaia.html — GATES_PASSED — 975/975 passed, 0 failed

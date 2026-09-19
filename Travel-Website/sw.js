@@ -3863,7 +3863,8 @@
 /* 2026-09-19: pending-fixes-sweep — toolbar.js restore flight-nav dark-mode icon colors (slate/tire), add max-width/box-sizing to mobile menu CSS, fix RES_GROUPS Money link (local-prices→average-costs). MIN_VERSIONS['toolbar.js'] to 1427. CACHE to v2279. */
 /* 2026-09-19: Add Pilgrimage Routes to Trains navigation and align Train Passes icon toolbar.js -> v1426. CACHE to v2278. */
 /* 2026-09-19: restore canonical airline navigation icon toolbar.js -> v1428. CACHE to v2280. */
-var CACHE = 'travel-cache-v2284';
+/* 2026-09-19: equalize pill rows after intrinsic reflow toolbar.js -> v1429. CACHE to v2285. */
+var CACHE = 'travel-cache-v2285';
 /* 2026-08-27: airlines.css's .card-tags align-items fix changed a shared
    asset without raising its own floor -- MIN_VERSIONS['airlines.css'] to
    6, CACHE to v1662. */
@@ -3929,7 +3930,7 @@ var ICS_OUTBOX = 'gmd-ics-outbox';
    tour-list calendars share the aligned factual-icon frame. */
 /* 2026-09-16: overview category icons use one fixed 20px frame; Read More uses the stop-card fill with the duration control's gold border. */
 /* 2026-09-16: restore warm guide facts, align icons, use catalogue 2214 for tour transfers, and retire Also in Country. */
-var MIN_VERSIONS = { 'guide-style.css': 348,'toolbar.js': 1428, 'mobile.css': 105, 'web-travel-style.css': 318, 'guides-index-style.css': 70,'read-about.css': 11, 'best-of-features.js': 12, 'best-of-cross-data.js': 27, 'weather.js': 88,'trains.css': 36, 'trains.js': 7, 'airlines.css': 9, 'airlines.js': 12, 'passport.js': 6, 'search-autocomplete.js': 22, 'flag-render.js': 3, 'site-footer.js': 3 };
+var MIN_VERSIONS = { 'guide-style.css': 348,'toolbar.js': 1429, 'mobile.css': 105, 'web-travel-style.css': 318, 'guides-index-style.css': 70,'read-about.css': 11, 'best-of-features.js': 12, 'best-of-cross-data.js': 27, 'weather.js': 88,'trains.css': 36, 'trains.js': 7, 'airlines.css': 9, 'airlines.js': 12, 'passport.js': 6, 'search-autocomplete.js': 22, 'flag-render.js': 3, 'site-footer.js': 3 };
 
 function rewriteAssetUrl(urlStr) {
   var u;

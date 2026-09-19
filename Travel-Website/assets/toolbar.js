@@ -2520,6 +2520,11 @@ window.TVE.home = (function () {
       var max = 0;
       sized.forEach(function (p) { max = Math.max(max, p.getBoundingClientRect().width); });
       sized.forEach(function (p) { p.style.minWidth = max + 'px'; });
+      /* Setting the first minimum can expose a slightly wider intrinsic label
+         after flex reflow. Measure the rendered result once more so every pill
+         receives the true final maximum rather than the pre-reflow estimate. */
+      sized.forEach(function (p) { max = Math.max(max, p.getBoundingClientRect().width); });
+      sized.forEach(function (p) { p.style.minWidth = max + 'px'; });
       /* Several of these rows are hard-coded flex-wrap:nowrap on desktop (a
          page author's "keep it on one line" — it fit before every pill grew
          to match the widest). A nowrap flex row with a width:auto container

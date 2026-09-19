@@ -249,7 +249,7 @@
       chips.appendChild(allChip);
       presentConts.forEach(function (c) {
         var chip = el('button', 'bo-chip', c);
-        chip.classList.add('selection-pill', continentTones[c], 'hov-darken');
+        chip.classList.add('selection-pill', continentTones[c] || 'cp-light-grey', 'hov-darken');
         chip.type = 'button';
         chip.setAttribute('aria-pressed', 'false');
         chip.dataset.cont = c;

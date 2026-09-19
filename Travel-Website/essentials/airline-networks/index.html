@@ -148,6 +148,7 @@
   .filter-bar { margin-bottom: 4px; }
 /* unified filter search */
 .filter-bar{display:flex;flex-direction:column;align-items:center;gap:14px;margin-bottom:18px;}
+.filter-count{font-size:16px;line-height:1.4;color:var(--muted);}
 /* uniform comfortable page gutter */
 /* hide empty-state until an empty search */
 .empty-state{display:none;}
@@ -295,6 +296,7 @@ body.is-searching #route-nav.filter-bar { display:flex !important; }
 <div class="wrap">
   <div class="filter-bar" id="route-nav">
     <input class="search-input" id="destFilter" type="search" placeholder="City or airport code" aria-label="Filter destinations" autocomplete="off">
+    <span class="filter-count" id="filterCount" aria-live="polite" hidden></span>
   </div>
   <!-- Narrows the page to one carrier. "All three" is the shipped default and
        stays that way: the page exists to answer a question across the three,
@@ -1950,6 +1952,7 @@ body.is-searching #route-nav.filter-bar { display:flex !important; }
    and a Polaris pill means nothing to a Delta hub. */
 (function(){
   var filterInput=document.getElementById('destFilter');
+  var filterCount=document.getElementById('filterCount');
   var noResults=document.getElementById('noResults');
   var blocks=[].slice.call(document.querySelectorAll('.carrier-block'));
   var strip=document.getElementById('carrierStrip');
@@ -1965,11 +1968,13 @@ body.is-searching #route-nav.filter-bar { display:flex !important; }
   function runFilter(){
     var q=norm(filterInput?filterInput.value.trim():'');
     var totalShown=0;
+    var countActive=!!q||carrier!=='all';
     blocks.forEach(function(block){
       var code=block.dataset.carrier;
       var st=state[code];
       var tiersOn=anySelected(st.tiers),tagsOn=anySelected(st.tags);
       var active=q||tiersOn||tagsOn;
+      if(active)countActive=true;
       var shown=0;
       block.querySelectorAll('.dest-card').forEach(function(c){
         var textOk=!q||norm(c.textContent).indexOf(q)>-1;
@@ -1999,6 +2004,10 @@ body.is-searching #route-nav.filter-bar { display:flex !important; }
       if(!offByStrip)totalShown+=shown;
     });
     if(noResults)noResults.style.display=(totalShown===0)?'block':'none';
+    if(filterCount){
+      filterCount.hidden=!countActive;
+      filterCount.textContent=countActive?(totalShown+' destination'+(totalShown===1?'':'s')):'';
+    }
     var ss=document.getElementById('_search_hide');
     if(!ss){ss=document.createElement('style');ss.id='_search_hide';document.head.appendChild(ss);}
     ss.textContent=q?'.filter-row,.hub-strength,.hub-header,.region-header{display:none!important;visibility:hidden!important}':'';

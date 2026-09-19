@@ -1514,9 +1514,9 @@ a.ask-card:focus-visible .ask-name { color: var(--rust, #C04E1A); }
   border-color: var(--sp-ink); color: var(--sp-ink); box-shadow: none;
 }
 
-/* On a phone the two selection actions stack to full width. That keeps
-   both labels readable and gives the destructive action an unmistakable target. */
-@media (max-width: 560px) {
+/* On a coarse-pointer phone the two selection actions stack to full width.
+   A narrowed fine-pointer desktop keeps the desktop action layout. */
+@media (max-width: 560px) and (pointer: coarse) {
   #tp-compare .cmp-sel-bar { justify-content: stretch; }
   #tp-compare .cmp-go-btn, #tp-compare .cmp-exit-btn {
     flex: 1 1 100%; width: 100%; margin-left: 0;
@@ -2105,9 +2105,9 @@ summary.res-head:focus-visible { outline: 2px solid var(--rust, #C04E1A); outlin
 @media (prefers-color-scheme: dark) {
   .res-sub > summary { border-bottom-color: rgba(232,228,220,0.09); }
 }
-/* Phone tap targets remain at least 44px even when a test browser reports a
-   fine primary pointer at phone width; real coarse-pointer phones get the same rule. */
-@media (max-width: 600px) {
+/* Real phone tap targets stay at least 44px. Keep the pointer gate so a
+   narrowed fine-pointer desktop does not silently switch to mobile layout. */
+@media (max-width: 600px) and (pointer: coarse) {
   #tp-compare .cmp-chip-x { display: inline-flex; align-items: center; justify-content: center; padding: 4px 8px; min-height: 44px; min-width: 44px; }
   #tp-compare .cmp-go-btn, #tp-compare .cmp-exit-btn { min-height: 44px; min-width: 44px; }
 }
@@ -2992,7 +2992,7 @@ window.lpGuideCard = function (href, flag, name, extra) {
          here would contradict the column it introduces. -->
     <div class="cmpx-pick">
       <label for="cmpx-search">Search destinations</label>
-      <input class="search-input" id="cmpx-search" type="search" placeholder="City or country" autocomplete="off" spellcheck="false">
+      <input class="search-input" id="cmpx-search" type="search" placeholder="City or country" aria-label="Search destinations" autocomplete="off" spellcheck="false">
     </div>
     <div class="cmpx-fields" aria-label="Narrow destinations">
       <div class="fnd-row">
@@ -6525,7 +6525,7 @@ var VISITORS_DATA = {"Yogyakarta":"38M","abu-dhabi":"5M","agra":"1.47M (2024 int
         values.innerHTML = state[dim].map(function (value) {
           return '<button type="button" class="cmpx-value" data-dim="' + dim + '" data-value="' + esc(value) +
                  '" aria-label="Remove ' + esc(labelFor(dim,value)) + '"><span>' + esc(labelFor(dim,value)) +
-                 '</span><span class="cmpx-value-x" aria-hidden="true">×</span></button>';
+                 '</span><span class="cmpx-value-x" aria-hidden="true">✕</span></button>';
         }).join('');
       });
       if (clearBtn) clearBtn.hidden = !(q || DIMS.some(function (d) { return state[d].length; }));

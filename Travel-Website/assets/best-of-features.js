@@ -76,7 +76,8 @@
     wrap.id = 'bofav-sprite';
     wrap.style.cssText = 'position:absolute;width:0;height:0;overflow:hidden';
     wrap.innerHTML =
-      '<style>.bo-heart{width:1.2em;height:1.2em;vertical-align:-.2em;display:inline-block}</style>' +
+      '<style>.bo-heart,.bo-compare-icon,.bo-close-icon{width:1.2em;height:1.2em;vertical-align:-.2em;display:inline-block}' +
+        '.bo-star-icon{width:1em;height:1em;display:block;opacity:.35}.bo-star.bo-active .bo-star-icon,.bo-compare-col-star.bo-active .bo-star-icon{opacity:1}</style>' +
       '<svg width="0" height="0" aria-hidden="true"><defs>' +
       '<linearGradient id="bofav-rose" x1="0" y1="0" x2="0" y2="1">' +
         '<stop offset="0" stop-color="#ff3d7a"/><stop offset="1" stop-color="#bf2e5b"/></linearGradient>' +
@@ -85,11 +86,23 @@
       '<linearGradient id="bofav-gloss" x1="0" y1="0" x2="0.55" y2="1">' +
         '<stop offset="0" stop-color="#fff" stop-opacity="0.46"/><stop offset="0.42" stop-color="#fff" stop-opacity="0.14"/>' +
         '<stop offset="1" stop-color="#fff" stop-opacity="0"/></linearGradient>' +
+      '<linearGradient id="bofav-blue" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#7fa8c9"/><stop offset="1" stop-color="#3d5f7a"/></linearGradient>' +
+      '<linearGradient id="bofav-clay" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#c08078"/><stop offset="1" stop-color="#63362f"/></linearGradient>' +
+      '<linearGradient id="bofav-sun" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#e7c36d"/><stop offset="1" stop-color="#b88424"/></linearGradient>' +
+      '<linearGradient id="bofav-amber" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#e3aa4f"/><stop offset="1" stop-color="#8a5e1d"/></linearGradient>' +
+      '<linearGradient id="bofav-paper" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#f6ecdb"/><stop offset="1" stop-color="#e0d7c7"/></linearGradient>' +
+      '<linearGradient id="bofav-stone" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#a29a86"/><stop offset="1" stop-color="#4f4a3a"/></linearGradient>' +
       '<symbol id="bofav-heart-filled" viewBox="0 0 24 24">' +
         '<path d="' + HEART_PATH + '" fill="url(#bofav-rose)" stroke="#a82851" stroke-width="0.5" stroke-linejoin="round"/>' +
         '<path d="' + HEART_PATH + '" fill="url(#bofav-gloss)"/></symbol>' +
       '<symbol id="bofav-heart-outline" viewBox="0 0 24 24">' +
         '<path d="' + HEART_PATH + '" fill="url(#bofav-cream)" stroke="#a89c8e" stroke-width="1.3" stroke-linejoin="round"/></symbol>' +
+      '<symbol id="bofav-compare" viewBox="0 0 24 24"><rect x="2.2" y="3.2" width="8.8" height="17.6" rx="1.6" fill="url(#bofav-blue)" stroke="#3d5f7a" stroke-width="0.5"/>' +
+        '<rect x="13" y="3.2" width="8.8" height="17.6" rx="1.6" fill="url(#bofav-clay)" stroke="#63362f" stroke-width="0.5"/>' +
+        '<g fill="url(#bofav-paper)" stroke="#a89c8e" stroke-width="0.6" opacity="0.85"><rect x="4" y="6" width="5.2" height="1.4" rx="0.7"/><rect x="4" y="9" width="3.6" height="1.4" rx="0.7"/><rect x="14.8" y="6" width="5.2" height="1.4" rx="0.7"/><rect x="14.8" y="9" width="4.4" height="1.4" rx="0.7"/></g>' +
+        '<rect x="4" y="12.6" width="5.2" height="5.6" rx="0.8" fill="url(#bofav-paper)" stroke="#a89c8e" stroke-width="0.6" opacity="0.5"/><rect x="14.8" y="14.6" width="5.2" height="3.6" rx="0.8" fill="url(#bofav-paper)" stroke="#a89c8e" stroke-width="0.6" opacity="0.5"/></symbol>' +
+      '<symbol id="bofav-star" viewBox="0 0 24 24"><path d="M12 2.4l2.9 6 6.6.9-4.8 4.6 1.2 6.5L12 17.3l-5.9 3.1 1.2-6.5L2.5 9.3l6.6-.9z" fill="url(#bofav-sun)" stroke="#8a6c2f" stroke-width="0.5"/><path d="M12 2.4l2.9 6 6.6.9-4.8 4.6 1.2 6.5L12 17.3z" fill="url(#bofav-amber)" stroke="#8a5e1d" stroke-width="0.5" opacity="0.55"/><path d="M9.6 6.4 11 7.1l-.8 1.5-1.5.2z" fill="url(#bofav-paper)" stroke="#a89c8e" stroke-width="0.6" opacity="0.55"/></symbol>' +
+      '<symbol id="bofav-close" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10.6" fill="url(#bofav-stone)" stroke="#4f4a3a" stroke-width="0.5"/><path d="M8.2 8.2 15.8 15.8M15.8 8.2 8.2 15.8" stroke="#f6ecdb" stroke-width="2.6" stroke-linecap="round"/></symbol>' +
       '</defs></svg>';
     document.body.appendChild(wrap);
   }
@@ -98,10 +111,22 @@
     return '<svg class="bo-heart" viewBox="0 0 24 24" aria-hidden="true"><use href="#' +
       (active ? 'bofav-heart-filled' : 'bofav-heart-outline') + '"/></svg>';
   }
+  function compareIconHTML() {
+    ensureHeartSprite();
+    return '<svg class="bo-compare-icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#bofav-compare"/></svg>';
+  }
+  function starIconHTML() {
+    ensureHeartSprite();
+    return '<svg class="bo-star-icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#bofav-star"/></svg>';
+  }
+  function closeIconHTML() {
+    ensureHeartSprite();
+    return '<svg class="bo-close-icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#bofav-close"/></svg>';
+  }
 
   /* ── Compare state ── */
   var compareIds = [];
-  var compareBarEl, compareNamesEl, compareModalEl, compareModalGrid;
+  var compareBarEl, compareNamesEl, compareModalEl, compareModalGrid, compareCloseEl;
 
   /* ════════════════════════════════════════════════
      SHOWCASE PAGES (individual Best-Of pages)
@@ -430,19 +455,28 @@
     var overlay = el('div', 'bo-card-overlay');
 
     var favBtn = el('button', 'bo-fav-btn');
+    favBtn.type = 'button';
     favBtn.innerHTML = heartIconHTML(isFav(id));
     favBtn.title = 'Save to favorites';
+    favBtn.setAttribute('aria-label', 'Save ' + id + ' to favorites');
+    favBtn.setAttribute('aria-pressed', String(isFav(id)));
     if (isFav(id)) favBtn.classList.add('bo-active');
     favBtn.addEventListener('click', function (e) {
       e.stopPropagation();
       var active = toggleFav(id);
       favBtn.innerHTML = heartIconHTML(active);
       favBtn.classList.toggle('bo-active', active);
+      favBtn.setAttribute('aria-pressed', String(active));
+      favBtn.setAttribute('aria-label', (active ? 'Remove ' : 'Save ') + id + (active ? ' from favorites' : ' to favorites'));
     });
     overlay.appendChild(favBtn);
 
-    var cmpBtn = el('button', 'bo-cmp-btn', '⊞');
+    var cmpBtn = el('button', 'bo-cmp-btn');
+    cmpBtn.type = 'button';
+    cmpBtn.innerHTML = compareIconHTML();
     cmpBtn.title = 'Add to compare';
+    cmpBtn.setAttribute('aria-label', 'Add ' + id + ' to compare');
+    cmpBtn.setAttribute('aria-pressed', 'false');
     cmpBtn.addEventListener('click', function (e) {
       e.stopPropagation();
       var idx = compareIds.indexOf(id);
@@ -450,10 +484,14 @@
         compareIds.splice(idx, 1);
         cmpBtn.classList.remove('bo-active');
         cmpBtn.title = 'Add to compare';
+        cmpBtn.setAttribute('aria-label', 'Add ' + id + ' to compare');
+        cmpBtn.setAttribute('aria-pressed', 'false');
       } else if (compareIds.length < 3) {
         compareIds.push(id);
         cmpBtn.classList.add('bo-active');
         cmpBtn.title = 'Remove from compare';
+        cmpBtn.setAttribute('aria-label', 'Remove ' + id + ' from compare');
+        cmpBtn.setAttribute('aria-pressed', 'true');
       }
       updateCompareBar();
     });
@@ -464,23 +502,40 @@
     var nameEl = card.querySelector('.showcase-name');
     if (nameEl) {
       var starsRow = el('div', 'bo-stars');
+      starsRow.setAttribute('role', 'radiogroup');
+      starsRow.setAttribute('aria-label', 'Rate ' + id);
       var curR = getRating(id);
+      function syncStars(r) {
+        [].slice.call(starsRow.children).forEach(function (s, i) {
+          s.classList.toggle('bo-active', i < r);
+          s.setAttribute('aria-checked', String(i + 1 === r));
+        });
+      }
       for (var n = 1; n <= 5; n++) {
         (function (starEl, num) {
-          starEl.textContent = '★';
+          starEl.innerHTML = starIconHTML();
+          starEl.setAttribute('role', 'radio');
+          starEl.setAttribute('aria-label', num + (num === 1 ? ' star' : ' stars'));
+          starEl.setAttribute('aria-checked', String(num === curR));
+          starEl.tabIndex = 0;
           if (num <= curR) starEl.classList.add('bo-active');
           starEl.addEventListener('mouseenter', function () {
             [].slice.call(starsRow.children).forEach(function (s, i) { s.classList.toggle('bo-active', i < num); });
           });
           starEl.addEventListener('mouseleave', function () {
             var r = getRating(id);
-            [].slice.call(starsRow.children).forEach(function (s, i) { s.classList.toggle('bo-active', i < r); });
+            syncStars(r);
           });
           starEl.addEventListener('click', function (e) {
             e.stopPropagation();
             var newR = (getRating(id) === num) ? 0 : num;
             setRating(id, newR);
-            [].slice.call(starsRow.children).forEach(function (s, i) { s.classList.toggle('bo-active', i < newR); });
+            syncStars(newR);
+          });
+          starEl.addEventListener('keydown', function (e) {
+            if (e.key !== 'Enter' && e.key !== ' ') return;
+            e.preventDefault();
+            starEl.click();
           });
           starsRow.appendChild(starEl);
         })(el('span', 'bo-star'), n);
@@ -496,12 +551,18 @@
     compareNamesEl = el('div', 'bo-compare-names');
     bar.appendChild(compareNamesEl);
     var goBtn = el('button', 'bo-compare-go', 'Compare');
+    goBtn.type = 'button';
     goBtn.addEventListener('click', openCompareModal);
     var clrBtn = el('button', 'bo-compare-clr', 'Clear');
+    clrBtn.type = 'button';
     clrBtn.addEventListener('click', function () {
       compareIds = [];
       document.querySelectorAll('.bo-cmp-btn.bo-active').forEach(function (b) {
         b.classList.remove('bo-active'); b.title = 'Add to compare';
+        b.setAttribute('aria-pressed', 'false');
+        var card = b.closest('.showcase-card');
+        var name = card && card.querySelector('.showcase-name');
+        b.setAttribute('aria-label', 'Add ' + (name ? name.textContent.trim() : 'item') + ' to compare');
       });
       updateCompareBar();
     });
@@ -525,13 +586,23 @@
   /* ── Compare modal ── */
   function buildCompareModal() {
     var modal = el('div', 'bo-modal');
+    modal.setAttribute('role', 'dialog');
+    modal.setAttribute('aria-modal', 'true');
+    modal.setAttribute('aria-labelledby', 'bo-compare-title');
+    modal.setAttribute('aria-hidden', 'true');
     var bg = el('div', 'bo-modal-bg');
     bg.addEventListener('click', closeCompareModal);
     var box = el('div', 'bo-modal-box');
     var hdr = el('div', 'bo-modal-hdr');
-    hdr.appendChild(el('span', 'bo-modal-title', 'Compare'));
-    var cls = el('button', 'bo-modal-cls', '×');
+    var title = el('span', 'bo-modal-title', 'Compare');
+    title.id = 'bo-compare-title';
+    hdr.appendChild(title);
+    var cls = el('button', 'bo-modal-cls');
+    cls.type = 'button';
+    cls.innerHTML = closeIconHTML();
+    cls.setAttribute('aria-label', 'Close comparison');
     cls.addEventListener('click', closeCompareModal);
+    compareCloseEl = cls;
     hdr.appendChild(cls);
     compareModalGrid = el('div', 'bo-modal-grid');
     box.appendChild(hdr);
@@ -539,6 +610,9 @@
     modal.appendChild(bg);
     modal.appendChild(box);
     compareModalEl = modal;
+    modal.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape') closeCompareModal();
+    });
     return modal;
   }
 
@@ -567,8 +641,11 @@
 
       var r = getRating(id);
       var colStars = el('div', 'bo-compare-col-stars');
+      colStars.setAttribute('aria-label', r ? r + ' out of 5 stars' : 'Not rated');
       for (var i = 1; i <= 5; i++) {
-        var s = el('span', 'bo-compare-col-star', '★');
+        var s = el('span', 'bo-compare-col-star');
+        s.innerHTML = starIconHTML();
+        s.setAttribute('aria-hidden', 'true');
         if (i <= r) s.classList.add('bo-active');
         colStars.appendChild(s);
       }
@@ -593,11 +670,16 @@
     });
 
     compareModalEl.classList.add('bo-open');
+    compareModalEl.setAttribute('aria-hidden', 'false');
     document.body.style.overflow = 'hidden';
+    if (compareCloseEl) compareCloseEl.focus();
   }
 
   function closeCompareModal() {
-    if (compareModalEl) compareModalEl.classList.remove('bo-open');
+    if (compareModalEl) {
+      compareModalEl.classList.remove('bo-open');
+      compareModalEl.setAttribute('aria-hidden', 'true');
+    }
     document.body.style.overflow = '';
   }
 

@@ -14,3 +14,6 @@
 2026-09-10 21:59 — phnom-penh.html — GATES_PASSED — 974/974 passed, 0 failed
 2026-09-10 22:01 — phnom-penh.html — FAIL @ publish — 0 checks — Publication did not complete; guide remains pending.
 2026-09-10 22:37 — phnom-penh.html — PUBLISHED — committed 7bfdfad73, pushed to origin/main (830b5c8cf) — TB-10/carousel gate bypassed via --no-verify on explicit owner authorization ("commit skip validator now"); TB-7/TB-8/TB-10 checks were concurrently retired from validate_itinerary.py by the owner-directed prev-next-nav-removal rollout (private repo 1729ddfc) during this same build.
+2026-09-19 13:02 — Phnom-Penh.html — FAIL @ validate — 966/973 passed, 7 failed — <img src> inside .stop-photos starts with "photos/" (Photos Rules.html Storage —; READ ABOUT injection wrapped in DOMContentLoaded — not an IIFE or bare script (R; Read About page back-links to the current guide filename; NE-SECT extra-section completeness — built or justified by section-specific rese; FINAL GATE — guide is listed in index.html (end-of-validation gate; unlisted gui; FINAL GATE …
+2026-09-19 13:04 — phnom-penh.html — VALIDATED — 978/978 passed, 0 failed
+2026-09-19 14:17 — phnom-penh.html — VALIDATED — 978/978 passed, 0 failed

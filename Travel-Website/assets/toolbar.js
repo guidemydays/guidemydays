@@ -2520,11 +2520,6 @@ window.TVE.home = (function () {
       var max = 0;
       sized.forEach(function (p) { max = Math.max(max, p.getBoundingClientRect().width); });
       sized.forEach(function (p) { p.style.minWidth = max + 'px'; });
-      /* Setting the first minimum can expose a slightly wider intrinsic label
-         after flex reflow. Measure the rendered result once more so every pill
-         receives the true final maximum rather than the pre-reflow estimate. */
-      sized.forEach(function (p) { max = Math.max(max, p.getBoundingClientRect().width); });
-      sized.forEach(function (p) { p.style.minWidth = max + 'px'; });
       /* Several of these rows are hard-coded flex-wrap:nowrap on desktop (a
          page author's "keep it on one line" — it fit before every pill grew
          to match the widest). A nowrap flex row with a width:auto container
@@ -2550,12 +2545,6 @@ window.TVE.home = (function () {
   }
   window.addEventListener('load', _equalizePillRows);
   window.addEventListener('resize', _equalizePillRows);
-  /* Public Sans is injected above rather than blocking the document. Re-run
-     after its final metrics arrive so equal widths survive the font swap. */
-  if (document.fonts) {
-    document.fonts.ready.then(_equalizePillRows);
-    document.fonts.addEventListener('loadingdone', _equalizePillRows);
-  }
 
     function _equalizePairButtons() {
     var buttons = [].slice.call(document.querySelectorAll('.paired-btn'));

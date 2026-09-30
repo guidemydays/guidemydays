@@ -6,99 +6,119 @@
 <link rel="stylesheet" href="/assets/web-travel-style.css">
 <title>Private Airport Transfers — Booking Services and Travel Tips | Guide My Days</title>
 <style>
-/* Private Transfers — page-specific. "pt-" prefixed throughout; nothing here
-   redefines a shared color token, everything reads var(--fam-*) / var(--surface)
-   etc. so dark mode is inherited for free. cars.css is not loaded on this page —
-   the rc-* grid it shares with the car-rental pages is not used here. */
+/* Private Transfers — page-specific styles.
+   Design: new-4 "Name Board" applied to the live page structure.
+   pt- prefix throughout; nothing redefines a shared color token. */
 
-.pt-lede { font-size:16px; color: var(--text); line-height: 1.6; max-width: 760px; margin: 4px 0 24px; }
-
-/* ── Wow-fact bento panel ─────────────────────────────────────────────── */
-.pt-stats-head { font-size:16px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; color: var(--muted); margin-bottom: 12px; }
-.pt-bento { display: grid; grid-template-columns: 1.3fr 1fr; grid-template-rows: auto auto; gap: 14px; }
-.pt-tile {
-  border-radius: 14px; padding: 20px 22px; border: 1px solid var(--border2);
-  background: var(--surface); box-shadow: 0 1px 6px rgba(92,61,17,.05);
+:root {
+  --pt-amber: #b8791f;
+  --pt-fixed: #307b6d;
 }
-.pt-tile.big { grid-column: 1; grid-row: 1 / 3; }
-.pt-tile-icon { width: 40px; height: 40px; border-radius: 10px; display: flex; align-items: center; justify-content: center; margin-bottom: 12px; }
-.pt-tile-icon .gm-i { width: 22px; height: 22px; }
-.pt-tile[class*="cp-"] .pt-tile-icon { background: var(--sp-wash); color: var(--sp-ink); }
-.pt-num { font-size: 32px; font-weight: 800; color: var(--text); line-height: 1.05; letter-spacing: -0.01em; }
-.pt-tile-label { font-size:16px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; color: var(--muted); margin: 3px 0 9px; }
-.pt-tile-body { font-size:16px; color: var(--muted); line-height: 1.55; margin: 0; }
-.pt-bars { margin-top: 16px; display: flex; flex-direction: column; gap: 9px; }
-.pt-bar-row { display: flex; align-items: center; gap: 10px; }
-.pt-bar-label { font-size:16px; color: var(--muted); width: 104px; flex-shrink: 0; }
-.pt-bar-track { flex: 1; min-width: 40px; height: 8px; border-radius: 5px; background: var(--border2); overflow: hidden; }
-.pt-bar-fill { display: block; height: 100%; border-radius: 5px; }
-.pt-bar-fill.f1 { width: 14%; background: #2a7a66; }
-.pt-bar-fill.f2 { width: 46%; background: #d4b06a; }
-.pt-bar-fill.f3 { width: 100%; background: #9a2f22; }
-.pt-bar-val { font-size:16px; font-weight: 700; color: var(--text); width: 44px; text-align: right; flex-shrink: 0; }
-.pt-stats-src { font-size:16px; color: var(--muted); margin-top: 12px; line-height: 1.5; }
 
-/* ── Cross-link + cards kicker ────────────────────────────────────────── */
-.pt-cross { font-size:16px; color: var(--muted); line-height: 1.55; margin: 26px 0 6px; }
-.pt-cards-head { font-size:16px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; color: var(--muted); margin: 16px 0 12px; }
+/* ── Claim block ─────────────────────────────────────────────────── */
+.pt-claim {
+  font-size: 15.5px; line-height: 1.8; color: var(--muted);
+  background: var(--surface); border: 1px solid var(--border2);
+  border-left: 4px solid var(--pt-amber);
+  border-radius: 0 14px 14px 0;
+  padding: 22px 26px; margin: 28px 0 0;
+  box-shadow: 0 1px 2px rgba(23,23,26,.04), 0 14px 30px -20px rgba(23,23,26,.12);
+}
+.pt-claim b { color: var(--text); }
 
-/* ── Service tiles ─────────────────────────────────────────────────────── */
-.pt-cards { display: grid; grid-template-columns: repeat(auto-fill, minmax(270px, 1fr)); gap: 16px; }
+/* ── Section furniture ───────────────────────────────────────────── */
+.pt-section { margin-top: 52px; }
+.pt-sec-k {
+  font-family: ui-monospace, "SF Mono", SFMono-Regular, Menlo, Consolas, monospace;
+  font-size: 10.5px; letter-spacing: .26em; text-transform: uppercase;
+  color: var(--pt-amber); margin: 0 0 8px; display: block;
+}
+.pt-sec-h2 { font-size: 27px; margin: 0 0 6px; font-weight: 800; letter-spacing: -.02em; line-height: 1.2; color: var(--text); }
+.pt-sec-sub { color: var(--muted); font-size: 14.5px; margin: 0 0 26px; max-width: 72ch; }
+
+/* ── Filter chips ────────────────────────────────────────────────── */
+.pt-chips { display: flex; gap: 8px; flex-wrap: wrap; margin: 0 0 22px; }
+.pt-fchip {
+  display: inline-flex; align-items: center; justify-content: center;
+  font-size: 13px; font-weight: 700; border-radius: 999px; padding: 8px 18px;
+  cursor: pointer; border: 1px solid var(--border2);
+  background: var(--fc-w); color: var(--fc-i);
+  transition: filter .18s ease; -webkit-appearance: none; appearance: none;
+}
+.pt-fchip:hover { filter: brightness(.9); }
+.pt-fchip:focus-visible { outline: 2px solid var(--pt-amber); outline-offset: 3px; }
+.pt-fchip[aria-pressed="true"] { filter: brightness(.8); }
+.fc-all     { --fc-w: var(--surface); --fc-i: var(--text); }
+.fc-premium { --fc-w: #efe6dc; --fc-i: #5a3c22; }
+.fc-airport { --fc-w: #dfebf7; --fc-i: #1c4468; }
+.fc-budget  { --fc-w: #e2efe4; --fc-i: #2a5c33; }
+.fc-agg     { --fc-w: #f7edd4; --fc-i: #6d5310; }
+
+/* ── Service cards ───────────────────────────────────────────────── */
+.pt-cards { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 16px; }
 .pt-card {
-  background: var(--surface); border: 2px solid var(--border2); border-radius: 14px;
-  padding: 18px 20px 20px; display: flex; flex-direction: column; gap: 10px;
-  transition: box-shadow .15s, transform .15s, border-color .15s;
+  background: var(--surface); border: 1.5px solid var(--border2); border-radius: 16px;
+  padding: 22px 22px 20px; display: flex; flex-direction: column;
+  box-shadow: 0 1px 2px rgba(23,23,26,.04), 0 6px 18px -12px rgba(23,23,26,.14);
+  transition: transform .28s cubic-bezier(.22,1,.36,1), box-shadow .28s cubic-bezier(.22,1,.36,1);
 }
 .pt-card:hover {
-  box-shadow: 0 4px 16px rgba(92,61,17,.08); transform: translateY(-1px);
-  border-color: transparent; border-image: var(--banner-gradient) 1;
+  transform: translateY(-4px);
+  box-shadow: 0 1px 2px rgba(23,23,26,.05), 0 22px 40px -22px rgba(23,23,26,.28);
 }
-.pt-card.spot { grid-column: span 2; border-color: transparent; border-image: var(--banner-gradient) 1; }
-.pt-card-top { display: flex; flex-wrap: wrap; align-items: flex-start; justify-content: space-between; gap: 6px 10px; }
-.pt-card-name-row { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; min-width: 0; }
-.pt-card-name { font-size:16px; font-weight: 700; color: var(--text); }
-.pt-card-name a { color: inherit; text-decoration: none; }
-.pt-desc { font-size:16px; color: var(--muted); line-height: 1.5; margin: 0; }
-.pt-chips { display: flex; flex-wrap: wrap; gap: 6px; }
-.pt-chip { font-size:16px; color: var(--muted); background: var(--bg); border: 1px solid var(--border2); border-radius: 20px; padding: 3px 10px; line-height: 1.4; }
-.pt-verdict { font-size:16px; color: var(--text); line-height: 1.5; margin: 2px 0 0; padding-top: 10px; border-top: 1px solid var(--border2); }
-.pt-detail summary { font-size:16px; font-weight: 700; color: var(--text); cursor: pointer; list-style: none; display: flex; align-items: center; gap: 5px; padding: 2px 0; }
-.pt-detail summary::-webkit-details-marker { display: none; }
-.pt-detail summary::after { content: '\2304'; font-size:16px; transition: transform .18s; }
-.pt-detail[open] summary::after { transform: rotate(180deg); }
-.pt-review-list { margin: 8px 0 0; padding: 0; list-style: none; display: flex; flex-direction: column; gap: 5px; }
-.pt-review-list li { font-size:16px; color: var(--muted); line-height: 1.45; padding-left: 15px; position: relative; }
-.pt-review-list li.good::before { content: '+'; position: absolute; left: 0; color: var(--sp-ink); font-weight: 700; }
-.pt-review-list li.watch::before { content: '\2212'; position: absolute; left: 0; color: var(--muted); font-weight: 700; }
-.pt-actions { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 2px; }
-/* Was a hand-rolled pill: border-radius:20px (matches no approved shape —
-   badges are 4px, chevron-link-pill/selection-pill are stadium) and a
-   var(--bg) fill identical to the page background, so it read as barely a
-   button. Switched to the .chevron-link-pill spec (outbound-source card
-   link, § 10 of the pills doc) verbatim, minus its trailing chevron mark to
-   keep this row's existing plain-label look. 2026-08-28: hover now reads
-   the Neutral pill family's .nt-grey tokens (web-travel-style.css) instead
-   of hand-copying chevron-link-pill's own #f0ede8/#b0aca6 literals a
-   second time in a third place. */
-.pt-actions a { display: inline-flex; align-items: center; justify-content: center; font-size:16px; font-weight: 600; color: var(--muted); background: var(--warm, #fdf8f0); border: 1px solid var(--border2); border-radius: 8px; padding: 5px 10px; text-decoration: none; }
-.pt-actions a:hover { color: var(--nt-grey-ink); background: var(--nt-grey-wash); border-color: rgba(var(--nt-grey-rgb),.75); }
-.pt-actions a:visited { color: #6a6660; }
+.pt-card.spot { border-color: var(--pt-amber); border-width: 2px; }
+.pt-card.hide { display: none; }
 
-@media (max-width: 600px) and (pointer: coarse) {
-  .pt-bento { grid-template-columns: 1fr; grid-template-rows: none; }
-  .pt-tile.big { grid-column: 1; grid-row: auto; }
-  .pt-bar-label { width: 88px; }
-  .pt-cards { grid-template-columns: 1fr; }
-  .pt-card.spot { grid-column: span 1; }
+.pt-card-top { display: flex; align-items: flex-start; justify-content: space-between; gap: 10px; flex-wrap: wrap; margin-bottom: 10px; }
+.pt-card-name-row { display: flex; flex-direction: column; gap: 5px; min-width: 0; }
+.pt-card-name { font-size: 19px; font-weight: 800; letter-spacing: -.012em; }
+.pt-card-name a { color: var(--text); text-decoration: none; border-bottom: 2px solid var(--border2); }
+.pt-card-name a:hover { border-bottom-color: var(--pt-amber); }
+.pt-desc { font-size: 13.5px; line-height: 1.65; color: var(--muted); margin: 0 0 12px; }
+.pt-features { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 12px; }
+.pt-feature { font-size: 11.5px; font-weight: 600; color: var(--muted); background: var(--bg, #f4f1ea); border: 1px solid var(--border2); border-radius: 999px; padding: 3px 11px; }
+.pt-verdict {
+  font-size: 14px; line-height: 1.7; color: var(--text); margin: 0 0 14px;
+  padding-left: 13px; border-left: 2px solid var(--pt-amber);
 }
-@media (prefers-reduced-motion: reduce) {
-  .pt-card { transition: none; }
-  .pt-detail summary::after { transition: none; }
+.pt-detail { border-top: 1px solid var(--border2); padding-top: 12px; margin-top: auto; }
+.pt-detail summary {
+  cursor: pointer; list-style: none;
+  font-family: ui-monospace, "SF Mono", SFMono-Regular, Menlo, Consolas, monospace;
+  font-size: 10px; font-weight: 800; letter-spacing: .14em; text-transform: uppercase;
+  color: var(--muted); display: flex; justify-content: space-between; align-items: center;
+}
+.pt-detail summary::-webkit-details-marker { display: none; }
+.pt-detail summary::after { content: '+'; font-size: 17px; font-weight: 400; color: var(--muted); font-family: system-ui; }
+.pt-detail[open] summary::after { content: '\2013'; }
+.pt-detail ul { list-style: none; margin: 12px 0 0; padding: 0; display: flex; flex-direction: column; gap: 8px; }
+.pt-detail li { font-size: 13px; line-height: 1.6; color: var(--muted); padding-left: 20px; position: relative; }
+.pt-detail li::before { position: absolute; left: 0; top: 0; font-weight: 800; font-size: 13px; }
+.pt-detail li.good::before { content: '+'; color: var(--pt-fixed); }
+.pt-detail li.watch::before { content: '!'; color: #b6463f; }
+.pt-actions { display: flex; gap: 14px; flex-wrap: wrap; margin-top: 16px; padding-top: 13px; border-top: 1px solid var(--border2); }
+.pt-actions a { font-size: 12.5px; font-weight: 700; color: var(--pt-amber); text-decoration: none; border-bottom: 1px solid transparent; }
+.pt-actions a:hover { border-bottom-color: var(--pt-amber); }
+
+/* ── Cross-link ──────────────────────────────────────────────────── */
+.pt-crossnote { margin-top: 28px; font-size: 13.5px; color: var(--muted); border-left: 2px solid var(--border2); padding-left: 14px; line-height: 1.65; }
+
+@media (max-width: 600px) {
+  .pt-cards { grid-template-columns: 1fr; }
+  .pt-claim { padding: 18px; border-radius: 0 10px 10px 0; }
 }
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme="light"]) {
-    .chevron-link-pill { color: var(--text); }
+    --pt-amber: #d4962a;
+    .pt-fchip.fc-premium { --fc-w: #2a1e13; --fc-i: #d4a87c; }
+    .pt-fchip.fc-airport { --fc-w: #0f1e2e; --fc-i: #7eb5e0; }
+    .pt-fchip.fc-budget  { --fc-w: #142218; --fc-i: #7ec082; }
+    .pt-fchip.fc-agg     { --fc-w: #2a2008; --fc-i: #d4aa60; }
+    .pt-feature { background: rgba(255,255,255,.05); }
   }
+}
+@media (prefers-reduced-motion: reduce) {
+  .pt-card { transition: none; }
 }
 body .site-footer { font-size: 16px !important; color: var(--muted, #6a6660) !important; }
 body .site-footer a, body .site-footer a:visited { color: var(--muted, #6a6660) !important; }
@@ -134,27 +154,28 @@ body .site-footer a, body .site-footer a:visited { color: var(--muted, #6a6660) 
 <!-- seo:end -->
 </head>
 <body>
-<div id="toolbar-mount" data-depth="2" data-maxwidth="940" data-updated="2026-09-19"></div>
+<div id="toolbar-mount" data-depth="2" data-maxwidth="940" data-updated="2026-09-30"></div>
 <script src="/assets/toolbar.js?v=127"></script>
 
   <div class="hero-band eb-hero">
     <span class="eb-kicker">Private Transfers</span>
     <div class="eb-copy">
       <h1 class="eb-title">What separates a private transfer <em>from a taxi.</em></h1>
-      <p class="eb-intro">What separates a private transfer from a taxi, and who to book one through — the aggregators with the widest driver networks, the fixed-price airport specialists, and what the premium actually buys when a rental car is not the answer. Each carries a review and a link to its own customer reviews.</p>
+      <p class="eb-intro">A driver in the arrivals hall with your name on a sign, a confirmed price, and flight tracking so the wait adjusts to when you actually land. The services below cover the range from premium to budget, each reviewed with a verdict and a link to its own customer ratings.</p>
     </div>
     <div class="eb-graphic" aria-hidden="true"><svg viewBox="0 0 24 24" aria-hidden="true"><defs>
       <linearGradient id="ani-mid4" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#a89660"/><stop offset="1" stop-color="#52462a"/></linearGradient>
       <linearGradient id="ani-light4" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#e6ddb8"/><stop offset="1" stop-color="#a89660"/></linearGradient>
-      <linearGradient id="tire-dark" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#3a332e"/><stop offset="1" stop-color="#171412"/></linearGradient>
+      <linearGradient id="tire-dark4" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#3a332e"/><stop offset="1" stop-color="#171412"/></linearGradient>
+      <linearGradient id="gloss4" x1="0" y1="0" x2="0.55" y2="1"><stop offset="0" stop-color="#fff" stop-opacity="0.46"/><stop offset="0.42" stop-color="#fff" stop-opacity="0.14"/><stop offset="1" stop-color="#fff" stop-opacity="0"/></linearGradient>
     </defs>
       <path d="M4.4 13.6 6.2 8c.4-1 1.3-1.6 2.4-1.6h6.8c1.1 0 2 .6 2.4 1.6l1.8 5.6z" fill="url(#ani-mid4)" stroke="#52462a" stroke-width="0.5"/>
-      <path d="M4.4 13.6 6.2 8c.4-1 1.3-1.6 2.4-1.6h6.8c1.1 0 2 .6 2.4 1.6l1.8 5.6z" fill="url(#gm-gloss)"/>
+      <path d="M4.4 13.6 6.2 8c.4-1 1.3-1.6 2.4-1.6h6.8c1.1 0 2 .6 2.4 1.6l1.8 5.6z" fill="url(#gloss4)"/>
       <rect x="2" y="13.2" width="20" height="6" rx="2" fill="url(#ani-mid4)" stroke="#52462a" stroke-width="0.5"/>
-      <rect x="2" y="13.2" width="20" height="6" rx="2" fill="url(#gm-gloss)"/>
+      <rect x="2" y="13.2" width="20" height="6" rx="2" fill="url(#gloss4)"/>
       <rect x="6" y="8.8" width="4.4" height="2.6" rx="0.6" fill="url(#ani-light4)" stroke="#52462a" stroke-width="0.4"/>
-      <circle cx="6.6" cy="19.2" r="2.2" fill="url(#tire-dark)" stroke="#171412" stroke-width="0.5"/>
-      <circle cx="17.4" cy="19.2" r="2.2" fill="url(#tire-dark)" stroke="#171412" stroke-width="0.5"/>
+      <circle cx="6.6" cy="19.2" r="2.2" fill="url(#tire-dark4)" stroke="#171412" stroke-width="0.5"/>
+      <circle cx="17.4" cy="19.2" r="2.2" fill="url(#tire-dark4)" stroke="#171412" stroke-width="0.5"/>
       <circle cx="6.6" cy="19.2" r="0.9" fill="url(#ani-light4)"/>
       <circle cx="17.4" cy="19.2" r="0.9" fill="url(#ani-light4)"/>
     </svg></div>
@@ -162,218 +183,204 @@ body .site-footer a, body .site-footer a:visited { color: var(--muted, #6a6660) 
 
 <div class="wrap">
 
-<!-- paste once, anywhere in the page — Icons Library.html catalogue defs (ids 71, 565, 986, 447) -->
-<style>:root{--c-tire:#3a332e;--c-stone:#a89c8e;--c-paper:#fff;--c-cream:#f6ecdb;--c-tan:#fca240;--c-cocoa:#8a3d0c;--c-rust:#e25100;--c-clay:#ff661d;--c-red:#ff200c;--c-rose:#ff3d7a;--c-plum:#ad29e5;--c-sun:#ffc110;--c-amber:#ff7c08;--c-green:#4ad017;--c-leaf:#2f9106;--c-teal:#01d5bc;--c-blue:#0982ec;--c-navy:#0d4a86;--c-sky:#3dbaff;--c-grape:#6b2fa0;--c-wine:#8c1a10;--c-pine:#14663c;--c-slate:#566b7a;--c-paper-shade:#dad4cb;--c-cream-shade:#e0d7c7;--c-rim-warm:#c25a20;--c-rim-cool:#93a4b2;--c-tire-shade:#171412;--c-tire-rim:#26221e;--c-stone-shade:#80776c;--c-stone-rim:#6f675e;--c-tan-shade:#c57e32;--c-tan-rim:#a66b2a;--c-cocoa-shade:#572608;--c-cocoa-rim:#5b2808;--c-rust-shade:#a73c00;--c-rust-rim:#953500;--c-clay-shade:#c24e16;--c-clay-rim:#a84313;--c-red-shade:#bf1809;--c-red-rim:#a81508;--c-rose-shade:#bf2e5b;--c-rose-rim:#a82851;--c-plum-shade:#7d1ea5;--c-plum-rim:#721b97;--c-sun-shade:#c7970c;--c-sun-rim:#a87f0b;--c-amber-shade:#c45f06;--c-amber-rim:#a85205;--c-green-shade:#3aa212;--c-green-rim:#31890f;--c-leaf-shade:#236b04;--c-leaf-rim:#1f6004;--c-teal-shade:#01a693;--c-teal-rim:#018d7c;--c-blue-shade:#0760af;--c-blue-rim:#06569c;--c-navy-shade:#072a4c;--c-navy-rim:#093158;--c-sky-shade:#2f8fc4;--c-sky-rim:#287ba8;--c-grape-shade:#401c60;--c-grape-rim:#471f6a;--c-wine-shade:#4e0f09;--c-wine-rim:#5c110a;--c-pine-shade:#0d4227;--c-pine-rim:#0d4327;--c-slate-shade:#3c4b55;--c-slate-rim:#394751}.gm-i{width:1.2em;height:1.2em;vertical-align:-.25em;display:inline-block}</style>
-<svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs><linearGradient id="gm-gloss" x1="0" y1="0" x2="0.55" y2="1"><stop offset="0" stop-color="#fff" stop-opacity="0.46"/><stop offset="0.42" stop-color="#fff" stop-opacity="0.14"/><stop offset="1" stop-color="#fff" stop-opacity="0"/></linearGradient><radialGradient id="sph-black" cx="40%" cy="34%" r="82%"><stop offset="0%" stop-color="#7a7a7a"/><stop offset="46%" stop-color="#2c2c2c"/><stop offset="100%" stop-color="#040404"/></radialGradient><linearGradient id="gm-amber" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="var(--c-amber)"/><stop offset="1" stop-color="var(--c-amber-shade)"/></linearGradient><linearGradient id="gm-cocoa" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="var(--c-cocoa)"/><stop offset="1" stop-color="var(--c-cocoa-shade)"/></linearGradient><linearGradient id="gm-green" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="var(--c-green)"/><stop offset="1" stop-color="var(--c-green-shade)"/></linearGradient><linearGradient id="gm-navy" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="var(--c-navy)"/><stop offset="1" stop-color="var(--c-navy-shade)"/></linearGradient><linearGradient id="gm-red" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="var(--c-red)"/><stop offset="1" stop-color="var(--c-red-shade)"/></linearGradient><linearGradient id="gm-sky" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="var(--c-sky)"/><stop offset="1" stop-color="var(--c-sky-shade)"/></linearGradient><linearGradient id="gm-stone" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="var(--c-stone)"/><stop offset="1" stop-color="var(--c-stone-shade)"/></linearGradient><linearGradient id="gm-sun" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="var(--c-sun)"/><stop offset="1" stop-color="var(--c-sun-shade)"/></linearGradient><linearGradient id="gm-slate" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="var(--c-slate)"/><stop offset="1" stop-color="var(--c-slate-shade)"/></linearGradient><linearGradient id="gm-tire" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="var(--c-tire)"/><stop offset="1" stop-color="var(--c-tire-shade)"/></linearGradient><linearGradient id="gm-paper" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="var(--c-paper)"/><stop offset="1" stop-color="var(--c-paper-shade)"/></linearGradient><symbol id="gm-i-71" viewBox="0 0 24 24"><circle cx="8.6" cy="10.4" r="7.4" fill="url(#gm-navy)" stroke="var(--c-navy-rim)" stroke-width="0.5"/><circle cx="8.6" cy="10.4" r="5.8" fill="url(#gm-paper)" stroke="var(--c-rim-cool)" stroke-width="0.6"/><g fill="none" stroke="var(--c-stone)" stroke-width="1.05" stroke-linecap="round"><path d="M8.60 5.64L8.60 4.83"/><path d="M10.98 6.28L11.38 5.58"/><path d="M12.72 8.02L13.42 7.62"/><path d="M13.36 10.40L14.17 10.40"/><path d="M12.72 12.78L13.42 13.18"/><path d="M10.98 14.52L11.38 15.22"/><path d="M8.60 15.16L8.60 15.97"/><path d="M6.22 14.52L5.82 15.22"/><path d="M4.48 12.78L3.78 13.18"/><path d="M3.84 10.40L3.03 10.40"/><path d="M4.48 8.02L3.78 7.62"/><path d="M6.22 6.28L5.82 5.58"/></g><g fill="none" stroke="var(--c-tire)" stroke-linecap="round"><path d="M8.6 10.4L6.47 9.83" stroke-width="1.61"/><path d="M8.6 10.4L8.60 13.68" stroke-width="1.27"/></g><circle cx="8.6" cy="10.4" r="0.7" fill="url(#gm-red)" stroke="var(--c-red-rim)" stroke-width="0.5"/><rect x="14.4" y="16.4" width="7.6" height="1.6" rx="0.8" fill="url(#gm-cocoa)" stroke="var(--c-cocoa-rim)" stroke-width="0.5"/><rect x="14.4" y="3.6" width="7.6" height="1.6" rx="0.8" fill="url(#gm-cocoa)" stroke="var(--c-cocoa-rim)" stroke-width="0.5"/><path d="M15.2 5.2h6c0 1.9-1 3.2-3 4.5 2 1.3 3 2.6 3 4.5h-6c0-1.9 1-3.2 3-4.5-2-1.3-3-2.6-3-4.5z" fill="url(#gm-sky)" stroke="var(--c-sky-rim)" stroke-width="0.5" opacity="0.85"/><path d="M16 6.2h4.4L18.2 9.7z" fill="url(#gm-sun)" stroke="var(--c-sun-rim)" stroke-width="0.5"/><path d="M16.4 15.2c0-1.2.8-2 1.8-2s1.8.8 1.8 2z" fill="url(#gm-sun)" stroke="var(--c-sun-rim)" stroke-width="0.5"/></symbol><symbol id="gm-i-565" viewBox="0 0 24 24"><path d="M2 18.4a10 10 0 0 1 20 0z" fill="url(#gm-stone)" stroke="var(--c-stone-rim)" stroke-width="0.5"/><path d="M2 18.4A10 10 0 0 1 5.6 10.7L12 18.4z" fill="url(#gm-green)" stroke="var(--c-green-rim)" stroke-width="0.5"/><path d="M5.6 10.7A10 10 0 0 1 15.2 8.9L12 18.4z" fill="url(#gm-sun)" stroke="var(--c-sun-rim)" stroke-width="0.5"/><path d="M15.2 8.9A10 10 0 0 1 22 18.4L12 18.4z" fill="url(#gm-red)" stroke="var(--c-red-rim)" stroke-width="0.5"/><path d="M12 18.4 16.8 11" fill="none" stroke="var(--c-cocoa)" stroke-width="1.9" stroke-linecap="round"/><circle cx="12" cy="18.4" r="2" fill="url(#gm-cocoa)" stroke="var(--c-cocoa-rim)" stroke-width="0.5"/></symbol><symbol id="gm-i-986" viewBox="0 0 24 24"><path d="M7.6 10.4V7.8a4.4 4.4 0 0 1 8.8 0v2.6" fill="none" stroke="var(--c-stone)" stroke-width="2.3"/><rect x="4.4" y="10" width="15.2" height="11.4" rx="2.4" fill="url(#gm-amber)" stroke="var(--c-amber-rim)" stroke-width="0.5"/><rect x="4.4" y="10" width="15.2" height="3" rx="2.4" fill="url(#gm-sun)" stroke="var(--c-sun-rim)" stroke-width="0.5"/><circle cx="12" cy="15" r="2" fill="url(#gm-cocoa)" stroke="var(--c-cocoa-rim)" stroke-width="0.5"/><rect x="11.2" y="15.6" width="1.6" height="3.4" rx="0.8" fill="url(#gm-cocoa)" stroke="var(--c-cocoa-rim)" stroke-width="0.5"/></symbol></defs></svg>
+  <div class="pt-claim">
+    A private transfer is <b>booked and priced before you travel</b> — the fare is agreed at the time of booking, not calculated on arrival. The driver tracks your flight and waits in the arrivals hall with your name on a sign, whether the flight is early, on time or delayed. Worth it with luggage, a group, small children, an unfamiliar language, or a late arrival. For a short daytime trip in a city with reliable ride-hailing, a taxi is usually the cheaper choice.
+  </div>
 
-  <p class="pt-lede">A private transfer is booked and priced before the trip, so the confirmed fare is insulated from traffic, surge pricing and a running meter. Airport-transfer products normally include flight monitoring and a defined waiting window, but that window and the rules for very long delays vary by provider. The premium is most useful with luggage, a group, small children, an unfamiliar language, or an arrival after midnight. For a short daytime hop in a city with reliable ride-hailing, a taxi is usually cheaper.</p>
+  <div class="pt-section">
+    <span class="pt-sec-k">Compare the services</span>
+    <h2 class="pt-sec-h2">Seven options, reviewed</h2>
+    <p class="pt-sec-sub">From premium professional drivers to budget options and aggregators. Each entry includes a verdict and a link to its customer reviews.</p>
 
-  <section class="pt-stats" aria-labelledby="pt-stats-h">
-    <div class="pt-stats-head" id="pt-stats-h">How wide the networks reach</div>
-    <div class="pt-bento">
+    <div class="pt-chips" id="pt-chips">
+      <button class="pt-fchip fc-all"     type="button" data-cat="all"     aria-pressed="true">All seven</button>
+      <button class="pt-fchip fc-premium" type="button" data-cat="premium" aria-pressed="false">Premium</button>
+      <button class="pt-fchip fc-airport" type="button" data-cat="airport" aria-pressed="false">Airport transfers</button>
+      <button class="pt-fchip fc-budget"  type="button" data-cat="budget"  aria-pressed="false">Budget</button>
+      <button class="pt-fchip fc-agg"     type="button" data-cat="agg"     aria-pressed="false">Aggregators</button>
+    </div>
 
-      <div class="pt-tile big acc-yellow cp-honey">
-        <div class="pt-tile-icon"><svg class="gm-i" viewBox="0 0 24 24" aria-hidden="true"><use href="#gm-i-565"/></svg></div>
-        <div class="pt-num">1,600+</div>
-        <div class="pt-tile-label">Airports on Jayride</div>
-        <p class="pt-tile-body">Jayride compares private cars, shared shuttles and premium vehicles from more than 3,700 local transfer providers. It is the broadest first search when the route is unfamiliar.</p>
-        <div class="pt-bars">
-          <div class="pt-bar-row">
-            <span class="pt-bar-label">Blacklane</span>
-            <span class="pt-bar-track"><span class="pt-bar-fill f1"></span></span>
-            <span class="pt-bar-val">500+</span>
+    <div class="pt-cards" id="pt-svcs">
+
+      <article class="pt-card spot" data-cat="premium">
+        <div class="pt-card-top">
+          <div class="pt-card-name-row">
+            <div class="pt-card-name"><a href="https://www.blacklane.com" target="_blank" rel="noopener">Blacklane</a></div>
+            <span class="badge sb-gold badge-top">Most consistent worldwide</span>
           </div>
-          <div class="pt-bar-row">
-            <span class="pt-bar-label">Jayride</span>
-            <span class="pt-bar-track"><span class="pt-bar-fill f2"></span></span>
-            <span class="pt-bar-val">1,600+</span>
-          </div>
-          <div class="pt-bar-row">
-            <span class="pt-bar-label">Mozio</span>
-            <span class="pt-bar-track"><span class="pt-bar-fill f3"></span></span>
-            <span class="pt-bar-val">3,500+</span>
-          </div>
+          <span class="badge sb-dark-brown">PREMIUM</span>
         </div>
-      </div>
+        <p class="pt-desc">Premium professional drivers with fixed pricing worldwide. The benchmark for airport transfers when reliability across different countries matters.</p>
+        <div class="pt-features">
+          <span class="pt-feature">Flight tracking</span>
+          <span class="pt-feature">60 min free wait</span>
+          <span class="pt-feature">Meet &amp; greet</span>
+        </div>
+        <p class="pt-verdict">The most consistent transfer service across continents — the car, the driver and the wait are the same in Tokyo as in Frankfurt, which is what the premium buys.</p>
+        <details class="pt-detail">
+          <summary>Strengths &amp; watch-outs</summary>
+          <ul>
+            <li class="good">Reliable on late arrivals and in cities where ride-hailing is unpredictable</li>
+            <li class="watch">Roughly double a taxi on a short daytime run — the value is in the long or awkward transfer</li>
+          </ul>
+        </details>
+        <div class="pt-actions"><a href="https://www.blacklane.com" target="_blank" rel="noopener">blacklane.com</a><a href="https://www.trustpilot.com/review/blacklane.com" target="_blank" rel="noopener">Customer reviews</a></div>
+      </article>
 
-      <div class="pt-tile acc-red cp-muted-brick">
-        <div class="pt-tile-icon"><svg class="gm-i" viewBox="0 0 24 24" aria-hidden="true"><use href="#gm-i-71"/></svg></div>
-        <div class="pt-num">60 min</div>
-        <div class="pt-tile-label">Blacklane airport wait included</div>
-        <p class="pt-tile-body">Blacklane tracks arrivals and includes one hour of complimentary airport waiting time. Other providers set different windows, so read the delay and no-show terms before booking.</p>
-      </div>
+      <article class="pt-card" data-cat="airport">
+        <div class="pt-card-top">
+          <div class="pt-card-name"><a href="https://www.welcomepickups.com" target="_blank" rel="noopener">Welcome Pickups</a></div>
+          <span class="badge sb-blue">AIRPORT TRANSFERS</span>
+        </div>
+        <p class="pt-desc">Airport and port pickups with professional English-speaking drivers, flight monitoring and meet-and-greet service in cities across six continents.</p>
+        <div class="pt-features">
+          <span class="pt-feature">Global city coverage</span>
+          <span class="pt-feature">Fixed price</span>
+        </div>
+        <p class="pt-verdict">A strong meet-and-greet option well beyond Europe, and the English-speaking driver is a genuine difference on a first arrival in a city with an unfamiliar alphabet.</p>
+        <details class="pt-detail">
+          <summary>Strengths &amp; watch-outs</summary>
+          <ul>
+            <li class="good">Priced well below the premium services with the same arrivals-hall pickup</li>
+            <li class="watch">Routes are sold city by city — confirm the exact airport and destination before assuming coverage</li>
+          </ul>
+        </details>
+        <div class="pt-actions"><a href="https://www.welcomepickups.com" target="_blank" rel="noopener">welcomepickups.com</a><a href="https://www.trustpilot.com/review/welcomepickups.com" target="_blank" rel="noopener">Customer reviews</a></div>
+      </article>
 
-      <div class="pt-tile acc-green cp-dusty-teal">
-        <div class="pt-tile-icon"><svg class="gm-i" viewBox="0 0 24 24" aria-hidden="true"><use href="#gm-i-986"/></svg></div>
-        <div class="pt-num">24 hours</div>
-        <div class="pt-tile-label">Transfeero free-cancellation cutoff</div>
-        <p class="pt-tile-body">Transfeero currently gives a full refund when the ride is cancelled more than 24 hours before pickup. Cancellation windows differ across the services below.</p>
-      </div>
+      <article class="pt-card" data-cat="budget">
+        <div class="pt-card-top">
+          <div class="pt-card-name"><a href="https://www.suntransfers.com" target="_blank" rel="noopener">Suntransfers</a></div>
+          <span class="badge sb-green">BUDGET TRANSFER</span>
+        </div>
+        <p class="pt-desc">Fixed-price private transfers and shared shuttles in more than 700 locations, with flight monitoring and free cancellation up to 48 hours before pickup.</p>
+        <div class="pt-features">
+          <span class="pt-feature">Resort routes</span>
+          <span class="pt-feature">Shared shuttles available</span>
+        </div>
+        <p class="pt-verdict">Often the lowest fixed price on Mediterranean and beach-resort routes. Private, shared, premium and accessible vehicles all appear in one search.</p>
+        <details class="pt-detail">
+          <summary>Strengths &amp; watch-outs</summary>
+          <ul>
+            <li class="good">Final price, vehicle type and inclusions all visible before booking</li>
+            <li class="watch">Cancellation is free only until 48 hours before pickup, earlier than some competing services</li>
+          </ul>
+        </details>
+        <div class="pt-actions"><a href="https://www.suntransfers.com" target="_blank" rel="noopener">suntransfers.com</a><a href="https://www.trustpilot.com/review/suntransfers.com" target="_blank" rel="noopener">Customer reviews</a></div>
+      </article>
+
+      <article class="pt-card" data-cat="agg">
+        <div class="pt-card-top">
+          <div class="pt-card-name"><a href="https://www.jayride.com" target="_blank" rel="noopener">Jayride</a></div>
+          <span class="badge sb-gold">AGGREGATOR</span>
+        </div>
+        <p class="pt-desc">Compares private cars, shared shuttles and premium vehicles from more than 3,700 local transfer providers across 1,600-plus airports worldwide.</p>
+        <div class="pt-features">
+          <span class="pt-feature">Side-by-side pricing</span>
+          <span class="pt-feature">Worldwide coverage</span>
+        </div>
+        <p class="pt-verdict">The right first search rather than the right booking — it shows what the route costs and who runs it, which is hard to establish any other way.</p>
+        <details class="pt-detail">
+          <summary>Strengths &amp; watch-outs</summary>
+          <ul>
+            <li class="good">Side-by-side pricing and operator ratings on worldwide airport routes</li>
+            <li class="watch">Quality is delivered by the selected local operator, not by Jayride — check supplier ratings before booking</li>
+          </ul>
+        </details>
+        <div class="pt-actions"><a href="https://www.jayride.com" target="_blank" rel="noopener">jayride.com</a><a href="https://www.trustpilot.com/review/jayride.com" target="_blank" rel="noopener">Customer reviews</a></div>
+      </article>
+
+      <article class="pt-card" data-cat="budget">
+        <div class="pt-card-top">
+          <div class="pt-card-name"><a href="https://kiwitaxi.com/" target="_blank" rel="noopener">Kiwitaxi</a></div>
+          <span class="badge sb-green">BUDGET TRANSFER</span>
+        </div>
+        <p class="pt-desc">Fixed-price private transfers across more than 100 countries, with strong coverage in Eastern Europe and Southeast Asia where other services are thin.</p>
+        <div class="pt-features">
+          <span class="pt-feature">E. Europe &amp; SE Asia</span>
+          <span class="pt-feature">Remote routes</span>
+        </div>
+        <p class="pt-verdict">Covers routes the major services skip. Worth checking for regional and long-distance runs the airport-first aggregators do not always surface.</p>
+        <details class="pt-detail">
+          <summary>Strengths &amp; watch-outs</summary>
+          <ul>
+            <li class="good">Broad country coverage including airport, hotel and address pickups</li>
+            <li class="watch">Review quality varies by region — keep a backup plan for critical connections on unfamiliar routes</li>
+          </ul>
+        </details>
+        <div class="pt-actions"><a href="https://kiwitaxi.com/" target="_blank" rel="noopener">kiwitaxi.com</a><a href="https://www.trustpilot.com/review/kiwitaxi.com" target="_blank" rel="noopener">Customer reviews</a></div>
+      </article>
+
+      <article class="pt-card" data-cat="agg">
+        <div class="pt-card-top">
+          <div class="pt-card-name"><a href="https://www.mozio.com" target="_blank" rel="noopener">Mozio</a></div>
+          <span class="badge sb-gold">AGGREGATOR</span>
+        </div>
+        <p class="pt-desc">Ground-transport marketplace covering more than 180 countries and 3,500 airports, listing private cars, shared shuttles and buses in one search.</p>
+        <div class="pt-features">
+          <span class="pt-feature">Shuttles &amp; buses</span>
+          <span class="pt-feature">Smaller airports</span>
+        </div>
+        <p class="pt-verdict">The useful second search when the first comes back thin — it finds shared shuttles and smaller airports that private-transfer-only aggregators skip.</p>
+        <details class="pt-detail">
+          <summary>Strengths &amp; watch-outs</summary>
+          <ul>
+            <li class="good">Finds mixed-mode options and smaller airports other aggregators miss</li>
+            <li class="watch">Inventory on mainstream routes is no better than Jayride's — worth checking, not worth checking first</li>
+          </ul>
+        </details>
+        <div class="pt-actions"><a href="https://www.mozio.com" target="_blank" rel="noopener">mozio.com</a><a href="https://www.trustpilot.com/review/mozio.com" target="_blank" rel="noopener">Customer reviews</a></div>
+      </article>
+
+      <article class="pt-card" data-cat="airport">
+        <div class="pt-card-top">
+          <div class="pt-card-name"><a href="https://www.transfeero.com" target="_blank" rel="noopener">Transfeero</a></div>
+          <span class="badge sb-blue">AIRPORT TRANSFERS</span>
+        </div>
+        <p class="pt-desc">Fixed-price airport and city rides with professional drivers in more than 100 countries, including free cancellation up to 24 hours before pickup.</p>
+        <div class="pt-features">
+          <span class="pt-feature">Flight monitoring</span>
+          <span class="pt-feature">Free cancellation</span>
+          <span class="pt-feature">100+ countries</span>
+        </div>
+        <p class="pt-verdict">Close to Welcome Pickups on price and coverage, and the cancellation window makes it the safer booking when plans might still change before the trip.</p>
+        <details class="pt-detail">
+          <summary>Strengths &amp; watch-outs</summary>
+          <ul>
+            <li class="good">Cancellation free up to 24 hours before pickup, with flight monitoring included</li>
+            <li class="watch">The full-refund window closes 24 hours before pickup and cannot be extended by rescheduling after that point</li>
+          </ul>
+        </details>
+        <div class="pt-actions"><a href="https://www.transfeero.com" target="_blank" rel="noopener">transfeero.com</a><a href="https://www.trustpilot.com/review/transfeero.com" target="_blank" rel="noopener">Customer reviews</a></div>
+      </article>
 
     </div>
-    <div class="pt-stats-src">Current provider-published coverage and booking terms, checked 18 September 2026.</div>
-  </section>
 
-  <div class="pt-cross">Renting instead? <a href="/essentials/worldwide-car-rental/" class="chevron-link-pill">Car rental around the world</a> covers the networks worth booking, region by region.</div>
-
-  <div class="pt-cards-head" id="rc-transfers">Compare the services</div>
-  <div class="pt-cards">
-
-    <article class="pt-card spot">
-      <div class="pt-card-top">
-        <div class="pt-card-name-row">
-          <div class="pt-card-name"><a href="https://www.blacklane.com" target="_blank" rel="noopener">Blacklane</a></div>
-          <span class="badge sb-gold badge-top">Most consistent worldwide</span>
-        </div>
-        <span class="badge sb-dark-brown">PREMIUM</span>
-      </div>
-      <p class="pt-desc">Premium professional drivers with fixed pricing worldwide.</p>
-      <div class="pt-chips">
-        <span class="pt-chip">Flight tracking</span>
-        <span class="pt-chip">High-end fleet</span>
-        <span class="pt-chip">Meet &amp; greet</span>
-      </div>
-      <p class="pt-verdict">The most consistent transfer service across continents — the car, the driver and the wait are the same in Tokyo as in Frankfurt, which is what the premium buys.</p>
-      <details class="pt-detail">
-        <summary>Strengths &amp; watch-outs</summary>
-        <ul class="pt-review-list">
-          <li class="good cp-dusty-teal">Reliable on late arrivals and in cities where ride-hailing is unpredictable</li>
-          <li class="watch">Roughly double a taxi on a short daytime run — the value is in the long or awkward transfer</li>
-        </ul>
-      </details>
-      <div class="pt-actions"><a href="https://www.blacklane.com" target="_blank" rel="noopener">blacklane.com</a><a href="https://www.trustpilot.com/review/blacklane.com" target="_blank" rel="noopener">Reviews</a></div>
-    </article>
-
-    <article class="pt-card">
-      <div class="pt-card-top">
-        <div class="pt-card-name"><a href="https://www.welcomepickups.com" target="_blank" rel="noopener">Welcome Pickups</a></div>
-        <span class="badge sb-blue">AIRPORT TRANSFERS</span>
-      </div>
-      <p class="pt-desc">Airport and port pickups with professional English-speaking drivers, flight monitoring and meet-and-greet service.</p>
-      <div class="pt-chips">
-        <span class="pt-chip">Global city coverage</span>
-        <span class="pt-chip">Fixed price</span>
-      </div>
-      <p class="pt-verdict">A strong meet-and-greet option well beyond Europe, and the English-speaking driver is a genuine difference on a first arrival in a city with an unfamiliar alphabet.</p>
-      <details class="pt-detail">
-        <summary>Strengths &amp; watch-outs</summary>
-        <ul class="pt-review-list">
-          <li class="good cp-dusty-teal">Priced well below the premium services with the same arrivals-hall pickup</li>
-          <li class="watch">Routes are sold city by city, so confirm the exact airport and destination rather than assuming country-wide coverage</li>
-        </ul>
-      </details>
-      <div class="pt-actions"><a href="https://www.welcomepickups.com" target="_blank" rel="noopener">welcomepickups.com</a><a href="https://www.trustpilot.com/review/welcomepickups.com" target="_blank" rel="noopener">Reviews</a></div>
-    </article>
-
-    <article class="pt-card">
-      <div class="pt-card-top">
-        <div class="pt-card-name"><a href="https://www.suntransfers.com" target="_blank" rel="noopener">Suntransfers</a></div>
-        <span class="badge sb-green">BUDGET TRANSFER</span>
-      </div>
-      <p class="pt-desc">Fixed-price private transfers and shared shuttles in more than 700 locations, with flight monitoring and free cancellation up to 48 hours before pickup.</p>
-      <div class="pt-chips">
-        <span class="pt-chip">Resort routes</span>
-        <span class="pt-chip">Book ahead</span>
-      </div>
-      <p class="pt-verdict">A useful value comparison at resort airports because the quote states the vehicle, inclusions and final price before booking.</p>
-      <details class="pt-detail">
-        <summary>Strengths &amp; watch-outs</summary>
-        <ul class="pt-review-list">
-          <li class="good cp-dusty-teal">Private, shared, premium and wheelchair-accessible vehicles appear in one search</li>
-          <li class="watch">Cancellation is free only until 48 hours before pickup, earlier than some competing services</li>
-        </ul>
-      </details>
-      <div class="pt-actions"><a href="https://www.suntransfers.com" target="_blank" rel="noopener">suntransfers.com</a><a href="https://www.trustpilot.com/review/suntransfers.com" target="_blank" rel="noopener">Reviews</a></div>
-    </article>
-
-    <article class="pt-card">
-      <div class="pt-card-top">
-        <div class="pt-card-name"><a href="https://www.jayride.com" target="_blank" rel="noopener">Jayride</a></div>
-        <span class="badge sb-gold">AGGREGATOR</span>
-      </div>
-      <p class="pt-desc">Compares multiple transfer companies — choose based on reviews, vehicle type, and price.</p>
-      <div class="pt-chips">
-        <span class="pt-chip">Side-by-side pricing</span>
-        <span class="pt-chip">Worldwide coverage</span>
-      </div>
-      <p class="pt-verdict">The right first search rather than the right booking — it shows what the route costs and who runs it, which is hard to establish any other way.</p>
-      <details class="pt-detail">
-        <summary>Strengths &amp; watch-outs</summary>
-        <ul class="pt-review-list">
-          <li class="good cp-dusty-teal">Side-by-side pricing and operator ratings on worldwide airport routes</li>
-          <li class="watch">The service is delivered by whichever local operator is selected, so quality varies by supplier, not by Jayride</li>
-        </ul>
-      </details>
-      <div class="pt-actions"><a href="https://www.jayride.com" target="_blank" rel="noopener">jayride.com</a><a href="https://www.trustpilot.com/review/jayride.com" target="_blank" rel="noopener">Reviews</a></div>
-    </article>
-
-    <article class="pt-card">
-      <div class="pt-card-top">
-        <div class="pt-card-name"><a href="https://kiwitaxi.com/" target="_blank" rel="noopener">Kiwitaxi</a></div>
-        <span class="badge sb-green">BUDGET TRANSFER</span>
-      </div>
-      <p class="pt-desc">Fixed-price private transfers and chauffeur services across more than 100 countries, including many regional and long-distance routes.</p>
-      <div class="pt-chips">
-        <span class="pt-chip">E. Europe &amp; SE Asia</span>
-        <span class="pt-chip">Remote routes</span>
-      </div>
-      <p class="pt-verdict">Worth checking for regional and long-distance routes that the airport-first aggregators do not always surface.</p>
-      <details class="pt-detail">
-        <summary>Strengths &amp; watch-outs</summary>
-        <ul class="pt-review-list">
-          <li class="good cp-dusty-teal">Broad country coverage and a booking flow that supports airport, hotel and address pickups</li>
-          <li class="watch">Recent reviews include both reliable journeys and isolated no-shows or refund disputes — keep the backup plan for critical connections</li>
-        </ul>
-      </details>
-      <div class="pt-actions"><a href="https://kiwitaxi.com/" target="_blank" rel="noopener">kiwitaxi.com</a><a href="https://www.trustpilot.com/review/kiwitaxi.com" target="_blank" rel="noopener">Reviews</a></div>
-    </article>
-
-    <article class="pt-card">
-      <div class="pt-card-top">
-        <div class="pt-card-name"><a href="https://www.mozio.com" target="_blank" rel="noopener">Mozio</a></div>
-        <span class="badge sb-gold">AGGREGATOR</span>
-      </div>
-      <p class="pt-desc">Global ground-transport marketplace covering more than 180 countries and 3,500 airports through 3,000-plus providers.</p>
-      <div class="pt-chips">
-        <span class="pt-chip">Shuttles &amp; buses</span>
-        <span class="pt-chip">Smaller airports</span>
-      </div>
-      <p class="pt-verdict">A useful second search when the first one comes back thin — it compares airport transfers and local shuttles across one of the broadest provider networks.</p>
-      <details class="pt-detail">
-        <summary>Strengths &amp; watch-outs</summary>
-        <ul class="pt-review-list">
-          <li class="good cp-dusty-teal">Finds smaller airports and mixed-mode options other aggregators skip</li>
-          <li class="watch">Inventory on mainstream routes is no better than Jayride's — worth checking, not worth checking first</li>
-        </ul>
-      </details>
-      <div class="pt-actions"><a href="https://www.mozio.com" target="_blank" rel="noopener">mozio.com</a><a href="https://www.trustpilot.com/review/mozio.com" target="_blank" rel="noopener">Reviews</a></div>
-    </article>
-
-    <article class="pt-card">
-      <div class="pt-card-top">
-        <div class="pt-card-name"><a href="https://www.transfeero.com" target="_blank" rel="noopener">Transfeero</a></div>
-        <span class="badge sb-blue">AIRPORT TRANSFERS</span>
-      </div>
-      <p class="pt-desc">Fixed-price airport and city rides with professional drivers in more than 100 countries.</p>
-      <div class="pt-chips">
-        <span class="pt-chip">Flight monitoring</span>
-        <span class="pt-chip">Free cancellation</span>
-        <span class="pt-chip">100+ countries</span>
-      </div>
-      <p class="pt-verdict">A practical global alternative when the trip needs a fixed price and a self-service booking that can still be changed or cancelled.</p>
-      <details class="pt-detail">
-        <summary>Strengths &amp; watch-outs</summary>
-        <ul class="pt-review-list">
-          <li class="good cp-dusty-teal">Cancellation free up to 24 hours out, with flight monitoring included</li>
-          <li class="watch">The full-refund window closes 24 hours before pickup and cannot be restored by rescheduling after that cutoff</li>
-        </ul>
-      </details>
-      <div class="pt-actions"><a href="https://www.transfeero.com" target="_blank" rel="noopener">transfeero.com</a><a href="https://www.trustpilot.com/review/transfeero.com" target="_blank" rel="noopener">Reviews</a></div>
-    </article>
-
+    <p class="pt-crossnote">Renting instead? <a href="/essentials/worldwide-car-rental/" class="chevron-link-pill">Car rental around the world</a> covers the networks worth booking, region by region.</p>
   </div>
 
 </div><!-- /wrap -->
+
+<script>
+(function () {
+  'use strict';
+  var chips = document.getElementById('pt-chips');
+  var svcs  = document.getElementById('pt-svcs');
+  if (!chips || !svcs) return;
+
+  chips.addEventListener('click', function (e) {
+    var btn = e.target.closest('.pt-fchip');
+    if (!btn) return;
+    var cat = btn.dataset.cat;
+    chips.querySelectorAll('.pt-fchip').forEach(function (b) {
+      b.setAttribute('aria-pressed', b === btn ? 'true' : 'false');
+    });
+    svcs.querySelectorAll('.pt-card').forEach(function (card) {
+      card.classList.toggle('hide', cat !== 'all' && card.dataset.cat !== cat);
+    });
+  });
+})();
+</script>
 
 </body>
 </html>

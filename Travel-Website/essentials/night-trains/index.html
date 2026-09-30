@@ -6,67 +6,87 @@
 <link rel="stylesheet" href="/assets/web-travel-style.css">
 <title>Night Train Guide | Guide My Days</title>
 <style>
-  /* ── Region filter row layout (search itself uses the documented
-     zero-CSS inline wrapper, essentials-Page-Format § 4d, not a page rule) ── */
-  .controls {
-    display: flex; flex-wrap: wrap; gap: 8px;
-    align-items: center; justify-content: center;
-    padding: 10px 0;
-  }
+/* ── sleep dial + split layout ── */
+.nt-split{display:grid;grid-template-columns:minmax(0,400px) minmax(0,1fr);gap:36px;align-items:start;margin-top:24px}
+.nt-dialwrap{position:sticky;top:20px}
+.nt-dial{width:100%;height:auto;display:block}
+.nt-dial .arc{stroke-dasharray:var(--L);stroke-dashoffset:var(--L);animation:nt-sweep 1.25s cubic-bezier(.3,.85,.3,1) forwards}
+@keyframes nt-sweep{to{stroke-dashoffset:0}}
+.nt-ring{cursor:pointer;transition:opacity .28s}
+.nt-ring .arc{transition:stroke-width .2s,filter .2s}
+.nt-ring:hover .arc,.nt-ring.hot .arc{stroke-width:10;filter:drop-shadow(0 2px 7px rgba(32,28,23,.32))}
+.nt-dial.filtered .nt-ring{opacity:.14}
+.nt-dial.filtered .nt-ring.on{opacity:1}
+.nt-dlab{font:800 10px/1 ui-monospace,Menlo,monospace;letter-spacing:.12em;fill:var(--muted,#7a736a)}
+.nt-readout{text-align:center;margin:12px 0 0;min-height:52px}
+.nt-rh2{display:block;font:700 9px/1 ui-monospace,Menlo,monospace;letter-spacing:.2em;text-transform:uppercase;color:var(--muted,#7a736a);margin-bottom:7px}
+.nt-rr{display:block;font-size:16px;font-weight:800;letter-spacing:-.02em;line-height:1.25;margin-bottom:4px;color:var(--text,#1a1917)}
+.nt-rd{display:block;font:800 11px/1 ui-monospace,Menlo,monospace;letter-spacing:.1em;color:var(--accent,#C04E1A)}
+.nt-legend{display:flex;flex-wrap:wrap;gap:8px;margin:12px 0 0;justify-content:center}
 
-  /* ── Berth-type primer ── */
-  .nt-primer { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 12px; margin-bottom: 8px; }
-  .nt-type-card {
-    background: var(--surface,#fff); border: 1px solid var(--border2,#e6e2da); border-radius: 10px;
-    padding: 16px 17px; display: flex; flex-direction: column; gap: 8px;
-  }
-  .nt-type-top { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
-  .nt-type-name { font-size: var(--fs-body,14px); font-weight: 700; color: var(--text,#1a1917); }
-  .nt-type-desc { font-size: var(--fs-sub,12px); color: var(--muted); line-height: 1.55; }
+/* ── route cards ── */
+.nt-sec{font:800 11px/1 ui-monospace,Menlo,monospace;letter-spacing:.24em;text-transform:uppercase;
+ color:var(--muted,#7a736a);margin:0 0 5px;padding-bottom:10px;border-bottom:2px solid var(--text,#1a1917)}
+.nt-subt{font-size:12.5px;color:var(--muted,#7a736a);margin:8px 0 16px}
+.rc{background:var(--surface,#fff);border-radius:12px;padding:16px 18px;margin-bottom:12px;
+ border-left:5px solid var(--col);
+ box-shadow:0 14px 28px -24px rgba(32,28,23,.55);
+ transition:transform .2s,box-shadow .2s,opacity .26s}
+.rc:hover,.rc.hot{transform:translateX(4px);box-shadow:0 20px 34px -20px rgba(32,28,23,.6);outline:none}
+.rc:focus{outline:2px solid var(--col);outline-offset:2px}
+.rc.hide{display:none}
+.rct{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:4px}
+.rct .dot{width:9px;height:9px;border-radius:50%;background:var(--col);flex:0 0 auto}
+.rct h3{font-size:17px;font-weight:800;letter-spacing:-.02em;margin:0}
+.du{margin-left:auto;font:800 11px/1 ui-monospace,Menlo,monospace;color:var(--col);white-space:nowrap}
+.rop{font:600 10.5px/1 ui-monospace,Menlo,monospace;letter-spacing:.1em;text-transform:uppercase;color:var(--muted,#7a736a);margin:4px 0 9px}
+.rfl{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:9px}
+.rchips{display:flex;flex-wrap:wrap;gap:5px;margin-bottom:10px}
+.rtip{font-size:13px;line-height:1.65;background:rgba(200,164,74,.07);
+ border-left:3.5px solid var(--accent,#C04E1A);border-radius:0 8px 8px 0;
+ padding:10px 13px;margin:0 0 10px;color:var(--text,#1a1917)}
+.rbw{font-size:12.5px;line-height:1.6;color:var(--muted,#7a736a);margin:0}
+.rbw strong{color:var(--text,#1a1917)}
+.rbw a{color:var(--accent,#C04E1A);font-weight:600;text-decoration:none}
+.regnotes{background:var(--surface,#fff);border-radius:12px;padding:16px 18px;margin-top:4px;
+ box-shadow:0 14px 28px -24px rgba(32,28,23,.55)}
+.regnotes h3{font:800 9.5px/1 ui-monospace,Menlo,monospace;letter-spacing:.22em;text-transform:uppercase;
+ color:var(--muted,#7a736a);margin:0 0 11px}
+.regnotes p{margin:0 0 8px;font-size:12.5px;line-height:1.58;color:var(--text,#1a1917)}
+.regnotes p:last-child{margin:0}
+.regnotes b{font:800 10px/1 ui-monospace,Menlo,monospace;letter-spacing:.12em;text-transform:uppercase}
 
-  /* ── Section headers ── */
-  .nt-section-head { display: flex; align-items: baseline; gap: 10px; margin: 30px 0 14px; padding-bottom: 9px; border-bottom: 2px solid var(--border2,#e6e2da); flex-wrap: wrap; }
-  .nt-section-head:first-of-type { margin-top: 8px; }
-  .nt-section-title { font-size: var(--fs-body,14px); font-weight: 700; color: var(--text,#1a1917); }
-  .nt-section-sub { font-size: var(--fs-sub,12px); color: var(--muted); }
+/* ── bottom sections ── */
+.wide-sec{margin-top:44px}
+.wide-sec .nt-sec{margin-bottom:12px}
+.berths{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:12px}
+.bt{background:var(--surface,#fff);border-radius:12px;padding:16px 18px;
+ box-shadow:0 14px 28px -24px rgba(32,28,23,.55)}
+.bt .gm-icon{width:26px;height:26px;margin-bottom:10px;display:block}
+.btn2{font-size:15px;font-weight:800;margin-bottom:7px;display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.bt p{margin:0;font-size:12.5px;line-height:1.6;color:var(--muted,#7a736a)}
+.packgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:12px}
+.pk{background:var(--surface,#fff);border-radius:12px;padding:14px 17px;display:flex;gap:12px;
+ align-items:flex-start;box-shadow:0 14px 28px -24px rgba(32,28,23,.55)}
+.pk .gm-icon{width:22px;height:22px;flex:0 0 auto;margin-top:2px}
+.pk b{display:block;font-size:13px;margin-bottom:4px}
+.pk p{margin:0;font-size:12.5px;line-height:1.58;color:var(--muted,#7a736a)}
 
-  /* ── Route cards ── */
-  .nt-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 14px; align-items: stretch; }
-  .nt-card {
-    display: flex; flex-direction: column; gap: 9px;
-    background: var(--surface,#fff); border: 1px solid var(--border2,#e6e2da); border-radius: 10px;
-    padding: 16px 17px; transition: border-color .15s, box-shadow .15s;
-  }
-  .nt-card:hover { border-color: var(--accent); box-shadow: 0 4px 16px rgba(138,108,26,0.10); }
-  .nt-card-top { display: flex; justify-content: space-between; align-items: flex-start; gap: 8px; }
-  .nt-route { font-size: var(--fs-body,14px); font-weight: 700; color: var(--text,#1a1917); line-height: 1.3; }
-  .nt-duration { font-size: var(--fs-sub,12px); color: var(--muted); white-space: nowrap; flex-shrink: 0; }
-  .nt-operator { font-size: var(--fs-sub,12px); color: var(--muted); font-weight: 600; }
-  .nt-tip {
-    font-size: var(--fs-sub,12px); color: var(--text,#1a1917); background: rgba(200,164,74,.08);
-    border-left: 3px solid var(--accent); padding: 7px 10px; border-radius: 0 6px 6px 0; line-height: 1.5;
-  }
-  .nt-book-window { font-size: var(--fs-sub,12px); color: var(--muted); margin-top: auto; padding-top: 4px; }
-  .nt-book-window strong { color: var(--text,#1a1917); }
-  .nt-book-window a { color: inherit; }
+/* ── search row ── */
+.nt-search-row{display:flex;justify-content:center;margin:var(--search-gap,32px) 0 0}
 
-  /* ── Region sections ── */
-  .nt-region.all-hidden { display: none; }
+/* ── mobile: dial on top, full-width ── */
+@media (max-width:860px){
+  .nt-split{grid-template-columns:1fr;gap:28px}
+  .nt-dialwrap{position:static;margin-bottom:4px}
+  .nt-dial{max-width:100%;width:100%}
+}
+@media (max-width:600px){
+  .berths,.packgrid{grid-template-columns:1fr}
+  .bt,.pk{padding:12px 14px}
+}
 
-  /* ── Tips grid ── */
-  .nt-tips-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 12px; }
-  .nt-tip-card {
-    background: var(--surface,#fff); border: 1px solid var(--border2,#e6e2da); border-radius: 10px;
-    padding: 14px 16px; display: flex; gap: 12px; align-items: flex-start;
-  }
-  .nt-tip-icon { flex-shrink: 0; width: 22px; height: 22px; margin-top: 1px; }
-  .nt-tip-title { font-size: 13px; font-weight: 700; color: var(--text,#1a1917); margin-bottom: 3px; }
-  .nt-tip-text { font-size: var(--fs-sub,12px); color: var(--muted); line-height: 1.5; }
-
-  @media (max-width: 600px) and (pointer: coarse) {
-    .nt-grid, .nt-primer, .nt-tips-grid { grid-template-columns: 1fr; gap: 9px; }
-    .nt-card, .nt-type-card, .nt-tip-card { padding: 12px 13px; }
-  }
+html:not(.js) .nt-dial .arc{stroke-dashoffset:0}
 </style>
 <link rel="stylesheet" href="/assets/mobile.css?v=53">
 <!-- seo:start — generated by Brain/scripts/build/build_seo.py · do not hand-edit -->
@@ -99,352 +119,379 @@
 <div id="toolbar-mount" data-depth="2" data-maxwidth="940" data-updated="2026-09-19"></div>
 <script src="/assets/toolbar.js?v=127"></script>
 
-  <div class="hero-band eb-hero">
-    <span class="eb-kicker">Night Train Guide</span>
-    <div class="eb-copy">
-      <h1 class="eb-title">Sleep your way there — <em>skip the hotel, wake up somewhere new.</em></h1>
-      <p class="eb-intro">How to book and travel by overnight train worldwide — berth types, booking windows, what to pack, and which routes are worth the extra research and planning. Covers Europe, Asia and North America. For daytime rail journeys worth taking for the view, see <a href="/essentials/scenic-trains/">Scenic Trains</a>.</p>
-    </div>
-    <div class="eb-graphic" aria-hidden="true"><svg class="gm-icon" data-icon="wx-moon" viewBox="0 0 24 24" aria-hidden="true"><use href="#gm-i-wx-moon"/></svg></div>
+<div class="hero-band eb-hero">
+  <span class="eb-kicker">Night Train Guide</span>
+  <div class="eb-copy">
+    <h1 class="eb-title">Sleep your way there — <em>skip the hotel, wake up somewhere new.</em></h1>
+    <p class="eb-intro">How to book and travel by overnight train worldwide — berth types, booking windows, what to pack, and which routes are worth the extra research and planning. Covers Europe, Asia and North America. For daytime rail journeys worth taking for the view, see <a href="/essentials/scenic-trains/">Scenic Trains</a>.</p>
   </div>
+  <div class="eb-graphic" aria-hidden="true"><svg class="gm-icon" data-icon="wx-moon" viewBox="0 0 24 24" aria-hidden="true"><use href="#gm-i-wx-moon"/></svg></div>
+</div>
 
 <div class="wrap">
 
   <div id="nt-noresult" class="empty-state" hidden>No routes match that search.</div>
-  <div style="display:flex; justify-content:center; margin:var(--search-gap,32px) 0;">
+  <div class="nt-search-row">
     <input id="nt-search" type="search" placeholder="Route, operator, or country" aria-label="Search routes, operators, or countries" autocomplete="off" spellcheck="false" class="search-input" style="width:440px;">
   </div>
-  <div class="controls tve-glue-m" style="--glue-w:2px">
-    <button class="filter-btn selection-pill cp-light-grey is-on hov-darken" data-region="all" onclick="ntFilterRegion('all',this)">All regions</button>
-    <button class="filter-btn selection-pill cp-rust hov-darken" data-region="europe" onclick="ntFilterRegion('europe',this)">Europe</button>
-    <button class="filter-btn selection-pill cp-honey hov-darken" data-region="asia" onclick="ntFilterRegion('asia',this)">Asia</button>
-    <button class="filter-btn selection-pill cp-blue hov-darken" data-region="north-america" onclick="ntFilterRegion('north-america',this)">North America</button>
-  </div>
 
-<main>
+  <div class="nt-split">
 
-  <!-- ===== BERTH TYPE PRIMER ===== -->
-  <div class="nt-section-head">
-    <span class="nt-section-title">Berth types — pick before you book</span>
-    <span class="nt-section-sub">Most trains offer at least two of these</span>
-  </div>
-  <div class="nt-primer">
-    <div class="nt-type-card">
-      <div class="nt-type-top">
-        <span class="nt-type-name">Seat</span>
-        <span class="badge sb-green">Budget</span>
+    <!-- ── LEFT: sleep dial (first in DOM → top on mobile) ── -->
+    <div class="nt-dialwrap">
+      <svg class="nt-dial" id="nt-dial" viewBox="0 0 400 400" role="img" aria-label="Ten overnight routes drawn as arcs on a 24-hour dial; arc length is time on board.">
+        <!-- tick marks -->
+        <line x1="200.0" y1="26.0" x2="200.0" y2="18.0" stroke="#d8d1c0" stroke-width="2" stroke-linecap="round"/><line x1="245.0" y1="31.9" x2="247.1" y2="24.2" stroke="#d8d1c0" stroke-width="2" stroke-linecap="round"/><line x1="287.0" y1="49.3" x2="291.0" y2="42.4" stroke="#d8d1c0" stroke-width="2" stroke-linecap="round"/><line x1="323.0" y1="77.0" x2="328.7" y2="71.3" stroke="#d8d1c0" stroke-width="2" stroke-linecap="round"/><line x1="350.7" y1="113.0" x2="357.6" y2="109.0" stroke="#d8d1c0" stroke-width="2" stroke-linecap="round"/><line x1="368.1" y1="155.0" x2="375.8" y2="152.9" stroke="#d8d1c0" stroke-width="2" stroke-linecap="round"/><line x1="374.0" y1="200.0" x2="382.0" y2="200.0" stroke="#d8d1c0" stroke-width="2" stroke-linecap="round"/><line x1="368.1" y1="245.0" x2="375.8" y2="247.1" stroke="#d8d1c0" stroke-width="2" stroke-linecap="round"/><line x1="350.7" y1="287.0" x2="357.6" y2="291.0" stroke="#d8d1c0" stroke-width="2" stroke-linecap="round"/><line x1="323.0" y1="323.0" x2="328.7" y2="328.7" stroke="#d8d1c0" stroke-width="2" stroke-linecap="round"/><line x1="287.0" y1="350.7" x2="291.0" y2="357.6" stroke="#d8d1c0" stroke-width="2" stroke-linecap="round"/><line x1="245.0" y1="368.1" x2="247.1" y2="375.8" stroke="#d8d1c0" stroke-width="2" stroke-linecap="round"/><line x1="200.0" y1="374.0" x2="200.0" y2="382.0" stroke="#d8d1c0" stroke-width="2" stroke-linecap="round"/><line x1="155.0" y1="368.1" x2="152.9" y2="375.8" stroke="#d8d1c0" stroke-width="2" stroke-linecap="round"/><line x1="113.0" y1="350.7" x2="109.0" y2="357.6" stroke="#d8d1c0" stroke-width="2" stroke-linecap="round"/><line x1="77.0" y1="323.0" x2="71.3" y2="328.7" stroke="#d8d1c0" stroke-width="2" stroke-linecap="round"/><line x1="49.3" y1="287.0" x2="42.4" y2="291.0" stroke="#d8d1c0" stroke-width="2" stroke-linecap="round"/><line x1="31.9" y1="245.0" x2="24.2" y2="247.1" stroke="#d8d1c0" stroke-width="2" stroke-linecap="round"/><line x1="26.0" y1="200.0" x2="18.0" y2="200.0" stroke="#d8d1c0" stroke-width="2" stroke-linecap="round"/><line x1="31.9" y1="155.0" x2="24.2" y2="152.9" stroke="#d8d1c0" stroke-width="2" stroke-linecap="round"/><line x1="49.3" y1="113.0" x2="42.4" y2="109.0" stroke="#d8d1c0" stroke-width="2" stroke-linecap="round"/><line x1="77.0" y1="77.0" x2="71.3" y2="71.3" stroke="#d8d1c0" stroke-width="2" stroke-linecap="round"/><line x1="113.0" y1="49.3" x2="109.0" y2="42.4" stroke="#d8d1c0" stroke-width="2" stroke-linecap="round"/><line x1="155.0" y1="31.9" x2="152.9" y2="24.2" stroke="#d8d1c0" stroke-width="2" stroke-linecap="round"/>
+        <!-- hour labels -->
+        <text class="nt-dlab" x="200.0" y="8.0" text-anchor="middle" dominant-baseline="middle">00</text>
+        <text class="nt-dlab" x="392.0" y="200.0" text-anchor="middle" dominant-baseline="middle">06</text>
+        <text class="nt-dlab" x="200.0" y="392.0" text-anchor="middle" dominant-baseline="middle">12</text>
+        <text class="nt-dlab" x="8.0" y="200.0" text-anchor="middle" dominant-baseline="middle">18</text>
+        <!-- ring 0 — Vienna → Amsterdam ~15h — europe -->
+        <g class="nt-ring" data-i="0" data-r="europe">
+          <path class="trk" d="M 200.00 122.00 A 78.00 78.00 0 1 1 199.86 122.00" fill="none" stroke="#e6e0d2" stroke-width="6.4" stroke-linecap="round"/>
+          <path class="arc" d="M 144.85 144.85 A 78.00 78.00 0 1 1 200.00 278.00" fill="none" stroke="#C04E1A" stroke-width="6.4" stroke-linecap="round" style="--L:306.3;animation-delay:0ms"><title>Vienna → Amsterdam — ~15 h</title></path>
+        </g>
+        <!-- ring 1 — Vienna → Rome ~12h — europe -->
+        <g class="nt-ring" data-i="1" data-r="europe">
+          <path class="trk" d="M 200.00 112.80 A 87.20 87.20 0 1 1 199.85 112.80" fill="none" stroke="#e6e0d2" stroke-width="6.4" stroke-linecap="round"/>
+          <path class="arc" d="M 138.34 138.34 A 87.20 87.20 0 0 1 261.66 261.66" fill="none" stroke="#C04E1A" stroke-width="6.4" stroke-linecap="round" style="--L:273.9;animation-delay:90ms"><title>Vienna → Rome — ~12 h</title></path>
+        </g>
+        <!-- ring 2 — London → Fort William ~12h — europe -->
+        <g class="nt-ring" data-i="2" data-r="europe">
+          <path class="trk" d="M 200.00 103.60 A 96.40 96.40 0 1 1 199.83 103.60" fill="none" stroke="#e6e0d2" stroke-width="6.4" stroke-linecap="round"/>
+          <path class="arc" d="M 131.83 131.83 A 96.40 96.40 0 0 1 268.17 268.17" fill="none" stroke="#C04E1A" stroke-width="6.4" stroke-linecap="round" style="--L:302.8;animation-delay:180ms"><title>London → Fort William — ~12 h</title></path>
+        </g>
+        <!-- ring 3 — Brussels → Berlin ~11h — europe -->
+        <g class="nt-ring" data-i="3" data-r="europe">
+          <path class="trk" d="M 200.00 94.40 A 105.60 105.60 0 1 1 199.82 94.40" fill="none" stroke="#e6e0d2" stroke-width="6.4" stroke-linecap="round"/>
+          <path class="arc" d="M 125.33 125.33 A 105.60 105.60 0 1 1 252.80 291.45" fill="none" stroke="#C04E1A" stroke-width="6.4" stroke-linecap="round" style="--L:359.4;animation-delay:270ms"><title>Brussels → Berlin — ~10 h 40 min</title></path>
+        </g>
+        <!-- ring 4 — Tokyo → Izumo ~12h — asia -->
+        <g class="nt-ring" data-i="4" data-r="asia">
+          <path class="trk" d="M 200.00 85.20 A 114.80 114.80 0 1 1 199.80 85.20" fill="none" stroke="#e6e0d2" stroke-width="6.4" stroke-linecap="round"/>
+          <path class="arc" d="M 118.82 118.82 A 114.80 114.80 0 0 1 281.18 281.18" fill="none" stroke="#8a6c1a" stroke-width="6.4" stroke-linecap="round" style="--L:360.7;animation-delay:360ms"><title>Tokyo → Izumo — ~12 h</title></path>
+        </g>
+        <!-- ring 5 — Bangkok → Chiang Mai ~13h — asia -->
+        <g class="nt-ring" data-i="5" data-r="asia">
+          <path class="trk" d="M 200.00 76.00 A 124.00 124.00 0 1 1 199.78 76.00" fill="none" stroke="#e6e0d2" stroke-width="6.4" stroke-linecap="round"/>
+          <path class="arc" d="M 112.32 112.32 A 124.00 124.00 0 1 1 275.49 298.38" fill="none" stroke="#8a6c1a" stroke-width="6.4" stroke-linecap="round" style="--L:405.8;animation-delay:450ms"><title>Bangkok → Chiang Mai — ~12–13 h</title></path>
+        </g>
+        <!-- ring 6 — Beijing → Xi'an ~11h — asia -->
+        <g class="nt-ring" data-i="6" data-r="asia">
+          <path class="trk" d="M 200.00 66.80 A 133.20 133.20 0 1 1 199.77 66.80" fill="none" stroke="#e6e0d2" stroke-width="6.4" stroke-linecap="round"/>
+          <path class="arc" d="M 105.81 105.81 A 133.20 133.20 0 0 1 315.35 266.60" fill="none" stroke="#8a6c1a" stroke-width="6.4" stroke-linecap="round" style="--L:383.6;animation-delay:540ms"><title>Beijing → Xi&#x27;an — ~11 h</title></path>
+        </g>
+        <!-- ring 7 — Lorton → Sanford ~17h — north-america -->
+        <g class="nt-ring" data-i="7" data-r="north-america">
+          <path class="trk" d="M 200.00 57.60 A 142.40 142.40 0 1 1 199.75 57.60" fill="none" stroke="#e6e0d2" stroke-width="6.4" stroke-linecap="round"/>
+          <path class="arc" d="M 99.31 99.31 A 142.40 142.40 0 1 1 128.80 323.32" fill="none" stroke="#3d6a86" stroke-width="6.4" stroke-linecap="round" style="--L:633.8;animation-delay:630ms"><title>Lorton, VA → Sanford, FL — ~17 h</title></path>
+        </g>
+        <!-- ring 8 — Chicago → Emeryville ~52h — north-america -->
+        <g class="nt-ring" data-i="8" data-r="north-america">
+          <path class="trk" d="M 200.00 48.40 A 151.60 151.60 0 1 1 199.74 48.40" fill="none" stroke="#e6e0d2" stroke-width="6.4" stroke-linecap="round"/>
+          <path class="arc" d="M 92.80 92.80 A 151.60 151.60 0 1 1 82.18 104.60" fill="none" stroke="#3d6a86" stroke-width="6.4" stroke-linecap="round" style="--L:936.7;animation-delay:720ms"><title>Chicago → Emeryville (SF Bay) — ~52 h / 2 nights</title></path>
+        </g>
+        <!-- ring 9 — Toronto → Vancouver ~4 days — north-america -->
+        <g class="nt-ring" data-i="9" data-r="north-america">
+          <path class="trk" d="M 200.00 39.20 A 160.80 160.80 0 1 1 199.72 39.20" fill="none" stroke="#e6e0d2" stroke-width="6.4" stroke-linecap="round"/>
+          <path class="arc" d="M 86.30 86.30 A 160.80 160.80 0 1 1 75.03 98.81" fill="none" stroke="#3d6a86" stroke-width="6.4" stroke-linecap="round" style="--L:993.5;animation-delay:810ms"><title>Toronto → Vancouver — ~4 days</title></path>
+        </g>
+      </svg>
+      <div class="nt-readout">
+        <span class="nt-rh2">Time on board</span>
+        <span class="nt-rr" id="nt-cr">10 overnight routes</span>
+        <span class="nt-rd" id="nt-cd">Hover a ring</span>
       </div>
-      <svg class="gm-icon" data-icon="boarding-pass" viewBox="0 0 24 24" aria-hidden="true" style="width:24px;height:24px;"><use href="#gm-i-boarding-pass"/></svg>
-      <div class="nt-type-desc">A reclining seat rather than a bed. Usually the lowest fare, but privacy, recline and overnight comfort vary sharply by train.</div>
-    </div>
-    <div class="nt-type-card">
-      <div class="nt-type-top">
-        <span class="nt-type-name">Couchette</span>
-        <span class="badge sb-gold">Mid-range</span>
+      <div class="nt-legend tve-glue-m" style="--glue-w:2px">
+        <button class="filter-btn selection-pill cp-light-grey is-on hov-darken" data-r="all">All</button>
+        <button class="filter-btn selection-pill cp-rust hov-darken" data-r="europe">Europe</button>
+        <button class="filter-btn selection-pill cp-honey hov-darken" data-r="asia">Asia</button>
+        <button class="filter-btn selection-pill cp-blue hov-darken" data-r="north-america">North America</button>
       </div>
-      <svg class="gm-icon" data-icon="people" viewBox="0 0 24 24" aria-hidden="true" style="width:24px;height:24px;"><use href="#gm-i-people"/></svg>
-      <div class="nt-type-desc">Fold-down bunk in a shared 4- or 6-berth compartment. Bedding supplied on most European services. Best value-to-rest ratio.</div>
     </div>
-    <div class="nt-type-card">
-      <div class="nt-type-top">
-        <span class="nt-type-name">Sleeper cabin</span>
-        <span class="badge sb-rust">Premium</span>
-      </div>
-      <svg class="gm-icon" data-icon="hotel" viewBox="0 0 24 24" aria-hidden="true" style="width:24px;height:24px;"><use href="#gm-i-hotel"/></svg>
-      <div class="nt-type-desc">Private or semi-private locked cabin, 1–3 berths. Breakfast included on many European services. Sells out months in advance.</div>
-    </div>
-    <div class="nt-type-card">
-      <div class="nt-type-top">
-        <span class="nt-type-name">Deluxe / en-suite</span>
-        <span class="badge sb-pink">Luxury</span>
-      </div>
-      <svg class="gm-icon" data-icon="tap-water" viewBox="0 0 24 24" aria-hidden="true" style="width:24px;height:24px;"><use href="#gm-i-tap-water"/></svg>
-      <div class="nt-type-desc">Private cabin with its own shower and toilet. Offered on selected Nightjet, Caledonian Sleeper and other services; confirm the actual train and cabin type before paying.</div>
-    </div>
-  </div>
 
-  <!-- ===== EUROPE ===== -->
-  <div class="nt-region" data-section="europe">
-    <div class="nt-section-head">
-      <span class="nt-section-title">Europe</span>
-      <span class="nt-section-sub">Book with the operating railway for the clearest cabin inventory and change rules</span>
-    </div>
-    <div class="nt-grid">
+    <!-- ── RIGHT: route cards ── -->
+    <div id="nt-routes-col">
+      <h2 class="nt-sec">The routes</h2>
+      <p class="nt-subt">Each ring on the dial is one route — longer arc, longer night. Booking windows and platforms vary sharply by country.</p>
 
-      <div class="nt-card" data-region="europe" data-search="vienna amsterdam nightjet austria netherlands">
-        <div class="nt-card-top">
-          <div class="nt-route">Vienna → Amsterdam</div>
-          <div class="nt-duration">~15 h</div>
-        </div>
-        <div class="nt-operator">Nightjet (ÖBB)</div>
-        <div class="country-tags">
+      <article class="rc" id="rc0" data-i="0" data-r="europe" data-region="europe" data-search="vienna amsterdam nightjet austria netherlands" tabindex="0" style="--col:#C04E1A">
+        <div class="rct"><span class="dot"></span><h3>Vienna → Amsterdam</h3><span class="du">~15 h</span></div>
+        <div class="rop">Nightjet (ÖBB)</div>
+        <div class="rfl">
           <span class="ctag"><svg class="flag-svg" viewBox="0 0 36 36" aria-hidden="true" data-flag="10009"><use href="/assets/flags/sprite.svg#flag-10009"></use></svg> Austria</span>
           <span class="ctag"><svg class="flag-svg" viewBox="0 0 36 36" aria-hidden="true" data-flag="10136"><use href="/assets/flags/sprite.svg#flag-10136"></use></svg> Netherlands</span>
         </div>
-        <div class="country-tags"><span class="ctag">Seat</span><span class="ctag">Couchette</span><span class="ctag">Mini-cabin</span></div>
-        <div class="nt-tip">Nightjet equipment varies by departure. If a new-generation train is assigned, solo travellers may see lockable Mini Cabins; verify the accommodation shown for the exact date.</div>
-        <div class="nt-book-window"><strong>Book window:</strong> direct Nightjet tickets can now open up to 360 days ahead; shorter windows apply around timetable changes and to connecting journeys. <a href="https://www.nightjet.com/en" target="_blank" rel="noopener">nightjet.com</a></div>
-      </div>
+        <div class="rchips"><span class="ctag">Seat</span><span class="ctag">Couchette</span><span class="ctag">Mini-cabin</span></div>
+        <p class="rtip">Nightjet equipment varies by departure. If a new-generation train is assigned, solo travellers may see lockable Mini Cabins; verify the accommodation shown for the exact date.</p>
+        <p class="rbw"><strong>Book window:</strong> direct Nightjet tickets can now open up to 360 days ahead; shorter windows apply around timetable changes and to connecting journeys. <a href="https://www.nightjet.com/en" target="_blank" rel="noopener">nightjet.com</a></p>
+      </article>
 
-      <div class="nt-card" data-region="europe" data-search="vienna rome nightjet austria italy">
-        <div class="nt-card-top">
-          <div class="nt-route">Vienna → Rome</div>
-          <div class="nt-duration">~12 h</div>
-        </div>
-        <div class="nt-operator">Nightjet (ÖBB)</div>
-        <div class="country-tags">
+      <article class="rc" id="rc1" data-i="1" data-r="europe" data-region="europe" data-search="vienna rome nightjet austria italy" tabindex="0" style="--col:#C04E1A">
+        <div class="rct"><span class="dot"></span><h3>Vienna → Rome</h3><span class="du">~12 h</span></div>
+        <div class="rop">Nightjet (ÖBB)</div>
+        <div class="rfl">
           <span class="ctag"><svg class="flag-svg" viewBox="0 0 36 36" aria-hidden="true" data-flag="10009"><use href="/assets/flags/sprite.svg#flag-10009"></use></svg> Austria</span>
           <span class="ctag"><svg class="flag-svg" viewBox="0 0 36 36" aria-hidden="true" data-flag="10087"><use href="/assets/flags/sprite.svg#flag-10087"></use></svg> Italy</span>
         </div>
-        <div class="country-tags"><span class="ctag">Couchette</span><span class="ctag">Mini-cabin</span><span class="ctag">En-suite sleeper</span></div>
-        <div class="nt-tip">This route now uses new-generation Nightjet stock with Mini Cabins and en-suite sleeper compartments. Check the live timetable because engineering work can shorten or suspend the Rome portion on specific dates.</div>
-        <div class="nt-book-window"><strong>Book window:</strong> direct Nightjet tickets can open up to 360 days ahead; book the exact Vienna–Rome train through Nightjet. <a href="https://www.nightjet.com/en/reiseziele/italien/rom" target="_blank" rel="noopener">Current Rome service</a></div>
-      </div>
+        <div class="rchips"><span class="ctag">Couchette</span><span class="ctag">Mini-cabin</span><span class="ctag">En-suite sleeper</span></div>
+        <p class="rtip">This route now uses new-generation Nightjet stock with Mini Cabins and en-suite sleeper compartments. Check the live timetable because engineering work can shorten or suspend the Rome portion on specific dates.</p>
+        <p class="rbw"><strong>Book window:</strong> direct Nightjet tickets can open up to 360 days ahead; book the exact Vienna–Rome train through Nightjet. <a href="https://www.nightjet.com/en/reiseziele/italien/rom" target="_blank" rel="noopener">Current Rome service</a></p>
+      </article>
 
-      <div class="nt-card" data-region="europe" data-search="london fort william caledonian sleeper scotland united kingdom">
-        <div class="nt-card-top">
-          <div class="nt-route">London → Fort William</div>
-          <div class="nt-duration">~12 h</div>
-        </div>
-        <div class="nt-operator">Caledonian Sleeper</div>
-        <div class="country-tags">
+      <article class="rc" id="rc2" data-i="2" data-r="europe" data-region="europe" data-search="london fort william caledonian sleeper scotland united kingdom" tabindex="0" style="--col:#C04E1A">
+        <div class="rct"><span class="dot"></span><h3>London → Fort William</h3><span class="du">~12 h</span></div>
+        <div class="rop">Caledonian Sleeper</div>
+        <div class="rfl">
           <span class="ctag"><svg class="flag-svg" viewBox="0 0 36 36" aria-hidden="true" data-flag="10064"><use href="/assets/flags/sprite.svg#flag-10064"></use></svg> United Kingdom</span>
         </div>
-        <div class="country-tags"><span class="ctag">Seated lounge</span><span class="ctag">Cabin</span><span class="ctag">En-suite cabin</span></div>
-        <div class="nt-tip">Departs London Euston at night and reaches Fort William the next morning. Club rooms include an en-suite shower and toilet; Classic rooms use shared facilities.</div>
-        <div class="nt-book-window"><strong>Book window:</strong> tickets can be purchased up to 12 months ahead; check engineering updates before travel. <a href="https://www.sleeper.scot/destinations/a-z-destinations/fort-william/" target="_blank" rel="noopener">Current Fort William service</a></div>
-      </div>
+        <div class="rchips"><span class="ctag">Seated lounge</span><span class="ctag">Cabin</span><span class="ctag">En-suite cabin</span></div>
+        <p class="rtip">Departs London Euston at night and reaches Fort William the next morning. Club rooms include an en-suite shower and toilet; Classic rooms use shared facilities.</p>
+        <p class="rbw"><strong>Book window:</strong> tickets can be purchased up to 12 months ahead; check engineering updates before travel. <a href="https://www.sleeper.scot/destinations/a-z-destinations/fort-william/" target="_blank" rel="noopener">Current Fort William service</a></p>
+      </article>
 
-      <div class="nt-card" data-region="europe" data-search="brussels amsterdam berlin european sleeper belgium netherlands germany">
-        <div class="nt-card-top">
-          <div class="nt-route">Brussels → Berlin (train continues to Prague)</div>
-          <div class="nt-duration">~10 h 40 min</div>
-        </div>
-        <div class="nt-operator">European Sleeper</div>
-        <div class="country-tags">
+      <article class="rc" id="rc3" data-i="3" data-r="europe" data-region="europe" data-search="brussels amsterdam berlin european sleeper belgium netherlands germany" tabindex="0" style="--col:#C04E1A">
+        <div class="rct"><span class="dot"></span><h3>Brussels → Berlin <span style="font-size:.8em;font-weight:600;opacity:.65">(continues to Prague)</span></h3><span class="du">~10 h 40 min</span></div>
+        <div class="rop">European Sleeper</div>
+        <div class="rfl">
           <span class="ctag"><svg class="flag-svg" viewBox="0 0 36 36" aria-hidden="true" data-flag="10016"><use href="/assets/flags/sprite.svg#flag-10016"></use></svg> Belgium</span>
           <span class="ctag"><svg class="flag-svg" viewBox="0 0 36 36" aria-hidden="true" data-flag="10136"><use href="/assets/flags/sprite.svg#flag-10136"></use></svg> Netherlands</span>
           <span class="ctag"><svg class="flag-svg" viewBox="0 0 36 36" aria-hidden="true" data-flag="10046"><use href="/assets/flags/sprite.svg#flag-10046"></use></svg> Germany</span>
         </div>
-        <div class="country-tags"><span class="ctag">Seat</span><span class="ctag">Couchette</span><span class="ctag">Sleeper</span></div>
-        <div class="nt-tip">The Brussels–Prague service runs through Amsterdam, Berlin and Dresden three times a week. Berlin station assignments can change during engineering work, so check the dated timetable rather than assuming Hauptbahnhof.</div>
-        <div class="nt-book-window"><strong>Book window:</strong> sales open in timetable batches. Confirm the dated departure and any disruption notice before booking. <a href="https://www.europeansleeper.eu/timetable" target="_blank" rel="noopener">Current timetable</a></div>
-      </div>
+        <div class="rchips"><span class="ctag">Seat</span><span class="ctag">Couchette</span><span class="ctag">Sleeper</span></div>
+        <p class="rtip">The Brussels–Prague service runs through Amsterdam, Berlin and Dresden three times a week. Berlin station assignments can change during engineering work, so check the dated timetable rather than assuming Hauptbahnhof.</p>
+        <p class="rbw"><strong>Book window:</strong> sales open in timetable batches. Confirm the dated departure and any disruption notice before booking. <a href="https://www.europeansleeper.eu/timetable" target="_blank" rel="noopener">Current timetable</a></p>
+      </article>
 
-    </div>
-  </div>
-
-  <!-- ===== ASIA ===== -->
-  <div class="nt-region" data-section="asia">
-    <div class="nt-section-head">
-      <span class="nt-section-title">Asia</span>
-      <span class="nt-section-sub">Booking windows and platforms vary sharply by country</span>
-    </div>
-    <div class="nt-grid">
-
-      <div class="nt-card" data-region="asia" data-search="tokyo izumo sunrise japan jr">
-        <div class="nt-card-top">
-          <div class="nt-route">Tokyo → Izumo</div>
-          <div class="nt-duration">~12 h</div>
-        </div>
-        <div class="nt-operator">Sunrise Izumo (JR)</div>
-        <div class="country-tags">
+      <article class="rc" id="rc4" data-i="4" data-r="asia" data-region="asia" data-search="tokyo izumo sunrise japan jr" tabindex="0" style="--col:#8a6c1a">
+        <div class="rct"><span class="dot"></span><h3>Tokyo → Izumo</h3><span class="du">~12 h</span></div>
+        <div class="rop">Sunrise Izumo (JR)</div>
+        <div class="rfl">
           <span class="ctag"><svg class="flag-svg" viewBox="0 0 36 36" aria-hidden="true" data-flag="10090"><use href="/assets/flags/sprite.svg#flag-10090"></use></svg> Japan</span>
         </div>
-        <div class="country-tags"><span class="ctag">Nobinobi seat</span><span class="ctag">Single cabin</span></div>
-        <div class="nt-tip">Japan's only regular overnight train left, and it books out the moment the reservation window opens. The carpeted Nobinobi berth is covered by a rail pass and is the cheapest bed in the country — a flat mat, not a bunk.</div>
-        <div class="nt-book-window"><strong>Book window:</strong> reserved accommodation normally opens 1 month before travel at 10:00 JST. <a href="https://www.jr-odekake.net/goyoyaku/campaign/sunriseseto_izumo/form.html" target="_blank" rel="noopener">JR West booking</a></div>
-      </div>
+        <div class="rchips"><span class="ctag">Nobinobi seat</span><span class="ctag">Single cabin</span></div>
+        <p class="rtip">Japan's only regular overnight train left, and it books out the moment the reservation window opens. The carpeted Nobinobi berth is covered by a rail pass and is the cheapest bed in the country — a flat mat, not a bunk.</p>
+        <p class="rbw"><strong>Book window:</strong> reserved accommodation normally opens 1 month before travel at 10:00 JST. <a href="https://www.jr-odekake.net/goyoyaku/campaign/sunriseseto_izumo/form.html" target="_blank" rel="noopener">JR West booking</a></p>
+      </article>
 
-      <div class="nt-card" data-region="asia" data-search="bangkok chiang mai state railway thailand sleeper">
-        <div class="nt-card-top">
-          <div class="nt-route">Bangkok → Chiang Mai</div>
-          <div class="nt-duration">~12–13 h</div>
-        </div>
-        <div class="nt-operator">State Railway of Thailand</div>
-        <div class="country-tags">
+      <article class="rc" id="rc5" data-i="5" data-r="asia" data-region="asia" data-search="bangkok chiang mai state railway thailand sleeper" tabindex="0" style="--col:#8a6c1a">
+        <div class="rct"><span class="dot"></span><h3>Bangkok → Chiang Mai</h3><span class="du">~12–13 h</span></div>
+        <div class="rop">State Railway of Thailand</div>
+        <div class="rfl">
           <span class="ctag"><svg class="flag-svg" viewBox="0 0 36 36" aria-hidden="true" data-flag="10181"><use href="/assets/flags/sprite.svg#flag-10181"></use></svg> Thailand</span>
         </div>
-        <div class="country-tags"><span class="ctag">2nd class fan</span><span class="ctag">2nd class A/C sleeper</span><span class="ctag">1st class cabin</span></div>
-        <div class="nt-tip">Second-class A/C sleepers use curtained made-up berths; first class uses two-berth compartments. Check the train number because equipment and arrival times differ.</div>
-        <div class="nt-book-window"><strong>Book window:</strong> SRT's official D-Ticket system allows eligible reservations up to 180 days ahead. <a href="https://dticket.railway.co.th/DTicketPublicWeb/home/Home" target="_blank" rel="noopener">SRT D-Ticket</a></div>
-      </div>
+        <div class="rchips"><span class="ctag">2nd class fan</span><span class="ctag">2nd class A/C sleeper</span><span class="ctag">1st class cabin</span></div>
+        <p class="rtip">Second-class A/C sleepers use curtained made-up berths; first class uses two-berth compartments. Check the train number because equipment and arrival times differ.</p>
+        <p class="rbw"><strong>Book window:</strong> SRT's official D-Ticket system allows eligible reservations up to 180 days ahead. <a href="https://dticket.railway.co.th/DTicketPublicWeb/home/Home" target="_blank" rel="noopener">SRT D-Ticket</a></p>
+      </article>
 
-      <div class="nt-card" data-region="asia" data-search="beijing xian china railway sleeper">
-        <div class="nt-card-top">
-          <div class="nt-route">Beijing → Xi'an</div>
-          <div class="nt-duration">~11 h</div>
-        </div>
-        <div class="nt-operator">China Railway (overnight Z/K train)</div>
-        <div class="country-tags">
+      <article class="rc" id="rc6" data-i="6" data-r="asia" data-region="asia" data-search="beijing xian china railway sleeper" tabindex="0" style="--col:#8a6c1a">
+        <div class="rct"><span class="dot"></span><h3>Beijing → Xi'an</h3><span class="du">~11 h</span></div>
+        <div class="rop">China Railway (overnight Z/K train)</div>
+        <div class="rfl">
           <span class="ctag"><svg class="flag-svg" viewBox="0 0 36 36" aria-hidden="true" data-flag="10038"><use href="/assets/flags/sprite.svg#flag-10038"></use></svg> China</span>
         </div>
-        <div class="country-tags"><span class="ctag">Hard sleeper</span><span class="ctag">Soft sleeper</span></div>
-        <div class="nt-tip">Soft sleeper gets a lockable 4-berth compartment; hard sleeper is an open 6-berth bay — both include bedding. Boarding requires a passport, not just the ticket.</div>
-        <div class="nt-book-window"><strong>Book window:</strong> tickets generally release 15 days ahead. Use the official English booking site and match the passport details exactly. <a href="https://www.12306.cn/en/" target="_blank" rel="noopener">China Railway 12306</a></div>
-      </div>
+        <div class="rchips"><span class="ctag">Hard sleeper</span><span class="ctag">Soft sleeper</span></div>
+        <p class="rtip">Soft sleeper gets a lockable 4-berth compartment; hard sleeper is an open 6-berth bay — both include bedding. Boarding requires a passport, not just the ticket.</p>
+        <p class="rbw"><strong>Book window:</strong> tickets generally release 15 days ahead. Use the official English booking site and match the passport details exactly. <a href="https://www.12306.cn/en/" target="_blank" rel="noopener">China Railway 12306</a></p>
+      </article>
 
-    </div>
-  </div>
-
-  <!-- ===== NORTH AMERICA ===== -->
-  <div class="nt-region" data-section="north-america">
-    <div class="nt-section-head">
-      <span class="nt-section-title">North America</span>
-      <span class="nt-section-sub">Book via Amtrak or VIA Rail directly</span>
-    </div>
-    <div class="nt-grid">
-
-      <div class="nt-card" data-region="north-america" data-search="lorton sanford auto train amtrak virginia florida united states">
-        <div class="nt-card-top">
-          <div class="nt-route">Lorton, VA → Sanford, FL</div>
-          <div class="nt-duration">~17 h</div>
-        </div>
-        <div class="nt-operator">Amtrak Auto Train</div>
-        <div class="country-tags">
+      <article class="rc" id="rc7" data-i="7" data-r="north-america" data-region="north-america" data-search="lorton sanford auto train amtrak virginia florida united states" tabindex="0" style="--col:#3d6a86">
+        <div class="rct"><span class="dot"></span><h3>Lorton, VA → Sanford, FL</h3><span class="du">~17 h</span></div>
+        <div class="rop">Amtrak Auto Train</div>
+        <div class="rfl">
           <span class="ctag"><svg class="flag-svg" viewBox="0 0 36 36" aria-hidden="true" data-flag="10194"><use href="/assets/flags/sprite.svg#flag-10194"></use></svg> United States</span>
         </div>
-        <div class="country-tags"><span class="ctag">Coach</span><span class="ctag">Roomette</span><span class="ctag">Bedroom</span></div>
-        <div class="nt-tip">The only train in the country that carries your car in a rail car behind you — skip 900 miles of I-95 and arrive in Florida with your own vehicle waiting.</div>
-        <div class="nt-book-window"><strong>Book window:</strong> opens up to 11 months out; roomettes go first on holiday weekends. <a href="https://www.amtrak.com" target="_blank" rel="noopener">amtrak.com</a></div>
-      </div>
+        <div class="rchips"><span class="ctag">Coach</span><span class="ctag">Roomette</span><span class="ctag">Bedroom</span></div>
+        <p class="rtip">The only train in the country that carries your car in a rail car behind you — skip 900 miles of I-95 and arrive in Florida with your own vehicle waiting.</p>
+        <p class="rbw"><strong>Book window:</strong> opens up to 11 months out; roomettes go first on holiday weekends. <a href="https://www.amtrak.com" target="_blank" rel="noopener">amtrak.com</a></p>
+      </article>
 
-      <div class="nt-card" data-region="north-america" data-search="chicago emeryville san francisco california zephyr amtrak rockies united states">
-        <div class="nt-card-top">
-          <div class="nt-route">Chicago → Emeryville (SF Bay)</div>
-          <div class="nt-duration">~52–53 h / 2 nights</div>
-        </div>
-        <div class="nt-operator">Amtrak California Zephyr</div>
-        <div class="country-tags">
+      <article class="rc" id="rc8" data-i="8" data-r="north-america" data-region="north-america" data-search="chicago emeryville san francisco california zephyr amtrak rockies united states" tabindex="0" style="--col:#3d6a86">
+        <div class="rct"><span class="dot"></span><h3>Chicago → Emeryville (SF Bay)</h3><span class="du">~52–53 h / 2 nights</span></div>
+        <div class="rop">Amtrak California Zephyr</div>
+        <div class="rfl">
           <span class="ctag"><svg class="flag-svg" viewBox="0 0 36 36" aria-hidden="true" data-flag="10194"><use href="/assets/flags/sprite.svg#flag-10194"></use></svg> United States</span>
         </div>
-        <div class="country-tags"><span class="ctag">Coach</span><span class="ctag">Roomette</span><span class="ctag">Bedroom</span></div>
-        <div class="nt-tip">The timetable is designed to show the Colorado Rockies and Sierra Nevada in daylight, but long-distance delays can move scenery into darkness. Treat the view as the appeal, not a guarantee for a particular hour.</div>
-        <div class="nt-book-window"><strong>Book window:</strong> opens up to 11 months out; accommodation prices are dynamic, so compare dates directly. <a href="https://www.amtrak.com" target="_blank" rel="noopener">amtrak.com</a></div>
-      </div>
+        <div class="rchips"><span class="ctag">Coach</span><span class="ctag">Roomette</span><span class="ctag">Bedroom</span></div>
+        <p class="rtip">The timetable is designed to show the Colorado Rockies and Sierra Nevada in daylight, but long-distance delays can move scenery into darkness. Treat the view as the appeal, not a guarantee for a particular hour.</p>
+        <p class="rbw"><strong>Book window:</strong> opens up to 11 months out; accommodation prices are dynamic, so compare dates directly. <a href="https://www.amtrak.com" target="_blank" rel="noopener">amtrak.com</a></p>
+      </article>
 
-      <div class="nt-card" data-region="north-america" data-search="toronto vancouver via rail the canadian canada">
-        <div class="nt-card-top">
-          <div class="nt-route">Toronto → Vancouver</div>
-          <div class="nt-duration">~3 d 20 h / 4 nights</div>
-        </div>
-        <div class="nt-operator">VIA Rail — The Canadian</div>
-        <div class="country-tags">
+      <article class="rc" id="rc9" data-i="9" data-r="north-america" data-region="north-america" data-search="toronto vancouver via rail the canadian canada" tabindex="0" style="--col:#3d6a86">
+        <div class="rct"><span class="dot"></span><h3>Toronto → Vancouver</h3><span class="du">~3 d 20 h / 4 nights</span></div>
+        <div class="rop">VIA Rail — The Canadian</div>
+        <div class="rfl">
           <span class="ctag"><svg class="flag-svg" viewBox="0 0 36 36" aria-hidden="true" data-flag="10030"><use href="/assets/flags/sprite.svg#flag-10030"></use></svg> Canada</span>
         </div>
-        <div class="country-tags"><span class="ctag">Sleeper Plus</span><span class="ctag">Prestige</span></div>
-        <div class="nt-tip">A transcontinental journey with four nights on board through the Canadian Shield, the Prairies and the Rockies. Prestige cabins include a private washroom with shower and a larger window.</div>
-        <div class="nt-book-window"><strong>Book window:</strong> reserve directly with VIA Rail and verify the dated schedule, fare conditions and included meals. <a href="https://www.viarail.ca/en/explore-our-destinations/trains/rockies-and-pacific/toronto-vancouver-canadian" target="_blank" rel="noopener">The Canadian</a></div>
+        <div class="rchips"><span class="ctag">Sleeper Plus</span><span class="ctag">Prestige</span></div>
+        <p class="rtip">A transcontinental journey with four nights on board through the Canadian Shield, the Prairies and the Rockies. Prestige cabins include a private washroom with shower and a larger window.</p>
+        <p class="rbw"><strong>Book window:</strong> reserve directly with VIA Rail and verify the dated schedule, fare conditions and included meals. <a href="https://www.viarail.ca/en/explore-our-destinations/trains/rockies-and-pacific/toronto-vancouver-canadian" target="_blank" rel="noopener">The Canadian</a></p>
+      </article>
+
+      <div class="regnotes">
+        <h3>Booking, by region</h3>
+        <p><b style="color:#C04E1A">Europe</b> &mdash; Book via the operator site, Trainline, or Raileurope</p>
+        <p><b style="color:#8a6c1a">Asia</b> &mdash; Booking windows and platforms vary sharply by country</p>
+        <p><b style="color:#3d6a86">North America</b> &mdash; Book via Amtrak or VIA Rail directly</p>
       </div>
 
-    </div>
-  </div>
+    </div><!-- /routes col -->
+  </div><!-- /split -->
 
-  <!-- ===== WHAT TO PACK ===== -->
-  <div class="nt-section-head">
-    <span class="nt-section-title">What to bring on a night train</span>
-    <span class="nt-section-sub">The essentials most people forget</span>
-  </div>
-  <div class="nt-tips-grid">
-    <div class="nt-tip-card">
-      <svg class="gm-icon nt-tip-icon" data-icon="wx-moon" viewBox="0 0 24 24" aria-hidden="true"><use href="#gm-i-wx-moon"/></svg>
-      <div>
-        <div class="nt-tip-title">Eye mask + earplugs</div>
-        <div class="nt-tip-text">Couchette compartments have uneven lighting and door noise through the night. These two items separate a rested arrival from a groggy one.</div>
+  <!-- ── Berth types ── -->
+  <div class="wide-sec">
+    <h2 class="nt-sec">Berth types — pick before you book</h2>
+    <p class="nt-subt" style="margin-bottom:16px">Most trains offer at least two of these.</p>
+    <div class="berths">
+      <div class="bt">
+        <svg class="gm-icon" data-icon="boarding-pass" viewBox="0 0 24 24" aria-hidden="true"><use href="#gm-i-boarding-pass"/></svg>
+        <div class="btn2">Seat <span class="badge sb-green">Budget</span></div>
+        <p>A reclining seat rather than a bed. Usually the lowest fare, but privacy, recline and overnight comfort vary sharply by train.</p>
       </div>
-    </div>
-    <div class="nt-tip-card">
-      <svg class="gm-icon nt-tip-icon" data-icon="safety-guide" viewBox="0 0 24 24" aria-hidden="true"><use href="#gm-i-safety-guide"/></svg>
-      <div>
-        <div class="nt-tip-title">Small padlock</div>
-        <div class="nt-tip-text">Keep passports, money and electronics with you. A small lock can secure bag zips, but do not fasten luggage to train fittings or block aisles and exits.</div>
+      <div class="bt">
+        <svg class="gm-icon" data-icon="people" viewBox="0 0 24 24" aria-hidden="true"><use href="#gm-i-people"/></svg>
+        <div class="btn2">Couchette <span class="badge sb-gold">Mid-range</span></div>
+        <p>Fold-down bunk in a shared 4- or 6-berth compartment. Bedding supplied on most European services. Best value-to-rest ratio.</p>
       </div>
-    </div>
-    <div class="nt-tip-card">
-      <svg class="gm-icon nt-tip-icon" data-icon="tap-water" viewBox="0 0 24 24" aria-hidden="true"><use href="#gm-i-tap-water"/></svg>
-      <div>
-        <div class="nt-tip-title">Water bottle</div>
-        <div class="nt-tip-text">Fill it before boarding. Drinking-water and food service vary by train, route and time of night, so do not assume an open dining car or potable tap.</div>
+      <div class="bt">
+        <svg class="gm-icon" data-icon="hotel" viewBox="0 0 24 24" aria-hidden="true"><use href="#gm-i-hotel"/></svg>
+        <div class="btn2">Sleeper cabin <span class="badge sb-rust">Premium</span></div>
+        <p>Private or semi-private locked cabin, 1–3 berths. Breakfast included on many European services. Sells out months in advance.</p>
       </div>
-    </div>
-    <div class="nt-tip-card">
-      <svg class="gm-icon nt-tip-icon" data-icon="plug" viewBox="0 0 24 24" aria-hidden="true"><use href="#gm-i-plug"/></svg>
-      <div>
-        <div class="nt-tip-title">Power bank</div>
-        <div class="nt-tip-text">Outlet and USB availability depends on the carriage, not just the route. Charge before boarding and carry a power bank as backup.</div>
-      </div>
-    </div>
-    <div class="nt-tip-card">
-      <svg class="gm-icon nt-tip-icon" data-icon="id-card-check" viewBox="0 0 24 24" aria-hidden="true"><use href="#gm-i-id-card-check"/></svg>
-      <div>
-        <div class="nt-tip-title">Offline ticket copy</div>
-        <div class="nt-tip-text">Download the ticket or reservation before boarding and keep the required passport or ID within reach. Do not rely on mobile signal when staff check accommodation.</div>
-      </div>
-    </div>
-    <div class="nt-tip-card">
-      <svg class="gm-icon nt-tip-icon" data-icon="backpack-strapped" viewBox="0 0 24 24" aria-hidden="true"><use href="#gm-i-backpack-strapped"/></svg>
-      <div>
-        <div class="nt-tip-title">Toiletry kit in hand luggage</div>
-        <div class="nt-tip-text">Your main bag goes on the overhead rack or under the bottom bunk. Keep a face wash, toothbrush, and a change of top layer in a small bag at your seat — a morning routine without digging through the whole pack.</div>
+      <div class="bt">
+        <svg class="gm-icon" data-icon="tap-water" viewBox="0 0 24 24" aria-hidden="true"><use href="#gm-i-tap-water"/></svg>
+        <div class="btn2">Deluxe / en-suite <span class="badge sb-pink">Luxury</span></div>
+        <p>Private cabin with its own shower and toilet. Offered on selected Nightjet, Caledonian Sleeper and other services; confirm the actual train and cabin type before paying.</p>
       </div>
     </div>
   </div>
 
-</main>
+  <!-- ── What to pack ── -->
+  <div class="wide-sec" style="margin-bottom:40px">
+    <h2 class="nt-sec">What to bring on a night train</h2>
+    <p class="nt-subt" style="margin-bottom:16px">The essentials most people forget.</p>
+    <div class="packgrid">
+      <div class="pk">
+        <svg class="gm-icon" data-icon="wx-moon" viewBox="0 0 24 24" aria-hidden="true"><use href="#gm-i-wx-moon"/></svg>
+        <div><b>Eye mask + earplugs</b><p>Couchette compartments have uneven lighting and door noise through the night. These two items separate a rested arrival from a groggy one.</p></div>
+      </div>
+      <div class="pk">
+        <svg class="gm-icon" data-icon="safety-guide" viewBox="0 0 24 24" aria-hidden="true"><use href="#gm-i-safety-guide"/></svg>
+        <div><b>Small padlock</b><p>Keep passports, money and electronics with you. A small lock can secure bag zips, but do not fasten luggage to train fittings or block aisles and exits.</p></div>
+      </div>
+      <div class="pk">
+        <svg class="gm-icon" data-icon="tap-water" viewBox="0 0 24 24" aria-hidden="true"><use href="#gm-i-tap-water"/></svg>
+        <div><b>Water bottle</b><p>Fill it before boarding. Drinking-water and food service vary by train, route and time of night, so do not assume an open dining car or potable tap.</p></div>
+      </div>
+      <div class="pk">
+        <svg class="gm-icon" data-icon="plug" viewBox="0 0 24 24" aria-hidden="true"><use href="#gm-i-plug"/></svg>
+        <div><b>Power bank</b><p>Outlet and USB availability depends on the carriage, not just the route. Charge before boarding and carry a power bank as backup.</p></div>
+      </div>
+      <div class="pk">
+        <svg class="gm-icon" data-icon="id-card-check" viewBox="0 0 24 24" aria-hidden="true"><use href="#gm-i-id-card-check"/></svg>
+        <div><b>Offline ticket copy</b><p>Download the ticket or reservation before boarding and keep the required passport or ID within reach. Do not rely on mobile signal when staff check accommodation.</p></div>
+      </div>
+      <div class="pk">
+        <svg class="gm-icon" data-icon="backpack-strapped" viewBox="0 0 24 24" aria-hidden="true"><use href="#gm-i-backpack-strapped"/></svg>
+        <div><b>Toiletry kit in hand luggage</b><p>Your main bag goes on the overhead rack or under the bottom bunk. Keep a face wash, toothbrush, and a change of top layer in a small bag at your seat — a morning routine without digging through the whole pack.</p></div>
+      </div>
+    </div>
+  </div>
 
-</div>
+</div><!-- /wrap -->
+
 <script src="/assets/search-autocomplete.js?v=16"></script>
 <script>
 (function () {
-  var cards = Array.prototype.slice.call(document.querySelectorAll('.nt-card'));
-  var regions = Array.prototype.slice.call(document.querySelectorAll('.nt-region'));
+  var dial    = document.getElementById('nt-dial');
+  var crEl    = document.getElementById('nt-cr');
+  var cdEl    = document.getElementById('nt-cd');
+  var baseR   = crEl.textContent;
+  var baseD   = cdEl.textContent;
+  var cards   = Array.prototype.slice.call(document.querySelectorAll('.rc'));
   var searchInput = document.getElementById('nt-search');
-  var noResult = document.getElementById('nt-noresult');
+  var noResult    = document.getElementById('nt-noresult');
   var activeRegion = 'all';
 
+  /* dial ring ↔ route card cross-highlight */
+  function link(i, on) {
+    var ring = dial.querySelector('.nt-ring[data-i="' + i + '"]');
+    var card = document.getElementById('rc' + i);
+    if (ring) ring.classList.toggle('hot', on);
+    if (card) card.classList.toggle('hot', on);
+    if (on && card) {
+      crEl.textContent = card.querySelector('h3').textContent;
+      cdEl.textContent = card.querySelector('.du').textContent;
+    } else if (!on) {
+      crEl.textContent = baseR;
+      cdEl.textContent = baseD;
+    }
+  }
+
+  dial.querySelectorAll('.nt-ring').forEach(function (ring) {
+    var i = ring.dataset.i;
+    ring.addEventListener('mouseenter', function () { link(i, true); });
+    ring.addEventListener('mouseleave', function () { link(i, false); });
+    ring.addEventListener('click', function () {
+      var card = document.getElementById('rc' + i);
+      if (card) { card.scrollIntoView({ behavior: 'smooth', block: 'center' }); card.focus({ preventScroll: true }); }
+    });
+  });
+
+  cards.forEach(function (card) {
+    var i = card.dataset.i;
+    card.addEventListener('mouseenter', function () { link(i, true); });
+    card.addEventListener('mouseleave', function () { link(i, false); });
+    card.addEventListener('focus',      function () { link(i, true); });
+    card.addEventListener('blur',       function () { link(i, false); });
+  });
+
+  /* combined region + search filter */
   function applyFilters() {
     var q = (searchInput.value || '').trim().toLowerCase();
-    var visibleCount = 0;
+    var visible = 0;
     cards.forEach(function (card) {
-      var matchesRegion = activeRegion === 'all' || card.dataset.region === activeRegion;
-      var haystack = (card.dataset.search || '') + ' ' + card.textContent.toLowerCase();
-      var matchesQuery = !q || haystack.toLowerCase().indexOf(q) !== -1;
-      var show = matchesRegion && matchesQuery;
-      card.style.display = show ? '' : 'none';
-      if (show) visibleCount++;
+      var matchR = activeRegion === 'all' || card.dataset.r === activeRegion;
+      var hay    = (card.dataset.search || '') + ' ' + card.textContent.toLowerCase();
+      var matchQ = !q || hay.indexOf(q) !== -1;
+      var show   = matchR && matchQ;
+      card.classList.toggle('hide', !show);
+      if (show) visible++;
     });
-    regions.forEach(function (section) {
-      var anyVisible = Array.prototype.slice.call(section.querySelectorAll('.nt-card')).some(function (c) {
-        return c.style.display !== 'none';
+    /* dim non-matching rings on the dial */
+    if (activeRegion !== 'all') {
+      dial.classList.add('filtered');
+      dial.querySelectorAll('.nt-ring').forEach(function (ring) {
+        ring.classList.toggle('on', ring.dataset.r === activeRegion);
       });
-      section.classList.toggle('all-hidden', !anyVisible);
-    });
-    noResult.hidden = visibleCount !== 0;
+    } else {
+      dial.classList.remove('filtered');
+      dial.querySelectorAll('.nt-ring').forEach(function (ring) { ring.classList.remove('on'); });
+    }
+    noResult.hidden = visible !== 0;
   }
 
-  function ntFilterRegion(region, btn) {
-    activeRegion = region;
-    document.querySelectorAll('.filter-btn').forEach(function (b) { b.classList.remove('is-on'); });
-    btn.classList.add('is-on');
-    applyFilters();
-  }
-  window.ntFilterRegion = ntFilterRegion;
+  /* region filter buttons (shared .selection-pill classes, toggled via .is-on) */
+  document.querySelectorAll('.nt-legend .filter-btn').forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      activeRegion = btn.dataset.r;
+      document.querySelectorAll('.nt-legend .filter-btn').forEach(function (b) { b.classList.remove('is-on'); });
+      btn.classList.add('is-on');
+      applyFilters();
+    });
+  });
 
   if (searchInput) searchInput.addEventListener('input', applyFilters);
-}());
-</script>
-<script>
-(function () {
-  if (!window.TVESearch) return;
-  var input = document.getElementById('nt-search');
-  if (!input) return;
-  var items = Array.prototype.slice.call(document.querySelectorAll('.nt-card')).map(function (card) {
-    return {
-      name: card.querySelector('.nt-route').textContent,
-      text: card.querySelector('.nt-operator').textContent
-    };
-  });
-  TVESearch.attach(input, { items: items });
+
+  /* TVESearch autocomplete */
+  if (window.TVESearch && searchInput) {
+    var items = cards.map(function (card) {
+      return { name: card.querySelector('h3').textContent, text: card.querySelector('.rop').textContent };
+    });
+    TVESearch.attach(searchInput, { items: items });
+  }
 }());
 </script>
 </body>

@@ -4,155 +4,55 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link rel="stylesheet" href="/assets/web-travel-style.css">
-<title>Scenic &amp; Iconic Train Journeys | Guide My Days</title>
 <style>
-  footer, .tb-footnote { display: none !important; }
+*,*::before,*::after{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+img,svg{max-width:100%}
+.flagsv{width:1.05em;height:1.05em;border-radius:2px;vertical-align:-0.16em;flex:0 0 auto}
+footer,.tb-footnote{display:none!important}
+@media(prefers-reduced-motion:reduce){*{animation-duration:.001ms!important;animation-iteration-count:1!important;transition-duration:.001ms!important;scroll-behavior:auto!important}}
 
-  /* ── Filter bar ── */
-/* .controls carries 10px of its own top padding, which sits INSIDE the 32px
-   the shared rule gives it — so the first button landed 42px under the band
-   where every other page starts at 32. Take the padding back out of the
-   margin so the visible edge matches. */
-.hero-band + .wrap > .controls { margin-top: calc(var(--search-gap, 32px) - 10px); }
+:root{--paper:#efe9dc;--card:#fffdf6;--ink:#211c15;--terra:#C04E1A;--sc-muted:#7c7568;--line:#e0d8c6}
+.sc-bg{background:var(--paper);background-image:repeating-linear-gradient(135deg,rgba(33,28,21,.028) 0 2px,transparent 2px 9px);color:var(--ink)}
+.shell{max-width:1180px;margin:0 auto;padding:0 22px 26px}
+.filters{display:flex;gap:9px;flex-wrap:wrap;align-items:center;margin:28px 0 30px}
+.filters .filter-label{font:800 10px/1 ui-monospace,Menlo,monospace;letter-spacing:.24em;text-transform:uppercase;color:var(--sc-muted);margin-right:4px}
+.flip-hint{margin-left:auto;font:700 11px/1 ui-monospace,Menlo,monospace;color:var(--sc-muted);letter-spacing:.05em}
 
-  .controls {
-    max-width: none;
-    margin: 0 auto;
-    padding: 10px 32px;
-    display: flex;
-    gap: var(--fam-gap,10px);
-    flex-wrap: nowrap;
-    align-items: center;
-    justify-content: center;
-  }
-  .filter-label {
-    font-size: var(--fs-sub,12px);
-    letter-spacing: 0.15em;
-    text-transform: uppercase;
-    color: var(--muted);
-    margin-right: 4px;
-  }
-  /* Filter pills — size standard; colour from .fam-*. */
-/* .filter-btn is a layout hook — box, colour, case and the selected state come from
-   the shared .pill-badge + .fam-* classes (markup writes filter-btn pill-badge fam-*;
-   selection is .is-on). Never re-add a box or a colour here.
-   Spec: Brain/Reference/Icons-Formats-Logos/selection-pills-badges-pills-to-badge-dots/. */
-.filter-btn { font-family: inherit; }
-  @media (min-width: 601px), (pointer: fine) {
-    .controls { gap: var(--fam-gap,10px); }
-  }
-
-  /* ── Journey cards ── */
-  main { padding: 20px 32px 32px; max-width: none; }
-  .journeys-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(360px, 1fr)); gap: 14px; align-items: stretch; }
-  .journey-card {
-    display: flex;
-    flex-direction: column;
-    background: var(--surface, #ffffff);
-    border: 1px solid var(--border);
-    border-radius: 5px;
-    overflow: hidden;
-    transition: box-shadow .18s, transform .18s, border-color .15s;
-  }
-  .journey-card:hover { border-color: var(--accent); box-shadow: 0 4px 16px rgba(138,108,26,0.10); transform: translateY(-1px); }
-  .journey-card.hidden { display: none; }
-  .card-top {
-    padding: 14px 18px 12px;
-    border-bottom: 1px solid var(--border);
-    display: flex;
-    align-items: flex-start;
-    gap: 12px;
-    background: var(--surface2);
-  }
-  .journey-meta { flex: 1; min-width: 0; }
-  .journey-name { font-size: var(--fs-body,14px); font-weight: 600; color: var(--text, #1a1917); line-height: 1.2; margin-bottom: 3px; }
-  .journey-operator { font-size: var(--fs-body,14px); color: var(--muted); }
-  /* type-badge sizing + colour from .badge / .fam-* */
-  .type-badge { flex-shrink: 0; text-transform: uppercase; }
-  .card-body { padding: 14px 18px; flex: 1; display: flex; flex-direction: column; }
-  .info-row { display: flex; gap: 8px; margin-bottom: 10px; align-items: flex-start; }
-  .info-content { flex: 1; font-size: var(--fs-body,14px); color: var(--text, #1a1917); }
-  .info-label {
-    font-size: var(--fs-sub,12px);
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
-    color: var(--muted);
-    font-weight: 600;
-    display: block;
-    margin-bottom: 2px;
-  }
-  .country-tags { display: flex; flex-wrap: wrap; gap: 5px; margin-top: 4px; }
-  .ctag {
-    font-family: inherit;
-    font-size: var(--fs-sub,12px);
-    font-weight: 400;
-    background: var(--tag-bg);
-    border: 1.5px solid var(--border2, #e6e2da);
-    color: var(--text, #1a1917);
-    padding: 2px 7px;
-    border-radius: 999px;
-    display: inline-flex;
-    align-items: center;
-    gap: 4px;
-  }
-  .booking-section { margin-top: auto; padding-top: 12px; border-top: 1px solid var(--border); }
-  .booking-label {
-    font-size: var(--fs-sub,12px);
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
-    color: var(--muted);
-    font-weight: 600;
-    margin-bottom: 7px;
-    display: block;
-  }
-  .booking-links { display: flex; flex-wrap: wrap; gap: 6px; }
-  .book-link {
-    display: inline-flex;
-    align-items: center;
-    gap: 5px;
-    text-decoration: none;
-    font-size: var(--fs-sub,12px);
-    font-weight: 500;
-    padding: 4px 10px;
-    border-radius: 999px;
-    transition: all 0.15s;
-    border: 1px solid;
-  }
-  .book-link.primary   { background: var(--surface, #ffffff); color: var(--text, #1a1917); border-color: var(--border); }
-  .book-link.primary:hover   { background: var(--bg, #f5f4f0); border-color: var(--rust); color: var(--text, #1a1917); }
-  .book-link.secondary { background: var(--surface, #ffffff); color: var(--muted); border-color: var(--border); }
-  .book-link.secondary:hover { color: var(--text, #1a1917); border-color: var(--rust); }
-  .book-link:focus { outline: none; }
-  .book-link.primary:visited   { color: #3d3a32; }
-  .book-link.secondary:visited { color: #6a6660; }
-
-  /* ── Region sections ── */
-  /* .country-header / .country-name shared in web-travel-style.css + mobile.css */
-  .region-section { margin-bottom: 20px; margin-top: 24px; }
-  .region-section.all-hidden { display: none; }
-
-  /* ── Mobile ── */
-  /* On phones (pointer: coarse) the 3-col grid rule below takes precedence
-     and the strip fills the width without scrolling; overflow-x here is harmless. */
-  @media (max-width: 600px) and (pointer: coarse) {
-    .controls { overflow-x: auto; -webkit-overflow-scrolling: touch; scrollbar-width: none; }
-    .controls::-webkit-scrollbar { display: none; }
-  }
-  @media (max-width: 600px) and (pointer: coarse) {
-    main { padding-left: 0; padding-right: 0; }
-    .journeys-grid { grid-template-columns: 1fr; gap: 9px; }
-    .card-top { padding: 8px 12px 7px; gap: 8px; }
-    .journey-name { font-size: 13px; margin-bottom: 2px; }
-    .journey-operator { font-size: var(--fs-sub,12px); }
-    .card-body { padding: 9px 12px; }
-    .info-row { margin-bottom: 5px; gap: 7px; }
-    .info-label { margin-bottom: 1px; font-size: 12px; }
-    .info-content { font-size: 13px; }
-    .controls.controls { display: flex !important; flex-wrap: wrap !important; gap: var(--fam-gap,10px) !important; justify-content: center !important; margin-top: 2px !important; padding-left: 0 !important; padding-right: 0 !important; padding-bottom: 8px !important; }
-    .filter-label { display: none; }
-  }
-  /* filter-btn dark mode handled by .cp-grey token */
-
+.rack{display:grid;grid-template-columns:repeat(auto-fill,minmax(330px,1fr));gap:22px}
+.pc{perspective:1600px;height:480px}
+.pc.hide{display:none}
+.pcin{position:relative;width:100%;height:100%;transform-style:preserve-3d;transition:transform .78s cubic-bezier(.35,.9,.25,1);cursor:pointer}
+.pc.flip .pcin{transform:rotateY(180deg)}
+.face{position:absolute;inset:0;backface-visibility:hidden;-webkit-backface-visibility:hidden;background:var(--card);border-radius:6px;padding:22px 24px;display:flex;flex-direction:column;box-shadow:0 3px 0 rgba(33,28,21,.06),0 26px 46px -32px rgba(33,28,21,.6);overflow:hidden}
+.front{border-top:9px solid var(--rc)}
+.back{transform:rotateY(180deg);border-top:9px solid var(--kc)}
+.pmark{position:absolute;top:14px;right:16px;width:74px;height:74px;border-radius:50%;border:2px dashed rgba(33,28,21,.28);display:flex;flex-direction:column;align-items:center;justify-content:center;transform:rotate(-11deg);color:rgba(33,28,21,.5);text-align:center;line-height:1.15}
+.pmark b{font:800 8px/1.1 ui-monospace,Menlo,monospace;letter-spacing:.1em;text-transform:uppercase;max-width:62px}
+.pmark i{font:800 7px/1 ui-monospace,Menlo,monospace;letter-spacing:.16em;font-style:normal;margin-top:4px}
+.pidx{font:800 11px/1 ui-monospace,Menlo,monospace;letter-spacing:.2em;color:var(--rc);margin-bottom:auto}
+.front h2{font-size:27px;line-height:1.08;letter-spacing:-.03em;margin:0 0 10px;max-width:11ch}
+.pop{font:600 11.5px/1.55 ui-monospace,Menlo,monospace;letter-spacing:.09em;text-transform:uppercase;color:var(--sc-muted);margin-bottom:16px}
+.stamps{display:flex;gap:7px;flex-wrap:wrap;margin-bottom:14px}
+.st{width:40px;height:46px;border-radius:3px;background:#f4eee1;display:flex;align-items:center;justify-content:center;box-shadow:0 0 0 2px #f4eee1,0 0 0 3px rgba(33,28,21,.13);-webkit-mask:radial-gradient(circle 3px at 0 6px,transparent 98%,#000) 0 0/100% 100%;transition:transform .25s}
+.st:hover{transform:translateY(-3px) rotate(-3deg)}
+.st .flagsv{width:26px;height:26px;border-radius:3px}
+.kind{align-self:flex-start;font:800 9.5px/1 ui-monospace,Menlo,monospace;letter-spacing:.18em;text-transform:uppercase;color:#fff;background:var(--kc);padding:6px 11px;border-radius:4px}
+.turn{margin-top:16px;font:800 9.5px/1 ui-monospace,Menlo,monospace;letter-spacing:.2em;text-transform:uppercase;color:var(--sc-muted);display:flex;align-items:center;gap:8px}
+.turn::after{content:"";flex:1;height:1px;background:var(--line)}
+.back .bh{font-size:16px;font-weight:800;letter-spacing:-.015em;margin:0 0 4px;padding-right:78px}
+.back .bsub{font:600 10.5px/1 ui-monospace,Menlo,monospace;letter-spacing:.14em;text-transform:uppercase;color:var(--sc-muted);margin-bottom:14px}
+.lines{flex:1;overflow:auto;border-top:1px solid var(--line);padding-top:12px}
+.ln{margin-bottom:11px}
+.ln b{display:block;font:800 8.5px/1 ui-monospace,Menlo,monospace;letter-spacing:.2em;text-transform:uppercase;color:var(--rc);margin-bottom:5px}
+.ln span{font-size:12.6px;line-height:1.55;color:#453f37}
+.books{display:flex;gap:8px;flex-wrap:wrap;padding-top:12px;border-top:1px solid var(--line);margin-top:6px}
+.bk{font:800 10px/1 ui-monospace,Menlo,monospace;letter-spacing:.12em;text-transform:uppercase;text-decoration:none;padding:9px 14px;border-radius:999px;transition:transform .18s}
+.bk.primary{background:var(--rc);color:#fff}
+.bk.secondary{border:1.5px solid var(--line);color:var(--sc-muted)}
+.bk:hover{transform:translateY(-2px)}
+.none{padding:60px 0;text-align:center;color:var(--sc-muted);font-size:15px}
+@media(max-width:620px){.rack{grid-template-columns:1fr}.pc{height:560px}}
 </style>
 <link rel="stylesheet" href="/assets/mobile.css?v=53">
 <!-- seo:start — generated by Brain/scripts/build/build_seo.py · do not hand-edit -->
@@ -182,668 +82,275 @@
 <!-- seo:end -->
 </head>
 <body>
-<div id="toolbar-mount" data-depth="2" data-maxwidth="940" data-updated="2026-09-19"></div>
+<div id="toolbar-mount" data-depth="2" data-maxwidth="940" data-updated="2026-09-30"></div>
 <script src="/assets/toolbar.js?v=127"></script>
 
-  <div class="hero-band eb-hero">
-    <span class="eb-kicker">Scenic Trains</span>
-    <div class="eb-copy">
-      <h1 class="eb-title">For the ride itself, <em>not to get somewhere.</em></h1>
-      <p class="eb-intro">Rail routes worth taking for the journey itself — with countries crossed, time en route, whether you sleep on board, the best season to go and what to check before booking. Filter by region to see what is reachable from where you already are. For berth types, booking windows and what to pack, see the <a href="/essentials/night-trains/">Night Train Guide</a>.</p>
-    </div>
-    <div class="eb-graphic" aria-hidden="true"><svg viewBox="0 0 24 24" aria-hidden="true">
-      <!-- Icons Library #1237: train -->
-      <path d="M4 15.5C4 17.43 5.57 19 7.5 19L6 20.5v.5h12v-.5L16.5 19c1.93 0 3.5-1.57 3.5-3.5V5c0-3.5-3.58-4-8-4S4 1.5 4 5v10.5z" fill="url(#gm-navy)" stroke="var(--c-navy-rim)" stroke-width="0.5"/>
-      <path d="M4 15.5C4 17.43 5.57 19 7.5 19L6 20.5v.5h12v-.5L16.5 19c1.93 0 3.5-1.57 3.5-3.5V5c0-3.5-3.58-4-8-4S4 1.5 4 5v10.5z" fill="url(#gm-gloss)"/>
-      <path d="M6 5h12v5H6z" fill="url(#gm-sky)" stroke="var(--c-sky-rim)" stroke-width="0.5"/>
-      <circle cx="12" cy="15" r="2" fill="url(#gm-sun)" stroke="var(--c-sun-rim)" stroke-width="0.5"/>
-    </svg></div>
+<div class="sc-bg">
+<div class="hero-band eb-hero">
+  <span class="eb-kicker">Scenic Trains</span>
+  <div class="eb-copy">
+    <h1 class="eb-title">For the ride itself, <em>not to get somewhere.</em></h1>
+    <p class="eb-intro">Rail routes worth taking for the journey itself — with countries crossed, time en route, whether you sleep on board, the best season to go and what to check before booking. Filter by region to see what is reachable from where you already are. For berth types, booking windows and what to pack, see the <a href="/essentials/night-trains/">Night Train Guide</a>.</p>
   </div>
+  <div class="eb-graphic" aria-hidden="true"><svg viewBox="0 0 24 24" aria-hidden="true">
+    <!-- Icons Library #1237: train -->
+    <path d="M4 15.5C4 17.43 5.57 19 7.5 19L6 20.5v.5h12v-.5L16.5 19c1.93 0 3.5-1.57 3.5-3.5V5c0-3.5-3.58-4-8-4S4 1.5 4 5v10.5z" fill="url(#gm-navy)" stroke="var(--c-navy-rim)" stroke-width="0.5"/>
+    <path d="M4 15.5C4 17.43 5.57 19 7.5 19L6 20.5v.5h12v-.5L16.5 19c1.93 0 3.5-1.57 3.5-3.5V5c0-3.5-3.58-4-8-4S4 1.5 4 5v10.5z" fill="url(#gm-gloss)"/>
+    <path d="M6 5h12v5H6z" fill="url(#gm-sky)" stroke="var(--c-sky-rim)" stroke-width="0.5"/>
+    <circle cx="12" cy="15" r="2" fill="url(#gm-sun)" stroke="var(--c-sun-rim)" stroke-width="0.5"/>
+  </svg></div>
+</div>
 
-<div class="wrap">
+<div class="shell">
+<div class="filters">
+  <span class="filter-label">Region</span>
+  <button class="filter-btn selection-pill cp-light-grey is-on hov-darken" data-r="all"          onclick="filterJourneys('all',this)">All</button>
+  <button class="filter-btn selection-pill cp-blue hov-darken"             data-r="americas"    onclick="filterJourneys('americas',this)">Americas</button>
+  <button class="filter-btn selection-pill cp-rust hov-darken"             data-r="europe"      onclick="filterJourneys('europe',this)">Europe</button>
+  <button class="filter-btn selection-pill cp-honey hov-darken"            data-r="asia"        onclick="filterJourneys('asia',this)">Asia</button>
+  <button class="filter-btn selection-pill cp-dusty-teal hov-darken"       data-r="australasia" onclick="filterJourneys('australasia',this)">Australasia</button>
+  <button class="filter-btn selection-pill cp-bronze hov-darken"           data-r="africa"      onclick="filterJourneys('africa',this)">Africa</button>
+  <span class="flip-hint">Click a card to turn it over</span>
+</div>
+<div class="rack">
 
-  <div class="controls tve-glue-m" style="--glue-w:2px">
-    <span class="filter-label">Filter by region:</span>
-    <button class="filter-btn selection-pill cp-light-grey is-on hov-darken" data-region="all"         onclick="filterJourneys('all',this)">All</button>
-    <button class="filter-btn selection-pill cp-blue hov-darken" data-region="americas"    onclick="filterJourneys('americas',this)">Americas</button>
-    <button class="filter-btn selection-pill cp-rust hov-darken" data-region="europe"      onclick="filterJourneys('europe',this)">Europe</button>
-    <button class="filter-btn selection-pill cp-honey hov-darken" data-region="asia"        onclick="filterJourneys('asia',this)">Asia</button>
-    <button class="filter-btn selection-pill cp-dusty-teal hov-darken" data-region="australasia" onclick="filterJourneys('australasia',this)">Australasia</button>
-    <button class="filter-btn selection-pill cp-bronze hov-darken" data-region="africa"      onclick="filterJourneys('africa',this)">Africa</button>
+<div class="pc" data-r="americas" style="--rc:#3d6a86;--kc:#8a3a5e">
+ <div class="pcin" role="button" tabindex="0" aria-label="Rocky Mountaineer — flip for details">
+  <div class="face front">
+   <span class="pmark"><b>Americas</b><i>Rail</i></span>
+   <span class="pidx">No. 01</span>
+   <h2>Rocky Mountaineer</h2><div class="pop">Rocky Mountaineer · Canada</div>
+   <div class="stamps"><span class="st" title="Canada"><svg class="flagsv" viewBox="0 0 36 36" aria-hidden="true"><use href="/assets/flags/sprite.svg#flag-10030"></use></svg></span></div>
+   <span class="kind">Luxury</span>
+   <span class="turn">Turn over</span>
   </div>
-
-<main>
-
-  <!-- ===== AMERICAS ===== -->
-  <div class="region-section" data-section="americas">
-    <div class="country-header" style="margin-bottom:14px">
-      <div class="country-name">Americas</div>
-    </div>
-    <div class="journeys-grid">
-
-      <!-- Rocky Mountaineer -->
-      <div class="journey-card" data-region="americas">
-        <div class="card-top">
-          <div class="journey-meta">
-            <div class="journey-name">Rocky Mountaineer</div>
-            <div class="journey-operator">Rocky Mountaineer · Canada</div>
-          </div>
-          <span class="type-badge badge sb-pink badge-luxury">Luxury</span>
-        </div>
-        <div class="card-body">
-          <div class="info-row">
-            <div class="info-content">
-              <span class="info-label">Route</span>
-              Vancouver → Banff / Jasper — multiple routes through the Canadian Rockies
-            </div>
-          </div>
-          <div class="info-row">
-            <div class="info-content">
-              <span class="info-label">Countries</span>
-              <div class="country-tags"><span class="ctag"><svg class="flag-svg" viewBox="0 0 36 36" aria-hidden="true" data-flag="10030"><use href="/assets/flags/sprite.svg#flag-10030"></use></svg> Canada</span></div>
-            </div>
-          </div>
-          <div class="info-row">
-            <div class="info-content">
-              <span class="info-label">Duration</span>
-              2 days rail (no overnight on train — hotel stops each night)
-            </div>
-          </div>
-          <div class="info-row">
-            <div class="info-content">
-              <span class="info-label">Best Season</span>
-              April–October; peak summer for wildflowers and wildlife
-            </div>
-          </div>
-          <div class="info-row">
-            <div class="info-content">
-              <span class="info-label">Booking notes</span>
-              Packages are priced by route, service level and hotel nights. SilverLeaf and GoldLeaf include daylight-only rail travel, meals and overnight hotels; compare the live package total.
-            </div>
-          </div>
-          <div class="booking-section">
-            <span class="booking-label">Book</span>
-            <div class="booking-links">
-              <a href="https://www.rockymountaineer.com" target="_blank" class="book-link primary">rockymountaineer.com</a>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- El Chepe / Copper Canyon -->
-      <div class="journey-card" data-region="americas">
-        <div class="card-top">
-          <div class="journey-meta">
-            <div class="journey-name">El Chepe — Copper Canyon</div>
-            <div class="journey-operator">Ferromex / Chepe Express · Mexico</div>
-          </div>
-          <span class="type-badge badge sb-teal badge-expedition">Expedition</span>
-        </div>
-        <div class="card-body">
-          <div class="info-row">
-            <div class="info-content">
-              <span class="info-label">Route</span>
-              Los Mochis → Chihuahua through Barranca del Cobre — 36 bridges, 86 tunnels
-            </div>
-          </div>
-          <div class="info-row">
-            <div class="info-content">
-              <span class="info-label">Countries</span>
-              <div class="country-tags"><span class="ctag"><svg class="flag-svg" viewBox="0 0 36 36" aria-hidden="true" data-flag="10129"><use href="/assets/flags/sprite.svg#flag-10129"></use></svg> Mexico</span></div>
-            </div>
-          </div>
-          <div class="info-row">
-            <div class="info-content">
-              <span class="info-label">Duration</span>
-              ~13–15 hrs (standard train); 3 days with stops (Chepe Express)
-            </div>
-          </div>
-          <div class="info-row">
-            <div class="info-content">
-              <span class="info-label">Best Season</span>
-              October–April; avoid July–September (rainy season and landslide risk)
-            </div>
-          </div>
-          <div class="info-row">
-            <div class="info-content">
-              <span class="info-label">Booking notes</span>
-              Chepe Express sells different classes and stopover itineraries. Confirm the current timetable, class inclusions and whether each planned segment needs a separate reservation.
-            </div>
-          </div>
-          <div class="booking-section">
-            <span class="booking-label">Book</span>
-            <div class="booking-links">
-              <a href="https://chepe.mx" target="_blank" class="book-link primary">chepe.mx</a>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- Andean Explorer -->
-      <div class="journey-card" data-region="americas">
-        <div class="card-top">
-          <div class="journey-meta">
-            <div class="journey-name">Andean Explorer</div>
-            <div class="journey-operator">Belmond · Peru</div>
-          </div>
-          <span class="type-badge badge sb-pink badge-luxury">Luxury</span>
-        </div>
-        <div class="card-body">
-          <div class="info-row">
-            <div class="info-content">
-              <span class="info-label">Route</span>
-              Cusco → Puno (Lake Titicaca) and Arequipa — through Andean altiplano
-            </div>
-          </div>
-          <div class="info-row">
-            <div class="info-content">
-              <span class="info-label">Countries</span>
-              <div class="country-tags"><span class="ctag"><svg class="flag-svg" viewBox="0 0 36 36" aria-hidden="true" data-flag="10143"><use href="/assets/flags/sprite.svg#flag-10143"></use></svg> Peru</span></div>
-            </div>
-          </div>
-          <div class="info-row">
-            <div class="info-content">
-              <span class="info-label">Duration</span>
-              1–2 nights on board depending on route
-            </div>
-          </div>
-          <div class="info-row">
-            <div class="info-content">
-              <span class="info-label">Best Season</span>
-              April–October (dry season); avoid wet season November–March
-            </div>
-          </div>
-          <div class="info-row">
-            <div class="info-content">
-              <span class="info-label">Booking notes</span>
-              Rates vary by itinerary and cabin, and generally bundle accommodation, meals and scheduled excursions. Check the operator's live quote and altitude guidance.
-            </div>
-          </div>
-          <div class="booking-section">
-            <span class="booking-label">Book</span>
-            <div class="booking-links">
-              <a href="https://www.belmond.com/en/trains/south-america/peru/andean-explorer" target="_blank" class="book-link primary">belmond.com</a>
-            </div>
-          </div>
-        </div>
-      </div>
-
-    </div>
+  <div class="face back">
+   <span class="pmark"><b>Americas</b><i>Rail</i></span>
+   <div class="bh">Rocky Mountaineer</div><div class="bsub">Luxury</div>
+   <div class="lines"><div class="ln"><b>Route</b><span>Vancouver → Banff / Jasper — multiple routes through the Canadian Rockies</span></div><div class="ln"><b>Duration</b><span>2 days rail (no overnight on train — hotel stops each night)</span></div><div class="ln"><b>Best Season</b><span>April–October; peak summer for wildflowers and wildlife</span></div><div class="ln"><b>Price Range</b><span>From ~CAD $1,300 (Silverleaf) to ~CAD $3,500+ (GoldLeaf) per person</span></div><div class="ln"><b>Countries</b><span>Canada</span></div><div class="ln"><b>Booking Notes</b><span>Packages are priced by route, service level and hotel nights. SilverLeaf and GoldLeaf include daylight-only rail travel, meals and overnight hotels; compare the live package total.</span></div></div>
+   <div class="books"><a class="bk primary" href="https://www.rockymountaineer.com" target="_blank" rel="noopener">rockymountaineer.com</a></div>
   </div>
+ </div>
+</div>
 
-  <!-- ===== EUROPE ===== -->
-  <div class="region-section" data-section="europe">
-    <div class="country-header" style="margin-bottom:14px">
-      <div class="country-name">Europe</div>
-    </div>
-    <div class="journeys-grid">
-
-      <!-- Glacier Express -->
-      <div class="journey-card" data-region="europe">
-        <div class="card-top">
-          <div class="journey-meta">
-            <div class="journey-name">Glacier Express</div>
-            <div class="journey-operator">Matterhorn Gotthard Bahn + Rhätische Bahn · Switzerland</div>
-          </div>
-          <span class="type-badge badge sb-green badge-scenic">Scenic</span>
-        </div>
-        <div class="card-body">
-          <div class="info-row">
-            <div class="info-content">
-              <span class="info-label">Route</span>
-              Zermatt → St. Moritz (or reverse) via Andermatt — 291 bridges, 91 tunnels
-            </div>
-          </div>
-          <div class="info-row">
-            <div class="info-content">
-              <span class="info-label">Countries</span>
-              <div class="country-tags"><span class="ctag"><svg class="flag-svg" viewBox="0 0 36 36" aria-hidden="true" data-flag="10034"><use href="/assets/flags/sprite.svg#flag-10034"></use></svg> Switzerland</span></div>
-            </div>
-          </div>
-          <div class="info-row">
-            <div class="info-content">
-              <span class="info-label">Duration</span>
-              ~7.5–8 hours (one day)
-            </div>
-          </div>
-          <div class="info-row">
-            <div class="info-content">
-              <span class="info-label">Best Season</span>
-              Year-round; summer for alpine meadows, winter for snow
-            </div>
-          </div>
-          <div class="info-row">
-            <div class="info-content">
-              <span class="info-label">Booking notes</span>
-              A valid rail ticket or pass and a separate panorama-car reservation are required. Swiss Travel Pass coverage does not remove the reservation charge; check the live seasonal fee.
-            </div>
-          </div>
-          <div class="booking-section">
-            <span class="booking-label">Book</span>
-            <div class="booking-links">
-              <a href="https://www.glacierexpress.ch" target="_blank" class="book-link primary">glacierexpress.ch</a>
-              <a href="https://www.sbb.ch" target="_blank" class="book-link secondary">SBB</a>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- Bernina Express -->
-      <div class="journey-card" data-region="europe">
-        <div class="card-top">
-          <div class="journey-meta">
-            <div class="journey-name">Bernina Express</div>
-            <div class="journey-operator">Rhätische Bahn · Switzerland / Italy</div>
-          </div>
-          <span class="type-badge badge sb-green badge-scenic">Scenic</span>
-        </div>
-        <div class="card-body">
-          <div class="info-row">
-            <div class="info-content">
-              <span class="info-label">Route</span>
-              St. Moritz → Tirano, Italy — crosses the UNESCO Albula/Bernina rail landscape
-            </div>
-          </div>
-          <div class="info-row">
-            <div class="info-content">
-              <span class="info-label">Countries</span>
-              <div class="country-tags">
-                <span class="ctag"><svg class="flag-svg" viewBox="0 0 36 36" aria-hidden="true" data-flag="10034"><use href="/assets/flags/sprite.svg#flag-10034"></use></svg> Switzerland</span>
-                <span class="ctag"><svg class="flag-svg" viewBox="0 0 36 36" aria-hidden="true" data-flag="10087"><use href="/assets/flags/sprite.svg#flag-10087"></use></svg> Italy</span>
-              </div>
-            </div>
-          </div>
-          <div class="info-row">
-            <div class="info-content">
-              <span class="info-label">Duration</span>
-              ~4 hours (St. Moritz–Tirano)
-            </div>
-          </div>
-          <div class="info-row">
-            <div class="info-content">
-              <span class="info-label">Best Season</span>
-              June–October for green passes; winter for snowscapes and frozen Lago Bianco
-            </div>
-          </div>
-          <div class="info-row">
-            <div class="info-content">
-              <span class="info-label">Booking notes</span>
-              The panorama train requires a reservation in addition to a ticket or pass. Regular regional trains use the same UNESCO route without the panorama reservation.
-            </div>
-          </div>
-          <div class="booking-section">
-            <span class="booking-label">Book</span>
-            <div class="booking-links">
-              <a href="https://www.rhb.ch" target="_blank" class="book-link primary">rhb.ch</a>
-              <a href="https://www.sbb.ch" target="_blank" class="book-link secondary">SBB</a>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- Venice Simplon-Orient-Express -->
-      <div class="journey-card" data-region="europe">
-        <div class="card-top">
-          <div class="journey-meta">
-            <div class="journey-name">Venice Simplon-Orient-Express</div>
-            <div class="journey-operator">Belmond · Multi-country Europe</div>
-          </div>
-          <span class="type-badge badge sb-pink badge-luxury">Luxury</span>
-        </div>
-        <div class="card-body">
-          <div class="info-row">
-            <div class="info-content">
-              <span class="info-label">Route</span>
-              London → Venice (classic route); also Paris, Prague, Istanbul and seasonal itineraries
-            </div>
-          </div>
-          <div class="info-row">
-            <div class="info-content">
-              <span class="info-label">Countries</span>
-              <div class="country-tags">
-                <span class="ctag"><svg class="flag-svg" viewBox="0 0 36 36" aria-hidden="true" data-flag="10064"><use href="/assets/flags/sprite.svg#flag-10064"></use></svg> United Kingdom</span>
-                <span class="ctag"><svg class="flag-svg" viewBox="0 0 36 36" aria-hidden="true" data-flag="10062"><use href="/assets/flags/sprite.svg#flag-10062"></use></svg> France</span>
-                <span class="ctag"><svg class="flag-svg" viewBox="0 0 36 36" aria-hidden="true" data-flag="10034"><use href="/assets/flags/sprite.svg#flag-10034"></use></svg> Switzerland</span>
-                <span class="ctag"><svg class="flag-svg" viewBox="0 0 36 36" aria-hidden="true" data-flag="10087"><use href="/assets/flags/sprite.svg#flag-10087"></use></svg> Italy</span>
-              </div>
-            </div>
-          </div>
-          <div class="info-row">
-            <div class="info-content">
-              <span class="info-label">Duration</span>
-              ~2 nights on board (London–Venice)
-            </div>
-          </div>
-          <div class="info-row">
-            <div class="info-content">
-              <span class="info-label">Best Season</span>
-              March–November; festive journeys available December
-            </div>
-          </div>
-          <div class="info-row">
-            <div class="info-content">
-              <span class="info-label">Booking notes</span>
-              Fares are itinerary- and cabin-specific and change by departure. Request the live total directly from Belmond and verify which station transfers, meals and excursions are included.
-            </div>
-          </div>
-          <div class="booking-section">
-            <span class="booking-label">Book</span>
-            <div class="booking-links">
-              <a href="https://www.belmond.com/trains/europe/venice-simplon-orient-express/" target="_blank" class="book-link primary">belmond.com</a>
-            </div>
-          </div>
-        </div>
-      </div>
-
-    </div>
+<div class="pc" data-r="americas" style="--rc:#3d6a86;--kc:#1f6a63">
+ <div class="pcin" role="button" tabindex="0" aria-label="El Chepe — Copper Canyon — flip for details">
+  <div class="face front">
+   <span class="pmark"><b>Americas</b><i>Rail</i></span>
+   <span class="pidx">No. 02</span>
+   <h2>El Chepe — Copper Canyon</h2><div class="pop">Ferromex / Chepe Express · Mexico</div>
+   <div class="stamps"><span class="st" title="Mexico"><svg class="flagsv" viewBox="0 0 36 36" aria-hidden="true"><use href="/assets/flags/sprite.svg#flag-10129"></use></svg></span></div>
+   <span class="kind">Expedition</span>
+   <span class="turn">Turn over</span>
   </div>
-
-  <!-- ===== ASIA ===== -->
-  <div class="region-section" data-section="asia">
-    <div class="country-header" style="margin-bottom:14px">
-      <div class="country-name">Asia</div>
-    </div>
-    <div class="journeys-grid">
-
-      <!-- Eastern & Oriental Express -->
-      <div class="journey-card" data-region="asia">
-        <div class="card-top">
-          <div class="journey-meta">
-            <div class="journey-name">Eastern &amp; Oriental Express</div>
-            <div class="journey-operator">Belmond · Southeast Asia</div>
-          </div>
-          <span class="type-badge badge sb-pink badge-luxury">Luxury</span>
-        </div>
-        <div class="card-body">
-          <div class="info-row">
-            <div class="info-content">
-              <span class="info-label">Route</span>
-              Singapore → Bangkok via Kuala Lumpur, Butterworth, and the River Kwai
-            </div>
-          </div>
-          <div class="info-row">
-            <div class="info-content">
-              <span class="info-label">Countries</span>
-              <div class="country-tags">
-                <span class="ctag"><svg class="flag-svg" viewBox="0 0 36 36" aria-hidden="true" data-flag="10164"><use href="/assets/flags/sprite.svg#flag-10164"></use></svg> Singapore</span>
-                <span class="ctag"><svg class="flag-svg" viewBox="0 0 36 36" aria-hidden="true" data-flag="10130"><use href="/assets/flags/sprite.svg#flag-10130"></use></svg> Malaysia</span>
-                <span class="ctag"><svg class="flag-svg" viewBox="0 0 36 36" aria-hidden="true" data-flag="10181"><use href="/assets/flags/sprite.svg#flag-10181"></use></svg> Thailand</span>
-              </div>
-            </div>
-          </div>
-          <div class="info-row">
-            <div class="info-content">
-              <span class="info-label">Duration</span>
-              3 nights on board
-            </div>
-          </div>
-          <div class="info-row">
-            <div class="info-content">
-              <span class="info-label">Best Season</span>
-              November–April (dry season); limited departures — book well ahead
-            </div>
-          </div>
-          <div class="info-row">
-            <div class="info-content">
-              <span class="info-label">Booking notes</span>
-              Seasonal itineraries and cabin categories change. Use Belmond's current departure calendar and quote rather than relying on an old headline fare.
-            </div>
-          </div>
-          <div class="booking-section">
-            <span class="booking-label">Book</span>
-            <div class="booking-links">
-              <a href="https://www.belmond.com/en/trains/asia/malaysia/eastern-and-oriental-express" target="_blank" class="book-link primary">belmond.com</a>
-            </div>
-          </div>
-        </div>
-      </div>
-
-    </div>
+  <div class="face back">
+   <span class="pmark"><b>Americas</b><i>Rail</i></span>
+   <div class="bh">El Chepe — Copper Canyon</div><div class="bsub">Expedition</div>
+   <div class="lines"><div class="ln"><b>Route</b><span>Los Mochis → Chihuahua through Barranca del Cobre — 36 bridges, 86 tunnels</span></div><div class="ln"><b>Duration</b><span>~13–15 hrs (standard train); 3 days with stops (Chepe Express)</span></div><div class="ln"><b>Best Season</b><span>October–April; avoid July–September (rainy season and landslide risk)</span></div><div class="ln"><b>Price Range</b><span>~USD $40–150 (standard); ~USD $300–600 per segment (Chepe Express)</span></div><div class="ln"><b>Countries</b><span>Mexico</span></div><div class="ln"><b>Booking Notes</b><span>Chepe Express sells different classes and stopover itineraries. Confirm the current timetable, class inclusions and whether each planned segment needs a separate reservation.</span></div></div>
+   <div class="books"><a class="bk primary" href="https://chepe.mx" target="_blank" rel="noopener">chepe.mx</a></div>
   </div>
+ </div>
+</div>
 
-  <!-- ===== AUSTRALASIA ===== -->
-  <div class="region-section" data-section="australasia">
-    <div class="country-header" style="margin-bottom:14px">
-      <div class="country-name">Australasia</div>
-    </div>
-    <div class="journeys-grid">
-
-      <!-- Indian Pacific -->
-      <div class="journey-card" data-region="australasia">
-        <div class="card-top">
-          <div class="journey-meta">
-            <div class="journey-name">Indian Pacific</div>
-            <div class="journey-operator">Journey Beyond · Australia</div>
-          </div>
-          <span class="type-badge badge sb-teal badge-expedition">Expedition</span>
-        </div>
-        <div class="card-body">
-          <div class="info-row">
-            <div class="info-content">
-              <span class="info-label">Route</span>
-              Sydney → Perth via Broken Hill, Adelaide, and the Nullarbor Plain — ~4,352 km
-            </div>
-          </div>
-          <div class="info-row">
-            <div class="info-content">
-              <span class="info-label">Countries</span>
-              <div class="country-tags"><span class="ctag"><svg class="flag-svg" viewBox="0 0 36 36" aria-hidden="true" data-flag="10010"><use href="/assets/flags/sprite.svg#flag-10010"></use></svg> Australia</span></div>
-            </div>
-          </div>
-          <div class="info-row">
-            <div class="info-content">
-              <span class="info-label">Duration</span>
-              ~65 hours / 4 days (includes off-train excursions)
-            </div>
-          </div>
-          <div class="info-row">
-            <div class="info-content">
-              <span class="info-label">Best Season</span>
-              April–October; Nullarbor summer (Dec–Feb) can be extreme
-            </div>
-          </div>
-          <div class="info-row">
-            <div class="info-content">
-              <span class="info-label">Booking notes</span>
-              Current journeys are sold as experience packages with accommodation, meals and selected off-train excursions. Compare direction, cabin and departure date on the live calendar.
-            </div>
-          </div>
-          <div class="booking-section">
-            <span class="booking-label">Book</span>
-            <div class="booking-links">
-              <a href="https://www.journeybeyondrail.com.au/journeys/indian-pacific/" target="_blank" class="book-link primary">journeybeyondrail.com.au</a>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- The Ghan -->
-      <div class="journey-card" data-region="australasia">
-        <div class="card-top">
-          <div class="journey-meta">
-            <div class="journey-name">The Ghan</div>
-            <div class="journey-operator">Journey Beyond · Australia</div>
-          </div>
-          <span class="type-badge badge sb-teal badge-expedition">Expedition</span>
-        </div>
-        <div class="card-body">
-          <div class="info-row">
-            <div class="info-content">
-              <span class="info-label">Route</span>
-              Adelaide → Darwin through Alice Springs and the Red Centre — ~2,979 km
-            </div>
-          </div>
-          <div class="info-row">
-            <div class="info-content">
-              <span class="info-label">Countries</span>
-              <div class="country-tags"><span class="ctag"><svg class="flag-svg" viewBox="0 0 36 36" aria-hidden="true" data-flag="10010"><use href="/assets/flags/sprite.svg#flag-10010"></use></svg> Australia</span></div>
-            </div>
-          </div>
-          <div class="info-row">
-            <div class="info-content">
-              <span class="info-label">Duration</span>
-              ~54 hours / 2.5 days
-            </div>
-          </div>
-          <div class="info-row">
-            <div class="info-content">
-              <span class="info-label">Best Season</span>
-              May–October (dry and mild); summer heat and flooding risks Apr and Feb–Mar
-            </div>
-          </div>
-          <div class="info-row">
-            <div class="info-content">
-              <span class="info-label">Booking notes</span>
-              Fares vary by journey direction, cabin and departure, with meals and selected off-train experiences bundled. Check the current itinerary before comparing dates.
-            </div>
-          </div>
-          <div class="booking-section">
-            <span class="booking-label">Book</span>
-            <div class="booking-links">
-              <a href="https://www.journeybeyondrail.com.au/journeys/the-ghan/" target="_blank" class="book-link primary">journeybeyondrail.com.au</a>
-            </div>
-          </div>
-        </div>
-      </div>
-
-    </div>
+<div class="pc" data-r="americas" style="--rc:#3d6a86;--kc:#8a3a5e">
+ <div class="pcin" role="button" tabindex="0" aria-label="Andean Explorer — flip for details">
+  <div class="face front">
+   <span class="pmark"><b>Americas</b><i>Rail</i></span>
+   <span class="pidx">No. 03</span>
+   <h2>Andean Explorer</h2><div class="pop">Belmond · Peru</div>
+   <div class="stamps"><span class="st" title="Peru"><svg class="flagsv" viewBox="0 0 36 36" aria-hidden="true"><use href="/assets/flags/sprite.svg#flag-10143"></use></svg></span></div>
+   <span class="kind">Luxury</span>
+   <span class="turn">Turn over</span>
   </div>
-
-  <!-- ===== AFRICA ===== -->
-  <div class="region-section" data-section="africa">
-    <div class="country-header" style="margin-bottom:14px">
-      <div class="country-name">Africa</div>
-    </div>
-    <div class="journeys-grid">
-
-      <!-- Rovos Rail -->
-      <div class="journey-card" data-region="africa">
-        <div class="card-top">
-          <div class="journey-meta">
-            <div class="journey-name">Rovos Rail</div>
-            <div class="journey-operator">Rovos Rail · South Africa</div>
-          </div>
-          <span class="type-badge badge sb-pink badge-luxury">Luxury</span>
-        </div>
-        <div class="card-body">
-          <div class="info-row">
-            <div class="info-content">
-              <span class="info-label">Routes</span>
-              Pretoria → Cape Town (2 nights); Pretoria → Victoria Falls (3 nights); longer safari routes to Tanzania and Mozambique
-            </div>
-          </div>
-          <div class="info-row">
-            <div class="info-content">
-              <span class="info-label">Countries</span>
-              <div class="country-tags">
-                <span class="ctag"><svg class="flag-svg" viewBox="0 0 36 36" aria-hidden="true" data-flag="10206"><use href="/assets/flags/sprite.svg#flag-10206"></use></svg> South Africa</span>
-                <span class="ctag"><svg class="flag-svg" viewBox="0 0 36 36" aria-hidden="true" data-flag="10208"><use href="/assets/flags/sprite.svg#flag-10208"></use></svg> Zimbabwe</span>
-                <span class="ctag"><svg class="flag-svg" viewBox="0 0 36 36" aria-hidden="true" data-flag="10191"><use href="/assets/flags/sprite.svg#flag-10191"></use></svg> Tanzania</span>
-              </div>
-            </div>
-          </div>
-          <div class="info-row">
-            <div class="info-content">
-              <span class="info-label">Duration</span>
-              2 nights (short routes) to 15 days (Dar es Salaam–Cape Town grand safari)
-            </div>
-          </div>
-          <div class="info-row">
-            <div class="info-content">
-              <span class="info-label">Best Season</span>
-              Year-round; May–September for Big Five wildlife sightings
-            </div>
-          </div>
-          <div class="info-row">
-            <div class="info-content">
-              <span class="info-label">Booking notes</span>
-              Rates depend on route, suite and season and include meals, drinks and scheduled excursions. Request the current tariff for the exact departure.
-            </div>
-          </div>
-          <div class="booking-section">
-            <span class="booking-label">Book</span>
-            <div class="booking-links">
-              <a href="https://www.rovos.com" target="_blank" class="book-link primary">rovos.com</a>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- The Blue Train -->
-      <div class="journey-card" data-region="africa">
-        <div class="card-top">
-          <div class="journey-meta">
-            <div class="journey-name">The Blue Train</div>
-            <div class="journey-operator">Transnet · South Africa</div>
-          </div>
-          <span class="type-badge badge sb-pink badge-luxury">Luxury</span>
-        </div>
-        <div class="card-body">
-          <div class="info-row">
-            <div class="info-content">
-              <span class="info-label">Route</span>
-              Irene Station (Pretoria area) → Cape Town via Matjiesfontein — ~1,600 km. Departs from Irene Station since January 2025; guests check in at Irene Country Lodge before boarding.
-            </div>
-          </div>
-          <div class="info-row">
-            <div class="info-content">
-              <span class="info-label">Countries</span>
-              <div class="country-tags"><span class="ctag"><svg class="flag-svg" viewBox="0 0 36 36" aria-hidden="true" data-flag="10206"><use href="/assets/flags/sprite.svg#flag-10206"></use></svg> South Africa</span></div>
-            </div>
-          </div>
-          <div class="info-row">
-            <div class="info-content">
-              <span class="info-label">Duration</span>
-              ~27 hours (1 night on board)
-            </div>
-          </div>
-          <div class="info-row">
-            <div class="info-content">
-              <span class="info-label">Best Season</span>
-              Year-round; October–March for Cape winelands
-            </div>
-          </div>
-          <div class="info-row">
-            <div class="info-content">
-              <span class="info-label">Booking notes</span>
-              Fares change by season, direction and suite and are quoted per person. Confirm the live departure calendar, Irene check-in arrangements and included transfers before paying.
-            </div>
-          </div>
-          <div class="booking-section">
-            <span class="booking-label">Book</span>
-            <div class="booking-links">
-              <a href="https://www.bluetrain.co.za" target="_blank" class="book-link primary">bluetrain.co.za</a>
-            </div>
-          </div>
-        </div>
-      </div>
-
-    </div>
+  <div class="face back">
+   <span class="pmark"><b>Americas</b><i>Rail</i></span>
+   <div class="bh">Andean Explorer</div><div class="bsub">Luxury</div>
+   <div class="lines"><div class="ln"><b>Route</b><span>Cusco → Puno (Lake Titicaca) and Arequipa — through Andean altiplano</span></div><div class="ln"><b>Duration</b><span>1–2 nights on board depending on route</span></div><div class="ln"><b>Best Season</b><span>April–October (dry season); avoid wet season November–March</span></div><div class="ln"><b>Price Range</b><span>From ~USD $850 per person (suite, one-way); full journey from ~USD $1,600+</span></div><div class="ln"><b>Countries</b><span>Peru</span></div><div class="ln"><b>Booking Notes</b><span>Rates vary by itinerary and cabin, and generally bundle accommodation, meals and scheduled excursions. Check the operator's live quote and altitude guidance.</span></div></div>
+   <div class="books"><a class="bk primary" href="https://www.belmond.com/en/trains/south-america/peru/andean-explorer" target="_blank" rel="noopener">belmond.com</a></div>
   </div>
+ </div>
+</div>
 
-</main>
+<div class="pc" data-r="europe" style="--rc:#C04E1A;--kc:#3f7a3a">
+ <div class="pcin" role="button" tabindex="0" aria-label="Glacier Express — flip for details">
+  <div class="face front">
+   <span class="pmark"><b>Europe</b><i>Rail</i></span>
+   <span class="pidx">No. 04</span>
+   <h2>Glacier Express</h2><div class="pop">Matterhorn Gotthard Bahn + Rhätische Bahn · Switzerland</div>
+   <div class="stamps"><span class="st" title="Switzerland"><svg class="flagsv" viewBox="0 0 36 36" aria-hidden="true"><use href="/assets/flags/sprite.svg#flag-10034"></use></svg></span></div>
+   <span class="kind">Scenic</span>
+   <span class="turn">Turn over</span>
+  </div>
+  <div class="face back">
+   <span class="pmark"><b>Europe</b><i>Rail</i></span>
+   <div class="bh">Glacier Express</div><div class="bsub">Scenic</div>
+   <div class="lines"><div class="ln"><b>Route</b><span>Zermatt → St. Moritz (or reverse) via Andermatt — 291 bridges, 91 tunnels</span></div><div class="ln"><b>Duration</b><span>~7.5–8 hours (one day)</span></div><div class="ln"><b>Best Season</b><span>Year-round; summer for alpine meadows, winter for snow</span></div><div class="ln"><b>Price Range</b><span>~CHF 155 (2nd class) + CHF 47 panorama reservation; Swiss Travel Pass accepted</span></div><div class="ln"><b>Countries</b><span>Switzerland</span></div><div class="ln"><b>Booking Notes</b><span>A valid rail ticket or pass and a separate panorama-car reservation are required. Swiss Travel Pass coverage does not remove the reservation charge; check the live seasonal fee.</span></div></div>
+   <div class="books"><a class="bk primary" href="https://www.glacierexpress.ch" target="_blank" rel="noopener">glacierexpress.ch</a><a class="bk secondary" href="https://www.sbb.ch" target="_blank" rel="noopener">SBB</a></div>
+  </div>
+ </div>
+</div>
+
+<div class="pc" data-r="europe" style="--rc:#C04E1A;--kc:#3f7a3a">
+ <div class="pcin" role="button" tabindex="0" aria-label="Bernina Express — flip for details">
+  <div class="face front">
+   <span class="pmark"><b>Europe</b><i>Rail</i></span>
+   <span class="pidx">No. 05</span>
+   <h2>Bernina Express</h2><div class="pop">Rhätische Bahn · Switzerland / Italy</div>
+   <div class="stamps"><span class="st" title="Switzerland"><svg class="flagsv" viewBox="0 0 36 36" aria-hidden="true"><use href="/assets/flags/sprite.svg#flag-10034"></use></svg></span><span class="st" title="Italy"><svg class="flagsv" viewBox="0 0 36 36" aria-hidden="true"><use href="/assets/flags/sprite.svg#flag-10087"></use></svg></span></div>
+   <span class="kind">Scenic</span>
+   <span class="turn">Turn over</span>
+  </div>
+  <div class="face back">
+   <span class="pmark"><b>Europe</b><i>Rail</i></span>
+   <div class="bh">Bernina Express</div><div class="bsub">Scenic</div>
+   <div class="lines"><div class="ln"><b>Route</b><span>St. Moritz → Tirano, Italy — crosses the UNESCO Albula/Bernina rail landscape</span></div><div class="ln"><b>Duration</b><span>~4 hours (St. Moritz–Tirano)</span></div><div class="ln"><b>Best Season</b><span>June–October for green passes; winter for snowscapes and frozen Lago Bianco</span></div><div class="ln"><b>Price Range</b><span>~CHF 65 (2nd class) + CHF 14 reservation; Swiss Travel Pass accepted</span></div><div class="ln"><b>Countries</b><span>Switzerland, Italy</span></div><div class="ln"><b>Booking Notes</b><span>The panorama train requires a reservation in addition to a ticket or pass. Regular regional trains use the same UNESCO route without the panorama reservation.</span></div></div>
+   <div class="books"><a class="bk primary" href="https://www.rhb.ch" target="_blank" rel="noopener">rhb.ch</a><a class="bk secondary" href="https://www.sbb.ch" target="_blank" rel="noopener">SBB</a></div>
+  </div>
+ </div>
+</div>
+
+<div class="pc" data-r="europe" style="--rc:#C04E1A;--kc:#8a3a5e">
+ <div class="pcin" role="button" tabindex="0" aria-label="Venice Simplon-Orient-Express — flip for details">
+  <div class="face front">
+   <span class="pmark"><b>Europe</b><i>Rail</i></span>
+   <span class="pidx">No. 06</span>
+   <h2>Venice Simplon-Orient-Express</h2><div class="pop">Belmond · Multi-country Europe</div>
+   <div class="stamps"><span class="st" title="United Kingdom"><svg class="flagsv" viewBox="0 0 36 36" aria-hidden="true"><use href="/assets/flags/sprite.svg#flag-10064"></use></svg></span><span class="st" title="France"><svg class="flagsv" viewBox="0 0 36 36" aria-hidden="true"><use href="/assets/flags/sprite.svg#flag-10062"></use></svg></span><span class="st" title="Switzerland"><svg class="flagsv" viewBox="0 0 36 36" aria-hidden="true"><use href="/assets/flags/sprite.svg#flag-10034"></use></svg></span><span class="st" title="Italy"><svg class="flagsv" viewBox="0 0 36 36" aria-hidden="true"><use href="/assets/flags/sprite.svg#flag-10087"></use></svg></span></div>
+   <span class="kind">Luxury</span>
+   <span class="turn">Turn over</span>
+  </div>
+  <div class="face back">
+   <span class="pmark"><b>Europe</b><i>Rail</i></span>
+   <div class="bh">Venice Simplon-Orient-Express</div><div class="bsub">Luxury</div>
+   <div class="lines"><div class="ln"><b>Route</b><span>London → Venice (classic route); also Paris, Prague, Istanbul and seasonal itineraries</span></div><div class="ln"><b>Duration</b><span>~2 nights on board (London–Venice)</span></div><div class="ln"><b>Best Season</b><span>March–November; festive journeys available December</span></div><div class="ln"><b>Price Range</b><span>From ~USD $4,000 per person (cabin); grand suites from ~USD $7,000+</span></div><div class="ln"><b>Countries</b><span>United Kingdom, France, Switzerland, Italy</span></div><div class="ln"><b>Booking Notes</b><span>Fares are itinerary- and cabin-specific and change by departure. Request the live total directly from Belmond and verify which station transfers, meals and excursions are included.</span></div></div>
+   <div class="books"><a class="bk primary" href="https://www.belmond.com/trains/europe/venice-simplon-orient-express/" target="_blank" rel="noopener">belmond.com</a></div>
+  </div>
+ </div>
+</div>
+
+<div class="pc" data-r="asia" style="--rc:#8a6c1a;--kc:#8a3a5e">
+ <div class="pcin" role="button" tabindex="0" aria-label="Eastern &amp; Oriental Express — flip for details">
+  <div class="face front">
+   <span class="pmark"><b>Asia</b><i>Rail</i></span>
+   <span class="pidx">No. 07</span>
+   <h2>Eastern &amp; Oriental Express</h2><div class="pop">Belmond · Southeast Asia</div>
+   <div class="stamps"><span class="st" title="Singapore"><svg class="flagsv" viewBox="0 0 36 36" aria-hidden="true"><use href="/assets/flags/sprite.svg#flag-10164"></use></svg></span><span class="st" title="Malaysia"><svg class="flagsv" viewBox="0 0 36 36" aria-hidden="true"><use href="/assets/flags/sprite.svg#flag-10130"></use></svg></span><span class="st" title="Thailand"><svg class="flagsv" viewBox="0 0 36 36" aria-hidden="true"><use href="/assets/flags/sprite.svg#flag-10181"></use></svg></span></div>
+   <span class="kind">Luxury</span>
+   <span class="turn">Turn over</span>
+  </div>
+  <div class="face back">
+   <span class="pmark"><b>Asia</b><i>Rail</i></span>
+   <div class="bh">Eastern &amp; Oriental Express</div><div class="bsub">Luxury</div>
+   <div class="lines"><div class="ln"><b>Route</b><span>Singapore → Bangkok via Kuala Lumpur, Butterworth, and the River Kwai</span></div><div class="ln"><b>Duration</b><span>3 nights on board</span></div><div class="ln"><b>Best Season</b><span>November–April (dry season); limited departures — book well ahead</span></div><div class="ln"><b>Price Range</b><span>From ~USD $2,000 per person (Pullman cabin); suites from ~USD $4,000+</span></div><div class="ln"><b>Countries</b><span>Singapore, Malaysia, Thailand</span></div><div class="ln"><b>Booking Notes</b><span>Seasonal itineraries and cabin categories change. Use Belmond's current departure calendar and quote rather than relying on an old headline fare.</span></div></div>
+   <div class="books"><a class="bk primary" href="https://www.belmond.com/en/trains/asia/malaysia/eastern-and-oriental-express" target="_blank" rel="noopener">belmond.com</a></div>
+  </div>
+ </div>
+</div>
+
+<div class="pc" data-r="australasia" style="--rc:#1f6a63;--kc:#1f6a63">
+ <div class="pcin" role="button" tabindex="0" aria-label="Indian Pacific — flip for details">
+  <div class="face front">
+   <span class="pmark"><b>Australasia</b><i>Rail</i></span>
+   <span class="pidx">No. 08</span>
+   <h2>Indian Pacific</h2><div class="pop">Journey Beyond · Australia</div>
+   <div class="stamps"><span class="st" title="Australia"><svg class="flagsv" viewBox="0 0 36 36" aria-hidden="true"><use href="/assets/flags/sprite.svg#flag-10010"></use></svg></span></div>
+   <span class="kind">Expedition</span>
+   <span class="turn">Turn over</span>
+  </div>
+  <div class="face back">
+   <span class="pmark"><b>Australasia</b><i>Rail</i></span>
+   <div class="bh">Indian Pacific</div><div class="bsub">Expedition</div>
+   <div class="lines"><div class="ln"><b>Route</b><span>Sydney → Perth via Broken Hill, Adelaide, and the Nullarbor Plain — ~4,352 km</span></div><div class="ln"><b>Duration</b><span>~65 hours / 4 days (includes off-train excursions)</span></div><div class="ln"><b>Best Season</b><span>April–October; Nullarbor summer (Dec–Feb) can be extreme</span></div><div class="ln"><b>Price Range</b><span>From AUD $1,199 (Red Service) to AUD $3,499+ (Gold Service) per person</span></div><div class="ln"><b>Countries</b><span>Australia</span></div><div class="ln"><b>Booking Notes</b><span>Current journeys are sold as experience packages with accommodation, meals and selected off-train excursions. Compare direction, cabin and departure date on the live calendar.</span></div></div>
+   <div class="books"><a class="bk primary" href="https://www.journeybeyondrail.com.au/journeys/indian-pacific/" target="_blank" rel="noopener">journeybeyondrail.com.au</a></div>
+  </div>
+ </div>
+</div>
+
+<div class="pc" data-r="australasia" style="--rc:#1f6a63;--kc:#1f6a63">
+ <div class="pcin" role="button" tabindex="0" aria-label="The Ghan — flip for details">
+  <div class="face front">
+   <span class="pmark"><b>Australasia</b><i>Rail</i></span>
+   <span class="pidx">No. 09</span>
+   <h2>The Ghan</h2><div class="pop">Journey Beyond · Australia</div>
+   <div class="stamps"><span class="st" title="Australia"><svg class="flagsv" viewBox="0 0 36 36" aria-hidden="true"><use href="/assets/flags/sprite.svg#flag-10010"></use></svg></span></div>
+   <span class="kind">Expedition</span>
+   <span class="turn">Turn over</span>
+  </div>
+  <div class="face back">
+   <span class="pmark"><b>Australasia</b><i>Rail</i></span>
+   <div class="bh">The Ghan</div><div class="bsub">Expedition</div>
+   <div class="lines"><div class="ln"><b>Route</b><span>Adelaide → Darwin through Alice Springs and the Red Centre — ~2,979 km</span></div><div class="ln"><b>Duration</b><span>~54 hours / 2.5 days</span></div><div class="ln"><b>Best Season</b><span>May–October (dry and mild); summer heat and flooding risks Apr and Feb–Mar</span></div><div class="ln"><b>Price Range</b><span>From AUD $1,149 (Red Service) to AUD $4,099+ (Gold Service) per person</span></div><div class="ln"><b>Countries</b><span>Australia</span></div><div class="ln"><b>Booking Notes</b><span>Fares vary by journey direction, cabin and departure, with meals and selected off-train experiences bundled. Check the current itinerary before comparing dates.</span></div></div>
+   <div class="books"><a class="bk primary" href="https://www.journeybeyondrail.com.au/journeys/the-ghan/" target="_blank" rel="noopener">journeybeyondrail.com.au</a></div>
+  </div>
+ </div>
+</div>
+
+<div class="pc" data-r="africa" style="--rc:#7a5230;--kc:#8a3a5e">
+ <div class="pcin" role="button" tabindex="0" aria-label="Rovos Rail — flip for details">
+  <div class="face front">
+   <span class="pmark"><b>Africa</b><i>Rail</i></span>
+   <span class="pidx">No. 10</span>
+   <h2>Rovos Rail</h2><div class="pop">Rovos Rail · South Africa</div>
+   <div class="stamps"><span class="st" title="South Africa"><svg class="flagsv" viewBox="0 0 36 36" aria-hidden="true"><use href="/assets/flags/sprite.svg#flag-10206"></use></svg></span><span class="st" title="Zimbabwe"><svg class="flagsv" viewBox="0 0 36 36" aria-hidden="true"><use href="/assets/flags/sprite.svg#flag-10208"></use></svg></span><span class="st" title="Tanzania"><svg class="flagsv" viewBox="0 0 36 36" aria-hidden="true"><use href="/assets/flags/sprite.svg#flag-10191"></use></svg></span></div>
+   <span class="kind">Luxury</span>
+   <span class="turn">Turn over</span>
+  </div>
+  <div class="face back">
+   <span class="pmark"><b>Africa</b><i>Rail</i></span>
+   <div class="bh">Rovos Rail</div><div class="bsub">Luxury</div>
+   <div class="lines"><div class="ln"><b>Routes</b><span>Pretoria → Cape Town (2 nights); Pretoria → Victoria Falls (3 nights); longer safari routes to Tanzania and Mozambique</span></div><div class="ln"><b>Duration</b><span>2 nights (short routes) to 15 days (Dar es Salaam–Cape Town grand safari)</span></div><div class="ln"><b>Best Season</b><span>Year-round; May–September for Big Five wildlife sightings</span></div><div class="ln"><b>Price Range</b><span>From ~USD $3,000 per person (short routes); grand safari from ~USD $10,000+</span></div><div class="ln"><b>Countries</b><span>South Africa, Zimbabwe, Tanzania</span></div><div class="ln"><b>Booking Notes</b><span>Rates depend on route, suite and season and include meals, drinks and scheduled excursions. Request the current tariff for the exact departure.</span></div></div>
+   <div class="books"><a class="bk primary" href="https://www.rovos.com" target="_blank" rel="noopener">rovos.com</a></div>
+  </div>
+ </div>
+</div>
+
+<div class="pc" data-r="africa" style="--rc:#7a5230;--kc:#8a3a5e">
+ <div class="pcin" role="button" tabindex="0" aria-label="The Blue Train — flip for details">
+  <div class="face front">
+   <span class="pmark"><b>Africa</b><i>Rail</i></span>
+   <span class="pidx">No. 11</span>
+   <h2>The Blue Train</h2><div class="pop">Transnet · South Africa</div>
+   <div class="stamps"><span class="st" title="South Africa"><svg class="flagsv" viewBox="0 0 36 36" aria-hidden="true"><use href="/assets/flags/sprite.svg#flag-10206"></use></svg></span></div>
+   <span class="kind">Luxury</span>
+   <span class="turn">Turn over</span>
+  </div>
+  <div class="face back">
+   <span class="pmark"><b>Africa</b><i>Rail</i></span>
+   <div class="bh">The Blue Train</div><div class="bsub">Luxury</div>
+   <div class="lines"><div class="ln"><b>Route</b><span>Irene Station (Pretoria area) → Cape Town via Matjiesfontein — ~1,600 km. Departs from Irene Station since January 2025; guests check in at Irene Country Lodge before boarding.</span></div><div class="ln"><b>Duration</b><span>~27 hours (1 night on board)</span></div><div class="ln"><b>Best Season</b><span>Year-round; October–March for Cape winelands</span></div><div class="ln"><b>Price Range</b><span>From ~USD $800 (Superior Suite) to ~USD $1,500+ (Deluxe Suite) per person</span></div><div class="ln"><b>Countries</b><span>South Africa</span></div><div class="ln"><b>Booking Notes</b><span>Fares change by season, direction and suite and are quoted per person. Confirm the live departure calendar, Irene check-in arrangements and included transfers before paying.</span></div></div>
+   <div class="books"><a class="bk primary" href="https://www.bluetrain.co.za" target="_blank" rel="noopener">bluetrain.co.za</a></div>
+  </div>
+ </div>
+</div>
+
+</div>
+<div class="none" id="none" hidden>No journeys in that region.</div>
+</div>
+
 <script>
 function filterJourneys(region, btn) {
   document.querySelectorAll('.filter-btn').forEach(function(b) { b.classList.remove('is-on'); });
   btn.classList.add('is-on');
-  var cards = document.querySelectorAll('.journey-card');
-  var sections = document.querySelectorAll('.region-section');
-  cards.forEach(function(card) {
-    if (region === 'all' || card.dataset.region === region) {
-      card.classList.remove('hidden');
-    } else {
-      card.classList.add('hidden');
-    }
+  var n = 0;
+  document.querySelectorAll('.pc').forEach(function(p) {
+    var show = (region === 'all' || p.dataset.r === region);
+    p.classList.toggle('hide', !show);
+    p.classList.remove('flip');
+    if (show) n++;
   });
-  sections.forEach(function(sec) {
-    var visible = sec.querySelectorAll('.journey-card:not(.hidden)').length;
-    sec.classList.toggle('all-hidden', visible === 0);
-  });
+  document.getElementById('none').hidden = n > 0;
 }
+document.querySelectorAll('.pcin').forEach(function(el) {
+  var pc = el.parentElement;
+  function toggle(e) { if (e.target.closest('a')) return; pc.classList.toggle('flip'); }
+  el.addEventListener('click', toggle);
+  el.addEventListener('keydown', function(e) {
+    if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); pc.classList.toggle('flip'); }
+  });
+});
 </script>
 
-</div>
-
 <div class="sc-siblings"><a class="sibling-pill" href="/essentials/pilgrimage-routes/">Pilgrimage routes</a></div>
+</div>
 </body>
 </html>

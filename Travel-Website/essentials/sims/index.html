@@ -4,130 +4,153 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link rel="stylesheet" href="/assets/web-travel-style.css">
-<title>eSIM and Phone Plans Abroad | Guide My Days</title>
-<style>/* .wrap — fluid width from web-travel-style.css */
-.page-desc { font-size: 16px; color: var(--muted); margin: 4px 0 14px; }
-/* ── Controls ── */
-.controls { display: flex; flex-direction: column; gap: 14px; align-items: center; margin-bottom: 16px; flex-wrap: wrap; }
-.search-wrap { position: relative; }
-.pills { font-family: inherit; display: flex; gap: var(--fam-gap,10px); flex-wrap: nowrap; justify-content: center; margin-top: var(--search-gap,32px); }
-/* .pill is a layout hook — box, colour, case and the selected state come from
-   the shared .pill-badge + .fam-* classes (markup writes pill pill-badge fam-*;
-   selection is .is-on). Never re-add a box or a colour here.
-   Spec: Brain/Reference/Icons-Formats-Logos/selection-pills-badges-pills-to-badge-dots/. */
-.pill { font-family: inherit; }
-/* ── No results ── */
-#no-results { display: none; }
-/* ── Section header ── */
-.section-head {
-  font-size: 12px; font-weight: 700; color: var(--muted);
-  text-transform: uppercase; letter-spacing: 0.14em;
-  border-bottom: 2px solid var(--accent); padding-bottom: 7px;
-  margin: 30px 0 14px; display: flex; align-items: center; gap: 8px;
+<style>
+/* ══ SIM TRAY ══ every provider is a physical card with a cut corner and
+   gold contacts. Tiles tilt to the cursor; countries run as filmstrips. ══ */
+.st-hero{
+  position:relative;padding:60px 0 44px;overflow:hidden;
+  background:linear-gradient(155deg,var(--warm),var(--bg) 74%);border-bottom:1px solid var(--border);
 }
-.section-head .sh-emoji { font-size: 16px; line-height: 1; }
-.decide-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
-.decide-grid.hidden { display: none; }
-@media (max-width: 640px) { .decide-grid { grid-template-columns: 1fr; } }
-.d-card { background: var(--surface); border: 1px solid var(--border2); border-radius: 8px; padding: 16px 16px 14px; position: relative; }
-.d-card.rec { border-color: var(--rust-ink, #C04E1A); box-shadow: 0 0 0 1px var(--rust-ink, #C04E1A); }
-.d-pick { position: absolute; top: -9px; right: 13px; }
-.d-ico { width: 32px; height: 32px; border-radius: 8px; display: flex; align-items: center; justify-content: center; margin-bottom: 11px; background: var(--surface2); }
-.d-ico .card-icon { font-size: 18px; }
-.d-ico .card-icon svg { width: 1em; height: 1em; display: block; }
-.d-card h3 { margin: 0 0 6px; font-size: 14px; font-weight: 700; color: var(--text); }
-.d-when { font-size: 16px; color: var(--muted); line-height: 1.55; margin-bottom: 12px; min-height: 54px; }
-.d-cost { font-size: 16px; font-weight: 700; color: var(--text); font-variant-numeric: tabular-nums; padding-top: 10px; border-top: 1px solid var(--border2); }
-.d-card.hidden { display: none; }
-.region-group { margin-bottom: 22px; }
-.region-group:last-child { margin-bottom: 0; }
-.region-group.hidden { display: none; }
-.region-group-head { display: flex; align-items: baseline; gap: 8px; margin: 0 0 10px; }
-.region-group-head h3 { margin: 0; font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: var(--sp-ink, var(--text)); }
-/* ── Country SIM cards ── */
-.sim-country-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 12px; }
-.sim-country-card {
-  background: var(--surface); border: 1px solid var(--border2); border-left: 3px solid var(--sp-ink, var(--border2));
-  border-radius: 8px; padding: 14px 16px;
-  transition: box-shadow .15s, border-color .15s, transform .15s;
-}
-.sim-country-card:hover { box-shadow: 0 3px 10px rgba(92,61,17,.10); transform: translateY(-1px); }
-.sim-country-card.hidden { display: none; }
-/* Set once on the region-group ancestor -- inherits down to both this card
-   (border-left) and .region-group-head h3 (heading colour) above, instead
-   of being hardcoded a 2nd time as an inline style="color:..." on every h3
-   (was: same 4 hex, once here, once again inline per heading). */
-.sccard-header { font-size: 16px; font-weight: 700; color: var(--text); margin-bottom: 10px; display: flex; align-items: center; gap: 7px; }
-.sccard-region { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: var(--text); margin-left: auto; }
-.sccard-rows { display: flex; flex-direction: column; gap: 5px; }
-.sccard-row { font-size: 16px; display: flex; gap: 8px; line-height: 1.45; }
-.sccard-label { color: var(--muted); min-width: 52px; flex-shrink: 0; font-weight: 600; }
-.sccard-note { margin-top: 8px; font-size: 16px; color: var(--muted); line-height: 1.4; border-top: 1px solid var(--border2); padding-top: 8px; }
-.sccard-note a { color: var(--accent); }
-.sccard-note a:visited { color: #8a6c1a; }
-/* ── Provider / region rows ── */
-.row-list { display: flex; flex-direction: column; gap: 8px; }
-.info-row {
-  background: var(--surface); border: 1px solid var(--border2); border-radius: 8px;
-  padding: 12px 15px; display: grid; grid-template-columns: 160px 1fr; gap: 0 16px; align-items: start;
-}
-.info-row.hidden { display: none; }
-.row-name  { font-size: 16px; font-weight: 700; color: var(--text); }
-.row-name a {
-  color: var(--rust-ink, #C04E1A); font-weight: 700;
-  transition: color .12s;
-}
-/* :visited and :hover take the literal because var() is inert in :visited, and
-   the two must match or a visited link changes colour on hover. In dark mode
-   they pick up --rust-ink the same way the rest state does. */
-.row-name a:visited { color: #C04E1A; }
-.row-name a:hover { color: #C04E1A; }
-.sim-badges { display: flex; gap: 4px; flex-wrap: wrap; margin-top: 4px; }
-/* .sim-badge sizing + colour from .badge / .sb-* / .cp-* in web-travel-style.css */
-/* esim=sb-blue  carrier=cp-soft-plum  best=sb-green  unlimited=sb-red  budget=sb-pink
-   (budget was fam-grey until 2026-08-24 — grey is reserved for the ALL
-   filter pill only, never a content category; same rule fixed "By region"
-   above, which was also wrongly fam-grey) */
-.row-sub   { font-size: 16px; color: var(--muted); margin-top: 2px; }
-.row-note  { font-size: 16px; color: var(--muted); line-height: 1.5; }
-/* ── Tips ── */
-.tips-list {
-  display: flex; flex-direction: column;
-  background: var(--surface); border: 1px solid var(--border2); border-radius: 8px; overflow: hidden;
-}
-.tips-subhead {
-  font-size: 11px; font-weight: 700; color: var(--muted);
-  text-transform: uppercase; letter-spacing: 0.06em;
-  padding: 9px 16px; background: var(--warm);
-  border-top: 1px solid var(--border2);
-}
-.tips-list > .tips-subhead:first-child { border-top: none; }
-.tips-subhead.hidden { display: none; }
-.tip-row {
-  padding: 11px 16px; font-size: 16px; color: var(--text); line-height: 1.5;
-  display: flex; gap: 10px; align-items: flex-start;
-  border-top: 1px solid var(--border2);
-}
-.tips-list > .tip-row:first-child { border-top: none; }
-.tips-subhead + .tip-row { border-top: none; }
-.tip-row.hidden { display: none; }
-/* ── Mobile ── */
-@media (max-width: 600px) and (pointer: coarse) {
-  .controls { flex-direction: column; align-items: center; gap: 8px; }
-  .search-wrap { min-width: 0; }
-  .pills { font-family: inherit; display: flex !important; flex-wrap: wrap !important; gap: var(--fam-gap,10px) !important; justify-content: center !important; }
-  .sim-country-grid { grid-template-columns: 1fr; }
-  .info-row { grid-template-columns: 1fr; gap: 4px 0; }
-  .decision-table th:last-child, .decision-table td:last-child { display: none; }
-  .dt-cost-mobile { display: block; font-size: 16px; color: var(--muted); margin-top: 4px; }
-}
-/* Colored filter pills — fam-* token families. No hover. fam-* handles dark
-   mode on its own (2026-08-24: deleted a stray dark-mode-only override of
-   .sim-badge-esim/-best/-carrier that was left behind from before this page
-   carried real badge fam-* classes — it had no light-mode counterpart and
-   was quietly winning over the correct shared colour in dark mode, a live
-   bug, not just duplicated code). */
+.st-in{max-width:1100px;margin:0 auto;padding:0 clamp(18px,5vw,40px)}
+.st-top{display:grid;grid-template-columns:1fr 260px;gap:44px;align-items:center}
+.st-kick{font-size:11px;font-weight:800;letter-spacing:.26em;text-transform:uppercase;color:var(--rust);display:block;margin-bottom:13px}
+.st-h1{font-size:clamp(29px,5.2vw,52px);font-weight:800;letter-spacing:-.032em;line-height:1.04;margin:0;color:var(--text);max-width:16ch}
+.st-h1 em{font-style:normal;color:var(--rust)}
+.st-intro{margin:20px 0 0;max-width:76ch;font-size:15px;line-height:1.66;color:var(--muted)}
 
+/* the hero SIM */
+.st-sim{
+  aspect-ratio:5/4;border-radius:10px;position:relative;
+  background:linear-gradient(140deg,#c0561f,#7d2f10);
+  clip-path:polygon(0 0,72% 0,100% 26%,100% 100%,0 100%);
+  box-shadow:0 26px 50px -26px rgba(0,0,0,.6);
+  animation:st-float 6s ease-in-out infinite alternate;
+}
+@keyframes st-float{from{transform:rotate(-4deg) translateY(0)}to{transform:rotate(2deg) translateY(-10px)}}
+.st-pads{
+  position:absolute;left:16%;top:24%;width:52%;height:52%;border-radius:6px;
+  background:linear-gradient(140deg,#f4dea6,#c8a453 55%,#8f722f);
+  box-shadow:inset 0 0 0 1px rgba(0,0,0,.18);
+}
+.st-pads::before,.st-pads::after{content:"";position:absolute;background:rgba(0,0,0,.24)}
+.st-pads::before{left:6%;right:6%;top:50%;height:2px}
+.st-pads::after{top:6%;bottom:6%;left:50%;width:2px}
+
+.st-search{display:flex;justify-content:center;padding:26px clamp(18px,5vw,40px) 0}
+.st-wrap{max-width:1100px;margin:0 auto;padding:0 clamp(18px,5vw,40px) 96px}
+
+/* filter pills row */
+.st-pills{display:flex;gap:10px;flex-wrap:wrap;justify-content:center;padding:22px clamp(18px,5vw,40px) 0;max-width:1100px;margin:0 auto}
+
+.st-sh{display:flex;align-items:baseline;gap:14px;margin:54px 0 20px}
+.st-shn{
+  font-size:11px;font-weight:800;letter-spacing:.14em;color:#fff;background:var(--rust);
+  padding:5px 10px;border-radius:5px;font-variant-numeric:tabular-nums;
+}
+.st-sht{font-size:20px;font-weight:800;letter-spacing:-.018em;color:var(--text);margin:0}
+.st-shn2{margin-left:auto;font-size:11.5px;color:var(--muted)}
+
+/* ── the tray ── */
+.st-tray{display:grid;grid-template-columns:repeat(auto-fill,minmax(292px,1fr));gap:18px}
+.st-tile{
+  position:relative;background:var(--surface);border:1px solid var(--border2);
+  border-radius:12px;padding:22px 22px 20px;overflow:hidden;
+  clip-path:polygon(0 0,calc(100% - 26px) 0,100% 26px,100% 100%,0 100%);
+  transform-style:preserve-3d;transition:transform .25s ease,box-shadow .25s ease;
+  box-shadow:0 1px 2px rgba(0,0,0,.04),0 10px 26px -20px rgba(0,0,0,.35);
+  opacity:0;
+}
+.st-tile.in{opacity:1;animation:st-slot .5s cubic-bezier(.16,1,.3,1) both}
+@keyframes st-slot{from{opacity:0;transform:translateY(20px) rotateX(-10deg)}to{opacity:1;transform:none}}
+.st-tile.out{display:none}
+.st-tile::after{
+  content:"";position:absolute;right:-2px;top:-2px;width:30px;height:30px;
+  background:linear-gradient(225deg,var(--surface2) 50%,transparent 50%);
+  border-left:1px solid var(--border2);border-bottom:1px solid var(--border2);
+}
+@media (hover:hover){
+  .st-tile:hover{box-shadow:0 1px 2px rgba(0,0,0,.04),0 30px 56px -28px rgba(0,0,0,.5)}
+}
+.st-contact{
+  width:44px;height:34px;border-radius:5px;margin-bottom:16px;
+  background:linear-gradient(140deg,#f4dea6,#c8a453 55%,#8f722f);
+  box-shadow:inset 0 0 0 1px rgba(0,0,0,.16);position:relative;
+}
+.st-contact::before,.st-contact::after{content:"";position:absolute;background:rgba(0,0,0,.22)}
+.st-contact::before{left:5px;right:5px;top:50%;height:1.5px}
+.st-contact::after{top:5px;bottom:5px;left:50%;width:1.5px}
+.st-tname{font-size:20px;font-weight:800;letter-spacing:-.02em;margin:0 0 7px;line-height:1.18}
+.st-tname a{color:var(--text);text-decoration:none;transition:color .2s}
+.st-tname a:hover{color:var(--rust)}
+.st-tsub{font-size:12.5px;color:var(--muted);font-weight:600;margin-bottom:10px}
+.st-badges{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:13px}
+.st-tnote{font-size:13.4px;line-height:1.6;color:var(--text);margin:0}
+
+/* ── choices ── */
+.st-choices{display:grid;grid-template-columns:repeat(auto-fit,minmax(262px,1fr));gap:18px}
+.st-choice{
+  position:relative;border-radius:12px;padding:24px 22px;color:#fff;overflow:hidden;
+  background:linear-gradient(140deg,var(--a),var(--b));
+  clip-path:polygon(0 0,calc(100% - 30px) 0,100% 30px,100% 100%,0 100%);
+  box-shadow:0 18px 38px -24px rgba(0,0,0,.6);
+  transition:transform .3s cubic-bezier(.16,1,.3,1);
+}
+@media (hover:hover){.st-choice:hover{transform:translateY(-6px) rotate(-.7deg)}}
+.st-choice:nth-child(1){--a:#c0561f;--b:#7d2f10}
+.st-choice:nth-child(2){--a:#7d5b34;--b:#54402a}
+.st-choice:nth-child(3){--a:#5a4a34;--b:#3a2e1c}
+.st-cpick{
+  position:absolute;top:16px;right:44px;font-size:9.5px;font-weight:800;letter-spacing:.11em;
+  text-transform:uppercase;padding:4px 10px;border-radius:999px;
+  background:rgba(255,255,255,.24);border:1px solid rgba(255,255,255,.4);
+}
+.st-cname{font-size:25px;font-weight:800;letter-spacing:-.025em;margin:14px 0 10px;text-shadow:0 1px 3px rgba(0,0,0,.28)}
+.st-cwhen{font-size:13.6px;line-height:1.6;margin:0 0 16px;opacity:.95}
+.st-ccost{font-size:18px;font-weight:800;padding-top:13px;border-top:1px solid rgba(255,255,255,.28);font-variant-numeric:tabular-nums}
+
+/* ── tips ── */
+.st-tips{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:28px}
+.st-tgh{font-size:11px;font-weight:800;letter-spacing:.16em;text-transform:uppercase;color:var(--rust);padding-bottom:9px;border-bottom:2px solid var(--rust);margin-bottom:6px}
+.st-tip{padding:14px 0;border-bottom:1px solid var(--border2);font-size:13.6px;line-height:1.62;color:var(--text);position:relative;padding-left:22px}
+.st-tip::before{content:"";position:absolute;left:0;top:21px;width:9px;height:9px;border-radius:2px;background:var(--rust);opacity:.75}
+
+/* ── filmstrips ── */
+.st-strip-h{display:flex;align-items:center;gap:12px;margin:30px 0 12px}
+.st-strip-n{font-size:14px;font-weight:800;letter-spacing:-.01em;color:var(--text)}
+.st-strip-c{font-size:10.5px;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
+.st-strip-rule{flex:1;height:1px;background:var(--border2)}
+.st-strip{
+  display:flex;gap:14px;overflow-x:auto;padding:4px 2px 16px;scroll-snap-type:x mandatory;
+  -webkit-overflow-scrolling:touch;scrollbar-width:thin;
+}
+.st-strip-block.out{display:none}
+.st-cc{
+  flex:0 0 314px;scroll-snap-align:start;background:var(--surface);border:1px solid var(--border2);
+  border-radius:12px;overflow:hidden;border-top:4px solid var(--rust);
+  transition:transform .25s cubic-bezier(.16,1,.3,1),box-shadow .25s;
+}
+.st-cc.out{display:none}
+@media (hover:hover){.st-cc:hover{transform:translateY(-5px);box-shadow:0 24px 44px -28px rgba(0,0,0,.45)}}
+.st-ccn{font-size:16.5px;font-weight:800;letter-spacing:-.015em;color:var(--text);padding:14px 17px 10px}
+.st-ccrow{padding:11px 17px;border-top:1px solid var(--border2);font-size:13px;line-height:1.56;color:var(--text)}
+.st-ccl{display:block;font-size:9.5px;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:var(--rust);margin-bottom:4px}
+.st-ccg{padding:11px 17px;border-top:1px solid var(--border2);font-size:12.5px;color:var(--muted)}
+.st-ccg a{color:var(--rust);font-weight:700;text-decoration:none}
+.st-ccg a:hover{text-decoration:underline}
+
+.st-empty{display:none;padding:50px 0;text-align:center;color:var(--muted);font-size:14px}
+.st-empty.on{display:block}
+
+.st-section.out{display:none}
+
+@media (max-width:860px){
+  .st-top{grid-template-columns:1fr}
+  .st-sim{max-width:200px}
+}
+@media (prefers-reduced-motion:reduce){
+  .st-sim{animation:none}
+  .st-tile.in{animation:none;opacity:1}
+}
 </style>
 <link rel="stylesheet" href="/assets/mobile.css?v=53">
 <!-- seo:start — generated by Brain/scripts/build/build_seo.py · do not hand-edit -->
@@ -157,464 +180,431 @@
 <!-- seo:end -->
 </head>
 <body>
-<div id="toolbar-mount" data-depth="2" data-maxwidth="760" data-updated="2026-09-19"></div>
+<div id="toolbar-mount" data-depth="2" data-maxwidth="1100" data-updated="2026-09-30"></div>
 <script src="/assets/toolbar.js?v=127"></script>
-<div class="hero-band eb-hero">
-    <span class="eb-kicker">Phone &amp; SIM Abroad</span>
-    <div class="eb-copy">
-      <h1 class="eb-title">eSIM, local SIM, or your own carrier, <em>compared honestly.</em></h1>
-      <p class="eb-intro">The three ways to get online abroad, compared honestly: an eSIM set up before you leave, a local SIM bought on arrival, or an add-on from your existing carrier. Each has a case where it is clearly right and a cost range to match. Then the specific providers worth using by region, and the setup details — unlocking, keeping your own number, activation timing — that are easy to get wrong once you have already landed.</p>
-    </div>
-    <div class="eb-graphic" aria-hidden="true"><svg viewBox="0 0 24 24" aria-hidden="true"><defs>
-      <linearGradient id="mtn-mid5" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#97a06c"/><stop offset="1" stop-color="#4a5030"/></linearGradient>
-      <linearGradient id="isl-mid5" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#cba85c"/><stop offset="1" stop-color="#6e5527"/></linearGradient>
-      <linearGradient id="isl-light5" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#f0e2bd"/><stop offset="1" stop-color="#cba85c"/></linearGradient>
-    </defs>
-      <path d="M6.6 2h8l5.2 5.2V20a2 2 0 0 1-2 2H6.6a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2z" fill="url(#mtn-mid5)" stroke="#4a5030" stroke-width="0.5"/>
-      <path d="M6.6 2h8l5.2 5.2V20a2 2 0 0 1-2 2H6.6a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2z" fill="url(#gm-gloss)"/>
-      <rect x="7.6" y="11" width="8.8" height="7.4" rx="1.2" fill="url(#isl-mid5)" stroke="#6e5527" stroke-width="0.5"/>
-      <path d="M12 11v7.4M7.6 14.7h8.8" stroke="#4a5030" stroke-width="0.7"/>
-      <g fill="url(#isl-light5)"><rect x="14.4" y="4.2" width="1" height="1.4" rx="0.3"/><rect x="15.8" y="3.4" width="1" height="2.2" rx="0.3"/><rect x="17.2" y="2.6" width="1" height="3" rx="0.3"/></g>
-    </svg></div>
-  </div>
 
-<div class="wrap">
-
-  
-    <div class="hero-ground">
-    <input type="search" class="search-input" id="sim-search" placeholder="Provider or country" aria-label="Search by provider, country, or region" autocomplete="off">
-  </div>
-
-  <div class="controls">
-    <div class="pills">
-      <button class="pill is-on pill-badge sb-light-grey hov-darken" data-filter="all" aria-pressed="true">All</button>
-      <button class="pill pill-badge sb-blue hov-darken" data-filter="esim" aria-pressed="false">eSIM</button>
-      <button class="pill pill-badge sb-green hov-darken" data-filter="local" aria-pressed="false">Local SIM</button>
-      <button class="pill pill-badge sb-teal hov-darken" data-filter="carrier" aria-pressed="false">Carrier plan</button>
-      <button class="pill pill-badge sb-red hov-darken" data-filter="tips" aria-pressed="false">Tips</button>
-      <button class="pill pill-badge sb-gold hov-darken" data-filter="region" aria-pressed="false">By region</button>
+<header class="st-hero">
+  <div class="st-in">
+    <div class="st-top">
+      <div>
+        <span class="st-kick">Phone &amp; SIM Abroad</span>
+        <h1 class="st-h1">eSIM, local SIM, or your own carrier, <em>compared honestly.</em></h1>
+        <p class="st-intro">The three ways to get online abroad, compared honestly: an eSIM set up before you leave, a local SIM bought on arrival, or an add-on from your existing carrier. Each has a case where it is clearly right and a cost range to match. Then the specific providers worth using by region, and the setup details &mdash; unlocking, keeping your own number, activation timing &mdash; that are easy to get wrong once you have already landed.</p>
+      </div>
+      <div class="st-sim" aria-hidden="true"><div class="st-pads"></div></div>
     </div>
   </div>
+</header>
 
-  <div id="no-results" class="empty-state">Nothing matches your search.</div>
+<div class="st-search">
+  <input type="search" class="search-input" id="st-q" placeholder="Provider or country" aria-label="Filter by provider, country, or region" autocomplete="off">
+</div>
 
-  <!-- ── Option Types ── -->
-  <div class="section" data-section="esim local carrier">
-    <div class="section-head">Which Option?</div>
-    <div class="decide-grid">
+<div class="st-pills">
+  <button class="pill is-on pill-badge sb-light-grey hov-darken" data-filter="all" aria-pressed="true">All</button>
+  <button class="pill pill-badge sb-blue hov-darken" data-filter="esim" aria-pressed="false">eSIM</button>
+  <button class="pill pill-badge sb-teal hov-darken" data-filter="carrier" aria-pressed="false">Carrier plan</button>
+  <button class="pill pill-badge sb-red hov-darken" data-filter="tips" aria-pressed="false">Tips</button>
+  <button class="pill pill-badge sb-gold hov-darken" data-filter="region" aria-pressed="false">By region</button>
+</div>
 
-      <div class="d-card rec" data-tags="esim">
-        <span class="badge has-icon sb-green d-pick"><svg class="gm-icon" data-icon="dot-green" data-role="dot" viewBox="0 0 24 24" aria-hidden="true"><use href="#gm-i-dot-green"/></svg> Most trips</span>
-        <span class="d-ico">
-          <span class="card-icon" data-icon="1212"><svg data-fill="0.96" viewBox="0 0 24 24"><path d="M6.4 2h8l5.2 5.2V20a2 2 0 0 1-2 2H6.4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2z" fill="url(#gm-navy)" stroke="var(--c-navy-rim)" stroke-width="0.5"/><path d="M6.4 2h8l5.2 5.2V20a2 2 0 0 1-2 2H6.4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2z" fill="url(#gm-gloss)"/><rect x="7.6" y="11" width="8.8" height="7.4" rx="1.2" fill="url(#gm-sun)" stroke="var(--c-sun-rim)" stroke-width="0.5"/><g stroke="var(--c-amber)" stroke-width="0.9"><path d="M12 11v7.4M7.6 14.7h8.8"/></g></svg></span>
-        </span>
-        <h3>eSIM</h3>
-        <div class="d-when">Short trip, multi-country, or you don't want to hunt for a SIM on arrival. Set up before you leave via app.</div>
-        <div class="d-cost">$5–30 / trip</div>
-      </div>
+<div class="st-wrap">
 
-      <div class="d-card" data-tags="local">
-        <span class="d-ico">
-          <span class="card-icon" data-icon="576"><svg data-fill="0.90" viewBox="0 0 24 24"><rect x="2.4" y="6.6" width="11" height="13.4" rx="1.6" fill="url(#gm-sky)" stroke="var(--c-sky-rim)" stroke-width="0.5" transform="rotate(-11 7.9 13.3)"/><rect x="10.6" y="4" width="11" height="13.4" rx="1.6" fill="url(#gm-clay)" stroke="var(--c-clay-rim)" stroke-width="0.5" transform="rotate(11 16.1 10.7)"/><circle cx="16.1" cy="10.7" r="2.4" fill="url(#gm-paper)" stroke="var(--c-rim-cool)" stroke-width="0.6"/><circle cx="7.9" cy="13.3" r="2.4" fill="url(#gm-paper)" stroke="var(--c-rim-cool)" stroke-width="0.6"/></svg></span>
-        </span>
-        <h3>Local SIM</h3>
-        <div class="d-when">Staying 1+ week in one country, high data use, or on a budget. Cheapest per-GB — see specific cards below.</div>
-        <div class="d-cost">$3–20 / 30 days</div>
-      </div>
-
-      <div class="d-card" data-tags="carrier">
-        <span class="d-ico">
-          <span class="card-icon" data-icon="571"><svg data-fill="0.90" viewBox="0 0 24 24"><rect x="6" y="1.4" width="12" height="21.2" rx="2.4" fill="url(#gm-navy)" stroke="var(--c-navy-rim)" stroke-width="0.5"/><rect x="7.4" y="4.4" width="9.2" height="14.6" rx="0.8" fill="url(#gm-cream)" stroke="var(--c-rim-cool)" stroke-width="0.6" stroke-linejoin="round" /><g stroke="var(--c-stone)" stroke-width="1" stroke-linecap="round" opacity="0.6"><path d="M9.2 7.6h5.6M9.2 10.2h5.6M9.2 12.8h3.6"/></g><circle cx="12" cy="20.6" r="1" fill="url(#gm-sky)" stroke="var(--c-sky-rim)" stroke-width="0.5"/><rect x="10.2" y="2.6" width="3.6" height="0.9" rx="0.45" fill="url(#gm-sky)" stroke="var(--c-sky-rim)" stroke-width="0.5"/></svg></span>
-        </span>
-        <h3>Carrier Plan</h3>
-        <div class="d-when">You need your own number to work and don't want to change SIMs. Some premium T-Mobile plans include international data.</div>
-        <div class="d-cost">$0 or $12/day</div>
-      </div>
-
+  <!-- 01 Which Option? -->
+  <div class="st-section" data-section="esim carrier">
+    <div class="st-sh"><span class="st-shn">01</span><h2 class="st-sht">Which Option?</h2></div>
+    <div class="st-choices">
+      <article class="st-choice">
+        <span class="st-cpick">Most trips</span>
+        <h3 class="st-cname">eSIM</h3>
+        <p class="st-cwhen">Short trip, multi-country, or you don't want to hunt for a SIM on arrival. Set up before you leave via app.</p>
+        <div class="st-ccost">$5–30 / trip</div>
+      </article>
+      <article class="st-choice">
+        <h3 class="st-cname">Local SIM</h3>
+        <p class="st-cwhen">Staying 1+ week in one country, high data use, or on a budget. Cheapest per-GB — see specific cards below.</p>
+        <div class="st-ccost">$3–20 / 30 days</div>
+      </article>
+      <article class="st-choice">
+        <h3 class="st-cname">Carrier Plan</h3>
+        <p class="st-cwhen">You need your own number to work and don't want to change SIMs. Some premium T-Mobile plans include international data.</p>
+        <div class="st-ccost">$0 or $12/day</div>
+      </article>
     </div>
   </div>
 
-  <!-- ── eSIM Providers ── -->
-  <div class="section" data-section="esim">
-    <div class="section-head">eSIM Providers</div>
-    <div class="row-list">
+  <!-- 02 eSIM Providers -->
+  <div class="st-section" data-section="esim">
+    <div class="st-sh"><span class="st-shn">02</span><h2 class="st-sht">eSIM Providers</h2></div>
+    <div class="st-tray">
 
-      <div class="info-row" data-tags="esim">
-        <div>
-          <div class="row-name"><a class="ext-arrow" href="https://www.airalo.com" target="_blank" rel="noopener">Airalo</a></div>
-          <div class="sim-badges"><span class="sim-badge sim-badge-esim badge has-icon sb-blue"><svg class="gm-icon" data-icon="dot-blue" data-role="dot" viewBox="0 0 24 24" aria-hidden="true"><use href="#gm-i-dot-blue"/></svg> eSIM</span><span class="sim-badge sim-badge-best badge has-icon sb-green"><svg class="gm-icon" data-icon="dot-green" data-role="dot" viewBox="0 0 24 24" aria-hidden="true"><use href="#gm-i-dot-green"/></svg> Best pick</span></div>
-          <div class="row-sub">Marketplace — 200+ countries</div>
+      <article class="st-tile" data-q="airalo esim marketplace 200 countries">
+        <div class="st-contact" aria-hidden="true"></div>
+        <h3 class="st-tname"><a href="https://www.airalo.com" target="_blank" rel="noopener">Airalo</a></h3>
+        <div class="st-tsub">Marketplace — 200+ countries</div>
+        <div class="st-badges">
+          <span class="badge sb-blue">eSIM</span>
+          <span class="badge sb-green">Best pick</span>
         </div>
-        <div class="row-note">Largest eSIM marketplace. Buy country or regional packages in the app. Regional plans cover EU, Asia, or global zones — useful for multi-country trips. Activate instantly via QR code or app install. Plans from ~$5.</div>
-      </div>
+        <p class="st-tnote">Largest eSIM marketplace. Buy country or regional packages in the app. Regional plans cover EU, Asia, or global zones — useful for multi-country trips. Activate instantly via QR code or app install. Plans from ~$5.</p>
+      </article>
 
-      <div class="info-row" data-tags="esim">
-        <div>
-          <div class="row-name"><a class="ext-arrow" href="https://www.getnomad.app" target="_blank" rel="noopener">Nomad</a></div>
-          <div class="sim-badges"><span class="sim-badge sim-badge-esim badge has-icon sb-blue"><svg class="gm-icon" data-icon="dot-blue" data-role="dot" viewBox="0 0 24 24" aria-hidden="true"><use href="#gm-i-dot-blue"/></svg> eSIM</span></div>
-          <div class="row-sub">Marketplace — 200+ countries</div>
+      <article class="st-tile" data-q="nomad esim marketplace 200 countries">
+        <div class="st-contact" aria-hidden="true"></div>
+        <h3 class="st-tname"><a href="https://www.getnomad.app" target="_blank" rel="noopener">Nomad</a></h3>
+        <div class="st-tsub">Marketplace — 200+ countries</div>
+        <div class="st-badges">
+          <span class="badge sb-blue">eSIM</span>
         </div>
-        <div class="row-note">Similar to Airalo. Often competitive on Europe and Asia pricing. Regional bundles available. App-based activation. Worth comparing prices against Airalo for your destination.</div>
-      </div>
+        <p class="st-tnote">Similar to Airalo. Often competitive on Europe and Asia pricing. Regional bundles available. App-based activation. Worth comparing prices against Airalo for your destination.</p>
+      </article>
 
-      <div class="info-row" data-tags="esim">
-        <div>
-          <div class="row-name"><a class="ext-arrow" href="https://saily.com" target="_blank" rel="noopener">Saily</a></div>
-          <div class="sim-badges"><span class="sim-badge sim-badge-esim badge has-icon sb-blue"><svg class="gm-icon" data-icon="dot-blue" data-role="dot" viewBox="0 0 24 24" aria-hidden="true"><use href="#gm-i-dot-blue"/></svg> eSIM</span><span class="sim-badge sim-badge-budget badge has-icon sb-pink"><svg class="gm-icon" data-icon="dot-pink" data-role="dot" viewBox="0 0 24 24" aria-hidden="true"><use href="#gm-i-dot-pink"/></svg> Budget</span></div>
-          <div class="row-sub">Budget pick — broad worldwide coverage</div>
+      <article class="st-tile" data-q="saily esim budget worldwide coverage nord">
+        <div class="st-contact" aria-hidden="true"></div>
+        <h3 class="st-tname"><a href="https://saily.com" target="_blank" rel="noopener">Saily</a></h3>
+        <div class="st-tsub">Budget pick — broad worldwide coverage</div>
+        <div class="st-badges">
+          <span class="badge sb-blue">eSIM</span>
+          <span class="badge sb-pink">Budget</span>
         </div>
-        <div class="row-note">From the Nord Security team. Offers fixed-data, regional, global, and selected unlimited plans, with built-in ad blocking and web protection. Hotspot use is supported on standard plans; unlimited plans have fair-use limits, so check the destination terms before buying.</div>
-      </div>
+        <p class="st-tnote">From the Nord Security team. Offers fixed-data, regional, global, and selected unlimited plans, with built-in ad blocking and web protection. Hotspot use is supported on standard plans; unlimited plans have fair-use limits, so check the destination terms before buying.</p>
+      </article>
 
-      <div class="info-row" data-tags="esim">
-        <div>
-          <div class="row-name"><a class="ext-arrow" href="https://esim.holafly.com" target="_blank" rel="noopener">Holafly</a></div>
-          <div class="sim-badges"><span class="sim-badge sim-badge-esim badge has-icon sb-blue"><svg class="gm-icon" data-icon="dot-blue" data-role="dot" viewBox="0 0 24 24" aria-hidden="true"><use href="#gm-i-dot-blue"/></svg> eSIM</span><span class="sim-badge sim-badge-unlimited badge has-icon sb-red"><svg class="gm-icon" data-icon="dot-orange" data-role="dot" viewBox="0 0 24 24" aria-hidden="true"><use href="#gm-i-dot-orange"/></svg> Unlimited</span></div>
-          <div class="row-sub">Unlimited plans — broad worldwide coverage</div>
+      <article class="st-tile" data-q="holafly esim unlimited worldwide coverage">
+        <div class="st-contact" aria-hidden="true"></div>
+        <h3 class="st-tname"><a href="https://esim.holafly.com" target="_blank" rel="noopener">Holafly</a></h3>
+        <div class="st-tsub">Unlimited plans — broad worldwide coverage</div>
+        <div class="st-badges">
+          <span class="badge sb-blue">eSIM</span>
+          <span class="badge sb-red">Unlimited</span>
         </div>
-        <div class="row-note">Unlimited plans are sold for 1–90 days. Fair-use policies can reduce speed after heavy use, and hotspot allowances vary by destination and plan; confirm both on the plan page before purchase.</div>
-      </div>
+        <p class="st-tnote">Unlimited plans are sold for 1–90 days. Fair-use policies can reduce speed after heavy use, and hotspot allowances vary by destination and plan; confirm both on the plan page before purchase.</p>
+      </article>
 
     </div>
   </div>
 
-  <!-- ── Carrier Plans ── -->
-  <div class="section" data-section="carrier">
-    <div class="section-head">US Carrier International Plans</div>
-    <div class="row-list">
+  <!-- 03 US Carrier Plans -->
+  <div class="st-section" data-section="carrier">
+    <div class="st-sh"><span class="st-shn">03</span><h2 class="st-sht">US Carrier International Plans</h2></div>
+    <div class="st-tray">
 
-      <div class="info-row" data-tags="carrier">
-        <div>
-          <div class="row-name"><a class="ext-arrow" href="https://www.t-mobile.com/cell-phone-plans/international-roaming-plans" target="_blank" rel="noopener">T-Mobile premium plans</a></div>
-          <div class="sim-badges"><span class="sim-badge sim-badge-carrier badge has-icon sb-teal"><svg class="gm-icon" data-icon="dot-teal" data-role="dot" viewBox="0 0 24 24" aria-hidden="true"><use href="#gm-i-dot-teal"/></svg> Carrier</span><span class="sim-badge sim-badge-best badge has-icon sb-green"><svg class="gm-icon" data-icon="dot-green" data-role="dot" viewBox="0 0 24 24" aria-hidden="true"><use href="#gm-i-dot-green"/></svg> Included free</span></div>
-          <div class="row-sub">Included — 215+ countries</div>
+      <article class="st-tile" data-q="t-mobile go5g international 215 countries premium">
+        <div class="st-contact" aria-hidden="true"></div>
+        <h3 class="st-tname"><a href="https://www.t-mobile.com/cell-phone-plans/international-roaming-plans" target="_blank" rel="noopener">T-Mobile premium plans</a></h3>
+        <div class="st-tsub">Included — 215+ countries</div>
+        <div class="st-badges">
+          <span class="badge sb-teal">Carrier</span>
+          <span class="badge sb-green">Included free</span>
         </div>
-        <div class="row-note">Go5G Plus and Experience More 2.0 include 5 GB of high-speed data; Go5G Next and Experience Beyond 2.0 include 15 GB across T-Mobile's worldwide roaming footprint. After that, data continues at up to 256 kbps. Texting is included; calls are $0.50/minute.</div>
-      </div>
+        <p class="st-tnote">Go5G Plus and Experience More 2.0 include 5 GB of high-speed data; Go5G Next and Experience Beyond 2.0 include 15 GB across T-Mobile's worldwide roaming footprint. After that, data continues at up to 256 kbps. Texting is included; calls are $0.50/minute.</p>
+      </article>
 
-      <div class="info-row" data-tags="carrier">
-        <div>
-          <div class="row-name"><a class="ext-arrow" href="https://www.att.com/international/" target="_blank" rel="noopener">AT&amp;T International Day Pass</a></div>
-          <div class="sim-badges"><span class="sim-badge sim-badge-carrier badge has-icon sb-teal"><svg class="gm-icon" data-icon="dot-teal" data-role="dot" viewBox="0 0 24 24" aria-hidden="true"><use href="#gm-i-dot-teal"/></svg> Carrier</span></div>
-          <div class="row-sub">$12/day when used — 210+ countries</div>
+      <article class="st-tile" data-q="at&amp;t international day pass 12 day 210 countries">
+        <div class="st-contact" aria-hidden="true"></div>
+        <h3 class="st-tname"><a href="https://www.att.com/international/" target="_blank" rel="noopener">AT&amp;T International Day Pass</a></h3>
+        <div class="st-tsub">$12/day when used — 210+ countries</div>
+        <div class="st-badges">
+          <span class="badge sb-teal">Carrier</span>
         </div>
-        <div class="row-note">Charged only on days you use your phone internationally. For each 24-hour session, eligible plans use their domestic talk, text, and data allowance across AT&amp;T's supported destinations. Additional lines used on the same calendar day are $6 each. Add the pass before departure in the AT&amp;T app or online.</div>
-      </div>
+        <p class="st-tnote">Charged only on days you use your phone internationally. For each 24-hour session, eligible plans use their domestic talk, text, and data allowance across AT&amp;T's supported destinations. Additional lines used on the same calendar day are $6 each. Add the pass before departure in the AT&amp;T app or online.</p>
+      </article>
 
-      <div class="info-row" data-tags="carrier">
-        <div>
-          <div class="row-name"><a class="ext-arrow" href="https://www.verizon.com/international/travelpass/" target="_blank" rel="noopener">Verizon TravelPass</a></div>
-          <div class="sim-badges"><span class="sim-badge sim-badge-carrier badge has-icon sb-teal"><svg class="gm-icon" data-icon="dot-teal" data-role="dot" viewBox="0 0 24 24" aria-hidden="true"><use href="#gm-i-dot-teal"/></svg> Carrier</span></div>
-          <div class="row-sub">$12/day when used — 210+ countries</div>
+      <article class="st-tile" data-q="verizon travelpass 12 day 210 countries">
+        <div class="st-contact" aria-hidden="true"></div>
+        <h3 class="st-tname"><a href="https://www.verizon.com/international/travelpass/" target="_blank" rel="noopener">Verizon TravelPass</a></h3>
+        <div class="st-tsub">$12/day when used — 210+ countries</div>
+        <div class="st-badges">
+          <span class="badge sb-teal">Carrier</span>
         </div>
-        <div class="row-note">Same model as AT&amp;T — charged per day you use it. 5 GB high-speed then unlimited data at 3G speeds for the remainder of the 24-hour session. Unlimited calls and texts. Enable in the My Verizon app before you leave.</div>
-      </div>
+        <p class="st-tnote">Same model as AT&amp;T — charged per day you use it. 5 GB high-speed then unlimited data at 3G speeds for the remainder of the 24-hour session. Unlimited calls and texts. Enable in the My Verizon app before you leave.</p>
+      </article>
 
-      <div class="info-row" data-tags="carrier">
-        <div>
-          <div class="row-name"><a class="ext-arrow" href="https://fi.google.com/about/international-travel" target="_blank" rel="noopener">Google Fi</a></div>
-          <div class="sim-badges"><span class="sim-badge sim-badge-carrier badge has-icon sb-teal"><svg class="gm-icon" data-icon="dot-teal" data-role="dot" viewBox="0 0 24 24" aria-hidden="true"><use href="#gm-i-dot-teal"/></svg> Carrier</span></div>
-          <div class="row-sub">Flexible or Unlimited Premium — worldwide coverage</div>
+      <article class="st-tile" data-q="google fi flexible unlimited premium 200 countries">
+        <div class="st-contact" aria-hidden="true"></div>
+        <h3 class="st-tname"><a href="https://fi.google.com/about/international-travel" target="_blank" rel="noopener">Google Fi</a></h3>
+        <div class="st-tsub">Flexible or Unlimited Premium — worldwide coverage</div>
+        <div class="st-badges">
+          <span class="badge sb-teal">Carrier</span>
         </div>
-        <div class="row-note">Unlimited Premium includes international data across Fi's worldwide coverage; Flexible charges its normal $10/GB rate. Unlimited Standard covers Canada and Mexico, while Unlimited Essentials has no international data. Activate and use Fi in the US first; if most usage is abroad over a consecutive 90-day period, international data can be suspended.</div>
-      </div>
+        <p class="st-tnote">Unlimited Premium includes international data across Fi's worldwide coverage; Flexible charges its normal $10/GB rate. Unlimited Standard covers Canada and Mexico, while Unlimited Essentials has no international data. Activate and use Fi in the US first; if most usage is abroad over a consecutive 90-day period, international data can be suspended.</p>
+      </article>
 
     </div>
   </div>
 
-  <!-- ── Tips ── -->
-  <div class="section" data-section="tips">
-    <div class="section-head">Tips</div>
-    <div class="tips-list">
-
-      <div class="tips-subhead" data-tags="tips">Before You Leave</div>
-
-      <div class="tip-row" data-tags="tips">
-        <span>Check that your phone is <strong>unlocked</strong> before leaving; eligibility and unlock timing vary by carrier and financing status. On iPhone, confirm that Settings → General → About → Carrier Lock says “No SIM restrictions.”</span>
+  <!-- 04 Tips -->
+  <div class="st-section" data-section="tips">
+    <div class="st-sh"><span class="st-shn">04</span><h2 class="st-sht">Tips</h2></div>
+    <div class="st-tips">
+      <div>
+        <div class="st-tgh">Before You Leave</div>
+        <div class="st-tip">Check that your phone is <strong>unlocked</strong> before leaving; eligibility and unlock timing vary by carrier and financing status. On iPhone, confirm that Settings &rarr; General &rarr; About &rarr; Carrier Lock says "No SIM restrictions."</div>
+        <div class="st-tip">Set up your eSIM <strong>before you leave</strong> — activation requires a data connection. If you wait until arrival, you'll need airport WiFi to complete it.</div>
+        <div class="st-tip">Download <strong>offline maps</strong> before you leave — Google Maps and Apple Maps let you save entire regions. This eliminates data use for navigation and works when you have no signal.</div>
+        <div class="st-tip">Enable <strong>WiFi Calling</strong> before departure (Settings &rarr; Phone &rarr; WiFi Calling on iPhone). Calls still follow your carrier's WiFi-calling rules and may be billed by the number or destination, so check rates before dialing.</div>
       </div>
-
-      <div class="tip-row" data-tags="tips">
-        <span>Set up your eSIM <strong>before you leave</strong> — activation requires a data connection. If you wait until arrival, you'll need airport WiFi to complete it.</span>
+      <div>
+        <div class="st-tgh">On the Ground</div>
+        <div class="st-tip">Enable <strong>Airplane Mode</strong> immediately after takeoff, then re-enable WiFi only. This prevents accidental roaming charges during the flight and while you set up your eSIM or local SIM on arrival.</div>
+        <div class="st-tip">On iPhone, go to Settings &rarr; Cellular &rarr; set your data plan explicitly so the eSIM or local SIM handles data and your home SIM handles calls only. This prevents accidental roaming on your primary number.</div>
+        <div class="st-tip">WhatsApp, iMessage, Signal, and FaceTime Audio all work over WiFi with no data plan. Use these for messaging and voice calls when you have a WiFi connection.</div>
       </div>
-
-      <div class="tip-row" data-tags="tips">
-        <span>Download <strong>offline maps</strong> before you leave — Google Maps and Apple Maps let you save entire regions. This eliminates data use for navigation and works when you have no signal.</span>
-      </div>
-
-      <div class="tip-row" data-tags="tips">
-        <span>Enable <strong>WiFi Calling</strong> before departure (Settings → Phone → WiFi Calling on iPhone). Calls still follow your carrier's WiFi-calling rules and may be billed by the number or destination, so check rates before dialing.</span>
-      </div>
-
-      <div class="tips-subhead" data-tags="tips">On the Ground</div>
-
-      <div class="tip-row" data-tags="tips">
-        <span>Enable <strong>Airplane Mode</strong> immediately after takeoff, then re-enable WiFi only. This prevents accidental roaming charges during the flight and while you set up your eSIM or local SIM on arrival.</span>
-      </div>
-
-      <div class="tip-row" data-tags="tips">
-        <span>On iPhone, go to Settings → Cellular → set your data plan explicitly so the eSIM or local SIM handles data and your home SIM handles calls only. This prevents accidental roaming on your primary number.</span>
-      </div>
-
-      <div class="tip-row" data-tags="tips">
-        <span>WhatsApp, iMessage, Signal, and FaceTime Audio all work over WiFi with no data plan. Use these for messaging and voice calls when you have a WiFi connection.</span>
-      </div>
-
     </div>
   </div>
 
-  <!-- ── By Region ── -->
-  <div class="section" data-section="region local">
-    <div class="section-head">Local SIM by Destination</div>
+  <!-- 05 Local SIM by Destination -->
+  <div class="st-section" data-section="region">
+    <div class="st-sh"><span class="st-shn">05</span><h2 class="st-sht">Local SIM by Destination</h2><span class="st-shn2">Scroll each strip &rarr;</span></div>
 
-    <div class="region-group cp-blue" data-region-group="asia">
-      <div class="region-group-head"><h3>Asia</h3></div>
-      <div class="sim-country-grid">
-
-      <div class="sim-country-card" data-tags="region local" data-region="asia">
-        <div class="sccard-header"><svg class="gm-icon" data-icon="dot-blue" data-role="dot" viewBox="0 0 24 24" aria-hidden="true"><use href="#gm-i-dot-blue"/></svg><span class="sccard-name">Japan</span><span class="sccard-region">Asia</span></div>
-        <div class="sccard-rows">
-          <div class="sccard-row"><span class="sccard-label">Buy</span> IIJmio data SIM — vending machines at Narita/Haneda arrivals, or convenience stores (7-Eleven, FamilyMart)</div>
-          <div class="sccard-row"><span class="sccard-label">Gets you</span> 15 GB, 30 days, ¥3,480; IIJmio also sells 3–55 GB options</div>
-          <div class="sccard-row"><span class="sccard-label">Note</span> Data only — no calls. Passport required at counter. eSIM (Airalo/IIJmio) is easier if your phone supports it.</div>
-        </div>
-        <div class="sccard-note">Guides: <a href="/guides/tokyo.html">Tokyo</a> · <a href="/guides/kyoto.html">Kyoto</a></div>
-      </div>
-
-      <div class="sim-country-card" data-tags="region local" data-region="asia">
-        <div class="sccard-header"><svg class="gm-icon" data-icon="dot-blue" data-role="dot" viewBox="0 0 24 24" aria-hidden="true"><use href="#gm-i-dot-blue"/></svg><span class="sccard-name">Thailand</span><span class="sccard-region">Asia</span></div>
-        <div class="sccard-rows">
-          <div class="sccard-row"><span class="sccard-label">Buy</span> AIS Tourist SIM — yellow AIS booth in Suvarnabhumi arrivals hall, or any 7-Eleven</div>
-          <div class="sccard-row"><span class="sccard-label">Gets you</span> 30 days of unlimited max-speed data for ฿1,199; shorter 8- and 15-day tourist plans are also sold</div>
-          <div class="sccard-row"><span class="sccard-label">Note</span> Tourist SIM registration requires a passport. Compare the current airport and online offers before paying, because AIS changes bundled calls and bonuses.</div>
-        </div>
-        <div class="sccard-note">Guides: <a href="/guides/bangkok.html">Bangkok</a> · <a href="/guides/phuket.html">Phuket</a></div>
-      </div>
-
-      <div class="sim-country-card" data-tags="region local" data-region="asia">
-        <div class="sccard-header"><svg class="gm-icon" data-icon="dot-blue" data-role="dot" viewBox="0 0 24 24" aria-hidden="true"><use href="#gm-i-dot-blue"/></svg><span class="sccard-name">Singapore</span><span class="sccard-region">Asia</span></div>
-        <div class="sccard-rows">
-          <div class="sccard-row"><span class="sccard-label">Buy</span> Singtel Tourist SIM — Changi Airport Terminal 1/2/3 arrivals counters, or any 7-Eleven in the city</div>
-          <div class="sccard-row"><span class="sccard-label">Gets you</span> 500 GB in Singapore and selected nearby destinations, 30 days, S$15</div>
-          <div class="sccard-row"><span class="sccard-label">Note</span> Foreign visitors must register with a passport. The base tourist SIM is data-first; ask the retailer to enable calls and SMS if you need them.</div>
-        </div>
-        <div class="sccard-note">Guides: <a href="/guides/singapore.html">Singapore</a></div>
-      </div>
-
-      <div class="sim-country-card" data-tags="region local" data-region="asia">
-        <div class="sccard-header"><svg class="gm-icon" data-icon="dot-blue" data-role="dot" viewBox="0 0 24 24" aria-hidden="true"><use href="#gm-i-dot-blue"/></svg><span class="sccard-name">Indonesia / Bali</span><span class="sccard-region">Asia</span></div>
-        <div class="sccard-rows">
-          <div class="sccard-row"><span class="sccard-label">Buy</span> Telkomsel — counters at Ngurah Rai Airport arrivals, or Indomaret/Alfamart convenience stores</div>
-          <div class="sccard-row"><span class="sccard-label">Gets you</span> 25 GB plus 25 minutes of local calls for Rp150,000</div>
-          <div class="sccard-row"><span class="sccard-label">Note</span> Telkomsel is the only carrier with reliable coverage across Bali's rural areas and smaller islands. XL Axiata is cheaper in cities but drops out in Ubud and the north.</div>
-        </div>
-        <div class="sccard-note">Guides: <a href="/guides/bali.html">Bali</a></div>
-      </div>
-
+    <div class="st-strip-block" data-r="asia">
+      <div class="st-strip-h"><span class="st-strip-n">Asia</span><span class="st-strip-c">4 countries</span><span class="st-strip-rule"></span></div>
+      <div class="st-strip">
+        <article class="st-cc" data-q="japan asia iijmio narita haneda">
+          <div class="st-ccn">Japan</div>
+          <div class="st-ccrow"><span class="st-ccl">Buy</span>IIJmio data SIM — vending machines at Narita/Haneda arrivals, or convenience stores (7-Eleven, FamilyMart)</div>
+          <div class="st-ccrow"><span class="st-ccl">Gets you</span>15 GB, 30 days, ¥3,480; IIJmio also sells 3–55 GB options</div>
+          <div class="st-ccrow"><span class="st-ccl">Note</span>Data only — no calls. Passport required at counter. eSIM (Airalo/IIJmio) is easier if your phone supports it.</div>
+          <div class="st-ccg">Guides: <a href="/guides/tokyo.html">Tokyo</a> &middot; <a href="/guides/kyoto.html">Kyoto</a></div>
+        </article>
+        <article class="st-cc" data-q="thailand asia ais suvarnabhumi 7-eleven">
+          <div class="st-ccn">Thailand</div>
+          <div class="st-ccrow"><span class="st-ccl">Buy</span>AIS Tourist SIM — yellow AIS booth in Suvarnabhumi arrivals hall, or any 7-Eleven</div>
+          <div class="st-ccrow"><span class="st-ccl">Gets you</span>30 days of unlimited max-speed data for ฿1,199; shorter 8- and 15-day tourist plans are also sold</div>
+          <div class="st-ccrow"><span class="st-ccl">Note</span>Tourist SIM registration requires a passport. Compare the current airport and online offers before paying, because AIS changes bundled calls and bonuses.</div>
+          <div class="st-ccg">Guides: <a href="/guides/bangkok.html">Bangkok</a> &middot; <a href="/guides/phuket.html">Phuket</a></div>
+        </article>
+        <article class="st-cc" data-q="singapore asia singtel changi airport 7-eleven">
+          <div class="st-ccn">Singapore</div>
+          <div class="st-ccrow"><span class="st-ccl">Buy</span>Singtel Tourist SIM — Changi Airport Terminal 1/2/3 arrivals counters, or any 7-Eleven in the city</div>
+          <div class="st-ccrow"><span class="st-ccl">Gets you</span>500 GB in Singapore and selected nearby destinations, 30 days, S$15</div>
+          <div class="st-ccrow"><span class="st-ccl">Note</span>Foreign visitors must register with a passport. The base tourist SIM is data-first; ask the retailer to enable calls and SMS if you need them.</div>
+          <div class="st-ccg">Guides: <a href="/guides/singapore.html">Singapore</a></div>
+        </article>
+        <article class="st-cc" data-q="indonesia bali asia telkomsel ngurah rai indomaret">
+          <div class="st-ccn">Indonesia / Bali</div>
+          <div class="st-ccrow"><span class="st-ccl">Buy</span>Telkomsel — counters at Ngurah Rai Airport arrivals, or Indomaret/Alfamart convenience stores</div>
+          <div class="st-ccrow"><span class="st-ccl">Gets you</span>25 GB plus 25 minutes of local calls for Rp150,000</div>
+          <div class="st-ccrow"><span class="st-ccl">Note</span>Telkomsel is the only carrier with reliable coverage across Bali's rural areas and smaller islands. XL Axiata is cheaper in cities but drops out in Ubud and the north.</div>
+          <div class="st-ccg">Guides: <a href="/guides/bali.html">Bali</a></div>
+        </article>
       </div>
     </div>
 
-    <div class="region-group cp-soft-plum" data-region-group="europe">
-      <div class="region-group-head"><h3>Europe</h3></div>
-      <div class="sim-country-grid">
-
-      <div class="sim-country-card" data-tags="region local" data-region="europe">
-        <div class="sccard-header"><svg class="gm-icon" data-icon="dot-purple" data-role="dot" viewBox="0 0 24 24" aria-hidden="true"><use href="#gm-i-dot-purple"/></svg><span class="sccard-name">United Kingdom</span><span class="sccard-region">Europe</span></div>
-        <div class="sccard-rows">
-          <div class="sccard-row"><span class="sccard-label">Buy</span> giffgaff SIM — order free online before you leave (delivered to your home); or Three UK at WHSmith in any major airport</div>
-          <div class="sccard-row"><span class="sccard-label">Gets you</span> A pay-as-you-go monthly plan; compare the current data allowance before activating</div>
-          <div class="sccard-row"><span class="sccard-label">Note</span> Do not confuse giffgaff's headline contract offers with flexible travel plans. UK networks set their own EU-roaming limits, so check the plan's roaming terms if you continue to Europe.</div>
-        </div>
-        <div class="sccard-note">Guides: <a href="/guides/london.html">London</a> · <a href="/guides/edinburgh.html">Edinburgh</a> · <a href="/guides/glasgow.html">Glasgow</a> · <a href="/guides/oxford.html">Oxford</a> · <a href="/guides/cambridge.html">Cambridge</a></div>
-      </div>
-
-      <div class="sim-country-card" data-tags="region local" data-region="europe">
-        <div class="sccard-header"><svg class="gm-icon" data-icon="dot-purple" data-role="dot" viewBox="0 0 24 24" aria-hidden="true"><use href="#gm-i-dot-purple"/></svg><span class="sccard-name">Europe (multi-country)</span><span class="sccard-region">Europe</span></div>
-        <div class="sccard-rows">
-          <div class="sccard-row"><span class="sccard-label">Buy</span> Any EU carrier SIM in your first country — roams free across all EU member states. Orange Holiday (France) is widely recommended: sold at airports and Orange stores.</div>
-          <div class="sccard-row"><span class="sccard-label">Gets you</span> Orange Holiday: 20 GB in Europe, unlimited calls and texts, 14 days, €25.99</div>
-          <div class="sccard-row"><span class="sccard-label">Note</span> For EU-only trips, Airalo's Europe regional eSIM is often cleaner and comparably priced. Local SIM makes more sense for longer stays. Switzerland and the UK are not in the EU roaming zone — see their own cards.</div>
-        </div>
-        <div class="sccard-note">Guides: <a href="/guides/paris.html">Paris</a> · <a href="/guides/amsterdam.html">Amsterdam</a> · <a href="/guides/berlin.html">Berlin</a> · <a href="/guides/rome.html">Rome</a> · <a href="/guides/barcelona.html">Barcelona</a></div>
-      </div>
-
-      <div class="sim-country-card" data-tags="region local" data-region="europe">
-        <div class="sccard-header"><svg class="gm-icon" data-icon="dot-purple" data-role="dot" viewBox="0 0 24 24" aria-hidden="true"><use href="#gm-i-dot-purple"/></svg><span class="sccard-name">Switzerland</span><span class="sccard-region">Europe</span></div>
-        <div class="sccard-rows">
-          <div class="sccard-row"><span class="sccard-label">Buy</span> Salt, Swisscom, or Sunrise — kiosks at Zurich, Geneva, or Basel airport arrivals, or any carrier store downtown</div>
-          <div class="sccard-row"><span class="sccard-label">Gets you</span> Salt: free SIM + 10 CHF credit, ~1.99 CHF/day unlimited data (~$2); Swisscom/Sunrise: ~20 CHF SIM w/ credit (~$22), ~2–2.5 CHF/day</div>
-          <div class="sccard-row"><span class="sccard-label">Note</span> Switzerland is not in the EU — an EU roaming SIM will not work here for free, even mid-trip through the Schengen zone. Swisscom has the widest Alpine and rural coverage.</div>
-        </div>
-        <div class="sccard-note">Guides: <a href="/guides/geneva.html">Geneva</a> · <a href="/guides/lucerne.html">Lucerne</a> · <a href="/guides/zurich.html">Zurich</a></div>
-      </div>
-
+    <div class="st-strip-block" data-r="europe">
+      <div class="st-strip-h"><span class="st-strip-n">Europe</span><span class="st-strip-c">3 destinations</span><span class="st-strip-rule"></span></div>
+      <div class="st-strip">
+        <article class="st-cc" data-q="united kingdom europe giffgaff three uk whsmith">
+          <div class="st-ccn">United Kingdom</div>
+          <div class="st-ccrow"><span class="st-ccl">Buy</span>giffgaff SIM — order free online before you leave (delivered to your home); or Three UK at WHSmith in any major airport</div>
+          <div class="st-ccrow"><span class="st-ccl">Gets you</span>A pay-as-you-go monthly plan; compare the current data allowance before activating</div>
+          <div class="st-ccrow"><span class="st-ccl">Note</span>Do not confuse giffgaff's headline contract offers with flexible travel plans. UK networks set their own EU-roaming limits, so check the plan's roaming terms if you continue to Europe.</div>
+          <div class="st-ccg">Guides: <a href="/guides/london.html">London</a> &middot; <a href="/guides/edinburgh.html">Edinburgh</a> &middot; <a href="/guides/glasgow.html">Glasgow</a> &middot; <a href="/guides/oxford.html">Oxford</a> &middot; <a href="/guides/cambridge.html">Cambridge</a></div>
+        </article>
+        <article class="st-cc" data-q="europe multi-country orange holiday eu roaming france">
+          <div class="st-ccn">Europe (multi-country)</div>
+          <div class="st-ccrow"><span class="st-ccl">Buy</span>Any EU carrier SIM in your first country — roams free across all EU member states. Orange Holiday (France) is widely recommended: sold at airports and Orange stores.</div>
+          <div class="st-ccrow"><span class="st-ccl">Gets you</span>Orange Holiday: 20 GB in Europe, unlimited calls and texts, 14 days, €25.99</div>
+          <div class="st-ccrow"><span class="st-ccl">Note</span>For EU-only trips, Airalo's Europe regional eSIM is often cleaner and comparably priced. Local SIM makes more sense for longer stays. Switzerland and the UK are not in the EU roaming zone — see their own cards.</div>
+          <div class="st-ccg">Guides: <a href="/guides/paris.html">Paris</a> &middot; <a href="/guides/amsterdam.html">Amsterdam</a> &middot; <a href="/guides/berlin.html">Berlin</a> &middot; <a href="/guides/rome.html">Rome</a> &middot; <a href="/guides/barcelona.html">Barcelona</a></div>
+        </article>
+        <article class="st-cc" data-q="switzerland europe salt swisscom sunrise zurich geneva basel">
+          <div class="st-ccn">Switzerland</div>
+          <div class="st-ccrow"><span class="st-ccl">Buy</span>Salt, Swisscom, or Sunrise — kiosks at Zurich, Geneva, or Basel airport arrivals, or any carrier store downtown</div>
+          <div class="st-ccrow"><span class="st-ccl">Gets you</span>Salt: free SIM + 10 CHF credit, ~1.99 CHF/day unlimited data (~$2); Swisscom/Sunrise: ~20 CHF SIM w/ credit (~$22), ~2–2.5 CHF/day</div>
+          <div class="st-ccrow"><span class="st-ccl">Note</span>Switzerland is not in the EU — an EU roaming SIM will not work here for free, even mid-trip through the Schengen zone. Swisscom has the widest Alpine and rural coverage.</div>
+          <div class="st-ccg">Guides: <a href="/guides/geneva.html">Geneva</a> &middot; <a href="/guides/lucerne.html">Lucerne</a> &middot; <a href="/guides/zurich.html">Zurich</a></div>
+        </article>
       </div>
     </div>
 
-    <div class="region-group cp-dusty-teal" data-region-group="oceania">
-      <div class="region-group-head"><h3>Oceania</h3></div>
-      <div class="sim-country-grid">
-
-      <div class="sim-country-card" data-tags="region local" data-region="oceania">
-        <div class="sccard-header"><svg class="gm-icon" data-icon="dot-green" data-role="dot" viewBox="0 0 24 24" aria-hidden="true"><use href="#gm-i-dot-green"/></svg><span class="sccard-name">Australia</span><span class="sccard-region">Oceania</span></div>
-        <div class="sccard-rows">
-          <div class="sccard-row"><span class="sccard-label">Buy</span> Telstra Prepaid — airport kiosks (Sydney, Melbourne), Woolworths, post offices, or Telstra stores in the city</div>
-          <div class="sccard-row"><span class="sccard-label">Gets you</span> From 5 May 2026: 20 GB for A$44 or 35 GB for A$54, both valid for 28 days</div>
-          <div class="sccard-row"><span class="sccard-label">Note</span> Telstra generally has the broadest regional footprint, but coverage still varies by route and device. Check its map for remote travel rather than assuming service.</div>
-        </div>
-        <div class="sccard-note">Guides: <a href="/guides/sydney.html">Sydney</a> · <a href="/guides/melbourne.html">Melbourne</a></div>
-      </div>
-
-      <div class="sim-country-card" data-tags="region local" data-region="oceania">
-        <div class="sccard-header"><svg class="gm-icon" data-icon="dot-green" data-role="dot" viewBox="0 0 24 24" aria-hidden="true"><use href="#gm-i-dot-green"/></svg><span class="sccard-name">New Zealand</span><span class="sccard-region">Oceania</span></div>
-        <div class="sccard-rows">
-          <div class="sccard-row"><span class="sccard-label">Buy</span> Spark NZ — Auckland or Queenstown Airport kiosks, Countdown supermarkets, or Spark stores downtown</div>
-          <div class="sccard-row"><span class="sccard-label">Gets you</span> 7 GB, 28 days, ~NZ$19 (~$11); or 30 GB for ~NZ$29</div>
-          <div class="sccard-row"><span class="sccard-label">Note</span> Spark has the best rural and South Island coverage — important if you're doing Fiordland, Wanaka, or the West Coast. 1degrees is cheaper for city-only stays.</div>
-        </div>
-        <div class="sccard-note">Guides: <a href="/guides/wellington.html">Wellington</a> · <a href="/guides/queenstown.html">Queenstown</a></div>
-      </div>
-
+    <div class="st-strip-block" data-r="oceania">
+      <div class="st-strip-h"><span class="st-strip-n">Oceania</span><span class="st-strip-c">2 countries</span><span class="st-strip-rule"></span></div>
+      <div class="st-strip">
+        <article class="st-cc" data-q="australia oceania telstra prepaid sydney melbourne woolworths">
+          <div class="st-ccn">Australia</div>
+          <div class="st-ccrow"><span class="st-ccl">Buy</span>Telstra Prepaid — airport kiosks (Sydney, Melbourne), Woolworths, post offices, or Telstra stores in the city</div>
+          <div class="st-ccrow"><span class="st-ccl">Gets you</span>From 5 May 2026: 20 GB for A$44 or 35 GB for A$54, both valid for 28 days</div>
+          <div class="st-ccrow"><span class="st-ccl">Note</span>Telstra generally has the broadest regional footprint, but coverage still varies by route and device. Check its map for remote travel rather than assuming service.</div>
+          <div class="st-ccg">Guides: <a href="/guides/sydney.html">Sydney</a> &middot; <a href="/guides/melbourne.html">Melbourne</a></div>
+        </article>
+        <article class="st-cc" data-q="new zealand oceania spark nz auckland queenstown">
+          <div class="st-ccn">New Zealand</div>
+          <div class="st-ccrow"><span class="st-ccl">Buy</span>Spark NZ — Auckland or Queenstown Airport kiosks, Countdown supermarkets, or Spark stores downtown</div>
+          <div class="st-ccrow"><span class="st-ccl">Gets you</span>7 GB, 28 days, ~NZ$19 (~$11); or 30 GB for ~NZ$29</div>
+          <div class="st-ccrow"><span class="st-ccl">Note</span>Spark has the best rural and South Island coverage — important if you're doing Fiordland, Wanaka, or the West Coast. 1degrees is cheaper for city-only stays.</div>
+          <div class="st-ccg">Guides: <a href="/guides/wellington.html">Wellington</a> &middot; <a href="/guides/queenstown.html">Queenstown</a></div>
+        </article>
       </div>
     </div>
 
-    <div class="region-group cp-rust" data-region-group="americas">
-      <div class="region-group-head"><h3>Americas</h3></div>
-      <div class="sim-country-grid">
-
-      <div class="sim-country-card" data-tags="region local" data-region="americas">
-        <div class="sccard-header"><svg class="gm-icon" data-icon="dot-orange" data-role="dot" viewBox="0 0 24 24" aria-hidden="true"><use href="#gm-i-dot-orange"/></svg><span class="sccard-name">Mexico</span><span class="sccard-region">Americas</span></div>
-        <div class="sccard-rows">
-          <div class="sccard-row"><span class="sccard-label">Buy</span> Telcel — official counter at Mexico City (MEX) airport, Terminal 1, Puerta 5 second floor, or any OXXO convenience store</div>
-          <div class="sccard-row"><span class="sccard-label">Gets you</span> ~5–10 GB, 30 days, ~$5–10 (100–200 MXN) at OXXO; airport counter runs 150–300 MXN for the same plans</div>
-          <div class="sccard-row"><span class="sccard-label">Note</span> Telcel has by far the widest national coverage. Cancún airport has no proper tourist SIM counter — set up an eSIM (Airalo runs on the Telcel network) before you land if flying into Cancún.</div>
-        </div>
-        <div class="sccard-note">Guides: <a href="/guides/cancun.html">Cancún</a> · <a href="/guides/los-cabos.html">Los Cabos</a> · <a href="/guides/oaxaca.html">Oaxaca</a> · <a href="/guides/puerto-vallarta.html">Puerto Vallarta</a></div>
-      </div>
-
-      <div class="sim-country-card" data-tags="region local" data-region="americas">
-        <div class="sccard-header"><svg class="gm-icon" data-icon="dot-orange" data-role="dot" viewBox="0 0 24 24" aria-hidden="true"><use href="#gm-i-dot-orange"/></svg><span class="sccard-name">Costa Rica</span><span class="sccard-region">Americas</span></div>
-        <div class="sccard-rows">
-          <div class="sccard-row"><span class="sccard-label">Buy</span> Kolbi or Claro — SIM vending machines at San José (SJO) Terminal A arrivals and the ConRac rental-car lobby, or carrier kiosks at Liberia (LIR) arrivals</div>
-          <div class="sccard-row"><span class="sccard-label">Gets you</span> Kolbi: 3–10 GB, 7–30 days, ~$10–25; Claro: plans from ~$0.70 (300 MB, 8 hrs) up to ~$19 unlimited/30 days</div>
-          <div class="sccard-row"><span class="sccard-label">Note</span> Physical SIM counters at SJO's baggage claim have closed — use the vending machines or a carrier store in town. Passport required for registration (SUTEL rule). Liberty (formerly Movistar) is a solid backup carrier.</div>
-        </div>
-        <div class="sccard-note">Guides: <a href="/guides/arenal.html">Arenal</a> · <a href="/guides/manuel-antonio.html">Manuel Antonio</a> · <a href="/guides/san-jose-costa-rica.html">San José</a></div>
-      </div>
-
-      <div class="sim-country-card" data-tags="region local" data-region="americas">
-        <div class="sccard-header"><svg class="gm-icon" data-icon="dot-orange" data-role="dot" viewBox="0 0 24 24" aria-hidden="true"><use href="#gm-i-dot-orange"/></svg><span class="sccard-name">Peru</span><span class="sccard-region">Americas</span></div>
-        <div class="sccard-rows">
-          <div class="sccard-row"><span class="sccard-label">Buy</span> Bitel — airport kiosks at Jorge Chávez (Lima) arrivals, or Bitel stores throughout Cusco and Lima</div>
-          <div class="sccard-row"><span class="sccard-label">Gets you</span> 10 GB, 30 days, ~$5</div>
-          <div class="sccard-row"><span class="sccard-label">Note</span> Bitel has the best signal in the Andes and Sacred Valley — Claro and Movistar lose coverage above 3,000m. Essential if you're going to Cusco, Machu Picchu, or anywhere outside Lima.</div>
-        </div>
-        <div class="sccard-note">Guides: <a href="/guides/lima.html">Lima</a> · <a href="/guides/cusco.html">Cusco</a></div>
-      </div>
-
-      <div class="sim-country-card" data-tags="region local" data-region="americas">
-        <div class="sccard-header"><svg class="gm-icon" data-icon="dot-orange" data-role="dot" viewBox="0 0 24 24" aria-hidden="true"><use href="#gm-i-dot-orange"/></svg><span class="sccard-name">Chile</span><span class="sccard-region">Americas</span></div>
-        <div class="sccard-rows">
-          <div class="sccard-row"><span class="sccard-label">Buy</span> Entel — Arturo Merino Benítez Airport (Santiago) arrivals kiosk, or Entel stores in the city center</div>
-          <div class="sccard-row"><span class="sccard-label">Gets you</span> 30 GB, 30 days, ~CLP 15,000 (~$15)</div>
-          <div class="sccard-row"><span class="sccard-label">Note</span> Entel has the best national coverage, including Patagonia and the Lake District. WOM is cheaper in Santiago but drops out in the south.</div>
-        </div>
-        <div class="sccard-note">Guides: <a href="/guides/santiago.html">Santiago</a></div>
-      </div>
-
-      <div class="sim-country-card" data-tags="region local" data-region="americas">
-        <div class="sccard-header"><svg class="gm-icon" data-icon="dot-orange" data-role="dot" viewBox="0 0 24 24" aria-hidden="true"><use href="#gm-i-dot-orange"/></svg><span class="sccard-name">Argentina</span><span class="sccard-region">Americas</span></div>
-        <div class="sccard-rows">
-          <div class="sccard-row"><span class="sccard-label">Buy</span> Claro or Personal — kiosks at Ezeiza Airport arrivals, or any electronics shop (Garbarino, Frávega) in Buenos Aires</div>
-          <div class="sccard-row"><span class="sccard-label">Gets you</span> ~10–15 GB, 30 days, ~$5–10 (pricing fluctuates with peso rate)</div>
-          <div class="sccard-row"><span class="sccard-label">Note</span> Buy with USD cash converted at the blue rate for best value. Passport required. Personal has slightly better Buenos Aires coverage; Claro is stronger in Patagonia.</div>
-        </div>
-        <div class="sccard-note">Guides: <a href="/guides/buenos-aires.html">Buenos Aires</a></div>
-      </div>
-
-      <div class="sim-country-card" data-tags="region local" data-region="americas">
-        <div class="sccard-header"><svg class="gm-icon" data-icon="dot-orange" data-role="dot" viewBox="0 0 24 24" aria-hidden="true"><use href="#gm-i-dot-orange"/></svg><span class="sccard-name">Brazil</span><span class="sccard-region">Americas</span></div>
-        <div class="sccard-rows">
-          <div class="sccard-row"><span class="sccard-label">Buy</span> Vivo — Galeão Airport (Rio) or Guarulhos (São Paulo) arrivals counters, or Vivo stores downtown</div>
-          <div class="sccard-row"><span class="sccard-label">Gets you</span> 20 GB, 30 days, ~R$30 (~$6)</div>
-          <div class="sccard-row"><span class="sccard-label">Note</span> Vivo has the best national coverage. TIM is a solid backup. Passport required for registration. eSIM via Airalo is increasingly reliable if you want to avoid the counter.</div>
-        </div>
-        <div class="sccard-note">Guides: <a href="/guides/rio-de-janeiro.html">Rio de Janeiro</a></div>
-      </div>
-
+    <div class="st-strip-block" data-r="americas">
+      <div class="st-strip-h"><span class="st-strip-n">Americas</span><span class="st-strip-c">6 countries</span><span class="st-strip-rule"></span></div>
+      <div class="st-strip">
+        <article class="st-cc" data-q="mexico americas telcel oxxo mexico city cancun">
+          <div class="st-ccn">Mexico</div>
+          <div class="st-ccrow"><span class="st-ccl">Buy</span>Telcel — official counter at Mexico City (MEX) airport, Terminal 1, Puerta 5 second floor, or any OXXO convenience store</div>
+          <div class="st-ccrow"><span class="st-ccl">Gets you</span>~5–10 GB, 30 days, ~$5–10 (100–200 MXN) at OXXO; airport counter runs 150–300 MXN for the same plans</div>
+          <div class="st-ccrow"><span class="st-ccl">Note</span>Telcel has by far the widest national coverage. Cancún airport has no proper tourist SIM counter — set up an eSIM (Airalo runs on the Telcel network) before you land if flying into Cancún.</div>
+          <div class="st-ccg">Guides: <a href="/guides/cancun.html">Cancún</a> &middot; <a href="/guides/los-cabos.html">Los Cabos</a> &middot; <a href="/guides/oaxaca.html">Oaxaca</a> &middot; <a href="/guides/puerto-vallarta.html">Puerto Vallarta</a></div>
+        </article>
+        <article class="st-cc" data-q="costa rica americas kolbi claro san jose liberia">
+          <div class="st-ccn">Costa Rica</div>
+          <div class="st-ccrow"><span class="st-ccl">Buy</span>Kolbi or Claro — SIM vending machines at San José (SJO) Terminal A arrivals and the ConRac rental-car lobby, or carrier kiosks at Liberia (LIR) arrivals</div>
+          <div class="st-ccrow"><span class="st-ccl">Gets you</span>Kolbi: 3–10 GB, 7–30 days, ~$10–25; Claro: plans from ~$0.70 (300 MB, 8 hrs) up to ~$19 unlimited/30 days</div>
+          <div class="st-ccrow"><span class="st-ccl">Note</span>Physical SIM counters at SJO's baggage claim have closed — use the vending machines or a carrier store in town. Passport required for registration (SUTEL rule). Liberty (formerly Movistar) is a solid backup carrier.</div>
+          <div class="st-ccg">Guides: <a href="/guides/arenal.html">Arenal</a> &middot; <a href="/guides/manuel-antonio.html">Manuel Antonio</a> &middot; <a href="/guides/san-jose-costa-rica.html">San José</a></div>
+        </article>
+        <article class="st-cc" data-q="peru americas bitel lima cusco jorge chavez">
+          <div class="st-ccn">Peru</div>
+          <div class="st-ccrow"><span class="st-ccl">Buy</span>Bitel — airport kiosks at Jorge Chávez (Lima) arrivals, or Bitel stores throughout Cusco and Lima</div>
+          <div class="st-ccrow"><span class="st-ccl">Gets you</span>10 GB, 30 days, ~$5</div>
+          <div class="st-ccrow"><span class="st-ccl">Note</span>Bitel has the best signal in the Andes and Sacred Valley — Claro and Movistar lose coverage above 3,000m. Essential if you're going to Cusco, Machu Picchu, or anywhere outside Lima.</div>
+          <div class="st-ccg">Guides: <a href="/guides/lima.html">Lima</a> &middot; <a href="/guides/cusco.html">Cusco</a></div>
+        </article>
+        <article class="st-cc" data-q="chile americas entel santiago arturo merino benitez">
+          <div class="st-ccn">Chile</div>
+          <div class="st-ccrow"><span class="st-ccl">Buy</span>Entel — Arturo Merino Benítez Airport (Santiago) arrivals kiosk, or Entel stores in the city center</div>
+          <div class="st-ccrow"><span class="st-ccl">Gets you</span>30 GB, 30 days, ~CLP 15,000 (~$15)</div>
+          <div class="st-ccrow"><span class="st-ccl">Note</span>Entel has the best national coverage, including Patagonia and the Lake District. WOM is cheaper in Santiago but drops out in the south.</div>
+          <div class="st-ccg">Guides: <a href="/guides/santiago.html">Santiago</a></div>
+        </article>
+        <article class="st-cc" data-q="argentina americas claro personal ezeiza buenos aires">
+          <div class="st-ccn">Argentina</div>
+          <div class="st-ccrow"><span class="st-ccl">Buy</span>Claro or Personal — kiosks at Ezeiza Airport arrivals, or any electronics shop (Garbarino, Frávega) in Buenos Aires</div>
+          <div class="st-ccrow"><span class="st-ccl">Gets you</span>~10–15 GB, 30 days, ~$5–10 (pricing fluctuates with peso rate)</div>
+          <div class="st-ccrow"><span class="st-ccl">Note</span>Buy with USD cash converted at the blue rate for best value. Passport required. Personal has slightly better Buenos Aires coverage; Claro is stronger in Patagonia.</div>
+          <div class="st-ccg">Guides: <a href="/guides/buenos-aires.html">Buenos Aires</a></div>
+        </article>
+        <article class="st-cc" data-q="brazil americas vivo galeao guarulhos rio sao paulo">
+          <div class="st-ccn">Brazil</div>
+          <div class="st-ccrow"><span class="st-ccl">Buy</span>Vivo — Galeão Airport (Rio) or Guarulhos (São Paulo) arrivals counters, or Vivo stores downtown</div>
+          <div class="st-ccrow"><span class="st-ccl">Gets you</span>20 GB, 30 days, ~R$30 (~$6)</div>
+          <div class="st-ccrow"><span class="st-ccl">Note</span>Vivo has the best national coverage. TIM is a solid backup. Passport required for registration. eSIM via Airalo is increasingly reliable if you want to avoid the counter.</div>
+          <div class="st-ccg">Guides: <a href="/guides/rio-de-janeiro.html">Rio de Janeiro</a></div>
+        </article>
       </div>
     </div>
 
   </div>
 
-</div><!-- /.wrap -->
+  <div class="st-empty" id="st-empty">Nothing matches your search.</div>
+
+</div>
 
 <script>
-(function () {
-  var search       = document.getElementById('sim-search');
-  var pills        = document.querySelectorAll('.pill');
-  var noRes        = document.getElementById('no-results');
-  var allItems     = document.querySelectorAll('[data-tags]');
-  var sections     = document.querySelectorAll('.section[data-section]');
-  var activeFilter = 'all';
+/* ── filter pills ── */
+var pills = document.querySelectorAll('.pill');
+var activeFilter = 'all';
+pills.forEach(function(pill){
+  pill.addEventListener('click', function(){
+    pills.forEach(function(p){ p.classList.remove('is-on'); p.setAttribute('aria-pressed','false'); });
+    pill.classList.add('is-on');
+    pill.setAttribute('aria-pressed','true');
+    activeFilter = pill.getAttribute('data-filter');
+    applyAll();
+  });
+});
 
-  function matchFilter(tags) {
-    if (activeFilter === 'all') return true;
-    return tags.split(' ').indexOf(activeFilter) !== -1;
-  }
+/* ── search + filter ── */
+var q = document.getElementById('st-q');
+var empty = document.getElementById('st-empty');
 
-  function applyFilter() {
-    var q = search.value.trim().toLowerCase();
-    var visible = 0;
+function applyAll(){
+  var term = (q.value || '').trim().toLowerCase();
+  var shown = 0;
 
-    allItems.forEach(function (el) {
-      var tags = el.getAttribute('data-tags') || '';
-      var show = matchFilter(tags) && (!q || el.textContent.toLowerCase().indexOf(q) !== -1);
-      el.classList.toggle('hidden', !show);
-      if (show) visible++;
-    });
-
-    sections.forEach(function (sec) {
-      var secTags = sec.getAttribute('data-section').split(' ');
-      var secMatch = activeFilter === 'all' || secTags.indexOf(activeFilter) !== -1;
-      var hasVisible = secMatch && Array.from(sec.querySelectorAll('[data-tags]')).some(function (c) { return !c.classList.contains('hidden'); });
-      sec.style.display = hasVisible ? '' : 'none';
-    });
-
-    noRes.style.display = visible === 0 ? '' : 'none';
-  }
-
-  pills.forEach(function (pill) {
-    pill.addEventListener('click', function () {
-      pills.forEach(function (p) { p.classList.remove('is-on'); p.setAttribute('aria-pressed', 'false'); });
-      pill.classList.add('is-on');
-      pill.setAttribute('aria-pressed', 'true');
-      activeFilter = pill.getAttribute('data-filter');
-      applyFilter();
-    });
+  document.querySelectorAll('.st-tile').forEach(function(el){
+    var sec = el.closest('.st-section');
+    var secTags = sec ? sec.getAttribute('data-section').split(' ') : [];
+    var filterOk = activeFilter === 'all' || secTags.indexOf(activeFilter) !== -1;
+    var searchOk = !term || el.dataset.q.indexOf(term) > -1 || el.textContent.toLowerCase().indexOf(term) > -1;
+    var ok = filterOk && searchOk;
+    el.classList.toggle('out', !ok);
+    if(ok) shown++;
   });
 
-  search.addEventListener('input', applyFilter);
-})();
+  document.querySelectorAll('.st-cc').forEach(function(el){
+    var filterOk = activeFilter === 'all' || activeFilter === 'region';
+    var searchOk = !term || el.dataset.q.indexOf(term) > -1 || el.textContent.toLowerCase().indexOf(term) > -1;
+    var ok = filterOk && searchOk;
+    el.classList.toggle('out', !ok);
+    if(ok) shown++;
+  });
+  document.querySelectorAll('.st-strip-block').forEach(function(block){
+    var any = Array.from(block.querySelectorAll('.st-cc')).some(function(c){ return !c.classList.contains('out'); });
+    block.classList.toggle('out', !any);
+  });
+
+  /* count tips as visible when filter matches */
+  if(activeFilter === 'all' || activeFilter === 'tips'){
+    var tipsSection = document.querySelector('.st-section[data-section="tips"]');
+    if(tipsSection && (!term || tipsSection.textContent.toLowerCase().indexOf(term) > -1)) shown++;
+  }
+
+  /* section visibility */
+  document.querySelectorAll('.st-section').forEach(function(sec){
+    var secTags = sec.getAttribute('data-section').split(' ');
+    var filterOk = activeFilter === 'all' || secTags.indexOf(activeFilter) !== -1;
+    var hasContent;
+    if(!filterOk){
+      hasContent = false;
+    } else {
+      var tiles = sec.querySelectorAll('.st-tile');
+      var ccs   = sec.querySelectorAll('.st-cc');
+      if(tiles.length){
+        hasContent = Array.from(tiles).some(function(t){ return !t.classList.contains('out'); });
+      } else if(ccs.length){
+        hasContent = Array.from(ccs).some(function(c){ return !c.classList.contains('out'); });
+      } else {
+        hasContent = !term || sec.textContent.toLowerCase().indexOf(term) > -1;
+      }
+    }
+    sec.classList.toggle('out', !hasContent);
+  });
+
+  empty.classList.toggle('on', shown === 0 && !!term);
+}
+
+q.addEventListener('input', applyAll);
+
+/* ── cursor tilt on tiles ── */
+if(window.matchMedia('(hover:hover)').matches && !window.matchMedia('(prefers-reduced-motion:reduce)').matches){
+  document.querySelectorAll('.st-tile').forEach(function(t){
+    t.addEventListener('mousemove', function(e){
+      var r = t.getBoundingClientRect();
+      var x = (e.clientX - r.left) / r.width - .5;
+      var y = (e.clientY - r.top) / r.height - .5;
+      t.style.transform = 'perspective(900px) rotateY(' + (x*7).toFixed(2) + 'deg) rotateX(' + (-y*7).toFixed(2) + 'deg) translateY(-4px)';
+    });
+    t.addEventListener('mouseleave', function(){ t.style.transform = ''; });
+  });
+}
+
+/* ── entrance animation ── */
+var io = new IntersectionObserver(function(es){
+  es.forEach(function(e){ if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); } });
+}, {rootMargin:'0px 0px -6% 0px', threshold:0.12});
+document.querySelectorAll('.st-tile').forEach(function(el,i){
+  el.style.animationDelay = (i%4)*70 + 'ms';
+  io.observe(el);
+});
 </script>
 <script src="/assets/search-autocomplete.js?v=16"></script>
 <script>(function(){
   if(!window.TVESearch) return;
-  var input=document.getElementById('sim-search'); if(!input) return;
-  var items=[];
-  document.querySelectorAll('.info-row').forEach(function(row){
-    var n=row.querySelector('.row-name');
-    if(!n) return;
-    var name=n.textContent.trim();
-    var subEl=row.querySelector('.row-sub');
-    var sub=subEl?subEl.textContent.trim():'';
-    if(name) items.push({name:name, sub:sub, text:sub});
+  var input = document.getElementById('st-q'); if(!input) return;
+  var items = [];
+  document.querySelectorAll('.st-tile').forEach(function(tile){
+    var n = tile.querySelector('.st-tname');
+    var s = tile.querySelector('.st-tsub');
+    if(n) items.push({name: n.textContent.trim(), sub: s ? s.textContent.trim() : ''});
   });
-  document.querySelectorAll('.sim-country-card').forEach(function(card){
-    var n=card.querySelector('.sccard-name');
-    var country=n?n.textContent.trim():'';
-    if(country) items.push({name:country, sub:'Local SIM'});
+  document.querySelectorAll('.st-cc').forEach(function(card){
+    var n = card.querySelector('.st-ccn');
+    if(n) items.push({name: n.textContent.trim(), sub: 'Local SIM'});
   });
-  TVESearch.attach(input,{items:items});
+  TVESearch.attach(input, {items: items});
 }());</script>
 </body>
 </html>

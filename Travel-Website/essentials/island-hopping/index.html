@@ -6,64 +6,138 @@
 <link rel="stylesheet" href="/assets/web-travel-style.css">
 <title>Island Hopping Routes | Guide My Days</title>
 <style>
-/* ── Region jump-nav — same dot-chip pattern as cruise-ports · layover-city-guide ── */
-.jchip {
-  display: inline-flex; align-items: center; gap: 6px;
-  font-size: 12px; font-weight: 600; line-height: 1.3;
-  background: var(--warm, #fdf8f0); border: 1px solid var(--border2); border-radius: 20px;
-  padding: 5px 12px; color: var(--text); text-decoration: none;
-  transition: background .15s, border-color .15s, color .15s;
-}
-.jchip:visited { color: #3d3a32; }
-.jchip .gm-icon { width: 14px; height: 14px; flex: none; }
-
-/* ── How to plan — four short principles, plain cards, no catalogue icon needed ── */
-.ih-howto { margin: 0 0 30px; }
-.ih-howto h2 {
-  font-size: 12px; font-weight: 700; letter-spacing: 0.18em; text-transform: uppercase;
-  color: var(--muted); padding-bottom: 8px; margin: 0 0 16px;
-  border-bottom: 2px solid var(--border2);
-}
-.ih-tip-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; }
-.ih-tip {
-  background: var(--surface, #fff); border: 1px solid var(--border2, #e6e2da);
-  border-radius: 10px; padding: 14px 16px; box-shadow: 0 1px 6px rgba(92,61,17,.05);
-}
-.ih-tip-label { font-size: 12.5px; font-weight: 800; color: var(--text, #3d3a32); margin-bottom: 6px; line-height: 1.3; }
-.ih-tip-body { font-size: 12px; color: var(--muted, #6a6660); line-height: 1.55; }
-@media (max-width: 860px) { .ih-tip-grid { grid-template-columns: repeat(2, 1fr); } }
-@media (max-width: 520px) { .ih-tip-grid { grid-template-columns: 1fr; } }
-
-/* ── Region sections + circuit cards — same visual system as cruise-ports' port-card ── */
-.region-section { margin: 8px 0 28px; scroll-margin-top: 90px; }
-.region-section.all-hidden { display: none; }
-.circuit-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 14px; }
-.circuit-card {
-  background: var(--surface, #fff); border: 1px solid var(--border2, #e6e2da);
-  border-radius: 10px; padding: 16px 18px;
-  box-shadow: 0 1px 6px rgba(92,61,17,.05);
-}
-.circuit-card.hidden { display: none; }
-.circuit-top { display: flex; align-items: flex-start; justify-content: space-between; gap: 10px; margin-bottom: 8px; }
-.circuit-name { font-size: 15px; font-weight: 800; color: var(--text, #3d3a32); line-height: 1.3; }
-.circuit-name .circuit-sub { display: block; font-size: 11.5px; font-weight: 600; color: var(--muted, #6a6660); margin-top: 1px; }
-.circuit-sequence { font-size: 12.5px; color: var(--muted, #6a6660); line-height: 1.55; margin: 0 0 12px; }
-.circuit-facts { display: flex; flex-direction: column; gap: 10px; }
-.circuit-fact { font-size: 12.5px; line-height: 1.55; color: var(--text, #3d3a32); }
-.circuit-fact-label {
-  display: block; font-size: 10px; font-weight: 700; letter-spacing: 0.1em;
-  text-transform: uppercase; color: var(--muted, #6a6660); margin-bottom: 2px;
-}
-.circuit-fact.watch .circuit-fact-label { color: #8a4a10; }
-
-/* ── No-results state lives in a normal doc-flow slot below the grid.
-   #empty-state — shared, web-travel-style.css ── */
-@media (prefers-color-scheme: dark) {
-  :root:not([data-theme="light"]) {
-    /* #8a4a10 at 10px on --card (#2a2825) = 2.15:1; switch to --text for legible uppercase labels. */
-    .circuit-fact.watch .circuit-fact-label { color: var(--text); }
+/* ── nautical chart graticule background ── */
+body::before{content:"";position:fixed;inset:0;z-index:0;pointer-events:none;
+  background-image:linear-gradient(rgba(46,138,148,.055) 1px,transparent 1px),
+                   linear-gradient(90deg,rgba(46,138,148,.055) 1px,transparent 1px);
+  background-size:56px 56px}
+.wrap{position:relative;z-index:1}
+.hero-band.eb-hero{position:relative;z-index:1}
+@media(prefers-color-scheme:dark){
+  :root:not([data-theme="light"]) body::before{
+    background-image:linear-gradient(rgba(46,138,148,.035) 1px,transparent 1px),
+                     linear-gradient(90deg,rgba(46,138,148,.035) 1px,transparent 1px)
   }
 }
+
+/* ── compass + split layout (mirrors night-trains dial pattern) ── */
+.ih-split{display:grid;grid-template-columns:minmax(0,280px) minmax(0,1fr);gap:36px;align-items:start;margin-top:20px}
+.ih-compasswrap{position:sticky;top:20px;text-align:center}
+.ih-compass{width:100%;max-width:240px;height:auto;display:block;margin:0 auto;
+  animation:ih-turn 80s linear infinite}
+@keyframes ih-turn{to{transform:rotate(360deg)}}
+.ih-compass-cap{font-size:11px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;
+  color:var(--muted,#6a6660);margin:10px auto 0;max-width:200px;line-height:1.55}
+
+/* ── how-to section ── */
+.ih-howto{margin:0 0 24px}
+.ih-howto h2{font-size:11px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;
+  color:var(--muted);padding-bottom:8px;margin:0 0 12px;border-bottom:2px solid var(--border2)}
+.ih-tip-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}
+.ih-tip{background:var(--surface,#fff);border:1px solid var(--border2,#e6e2da);
+  border-radius:10px;padding:13px 15px;box-shadow:0 1px 4px rgba(92,61,17,.05)}
+.ih-tip-label{font-size:12.5px;font-weight:800;color:var(--text,#3d3a32);margin-bottom:5px;line-height:1.3}
+.ih-tip-body{font-size:12px;color:var(--muted,#6a6660);line-height:1.55}
+
+/* ── region jump-nav ── */
+.jchip{display:inline-flex;align-items:center;gap:6px;font-size:12px;font-weight:600;line-height:1.3;
+  background:var(--warm,#fdf8f0);border:1px solid var(--border2);border-radius:20px;
+  padding:5px 12px;color:var(--text);text-decoration:none;
+  transition:background .15s,border-color .15s,color .15s}
+.jchip:visited{color:#3d3a32}
+.jchip .gm-icon{width:14px;height:14px;flex:none}
+
+/* ── region section ── */
+.region-section{margin:8px 0 28px;scroll-margin-top:90px}
+.region-section.all-hidden{display:none}
+.region-heading-row{display:flex;align-items:center;gap:14px;margin:0 0 12px}
+.region-heading-row h2{margin:0;font-size:10px;font-weight:800;letter-spacing:.22em;text-transform:uppercase;color:var(--muted)}
+.region-heading-row::after{content:"";flex:1;height:1px;background:var(--border2)}
+.circuit-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(290px,1fr));gap:14px}
+
+/* ── circuit card ── */
+.circuit-card{background:var(--surface,#fff);border:1px solid var(--border2,#e6e2da);
+  border-radius:10px;overflow:hidden;box-shadow:0 1px 6px rgba(92,61,17,.05);
+  opacity:0;transform:translateY(18px);
+  transition:opacity .55s,transform .55s cubic-bezier(.19,1,.22,1),box-shadow .3s}
+.circuit-card.in{opacity:1;transform:none}
+.circuit-card.hidden{display:none}
+.circuit-card:hover{box-shadow:0 18px 36px -24px rgba(15,61,74,.22)}
+
+/* ── circuit SVG route chart ── */
+.ih-chart{overflow-x:auto;scrollbar-width:none;background:var(--warm,#fdf8f0);
+  border-bottom:1px solid var(--border2)}
+.ih-chart::-webkit-scrollbar{display:none}
+.ih-chart svg{display:block;min-width:520px;width:100%;height:130px}
+.ih-route{fill:none;stroke:#2e8a94;stroke-width:2.4;stroke-linecap:round;
+  stroke-dasharray:var(--len);stroke-dashoffset:var(--len);
+  transition:stroke-dashoffset 1.7s cubic-bezier(.3,.9,.3,1) .15s}
+.circuit-card.in .ih-route{stroke-dashoffset:0}
+.ih-route.air{stroke:#0f3d4a;stroke-width:1.8;stroke-dasharray:7 7;stroke-dashoffset:0;opacity:0;
+  transition:opacity .9s 1s}
+.circuit-card.in .ih-route.air{opacity:.75}
+.ih-isle{opacity:0;transform:translateY(6px);transition:opacity .45s,transform .45s}
+.circuit-card.in .ih-isle{opacity:1;transform:none}
+.ih-isle-body{fill:#c98a54}.ih-isle-cap{fill:#e8c79a}
+.ih-isle-name{font:800 10.5px/1 ui-sans-serif,-apple-system,sans-serif;fill:var(--text,#3d3a32);text-anchor:middle}
+.ih-leg-lab{font:700 8px/1 ui-sans-serif,-apple-system,sans-serif;letter-spacing:.12em;
+  fill:var(--muted,#6a6660);text-anchor:middle;text-transform:uppercase}
+
+/* ── circuit card body ── */
+.circuit-top{display:flex;align-items:flex-start;justify-content:space-between;gap:10px;
+  padding:13px 16px 9px}
+.circuit-name{font-size:14.5px;font-weight:800;color:var(--text,#3d3a32);line-height:1.3}
+.circuit-name .circuit-sub{display:block;font-size:11px;font-weight:600;color:var(--muted,#6a6660);margin-top:2px}
+.circuit-sequence{font-size:12.5px;color:var(--muted,#6a6660);line-height:1.55;margin:0 0 0;
+  padding:0 16px 12px}
+.circuit-facts{display:flex;flex-direction:column;border-top:1px solid var(--border2)}
+.circuit-fact{font-size:12.5px;line-height:1.55;color:var(--text,#3d3a32);
+  padding:11px 16px;border-bottom:1px solid var(--border2)}
+.circuit-fact:last-child{border-bottom:none}
+.circuit-fact-label{display:block;font-size:10px;font-weight:700;letter-spacing:.1em;
+  text-transform:uppercase;color:var(--muted,#6a6660);margin-bottom:3px}
+.circuit-fact.watch{background:linear-gradient(90deg,rgba(192,78,26,.055),transparent)}
+.circuit-fact.watch .circuit-fact-label{color:#8a4a10}
+
+/* ── dark mode adjustments ── */
+@media(prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){
+    .ih-route{stroke:#3fa3af}
+    .ih-route.air{stroke:#7ab8c0}
+    .ih-isle-body{fill:#8a5e35}.ih-isle-cap{fill:#a07040}
+    .circuit-fact.watch{background:linear-gradient(90deg,rgba(192,78,26,.10),transparent)}
+    .circuit-fact.watch .circuit-fact-label{color:var(--text)}
+  }
+}
+:root[data-theme="dark"]{
+  .ih-route{stroke:#3fa3af}
+  .ih-route.air{stroke:#7ab8c0}
+  .ih-isle-body{fill:#8a5e35}.ih-isle-cap{fill:#a07040}
+  .circuit-fact.watch{background:linear-gradient(90deg,rgba(192,78,26,.10),transparent)}
+  .circuit-fact.watch .circuit-fact-label{color:var(--text)}
+}
+
+/* ── mobile: compass on top (first in DOM → top on mobile) ── */
+@media(max-width:860px){
+  .ih-split{grid-template-columns:1fr;gap:16px}
+  .ih-compasswrap{position:static;margin-bottom:4px}
+  .ih-compass{max-width:180px}
+  .ih-tip-grid{grid-template-columns:1fr}
+}
+@media(max-width:520px){
+  .ih-compass{max-width:140px}
+}
+
+/* ── no-JS / reduced-motion ── */
+@media(prefers-reduced-motion:reduce){
+  .circuit-card{opacity:1;transform:none}
+  .ih-route{stroke-dashoffset:0 !important}
+  .ih-route.air{opacity:.75}
+  .ih-compass{animation:none}
+}
+html:not(.js) .ih-route{stroke-dashoffset:0}
+html:not(.js) .ih-route.air{opacity:.75}
+html:not(.js) .circuit-card{opacity:1;transform:none}
 </style>
 <link rel="stylesheet" href="/assets/mobile.css?v=53">
 <!-- seo:start — generated by Brain/scripts/build/build_seo.py · do not hand-edit -->
@@ -94,17 +168,17 @@
 </head>
 <body>
 
-<div id="toolbar-mount" data-depth="2" data-maxwidth="940" data-updated="2026-09-19"></div>
+<div id="toolbar-mount" data-depth="2" data-maxwidth="940" data-updated="2026-09-30"></div>
 <script src="/assets/toolbar.js?v=127"></script>
 
-  <div class="hero-band eb-hero">
-    <span class="eb-kicker">Island Hopping Routes</span>
-    <div class="eb-copy">
-      <h1 class="eb-title">More than one island, <em>planned so the transport doesn't ruin the trip.</em></h1>
-      <p class="eb-intro">Multi-island itinerary circuits for five island groups — the recommended sequence, ferry versus flight legs, minimum time per stop, best season, and the transport mistake that costs most travelers a day. Covers the Greek Cyclades, Thailand's Gulf islands, the Philippines, the Azores, and the Canary Islands. For individual island picks rather than a multi-stop route, see <a href="/best-of/islands/">Best Islands</a>.</p>
-    </div>
-    <div class="eb-graphic" aria-hidden="true"><svg class="gm-icon" data-icon="island" data-role="hero" viewBox="0 0 24 24" aria-hidden="true"><use href="#gm-i-island"/></svg></div>
+<div class="hero-band eb-hero">
+  <span class="eb-kicker">Island Hopping Routes</span>
+  <div class="eb-copy">
+    <h1 class="eb-title">More than one island, <em>planned so the transport doesn't ruin the trip.</em></h1>
+    <p class="eb-intro">Multi-island itinerary circuits for five island groups — the recommended sequence, ferry versus flight legs, minimum time per stop, best season, and the transport mistake that costs most travelers a day. Covers the Greek Cyclades, Thailand's Gulf islands, the Philippines, the Azores, and the Canary Islands. For individual island picks rather than a multi-stop route, see <a href="/best-of/islands/">Best Islands</a>.</p>
   </div>
+  <div class="eb-graphic" aria-hidden="true"><svg class="gm-icon" data-icon="island" data-role="hero" viewBox="0 0 24 24" aria-hidden="true"><use href="#gm-i-island"/></svg></div>
+</div>
 
 <div class="wrap">
 
@@ -112,132 +186,187 @@
     <input type="search" id="ih-search" class="search-input" placeholder="Archipelago, region, or country" aria-label="Search island-hopping routes" autocomplete="off" spellcheck="false" style="width:var(--search-w, 440px);max-width:100%;">
   </div>
 
-  <div class="jump-strip">
-    <a class="jchip hov-rust" href="#europe"><svg class="gm-icon" data-icon="dot-blue" data-role="dot" viewBox="0 0 24 24" aria-hidden="true"><use href="#gm-i-dot-blue"/></svg>Europe</a>
-    <a class="jchip hov-rust" href="#southeast-asia"><svg class="gm-icon" data-icon="dot-green" data-role="dot" viewBox="0 0 24 24" aria-hidden="true"><use href="#gm-i-dot-green"/></svg>Southeast Asia</a>
-    <a class="jchip hov-rust" href="#atlantic"><svg class="gm-icon" data-icon="dot-purple" data-role="dot" viewBox="0 0 24 24" aria-hidden="true"><use href="#gm-i-dot-purple"/></svg>Atlantic</a>
-  </div>
+  <div class="ih-split">
 
-  <div class="ih-howto">
-    <h2>How to plan an island-hopping circuit</h2>
-    <div class="ih-tip-grid">
-      <div class="ih-tip">
-        <div class="ih-tip-label">Ferry vs. flight isn't just about speed</div>
-        <div class="ih-tip-body">Ferries are usually cheaper and let you watch the crossing. Flights are the only option once islands aren't on the same ferry network, and worth it past about three hours by boat.</div>
-      </div>
-      <div class="ih-tip">
-        <div class="ih-tip-label">Give every stop at least two nights</div>
-        <div class="ih-tip-body">A one-night island stop spends half its time on transfers. Stacking three or more one-night stays is the itinerary that never lands anywhere long enough to enjoy it.</div>
-      </div>
-      <div class="ih-tip">
-        <div class="ih-tip-label">Season shapes the transport, not just the weather</div>
-        <div class="ih-tip-body">Inter-island ferry frequency — and cancellation risk from wind or swell — swings by season far more than the islands' own climate does. Check the schedule, not just the forecast.</div>
-      </div>
-      <div class="ih-tip">
-        <div class="ih-tip-label">Never book an onward flight for the same day</div>
-        <div class="ih-tip-body">A delayed ferry or small regional flight on the last inter-island leg is common. One buffer night before any onward or return flight is the cheapest insurance on the trip.</div>
-      </div>
+    <!-- ── LEFT: compass dial (first in DOM → top on mobile) ── -->
+    <div class="ih-compasswrap" aria-hidden="true">
+      <svg class="ih-compass" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+        <circle cx="100" cy="100" r="94" fill="none" stroke="#0f3d4a" stroke-width="1.5" opacity=".5"/>
+        <circle cx="100" cy="100" r="72" fill="none" stroke="#0f3d4a" stroke-width=".8" opacity=".35"/>
+        <circle cx="100" cy="100" r="50" fill="none" stroke="#0f3d4a" stroke-width=".5" opacity=".2"/>
+        <!-- cardinal ticks -->
+        <g stroke="#0f3d4a" stroke-linecap="round" opacity=".45">
+          <line x1="100" y1="6"  x2="100" y2="19"/>
+          <line x1="100" y1="181" x2="100" y2="194"/>
+          <line x1="6"  y1="100" x2="19"  y2="100"/>
+          <line x1="181" y1="100" x2="194" y2="100"/>
+        </g>
+        <!-- intercardinal ticks -->
+        <g stroke="#0f3d4a" stroke-linecap="round" opacity=".25">
+          <line x1="34" y1="34" x2="41" y2="41"/>
+          <line x1="160" y1="160" x2="167" y2="167"/>
+          <line x1="160" y1="34" x2="167" y2="41"/>
+          <line x1="34" y1="160" x2="41" y2="167"/>
+        </g>
+        <!-- north pointer (terracotta) -->
+        <path d="M100 12 L112 90 L100 100 L88 90 Z" fill="#c04e1a"/>
+        <!-- south pointer -->
+        <path d="M100 188 L88 110 L100 100 L112 110 Z" fill="#0f3d4a" opacity=".65"/>
+        <!-- east / west pointers -->
+        <path d="M12 100 L90 88 L100 100 L90 112 Z" fill="#0f3d4a" opacity=".65"/>
+        <path d="M188 100 L110 112 L100 100 L110 88 Z" fill="#0f3d4a" opacity=".65"/>
+        <!-- centre -->
+        <circle cx="100" cy="100" r="5" fill="#c04e1a"/>
+        <!-- N label -->
+        <text x="100" y="4" text-anchor="middle" dominant-baseline="middle"
+          font-family="ui-sans-serif,-apple-system,sans-serif" font-size="9" font-weight="800"
+          letter-spacing=".12em" fill="#0f3d4a" opacity=".6">N</text>
+      </svg>
+      <p class="ih-compass-cap">Ferry legs trace in blue · flight arcs overhead</p>
     </div>
-  </div>
 
-  <!-- ═══ EUROPE ═══ -->
-  <div class="region-section" id="europe">
-    <div class="region-heading">Europe</div>
-    <div class="circuit-grid">
+    <!-- ── RIGHT: content ── -->
+    <div class="ih-main">
 
-      <div class="circuit-card" id="circuit-cyclades">
-        <div class="circuit-top">
-          <div class="circuit-name">Greek Cyclades<span class="circuit-sub">Mykonos → Naxos → Paros → Santorini</span></div>
-          <span class="badge sb-blue">FERRY</span>
-        </div>
-        <div class="circuit-sequence">Fly into Athens, ferry from Piraeus to Mykonos, then hop island-to-island toward Santorini — Naxos and Paros sit on the same ferry corridor and add almost no backtracking.</div>
-        <div class="circuit-facts">
-          <div class="circuit-fact"><span class="circuit-fact-label">Ferry vs. flight</span>High-speed ferries (Blue Star Ferries, SeaJets) run direct between every stop on this route; flying only makes sense for the one-off Athens↔Santorini leg on a tight schedule — there's no flight between the smaller islands themselves.</div>
-          <div class="circuit-fact"><span class="circuit-fact-label">Minimum time per stop</span>2 nights on Mykonos, Naxos and Paros; 3 on Santorini.</div>
-          <div class="circuit-fact"><span class="circuit-fact-label">Best season</span>Late May–June or September–early October — full ferry timetables without July–August's heat, crowds, or fare spikes.</div>
-          <div class="circuit-fact watch"><span class="circuit-fact-label">Mistake to avoid</span>Booking a flight home for the same day as the last ferry. The meltemi wind grounds high-speed catamarans fleet-wide with a day's notice or less; only the slower conventional ferries keep running.</div>
-          <div class="circuit-fact"><span class="circuit-fact-label">How to book</span>Ferryhopper.com compares every operator on one route; book July–August sailings 4–6 weeks out.</div>
+      <div class="jump-strip">
+        <a class="jchip hov-rust" href="#europe"><svg class="gm-icon" data-icon="dot-blue" data-role="dot" viewBox="0 0 24 24" aria-hidden="true"><use href="#gm-i-dot-blue"/></svg>Europe</a>
+        <a class="jchip hov-rust" href="#southeast-asia"><svg class="gm-icon" data-icon="dot-green" data-role="dot" viewBox="0 0 24 24" aria-hidden="true"><use href="#gm-i-dot-green"/></svg>Southeast Asia</a>
+        <a class="jchip hov-rust" href="#atlantic"><svg class="gm-icon" data-icon="dot-purple" data-role="dot" viewBox="0 0 24 24" aria-hidden="true"><use href="#gm-i-dot-purple"/></svg>Atlantic</a>
+      </div>
+
+      <div class="ih-howto">
+        <h2>How to plan an island-hopping circuit</h2>
+        <div class="ih-tip-grid">
+          <div class="ih-tip">
+            <div class="ih-tip-label">Ferry vs. flight isn't just about speed</div>
+            <div class="ih-tip-body">Ferries are usually cheaper and let you watch the crossing. Flights are the only option once islands aren't on the same ferry network, and worth it past about three hours by boat.</div>
+          </div>
+          <div class="ih-tip">
+            <div class="ih-tip-label">Give every stop at least two nights</div>
+            <div class="ih-tip-body">A one-night island stop spends half its time on transfers. Stacking three or more one-night stays is the itinerary that never lands anywhere long enough to enjoy it.</div>
+          </div>
+          <div class="ih-tip">
+            <div class="ih-tip-label">Season shapes the transport, not just the weather</div>
+            <div class="ih-tip-body">Inter-island ferry frequency — and cancellation risk from wind or swell — swings by season far more than the islands' own climate does. Check the schedule, not just the forecast.</div>
+          </div>
+          <div class="ih-tip">
+            <div class="ih-tip-label">Never book an onward flight for the same day</div>
+            <div class="ih-tip-body">A delayed ferry or small regional flight on the last inter-island leg is common. One buffer night before any onward or return flight is the cheapest insurance on the trip.</div>
+          </div>
         </div>
       </div>
 
-    </div>
-  </div>
+      <!-- ═══ EUROPE ═══ -->
+      <div class="region-section" id="europe">
+        <div class="region-heading-row"><h2>Europe</h2></div>
+        <div class="circuit-grid">
 
-  <!-- ═══ SOUTHEAST ASIA ═══ -->
-  <div class="region-section" id="southeast-asia">
-    <div class="region-heading">Southeast Asia</div>
-    <div class="circuit-grid">
+          <div class="circuit-card" id="circuit-cyclades"
+            data-hay="cyclades greek cyclades europe mykonos naxos paros santorini">
+            <div class="ih-chart" id="chart-cyclades"></div>
+            <div class="circuit-top">
+              <div class="circuit-name">Greek Cyclades<span class="circuit-sub">Mykonos → Naxos → Paros → Santorini</span></div>
+              <span class="badge sb-blue">FERRY</span>
+            </div>
+            <p class="circuit-sequence">Fly into Athens, ferry from Piraeus to Mykonos, then hop island-to-island toward Santorini — Naxos and Paros sit on the same ferry corridor and add almost no backtracking.</p>
+            <div class="circuit-facts">
+              <div class="circuit-fact"><span class="circuit-fact-label">Ferry vs. flight</span>High-speed ferries (Blue Star Ferries, SeaJets) run direct between every stop on this route; flying only makes sense for the one-off Athens↔Santorini leg on a tight schedule — there's no flight between the smaller islands themselves.</div>
+              <div class="circuit-fact"><span class="circuit-fact-label">Minimum time per stop</span>2 nights on Mykonos, Naxos and Paros; 3 on Santorini.</div>
+              <div class="circuit-fact"><span class="circuit-fact-label">Best season</span>Late May–June or September–early October — full ferry timetables without July–August's heat, crowds, or fare spikes.</div>
+              <div class="circuit-fact watch"><span class="circuit-fact-label">Mistake to avoid</span>Booking a flight home for the same day as the last ferry. The meltemi wind grounds high-speed catamarans fleet-wide with a day's notice or less; only the slower conventional ferries keep running.</div>
+              <div class="circuit-fact"><span class="circuit-fact-label">How to book</span>Ferryhopper.com compares every operator on one route; book July–August sailings 4–6 weeks out.</div>
+            </div>
+          </div>
 
-      <div class="circuit-card" id="circuit-thailand-cambodia">
-        <div class="circuit-top">
-          <div class="circuit-name">Thailand's Gulf Islands<span class="circuit-sub">Koh Samui → Koh Phangan → Koh Tao</span></div>
-          <span class="badge sb-blue">FERRY</span>
-        </div>
-        <div class="circuit-sequence">Fly Bangkok–Koh Samui, then use the Gulf catamaran corridor north to Koh Phangan and Koh Tao. Return to Samui for the onward flight or continue by ferry and bus through Chumphon.</div>
-        <div class="circuit-facts">
-          <div class="circuit-fact"><span class="circuit-fact-label">Ferry vs. flight</span>Bangkok Airways covers Bangkok–Samui in about 1 hour 10 minutes; Lomprayah and Seatran link Samui, Phangan and Tao, with typical legs of roughly 30 minutes to 1.5 hours depending on pier and operator.</div>
-          <div class="circuit-fact"><span class="circuit-fact-label">Minimum time per stop</span>2 nights each on Samui and Phangan; 3 on Tao if diving.</div>
-          <div class="circuit-fact"><span class="circuit-fact-label">Best season</span>January–April, after the Gulf's wettest months and before the later-year monsoon pattern raises cancellation risk.</div>
-          <div class="circuit-fact watch"><span class="circuit-fact-label">Mistake to avoid</span>Treating the islands as interchangeable ferry stops. Samui has several piers, and a ticket from the wrong one can add a long cross-island transfer; check the pier name before choosing a hotel or airport connection.</div>
-          <div class="circuit-fact"><span class="circuit-fact-label">How to book</span>Lomprayah or Seatran direct for the inter-island ferries; leave a buffer before any flight because rough seas can delay or cancel sailings.</div>
-        </div>
-      </div>
-
-      <div class="circuit-card" id="circuit-philippines">
-        <div class="circuit-top">
-          <div class="circuit-name">Philippines — Palawan + Visayas<span class="circuit-sub">El Nido → Coron → Cebu → Bohol</span></div>
-          <span class="badge sb-gold">FERRY + FLIGHT</span>
-        </div>
-        <div class="circuit-sequence">Fly Manila–El Nido, ferry down to Coron, fly Coron/Manila–Cebu (no sea route covers this stretch), then a fast ferry on to Bohol or Siquijor.</div>
-        <div class="circuit-facts">
-          <div class="circuit-fact"><span class="circuit-fact-label">Ferry vs. flight</span>El Nido–Coron runs by fastcraft along Palawan's coast in about 4 hours; Coron to the Visayas has no practical ferry at all — it's a domestic flight on Cebu Pacific or PAL Express, usually routed through Manila.</div>
-          <div class="circuit-fact"><span class="circuit-fact-label">Minimum time per stop</span>3 nights El Nido, 2 Coron, 2–3 Bohol or Siquijor.</div>
-          <div class="circuit-fact"><span class="circuit-fact-label">Best season</span>December–May, before typhoon season. July–October sees Palawan's outrigger and fastcraft routes cancelled with little notice.</div>
-          <div class="circuit-fact watch"><span class="circuit-fact-label">Mistake to avoid</span>Booking a flight out for the same day as an inter-island ferry. Palawan fastcrafts cancel outright on rough seas even in nominal dry-season weeks, with no guaranteed rebooking.</div>
-          <div class="circuit-fact"><span class="circuit-fact-label">How to book</span>2Go Travel or OceanJet direct for the ferries; Cebu Pacific or PAL Express direct for the Palawan–Visayas flight, since nothing else connects them.</div>
         </div>
       </div>
 
-    </div>
-  </div>
+      <!-- ═══ SOUTHEAST ASIA ═══ -->
+      <div class="region-section" id="southeast-asia">
+        <div class="region-heading-row"><h2>Southeast Asia</h2></div>
+        <div class="circuit-grid">
 
-  <!-- ═══ ATLANTIC ═══ -->
-  <div class="region-section" id="atlantic">
-    <div class="region-heading">Atlantic</div>
-    <div class="circuit-grid">
+          <div class="circuit-card" id="circuit-thailand-cambodia"
+            data-hay="thailand gulf islands southeast asia koh samui koh phangan koh tao">
+            <div class="ih-chart" id="chart-thailand-cambodia"></div>
+            <div class="circuit-top">
+              <div class="circuit-name">Thailand's Gulf Islands<span class="circuit-sub">Koh Samui → Koh Phangan → Koh Tao</span></div>
+              <span class="badge sb-blue">FERRY</span>
+            </div>
+            <p class="circuit-sequence">Fly Bangkok–Koh Samui, then use the Gulf catamaran corridor north to Koh Phangan and Koh Tao. Return to Samui for the onward flight or continue by ferry and bus through Chumphon.</p>
+            <div class="circuit-facts">
+              <div class="circuit-fact"><span class="circuit-fact-label">Ferry vs. flight</span>Bangkok Airways covers Bangkok–Samui in about 1 hour 10 minutes; Lomprayah and Seatran link Samui, Phangan and Tao, with typical legs of roughly 30 minutes to 1.5 hours depending on pier and operator.</div>
+              <div class="circuit-fact"><span class="circuit-fact-label">Minimum time per stop</span>2 nights each on Samui and Phangan; 3 on Tao if diving.</div>
+              <div class="circuit-fact"><span class="circuit-fact-label">Best season</span>January–April, after the Gulf's wettest months and before the later-year monsoon pattern raises cancellation risk.</div>
+              <div class="circuit-fact watch"><span class="circuit-fact-label">Mistake to avoid</span>Treating the islands as interchangeable ferry stops. Samui has several piers, and a ticket from the wrong one can add a long cross-island transfer; check the pier name before choosing a hotel or airport connection.</div>
+              <div class="circuit-fact"><span class="circuit-fact-label">How to book</span>Lomprayah or Seatran direct for the inter-island ferries; leave a buffer before any flight because rough seas can delay or cancel sailings.</div>
+            </div>
+          </div>
 
-      <div class="circuit-card" id="circuit-azores">
-        <div class="circuit-top">
-          <div class="circuit-name">Azores<span class="circuit-sub">São Miguel → Terceira → Faial → Pico</span></div>
-          <span class="badge sb-teal">FLIGHT</span>
-        </div>
-        <div class="circuit-sequence">Fly Ponta Delgada (São Miguel) to Terceira, then on to Faial, with a short ferry across to Pico.</div>
-        <div class="circuit-facts">
-          <div class="circuit-fact"><span class="circuit-fact-label">Ferry vs. flight</span>SATA Azores Airlines runs the only scheduled inter-island network and covers every leg here except the last; the one reliable ferry is Faial↔Pico (Atlantico Line, about 30 minutes, several times daily year-round) — pair those two islands rather than trying to fly between them.</div>
-          <div class="circuit-fact"><span class="circuit-fact-label">Minimum time per stop</span>2 nights each on São Miguel and Terceira; 2 combined for Faial and Pico.</div>
-          <div class="circuit-fact"><span class="circuit-fact-label">Best season</span>June–September, when SATA's inter-island frequency is highest; winter sees fewer flights and more weather delays from Atlantic storm systems.</div>
-          <div class="circuit-fact watch"><span class="circuit-fact-label">Mistake to avoid</span>Booking SATA inter-island legs as a separate ticket from the transatlantic flight in. A missed connection on a delayed inter-island hop isn't protected, and the next flight to the same island may not run until the next day.</div>
-          <div class="circuit-fact"><span class="circuit-fact-label">How to book</span>SATA Azores Airlines direct — book each inter-island hop 2+ months ahead in summer, the planes are small and seats sell out. Atlantico Line's Faial–Pico ferry needs no advance booking most of the year.</div>
+          <div class="circuit-card" id="circuit-philippines"
+            data-hay="philippines palawan visayas southeast asia el nido coron cebu bohol">
+            <div class="ih-chart" id="chart-philippines"></div>
+            <div class="circuit-top">
+              <div class="circuit-name">Philippines — Palawan + Visayas<span class="circuit-sub">El Nido → Coron → Cebu → Bohol</span></div>
+              <span class="badge sb-gold">FERRY + FLIGHT</span>
+            </div>
+            <p class="circuit-sequence">Fly Manila–El Nido, ferry down to Coron, fly Coron/Manila–Cebu (no sea route covers this stretch), then a fast ferry on to Bohol or Siquijor.</p>
+            <div class="circuit-facts">
+              <div class="circuit-fact"><span class="circuit-fact-label">Ferry vs. flight</span>El Nido–Coron runs by fastcraft along Palawan's coast in about 4 hours; Coron to the Visayas has no practical ferry at all — it's a domestic flight on Cebu Pacific or PAL Express, usually routed through Manila.</div>
+              <div class="circuit-fact"><span class="circuit-fact-label">Minimum time per stop</span>3 nights El Nido, 2 Coron, 2–3 Bohol or Siquijor.</div>
+              <div class="circuit-fact"><span class="circuit-fact-label">Best season</span>December–May, before typhoon season. July–October sees Palawan's outrigger and fastcraft routes cancelled with little notice.</div>
+              <div class="circuit-fact watch"><span class="circuit-fact-label">Mistake to avoid</span>Booking a flight out for the same day as an inter-island ferry. Palawan fastcrafts cancel outright on rough seas even in nominal dry-season weeks, with no guaranteed rebooking.</div>
+              <div class="circuit-fact"><span class="circuit-fact-label">How to book</span>2Go Travel or OceanJet direct for the ferries; Cebu Pacific or PAL Express direct for the Palawan–Visayas flight, since nothing else connects them.</div>
+            </div>
+          </div>
+
         </div>
       </div>
 
-      <div class="circuit-card" id="circuit-canaries">
-        <div class="circuit-top">
-          <div class="circuit-name">Canary Islands<span class="circuit-sub">Tenerife → Gran Canaria → Lanzarote</span></div>
-          <span class="badge sb-gold">FERRY + FLIGHT</span>
-        </div>
-        <div class="circuit-sequence">Ferry or fly Tenerife to Gran Canaria, then on to Lanzarote or Fuerteventura — every pair on this route is covered both ways.</div>
-        <div class="circuit-facts">
-          <div class="circuit-fact"><span class="circuit-fact-label">Ferry vs. flight</span>Fred Olsen Express and Armas Trasmediterránea ferries connect every island (Tenerife–Gran Canaria about 1.5 hours, Lanzarote–Fuerteventura about 25 minutes) and let you bring a rental car; Binter Canarias and Canaryfly fly the same routes in 30–40 minutes and are faster for the longer Gran Canaria–Lanzarote hop.</div>
-          <div class="circuit-fact"><span class="circuit-fact-label">Minimum time per stop</span>3 nights on Tenerife or Gran Canaria; 2 on Lanzarote or Fuerteventura.</div>
-          <div class="circuit-fact"><span class="circuit-fact-label">Best season</span>Year-round — the appeal is the mild climate — but ferries run fullest and cheapest outside Christmas/New Year and Easter week.</div>
-          <div class="circuit-fact watch"><span class="circuit-fact-label">Mistake to avoid</span>Boarding a ferry with a rental car without pre-booking the vehicle space. Passenger tickets are usually available same-day; vehicle spaces on the popular routes sell out days ahead in summer.</div>
-          <div class="circuit-fact"><span class="circuit-fact-label">How to book</span>Directferries.com or Fred Olsen Express/Armas Trasmediterránea direct for ferries; Binter Canarias direct for flights — often cheaper booked ahead than a ferry-plus-car combo.</div>
+      <!-- ═══ ATLANTIC ═══ -->
+      <div class="region-section" id="atlantic">
+        <div class="region-heading-row"><h2>Atlantic</h2></div>
+        <div class="circuit-grid">
+
+          <div class="circuit-card" id="circuit-azores"
+            data-hay="azores atlantic sao miguel terceira faial pico azores airlines">
+            <div class="ih-chart" id="chart-azores"></div>
+            <div class="circuit-top">
+              <div class="circuit-name">Azores<span class="circuit-sub">São Miguel → Terceira → Faial → Pico</span></div>
+              <span class="badge sb-teal">FLIGHT</span>
+            </div>
+            <p class="circuit-sequence">Fly Ponta Delgada (São Miguel) to Terceira, then on to Faial, with a short ferry across to Pico.</p>
+            <div class="circuit-facts">
+              <div class="circuit-fact"><span class="circuit-fact-label">Ferry vs. flight</span>SATA Azores Airlines runs the only scheduled inter-island network and covers every leg here except the last; the one reliable ferry is Faial↔Pico (Atlantico Line, about 30 minutes, several times daily year-round) — pair those two islands rather than trying to fly between them.</div>
+              <div class="circuit-fact"><span class="circuit-fact-label">Minimum time per stop</span>2 nights each on São Miguel and Terceira; 2 combined for Faial and Pico.</div>
+              <div class="circuit-fact"><span class="circuit-fact-label">Best season</span>June–September, when SATA's inter-island frequency is highest; winter sees fewer flights and more weather delays from Atlantic storm systems.</div>
+              <div class="circuit-fact watch"><span class="circuit-fact-label">Mistake to avoid</span>Booking SATA inter-island legs as a separate ticket from the transatlantic flight in. A missed connection on a delayed inter-island hop isn't protected, and the next flight to the same island may not run until the next day.</div>
+              <div class="circuit-fact"><span class="circuit-fact-label">How to book</span>SATA Azores Airlines direct — book each inter-island hop 2+ months ahead in summer, the planes are small and seats sell out. Atlantico Line's Faial–Pico ferry needs no advance booking most of the year.</div>
+            </div>
+          </div>
+
+          <div class="circuit-card" id="circuit-canaries"
+            data-hay="canaries canary islands atlantic tenerife gran canaria lanzarote fuerteventura">
+            <div class="ih-chart" id="chart-canaries"></div>
+            <div class="circuit-top">
+              <div class="circuit-name">Canary Islands<span class="circuit-sub">Tenerife → Gran Canaria → Lanzarote</span></div>
+              <span class="badge sb-gold">FERRY + FLIGHT</span>
+            </div>
+            <p class="circuit-sequence">Ferry or fly Tenerife to Gran Canaria, then on to Lanzarote or Fuerteventura — every pair on this route is covered both ways.</p>
+            <div class="circuit-facts">
+              <div class="circuit-fact"><span class="circuit-fact-label">Ferry vs. flight</span>Fred Olsen Express and Armas Trasmediterránea ferries connect every island (Tenerife–Gran Canaria about 1.5 hours, Lanzarote–Fuerteventura about 25 minutes) and let you bring a rental car; Binter Canarias and Canaryfly fly the same routes in 30–40 minutes and are faster for the longer Gran Canaria–Lanzarote hop.</div>
+              <div class="circuit-fact"><span class="circuit-fact-label">Minimum time per stop</span>3 nights on Tenerife or Gran Canaria; 2 on Lanzarote or Fuerteventura.</div>
+              <div class="circuit-fact"><span class="circuit-fact-label">Best season</span>Year-round — the appeal is the mild climate — but ferries run fullest and cheapest outside Christmas/New Year and Easter week.</div>
+              <div class="circuit-fact watch"><span class="circuit-fact-label">Mistake to avoid</span>Boarding a ferry with a rental car without pre-booking the vehicle space. Passenger tickets are usually available same-day; vehicle spaces on the popular routes sell out days ahead in summer.</div>
+              <div class="circuit-fact"><span class="circuit-fact-label">How to book</span>Directferries.com or Fred Olsen Express/Armas Trasmediterránea direct for ferries; Binter Canarias direct for flights — often cheaper booked ahead than a ferry-plus-car combo.</div>
+            </div>
+          </div>
+
         </div>
       </div>
 
-    </div>
-  </div>
+    </div><!-- /ih-main -->
+  </div><!-- /ih-split -->
 
   <div class="empty-state" id="empty-state">
     <span class="empty-state-icon"><svg viewBox="0 0 24 24" width="28" height="28" fill="currentColor" aria-hidden="true"><path d="M15.5 14h-.79l-.28-.27A6.471 6.471 0 0 0 16 9.5 6.5 6.5 0 1 0 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/></svg></span>
@@ -249,17 +378,71 @@
 <script src="/assets/search-autocomplete.js?v=16"></script>
 <script>
 (function () {
-  var input = document.getElementById('ih-search');
-  var empty = document.getElementById('empty-state');
-  var cards = Array.prototype.slice.call(document.querySelectorAll('.circuit-card'));
+
+  /* ── circuit data for SVG route drawing ── */
+  var CHARTS = {
+    'cyclades':          { isles: ['Mykonos','Naxos','Paros','Santorini'],      legs: ['ferry','ferry','ferry'] },
+    'thailand-cambodia': { isles: ['Koh Samui','Koh Phangan','Koh Tao'],        legs: ['ferry','ferry'] },
+    'philippines':       { isles: ['El Nido','Coron','Cebu','Bohol'],           legs: ['ferry','flight','ferry'] },
+    'azores':            { isles: ['São Miguel','Terceira','Faial','Pico'],      legs: ['flight','flight','ferry'] },
+    'canaries':          { isles: ['Tenerife','Gran Canaria','Lanzarote'],       legs: ['ferry','ferry'] }
+  };
+
+  /* ── build one SVG route chart ── */
+  function buildChart(id, data) {
+    var el = document.getElementById('chart-' + id);
+    if (!el) return;
+    var n = data.isles.length, W = 520, H = 130, pad = 58, step = (W - pad * 2) / (n - 1), y = 60;
+    var g = '';
+
+    for (var i = 0; i < n - 1; i++) {
+      var x1 = pad + step * i, x2 = pad + step * (i + 1), midx = (x1 + x2) / 2;
+      var air = data.legs[i] === 'flight';
+      var d = air
+        ? 'M' + (x1 + 18) + ' ' + y + ' Q' + midx + ' ' + (y - 34) + ' ' + (x2 - 18) + ' ' + y
+        : 'M' + (x1 + 18) + ' ' + y + ' q' + (step/6) + ' -7 ' + (step/3) + ' 0 t' + (step/3) + ' 0 t' + (step/3 - 36) + ' 0';
+      g += '<path class="ih-route' + (air ? ' air' : '') + '" d="' + d + '" style="--len:' + (step * 1.3) + '"/>';
+      g += '<text class="ih-leg-lab" x="' + midx + '" y="' + (air ? y - 42 : y + 22) + '">' + (air ? 'Flight' : 'Ferry') + '</text>';
+    }
+
+    for (var j = 0; j < n; j++) {
+      var x = pad + step * j;
+      g += '<g class="ih-isle" style="transition-delay:' + (0.18 + j * 0.14) + 's">' +
+        '<ellipse class="ih-isle-body" cx="' + x + '" cy="' + (y + 4) + '" rx="15" ry="6.5"/>' +
+        '<path class="ih-isle-cap" d="M' + (x - 10) + ' ' + (y + 2) + ' q4.5 -10 10 -10 t10 10z"/>' +
+        '<text class="ih-isle-name" x="' + x + '" y="' + (y + 33) + '">' + data.isles[j] + '</text>' +
+        '</g>';
+    }
+
+    el.innerHTML = '<svg viewBox="0 0 ' + W + ' ' + H + '" role="img" aria-label="Route chart: ' + data.isles.join(' to ') + '">' + g + '</svg>';
+  }
+
+  Object.keys(CHARTS).forEach(function (id) { buildChart(id, CHARTS[id]); });
+
+  /* ── animate cards in on scroll ── */
+  if (window.IntersectionObserver) {
+    var io = new IntersectionObserver(function (es) {
+      es.forEach(function (e) {
+        if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); }
+      });
+    }, { threshold: 0.08 });
+    document.querySelectorAll('.circuit-card').forEach(function (c) { io.observe(c); });
+  } else {
+    document.querySelectorAll('.circuit-card').forEach(function (c) { c.classList.add('in'); });
+  }
+
+  /* ── search / filter ── */
+  var input    = document.getElementById('ih-search');
+  var empty    = document.getElementById('empty-state');
+  var cards    = Array.prototype.slice.call(document.querySelectorAll('.circuit-card'));
   var sections = Array.prototype.slice.call(document.querySelectorAll('.region-section'));
 
   function filter() {
     var q = input.value.trim().toLowerCase();
     var visible = 0;
     cards.forEach(function (card) {
-      var hay = card.id + ' ' + card.textContent.toLowerCase();
-      var show = !q || hay.toLowerCase().indexOf(q) !== -1;
+      var hay = (card.dataset.hay || '') + ' ' + card.textContent.toLowerCase();
+      var show = !q || hay.indexOf(q) !== -1;
       card.classList.toggle('hidden', !show);
       if (show) visible++;
     });
@@ -275,7 +458,7 @@
   if (window.TVESearch) {
     var items = cards.map(function (card) {
       var name = card.querySelector('.circuit-name').childNodes[0].textContent.trim();
-      var sub = card.querySelector('.circuit-sub').textContent.trim();
+      var sub  = card.querySelector('.circuit-sub').textContent.trim();
       return { name: name, sub: sub, id: card.id };
     });
     TVESearch.attach(input, {
@@ -288,6 +471,7 @@
       }
     });
   }
+
 }());
 </script>
 </body>

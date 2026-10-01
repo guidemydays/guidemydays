@@ -5,60 +5,234 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link rel="stylesheet" href="/assets/web-travel-style.css">
 <title>Weekly Markets by City — Market Days, Opening Hours and Shopping | Guide My Days</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
-/* Page-specific styles only — inherits base (search input, badge/pill-badge
-   shape + cp-*/sb-*/nt-* tone system, hero-band/eb-* hero) from
-   web-travel-style.css. Pattern copied from essentials/crowd-calendar/ and
-   essentials/festival-finder/ — same wrap/search/legend/section/grid/card
-   shape, page-scoped md-* class names only. */
-.md-wrap { max-width: var(--rail); padding: 0 var(--gutter); margin: 0 auto; }
-
-.md-search-wrap { display: flex; justify-content: center; margin: var(--search-gap, 32px) 0 22px; }
-
-.md-legend {
-  max-width: var(--rail); margin: 0 auto 26px; padding: 10px 18px;
-  background: var(--surface2); border: 1px solid var(--border);
-  border-radius: 10px;
-  display: flex; flex-wrap: wrap; gap: 8px; align-items: center;
-  justify-content: center;
+/* ── design tokens ── */
+:root {
+  --mk-paper:#f9f3e8; --mk-paper2:#ede5d3; --mk-card:#fffcf4;
+  --mk-ink:#1e1208; --mk-ink2:#6b5840;
+  --mk-rust:#C04E1A; --mk-line:#d8ccb8; --mk-shadow:rgba(30,18,8,.13);
+  --mk-serif:"Playfair Display",Georgia,"Times New Roman",serif;
+  --mk-sans:Inter,ui-sans-serif,-apple-system,"Segoe UI",sans-serif;
 }
-.md-legend-label { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: .08em; color: var(--muted); margin-right: 2px; }
-
-.md-section-head { display: flex; align-items: baseline; gap: 10px; margin: 30px 0 14px; padding-bottom: 9px; border-bottom: 2px solid var(--border2); }
-.md-section-head:first-child { margin-top: 0; }
-.md-section-title { font-size: 15px; font-weight: 700; color: var(--text); }
-.md-section-country { font-size: 12px; color: var(--muted); }
-
-.md-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 12px; }
-.md-card {
-  background: var(--surface); border: 1px solid var(--border2); border-radius: 11px;
-  padding: 16px 17px; box-shadow: 0 1px 6px rgba(92,61,17,.05);
-  display: flex; flex-direction: column; gap: 7px;
-  color: inherit; transition: border-color .15s, box-shadow .15s;
+@media(prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){
+    --mk-paper:#1a1510; --mk-paper2:#231e17; --mk-card:#1e1913;
+    --mk-ink:#f0e8d8; --mk-ink2:#a8957c; --mk-line:#3a3028;
+    --mk-shadow:rgba(0,0,0,.35);
+  }
 }
-.md-card:hover { border-color: var(--rust); box-shadow: 0 3px 10px rgba(192,78,26,.12); }
-/* [hidden] specificity trap — .md-card/.md-section's own `display` rule ties
-   the UA [hidden]{display:none} rule at equal specificity and wins (author
-   origin beats UA origin regardless of source order), so the JS filter's
-   `.hidden = true` silently does nothing without this explicit override. */
-.md-card[hidden], .md-section[hidden] { display: none !important; }
-.md-card-top { display: flex; align-items: flex-start; justify-content: space-between; gap: 10px; }
-.md-name { font-size: var(--fs-body,14px); font-weight: 700; color: var(--text); line-height: 1.3; }
-.md-card:hover .md-name { color: var(--rust); }
-.md-meta { font-size: var(--fs-sub,12.5px); color: var(--text); font-weight: 600; }
-.md-place { font-size: var(--fs-sub,12.5px); color: var(--muted); }
-.md-desc { font-size: var(--fs-sub,12.5px); color: var(--muted); line-height: 1.55; margin-top: 2px; }
+:root[data-theme="dark"]{
+  --mk-paper:#1a1510; --mk-paper2:#231e17; --mk-card:#1e1913;
+  --mk-ink:#f0e8d8; --mk-ink2:#a8957c; --mk-line:#3a3028;
+  --mk-shadow:rgba(0,0,0,.35);
+}
+html { scroll-behavior:smooth }
+body { background:var(--mk-paper); color:var(--mk-ink); -webkit-font-smoothing:antialiased; overflow-x:hidden; font-family:var(--mk-sans); }
 
-.md-flash { animation: mdFlash 1.4s ease; }
-@keyframes mdFlash {
-  0% { box-shadow: 0 0 0 3px rgba(192,78,26,.55), 0 3px 10px rgba(192,78,26,.12); }
-  100% { box-shadow: 0 1px 6px rgba(92,61,17,.05); }
+/* subtle diagonal texture */
+body::after {
+  content:""; position:fixed; inset:0; z-index:0; pointer-events:none;
+  background-image:repeating-linear-gradient(
+    -52deg,
+    rgba(192,78,26,.028) 0, rgba(192,78,26,.028) 1px,
+    transparent 1px, transparent 22px
+  );
 }
 
-@media (max-width: 600px) and (pointer: coarse) {
-  .md-wrap { padding: 0 14px; }
-  .md-legend { justify-content: flex-start; }
-  .md-grid { grid-template-columns: 1fr; }
+/* ── HERO ── */
+.mk-hero {
+  position:relative; z-index:1;
+  padding:80px 0 68px;
+  border-bottom:2px solid var(--mk-line);
+}
+.mk-hero-inner {
+  width:min(var(--rail,1040px), calc(100% - 2*var(--gutter,20px)));
+  margin:0 auto;
+  display:grid; grid-template-columns:1fr auto; align-items:center; gap:48px;
+}
+.mk-kick {
+  display:inline-flex; align-items:center; gap:14px;
+  font:800 10px/1 var(--mk-sans); letter-spacing:.28em; text-transform:uppercase;
+  color:var(--mk-rust); margin-bottom:22px;
+}
+.mk-kick::before { content:""; width:28px; height:2px; background:var(--mk-rust); flex-shrink:0; }
+.mk-hero h1 {
+  font:900 clamp(42px,6.2vw,80px)/0.98 var(--mk-serif);
+  letter-spacing:-.035em; margin:0 0 24px; max-width:13ch;
+}
+.mk-hero h1 em { font-style:italic; color:var(--mk-rust); display:block; }
+.mk-hero-desc {
+  font:400 15.5px/1.78 var(--mk-sans); color:var(--mk-ink2);
+  max-width:52ch; margin:0 0 34px;
+}
+.mk-hero-search { position:relative; max-width:400px; }
+.mk-hero-search-icon {
+  position:absolute; left:16px; top:50%; transform:translateY(-50%);
+  width:16px; height:16px; pointer-events:none; opacity:.45; color:var(--mk-ink2);
+}
+.mk-hero-search .search-input { padding-left:44px; }
+
+/* ── hero art ── */
+.mk-hero-art { flex-shrink:0; width:clamp(180px,22vw,270px); opacity:.92; }
+@media(max-width:720px){ .mk-hero-art { display:none; } }
+@media(max-width:640px){ .mk-hero { padding:52px 0 44px; } }
+
+/* ── DAY STRIP — interactive day-of-week filter ── */
+.mk-daystrip {
+  position:relative; z-index:1;
+  background:var(--mk-paper2);
+  border-bottom:1.5px solid var(--mk-line);
+  padding:22px 0;
+}
+.mk-daystrip-inner {
+  width:min(var(--rail,1040px), calc(100% - 2*var(--gutter,20px)));
+  margin:0 auto;
+  display:flex; align-items:flex-start; gap:10px; flex-wrap:wrap;
+}
+.mk-strip-label {
+  font:800 9.5px/1 var(--mk-sans); letter-spacing:.22em; text-transform:uppercase;
+  color:var(--mk-ink2); padding-top:12px; margin-right:2px;
+}
+.mk-day {
+  display:flex; flex-direction:column; align-items:center; gap:5px;
+  padding:10px 13px 9px; min-width:54px;
+  border:1.5px solid var(--mk-line); border-radius:7px; background:var(--mk-card);
+  cursor:pointer; font-family:var(--mk-sans);
+  transition:border-color .18s, background .18s, transform .18s, box-shadow .18s;
+  -webkit-tap-highlight-color:transparent;
+}
+.mk-day:hover { border-color:var(--mk-rust); transform:translateY(-2px); box-shadow:0 4px 12px var(--mk-shadow); }
+.mk-day.is-on {
+  border-color:var(--mk-rust); background:var(--mk-rust); color:#fff;
+  box-shadow:0 4px 14px rgba(192,78,26,.35);
+}
+.mk-day-name { font:800 10px/1 var(--mk-sans); letter-spacing:.1em; text-transform:uppercase; }
+.mk-day-num  { font:700 20px/1 var(--mk-serif); letter-spacing:-.02em; color:var(--mk-ink2); }
+.mk-day.is-on .mk-day-num  { color:rgba(255,255,255,.88); }
+.mk-day.is-on .mk-day-name { color:rgba(255,255,255,.95); }
+.mk-day-track { width:30px; height:3px; background:var(--mk-line); border-radius:2px; overflow:hidden; }
+.mk-day-fill  { height:100%; background:var(--mk-rust); border-radius:2px; }
+.mk-day.is-on .mk-day-track { background:rgba(255,255,255,.25); }
+.mk-day.is-on .mk-day-fill  { background:rgba(255,255,255,.75); }
+
+/* ── TYPE FILTER BAR — uses shared pill/badge classes from web-travel-style.css ── */
+.mk-typebar {
+  position:relative; z-index:1;
+  border-bottom:1px solid var(--mk-line);
+  padding:16px 0;
+}
+.mk-typebar-inner {
+  width:min(var(--rail,1040px), calc(100% - 2*var(--gutter,20px)));
+  margin:0 auto;
+  display:flex; align-items:center; gap:8px; flex-wrap:wrap;
+}
+.mk-type-label {
+  font:800 9.5px/1 var(--mk-sans); letter-spacing:.22em; text-transform:uppercase;
+  color:var(--mk-ink2); margin-right:4px; flex-shrink:0;
+}
+
+/* ── MAIN ── */
+.mk-main {
+  position:relative; z-index:1;
+  width:min(var(--rail,1040px), calc(100% - 2*var(--gutter,20px)));
+  margin:0 auto; padding:52px 0 96px;
+}
+
+/* ── city section header ── */
+.mk-city-section { margin-bottom:52px; }
+.mk-city-section[hidden] { display:none !important; }
+.mk-city-hd { display:flex; align-items:center; gap:14px; margin-bottom:20px; }
+.mk-city-hd-left { display:flex; align-items:baseline; gap:10px; white-space:nowrap; }
+.mk-city-nm { font:800 13px/1 var(--mk-sans); letter-spacing:.22em; text-transform:uppercase; color:var(--mk-ink); }
+.mk-city-country { font:500 11px/1 var(--mk-sans); letter-spacing:.06em; text-transform:uppercase; color:var(--mk-ink2); }
+.mk-city-rule { flex:1; height:1px; background:var(--mk-line); }
+
+/* ── GRID ── */
+.mk-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(300px,1fr)); gap:16px; }
+
+/* ── CARD ── */
+.mk-card {
+  display:flex; flex-direction:column;
+  background:var(--mk-card); border:1.5px solid var(--mk-line); border-radius:7px;
+  overflow:hidden; text-decoration:none; color:inherit;
+  box-shadow:0 2px 8px var(--mk-shadow);
+  opacity:0; transform:translateY(20px);
+  transition:border-color .22s, box-shadow .22s, transform .22s, opacity .22s;
+  will-change:transform,opacity;
+}
+.mk-card.mk-in { opacity:1; transform:none; }
+.mk-card[hidden] { display:none !important; }
+.mk-card:hover { border-color:var(--mk-rust); box-shadow:0 10px 32px var(--mk-shadow); transform:translateY(-4px); }
+
+/* awning stripe — colour-coded per category — no shared class equivalent */
+.mk-awning {
+  height:8px; flex-shrink:0;
+  background:repeating-linear-gradient(90deg, var(--aw1) 0, var(--aw1) 14px, var(--aw2) 14px, var(--aw2) 28px);
+}
+.mk-card[data-type="food"]   { --aw1:#6ea67c; --aw2:#d0ecd8; }
+.mk-card[data-type="flea"]   { --aw1:#b8893a; --aw2:#f0e2c4; }
+.mk-card[data-type="craft"]  { --aw1:#9070b4; --aw2:#e8d8f4; }
+.mk-card[data-type="bazaar"] { --aw1:#C04E1A; --aw2:#f8dac8; }
+@media(prefers-color-scheme:dark){
+  :root:not([data-theme="light"]) .mk-card[data-type="food"]   { --aw1:#3d6446; --aw2:#1e2a20; }
+  :root:not([data-theme="light"]) .mk-card[data-type="flea"]   { --aw1:#7a5a22; --aw2:#2a2218; }
+  :root:not([data-theme="light"]) .mk-card[data-type="craft"]  { --aw1:#5e3e7a; --aw2:#221622; }
+  :root:not([data-theme="light"]) .mk-card[data-type="bazaar"] { --aw1:#8a2e10; --aw2:#261410; }
+}
+:root[data-theme="dark"] .mk-card[data-type="food"]   { --aw1:#3d6446; --aw2:#1e2a20; }
+:root[data-theme="dark"] .mk-card[data-type="flea"]   { --aw1:#7a5a22; --aw2:#2a2218; }
+:root[data-theme="dark"] .mk-card[data-type="craft"]  { --aw1:#5e3e7a; --aw2:#221622; }
+:root[data-theme="dark"] .mk-card[data-type="bazaar"] { --aw1:#8a2e10; --aw2:#261410; }
+
+.mk-card-body { padding:18px 20px 20px; display:flex; flex-direction:column; gap:0; flex:1; }
+.mk-card-top  { display:flex; align-items:flex-start; justify-content:space-between; gap:10px; margin-bottom:8px; }
+.mk-card-name { font:700 clamp(17px,2.2vw,21px)/1.2 var(--mk-serif); letter-spacing:-.01em; color:var(--mk-ink); }
+.mk-card:hover .mk-card-name { color:var(--mk-rust); }
+
+/* schedule stamp — dashed circle showing open days */
+.mk-sched {
+  flex-shrink:0; width:60px; height:60px; border-radius:50%;
+  border:2px dashed var(--mk-line);
+  display:flex; flex-direction:column; align-items:center; justify-content:center;
+  text-align:center; gap:3px; margin-top:1px; padding:4px;
+  transition:border-color .2s;
+}
+.mk-sched-text { font:800 7.5px/1.35 var(--mk-sans); letter-spacing:.06em; text-transform:uppercase; color:var(--mk-ink2); }
+.mk-card:hover .mk-sched { border-color:var(--mk-rust); }
+.mk-card:hover .mk-sched-text { color:var(--mk-rust); }
+
+.mk-card-hours { font:600 11.5px/1.45 var(--mk-sans); color:var(--mk-rust); margin-bottom:5px; }
+.mk-card-place { font:500 12px/1.4 var(--mk-sans); color:var(--mk-ink2); margin-bottom:12px; }
+.mk-card-desc  { font:400 13.5px/1.62 var(--mk-sans); color:var(--mk-ink2); margin-top:auto; }
+
+/* flash on search pick */
+.mk-flash { animation:mkFlash 1.5s ease; }
+@keyframes mkFlash {
+  0%   { box-shadow:0 0 0 4px rgba(192,78,26,.5), 0 10px 32px var(--mk-shadow); border-color:var(--mk-rust); }
+  100% { box-shadow:0 2px 8px var(--mk-shadow); }
+}
+
+/* empty state — uses .empty-state shape from web-travel-style.css for consistency */
+.mk-empty { display:none; }
+.mk-empty-inner {
+  padding:60px 32px; border:1.5px solid var(--mk-line);
+  border-radius:7px; background:var(--mk-card); text-align:center;
+}
+.mk-empty-head { font:700 20px/1 var(--mk-serif); margin-bottom:10px; }
+.mk-empty-sub  { font:400 14px/1.6 var(--mk-sans); color:var(--mk-ink2); }
+
+@media(max-width:600px){
+  .mk-grid { grid-template-columns:1fr; }
+  .mk-day  { min-width:44px; padding:8px 10px; }
+  .mk-day-num { font-size:17px; }
+  .mk-day-track { width:24px; }
+  .mk-typebar-inner { gap:6px; }
+}
+@media(prefers-reduced-motion:reduce){
+  .mk-card { opacity:1 !important; transform:none !important; transition:none; }
 }
 </style>
 <link rel="stylesheet" href="/assets/mobile.css?v=53">
@@ -83,8 +257,8 @@
 <link rel="icon" href="/assets/icons/favicon-32.png" sizes="32x32" type="image/png">
 <link rel="apple-touch-icon" href="/assets/icons/apple-touch-icon.png">
 <link rel="manifest" href="/manifest.webmanifest">
-<meta name="theme-color" content="#f5f4f0" media="(prefers-color-scheme: light)">
-<meta name="theme-color" content="#1a1917" media="(prefers-color-scheme: dark)">
+<meta name="theme-color" content="#f9f3e8" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#1a1510" media="(prefers-color-scheme: dark)">
 <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"WebPage","@id":"https://guidemydays.com/essentials/market-days/#page","name":"Weekly Markets by City — Market Days, Opening Hours and Shopping","description":"Sixteen markets across thirteen cities that have run on a fixed weekly rhythm for years, not a one-off event — day, hours, and what's actually on sale.","url":"https://guidemydays.com/essentials/market-days/","inLanguage":"en","isPartOf":{"@id":"https://guidemydays.com/#website"}},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://guidemydays.com/"},{"@type":"ListItem","position":2,"name":"Weekly Markets by City — Market Days, Opening Hours and Shopping","item":"https://guidemydays.com/essentials/market-days/"}]}]}</script>
 <!-- seo:end -->
 </head>
@@ -92,282 +266,585 @@
 <div id="toolbar-mount" data-depth="2" data-maxwidth="1040" data-updated="2026-09-18"></div>
 <script src="/assets/toolbar.js?v=127"></script>
 
-  <div class="hero-band eb-hero">
-    <span class="eb-kicker">Market Days</span>
-    <div class="eb-copy">
-      <h1 class="eb-title">Where the locals shop, <em>and what day to show up.</em></h1>
-      <p class="eb-intro">Sixteen markets across thirteen cities that have run on a fixed weekly rhythm for years, not a one-off event — day, hours, and what's actually on sale, from Borough Market's cheese counters to Istanbul's Grand Bazaar. Every entry links to its city guide. This isn't every market on earth, just the ones stable and well-known enough to plan a morning around.</p>
+<!-- ═══════════ HERO ═══════════ -->
+<section class="mk-hero">
+  <div class="mk-hero-inner">
+    <div>
+      <div class="mk-kick">Market Days</div>
+      <h1>Where<br>the locals<br><em>shop.</em></h1>
+      <p class="mk-hero-desc">Sixteen markets across thirteen cities — each running on a fixed weekly rhythm for years, not a one-off event. Day, hours, what's actually on sale. Every entry links to its city guide.</p>
+      <div class="mk-hero-search">
+        <svg class="mk-hero-search-icon" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true">
+          <circle cx="8.5" cy="8.5" r="5.5"/><path d="M15 15l-3.5-3.5"/>
+        </svg>
+        <input type="search" id="mk-search" class="search-input" placeholder="City or market name" aria-label="Search markets by city or name" autocomplete="off" style="width:100%;">
+      </div>
     </div>
-    <div class="eb-graphic" aria-hidden="true"><svg viewBox="0 0 24 24" aria-hidden="true">
-      <defs>
-        <linearGradient id="md-basket" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#d8bd8a"/><stop offset="1" stop-color="#a9824e"/></linearGradient>
-      </defs>
-      <path d="M5 11c0-3.5 3-6.5 7-6.5s7 3 7 6.5" fill="none" stroke="#8a6a3e" stroke-width="1.1" stroke-linecap="round"/>
-      <path d="M4.2 11.5h15.6l-1.8 8.3a2 2 0 0 1-1.95 1.6H7.95a2 2 0 0 1-1.95-1.6z" fill="url(#md-basket)" stroke="#6e5527" stroke-width="0.5"/>
-      <path d="M6 13.5h12M5.6 16h12.8M6.4 18.5h11.2" stroke="#6e5527" stroke-width="0.4" opacity="0.5"/>
-      <circle cx="9" cy="9.6" r="1.7" fill="#7cb384" stroke="#3a5449" stroke-width="0.4"/>
-      <circle cx="12.3" cy="8.6" r="1.9" fill="#e0763a" stroke="#8a4a10" stroke-width="0.4"/>
-      <circle cx="15.4" cy="9.8" r="1.5" fill="#c8383a" stroke="#7a1a1a" stroke-width="0.4"/>
-    </svg></div>
+    <!-- decorative market stall illustration -->
+    <div class="mk-hero-art" aria-hidden="true">
+      <svg viewBox="0 0 260 310" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <linearGradient id="hg-awn" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0" stop-color="#C04E1A"/><stop offset="1" stop-color="#8a3410"/>
+          </linearGradient>
+          <linearGradient id="hg-ctr" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0" stop-color="#d4a96a"/><stop offset="1" stop-color="#b88a4a"/>
+          </linearGradient>
+          <filter id="hg-sh" x="-20%" y="-20%" width="140%" height="140%">
+            <feDropShadow dx="0" dy="3" stdDeviation="5" flood-color="rgba(30,18,8,.18)"/>
+          </filter>
+        </defs>
+        <!-- posts -->
+        <rect x="18" y="58" width="7" height="230" rx="3" fill="#7a5830" opacity=".7"/>
+        <rect x="235" y="58" width="7" height="230" rx="3" fill="#7a5830" opacity=".7"/>
+        <!-- awning with scallop -->
+        <path d="M12 58 L12 100
+          Q28 116 44 100 Q60 84 76 100 Q92 116 108 100 Q124 84 140 100
+          Q156 116 172 100 Q188 84 204 100 Q220 116 236 100 Q252 84 252 100
+          L252 58 Z" fill="url(#hg-awn)" filter="url(#hg-sh)"/>
+        <path d="M12 58 L12 82 Q20 90 28 84" fill="none" stroke="rgba(255,255,255,.18)" stroke-width="7"/>
+        <path d="M76 58 L76 82 Q84 90 92 84" fill="none" stroke="rgba(255,255,255,.18)" stroke-width="7"/>
+        <path d="M140 58 L140 82 Q148 90 156 84" fill="none" stroke="rgba(255,255,255,.18)" stroke-width="7"/>
+        <path d="M204 58 L204 82 Q212 90 220 84" fill="none" stroke="rgba(255,255,255,.18)" stroke-width="7"/>
+        <rect x="12" y="54" width="240" height="10" rx="3" fill="#8a3410"/>
+        <!-- sign board -->
+        <rect x="68" y="108" width="126" height="30" rx="4" fill="#fffcf0" stroke="#d8ccb8" stroke-width="1.5"/>
+        <text x="131" y="128" text-anchor="middle" font-family="Georgia,serif" font-size="14" font-weight="700" fill="#C04E1A" letter-spacing="1.5">FRESH MARKET</text>
+        <!-- counter -->
+        <rect x="18" y="145" width="226" height="50" rx="4" fill="url(#hg-ctr)" filter="url(#hg-sh)"/>
+        <rect x="18" y="188" width="226" height="7" rx="0 0 4 4" fill="#a07038"/>
+        <!-- tomatoes -->
+        <circle cx="52" cy="164" r="13" fill="#d84040" stroke="#9a2020" stroke-width="1"/>
+        <circle cx="64" cy="160" r="13" fill="#d84040" stroke="#9a2020" stroke-width="1" opacity=".7"/>
+        <circle cx="58" cy="172" r="11" fill="#c83030" stroke="#9a2020" stroke-width="1" opacity=".85"/>
+        <path d="M52 151 Q56 144 52 138 Q48 144 52 151" fill="#3a7a30"/>
+        <!-- lemons -->
+        <ellipse cx="112" cy="166" rx="12" ry="9" fill="#e8c830" stroke="#b09020" stroke-width="1"/>
+        <ellipse cx="127" cy="162" rx="12" ry="9" fill="#e8c830" stroke="#b09020" stroke-width="1" opacity=".8"/>
+        <ellipse cx="119" cy="173" rx="10" ry="8" fill="#d4b420" stroke="#b09020" stroke-width="1" opacity=".9"/>
+        <!-- herbs -->
+        <ellipse cx="182" cy="160" rx="15" ry="11" fill="#4a9a54" stroke="#2a6a34" stroke-width="1"/>
+        <ellipse cx="193" cy="169" rx="12" ry="10" fill="#5aaa64" stroke="#2a6a34" stroke-width="1" opacity=".8"/>
+        <ellipse cx="170" cy="169" rx="10" ry="9" fill="#3a8a44" stroke="#2a6a34" stroke-width="1" opacity=".9"/>
+        <!-- basket left -->
+        <path d="M24 208 Q37 188 50 208" fill="none" stroke="#8a6030" stroke-width="2.5" stroke-linecap="round"/>
+        <path d="M22 213 L52 213 L56 238 L18 238 Z" fill="#c8a060" stroke="#8a6030" stroke-width="1.2"/>
+        <path d="M24 218 L54 218 M23 224 L55 224 M22 230 L56 230" stroke="#8a6030" stroke-width=".7" opacity=".5"/>
+        <circle cx="30" cy="210" r="5" fill="#c84830" opacity=".85"/>
+        <circle cx="40" cy="208" r="6" fill="#e8a030" opacity=".85"/>
+        <circle cx="49" cy="211" r="4" fill="#d06020" opacity=".85"/>
+        <!-- paper bag right -->
+        <rect x="196" y="206" width="46" height="36" rx="4" fill="#f0e8c8" stroke="#c8b880" stroke-width="1.5"/>
+        <path d="M207 206 Q219 194 231 206" fill="none" stroke="#c8b880" stroke-width="2" stroke-linecap="round"/>
+        <text x="219" y="229" text-anchor="middle" font-family="Georgia,serif" font-size="9" fill="#8a6830" opacity=".75">MARKET</text>
+        <!-- hanging price tags -->
+        <line x1="88" y1="145" x2="84" y2="122" stroke="#c8b880" stroke-width="1" stroke-dasharray="2 2"/>
+        <rect x="70" y="108" width="28" height="16" rx="3" fill="#fefaf0" stroke="#d8ccb8" stroke-width="1"/>
+        <circle cx="84" cy="108" r="2" fill="none" stroke="#d8ccb8" stroke-width="1"/>
+        <line x1="174" y1="145" x2="170" y2="122" stroke="#c8b880" stroke-width="1" stroke-dasharray="2 2"/>
+        <rect x="156" y="108" width="28" height="16" rx="3" fill="#fefaf0" stroke="#d8ccb8" stroke-width="1"/>
+        <circle cx="170" cy="108" r="2" fill="none" stroke="#d8ccb8" stroke-width="1"/>
+        <!-- decorative seal at bottom -->
+        <circle cx="131" cy="283" r="22" fill="none" stroke="#C04E1A" stroke-width="1.5" stroke-dasharray="3 3" opacity=".45"/>
+        <circle cx="131" cy="283" r="14" fill="none" stroke="#C04E1A" stroke-width=".7" opacity=".3"/>
+        <text x="131" y="287" text-anchor="middle" font-family="Georgia,serif" font-size="9" fill="#C04E1A" opacity=".55" font-weight="700">EST.</text>
+      </svg>
+    </div>
   </div>
+</section>
+
 <script src="/assets/search-autocomplete.js?v=16"></script>
 
-<div class="md-wrap">
-
-  <div class="md-search-wrap">
-    <input type="search" id="md-search" class="search-input" placeholder="City or market" aria-label="Search markets by city or name" autocomplete="off" style="width:var(--search-w, 440px);max-width:100%;">
+<!-- ═══════════ DAY STRIP ═══════════ -->
+<div class="mk-daystrip" id="mk-daystrip">
+  <div class="mk-daystrip-inner">
+    <span class="mk-strip-label">Open on</span>
+    <!-- bar widths relative to Sat (16 = 100%) -->
+    <button type="button" class="mk-day" data-day="mon" aria-pressed="false">
+      <span class="mk-day-name">Mon</span>
+      <span class="mk-day-num">12</span>
+      <div class="mk-day-track"><div class="mk-day-fill" style="width:75%"></div></div>
+    </button>
+    <button type="button" class="mk-day" data-day="tue" aria-pressed="false">
+      <span class="mk-day-name">Tue</span>
+      <span class="mk-day-num">14</span>
+      <div class="mk-day-track"><div class="mk-day-fill" style="width:87.5%"></div></div>
+    </button>
+    <button type="button" class="mk-day" data-day="wed" aria-pressed="false">
+      <span class="mk-day-name">Wed</span>
+      <span class="mk-day-num">14</span>
+      <div class="mk-day-track"><div class="mk-day-fill" style="width:87.5%"></div></div>
+    </button>
+    <button type="button" class="mk-day" data-day="thu" aria-pressed="false">
+      <span class="mk-day-name">Thu</span>
+      <span class="mk-day-num">14</span>
+      <div class="mk-day-track"><div class="mk-day-fill" style="width:87.5%"></div></div>
+    </button>
+    <button type="button" class="mk-day" data-day="fri" aria-pressed="false">
+      <span class="mk-day-name">Fri</span>
+      <span class="mk-day-num">14</span>
+      <div class="mk-day-track"><div class="mk-day-fill" style="width:87.5%"></div></div>
+    </button>
+    <button type="button" class="mk-day" data-day="sat" aria-pressed="false">
+      <span class="mk-day-name">Sat</span>
+      <span class="mk-day-num">16</span>
+      <div class="mk-day-track"><div class="mk-day-fill" style="width:100%"></div></div>
+    </button>
+    <button type="button" class="mk-day" data-day="sun" aria-pressed="false">
+      <span class="mk-day-name">Sun</span>
+      <span class="mk-day-num">10</span>
+      <div class="mk-day-track"><div class="mk-day-fill" style="width:62.5%"></div></div>
+    </button>
   </div>
+</div>
 
-  <div class="md-legend" id="md-legend">
-    <span class="md-legend-label">Filter:</span>
+<!-- ═══════════ TYPE FILTER — shared pill/badge classes ═══════════ -->
+<div class="mk-typebar">
+  <div class="mk-typebar-inner" id="mk-typebar">
+    <span class="mk-type-label">Type</span>
     <button type="button" class="pill pill-badge nt-light-grey hov-darken is-on" data-filter="all" aria-pressed="true">All</button>
     <button type="button" class="pill pill-badge cp-dusty-teal hov-darken" data-filter="food" aria-pressed="false">Food &amp; produce</button>
     <button type="button" class="pill pill-badge cp-bronze hov-darken" data-filter="flea" aria-pressed="false">Flea &amp; antiques</button>
     <button type="button" class="pill pill-badge cp-soft-plum hov-darken" data-filter="craft" aria-pressed="false">Crafts &amp; design</button>
     <button type="button" class="pill pill-badge cp-honey hov-darken" data-filter="bazaar" aria-pressed="false">Bazaar</button>
   </div>
-
-  <div id="md-results">
-
-    <div class="md-section" data-city="Bangkok">
-      <div class="md-section-head"><span class="md-section-title">Bangkok</span><span class="md-section-country">Thailand</span></div>
-      <div class="md-grid">
-        <a href="/guides/bangkok.html" class="md-card" data-type="bazaar" data-name="Chatuchak Weekend Market" data-city="Bangkok" data-country="Thailand">
-          <div class="md-card-top"><span class="md-name">Chatuchak Weekend Market</span><span class="badge cp-honey">Bazaar</span></div>
-          <div class="md-meta">Saturday–Sunday · roughly 9:00–18:00</div>
-          <div class="md-place">Chatuchak district</div>
-          <div class="md-desc">One of the world's largest weekend markets — more than 8,000 stalls across 27 sections, selling everything from antiques to streetwear to houseplants.</div>
-        </a>
-      </div>
-    </div>
-
-    <div class="md-section" data-city="Barcelona">
-      <div class="md-section-head"><span class="md-section-title">Barcelona</span><span class="md-section-country">Spain</span></div>
-      <div class="md-grid">
-        <a href="/guides/barcelona.html" class="md-card" data-type="food" data-name="La Boqueria" data-city="Barcelona" data-country="Spain">
-          <div class="md-card-top"><span class="md-name">La Boqueria</span><span class="badge cp-dusty-teal">Food &amp; produce</span></div>
-          <div class="md-meta">Monday–Saturday · 8:00–20:30 · closed Sunday</div>
-          <div class="md-place">La Rambla, Ciutat Vella</div>
-          <div class="md-desc">Barcelona's flagship food market, just off La Rambla — produce, seafood, jamón, and tapas counters under a wrought-iron and stained-glass roof.</div>
-        </a>
-      </div>
-    </div>
-
-    <div class="md-section" data-city="Berlin">
-      <div class="md-section-head"><span class="md-section-title">Berlin</span><span class="md-section-country">Germany</span></div>
-      <div class="md-grid">
-        <a href="/guides/berlin.html" class="md-card" data-type="flea" data-name="Mauerpark Flohmarkt" data-city="Berlin" data-country="Germany">
-          <div class="md-card-top"><span class="md-name">Mauerpark Flohmarkt</span><span class="badge cp-bronze">Flea &amp; antiques</span></div>
-          <div class="md-meta">Sundays only · roughly 9:00–18:00</div>
-          <div class="md-place">Prenzlauer Berg</div>
-          <div class="md-desc">Berlin's best-known flea market, spread across the park that once sat inside the Wall's death strip — secondhand clothes, records, and furniture.</div>
-        </a>
-      </div>
-    </div>
-
-    <div class="md-section" data-city="Istanbul">
-      <div class="md-section-head"><span class="md-section-title">Istanbul</span><span class="md-section-country">Turkey</span></div>
-      <div class="md-grid">
-        <a href="/guides/istanbul.html" class="md-card" data-type="bazaar" data-name="Grand Bazaar" data-city="Istanbul" data-country="Turkey">
-          <div class="md-card-top"><span class="md-name">Grand Bazaar (Kapalıçarşı)</span><span class="badge cp-honey">Bazaar</span></div>
-          <div class="md-meta">Monday–Saturday · 9:00–19:00 · closed Sunday</div>
-          <div class="md-place">Fatih, between Beyazıt and Nuruosmaniye</div>
-          <div class="md-desc">One of the world's oldest and largest covered markets — more than 4,000 shops under vaulted stone ceilings, trading on this site since the 15th century.</div>
-        </a>
-        <a href="/guides/istanbul.html" class="md-card" data-type="food" data-name="Spice Bazaar" data-city="Istanbul" data-country="Turkey">
-          <div class="md-card-top"><span class="md-name">Spice Bazaar (Mısır Çarşısı)</span><span class="badge cp-dusty-teal">Food &amp; produce</span></div>
-          <div class="md-meta">Daily · roughly 8:00–19:30, shorter Sunday</div>
-          <div class="md-place">Eminönü, by the Golden Horn</div>
-          <div class="md-desc">A smaller, L-shaped covered market — spices, Turkish delight, and dried fruit stalls that have traded here since the 1660s.</div>
-        </a>
-      </div>
-    </div>
-
-    <div class="md-section" data-city="Kyoto">
-      <div class="md-section-head"><span class="md-section-title">Kyoto</span><span class="md-section-country">Japan</span></div>
-      <div class="md-grid">
-        <a href="/guides/kyoto.html" class="md-card" data-type="food" data-name="Nishiki Market" data-city="Kyoto" data-country="Japan">
-          <div class="md-card-top"><span class="md-name">Nishiki Market</span><span class="badge cp-dusty-teal">Food &amp; produce</span></div>
-          <div class="md-meta">Daily · most shops roughly 9:00–18:00</div>
-          <div class="md-place">Nakagyo-ku</div>
-          <div class="md-desc">A five-block covered arcade known as "Kyoto's Kitchen" — pickles, knives, tea, and street food from shops that have traded here for generations. Some close Wednesdays.</div>
-        </a>
-      </div>
-    </div>
-
-    <div class="md-section" data-city="London">
-      <div class="md-section-head"><span class="md-section-title">London</span><span class="md-section-country">England</span></div>
-      <div class="md-grid">
-        <a href="/guides/london.html" class="md-card" data-type="food" data-name="Borough Market" data-city="London" data-country="England">
-          <div class="md-card-top"><span class="md-name">Borough Market</span><span class="badge cp-dusty-teal">Food &amp; produce</span></div>
-          <div class="md-meta">Tuesday–Friday 10:00–17:00 · Saturday 9:00–17:00 · Sunday 10:00–16:00 · closed Monday</div>
-          <div class="md-place">Southwark, by London Bridge station</div>
-          <div class="md-desc">London's oldest food market, trading on this site since the 13th century — cheesemongers, fishmongers, and prepared-food stalls fanning out from London Bridge.</div>
-        </a>
-        <a href="/guides/london.html" class="md-card" data-type="flea" data-name="Portobello Road Market" data-city="London" data-country="England">
-          <div class="md-card-top"><span class="md-name">Portobello Road Market</span><span class="badge cp-bronze">Flea &amp; antiques</span></div>
-          <div class="md-meta">Antiques Saturday, 8:00–18:00 · general market Mon–Sat</div>
-          <div class="md-place">Notting Hill</div>
-          <div class="md-desc">Nearly a mile of stalls along one street — antiques and vintage dominate Saturdays, with fruit, veg, and fashion trading the rest of the week.</div>
-        </a>
-        <a href="/guides/london.html" class="md-card" data-type="craft" data-name="Camden Market" data-city="London" data-country="England">
-          <div class="md-card-top"><span class="md-name">Camden Market</span><span class="badge cp-soft-plum">Crafts &amp; design</span></div>
-          <div class="md-meta">Daily · most stalls roughly 10:00–18:00</div>
-          <div class="md-place">Camden Town</div>
-          <div class="md-desc">A cluster of connected markets along Regent's Canal — crafts, vintage clothing, and street food packed into old stables and warehouses.</div>
-        </a>
-      </div>
-    </div>
-
-    <div class="md-section" data-city="Madrid">
-      <div class="md-section-head"><span class="md-section-title">Madrid</span><span class="md-section-country">Spain</span></div>
-      <div class="md-grid">
-        <a href="/guides/madrid.html" class="md-card" data-type="food" data-name="Mercado de San Miguel" data-city="Madrid" data-country="Spain">
-          <div class="md-card-top"><span class="md-name">Mercado de San Miguel</span><span class="badge cp-dusty-teal">Food &amp; produce</span></div>
-          <div class="md-meta">Daily · roughly 10:00–24:00, later Thu–Sat</div>
-          <div class="md-place">La Latina, next to Plaza Mayor</div>
-          <div class="md-desc">A restored 1916 iron-and-glass market building turned upscale food hall — tapas, wine, and pintxos counters rather than raw produce stalls.</div>
-        </a>
-      </div>
-    </div>
-
-    <div class="md-section" data-city="Paris">
-      <div class="md-section-head"><span class="md-section-title">Paris</span><span class="md-section-country">France</span></div>
-      <div class="md-grid">
-        <a href="/guides/paris.html" class="md-card" data-type="food" data-name="Marché d'Aligre" data-city="Paris" data-country="France">
-          <div class="md-card-top"><span class="md-name">Marché d'Aligre</span><span class="badge cp-dusty-teal">Food &amp; produce</span></div>
-          <div class="md-meta">Tuesday–Sunday mornings · roughly 7:30–13:30 · closed Monday</div>
-          <div class="md-place">Place d'Aligre, 12th arrondissement</div>
-          <div class="md-desc">One of Paris's last true neighborhood markets — a covered food hall and open-air produce stalls, with a small flea market for secondhand goods in the same square.</div>
-        </a>
-      </div>
-    </div>
-
-    <div class="md-section" data-city="Santiago">
-      <div class="md-section-head"><span class="md-section-title">Santiago</span><span class="md-section-country">Chile</span></div>
-      <div class="md-grid">
-        <a href="/guides/santiago.html" class="md-card" data-type="food" data-name="Mercado Central" data-city="Santiago" data-country="Chile">
-          <div class="md-card-top"><span class="md-name">Mercado Central</span><span class="badge cp-dusty-teal">Food &amp; produce</span></div>
-          <div class="md-meta">Daily · roughly 6:00–17:00, shorter Sunday</div>
-          <div class="md-place">Centro, near Estación Mapocho</div>
-          <div class="md-desc">A wrought-iron market hall built in 1872 — fish and seafood stalls surround the sit-down marisquerías at its center, a Santiago lunch institution.</div>
-        </a>
-      </div>
-    </div>
-
-    <div class="md-section" data-city="São Paulo">
-      <div class="md-section-head"><span class="md-section-title">São Paulo</span><span class="md-section-country">Brazil</span></div>
-      <div class="md-grid">
-        <a href="/guides/sao-paulo.html" class="md-card" data-type="food" data-name="Mercado Municipal" data-city="São Paulo" data-country="Brazil">
-          <div class="md-card-top"><span class="md-name">Mercado Municipal (Mercadão)</span><span class="badge cp-dusty-teal">Food &amp; produce</span></div>
-          <div class="md-meta">Daily · roughly 6:00–18:00, Sunday until 16:00</div>
-          <div class="md-place">Centro</div>
-          <div class="md-desc">A 1933 stained-glass market hall famous for its mortadella sandwiches — produce, spices, and dried-fruit stalls beneath one of the city's grandest interiors.</div>
-        </a>
-      </div>
-    </div>
-
-    <div class="md-section" data-city="Tokyo">
-      <div class="md-section-head"><span class="md-section-title">Tokyo</span><span class="md-section-country">Japan</span></div>
-      <div class="md-grid">
-        <a href="/guides/tokyo.html" class="md-card" data-type="food" data-name="Tsukiji Outer Market" data-city="Tokyo" data-country="Japan">
-          <div class="md-card-top"><span class="md-name">Tsukiji Outer Market</span><span class="badge cp-dusty-teal">Food &amp; produce</span></div>
-          <div class="md-meta">Roughly 5:00–14:00 · many closed Sunday, hours vary by shop</div>
-          <div class="md-place">Tsukiji, Chuo</div>
-          <div class="md-desc">The retail market that stayed when Tsukiji's wholesale fish auction moved to Toyosu — sushi counters, knife shops, and grilled seafood skewers in narrow lanes.</div>
-        </a>
-      </div>
-    </div>
-
-    <div class="md-section" data-city="Venice">
-      <div class="md-section-head"><span class="md-section-title">Venice</span><span class="md-section-country">Italy</span></div>
-      <div class="md-grid">
-        <a href="/guides/venice.html" class="md-card" data-type="food" data-name="Rialto Market" data-city="Venice" data-country="Italy">
-          <div class="md-card-top"><span class="md-name">Rialto Market (Mercato di Rialto)</span><span class="badge cp-dusty-teal">Food &amp; produce</span></div>
-          <div class="md-meta">Monday–Saturday mornings · roughly 7:00–13:30</div>
-          <div class="md-place">San Polo, foot of the Rialto Bridge</div>
-          <div class="md-desc">Venice's produce and fish market, trading beside the Grand Canal for centuries — the fish hall (Pescaria) is closed Sunday and Monday.</div>
-        </a>
-      </div>
-    </div>
-
-    <div class="md-section" data-city="Vienna">
-      <div class="md-section-head"><span class="md-section-title">Vienna</span><span class="md-section-country">Austria</span></div>
-      <div class="md-grid">
-        <a href="/guides/vienna.html" class="md-card" data-type="food" data-name="Naschmarkt" data-city="Vienna" data-country="Austria">
-          <div class="md-card-top"><span class="md-name">Naschmarkt</span><span class="badge cp-dusty-teal">Food &amp; produce</span></div>
-          <div class="md-meta">Monday–Saturday · roughly 6:00–19:30, Sat until 18:00 · closed Sunday</div>
-          <div class="md-place">Between Wieden and Mariahilf</div>
-          <div class="md-desc">Vienna's largest and oldest market — produce, spices, and food stalls running along a narrow strip; a flea market takes over the western end on Saturdays.</div>
-        </a>
-      </div>
-    </div>
-
-  </div>
-
-  <div id="md-empty" class="empty-state" hidden>
-    <div class="empty-state-text">No markets match this filter.</div>
-  </div>
-
 </div>
+
+<!-- ═══════════ MARKET LISTINGS ═══════════ -->
+<main class="mk-main" id="mk-results">
+
+  <div class="mk-city-section" data-city="Bangkok">
+    <div class="mk-city-hd">
+      <div class="mk-city-hd-left"><span class="mk-city-nm">Bangkok</span><span class="mk-city-country">Thailand</span></div>
+      <div class="mk-city-rule"></div>
+    </div>
+    <div class="mk-grid">
+      <a href="/guides/bangkok.html" class="mk-card" data-type="bazaar" data-name="Chatuchak Weekend Market" data-city="Bangkok" data-country="Thailand" data-days="sat,sun">
+        <div class="mk-awning"></div>
+        <div class="mk-card-body">
+          <div class="mk-card-top">
+            <span class="mk-card-name">Chatuchak Weekend Market</span>
+            <div class="mk-sched"><span class="mk-sched-text">SAT &amp; SUN</span></div>
+          </div>
+          <div class="mk-card-hours">Saturday–Sunday · roughly 9:00–18:00</div>
+          <div class="mk-card-place">Chatuchak district</div>
+          <div class="mk-card-desc">One of the world's largest weekend markets — more than 8,000 stalls across 27 sections, selling everything from antiques to streetwear to houseplants.</div>
+          <div style="margin-top:14px"><span class="badge cp-honey">Bazaar</span></div>
+        </div>
+      </a>
+    </div>
+  </div>
+
+  <div class="mk-city-section" data-city="Barcelona">
+    <div class="mk-city-hd">
+      <div class="mk-city-hd-left"><span class="mk-city-nm">Barcelona</span><span class="mk-city-country">Spain</span></div>
+      <div class="mk-city-rule"></div>
+    </div>
+    <div class="mk-grid">
+      <a href="/guides/barcelona.html" class="mk-card" data-type="food" data-name="La Boqueria" data-city="Barcelona" data-country="Spain" data-days="mon,tue,wed,thu,fri,sat">
+        <div class="mk-awning"></div>
+        <div class="mk-card-body">
+          <div class="mk-card-top">
+            <span class="mk-card-name">La Boqueria</span>
+            <div class="mk-sched"><span class="mk-sched-text">MON–SAT</span></div>
+          </div>
+          <div class="mk-card-hours">Monday–Saturday · 8:00–20:30 · closed Sunday</div>
+          <div class="mk-card-place">La Rambla, Ciutat Vella</div>
+          <div class="mk-card-desc">Barcelona's flagship food market, just off La Rambla — produce, seafood, jamón, and tapas counters under a wrought-iron and stained-glass roof.</div>
+          <div style="margin-top:14px"><span class="badge cp-dusty-teal">Food &amp; produce</span></div>
+        </div>
+      </a>
+    </div>
+  </div>
+
+  <div class="mk-city-section" data-city="Berlin">
+    <div class="mk-city-hd">
+      <div class="mk-city-hd-left"><span class="mk-city-nm">Berlin</span><span class="mk-city-country">Germany</span></div>
+      <div class="mk-city-rule"></div>
+    </div>
+    <div class="mk-grid">
+      <a href="/guides/berlin.html" class="mk-card" data-type="flea" data-name="Mauerpark Flohmarkt" data-city="Berlin" data-country="Germany" data-days="sun">
+        <div class="mk-awning"></div>
+        <div class="mk-card-body">
+          <div class="mk-card-top">
+            <span class="mk-card-name">Mauerpark Flohmarkt</span>
+            <div class="mk-sched"><span class="mk-sched-text">SUNDAYS ONLY</span></div>
+          </div>
+          <div class="mk-card-hours">Sundays only · roughly 9:00–18:00</div>
+          <div class="mk-card-place">Prenzlauer Berg</div>
+          <div class="mk-card-desc">Berlin's best-known flea market, spread across the park that once sat inside the Wall's death strip — secondhand clothes, records, and furniture.</div>
+          <div style="margin-top:14px"><span class="badge cp-bronze">Flea &amp; antiques</span></div>
+        </div>
+      </a>
+    </div>
+  </div>
+
+  <div class="mk-city-section" data-city="Istanbul">
+    <div class="mk-city-hd">
+      <div class="mk-city-hd-left"><span class="mk-city-nm">Istanbul</span><span class="mk-city-country">Turkey</span></div>
+      <div class="mk-city-rule"></div>
+    </div>
+    <div class="mk-grid">
+      <a href="/guides/istanbul.html" class="mk-card" data-type="bazaar" data-name="Grand Bazaar" data-city="Istanbul" data-country="Turkey" data-days="mon,tue,wed,thu,fri,sat">
+        <div class="mk-awning"></div>
+        <div class="mk-card-body">
+          <div class="mk-card-top">
+            <span class="mk-card-name">Grand Bazaar (Kapalıçarşı)</span>
+            <div class="mk-sched"><span class="mk-sched-text">MON–SAT</span></div>
+          </div>
+          <div class="mk-card-hours">Monday–Saturday · 9:00–19:00 · closed Sunday</div>
+          <div class="mk-card-place">Fatih, between Beyazıt and Nuruosmaniye</div>
+          <div class="mk-card-desc">One of the world's oldest and largest covered markets — more than 4,000 shops under vaulted stone ceilings, trading on this site since the 15th century.</div>
+          <div style="margin-top:14px"><span class="badge cp-honey">Bazaar</span></div>
+        </div>
+      </a>
+      <a href="/guides/istanbul.html" class="mk-card" data-type="food" data-name="Spice Bazaar" data-city="Istanbul" data-country="Turkey" data-days="mon,tue,wed,thu,fri,sat,sun">
+        <div class="mk-awning"></div>
+        <div class="mk-card-body">
+          <div class="mk-card-top">
+            <span class="mk-card-name">Spice Bazaar (Mısır Çarşısı)</span>
+            <div class="mk-sched"><span class="mk-sched-text">DAILY</span></div>
+          </div>
+          <div class="mk-card-hours">Daily · roughly 8:00–19:30, shorter Sunday</div>
+          <div class="mk-card-place">Eminönü, by the Golden Horn</div>
+          <div class="mk-card-desc">A smaller, L-shaped covered market — spices, Turkish delight, and dried fruit stalls that have traded here since the 1660s.</div>
+          <div style="margin-top:14px"><span class="badge cp-dusty-teal">Food &amp; produce</span></div>
+        </div>
+      </a>
+    </div>
+  </div>
+
+  <div class="mk-city-section" data-city="Kyoto">
+    <div class="mk-city-hd">
+      <div class="mk-city-hd-left"><span class="mk-city-nm">Kyoto</span><span class="mk-city-country">Japan</span></div>
+      <div class="mk-city-rule"></div>
+    </div>
+    <div class="mk-grid">
+      <a href="/guides/kyoto.html" class="mk-card" data-type="food" data-name="Nishiki Market" data-city="Kyoto" data-country="Japan" data-days="mon,tue,wed,thu,fri,sat,sun">
+        <div class="mk-awning"></div>
+        <div class="mk-card-body">
+          <div class="mk-card-top">
+            <span class="mk-card-name">Nishiki Market</span>
+            <div class="mk-sched"><span class="mk-sched-text">DAILY</span></div>
+          </div>
+          <div class="mk-card-hours">Daily · most shops roughly 9:00–18:00</div>
+          <div class="mk-card-place">Nakagyo-ku</div>
+          <div class="mk-card-desc">A five-block covered arcade known as "Kyoto's Kitchen" — pickles, knives, tea, and street food from shops that have traded here for generations. Some close Wednesdays.</div>
+          <div style="margin-top:14px"><span class="badge cp-dusty-teal">Food &amp; produce</span></div>
+        </div>
+      </a>
+    </div>
+  </div>
+
+  <div class="mk-city-section" data-city="London">
+    <div class="mk-city-hd">
+      <div class="mk-city-hd-left"><span class="mk-city-nm">London</span><span class="mk-city-country">England</span></div>
+      <div class="mk-city-rule"></div>
+    </div>
+    <div class="mk-grid">
+      <a href="/guides/london.html" class="mk-card" data-type="food" data-name="Borough Market" data-city="London" data-country="England" data-days="tue,wed,thu,fri,sat,sun">
+        <div class="mk-awning"></div>
+        <div class="mk-card-body">
+          <div class="mk-card-top">
+            <span class="mk-card-name">Borough Market</span>
+            <div class="mk-sched"><span class="mk-sched-text">TUE–SUN</span></div>
+          </div>
+          <div class="mk-card-hours">Tue–Fri 10:00–17:00 · Sat 9:00–17:00 · Sun 10:00–16:00 · closed Monday</div>
+          <div class="mk-card-place">Southwark, by London Bridge station</div>
+          <div class="mk-card-desc">London's oldest food market, trading on this site since the 13th century — cheesemongers, fishmongers, and prepared-food stalls fanning out from London Bridge.</div>
+          <div style="margin-top:14px"><span class="badge cp-dusty-teal">Food &amp; produce</span></div>
+        </div>
+      </a>
+      <a href="/guides/london.html" class="mk-card" data-type="flea" data-name="Portobello Road Market" data-city="London" data-country="England" data-days="mon,tue,wed,thu,fri,sat">
+        <div class="mk-awning"></div>
+        <div class="mk-card-body">
+          <div class="mk-card-top">
+            <span class="mk-card-name">Portobello Road Market</span>
+            <div class="mk-sched"><span class="mk-sched-text">MON–SAT</span></div>
+          </div>
+          <div class="mk-card-hours">Antiques Saturday 8:00–18:00 · general market Mon–Sat</div>
+          <div class="mk-card-place">Notting Hill</div>
+          <div class="mk-card-desc">Nearly a mile of stalls along one street — antiques and vintage dominate Saturdays, with fruit, veg, and fashion trading the rest of the week.</div>
+          <div style="margin-top:14px"><span class="badge cp-bronze">Flea &amp; antiques</span></div>
+        </div>
+      </a>
+      <a href="/guides/london.html" class="mk-card" data-type="craft" data-name="Camden Market" data-city="London" data-country="England" data-days="mon,tue,wed,thu,fri,sat,sun">
+        <div class="mk-awning"></div>
+        <div class="mk-card-body">
+          <div class="mk-card-top">
+            <span class="mk-card-name">Camden Market</span>
+            <div class="mk-sched"><span class="mk-sched-text">DAILY</span></div>
+          </div>
+          <div class="mk-card-hours">Daily · most stalls roughly 10:00–18:00</div>
+          <div class="mk-card-place">Camden Town</div>
+          <div class="mk-card-desc">A cluster of connected markets along Regent's Canal — crafts, vintage clothing, and street food packed into old stables and warehouses.</div>
+          <div style="margin-top:14px"><span class="badge cp-soft-plum">Crafts &amp; design</span></div>
+        </div>
+      </a>
+    </div>
+  </div>
+
+  <div class="mk-city-section" data-city="Madrid">
+    <div class="mk-city-hd">
+      <div class="mk-city-hd-left"><span class="mk-city-nm">Madrid</span><span class="mk-city-country">Spain</span></div>
+      <div class="mk-city-rule"></div>
+    </div>
+    <div class="mk-grid">
+      <a href="/guides/madrid.html" class="mk-card" data-type="food" data-name="Mercado de San Miguel" data-city="Madrid" data-country="Spain" data-days="mon,tue,wed,thu,fri,sat,sun">
+        <div class="mk-awning"></div>
+        <div class="mk-card-body">
+          <div class="mk-card-top">
+            <span class="mk-card-name">Mercado de San Miguel</span>
+            <div class="mk-sched"><span class="mk-sched-text">DAILY</span></div>
+          </div>
+          <div class="mk-card-hours">Daily · roughly 10:00–24:00, later Thu–Sat</div>
+          <div class="mk-card-place">La Latina, next to Plaza Mayor</div>
+          <div class="mk-card-desc">A restored 1916 iron-and-glass market building turned upscale food hall — tapas, wine, and pintxos counters rather than raw produce stalls.</div>
+          <div style="margin-top:14px"><span class="badge cp-dusty-teal">Food &amp; produce</span></div>
+        </div>
+      </a>
+    </div>
+  </div>
+
+  <div class="mk-city-section" data-city="Paris">
+    <div class="mk-city-hd">
+      <div class="mk-city-hd-left"><span class="mk-city-nm">Paris</span><span class="mk-city-country">France</span></div>
+      <div class="mk-city-rule"></div>
+    </div>
+    <div class="mk-grid">
+      <a href="/guides/paris.html" class="mk-card" data-type="food" data-name="Marché d'Aligre" data-city="Paris" data-country="France" data-days="tue,wed,thu,fri,sat,sun">
+        <div class="mk-awning"></div>
+        <div class="mk-card-body">
+          <div class="mk-card-top">
+            <span class="mk-card-name">Marché d'Aligre</span>
+            <div class="mk-sched"><span class="mk-sched-text">TUE–SUN</span></div>
+          </div>
+          <div class="mk-card-hours">Tuesday–Sunday mornings · roughly 7:30–13:30 · closed Monday</div>
+          <div class="mk-card-place">Place d'Aligre, 12th arrondissement</div>
+          <div class="mk-card-desc">One of Paris's last true neighbourhood markets — a covered food hall and open-air produce stalls, with a small flea market for secondhand goods in the same square.</div>
+          <div style="margin-top:14px"><span class="badge cp-dusty-teal">Food &amp; produce</span></div>
+        </div>
+      </a>
+    </div>
+  </div>
+
+  <div class="mk-city-section" data-city="Santiago">
+    <div class="mk-city-hd">
+      <div class="mk-city-hd-left"><span class="mk-city-nm">Santiago</span><span class="mk-city-country">Chile</span></div>
+      <div class="mk-city-rule"></div>
+    </div>
+    <div class="mk-grid">
+      <a href="/guides/santiago.html" class="mk-card" data-type="food" data-name="Mercado Central" data-city="Santiago" data-country="Chile" data-days="mon,tue,wed,thu,fri,sat,sun">
+        <div class="mk-awning"></div>
+        <div class="mk-card-body">
+          <div class="mk-card-top">
+            <span class="mk-card-name">Mercado Central</span>
+            <div class="mk-sched"><span class="mk-sched-text">DAILY</span></div>
+          </div>
+          <div class="mk-card-hours">Daily · roughly 6:00–17:00, shorter Sunday</div>
+          <div class="mk-card-place">Centro, near Estación Mapocho</div>
+          <div class="mk-card-desc">A wrought-iron market hall built in 1872 — fish and seafood stalls surround the sit-down marisquerías at its centre, a Santiago lunch institution.</div>
+          <div style="margin-top:14px"><span class="badge cp-dusty-teal">Food &amp; produce</span></div>
+        </div>
+      </a>
+    </div>
+  </div>
+
+  <div class="mk-city-section" data-city="São Paulo">
+    <div class="mk-city-hd">
+      <div class="mk-city-hd-left"><span class="mk-city-nm">São Paulo</span><span class="mk-city-country">Brazil</span></div>
+      <div class="mk-city-rule"></div>
+    </div>
+    <div class="mk-grid">
+      <a href="/guides/sao-paulo.html" class="mk-card" data-type="food" data-name="Mercado Municipal" data-city="São Paulo" data-country="Brazil" data-days="mon,tue,wed,thu,fri,sat,sun">
+        <div class="mk-awning"></div>
+        <div class="mk-card-body">
+          <div class="mk-card-top">
+            <span class="mk-card-name">Mercado Municipal (Mercadão)</span>
+            <div class="mk-sched"><span class="mk-sched-text">DAILY</span></div>
+          </div>
+          <div class="mk-card-hours">Daily · roughly 6:00–18:00, Sunday until 16:00</div>
+          <div class="mk-card-place">Centro</div>
+          <div class="mk-card-desc">A 1933 stained-glass market hall famous for its mortadella sandwiches — produce, spices, and dried-fruit stalls beneath one of the city's grandest interiors.</div>
+          <div style="margin-top:14px"><span class="badge cp-dusty-teal">Food &amp; produce</span></div>
+        </div>
+      </a>
+    </div>
+  </div>
+
+  <div class="mk-city-section" data-city="Tokyo">
+    <div class="mk-city-hd">
+      <div class="mk-city-hd-left"><span class="mk-city-nm">Tokyo</span><span class="mk-city-country">Japan</span></div>
+      <div class="mk-city-rule"></div>
+    </div>
+    <div class="mk-grid">
+      <a href="/guides/tokyo.html" class="mk-card" data-type="food" data-name="Tsukiji Outer Market" data-city="Tokyo" data-country="Japan" data-days="mon,tue,wed,thu,fri,sat">
+        <div class="mk-awning"></div>
+        <div class="mk-card-body">
+          <div class="mk-card-top">
+            <span class="mk-card-name">Tsukiji Outer Market</span>
+            <div class="mk-sched"><span class="mk-sched-text">MON–SAT</span></div>
+          </div>
+          <div class="mk-card-hours">Roughly 5:00–14:00 · many closed Sunday, hours vary by shop</div>
+          <div class="mk-card-place">Tsukiji, Chuo</div>
+          <div class="mk-card-desc">The retail market that stayed when Tsukiji's wholesale fish auction moved to Toyosu — sushi counters, knife shops, and grilled seafood skewers in narrow lanes.</div>
+          <div style="margin-top:14px"><span class="badge cp-dusty-teal">Food &amp; produce</span></div>
+        </div>
+      </a>
+    </div>
+  </div>
+
+  <div class="mk-city-section" data-city="Venice">
+    <div class="mk-city-hd">
+      <div class="mk-city-hd-left"><span class="mk-city-nm">Venice</span><span class="mk-city-country">Italy</span></div>
+      <div class="mk-city-rule"></div>
+    </div>
+    <div class="mk-grid">
+      <a href="/guides/venice.html" class="mk-card" data-type="food" data-name="Rialto Market" data-city="Venice" data-country="Italy" data-days="mon,tue,wed,thu,fri,sat">
+        <div class="mk-awning"></div>
+        <div class="mk-card-body">
+          <div class="mk-card-top">
+            <span class="mk-card-name">Rialto Market (Mercato di Rialto)</span>
+            <div class="mk-sched"><span class="mk-sched-text">MON–SAT</span></div>
+          </div>
+          <div class="mk-card-hours">Monday–Saturday mornings · roughly 7:00–13:30</div>
+          <div class="mk-card-place">San Polo, foot of the Rialto Bridge</div>
+          <div class="mk-card-desc">Venice's produce and fish market, trading beside the Grand Canal for centuries — the fish hall (Pescaria) is closed Sunday and Monday.</div>
+          <div style="margin-top:14px"><span class="badge cp-dusty-teal">Food &amp; produce</span></div>
+        </div>
+      </a>
+    </div>
+  </div>
+
+  <div class="mk-city-section" data-city="Vienna">
+    <div class="mk-city-hd">
+      <div class="mk-city-hd-left"><span class="mk-city-nm">Vienna</span><span class="mk-city-country">Austria</span></div>
+      <div class="mk-city-rule"></div>
+    </div>
+    <div class="mk-grid">
+      <a href="/guides/vienna.html" class="mk-card" data-type="food" data-name="Naschmarkt" data-city="Vienna" data-country="Austria" data-days="mon,tue,wed,thu,fri,sat">
+        <div class="mk-awning"></div>
+        <div class="mk-card-body">
+          <div class="mk-card-top">
+            <span class="mk-card-name">Naschmarkt</span>
+            <div class="mk-sched"><span class="mk-sched-text">MON–SAT</span></div>
+          </div>
+          <div class="mk-card-hours">Monday–Saturday · roughly 6:00–19:30, Sat until 18:00 · closed Sunday</div>
+          <div class="mk-card-place">Between Wieden and Mariahilf</div>
+          <div class="mk-card-desc">Vienna's largest and oldest market — produce, spices, and food stalls running along a narrow strip; a flea market takes over the western end on Saturdays.</div>
+          <div style="margin-top:14px"><span class="badge cp-dusty-teal">Food &amp; produce</span></div>
+        </div>
+      </a>
+    </div>
+  </div>
+
+  <div class="mk-empty" id="mk-empty">
+    <div class="mk-empty-inner">
+      <div class="mk-empty-head">No markets match.</div>
+      <div class="mk-empty-sub">Try a different day or category combination — or clear a filter.</div>
+    </div>
+  </div>
+</main>
 
 <script>
 (function () {
-  var sections = Array.prototype.slice.call(document.querySelectorAll('.md-section'));
-  var cards    = Array.prototype.slice.call(document.querySelectorAll('.md-card'));
-  var keys     = Array.prototype.slice.call(document.querySelectorAll('.md-legend .pill-badge'));
-  var emptyEl  = document.getElementById('md-empty');
+  'use strict';
+
+  var sections = [].slice.call(document.querySelectorAll('.mk-city-section'));
+  var cards    = [].slice.call(document.querySelectorAll('.mk-card'));
+  var dayBtns  = [].slice.call(document.querySelectorAll('.mk-day'));
+  var typeBtns = [].slice.call(document.querySelectorAll('#mk-typebar .pill-badge'));
+  var emptyEl  = document.getElementById('mk-empty');
+
+  var activeDay  = null;
   var activeType = 'all';
 
-  function setActiveKey(type) {
-    keys.forEach(function (b) {
-      var on = b.getAttribute('data-filter') === type;
-      b.classList.toggle('is-on', on);
-      b.setAttribute('aria-pressed', on ? 'true' : 'false');
-    });
-  }
-
-  function applyFilter() {
-    var totalVisible = 0;
-    sections.forEach(function (sec) {
-      var visible = 0;
-      sec.querySelectorAll('.md-card').forEach(function (card) {
-        var show = activeType === 'all' || card.getAttribute('data-type') === activeType;
-        card.hidden = !show;
-        if (show) visible++;
+  /* ── staggered scroll-reveal ── */
+  if (typeof IntersectionObserver !== 'undefined' &&
+      !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (e) {
+        if (e.isIntersecting) { e.target.classList.add('mk-in'); io.unobserve(e.target); }
       });
-      sec.hidden = (visible === 0);
-      totalVisible += visible;
+    }, { threshold: 0.05, rootMargin: '0px 0px -28px 0px' });
+    cards.forEach(function (c, i) {
+      c.style.transitionDelay = (i % 4) * 50 + 'ms';
+      io.observe(c);
     });
-    emptyEl.hidden = totalVisible > 0;
+  } else {
+    cards.forEach(function (c) { c.classList.add('mk-in'); });
   }
 
-  keys.forEach(function (btn) {
+  /* ── combined filter ── */
+  function applyFilter() {
+    var total = 0;
+    sections.forEach(function (sec) {
+      var vis = 0;
+      sec.querySelectorAll('.mk-card').forEach(function (card) {
+        var dayOk  = !activeDay || (card.getAttribute('data-days') || '').split(',').indexOf(activeDay) !== -1;
+        var typeOk = activeType === 'all' || card.getAttribute('data-type') === activeType;
+        card.hidden = !(dayOk && typeOk);
+        if (!card.hidden) vis++;
+      });
+      sec.hidden = vis === 0;
+      total += vis;
+    });
+    emptyEl.style.display = total === 0 ? 'block' : 'none';
+  }
+
+  /* ── day buttons ── */
+  dayBtns.forEach(function (btn) {
     btn.addEventListener('click', function () {
-      var type = btn.getAttribute('data-filter');
-      activeType = (activeType === type) ? 'all' : type;
-      setActiveKey(activeType);
+      var d = btn.getAttribute('data-day');
+      activeDay = (activeDay === d) ? null : d;
+      dayBtns.forEach(function (b) {
+        var on = b.getAttribute('data-day') === activeDay;
+        b.classList.toggle('is-on', on);
+        b.setAttribute('aria-pressed', on ? 'true' : 'false');
+      });
       applyFilter();
     });
   });
 
+  /* ── type pills ── */
+  function syncTypePills(t) {
+    typeBtns.forEach(function (b) {
+      var on = b.getAttribute('data-filter') === t;
+      b.classList.toggle('is-on', on);
+      b.setAttribute('aria-pressed', on ? 'true' : 'false');
+    });
+  }
+  typeBtns.forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      var t = btn.getAttribute('data-filter');
+      activeType = (activeType === t && t !== 'all') ? 'all' : t;
+      syncTypePills(activeType);
+      applyFilter();
+    });
+  });
+
+  /* ── search via TVESearch ── */
   if (window.TVESearch) {
-    var input = document.getElementById('md-search');
+    var input = document.getElementById('mk-search');
     if (input) {
-      var items = cards.map(function (card) {
-        return { name: card.getAttribute('data-name'), sub: card.getAttribute('data-city') + ', ' + card.getAttribute('data-country'), el: card };
-      });
       TVESearch.attach(input, {
-        items: items,
+        items: cards.map(function (card) {
+          return { name: card.getAttribute('data-name'), sub: card.getAttribute('data-city') + ', ' + card.getAttribute('data-country'), el: card };
+        }),
         onPick: function (it) {
+          activeDay  = null;
           activeType = 'all';
-          setActiveKey('all');
+          dayBtns.forEach(function (b) { b.classList.remove('is-on'); b.setAttribute('aria-pressed','false'); });
+          syncTypePills('all');
           applyFilter();
           input.value = it.name;
           if (it.el) {
+            it.el.hidden = false;
+            var sec = it.el.closest('.mk-city-section');
+            if (sec) sec.hidden = false;
             it.el.scrollIntoView({ block: 'center', behavior: 'smooth' });
-            it.el.classList.add('md-flash');
-            setTimeout(function () { it.el.classList.remove('md-flash'); }, 1400);
+            it.el.classList.add('mk-flash');
+            setTimeout(function () { it.el.classList.remove('mk-flash'); }, 1500);
           }
         }
       });

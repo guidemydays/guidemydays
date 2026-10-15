@@ -54,6 +54,7 @@ body { padding-bottom: calc(24px + env(safe-area-inset-bottom, 0px)) !important;
 .byg-unit button.on { background: var(--nt-grey-wash); color: var(--muted); }
 .byg-empty { text-align: center; color: var(--muted,#6a6660); font-size: var(--fs-body,14px);
   padding: 40px 10px; line-height: 1.6; }
+.byg-empty.byg-nomatch { padding: 6px 10px 0; }
 /* .byg-pick/.byg-find-wrap/.byg-select/.byg-find-icon/.byg-month-row above are
    dead -- superseded by the .byg-search hero pill below; no HTML references
    them. The old #byg-find rule that lived here (pre-hero-pill, background:#fff,
@@ -73,15 +74,6 @@ body { padding-bottom: calc(24px + env(safe-area-inset-bottom, 0px)) !important;
    (no card is forced tall with a big empty band). Safety note clamped so it stays tidy. */
 .byg-card-fixed, .byg-card-fixed-sm { height: auto; }
 .byg-safety-note { display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
-.byg-prep-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-top: 4px; }
-.byg-prep-tile { display: flex; flex-direction: column; align-items: center; justify-content: center;
-  gap: 4px; padding: 10px 6px; height: 70px; border: 1px solid var(--border2,#e6e2da); border-radius: 9px;
-  background: var(--bg,#f5f3ef); text-decoration: none; text-align: center;
-  transition: border-color .15s, background .15s; }
-.byg-prep-tile:hover { border-color: var(--rust); background: var(--bg, #f5f4f0); }
-.byg-prep-tile-icon { font-size: 18px; }
-.byg-prep-tile-label { font-size: 11px; font-weight: 600; color: var(--text,#1a1917);
-  text-transform: uppercase; letter-spacing: .04em; line-height: 1.3; }
 .byg-card { background: var(--surface,#fff); border: 1px solid var(--border2,#e6e2da);
   border-radius: 11px; padding: 16px 18px 20px; box-shadow: 0 1px 6px rgba(92,61,17,0.05); }
 .byg-card-head { display: flex; align-items: center; gap: 8px; margin-bottom: 10px; }
@@ -293,6 +285,7 @@ body { padding-bottom: calc(24px + env(safe-area-inset-bottom, 0px)) !important;
   <div class="byg-search search-box-wrap">
     <input type="search" class="search-input" id="byg-find" placeholder="City or country" aria-label="Search by city or country" autocomplete="off">
   </div>
+  <p class="byg-empty byg-nomatch" id="byg-nomatch" role="status" aria-live="polite" hidden></p>
   <div id="byg-guide-slot" class="byg-guide-slot"></div>
   <div class="byg-months" id="byg-months" aria-label="Month"></div>
   <select class="byg-month-select" id="byg-month" hidden aria-hidden="true" tabindex="-1"></select>
@@ -611,6 +604,15 @@ body { padding-bottom: calc(24px + env(safe-area-inset-bottom, 0px)) !important;
           return { name: d.name, sub: sub, key: d.key };
         }),
         onPick: function (item) { chooseCity(item.key, item.name); }
+      });
+      // The shared dropdown simply closes on a miss; say so instead of leaving the old city silently on screen.
+      var noMatchEl = document.getElementById('byg-nomatch');
+      searchEl.addEventListener('input', function () {
+        var q = searchEl.value.trim();
+        var dd = searchEl.parentNode.querySelector('.sa-suggest');
+        var miss = q.length > 0 && dd && dd.hidden;
+        noMatchEl.hidden = !miss;
+        noMatchEl.textContent = miss ? '\u201c' + q + '\u201d isn\u2019t in the climate dataset \u2014 try a city or country name.' : '';
       });
     }
 

@@ -3882,7 +3882,8 @@
 /* 2026-10-02: guide-style.css — restore gold-border card treatment (warm-bg + 1.5px brand border) to worth-knowing paragraphs and weekly-closures stop-rows to match all other extras-section cards. MIN_VERSIONS['guide-style.css'] to 352, CACHE to v2298. */
 /* 2026-10-02: guide-style.css — section-nav pills: switch display:block to flex+gap:6px for consistent icon-to-text spacing across all overview-extra-link grid pills. MIN_VERSIONS['guide-style.css'] to 353, CACHE to v2299. */
 /* 2026-10-14: CITY_BEST_OF_MAP regenerated: extensionless guide links and fishing/birdwatching labels counted again toolbar.js -> v1435. CACHE to v2302. */
-var CACHE = 'travel-cache-v2303';
+/* 2026-10-14: ticket sprite carries catalogue #1913 including the clock toolbar.js -> v1436. CACHE to v2304. */
+var CACHE = 'travel-cache-v2304';
 /* 2026-08-27: airlines.css's .card-tags align-items fix changed a shared
    asset without raising its own floor -- MIN_VERSIONS['airlines.css'] to
    6, CACHE to v1662. */
@@ -3948,7 +3949,7 @@ var ICS_OUTBOX = 'gmd-ics-outbox';
    tour-list calendars share the aligned factual-icon frame. */
 /* 2026-09-16: overview category icons use one fixed 20px frame; Read More uses the stop-card fill with the duration control's gold border. */
 /* 2026-09-16: restore warm guide facts, align icons, use catalogue 2214 for tour transfers, and retire Also in Country. */
-var MIN_VERSIONS = { 'guide-style.css': 354,'toolbar.js': 1435, 'mobile.css': 105, 'web-travel-style.css': 320, 'guides-index-style.css': 70,'read-about.css': 11, 'best-of-features.js': 13, 'best-of-cross-data.js': 30, 'weather.js': 88,'trains.css': 36, 'trains.js': 7, 'airlines.css': 9, 'airlines.js': 12, 'passport.js': 6, 'search-autocomplete.js': 22, 'flag-render.js': 3, 'site-footer.js': 3 };
+var MIN_VERSIONS = { 'guide-style.css': 354,'toolbar.js': 1436, 'mobile.css': 105, 'web-travel-style.css': 320, 'guides-index-style.css': 70,'read-about.css': 11, 'best-of-features.js': 13, 'best-of-cross-data.js': 30, 'weather.js': 88,'trains.css': 36, 'trains.js': 7, 'airlines.css': 9, 'airlines.js': 12, 'passport.js': 6, 'search-autocomplete.js': 22, 'flag-render.js': 3, 'site-footer.js': 3 };
 
 function rewriteAssetUrl(urlStr) {
   var u;

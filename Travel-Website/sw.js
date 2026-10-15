@@ -1,3 +1,4 @@
+/* 2026-10-14: web-travel-style.css — selected badge/pill :visited ink uses literal hex (var() does not resolve in :visited). MIN_VERSIONS['web-travel-style.css'] to 321, CACHE to v2306. */
 /* 2026-10-14: guide-style.css — extras-section cards paint white inside the beige frame. MIN_VERSIONS['guide-style.css'] to 354, CACHE to v2303. */
 /* 2026-10-14: best-of-cross-data.js rebuilt from the pages. MIN_VERSIONS['best-of-cross-data.js'] to 30, CACHE to v2301. */
 /* 2026-10-14: web-travel-style.css — selected badge/pill anchors keep their ink after a visit. MIN_VERSIONS['web-travel-style.css'] to 320, CACHE to v2300. */
@@ -3884,7 +3885,7 @@
 /* 2026-10-14: CITY_BEST_OF_MAP regenerated: extensionless guide links and fishing/birdwatching labels counted again toolbar.js -> v1435. CACHE to v2302. */
 /* 2026-10-14: ticket sprite carries catalogue #1913 including the clock toolbar.js -> v1436. CACHE to v2304. */
 /* 2026-10-14: ticket clock hand stroke 0.8 so it reads heavier than the rim toolbar.js -> v1437. CACHE to v2305. */
-var CACHE = 'travel-cache-v2305';
+var CACHE = 'travel-cache-v2306';
 /* 2026-08-27: airlines.css's .card-tags align-items fix changed a shared
    asset without raising its own floor -- MIN_VERSIONS['airlines.css'] to
    6, CACHE to v1662. */
@@ -3950,7 +3951,7 @@ var ICS_OUTBOX = 'gmd-ics-outbox';
    tour-list calendars share the aligned factual-icon frame. */
 /* 2026-09-16: overview category icons use one fixed 20px frame; Read More uses the stop-card fill with the duration control's gold border. */
 /* 2026-09-16: restore warm guide facts, align icons, use catalogue 2214 for tour transfers, and retire Also in Country. */
-var MIN_VERSIONS = { 'guide-style.css': 354,'toolbar.js': 1437, 'mobile.css': 105, 'web-travel-style.css': 320, 'guides-index-style.css': 70,'read-about.css': 11, 'best-of-features.js': 13, 'best-of-cross-data.js': 30, 'weather.js': 88,'trains.css': 36, 'trains.js': 7, 'airlines.css': 9, 'airlines.js': 12, 'passport.js': 6, 'search-autocomplete.js': 22, 'flag-render.js': 3, 'site-footer.js': 3 };
+var MIN_VERSIONS = { 'guide-style.css': 354,'toolbar.js': 1437, 'mobile.css': 105, 'web-travel-style.css': 321, 'guides-index-style.css': 70,'read-about.css': 11, 'best-of-features.js': 13, 'best-of-cross-data.js': 30, 'weather.js': 88,'trains.css': 36, 'trains.js': 7, 'airlines.css': 9, 'airlines.js': 12, 'passport.js': 6, 'search-autocomplete.js': 22, 'flag-render.js': 3, 'site-footer.js': 3 };
 
 function rewriteAssetUrl(urlStr) {
   var u;

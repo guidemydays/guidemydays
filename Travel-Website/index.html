@@ -1423,6 +1423,26 @@ a.ask-card:focus-visible .ask-name { color: var(--rust, #C04E1A); }
 .cmpx-pick input { max-width: 100%; box-sizing: border-box; }
 .cmpx-pick label { display: block; font-size: 0.82rem; font-weight: 600; color: var(--muted,#6a6660); margin: 0 0 0.35rem; }
 .cmpx-fields { margin-bottom: clamp(0.9rem, 2vw, 1.2rem); }
+.cmpx-fields .fnd-row + .fnd-row { margin-top: clamp(0.6rem, 1.4vw, 1rem); }
+.cmpx-fields .fnd-ctl { width: 100%; }
+.cmpx-values { display: flex; flex-wrap: wrap; gap: 0.35rem; min-height: 0; }
+.cmpx-values:empty { display: none; }
+.cmpx-value {
+  display: inline-flex; align-items: center; gap: 0.35rem; min-height: 30px;
+  border: 1px solid rgba(var(--sp-bronze-rgb),.45); border-radius: 999px;
+  background: var(--sp-bronze-wash); color: var(--sp-bronze-ink);
+  padding: 0.25em 0.45em 0.25em 0.7em; font: inherit; font-size: 0.76rem;
+  cursor: pointer;
+}
+.cmpx-value:hover, .cmpx-value:focus-visible { border-color: var(--sp-bronze-ink); }
+.cmpx-value-x { font-size: 1rem; line-height: 1; }
+.cmpx-facts { display: flex; flex-wrap: wrap; align-items: center; gap: 0.25rem 0.45rem; color: var(--muted,#6a6660); font-size: 0.76rem; }
+.cmpx-fact-safe { display: inline-flex; align-items: center; gap: 0.22rem; }
+.cmpx-fact-safe .gm-icon { width: 11px; height: 11px; flex: 0 0 auto; }
+.cmpx-clear { white-space: nowrap; }
+@media (pointer: coarse) {
+  .cmpx-value { min-height: 44px; }
+}
 /* The instruction line and the two small controls beside it. .cmpx-note takes
    the auto margin so the buttons stay right-aligned at every width and wrap
    under it on a phone rather than squeezing the sentence. */
@@ -6371,34 +6391,46 @@ var VISITORS_DATA = {"Yogyakarta":"38M","abu-dhabi":"5M","agra":"1.47M (2024 int
     if (!list || !btnCmp) return;
 
     var countEl = document.getElementById('cmpx-note');
+    var search  = document.getElementById('cmpx-search');
+    var clearBtn = document.getElementById('cmpx-clear');
     var shufBtn = document.getElementById('cmpx-shuffle');
-    /* The four tables the row model reads, and the fold that keys them. They
-       were declared beside the filter machinery and outlived it: model() still
-       carries each city's cost tier and safety level so the ENGINE can use them
-       (the picker itself prints neither — see the row builder). */
-    var CONT   = window._CONTINENT  || {};
+    var CONT   = window._CONTINENT   || {};
     var THEMES = window._THEME_DATA || {};
     var DAYS   = window._DAYS_DATA  || {};
     var COSTS  = window._COST_DATA  || {};
     var SAFE   = window._SAFETY_DATA|| {};
     var KEYFOR = window._cmpKeyFor  || function (s) { return s; };
+    var MAX_PICK = 5;
+    var DIMS = ['continent','country','type','length','cost','safety'];
+    var state = {continent:[],country:[],type:[],length:[],cost:[],safety:[]};
+    var OPTIONS = {};
+    var MODEL = null;
+    var lastShuffle = '';
+    var TYPE_LABELS = {nature:'Greenery',beach:'Beaches',islands:'Islands',snow:'Snow & ski',hiking:'Hiking',history:'History',amusement:'Theme parks'};
+    var SAFE_DOT = {'Very Safe':'dot-green','Safe':'dot-teal','Moderate':'dot-yellow','Caution':'dot-orange','High Risk':'dot-red'};
 
     function esc(s) {
       return String(s).replace(/[&<>"']/g, function (c) {
         return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c];
       });
     }
-
+    function title(s) {
+      return String(s || '').replace(/[-_]+/g, ' ').replace(/\b\w/g, function (c) { return c.toUpperCase(); });
+    }
+    function foldText(s) {
+      var value = String(s || '').toLowerCase();
+      return value.normalize ? value.normalize('NFD').replace(/[\u0300-\u036f]/g, '') : value;
+    }
     function cards() {
       return [].slice.call(document.querySelectorAll('.mosaic-wrap .dest-card'))
                .filter(function (c) { return !c.hasAttribute('data-special'); });
     }
-
-    /* ── One pass over the grafted cards ──────────────────────────────────────
-       Built once and cached: the mosaic is static after the bootstrap grafts it,
-       and rebuilding 237 rows on every keystroke is the difference between a
-       list that keeps up with typing and one that does not. */
-    var MODEL = null;
+    function lengthKey(days) {
+      if (!days) return '';
+      if (days <= 3) return '2-3';
+      if (days <= 5) return '4-5';
+      return '6+';
+    }
     function model() {
       if (MODEL) return MODEL;
       var all = cards();
@@ -6407,43 +6439,78 @@ var VISITORS_DATA = {"Yogyakarta":"38M","abu-dhabi":"5M","agra":"1.47M (2024 int
         var name = ((c.querySelector('.dest-name') || {}).textContent || '').trim();
         var href = c.getAttribute('href') || '';
         var grp  = c.closest ? c.closest('.country') : null;
-        /* The tables are keyed by the retired folder name; the href is a flat
-           slug. Same fold the engine uses for its own rows. */
         var key  = KEYFOR(decodeURIComponent(href).split('/').pop().replace(/\.html$/, ''));
         var ci   = COSTS[key] || COSTS[name] || null;
         var si   = SAFE[key]  || SAFE[name]  || null;
-        /* country = the parent block's label, minus its flag — the same strip
-           the engine does when it selects a card. */
         var ctry = '', slug = '';
         if (grp) {
           slug = grp.getAttribute('data-country') || '';
           var lbl = grp.querySelector('.country-label');
-          if (lbl) {
-            ctry = lbl.textContent
-              .replace(/·\s*$/, '')
-              .replace(/^[^A-Za-zÀ-ÿ]+/, '')
-              .trim();
-          }
+          if (lbl) ctry = lbl.textContent.replace(/\s*·\s*\d+\s+guides?\s*$/, '').replace(/·\s*$/, '').replace(/^[^A-Za-zÀ-ÿ]+/, '').trim();
         }
+        var days = parseInt(DAYS[name], 10) || 0;
         return {
-          el: c, href: href, name: name,
-          flag: (function () { var fe = c.querySelector('.dest-flag [data-flag]'); return fe ? fe.getAttribute('data-flag') : ''; })(),
-          slug: slug, country: ctry, continent: slug ? (CONT[slug] || '') : '',
-          tags: THEMES[name] || [],
-          days: parseInt(DAYS[name], 10) || 0,
-          tier: ci ? ci.tier : '',
-          safe: si ? si.level : '',
-          hay: (name + ' ' + ctry).toLowerCase()
+          el:c, href:href, name:name,
+          flag:(function(){var fe=c.querySelector('.dest-flag [data-flag]');return fe?fe.getAttribute('data-flag'):'';}()),
+          slug:slug, country:ctry, continent:slug ? (CONT[slug] || '') : '',
+          tags:THEMES[name] || [], days:days, length:lengthKey(days),
+          tier:ci ? ci.tier : '', safe:si ? si.level : '',
+          hay:foldText(name + ' ' + ctry)
         };
       });
+      buildOptions();
       return MODEL;
     }
-
-    var MAX_PICK = 5;
-
-        /* EVERY CITY, A TO Z. There is nothing to filter by and nothing to search,
-       so the list is the fleet in one order the reader can predict. */
-    function hits() {
+    function uniqueValues(key) {
+      var seen = {};
+      (MODEL || []).forEach(function (g) {
+        var vals = key === 'type' ? g.tags : [valueFor(g, key)];
+        vals.forEach(function (v) { if (v) seen[v] = true; });
+      });
+      return Object.keys(seen);
+    }
+    function labelFor(dim, value) {
+      if (dim === 'type') return TYPE_LABELS[value] || title(value);
+      if (dim === 'length') return value === '2-3' ? '2–3 days' : value === '4-5' ? '4–5 days' : '6+ days';
+      if (dim === 'continent') return title(value);
+      if (dim === 'country') {
+        var row = (MODEL || []).filter(function (g) { return g.slug === value; });
+        return (row[0] ? row[0].country : title(value)) + ' (' + row.length + ' ' + (row.length === 1 ? 'guide' : 'guides') + ')';
+      }
+      return value;
+    }
+    function buildOptions() {
+      var orders = {
+        length:['2-3','4-5','6+'],
+        cost:['Budget','Moderate','Expensive','Premium'],
+        safety:['Very Safe','Safe','Moderate','Caution','High Risk']
+      };
+      DIMS.forEach(function (dim) {
+        var vals = uniqueValues(dim);
+        if (orders[dim]) vals.sort(function(a,b){return orders[dim].indexOf(a)-orders[dim].indexOf(b);});
+        else vals.sort(function(a,b){return labelFor(dim,a).localeCompare(labelFor(dim,b));});
+        OPTIONS[dim] = vals;
+      });
+    }
+    function valueFor(g, dim) {
+      return dim === 'country' ? g.slug : dim === 'type' ? g.tags : dim === 'length' ? g.length : dim === 'cost' ? g.tier : dim === 'safety' ? g.safe : g.continent;
+    }
+    function matchesDim(g, dim, extra) {
+      var picked = state[dim].slice();
+      if (extra && picked.indexOf(extra) === -1) picked.push(extra);
+      if (!picked.length) return true;
+      var own = valueFor(g, dim);
+      if (Array.isArray(own)) return own.some(function (v) { return picked.indexOf(v) !== -1; });
+      return picked.indexOf(own) !== -1;
+    }
+    function matches(g, query, except, extraDim, extraValue) {
+      if (query && g.hay.indexOf(query) === -1) return false;
+      return DIMS.every(function (dim) {
+        if (dim === except) return true;
+        return matchesDim(g, dim, dim === extraDim ? extraValue : '');
+      });
+    }
+    function filtered(query) {
       var rows = model();
       if (!rows) return null;
       return rows.filter(function (g) { return matches(g, query || '', ''); })
@@ -6489,119 +6556,85 @@ var VISITORS_DATA = {"Yogyakarta":"38M","abu-dhabi":"5M","agra":"1.47M (2024 int
       if (g.tags.length) facts.push(esc(g.tags.slice(0,2).map(function(t){return TYPE_LABELS[t]||title(t);}).join(', ')));
       return facts.join('<span aria-hidden="true">·</span>');
     }
-
-    
     function render() {
-      var rows = hits();
+      var rows = filtered(queryValue());
       if (!rows) {
         list.innerHTML = '<p class="cmpx-empty">Loading the city list&hellip;</p>';
         if (countEl) countEl.textContent = '';
         return;
       }
+      renderControls();
       var picked = document.querySelectorAll('.mosaic-wrap .dest-card.cmp-sel').length;
-      var full   = picked >= MAX_PICK;
-      /* A BUTTON THAT CANNOT WORK SAYS SO. Surprise me needs two cities to
-         shuffle between; below that its handler returned silently, so on a
-         one-result search it looked broken in exactly the way a dead control
-         does. Disabled instead, which the pill styling already dims. */
-      if (shufBtn) shufBtn.disabled = !rows || rows.length < 2;
-
-      /* NO ITEM-COUNT BADGE, EVER (Ninety-second non-negotiable) — the line
-         says what to do and never how many are picked or how many exist. */
+      var full = picked >= MAX_PICK;
+      if (shufBtn) shufBtn.disabled = rows.length < 2;
       if (countEl) countEl.textContent = 'Pick 2 to 5.';
-
-      /* No empty state left to write: the list is the whole fleet and there is
-         no control that can empty it. */
+      if (!rows.length) {
+        var q = queryValue();
+        var left = q ? filtered('').length : 0;
+        list.innerHTML = '<p class="cmpx-empty">' + (q ? 'No guide called “' + esc(search.value.trim()) + '” among the ' + left + ' cities your filters leave. Clear the search to see them.' : 'No cities match all of these filters. Remove a filter to widen the list.') + '</p>';
+        return;
+      }
       list.innerHTML = rows.map(function (g) {
         var on = g.el.classList.contains('cmp-sel');
-        return '<button type="button" role="option" aria-selected="' + (on ? 'true' : 'false') + '"' +
-               ' class="cmpx-opt' + (on ? ' on' : '') + '"' +
-               (!on && full ? ' disabled' : '') +
-               ' data-href="' + esc(g.href) + '">' +
-               (g.flag ? TVE.flag.html(g.flag, 'cmpx-flag') : '') +
-               '<span class="cmpx-body">' +
-                 '<span class="cmpx-name">' + esc(g.name) +
-                 (g.country ? ' <span class="cmpx-ctry">' + esc(g.country) + '</span>' : '') +
-                 '</span>' +
-
-               '</span>' +
-               (on ? '<span class="cmpx-tick">Picked &mdash; tap to remove</span>' : '') +
-               '</button>';
+        return '<button type="button" role="option" aria-selected="' + (on?'true':'false') + '" class="cmpx-opt' + (on?' on':'') + '"' + (!on&&full?' disabled':'') + ' data-href="' + esc(g.href) + '">' +
+          (g.flag ? TVE.flag.html(g.flag,'cmpx-flag') : '') + '<span class="cmpx-body"><span class="cmpx-name">' + esc(g.name) + (g.country?' <span class="cmpx-ctry">'+esc(g.country)+'</span>':'') + '</span><span class="cmpx-facts">' + factLine(g) + '</span></span>' +
+          (on?'<span class="cmpx-tick">Picked &mdash; tap to remove</span>':'') + '</button>';
       }).join('');
-
-      /* The "Showing the first 80 — search or narrow a filter to see the rest"
-         footer went with the search box and the filters it pointed at: the list
-         is the whole fleet now, in one scroll. */
-      /* At five, an unselected row does nothing when clicked — the engine's cap
-         returns silently. Say so on the row rather than let it look broken. */
-      if (full) list.insertAdjacentHTML('beforeend',
-        '<p class="cmpx-full" style="padding:0 0.85rem 0.6rem;margin:0">Five is the maximum. Remove one to swap it out.</p>');
+      if (full) list.insertAdjacentHTML('beforeend','<p class="cmpx-full" style="padding:0 0.85rem 0.6rem;margin:0">Five is the maximum. Remove one to swap it out.</p>');
     }
-
-    /* Compare mode is what makes the engine listen to a card click at all, and
-       it is also what shows its selection bar. Entering it when the panel opens
-       means the bar is there from the first row picked rather than appearing
-       from nowhere on the second. */
-    function ensureMode() {
-      if (!document.body.classList.contains('mode-compare')) btnCmp.click();
-    }
-
+    function ensureMode() { if (!document.body.classList.contains('mode-compare')) btnCmp.click(); }
     function pick(href) {
       var card = document.querySelector('.mosaic-wrap .dest-card[href="' + href + '"]');
       if (!card) return;
-      ensureMode();
-      card.click();
+      ensureMode(); card.click();
     }
-
-    /* The search listener and the six select listeners stood here, with the
-       clear-filters button beside them. All three are gone with the controls
-       they served. */
+    DIMS.forEach(function (dim) {
+      var select = document.getElementById('cmpx-' + dim);
+      if (!select) return;
+      select.addEventListener('change', function () {
+        if (select.value && state[dim].indexOf(select.value) === -1) state[dim].push(select.value);
+        select.value = ''; render();
+      });
+    });
+    document.querySelector('.cmpx-fields').addEventListener('click', function (ev) {
+      var value = ev.target.closest ? ev.target.closest('.cmpx-value') : null;
+      if (!value) return;
+      var dim = value.getAttribute('data-dim');
+      state[dim] = state[dim].filter(function (v) { return v !== value.getAttribute('data-value'); });
+      render();
+    });
+    if (search) search.addEventListener('input', render);
+    if (clearBtn) clearBtn.addEventListener('click', function () {
+      if (search) search.value = '';
+      DIMS.forEach(function (dim) { state[dim] = []; });
+      render();
+      if (search) search.focus();
+    });
     list.addEventListener('click', function (ev) {
       var opt = ev.target.closest ? ev.target.closest('.cmpx-opt') : null;
       if (!opt) return;
-      pick(opt.getAttribute('data-href'));
-      render();
+      pick(opt.getAttribute('data-href')); render();
     });
-
-    /* Surprise me — picks five cities at random from the whole fleet. Filters
-       were removed 2026-08-23 so hits() now returns every city A-Z. It replaces
-       the current selection rather than topping it up: a shuffle that kept two
-       cities you had chosen and added three you had not is neither a surprise
-       nor your list. Fisher-Yates on a copy; the model is not reordered under
-       the list that is about to redraw from it. */
     if (shufBtn) shufBtn.addEventListener('click', function () {
-      var rows = hits();
+      var rows = filtered(queryValue());
       if (!rows || rows.length < 2) return;
       var pool = rows.slice();
-      for (var i = pool.length - 1; i > 0; i--) {
-        var j = Math.floor(Math.random() * (i + 1));
-        var tmp = pool[i]; pool[i] = pool[j]; pool[j] = tmp;
+      for (var i=pool.length-1;i>0;i--) { var j=Math.floor(Math.random()*(i+1)); var t=pool[i];pool[i]=pool[j];pool[j]=t; }
+      var take = Math.min(MAX_PICK,pool.length);
+      var signature = pool.slice(0,take).map(function(g){return g.href;}).sort().join('|');
+      if (signature === lastShuffle && pool.length > take) {
+        pool.push(pool.shift());
+        signature = pool.slice(0,take).map(function(g){return g.href;}).sort().join('|');
       }
+      lastShuffle = signature;
       ensureMode();
-      document.querySelectorAll('.mosaic-wrap .dest-card.cmp-sel')
-        .forEach(function (c) { c.click(); });          /* a second click deselects */
-      pool.slice(0, Math.min(MAX_PICK, pool.length)).forEach(function (g) { g.el.click(); });
+      document.querySelectorAll('.mosaic-wrap .dest-card.cmp-sel').forEach(function(c){c.click();});
+      pool.slice(0,take).forEach(function(g){g.el.click();});
       render();
-            var go = document.getElementById('cmp-go');
-      if (go && !go.disabled) go.click();
+      var go=document.getElementById('cmp-go'); if(go&&!go.disabled) go.click();
     });
-
-    /* The clear-filters handler went with the button: there is nothing left on
-       this card to clear but the SELECTION, and the engine's own "Clear
-       everything" in the bar below does that. */
-
-    /* Exit clears the engine's selection; the list has to stop claiming the
-       cities are still ticked. */
-    document.addEventListener('click', function (ev) {
-      if (ev.target && ev.target.id === 'cmp-exit') setTimeout(render, 0);
-    });
-
-    /* Two hooks, and they are not the same call. _cmpxSync is the engine asking
-       the list to redraw after IT changed the selection (a chip's ✕), and must
-       never re-enter compare mode — Exit calls updateBar on its way out.
-       _cmpxRefresh is the panel opening, which is exactly when the mode should
-       be entered and the cards have just been grafted. */
-    window._cmpxSync    = render;
+    document.addEventListener('click', function (ev) { if (ev.target && ev.target.id === 'cmp-exit') setTimeout(render,0); });
+    window._cmpxSync = render;
     window._cmpxRefresh = function () { ensureMode(); render(); };
   }());
 
